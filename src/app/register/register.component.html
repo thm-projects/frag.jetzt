@@ -1,0 +1,29 @@
+<form>
+
+  <mat-form-field>
+    <input matInput class="input-block" #email maxlength="256" placeholder="e-mail">
+    <mat-hint align="start"><strong></strong></mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="password" class="input-block" #passwd maxlength="256" placeholder="password">
+    <mat-hint align="start"><strong></strong></mat-hint>
+    <mat-hint align="end">{{passwd.value.length}} / 12</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput type="password" class="input-block" #passwd2 maxlength="256" placeholder="verify password">
+    <mat-hint align="start"><strong></strong></mat-hint>
+    <mat-hint align="end">{{passwd2.value.length}} / 12</mat-hint>
+  </mat-form-field>
+  <div *ngIf="passwd.value === passwd2.value && passwd.value.length !== 0">
+    <mat-icon>check_circle</mat-icon>
+  </div>
+  <div *ngIf="passwd.value !== passwd2.value && passwd.value.length !== 0">
+    <mat-icon>clear</mat-icon>
+  </div>
+
+  <button mat-raised-button color="primary">back</button>
+  <button mat-raised-button color="primary" (click)="save(email.value, passwd.value, passwd2.value)">save</button>
+
+</form>
