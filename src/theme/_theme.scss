@@ -6,11 +6,4 @@ html, body {
   height: 100%;
 }
 
-form {
-  width: 100%;
-}
-
-mat-form-field.input-block {
-  display: block;
-  width: 100%;
-}
+@import '_form.scss';
