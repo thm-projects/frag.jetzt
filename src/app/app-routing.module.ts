@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ErrorLandingPageComponent } from './error-landing-page/error-landing-page.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
-{ path: 'errorpage', component: ErrorLandingPageComponent }
+{ path: 'errorpage', component: PageNotFoundComponent }
 ];
 
 
