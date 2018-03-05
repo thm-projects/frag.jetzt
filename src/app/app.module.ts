@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -49,6 +50,7 @@ import {
     AppComponent,
     LoginComponent,
     PageNotFoundComponent,
+    PasswordResetComponent,
     RegisterComponent
   ],
   imports: [
