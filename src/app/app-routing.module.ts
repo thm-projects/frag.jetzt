@@ -1,9 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule }             from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+// import { GewünschstesModul }  from './blabla/wunschmodul';
+
+
+const routes: Routes = [
+//  { path: '', redirectTo: '/wumod', pathMatch: 'full' }, //default route
+//  { path: 'wumod', component: GewünschstesModul },
+
+];
+
 
 @NgModule({
   imports: [
-    CommonModule
+    RouterModule.forRoot(routes)
+  ],
+  exports: [
+    RouterModule
   ],
   declarations: []
 })
