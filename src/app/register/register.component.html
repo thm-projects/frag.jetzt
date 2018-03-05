@@ -1,18 +1,18 @@
 <form>
 
-  <mat-form-field>
-    <input matInput class="input-block" #email maxlength="256" placeholder="e-mail">
+  <mat-form-field class="input-block">
+    <input matInput #email maxlength="256" placeholder="e-mail">
     <mat-hint align="start"><strong></strong></mat-hint>
   </mat-form-field>
 
-  <mat-form-field>
-    <input matInput type="password" class="input-block" #passwd maxlength="256" placeholder="password">
+  <mat-form-field class="input-block">
+    <input matInput type="password" #passwd maxlength="256" placeholder="password">
     <mat-hint align="start"><strong></strong></mat-hint>
     <mat-hint align="end">{{passwd.value.length}} / 12</mat-hint>
   </mat-form-field>
 
-  <mat-form-field>
-    <input matInput type="password" class="input-block" #passwd2 maxlength="256" placeholder="verify password">
+  <mat-form-field class="input-block">
+    <input matInput type="password" #passwd2 maxlength="256" placeholder="verify password">
     <mat-hint align="start"><strong></strong></mat-hint>
     <mat-hint align="end">{{passwd2.value.length}} / 12</mat-hint>
   </mat-form-field>
