@@ -12,6 +12,7 @@ tslint:
   script:
     - echo "{}" > package.json
     - npm install tslint-angular
+    - npm install tslint-eslint-rules
     - npm install @angular/compiler
     - npm install @angular/core
     - npm install typescript
