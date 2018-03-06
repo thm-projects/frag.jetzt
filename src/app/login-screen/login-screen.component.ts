@@ -10,8 +10,6 @@ import { PasswordResetComponent } from '../password-reset/password-reset.compone
 })
 export class LoginScreenComponent implements OnInit {
 
-  result: any;
-
   constructor(public dialog: MatDialog) {
   }
 
