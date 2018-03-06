@@ -47,6 +47,7 @@ import {
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 import { AuthenticationService } from './authentication.service';
+import { AuthenticationGuard } from './authentication.guard';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { AuthenticationService } from './authentication.service';
   ],
   providers: [
     NotificationService,
-    AuthenticationService
+    AuthenticationService,
+    AuthenticationGuard
   ],
   bootstrap: [AppComponent]
 })
