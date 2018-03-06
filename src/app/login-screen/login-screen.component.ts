@@ -14,8 +14,7 @@ export class LoginScreenComponent implements OnInit {
 
   openRegisterDialog(): void {
     const registerDialogRef = this.registerDialog.open(RegisterComponent, {
-      width: '250px',
-      height: '250px'
+      width: '350px'
     });
   }
 
