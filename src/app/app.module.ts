@@ -57,7 +57,8 @@ import { NotificationService } from './notification.service';
     RegisterComponent
   ],
   entryComponents: [
-    RegisterComponent
+    RegisterComponent,
+    PasswordResetComponent
   ],
   imports: [
     AppRoutingModule,
