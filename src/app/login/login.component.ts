@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
+import { Router } from '@angular/router';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() {
+  constructor(public authenticationService: AuthenticationService, public router: Router, public notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -21,7 +24,16 @@ export class LoginComponent implements OnInit {
       // ToDo: Handle username and password not correct event
       console.log(`Username or password empty`);
     } else {
-      // ToDo: Send data to authentication service
+      this.authenticationService.login(username, password).subscribe(loginSuccessful => {
+        console.log(loginSuccessful);
+        if (loginSuccessful) {
+          this.notificationService.show('Login successful!');
+          this.router.navigate(['rooms']);
+        } else {
+          this.notificationService.show('Login failed!');
+          this.router.navigate(['home']);
+        }
+      });
     }
   }
 
