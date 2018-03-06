@@ -44,6 +44,7 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { NotificationService } from './notification.service';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,7 @@ import {
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [],
+  providers: [NotificationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
