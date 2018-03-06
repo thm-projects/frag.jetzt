@@ -20,7 +20,7 @@ export class LoginScreenComponent implements OnInit {
   }
 
   openPasswordDialog(): void {
-    const passwordDialogref = this.dialog.open(PasswordResetComponent, {
+    const passwordResetDialogRef = this.dialog.open(PasswordResetComponent, {
       width: '350px'
     });
   }
