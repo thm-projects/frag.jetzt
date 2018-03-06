@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, NgModule, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-login-screen',
@@ -7,7 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginScreenComponent implements OnInit {
 
-  constructor() { }
+  constructor(public registerDialog: MatDialog) {
+  }
+
+  openRegisterDialog(): void {
+    const registerDialogRef = this.registerDialog.open(RegisterComponent, {
+      width: '250px',
+      height: '250px'
+    });
+  }
 
   ngOnInit() {
   }
