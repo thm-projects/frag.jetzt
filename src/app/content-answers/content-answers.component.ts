@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentAnswersComponent implements OnInit {
 
+  checked = false;
+  indeterminate = false;
+  align = 'start';
+  disabled = false;
+
   constructor() { }
 
   ngOnInit() {
