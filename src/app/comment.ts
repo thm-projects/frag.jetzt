@@ -1,6 +1,6 @@
 export class Comment {
   id: string;
-  roomid: string;
+  roomId: string;
   subject: string;
   body: string;
   read: boolean;
