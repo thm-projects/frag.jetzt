@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  login(username: string, password: string): void {
+    username = username.trim();
+    password = password.trim();
+
+    if (username === '' || password === '') {
+      // ToDo: Handle username and password not correct event
+      console.log(`Username or password empty`);
+    } else {
+      // ToDo: Send data to authentication service
+    }
   }
 
 }

@@ -1,11 +1,9 @@
-<form>
-  <mat-form-field class="input-block">
-    <input matInput placeholder="Username" />
-  </mat-form-field>
+<mat-form-field class="input-block">
+  <input matInput #userName placeholder="Username"/>
+</mat-form-field>
 
-  <mat-form-field class="input-block">
-    <input matInput type="password" placeholder="Password" />
-  </mat-form-field>
+<mat-form-field class="input-block">
+  <input matInput #userPassword type="password" placeholder="Password"/>
+</mat-form-field>
 
-  <button mat-raised-button color="primary">Login</button>
-</form>
+<button mat-raised-button color="primary" (click)="login(userName.value, userPassword.value)">Login</button>
