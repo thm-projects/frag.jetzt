@@ -1,4 +1,7 @@
 {
+  "extends": [
+    "tslint-eslint-rules"
+  ],
   "rulesDirectory": [
     "node_modules/codelyzer"
   ],
@@ -117,6 +120,10 @@
       "check-separator",
       "check-type",
       "check-module"
+    ],
+    "object-curly-spacing": [
+      true,
+      "always"
     ],
     "directive-selector": [
       true,
