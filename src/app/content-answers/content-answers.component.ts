@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentAnswersComponent implements OnInit {
 
-  align = 'start';
+  
 
   constructor() { }
 
