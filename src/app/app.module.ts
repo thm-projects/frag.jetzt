@@ -107,7 +107,7 @@ import { AuthenticationGuard } from './authentication.guard';
   providers: [
     NotificationService,
     AuthenticationService,
-    AuthenticationGuard,
+    AuthenticationGuard
   ],
   bootstrap: [AppComponent]
 })

@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="login(userName.value, userPassword.value)">
   <mat-form-field class="input-block">
     <input matInput #userName placeholder="Username" [formControl]="usernameFormControl" [errorStateMatcher]="matcher" name="username" />
     <mat-error *ngIf="usernameFormControl.hasError('required')">Username is <strong>required</strong>.</mat-error>

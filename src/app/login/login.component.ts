@@ -8,7 +8,7 @@ import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validator
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
     const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+    return (control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
 }
 
@@ -43,7 +43,6 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['rooms']);
         } else {
           this.notificationService.show('Login failed!');
-          this.router.navigate(['home']);
         }
       });
     }
