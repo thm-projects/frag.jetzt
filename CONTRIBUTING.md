@@ -28,7 +28,7 @@ For more information, see our [README.md](README.md).
 * Make commits of logical and atomic units.
 * Check for unnecessary whitespaces with `git diff --check` before commiting.
 * Create tests for your changes, if possible (yes, it takes time, it is annoying, but also it is **necassary**)
-* Run *all* tests to assure nothing elsa was accidently broken.
+* Run *all* tests to assure nothing else was accidentally broken.
 
 ## Submitting Changes
 
