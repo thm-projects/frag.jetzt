@@ -6,7 +6,6 @@ enum Format {
     TEXT,
     GRID
   }
-  
 export class Content {
     id: string;
     revision: string;
