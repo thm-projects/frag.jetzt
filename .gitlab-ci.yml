@@ -1,0 +1,20 @@
+stages:
+  - test
+  - build
+  - deploy
+
+tslint:
+  stage: test
+  tags:
+    - nodejs
+  allow_failure: false
+  dependencies: []
+  script:
+    - echo "{}" > package.json
+    - npm install tslint-angular
+    - npm install @angular/compiler
+    - npm install @angular/core
+    - npm install typescript
+    - npm install rxjs
+    - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json ./src/**/*.ts
+
