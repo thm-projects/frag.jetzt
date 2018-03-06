@@ -4,9 +4,9 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 
 const routes: Routes = [
-  {path: 'errorpage', component: PageNotFoundComponent},
-  {path: 'home', component: LoginScreenComponent},
-  {path: '', redirectTo: '/home', pathMatch: 'full'}
+  { path: 'errorpage', component: PageNotFoundComponent },
+  { path: 'home', component: LoginScreenComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
 
 
