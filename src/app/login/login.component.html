@@ -1,11 +1,13 @@
-<mat-form-field class="input-block">
-  <input matInput #userName placeholder="Username"/>
-  <mat-error *ngIf="usernameErrorMessage !== ''">{{ usernameErrorMessage }}</mat-error>
-</mat-form-field>
+<form>
+  <mat-form-field class="input-block">
+    <input matInput #userName placeholder="Username" [formControl]="usernameFormControl" [errorStateMatcher]="matcher" name="username" />
+    <mat-error *ngIf="usernameFormControl.hasError('required')">Username is <strong>required</strong>.</mat-error>
+  </mat-form-field>
 
-<mat-form-field class="input-block">
-  <input matInput #userPassword type="password" placeholder="Password"/>
-  <mat-error *ngIf="passwordErrorMessage !== ''">{{ passwordErrorMessage }}</mat-error>
-</mat-form-field>
+  <mat-form-field class="input-block">
+    <input matInput #userPassword type="password" placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher" name="password" />
+    <mat-error *ngIf="passwordFormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
+  </mat-form-field>
 
-<button mat-raised-button color="primary" (click)="login(userName.value, userPassword.value)">Login</button>
+  <button mat-raised-button color="primary" (click)="login(userName.value, userPassword.value)">Login</button>
+</form>

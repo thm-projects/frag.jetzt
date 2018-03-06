@@ -2,6 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../notification.service';
+import { ErrorStateMatcher } from '@angular/material';
+import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+
+export class LoginErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -10,8 +19,10 @@ import { NotificationService } from '../notification.service';
 })
 export class LoginComponent implements OnInit {
 
-  protected usernameErrorMessage = '';
-  protected passwordErrorMessage = '';
+  usernameFormControl = new FormControl('', [Validators.required]);
+  passwordFormControl = new FormControl('', [Validators.required]);
+
+  matcher = new LoginErrorStateMatcher();
 
   constructor(public authenticationService: AuthenticationService,
               public router: Router,
@@ -25,14 +36,8 @@ export class LoginComponent implements OnInit {
     username = username.trim();
     password = password.trim();
 
-    if (username === '') {
-      // ToDo: Handle username and password not correct event
-      this.usernameErrorMessage = 'Username is required';
-    } else if (password === '') {
-      this.passwordErrorMessage = 'Password is required';
-    } else {
+    if (username !== '' && password !== '') {
       this.authenticationService.login(username, password).subscribe(loginSuccessful => {
-        console.log(loginSuccessful);
         if (loginSuccessful) {
           this.notificationService.show('Login successful!');
           this.router.navigate(['rooms']);
