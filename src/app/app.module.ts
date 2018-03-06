@@ -47,6 +47,7 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { ContentAnswersComponent } from './content-answers/content-answers.component';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './in-memory-data.service';
@@ -81,7 +82,8 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
     CreatorHomeScreenComponent,
     CreateCommentComponent,
     ParticipantHomeScreenComponent,
-    CommentComponent
+    CommentComponent,
+    ContentAnswersComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -125,7 +127,6 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    MatTooltipModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(
       InMemoryDataService, { dataEncapsulation: false }
