@@ -1,5 +1,5 @@
-import { Component, Inject, NgModule, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { RegisterComponent } from '../register/register.component';
 import { PasswordResetComponent } from '../password-reset/password-reset.component';
 
@@ -10,6 +10,8 @@ import { PasswordResetComponent } from '../password-reset/password-reset.compone
 })
 export class LoginScreenComponent implements OnInit {
 
+  result: any;
+
   constructor(public dialog: MatDialog) {
   }
 
@@ -17,11 +19,21 @@ export class LoginScreenComponent implements OnInit {
     const registerDialogRef = this.dialog.open(RegisterComponent, {
       width: '350px'
     });
+
+    registerDialogRef.afterClosed().subscribe(result => {
+      console.log('RegisterDialog was closed');
+      this.result = result;
+    });
   }
 
   openPasswordDialog(): void {
     const passwordResetDialogRef = this.dialog.open(PasswordResetComponent, {
       width: '350px'
+    });
+
+    passwordResetDialogRef.afterClosed().subscribe(result => {
+      console.log('PasswordResetDialog was closed');
+      this.result = result;
     });
   }
 
