@@ -46,6 +46,7 @@ import {
 } from '@angular/material';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
+import { AuthenticationService } from './authentication.service';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,10 @@ import { NotificationService } from './notification.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [NotificationService],
+  providers: [
+    NotificationService,
+    AuthenticationService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
