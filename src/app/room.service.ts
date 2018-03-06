@@ -18,4 +18,8 @@ export class RoomService {
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.roomsUrl);
   }
+
+  addRoom(room: Room): Observable<Room> {
+    return this.http.post<Room>(this.roomsUrl, room, httpOptions);
+  }
 }

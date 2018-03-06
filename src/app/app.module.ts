@@ -48,6 +48,7 @@ import {
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './in-memory-data.service';
+import { InMemoryDataService } from './in-memory-data.service';
 import { RoomCreationComponent } from './room-creation/room-creation.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
