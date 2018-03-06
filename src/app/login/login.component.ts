@@ -10,7 +10,12 @@ import { NotificationService } from '../notification.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(public authenticationService: AuthenticationService, public router: Router, public notificationService: NotificationService) {
+  protected usernameErrorMessage = '';
+  protected passwordErrorMessage = '';
+
+  constructor(public authenticationService: AuthenticationService,
+              public router: Router,
+              public notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -20,9 +25,11 @@ export class LoginComponent implements OnInit {
     username = username.trim();
     password = password.trim();
 
-    if (username === '' || password === '') {
+    if (username === '') {
       // ToDo: Handle username and password not correct event
-      console.log(`Username or password empty`);
+      this.usernameErrorMessage = 'Username is required';
+    } else if (password === '') {
+      this.passwordErrorMessage = 'Password is required';
     } else {
       this.authenticationService.login(username, password).subscribe(loginSuccessful => {
         console.log(loginSuccessful);
