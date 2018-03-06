@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 
 // TODO: connect to API
+// TODO: persist user data (shouldn't get lost on page refresh)
 @Injectable()
 export class AuthenticationService {
   private mockUser: User = new User(1, 'test', 'test@test.de', true);
