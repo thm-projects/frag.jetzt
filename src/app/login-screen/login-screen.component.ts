@@ -16,24 +16,14 @@ export class LoginScreenComponent implements OnInit {
   }
 
   openRegisterDialog(): void {
-    const registerDialogRef = this.dialog.open(RegisterComponent, {
+    this.dialog.open(RegisterComponent, {
       width: '350px'
-    });
-
-    registerDialogRef.afterClosed().subscribe(result => {
-      console.log('RegisterDialog was closed');
-      this.result = result;
     });
   }
 
   openPasswordDialog(): void {
-    const passwordResetDialogRef = this.dialog.open(PasswordResetComponent, {
+    this.dialog.open(PasswordResetComponent, {
       width: '350px'
-    });
-
-    passwordResetDialogRef.afterClosed().subscribe(result => {
-      console.log('PasswordResetDialog was closed');
-      this.result = result;
     });
   }
 
