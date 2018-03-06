@@ -22,4 +22,9 @@ export class RoomService {
   addRoom(room: Room): Observable<Room> {
     return this.http.post<Room>(this.roomsUrl, room, httpOptions);
   }
+
+  getRoom(id: string): Observable<Room> {
+    const url = `${this.roomsUrl}/${id}`;
+    return this.http.get<Room>(url);
+  }
 }

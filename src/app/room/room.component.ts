@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { RoomService } from '../room.service';
-
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-room',
@@ -11,8 +11,12 @@ import { RoomService } from '../room.service';
 export class RoomComponent implements OnInit {
 
   rooms: Room[];
+  room: Room;
 
-  constructor(private roomService: RoomService) {
+  constructor(
+    private roomService: RoomService,
+    private route: ActivatedRoute
+  ) {
   }
 
   ngOnInit() {
@@ -31,6 +35,11 @@ export class RoomComponent implements OnInit {
     this.roomService.addRoom({name} as Room).subscribe(room => {
       this.rooms.push(room);
     });
+  }
+
+  getRoom(): void {
+    const roomId: string = this.route.snapshot.paramMap.get('roomId');
+    this.roomService.getRoom(roomId).subscribe(room => this.room = room);
   }
 
 }
