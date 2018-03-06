@@ -48,6 +48,8 @@ import {
 import { RoomCreationComponent } from './room-creation/room-creation.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
+import { AuthenticationService } from './authentication.service';
+import { AuthenticationGuard } from './authentication.guard';
 
 @NgModule({
   declarations: [
@@ -101,7 +103,11 @@ import { NotificationService } from './notification.service';
     MatToolbarModule,
     MatTooltipModule
   ],
-  providers: [NotificationService],
+  providers: [
+    NotificationService,
+    AuthenticationService,
+    AuthenticationGuard
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
