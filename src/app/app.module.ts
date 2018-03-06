@@ -44,15 +44,21 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
+    LoginScreenComponent,
     PageNotFoundComponent,
     PasswordResetComponent,
     RegisterComponent
+  ],
+  entryComponents: [
+    RegisterComponent,
+    PasswordResetComponent
   ],
   imports: [
     AppRoutingModule,
