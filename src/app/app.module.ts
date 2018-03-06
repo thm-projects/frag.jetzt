@@ -9,6 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
@@ -44,6 +45,7 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { RoomCreationComponent } from './room-creation/room-creation.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 
@@ -54,7 +56,8 @@ import { NotificationService } from './notification.service';
     LoginScreenComponent,
     PageNotFoundComponent,
     PasswordResetComponent,
-    RegisterComponent
+    RegisterComponent,
+    RoomCreationComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -65,6 +68,7 @@ import { NotificationService } from './notification.service';
     BrowserModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
+    FormsModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
