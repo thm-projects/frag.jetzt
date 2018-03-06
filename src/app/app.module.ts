@@ -45,6 +45,9 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryDataService } from './in-memory-data.service';
 import { RoomCreationComponent } from './room-creation/room-creation.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
@@ -102,7 +105,12 @@ import { AuthenticationGuard } from './authentication.guard';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [
     NotificationService,
