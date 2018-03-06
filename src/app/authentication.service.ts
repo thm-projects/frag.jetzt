@@ -22,6 +22,10 @@ export class AuthenticationService {
     return of(true);
   }
 
+  logout() {
+    this.mockUser = null;
+  }
+
   getUser(): Observable<User> {
     return of(this.mockUser);
   }
