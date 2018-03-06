@@ -22,6 +22,6 @@ export class InMemoryDataService implements InMemoryDbService {
         closed: false
       }
     ];
-    return {rooms};
+    return { rooms };
   }
 }
