@@ -18,8 +18,13 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(next: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): Observable<boolean> {
     return this.authenticationService.getUser().map(user => {
+      // Get roles having access to this route
+      // undefined if every logged in user should have access regardless of its role
       const requiredRoles = next.data['roles'] as Array<UserRole>;
-      if (user && requiredRoles.includes(user.role)) {
+      // Allow access when user is logged in AND
+      // the route doesn't require a specific role OR
+      // the user's role is one of the required roles
+      if (user && (!requiredRoles || requiredRoles.includes(user.role))) {
         return true;
       }
       this.notificationService.show(`You're not authorized to view this page.`);

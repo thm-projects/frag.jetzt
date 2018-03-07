@@ -26,8 +26,7 @@ const routes: Routes = [
   {
     path: 'room/:roomId',
     component: RoomComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.PARTICIPANT, UserRole.CREATOR] }
+    canActivate: [AuthenticationGuard]
   },
   { path: '**', component: PageNotFoundComponent }
 ];
