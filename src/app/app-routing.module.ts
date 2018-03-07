@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { RoomComponent } from './room/room.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
+import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { UserRole } from './user-roles.enum';
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'room/:roomId',
     component: RoomComponent,
+    canActivate: [AuthenticationGuard]
+  },
+  { path: 'room/:roomId/create-comment',
+    component: CreateCommentComponent,
     canActivate: [AuthenticationGuard]
   },
   { path: '**', component: PageNotFoundComponent }
