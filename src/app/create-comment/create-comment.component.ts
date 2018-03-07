@@ -31,12 +31,12 @@ export class CreateCommentComponent implements OnInit {
     this.roomService.getRoom(id).subscribe(room => this.room = room);
   }
 
-  send(subject: string, text: string): void {
+  send(subject: string, body: string): void {
     subject = subject.trim();
-    text = text.trim();
-    if (!subject || !text) { return; }
-    this.commentService.addComment( { subject: subject, body: text } as Comment )
-      .subscribe();
+    body = body.trim();
+    if (!subject || !body) { return; }
+    this.commentService.addComment( { roomId: this.room.id, subject: subject,
+      body: body, creationTimestamp: Date.now() } as Comment ).subscribe();
   }
 
   goBack(): void {

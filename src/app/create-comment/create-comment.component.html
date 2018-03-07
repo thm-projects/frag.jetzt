@@ -3,10 +3,10 @@
     <input matInput #subject type="text" maxlength="24" placeholder="Choose a title">
   </mat-form-field>
   <mat-form-field class="input-block">
-    <input matInput #text >
+    <input matInput #body>
     <textarea matInput placeholder="Add your comment"></textarea>
   </mat-form-field>
 
   <button mat-raised-button color="primary" (click)="goBack()">Back</button>
-  <button mat-raised-button color="primary" (click)="send(subject.value, text.value)">Send</button>
+  <button mat-raised-button color="primary" (click)="send(subject.value, body.value)">Send</button>
 </form>
