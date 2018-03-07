@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { JoinRoomComponent } from './join-room/join-room.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
@@ -60,6 +61,8 @@ import { RoomListComponent } from './room-list/room-list.component';
 @NgModule({
   declarations: [
     AppComponent,
+    JoinRoomComponent,
+    AppComponent,
     LoginComponent,
     LoginScreenComponent,
     PageNotFoundComponent,
@@ -77,6 +80,9 @@ import { RoomListComponent } from './room-list/room-list.component';
   imports: [
     AppRoutingModule,
     BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     FormsModule,
