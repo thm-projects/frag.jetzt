@@ -50,6 +50,7 @@ import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationGuard } from './authentication.guard';
+import { ContentCreationComponent } from './content-creation/content-creation.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AuthenticationGuard } from './authentication.guard';
     PageNotFoundComponent,
     PasswordResetComponent,
     RegisterComponent,
-    RoomCreationComponent
+    RoomCreationComponent,
+    ContentCreationComponent
   ],
   entryComponents: [
     RegisterComponent,
