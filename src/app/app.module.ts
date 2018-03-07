@@ -60,6 +60,7 @@ import { RoomService } from './room.service';
 import { RoomListComponent } from './room-list/room-list.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
+import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { CreateCommentComponent } from './create-comment/create-comment.componen
     RoomListComponent,
     CreatorHomeScreenComponent,
     CreateCommentComponent,
+    ParticipantHomeScreenComponent,
     CommentComponent
   ],
   entryComponents: [
