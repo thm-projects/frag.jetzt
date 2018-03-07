@@ -1,22 +1,30 @@
-<mat-form-field>
-  <input matInput placeholder="Topic">
-</mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Topic">
+    </mat-form-field>
 
-<p></p>
+    <p></p>
+    
+    <mat-form-field>
+      <textarea matInput placeholder="Place your text here" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
+    </mat-form-field>
 
-<mat-form-field>
-  <textarea matInput placeholder="Text" matTextareaAutosize matAutosizeMinRows="3"
-  matAutosizeMaxRows="8"></textarea>
-</mat-form-field>
+    <mat-selection-list #answeroption >
+      <mat-list-option>
+        <mat-form-field>
+          <input matInput placeholder="Answer 1">
+        </mat-form-field>
+      </mat-list-option>
 
-<p></p>
+      <mat-list-option>
+          <mat-form-field>
+              <input matInput placeholder="Answer 2">
+            </mat-form-field>
+      </mat-list-option>
 
-<mat-radio-group>
-  <mat-radio-button value="1"><input matInput placeholder="Answer 1"></mat-radio-button>
-  <p></p>
-  <mat-radio-button value="1"><input matInput placeholder="Answer 2"></mat-radio-button>
-  <p></p>
-  <mat-radio-button value="1"><input matInput placeholder="Answer 3"></mat-radio-button>
-  <p></p>
-  <mat-radio-button value="1"><input matInput placeholder="Answer 4"></mat-radio-button>
-</mat-radio-group>
+      <mat-list-option>
+          <mat-form-field>
+              <input matInput placeholder="Answer 3">
+            </mat-form-field>
+      </mat-list-option>
+    </mat-selection-list>
+
