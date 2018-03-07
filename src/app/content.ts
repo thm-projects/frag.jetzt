@@ -5,7 +5,8 @@ enum Format {
   NUMBER,
   TEXT,
   GRID
-  }
+}
+
 export class Content {
   id: string;
   revision: string;
@@ -15,5 +16,5 @@ export class Content {
   round: number;
   format: Format;
   formatAttributes: Map<string, string>;
-  }
+}
 
