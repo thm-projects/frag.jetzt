@@ -57,6 +57,7 @@ import { AuthenticationService } from './authentication.service';
 import { AuthenticationGuard } from './authentication.guard';
 import { RoomService } from './room.service';
 import { RoomListComponent } from './room-list/room-list.component';
+import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { RoomListComponent } from './room-list/room-list.component';
     RoomComponent,
     RegisterComponent,
     RoomCreationComponent,
-    RoomListComponent
+    RoomListComponent,
+    CreatorHomeScreenComponent
   ],
   entryComponents: [
     RegisterComponent,
