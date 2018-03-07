@@ -13,4 +13,5 @@
   </mat-form-field>
 
   <button mat-raised-button color="primary" (click)="login(userName.value, userPassword.value)">Login</button>
+  <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="login('anonymus', 'nothing')">Login as guest</button>
 </form>

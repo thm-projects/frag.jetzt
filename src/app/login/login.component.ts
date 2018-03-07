@@ -3,7 +3,7 @@ import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../notification.service';
 import { ErrorStateMatcher } from '@angular/material';
-import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../user-roles.enum';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
@@ -19,7 +19,10 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  @Input() role: UserRole;
+  // Make UserRole available to the template
+  UserRole = UserRole;
+
+  @Input() public role: UserRole;
 
   usernameFormControl = new FormControl('', [Validators.required]);
   passwordFormControl = new FormControl('', [Validators.required]);
