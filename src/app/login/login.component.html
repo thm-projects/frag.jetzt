@@ -1,11 +1,14 @@
-<form (ngSubmit)="login(userName.value, userPassword.value)">
+<form (ngSubmit)="login(userName.value, userPassword.value)" fxLayout="column" fxLayoutAlign="space-around"
+      fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput #userName placeholder="Username" [formControl]="usernameFormControl" [errorStateMatcher]="matcher" name="username" />
+    <input matInput #userName placeholder="Username" [formControl]="usernameFormControl" [errorStateMatcher]="matcher"
+           name="username"/>
     <mat-error *ngIf="usernameFormControl.hasError('required')">Username is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input matInput #userPassword type="password" placeholder="Password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher" name="password" />
+    <input matInput #userPassword type="password" placeholder="Password" [formControl]="passwordFormControl"
+           [errorStateMatcher]="matcher" name="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
