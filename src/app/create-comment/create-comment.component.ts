@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { Room } from '../room';
 
 @Component({
   selector: 'app-create-comment',
@@ -6,10 +10,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-comment.component.scss']
 })
 export class CreateCommentComponent implements OnInit {
+  @Input() room: Room;
 
-  constructor() { }
+  constructor(
+    private route: ActivatedRoute,
+    private location: Location,
+  ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getRoom();
   }
 
+  getRoom(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+  }
+
+  send(subject: string, text: string): void {}
+
+  goBack(): void {
+    this.location.back();
+  }
 }

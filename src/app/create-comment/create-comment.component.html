@@ -1,11 +1,12 @@
 <form>
   <mat-form-field class="input-block">
-    <input matInput type="text" maxlength="24" placeholder="Choose a title">
+    <input matInput #subject type="text" maxlength="24" placeholder="Choose a title">
   </mat-form-field>
   <mat-form-field class="input-block">
+    <input matInput #text >
     <textarea matInput placeholder="Add your comment"></textarea>
   </mat-form-field>
 
-  <button mat-raised-button color="primary">Back</button>
-  <button mat-raised-button color="primary">Send</button>
+  <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+  <button mat-raised-button color="primary" (click)="send(subject.value, text.value)">Send</button>
 </form>
