@@ -42,6 +42,17 @@ export class InMemoryDataService implements InMemoryDbService {
         closed: false
       }
     ];
-    return { rooms };
+    const comments = [
+      {
+        id: 'ccc',
+        roomId: 'test',
+        revision: '',
+        subject: 'testcomment',
+        body: 'adsasdasdasdasdas',
+        read: false,
+        creationTimestamp: Date.now(),
+      }
+    ];
+    return { rooms, comments };
   }
 }
