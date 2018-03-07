@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AuthenticationService } from '../authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../notification.service';
@@ -19,6 +19,8 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
 })
 export class LoginComponent implements OnInit {
 
+  @Input() isCreator: boolean;
+
   usernameFormControl = new FormControl('', [Validators.required]);
   passwordFormControl = new FormControl('', [Validators.required]);
 
@@ -37,14 +39,20 @@ export class LoginComponent implements OnInit {
     password = password.trim();
 
     if (username !== '' && password !== '') {
-      this.authenticationService.login(username, password).subscribe(loginSuccessful => {
-        if (loginSuccessful) {
-          this.notificationService.show('Login successful!');
-          this.router.navigate(['creator']);
-        } else {
-          this.notificationService.show('Login failed!');
-        }
-      });
+      this.authenticationService.login(username, password, this.isCreator).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    } else {
+      this.notificationService.show('Login failed!');
+    }
+  }
+
+  private checkLogin(loginSuccessful: boolean) {
+    if (loginSuccessful) {
+      this.notificationService.show('Login successful!');
+      if (this.isCreator) {
+        this.router.navigate(['creator']);
+      } else {
+        this.router.navigate(['participant']);
+      }
     } else {
       this.notificationService.show('Login failed!');
     }
