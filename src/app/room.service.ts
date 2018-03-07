@@ -9,7 +9,6 @@ const httpOptions = {
 
 @Injectable()
 export class RoomService {
-
   private roomsUrl = 'api/rooms';
 
   constructor(private http: HttpClient) {

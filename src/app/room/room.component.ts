@@ -9,7 +9,6 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
-
   room: Room = null;
 
   constructor(private roomService: RoomService,

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { RoomService } from '../room.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-list',
@@ -9,14 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./room-list.component.scss']
 })
 export class RoomListComponent implements OnInit {
-
   rooms: Room[];
-
   closedRooms: Room[];
 
-  constructor(
-    private roomService: RoomService
-  ) {
+  constructor(private roomService: RoomService) {
   }
 
   ngOnInit() {
@@ -24,14 +19,9 @@ export class RoomListComponent implements OnInit {
   }
 
   getRooms(): void {
-
     this.roomService.getRooms().subscribe(rooms => {
-
       this.rooms = rooms;
-
       this.closedRooms = this.rooms.filter(room => room.closed);
-
     });
-
   }
 }
