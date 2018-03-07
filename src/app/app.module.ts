@@ -56,6 +56,7 @@ import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationGuard } from './authentication.guard';
+import { ContentCreationComponent } from './content-creation/content-creation.component';
 import { RoomService } from './room.service';
 import { RoomListComponent } from './room-list/room-list.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
@@ -72,6 +73,8 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
     PageNotFoundComponent,
     PasswordResetComponent,
     RegisterComponent,
+    RoomCreationComponent,
+    ContentCreationComponent
     RoomComponent,
     RegisterComponent,
     RoomCreationComponent,
