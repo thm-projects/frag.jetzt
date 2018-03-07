@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Room } from '../room';
+import { RoomService } from '../room.service';
+import { CommentService} from '../comment.service';
 
 @Component({
   selector: 'app-create-comment',
@@ -14,18 +16,28 @@ export class CreateCommentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private roomService: RoomService,
+    private commentService: CommentService,
     private location: Location,
   ) { }
 
   ngOnInit(): void {
-    this.getRoom();
+    // this.getRoom();
   }
 
   getRoom(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
+    this.roomService.getRoom(id)
+      .subscribe(room => this.room = room);
   }
 
-  send(subject: string, text: string): void {}
+  send(subject: string, text: string): void {
+    subject = subject.trim();
+    text = text.trim();
+    if (!subject || !text) { return; }
+    this.commentService.addComment( { subject } as Comment )
+      .subscribe();
+  }
 
   goBack(): void {
     this.location.back();
