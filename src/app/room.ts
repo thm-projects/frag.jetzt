@@ -1,9 +1,14 @@
 export class Room {
-  id: string;
-  revision: string;
-  shortId: string;
   abbreviation: string;
   name: string;
-  description: string;
   closed: boolean;
+
+  constructor() {
+
+  }
+
+  // constructor(longRoomName: string, shortRoomName: string) {
+  //   this.name = longRoomName;
+  //   this.abbreviation = shortRoomName;
+  // }
 }

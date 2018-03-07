@@ -19,6 +19,7 @@ export class RoomService {
   }
 
   addRoom(room: Room): Observable<Room> {
+    console.log('service', room);
     return this.http.post<Room>(this.roomsUrl, room, httpOptions);
   }
 
