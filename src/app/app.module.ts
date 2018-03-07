@@ -55,6 +55,7 @@ import { NotificationService } from './notification.service';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationGuard } from './authentication.guard';
 import { RoomService } from './room.service';
+import { RoomListComponent } from './room-list/room-list.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { RoomService } from './room.service';
     RegisterComponent,
     RoomComponent,
     RegisterComponent,
-    RoomCreationComponent
+    RoomCreationComponent,
+    RoomListComponent
   ],
   entryComponents: [
     RegisterComponent,
