@@ -1,8 +1,21 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+import { Observable } from 'rxjs/Observable';
+
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 
 @Injectable()
 export class CommentService {
+  private commentsUrl = 'api/comments';
 
-  constructor() { }
+  constructor( private http: HttpClient ) {
+  }
 
+  addComment(comment: Comment): Observable<Comment> {
+    return this.http.post<Comment>(this.commentsUrl, comment, httpOptions);
+  }
 }
