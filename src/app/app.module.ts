@@ -58,6 +58,7 @@ import { AuthenticationGuard } from './authentication.guard';
 import { RoomService } from './room.service';
 import { RoomListComponent } from './room-list/room-list.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
+import { CreateCommentComponent } from './create-comment/create-comment.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-s
     RegisterComponent,
     RoomCreationComponent,
     RoomListComponent,
-    CreatorHomeScreenComponent
+    CreatorHomeScreenComponent,
+    CreateCommentComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -82,9 +84,6 @@ import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-s
   imports: [
     AppRoutingModule,
     BrowserModule,
-    BrowserAnimationsModule,
-    MatButtonModule,
-    MatInputModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     FormsModule,
