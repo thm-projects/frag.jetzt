@@ -10,7 +10,7 @@ export class InMemoryDataService implements InMemoryDbService {
         abbreviation: 'abb',
         name: 'testroom',
         description: 'this is a test room',
-        closed: false
+        closed: true
       },
       {
         id: 'test1',

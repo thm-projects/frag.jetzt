@@ -10,36 +10,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RoomComponent implements OnInit {
 
-  rooms: Room[];
-  room: Room;
+  room: Room = null;
 
-  constructor(
-    private roomService: RoomService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private roomService: RoomService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    this.getRooms();
-  }
-
-  getRooms(): void {
-    this.roomService.getRooms().subscribe(rooms => this.rooms = rooms);
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name) {
-      return;
-    }
-    this.roomService.addRoom({name} as Room).subscribe(room => {
-      this.rooms.push(room);
-    });
+    this.getRoom();
   }
 
   getRoom(): void {
     const roomId: string = this.route.snapshot.paramMap.get('roomId');
     this.roomService.getRoom(roomId).subscribe(room => this.room = room);
   }
-
 }
