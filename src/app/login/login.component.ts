@@ -45,6 +45,8 @@ export class LoginComponent implements OnInit {
           this.notificationService.show('Login failed!');
         }
       });
+    } else {
+      this.notificationService.show('Login failed!');
     }
   }
 
