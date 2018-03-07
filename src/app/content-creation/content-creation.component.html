@@ -1,34 +1,39 @@
-    <mat-form-field>
-      <input matInput placeholder="Topic">
-    </mat-form-field>
+<mat-form-field>
+  <input matInput placeholder="Topic">
+</mat-form-field>
 
-    <p></p>
+<p></p>
 
-    <mat-form-field>
-      <textarea matInput placeholder="Place your text here" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
-    </mat-form-field>
+<mat-form-field>
+  <textarea matInput placeholder="Place your text here" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
+</mat-form-field>
 
-    <mat-list #answeroption >
-      <mat-form-field>
-        <input matInput placeholder="Answer 1">
-      </mat-form-field>
-      <mat-checkbox></mat-checkbox>
-      <p></p>
+<mat-list #answeroption>
+  <mat-form-field>
+    <input matInput placeholder="Answer 1">
+  </mat-form-field>
+  <mat-checkbox></mat-checkbox>
+  <p></p>
 
-      <mat-form-field>
-        <input matInput placeholder="Answer 2">
-      </mat-form-field>
-      <mat-checkbox></mat-checkbox>
-      <p></p>
+  <mat-form-field>
+    <input matInput placeholder="Answer 2">
+  </mat-form-field>
+  <mat-checkbox></mat-checkbox>
+  <p></p>
 
-      <mat-form-field>
-        <input matInput placeholder="Answer 3">
-      </mat-form-field>
-      <mat-checkbox></mat-checkbox>
-      <p></p>
-    </mat-list>
+  <mat-form-field>
+    <input matInput placeholder="Answer 3">
+  </mat-form-field>
+  <mat-checkbox></mat-checkbox>
+  <p></p>
+</mat-list>
 
-    <p></p>
-    <button mat-raised-button="Preview">Preview</button>
-    <!-- TODO: Save answers to array in a class. Show answers in a matlist -->
+<p></p>
+<button mat-raised-button="Preview">Preview</button>
+<!-- TODO: Save answers to array in a class. Show answers in a matlist -->
 
+<p></p>
+<mat-slide-toggle>Enthaltung erlauben</mat-slide-toggle>
+
+<p></p>
+<mat-slide-toggle>Lösungshinweis anzeigen</mat-slide-toggle>
