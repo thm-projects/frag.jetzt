@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
       this.authenticationService.login(username, password).subscribe(loginSuccessful => {
         if (loginSuccessful) {
           this.notificationService.show('Login successful!');
-          this.router.navigate(['rooms']);
+          this.router.navigate(['creator']);
         } else {
           this.notificationService.show('Login failed!');
         }
