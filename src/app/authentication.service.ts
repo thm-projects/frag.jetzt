@@ -7,11 +7,12 @@ import { of } from 'rxjs/observable/of';
 // TODO: persist user data (shouldn't get lost on page refresh)
 @Injectable()
 export class AuthenticationService {
-  private mockUser: User = new User(1, 'test', 'test@test.de', true);
+  private mockUser: User;
 
   constructor() { }
 
-  login(email: string, password: string): Observable<boolean> {
+  login(email: string, password: string, isCreator: boolean): Observable<boolean> {
+    this.mockUser = new User(1, '', email, isCreator);
     return of(true);
   }
 
@@ -32,7 +33,7 @@ export class AuthenticationService {
   }
 
   isLoggedIn(): Observable<boolean> {
-    return of(this.mockUser !== null);
+    return of(this.mockUser !== undefined);
   }
 
   isCreator(): Observable<boolean> {
