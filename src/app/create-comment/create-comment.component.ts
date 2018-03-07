@@ -22,20 +22,20 @@ export class CreateCommentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // this.getRoom();
+    this.route.params.subscribe(params => {
+      this.getRoom(params['roomId']);
+    });
   }
 
-  getRoom(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.roomService.getRoom(id)
-      .subscribe(room => this.room = room);
+  getRoom(id: string): void {
+    this.roomService.getRoom(id).subscribe(room => this.room = room);
   }
 
   send(subject: string, text: string): void {
     subject = subject.trim();
     text = text.trim();
     if (!subject || !text) { return; }
-    this.commentService.addComment( { subject } as Comment )
+    this.commentService.addComment( { subject: subject, body: text } as Comment )
       .subscribe();
   }
 
