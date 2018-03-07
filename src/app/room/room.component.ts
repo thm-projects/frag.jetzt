@@ -16,11 +16,12 @@ export class RoomComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getRoom();
+    this.route.params.subscribe(params => {
+      this.getRoom(params['roomId']);
+    });
   }
 
-  getRoom(): void {
-    const roomId: string = this.route.snapshot.paramMap.get('roomId');
-    this.roomService.getRoom(roomId).subscribe(room => this.room = room);
+  getRoom(id: string): void {
+    this.roomService.getRoom(id).subscribe(room => this.room = room);
   }
 }
