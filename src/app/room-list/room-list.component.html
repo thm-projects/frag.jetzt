@@ -1,0 +1,8 @@
+<mat-list>
+  <mat-list-item *ngFor="let room of rooms">
+    <button mat-button routerLink="room/{{room.id}}">
+      {{room.name}}
+    </button>
+  </mat-list-item>
+</mat-list>
+

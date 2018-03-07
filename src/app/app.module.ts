@@ -45,11 +45,17 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { HttpClientModule } from '@angular/common/http';
+import { InMemoryDataService } from './in-memory-data.service';
+import { RoomComponent } from './room/room.component';
 import { RoomCreationComponent } from './room-creation/room-creation.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 import { AuthenticationService } from './authentication.service';
 import { AuthenticationGuard } from './authentication.guard';
+import { RoomService } from './room.service';
+import { RoomListComponent } from './room-list/room-list.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +65,10 @@ import { AuthenticationGuard } from './authentication.guard';
     PageNotFoundComponent,
     PasswordResetComponent,
     RegisterComponent,
-    RoomCreationComponent
+    RoomComponent,
+    RegisterComponent,
+    RoomCreationComponent,
+    RoomListComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -102,12 +111,18 @@ import { AuthenticationGuard } from './authentication.guard';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatTooltipModule,
+    HttpClientModule,
+    HttpClientInMemoryWebApiModule.forRoot(
+      InMemoryDataService, { dataEncapsulation: false }
+    )
   ],
   providers: [
     NotificationService,
     AuthenticationService,
-    AuthenticationGuard
+    AuthenticationGuard,
+    RoomService
   ],
   bootstrap: [AppComponent]
 })
