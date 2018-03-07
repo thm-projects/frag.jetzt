@@ -73,7 +73,7 @@ import { AuthenticationGuard } from './authentication.guard';
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
     FormsModule,
