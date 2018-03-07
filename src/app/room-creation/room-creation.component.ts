@@ -8,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 export class RoomCreationComponent implements OnInit {
   longName: string;
   shortName: string;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
-
 }
