@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../notification.service';
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { UserRole } from '../user-roles.enum';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -18,8 +19,7 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
-  @Input() isCreator: boolean;
+  @Input() role: UserRole;
 
   usernameFormControl = new FormControl('', [Validators.required]);
   passwordFormControl = new FormControl('', [Validators.required]);
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
     password = password.trim();
 
     if (username !== '' && password !== '') {
-      this.authenticationService.login(username, password, this.isCreator).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+      this.authenticationService.login(username, password, this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
     } else {
       this.notificationService.show('Login failed!');
     }
@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   private checkLogin(loginSuccessful: boolean) {
     if (loginSuccessful) {
       this.notificationService.show('Login successful!');
-      if (this.isCreator) {
+      if (this.role === UserRole.CREATOR) {
         this.router.navigate(['creator']);
       } else {
         this.router.navigate(['participant']);

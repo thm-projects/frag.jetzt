@@ -5,13 +5,30 @@ import { LoginScreenComponent } from './login-screen/login-screen.component';
 import { RoomComponent } from './room/room.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
+import { AuthenticationGuard } from './authentication.guard';
+import { UserRole } from './user-roles.enum';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: LoginScreenComponent },
-  { path: 'creator', component: CreatorHomeScreenComponent },
-  { path: 'room/:roomId', component: RoomComponent },
-  { path: 'participant', component: ParticipantHomeScreenComponent },
+  {
+    path: 'creator',
+    component: CreatorHomeScreenComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'participant',
+    component: ParticipantHomeScreenComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'room/:roomId',
+    component: RoomComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT, UserRole.CREATOR] }
+  },
   { path: '**', component: PageNotFoundComponent }
 ];
 
