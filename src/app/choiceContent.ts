@@ -1,4 +1,4 @@
-import { AnswerOption } from './answerOption';
+import { AnswerOption } from './answer-option';
 
 export class ChoiceContent {
   options: AnswerOption[];
