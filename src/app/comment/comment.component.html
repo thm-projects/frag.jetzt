@@ -1,14 +1,14 @@
 <ol class ="ol">
-  <li>
+  <li *ngFor="let comment of comments">
     <mat-card>
       <mat-card-content>
-        <b> <!-- insert subject of comment --> </b><br>
+        <b>{{comment.subject}}</b><br>
 
-       <!-- insert comment -->
+       {{comment.body}}
       </mat-card-content>
       <mat-card-footer>
         <div class="date">
-         <i> <!-- insert date of comment --> </i>
+         <i> {{comment.creationTimestamp}} </i>
        </div>
        </mat-card-footer>
     </mat-card><br>
