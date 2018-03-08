@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Room } from '../room';
+import { Comment } from '../comment';
 import { RoomService } from '../room.service';
 import { CommentService} from '../comment.service';
 
@@ -34,9 +35,15 @@ export class CreateCommentComponent implements OnInit {
   send(subject: string, body: string): void {
     subject = subject.trim();
     body = body.trim();
-    if (!subject || !body) { return; }
-    this.commentService.addComment( { roomId: this.room.id, subject: subject,
-      body: body, creationTimestamp: Date.now() } as Comment ).subscribe();
+    if (!subject || !body) {
+      return;
+    }
+    this.commentService.addComment({
+      roomId: this.room.id,
+      subject: subject,
+      body: body,
+      creationTimestamp: Date.now()
+    } as Comment).subscribe();
   }
 
   goBack(): void {
