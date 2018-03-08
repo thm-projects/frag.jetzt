@@ -17,4 +17,9 @@ export class CommentService {
   addComment(comment: Comment): Observable<Comment> {
     return this.http.post<Comment>(this.commentsUrl, comment, httpOptions);
   }
+
+  getComments(roomId: string): Observable<Comment[]> {
+    const url = `${this.commentsUrl}/?roomId=${roomId}`;
+    return this.http.get<Comment[]>(url);
+  }
 }
