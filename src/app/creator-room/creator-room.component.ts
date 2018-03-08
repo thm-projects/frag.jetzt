@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./creator-room.component.scss']
 })
 export class CreatorRoomComponent implements OnInit {
-
+  room = '1';
   constructor() { }
 
   ngOnInit() {

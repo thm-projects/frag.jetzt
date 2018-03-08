@@ -1,3 +1,19 @@
-<p>
-  creator-room works!
-</p>
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div fxLayoutGap="20px">
+      <mat-list-item>Room: {{room}}</mat-list-item>
+      <mat-list-item>
+        <button mat-raised-button color="primary">Create content</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-raised-button color="primary">Contents</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-raised-button color="primary">Comments</button>
+      </mat-list-item>
+      <mat-list-item>
+        <button mat-raised-button color="warn">Delete room</button>
+      </mat-list-item>
+    </div>
+  </div>
+</div>
