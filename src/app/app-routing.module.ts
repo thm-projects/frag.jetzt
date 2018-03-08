@@ -31,7 +31,12 @@ const routes: Routes = [
     component: RoomComponent,
     canActivate: [AuthenticationGuard]
   },
-  { path: 'room/:roomId/comments', component: CommentComponent },
+  {
+    path: 'room/:roomId/comments',
+    component: CommentComponent,
+    canActivate: [AuthenticationGuard],
+    data: {roles: [UserRole.CREATOR] }
+  },
   { path: 'room/:roomId/create-comment',
     component: CreateCommentComponent,
     canActivate: [AuthenticationGuard],
