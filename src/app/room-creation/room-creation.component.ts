@@ -4,7 +4,6 @@ import { Room } from '../room';
 import { Router } from '@angular/router';
 import { NotificationService } from '../notification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-room-creation',
