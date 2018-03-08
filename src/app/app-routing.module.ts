@@ -8,6 +8,7 @@ import { CreateCommentComponent } from './create-comment/create-comment.componen
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { UserRole } from './user-roles.enum';
+import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -31,6 +32,12 @@ const routes: Routes = [
   },
   { path: 'room/:roomId/create-comment',
     component: CreateCommentComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'participant/room/:roomId',
+    component: ParticipantRoomComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
