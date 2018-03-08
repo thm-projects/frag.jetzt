@@ -1,12 +1,14 @@
-<form>
-  <mat-form-field class="input-block">
-    <input matInput #commentSubject type="text" maxlength="24" placeholder="Choose a title">
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <input matInput #commentBody>
-    <textarea matInput placeholder="Add your comment"></textarea>
-  </mat-form-field>
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10">
+  <form>
+    <mat-form-field class="input-block">
+      <input matInput #commentSubject type="text" maxlength="24" placeholder="Choose a title">
+    </mat-form-field>
+    <mat-form-field class="input-block">
+      <input matInput #commentBody>
+      <textarea matInput placeholder="Add your comment"></textarea>
+    </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="goBack()">Back</button>
-  <button mat-raised-button color="primary" (click)="send(commentSubject.value, commentBody.value)">Send</button>
-</form>
+    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
+    <button mat-raised-button color="primary" (click)="send(commentSubject.value, commentBody.value)">Send</button>
+  </form>
+</div>
