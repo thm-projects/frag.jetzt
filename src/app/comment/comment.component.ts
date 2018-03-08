@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { Comment } from '../comment';
 import { CommentService} from '../comment.service';
 import { RoomService } from '../room.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-comment',
@@ -17,7 +18,8 @@ export class CommentComponent implements OnInit {
     private route: ActivatedRoute,
     private roomService: RoomService,
     private location: Location,
-    private commentService: CommentService) { }
+    private commentService: CommentService,
+    private notification: NotificationService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -28,14 +30,15 @@ export class CommentComponent implements OnInit {
   getRoom(id: string): void {
     this.roomService.getRoom(id).subscribe(
       params => {
-        this.getComments(params['id']);
+        this.getComments(params['id'], params['name']);
       }
     );
   }
 
-  getComments(roomId: string): void {
+  getComments(roomId: string, roomName: string): void {
     this.commentService.getComments(roomId)
       .subscribe(comments => this.comments = comments);
+    this.notification.show(`All comments of room "${roomName}" loaded!`);
   }
 
   goBack(): void {
