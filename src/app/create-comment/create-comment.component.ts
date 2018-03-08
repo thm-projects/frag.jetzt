@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Inject} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Room } from '../room';
@@ -6,7 +6,6 @@ import { Comment } from '../comment';
 import { RoomService } from '../room.service';
 import { CommentService} from '../comment.service';
 import { NotificationService } from '../notification.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-create-comment',
