@@ -49,6 +49,10 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  guestLogin(): void {
+    this.authenticationService.login('guest', 'guest', this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+  }
+
   private checkLogin(loginSuccessful: boolean) {
     if (loginSuccessful) {
       this.notificationService.show('Login successful!');

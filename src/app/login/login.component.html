@@ -1,12 +1,11 @@
-<form (ngSubmit)="login(userName.value, userPassword.value)" fxLayout="column" fxLayoutAlign="space-around"
+<form (ngSubmit)="login(userEmail.value, userPassword.value)" fxLayout="column" fxLayoutAlign="space-around"
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput #userName placeholder="Username" [formControl]="usernameFormControl" [errorStateMatcher]="matcher"
+    <input matInput #userEmail placeholder="E-mail" [formControl]="usernameFormControl" [errorStateMatcher]="matcher"
            name="username"/>
-    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">Username must
-      be a <strong>valid</strong> email address.
+    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">Please enter a <strong>valid</strong> e-mail address.
     </mat-error>
-    <mat-error *ngIf="usernameFormControl.hasError('required')">Username is <strong>required</strong>.</mat-error>
+    <mat-error *ngIf="usernameFormControl.hasError('required')">E-mail is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
   <mat-form-field class="input-block">
@@ -15,8 +14,8 @@
     <mat-error *ngIf="passwordFormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="login(userName.value, userPassword.value)">Login</button>
-  <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="login('anonymus', 'nothing')">Login as
+  <button mat-raised-button color="primary" (click)="login(userEmail.value, userPassword.value)">Login</button>
+  <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="guestLogin()">Login as
     guest
   </button>
 </form>
