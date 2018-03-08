@@ -75,6 +75,8 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
     RegisterComponent,
     RoomCreationComponent,
     ContentCreationComponent,
+    RoomCreationComponent,
+    ContentCreationComponent,
     RoomComponent,
     RegisterComponent,
     RoomCreationComponent,
