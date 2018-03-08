@@ -2,7 +2,7 @@
   <mat-list fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center">
     <mat-list-item>Room: {{roomId}}</mat-list-item>
     <mat-list-item>
-      <button mat-fab color="primary">
+      <button mat-fab color="primary" routerLink="/room/{{roomId}}/create-comment">
         <mat-icon>question_answer</mat-icon>
       </button>
       <button mat-fab color="primary">
