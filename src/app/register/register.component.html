@@ -1,26 +1,30 @@
-<form>
+<form (ngSubmit)="register(userName.value, userPassword1.value, userPassword2.value)" fxLayout="column"
+      fxLayoutAlign="space-around" fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput #email maxlength="256" placeholder="E-mail">
-    <mat-hint align="start"><strong></strong></mat-hint>
+    <input matInput #userName placeholder="E-mail" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
+    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">Please enter a
+      <strong>valid</strong> email address.
+    </mat-error>
+    <mat-error *ngIf="usernameFormControl.hasError('required')">Email address is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input matInput type="password" #passwd maxlength="256" placeholder="Password">
-    <mat-hint align="start"><strong></strong></mat-hint>
-    <mat-hint align="end">{{passwd.value.length}} / 256</mat-hint>
+    <input matInput type="password" #userPassword1 placeholder="Password" [formControl]="password1FormControl"
+           [errorStateMatcher]="matcher">
+    <mat-error *ngIf="password1FormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input matInput type="password" #passwd2 maxlength="256" placeholder="Verify password">
-    <mat-hint align="start"><strong></strong></mat-hint>
-    <mat-hint align="end">{{passwd2.value.length}} / 256</mat-hint>
+    <input matInput type="password" #userPassword2 placeholder="Verify password" [formControl]="password2FormControl"
+           [errorStateMatcher]="matcher">
+    <mat-error *ngIf="password2FormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
+    <mat-error *ngIf="password2FormControl.hasError('passwordIsEqual') && !password2FormControl.hasError('required')">
+      Passwords do <strong>not</strong> match.
+    </mat-error>
   </mat-form-field>
-  <div *ngIf="passwd.value === passwd2.value && passwd.value.length !== 0">
-    <mat-icon>check_circle</mat-icon>
-  </div>
-  <div *ngIf="passwd.value !== passwd2.value && passwd.value.length !== 0">
-    <mat-icon>clear</mat-icon>
-  </div>
 
-  <button mat-raised-button color="primary" (click)="save(email.value, passwd.value, passwd2.value)">Register</button>
+  <button mat-raised-button color="primary"
+          (click)="register(userName.value, userPassword1.value, userPassword2.value)">Register
+  </button>
+
 </form>

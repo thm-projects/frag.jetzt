@@ -1,5 +1,33 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { AuthenticationService } from '../authentication.service';
+import { NotificationService } from '../notification.service';
+import { Router } from '@angular/router';
+
+export class RegisterErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return (control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
+function validatePassword(password1: FormControl) {
+  return (formControl: FormControl) => {
+    const password1Value = password1.value;
+    const password2Value = formControl.value;
+
+    if (password1Value !== password2Value) {
+      return {
+        passwordIsEqual: {
+          isEqual: false
+        }
+      };
+    } else {
+      return null;
+    }
+  };
+}
 
 @Component({
   selector: 'app-register',
@@ -7,9 +35,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  check = 0;
 
-  constructor(public dialogRef: MatDialogRef<RegisterComponent>,
+  usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
+  password1FormControl = new FormControl('', [Validators.required]);
+  password2FormControl = new FormControl('', [Validators.required, validatePassword(this.password1FormControl)]);
+
+  matcher = new RegisterErrorStateMatcher();
+
+  constructor(public authenticationService: AuthenticationService,
+              public notificationService: NotificationService,
+              public dialogRef: MatDialogRef<RegisterComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -20,12 +55,18 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
-  save(email: string, password1: string, password2: string): void {
-   // console.log(email, password1, password2);
-    if (password1 === password2) {
-      console.log(true);
+  register(username: string, password1: string, password2: string): void {
+    if (username && password1 && password2 && password1 === password2) {
+      this.authenticationService.register(username, password1).subscribe(result => {
+        if (result) {
+          this.notificationService.show('Successfully registered. Please check your mail!');
+          this.dialogRef.close();
+        } else {
+          this.notificationService.show('ARSnova backend failed (badly).');
+        }
+      });
     } else {
-      console.log(false);
+      this.notificationService.show('Could not register. Please check your data.');
     }
   }
 }
