@@ -1,0 +1,36 @@
+<div>
+  <mat-card class="content-card">
+    <mat-card-title>
+      <mat-form-field>
+        <input matInput placeholder="Topic">
+      </mat-form-field>
+    </mat-card-title>
+
+    <mat-form-field>
+      <textarea matInput placeholder="Place your text here" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
+    </mat-form-field>
+  </mat-card>
+</div>
+
+<mat-card class="content-card">
+  <mat-selection-list>
+    <mat-list-option>Answer 32</mat-list-option>
+    <mat-list-option>Answer 33</mat-list-option>
+    <mat-list-option>Answer 34</mat-list-option>
+
+    <mat-list>
+      <mat-form-field>
+        <input matInput placeholder="Add Answer">
+      </mat-form-field>
+      <button mat-mini-fab>+</button>
+    </mat-list>
+  </mat-selection-list>
+</mat-card>
+
+<button mat-raised-button="Preview">Preview</button>
+<!-- TODO: Save answers to array in a class. Show answers in a matlist -->
+
+<div>
+  <mat-slide-toggle>Allow absention</mat-slide-toggle>
+  <mat-slide-toggle>Show hints</mat-slide-toggle>
+</div>
