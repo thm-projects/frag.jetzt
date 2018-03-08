@@ -3,14 +3,20 @@
     <li *ngFor="let comment of comments">
       <mat-card>
         <mat-card-content>
-          <h3>{{comment.subject}}</h3><br>
+          <div class="comment-body">
+            <h3>{{comment.subject}}</h3><br>
 
-         {{comment.body}}
+            {{comment.body}}
+
+            <div class="trash-icon">
+              <i class="material-icons" (click)="delete(comment)">delete</i>
+            </div>
+          </div>
         </mat-card-content>
         <mat-card-footer>
           <div class="date">
-           <i> {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
-         </div>
+           <i> Submitted on {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
+          </div>
          </mat-card-footer>
       </mat-card><br>
     </li>

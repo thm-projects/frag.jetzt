@@ -31,14 +31,20 @@ export class CommentComponent implements OnInit {
     this.roomService.getRoom(id).subscribe(
       params => {
         this.getComments(params['id'], params['name']);
-      }
-    );
+      });
   }
 
   getComments(roomId: string, roomName: string): void {
     this.commentService.getComments(roomId)
       .subscribe(comments => this.comments = comments);
     this.notification.show(`All comments of room "${roomName}" loaded!`);
+  }
+
+  delete(comment: Comment): void {
+    this.comments = this.comments.filter(c => c !== comment);
+    this.commentService.deleteComment(comment).subscribe(room => {
+      this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
+    });
   }
 
   goBack(): void {

@@ -18,6 +18,11 @@ export class CommentService {
     return this.http.post<Comment>(this.commentsUrl, comment, httpOptions);
   }
 
+  deleteComment(comment: Comment): Observable<Comment> {
+    const url = `${this.commentsUrl}/${comment.id}`;
+    return this.http.delete<Comment>(url, httpOptions);
+  }
+
   getComments(roomId: string): Observable<Comment[]> {
     const url = `${this.commentsUrl}/?roomId=${roomId}`;
     return this.http.get<Comment[]>(url);
