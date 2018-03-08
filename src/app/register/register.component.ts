@@ -56,7 +56,9 @@ export class RegisterComponent implements OnInit {
   }
 
   register(username: string, password1: string, password2: string): void {
-    if (username && password1 && password2 && password1 === password2) {
+    if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
+      !this.password1FormControl.hasError('required') &&
+      !this.password2FormControl.hasError('required') && !this.password2FormControl.hasError('passwordIsEqual')) {
       this.authenticationService.register(username, password1).subscribe(result => {
         if (result) {
           this.notificationService.show('Successfully registered. Please check your mail!');
@@ -66,7 +68,7 @@ export class RegisterComponent implements OnInit {
         }
       });
     } else {
-      this.notificationService.show('Could not register. Please check your data.');
+      this.notificationService.show('Please fit the requirements shown above.');
     }
   }
 }
