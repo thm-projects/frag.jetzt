@@ -64,6 +64,7 @@ import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-s
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { CommentService } from './comment.service';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
+import { DataStoreService } from './data-store.service';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
     NotificationService,
     AuthenticationService,
     AuthenticationGuard,
+    DataStoreService,
     RoomService,
     CommentService
   ],
