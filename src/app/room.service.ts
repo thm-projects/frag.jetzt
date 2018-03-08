@@ -2,28 +2,40 @@ import { Injectable } from '@angular/core';
 import { Room } from './room';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import { catchError, tap } from 'rxjs/operators';
+import { ErrorHandlingService } from './error-handling.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
-export class RoomService {
+export class RoomService extends ErrorHandlingService {
   private roomsUrl = 'api/rooms';
 
   constructor(private http: HttpClient) {
+    super();
   }
 
   getRooms(): Observable<Room[]> {
-    return this.http.get<Room[]>(this.roomsUrl);
+    return this.http.get<Room[]>(this.roomsUrl).pipe(
+      tap (_ => ''),
+      catchError(this.handleError('getRooms', []))
+    );
   }
 
   addRoom(room: Room): Observable<Room> {
-    return this.http.post<Room>(this.roomsUrl, room, httpOptions);
+    return this.http.post<Room>(this.roomsUrl, room, httpOptions).pipe(
+     tap (_ => ''),
+     catchError(this.handleError<Room>('addRoom'))
+   );
   }
 
   getRoom(id: string): Observable<Room> {
     const url = `${this.roomsUrl}/${id}`;
-    return this.http.get<Room>(url);
+    return this.http.get<Room>(url).pipe(
+    tap (_ => ''),
+    catchError(this.handleError<Room>(`getRoom id=${id}`))
+  );
   }
 }
