@@ -8,7 +8,7 @@ export class ErrorHandlingService {
   constructor() {
   }
 
-  private handleError<T>(operation = 'operation', result?: T) {
+  public handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
       console.error(error);
