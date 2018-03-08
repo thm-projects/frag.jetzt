@@ -41,16 +41,16 @@ export class AuthenticationService {
     this.user = undefined;
   }
 
-  getUser(): Observable<User> {
-    return of(this.user);
+  getUser(): User {
+    return this.user;
   }
 
-  isLoggedIn(): Observable<boolean> {
-    return of(this.user !== undefined);
+  isLoggedIn(): boolean {
+    return this.user !== undefined;
   }
 
-  getRole(): Observable<UserRole> {
-    return of(this.user.role);
+  getRole(): UserRole {
+    return this.isLoggedIn() ? this.user.role : undefined;
   }
 
 }
