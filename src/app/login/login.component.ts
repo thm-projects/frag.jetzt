@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   @Input() public role: UserRole;
 
-  usernameFormControl = new FormControl('', [Validators.required]);
+  usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);
 
   matcher = new LoginErrorStateMatcher();
@@ -41,10 +41,11 @@ export class LoginComponent implements OnInit {
     username = username.trim();
     password = password.trim();
 
-    if (username !== '' && password !== '') {
+    if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
+      !this.passwordFormControl.hasError('required')) {
       this.authenticationService.login(username, password, this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
     } else {
-      this.notificationService.show('Login failed!');
+      this.notificationService.show('Please fit the requirements shown above.');
     }
   }
 
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['participant']);
       }
     } else {
-      this.notificationService.show('Login failed!');
+      this.notificationService.show('Username or password incorrect.');
     }
   }
 
