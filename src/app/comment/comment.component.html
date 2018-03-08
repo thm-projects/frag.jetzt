@@ -1,18 +1,20 @@
-<ol class ="ol">
-  <li *ngFor="let comment of comments">
-    <mat-card>
-      <mat-card-content>
-        <b>{{comment.subject}}</b><br>
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10">
+  <ol class ="ol">
+    <li *ngFor="let comment of comments">
+      <mat-card>
+        <mat-card-content>
+          <h3>{{comment.subject}}</h3><br>
 
-       {{comment.body}}
-      </mat-card-content>
-      <mat-card-footer>
-        <div class="date">
-         <i> {{comment.creationTimestamp}} </i>
-       </div>
-       </mat-card-footer>
-    </mat-card><br>
-  </li>
-</ol>
+         {{comment.body}}
+        </mat-card-content>
+        <mat-card-footer>
+          <div class="date">
+           <i> {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
+         </div>
+         </mat-card-footer>
+      </mat-card><br>
+    </li>
+  </ol>
+</div>
 
 <button mat-raised-button color="primary" (click)="goBack()">Back</button>
