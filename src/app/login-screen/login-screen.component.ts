@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { RegisterComponent } from '../register/register.component';
 import { PasswordResetComponent } from '../password-reset/password-reset.component';
+import { UserRole } from '../user-roles.enum';
 
 @Component({
   selector: 'app-login-screen',
@@ -9,6 +10,8 @@ import { PasswordResetComponent } from '../password-reset/password-reset.compone
   styleUrls: ['./login-screen.component.scss']
 })
 export class LoginScreenComponent implements OnInit {
+  // Make UserRole available to the template
+  UserRole = UserRole;
 
   constructor(public dialog: MatDialog) {
   }
