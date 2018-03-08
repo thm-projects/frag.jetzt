@@ -21,9 +21,7 @@ export class CreateCommentComponent implements OnInit {
     private roomService: RoomService,
     private commentService: CommentService,
     private location: Location,
-    private notification: NotificationService,
-    public dialogRef: MatDialogRef<CreateCommentComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    private notification: NotificationService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -48,7 +46,6 @@ export class CreateCommentComponent implements OnInit {
       creationTimestamp: new Date(Date.now())
     } as Comment).subscribe(room => {
       this.notification.show(`Comment '${subject}' successfully created.`);
-      this.dialogRef.close();
     });
   }
 
