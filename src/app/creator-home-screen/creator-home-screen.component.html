@@ -3,6 +3,13 @@
     <button mat-raised-button color="primary" (click)="openCreateRoomDialog()">Create new room</button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center">
-    <app-room-list></app-room-list>
+<!--    <app-room-list></app-room-list> -->
+    <mat-list>
+      <mat-list-item *ngFor="let room of rooms">
+        <button mat-button routerLink="room/{{room.id}}">
+          {{room.name}}
+        </button>
+      </mat-list-item>
+    </mat-list>
   </div>
 </div>

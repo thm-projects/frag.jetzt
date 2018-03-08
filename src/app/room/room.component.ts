@@ -11,8 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 export class RoomComponent implements OnInit {
   room: Room = null;
 
-  constructor(private roomService: RoomService,
-              private route: ActivatedRoute) {
+  constructor(protected roomService: RoomService,
+              protected route: ActivatedRoute) {
   }
 
   ngOnInit() {

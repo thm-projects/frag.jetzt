@@ -11,7 +11,7 @@ export class RoomListComponent implements OnInit {
   rooms: Room[];
   closedRooms: Room[];
 
-  constructor(private roomService: RoomService) {
+  constructor(protected roomService: RoomService) {
   }
 
   ngOnInit() {
