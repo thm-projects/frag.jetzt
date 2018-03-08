@@ -1,5 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
-  <mat-list fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center">
+  <div fxLayout="row" fxLayoutAlign="center">
+    <div fxLayoutGap="20px">
+    <mat-list fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center">
     <mat-list-item>Room: {{roomId}}</mat-list-item>
     <mat-list-item>
       <button mat-fab color="primary" routerLink="/room/{{roomId}}/create-comment">
@@ -16,4 +18,6 @@
       <button mat-raised-button color="primary">Comments</button>
     </mat-list-item>
   </mat-list>
+      </div>
+    </div>
 </div>
