@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-
 import { Room } from '../room';
 import { Comment } from '../comment';
 import { RoomService } from '../room.service';
