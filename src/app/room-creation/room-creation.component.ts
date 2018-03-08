@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { RoomService } from '../room.service';
 import { Room } from '../room';
 import { Router } from '@angular/router';
 import { NotificationService } from '../notification.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { RegisterComponent } from '../register/register.component';
 
 @Component({
   selector: 'app-room-creation',
@@ -15,7 +17,13 @@ export class RoomCreationComponent implements OnInit {
 
   constructor(private roomService: RoomService,
               private router: Router,
-              private notification: NotificationService) {
+              private notification: NotificationService,
+              public dialogRef: MatDialogRef<RoomCreationComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 
   ngOnInit() {
@@ -31,6 +39,7 @@ export class RoomCreationComponent implements OnInit {
       .subscribe(room => {
         this.notification.show(`room '${room.name}' successfully created.`);
         this.router.navigate([`room/${room.id}`]);
+        this.dialogRef.close();
       });
   }
 }

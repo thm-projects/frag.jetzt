@@ -87,7 +87,8 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
   ],
   entryComponents: [
     RegisterComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    RoomCreationComponent
   ],
   imports: [
     AppRoutingModule,
