@@ -66,6 +66,7 @@ import { CommentService } from './comment.service';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
 import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 import { DataStoreService } from './data-store.service';
+import { CreatorRoomComponent } from './creator-room/creator-room.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { DataStoreService } from './data-store.service';
     ParticipantHomeScreenComponent,
     CommentListComponent,
     ContentAnswersComponent,
-    ParticipantRoomComponent
+    ParticipantRoomComponent,
+    CreatorRoomComponent
   ],
   entryComponents: [
     RegisterComponent,
