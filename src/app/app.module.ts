@@ -62,6 +62,7 @@ import { RoomService } from './room.service';
 import { RoomListComponent } from './room-list/room-list.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
+import { CommentService } from './comment.service';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
 
 @NgModule({
@@ -137,7 +138,8 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
     NotificationService,
     AuthenticationService,
     AuthenticationGuard,
-    RoomService
+    RoomService,
+    CommentService
   ],
   bootstrap: [AppComponent]
 })
