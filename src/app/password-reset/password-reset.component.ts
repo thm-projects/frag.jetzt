@@ -36,7 +36,7 @@ export class PasswordResetComponent implements OnInit {
   resetPassword(username: string): void {
     username = username.trim();
 
-    if (username) {
+    if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email')) {
       this.authenticationService.resetPassword(username).subscribe(result => {
         if (result) {
           this.notificationService.show('Password was reset. Please check your mail!');
@@ -46,7 +46,7 @@ export class PasswordResetComponent implements OnInit {
         }
       });
     } else {
-      this.notificationService.show('Email address can not be empty.');
+      this.notificationService.show('Please fit the requirements shown above.');
     }
   }
 
