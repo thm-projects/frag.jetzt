@@ -42,7 +42,7 @@ export class CreateCommentComponent implements OnInit {
       roomId: this.room.id,
       subject: subject,
       body: body,
-      creationTimestamp: Date.now()
+      creationTimestamp: new Date(Date.now())
     } as Comment).subscribe();
   }
 

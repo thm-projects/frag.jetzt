@@ -1,9 +1,9 @@
 export class Comment {
   id: string;
   roomId: string;
-  revision: string;
+  revision?: string;
   subject: string;
   body: string;
-  read: boolean;
+  read?: boolean;
   creationTimestamp: Date;
 }
