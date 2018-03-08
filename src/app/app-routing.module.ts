@@ -9,6 +9,7 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
 import { AuthenticationGuard } from './authentication.guard';
 import { UserRole } from './user-roles.enum';
 import { ParticipantRoomComponent } from './participant-room/participant-room.component';
+import { CommentComponent } from './comment/comment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,6 +31,7 @@ const routes: Routes = [
     component: RoomComponent,
     canActivate: [AuthenticationGuard]
   },
+  { path: 'room/:roomId/comments', component: CommentComponent },
   { path: 'room/:roomId/create-comment',
     component: CreateCommentComponent,
     canActivate: [AuthenticationGuard],
