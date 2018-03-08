@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input, Inject} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Room } from '../room';
 import { Comment } from '../comment';
 import { RoomService } from '../room.service';
 import { CommentService} from '../comment.service';
+import { NotificationService } from '../notification.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-create-comment',
@@ -19,7 +21,9 @@ export class CreateCommentComponent implements OnInit {
     private roomService: RoomService,
     private commentService: CommentService,
     private location: Location,
-  ) { }
+    private notification: NotificationService,
+    public dialogRef: MatDialogRef<CreateCommentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -42,7 +46,10 @@ export class CreateCommentComponent implements OnInit {
       subject: subject,
       body: body,
       creationTimestamp: new Date(Date.now())
-    } as Comment).subscribe();
+    } as Comment).subscribe(room => {
+      this.notification.show(`Comment '${subject}' successfully created.`);
+      this.dialogRef.close();
+    });
   }
 
   goBack(): void {
