@@ -24,7 +24,7 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const rooms = [
       {
-        id: 'test',
+        id: '1',
         revision: '1',
         shortId: 't',
         abbreviation: 'abb',
@@ -33,7 +33,7 @@ export class InMemoryDataService implements InMemoryDbService {
         closed: true
       },
       {
-        id: 'test1',
+        id: '2',
         revision: '11',
         shortId: 't1',
         abbreviation: 'abb1',

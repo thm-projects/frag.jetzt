@@ -1,20 +1,23 @@
-<mat-form-field>
-  <input matInput #longRoomName class="input-block" type="text" placeholder="name" maxlength="50" [(ngModel)]="longName"/>
-  <mat-hint align="start"><strong>max. letters / signs:</strong> </mat-hint>
-  <mat-hint align="end">{{longRoomName.value.length}} / 50</mat-hint>
-  <button mat-button *ngIf="longName" matSuffix mat-icon-button aria-label="Clear" (click)="longName=''">
-    <mat-icon>close</mat-icon>
-  </button>
-</mat-form-field>
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+  <mat-form-field>
+    <input matInput #longRoomName class="input-block" type="text" placeholder="Name" maxlength="50"
+           [(ngModel)]="longName"/>
+    <mat-hint align="start"><strong>Max. letters / signs:</strong></mat-hint>
+    <mat-hint align="end">{{longRoomName.value.length}} / 50</mat-hint>
+    <button mat-button *ngIf="longName" matSuffix mat-icon-button aria-label="Clear" (click)="longName=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
 
-<mat-form-field>
-  <input matInput #shortRoomName class="input-block" type="text" placeholder="short name" maxlength="8" [(ngModel)]="shortName"/>
-  <mat-hint align="start"><strong>max. letters / signs:</strong> </mat-hint>
-  <mat-hint align="end">{{shortRoomName.value.length}} / 8</mat-hint>
-  <button mat-button *ngIf="shortName" matSuffix mat-icon-button aria-label="Clear" (click)="shortName=''">
-    <mat-icon>close</mat-icon>
+  <mat-form-field>
+    <input matInput #shortRoomName class="input-block" type="text" placeholder="Short name" maxlength="8"
+           [(ngModel)]="shortName"/>
+    <mat-hint align="start"><strong>Max. letters / signs:</strong></mat-hint>
+    <mat-hint align="end">{{shortRoomName.value.length}} / 8</mat-hint>
+    <button mat-button *ngIf="shortName" matSuffix mat-icon-button aria-label="Clear" (click)="shortName=''">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="addRoom(longRoomName.value, shortRoomName.value)">Create room
   </button>
-</mat-form-field>
-<button mat-fab color="primary">
-  <mat-icon>navigate_next</mat-icon>
-</button>
+</div>

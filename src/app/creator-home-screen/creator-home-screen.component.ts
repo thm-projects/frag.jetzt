@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
+import { RoomCreationComponent } from '../room-creation/room-creation.component';
 
 @Component({
   selector: 'app-creator-home-screen',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreatorHomeScreenComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
   }
 
+  openCreateRoomDialog(): void {
+    this.dialog.open(RoomCreationComponent, {
+      width: '350px'
+    });
+  }
 }
