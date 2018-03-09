@@ -12,7 +12,7 @@ import {UserRole} from '../user-roles.enum';
 export class RoomListComponent implements OnInit {
   rooms: Room[];
   closedRooms: Room[];
-  role: string;
+  baseUrl: string;
 
   constructor(
     private roomService: RoomService,
@@ -25,9 +25,9 @@ export class RoomListComponent implements OnInit {
 
   getPath() {
     if (this.authenticationService.getRole() == UserRole.CREATOR) {
-      this.role = 'creator';
+      this.baseUrl = 'creator';
     } else {
-      this.role = 'participant';
+      this.baseUrl = 'participant';
     }
   }
 
