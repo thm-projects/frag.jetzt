@@ -10,7 +10,6 @@ import { AuthenticationGuard } from './authentication.guard';
 import { UserRole } from './user-roles.enum';
 import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 import { CreatorRoomComponent } from './creator-room/creator-room.component';
-import { CommentComponent } from './comment/comment.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 
 const routes: Routes = [
