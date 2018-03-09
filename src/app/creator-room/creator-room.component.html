@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+<div *ngIf="room" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <div fxLayoutGap="20px">
       <mat-list-item>Room: {{room.name}}</mat-list-item>
