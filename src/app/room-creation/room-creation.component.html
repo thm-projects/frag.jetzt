@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="addRoom(longRoomName.value, shortRoomName.value)">
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
   <mat-form-field>
     <input matInput #longRoomName class="input-block" type="text" placeholder="Name" maxlength="50"
@@ -19,7 +19,7 @@
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="addRoom(longRoomName.value, shortRoomName.value)">Create room
+  <button mat-raised-button color="primary" type="submit">Create room
   </button>
 </div>
 </form>
