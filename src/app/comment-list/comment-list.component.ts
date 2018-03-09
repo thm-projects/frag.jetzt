@@ -37,7 +37,6 @@ export class CommentListComponent implements OnInit {
   getComments(roomId: string, roomName: string): void {
     this.commentService.getComments(roomId)
       .subscribe(comments => this.comments = comments);
-    this.notification.show(`All comments of room "${roomName}" loaded!`);
   }
 
   delete(comment: Comment): void {
