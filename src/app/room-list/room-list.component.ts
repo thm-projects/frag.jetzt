@@ -24,7 +24,7 @@ export class RoomListComponent implements OnInit {
   }
 
   getPath() {
-    if (this.authenticationService.getRole() == UserRole.CREATOR) {
+    if (this.authenticationService.getRole() === UserRole.CREATOR) {
       this.baseUrl = 'creator';
     } else {
       this.baseUrl = 'participant';
