@@ -10,8 +10,6 @@ import { Room } from '../room';
   styleUrls: ['./creator-home-screen.component.scss']
 })
 export class CreatorHomeScreenComponent implements OnInit {
-  creatorRooms: Room[];
-
   constructor(public dialog: MatDialog) {
   }
 
