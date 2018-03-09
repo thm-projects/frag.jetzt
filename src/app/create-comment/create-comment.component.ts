@@ -46,7 +46,7 @@ export class CreateCommentComponent implements OnInit {
       body: body,
       creationTimestamp: new Date(Date.now())
     } as Comment).subscribe(room => {
-      this.router.navigate([`room/${this.room.id}`]);
+      this.router.navigate([`/participant/room/${this.room.id}`]);
       this.notification.show(`Comment '${subject}' successfully created.`);
     });
   }
