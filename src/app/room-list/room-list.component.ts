@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { RoomService } from '../room.service';
+import { AuthenticationService} from '../authentication.service';
+import {UserRole} from '../user-roles.enum';
 
 @Component({
   selector: 'app-room-list',
@@ -10,12 +12,23 @@ import { RoomService } from '../room.service';
 export class RoomListComponent implements OnInit {
   rooms: Room[];
   closedRooms: Room[];
+  baseUrl: string;
 
-  constructor(protected roomService: RoomService) {
-  }
+  constructor(
+    private roomService: RoomService,
+    protected authenticationService: AuthenticationService) {}
 
   ngOnInit() {
     this.getRooms();
+    this.getPath();
+  }
+
+  getPath() {
+    if (this.authenticationService.getRole() === UserRole.CREATOR) {
+      this.baseUrl = 'creator';
+    } else {
+      this.baseUrl = 'participant';
+    }
   }
 
   getRooms(): void {

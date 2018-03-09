@@ -12,7 +12,7 @@
       {{ room.description }}
     </p>
     <mat-action-row>
-      <button mat-button routerLink="room/{{ room.id }}">Join room</button>
+      <button mat-button routerLink="/{{ baseUrl }}/room/{{ room.id }}">Join room</button>
     </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>

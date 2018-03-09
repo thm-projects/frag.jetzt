@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
-import { RoomComponent } from './room/room.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
@@ -10,7 +9,6 @@ import { AuthenticationGuard } from './authentication.guard';
 import { UserRole } from './user-roles.enum';
 import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 import { CreatorRoomComponent } from './creator-room/creator-room.component';
-import { CommentComponent } from './comment/comment.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
 
 const routes: Routes = [
@@ -29,8 +27,8 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'room/:roomId',
-    component: RoomComponent,
+    path: 'creator/room/:roomId',
+    component: CreatorRoomComponent,
     canActivate: [AuthenticationGuard]
   },
   {
@@ -39,12 +37,12 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'room/:roomId/comments',
+    path: 'creator/room/:roomId/comments',
     component: CommentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
-  { path: 'room/:roomId/create-comment',
+  { path: 'participant/room/:roomId/create-comment',
     component: CreateCommentComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }

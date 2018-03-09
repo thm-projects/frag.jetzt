@@ -1,4 +1,3 @@
-
 <mat-list *ngIf="room">
   <mat-list-item>ID: {{room.id}}</mat-list-item>
   <mat-list-item>Revision: {{room.revision}}</mat-list-item>
@@ -7,14 +6,6 @@
   <mat-list-item>Name: {{room.name}}</mat-list-item>
   <mat-list-item>Description: {{room.description}}</mat-list-item>
   <mat-list-item>Closed: {{room.closed}}</mat-list-item>
-
-  <button mat-button routerLink="/room/{{room.id}}/create-comment">
-    Create comment <!-- Only for participant -->
-  </button>
-
-  <button mat-button routerLink="/room/{{room.id}}/comments">
-    Visit comments <!-- Only for creator -->
-  </button>
 </mat-list>
 
 <!-- content-type of room-->
