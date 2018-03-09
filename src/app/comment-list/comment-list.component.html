@@ -1,0 +1,24 @@
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10">
+  <div *ngFor="let comment of comments">
+    <mat-card>
+      <mat-card-content>
+        <div class="comment-body">
+          <h3>{{comment.subject}}</h3><br>
+
+          {{comment.body}}
+
+          <div class="trash-icon">
+            <i class="material-icons" (click)="delete(comment)">delete</i>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-footer>
+        <div class="date">
+          <i> Submitted on {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
+        </div>
+      </mat-card-footer>
+    </mat-card><br>
+  </div>
+</div>
+
+<button mat-raised-button color="primary" (click)="goBack()">Back</button>
