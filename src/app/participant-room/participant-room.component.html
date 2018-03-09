@@ -2,13 +2,13 @@
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-card>
       <mat-card-header>
-        <mat-card-title><h3 class="subheading-2">{{ roomName }}</h3></mat-card-title>
-        <mat-card-subtitle>{{ roomId }}</mat-card-subtitle>
+        <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
+        <mat-card-subtitle>{{ room.shortId }}</mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content>
         <p>
-          {{ roomDescription }}
+          {{ room.description }}
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>

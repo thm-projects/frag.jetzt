@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { Location } from '@angular/common';
+import { RoomService } from '../room.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-participant-room',
@@ -19,13 +21,24 @@ export class ParticipantRoomComponent implements OnInit {
     'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea ' +
     'rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
 
-  constructor(private location: Location) {
+  constructor(private location: Location,
+              private roomService: RoomService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.getRoom(params['roomId']);
+    });
   }
 
-  goBack() {
+  getRoom(id: string): void {
+    this.roomService.getRoom(id)
+      .subscribe(room => this.room = room);
+  }
+
+
+  goBack(): void {
     this.location.back();
   }
 }

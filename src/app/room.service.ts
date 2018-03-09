@@ -34,8 +34,7 @@ export class RoomService extends ErrorHandlingService {
   getRoom(id: string): Observable<Room> {
     const url = `${this.roomsUrl}/${id}`;
     return this.http.get<Room>(url).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<Room>(`getRoom id=${id}`))
-    );
+    catchError(this.handleError<Room>(`getRoom id=${id}`))
+  );
   }
 }
