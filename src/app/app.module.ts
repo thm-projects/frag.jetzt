@@ -64,6 +64,7 @@ import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-s
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { CommentService } from './comment.service';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
+import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 import { DataStoreService } from './data-store.service';
 
 @NgModule({
@@ -85,7 +86,8 @@ import { DataStoreService } from './data-store.service';
     CreateCommentComponent,
     ParticipantHomeScreenComponent,
     CommentComponent,
-    ContentAnswersComponent
+    ContentAnswersComponent,
+    ParticipantRoomComponent
   ],
   entryComponents: [
     RegisterComponent,

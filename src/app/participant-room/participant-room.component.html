@@ -1,0 +1,34 @@
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title><h3 class="subheading-2">{{ roomName }}</h3></mat-card-title>
+        <mat-card-subtitle>{{ roomId }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <p>
+          {{ roomDescription }}
+        </p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button mat-icon-button color="primary" matTooltip="Ask something" routerLink="/room/{{roomId}}/create-comment">
+          <mat-icon>question_answer</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Give feedback">
+          <mat-icon>feedback</mat-icon>
+        </button>
+        <button mat-button color="primary" matTooltip="Join question round">
+          Questions
+        </button>
+        <button mat-button color="primary" matTooltip="See room comments">
+          Comments
+        </button>
+        <button mat-button color="primary" matTooltip="Start personal question round">
+          Learn
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
