@@ -25,20 +25,29 @@ export class InMemoryDataService implements InMemoryDbService {
     const rooms = [
       {
         id: '1',
-        revision: '1',
-        shortId: 't',
+        revision: '10',
+        shortId: '12345678',
         abbreviation: 'abb',
-        name: 'testroom',
-        description: 'this is a test room',
+        name: 'ARSnova Testroom',
+        description: 'Refactoring ARSnova to look and feel good',
         closed: true
       },
       {
         id: '2',
         revision: '11',
-        shortId: 't1',
+        shortId: '23456789',
         abbreviation: 'abb1',
-        name: 'testroom1',
-        description: 'this is a test room1',
+        name: 'Darkroom',
+        description: 'Here is where the 18+ stuff happens',
+        closed: false
+      },
+      {
+        id: '3',
+        revision: '11',
+        shortId: '34567890',
+        abbreviation: 'abb1',
+        name: 'Keller',
+        description: 'This is where the beer stehs',
         closed: false
       }
     ];

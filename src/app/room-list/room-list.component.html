@@ -1,8 +1,18 @@
-<mat-list>
-  <mat-list-item *ngFor="let room of rooms">
-    <button mat-button routerLink="room/{{room.id}}">
-      {{room.name}}
-    </button>
-  </mat-list-item>
-</mat-list>
-
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let room of rooms">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{ room.shortId }}
+      </mat-panel-title>
+      <mat-panel-description>
+        {{ room.name }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>
+      {{ room.description }}
+    </p>
+    <mat-action-row>
+      <button mat-button routerLink="/room/{{ room.id }}">Join room</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+</mat-accordion>
