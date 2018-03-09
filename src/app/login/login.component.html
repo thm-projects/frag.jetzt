@@ -14,7 +14,7 @@
     <mat-error *ngIf="passwordFormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
   </mat-form-field>
 
-  <button mat-raised-button color="primary" (click)="login(userEmail.value, userPassword.value)">Login</button>
+  <button mat-raised-button color="primary" type="submit">Login</button>
   <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="guestLogin()">Login as
     guest
   </button>
