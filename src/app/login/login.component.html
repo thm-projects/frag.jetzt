@@ -3,17 +3,16 @@
   <mat-form-field class="input-block">
     <input matInput #userEmail placeholder="E-mail" [formControl]="usernameFormControl" [errorStateMatcher]="matcher"
            name="username"/>
-    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">Please enter a <strong>valid</strong> e-mail address.
+    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">Please enter a
+      <strong>valid</strong> e-mail address.
     </mat-error>
     <mat-error *ngIf="usernameFormControl.hasError('required')">E-mail is <strong>required</strong>.</mat-error>
   </mat-form-field>
-
   <mat-form-field class="input-block">
     <input matInput #userPassword type="password" placeholder="Password" [formControl]="passwordFormControl"
            [errorStateMatcher]="matcher" name="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
   </mat-form-field>
-
   <button mat-raised-button color="primary" type="submit">Login</button>
   <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="guestLogin()">Login as
     guest

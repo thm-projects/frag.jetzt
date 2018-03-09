@@ -28,6 +28,7 @@ export class RoomCreationComponent implements OnInit {
 
   ngOnInit() {
   }
+
   resetEmptyInputs(): void {
     this.emptyInputs = false;
   }
