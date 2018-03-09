@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ParticipantRoomComponent implements OnInit {
 
   room: Room;
+  isLoading = true;
 
   constructor(private location: Location,
               private roomService: RoomService,
@@ -26,7 +27,10 @@ export class ParticipantRoomComponent implements OnInit {
 
   getRoom(id: string): void {
     this.roomService.getRoom(id)
-      .subscribe(room => this.room = room);
+      .subscribe(room => {
+        this.room = room;
+        this.isLoading = false;
+      });
   }
 
 

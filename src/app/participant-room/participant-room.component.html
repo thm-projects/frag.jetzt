@@ -1,6 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card>
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+    <mat-card *ngIf="room">
       <mat-card-header>
         <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
         <mat-card-subtitle>{{ room.shortId }}</mat-card-subtitle>
@@ -13,7 +14,7 @@
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-icon-button color="primary" matTooltip="Ask something" routerLink="/room/{{roomId}}/create-comment">
+        <button mat-icon-button color="primary" matTooltip="Ask something" routerLink="room/{{room.id}}/create-comment">
           <mat-icon>question_answer</mat-icon>
         </button>
         <button mat-icon-button color="primary" matTooltip="Give feedback">
@@ -30,6 +31,9 @@
         </button>
       </mat-card-actions>
     </mat-card>
+    <div *ngIf="!isLoading && !room">
+       Error: room could not be found!
+    </div>
   </div>
   <button mat-button color="primary" (click)="goBack()">Back</button>
 </div>
