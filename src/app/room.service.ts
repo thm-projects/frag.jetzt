@@ -37,4 +37,14 @@ export class RoomService extends ErrorHandlingService {
     catchError(this.handleError<Room>(`getRoom id=${id}`))
   );
   }
+
+  deleteRoom (room: Room | number): Observable<Room> {
+    const id = typeof room === 'number' ? room : room.id;
+    const url = `${this.roomsUrl}/${id}`;
+
+    return this.http.delete<Room>(url, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Room>('deleteRoom'))
+    );
+  }
 }

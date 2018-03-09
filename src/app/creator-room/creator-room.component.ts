@@ -15,8 +15,8 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
-              private location: Location) {
-    super(roomService, route);
+              protected location: Location) {
+    super(roomService, route, location);
   }
 
   ngOnInit() {
