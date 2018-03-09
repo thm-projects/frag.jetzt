@@ -13,6 +13,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 export class RoomCreationComponent implements OnInit {
   longName: string;
   shortName: string;
+  emptyInputs = false;
 
   constructor(private roomService: RoomService,
               private router: Router,
@@ -27,11 +28,15 @@ export class RoomCreationComponent implements OnInit {
 
   ngOnInit() {
   }
+  resetEmptyInputs(): void {
+    this.emptyInputs = false;
+  }
 
   addRoom(longRoomName: string, shortRoomName: string) {
     longRoomName = longRoomName.trim();
     shortRoomName = shortRoomName.trim();
     if (!longRoomName || !shortRoomName) {
+      this.emptyInputs = true;
       return;
     }
     this.roomService.addRoom({ name: longRoomName, abbreviation: shortRoomName } as Room)
