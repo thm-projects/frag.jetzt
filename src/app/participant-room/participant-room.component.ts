@@ -33,7 +33,6 @@ export class ParticipantRoomComponent implements OnInit {
       });
   }
 
-
   goBack(): void {
     this.location.back();
   }
