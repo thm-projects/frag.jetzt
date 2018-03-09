@@ -8,11 +8,7 @@
   <mat-list-item>Description: {{room.description}}</mat-list-item>
   <mat-list-item>Closed: {{room.closed}}</mat-list-item>
 
-  <button mat-button routerLink="/room/{{room.id}}/create-comment">
-    Create comment <!-- Only for participant -->
-  </button>
-
-  <button mat-button routerLink="/room/{{room.id}}/comments">
+  <button mat-button routerLink="/creator/room/{{room.id}}/comments">
     Visit comments <!-- Only for creator -->
   </button>
 </mat-list>

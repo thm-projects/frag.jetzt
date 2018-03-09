@@ -29,7 +29,7 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'room/:roomId',
+    path: 'creator/room/:roomId',
     component: RoomComponent,
     canActivate: [AuthenticationGuard]
   },
@@ -39,7 +39,7 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard]
   },
   {
-    path: 'room/:roomId/comments',
+    path: 'creator/room/:roomId/comments',
     component: CommentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
