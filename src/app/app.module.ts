@@ -8,7 +8,7 @@ import { JoinRoomComponent } from './join-room/join-room.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
-import { CommentComponent } from './comment/comment.component';
+import { CommentListComponent } from './comment-list/comment-list.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -85,7 +85,7 @@ import { DataStoreService } from './data-store.service';
     CreatorHomeScreenComponent,
     CreateCommentComponent,
     ParticipantHomeScreenComponent,
-    CommentComponent,
+    CommentListComponent,
     ContentAnswersComponent,
     ParticipantRoomComponent
   ],

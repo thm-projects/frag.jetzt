@@ -7,11 +7,11 @@ import { RoomService } from '../room.service';
 import { NotificationService } from '../notification.service';
 
 @Component({
-  selector: 'app-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  selector: 'app-comment-list',
+  templateUrl: './comment-list.component.html',
+  styleUrls: ['./comment-list.component.scss']
 })
-export class CommentComponent implements OnInit {
+export class CommentListComponent implements OnInit {
   comments: Comment[];
 
   constructor(
