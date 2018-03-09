@@ -37,7 +37,7 @@ export class RoomCreationComponent implements OnInit {
     this.roomService.addRoom({ name: longRoomName, abbreviation: shortRoomName } as Room)
       .subscribe(room => {
         this.notification.show(`Room '${room.name}' successfully created.`);
-        this.router.navigate([`creator/room/${room.id}`]);
+        this.router.navigate([`/creator/room/${room.id}`]);
         this.dialogRef.close();
       });
   }
