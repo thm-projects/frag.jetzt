@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
-import { RoomComponent } from './room/room.component';
 import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
 import { CreateCommentComponent } from './create-comment/create-comment.component';
 import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
@@ -29,7 +28,7 @@ const routes: Routes = [
   },
   {
     path: 'creator/room/:roomId',
-    component: RoomComponent,
+    component: CreatorRoomComponent,
     canActivate: [AuthenticationGuard]
   },
   {
