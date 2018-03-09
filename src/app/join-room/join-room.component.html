@@ -1,6 +1,10 @@
 <form>
-  <mat-form-field class="input-block">
-    <input matInput placeholder="Room-Id" />
-  </mat-form-field>
-  <button mat-raised-button color="primary">Join</button>
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+    <mat-form-field class="input-block">
+      <input matInput #roomId placeholder="Room-Id"/>
+    </mat-form-field>
+    <button mat-fab color="primary" routerLink="room/{{ roomId.value }}">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
 </form>
