@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
           this.notificationService.show('Successfully registered. Please check your mail!');
           this.dialogRef.close();
         } else {
-          this.notificationService.show('ARSnova backend failed (badly).');
+          this.notificationService.show('Oops! Something went wrong on our side...');
         }
       });
     } else {
