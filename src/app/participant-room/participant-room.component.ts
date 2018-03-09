@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Room } from '../room';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-participant-room',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./participant-room.component.scss']
 })
 export class ParticipantRoomComponent implements OnInit {
+
+  room: Room;
 
   roomId = '12 34 56 78';
   roomName = 'Test Room';
@@ -15,10 +19,13 @@ export class ParticipantRoomComponent implements OnInit {
     'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea ' +
     'rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.';
 
-  constructor() {
+  constructor(private location: Location) {
   }
 
   ngOnInit() {
   }
 
+  goBack() {
+    this.location.back();
+  }
 }
