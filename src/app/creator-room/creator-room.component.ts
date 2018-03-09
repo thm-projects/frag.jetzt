@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 })
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
+
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
               private location: Location) {
@@ -23,6 +24,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
       this.getRoom(params['roomId']);
     });
   }
+
   goBack(): void {
     this.location.back();
   }

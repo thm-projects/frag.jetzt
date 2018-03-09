@@ -19,23 +19,23 @@ export class RoomService extends ErrorHandlingService {
 
   getRooms(): Observable<Room[]> {
     return this.http.get<Room[]>(this.roomsUrl).pipe(
-      tap (_ => ''),
+      tap(_ => ''),
       catchError(this.handleError('getRooms', []))
     );
   }
 
   addRoom(room: Room): Observable<Room> {
     return this.http.post<Room>(this.roomsUrl, room, httpOptions).pipe(
-     tap (_ => ''),
-     catchError(this.handleError<Room>('addRoom'))
-   );
+      tap(_ => ''),
+      catchError(this.handleError<Room>('addRoom'))
+    );
   }
 
   getRoom(id: string): Observable<Room> {
     const url = `${this.roomsUrl}/${id}`;
     return this.http.get<Room>(url).pipe(
-    tap (_ => ''),
-    catchError(this.handleError<Room>(`getRoom id=${id}`))
-  );
+      tap(_ => ''),
+      catchError(this.handleError<Room>(`getRoom id=${id}`))
+    );
   }
 }
