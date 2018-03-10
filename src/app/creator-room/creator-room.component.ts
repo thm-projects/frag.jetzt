@@ -15,6 +15,9 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
   modify = false;
   deleteDialog = false;
+  roomName: string;
+  roomShortId: string;
+  roomDescription: string;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -34,13 +37,26 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   }
 
   enableModifications(): void {
+    this.roomName = this.room.name;
+    this.roomShortId = this.room.shortId;
+    this.roomDescription = this.room.description;
     this.modify = true;
   }
 
-  updateRoom(roomName: string, roomShortID: string, roomDescription: string): void {
-    console.log(roomName);
-    console.log(roomShortID);
-    console.log(roomDescription);
+  disableModifications(): void {
+    this.modify = false;
+  }
+
+  updateRoom(): void {
+    if ((this.roomName === this.room.name) &&
+      (this.roomShortId === this.room.shortId) &&
+      (this.roomDescription === this.room.description)
+    ) {
+      return;
+    } else {
+      this.roomService.updateRoom(this.room)
+        .subscribe(() => this.goBack());
+    }
   }
   showDeletionDialog(): void {
     this.deleteDialog = true;

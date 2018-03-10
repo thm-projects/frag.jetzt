@@ -3,35 +3,18 @@
     <mat-card *ngIf="room && !deleteDialog && !modify">
       <mat-card-header>
         <mat-card-title>
-          <h3 *ngIf="!modify" class="subheading-2">{{ room.name }}</h3>
-          <mat-form-field *ngIf="modify">
-            <textarea #roomName matInput matTextareaAutosize matAutosizeMinRows="1"
-                      matAutosizeMaxRows="2">{{room.name}}</textarea>
-          </mat-form-field>
+          <h3 class="subheading-2">{{ room.name }}</h3>
         </mat-card-title>
         <mat-card-subtitle>
-          <div *ngIf="!modify">
+          <div>
             {{ room.shortId }}
-          </div>
-          <div *ngIf="modify">
-            <mat-form-field>
-            <textarea #roomShortID matInput matTextareaAutosize matAutosizeMinRows="1"
-                      matAutosizeMaxRows="5">{{room.shortId}}</textarea>
-            </mat-form-field>
           </div>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content>
-        <p *ngIf="!modify">
+        <p>
           {{ room.description }}
-        </p>
-        <p *ngIf="modify">
-          <mat-form-field>
-            <textarea #roomDescription matInput matTextareaAutosize matAutosizeMinRows="2"
-                      matAutosizeMaxRows="5">{{room.description}}</textarea>
-          </mat-form-field>
-
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -46,7 +29,8 @@
                 routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
-        <button *ngIf="!modify" (click)="enableModifications()" mat-button color="primary" matTooltip="Modify room's details">
+        <button *ngIf="!modify" (click)="enableModifications()" mat-button color="primary"
+                matTooltip="Modify room's details">
           Modify room
         </button>
         <button *ngIf="modify" (click)="updateRoom(roomName.valueOf(), roomShortID.valueOf(), roomDescription.valueOf())" mat-button color="primary" matTooltip="Update room's details">
@@ -57,6 +41,32 @@
         </button>
         <button mat-button color="primary" (click)="goBack()">
           Go back
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="modify && room">
+      <mat-card-header>
+        <h3>Modify properties</h3>
+      </mat-card-header>
+      <mat-card-content fxLayout="column">
+        <mat-form-field *ngIf="modify">
+          <input [(ngModel)]="room.name" #roomName matInput/>
+        </mat-form-field>
+        <mat-form-field>
+          <input [(ngModel)]="room.shortId" #roomShortID matInput/>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea [(ngModel)]="room.description" #roomDescription matInput matTextareaAutosize
+                      matAutosizeMinRows="2"
+                      matAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="disableModifications()" mat-button color="primary" matTooltip="Leave room modification">
+          Leave
+        </button>
+        <button (click)="updateRoom()" mat-button color="primary" matTooltip="Update room's details">
+          Update
         </button>
       </mat-card-actions>
     </mat-card>
