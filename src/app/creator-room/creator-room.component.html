@@ -1,15 +1,37 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
-    <mat-card *ngIf="room && !deleteDialog">
+    <mat-card *ngIf="room && !deleteDialog && !modify">
       <mat-card-header>
-        <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
-        <mat-card-subtitle>{{ room.id }}</mat-card-subtitle>
+        <mat-card-title>
+          <h3 *ngIf="!modify" class="subheading-2">{{ room.name }}</h3>
+          <mat-form-field *ngIf="modify">
+            <textarea #roomName matInput matTextareaAutosize matAutosizeMinRows="1"
+                      matAutosizeMaxRows="2">{{room.name}}</textarea>
+          </mat-form-field>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div *ngIf="!modify">
+            {{ room.shortId }}
+          </div>
+          <div *ngIf="modify">
+            <mat-form-field>
+            <textarea #roomShortID matInput matTextareaAutosize matAutosizeMinRows="1"
+                      matAutosizeMaxRows="5">{{room.shortId}}</textarea>
+            </mat-form-field>
+          </div>
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content>
-        <p>
+        <p *ngIf="!modify">
           {{ room.description }}
+        </p>
+        <p *ngIf="modify">
+          <mat-form-field>
+            <textarea #roomDescription matInput matTextareaAutosize matAutosizeMinRows="2"
+                      matAutosizeMaxRows="5">{{room.description}}</textarea>
+          </mat-form-field>
+
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
@@ -23,6 +45,12 @@
         <button mat-button color="primary" matTooltip="See room comments"
                 routerLink="/creator/room/{{room.id}}/comments">
           Comments
+        </button>
+        <button *ngIf="!modify" (click)="enableModifications()" mat-button color="primary" matTooltip="Modify room's details">
+          Modify room
+        </button>
+        <button *ngIf="modify" (click)="updateRoom()" mat-button color="primary" matTooltip="Update room's details">
+          Update room
         </button>
         <button mat-button color="warn" (click)="showDeletionDialog()">
           Delete room
