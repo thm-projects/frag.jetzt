@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
-    <mat-card *ngIf="room">
+    <mat-card *ngIf="room && !deleteDialog">
       <mat-card-header>
         <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
         <mat-card-subtitle>{{ room.id }}</mat-card-subtitle>
@@ -20,16 +20,29 @@
         <button mat-button color="primary" matTooltip="See contents">
           Contents
         </button>
-        <button mat-button color="primary" matTooltip="See room comments" routerLink="/creator/room/{{room.id}}/comments">
+        <button mat-button color="primary" matTooltip="See room comments"
+                routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
-        <button mat-button color="warn" matTooltip="Delete selected room" (click)="delete(room)">
+        <button mat-button color="warn" matTooltip="Enables deletion dialog" (click)="enableDeletion()">
           Delete room
         </button>
         <button mat-button color="primary" matTooltip="Go back to last page" (click)="goBack()">
           Go back
         </button>
       </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="deleteDialog">
+      <mat-card-header><h3>Do you really want to delete this room?<br>This action can not be undone.</h3>
+      </mat-card-header>
+      <mat-card-content>
+        <button mat-raised-button color="warn" matTooltip="Delete selected room" (click)="delete(room)">
+          Delete room
+        </button>
+        <button mat-raised-button color="primary" matTooltip="Leave delete dialog" (click)="disableDeletion()">
+          Leave
+        </button>
+      </mat-card-content>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
   </div>

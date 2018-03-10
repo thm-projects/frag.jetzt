@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 })
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
+  deleteDialog = false;
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -27,6 +28,14 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
+  }
+
+  enableDeletion(): void {
+    this.deleteDialog = true;
+  }
+
+  disableDeletion(): void {
+    this.deleteDialog = false;
   }
 
 }
