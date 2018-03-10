@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card *ngIf="room && !deleteDialog && !modify">
+    <mat-card *ngIf="room && !modify && !deleteDialog" class="input-formular">
       <mat-card-header>
         <mat-card-title>
           <h3 class="subheading-2">{{ room.name }}</h3>
@@ -44,7 +44,7 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="modify && room">
+    <mat-card *ngIf="modify && room" class="input-formular">
       <mat-card-header>
         <h3>Modify properties</h3>
       </mat-card-header>
