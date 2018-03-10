@@ -52,8 +52,10 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
       (this.roomShortId === this.room.shortId) &&
       (this.roomDescription === this.room.description)
     ) {
+      this.notification.show('No changes');
       return;
     } else {
+      this.notification.show('Properties changed');
       this.roomService.updateRoom(this.room)
         .subscribe(() => this.goBack());
     }
