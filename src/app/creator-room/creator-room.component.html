@@ -49,7 +49,7 @@
         <button *ngIf="!modify" (click)="enableModifications()" mat-button color="primary" matTooltip="Modify room's details">
           Modify room
         </button>
-        <button *ngIf="modify" (click)="updateRoom()" mat-button color="primary" matTooltip="Update room's details">
+        <button *ngIf="modify" (click)="updateRoom(roomName.valueOf(), roomShortID.valueOf(), roomDescription.valueOf())" mat-button color="primary" matTooltip="Update room's details">
           Update room
         </button>
         <button mat-button color="warn" (click)="showDeletionDialog()">
