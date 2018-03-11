@@ -10,6 +10,9 @@ import { UserRole } from './user-roles.enum';
 import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 import { CreatorRoomComponent } from './creator-room/creator-room.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
+import { ContentListComponent } from './content-list/content-list.component';
+import { ContentCreationComponent } from './content-creation/content-creation.component';
+import { ContentDetailComponent } from './content-detail/content-detail.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -39,6 +42,24 @@ const routes: Routes = [
   {
     path: 'creator/room/:roomId/comments',
     component: CommentListComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'creator/room/:roomId/content-creation',
+    component: ContentCreationComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'creator/room/:roomId/content-list',
+    component: ContentListComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'creator/room/:roomId/content-list/:id',
+    component: ContentDetailComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },

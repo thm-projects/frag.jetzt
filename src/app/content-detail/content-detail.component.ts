@@ -4,15 +4,15 @@ import { ContentService } from '../content.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-content',
-  templateUrl: './content.component.html',
-  styleUrls: ['./content.component.scss']
+  selector: 'app-content-detail',
+  templateUrl: './content-detail.component.html',
+  styleUrls: ['./content-detail.component.scss']
 })
 export class ContentDetailComponent implements OnInit {
   content: Content = null;
 
   constructor(
-    private contentCreationService: ContentService,
+    private contentService: ContentService,
     private route: ActivatedRoute
   ) { }
 
@@ -23,7 +23,7 @@ export class ContentDetailComponent implements OnInit {
   }
 
   getContent(id: string): void {
-    this.contentCreationService.getContent(id)
+    this.contentService.getContent(id)
       .subscribe(content => this.content = content);
   }
 }

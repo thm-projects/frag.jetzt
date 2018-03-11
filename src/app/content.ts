@@ -1,4 +1,4 @@
-enum Format {
+export enum Format {
   CHOICE,
   BINARY,
   SCALE,

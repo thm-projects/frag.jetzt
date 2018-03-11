@@ -1,4 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { Format } from './content';
 
 export class InMemoryDataService implements InMemoryDbService {
   /**
@@ -80,6 +81,27 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: new Date(Date.now()),
       }
     ];
-    return { rooms, comments };
+
+    const contents = [
+      {
+        id: '11',
+        revision: '1',
+        roomId: '1',
+        subject: 'bla',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: Format.TEXT
+      },
+      {
+        id: '12',
+        revision: '2',
+        roomId: '3',
+        subject: 'blub',
+        body: 'testcontenttttt',
+        round: 5,
+        format: Format.TEXT
+      }
+    ];
+    return { rooms, comments, contents };
   }
 }
