@@ -44,4 +44,9 @@ export class JoinRoomComponent implements OnInit {
       this.notificationService.show('No room-id entered.');
     }
   }
+
+  reset(): void {
+    this.isExisting = true;
+    this.noInput = false;
+  }
 }
