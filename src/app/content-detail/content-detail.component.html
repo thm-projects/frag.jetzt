@@ -1,11 +1,29 @@
-<mat-list *ngIf="content">
-  <mat-list-item>ID: {{content.id}}</mat-list-item>
-  <mat-list-item>Revision: {{content.revision}}</mat-list-item>
-  <mat-list-item>Room ID: {{content.roomId}}</mat-list-item>
-  <mat-list-item>Subject: {{content.subject}}</mat-list-item>
-  <mat-list-item>Body: {{content.body}}</mat-list-item>
-  <mat-list-item>Round: {{content.round}}</mat-list-item>
-  <mat-list-item>Format: {{content.format}}</mat-list-item>
-  <mat-list-item>FormatAttributes: {{content.formatAttributes}}</mat-list-item> 
-</mat-list>
-
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
+  <div *ngIf="content" fxLayout="row" fxLayoutAlign="center">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <h3 class="subheading-2">{{content.subject}}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>ID: {{ content.id }} <br> Round: {{ content.round }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <p>
+          {{ content.body }}
+        </p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <!-- answes list here -->
+    <mat-card-actions>
+        <button mat-button color="primary" matTooltip="Create new content" routerLink="/creator/room/{{content.id}}/content-creation">
+          Create answer
+        </button>
+        <button mat-button color="warn" matTooltip="Delete selected room">
+          Delete answer
+        </button>
+      
+    </mat-card-actions>
+  </mat-card>
+  </div>
+</div>

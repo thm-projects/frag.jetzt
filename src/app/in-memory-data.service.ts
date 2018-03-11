@@ -97,7 +97,7 @@ export class InMemoryDataService implements InMemoryDbService {
         revision: '2',
         roomId: '3',
         subject: 'Textaufgabe 2',
-        body: 'Ein Mann kauft 20 Melonen. Eine Melone wiegt jeweils 5kg. <br> Berechnen Sie das Gesamtgewicht.',
+        body: 'Ein Mann kauft 20 Melonen. Eine Melone wiegt jeweils 5kg. Berechnen Sie das Gesamtgewicht.',
         round: 5,
         format: Format.TEXT
       }

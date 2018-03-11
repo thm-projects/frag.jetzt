@@ -14,7 +14,7 @@ export class ContentDetailComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
