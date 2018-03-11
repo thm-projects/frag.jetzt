@@ -38,8 +38,8 @@ export class RoomService extends ErrorHandlingService {
   );
   }
 
-  deleteRoom (room: Room | number): Observable<Room> {
-    const id = typeof room === 'number' ? room : room.id;
+  deleteRoom (room: Room | string): Observable<Room> {
+    const id = typeof room === 'string' ? room : room.id;
     const url = `${this.roomsUrl}/${id}`;
 
     return this.http.delete<Room>(url, httpOptions).pipe(
