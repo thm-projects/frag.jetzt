@@ -35,7 +35,7 @@ export class JoinRoomComponent implements OnInit {
               this.noInput = false;
               this.notificationService.show('Invalid room-id.');
             } else {
-              this.router.navigate([`/participant/room/${this.room.id}`], { relativeTo: this.route });
+              this.router.navigate([`/participant/room/${this.room.id}`]);
             }
           });
     } else {
