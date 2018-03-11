@@ -36,14 +36,14 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.location.back();
   }
 
-  enableModifications(): void {
+  showEditDialog(): void {
     this.roomName = this.room.name;
     this.roomShortId = this.room.shortId;
     this.roomDescription = this.room.description;
     this.modify = true;
   }
 
-  disableModifications(): void {
+  hideEditDialog(): void {
     this.modify = false;
   }
 
@@ -52,10 +52,10 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
       (this.roomShortId === this.room.shortId) &&
       (this.roomDescription === this.room.description)
     ) {
-      this.notification.show('No changes');
+      this.notification.show('There were no changes');
       return;
     } else {
-      this.notification.show('Properties changed');
+      this.notification.show('Changes are made');
       this.roomService.updateRoom(this.room)
         .subscribe(() => this.goBack());
     }

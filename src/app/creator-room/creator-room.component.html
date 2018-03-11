@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card *ngIf="room && !modify && !deleteDialog" class="input-formular">
+    <mat-card *ngIf="room && !modify && !deleteDialog" class="input-form">
       <mat-card-header>
         <mat-card-title>
           <h3 class="subheading-2">{{ room.name }}</h3>
@@ -29,7 +29,7 @@
                 routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
-        <button *ngIf="!modify" (click)="enableModifications()" mat-button color="primary"
+        <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary"
                 matTooltip="Modify room's details">
           Modify room
         </button>
@@ -44,7 +44,7 @@
         </button>
       </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="modify && room" class="input-formular">
+    <mat-card *ngIf="modify && room" class="input-form">
       <mat-card-header>
         <h3>Modify properties</h3>
       </mat-card-header>
@@ -62,7 +62,7 @@
         </mat-form-field>
       </mat-card-content>
       <mat-card-actions>
-        <button (click)="disableModifications()" mat-button color="primary" matTooltip="Leave modification-dialog">
+        <button (click)="hideEditDialog()" mat-button color="primary" matTooltip="Leave modification-dialog">
           Leave
         </button>
         <button (click)="updateRoom()" mat-button color="primary" matTooltip="Update properties">
