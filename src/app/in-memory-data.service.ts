@@ -84,20 +84,20 @@ export class InMemoryDataService implements InMemoryDbService {
 
     const contents = [
       {
-        id: '11',
+        id: '1',
         revision: '1',
         roomId: '1',
-        subject: 'bla',
+        subject: 'Textaufgabe 1',
         body: 'testcontent alpha beta',
         round: 1,
         format: Format.TEXT
       },
       {
-        id: '12',
+        id: '2',
         revision: '2',
         roomId: '3',
-        subject: 'blub',
-        body: 'testcontenttttt',
+        subject: 'Textaufgabe 2',
+        body: 'Ein Mann kauft 20 Melonen. Eine Melone wiegt jeweils 5kg. <br> Berechnen Sie das Gesamtgewicht.',
         round: 5,
         format: Format.TEXT
       }

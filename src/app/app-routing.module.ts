@@ -58,7 +58,7 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/content-list/:id',
+    path: 'creator/room/:roomId/:id',
     component: ContentDetailComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
