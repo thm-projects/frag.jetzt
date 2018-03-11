@@ -1,4 +1,4 @@
-export class TextAnswer {
+export class AnswerText {
   id: string;
   revision: string;
   contendId: string;

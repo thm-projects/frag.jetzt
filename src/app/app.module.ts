@@ -70,6 +70,8 @@ import { CreatorRoomComponent } from './creator-room/creator-room.component';
 import { ContentDetailComponent } from './content-detail/content-detail.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentService } from './content.service';
+import { ContentAnswersListComponent } from './content-answers-list/content-answers-list.component';
+import { ContentAnswerService } from './content-answer.service';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,8 @@ import { ContentService } from './content.service';
     ParticipantRoomComponent,
     CreatorRoomComponent,
     ContentDetailComponent,
-    ContentListComponent
+    ContentListComponent,
+    ContentAnswersListComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -151,7 +154,8 @@ import { ContentService } from './content.service';
     DataStoreService,
     RoomService,
     CommentService,
-    ContentService
+    ContentService,
+    ContentAnswerService
   ],
   bootstrap: [AppComponent]
 })

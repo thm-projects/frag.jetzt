@@ -102,6 +102,39 @@ export class InMemoryDataService implements InMemoryDbService {
         format: Format.TEXT
       }
     ];
-    return { rooms, comments, contents };
+
+    const answerTexts = [
+      {
+        id: '1',
+        revision: '1',
+        contendId: '1',
+        round: '1',
+        subject: 'Textaufgabe 1',
+        body: 'gamma, delta',
+        read: 'yes',
+        creationTimestamp: Date,
+      },
+      {
+        id: '1',
+        revision: '1',
+        contendId: '1',
+        round: '1',
+        subject: 'Textaufgabe 1',
+        body: 'epsilon, phi',
+        read: 'yes',
+        creationTimestamp: Date,
+      },
+      {
+        id: '2',
+        revision: '2',
+        contendId: '2',
+        round: '3',
+        subject: 'Textaufgabe 2',
+        body: 'Der Turm ist 20m hoch',
+        read: 'yes',
+        creationTimestamp: Date,
+      }
+    ]
+    return { rooms, comments, contents, answerTexts };
   }
 }

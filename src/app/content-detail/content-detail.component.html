@@ -12,6 +12,10 @@
         <p>
           {{ content.body }}
         </p>
+        <mat-divider></mat-divider>
+        <div>
+          <app-content-answers-list></app-content-answers-list>
+        </div>
       </mat-card-content>
       <mat-divider></mat-divider>
       <!-- answes list here -->
@@ -19,7 +23,7 @@
         <button mat-button color="primary" matTooltip="Create new content" routerLink="/creator/room/{{content.id}}/content-creation">
           Create answer
         </button>
-        <button mat-button color="warn" matTooltip="Delete selected room">
+        <button mat-button color="warn" matTooltip="Delete selected answer"> <!-- on click, add a 'x' on the right end of each answer to make it deletable -->
           Delete answer
         </button>
       
