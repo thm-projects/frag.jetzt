@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { RoomService } from '../room.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-join-room',
   templateUrl: './join-room.component.html',
   styleUrls: ['./join-room.component.scss']
 })
-
 export class JoinRoomComponent implements OnInit {
 
   room: Room;
@@ -17,8 +15,8 @@ export class JoinRoomComponent implements OnInit {
   noInput = false;
 
   constructor(private roomService: RoomService,
-              private router: Router,
-              private notificationService: NotificationService) {
+              private router: Router
+              ) {
   }
 
   ngOnInit() {
@@ -33,7 +31,6 @@ export class JoinRoomComponent implements OnInit {
             if (!room) {
               this.isExisting = false;
               this.noInput = false;
-              this.notificationService.show('Invalid room-id.');
             } else {
               this.router.navigate([`/participant/room/${this.room.id}`]);
             }
@@ -41,7 +38,6 @@ export class JoinRoomComponent implements OnInit {
     } else {
       this.noInput = true;
       this.isExisting = true;
-      this.notificationService.show('No room-id entered.');
     }
   }
 
