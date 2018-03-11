@@ -134,7 +134,7 @@ export class InMemoryDataService implements InMemoryDbService {
         read: 'yes',
         creationTimestamp: Date,
       }
-    ]
+    ];
     return { rooms, comments, contents, answerTexts };
   }
 }
