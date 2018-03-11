@@ -1,4 +1,4 @@
-<form>
+<form (ngSubmit)="joinRoom(roomId.value)">
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field class="input-block">
       <input matInput #roomId placeholder="Room-Id" (keypress)="reset()"/>
@@ -7,6 +7,6 @@
       <mat-icon>send</mat-icon>
     </button>
   </div>
-  <mat-error *ngIf="!isExisting">Please enter a <strong>valid</strong> room-id.</mat-error>
+  <mat-error *ngIf="!isExisting">No room was found with this id.</mat-error>
   <mat-error *ngIf="noInput">Please enter a room-id.</mat-error>
 </form>
