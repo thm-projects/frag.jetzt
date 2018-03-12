@@ -24,6 +24,7 @@ export class AuthenticationService {
     headers: new HttpHeaders({})
   };
 
+
   constructor(private dataStoreService: DataStoreService,
               private http: HttpClient) {
     if (dataStoreService.has(this.STORAGE_KEY)) {
