@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { ErrorHandlingService } from './error-handling.service';
-
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -20,14 +19,12 @@ export class ContentService extends ErrorHandlingService {
 
   getContents(): Observable<Content[]> {
     return this.http.get<Content[]>(this.contentUrl).pipe(
-      tap(_ => ''),
       catchError(this.handleError('getContents', []))
     );
   }
 
   addContent(content: Content): Observable<Content> {
     return this.http.post<Content>(this.contentUrl, content, httpOptions).pipe(
-      tap(_ => ''),
       catchError(this.handleError<Content>('addContent'))
     );
   }
@@ -35,9 +32,7 @@ export class ContentService extends ErrorHandlingService {
   getContent(id: string): Observable<Content> {
     const url = `${this.contentUrl}/${id}`;
     return this.http.get<Content>(url).pipe(
-      tap(_ => ''),
       catchError(this.handleError<Content>(`getContent id=${id}`))
     );
   }
-
 }

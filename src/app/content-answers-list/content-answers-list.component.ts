@@ -10,17 +10,16 @@ import { AnswerText } from '../answer-text';
 export class ContentAnswersListComponent implements OnInit {
   textAnswers: AnswerText[];
 
-  constructor(private ContentAnswerService: ContentAnswerService ) { }
+  constructor(private contentAnswerService: ContentAnswerService ) { }
 
   ngOnInit() {
     this.getAnswerTexts();
   }
 
   getAnswerTexts(): void {
-    this.ContentAnswerService.getAnswerTexts().
+    this.contentAnswerService.getAnswerTexts().
     subscribe(textAnswers => {
       this.textAnswers = textAnswers;
     })
   }
-
 }

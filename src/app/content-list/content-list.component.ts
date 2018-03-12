@@ -10,14 +10,14 @@ import { Content } from '../content';
 export class ContentListComponent implements OnInit {
   contents: Content[];
 
-  constructor(private ContentService: ContentService) { }
+  constructor(private contentService: ContentService) { }
 
   ngOnInit() {
     this.getContents();
   }
 
   getContents(): void {
-    this.ContentService.getContents()
+    this.contentService.getContents()
     .subscribe(contents => {
       this.contents = contents;
     });

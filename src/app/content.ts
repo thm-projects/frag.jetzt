@@ -15,5 +15,5 @@ export class Content {
   body: string;
   round: number;
   format: Format;
-   // formatAttributes: Map<string, string>;
+  formatAttributes: Map<string, string>;
 }
