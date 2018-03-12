@@ -16,7 +16,6 @@ export class ContentCreationComponent implements OnInit {
   body: string;
   roomId: string;
   emptyInputs = false;
-  
   constructor(
     private contentService: ContentService,
     private router: Router,
@@ -36,15 +35,14 @@ export class ContentCreationComponent implements OnInit {
     this.emptyInputs = false;
   }
 
-  addContent(subject: string, body: string, roomId: string) {
+  addContent(subject: string, body: string) {
     subject = subject.trim();
     body = body.trim();
-    roomId = roomId.trim();
-    if (!subject || !body || !roomId) {
+    if (!subject || !body) {
       this.emptyInputs = true;
       return;
     }
-    this.contentService.addContent({ subject: subject, body: body , roomId: roomId } as Content)
+    this.contentService.addContent({ subject: subject, body: body, this.roomId } as Content)
       .subscribe(content => {
         this.notification.show(`Content '${content.subject}' successfully created.`);
         this.router.navigate([`/creator/room/${content.roomId}/${content.id}`]);

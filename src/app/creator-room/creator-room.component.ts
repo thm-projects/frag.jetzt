@@ -22,8 +22,9 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
               protected route: ActivatedRoute,
-              public dialog: MatDialog,
-              protected location: Location) {
+              protected location: Location,
+              public dialog: MatDialog
+            ) {
     super(roomService, route, location);
   }
 
