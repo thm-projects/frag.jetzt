@@ -7,6 +7,6 @@
       <mat-icon>send</mat-icon>
     </button>
   </div>
-  <mat-error *ngIf="!isExisting">No room was found with this id.</mat-error>
-  <mat-error *ngIf="noInput">Please enter a room-id.</mat-error>
+  <mat-error *ngIf="!isExisting" class="errorForm">No room was found with this id.</mat-error>
+  <mat-error *ngIf="noInput" class="errorForm">Please enter a room-id.</mat-error>
 </form>
