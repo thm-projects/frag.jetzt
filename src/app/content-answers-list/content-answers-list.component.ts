@@ -10,7 +10,7 @@ import { AnswerText } from '../answer-text';
 export class ContentAnswersListComponent implements OnInit {
   textAnswers: AnswerText[];
 
-  constructor(private contentAnswerService: ContentAnswerService ) { }
+  constructor(private contentAnswerService: ContentAnswerService) { }
 
   ngOnInit() {
     this.getAnswerTexts();
@@ -18,8 +18,8 @@ export class ContentAnswersListComponent implements OnInit {
 
   getAnswerTexts(): void {
     this.contentAnswerService.getAnswerTexts().
-    subscribe(textAnswers => {
-      this.textAnswers = textAnswers;
-    })
+      subscribe(textAnswers => {
+        this.textAnswers = textAnswers;
+      });
   }
 }
