@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NotificationService } from '../notification.service';
 import { RoomCreationComponent } from '../room-creation/room-creation.component';
 import { RoomService } from '../room.service';
+import { Room } from '../room';
 
 @Component({
   selector: 'app-room-deletion',
@@ -11,6 +12,7 @@ import { RoomService } from '../room.service';
   styleUrls: ['./room-deletion.component.scss']
 })
 export class RoomDeletionComponent implements OnInit {
+  room: Room;
 
   constructor(private roomService: RoomService,
               private router: Router,
@@ -22,7 +24,7 @@ export class RoomDeletionComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
   ngOnInit() {
   }
-
 }

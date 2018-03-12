@@ -78,9 +78,20 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.delete(room);
   }
 
+  confirmDeletion(dialogAnswer: string): void {
+    if (dialogAnswer === 'delete') {
+      this.deleteRoom(this.room);
+    }
+  }
+
   openDeletionRoomDialog(): void {
-    this.dialog.open(RoomDeletionComponent, {
-      width: '350px'
+    const dialogRef = this.dialog.open(RoomDeletionComponent, {
+      width: '400px'
     });
+    dialogRef.componentInstance.room = this.room;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        this.confirmDeletion(result);
+      });
   }
 }

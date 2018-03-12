@@ -1,8 +1,8 @@
 <mat-card>
-  <mat-card-header><h3>Do you really want to delete this room?<br>This action can not be undone.</h3>
+  <mat-card-header><h3>Do you really want to delete room<br>' {{room.name}} ' ?<br>This action can not be undone.</h3>
   </mat-card-header>
   <mat-card-content>
-    <button mat-raised-button color="warn">
+    <button mat-raised-button color="warn" (click)="dialogRef.close('delete')">
       Delete room
     </button>
     <button mat-raised-button color="primary" (click)="onNoClick()">
