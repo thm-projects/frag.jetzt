@@ -24,10 +24,10 @@
                 routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
-        <button mat-button color="warn" matTooltip="Enables deletion dialog" (click)="showDeletionDialog()">
+        <button mat-button color="warn" (click)="showDeletionDialog()">
           Delete room
         </button>
-        <button mat-button color="primary" matTooltip="Go back to last page" (click)="goBack()">
+        <button mat-button color="primary" (click)="goBack()">
           Go back
         </button>
       </mat-card-actions>
@@ -36,10 +36,10 @@
       <mat-card-header><h3>Do you really want to delete this room?<br>This action can not be undone.</h3>
       </mat-card-header>
       <mat-card-content>
-        <button mat-raised-button color="warn" matTooltip="Delete selected room" (click)="deleteRoom(room)">
+        <button mat-raised-button color="warn" (click)="deleteRoom(room)">
           Delete room
         </button>
-        <button mat-raised-button color="primary" matTooltip="Leave delete dialog" (click)="hideDeletionDialog()">
+        <button mat-raised-button color="primary" (click)="hideDeletionDialog()">
           Leave
         </button>
       </mat-card-content>
