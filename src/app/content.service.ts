@@ -10,9 +10,8 @@ const httpOptions = {
 
 @Injectable()
 export class ContentService extends ErrorHandlingService {
-
   private contentUrl = 'api/contents';
-
+  
   constructor(private http: HttpClient) {
     super();
   }
