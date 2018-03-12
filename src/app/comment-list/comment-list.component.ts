@@ -41,7 +41,7 @@ export class CommentListComponent implements OnInit {
 
   setRead(comment: Comment): void {
     this.comments.find( c => c.id === comment.id).read = !comment.read;
-    this.commentService.updateComment(comment);
+    this.commentService.updateComment(comment).subscribe();
   }
 
   delete(comment: Comment): void {

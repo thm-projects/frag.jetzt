@@ -27,7 +27,7 @@ export class CommentService extends ErrorHandlingService {
   deleteComment(comment: Comment): Observable<Comment> {
     const url = `${this.commentsUrl}/${comment.id}`;
     return this.http.delete<Comment>(url, httpOptions).pipe(
-      tap (_ => ''),
+      tap (_ => console.log(comment)),
       catchError(this.handleError<Comment>('deleteComment'))
     );
   }
@@ -41,8 +41,7 @@ export class CommentService extends ErrorHandlingService {
   }
 
   updateComment(comment: Comment): Observable<any> {
-    const url = `${this.commentsUrl}/${comment.id}`;
-    return this.http.put(url, comment, httpOptions).pipe(
+    return this.http.put(this.commentsUrl, comment, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('updateComments'))
     );
