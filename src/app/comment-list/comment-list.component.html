@@ -1,12 +1,13 @@
 <div fxLayout="row" fxLayoutAlign="center">
   <div fxLayout="column" fxLayoutGap="20">
       <div *ngFor="let comment of comments">
-        <mat-card>
+        <mat-card (click)="setRead(comment)">
           <mat-card-content>
             <div class="comment-body">
               <h3>{{comment.subject}}</h3><br>
 
               {{comment.body}}
+              {{comment.read}}
 
               <div *ngIf="!comment.read" class="not-check-icon" matTooltip="Is not read">
                 <i class="material-icons">clear</i>
