@@ -43,7 +43,7 @@ export class CommentService extends ErrorHandlingService {
   updateComment(comment: Comment): Observable<any> {
     return this.http.put(this.commentsUrl, comment, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<any>('updateComments'))
+      catchError(this.handleError<any>('updateComment'))
     );
   }
 }
