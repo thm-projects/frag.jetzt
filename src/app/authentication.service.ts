@@ -33,10 +33,12 @@ export class AuthenticationService {
   }
 
   guestLogin() {
-    const token = this.http.get(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest');
-    if (token != null) {
-      return of(true);
-    }
+    this.http.get<string>(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest').subscribe(token => {
+      if (token != null) {
+        this.user = new User(1337, '', '', UserRole.PARTICIPANT, token);
+        return of(true);
+      }
+    });
     return of(false);
   }
 
