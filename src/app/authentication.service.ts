@@ -92,13 +92,4 @@ export class AuthenticationService {
     return this.user.token;
   }
 
-  setToken(token?: string): boolean {
-    // Initial check for token
-    if (!token) {
-      token = this.getToken();
-      return true;
-    }
-
-    return true;
-  }
 }
