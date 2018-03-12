@@ -13,7 +13,11 @@ import { NotificationService } from '../notification.service';
 })
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
+  modify = false;
   deleteDialog = false;
+  roomName: string;
+  roomShortId: string;
+  roomDescription: string;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -32,6 +36,30 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.location.back();
   }
 
+  showEditDialog(): void {
+    this.roomName = this.room.name;
+    this.roomShortId = this.room.shortId;
+    this.roomDescription = this.room.description;
+    this.modify = true;
+  }
+
+  hideEditDialog(): void {
+    this.modify = false;
+  }
+
+  updateRoom(): void {
+    if ((this.roomName === this.room.name) &&
+      (this.roomShortId === this.room.shortId) &&
+      (this.roomDescription === this.room.description)
+    ) {
+      this.notification.show('There were no changes');
+      return;
+    } else {
+      this.notification.show('Changes are made');
+      this.roomService.updateRoom(this.room)
+        .subscribe(() => this.goBack());
+    }
+  }
   showDeletionDialog(): void {
     this.deleteDialog = true;
   }

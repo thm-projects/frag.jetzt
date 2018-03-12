@@ -1,10 +1,15 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
-    <mat-card *ngIf="room && !deleteDialog">
+    <mat-card *ngIf="room && !modify && !deleteDialog" class="input-form">
       <mat-card-header>
-        <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
-        <mat-card-subtitle>{{ room.id }}</mat-card-subtitle>
+        <mat-card-title>
+          <h3 class="subheading-2">{{ room.name }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div>
+            {{ room.shortId }}
+          </div>
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content>
@@ -24,11 +29,43 @@
                 routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
+        <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">
+          Edit room
+        </button>
+        <button *ngIf="modify" (click)="updateRoom(roomName.valueOf(), roomShortID.valueOf(), roomDescription.valueOf())" mat-button color="primary" matTooltip="Update room's details">
+          Update room
+        </button>
         <button mat-button color="warn" (click)="showDeletionDialog()">
           Delete room
         </button>
         <button mat-button color="primary" (click)="goBack()">
           Go back
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <mat-card *ngIf="modify && room" class="input-form">
+      <mat-card-header>
+        <h3>Modify properties</h3>
+      </mat-card-header>
+      <mat-card-content fxLayout="column">
+        <mat-form-field *ngIf="modify">
+          <input [(ngModel)]="room.name" #roomName matInput/>
+        </mat-form-field>
+        <mat-form-field>
+          <input [(ngModel)]="room.shortId" #roomShortID matInput/>
+        </mat-form-field>
+        <mat-form-field>
+            <textarea [(ngModel)]="room.description" #roomDescription matInput matTextareaAutosize
+                      matAutosizeMinRows="2"
+                      matAutosizeMaxRows="5"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button (click)="hideEditDialog()" mat-button color="primary">
+          Leave
+        </button>
+        <button (click)="updateRoom()" mat-button color="primary">
+          Update
         </button>
       </mat-card-actions>
     </mat-card>
