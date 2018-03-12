@@ -1,24 +1,32 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10">
-  <div *ngFor="let comment of comments">
-    <mat-card>
-      <mat-card-content>
-        <div class="comment-body">
-          <h3>{{comment.subject}}</h3><br>
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxLayout="column" fxLayoutGap="20">
+      <div *ngFor="let comment of comments">
+        <mat-card>
+          <mat-card-content>
+            <div class="comment-body">
+              <h3>{{comment.subject}}</h3><br>
 
-          {{comment.body}}
+              {{comment.body}}
 
-          <div class="trash-icon">
-            <i class="material-icons" (click)="delete(comment)">delete</i>
-          </div>
-        </div>
-      </mat-card-content>
-      <mat-card-footer>
-        <div class="date">
-          <i> Submitted on {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
-        </div>
-      </mat-card-footer>
-    </mat-card><br>
+              <div *ngIf="!comment.read" class="not-check-icon" matTooltip="Is not read">
+                <i class="material-icons">clear</i>
+              </div>
+              <div *ngIf="comment.read" class="check-icon" matTooltip="Is read">
+                <i class="material-icons">check</i>
+              </div>
+              <div class="trash-icon" matTooltip="Delete">
+                <i class="material-icons" (click)="delete(comment)">delete</i>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-footer>
+            <div class="date">
+              <i> Submitted on {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
+            </div>
+          </mat-card-footer>
+        </mat-card><br>
+      </div>
+
+    <button mat-raised-button color="primary" (click)="goBack()">Back</button>
   </div>
 </div>
-
-<button mat-raised-button color="primary" (click)="goBack()">Back</button>

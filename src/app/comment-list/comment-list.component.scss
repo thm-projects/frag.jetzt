@@ -1,7 +1,43 @@
+mat-card {
+  min-width: 800px;
+  justify-content: center;
+}
+
+button {
+  min-width: 800px;
+}
+
+.not-check-icon {
+  color: red;
+  position: absolute;
+  top: 30%;
+  left: 96%;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background: lightcoral;
+}
+
+.check-icon {
+  color: green;
+  position: absolute;
+  top: 30%;
+  left: 96%;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background: lightgreen;
+}
+
 .trash-icon {
+  color: red;
   position: absolute;
   top: 50%;
-  left: 98%;
+  left: 96%;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  background: lightcoral;
 }
 
 .date {
