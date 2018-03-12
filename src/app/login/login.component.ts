@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
   }
 
   guestLogin(): void {
-    this.authenticationService.login('guest', 'guest', this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    this.authenticationService.guestLogin().subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
   }
 
   private checkLogin(loginSuccessful: boolean) {
