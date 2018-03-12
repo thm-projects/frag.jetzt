@@ -1,6 +1,7 @@
 import { UserRole } from './user-roles.enum';
 
 export class User {
+  // ToDo: Remove id since it is replaced by JWT token
   id: number;
   name: string;
   email: string;

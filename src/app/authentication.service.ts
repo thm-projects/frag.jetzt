@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { UserRole } from './user-roles.enum';
 import { DataStoreService } from './data-store.service';
+import { HttpClient } from '@angular/common/http';
 
 // TODO: connect to API
 // TODO: persist user data (shouldn't get lost on page refresh)
@@ -11,8 +12,12 @@ import { DataStoreService } from './data-store.service';
 export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
   private user: User;
+  private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
+  private apiAuthUrl = '/auth';
+  private apiLoginUrl = '/login';
 
-  constructor(private dataStoreService: DataStoreService) {
+  constructor(private dataStoreService: DataStoreService,
+              private http: HttpClient) {
     if (dataStoreService.has(this.STORAGE_KEY)) {
       // Load user data from local data store if available
       this.user = JSON.parse(dataStoreService.get(this.STORAGE_KEY));
@@ -25,6 +30,14 @@ export class AuthenticationService {
     this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(this.user));
 
     return of(true);
+  }
+
+  guestLogin() {
+    const token = this.http.get(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest');
+    if (token != null) {
+      return of(true);
+    }
+    return of(false);
   }
 
   register(email: string, password: string): Observable<boolean> {
