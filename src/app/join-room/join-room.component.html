@@ -1,7 +1,9 @@
 <form (ngSubmit)="joinRoom(roomId.value)">
     <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
       <mat-form-field class="input-block">
-        <input matInput #roomId placeholder="Room-Id" [formControl]="roomFormControl" [errorStateMatcher]="matcher"/>
+        <input matInput #roomId placeholder="Room-Id" [formControl]="roomFormControl"
+               [errorStateMatcher]="matcher" maxlength="8"/>
+        <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
         <mat-error *ngIf="roomFormControl.hasError('required')">Please enter a room-id.</mat-error>
       </mat-form-field>
       <button mat-fab color="primary" (click)="joinRoom(roomId.value)">
