@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentAnswerService } from '../content-answer.service';
 import { AnswerText } from '../answer-text';
+import { ContentDetailComponent } from '../content-detail/content-detail.component';
+import { Content } from '../content';
 
 @Component({
   selector: 'app-content-answers-list',
@@ -9,11 +11,14 @@ import { AnswerText } from '../answer-text';
 })
 export class ContentAnswersListComponent implements OnInit {
   textAnswers: AnswerText[];
+  content: Content[];
 
-  constructor(private contentAnswerService: ContentAnswerService) { }
+  constructor(private contentAnswerService: ContentAnswerService,
+              private contentDetailComponent: ContentDetailComponent) { }
 
   ngOnInit() {
     this.getAnswerTexts();
+    // this.contentDetailComponent.getContent(???);
   }
 
   getAnswerTexts(): void {
