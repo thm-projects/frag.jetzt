@@ -45,5 +45,4 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.notification.show(msg);
     this.delete(room);
   }
-  
 }
