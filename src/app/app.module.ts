@@ -67,6 +67,11 @@ import { ParticipantHomeScreenComponent } from './participant-home-screen/partic
 import { ParticipantRoomComponent } from './participant-room/participant-room.component';
 import { DataStoreService } from './data-store.service';
 import { CreatorRoomComponent } from './creator-room/creator-room.component';
+import { ContentDetailComponent } from './content-detail/content-detail.component';
+import { ContentListComponent } from './content-list/content-list.component';
+import { ContentService } from './content.service';
+import { ContentAnswersListComponent } from './content-answers-list/content-answers-list.component';
+import { ContentAnswerService } from './content-answer.service';
 
 @NgModule({
   declarations: [
@@ -89,7 +94,10 @@ import { CreatorRoomComponent } from './creator-room/creator-room.component';
     CommentListComponent,
     ContentAnswersComponent,
     ParticipantRoomComponent,
-    CreatorRoomComponent
+    CreatorRoomComponent,
+    ContentDetailComponent,
+    ContentListComponent,
+    ContentAnswersListComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -145,7 +153,9 @@ import { CreatorRoomComponent } from './creator-room/creator-room.component';
     AuthenticationGuard,
     DataStoreService,
     RoomService,
-    CommentService
+    CommentService,
+    ContentService,
+    ContentAnswerService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,8 @@
+<mat-list>
+  <h3 mat-subheader>Answers</h3>
+  <mat-list-item *ngFor="let textAnswer of textAnswers">
+    <button mat-button routerLink="{{textAnswer.id}}">
+      {{textAnswer.body}}
+    </button>
+  </mat-list-item>
+</mat-list>

@@ -1,4 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
+import { Format } from './content';
 
 export class InMemoryDataService implements InMemoryDbService {
   /**
@@ -80,6 +81,60 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: new Date(Date.now()),
       }
     ];
-    return { rooms, comments };
+
+    const contents = [
+      {
+        id: '1',
+        revision: '1',
+        roomId: '1',
+        subject: 'Textaufgabe 1',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: Format.TEXT
+      },
+      {
+        id: '2',
+        revision: '2',
+        roomId: '3',
+        subject: 'Textaufgabe 2',
+        body: 'Ein Mann kauft 20 Melonen. Eine Melone wiegt jeweils 5kg. Berechnen Sie das Gesamtgewicht.',
+        round: 5,
+        format: Format.TEXT
+      }
+    ];
+
+    const answerTexts = [
+      {
+        id: '1',
+        revision: '1',
+        contendId: '1',
+        round: '1',
+        subject: 'Textaufgabe 1',
+        body: 'gamma, delta',
+        read: 'yes',
+        creationTimestamp: Date,
+      },
+      {
+        id: '1',
+        revision: '1',
+        contendId: '1',
+        round: '1',
+        subject: 'Textaufgabe 1',
+        body: 'epsilon, phi',
+        read: 'yes',
+        creationTimestamp: Date,
+      },
+      {
+        id: '2',
+        revision: '2',
+        contendId: '2',
+        round: '3',
+        subject: 'Textaufgabe 2',
+        body: 'Der Turm ist 20m hoch',
+        read: 'yes',
+        creationTimestamp: Date,
+      }
+    ];
+    return { rooms, comments, contents, answerTexts };
   }
 }

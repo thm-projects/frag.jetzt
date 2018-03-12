@@ -1,4 +1,4 @@
-enum Format {
+export enum Format {
   CHOICE,
   BINARY,
   SCALE,
@@ -17,4 +17,3 @@ export class Content {
   format: Format;
   formatAttributes: Map<string, string>;
 }
-
