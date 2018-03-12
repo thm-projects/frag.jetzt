@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { UserRole } from './user-roles.enum';
 import { DataStoreService } from './data-store.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 // TODO: connect to API
 // TODO: persist user data (shouldn't get lost on page refresh)
@@ -15,6 +15,9 @@ export class AuthenticationService {
   private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
   private apiAuthUrl = '/auth';
   private apiLoginUrl = '/login';
+  private httpHeaders = new HttpHeaders({
+  });
+
 
   constructor(private dataStoreService: DataStoreService,
               private http: HttpClient) {
@@ -33,7 +36,7 @@ export class AuthenticationService {
   }
 
   guestLogin() {
-    this.http.get<string>(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest').subscribe(token => {
+    this.http.post<string>(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest', this.httpHeaders).subscribe(token => {
       if (token != null) {
         this.user = new User(1337, '', '', UserRole.PARTICIPANT, token);
         return of(true);
