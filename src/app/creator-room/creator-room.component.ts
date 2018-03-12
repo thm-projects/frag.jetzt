@@ -39,9 +39,11 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   hideDeletionDialog(): void {
     this.deleteDialog = false;
   }
+
   deleteRoom(room: Room): void {
     const msg = room.name + ' deleted';
     this.notification.show(msg);
     this.delete(room);
   }
+  
 }
