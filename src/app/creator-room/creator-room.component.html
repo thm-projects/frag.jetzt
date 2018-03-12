@@ -36,7 +36,7 @@
         <button *ngIf="modify" (click)="updateRoom(roomName.valueOf(), roomShortID.valueOf(), roomDescription.valueOf())" mat-button color="primary" matTooltip="Update room's details">
           Update room
         </button>
-        <button mat-button color="warn" (click)="showDeletionDialog()">
+        <button mat-button color="warn" (click)="openDeletionRoomDialog()">
           Delete room
         </button>
         <button mat-button color="primary" (click)="goBack()">

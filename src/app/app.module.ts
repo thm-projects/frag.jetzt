@@ -104,7 +104,8 @@ import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
-    RoomCreationComponent
+    RoomCreationComponent,
+    RoomDeletionComponent
   ],
   imports: [
     AppRoutingModule,

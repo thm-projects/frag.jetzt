@@ -5,6 +5,8 @@ import { RoomComponent } from '../room/room.component';
 import { Room } from '../room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../notification.service';
+import { MatDialog } from '@angular/material';
+import { RoomDeletionComponent } from '../room-deletion/room-deletion.component';
 
 @Component({
   selector: 'app-creator-room',
@@ -22,6 +24,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
               protected route: ActivatedRoute,
+              public dialog: MatDialog,
               protected location: Location) {
     super(roomService, route, location);
   }
@@ -60,6 +63,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
         .subscribe(() => this.goBack());
     }
   }
+
   showDeletionDialog(): void {
     this.deleteDialog = true;
   }
@@ -72,5 +76,11 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     const msg = room.name + ' deleted';
     this.notification.show(msg);
     this.delete(room);
+  }
+
+  openDeletionRoomDialog(): void {
+    this.dialog.open(RoomDeletionComponent, {
+      width: '350px'
+    });
   }
 }
