@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RoomComponent } from '../room/room.component';
 import { Room } from '../room';
 import { Location } from '@angular/common';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-creator-room',
@@ -12,11 +13,13 @@ import { Location } from '@angular/common';
 })
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
+  deleteDialog = false;
 
   constructor(protected roomService: RoomService,
+              protected notification: NotificationService,
               protected route: ActivatedRoute,
-              private location: Location) {
-    super(roomService, route);
+              protected location: Location) {
+    super(roomService, route, location);
   }
 
   ngOnInit() {
@@ -29,4 +32,17 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.location.back();
   }
 
+  showDeletionDialog(): void {
+    this.deleteDialog = true;
+  }
+
+  hideDeletionDialog(): void {
+    this.deleteDialog = false;
+  }
+
+  deleteRoom(room: Room): void {
+    const msg = room.name + ' deleted';
+    this.notification.show(msg);
+    this.delete(room);
+  }
 }
