@@ -2,6 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../room';
 import { RoomService } from '../room.service';
 import { Router } from '@angular/router';
+import { RegisterErrorStateMatcher } from '../register/register.component';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material';
+import { NotificationService } from '../notification.service';
+
+export class JoinErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return (control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-join-room',
@@ -12,11 +23,15 @@ export class JoinRoomComponent implements OnInit {
 
   room: Room;
   isExisting = true;
-  noInput = false;
+
+  roomFormControl = new FormControl('', [Validators.required]);
+
+  matcher = new RegisterErrorStateMatcher();
 
   constructor(private roomService: RoomService,
-              private router: Router
-              ) {
+              private router: Router,
+              public notificationService: NotificationService
+  ) {
   }
 
   ngOnInit() {
@@ -24,25 +39,17 @@ export class JoinRoomComponent implements OnInit {
   }
 
   joinRoom(id: string): void {
-    if (id) {
-        this.roomService.getRoom(id)
-          .subscribe( room => {
-            this.room = room;
-            if (!room) {
-              this.isExisting = false;
-              this.noInput = false;
-            } else {
-              this.router.navigate([`/participant/room/${this.room.id}`]);
-            }
-          });
-    } else {
-      this.noInput = true;
-      this.isExisting = true;
+    if (!this.roomFormControl.hasError('required')) {
+      this.roomService.getRoom(id)
+        .subscribe(room => {
+          this.room = room;
+          if (!room) {
+            this.notificationService.show(`No room was found with id: ${id}`);
+          } else {
+            this.router.navigate([`/participant/room/${this.room.id}`]);
+          }
+        });
     }
   }
 
-  reset(): void {
-    this.isExisting = true;
-    this.noInput = false;
-  }
 }
