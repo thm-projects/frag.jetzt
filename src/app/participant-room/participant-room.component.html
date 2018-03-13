@@ -27,22 +27,17 @@
         </mat-grid-tile>
       </mat-grid-list>
       <mat-nav-list>
-        <mat-list-item color="primary">
-          <button mat-button  matTooltip="Join question round" routerLink="/participant/room/{{ room.id }}/questions">
+        <mat-list-item matTooltip="Join question round" routerLink="/participant/room/{{ room.id }}/questions">
             Contents
-          </button>
         </mat-list-item>
-      </mat-nav-list>
-      <mat-card-header fxLayoutAlign="center">
-        <button mat-button color="primary" matTooltip="See room comments">
+
+        <mat-list-item matTooltip="See room comments">
           Comments
-        </button>
-      </mat-card-header>
-      <mat-card-header fxLayoutAlign="center">
-        <button mat-button color="primary" matTooltip="Start personal question round">
-          Learn
-        </button>
-      </mat-card-header>
+          </mat-list-item>
+          <mat-list-item matTooltip="Join question round">
+            Learn
+          </mat-list-item>
+          </mat-nav-list>
     </mat-card>
   </div>
   <button mat-button color="primary" (click)="goBack()">Back</button>
