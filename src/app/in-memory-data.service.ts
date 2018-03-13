@@ -107,7 +107,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: '1',
         revision: '1',
-        contendId: '1',
+        contentId: '1',
         round: '1',
         subject: 'Textaufgabe 1',
         body: 'gamma, delta',
@@ -117,7 +117,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: '1',
         revision: '1',
-        contendId: '1',
+        contentId: '1',
         round: '1',
         subject: 'Textaufgabe 1',
         body: 'epsilon, phi',
@@ -127,7 +127,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: '2',
         revision: '2',
-        contendId: '2',
+        contentId: '2',
         round: '3',
         subject: 'Textaufgabe 2',
         body: 'Der Turm ist 20m hoch',

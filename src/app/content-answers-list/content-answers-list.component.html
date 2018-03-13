@@ -1,8 +1,7 @@
 <mat-list>
   <h3 mat-subheader>Answers</h3>
-  <mat-list-item *ngFor="let textAnswer of filteredTextAnswers">
+  <mat-list-item *ngFor="let textAnswer of textAnswers">
     <button mat-button routerLink="{{textAnswer.id}}">
-          <!--  *ngIf="textAnswer.subject === content($id)"> -->
       {{textAnswer.body}}
     </button>
   </mat-list-item>
