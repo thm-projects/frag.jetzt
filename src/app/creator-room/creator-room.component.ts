@@ -5,6 +5,8 @@ import { RoomComponent } from '../room/room.component';
 import { Room } from '../room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../notification.service';
+import { MatDialog } from '@angular/material';
+import { RoomDeletionComponent } from '../room-deletion/room-deletion.component';
 
 @Component({
   selector: 'app-creator-room',
@@ -14,7 +16,6 @@ import { NotificationService } from '../notification.service';
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
   modify = false;
-  deleteDialog = false;
   roomName: string;
   roomShortId: string;
   roomDescription: string;
@@ -22,6 +23,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
               protected route: ActivatedRoute,
+              public dialog: MatDialog,
               protected location: Location) {
     super(roomService, route, location);
   }
@@ -60,17 +62,27 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
         .subscribe(() => this.goBack());
     }
   }
-  showDeletionDialog(): void {
-    this.deleteDialog = true;
-  }
-
-  hideDeletionDialog(): void {
-    this.deleteDialog = false;
-  }
 
   deleteRoom(room: Room): void {
     const msg = room.name + ' deleted';
     this.notification.show(msg);
     this.delete(room);
+  }
+
+  confirmDeletion(dialogAnswer: string): void {
+    if (dialogAnswer === 'delete') {
+      this.deleteRoom(this.room);
+    }
+  }
+
+  openDeletionRoomDialog(): void {
+    const dialogRef = this.dialog.open(RoomDeletionComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.room = this.room;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        this.confirmDeletion(result);
+      });
   }
 }

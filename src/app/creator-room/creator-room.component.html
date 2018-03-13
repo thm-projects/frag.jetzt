@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card *ngIf="room && !modify && !deleteDialog" class="input-form">
+    <mat-card *ngIf="room && !modify" class="input-form">
       <mat-card-header>
         <mat-card-title>
           <h3 class="subheading-2">{{ room.name }}</h3>
@@ -36,7 +36,7 @@
         <button *ngIf="modify" (click)="updateRoom(roomName.valueOf(), roomShortID.valueOf(), roomDescription.valueOf())" mat-button color="primary" matTooltip="Update room's details">
           Update room
         </button>
-        <button mat-button color="warn" (click)="showDeletionDialog()">
+        <button mat-button color="warn" (click)="openDeletionRoomDialog()">
           Delete room
         </button>
         <button mat-button color="primary" (click)="goBack()">
@@ -69,18 +69,6 @@
           Update
         </button>
       </mat-card-actions>
-    </mat-card>
-    <mat-card *ngIf="deleteDialog">
-      <mat-card-header><h3>Do you really want to delete this room?<br>This action can not be undone.</h3>
-      </mat-card-header>
-      <mat-card-content>
-        <button mat-raised-button color="warn" (click)="deleteRoom(room)">
-          Delete room
-        </button>
-        <button mat-raised-button color="primary" (click)="hideDeletionDialog()">
-          Leave
-        </button>
-      </mat-card-content>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
   </div>
