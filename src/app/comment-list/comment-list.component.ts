@@ -15,6 +15,7 @@ import { User } from '../user';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
+  userRoleTemp: any = UserRole.CREATOR;
   userRole: UserRole;
   user: User;
   comments: Comment[];
@@ -43,9 +44,13 @@ export class CommentListComponent implements OnInit {
   }
 
   getComments(roomId: string): void {
-    console.log(this.user.id);
-    this.commentService.searchComments(roomId, this.user.id)
-      .subscribe(comments => this.comments = comments);
+    if (this.userRole === UserRole.CREATOR) {
+      this.commentService.getComments(roomId)
+        .subscribe(comments => this.comments = comments);
+    } else if (this.userRole === UserRole.PARTICIPANT) {
+      this.commentService.searchComments(roomId, this.user.id)
+        .subscribe(comments => this.comments = comments);
+    }
   }
 
   setRead(comment: Comment): void {

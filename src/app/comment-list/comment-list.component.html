@@ -7,7 +7,7 @@
 
             {{comment.body}}
 
-            <div class="body-buttons" *ngIf="userRole === CREATOR">
+            <div class="body-buttons" *ngIf="userRole === userRoleTemp">
               <button *ngIf="!comment.read" mat-fab color="warn" matTooltip="Is not read" (click)="setRead(comment)">
                 <mat-icon>clear</mat-icon>
               </button>
@@ -27,6 +27,6 @@
         </mat-card><br>
       </div>
 
-    <button *ngIf="userRole === CREATOR" mat-raised-button color="primary" (click)="goBack()">Back</button>
+    <button *ngIf="userRole === userRoleTemp" mat-raised-button color="primary" (click)="goBack()">Back</button>
   </div>
 </div>

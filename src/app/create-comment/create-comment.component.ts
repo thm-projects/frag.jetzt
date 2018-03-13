@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Room } from '../room';
@@ -8,6 +8,7 @@ import { CommentService } from '../comment.service';
 import { NotificationService } from '../notification.service';
 import { AuthenticationService } from '../authentication.service';
 import { User } from '../user';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-create-comment',
@@ -15,6 +16,7 @@ import { User } from '../user';
   styleUrls: ['./create-comment.component.scss']
 })
 export class CreateCommentComponent implements OnInit {
+  @ViewChild(CommentListComponent) child: CommentListComponent;
   @Input() room: Room;
   user: User;
 
@@ -50,6 +52,7 @@ export class CreateCommentComponent implements OnInit {
       body: body,
       creationTimestamp: new Date(Date.now())
     } as Comment).subscribe(() => {
+      this.child.getComments(this.room.id);
       this.notification.show(`Comment '${subject}' successfully created.`);
     });
   }
