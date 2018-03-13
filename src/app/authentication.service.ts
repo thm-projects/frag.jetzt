@@ -6,6 +6,10 @@ import { UserRole } from './user-roles.enum';
 import { DataStoreService } from './data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthProvider } from './auth-provider';
+import { NotificationService } from './notification.service';
+import { catchError, tap } from 'rxjs/operators';
+import { ErrorHandlingService } from './error-handling.service';
+import { ClientAuthentication } from './client-authentication';
 
 // TODO: connect to API
 // TODO: persist user data (shouldn't get lost on page refresh)
@@ -16,9 +20,12 @@ export class AuthenticationService {
   private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
   private apiAuthUrl = '/auth';
   private apiLoginUrl = '/login';
-  private httpHeaders = new HttpHeaders({
-  });
-
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/vnd.de.thm.arsnova.v3+json',
+      'charset': 'UTF-8'
+    })
+  };
 
   constructor(private dataStoreService: DataStoreService,
               private http: HttpClient) {
@@ -28,19 +35,20 @@ export class AuthenticationService {
     }
   }
 
-  login(email: string, password: string, role: UserRole): Observable<boolean> {
-    this.user = new User('userId1', 'loginId1', AuthProvider.ARSNOVA, 'TOKEN', role);
-    // Store user data in local storage to retain the data when the user reloads the page
-    this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(this.user));
-
-    return of(true);
+  login(email: string, password: string): Observable<ClientAuthentication> {
+    // ToDo: Replace with actual ARSnova details
+    return of({
+      'userId': email,
+      'loginId': email + password,
+      'authProvider': AuthProvider.ARSNOVA,
+      'token': password + email + password
+    } as ClientAuthentication);
   }
 
-  guestLogin() {
-    this.http.post<string>(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest', this.httpHeaders).subscribe(result => {
-      this.user = new User(result['userId'], result['loginId'], result['authProvider'], result['token'], UserRole.PARTICIPANT);
-    });
-    return of(false);
+  guestLogin(): Observable<ClientAuthentication> {
+    const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest';
+
+    return this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions);
   }
 
   register(email: string, password: string): Observable<boolean> {
@@ -59,6 +67,11 @@ export class AuthenticationService {
 
   getUser(): User {
     return this.user;
+  }
+
+  setUser(user: User): void {
+    this.user = user;
+    this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(this.user));
   }
 
   isLoggedIn(): boolean {
