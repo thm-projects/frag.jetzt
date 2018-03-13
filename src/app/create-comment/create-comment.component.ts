@@ -6,6 +6,8 @@ import { Comment } from '../comment';
 import { RoomService } from '../room.service';
 import { CommentService } from '../comment.service';
 import { NotificationService } from '../notification.service';
+import { AuthenticationService } from '../authentication.service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-create-comment',
@@ -14,8 +16,10 @@ import { NotificationService } from '../notification.service';
 })
 export class CreateCommentComponent implements OnInit {
   @Input() room: Room;
+  user: User;
 
   constructor(
+    protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private roomService: RoomService,
     private commentService: CommentService,
@@ -23,6 +27,7 @@ export class CreateCommentComponent implements OnInit {
     private notification: NotificationService) { }
 
   ngOnInit(): void {
+    this.user = this.authenticationService.getUser();
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
@@ -40,6 +45,7 @@ export class CreateCommentComponent implements OnInit {
     }
     this.commentService.addComment({
       roomId: this.room.id,
+      userId: this.user.id,
       subject: subject,
       body: body,
       creationTimestamp: new Date(Date.now())

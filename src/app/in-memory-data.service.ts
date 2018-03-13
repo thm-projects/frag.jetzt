@@ -66,7 +66,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: '2',
         roomId: '1',
-        userId: '1',
+        userId: '2',
         revision: '',
         subject: 'asdaskldmaskld',
         body: 'knkdiasslkladskmdaskld',
