@@ -5,6 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { UserRole } from './user-roles.enum';
 import { DataStoreService } from './data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthProvider } from './auth-provider';
 
 // TODO: connect to API
 // TODO: persist user data (shouldn't get lost on page refresh)
@@ -28,7 +29,7 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string, role: UserRole): Observable<boolean> {
-    this.user = new User(1, '', email, role, 'TOKEN');
+    this.user = new User('userId1', 'loginId1', AuthProvider.ARSNOVA, 'TOKEN', role);
     // Store user data in local storage to retain the data when the user reloads the page
     this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(this.user));
 
@@ -36,11 +37,8 @@ export class AuthenticationService {
   }
 
   guestLogin() {
-    this.http.post<string>(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest', this.httpHeaders).subscribe(token => {
-      if (token != null) {
-        this.user = new User(1337, '', '', UserRole.PARTICIPANT, token);
-        return of(true);
-      }
+    this.http.post<string>(this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest', this.httpHeaders).subscribe(result => {
+      this.user = new User(result['userId'], result['loginId'], result['authProvider'], result['token'], UserRole.PARTICIPANT);
     });
     return of(false);
   }
@@ -68,7 +66,7 @@ export class AuthenticationService {
   }
 
   getRole(): UserRole {
-    return this.isLoggedIn() ? this.user.role : undefined;
+    return this.isLoggedIn() ? this.user.userRole : undefined;
   }
 
 }
