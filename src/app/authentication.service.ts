@@ -17,6 +17,7 @@ export class AuthenticationService {
   private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
   private apiAuthUrl = '/auth';
   private apiLoginUrl = '/login';
+  private apiRegisteredUrl = '/registered';
   private httpOptions = {
     headers: new HttpHeaders({
     })
@@ -31,13 +32,12 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string): Observable<ClientAuthentication> {
-    // ToDo: Replace with actual ARSnova details
-    return of({
-      'userId': email,
-      'loginId': email + password,
-      'authProvider': AuthProvider.ARSNOVA,
-      'token': password + email + password
-    } as ClientAuthentication);
+    const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl  + this.apiLoginUrl + this.apiRegisteredUrl;
+
+    return this.http.post<ClientAuthentication>(connectionUrl, {
+      loginId : email,
+      password: password
+    }, this.httpOptions);
   }
 
   guestLogin(): Observable<ClientAuthentication> {
