@@ -19,8 +19,6 @@ export class AuthenticationService {
   private apiLoginUrl = '/login';
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/vnd.de.thm.arsnova.v3+json',
-      'charset': 'UTF-8'
     })
   };
 

@@ -48,7 +48,6 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { ContentAnswersComponent } from './content-answers/content-answers.component';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
 import { InMemoryDataService } from './in-memory-data.service';
 import { RoomComponent } from './room/room.component';
@@ -162,10 +161,7 @@ import { CreatorTextContentComponent } from './creator-text-content/creator-text
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientModule
   ],
   providers: [
     NotificationService,
