@@ -5,6 +5,8 @@ import { Comment } from '../comment';
 import { CommentService } from '../comment.service';
 import { RoomService } from '../room.service';
 import { NotificationService } from '../notification.service';
+import { AuthenticationService } from '../authentication.service';
+import { UserRole } from '../user-roles.enum';
 
 @Component({
   selector: 'app-comment-list',
@@ -12,9 +14,11 @@ import { NotificationService } from '../notification.service';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
+  userRole: UserRole;
   comments: Comment[];
 
   constructor(
+    protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private roomService: RoomService,
     private location: Location,
@@ -22,6 +26,7 @@ export class CommentListComponent implements OnInit {
     private notification: NotificationService) { }
 
   ngOnInit() {
+    this.userRole = this.authenticationService.getRole();
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });

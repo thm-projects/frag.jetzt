@@ -7,7 +7,7 @@
 
             {{comment.body}}
 
-            <div class="body-buttons" fxLayout="Column" fxLayoutGap="5px" fxLayoutAlign="end">
+            <div class="body-buttons" *ngIf="userRole === CREATOR">
               <button *ngIf="!comment.read" mat-fab color="warn" matTooltip="Is not read" (click)="setRead(comment)">
                 <mat-icon>clear</mat-icon>
               </button>
@@ -27,6 +27,6 @@
         </mat-card><br>
       </div>
 
-    <button class="back-button" mat-raised-button color="primary" (click)="goBack()">Back</button>
+    <button *ngIf="userRole === CREATOR" mat-raised-button color="primary" (click)="goBack()">Back</button>
   </div>
 </div>
