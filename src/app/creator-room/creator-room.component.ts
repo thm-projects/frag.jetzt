@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { NotificationService } from '../notification.service';
 import { MatDialog } from '@angular/material';
 import { RoomDeletionComponent } from '../room-deletion/room-deletion.component';
+import { RoomModificationComponent } from '../room-modification/room-modification.component';
 
 @Component({
   selector: 'app-creator-room',
@@ -15,10 +16,7 @@ import { RoomDeletionComponent } from '../room-deletion/room-deletion.component'
 })
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
-  modify = false;
-  roomName: string;
-  roomShortId: string;
-  roomDescription: string;
+  updRoom: Room;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -38,26 +36,18 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.location.back();
   }
 
-  showEditDialog(): void {
-    this.roomName = this.room.name;
-    this.roomShortId = this.room.shortId;
-    this.roomDescription = this.room.description;
-    this.modify = true;
-  }
-
-  hideEditDialog(): void {
-    this.modify = false;
-  }
-
   updateRoom(): void {
-    if ((this.roomName === this.room.name) &&
-      (this.roomShortId === this.room.shortId) &&
-      (this.roomDescription === this.room.description)
+    if ((this.updRoom.name === this.room.name) &&
+      (this.updRoom.shortId === this.room.shortId) &&
+      (this.updRoom.description === this.room.description)
     ) {
       this.notification.show('There were no changes');
       return;
     } else {
       this.notification.show('Changes are made');
+      this.room.name = this.updRoom.name;
+      this.room.shortId = this.updRoom.shortId;
+      this.room.description = this.updRoom.description;
       this.roomService.updateRoom(this.room)
         .subscribe(() => this.goBack());
     }
@@ -85,4 +75,25 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
         this.confirmDeletion(result);
       });
   }
+
+  showEditDialog(): void {
+    this.updRoom = new Room();
+    this.updRoom.name = this.room.name;
+    this.updRoom.shortId = this.room.shortId;
+    this.updRoom.description = this.room.description;
+    const dialogRef = this.dialog.open(RoomModificationComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.editRoom = this.updRoom;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'abort') {
+          return;
+        }
+        if (result === 'edit') {
+          this.updateRoom();
+        }
+      });
+  }
 }
+

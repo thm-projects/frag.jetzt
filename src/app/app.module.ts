@@ -107,7 +107,8 @@ import { RoomModificationComponent } from './room-modification/room-modification
     RegisterComponent,
     PasswordResetComponent,
     RoomCreationComponent,
-    RoomDeletionComponent
+    RoomDeletionComponent,
+    RoomModificationComponent
   ],
   imports: [
     AppRoutingModule,
