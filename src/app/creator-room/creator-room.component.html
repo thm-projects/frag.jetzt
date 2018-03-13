@@ -24,9 +24,11 @@
         <button mat-button color="primary" matTooltip="Create new content" (click)="createContentDialog()">
           Create content
         </button>
-        <button mat-button color="primary" matTooltip="See room comments"
-                routerLink="/creator/room/{{room.id}}/comments">
+        <button mat-button color="primary" matTooltip="See room comments" routerLink="/creator/room/{{room.id}}/comments">
           Comments
+        </button>
+        <button mat-button color="primary" matTooltip="See answer statistics" routerLink="/creator/room/{{room.id}}/answer-statistics">
+          Answer statistics
         </button>
         <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">
           Edit room

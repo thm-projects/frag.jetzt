@@ -13,6 +13,7 @@ import { CommentListComponent } from './comment-list/comment-list.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentCreationComponent } from './content-creation/content-creation.component';
 import { ContentDetailComponent } from './content-detail/content-detail.component';
+import { AnswerStatisticsComponent } from './answer-statistics/answer-statistics.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -42,6 +43,12 @@ const routes: Routes = [
   {
     path: 'creator/room/:roomId/comments',
     component: CommentListComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'creator/room/:roomId/answer-statistics',
+    component: AnswerStatisticsComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
