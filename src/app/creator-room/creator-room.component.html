@@ -23,11 +23,10 @@
 
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-button color="primary" matTooltip="Create new content" (click)="createContentDialog()"> <!-- routerLink="/creator/room/{{room.id}}/content-creation"> -->
+        <button mat-button color="primary" matTooltip="Create new content" (click)="createContentDialog()">
           Create content
         </button>
-        <button mat-button color="primary" matTooltip="See room comments"
-                routerLink="/creator/room/{{room.id}}/comments">
+        <button mat-button color="primary" matTooltip="See room comments" routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
         <button (click)="showEditDialog()" mat-button color="primary">
