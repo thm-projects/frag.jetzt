@@ -4,6 +4,7 @@ import { AnswerText } from '../answer-text';
 import { ContentDetailComponent } from '../content-detail/content-detail.component';
 import { Content } from '../content';
 import { ActivatedRoute } from '@angular/router';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-content-answers-list',
@@ -13,7 +14,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ContentAnswersListComponent implements OnInit {
   textAnswers: AnswerText[];
   content: Content[];
-  filteredConrtent: Content[];
+  filteredTextAnswers: AnswerText[];
 
   constructor(private contentAnswerService: ContentAnswerService,
               private contentDetailComponent: ContentDetailComponent,
@@ -22,10 +23,13 @@ export class ContentAnswersListComponent implements OnInit {
   ngOnInit() {
     this.getAnswerTexts();
     this.route.params.subscribe(params => {
-      this.contentDetailComponent.getContent(params['id']); // todo: filtered content befüllen
+      this.contentDetailComponent.getContent(params['id']); // todo: filtered answers befüllen
     });
+    for (const textAnswer of this.textAnswers) {
+      console.log('kre');
+      if (textAnswer.contentId === this.content.id) { this.filteredTextAnswers.push(textAnswer); }
+    }
   }
-
   getAnswerTexts(): void {
     this.contentAnswerService.getAnswerTexts().
       subscribe(textAnswers => {
