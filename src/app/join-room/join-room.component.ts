@@ -35,7 +35,6 @@ export class JoinRoomComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   joinRoom(id: string): void {
