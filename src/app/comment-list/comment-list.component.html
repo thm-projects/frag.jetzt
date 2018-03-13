@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="center">
-  <div fxLayout="column" fxLayoutGap="20">
+  <div fxLayout="column" fxLayoutGap="20px">
       <div *ngFor="let comment of comments">
         <mat-card>
           <mat-card-content>
@@ -7,7 +7,7 @@
 
             {{comment.body}}
 
-            <div class="body-buttons">
+            <div class="body-buttons" fxLayout="Column" fxLayoutGap="5px" fxLayoutAlign="end">
               <button *ngIf="!comment.read" mat-fab color="warn" matTooltip="Is not read" (click)="setRead(comment)">
                 <mat-icon>clear</mat-icon>
               </button>
