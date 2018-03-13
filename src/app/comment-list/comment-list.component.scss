@@ -3,8 +3,8 @@ mat-card {
   justify-content: center;
 }
 
-button {
-  min-width: 800px;
+mat-card-content {
+  min-height: 100px;
 }
 
 mat-card:hover {
@@ -12,37 +12,18 @@ mat-card:hover {
   transition: background .4s cubic-bezier(.25,.8,.25,1),box-shadow 300ms cubic-bezier(.3,0,.2,1);
 }
 
-.not-check-icon {
-  color: red;
-  position: absolute;
-  top: 30%;
-  left: 96%;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  background: lightcoral;
+.trash-icon:hover {
+  background: #F44336;
 }
 
-.check-icon {
-  color: green;
-  position: absolute;
-  top: 30%;
-  left: 96%;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  background: lightgreen;
+.back-button {
+  min-width: 800px;
 }
 
-.trash-icon {
-  color: red;
+.body-buttons {
   position: absolute;
-  top: 50%;
-  left: 96%;
-  border-radius: 50%;
-  width: 25px;
-  height: 25px;
-  background: lightcoral;
+  top: 10%;
+  left: 92%;
 }
 
 .date {
