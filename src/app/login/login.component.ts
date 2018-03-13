@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
       !this.passwordFormControl.hasError('required')) {
-      this.authenticationService.login(username, password, this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+      this.authenticationService.login(username, password).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
     } else {
       this.notificationService.show('Please fit the requirements shown above.');
     }
@@ -55,8 +55,15 @@ export class LoginComponent implements OnInit {
     this.authenticationService.guestLogin().subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
   }
 
-  private checkLogin(loginSuccessful: boolean) {
+  private checkLogin(loginSuccessful: ClientAuthentication) {
     if (loginSuccessful) {
+      const user: User = new User(
+        loginSuccessful.userId,
+        loginSuccessful.loginId,
+        loginSuccessful.authProvider,
+        loginSuccessful.token,
+        this.role);
+      this.authenticationService.setUser(user);
       this.notificationService.show('Login successful!');
       if (this.role === UserRole.CREATOR) {
         this.router.navigate(['creator']);
