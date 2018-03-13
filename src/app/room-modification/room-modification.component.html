@@ -1,11 +1,11 @@
 <div *ngIf="editRoom">
-  <mat-form-field>
+  <mat-form-field class="input-block">
     <input [(ngModel)]="editRoom.name" #roomName matInput/>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="input-block">
     <input [(ngModel)]="editRoom.shortId" #roomShortID matInput/>
   </mat-form-field>
-  <mat-form-field>
+  <mat-form-field class="input-block">
             <textarea [(ngModel)]="editRoom.description" #roomDescription matInput matTextareaAutosize
                       matAutosizeMinRows="2"
                       matAutosizeMaxRows="5"></textarea>
