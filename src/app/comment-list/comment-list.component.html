@@ -1,24 +1,32 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10">
-  <div *ngFor="let comment of comments">
-    <mat-card>
-      <mat-card-content>
-        <div class="comment-body">
-          <h3>{{comment.subject}}</h3><br>
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxLayout="column" fxLayoutGap="20px">
+      <div *ngFor="let comment of comments">
+        <mat-card>
+          <mat-card-content>
+            <h3>{{comment.subject}}</h3>
 
-          {{comment.body}}
+            {{comment.body}}
 
-          <div class="trash-icon">
-            <i class="material-icons" (click)="delete(comment)">delete</i>
-          </div>
-        </div>
-      </mat-card-content>
-      <mat-card-footer>
-        <div class="date">
-          <i> Submitted on {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
-        </div>
-      </mat-card-footer>
-    </mat-card><br>
+            <div class="body-buttons" fxLayout="Column" fxLayoutGap="5px" fxLayoutAlign="end">
+              <button *ngIf="!comment.read" mat-fab color="warn" matTooltip="Is not read" (click)="setRead(comment)">
+                <mat-icon>clear</mat-icon>
+              </button>
+              <button *ngIf="comment.read" mat-fab color="primary" matTooltip="Is read" (click)="setRead(comment)">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button class="trash-icon" mat-fab color="primary" matTooltip="Delete" (click)="delete(comment)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </mat-card-content>
+          <mat-card-footer>
+            <div class="date">
+              <i> Submitted on {{comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' : format}} </i>
+            </div>
+          </mat-card-footer>
+        </mat-card><br>
+      </div>
+
+    <button class="back-button" mat-raised-button color="primary" (click)="goBack()">Back</button>
   </div>
 </div>
-
-<button mat-raised-button color="primary" (click)="goBack()">Back</button>
