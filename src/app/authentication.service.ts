@@ -7,9 +7,6 @@ import { DataStoreService } from './data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from './client-authentication';
 import { AuthProvider } from './auth-provider';
-import { NotificationService } from './notification.service';
-import { catchError, tap } from 'rxjs/operators';
-import { ErrorHandlingService } from './error-handling.service';
 import { ClientAuthentication } from './client-authentication';
 
 // TODO: connect to API
