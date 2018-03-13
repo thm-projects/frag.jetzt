@@ -16,7 +16,6 @@ import { RoomDeletionComponent } from '../room-deletion/room-deletion.component'
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;
   modify = false;
-  deleteDialog = false;
   roomName: string;
   roomShortId: string;
   roomDescription: string;
@@ -62,14 +61,6 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
       this.roomService.updateRoom(this.room)
         .subscribe(() => this.goBack());
     }
-  }
-
-  showDeletionDialog(): void {
-    this.deleteDialog = true;
-  }
-
-  hideDeletionDialog(): void {
-    this.deleteDialog = false;
   }
 
   deleteRoom(room: Room): void {
