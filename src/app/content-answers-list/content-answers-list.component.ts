@@ -18,22 +18,24 @@ export class ContentAnswersListComponent implements OnInit {
 
   constructor(private contentAnswerService: ContentAnswerService,
               private contentDetailComponent: ContentDetailComponent,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.getAnswerTexts();
     this.route.params.subscribe(params => {
       this.contentDetailComponent.getContent(params['id']); // todo: filtered answers befüllen
     });
-    for (const textAnswer of this.textAnswers) {
+    for (let i = 0; i < this.textAnswers.length; i++) {
       console.log('kre');
-      if (textAnswer.contentId === this.content.id) { this.filteredTextAnswers.push(textAnswer); }
+      for (let j = 0; i < this.content.length; j++) {
+        if (this.textAnswers[i].contentId === this.content[j].id) { this.filteredTextAnswers.push(this.textAnswers[i]); }
+      }
     }
   }
+
   getAnswerTexts(): void {
-    this.contentAnswerService.getAnswerTexts().
-      subscribe(textAnswers => {
-        this.textAnswers = textAnswers;
-      });
+    this.contentAnswerService.getAnswerTexts().subscribe(textAnswers => {
+      this.textAnswers = textAnswers;
+    });
   }
 }
