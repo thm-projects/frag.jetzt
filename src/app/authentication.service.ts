@@ -23,7 +23,8 @@ export class AuthenticationService {
     guest : '/guest'
   };
   private httpOptions = {
-    headers: new HttpHeaders({})
+    headers: new HttpHeaders({
+    })
   };
 
   constructor(private dataStoreService: DataStoreService,
