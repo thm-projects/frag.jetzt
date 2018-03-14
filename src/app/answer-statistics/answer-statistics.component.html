@@ -1,26 +1,25 @@
-<div fxLayout="row" fxLayoutAlign="center">
-  <div fxLayout="column" fxLayoutGap="20px">
-    <mat-card>
-      <mat-tab-group>
-        <mat-tab label="Answer statistic">
-          <mat-select placeholder="Answers" fxLayoutAlign="right" (change)="showStatistic($event.value)">
-            <mat-option *ngFor="let state of states" [value]="state.value">
-              {{ state.viewValue }}
-            </mat-option>
-          </mat-select>
-          <div *ngIf="selected == 1">
-            <!-- Add list of Question statistic -->
-            <mat-progress-bar [value]="50">
-            </mat-progress-bar>
-          </div>
-          <div *ngIf="selected == 2">
-            <!-- Add list of Question statistic -->
-            <mat-progress-bar [value]="50" color="warn">
-            </mat-progress-bar>
-          </div>
-        </mat-tab>
-        <!-- Add second tab with true false answers -->
-      </mat-tab-group>
-    </mat-card>
-  </div>
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
+  <mat-card>
+    <mat-tab-group>
+      <mat-tab label="Answer statistic">
+        <mat-select placeholder="Answers" fxLayoutAlign="right" (change)="showStatistic($event.value)">
+          <mat-option *ngFor="let state of states" [value]="state.value">
+            {{ state.viewValue }}
+          </mat-option>
+        </mat-select>
+        <div *ngIf="selected == 1">
+          <!-- Add list of Question statistic -->
+          <mat-progress-bar [value]="50">
+          </mat-progress-bar>
+        </div>
+        <div *ngIf="selected == 2">
+          <!-- Add list of Question statistic -->
+          <mat-progress-bar [value]="50" color="warn">
+          </mat-progress-bar>
+        </div>
+      </mat-tab>
+      <!-- Add second tab with true false answers -->
+    </mat-tab-group>
+  </mat-card>
 </div>
+

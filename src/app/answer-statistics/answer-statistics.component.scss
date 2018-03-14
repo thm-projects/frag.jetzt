@@ -1,5 +1,6 @@
 mat-card {
-  min-width: 800px;
+  max-width: 800px;
+  width: 100%;
 }
 
 mat-select {
@@ -8,6 +9,6 @@ mat-select {
   margin-left: 625px;
 }
 
-.bars {
+mat-progress-bar {
   margin-top: 20px;
 }
