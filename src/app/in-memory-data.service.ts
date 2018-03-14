@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { ContentType } from './content';
+import { ContentType } from './content-type';
 
 export class InMemoryDataService implements InMemoryDbService {
   /**
