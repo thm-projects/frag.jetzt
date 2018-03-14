@@ -33,17 +33,17 @@ export class RoomCreationComponent implements OnInit {
     this.emptyInputs = false;
   }
 
-  addRoom(longRoomName: string, shortRoomName: string) {
+  addRoom(longRoomName: string, shortRoomName: string, shortId: string, description: string) {
     longRoomName = longRoomName.trim();
     shortRoomName = shortRoomName.trim();
     if (!longRoomName || !shortRoomName) {
       this.emptyInputs = true;
       return;
     }
-    this.roomService.addRoom({ name: longRoomName, abbreviation: shortRoomName } as Room)
+    this.roomService.addRoom({ name: longRoomName, abbreviation: shortRoomName, shortId: shortId, description: description } as Room)
       .subscribe(room => {
         this.notification.show(`Room '${room.name}' successfully created.`);
-        this.router.navigate([`/creator/room/${room.id}`]);
+        this.router.navigate([`/creator/room/~${room.shortId}`]);
         this.dialogRef.close();
       });
   }
