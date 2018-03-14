@@ -6,6 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./answer-statistics.component.scss']
 })
 export class AnswerStatisticsComponent implements OnInit {
+  states = [
+    { value: '1', viewValue: 'Responded' },
+    { value: '2', viewValue: 'Not responded' },
+  ];
 
   constructor() { }
 

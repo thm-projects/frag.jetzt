@@ -1,4 +1,20 @@
-<mat-card>
-  <mat-progress-bar [value]="50">
-  </mat-progress-bar>
-</mat-card>
+<div fxLayout="row" fxLayoutAlign="center">
+  <div fxLayout="column" fxLayoutGap="20px">
+    <mat-card>
+      <mat-tab-group>
+        <mat-tab label="Answer statistic">
+          <mat-select placeholder="Answers" fxLayoutAlign="right">
+            <mat-option *ngFor="let state of states" [value]="state.value">
+              {{ state.value }}
+            </mat-option>
+          </mat-select>
+          <div class="bars">
+            Answer 1
+            <mat-progress-bar [value]="50" #col *ngIf="state.value === 'Responded' :">
+            </mat-progress-bar>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+  </div>
+</div>
