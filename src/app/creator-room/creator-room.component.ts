@@ -62,9 +62,10 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   }
 
   createContentDialog(): void {
-    this.dialog.open(ContentCreationComponent, {
+    const dialogRef = this.dialog.open(ContentCreationComponent, {
       width: '350px'
     });
+    dialogRef.componentInstance.roomId = this.room.id;
   }
 
   confirmDeletion(dialogAnswer: string): void {

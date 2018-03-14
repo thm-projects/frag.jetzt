@@ -14,15 +14,15 @@ import { RoomComponent } from '../room/room.component';
 export class ContentCreationComponent implements OnInit {
   subject: string;
   body: string;
+  roomId: string;
   emptyInputs = false;
-  
-  constructor(
-    private contentService: ContentService,
-    private router: Router,
-    private notification: NotificationService,
-    public dialogRef: MatDialogRef<RoomComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) { }
+
+  constructor(private contentService: ContentService,
+              private router: Router,
+              private notification: NotificationService,
+              public dialogRef: MatDialogRef<RoomComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -42,7 +42,7 @@ export class ContentCreationComponent implements OnInit {
       this.emptyInputs = true;
       return;
     }
-    this.contentService.addContent({ subject: subject, body: body } as Content)
+    this.contentService.addContent({ subject: subject, body: body, roomId: this.roomId } as Content)
       .subscribe(content => {
         this.notification.show(`Content '${content.subject}' successfully created.`);
         this.router.navigate([`/creator/room/${content.roomId}/${content.id}`]);
