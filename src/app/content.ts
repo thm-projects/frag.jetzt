@@ -1,7 +1,7 @@
 import { ContentType } from './content-type';
 
 export class Content {
-  id: string;
+  contentId: string;
   revision: string;
   roomId: string;
   subject: string;

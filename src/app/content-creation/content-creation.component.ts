@@ -45,7 +45,7 @@ export class ContentCreationComponent implements OnInit {
     this.contentService.addContent({ subject: subject, body: body, roomId: this.roomId } as Content)
       .subscribe(content => {
         this.notification.show(`Content '${content.subject}' successfully created.`);
-        this.router.navigate([`/creator/room/${content.roomId}/${content.id}`]);
+        this.router.navigate([`/creator/room/${content.roomId}/${content.contentId}`]);
         this.dialogRef.close();
       });
   }
