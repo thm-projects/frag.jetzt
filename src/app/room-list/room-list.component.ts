@@ -17,7 +17,8 @@ export class RoomListComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    protected authenticationService: AuthenticationService) {}
+    protected authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
     this.getRooms();

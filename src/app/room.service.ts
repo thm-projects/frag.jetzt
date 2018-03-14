@@ -21,11 +21,22 @@ export class RoomService extends ErrorHandlingService {
     super();
   }
 
-  getRooms(): Observable<Room[]> {
+  getCreatorRooms(): Observable<Room[]> {
     const url = this.apiBaseUrl + this.roomsUrl + this.findRoomsUrl;
     return this.http.post<Room[]>(url, {
       properties: { ownerId: this.authService.getUser().userId },
       externalFilters: {}
+    }).pipe(
+      tap(_ => ''),
+      catchError(this.handleError('getRooms', []))
+    );
+  }
+
+  getParticipantRooms(): Observable<Room[]> {
+    const url = this.apiBaseUrl + this.roomsUrl + this.findRoomsUrl;
+    return this.http.post<Room[]>(url, {
+      properties: {},
+      externalFilters: { inHistoryOfUserId: this.authService.getUser().userId }
     }).pipe(
       tap(_ => ''),
       catchError(this.handleError('getRooms', []))
