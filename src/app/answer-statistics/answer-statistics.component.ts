@@ -10,10 +10,14 @@ export class AnswerStatisticsComponent implements OnInit {
     { value: '1', viewValue: 'Responded' },
     { value: '2', viewValue: 'Not responded' },
   ];
+  selected: number = null;
 
   constructor() { }
 
   ngOnInit() {
   }
 
+  showStatistic(value) {
+    this.selected = value;
+  }
 }
