@@ -22,22 +22,21 @@
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button color="primary" matTooltip="Give feedback">
-            <mat-icon>feedback</mat-icon>
+            <mat-icon>thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
       <mat-nav-list>
         <mat-list-item matTooltip="Join question round" routerLink="/participant/room/{{ room.id }}/questions">
-            Contents
+          Contents
         </mat-list-item>
-
         <mat-list-item matTooltip="See room comments">
           Comments
-          </mat-list-item>
-          <mat-list-item matTooltip="Join question round">
-            Learn
-          </mat-list-item>
-          </mat-nav-list>
+        </mat-list-item>
+        <mat-list-item matTooltip="Join question round">
+          Learn
+        </mat-list-item>
+      </mat-nav-list>
     </mat-card>
   </div>
   <button mat-button color="primary" (click)="goBack()">Back</button>
