@@ -3,6 +3,8 @@ import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/c
 import { Observable } from 'rxjs/Observable';
 import { AuthenticationService } from './authentication.service';
 
+const AUTH_HEADER_KEY = 'Arsnova-Auth-Token';
+
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
@@ -14,7 +16,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
     if (token) {
       const cloned = req.clone({
-        headers: req.headers.set('Arsnova-Auth-Token', token)
+        headers: req.headers.set(AUTH_HEADER_KEY, token)
       });
 
       return next.handle(cloned);

@@ -5,11 +5,9 @@ import { of } from 'rxjs/observable/of';
 import { UserRole } from './user-roles.enum';
 import { DataStoreService } from './data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { AuthProvider } from './auth-provider';
 import { ClientAuthentication } from './client-authentication';
 
 // TODO: connect to API
-// TODO: persist user data (shouldn't get lost on page refresh)
 @Injectable()
 export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
@@ -32,10 +30,10 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string): Observable<ClientAuthentication> {
-    const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl  + this.apiLoginUrl + this.apiRegisteredUrl;
+    const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + this.apiRegisteredUrl;
 
     return this.http.post<ClientAuthentication>(connectionUrl, {
-      loginId : email,
+      loginId: email,
       password: password
     }, this.httpOptions);
   }
@@ -77,4 +75,17 @@ export class AuthenticationService {
     return this.isLoggedIn() ? this.user.userRole : undefined;
   }
 
+  getToken(): string {
+    return this.user.token;
+  }
+
+  setToken(token?: string): boolean {
+    // Initial check for token
+    if (!token) {
+      token = this.getToken();
+      return true;
+    }
+
+    return true;
+  }
 }
