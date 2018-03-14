@@ -18,8 +18,6 @@ export class RoomService extends ErrorHandlingService {
 
   constructor(private http: HttpClient,
               private authService: AuthenticationService) {
-  constructor(private http: HttpClient,
-              private authenticationService: AuthenticationService) {
     super();
   }
 
@@ -40,7 +38,7 @@ export class RoomService extends ErrorHandlingService {
     return this.http.post<Room[]>(getRoomsUrl, {
       properties: {},
       externalFilters: {
-        ownerId: this.authenticationService.getUser().userId
+        ownerId: this.authService.getUser().userId
       }
     }, httpOptions);
   }
@@ -50,14 +48,11 @@ export class RoomService extends ErrorHandlingService {
     return this.http.post<Room>(connectionUrl, {
       shortId: room.shortId, ownerId: this.authService.getUser().userId,
       abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description
-    }, httpOptions).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<Room>('addRoom'))
-    );
+    }, httpOptions);
   }
 
   getRoom(id: string): Observable<Room> {
-    const connectionUrl = `${this.apiBaseUrl}${this.roomsUrl}/${id}`;
+    const connectionUrl = `${ this.apiBaseUrl }${ this.roomsUrl }/~${id}`;
     return this.http.get<Room>(connectionUrl).pipe(
       catchError(this.handleError<Room>(`getRoom id=${id}`))
     );
