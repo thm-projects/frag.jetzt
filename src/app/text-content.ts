@@ -1,15 +1,21 @@
-import { Content, ContentType } from './content';
+import { Content } from './content';
+import { ContentType } from './content-type';
 
 export class TextContent extends Content {
 
-  constructor(roomId: string, subject: string, body: string) {
-    super();
-    this.revision = '1';
-    this.roomId = roomId;
-    this.subject = subject;
-    this.body = body;
-    this.round = 1;
-    this.format = ContentType.TEXT;
-    this.formatAttributes.clear(); // API: formatAttributes = Map.empty();
+  constructor(contentId: string,
+              revision: string,
+              roomId: string,
+              subject: string,
+              body: string,
+              round: number) {
+    super(contentId,
+      revision,
+      roomId,
+      subject,
+      body,
+      round,
+      ContentType.TEXT,
+      new Map());
   }
 }
