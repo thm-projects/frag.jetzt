@@ -49,7 +49,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
       this.room.shortId = this.updRoom.shortId;
       this.room.description = this.updRoom.description;
       this.roomService.updateRoom(this.room)
-        .subscribe(() => this.goBack());
+        .subscribe();
     }
   }
 
