@@ -16,8 +16,9 @@ export class ContentService extends ErrorHandlingService {
     super();
   }
 
-  getContents(): Observable<Content[]> {
-    return this.http.get<Content[]>(this.contentUrl).pipe(
+  getContents(roomId: string): Observable<Content[]> {
+    const url = `${this.contentUrl}/?roomId=${roomId}`;
+    return this.http.get<Content[]>(url).pipe(
       catchError(this.handleError('getContents', []))
     );
   }
