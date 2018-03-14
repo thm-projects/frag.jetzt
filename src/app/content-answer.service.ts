@@ -3,13 +3,13 @@ import { AnswerText } from './answer-text';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
-import { ErrorHandlingService } from './error-handling.service';
+import { BaseHttpService } from './base-http.service';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable()
-export class ContentAnswerService extends ErrorHandlingService {
+export class ContentAnswerService extends BaseHttpService {
   private textAnswerUrl = 'api/textAnswers';
   private choiceAnswerUrl = 'api/choiceAnswers';
 
