@@ -1,4 +1,4 @@
-<form (ngSubmit)="addContent(subjectTitle.value, bodyText.value, contentRound.value)">
+<form (ngSubmit)="addContent(subjectTitle.value, bodyText.value, roomIdNum.value)">
   <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
       <input class="input-block" #subjectTitle matInput (keypress)="resetEmptyInputs()" placeholder="Subject" [(ngModel)]="subject"
@@ -8,9 +8,12 @@
       </button>
     </mat-form-field>
     <mat-form-field>
-    <input class="input-block" #contentRound matInput (keypress)="resetEmptyInputs()" placeholder="Round" [(ngModel)]="round"
-    name="Round">
-  </mat-form-field>
+      <input class="input-block" #roomIdNum matInput (keypress)="resetEmptyInputs()" placeholder="Room Id" [(ngModel)]="roomId"
+        name="Title">
+      <button mat-button *ngIf="roomId" type="text" matSuffix mat-icon-button aria-label="Clear" (click)="roomId=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
     <mat-form-field>
       <textarea #bodyText matInput matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" (keypress)="resetEmptyInputs()"
         placeholder="Body" [(ngModel)]="body" name="Text"></textarea>
