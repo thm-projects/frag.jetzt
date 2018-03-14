@@ -15,6 +15,7 @@ export class RoomCreationComponent implements OnInit {
   shortName: string;
   emptyInputs = false;
   room: Room;
+  roomId: string;
 
   constructor(private roomService: RoomService,
               private router: Router,
@@ -41,7 +42,12 @@ export class RoomCreationComponent implements OnInit {
       this.emptyInputs = true;
       return;
     }
-    this.roomService.addRoom({ name: longRoomName, abbreviation: shortRoomName, description: description } as Room)
+    this.roomService.addRoom({
+      name: longRoomName,
+      abbreviation: shortRoomName,
+      description: description
+    } as Room).subscribe( room => this.room = room);
+    this.roomService.getRoomById(this.roomId)
       .subscribe(room => {
         this.room = room;
         this.notification.show(`Room '${this.room.name}' successfully created.`);

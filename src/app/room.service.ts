@@ -58,6 +58,13 @@ export class RoomService extends ErrorHandlingService {
     );
   }
 
+  getRoomById(id: string): Observable<Room> {
+    const connectionUrl = `${ this.apiBaseUrl }${ this.roomsUrl }/${id}`;
+    return this.http.get<Room>(connectionUrl).pipe(
+      catchError(this.handleError<Room>(`getRoom id=${id}`))
+    );
+  }
+
   updateRoom(room: Room): Observable<Room> {
     const connectionUrl = `${this.apiBaseUrl}${this.roomsUrl}/${room.id}`;
     return this.http.put(connectionUrl, {
