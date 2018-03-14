@@ -1,12 +1,14 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Room } from '../room';
 import { Comment } from '../comment';
 import { RoomService } from '../room.service';
-import { CommentService} from '../comment.service';
+import { CommentService } from '../comment.service';
 import { NotificationService } from '../notification.service';
-import { Router } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
+import { User } from '../user';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-create-comment',
@@ -14,10 +16,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./create-comment.component.scss']
 })
 export class CreateCommentComponent implements OnInit {
+  @ViewChild(CommentListComponent) child: CommentListComponent;
   @Input() room: Room;
+  user: User;
 
   constructor(
-    private router: Router,
+    protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private roomService: RoomService,
     private commentService: CommentService,
@@ -25,6 +29,7 @@ export class CreateCommentComponent implements OnInit {
     private notification: NotificationService) { }
 
   ngOnInit(): void {
+    this.user = this.authenticationService.getUser();
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
@@ -42,11 +47,12 @@ export class CreateCommentComponent implements OnInit {
     }
     this.commentService.addComment({
       roomId: this.room.id,
+      userId: this.user.id,
       subject: subject,
       body: body,
       creationTimestamp: new Date(Date.now())
     } as Comment).subscribe(() => {
-      this.router.navigate([`/participant/room/${this.room.id}`]);
+      this.child.getComments(this.room.id);
       this.notification.show(`Comment '${subject}' successfully created.`);
     });
   }

@@ -5,6 +5,9 @@ import { Comment } from '../comment';
 import { CommentService } from '../comment.service';
 import { RoomService } from '../room.service';
 import { NotificationService } from '../notification.service';
+import { AuthenticationService } from '../authentication.service';
+import { UserRole } from '../user-roles.enum';
+import { User } from '../user';
 
 @Component({
   selector: 'app-comment-list',
@@ -12,9 +15,13 @@ import { NotificationService } from '../notification.service';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
+  userRoleTemp: any = UserRole.CREATOR;
+  userRole: UserRole;
+  user: User;
   comments: Comment[];
 
   constructor(
+    protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private roomService: RoomService,
     private location: Location,
@@ -22,6 +29,8 @@ export class CommentListComponent implements OnInit {
     private notification: NotificationService) { }
 
   ngOnInit() {
+    this.userRole = this.authenticationService.getRole();
+    this.user = this.authenticationService.getUser();
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
@@ -35,8 +44,13 @@ export class CommentListComponent implements OnInit {
   }
 
   getComments(roomId: string): void {
-    this.commentService.getComments(roomId)
-      .subscribe(comments => this.comments = comments);
+    if (this.userRole === UserRole.CREATOR) {
+      this.commentService.getComments(roomId)
+        .subscribe(comments => this.comments = comments);
+    } else if (this.userRole === UserRole.PARTICIPANT) {
+      this.commentService.searchComments(roomId, this.user.id)
+        .subscribe(comments => this.comments = comments);
+    }
   }
 
   setRead(comment: Comment): void {

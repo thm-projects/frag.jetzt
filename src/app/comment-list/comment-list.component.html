@@ -7,14 +7,14 @@
 
             {{comment.body}}
 
-            <div class="body-buttons" fxLayout="Column" fxLayoutGap="5px" fxLayoutAlign="end">
-              <button *ngIf="!comment.read" mat-fab color="warn" matTooltip="Is not read" (click)="setRead(comment)">
+            <div class="body-buttons">
+              <button *ngIf="!comment.read" mat-fab color="warn" matTooltip="Is not read" (click)="userRole === userRoleTemp && setRead(comment)">
                 <mat-icon>clear</mat-icon>
               </button>
-              <button *ngIf="comment.read" mat-fab color="primary" matTooltip="Is read" (click)="setRead(comment)">
+              <button *ngIf="comment.read" mat-fab color="primary" matTooltip="Is read" (click)="userRole === userRoleTemp && setRead(comment)">
                 <mat-icon>check</mat-icon>
               </button>
-              <button class="trash-icon" mat-fab color="primary" matTooltip="Delete" (click)="delete(comment)">
+              <button *ngIf="userRole === userRoleTemp" class="trash-icon" mat-fab color="primary" matTooltip="Delete" (click)="delete(comment)">
                 <mat-icon>delete</mat-icon>
               </button>
             </div>
@@ -27,6 +27,6 @@
         </mat-card><br>
       </div>
 
-    <button class="back-button" mat-raised-button color="primary" (click)="goBack()">Back</button>
+    <button *ngIf="userRole === userRoleTemp" mat-raised-button color="primary" (click)="goBack()">Back</button>
   </div>
 </div>
