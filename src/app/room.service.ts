@@ -7,20 +7,28 @@ import { ErrorHandlingService } from './error-handling.service';
 import { AuthenticationService } from './authentication.service';
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({})
 };
 
 @Injectable()
 export class RoomService extends ErrorHandlingService {
-  private roomsUrl = 'api/rooms';
+  private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
+  private roomsUrl = '/room';
+  private findRoomsUrl = '/find';
 
+  constructor(private http: HttpClient,
+              private authService: AuthenticationService) {
   constructor(private http: HttpClient,
               private authenticationService: AuthenticationService) {
     super();
   }
 
   getRooms(): Observable<Room[]> {
-    return this.http.get<Room[]>(this.roomsUrl).pipe(
+    const url = this.apiBaseUrl + this.roomsUrl + this.findRoomsUrl;
+    return this.http.post<Room[]>(url, {
+      properties: {},
+      externalFilters: { inHistoryOfUserId: this.authService.getUser().userId }
+    }).pipe(
       tap(_ => ''),
       catchError(this.handleError('getRooms', []))
     );
@@ -38,31 +46,37 @@ export class RoomService extends ErrorHandlingService {
   }
 
   addRoom(room: Room): Observable<Room> {
-    return this.http.post<Room>(this.roomsUrl, room, httpOptions).pipe(
+    const connectionUrl = this.apiBaseUrl + this.roomsUrl + '/';
+    return this.http.post<Room>(connectionUrl, {
+      shortId: room.shortId, ownerId: this.authService.getUser().userId,
+      abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description
+    }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Room>('addRoom'))
     );
   }
 
   getRoom(id: string): Observable<Room> {
-    const url = `${this.roomsUrl}/${id}`;
-    return this.http.get<Room>(url).pipe(
+    const connectionUrl = `${this.apiBaseUrl}${this.roomsUrl}/${id}`;
+    return this.http.get<Room>(connectionUrl).pipe(
       catchError(this.handleError<Room>(`getRoom id=${id}`))
     );
   }
 
-  updateRoom(room: Room): Observable<any> {
-    return this.http.put(this.roomsUrl, room, httpOptions).pipe(
+  updateRoom(room: Room): Observable<Room> {
+    const connectionUrl = `${this.apiBaseUrl}${this.roomsUrl}/${room.id}`;
+    return this.http.put(connectionUrl, {
+      shortId: room.shortId, ownerId: this.authService.getUser().userId,
+      abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description
+    }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('updateRoom'))
     );
   }
 
-  deleteRoom (room: Room | string): Observable<Room> {
-    const id = typeof room === 'string' ? room : room.id;
-    const url = `${this.roomsUrl}/${id}`;
-
-    return this.http.delete<Room>(url, httpOptions).pipe(
+  deleteRoom(room: Room): Observable<Room> {
+    const connectionUrl = `${this.apiBaseUrl}${this.roomsUrl}/${room.id}`;
+    return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Room>('deleteRoom'))
     );
