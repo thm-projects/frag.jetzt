@@ -33,7 +33,7 @@ export class RoomListComponent implements OnInit {
   }
 
   getRooms(): void {
-    this.roomService.getRoomsCreator().subscribe(rooms => {
+    this.roomService.getRooms().subscribe(rooms => {
       this.rooms = rooms;
       this.closedRooms = this.rooms.filter(room => room.closed);
       this.isLoading = false;
