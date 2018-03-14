@@ -13,12 +13,15 @@ export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
   private user: User;
   private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
+  private apiV2Url = 'https://arsnova-staging.mni.thm.de/v2';
   private apiAuthUrl = '/auth';
   private apiLoginUrl = '/login';
+  private apiUserUrl = '/user';
+  private apiRegisterUrl = '/register';
   private apiRegisteredUrl = '/registered';
+  private apiResetPasswordUrl = '/resetpassword';
   private httpOptions = {
-    headers: new HttpHeaders({
-    })
+    headers: new HttpHeaders({})
   };
 
   constructor(private dataStoreService: DataStoreService,
@@ -44,12 +47,22 @@ export class AuthenticationService {
     return this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions);
   }
 
-  register(email: string, password: string): Observable<boolean> {
-    return of(true);
+  register(email: string, password: string): Observable<ClientAuthentication> {
+    const connectionUrl: string = this.apiBaseUrl + this.apiRegisterUrl;
+
+    return this.http.post<ClientAuthentication>(connectionUrl, {
+      loginId: email,
+      password: password
+    }, this.httpOptions);
   }
 
   resetPassword(email: string): Observable<boolean> {
-    return of(true);
+    const connectionUrl: string = this.apiV2Url + this.apiUserUrl + email + this.apiResetPasswordUrl;
+
+    return this.http.post<boolean>(connectionUrl, {
+      key: null,
+      password: null
+    }, this.httpOptions);
   }
 
   logout() {

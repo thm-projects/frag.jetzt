@@ -38,12 +38,9 @@ export class PasswordResetComponent implements OnInit {
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email')) {
       this.authenticationService.resetPassword(username).subscribe(result => {
-        if (result) {
-          this.notificationService.show('Password was reset. Please check your mail!');
-          this.dialogRef.close();
-        } else {
-          this.notificationService.show('Could not reset your password. Is your email address correct?');
-        }
+        // ToDo: Check what /resetpassword returns and check for potential errors
+        this.notificationService.show('Password was reset. Please check your mail!');
+        this.dialogRef.close();
       });
     } else {
       this.notificationService.show('Please fit the requirements shown above.');
