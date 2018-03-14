@@ -42,7 +42,9 @@ export class AnswerStatisticsComponent implements OnInit {
 
   getAnswers(): void {
     for (const question of this.content) {
-      this.contentAnswerService.getAnswerTexts(question.id).subscribe( answer => [].push.apply(this.answers, answer));
+      this.contentAnswerService.getAnswerTexts(question.id).subscribe( answer => {
+        [].push.apply(this.answers, answer);
+      });
     }
   }
 
@@ -50,10 +52,15 @@ export class AnswerStatisticsComponent implements OnInit {
     console.log(this.answers);
     this.statistics = [];
     for (const question of this.content) {
+      const count = this.countAnswers(question.id);
       this.statistics.push( {
-        name: question.subject, votes: '10', percent: '10',
+        name: question.subject, answers: count, percent: count * 100 / this.answers.length,
       });
     }
     this.selected = value;
+  }
+
+  countAnswers(contentId: string): number {
+    return this.answers.filter(answer => answer.contentId === contentId).length;
   }
 }
