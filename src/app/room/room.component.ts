@@ -19,9 +19,7 @@ export class RoomComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.getRoom(params['roomId']);
-    });
+
   }
 
   getRoom(id: string): void {

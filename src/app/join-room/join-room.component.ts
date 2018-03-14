@@ -22,7 +22,6 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class JoinRoomComponent implements OnInit {
 
   room: Room;
-  isExisting = true;
 
   roomFormControl = new FormControl('', [Validators.required]);
 
