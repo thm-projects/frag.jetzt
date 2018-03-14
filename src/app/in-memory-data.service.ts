@@ -98,8 +98,35 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         contentId: '2',
         revision: '2',
-        roomId: '3',
+        roomId: '1',
         subject: 'Text Content 2',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.TEXT
+      },
+      {
+        contentId: '3',
+        revision: '3',
+        roomId: '1',
+        subject: 'Text Content 3',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.TEXT
+      },
+      {
+        contentId: '4',
+        revision: '4',
+        roomId: '1',
+        subject: 'Text Content 4',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.TEXT
+      },
+      {
+        contentId: '5',
+        revision: '2',
+        roomId: '3',
+        subject: 'Text Content 1',
         body: 'This is yet another body of a text content.',
         round: 2,
         format: ContentType.TEXT
