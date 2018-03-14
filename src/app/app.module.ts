@@ -73,6 +73,7 @@ import { ContentService } from './content.service';
 import { ContentAnswersListComponent } from './content-answers-list/content-answers-list.component';
 import { ContentAnswerService } from './content-answer.service';
 import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
+import { RoomModificationComponent } from './room-modification/room-modification.component';
 
 @NgModule({
   declarations: [
@@ -99,13 +100,15 @@ import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
     ContentDetailComponent,
     ContentListComponent,
     ContentAnswersListComponent,
-    RoomDeletionComponent
+    RoomDeletionComponent,
+    RoomModificationComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
     RoomCreationComponent,
-    RoomDeletionComponent
+    RoomDeletionComponent,
+    RoomModificationComponent
   ],
   imports: [
     AppRoutingModule,
