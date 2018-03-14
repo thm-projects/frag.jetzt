@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card *ngIf="room" class="input-form">
+    <mat-card *ngIf="room && !modify" class="input-form">
       <mat-card-header>
         <mat-card-title>
           <h3 class="subheading-2">{{ room.name }}</h3>
@@ -18,19 +18,17 @@
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
-
       <app-content-list></app-content-list>
-
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-button color="primary" matTooltip="Create new content" routerLink="/creator/room/{{room.id}}/content-creation">
+        <button mat-button color="primary" matTooltip="Create new content" (click)="createContentDialog()">
           Create content
         </button>
         <button mat-button color="primary" matTooltip="See room comments"
                 routerLink="/creator/room/{{room.id}}/comments">
           Comments
         </button>
-        <button (click)="showEditDialog()" mat-button color="primary">
+        <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">
           Edit room
         </button>
         <button mat-button color="warn" (click)="openDeletionRoomDialog()">

@@ -3,7 +3,7 @@
     <mat-form-field>
       <input (keypress)="resetEmptyInputs()" matInput #longRoomName class="input-block" type="text" placeholder="Name"
              maxlength="50"
-             [(ngModel)]="longName"/>
+             [(ngModel)]="longName" name="LongName"/>
       <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
       <mat-hint align="end" *ngIf="!emptyInputs">{{longRoomName.value.length}} / 50</mat-hint>
       <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
@@ -14,7 +14,7 @@
     <mat-form-field>
       <input (keypress)="resetEmptyInputs()" matInput #shortRoomName class="input-block" type="text"
              placeholder="Short name" maxlength="8"
-             [(ngModel)]="shortName"/>
+             [(ngModel)]="shortName" name="ShortName"/>
       <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
       <mat-hint align="end" *ngIf="!emptyInputs">{{shortRoomName.value.length}} / 8</mat-hint>
       <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>

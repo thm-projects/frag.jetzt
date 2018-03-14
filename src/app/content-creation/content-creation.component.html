@@ -1,37 +1,23 @@
-<div>
-  <mat-card class="content-card">
-    <mat-card-title>
-      <mat-form-field>
-        <input matInput placeholder="Topic">
-      </mat-form-field>
-    </mat-card-title>
-
+<form (ngSubmit)="addContent(subjectTitle.value, bodyText.value)">
+  <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
-      <textarea matInput placeholder="Place your text here" matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
+      <input class="input-block" #subjectTitle matInput (keypress)="resetEmptyInputs()" placeholder="Subject" [(ngModel)]="subject"
+        name="Title">
+      <button mat-button *ngIf="subject" type="text" matSuffix mat-icon-button aria-label="Clear" (click)="subject=''">
+        <mat-icon>close</mat-icon>
+      </button>
     </mat-form-field>
-  </mat-card>
-</div>
-
-<mat-card class="content-card">
-  <mat-selection-list>
-    <mat-list-option>Answer 32</mat-list-option>
-    <mat-list-option>Answer 33</mat-list-option>
-    <mat-list-option>Answer 34</mat-list-option>
-
-    <mat-list>
-      <mat-form-field>
-        <input matInput placeholder="Add Answer">
-      </mat-form-field>
-      <button mat-mini-fab>+</button>
-    </mat-list>
-  </mat-selection-list>
-</mat-card>
-
-<button mat-raised-button="Preview">Preview</button>
- <!-- TODO: Save answers to array in a class. Show answers in a matlist -->
-
-<div>
-  <mat-slide-toggle>Allow absention</mat-slide-toggle>
-  <mat-slide-toggle>Show hints</mat-slide-toggle>
-</div>
- <!-- Let this view open in a mat dialog -->
+    <mat-form-field>
+      <textarea #bodyText matInput matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" (keypress)="resetEmptyInputs()"
+        placeholder="Body" [(ngModel)]="body" name="Text"></textarea>
+      <button mat-button *ngIf="body" type="text" matSuffix mat-icon-button aria-label="Clear" (click)="body=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="10px">
+      <mat-slide-toggle>Allow absention</mat-slide-toggle>
+      <mat-slide-toggle>Show hints</mat-slide-toggle>
+    </div>
+    <button mat-raised-button color="primary" type="submit">Create content</button>
+  </div>
+</form>
