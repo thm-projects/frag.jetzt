@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../room.service';
 import { Content } from '../content';
 import { ContentService } from '../content.service';
-import { AnswerText } from '../answer-text';
 import { ContentAnswerService } from '../content-answer.service';
+import { AnswerText } from '../answer-text';
 
 @Component({
   selector: 'app-answer-statistics',
@@ -13,6 +13,7 @@ import { ContentAnswerService } from '../content-answer.service';
 })
 export class AnswerStatisticsComponent implements OnInit {
   @Input() content: Content[];
+  @Input() answers: AnswerText[] = [];
   statistics: any = null;
   states = [
     { value: '1', viewValue: 'Responded' },
@@ -24,7 +25,7 @@ export class AnswerStatisticsComponent implements OnInit {
     private route: ActivatedRoute,
     private roomService: RoomService,
     private contentService: ContentService,
-    private contentAnswer: ContentAnswerService ) { }
+    private contentAnswerService: ContentAnswerService ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -33,10 +34,20 @@ export class AnswerStatisticsComponent implements OnInit {
   }
 
   getContent(roomId: string): void {
-    this.contentService.getContents(roomId).subscribe(content => this.content = content);
+    this.contentService.getContents(roomId).subscribe(content => {
+      this.content = content;
+      this.getAnswers();
+    });
+  }
+
+  getAnswers(): void {
+    for (const question of this.content) {
+      this.contentAnswerService.getAnswerTexts(question.id).subscribe( answer => [].push.apply(this.answers, answer));
+    }
   }
 
   showStatistic(value) {
+    console.log(this.answers);
     this.statistics = [];
     for (const question of this.content) {
       this.statistics.push( {

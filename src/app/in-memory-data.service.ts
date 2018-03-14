@@ -145,8 +145,8 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: Date,
       },
       {
-        id: '1',
-        revision: '1',
+        id: '2',
+        revision: '2',
         contentId: '1',
         round: '1',
         subject: 'Textaufgabe 1',
@@ -155,8 +155,8 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: Date,
       },
       {
-        id: '2',
-        revision: '2',
+        id: '3',
+        revision: '3',
         contentId: '2',
         round: '3',
         subject: 'Textaufgabe 2',
