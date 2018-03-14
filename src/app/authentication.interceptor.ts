@@ -8,6 +8,8 @@ import { Observable } from 'rxjs/Observable';
 
 const AUTH_HEADER_KEY = 'Arsnova-Auth-Token';
 
+const AUTH_HEADER_KEY = 'Arsnova-Auth-Token';
+
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
