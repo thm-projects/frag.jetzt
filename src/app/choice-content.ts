@@ -1,5 +1,5 @@
 import { AnswerOption } from './answer-option';
-import { Content, Format } from './content';
+import { Content, ContentType } from './content';
 
 export class ChoiceContent extends Content {
   constructor(roomId: string, subject: string, body: string, options: AnswerOption[], correctOptionIndexes: number[], multiple: boolean) {
@@ -9,7 +9,7 @@ export class ChoiceContent extends Content {
     this.subject = subject;
     this.body = body;
     this.round = 1;
-    this.format = Format.CHOICE;
+    this.format = ContentType.CHOICE;
     this.options = options;
     this.correctOptionIndexes = correctOptionIndexes;
     this.multiple = multiple;

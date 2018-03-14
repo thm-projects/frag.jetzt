@@ -1,11 +1,4 @@
-export enum Format {
-  CHOICE,
-  BINARY,
-  SCALE,
-  NUMBER,
-  TEXT,
-  GRID
-}
+import { ContentType } from './content-type';
 
 export class Content {
   id: string;
@@ -14,6 +7,6 @@ export class Content {
   subject: string;
   body: string;
   round: number;
-  format: Format;
+  format: ContentType;
   formatAttributes: Map<string, string>;
 }

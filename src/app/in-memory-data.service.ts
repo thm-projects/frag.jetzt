@@ -1,5 +1,5 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Format } from './content';
+import { ContentType } from './content';
 
 export class InMemoryDataService implements InMemoryDbService {
   /**
@@ -93,7 +93,7 @@ export class InMemoryDataService implements InMemoryDbService {
         subject: 'Textaufgabe 1',
         body: 'testcontent alpha beta',
         round: 1,
-        format: Format.TEXT
+        format: ContentType.TEXT
       },
       {
         id: '2',
@@ -102,7 +102,7 @@ export class InMemoryDataService implements InMemoryDbService {
         subject: 'Textaufgabe 2',
         body: 'Ein Mann kauft 20 Melonen. Eine Melone wiegt jeweils 5kg. Berechnen Sie das Gesamtgewicht.',
         round: 5,
-        format: Format.TEXT
+        format: ContentType.TEXT
       }
     ];
 

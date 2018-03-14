@@ -1,4 +1,4 @@
-import { Content, Format } from './content';
+import { Content, ContentType } from './content';
 
 export class TextContent extends Content {
 
@@ -9,7 +9,7 @@ export class TextContent extends Content {
     this.subject = subject;
     this.body = body;
     this.round = 1;
-    this.format = Format.TEXT;
+    this.format = ContentType.TEXT;
     this.formatAttributes.clear(); // API: formatAttributes = Map.empty();
   }
 }
