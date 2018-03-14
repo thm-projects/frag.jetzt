@@ -24,6 +24,6 @@ export class ContentDetailComponent implements OnInit {
 
   getContent(contentId: string): void {
     this.contentService.getContent(contentId)
-      .subscribe(content => this.content = content);
+      .subscribe(content => this.content = content[0]);
   }
 }
