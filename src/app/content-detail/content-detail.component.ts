@@ -18,12 +18,12 @@ export class ContentDetailComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.getContent(params['id']);
+      this.getContent(params['contentId']);
     });
   }
 
-  getContent(id: string): void {
-    this.contentService.getContent(id)
+  getContent(contentId: string): void {
+    this.contentService.getContent(contentId)
       .subscribe(content => this.content = content);
   }
 }

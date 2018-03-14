@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ContentService } from '../content.service';
 import { Content } from '../content';
 import { ActivatedRoute } from '@angular/router';
-import { RoomService } from '../room.service';
 
 @Component({
   selector: 'app-content-list',
@@ -12,29 +11,20 @@ import { RoomService } from '../room.service';
 export class ContentListComponent implements OnInit {
   contents: Content[];
 
-  constructor(
-    private contentService: ContentService,
-    private route: ActivatedRoute,
-    private roomService: RoomService,
-  ) { }
+  constructor(private contentService: ContentService,
+              private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.getRoom(params['roomId']);
+      this.getContents(params['roomId']);
     });
-  }
-
-  getRoom(id: string): void {
-    this.roomService.getRoom(id).subscribe(
-      params => {
-        this.getContents(params['id']);
-      });
   }
 
   getContents(roomId: string): void {
     this.contentService.getContents(roomId)
-    .subscribe(contents => {
-      this.contents = contents;
-    });
+      .subscribe(contents => {
+        this.contents = contents;
+      });
   }
 }
