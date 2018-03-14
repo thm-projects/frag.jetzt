@@ -22,6 +22,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class JoinRoomComponent implements OnInit {
 
   room: Room;
+  demoId = '17703069';
 
   roomFormControl = new FormControl('', [Validators.required]);
 
@@ -36,18 +37,26 @@ export class JoinRoomComponent implements OnInit {
   ngOnInit() {
   }
 
+  getRoom(id: string): void {
+    this.roomService.getRoom(id)
+      .subscribe(room => {
+        this.room = room;
+        if (!room) {
+          this.notificationService.show(`No room was found with id: ${id}`);
+        } else {
+          this.router.navigate([`/participant/room/${this.room.shortId}`]);
+        }
+      });
+  }
+
   joinRoom(id: string): void {
     if (!this.roomFormControl.hasError('required')) {
-      this.roomService.getRoom(id)
-        .subscribe(room => {
-          this.room = room;
-          if (!room) {
-            this.notificationService.show(`No room was found with id: ${id}`);
-          } else {
-            this.router.navigate([`/participant/room/${this.room.shortId}`]);
-          }
-        });
+      this.getRoom(id);
     }
+  }
+
+  joinDemo(): void {
+    this.getRoom(this.demoId);
   }
 
 }
