@@ -24,29 +24,18 @@ export class RoomService extends ErrorHandlingService {
   getRooms(): Observable<Room[]> {
     const url = this.apiBaseUrl + this.roomsUrl + this.findRoomsUrl;
     return this.http.post<Room[]>(url, {
-      properties: {},
-      externalFilters: { inHistoryOfUserId: this.authService.getUser().userId }
+      properties: { ownerId: this.authService.getUser().userId },
+      externalFilters: {}
     }).pipe(
       tap(_ => ''),
       catchError(this.handleError('getRooms', []))
     );
   }
 
-  getRoomsCreator(): Observable<Room[]> {
-    const getRoomsUrl = 'https://arsnova-staging.mni.thm.de/api/room/find';
-
-    return this.http.post<Room[]>(getRoomsUrl, {
-      properties: {},
-      externalFilters: {
-        ownerId: this.authService.getUser().userId
-      }
-    }, httpOptions);
-  }
-
   addRoom(room: Room): Observable<Room> {
     const connectionUrl = this.apiBaseUrl + this.roomsUrl + '/';
     return this.http.post<Room>(connectionUrl, {
-      shortId: room.shortId, ownerId: this.authService.getUser().userId,
+      ownerId: this.authService.getUser().userId,
       abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description
     }, httpOptions);
   }
