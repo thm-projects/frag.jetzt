@@ -22,7 +22,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class JoinRoomComponent implements OnInit {
 
   room: Room;
-  demoId = '17703069';
+  demoId = '82458028';
 
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
