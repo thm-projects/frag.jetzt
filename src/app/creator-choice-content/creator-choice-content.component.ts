@@ -7,8 +7,8 @@ import { AnswerOption } from '../answer-option';
   styleUrls: ['./creator-choice-content.component.scss']
 })
 export class CreatorChoiceContentComponent implements OnInit {
-  subject = 'TestSubject';
-  body = 'TestBody';
+  subject: string;
+  body: string;
   newLabel: string;
   newPoints: string;
   options = [

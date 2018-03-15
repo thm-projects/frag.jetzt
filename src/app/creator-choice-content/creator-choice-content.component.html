@@ -3,13 +3,19 @@
     <mat-card class="input-form" fxLayoutGap="20px">
       <mat-card-header>
         <mat-card-title>
-          <h3 class="subheading-2">{{ subject }}</h3>
+          <h3 class="subheading-2">
+            <mat-form-field>
+              <input [(ngModel)]="subject" matInput placeholder="Subject" name="newSubject">
+            </mat-form-field>
+          </h3>
+          <h4>
+            <div>
+              <mat-form-field>
+                <input [(ngModel)]="body" matInput placeholder="Body" name="newBody">
+              </mat-form-field>
+            </div>
+          </h4>
         </mat-card-title>
-        <mat-card-subtitle>
-          <div>
-            {{ body }}
-          </div>
-        </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content>
