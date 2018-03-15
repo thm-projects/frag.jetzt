@@ -1,5 +1,5 @@
-<div fxLayout="row" fxLayoutAlign="center">
-  <div fxLayout="column" fxLayoutGap="20">
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
     <form>
       <mat-form-field class="input-block">
         <input matInput #commentSubject type="text" maxlength="24" placeholder="Choose a title">
@@ -13,6 +13,8 @@
       <button mat-raised-button color="primary" (click)="send(commentSubject.value, commentBody.value)">Send</button>
     </form>
   </div>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <app-comment-list></app-comment-list>
+  </div>
 </div>
 
-<app-comment-list></app-comment-list>

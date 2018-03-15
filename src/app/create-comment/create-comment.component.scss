@@ -1,4 +1,11 @@
 form {
-  min-width: 800px;
+  display: block;
+  width: 100%;
+  max-width: 800px;
   margin-bottom: 50px;
+}
+
+app-comment-list {
+  width: 100%;
+  max-width: 800px;
 }
