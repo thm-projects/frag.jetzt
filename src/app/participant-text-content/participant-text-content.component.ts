@@ -22,7 +22,7 @@ export class ParticipantTextContentComponent implements OnInit {
   ngOnInit() {
   }
 
-  submit(answer: string) {
+  submitAnswer(answer: string) {
     this.answerService.addAnswerText({
       id: '0',
       revision: this.content.revision,
