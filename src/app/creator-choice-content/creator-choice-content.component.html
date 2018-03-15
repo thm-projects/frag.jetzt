@@ -15,10 +15,10 @@
       <mat-card-content>
         <mat-list *ngFor="let answer of options; let i = index" [attr.data-index]="i">
           <!-- <mat-checkbox color="primary">{{answer.label}}</mat-checkbox> -->
-          <div fxLayout="row">
+          <div fxLayout="row" fxLayoutGap="20px">
+            <mat-checkbox color="primary" value="checked"></mat-checkbox>
             <input matInput placeholder="Label" value="{{answer.label}}">
             <input matInput placeholder="Points" value="{{answer.points}}">
-            <mat-checkbox color="primary" value="checked"></mat-checkbox>
           </div>
         </mat-list>
         <mat-divider class="underListDivider"></mat-divider>
