@@ -14,12 +14,9 @@
       <mat-divider></mat-divider>
       <mat-card-content>
         <mat-list *ngFor="let answer of testChoiceContent.options">
-          <mat-list-item>{{answer.label}}</mat-list-item>
+          <mat-checkbox>{{answer.label}}</mat-checkbox>
         </mat-list>
       </mat-card-content>
-      <mat-divider></mat-divider>
-      <app-content-list></app-content-list>
-      <mat-divider></mat-divider>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
   </div>
