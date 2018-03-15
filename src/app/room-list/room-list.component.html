@@ -1,6 +1,7 @@
 <mat-accordion>
   <mat-expansion-panel *ngFor="let room of rooms">
     <mat-expansion-panel-header>
+      <button mat-button color="primary" routerLink="/{{ baseUrl }}/room/{{ room.id }}">Join</button>
       <mat-panel-title>
         {{ room.shortId }}
       </mat-panel-title>
@@ -11,8 +12,5 @@
     <p>
       {{ room.description }}
     </p>
-    <mat-action-row>
-      <button mat-button routerLink="/{{ baseUrl }}/room/{{ room.id }}">Join room</button>
-    </mat-action-row>
   </mat-expansion-panel>
 </mat-accordion>
