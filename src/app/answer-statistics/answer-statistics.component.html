@@ -7,17 +7,11 @@
             {{ state.viewValue }}
           </mat-option>
         </mat-select>
-        <div *ngIf="selected == 1">
-          <div *ngFor="let statistic of statistics">
-            {{ statistic.name }}
-            <mat-progress-bar [value]="statistic.percent">
-            </mat-progress-bar>
-            <div align="right"> Responded answers: {{ statistic.answers }} </div>
-          </div>
-        </div>
-        <div *ngIf="selected == 2">
-          <!-- Add list of Question statistic -->
-          <!-- Need number of participants in room -->
+        <div *ngFor="let statistic of statistics">
+          {{ statistic.name }}
+          <mat-progress-bar [value]="statistic.percent">
+          </mat-progress-bar>
+          <div align="right"> Responded answers: {{ statistic.answers }} </div>
         </div>
       </mat-tab>
       <!-- Add second tab with true false answers -->

@@ -56,7 +56,7 @@ export class AnswerStatisticsComponent implements OnInit {
   showStatistic(value) {  /** refactor answer class structure for less code and more abstraction*/
     this.statistics = [];
     for (const question of this.content) {
-      if (value === 1) {
+      if (value == 1) {
         const count = this.countTextAnswers(question.contentId);
         this.statistics.push({
           name: question.subject, answers: count, percent: count * 100 / this.textAnswers.length,
