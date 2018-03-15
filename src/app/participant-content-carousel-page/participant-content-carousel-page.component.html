@@ -1,0 +1,18 @@
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-tab-group>
+      <!--
+      <mat-tab *ngFor="let content of contents">
+        <app-participant-choice-content *ngIf="content.format === ContentType.CHOICE"></app-participant-choice-content>
+        <app-participant-text-content *ngIf="content.format === ContentType.TEXT"></app-participant-text-content>
+      </mat-tab>
+      -->
+      <mat-tab label="Text">
+        <app-participant-text-content></app-participant-text-content>
+      </mat-tab>
+      <mat-tab label="Choice">
+        <app-participant-choice-content></app-participant-choice-content>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
