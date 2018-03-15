@@ -1,3 +1,26 @@
-<p>
-  participant-choice-content works!
-</p>
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="input-form">
+      <mat-card-header>
+        <mat-card-title>
+          <h3 class="subheading-2">{{ testChoiceContent.subject }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div>
+            {{ testChoiceContent.body }}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-list *ngFor="let answer of testChoiceContent.options">
+          <mat-list-item>{{answer.label}}</mat-list-item>
+        </mat-list>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <app-content-list></app-content-list>
+      <mat-divider></mat-divider>
+    </mat-card>
+    <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
+  </div>
+</div>
