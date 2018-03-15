@@ -1,48 +1,49 @@
-<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
-  <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card class="input-form" fxLayoutGap="20px">
-      <mat-card-header>
-        <mat-card-title>
-          <h3 class="subheading-2">
-            <mat-form-field>
-              <input [(ngModel)]="subject" matInput placeholder="Subject" name="newSubject">
-            </mat-form-field>
-          </h3>
-          <h4>
-            <div>
-              <mat-form-field>
-                <input [(ngModel)]="body" matInput placeholder="Body" name="newBody">
-              </mat-form-field>
-            </div>
-          </h4>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <mat-list *ngFor="let answer of options; let i = index" [attr.data-index]="i">
-          <!-- <mat-checkbox color="primary">{{answer.label}}</mat-checkbox> -->
-          <div fxLayout="row" fxLayoutGap="20px">
-            <mat-checkbox color="primary" value="checked"></mat-checkbox>
-            <input matInput placeholder="Label" value="{{answer.label}}">
-            <input matInput placeholder="Points" value="{{answer.points}}">
-          </div>
-        </mat-list>
-        <mat-divider class="underListDivider"></mat-divider>
-        <h4>Add new answer:</h4>
-        <div fxLayout="row" fxLayoutGap="10px">
-          <mat-form-field>
-            <input [(ngModel)]="newLabel" matInput placeholder="Label" name="newLabel">
-          </mat-form-field>
-          <mat-form-field>
-            <input [(ngModel)]="newPoints" matInput placeholder="Points" name="newPoints">
-          </mat-form-field>
-          <mat-checkbox color="primary">Correct answer</mat-checkbox>
-        </div>
-      </mat-card-content>
-      <mat-card-actions fxLayoutAlign="center">
-        <button mat-raised-button color="primary" (click)="addAnswer()">Add answer</button>
-        <button mat-raised-button color="primary">Save content</button>
-      </mat-card-actions>
-    </mat-card>
+<form (ngSubmit)="submitContent()">
+  <mat-form-field>
+    <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+  </mat-form-field>
+  <mat-divider></mat-divider>
+
+  <mat-table #table [dataSource]="content.options">
+
+    <ng-container matColumnDef="label">
+      <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
+      <mat-cell *matCellDef="let answer">
+        <mat-checkbox color="primary">{{ answer.label }}</mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
+      <mat-cell *matCellDef="let answer">{{ answer.points }}</mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-divider></mat-divider>
+
+  <div fxLayout="row" fxLayoutGap="5px">
+    <div fxLayout="column" fxLayoutAlign="center">
+      <mat-checkbox #answerIsCorrect color="primary"></mat-checkbox>
+    </div>
+    <mat-form-field>
+      <input matInput #answerLabel placeholder="Answer" name="answer">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput #answerPoints placeholder="Points" name="points">
+    </mat-form-field>
+    <div fxLayout="column" fxLayoutAlign="center">
+      <button mat-button type="button"
+              (click)="addAnswer(answerIsCorrect.value, answerLabel.value, answerPoints.value)">
+        Add Answer
+      </button>
+    </div>
   </div>
-</div>
+
+  <button mat-button type="submit">Submit</button>
+</form>

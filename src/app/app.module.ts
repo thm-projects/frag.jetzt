@@ -80,6 +80,7 @@ import { CreatorChoiceContentComponent } from './creator-choice-content/creator-
 import { AddContentComponent } from './add-content/add-content.component';
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
 import { ParticipantTextContentComponent } from './participant-text-content/participant-text-content.component';
+import { CreatorTextContentComponent } from './creator-text-content/creator-text-content.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +114,8 @@ import { ParticipantTextContentComponent } from './participant-text-content/part
     AddContentComponent,
     ParticipantContentCarouselPageComponent,
     ParticipantTextContentComponent,
-    AnswerStatisticsComponent
+    AnswerStatisticsComponent,
+    CreatorTextContentComponent
   ],
   entryComponents: [
     RegisterComponent,

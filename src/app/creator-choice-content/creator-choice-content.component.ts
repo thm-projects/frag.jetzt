@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswerOption } from '../answer-option';
+import { ChoiceContent } from '../choice-content';
 
 @Component({
   selector: 'app-creator-choice-content',
@@ -7,24 +8,33 @@ import { AnswerOption } from '../answer-option';
   styleUrls: ['./creator-choice-content.component.scss']
 })
 export class CreatorChoiceContentComponent implements OnInit {
-  subject: string;
-  body: string;
-  newLabel: string;
-  newPoints: string;
-  options = [
-    new AnswerOption('A - Giraffe', '0'),
-    new AnswerOption('B - Bär', '0'),
-    new AnswerOption('C - bra', '10')
-    ];
 
-  constructor() { }
+  content: ChoiceContent = new ChoiceContent('2',
+    '1',
+    '1',
+    'Choice Content 1',
+    'This is the body of Choice Content 1',
+    1,
+    [
+      new AnswerOption('Option 1', '0'),
+      new AnswerOption('Option 2', '10'),
+      new AnswerOption('Option 3', '20'),
+      new AnswerOption('Option 4', '30')
+    ],
+    [1, 2, 3],
+    true);
+
+  displayedColumns = ['label', 'points'];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
-  addAnswer() {
-    this.options.push(new AnswerOption(this.newLabel, this.newPoints));
-    this.newLabel = '';
-    this.newPoints = '';
+  submitContent() {
+  }
+
+  addAnswer(isCorrect: boolean, label: string, points: number) {
   }
 }
