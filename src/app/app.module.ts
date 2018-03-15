@@ -73,6 +73,7 @@ import { ContentService } from './content.service';
 import { ContentAnswersListComponent } from './content-answers-list/content-answers-list.component';
 import { ContentAnswerService } from './content-answer.service';
 import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
+import { AnswerStatisticsComponent } from './answer-statistics/answer-statistics.component';
 import { RoomModificationComponent } from './room-modification/room-modification.component';
 
 @NgModule({
@@ -101,7 +102,8 @@ import { RoomModificationComponent } from './room-modification/room-modification
     ContentListComponent,
     ContentAnswersListComponent,
     RoomDeletionComponent,
-    RoomModificationComponent
+    RoomModificationComponent,
+    AnswerStatisticsComponent
   ],
   entryComponents: [
     RegisterComponent,
