@@ -17,8 +17,15 @@ import { AddContentComponent } from './add-content/add-content.component';
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home', component: LoginScreenComponent },
+  {
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: LoginScreenComponent
+  },
   {
     path: 'creator',
     component: CreatorHomeScreenComponent,
@@ -26,24 +33,8 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'participant',
-    component: ParticipantHomeScreenComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.PARTICIPANT] }
-  },
-  {
     path: 'creator/room/:roomId',
     component: CreatorRoomComponent,
-    canActivate: [AuthenticationGuard]
-  },
-  {
-    path: 'creator/room/:roomId',
-    component: CreatorRoomComponent,
-    canActivate: [AuthenticationGuard]
-  },
-  {
-    path: 'creator/room/:roomId/comments',
-    component: CommentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
@@ -60,20 +51,26 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/content-list',
+    path: 'creator/room/:roomId/comments',
+    component: CommentListComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'creator/room/:roomId/content',
     component: ContentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/:contentId',
+    path: 'creator/room/:roomId/content/:contentId',
     component: ContentDetailComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'participant/room/:roomId/create-comment',
-    component: CreateCommentComponent,
+    path: 'participant',
+    component: ParticipantHomeScreenComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
@@ -83,7 +80,22 @@ const routes: Routes = [
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
-  { path: '**', component: PageNotFoundComponent }
+  {
+    path: 'participant/room/:roomId/create-comment',
+    component: CreateCommentComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'participant/room/:roomId/questions',
+    component: ParticipantContentCarouselPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
+  }
 ];
 
 
