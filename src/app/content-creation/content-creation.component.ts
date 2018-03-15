@@ -19,13 +19,10 @@ export class ContentCreationComponent implements OnInit {
 
   constructor(private contentService: ContentService,
               private router: Router,
-              private notification: NotificationService,
-              public dialogRef: MatDialogRef<RoomComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              private notification: NotificationService) {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
   }
 
   ngOnInit() {
@@ -45,8 +42,7 @@ export class ContentCreationComponent implements OnInit {
     this.contentService.addContent({ subject: subject, body: body, roomId: this.roomId } as Content)
       .subscribe(content => {
         this.notification.show(`Content '${content.subject}' successfully created.`);
-        this.router.navigate([`/creator/room/${content.roomId}/${content.contentId}`]);
-        this.dialogRef.close();
+        // this.router.navigate([`/creator/room/${content.roomId}/${content.contentId}`]);
       });
   }
 }
