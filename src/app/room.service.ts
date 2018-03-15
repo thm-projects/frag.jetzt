@@ -14,7 +14,9 @@ const httpOptions = {
 export class RoomService extends ErrorHandlingService {
   private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
   private roomsUrl = '/room';
+  private userUrl = '/user';
   private findRoomsUrl = '/find';
+  private joinDate = new Date(Date.now());
 
   constructor(private http: HttpClient,
               private authService: AuthenticationService) {
@@ -56,6 +58,11 @@ export class RoomService extends ErrorHandlingService {
     return this.http.get<Room>(connectionUrl).pipe(
       catchError(this.handleError<Room>(`getRoom id=${id}`))
     );
+  }
+
+  addToHistory(roomId: string): void {
+    const connectionUrl = `${ this.apiBaseUrl }${ this.userUrl }/${this.authService.getUser().userId}/roomHistory`;
+    this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(r => console.log(r));
   }
 
   getRoomById(id: string): Observable<Room> {
