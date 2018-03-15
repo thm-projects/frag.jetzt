@@ -7,7 +7,6 @@ import { TextContent } from '../text-content';
   styleUrls: ['./participant-text-content.component.scss']
 })
 export class ParticipantTextContentComponent implements OnInit {
-
   content: TextContent = new TextContent('1',
     '1',
     '1',
@@ -23,5 +22,4 @@ export class ParticipantTextContentComponent implements OnInit {
 
   submit(answer: string) {
   }
-
 }

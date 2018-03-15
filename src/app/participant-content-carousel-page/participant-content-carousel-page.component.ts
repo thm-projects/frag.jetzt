@@ -17,5 +17,4 @@ export class ParticipantContentCarouselPageComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

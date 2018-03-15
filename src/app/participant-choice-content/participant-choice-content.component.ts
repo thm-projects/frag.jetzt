@@ -8,7 +8,6 @@ import { AnswerOption } from '../answer-option';
   styleUrls: ['./participant-choice-content.component.scss']
 })
 export class ParticipantChoiceContentComponent implements OnInit {
-
   content: ChoiceContent = new ChoiceContent('2',
     '1',
     '1',
@@ -29,5 +28,4 @@ export class ParticipantChoiceContentComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
