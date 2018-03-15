@@ -1,3 +1,42 @@
-<p>
-  creator-choice-content works!
-</p>
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="input-form" fxLayoutGap="20px">
+      <mat-card-header>
+        <mat-card-title>
+          <h3 class="subheading-2">{{ subject }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div>
+            {{ body }}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <mat-list *ngFor="let answer of options; let i = index" [attr.data-index]="i">
+          <!-- <mat-checkbox color="primary">{{answer.label}}</mat-checkbox> -->
+          <div fxLayout="row">
+            <input matInput placeholder="Label" value="{{answer.label}}">
+            <input matInput placeholder="Points" value="{{answer.points}}">
+            <mat-checkbox color="primary" value="checked"></mat-checkbox>
+          </div>
+        </mat-list>
+        <mat-divider class="underListDivider"></mat-divider>
+        <h4>Add new answer:</h4>
+        <div fxLayout="row" fxLayoutGap="10px">
+          <mat-form-field>
+            <input [(ngModel)]="newLabel" matInput placeholder="Label" name="newLabel">
+          </mat-form-field>
+          <mat-form-field>
+            <input [(ngModel)]="newPoints" matInput placeholder="Points" name="newPoints">
+          </mat-form-field>
+          <mat-checkbox color="primary">Correct answer</mat-checkbox>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center">
+        <button mat-raised-button color="primary" (click)="addAnswer()">Add answer</button>
+        <button mat-raised-button color="primary">Save content</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
