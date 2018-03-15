@@ -22,7 +22,7 @@ export class ChoiceContent extends Content {
       subject,
       body,
       round,
-      ContentType.TEXT,
+      ContentType.CHOICE,
       new Map());
       this.options = options;
       this.correctOptionIndexes = correctOptionIndexes;
