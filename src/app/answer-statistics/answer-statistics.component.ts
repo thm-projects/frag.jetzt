@@ -6,6 +6,7 @@ import { ContentService } from '../content.service';
 import { ContentAnswerService } from '../content-answer.service';
 import { AnswerText } from '../answer-text';
 import { ChoiceAnswer } from '../choice-answer';
+import { ContentType } from '../content-type';
 
 @Component({
   selector: 'app-answer-statistics',
@@ -17,9 +18,20 @@ export class AnswerStatisticsComponent implements OnInit {
   @Input() textAnswers: AnswerText[] = [];
   @Input() choiceAnswers: ChoiceAnswer[] = [];
   statistics: any = null;
+  selectedContent: any = {
+    name: 'HOW TO MAKE CONTENT',
+    index: '1',
+    length: '1'
+  };
+  evaluation: any = [
+    { name: 'test', percent: 50, correct: false, answers: 50, },
+    { name: 'test', percent: 10, correct: false, answers: 10, },
+    { name: 'test', percent: 30, correct: true, answers: 30, },
+    { name: 'test', percent: 40, correct: false, answers: 40, }
+    ];
   states = [
     { value: '1', viewValue: 'Text answers' },
-    { value: '2', viewValue: 'Choice answers' },
+    { value: '2', viewValue: 'Choice answers' }
   ];
   selected: number = null;
 
@@ -56,16 +68,20 @@ export class AnswerStatisticsComponent implements OnInit {
   showStatistic(value) {  /** refactor answer class structure for less code and more abstraction*/
     this.statistics = [];
     for (const question of this.content) {
-      if (value == 1) {
-        const count = this.countTextAnswers(question.contentId);
-        this.statistics.push({
-          name: question.subject, answers: count, percent: count * 100 / this.textAnswers.length,
-        });
+      if (value === '1') {
+        if (question.format === ContentType.TEXT) {
+          const count = this.countTextAnswers(question.contentId);
+          this.statistics.push({
+            name: question.subject, answers: count, percent: count * 100 / this.textAnswers.length,
+          });
+        }
       } else {
-        const count = this.countChoiceAnswers(question.contentId);
-        this.statistics.push({
-          name: question.subject, answers: count, percent: count * 100 / this.choiceAnswers.length,
-        });
+        if (question.format === ContentType.CHOICE) {
+          const count = this.countChoiceAnswers(question.contentId);
+          this.statistics.push({
+            name: question.subject, answers: count, percent: count * 100 / this.choiceAnswers.length,
+          });
+        }
       }
     }
     this.selected = value;

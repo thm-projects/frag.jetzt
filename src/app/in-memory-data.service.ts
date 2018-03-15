@@ -124,6 +124,15 @@ export class InMemoryDataService implements InMemoryDbService {
       },
       {
         contentId: '5',
+        revision: '5',
+        roomId: '1',
+        subject: 'Choice Content 1',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.CHOICE
+      },
+      {
+        contentId: '6',
         revision: '2',
         roomId: '3',
         subject: 'Text Content 1',
@@ -170,7 +179,7 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         id: '1',
         revision: '1',
-        contentId: '1',
+        contentId: '5',
         round: 0,
         selectedChoiceIndexes: [ 1, 2 ],
       }

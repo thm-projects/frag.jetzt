@@ -14,7 +14,22 @@
           <div align="right"> Responded answers: {{ statistic.answers }} </div>
         </div>
       </mat-tab>
-      <!-- Add second tab with true false answers -->
+      <mat-tab label="Evaluation">
+        <h2 fxLayoutAlign="center">{{ selectedContent.name }}</h2>
+        <div class="evaluation" *ngFor="let choice of evaluation">
+          {{ choice.name }}
+          <mat-progress-bar [value]="choice.percent" color="primary" *ngIf="choice.correct">
+          </mat-progress-bar>
+          <mat-progress-bar [value]="choice.percent" color="warn" *ngIf="!choice.correct">
+          </mat-progress-bar>
+          <div align="right"> Selected: {{ choice.answers }} times</div>
+        </div>
+        <div fxLayoutAlign="center" fxLayoutGap="10px">
+          <button mat-raised-button color="primary">Before</button>
+          <div><b>{{ selectedContent.index }} / {{ selectedContent.length }}</b></div>
+          <button mat-raised-button color="primary">Next</button>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card>
 </div>
