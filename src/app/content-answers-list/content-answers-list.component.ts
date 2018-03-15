@@ -20,18 +20,12 @@ export class ContentAnswersListComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.getContent(params['id']);
+      this.getAnswerTexts(params['contentId']);
     });
   }
 
-  getContent(id: string): void {
-    this.contentService.getContent(id).subscribe(params => {
-      this.getAnswerTexts(params['id']);
-    })
-  }
-
-  getAnswerTexts(id: string): void {
-    this.contentAnswerService.getAnswerTexts(id)
+  getAnswerTexts(contentId: string): void {
+    this.contentAnswerService.getAnswerTexts(contentId)
       .subscribe(textAnswers => {
         this.textAnswers = textAnswers;
       });

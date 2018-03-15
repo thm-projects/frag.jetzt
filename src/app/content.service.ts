@@ -29,10 +29,10 @@ export class ContentService extends ErrorHandlingService {
     );
   }
 
-  getContent(id: string): Observable<Content> {
-    const url = `${this.contentUrl}/${id}`;
+  getContent(contentId: string): Observable<Content> {
+    const url = `${this.contentUrl}/?contentId=${contentId}`;
     return this.http.get<Content>(url).pipe(
-      catchError(this.handleError<Content>(`getContent id=${id}`))
+      catchError(this.handleError<Content>(`getContent id=${contentId}`))
     );
   }
 }
