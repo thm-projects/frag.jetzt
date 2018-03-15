@@ -75,6 +75,7 @@ import { ContentAnswerService } from './content-answer.service';
 import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
 import { AnswerStatisticsComponent } from './answer-statistics/answer-statistics.component';
 import { RoomModificationComponent } from './room-modification/room-modification.component';
+import { ParticipantChoiceContentComponent } from './participant-choice-content/participant-choice-content.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +104,8 @@ import { RoomModificationComponent } from './room-modification/room-modification
     ContentAnswersListComponent,
     RoomDeletionComponent,
     RoomModificationComponent,
-    AnswerStatisticsComponent
+    AnswerStatisticsComponent,
+    ParticipantChoiceContentComponent
   ],
   entryComponents: [
     RegisterComponent,
