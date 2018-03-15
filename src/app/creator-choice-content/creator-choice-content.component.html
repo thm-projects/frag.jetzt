@@ -7,18 +7,19 @@
   </mat-form-field>
   <mat-divider></mat-divider>
 
-  <mat-table #table [dataSource]="content.options">
+  <mat-table #table [dataSource]="correctAnswers">
 
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <mat-checkbox color="primary">{{ answer.label }}</mat-checkbox>
+        <!-- ToDo: Check ngModel -->
+        <mat-checkbox color="primary" [(ngModel)]="answer.correct" name="answer">{{ answer.answerOption.label }} is {{ answer.correct }}</mat-checkbox>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="points">
       <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-      <mat-cell *matCellDef="let answer">{{ answer.points }}</mat-cell>
+      <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
