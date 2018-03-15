@@ -76,6 +76,7 @@ import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
 import { AnswerStatisticsComponent } from './answer-statistics/answer-statistics.component';
 import { RoomModificationComponent } from './room-modification/room-modification.component';
 import { ParticipantChoiceContentComponent } from './participant-choice-content/participant-choice-content.component';
+import { CreatorChoiceContentComponent } from './creator-choice-content/creator-choice-content.component';
 
 @NgModule({
   declarations: [
@@ -104,8 +105,9 @@ import { ParticipantChoiceContentComponent } from './participant-choice-content/
     ContentAnswersListComponent,
     RoomDeletionComponent,
     RoomModificationComponent,
-    AnswerStatisticsComponent,
-    ParticipantChoiceContentComponent
+    ParticipantChoiceContentComponent,
+    CreatorChoiceContentComponent,
+    AnswerStatisticsComponent
   ],
   entryComponents: [
     RegisterComponent,
