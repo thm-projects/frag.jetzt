@@ -24,7 +24,7 @@ export class JoinRoomComponent implements OnInit {
   room: Room;
   demoId = '17703069';
 
-  roomFormControl = new FormControl('', [Validators.required]);
+  roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
   matcher = new RegisterErrorStateMatcher();
 
@@ -50,7 +50,7 @@ export class JoinRoomComponent implements OnInit {
   }
 
   joinRoom(id: string): void {
-    if (!this.roomFormControl.hasError('required')) {
+    if (!this.roomFormControl.hasError('required') && !this.roomFormControl.hasError('minlength')) {
       this.getRoom(id);
     }
   }
