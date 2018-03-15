@@ -44,6 +44,7 @@ export class JoinRoomComponent implements OnInit {
         if (!room) {
           this.notificationService.show(`No room was found with id: ${id}`);
         } else {
+          this.roomService.addToHistory(this.room.id);
           this.router.navigate([`/participant/room/${this.room.shortId}`]);
         }
       });
