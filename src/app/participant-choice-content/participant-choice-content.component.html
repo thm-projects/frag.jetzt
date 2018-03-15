@@ -1,22 +1,11 @@
-<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
-  <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card class="input-form">
-      <mat-card-header>
-        <mat-card-title>
-          <h3 class="subheading-2">{{ testChoiceContent.subject }}</h3>
-        </mat-card-title>
-        <mat-card-subtitle>
-          <div>
-            {{ testChoiceContent.body }}
-          </div>
-        </mat-card-subtitle>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <mat-card-content>
-        <mat-list *ngFor="let answer of testChoiceContent.options">
-          <mat-checkbox color="primary">{{answer.label}}</mat-checkbox>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</div>
+<form>
+  <h1 class="mat-headline">{{ content.subject }}</h1>
+  <p>{{ content.body }}</p>
+  <mat-divider></mat-divider>
+  <mat-list>
+    <mat-list-item *ngFor="let answer of content.options">
+      <mat-checkbox color="primary">{{ answer.label }}</mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+  <button mat-button>Send answer</button>
+</form>

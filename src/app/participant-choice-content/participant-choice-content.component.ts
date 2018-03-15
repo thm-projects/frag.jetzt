@@ -8,15 +8,24 @@ import { AnswerOption } from '../answer-option';
   styleUrls: ['./participant-choice-content.component.scss']
 })
 export class ParticipantChoiceContentComponent implements OnInit {
-  testAnswers = [
-    new AnswerOption('A - Giraffe', '0'),
-    new AnswerOption('B - Bär', '0'),
-    new AnswerOption('C - bra', '10')
-  ];
-  testCorrectAnswers = [2];
-  testChoiceContent = new ChoiceContent(
-    '1', '1', '1', 'Tierkunde', 'Welches Tier ist schwarz mit weißen Streifen?', 1, this.testAnswers, this.testCorrectAnswers, false);
-  constructor() { }
+
+  content: ChoiceContent = new ChoiceContent('2',
+    '1',
+    '1',
+    'Choice Content 1',
+    'This is the body of Choice Content 1',
+    1,
+    [
+      new AnswerOption('Option 1', '0'),
+      new AnswerOption('Option 2', '10'),
+      new AnswerOption('Option 3', '20'),
+      new AnswerOption('Option 4', '30')
+    ],
+    [2, 3, 4],
+    true);
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
