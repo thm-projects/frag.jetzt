@@ -133,7 +133,7 @@ export class InMemoryDataService implements InMemoryDbService {
       }
     ];
 
-    const answerTexts = [
+    const textAnswers = [
       {
         id: '1',
         revision: '1',
@@ -165,6 +165,16 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: Date,
       }
     ];
-    return { rooms, comments, contents, answerTexts };
+
+    const choiceAnswers = [
+      {
+        id: '1',
+        revision: '1',
+        contentId: '1',
+        round: 0,
+        selectedChoiceIndexes: [ 1, 2 ],
+      }
+    ];
+    return { rooms, comments, contents, textAnswers, choiceAnswers };
   }
 }

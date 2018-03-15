@@ -10,27 +10,35 @@ const httpOptions = {
 
 @Injectable()
 export class ContentAnswerService extends ErrorHandlingService {
-  private answerUrl = 'api/answerTexts';
+  private textAnswerUrl = 'api/textAnswers';
+  private choiceAnswerUrl = 'api/choiceAnswers';
 
   constructor(private http: HttpClient) {
     super();
   }
 
-  getAnswerTexts(contentId: string): Observable<AnswerText[]> {
-    const url = `${this.answerUrl}/?contentId=${contentId}`;
+  getTextAnswers(contentId: string): Observable<AnswerText[]> {
+    const url = `${this.textAnswerUrl}/?contentId=${contentId}`;
     return this.http.get<AnswerText[]>(url).pipe(
-      catchError(this.handleError('getAnswerTexts', []))
+      catchError(this.handleError('getTextAnswers', []))
+    );
+  }
+
+  getChoiceAnswers(contentId: string): Observable<AnswerText[]> {
+    const url = `${this.choiceAnswerUrl}/?contentId=${contentId}`;
+    return this.http.get<AnswerText[]>(url).pipe(
+      catchError(this.handleError('getChoiceAnswers', []))
     );
   }
 
   addAnswerText(answerText: AnswerText): Observable<AnswerText> {
-    return this.http.post<AnswerText>(this.answerUrl, answerText, httpOptions).pipe(
+    return this.http.post<AnswerText>(this.textAnswerUrl, answerText, httpOptions).pipe(
       catchError(this.handleError<AnswerText>('addAnswerText'))
     );
   }
 
   getAnswerText(id: string): Observable<AnswerText> {
-    const url = `${this.answerUrl}/${id}`;
+    const url = `${this.textAnswerUrl}/${id}`;
     return this.http.get<AnswerText>(url).pipe(
       catchError(this.handleError<AnswerText>(`getAnswerText id=${id}`))
     );

@@ -5,6 +5,7 @@ import { Content } from '../content';
 import { ContentService } from '../content.service';
 import { ContentAnswerService } from '../content-answer.service';
 import { AnswerText } from '../answer-text';
+import { ChoiceAnswer } from '../choice-answer';
 
 @Component({
   selector: 'app-answer-statistics',
@@ -13,11 +14,12 @@ import { AnswerText } from '../answer-text';
 })
 export class AnswerStatisticsComponent implements OnInit {
   @Input() content: Content[];
-  @Input() answers: AnswerText[] = [];
+  @Input() textAnswers: AnswerText[] = [];
+  @Input() choiceAnswers: ChoiceAnswer[] = [];
   statistics: any = null;
   states = [
-    { value: '1', viewValue: 'Responded' },
-    { value: '2', viewValue: 'Not responded' },
+    { value: '1', viewValue: 'Text answers' },
+    { value: '2', viewValue: 'Choice answers' },
   ];
   selected: number = null;
 
@@ -42,25 +44,38 @@ export class AnswerStatisticsComponent implements OnInit {
 
   getAnswers(): void {
     for (const question of this.content) {
-      this.contentAnswerService.getAnswerTexts(question.id).subscribe( answer => {
-        [].push.apply(this.answers, answer);
+      this.contentAnswerService.getTextAnswers(question.contentId).subscribe( answer => {
+        [].push.apply(this.textAnswers, answer);
+      });
+      this.contentAnswerService.getChoiceAnswers(question.contentId).subscribe( answer => {
+        [].push.apply(this.choiceAnswers, answer);
       });
     }
   }
 
-  showStatistic(value) {
-    console.log(this.answers);
+  showStatistic(value) {  /** refactor answer class structure for less code and more abstraction*/
     this.statistics = [];
     for (const question of this.content) {
-      const count = this.countAnswers(question.id);
-      this.statistics.push( {
-        name: question.subject, answers: count, percent: count * 100 / this.answers.length,
-      });
+      if (value === 1) {
+        const count = this.countTextAnswers(question.contentId);
+        this.statistics.push({
+          name: question.subject, answers: count, percent: count * 100 / this.textAnswers.length,
+        });
+      } else {
+        const count = this.countChoiceAnswers(question.contentId);
+        this.statistics.push({
+          name: question.subject, answers: count, percent: count * 100 / this.choiceAnswers.length,
+        });
+      }
     }
     this.selected = value;
   }
 
-  countAnswers(contentId: string): number {
-    return this.answers.filter(answer => answer.contentId === contentId).length;
+  countTextAnswers(contentId: string): number {
+    return this.textAnswers.filter(answer => answer.contentId === contentId).length;
+  }
+
+  countChoiceAnswers(contentId: string): number {
+    return this.choiceAnswers.filter(answer => answer.contentId === contentId).length;
   }
 }

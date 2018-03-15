@@ -25,7 +25,7 @@ export class ContentAnswersListComponent implements OnInit {
   }
 
   getAnswerTexts(contentId: string): void {
-    this.contentAnswerService.getAnswerTexts(contentId)
+    this.contentAnswerService.getTextAnswers(contentId)
       .subscribe(textAnswers => {
         this.textAnswers = textAnswers;
       });
