@@ -19,15 +19,15 @@ export class AnswerStatisticsComponent implements OnInit {
   @Input() choiceAnswers: ChoiceAnswer[] = [];
   statistics: any = null;
   selectedContent: any = {
-    name: 'HOW TO MAKE CONTENT',
+    name: 'HOW TO MAKE CONTENT GREAT AGAIN',
     index: '1',
     length: '1'
   };
   evaluation: any = [
-    { name: 'test', percent: 50, correct: false, answers: 50, },
-    { name: 'test', percent: 10, correct: false, answers: 10, },
-    { name: 'test', percent: 30, correct: true, answers: 30, },
-    { name: 'test', percent: 40, correct: false, answers: 40, }
+    { name: 'Skill', percent: 10, correct: false, answers: 1, },
+    { name: 'Knowledge', percent: 10, correct: false, answers: 1, },
+    { name: '???', percent: 30, correct: true, answers: 3, },
+    { name: 'Not at all', percent: 50, correct: true, answers: 5, }
     ];
   states = [
     { value: '1', viewValue: 'Text answers' },
@@ -93,5 +93,9 @@ export class AnswerStatisticsComponent implements OnInit {
 
   countChoiceAnswers(contentId: string): number {
     return this.choiceAnswers.filter(answer => answer.contentId === contentId).length;
+  }
+
+  showEvaluation(index: number) {
+    /** coming with api connection, logic doesnt make sense without knowledge about api **/
   }
 }
