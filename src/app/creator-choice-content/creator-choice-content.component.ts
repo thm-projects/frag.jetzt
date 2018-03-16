@@ -26,12 +26,8 @@ export class CreatorChoiceContentComponent implements OnInit {
     '',
     '',
     1,
-    [
-      new AnswerOption('Option 1', '10'),
-      new AnswerOption('Option 2', '10'),
-      new AnswerOption('Option 3', '10')
-    ],
-    [0, 2],
+    [],
+    [],
     true);
 
   displayedColumns = ['label', 'points'];
