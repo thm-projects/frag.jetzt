@@ -32,7 +32,7 @@ export class CreatorChoiceContentComponent implements OnInit {
       new AnswerOption('Option 3', '20'),
       new AnswerOption('Option 4', '30')
     ],
-    [0, 1, 3],
+    [0, 2, 3],
     true);
 
   displayedColumns = ['label', 'points'];
@@ -43,10 +43,13 @@ export class CreatorChoiceContentComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fillCorrectAnswers();
+  }
+
+  fillCorrectAnswers() {
     for (let i = 0; i < this.content.options.length; i++) {
       this.correctAnswers.push(new CorrectAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
     }
-    console.log(this.correctAnswers);
   }
 
   submitContent() {
@@ -63,6 +66,7 @@ export class CreatorChoiceContentComponent implements OnInit {
     if (isCorrect) {
       this.content.correctOptionIndexes.push(this.content.options.length);
     }
+    this.fillCorrectAnswers();
     this.submitContent();
   }
 }
