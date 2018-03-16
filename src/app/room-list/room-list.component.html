@@ -1,7 +1,12 @@
 <mat-accordion>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+  </div>
   <mat-expansion-panel *ngFor="let room of rooms">
     <mat-expansion-panel-header>
-      <button mat-button color="primary" routerLink="/{{ baseUrl }}/room/{{ room.id }}"><mat-icon>send</mat-icon></button>
+      <button mat-button color="primary" routerLink="/{{ baseUrl }}/room/{{ room.id }}">
+        <mat-icon>send</mat-icon>
+      </button>
       <mat-panel-title>
         {{ room.shortId }}
       </mat-panel-title>
