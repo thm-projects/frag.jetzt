@@ -75,6 +75,12 @@ import { ContentAnswerService } from './content-answer.service';
 import { RoomDeletionComponent } from './room-deletion/room-deletion.component';
 import { AnswerStatisticsComponent } from './answer-statistics/answer-statistics.component';
 import { RoomModificationComponent } from './room-modification/room-modification.component';
+import { ParticipantChoiceContentComponent } from './participant-choice-content/participant-choice-content.component';
+import { CreatorChoiceContentComponent } from './creator-choice-content/creator-choice-content.component';
+import { AddContentComponent } from './add-content/add-content.component';
+import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
+import { ParticipantTextContentComponent } from './participant-text-content/participant-text-content.component';
+import { CreatorTextContentComponent } from './creator-text-content/creator-text-content.component';
 
 @NgModule({
   declarations: [
@@ -103,7 +109,13 @@ import { RoomModificationComponent } from './room-modification/room-modification
     ContentAnswersListComponent,
     RoomDeletionComponent,
     RoomModificationComponent,
-    AnswerStatisticsComponent
+    ParticipantChoiceContentComponent,
+    CreatorChoiceContentComponent,
+    AddContentComponent,
+    ParticipantContentCarouselPageComponent,
+    ParticipantTextContentComponent,
+    AnswerStatisticsComponent,
+    CreatorTextContentComponent
   ],
   entryComponents: [
     RegisterComponent,

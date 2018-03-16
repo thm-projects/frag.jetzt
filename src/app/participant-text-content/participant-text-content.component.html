@@ -1,0 +1,9 @@
+<form (ngSubmit)="submit(answer.value)">
+  <h1 class="mat-headline">{{ content.subject }}</h1>
+  <p>{{ content.body }}</p>
+  <mat-divider></mat-divider>
+  <mat-form-field class="input-block">
+    <textarea matInput #answer placeholder="Your answer"></textarea>
+  </mat-form-field>
+  <button mat-raised-button type="submit" color="primary">Submit</button>
+</form>

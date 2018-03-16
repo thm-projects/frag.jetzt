@@ -1,0 +1,11 @@
+<form>
+  <h1 class="mat-headline">{{ content.subject }}</h1>
+  <p>{{ content.body }}</p>
+  <mat-divider></mat-divider>
+  <mat-list>
+    <mat-list-item *ngFor="let answer of content.options">
+      <mat-checkbox color="primary">{{ answer.label }}</mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+  <button mat-raised-button color="primary">Send answer</button>
+</form>

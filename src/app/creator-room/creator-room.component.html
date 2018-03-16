@@ -21,7 +21,8 @@
       <app-content-list></app-content-list>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-button color="primary" matTooltip="Create new content" (click)="createContentDialog()">
+        <button mat-button color="primary" matTooltip="Create new content"
+                routerLink="/creator/room/{{room.id}}/add-content">
           Create content
         </button>
         <button mat-button color="primary" matTooltip="See room comments" routerLink="/creator/room/{{room.id}}/comments">
