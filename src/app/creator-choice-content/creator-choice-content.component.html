@@ -27,9 +27,9 @@
 
   <mat-divider></mat-divider>
 
-  <div fxLayout="row" fxLayoutGap="5px">
+  <div fxLayout="row" fxLayoutGap="15px">
     <div fxLayout="column" fxLayoutAlign="center">
-      <mat-checkbox #answerIsCorrect color="primary"></mat-checkbox>
+      <mat-checkbox #answerIsCorrect color="primary">Is correct</mat-checkbox>
     </div>
     <mat-form-field>
       <input matInput #answerLabel placeholder="Answer" name="answer">
@@ -45,5 +45,5 @@
     </div>
   </div>
 
-  <button mat-button type="submit">Submit</button>
+  <button mat-raised-button type="submit" color="primary">Submit</button>
 </form>
