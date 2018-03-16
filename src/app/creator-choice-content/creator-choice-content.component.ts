@@ -47,6 +47,7 @@ export class CreatorChoiceContentComponent implements OnInit {
   }
 
   fillCorrectAnswers() {
+    this.correctAnswers = [];
     for (let i = 0; i < this.content.options.length; i++) {
       this.correctAnswers.push(new CorrectAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
     }
