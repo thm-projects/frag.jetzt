@@ -30,5 +30,4 @@ export class CreatorTextContentComponent implements OnInit {
       // this.contentService.updateContent(this.content).subscribe();
     }
   }
-
 }
