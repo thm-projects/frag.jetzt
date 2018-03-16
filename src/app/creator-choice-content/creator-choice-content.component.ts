@@ -22,17 +22,12 @@ export class CreatorChoiceContentComponent implements OnInit {
 
   content: ChoiceContent = new ChoiceContent('0',
     '1',
-    '1',
-    'Choice Content 1',
-    'This is the body of Choice Content 1',
+    '',
+    '',
+    '',
     1,
-    [
-      new AnswerOption('Option 1', '0'),
-      new AnswerOption('Option 2', '10'),
-      new AnswerOption('Option 3', '20'),
-      new AnswerOption('Option 4', '30')
-    ],
-    [0, 2, 3],
+    [],
+    [],
     true);
 
   displayedColumns = ['label', 'points'];
