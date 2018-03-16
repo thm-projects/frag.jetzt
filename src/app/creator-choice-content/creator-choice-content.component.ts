@@ -3,7 +3,7 @@ import { AnswerOption } from '../answer-option';
 import { ChoiceContent } from '../choice-content';
 import { ContentService } from '../content.service';
 
-export class CorrectAnswer {
+export class DisplayAnswer {
   answerOption: AnswerOption;
   correct: boolean;
 
@@ -26,13 +26,21 @@ export class CreatorChoiceContentComponent implements OnInit {
     '',
     '',
     1,
-    [],
-    [],
+    [
+      new AnswerOption('Option 1', '10'),
+      new AnswerOption('Option 2', '10'),
+      new AnswerOption('Option 3', '10')
+    ],
+    [0, 2],
     true);
 
   displayedColumns = ['label', 'points'];
 
-  correctAnswers: CorrectAnswer[] = [];
+  displayAnswers: DisplayAnswer[] = [];
+
+  newAnswerOptionChecked = false;
+  newAnswerOptionLabel = '';
+  newAnswerOptionPoints = '';
 
   constructor(private contentService: ContentService) {
   }
@@ -42,9 +50,9 @@ export class CreatorChoiceContentComponent implements OnInit {
   }
 
   fillCorrectAnswers() {
-    this.correctAnswers = [];
+    this.displayAnswers = [];
     for (let i = 0; i < this.content.options.length; i++) {
-      this.correctAnswers.push(new CorrectAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
+      this.displayAnswers.push(new DisplayAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
     }
   }
 
@@ -57,11 +65,14 @@ export class CreatorChoiceContentComponent implements OnInit {
     }
   }
 
-  addAnswer(isCorrect: boolean, label: string, points: string) {
-    this.content.options.push(new AnswerOption(label, points));
-    if (isCorrect) {
-      this.content.correctOptionIndexes.push(this.content.options.length);
+  addAnswer() {
+    this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, this.newAnswerOptionPoints));
+    if (this.newAnswerOptionChecked) {
+      this.content.correctOptionIndexes.push(this.content.options.length - 1);
     }
+    this.newAnswerOptionChecked = false;
+    this.newAnswerOptionLabel = '';
+    this.newAnswerOptionPoints = '';
     this.fillCorrectAnswers();
     this.submitContent();
   }
