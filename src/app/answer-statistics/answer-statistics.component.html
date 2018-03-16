@@ -7,19 +7,29 @@
             {{ state.viewValue }}
           </mat-option>
         </mat-select>
-        <div *ngIf="selected == 1">
-          <!-- Add list of Question statistic -->
-          <mat-progress-bar [value]="50">
+        <div *ngFor="let statistic of statistics">
+          {{ statistic.name }}
+          <mat-progress-bar [value]="statistic.percent">
           </mat-progress-bar>
-        </div>
-        <div *ngIf="selected == 2">
-          <!-- Add list of Question statistic -->
-          <mat-progress-bar [value]="50" color="warn">
-          </mat-progress-bar>
+          <div align="right"> Responded answers: {{ statistic.answers }} </div>
         </div>
       </mat-tab>
-      <!-- Add second tab with true false answers -->
+      <mat-tab label="Evaluation" (choose)="showEvaluation(selectedContent.index)">
+        <h2 fxLayoutAlign="center">{{ selectedContent.name }}</h2>
+        <div class="evaluation" *ngFor="let choice of evaluation">
+          {{ choice.name }}
+          <mat-progress-bar [value]="choice.percent" color="primary" *ngIf="choice.correct">
+          </mat-progress-bar>
+          <mat-progress-bar [value]="choice.percent" color="warn" *ngIf="!choice.correct">
+          </mat-progress-bar>
+          <div align="right"> Selected: {{ choice.answers }} times</div>
+        </div>
+        <div fxLayoutAlign="center" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index - 1)">Before</button>
+          <div><b>{{ selectedContent.index }} / {{ selectedContent.length }}</b></div>
+          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index + 1)">Next</button>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </mat-card>
 </div>
-

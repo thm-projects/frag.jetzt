@@ -98,15 +98,51 @@ export class InMemoryDataService implements InMemoryDbService {
       {
         contentId: '2',
         revision: '2',
-        roomId: '3',
+        roomId: '1',
         subject: 'Text Content 2',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.TEXT
+      },
+      {
+        contentId: '3',
+        revision: '3',
+        roomId: '1',
+        subject: 'Text Content 3',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.TEXT
+      },
+      {
+        contentId: '4',
+        revision: '4',
+        roomId: '1',
+        subject: 'Text Content 4',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.TEXT
+      },
+      {
+        contentId: '5',
+        revision: '5',
+        roomId: '1',
+        subject: 'Choice Content 1',
+        body: 'testcontent alpha beta',
+        round: 1,
+        format: ContentType.CHOICE
+      },
+      {
+        contentId: '6',
+        revision: '2',
+        roomId: '3',
+        subject: 'Text Content 1',
         body: 'This is yet another body of a text content.',
         round: 2,
         format: ContentType.TEXT
       }
     ];
 
-    const answerTexts = [
+    const textAnswers = [
       {
         id: '1',
         revision: '1',
@@ -118,8 +154,8 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: Date,
       },
       {
-        id: '1',
-        revision: '1',
+        id: '2',
+        revision: '2',
         contentId: '1',
         round: '1',
         subject: 'Textaufgabe 1',
@@ -128,8 +164,8 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: Date,
       },
       {
-        id: '2',
-        revision: '2',
+        id: '3',
+        revision: '3',
         contentId: '2',
         round: '3',
         subject: 'Textaufgabe 2',
@@ -138,6 +174,16 @@ export class InMemoryDataService implements InMemoryDbService {
         creationTimestamp: Date,
       }
     ];
-    return { rooms, comments, contents, answerTexts };
+
+    const choiceAnswers = [
+      {
+        id: '1',
+        revision: '1',
+        contentId: '5',
+        round: 0,
+        selectedChoiceIndexes: [ 1, 2 ],
+      }
+    ];
+    return { rooms, comments, contents, textAnswers, choiceAnswers };
   }
 }
