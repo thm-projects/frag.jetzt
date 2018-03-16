@@ -18,11 +18,8 @@ export class AnswerStatisticsComponent implements OnInit {
   @Input() textAnswers: AnswerText[] = [];
   @Input() choiceAnswers: ChoiceAnswer[] = [];
   statistics: any = null;
-  selectedContent: any = {
-    name: 'HOW TO MAKE CONTENT GREAT AGAIN',
-    index: '1',
-    length: '1'
-  };
+  selectedContent: any =
+    { name: 'HOW TO MAKE CONTENT GREAT AGAIN', index: '1', length: '1' };
   evaluation: any = [
     { name: 'Skill', percent: 10, correct: false, answers: 1, },
     { name: 'Knowledge', percent: 10, correct: false, answers: 1, },
