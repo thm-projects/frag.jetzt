@@ -27,7 +27,8 @@ export class CommentListComponent implements OnInit {
     private roomService: RoomService,
     private location: Location,
     private commentService: CommentService,
-    private notification: NotificationService) { }
+    private notification: NotificationService) {
+  }
 
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
@@ -47,16 +48,21 @@ export class CommentListComponent implements OnInit {
   getComments(roomId: string): void {
     if (this.userRole === UserRole.CREATOR) {
       this.commentService.getComments(roomId)
-        .subscribe(comments => this.comments = comments);
+        .subscribe(comments => {
+          this.comments = comments;
+          this.isLoading = false;
+        });
     } else if (this.userRole === UserRole.PARTICIPANT) {
       this.commentService.searchComments(roomId, this.user.id)
-        .subscribe(comments => this.comments = comments);
+        .subscribe(comments => {
+          this.comments = comments;
+          this.isLoading = false;
+        });
     }
-    this.isLoading = false;
   }
 
   setRead(comment: Comment): void {
-    this.comments.find( c => c.id === comment.id).read = !comment.read;
+    this.comments.find(c => c.id === comment.id).read = !comment.read;
     this.commentService.updateComment(comment).subscribe();
   }
 
