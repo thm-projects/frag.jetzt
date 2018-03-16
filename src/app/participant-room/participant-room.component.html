@@ -2,35 +2,42 @@
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
-      <mat-card-header>
+      <mat-card-header fxLayoutAlign="center">
         <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
-        <mat-card-subtitle>{{ room.shortId }}</mat-card-subtitle>
+        <mat-card-subtitle fxLayoutAlign="center">{{ room.shortId }}</mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
-      <mat-card-content>
+      <mat-card-content fxLayoutAlign="center">
         <p>
           {{ room.description }}
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
-      <mat-card-actions>
-        <button mat-icon-button color="primary" matTooltip="Create comment" routerLink="/participant/room/{{ room.id }}/create-comment">
-          <mat-icon>question_answer</mat-icon>
-        </button>
-        <button mat-icon-button color="primary" matTooltip="Give feedback">
-          <mat-icon>feedback</mat-icon>
-        </button>
-        <button mat-button color="primary" matTooltip="Join question round" routerLink="/participant/room/{{ room.id }}/questions">
-          Questions
-        </button>
-        <button mat-button color="primary" matTooltip="Start personal question round">
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>
+          <button mat-icon-button color="primary" matTooltip="Create comment"
+                  routerLink="/participant/room/{{ room.id }}/create-comment">
+            <mat-icon>question_answer</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button color="primary" matTooltip="Give feedback">
+            <mat-icon>thumbs_up_down</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-nav-list>
+        <mat-list-item matTooltip="Join question round" routerLink="/participant/room/{{ room.id }}/questions">
+          Contents
+        </mat-list-item>
+        <mat-list-item matTooltip="See room comments">
+          Comments
+        </mat-list-item>
+        <mat-list-item matTooltip="Join question round">
           Learn
-        </button>
-      </mat-card-actions>
+        </mat-list-item>
+      </mat-nav-list>
     </mat-card>
-    <div *ngIf="!isLoading && !room">
-       Error: room could not be found!
-    </div>
   </div>
   <button mat-button color="primary" (click)="goBack()">Back</button>
 </div>

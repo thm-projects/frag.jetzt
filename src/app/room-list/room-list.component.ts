@@ -13,6 +13,7 @@ export class RoomListComponent implements OnInit {
   rooms: Room[];
   closedRooms: Room[];
   baseUrl: string;
+  isLoading = true;
 
   constructor(
     private roomService: RoomService,
@@ -35,6 +36,7 @@ export class RoomListComponent implements OnInit {
     this.roomService.getRooms().subscribe(rooms => {
       this.rooms = rooms;
       this.closedRooms = this.rooms.filter(room => room.closed);
+      this.isLoading = false;
     });
   }
 }
