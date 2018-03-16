@@ -25,9 +25,9 @@
           <div align="right"> Selected: {{ choice.answers }} times</div>
         </div>
         <div fxLayoutAlign="center" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index-1)">Before</button>
+          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index - 1)">Before</button>
           <div><b>{{ selectedContent.index }} / {{ selectedContent.length }}</b></div>
-          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index+1)">Next</button>
+          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index + 1)">Next</button>
         </div>
       </mat-tab>
     </mat-tab-group>

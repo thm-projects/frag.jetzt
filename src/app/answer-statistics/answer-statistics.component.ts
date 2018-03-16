@@ -62,7 +62,7 @@ export class AnswerStatisticsComponent implements OnInit {
     }
   }
 
-  showStatistic(value) {  /** refactor answer class structure for less code and more abstraction*/
+  showStatistic(value) {  // refactor answer class structure for less code and more abstraction
     this.statistics = [];
     for (const question of this.content) {
       if (value === '1') {
@@ -93,6 +93,6 @@ export class AnswerStatisticsComponent implements OnInit {
   }
 
   showEvaluation(index: number) {
-    /** coming with api connection, logic doesnt make sense without knowledge about api **/
+    // coming with api connection, logic doesnt make sense without knowledge about api
   }
 }
