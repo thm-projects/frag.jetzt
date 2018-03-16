@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TextContent } from '../text-content';
+import { ContentAnswerService } from '../content-answer.service';
+import { AnswerText } from '../answer-text';
 
 @Component({
   selector: 'app-participant-text-content',
@@ -14,12 +16,22 @@ export class ParticipantTextContentComponent implements OnInit {
     'This is the body of Text Content 1',
     1);
 
-  constructor() {
+  constructor(private answerService: ContentAnswerService) {
   }
 
   ngOnInit() {
   }
 
-  submit(answer: string) {
+  submitAnswer(answer: string) {
+    this.answerService.addAnswerText({
+      id: '0',
+      revision: this.content.revision,
+      contentId: this.content.contentId,
+      round: this.content.round,
+      subject: this.content.subject,
+      body: answer,
+      read: 'false',
+      creationTimestamp: new Date()
+    } as AnswerText).subscribe();
   }
 }

@@ -1,6 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswerOption } from '../answer-option';
 import { ChoiceContent } from '../choice-content';
+import { ContentService } from '../content.service';
+
+export class DisplayAnswer {
+  answerOption: AnswerOption;
+  correct: boolean;
+
+  constructor(answerOption: AnswerOption, correct: boolean) {
+    this.answerOption = answerOption;
+    this.correct = correct;
+  }
+}
 
 @Component({
   selector: 'app-creator-choice-content',
@@ -9,32 +20,56 @@ import { ChoiceContent } from '../choice-content';
 })
 export class CreatorChoiceContentComponent implements OnInit {
 
-  content: ChoiceContent = new ChoiceContent('2',
+  content: ChoiceContent = new ChoiceContent('0',
     '1',
-    '1',
-    'Choice Content 1',
-    'This is the body of Choice Content 1',
+    '',
+    '',
+    '',
     1,
-    [
-      new AnswerOption('Option 1', '0'),
-      new AnswerOption('Option 2', '10'),
-      new AnswerOption('Option 3', '20'),
-      new AnswerOption('Option 4', '30')
-    ],
-    [1, 2, 3],
+    [],
+    [],
     true);
 
   displayedColumns = ['label', 'points'];
 
-  constructor() {
+  displayAnswers: DisplayAnswer[] = [];
+
+  newAnswerOptionChecked = false;
+  newAnswerOptionLabel = '';
+  newAnswerOptionPoints = '';
+
+  constructor(private contentService: ContentService) {
   }
 
   ngOnInit() {
+    this.fillCorrectAnswers();
+  }
+
+  fillCorrectAnswers() {
+    this.displayAnswers = [];
+    for (let i = 0; i < this.content.options.length; i++) {
+      this.displayAnswers.push(new DisplayAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
+    }
   }
 
   submitContent() {
+    if (this.content.contentId === '0') {
+      this.contentService.addContent(this.content).subscribe();
+    } else {
+      // ToDo: Implement function in service
+      // this.contentService.updateContent(this.content).subscribe();
+    }
   }
 
-  addAnswer(isCorrect: boolean, label: string, points: number) {
+  addAnswer() {
+    this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, this.newAnswerOptionPoints));
+    if (this.newAnswerOptionChecked) {
+      this.content.correctOptionIndexes.push(this.content.options.length - 1);
+    }
+    this.newAnswerOptionChecked = false;
+    this.newAnswerOptionLabel = '';
+    this.newAnswerOptionPoints = '';
+    this.fillCorrectAnswers();
+    this.submitContent();
   }
 }

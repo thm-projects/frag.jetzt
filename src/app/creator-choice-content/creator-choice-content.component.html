@@ -7,18 +7,21 @@
   </mat-form-field>
   <mat-divider></mat-divider>
 
-  <mat-table #table [dataSource]="content.options">
+  <mat-table #table [dataSource]="displayAnswers">
 
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <mat-checkbox color="primary">{{ answer.label }}</mat-checkbox>
+        <!-- ToDo: Check ngModel -->
+        <mat-checkbox color="primary" [(ngModel)]="answer.correct" [checked]="answer.correct"
+                      name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }} is {{ answer.correct }}
+        </mat-checkbox>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="points">
       <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-      <mat-cell *matCellDef="let answer">{{ answer.points }}</mat-cell>
+      <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -29,17 +32,17 @@
 
   <div fxLayout="row" fxLayoutGap="15px">
     <div fxLayout="column" fxLayoutAlign="center">
-      <mat-checkbox #answerIsCorrect color="primary">Is correct</mat-checkbox>
+      <mat-checkbox #answerIsCorrect [(ngModel)]="newAnswerOptionChecked" [checked]="newAnswerOptionChecked" color="primary" name="ischecked">Is correct</mat-checkbox>
     </div>
     <mat-form-field class="input-block">
-      <input matInput #answerLabel placeholder="Answer" name="answer">
+      <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
     </mat-form-field>
     <mat-form-field class="input-block">
-      <input matInput #answerPoints placeholder="Points" name="points">
+      <input matInput #answerPoints [(ngModel)]="newAnswerOptionPoints" placeholder="Points" name="points">
     </mat-form-field>
     <div fxLayout="column" fxLayoutAlign="center">
       <button mat-button type="button"
-              (click)="addAnswer(answerIsCorrect.value, answerLabel.value, answerPoints.value)">
+              (click)="addAnswer(); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
         Add Answer
       </button>
     </div>
