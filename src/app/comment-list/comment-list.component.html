@@ -1,5 +1,6 @@
 <div fxLayout="row" fxLayoutAlign="center">
   <div fxLayout="column" fxLayoutGap="20px">
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
       <div *ngFor="let comment of comments">
         <mat-card>
           <mat-card-content>

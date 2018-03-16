@@ -19,6 +19,7 @@ export class CommentListComponent implements OnInit {
   userRole: UserRole;
   user: User;
   comments: Comment[];
+  isLoading = true;
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -51,6 +52,7 @@ export class CommentListComponent implements OnInit {
       this.commentService.searchComments(roomId, this.user.id)
         .subscribe(comments => this.comments = comments);
     }
+    this.isLoading = false;
   }
 
   setRead(comment: Comment): void {
