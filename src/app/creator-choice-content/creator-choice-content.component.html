@@ -13,7 +13,7 @@
       <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <!-- ToDo: Check ngModel -->
-        <mat-checkbox color="primary" [checked]="answer.correct" [(ngModel)]="answer.correct" name="answer">{{ answer.answerOption.label }} is {{ answer.correct }}</mat-checkbox>
+        <mat-checkbox color="primary" [(ngModel)]="answer.correct" [checked]="answer.correct" name="answer">{{ answer.answerOption.label }} is {{ answer.correct }}</mat-checkbox>
       </mat-cell>
     </ng-container>
 
@@ -40,7 +40,8 @@
     </mat-form-field>
     <div fxLayout="column" fxLayoutAlign="center">
       <button mat-button type="button"
-              (click)="addAnswer(answerIsCorrect.checked, answerLabel.value, answerPoints.value)">
+              (click)="addAnswer(answerIsCorrect.checked, answerLabel.value, answerPoints.value);
+              answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
         Add Answer
       </button>
     </div>
