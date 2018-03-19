@@ -32,7 +32,7 @@ export class RoomService extends ErrorHandlingService {
     return this.http.post<Room[]>(getRoomsUrl, {
       properties: {},
       externalFilters: {
-        ownerId: this.authenticationService.getUser().userId
+        ownerId: this.authenticationService.getUser().id
       }
     }, httpOptions);
   }
