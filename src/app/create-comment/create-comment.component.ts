@@ -46,7 +46,7 @@ export class CreateCommentComponent implements OnInit {
       return;
     }
     this.commentService.addComment({
-      id: this.room.id + this.user.id,
+      id: '',
       roomId: this.room.id,
       userId: this.user.id,
       subject: subject,
