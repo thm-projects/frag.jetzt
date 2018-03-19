@@ -48,6 +48,7 @@ export class AuthenticationService {
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT);
   }
 
+  // ToDo: Check return type of register route
   register(email: string, password: string): Observable<ClientAuthentication> {
     const connectionUrl: string = this.apiUrl.baseUrl + this.apiUrl.registerUrl;
 
