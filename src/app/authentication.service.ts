@@ -96,11 +96,11 @@ export class AuthenticationService {
   checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole): Observable<boolean> {
     return clientAuthentication.map(result => {
       if (result) {
-        this.user = new User(
+        this.setUser(new User(
           result.userId,
           result.loginId,
           result.authProvider,
-          result.token, userRole);
+          result.token, userRole));
         return true;
       } else {
         return false;
