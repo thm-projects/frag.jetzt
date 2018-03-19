@@ -77,7 +77,7 @@ export class AuthenticationService {
     return this.user;
   }
 
-  setUser(user: User): void {
+  private setUser(user: User): void {
     this.user = user;
     this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(this.user));
   }
