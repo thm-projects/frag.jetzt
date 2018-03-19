@@ -87,7 +87,7 @@ export class AuthenticationService {
   }
 
   getRole(): UserRole {
-    return this.isLoggedIn() ? this.user.userRole : undefined;
+    return this.isLoggedIn() ? this.user.role : undefined;
   }
 
   getToken(): string {

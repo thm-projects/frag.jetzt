@@ -6,13 +6,13 @@ export class User {
   loginId: string;
   authProvider: AuthProvider;
   token: string;
-  userRole: UserRole;
+  role: UserRole;
 
-  constructor(id: string, loginId: string, authProvider: AuthProvider, token: string, userRole: UserRole) {
+  constructor(id: string, loginId: string, authProvider: AuthProvider, token: string, role: UserRole) {
     this.id = id;
     this.loginId = loginId;
     this.authProvider = authProvider;
     this.token = token;
-    this.userRole = userRole;
+    this.role = role;
   }
 }
