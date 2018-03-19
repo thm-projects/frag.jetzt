@@ -6,8 +6,6 @@ import { UserRole } from './user-roles.enum';
 import { DataStoreService } from './data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from './client-authentication';
-import { AuthProvider } from './auth-provider';
-import { ClientAuthentication } from './client-authentication';
 
 // TODO: connect to API
 @Injectable()
@@ -34,19 +32,19 @@ export class AuthenticationService {
     }
   }
 
-  login(email: string, password: string): Observable<ClientAuthentication> {
+  login(email: string, password: string, userRole: UserRole): Observable<boolean> {
     const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + this.apiRegisteredUrl;
 
-    return this.http.post<ClientAuthentication>(connectionUrl, {
+    return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {
       loginId: email,
       password: password
-    }, this.httpOptions);
+    }, this.httpOptions), userRole);
   }
 
-  guestLogin(): Observable<ClientAuthentication> {
+  guestLogin(): Observable<boolean> {
     const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest';
 
-    return this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions);
+    return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT);
   }
 
   register(email: string, password: string): Observable<ClientAuthentication> {
@@ -92,6 +90,23 @@ export class AuthenticationService {
 
   getToken(): string {
     return this.user.token;
+  }
+
+  checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole): Observable<boolean> {
+    return clientAuthentication.map(result => {
+      if (result) {
+        this.user = new User(
+          result.userId,
+          result.loginId,
+          result.authProvider,
+          result.token, userRole);
+        return true;
+      } else {
+        return false;
+      }
+    }).catch(() => {
+      return of(false);
+    });
   }
 
 }
