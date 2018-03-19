@@ -12,14 +12,16 @@ import { ClientAuthentication } from './client-authentication';
 export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
   private user: User;
-  private apiBaseUrl = 'https://arsnova-staging.mni.thm.de/api';
-  private apiV2Url = 'https://arsnova-staging.mni.thm.de/v2';
-  private apiAuthUrl = '/auth';
-  private apiLoginUrl = '/login';
-  private apiUserUrl = '/user';
-  private apiRegisterUrl = '/register';
-  private apiRegisteredUrl = '/registered';
-  private apiResetPasswordUrl = '/resetpassword';
+  private apiUrl = {
+    baseUrl : 'https://arsnova-staging.mni.thm.de/api',
+    v2Url : 'https://arsnova-staging.mni.thm.de/v2',
+    authUrl : '/auth',
+    loginUrl : '/login',
+    userUrl : '/user',
+    registerUrl : '/register',
+    registeredUrl : '/registered',
+    resetPasswordUrl : '/resetpassword'
+  };
   private httpOptions = {
     headers: new HttpHeaders({})
   };
@@ -33,7 +35,7 @@ export class AuthenticationService {
   }
 
   login(email: string, password: string, userRole: UserRole): Observable<boolean> {
-    const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + this.apiRegisteredUrl;
+    const connectionUrl: string = this.apiUrl.baseUrl + this.apiUrl.authUrl + this.apiUrl.loginUrl + this.apiUrl.registeredUrl;
 
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {
       loginId: email,
@@ -42,13 +44,13 @@ export class AuthenticationService {
   }
 
   guestLogin(): Observable<boolean> {
-    const connectionUrl: string = this.apiBaseUrl + this.apiAuthUrl + this.apiLoginUrl + '/guest';
+    const connectionUrl: string = this.apiUrl.baseUrl + this.apiUrl.authUrl + this.apiUrl.loginUrl + '/guest';
 
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT);
   }
 
   register(email: string, password: string): Observable<ClientAuthentication> {
-    const connectionUrl: string = this.apiBaseUrl + this.apiRegisterUrl;
+    const connectionUrl: string = this.apiUrl.baseUrl + this.apiUrl.registerUrl;
 
     return this.http.post<ClientAuthentication>(connectionUrl, {
       loginId: email,
@@ -57,7 +59,7 @@ export class AuthenticationService {
   }
 
   resetPassword(email: string): Observable<boolean> {
-    const connectionUrl: string = this.apiV2Url + this.apiUserUrl + email + this.apiResetPasswordUrl;
+    const connectionUrl: string = this.apiUrl.v2Url + this.apiUrl.userUrl + email + this.apiUrl.resetPasswordUrl;
 
     return this.http.post<boolean>(connectionUrl, {
       key: null,
