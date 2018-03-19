@@ -7,7 +7,6 @@ import { DataStoreService } from './data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from './client-authentication';
 
-// TODO: connect to API
 @Injectable()
 export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
