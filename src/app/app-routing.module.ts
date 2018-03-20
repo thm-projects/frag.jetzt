@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { LoginScreenComponent } from './login-screen/login-screen.component';
-import { CreatorHomeScreenComponent } from './creator-home-screen/creator-home-screen.component';
-import { CreateCommentComponent } from './create-comment/create-comment.component';
-import { ParticipantHomeScreenComponent } from './participant-home-screen/participant-home-screen.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { LoginScreenComponent } from './components/pages/login-screen/login-screen.component';
+import { CreatorHomeScreenComponent } from './components/pages/creator-home-screen/creator-home-screen.component';
+import { CreateCommentComponent } from './components/pages/create-comment/create-comment.component';
+import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
 import { AuthenticationGuard } from './authentication.guard';
 import { UserRole } from './user-roles.enum';
-import { ParticipantRoomComponent } from './participant-room/participant-room.component';
-import { CreatorRoomComponent } from './creator-room/creator-room.component';
-import { CommentListComponent } from './comment-list/comment-list.component';
-import { ContentListComponent } from './content-list/content-list.component';
-import { ContentDetailComponent } from './content-detail/content-detail.component';
-import { AnswerStatisticsComponent } from './answer-statistics/answer-statistics.component';
-import { AddContentComponent } from './add-content/add-content.component';
-import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
+import { ParticipantRoomComponent } from './components/pages/participant-room/participant-room.component';
+import { CreatorRoomComponent } from './components/pages/creator-room/creator-room.component';
+import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
+import { ContentListComponent } from './components/fragments/content-list/content-list.component';
+import { ContentDetailComponent } from './components/pages/content-detail/content-detail.component';
+import { AnswerStatisticsComponent } from './components/fragments/answer-statistics/answer-statistics.component';
+import { AddContentComponent } from './components/pages/add-content/add-content.component';
+import { ParticipantContentCarouselPageComponent } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
 
 const routes: Routes = [
   {
