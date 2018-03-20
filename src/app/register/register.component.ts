@@ -59,9 +59,7 @@ export class RegisterComponent implements OnInit {
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
       !this.password1FormControl.hasError('required') &&
       !this.password2FormControl.hasError('required') && !this.password2FormControl.hasError('passwordIsEqual')) {
-      // ToDo: Check return type of register route
-      this.authenticationService.register(username, password1).subscribe(result => {
-        // ToDo: Check what /api/register returns and check for potential errors
+      this.authenticationService.register(username, password1).subscribe(() => {
         this.notificationService.show('Successfully registered. Please check your mail!');
         this.dialogRef.close();
       });

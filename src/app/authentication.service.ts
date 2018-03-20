@@ -49,22 +49,26 @@ export class AuthenticationService {
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT);
   }
 
-  register(email: string, password: string): void {
+  register(email: string, password: string): Observable<boolean> {
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.user + this.apiUrl.register;
 
-    this.http.post<ClientAuthentication>(connectionUrl, {
+    return this.http.post<boolean>(connectionUrl, {
       loginId: email,
       password: password
-    }, this.httpOptions);
+    }, this.httpOptions).map(() => {
+      return true;
+    });
   }
 
   resetPassword(email: string): Observable<boolean> {
     const connectionUrl: string = this.apiUrl.v2 + this.apiUrl.user + email + this.apiUrl.resetPassword;
 
-    return this.http.post<boolean>(connectionUrl, {
+    return this.http.post(connectionUrl, {
       key: null,
       password: null
-    }, this.httpOptions);
+    }, this.httpOptions).map(() => {
+      return true;
+    });
   }
 
   logout() {
