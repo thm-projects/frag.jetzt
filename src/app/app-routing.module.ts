@@ -34,31 +34,31 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room-page/:roomId',
+    path: 'creator/room/:roomId',
     component: RoomCreatorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room-page/:roomId/content-create-page',
+    path: 'creator/room/:roomId/create-content',
     component: ContentCreatePageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room-page/:roomId/statistics',
+    path: 'creator/room/:roomId/statistics',
     component: StatisticsComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room-page/:roomId/comments',
+    path: 'creator/room/:roomId/comments',
     component: CommentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room-page/:roomId/content',
+    path: 'creator/room/:roomId/content',
     component: ContentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
@@ -70,19 +70,19 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room-page/:roomId',
+    path: 'participant/room/:roomId',
     component: RoomParticipantPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room-page/:roomId/comment-create-page',
+    path: 'participant/room/:roomId/create-comment',
     component: CommentCreatePageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room-page/:roomId/questions',
+    path: 'participant/room/:roomId/questions',
     component: ContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
