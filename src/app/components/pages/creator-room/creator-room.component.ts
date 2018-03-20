@@ -6,7 +6,7 @@ import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
-import { RoomDeletionComponent } from '../../dialogs/room-deletion/room-deletion.component';
+import { RoomDeletionComponent } from '../../dialogs/room-delete/room-delete.component';
 import { RoomModificationComponent } from '../../dialogs/room-modification/room-modification.component';
 
 @Component({

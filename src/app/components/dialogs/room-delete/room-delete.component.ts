@@ -8,8 +8,8 @@ import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-room-deletion',
-  templateUrl: './room-deletion.component.html',
-  styleUrls: ['./room-deletion.component.scss']
+  templateUrl: './room-delete.component.html',
+  styleUrls: ['./room-delete.component.scss']
 })
 export class RoomDeletionComponent implements OnInit {
   room: Room;
