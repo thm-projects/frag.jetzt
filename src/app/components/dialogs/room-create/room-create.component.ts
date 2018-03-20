@@ -7,8 +7,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-room-creation',
-  templateUrl: './room-creation.component.html',
-  styleUrls: ['./room-creation.component.scss']
+  templateUrl: './room-create.component.html',
+  styleUrls: ['./room-create.component.scss']
 })
 export class RoomCreationComponent implements OnInit {
   longName: string;

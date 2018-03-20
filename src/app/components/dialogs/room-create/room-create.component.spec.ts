@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoomCreationComponent } from './room-creation.component';
+import { RoomCreationComponent } from './room-create.component';
 
 describe('RoomCreationComponent', () => {
   let component: RoomCreationComponent;

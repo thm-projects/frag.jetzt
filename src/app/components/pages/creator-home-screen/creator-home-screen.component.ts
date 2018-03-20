@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { RoomCreationComponent } from '../../dialogs/room-creation/room-creation.component';
+import { RoomCreationComponent } from '../../dialogs/room-create/room-create.component';
 
 @Component({
   selector: 'app-creator-home-screen',
