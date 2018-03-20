@@ -7,7 +7,7 @@ import { CreateCommentComponent } from './components/pages/comment-create/commen
 import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { UserRole } from './models/user-roles.enum';
-import { ParticipantRoomComponent } from './components/pages/participant-room/participant-room.component';
+import { ParticipantRoomComponent } from './components/pages/room-participant/room-participant.component';
 import { CreatorRoomComponent } from './components/pages/room-creator/room-creator.component';
 import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';

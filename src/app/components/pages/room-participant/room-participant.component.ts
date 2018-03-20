@@ -6,8 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-participant-room',
-  templateUrl: './participant-room.component.html',
-  styleUrls: ['./participant-room.component.scss']
+  templateUrl: './room-participant.component.html',
+  styleUrls: ['./room-participant.component.scss']
 })
 export class ParticipantRoomComponent implements OnInit {
 
