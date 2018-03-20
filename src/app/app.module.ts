@@ -73,7 +73,7 @@ import { AnswerStatisticsComponent } from './components/fragments/statistics/sta
 import { RoomModificationComponent } from './components/dialogs/room-edit/room-edit.component';
 import { ParticipantChoiceContentComponent } from './components/fragments/content-choice-participant/content-choice-participant.component';
 import { CreatorChoiceContentComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
-import { AddContentComponent } from './components/pages/add-content/add-content.component';
+import { AddContentComponent } from './components/pages/content-create/content-create.component';
 import {
   ParticipantContentCarouselPageComponent
 } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';

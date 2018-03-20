@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AddContentComponent } from './add-content.component';
+import { AddContentComponent } from './content-create.component';
 
 describe('AddContentComponent', () => {
   let component: AddContentComponent;

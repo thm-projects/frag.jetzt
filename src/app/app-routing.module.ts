@@ -13,7 +13,7 @@ import { CommentListComponent } from './components/fragments/comment-list/commen
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { ContentDetailComponent } from './components/pages/content-detail/content-detail.component';
 import { AnswerStatisticsComponent } from './components/fragments/statistics/statistics.component';
-import { AddContentComponent } from './components/pages/add-content/add-content.component';
+import { AddContentComponent } from './components/pages/content-create/content-create.component';
 import {
   ParticipantContentCarouselPageComponent
 } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
@@ -41,7 +41,7 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/add-content',
+    path: 'creator/room/:roomId/content-create',
     component: AddContentComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
