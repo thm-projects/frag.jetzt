@@ -12,8 +12,8 @@ import { CommentListComponent } from '../../fragments/comment-list/comment-list.
 
 @Component({
   selector: 'app-create-comment',
-  templateUrl: './create-comment.component.html',
-  styleUrls: ['./create-comment.component.scss']
+  templateUrl: './comment-create.component.html',
+  styleUrls: ['./comment-create.component.scss']
 })
 export class CreateCommentComponent implements OnInit {
   @ViewChild(CommentListComponent) child: CommentListComponent;

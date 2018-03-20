@@ -11,5 +11,4 @@ export class AddContentComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
