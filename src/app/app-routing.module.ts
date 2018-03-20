@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from './components/pages/page-not-found/page-no
 import { LoginScreenComponent } from './components/pages/login-screen/login-screen.component';
 import { CreatorHomeScreenComponent } from './components/pages/home-creator/home-creator.component';
 import { CreateCommentComponent } from './components/pages/comment-create/comment-create.component';
-import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
+import { ParticipantHomeScreenComponent } from './components/pages/home-participant/home-participant.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { UserRole } from './models/user-roles.enum';
 import { ParticipantRoomComponent } from './components/pages/room-participant/room-participant.component';

@@ -59,7 +59,7 @@ import { RoomListComponent } from './components/fragments/room-list/room-list.co
 import { CreatorHomeScreenComponent } from './components/pages/home-creator/home-creator.component';
 import { CreateCommentComponent } from './components/pages/comment-create/comment-create.component';
 import { CommentService } from './services/http/comment.service';
-import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
+import { ParticipantHomeScreenComponent } from './components/pages/home-participant/home-participant.component';
 import { ParticipantRoomComponent } from './components/pages/room-participant/room-participant.component';
 import { DataStoreService } from './services/util/data-store.service';
 import { CreatorRoomComponent } from './components/pages/room-creator/room-creator.component';
