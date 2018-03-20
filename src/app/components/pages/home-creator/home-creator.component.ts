@@ -4,8 +4,8 @@ import { RoomCreationComponent } from '../../dialogs/room-create/room-create.com
 
 @Component({
   selector: 'app-creator-home-screen',
-  templateUrl: './creator-home-screen.component.html',
-  styleUrls: ['./creator-home-screen.component.scss']
+  templateUrl: './home-creator.component.html',
+  styleUrls: ['./home-creator.component.scss']
 })
 export class CreatorHomeScreenComponent implements OnInit {
   constructor(public dialog: MatDialog) {

@@ -56,7 +56,7 @@ import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { RoomService } from './services/http/room.service';
 import { RoomListComponent } from './components/fragments/room-list/room-list.component';
-import { CreatorHomeScreenComponent } from './components/pages/creator-home-screen/creator-home-screen.component';
+import { CreatorHomeScreenComponent } from './components/pages/home-creator/home-creator.component';
 import { CreateCommentComponent } from './components/pages/comment-create/comment-create.component';
 import { CommentService } from './services/http/comment.service';
 import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
