@@ -15,8 +15,8 @@ export class DisplayAnswer {
 
 @Component({
   selector: 'app-creator-choice-content',
-  templateUrl: './creator-choice-content.component.html',
-  styleUrls: ['./creator-choice-content.component.scss']
+  templateUrl: './content-choice-creator.component.html',
+  styleUrls: ['./content-choice-creator.component.scss']
 })
 export class CreatorChoiceContentComponent implements OnInit {
 

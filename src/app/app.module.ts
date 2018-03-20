@@ -72,7 +72,7 @@ import { RoomDeletionComponent } from './components/dialogs/room-delete/room-del
 import { AnswerStatisticsComponent } from './components/fragments/statistics/statistics.component';
 import { RoomModificationComponent } from './components/dialogs/room-edit/room-edit.component';
 import { ParticipantChoiceContentComponent } from './components/fragments/participant-choice-content/participant-choice-content.component';
-import { CreatorChoiceContentComponent } from './components/fragments/creator-choice-content/creator-choice-content.component';
+import { CreatorChoiceContentComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
 import { AddContentComponent } from './components/pages/add-content/add-content.component';
 import {
   ParticipantContentCarouselPageComponent

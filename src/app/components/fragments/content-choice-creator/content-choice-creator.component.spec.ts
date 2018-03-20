@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatorChoiceContentComponent } from './creator-choice-content.component';
+import { CreatorChoiceContentComponent } from './content-choice-creator.component';
 
 describe('CreatorChoiceContentComponent', () => {
   let component: CreatorChoiceContentComponent;
