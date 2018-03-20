@@ -3,6 +3,8 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
 import { User } from '../../../models/user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +14,8 @@ import { User } from '../../../models/user';
 export class HeaderComponent implements OnInit {
   user: User;
 
-  constructor(private authenticationService: AuthenticationService,
+  constructor(public location: Location,
+              private authenticationService: AuthenticationService,
               private notification: NotificationService,
               public router: Router) {
   }
@@ -26,6 +29,10 @@ export class HeaderComponent implements OnInit {
     this.authenticationService.logout();
     this.notification.show(`Logged out`);
     this.router.navigate(['/']);
+  }
+
+  goBack() {
+    this.location.back();
   }
 
   goToHomepage() {
