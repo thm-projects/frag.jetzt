@@ -6,11 +6,12 @@ import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from '../util/data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
-  private user: User;
+  private user = new BehaviorSubject<User>(undefined);
   private apiUrl = {
     base: 'https://arsnova-staging.mni.thm.de/api',
     v2: 'https://arsnova-staging.mni.thm.de/api/v2',
@@ -30,7 +31,7 @@ export class AuthenticationService {
               private http: HttpClient) {
     if (dataStoreService.has(this.STORAGE_KEY)) {
       // Load user data from local data store if available
-      this.user = JSON.parse(dataStoreService.get(this.STORAGE_KEY));
+      this.user.next(JSON.parse(dataStoreService.get(this.STORAGE_KEY)));
     }
   }
 
@@ -74,28 +75,28 @@ export class AuthenticationService {
   logout() {
     // Destroy the persisted user data
     this.dataStoreService.remove(this.STORAGE_KEY);
-    this.user = undefined;
+    this.user.next(undefined);
   }
 
   getUser(): User {
-    return this.user;
+    return this.user.getValue();
   }
 
   private setUser(user: User): void {
-    this.user = user;
-    this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(this.user));
+    this.user.next(user);
+    this.dataStoreService.set(this.STORAGE_KEY, JSON.stringify(user));
   }
 
   isLoggedIn(): boolean {
-    return this.user !== undefined;
+    return this.user.getValue() !== undefined;
   }
 
   getRole(): UserRole {
-    return this.isLoggedIn() ? this.user.role : undefined;
+    return this.isLoggedIn() ? this.user.getValue().role : undefined;
   }
 
   getToken(): string {
-    return this.user.token;
+    return this.isLoggedIn() ? this.user.getValue().token : undefined;
   }
 
   private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole): Observable<boolean> {
@@ -115,4 +116,7 @@ export class AuthenticationService {
     });
   }
 
+  get watchUser() {
+    return this.user.asObservable();
+  }
 }
