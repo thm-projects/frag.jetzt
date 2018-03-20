@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Subscribe to user data
+    // Subscribe to user data (update component's user when user data changes: e.g. login, logout)
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
