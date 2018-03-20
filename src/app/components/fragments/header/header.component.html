@@ -1,0 +1,16 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <span class="app-toolbar-title">ARSnova</span>
+    <span class="fill-remaining-space"></span>
+    <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <span>Logout</span>
+      </button>
+    </mat-menu>
+    <button *ngIf="user" mat-button [matMenuTriggerFor]="appMenu">
+      <mat-icon>account_box</mat-icon>
+      <span>{{user.loginId}}</span>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
