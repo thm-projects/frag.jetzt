@@ -27,4 +27,21 @@ export class HeaderComponent implements OnInit {
     this.notification.show(`Logged out`);
     this.router.navigate(['/']);
   }
+
+  goToHomepage() {
+    const role: UserRole = this.user !== undefined ? this.user.role : undefined;
+    let route: string;
+
+    switch (role) {
+      case UserRole.PARTICIPANT:
+        route = '/participant';
+        break;
+      case UserRole.CREATOR:
+        route = '/creator';
+        break;
+      default:
+        route = '/';
+    }
+    this.router.navigate([route]);
+  }
 }
