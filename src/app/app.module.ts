@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RoomJoinComponent } from './components/fragments/room-join/room-join.component';
@@ -9,10 +8,9 @@ import { LoginComponent } from './components/fragments/login/login.component';
 import { RegisterComponent } from './components/dialogs/register/register.component';
 import { PasswordResetComponent } from './components/dialogs/password-reset/password-reset.component';
 import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
-
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { PageNotFoundPageComponent } from './components/pages/page-not-found-page/page-not-found-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MatAutocompleteModule,
@@ -48,22 +46,21 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { RoomComponent } from './components/pages/room/room.component';
+import { RoomPageComponent } from './components/pages/room-page/room-page.component';
 import { RoomCreateComponent } from './components/dialogs/room-create/room-create.component';
-import { LoginComponent } from './components/pages/login/login.component';
+import { LoginComponentPage } from './components/pages/login-page/login-page.component';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { RoomService } from './services/http/room.service';
 import { RoomListComponent } from './components/fragments/room-list/room-list.component';
-import { HomeCreatorComponent } from './components/pages/home-creator/home-creator.component';
-import { CommentCreateComponent } from './components/pages/comment-create/comment-create.component';
+import { HomeCreatorPageComponent } from './components/pages/home-creator-page/home-creator-page.component';
+import { CommentCreatePageComponent } from './components/pages/comment-create-page/comment-create-page.component';
 import { CommentService } from './services/http/comment.service';
-import { HomeParticipantComponent } from './components/pages/home-participant/home-participant.component';
-import { RoomParticipantComponent } from './components/pages/room-participant/room-participant.component';
+import { HomeParticipantPageComponent } from './components/pages/home-participant-page/home-participant-page.component';
+import { RoomParticipantPageComponent } from './components/pages/room-participant-page/room-participant-page.component';
 import { DataStoreService } from './services/util/data-store.service';
-import { RoomCreatorComponent } from './components/pages/room-creator/room-creator.component';
-import { ContentDetailComponent } from './components/pages/content-detail/content-detail.component';
+import { RoomCreatorPageComponent } from './components/pages/room-creator-page/room-creator-page.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { ContentService } from './services/http/content.service';
 import { AnswersListComponent } from './components/fragments/answers-list/answers-list.component';
@@ -73,10 +70,10 @@ import { StatisticsComponent } from './components/fragments/statistics/statistic
 import { RoomEditComponent } from './components/dialogs/room-edit/room-edit.component';
 import { ContentChoiceParticipantComponent } from './components/fragments/content-choice-participant/content-choice-participant.component';
 import { ContentChoiceCreatorComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
-import { ContentCreateComponent } from './components/pages/content-create/content-create.component';
+import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
 import {
-  ContentCarouselComponent
-} from './components/pages/content-carousel/content-carousel.component';
+  ContentCarouselPageComponent
+} from './components/pages/content-carousel-page/content-carousel-page.component';
 import { ContentTextParticipantComponent } from './components/fragments/content-text-participant/content-text-participant.component';
 import { ContentTextCreatorComponent } from './components/fragments/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
@@ -86,30 +83,29 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     AppComponent,
     RoomJoinComponent,
     AppComponent,
+    LoginComponentPage,
     LoginComponent,
-    LoginComponent,
-    PageNotFoundComponent,
+    PageNotFoundPageComponent,
     PasswordResetComponent,
     RegisterComponent,
-    RoomComponent,
+    RoomPageComponent,
     RegisterComponent,
     RoomCreateComponent,
     RoomListComponent,
-    HomeCreatorComponent,
-    CommentCreateComponent,
-    HomeParticipantComponent,
+    HomeCreatorPageComponent,
+    CommentCreatePageComponent,
+    HomeParticipantPageComponent,
     CommentListComponent,
-    RoomParticipantComponent,
-    RoomCreatorComponent,
-    ContentDetailComponent,
+    RoomParticipantPageComponent,
+    RoomCreatorPageComponent,
     ContentListComponent,
     AnswersListComponent,
     RoomDeleteComponent,
     RoomEditComponent,
     ContentChoiceParticipantComponent,
     ContentChoiceCreatorComponent,
-    ContentCreateComponent,
-    ContentCarouselComponent,
+    ContentCreatePageComponent,
+    ContentCarouselPageComponent,
     ContentTextParticipantComponent,
     StatisticsComponent,
     ContentTextCreatorComponent

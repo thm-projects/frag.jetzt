@@ -7,7 +7,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 
 @Component({
-  selector: 'app-room-deletion',
+  selector: 'app-room-delete',
   templateUrl: './room-delete.component.html',
   styleUrls: ['./room-delete.component.scss']
 })

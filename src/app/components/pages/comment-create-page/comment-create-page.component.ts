@@ -11,11 +11,11 @@ import { User } from '../../../models/user';
 import { CommentListComponent } from '../../fragments/comment-list/comment-list.component';
 
 @Component({
-  selector: 'app-create-comment',
-  templateUrl: './comment-create.component.html',
-  styleUrls: ['./comment-create.component.scss']
+  selector: 'app-comment-create-page',
+  templateUrl: './comment-create-page.component.html',
+  styleUrls: ['./comment-create-page.component.scss']
 })
-export class CommentCreateComponent implements OnInit {
+export class CommentCreatePageComponent implements OnInit {
   @ViewChild(CommentListComponent) child: CommentListComponent;
   @Input() room: Room;
   user: User;

@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material';
 import { RoomCreateComponent } from '../../dialogs/room-create/room-create.component';
 
 @Component({
-  selector: 'app-creator-home-screen',
-  templateUrl: './home-creator.component.html',
-  styleUrls: ['./home-creator.component.scss']
+  selector: 'app-home-creator-page',
+  templateUrl: './home-creator-page.component.html',
+  styleUrls: ['./home-creator-page.component.scss']
 })
-export class HomeCreatorComponent implements OnInit {
+export class HomeCreatorPageComponent implements OnInit {
   constructor(public dialog: MatDialog) {
   }
 

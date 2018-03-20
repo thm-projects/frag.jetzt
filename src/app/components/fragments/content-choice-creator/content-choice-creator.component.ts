@@ -14,7 +14,7 @@ export class DisplayAnswer {
 }
 
 @Component({
-  selector: 'app-creator-choice-content',
+  selector: 'app-content-choice-creator',
   templateUrl: './content-choice-creator.component.html',
   styleUrls: ['./content-choice-creator.component.scss']
 })

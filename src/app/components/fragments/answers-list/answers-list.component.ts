@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ContentService } from '../../../services/http/content.service';
 
 @Component({
-  selector: 'app-content-answers-list',
+  selector: 'app-answers-list',
   templateUrl: './answers-list.component.html',
   styleUrls: ['./answers-list.component.scss']
 })

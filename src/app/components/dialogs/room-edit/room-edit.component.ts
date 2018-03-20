@@ -7,7 +7,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-room-modification',
+  selector: 'app-room-edit',
   templateUrl: './room-edit.component.html',
   styleUrls: ['./room-edit.component.scss']
 })

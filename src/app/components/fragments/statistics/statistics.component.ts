@@ -9,7 +9,7 @@ import { AnswerChoice } from '../../../models/answer-choice';
 import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
-  selector: 'app-answer-statistics',
+  selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss']
 })

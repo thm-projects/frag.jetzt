@@ -6,7 +6,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-room-creation',
+  selector: 'app-room-create',
   templateUrl: './room-create.component.html',
   styleUrls: ['./room-create.component.scss']
 })

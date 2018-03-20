@@ -5,11 +5,11 @@ import { PasswordResetComponent } from '../../dialogs/password-reset/password-re
 import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
-  selector: 'app-login-screen',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  selector: 'app-login-page',
+  templateUrl: './login-page.component.html',
+  styleUrls: ['./login-page.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponentPage implements OnInit {
   // Make UserRole available to the template
   UserRole = UserRole;
 

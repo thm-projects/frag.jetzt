@@ -15,7 +15,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 }
 
 @Component({
-  selector: 'app-join-room',
+  selector: 'app-room-join',
   templateUrl: './room-join.component.html',
   styleUrls: ['./room-join.component.scss']
 })

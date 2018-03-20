@@ -4,7 +4,7 @@ import { ContentAnswerService } from '../../../services/http/content-answer.serv
 import { AnswerText } from '../../../models/answer-text';
 
 @Component({
-  selector: 'app-participant-text-content',
+  selector: 'app-content-text-participant',
   templateUrl: './content-text-participant.component.html',
   styleUrls: ['./content-text-participant.component.scss']
 })

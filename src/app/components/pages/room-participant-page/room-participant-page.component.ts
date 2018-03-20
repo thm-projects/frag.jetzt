@@ -5,11 +5,11 @@ import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-participant-room',
-  templateUrl: './room-participant.component.html',
-  styleUrls: ['./room-participant.component.scss']
+  selector: 'app-room-participant-page',
+  templateUrl: './room-participant-page.component.html',
+  styleUrls: ['./room-participant-page.component.scss']
 })
-export class RoomParticipantComponent implements OnInit {
+export class RoomParticipantPageComponent implements OnInit {
 
   room: Room;
   isLoading = true;

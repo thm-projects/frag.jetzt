@@ -3,7 +3,7 @@ import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 
 @Component({
-  selector: 'app-creator-text-content',
+  selector: 'app-content-text-creator',
   templateUrl: './content-text-creator.component.html',
   styleUrls: ['./content-text-creator.component.scss']
 })

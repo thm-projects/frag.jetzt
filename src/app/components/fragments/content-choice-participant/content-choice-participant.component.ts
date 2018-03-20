@@ -14,7 +14,7 @@ class CheckedAnswer {
 }
 
 @Component({
-  selector: 'app-participant-choice-content',
+  selector: 'app-content-choice-participant',
   templateUrl: './content-choice-participant.component.html',
   styleUrls: ['./content-choice-participant.component.scss']
 })

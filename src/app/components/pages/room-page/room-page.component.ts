@@ -5,11 +5,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-room',
-  templateUrl: './room.component.html',
-  styleUrls: ['./room.component.scss']
+  selector: 'app-room-page',
+  templateUrl: './room-page.component.html',
+  styleUrls: ['./room-page.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomPageComponent implements OnInit {
   room: Room = null;
   isLoading = true;
 

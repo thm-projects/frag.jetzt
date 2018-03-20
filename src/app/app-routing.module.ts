@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
-import { LoginComponent } from './components/pages/login/login.component';
-import { HomeCreatorComponent } from './components/pages/home-creator/home-creator.component';
-import { CommentCreateComponent } from './components/pages/comment-create/comment-create.component';
-import { HomeParticipantComponent } from './components/pages/home-participant/home-participant.component';
+import { PageNotFoundPageComponent } from './components/pages/page-not-found-page/page-not-found-page.component';
+import { LoginComponentPage } from './components/pages/login-page/login-page.component';
+import { HomeCreatorPageComponent } from './components/pages/home-creator-page/home-creator-page.component';
+import { CommentCreatePageComponent } from './components/pages/comment-create-page/comment-create-page.component';
+import { HomeParticipantPageComponent } from './components/pages/home-participant-page/home-participant-page.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { UserRole } from './models/user-roles.enum';
-import { RoomParticipantComponent } from './components/pages/room-participant/room-participant.component';
-import { RoomCreatorComponent } from './components/pages/room-creator/room-creator.component';
+import { RoomParticipantPageComponent } from './components/pages/room-participant-page/room-participant-page.component';
+import { RoomCreatorPageComponent } from './components/pages/room-creator-page/room-creator-page.component';
 import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { StatisticsComponent } from './components/fragments/statistics/statistics.component';
-import { ContentCreateComponent } from './components/pages/content-create/content-create.component';
+import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
 import {
-  ContentCarouselComponent
-} from './components/pages/content-carousel/content-carousel.component';
+  ContentCarouselPageComponent
+} from './components/pages/content-carousel-page/content-carousel-page.component';
 
 const routes: Routes = [
   {
@@ -25,71 +25,71 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: LoginComponent
+    component: LoginComponentPage
   },
   {
     path: 'creator',
-    component: HomeCreatorComponent,
+    component: HomeCreatorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId',
-    component: RoomCreatorComponent,
+    path: 'creator/room-page/:roomId',
+    component: RoomCreatorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/content-create',
-    component: ContentCreateComponent,
+    path: 'creator/room-page/:roomId/content-create-page',
+    component: ContentCreatePageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/statistics',
+    path: 'creator/room-page/:roomId/statistics',
     component: StatisticsComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/comments',
+    path: 'creator/room-page/:roomId/comments',
     component: CommentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/content',
+    path: 'creator/room-page/:roomId/content',
     component: ContentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'participant',
-    component: HomeParticipantComponent,
+    component: HomeParticipantPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId',
-    component: RoomParticipantComponent,
+    path: 'participant/room-page/:roomId',
+    component: RoomParticipantPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/comment-create',
-    component: CommentCreateComponent,
+    path: 'participant/room-page/:roomId/comment-create-page',
+    component: CommentCreatePageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/questions',
-    component: ContentCarouselComponent,
+    path: 'participant/room-page/:roomId/questions',
+    component: ContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: '**',
-    component: PageNotFoundComponent
+    component: PageNotFoundPageComponent
   }
 ];
 

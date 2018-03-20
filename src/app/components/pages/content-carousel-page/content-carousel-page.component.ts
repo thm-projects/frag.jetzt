@@ -3,11 +3,11 @@ import { Content } from '../../../models/content';
 import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
-  selector: 'app-participant-content-carousel-page',
-  templateUrl: './content-carousel.component.html',
-  styleUrls: ['./content-carousel.component.scss']
+  selector: 'app-content-carousel-page',
+  templateUrl: './content-carousel-page.component.html',
+  styleUrls: ['./content-carousel-page.component.scss']
 })
-export class ContentCarouselComponent implements OnInit {
+export class ContentCarouselPageComponent implements OnInit {
   ContentType: ContentType;
 
   contents: Content[];

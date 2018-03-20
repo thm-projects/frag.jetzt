@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
-import { RoomComponent } from '../room/room.component';
+import { RoomPageComponent } from '../room-page/room-page.component';
 import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -10,11 +10,11 @@ import { RoomDeleteComponent } from '../../dialogs/room-delete/room-delete.compo
 import { RoomEditComponent } from '../../dialogs/room-edit/room-edit.component';
 
 @Component({
-  selector: 'app-creator-room',
-  templateUrl: './room-creator.component.html',
-  styleUrls: ['./room-creator.component.scss']
+  selector: 'app-room-creator-page',
+  templateUrl: './room-creator-page.component.html',
+  styleUrls: ['./room-creator-page.component.scss']
 })
-export class RoomCreatorComponent extends RoomComponent implements OnInit {
+export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit {
   room: Room;
   updRoom: Room;
 
