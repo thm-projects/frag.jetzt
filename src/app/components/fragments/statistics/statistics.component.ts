@@ -10,8 +10,8 @@ import { ContentType } from '../../../models/content-type';
 
 @Component({
   selector: 'app-answer-statistics',
-  templateUrl: './answer-statistics.component.html',
-  styleUrls: ['./answer-statistics.component.scss']
+  templateUrl: './statistics.component.html',
+  styleUrls: ['./statistics.component.scss']
 })
 export class AnswerStatisticsComponent implements OnInit {
   @Input() content: Content[];

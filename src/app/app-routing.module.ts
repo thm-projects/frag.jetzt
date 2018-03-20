@@ -12,7 +12,7 @@ import { CreatorRoomComponent } from './components/pages/creator-room/creator-ro
 import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { ContentDetailComponent } from './components/pages/content-detail/content-detail.component';
-import { AnswerStatisticsComponent } from './components/fragments/answer-statistics/answer-statistics.component';
+import { AnswerStatisticsComponent } from './components/fragments/statistics/statistics.component';
 import { AddContentComponent } from './components/pages/add-content/add-content.component';
 import {
   ParticipantContentCarouselPageComponent
@@ -47,7 +47,7 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/answer-statistics',
+    path: 'creator/room/:roomId/statistics',
     component: AnswerStatisticsComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }

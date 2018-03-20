@@ -69,7 +69,7 @@ import { ContentService } from './services/http/content.service';
 import { ContentAnswersListComponent } from './components/fragments/content-answers-list/content-answers-list.component';
 import { ContentAnswerService } from './services/http/content-answer.service';
 import { RoomDeletionComponent } from './components/dialogs/room-delete/room-delete.component';
-import { AnswerStatisticsComponent } from './components/fragments/answer-statistics/answer-statistics.component';
+import { AnswerStatisticsComponent } from './components/fragments/statistics/statistics.component';
 import { RoomModificationComponent } from './components/dialogs/room-edit/room-edit.component';
 import { ParticipantChoiceContentComponent } from './components/fragments/participant-choice-content/participant-choice-content.component';
 import { CreatorChoiceContentComponent } from './components/fragments/creator-choice-content/creator-choice-content.component';
