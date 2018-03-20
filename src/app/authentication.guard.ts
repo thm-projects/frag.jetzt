@@ -25,7 +25,7 @@ export class AuthenticationGuard implements CanActivate {
     // Allow access when user is logged in AND
     // the route doesn't require a specific role OR
     // the user's role is one of the required roles
-    if (user && (!requiredRoles || requiredRoles.includes(user.userRole))) {
+    if (user && (!requiredRoles || requiredRoles.includes(user.role))) {
       return true;
     }
 

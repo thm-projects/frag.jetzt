@@ -34,10 +34,18 @@ export class RoomListComponent implements OnInit {
   }
 
   getRooms(): void {
-    this.roomService.getRooms().subscribe(rooms => {
-      this.rooms = rooms;
-      this.closedRooms = this.rooms.filter(room => room.closed);
-      this.isLoading = false;
-    });
+    if (this.authenticationService.getRole() === UserRole.CREATOR) {
+      this.roomService.getCreatorRooms().subscribe(rooms => {
+        this.rooms = rooms;
+        this.closedRooms = this.rooms.filter(room => room.closed);
+        this.isLoading = false;
+      });
+    } else if (this.authenticationService.getRole() === UserRole.PARTICIPANT) {
+      this.roomService.getParticipantRooms().subscribe(rooms => {
+        this.rooms = rooms;
+        this.closedRooms = this.rooms.filter(room => room.closed);
+        this.isLoading = false;
+      });
+    }
   }
 }
