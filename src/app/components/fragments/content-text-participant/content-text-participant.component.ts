@@ -5,8 +5,8 @@ import { AnswerText } from '../../../models/answer-text';
 
 @Component({
   selector: 'app-participant-text-content',
-  templateUrl: './participant-text-content.component.html',
-  styleUrls: ['./participant-text-content.component.scss']
+  templateUrl: './content-text-participant.component.html',
+  styleUrls: ['./content-text-participant.component.scss']
 })
 export class ParticipantTextContentComponent implements OnInit {
   content: TextContent = new TextContent('1',

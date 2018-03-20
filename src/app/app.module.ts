@@ -77,7 +77,7 @@ import { AddContentComponent } from './components/pages/add-content/add-content.
 import {
   ParticipantContentCarouselPageComponent
 } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
-import { ParticipantTextContentComponent } from './components/fragments/participant-text-content/participant-text-content.component';
+import { ParticipantTextContentComponent } from './components/fragments/content-text-participant/content-text-participant.component';
 import { CreatorTextContentComponent } from './components/fragments/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 
