@@ -3,15 +3,15 @@ import { Room } from './room';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
-import { ErrorHandlingService } from './error-handling.service';
 import { AuthenticationService } from './authentication.service';
+import { BaseHttpService } from './base-http.service';
 
 const httpOptions = {
   headers: new HttpHeaders({})
 };
 
 @Injectable()
-export class RoomService extends ErrorHandlingService {
+export class RoomService extends BaseHttpService {
   private apiUrl = {
     base: 'https://arsnova-staging.mni.thm.de/api',
     rooms: '/room',
