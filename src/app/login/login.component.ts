@@ -5,6 +5,8 @@ import { NotificationService } from '../notification.service';
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../user-roles.enum';
+import { ClientAuthentication } from '../client-authentication';
+import { User } from '../user';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -50,7 +52,7 @@ export class LoginComponent implements OnInit {
   }
 
   guestLogin(): void {
-    this.authenticationService.login('guest', 'guest', this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    this.authenticationService.guestLogin().subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
   }
 
   private checkLogin(loginSuccessful: boolean) {

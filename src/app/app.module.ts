@@ -48,9 +48,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { ContentAnswersComponent } from './content-answers/content-answers.component';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { HttpClientModule } from '@angular/common/http';
-import { InMemoryDataService } from './in-memory-data.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RoomComponent } from './room/room.component';
 import { RoomCreationComponent } from './room-creation/room-creation.component';
 import { LoginScreenComponent } from './login-screen/login-screen.component';
@@ -81,6 +79,7 @@ import { AddContentComponent } from './add-content/add-content.component';
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
 import { ParticipantTextContentComponent } from './participant-text-content/participant-text-content.component';
 import { CreatorTextContentComponent } from './creator-text-content/creator-text-content.component';
+import { AuthenticationInterceptor } from './authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -162,12 +161,14 @@ import { CreatorTextContentComponent } from './creator-text-content/creator-text
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientModule
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthenticationInterceptor,
+      multi: true
+    },
     NotificationService,
     AuthenticationService,
     AuthenticationGuard,

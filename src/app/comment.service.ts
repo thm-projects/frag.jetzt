@@ -40,7 +40,7 @@ export class CommentService extends ErrorHandlingService {
     );
   }
 
-  searchComments(roomId: string, userId: number): Observable<Comment[]> {
+  searchComments(roomId: string, userId: string): Observable<Comment[]> {
     const url = `${this.commentsUrl}/?roomId=${roomId}&userId=${userId}`;
     return this.http.get<Comment[]>(url).pipe(
       tap (_ => ''),

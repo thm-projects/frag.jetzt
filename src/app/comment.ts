@@ -1,7 +1,7 @@
 export class Comment {
   id: string;
   roomId: string;
-  userId: number;
+  userId: string;
   revision: string;
   subject: string;
   body: string;

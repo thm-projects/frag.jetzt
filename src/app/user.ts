@@ -1,17 +1,18 @@
+import { AuthProvider } from './auth-provider';
 import { UserRole } from './user-roles.enum';
 
 export class User {
-  id: number;
-  name: string;
-  email: string;
-  role: UserRole;
+  id: string;
+  loginId: string;
+  authProvider: AuthProvider;
   token: string;
+  role: UserRole;
 
-  constructor(id: number, name: string, email: string, role: UserRole, token: string) {
+  constructor(id: string, loginId: string, authProvider: AuthProvider, token: string, role: UserRole) {
     this.id = id;
-    this.name = name;
-    this.email = email;
-    this.role = role;
+    this.loginId = loginId;
+    this.authProvider = authProvider;
     this.token = token;
+    this.role = role;
   }
 }
