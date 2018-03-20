@@ -70,7 +70,7 @@ import { ContentAnswersListComponent } from './components/fragments/content-answ
 import { ContentAnswerService } from './services/http/content-answer.service';
 import { RoomDeletionComponent } from './components/dialogs/room-delete/room-delete.component';
 import { AnswerStatisticsComponent } from './components/fragments/answer-statistics/answer-statistics.component';
-import { RoomModificationComponent } from './components/dialogs/room-modification/room-modification.component';
+import { RoomModificationComponent } from './components/dialogs/room-edit/room-edit.component';
 import { ParticipantChoiceContentComponent } from './components/fragments/participant-choice-content/participant-choice-content.component';
 import { CreatorChoiceContentComponent } from './components/fragments/creator-choice-content/creator-choice-content.component';
 import { AddContentComponent } from './components/pages/add-content/add-content.component';

@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-modification',
-  templateUrl: './room-modification.component.html',
-  styleUrls: ['./room-modification.component.scss']
+  templateUrl: './room-edit.component.html',
+  styleUrls: ['./room-edit.component.scss']
 })
 export class RoomModificationComponent implements OnInit {
   editRoom: Room;
