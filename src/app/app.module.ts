@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { JoinRoomComponent } from './components/fragments/join-room/join-room.component';
+import { JoinRoomComponent } from './components/fragments/room-join/room-join.component';
 import { LoginComponent } from './components/fragments/login/login.component';
 import { RegisterComponent } from './components/dialogs/register/register.component';
 import { PasswordResetComponent } from './components/dialogs/password-reset/password-reset.component';

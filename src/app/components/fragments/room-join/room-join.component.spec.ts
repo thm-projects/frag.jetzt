@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { JoinRoomComponent } from './join-room.component';
+import { JoinRoomComponent } from './room-join.component';
 
 describe('JoinRoomComponent', () => {
   let component: JoinRoomComponent;
