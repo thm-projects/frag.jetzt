@@ -1,4 +1,4 @@
-import { ContentType } from './content-type';
+import { ContentType } from './content-type.enum';
 
 export class Content {
   contentId: string;

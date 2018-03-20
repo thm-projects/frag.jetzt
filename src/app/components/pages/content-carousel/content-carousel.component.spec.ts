@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page.component';
+import { ParticipantContentCarouselPageComponent } from './content-carousel.component';
 
 describe('ParticipantContentCarouselPageComponent', () => {
   let component: ParticipantContentCarouselPageComponent;

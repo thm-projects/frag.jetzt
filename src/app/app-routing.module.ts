@@ -15,7 +15,7 @@ import { AnswerStatisticsComponent } from './components/fragments/statistics/sta
 import { AddContentComponent } from './components/pages/content-create/content-create.component';
 import {
   ParticipantContentCarouselPageComponent
-} from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
+} from './components/pages/content-carousel/content-carousel.component';
 
 const routes: Routes = [
   {

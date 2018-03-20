@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChoiceContent } from '../../../models/choice-content';
+import { ChoiceContent } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 

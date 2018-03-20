@@ -1,5 +1,5 @@
 import { Content } from './content';
-import { ContentType } from './content-type';
+import { ContentType } from './content-type.enum';
 
 export class TextContent extends Content {
 

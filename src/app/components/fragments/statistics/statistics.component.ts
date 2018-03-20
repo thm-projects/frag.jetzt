@@ -5,8 +5,8 @@ import { Content } from '../../../models/content';
 import { ContentService } from '../../../services/http/content.service';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
-import { ChoiceAnswer } from '../../../models/choice-answer';
-import { ContentType } from '../../../models/content-type';
+import { ChoiceAnswer } from '../../../models/answer-choice';
+import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
   selector: 'app-answer-statistics',

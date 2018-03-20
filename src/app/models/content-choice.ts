@@ -1,6 +1,6 @@
 import { AnswerOption } from './answer-option';
 import { Content } from './content';
-import { ContentType } from './content-type';
+import { ContentType } from './content-type.enum';
 
 export class ChoiceContent extends Content {
   options: AnswerOption[];
