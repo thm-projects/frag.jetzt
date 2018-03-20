@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import 'rxjs/add/operator/do';
-import { AuthenticationService } from './authentication.service';
-import { NotificationService } from './notification.service';
+import { AuthenticationService } from '../authentication.service';
+import { NotificationService } from '../notification.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 

@@ -79,7 +79,7 @@ import { AddContentComponent } from './components/pages/add-content/add-content.
 import { ParticipantContentCarouselPageComponent } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
 import { ParticipantTextContentComponent } from './components/fragments/participant-text-content/participant-text-content.component';
 import { CreatorTextContentComponent } from './components/fragments/creator-text-content/creator-text-content.component';
-import { AuthenticationInterceptor } from './authentication.interceptor';
+import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 
 @NgModule({
   declarations: [
