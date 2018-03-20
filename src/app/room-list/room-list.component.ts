@@ -17,7 +17,8 @@ export class RoomListComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    protected authenticationService: AuthenticationService) {}
+    protected authenticationService: AuthenticationService) {
+  }
 
   ngOnInit() {
     this.getRooms();
@@ -33,10 +34,16 @@ export class RoomListComponent implements OnInit {
   }
 
   getRooms(): void {
-    this.roomService.getRoomsCreator().subscribe(rooms => {
-      this.rooms = rooms;
-      this.closedRooms = this.rooms.filter(room => room.closed);
-      this.isLoading = false;
-    });
+    if (this.authenticationService.getRole() === UserRole.CREATOR) {
+      this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms));
+    } else if (this.authenticationService.getRole() === UserRole.PARTICIPANT) {
+      this.roomService.getParticipantRooms().subscribe(rooms => this.updateRoomList(rooms));
+    }
+  }
+
+  updateRoomList(rooms: Room[]) {
+    this.rooms = rooms;
+    this.closedRooms = this.rooms.filter(room => room.closed);
+    this.isLoading = false;
   }
 }

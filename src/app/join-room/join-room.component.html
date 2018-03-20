@@ -5,9 +5,11 @@
                [errorStateMatcher]="matcher" maxlength="8"/>
         <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
         <mat-error *ngIf="roomFormControl.hasError('required')">Please enter a room-id.</mat-error>
+        <mat-error *ngIf="roomFormControl.hasError('minlength')">A room-id has exactly 8 digits.</mat-error>
       </mat-form-field>
-      <button mat-fab color="primary" (click)="joinRoom(roomId.value)">
+      <button mat-fab color="primary" type="submit">
         <mat-icon>send</mat-icon>
       </button>
     </div>
 </form>
+<button mat-button color="primary" (click)="joinDemo()">Join demo room <mat-icon>lightbulb_outline</mat-icon></button>
