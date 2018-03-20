@@ -5,7 +5,7 @@ import { LoginScreenComponent } from './components/pages/login-screen/login-scre
 import { CreatorHomeScreenComponent } from './components/pages/creator-home-screen/creator-home-screen.component';
 import { CreateCommentComponent } from './components/pages/create-comment/create-comment.component';
 import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
-import { AuthenticationGuard } from './authentication.guard';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { UserRole } from './user-roles.enum';
 import { ParticipantRoomComponent } from './components/pages/participant-room/participant-room.component';
 import { CreatorRoomComponent } from './components/pages/creator-room/creator-room.component';

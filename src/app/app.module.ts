@@ -54,7 +54,7 @@ import { RoomCreationComponent } from './components/dialogs/room-creation/room-c
 import { LoginScreenComponent } from './components/pages/login-screen/login-screen.component';
 import { NotificationService } from './notification.service';
 import { AuthenticationService } from './authentication.service';
-import { AuthenticationGuard } from './authentication.guard';
+import { AuthenticationGuard } from './guards/authentication.guard';
 import { ContentCreationComponent } from './content-creation/content-creation.component';
 import { RoomService } from './room.service';
 import { RoomListComponent } from './components/fragments/room-list/room-list.component';

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from '../authentication.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
-import { NotificationService } from './notification.service';
-import { UserRole } from './user-roles.enum';
-import { User } from './user';
+import { NotificationService } from '../notification.service';
+import { UserRole } from '../user-roles.enum';
+import { User } from '../user';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
