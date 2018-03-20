@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     // Subscribe to user data
-    this.authenticationService.watchUser.subscribe(newUser  => this.user = newUser);
+    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
   logout() {
