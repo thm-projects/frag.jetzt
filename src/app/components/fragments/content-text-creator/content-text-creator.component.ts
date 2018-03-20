@@ -4,8 +4,8 @@ import { ContentService } from '../../../services/http/content.service';
 
 @Component({
   selector: 'app-creator-text-content',
-  templateUrl: './creator-text-content.component.html',
-  styleUrls: ['./creator-text-content.component.scss']
+  templateUrl: './content-text-creator.component.html',
+  styleUrls: ['./content-text-creator.component.scss']
 })
 export class CreatorTextContentComponent implements OnInit {
 

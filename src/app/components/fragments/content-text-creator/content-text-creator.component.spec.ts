@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatorTextContentComponent } from './creator-text-content.component';
+import { CreatorTextContentComponent } from './content-text-creator.component';
 
 describe('CreatorTextContentComponent', () => {
   let component: CreatorTextContentComponent;

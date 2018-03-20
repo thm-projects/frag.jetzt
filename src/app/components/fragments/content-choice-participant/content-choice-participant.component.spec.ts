@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParticipantChoiceContentComponent } from './participant-choice-content.component';
+import { ParticipantChoiceContentComponent } from './content-choice-participant.component';
 
 describe('ParticipantChoiceContentComponent', () => {
   let component: ParticipantChoiceContentComponent;

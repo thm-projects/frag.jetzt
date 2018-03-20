@@ -71,14 +71,14 @@ import { ContentAnswerService } from './services/http/content-answer.service';
 import { RoomDeletionComponent } from './components/dialogs/room-delete/room-delete.component';
 import { AnswerStatisticsComponent } from './components/fragments/statistics/statistics.component';
 import { RoomModificationComponent } from './components/dialogs/room-edit/room-edit.component';
-import { ParticipantChoiceContentComponent } from './components/fragments/participant-choice-content/participant-choice-content.component';
+import { ParticipantChoiceContentComponent } from './components/fragments/content-choice-participant/content-choice-participant.component';
 import { CreatorChoiceContentComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
 import { AddContentComponent } from './components/pages/add-content/add-content.component';
 import {
   ParticipantContentCarouselPageComponent
 } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
 import { ParticipantTextContentComponent } from './components/fragments/participant-text-content/participant-text-content.component';
-import { CreatorTextContentComponent } from './components/fragments/creator-text-content/creator-text-content.component';
+import { CreatorTextContentComponent } from './components/fragments/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 
 @NgModule({

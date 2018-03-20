@@ -15,8 +15,8 @@ class CheckedAnswer {
 
 @Component({
   selector: 'app-participant-choice-content',
-  templateUrl: './participant-choice-content.component.html',
-  styleUrls: ['./participant-choice-content.component.scss']
+  templateUrl: './content-choice-participant.component.html',
+  styleUrls: ['./content-choice-participant.component.scss']
 })
 export class ParticipantChoiceContentComponent implements OnInit {
   content: ChoiceContent = new ChoiceContent('2',
