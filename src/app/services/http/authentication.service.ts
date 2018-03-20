@@ -15,7 +15,7 @@ export class AuthenticationService {
     base: 'https://arsnova-staging.mni.thm.de/api',
     v2: 'https://arsnova-staging.mni.thm.de/api/v2',
     auth: '/auth',
-    login: '/login-page',
+    login: '/login',
     user: '/user',
     register: '/register',
     registered: '/registered',

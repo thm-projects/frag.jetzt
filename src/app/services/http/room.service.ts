@@ -14,7 +14,7 @@ const httpOptions = {
 export class RoomService extends BaseHttpService {
   private apiUrl = {
     base: 'https://arsnova-staging.mni.thm.de/api',
-    rooms: '/room-page',
+    rooms: '/room',
     user: '/user',
     findRooms: '/find'
   };
