@@ -1,0 +1,48 @@
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+    <mat-card *ngIf="room && !modify">
+      <mat-card-header>
+        <mat-card-title>
+          <h3 class="subheading-2">{{ room.name }}</h3>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <div>
+            {{ room.shortId }}
+          </div>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-card-content>
+        <p>
+          {{ room.description }}
+        </p>
+      </mat-card-content>
+      <mat-divider></mat-divider>
+      <app-content-list></app-content-list>
+      <mat-divider></mat-divider>
+      <mat-card-actions>
+        <button mat-button color="primary" matTooltip="Create new content"
+                routerLink="/creator/room/{{room.id}}/create-content">
+          Create content
+        </button>
+        <button mat-button color="primary" matTooltip="See room comments" routerLink="/creator/room/{{room.id}}/comments">
+          Comments
+        </button>
+        <button mat-button color="primary" matTooltip="See answer statistics" routerLink="/creator/room/{{room.id}}/answer-statistics">
+          Answer statistics
+        </button>
+        <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">
+          Edit room
+        </button>
+        <button mat-button color="warn" (click)="openDeletionRoomDialog()">
+          Delete room
+        </button>
+        <button mat-button color="primary" (click)="goBack()">
+          Go back
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
+  </div>
+</div>
