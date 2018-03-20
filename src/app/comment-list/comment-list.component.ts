@@ -21,13 +21,12 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
 
-  constructor(
-    protected authenticationService: AuthenticationService,
-    private route: ActivatedRoute,
-    private roomService: RoomService,
-    private location: Location,
-    private commentService: CommentService,
-    private notification: NotificationService) {
+  constructor(protected authenticationService: AuthenticationService,
+              private route: ActivatedRoute,
+              private roomService: RoomService,
+              private location: Location,
+              private commentService: CommentService,
+              private notification: NotificationService) {
   }
 
   ngOnInit() {
