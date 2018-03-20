@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundPageComponent } from './components/pages/page-not-found-page/page-not-found-page.component';
-import { LoginComponentPage } from './components/pages/login-page/login-page.component';
+import { LoginComponentPageComponent } from './components/pages/login-page/login-page.component';
 import { HomeCreatorPageComponent } from './components/pages/home-creator-page/home-creator-page.component';
 import { CommentCreatePageComponent } from './components/pages/comment-create-page/comment-create-page.component';
 import { HomeParticipantPageComponent } from './components/pages/home-participant-page/home-participant-page.component';
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: LoginComponentPage
+    component: LoginComponentPageComponent
   },
   {
     path: 'creator',

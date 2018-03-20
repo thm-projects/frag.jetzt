@@ -48,7 +48,7 @@ import {
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RoomPageComponent } from './components/pages/room-page/room-page.component';
 import { RoomCreateComponent } from './components/dialogs/room-create/room-create.component';
-import { LoginComponentPage } from './components/pages/login-page/login-page.component';
+import { LoginComponentPageComponent } from './components/pages/login-page/login-page.component';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
@@ -83,7 +83,7 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     AppComponent,
     RoomJoinComponent,
     AppComponent,
-    LoginComponentPage,
+    LoginComponentPageComponent,
     LoginComponent,
     PageNotFoundPageComponent,
     PasswordResetComponent,
