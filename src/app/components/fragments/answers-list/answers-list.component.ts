@@ -6,8 +6,8 @@ import { ContentService } from '../../../services/http/content.service';
 
 @Component({
   selector: 'app-content-answers-list',
-  templateUrl: './content-answers-list.component.html',
-  styleUrls: ['./content-answers-list.component.scss']
+  templateUrl: './answers-list.component.html',
+  styleUrls: ['./answers-list.component.scss']
 })
 export class ContentAnswersListComponent implements OnInit {
   textAnswers: AnswerText[];
