@@ -77,6 +77,7 @@ import {
 import { ContentTextParticipantComponent } from './components/fragments/content-text-participant/content-text-participant.component';
 import { ContentTextCreatorComponent } from './components/fragments/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
+import { HeaderComponent } from './components/fragments/header/header.component';
 
 @NgModule({
   declarations: [
@@ -108,7 +109,8 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     ContentCarouselPageComponent,
     ContentTextParticipantComponent,
     StatisticsComponent,
-    ContentTextCreatorComponent
+    ContentTextCreatorComponent,
+    HeaderComponent
   ],
   entryComponents: [
     RegisterComponent,
