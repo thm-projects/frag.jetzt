@@ -6,7 +6,6 @@ import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
-import { ContentCreationComponent } from '../content-creation/content-creation.component';
 import { RoomDeletionComponent } from '../../dialogs/room-deletion/room-deletion.component';
 import { RoomModificationComponent } from '../../dialogs/room-modification/room-modification.component';
 
@@ -59,13 +58,6 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     const msg = room.name + ' deleted';
     this.notification.show(msg);
     this.delete(room);
-  }
-
-  createContentDialog(): void {
-    const dialogRef = this.dialog.open(ContentCreationComponent, {
-      width: '350px'
-    });
-    dialogRef.componentInstance.roomId = this.room.id;
   }
 
   confirmDeletion(dialogAnswer: string): void {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { TextContent } from '../text-content';
-import { ContentService } from '../content.service';
+import { TextContent } from '../../../models/text-content';
+import { ContentService } from '../../../services/http/content.service';
 
 @Component({
   selector: 'app-creator-text-content',

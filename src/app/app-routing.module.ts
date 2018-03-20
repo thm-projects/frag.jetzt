@@ -14,7 +14,9 @@ import { ContentListComponent } from './components/fragments/content-list/conten
 import { ContentDetailComponent } from './components/pages/content-detail/content-detail.component';
 import { AnswerStatisticsComponent } from './components/fragments/answer-statistics/answer-statistics.component';
 import { AddContentComponent } from './components/pages/add-content/add-content.component';
-import { ParticipantContentCarouselPageComponent } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
+import {
+  ParticipantContentCarouselPageComponent
+} from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
 
 const routes: Routes = [
   {

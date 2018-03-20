@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { RegisterComponent } from '../register/register.component';
-import { PasswordResetComponent } from '../password-reset/password-reset.component';
-import { UserRole } from '../user-roles.enum';
+import { RegisterComponent } from '../../dialogs/register/register.component';
+import { PasswordResetComponent } from '../../dialogs/password-reset/password-reset.component';
+import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-login-screen',

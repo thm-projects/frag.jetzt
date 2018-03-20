@@ -47,7 +47,6 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import { ContentAnswersComponent } from './content-answers/content-answers.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RoomComponent } from './components/pages/room/room.component';
 import { RoomCreationComponent } from './components/dialogs/room-creation/room-creation.component';
@@ -55,7 +54,6 @@ import { LoginScreenComponent } from './components/pages/login-screen/login-scre
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
-import { ContentCreationComponent } from './content-creation/content-creation.component';
 import { RoomService } from './services/http/room.service';
 import { RoomListComponent } from './components/fragments/room-list/room-list.component';
 import { CreatorHomeScreenComponent } from './components/pages/creator-home-screen/creator-home-screen.component';
@@ -76,7 +74,9 @@ import { RoomModificationComponent } from './components/dialogs/room-modificatio
 import { ParticipantChoiceContentComponent } from './components/fragments/participant-choice-content/participant-choice-content.component';
 import { CreatorChoiceContentComponent } from './components/fragments/creator-choice-content/creator-choice-content.component';
 import { AddContentComponent } from './components/pages/add-content/add-content.component';
-import { ParticipantContentCarouselPageComponent } from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
+import {
+  ParticipantContentCarouselPageComponent
+} from './components/pages/participant-content-carousel-page/participant-content-carousel-page.component';
 import { ParticipantTextContentComponent } from './components/fragments/participant-text-content/participant-text-content.component';
 import { CreatorTextContentComponent } from './components/fragments/creator-text-content/creator-text-content.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
@@ -91,7 +91,6 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     PageNotFoundComponent,
     PasswordResetComponent,
     RegisterComponent,
-    ContentCreationComponent,
     RoomComponent,
     RegisterComponent,
     RoomCreationComponent,
@@ -100,7 +99,6 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
     CreateCommentComponent,
     ParticipantHomeScreenComponent,
     CommentListComponent,
-    ContentAnswersComponent,
     ParticipantRoomComponent,
     CreatorRoomComponent,
     ContentDetailComponent,
