@@ -50,7 +50,7 @@ import {
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RoomComponent } from './components/pages/room/room.component';
 import { RoomCreationComponent } from './components/dialogs/room-create/room-create.component';
-import { LoginScreenComponent } from './components/pages/login-screen/login-screen.component';
+import { LoginScreenComponent } from './components/pages/login/login.component';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';

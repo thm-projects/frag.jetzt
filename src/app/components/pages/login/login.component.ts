@@ -6,8 +6,8 @@ import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-login-screen',
-  templateUrl: './login-screen.component.html',
-  styleUrls: ['./login-screen.component.scss']
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
 export class LoginScreenComponent implements OnInit {
   // Make UserRole available to the template

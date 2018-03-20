@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
-import { LoginScreenComponent } from './components/pages/login-screen/login-screen.component';
+import { LoginScreenComponent } from './components/pages/login/login.component';
 import { CreatorHomeScreenComponent } from './components/pages/home-creator/home-creator.component';
 import { CreateCommentComponent } from './components/pages/comment-create/comment-create.component';
 import { ParticipantHomeScreenComponent } from './components/pages/home-participant/home-participant.component';
