@@ -5,8 +5,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
-import { ClientAuthentication } from '../../../models/client-authentication';
-import { User } from '../../../models/user';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -21,7 +19,6 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  // Make UserRole available to the template
   UserRole = UserRole;
 
   @Input() public role: UserRole;
@@ -67,5 +64,4 @@ export class LoginComponent implements OnInit {
       this.notificationService.show('Username or password incorrect.');
     }
   }
-
 }

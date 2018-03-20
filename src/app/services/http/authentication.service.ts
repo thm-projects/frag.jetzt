@@ -12,15 +12,15 @@ export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
   private user: User;
   private apiUrl = {
-    base : 'https://arsnova-staging.mni.thm.de/api',
-    v2 : 'https://arsnova-staging.mni.thm.de/api/v2',
-    auth : '/auth',
-    login : '/login-page',
-    user : '/user',
-    register : '/register',
-    registered : '/registered',
-    resetPassword : '/resetpassword',
-    guest : '/guest'
+    base: 'https://arsnova-staging.mni.thm.de/api',
+    v2: 'https://arsnova-staging.mni.thm.de/api/v2',
+    auth: '/auth',
+    login: '/login-page',
+    user: '/user',
+    register: '/register',
+    registered: '/registered',
+    resetPassword: '/resetpassword',
+    guest: '/guest'
   };
   private httpOptions = {
     headers: new HttpHeaders({})
@@ -98,7 +98,7 @@ export class AuthenticationService {
     return this.user.token;
   }
 
-  checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole): Observable<boolean> {
+  private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole): Observable<boolean> {
     return clientAuthentication.map(result => {
       if (result) {
         this.setUser(new User(
