@@ -7,7 +7,7 @@ import { ContentType } from '../../../models/content-type.enum';
   templateUrl: './content-carousel.component.html',
   styleUrls: ['./content-carousel.component.scss']
 })
-export class ParticipantContentCarouselPageComponent implements OnInit {
+export class ContentCarouselComponent implements OnInit {
   ContentType: ContentType;
 
   contents: Content[];

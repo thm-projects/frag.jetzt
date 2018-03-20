@@ -6,15 +6,15 @@ import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
-import { RoomDeletionComponent } from '../../dialogs/room-delete/room-delete.component';
-import { RoomModificationComponent } from '../../dialogs/room-edit/room-edit.component';
+import { RoomDeleteComponent } from '../../dialogs/room-delete/room-delete.component';
+import { RoomEditComponent } from '../../dialogs/room-edit/room-edit.component';
 
 @Component({
   selector: 'app-creator-room',
   templateUrl: './room-creator.component.html',
   styleUrls: ['./room-creator.component.scss']
 })
-export class CreatorRoomComponent extends RoomComponent implements OnInit {
+export class RoomCreatorComponent extends RoomComponent implements OnInit {
   room: Room;
   updRoom: Room;
 
@@ -67,7 +67,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
   }
 
   openDeletionRoomDialog(): void {
-    const dialogRef = this.dialog.open(RoomDeletionComponent, {
+    const dialogRef = this.dialog.open(RoomDeleteComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.room = this.room;
@@ -82,7 +82,7 @@ export class CreatorRoomComponent extends RoomComponent implements OnInit {
     this.updRoom.name = this.room.name;
     this.updRoom.shortId = this.room.shortId;
     this.updRoom.description = this.room.description;
-    const dialogRef = this.dialog.open(RoomModificationComponent, {
+    const dialogRef = this.dialog.open(RoomEditComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.editRoom = this.updRoom;

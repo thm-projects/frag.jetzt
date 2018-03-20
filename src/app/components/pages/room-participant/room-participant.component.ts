@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './room-participant.component.html',
   styleUrls: ['./room-participant.component.scss']
 })
-export class ParticipantRoomComponent implements OnInit {
+export class RoomParticipantComponent implements OnInit {
 
   room: Room;
   isLoading = true;

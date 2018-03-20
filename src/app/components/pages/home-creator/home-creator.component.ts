@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { RoomCreationComponent } from '../../dialogs/room-create/room-create.component';
+import { RoomCreateComponent } from '../../dialogs/room-create/room-create.component';
 
 @Component({
   selector: 'app-creator-home-screen',
   templateUrl: './home-creator.component.html',
   styleUrls: ['./home-creator.component.scss']
 })
-export class CreatorHomeScreenComponent implements OnInit {
+export class HomeCreatorComponent implements OnInit {
   constructor(public dialog: MatDialog) {
   }
 
@@ -15,7 +15,7 @@ export class CreatorHomeScreenComponent implements OnInit {
   }
 
   openCreateRoomDialog(): void {
-    this.dialog.open(RoomCreationComponent, {
+    this.dialog.open(RoomCreateComponent, {
       width: '350px'
     });
   }

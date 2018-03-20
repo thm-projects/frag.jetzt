@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ParticipantChoiceContentComponent } from './content-choice-participant.component';
+import { ContentChoiceParticipantComponent } from './content-choice-participant.component';
 
-describe('ParticipantChoiceContentComponent', () => {
-  let component: ParticipantChoiceContentComponent;
-  let fixture: ComponentFixture<ParticipantChoiceContentComponent>;
+describe('ContentChoiceParticipantComponent', () => {
+  let component: ContentChoiceParticipantComponent;
+  let fixture: ComponentFixture<ContentChoiceParticipantComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ParticipantChoiceContentComponent ]
+      declarations: [ ContentChoiceParticipantComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ParticipantChoiceContentComponent);
+    fixture = TestBed.createComponent(ContentChoiceParticipantComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

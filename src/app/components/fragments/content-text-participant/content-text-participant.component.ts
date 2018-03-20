@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TextContent } from '../../../models/content-text';
+import { ContentText } from '../../../models/content-text';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
 
@@ -8,8 +8,8 @@ import { AnswerText } from '../../../models/answer-text';
   templateUrl: './content-text-participant.component.html',
   styleUrls: ['./content-text-participant.component.scss']
 })
-export class ParticipantTextContentComponent implements OnInit {
-  content: TextContent = new TextContent('1',
+export class ContentTextParticipantComponent implements OnInit {
+  content: ContentText = new ContentText('1',
     '1',
     '1',
     'Text Content 1',

@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
   templateUrl: './room-create.component.html',
   styleUrls: ['./room-create.component.scss']
 })
-export class RoomCreationComponent implements OnInit {
+export class RoomCreateComponent implements OnInit {
   longName: string;
   shortName: string;
   emptyInputs = false;
@@ -20,7 +20,7 @@ export class RoomCreationComponent implements OnInit {
   constructor(private roomService: RoomService,
               private router: Router,
               private notification: NotificationService,
-              public dialogRef: MatDialogRef<RoomCreationComponent>,
+              public dialogRef: MatDialogRef<RoomCreateComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 

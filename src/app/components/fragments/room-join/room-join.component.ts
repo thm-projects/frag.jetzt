@@ -19,7 +19,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './room-join.component.html',
   styleUrls: ['./room-join.component.scss']
 })
-export class JoinRoomComponent implements OnInit {
+export class RoomJoinComponent implements OnInit {
 
   room: Room;
   demoId = '82458028';

@@ -5,7 +5,7 @@ import { Content } from '../../../models/content';
 import { ContentService } from '../../../services/http/content.service';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
-import { ChoiceAnswer } from '../../../models/answer-choice';
+import { AnswerChoice } from '../../../models/answer-choice';
 import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
@@ -13,10 +13,10 @@ import { ContentType } from '../../../models/content-type.enum';
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.scss']
 })
-export class AnswerStatisticsComponent implements OnInit {
+export class StatisticsComponent implements OnInit {
   @Input() content: Content[];
   @Input() textAnswers: AnswerText[] = [];
-  @Input() choiceAnswers: ChoiceAnswer[] = [];
+  @Input() choiceAnswers: AnswerChoice[] = [];
   statistics: any = null;
   selectedContent: any =
     { name: 'HOW TO MAKE CONTENT GREAT AGAIN', index: '1', length: '1' };

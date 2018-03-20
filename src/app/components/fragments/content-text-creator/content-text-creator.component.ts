@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TextContent } from '../../../models/content-text';
+import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 
 @Component({
@@ -7,9 +7,9 @@ import { ContentService } from '../../../services/http/content.service';
   templateUrl: './content-text-creator.component.html',
   styleUrls: ['./content-text-creator.component.scss']
 })
-export class CreatorTextContentComponent implements OnInit {
+export class ContentTextCreatorComponent implements OnInit {
 
-  content: TextContent = new TextContent('1',
+  content: ContentText = new ContentText('1',
     '1',
     '0',
     '',

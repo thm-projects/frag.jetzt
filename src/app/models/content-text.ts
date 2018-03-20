@@ -1,7 +1,7 @@
 import { Content } from './content';
 import { ContentType } from './content-type.enum';
 
-export class TextContent extends Content {
+export class ContentText extends Content {
 
   constructor(contentId: string,
               revision: string,

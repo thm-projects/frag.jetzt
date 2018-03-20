@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChoiceContent } from '../../../models/content-choice';
+import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 
@@ -18,8 +18,8 @@ class CheckedAnswer {
   templateUrl: './content-choice-participant.component.html',
   styleUrls: ['./content-choice-participant.component.scss']
 })
-export class ParticipantChoiceContentComponent implements OnInit {
-  content: ChoiceContent = new ChoiceContent('2',
+export class ContentChoiceParticipantComponent implements OnInit {
+  content: ContentChoice = new ContentChoice('2',
     '1',
     '1',
     'Choice Content 1',

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
-import { ChoiceContent } from '../../../models/content-choice';
+import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
 
 export class DisplayAnswer {
@@ -18,9 +18,9 @@ export class DisplayAnswer {
   templateUrl: './content-choice-creator.component.html',
   styleUrls: ['./content-choice-creator.component.scss']
 })
-export class CreatorChoiceContentComponent implements OnInit {
+export class ContentChoiceCreatorComponent implements OnInit {
 
-  content: ChoiceContent = new ChoiceContent('0',
+  content: ContentChoice = new ContentChoice('0',
     '1',
     '',
     '',

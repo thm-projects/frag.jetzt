@@ -9,7 +9,7 @@ import { ContentService } from '../../../services/http/content.service';
   templateUrl: './answers-list.component.html',
   styleUrls: ['./answers-list.component.scss']
 })
-export class ContentAnswersListComponent implements OnInit {
+export class AnswersListComponent implements OnInit {
   textAnswers: AnswerText[];
 
   constructor(

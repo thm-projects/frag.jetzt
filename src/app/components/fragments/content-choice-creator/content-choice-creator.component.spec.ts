@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreatorChoiceContentComponent } from './content-choice-creator.component';
+import { ContentChoiceCreatorComponent } from './content-choice-creator.component';
 
-describe('CreatorChoiceContentComponent', () => {
-  let component: CreatorChoiceContentComponent;
-  let fixture: ComponentFixture<CreatorChoiceContentComponent>;
+describe('ContentChoiceCreatorComponent', () => {
+  let component: ContentChoiceCreatorComponent;
+  let fixture: ComponentFixture<ContentChoiceCreatorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreatorChoiceContentComponent ]
+      declarations: [ ContentChoiceCreatorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreatorChoiceContentComponent);
+    fixture = TestBed.createComponent(ContentChoiceCreatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

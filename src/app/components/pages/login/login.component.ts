@@ -9,7 +9,7 @@ import { UserRole } from '../../../models/user-roles.enum';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginScreenComponent implements OnInit {
+export class LoginComponent implements OnInit {
   // Make UserRole available to the template
   UserRole = UserRole;
 

@@ -1,4 +1,4 @@
-export class ChoiceAnswer {
+export class AnswerChoice {
   id: string;
   revision: string;
   contentId: string;
