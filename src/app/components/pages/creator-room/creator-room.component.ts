@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomService } from '../../../room.service';
+import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomComponent } from '../room/room.component';
 import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
-import { NotificationService } from '../../../notification.service';
+import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
 import { ContentCreationComponent } from '../content-creation/content-creation.component';
 import { RoomDeletionComponent } from '../../dialogs/room-deletion/room-deletion.component';

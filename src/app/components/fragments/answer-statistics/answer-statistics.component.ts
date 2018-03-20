@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoomService } from '../../../room.service';
+import { RoomService } from '../../../services/http/room.service';
 import { Content } from '../../../models/content';
-import { ContentService } from '../../../content.service';
-import { ContentAnswerService } from '../../../content-answer.service';
+import { ContentService } from '../../../services/http/content.service';
+import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
 import { ChoiceAnswer } from '../../../models/choice-answer';
 import { ContentType } from '../../../models/content-type';

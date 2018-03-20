@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../../authentication.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../../../notification.service';
+import { NotificationService } from '../../../services/util/notification.service';
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';

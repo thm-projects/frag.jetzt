@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { NotificationService } from '../../../notification.service';
+import { NotificationService } from '../../../services/util/notification.service';
 import { RoomCreationComponent } from '../room-creation/room-creation.component';
-import { RoomService } from '../../../room.service';
+import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 
 @Component({

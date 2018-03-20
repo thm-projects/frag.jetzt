@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
-import { RoomService } from '../../../room.service';
-import { AuthenticationService } from '../../../authentication.service';
+import { RoomService } from '../../../services/http/room.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({

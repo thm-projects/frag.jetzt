@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TextContent } from '../../../models/text-content';
-import { ContentAnswerService } from '../../../content-answer.service';
+import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
 
 @Component({

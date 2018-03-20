@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentService } from '../../../content.service';
+import { ContentService } from '../../../services/http/content.service';
 import { Content } from '../../../models/content';
 import { ActivatedRoute } from '@angular/router';
 

@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Comment } from '../../../models/comment';
-import { CommentService } from '../../../comment.service';
-import { RoomService } from '../../../room.service';
-import { NotificationService } from '../../../notification.service';
-import { AuthenticationService } from '../../../authentication.service';
+import { CommentService } from '../../../services/http/comment.service';
+import { RoomService } from '../../../services/http/room.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 

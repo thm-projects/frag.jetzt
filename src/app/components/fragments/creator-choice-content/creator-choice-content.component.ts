@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
 import { ChoiceContent } from '../../../models/choice-content';
-import { ContentService } from '../../../content.service';
+import { ContentService } from '../../../services/http/content.service';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;

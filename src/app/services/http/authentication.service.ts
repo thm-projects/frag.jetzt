@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { User } from './models/user';
+import { User } from '../../models/user';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { UserRole } from './models/user-roles.enum';
-import { DataStoreService } from './data-store.service';
+import { UserRole } from '../../models/user-roles.enum';
+import { DataStoreService } from '../util/data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ClientAuthentication } from './models/client-authentication';
+import { ClientAuthentication } from '../../models/client-authentication';
 
 @Injectable()
 export class AuthenticationService {

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ContentAnswerService } from '../../../content-answer.service';
+import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
 import { ActivatedRoute } from '@angular/router';
-import { ContentService } from '../../../content.service';
+import { ContentService } from '../../../services/http/content.service';
 
 @Component({
   selector: 'app-content-answers-list',

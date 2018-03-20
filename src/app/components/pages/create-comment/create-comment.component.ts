@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Room } from '../../../models/room';
 import { Comment } from '../../../models/comment';
-import { RoomService } from '../../../room.service';
-import { CommentService } from '../../../comment.service';
-import { NotificationService } from '../../../notification.service';
-import { AuthenticationService } from '../../../authentication.service';
+import { RoomService } from '../../../services/http/room.service';
+import { CommentService } from '../../../services/http/comment.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { CommentListComponent } from '../../fragments/comment-list/comment-list.component';
 
