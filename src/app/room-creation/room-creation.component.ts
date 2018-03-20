@@ -46,7 +46,7 @@ export class RoomCreationComponent implements OnInit {
       name: longRoomName,
       abbreviation: shortRoomName,
       description: description
-    } as Room).subscribe( room => this.room = room);
+    } as Room).subscribe(room => this.room = room);
     this.roomService.getRoomById(this.roomId)
       .subscribe(room => {
         this.room = room;

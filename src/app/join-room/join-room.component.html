@@ -7,7 +7,7 @@
         <mat-error *ngIf="roomFormControl.hasError('required')">Please enter a room-id.</mat-error>
         <mat-error *ngIf="roomFormControl.hasError('minlength')">A room-id has exactly 8 digits.</mat-error>
       </mat-form-field>
-      <button mat-fab color="primary">
+      <button mat-fab color="primary" type="submit">
         <mat-icon>send</mat-icon>
       </button>
     </div>

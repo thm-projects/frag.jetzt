@@ -59,5 +59,4 @@ export class JoinRoomComponent implements OnInit {
   joinDemo(): void {
     this.getRoom(this.demoId);
   }
-
 }
