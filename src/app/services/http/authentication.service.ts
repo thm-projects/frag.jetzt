@@ -40,13 +40,13 @@ export class AuthenticationService {
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {
       loginId: email,
       password: password
-    }, this.httpOptions), userRole);
+    }, this.httpOptions), userRole, false);
   }
 
   guestLogin(): Observable<boolean> {
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + this.apiUrl.guest;
 
-    return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT);
+    return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT, true);
   }
 
   register(email: string, password: string): Observable<boolean> {
@@ -98,14 +98,16 @@ export class AuthenticationService {
     return this.user.token;
   }
 
-  private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole): Observable<boolean> {
+  private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole, isGuest: boolean): Observable<boolean> {
     return clientAuthentication.map(result => {
       if (result) {
         this.setUser(new User(
           result.userId,
           result.loginId,
           result.authProvider,
-          result.token, userRole));
+          result.token,
+          userRole,
+          isGuest));
         return true;
       } else {
         return false;
