@@ -8,7 +8,7 @@ import { ParticipantHomeScreenComponent } from './components/pages/participant-h
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { UserRole } from './models/user-roles.enum';
 import { ParticipantRoomComponent } from './components/pages/participant-room/participant-room.component';
-import { CreatorRoomComponent } from './components/pages/creator-room/creator-room.component';
+import { CreatorRoomComponent } from './components/pages/room-creator/room-creator.component';
 import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { AnswerStatisticsComponent } from './components/fragments/statistics/statistics.component';

@@ -11,8 +11,8 @@ import { RoomModificationComponent } from '../../dialogs/room-edit/room-edit.com
 
 @Component({
   selector: 'app-creator-room',
-  templateUrl: './creator-room.component.html',
-  styleUrls: ['./creator-room.component.scss']
+  templateUrl: './room-creator.component.html',
+  styleUrls: ['./room-creator.component.scss']
 })
 export class CreatorRoomComponent extends RoomComponent implements OnInit {
   room: Room;

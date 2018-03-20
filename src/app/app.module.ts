@@ -62,7 +62,7 @@ import { CommentService } from './services/http/comment.service';
 import { ParticipantHomeScreenComponent } from './components/pages/participant-home-screen/participant-home-screen.component';
 import { ParticipantRoomComponent } from './components/pages/participant-room/participant-room.component';
 import { DataStoreService } from './services/util/data-store.service';
-import { CreatorRoomComponent } from './components/pages/creator-room/creator-room.component';
+import { CreatorRoomComponent } from './components/pages/room-creator/room-creator.component';
 import { ContentDetailComponent } from './components/pages/content-detail/content-detail.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { ContentService } from './services/http/content.service';
