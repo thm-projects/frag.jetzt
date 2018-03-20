@@ -46,14 +46,11 @@ export class RoomCreationComponent implements OnInit {
       name: longRoomName,
       abbreviation: shortRoomName,
       description: description
-    } as Room).subscribe(room => this.room = room);
-    this.roomService.getRoomById(this.roomId)
-      .subscribe(room => {
-        this.room = room;
-        this.notification.show(`Room '${this.room.name}' successfully created.`);
-        this.router.navigate([`/creator/room/${this.room.shortId}`]);
-        this.dialogRef.close();
-      });
+    } as Room).subscribe(room => {
+      this.room = room;
+      this.notification.show(`Room '${this.room.name}' successfully created.`);
+      this.router.navigate([`/creator/room/${this.room.shortId}`]);
+      this.dialogRef.close();
+    });
   }
 }
-
