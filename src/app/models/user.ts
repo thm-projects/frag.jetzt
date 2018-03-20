@@ -7,12 +7,14 @@ export class User {
   authProvider: AuthProvider;
   token: string;
   role: UserRole;
+  isGuest: boolean;
 
-  constructor(id: string, loginId: string, authProvider: AuthProvider, token: string, role: UserRole) {
+  constructor(id: string, loginId: string, authProvider: AuthProvider, token: string, role: UserRole, isGuest: boolean) {
     this.id = id;
     this.loginId = loginId;
     this.authProvider = authProvider;
     this.token = token;
     this.role = role;
+    this.isGuest = isGuest;
   }
 }
