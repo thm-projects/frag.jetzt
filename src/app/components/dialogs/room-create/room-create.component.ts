@@ -35,16 +35,15 @@ export class RoomCreateComponent implements OnInit {
     this.emptyInputs = false;
   }
 
-  addRoom(longRoomName: string, shortRoomName: string, description: string) {
+  addRoom(longRoomName: string, description: string) {
     longRoomName = longRoomName.trim();
-    shortRoomName = shortRoomName.trim();
-    if (!longRoomName || !shortRoomName) {
+    if (!longRoomName) {
       this.emptyInputs = true;
       return;
     }
     this.roomService.addRoom({
       name: longRoomName,
-      abbreviation: shortRoomName,
+      abbreviation: '00000000',
       description: description
     } as Room).subscribe(room => {
       this.room = room;

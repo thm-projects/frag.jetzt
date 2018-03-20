@@ -1,4 +1,4 @@
-<form (ngSubmit)="addRoom(longRoomName.value, shortRoomName.value, description.value)">
+<form (ngSubmit)="addRoom(longRoomName.value, description.value)">
   <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
       <input (keypress)="resetEmptyInputs()" matInput #longRoomName class="input-block" type="text" placeholder="Name"
@@ -8,17 +8,6 @@
       <mat-hint align="end" *ngIf="!emptyInputs">{{longRoomName.value.length}} / 50</mat-hint>
       <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
       <button mat-button *ngIf="longName" matSuffix mat-icon-button aria-label="Clear" (click)="longName=''">
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
-    <mat-form-field>
-      <input (keypress)="resetEmptyInputs()" matInput #shortRoomName class="input-block" type="text"
-             placeholder="Short name" maxlength="8"
-             [(ngModel)]="shortName" name="ShortName"/>
-      <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
-      <mat-hint align="end" *ngIf="!emptyInputs">{{shortRoomName.value.length}} / 8</mat-hint>
-      <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
-      <button mat-button *ngIf="shortName" matSuffix mat-icon-button aria-label="Clear" (click)="shortName=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>

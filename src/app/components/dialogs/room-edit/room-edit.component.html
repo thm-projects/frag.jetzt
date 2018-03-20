@@ -1,20 +1,16 @@
 <div *ngIf="editRoom">
   <mat-form-field class="input-block">
-    <input [(ngModel)]="editRoom.name" #roomName matInput/>
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <input [(ngModel)]="editRoom.abbreviation" #roomAbbreviation matInput/>
+    <input [(ngModel)]="editRoom.name" #roomName matInput placeholder="Room name"/>
   </mat-form-field>
   <mat-form-field class="input-block">
             <textarea [(ngModel)]="editRoom.description" #roomDescription matInput matTextareaAutosize
-                      matAutosizeMinRows="2"
-                      matAutosizeMaxRows="5"></textarea>
+                      matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="Description"></textarea>
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button (click)="dialogRef.close('abort')" mat-button color="primary">
       Leave
     </button>
-    <button (click)="dialogRef.close('edit')" mat-button color="primary">
+    <button (click)="dialogRef.close('edit')" mat-raised-button color="primary">
       Update
     </button>
   </div>

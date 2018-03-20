@@ -22,8 +22,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               protected notification: NotificationService,
               protected route: ActivatedRoute,
               protected location: Location,
-              public dialog: MatDialog
-            ) {
+              public dialog: MatDialog) {
     super(roomService, route, location);
   }
 
@@ -39,18 +38,17 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   updateRoom(): void {
     if ((this.updRoom.name === this.room.name) &&
-      (this.updRoom.shortId === this.room.shortId) &&
       (this.updRoom.description === this.room.description)
     ) {
       this.notification.show('There were no changes');
       return;
     } else {
-      this.notification.show('Changes are made');
       this.room.name = this.updRoom.name;
-      this.room.shortId = this.updRoom.shortId;
       this.room.description = this.updRoom.description;
       this.roomService.updateRoom(this.room)
-        .subscribe();
+        .subscribe(() => {
+          this.notification.show('Changes are made');
+        });
     }
   }
 
