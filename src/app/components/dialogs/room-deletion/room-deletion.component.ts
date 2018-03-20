@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NotificationService } from '../../../notification.service';
 import { RoomCreationComponent } from '../room-creation/room-creation.component';
 import { RoomService } from '../../../room.service';
-import { Room } from '../../../room';
+import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-room-deletion',

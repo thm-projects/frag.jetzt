@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Room } from '../../../room';
+import { Room } from '../../../models/room';
 import { RoomService } from '../../../room.service';
 import { AuthenticationService } from '../../../authentication.service';
-import { UserRole } from '../../../user-roles.enum';
+import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-room-list',

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../../room.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomComponent } from '../room/room.component';
-import { Room } from '../../../room';
+import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../notification.service';
 import { MatDialog } from '@angular/material';

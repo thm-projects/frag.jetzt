@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Content } from '../../../content';
-import { ContentType } from '../../../content-type';
+import { Content } from '../../../models/content';
+import { ContentType } from '../../../models/content-type';
 
 @Component({
   selector: 'app-participant-content-carousel-page',

@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
 import { NotificationService } from '../notification.service';
-import { UserRole } from '../user-roles.enum';
-import { User } from '../user';
+import { UserRole } from '../models/user-roles.enum';
+import { User } from '../models/user';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {

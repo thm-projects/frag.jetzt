@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { TextContent } from '../../../text-content';
+import { TextContent } from '../../../models/text-content';
 import { ContentAnswerService } from '../../../content-answer.service';
-import { AnswerText } from '../../../answer-text';
+import { AnswerText } from '../../../models/answer-text';
 
 @Component({
   selector: 'app-participant-text-content',

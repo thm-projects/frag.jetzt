@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Room } from '../../../room';
-import { Comment } from '../../../comment';
+import { Room } from '../../../models/room';
+import { Comment } from '../../../models/comment';
 import { RoomService } from '../../../room.service';
 import { CommentService } from '../../../comment.service';
 import { NotificationService } from '../../../notification.service';
 import { AuthenticationService } from '../../../authentication.service';
-import { User } from '../../../user';
+import { User } from '../../../models/user';
 import { CommentListComponent } from '../../fragments/comment-list/comment-list.component';
 
 @Component({

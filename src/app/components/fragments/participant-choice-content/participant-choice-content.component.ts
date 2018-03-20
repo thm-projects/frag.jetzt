@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ChoiceContent } from '../../../choice-content';
-import { AnswerOption } from '../../../answer-option';
+import { ChoiceContent } from '../../../models/choice-content';
+import { AnswerOption } from '../../../models/answer-option';
 import { ContentAnswerService } from '../../../content-answer.service';
 
 class CheckedAnswer {

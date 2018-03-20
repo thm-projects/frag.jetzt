@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Room } from '../../../room';
+import { Room } from '../../../models/room';
 import { RoomService } from '../../../room.service';
 import { Router } from '@angular/router';
 import { RegisterErrorStateMatcher } from '../../dialogs/register/register.component';

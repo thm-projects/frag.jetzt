@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Room } from '../../../room';
+import { Room } from '../../../models/room';
 import { RoomService } from '../../../room.service';
 import { RoomCreationComponent } from '../room-creation/room-creation.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';

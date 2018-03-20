@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentAnswerService } from '../../../content-answer.service';
-import { AnswerText } from '../../../answer-text';
+import { AnswerText } from '../../../models/answer-text';
 import { ActivatedRoute } from '@angular/router';
 import { ContentService } from '../../../content.service';
 

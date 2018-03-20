@@ -4,9 +4,9 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../../notification.service';
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { UserRole } from '../../../user-roles.enum';
-import { ClientAuthentication } from '../../../client-authentication';
-import { User } from '../../../user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { ClientAuthentication } from '../../../models/client-authentication';
+import { User } from '../../../models/user';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

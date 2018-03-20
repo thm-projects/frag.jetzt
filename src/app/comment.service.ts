@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Comment } from './comment';
+import { Comment } from './models/comment';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 

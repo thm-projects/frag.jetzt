@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { Comment } from '../../../comment';
+import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../comment.service';
 import { RoomService } from '../../../room.service';
 import { NotificationService } from '../../../notification.service';
 import { AuthenticationService } from '../../../authentication.service';
-import { UserRole } from '../../../user-roles.enum';
-import { User } from '../../../user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-comment-list',

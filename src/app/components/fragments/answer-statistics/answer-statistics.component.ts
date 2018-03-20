@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../../../room.service';
-import { Content } from '../../../content';
+import { Content } from '../../../models/content';
 import { ContentService } from '../../../content.service';
 import { ContentAnswerService } from '../../../content-answer.service';
-import { AnswerText } from '../../../answer-text';
-import { ChoiceAnswer } from '../../../choice-answer';
-import { ContentType } from '../../../content-type';
+import { AnswerText } from '../../../models/answer-text';
+import { ChoiceAnswer } from '../../../models/choice-answer';
+import { ContentType } from '../../../models/content-type';
 
 @Component({
   selector: 'app-answer-statistics',
