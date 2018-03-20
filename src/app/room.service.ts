@@ -14,8 +14,7 @@ const httpOptions = {
 export class RoomService extends ErrorHandlingService {
   private roomsUrl = 'api/rooms';
 
-  constructor(private http: HttpClient,
-              private authenticationService: AuthenticationService) {
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -24,17 +23,6 @@ export class RoomService extends ErrorHandlingService {
       tap(_ => ''),
       catchError(this.handleError('getRooms', []))
     );
-  }
-
-  getRoomsCreator(): Observable<Room[]> {
-    const getRoomsUrl = 'https://arsnova-staging.mni.thm.de/api/room/find';
-
-    return this.http.post<Room[]>(getRoomsUrl, {
-      properties: {},
-      externalFilters: {
-        ownerId: this.authenticationService.getUser().id
-      }
-    }, httpOptions);
   }
 
   addRoom(room: Room): Observable<Room> {
