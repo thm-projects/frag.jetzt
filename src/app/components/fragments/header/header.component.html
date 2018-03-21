@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
-    <span>ARSnova</span>
+    <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
+      <mat-icon aria-label="Go back">keyboard_arrow_left</mat-icon>
+    </button>
+    <span class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="logout()">
