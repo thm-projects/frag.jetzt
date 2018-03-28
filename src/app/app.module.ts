@@ -91,6 +91,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MarkdownToolbarComponent } from './components/fragments/markdown-toolbar/markdown-toolbar.component';
 import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-dialog/markdown-help-dialog.component';
 import { GenericDataDialogComponent } from './components/dialogs/generic-data-dialog/generic-data-dialog.component';
+import { FooterComponent } from './components/fragments/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +132,8 @@ import { GenericDataDialogComponent } from './components/dialogs/generic-data-di
     FeedbackBarometerPageComponent,
     MarkdownToolbarComponent,
     MarkdownHelpDialogComponent,
-    GenericDataDialogComponent
+    GenericDataDialogComponent,
+    FooterComponent
   ],
   entryComponents: [
     RegisterComponent,
