@@ -1,52 +1,60 @@
 <form (ngSubmit)="submitContent()">
-  <mat-form-field class="input-block">
-    <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
-  </mat-form-field>
-  <mat-divider></mat-divider>
+  <section class="choice-section" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+    <mat-checkbox color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice</mat-checkbox>
+    <mat-checkbox color="primary" [(ngModel)]="multiChoice" name="multiChoice">Multi choice</mat-checkbox>
+  </section>
+  <div *ngIf="singleChoice || multiChoice">
+    <mat-form-field class="input-block">
+      <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
+    </mat-form-field>
+    <mat-form-field class="input-block">
+      <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+    </mat-form-field>
+    <mat-divider></mat-divider>
 
-  <mat-table #table [dataSource]="displayAnswers">
+    <mat-table #table [dataSource]="displayAnswers">
 
-    <ng-container matColumnDef="label">
-      <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
-      <mat-cell *matCellDef="let answer">
-        <!-- ToDo: Check ngModel -->
-        <mat-checkbox color="primary" [(ngModel)]="answer.correct" [checked]="answer.correct"
-                      name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }} is {{ answer.correct }}
+      <ng-container matColumnDef="label">
+        <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
+        <mat-cell *matCellDef="let answer">
+          <!-- ToDo: Check ngModel -->
+          <mat-checkbox color="primary" [(ngModel)]="answer.correct" [checked]="answer.correct"
+                        name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }} is {{ answer.correct }}
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
+        <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-divider></mat-divider>
+
+    <div fxLayout="row" fxLayoutGap="15px">
+      <div fxLayout="column" fxLayoutAlign="center">
+        <mat-checkbox #answerIsCorrect [(ngModel)]="newAnswerOptionChecked" [checked]="newAnswerOptionChecked"
+                      color="primary" name="ischecked">Is correct
         </mat-checkbox>
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="points">
-      <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-      <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-
-  <mat-divider></mat-divider>
-
-  <div fxLayout="row" fxLayoutGap="15px">
-    <div fxLayout="column" fxLayoutAlign="center">
-      <mat-checkbox #answerIsCorrect [(ngModel)]="newAnswerOptionChecked" [checked]="newAnswerOptionChecked" color="primary" name="ischecked">Is correct</mat-checkbox>
+      </div>
+      <mat-form-field class="input-block">
+        <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
+      </mat-form-field>
+      <mat-form-field class="input-block">
+        <input matInput #answerPoints [(ngModel)]="newAnswerOptionPoints" placeholder="Points" name="points">
+      </mat-form-field>
+      <div fxLayout="column" fxLayoutAlign="center">
+        <button mat-button type="button"
+                (click)="addAnswer(); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
+          Add Answer
+        </button>
+      </div>
     </div>
-    <mat-form-field class="input-block">
-      <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
-    </mat-form-field>
-    <mat-form-field class="input-block">
-      <input matInput #answerPoints [(ngModel)]="newAnswerOptionPoints" placeholder="Points" name="points">
-    </mat-form-field>
-    <div fxLayout="column" fxLayoutAlign="center">
-      <button mat-button type="button"
-              (click)="addAnswer(); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
-        Add Answer
-      </button>
-    </div>
+
+    <button mat-raised-button type="submit" color="primary">Submit</button>
   </div>
-
-  <button mat-raised-button type="submit" color="primary">Submit</button>
 </form>
