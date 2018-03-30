@@ -1,9 +1,13 @@
 <form (ngSubmit)="submitContent()">
   <section class="choice-section" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-    <mat-checkbox color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice</mat-checkbox>
-    <mat-checkbox color="primary" [(ngModel)]="multiChoice" name="multiChoice">Multi choice</mat-checkbox>
+    <div *ngIf="!multipleChoice">
+      <mat-checkbox color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice</mat-checkbox>
+    </div>
+    <div *ngIf="!singleChoice">
+      <mat-checkbox color="primary" [(ngModel)]="multipleChoice" name="multiChoice">Multi choice</mat-checkbox>
+    </div>
   </section>
-  <div *ngIf="singleChoice || multiChoice">
+  <div *ngIf="singleChoice || multipleChoice">
     <mat-form-field class="input-block">
       <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
     </mat-form-field>

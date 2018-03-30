@@ -19,8 +19,8 @@ export class DisplayAnswer {
   styleUrls: ['./content-choice-creator.component.scss']
 })
 export class ContentChoiceCreatorComponent implements OnInit {
-  singleChoice = false;
-  multiChoice = false;
+  singleChoice: boolean;
+  multipleChoice: boolean;
   content: ContentChoice = new ContentChoice('0',
     '1',
     '',
