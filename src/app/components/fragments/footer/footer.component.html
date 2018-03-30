@@ -1,46 +1,38 @@
 <footer>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-description>© SWTP WS17/18</mat-panel-description>
+    </mat-expansion-panel-header>
 
-  <div class="flex-container">
-    <div>
-      <h5>Box1</h5>
-      <ul>
-        <li>
-          <a target="_blank" href="https://www.thm.de/site/impressum.html">Impressum</a>
-        </li>
-        <li>test</li>
-        <li>test</li>
-      </ul>
-    </div>
+    <mat-grid-list cols="3" rows="1" rowHeight="200px">
+      <mat-grid-tile>
+        <mat-nav-list role="list">
+          <h3 mat-subheader>Useful Links</h3>
+          <mat-list-item role="listitem">
+            <a target="_blank" href="https://www.thm.de/site/impressum.html">Impressum</a>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <a target="_blank" href="https://www.thm.de/site/impressum.html">Privacy Terms</a>
+          </mat-list-item>
+          <mat-list-item role="listitem">
+            <a target="_blank" href="https://www.thm.de/site/impressum.html">Halp</a>
+          </mat-list-item>
+        </mat-nav-list>
 
-    <div>
-      <h5>Box2</h5>
-      <ul>
-        <li>test2</li>
-        <li>test2</li>
-        <li>test2</li>
-      </ul>
-    </div>
+      </mat-grid-tile>
 
-    <!--
-    <div>
-      <h5>MatBox</h5>
-      <mat-list role="list">
-        <mat-list-item role="listitem">Item 1</mat-list-item>
-        <mat-list-item role="listitem">Item 2</mat-list-item>
-        <mat-list-item role="listitem">Item 3</mat-list-item>
-      </mat-list>
-    </div>
-  -->
-  </div>
+      <mat-grid-tile>
+        <mat-list role="list">
+          <mat-list-item role="listitem">
+            <button mat-raised-button color="primary">Login as guest</button>
+          </mat-list-item>
+        </mat-list>
 
+        <button mat-button color="warn" (click)="prevStep()">Previous</button>
+      </mat-grid-tile>
 
+    </mat-grid-list>
 
-
-  <div class="bottomline">
-    <span class="example-fill-remaining-space"></span>
-    <a>© Copyright SWTP WS17/18</a>
-    <span class="example-fill-remaining-space"></span>
-  </div>
-
+  </mat-expansion-panel>
 </footer>
 <!-- (click)="goToHomepage()" -->
