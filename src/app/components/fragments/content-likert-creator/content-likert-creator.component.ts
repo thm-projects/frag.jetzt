@@ -25,14 +25,11 @@ export class ContentLikertCreatorComponent implements OnInit {
     1,
     [],
     [],
-    true);
+    false);
 
   displayedColumns = ['label', 'points'];
 
   displayAnswers: DisplayAnswer[] = [];
-
-  newAnswerOptionChecked = false;
-  newAnswerOptionLabel = '';
   newAnswerOptionPoints = '';
 
   constructor() {
@@ -41,6 +38,7 @@ export class ContentLikertCreatorComponent implements OnInit {
   fillCorrectAnswers() {
     this.displayAnswers = [];
     for (let i = 0; i < this.content.options.length; i++) {
+      this.content.correctOptionIndexes.push(i);
       this.displayAnswers.push(new DisplayAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
     }
   }
