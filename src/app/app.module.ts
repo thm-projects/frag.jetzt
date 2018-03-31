@@ -79,6 +79,7 @@ import { ContentTextCreatorComponent } from './components/fragments/content-text
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { HeaderComponent } from './components/fragments/header/header.component';
 import { ContentLikertCreatorComponent } from './components/fragments/content-likert-creator/content-likert-creator.component';
+import { ContentYesNoCreatorComponent } from './components/fragments/content-yes-no-creator/content-yes-no-creator.component';
 
 @NgModule({
   declarations: [
@@ -112,7 +113,8 @@ import { ContentLikertCreatorComponent } from './components/fragments/content-li
     StatisticsComponent,
     ContentTextCreatorComponent,
     HeaderComponent,
-    ContentLikertCreatorComponent
+    ContentLikertCreatorComponent,
+    ContentYesNoCreatorComponent
   ],
   entryComponents: [
     RegisterComponent,
