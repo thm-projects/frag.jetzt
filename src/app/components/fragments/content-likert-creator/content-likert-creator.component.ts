@@ -10,11 +10,11 @@ import { AnswerOption } from '../../../models/answer-option';
 })
 export class ContentLikertCreatorComponent implements OnInit {
   likertScale = [
-    'Strongly disagree',
-    'Disagree',
-    'Neither agree nor disagree',
+    'Strongly agree',
     'Agree',
-    'Strongly agree'
+    'Neither agree nor disagree',
+    'Disagree',
+    'Strongly disagree'
   ];
 
   content: ContentChoice = new ContentChoice('0',
