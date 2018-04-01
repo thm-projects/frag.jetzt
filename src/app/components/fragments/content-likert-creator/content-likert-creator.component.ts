@@ -27,7 +27,7 @@ export class ContentLikertCreatorComponent implements OnInit {
     [],
     false);
 
-  displayedColumns = ['label', 'points'];
+  displayedColumns = ['label'];
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '';
