@@ -92,6 +92,7 @@ import { MarkdownToolbarComponent } from './components/fragments/markdown-toolba
 import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-dialog/markdown-help-dialog.component';
 import { GenericDataDialogComponent } from './components/dialogs/generic-data-dialog/generic-data-dialog.component';
 import { FooterComponent } from './components/fragments/footer/footer.component';
+import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
 
 @NgModule({
   declarations: [
@@ -133,7 +134,8 @@ import { FooterComponent } from './components/fragments/footer/footer.component'
     MarkdownToolbarComponent,
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,
-    FooterComponent
+    FooterComponent,
+    FooterLoginDialogComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -148,7 +150,8 @@ import { FooterComponent } from './components/fragments/footer/footer.component'
     ContentYesNoCreatorComponent,
     ContentDeleteComponent,
     MarkdownHelpDialogComponent,
-    GenericDataDialogComponent
+    GenericDataDialogComponent,
+    FooterLoginDialogComponent
   ],
   imports: [
     AppRoutingModule,
