@@ -23,7 +23,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
     [],
     false);
 
-  displayedColumns = ['label', 'points'];
+  displayedColumns = ['label'];
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '';
