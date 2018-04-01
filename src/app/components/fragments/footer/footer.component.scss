@@ -1,8 +1,22 @@
 footer {
-    overflow-y: auto
+    overflow-y: auto;
+    
 }
 
 mat-expansion-panel {
   background-color: rgb(235, 235, 235);
-  color: rgb(60, 60, 60);
+  color: rgb(60, 60, 60);  
+}
+
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+
+
+/* Small screens */
+@media all and (max-width: 500px) {
+  .container {
+    flex-direction: column;
+  }
 }

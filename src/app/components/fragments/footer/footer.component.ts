@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { UserRole } from '../../../models/user-roles.enum';
+import { Component, OnInit, Input } from '@angular/core';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
-import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-footer',
@@ -9,29 +9,26 @@ import { User } from '../../../models/user';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
-  user: User;
+
 
   constructor(
+    public authenticationService: AuthenticationService,
+    public notificationService: NotificationService,
     public router: Router
   ) { }
 
   ngOnInit() {
   }
 
-  goToHomepage() {
-    const role: UserRole = this.user !== undefined ? this.user.role : undefined;
-    let route: string;
-
-    switch (role) {
-      case UserRole.PARTICIPANT:
-        route = '/participant';
-        break;
-      case UserRole.CREATOR:
-        route = '/creator';
-        break;
-      default:
-        route = '/';
-    }
-    this.router.navigate([route]);
+  guestLogin(): void {
+    this.authenticationService.guestLogin().subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
   }
+
+  private checkLogin(loginSuccessful: boolean) {
+    if (loginSuccessful) {
+      this.notificationService.show('Login successful!');
+      this.router.navigate(['participant']);
+    }
+  }
+
 }

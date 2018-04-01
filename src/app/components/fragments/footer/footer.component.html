@@ -4,35 +4,32 @@
       <mat-panel-description>© SWTP WS17/18</mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-grid-list cols="3" rows="1" rowHeight="200px">
-      <mat-grid-tile>
-        <mat-nav-list role="list">
-          <h3 mat-subheader>Useful Links</h3>
-          <mat-list-item role="listitem">
-            <a target="_blank" href="https://www.thm.de/site/impressum.html">Impressum</a>
-          </mat-list-item>
-          <mat-list-item role="listitem">
-            <a target="_blank" href="https://www.thm.de/site/rechtsvorschriften.html">Privacy Terms</a>
-          </mat-list-item>
-          <mat-list-item role="listitem">
-            <a target="_blank" href="http://dailylolpics.lolpics.com/wp-content/uploads/2017/10/halp-me.jpg">Halp</a>
-          </mat-list-item>
-        </mat-nav-list>
 
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <mat-list role="list">
-          <mat-list-item role="listitem">
-            <button mat-raised-button color="primary">Login as guest</button>
-          </mat-list-item>
-        </mat-list>
-
-        <button mat-button color="warn" (click)="prevStep()">Previous</button>
-      </mat-grid-tile>
-
-    </mat-grid-list>
-
+    <div class="container">
+      <mat-list role="list">
+        <h3 mat-subheader>Change Theme</h3>
+        <mat-list-item role="listitem">
+          <mat-slide-toggle></mat-slide-toggle>
+        </mat-list-item>
+      </mat-list>
+      <mat-nav-list>
+        <h3 mat-subheader>Login</h3>
+        <mat-list-item role="listitem">
+          <a (click)="guestLogin()">Login as Guest</a>
+        </mat-list-item>
+      </mat-nav-list>
+      <mat-nav-list role="list">
+        <h3 mat-subheader>Useful Links</h3>
+        <mat-list-item role="listitem">
+          <a target="_blank" href="https://www.thm.de/site/impressum.html">Impressum</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a target="_blank" href="https://www.thm.de/site/rechtsvorschriften.html">Privacy Terms</a>
+        </mat-list-item>
+        <mat-list-item role="listitem">
+          <a target="_blank" href="http://dailylolpics.lolpics.com/wp-content/uploads/2017/10/halp-me.jpg">Help</a>
+        </mat-list-item>
+      </mat-nav-list>
+    </div>
   </mat-expansion-panel>
 </footer>
-<!-- (click)="goToHomepage()" -->
