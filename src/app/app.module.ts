@@ -87,6 +87,7 @@ import { ContentDeleteComponent } from './components/dialogs/content-delete/cont
 import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -146,6 +147,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
+    MarkdownModule.forRoot(),
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
