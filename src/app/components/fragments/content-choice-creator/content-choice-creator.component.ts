@@ -24,6 +24,7 @@ export class DisplayAnswer {
 export class ContentChoiceCreatorComponent implements OnInit {
   singleChoice: boolean;
   multipleChoice: boolean;
+  selected = false;
   content: ContentChoice = new ContentChoice('0',
     '1',
     '',
