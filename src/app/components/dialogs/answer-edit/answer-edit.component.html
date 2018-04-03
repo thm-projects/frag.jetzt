@@ -1,3 +1,19 @@
-<p>
-  answer-edit works!
-</p>
+<div *ngIf="answer">
+  <mat-form-field class="input-block">
+    <input [(ngModel)]="answer.answerOption.label" #roomName matInput placeholder="Answer label" name="answer-label"/>
+  </mat-form-field>
+  <mat-form-field class="input-block">
+            <textarea [(ngModel)]="answer.answerOption.points" #roomDescription matInput matTextareaAutosize
+                      matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="Points" name="points">
+            </textarea>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="answer.correct" color="primary">Answer is {{answer.correct}}.</mat-checkbox>
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+    <button (click)="dialogRef.close()" mat-button color="primary">
+      Leave
+    </button>
+    <button (click)="dialogRef.close('edit')" mat-raised-button color="primary">
+      Update
+    </button>
+  </div>
+</div>

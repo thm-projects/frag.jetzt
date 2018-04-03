@@ -123,7 +123,8 @@ import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edi
     PasswordResetComponent,
     RoomCreateComponent,
     RoomDeleteComponent,
-    RoomEditComponent
+    RoomEditComponent,
+    AnswerEditComponent
   ],
   imports: [
     AppRoutingModule,

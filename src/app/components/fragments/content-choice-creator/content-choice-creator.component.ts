@@ -3,6 +3,8 @@ import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { MatDialog } from '@angular/material';
+import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.component';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -41,8 +43,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
   newAnswerOptionLabel = '';
   newAnswerOptionPoints = '';
 
+  editDisplayAnswer: DisplayAnswer;
+  originalDisplayAnswer: DisplayAnswer;
+
   constructor(private contentService: ContentService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -92,6 +98,50 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.submitContent();
   }
 
+  openAnswerModificationDialog(label: string, points: string, correct: boolean) {
+    this.editDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
+    this.originalDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
+    const dialogRef = this.dialog.open(AnswerEditComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.answer = this.editDisplayAnswer;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'edit') {
+          this.editCheckChanges();
+        }
+      });
+  }
+
+  editCheckChanges() {
+    for (let i = 0; i < this.content.options.length; i++) {
+      if (this.content.options[i].label === this.originalDisplayAnswer.answerOption.label) {
+
+        if (this.originalDisplayAnswer.answerOption.label !== this.editDisplayAnswer.answerOption.label) {
+          this.content.options[i].label = this.editDisplayAnswer.answerOption.label;
+        }
+        if (this.originalDisplayAnswer.answerOption.points !== this.editDisplayAnswer.answerOption.points) {
+          this.content.options[i].points = this.editDisplayAnswer.answerOption.points;
+        }
+        if (this.originalDisplayAnswer.correct !== this.editDisplayAnswer.correct) {
+          if (!this.editDisplayAnswer.correct) {
+            for (let j = 0; i < this.content.correctOptionIndexes.length; j++) {
+              console.log(this.content.correctOptionIndexes);
+              if (this.content.correctOptionIndexes[j] === i && !this.editDisplayAnswer.correct) {
+                this.content.correctOptionIndexes.splice(j, 1);
+                console.log(this.content.correctOptionIndexes);
+              }
+            }
+          }
+          if (this.editDisplayAnswer.correct) {
+            this.content.correctOptionIndexes.push(i);
+          }
+        }
+      }
+    }
+    this.fillCorrectAnswers();
+  }
+
   deleteAnswer(label: string) {
     console.log('deleteAnswer: ' + label);
     console.log('Antwortmöglichkeiten vorher:');
@@ -132,7 +182,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
     if (this.lastDeletedDisplayAnswer.correct) {
       this.content.correctOptionIndexes.push(this.content.options.length - 1);
     }
-    this.notificationService.show('Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully recovered.')
+    this.notificationService.show('Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully recovered.');
     this.lastDeletedDisplayAnswer = null;
     this.fillCorrectAnswers();
   }
@@ -143,4 +193,4 @@ export class ContentChoiceCreatorComponent implements OnInit {
 }
 
 
-//TODO: nicht 2x die gleiche Antwort
+// TODO: nicht 2x die gleiche Antwort

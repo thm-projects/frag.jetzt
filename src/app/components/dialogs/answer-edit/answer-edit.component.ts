@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ContentChoiceCreatorComponent, DisplayAnswer } from '../../fragments/content-choice-creator/content-choice-creator.component';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-answer-edit',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./answer-edit.component.scss']
 })
 export class AnswerEditComponent implements OnInit {
+  answer: DisplayAnswer;
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<ContentChoiceCreatorComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
   ngOnInit() {
   }
 
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
