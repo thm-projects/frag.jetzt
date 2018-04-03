@@ -87,6 +87,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.newAnswerOptionPoints = '';
       return;
     }
+    for (let i = 0; i < this.content.options.length; i++) {
+      if (this.content.options[i].label.valueOf() === this.newAnswerOptionLabel.valueOf()) {
+        this.notificationService.show('Same answer label is not allowed.');
+        return;
+      }
+    }
     this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, this.newAnswerOptionPoints));
     if (this.newAnswerOptionChecked) {
       this.content.correctOptionIndexes.push(this.content.options.length - 1);
@@ -117,10 +123,10 @@ export class ContentChoiceCreatorComponent implements OnInit {
     for (let i = 0; i < this.content.options.length; i++) {
       if (this.content.options[i].label === this.originalDisplayAnswer.answerOption.label) {
 
-        if (this.originalDisplayAnswer.answerOption.label !== this.editDisplayAnswer.answerOption.label) {
+        if (this.originalDisplayAnswer.answerOption.label.valueOf() !== this.editDisplayAnswer.answerOption.label.valueOf()) {
           this.content.options[i].label = this.editDisplayAnswer.answerOption.label;
         }
-        if (this.originalDisplayAnswer.answerOption.points !== this.editDisplayAnswer.answerOption.points) {
+        if (this.originalDisplayAnswer.answerOption.points.valueOf() !== this.editDisplayAnswer.answerOption.points.valueOf()) {
           this.content.options[i].points = this.editDisplayAnswer.answerOption.points;
         }
         if (this.originalDisplayAnswer.correct !== this.editDisplayAnswer.correct) {
@@ -149,7 +155,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
     console.log('Richtige Antworten vorher:');
     console.log(this.content.correctOptionIndexes);
     for (let i = 0; i < this.content.options.length; i++) {
-      if (this.content.options[i].label === label) {
+      if (this.content.options[i].label.valueOf() === label.valueOf()) {
         console.log('found label: ' + label);
         this.lastDeletedDisplayAnswer = new DisplayAnswer(this.content.options[i], false);
         this.content.options.splice(i, 1);
@@ -177,6 +183,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
   recoverDeletedAnswer() {
     if (this.lastDeletedDisplayAnswer === null) {
       this.notificationService.show('Nothing to recover');
+    }
+    for (let i = 0; i < this.content.options.length; i++) {
+      if (this.content.options[i].label.valueOf() === this.lastDeletedDisplayAnswer.answerOption.label.valueOf()) {
+        this.notificationService.show('Same answer label is not allowed.');
+        return;
+      }
     }
     this.content.options.push(this.lastDeletedDisplayAnswer.answerOption);
     if (this.lastDeletedDisplayAnswer.correct) {
