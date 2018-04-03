@@ -80,6 +80,7 @@ import { AuthenticationInterceptor } from './interceptors/authentication.interce
 import { HeaderComponent } from './components/fragments/header/header.component';
 import { ContentLikertCreatorComponent } from './components/fragments/content-likert-creator/content-likert-creator.component';
 import { ContentYesNoCreatorComponent } from './components/fragments/content-yes-no-creator/content-yes-no-creator.component';
+import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edit.component';
 
 @NgModule({
   declarations: [
@@ -114,7 +115,8 @@ import { ContentYesNoCreatorComponent } from './components/fragments/content-yes
     ContentTextCreatorComponent,
     HeaderComponent,
     ContentLikertCreatorComponent,
-    ContentYesNoCreatorComponent
+    ContentYesNoCreatorComponent,
+    AnswerEditComponent
   ],
   entryComponents: [
     RegisterComponent,
