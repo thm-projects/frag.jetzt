@@ -25,6 +25,7 @@
           <mat-checkbox color="primary" [(ngModel)]="answer.correct" [checked]="answer.correct"
                         name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }} is {{ answer.correct }}
           </mat-checkbox>
+          <button mat-raised-button color="primary" (click)="deleteAnswer(answer.answerOption.label)">Delete</button>
         </mat-cell>
       </ng-container>
 
@@ -34,7 +35,7 @@
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="showRow(row)"></mat-row>
     </mat-table>
 
     <mat-divider></mat-divider>
@@ -60,5 +61,6 @@
     </div>
 
     <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer()" color="primary">Undo deletion</button>
   </div>
 </form>
