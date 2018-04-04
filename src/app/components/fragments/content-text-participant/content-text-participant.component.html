@@ -4,7 +4,7 @@
   <mat-divider></mat-divider>
   <mat-form-field class="input-block">
     <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="Your answer"></textarea>
-    <mat-chip-list *ngIf="isAnswerSend">
+    <mat-chip-list *ngIf="isAnswerSent">
       <mat-chip color="primary" selected="true">Answer sent</mat-chip>
     </mat-chip-list>
   </mat-form-field>

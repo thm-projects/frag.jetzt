@@ -18,7 +18,7 @@ export class ContentTextParticipantComponent implements OnInit {
     1);
 
   textAnswer = '';
-  isAnswerSend = false;
+  isAnswerSent = false;
 
   constructor(private answerService: ContentAnswerService,
               private notificationService: NotificationService) {
@@ -34,7 +34,7 @@ export class ContentTextParticipantComponent implements OnInit {
       this.textAnswer = '';
       return;
     }
-    this.isAnswerSend = true;
+    this.isAnswerSent = true;
     this.notificationService.show('Answer successfully sent.');
 /*    this.answerService.addAnswerText({
       id: '0',
