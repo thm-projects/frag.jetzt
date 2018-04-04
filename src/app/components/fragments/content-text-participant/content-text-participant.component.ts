@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
@@ -10,7 +10,9 @@ import { NotificationService } from '../../../services/util/notification.service
   styleUrls: ['./content-text-participant.component.scss']
 })
 export class ContentTextParticipantComponent implements OnInit {
-  content: ContentText = new ContentText('1',
+  @Input() content: ContentText;
+
+  dummyContent: ContentText = new ContentText('1',
     '1',
     '1',
     'Text Content 1',
@@ -36,15 +38,15 @@ export class ContentTextParticipantComponent implements OnInit {
     }
     this.isAnswerSent = true;
     this.notificationService.show('Answer successfully sent.');
-/*    this.answerService.addAnswerText({
-      id: '0',
-      revision: this.content.revision,
-      contentId: this.content.contentId,
-      round: this.content.round,
-      subject: this.content.subject,
-      body: answer,
-      read: 'false',
-      creationTimestamp: new Date()
-    } as AnswerText).subscribe(); */
+    /*    this.answerService.addAnswerText({
+          id: '0',
+          revision: this.content.revision,
+          contentId: this.content.contentId,
+          round: this.content.round,
+          subject: this.content.subject,
+          body: answer,
+          read: 'false',
+          creationTimestamp: new Date()
+        } as AnswerText).subscribe(); */
   }
 }

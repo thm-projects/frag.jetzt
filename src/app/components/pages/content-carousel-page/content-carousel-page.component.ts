@@ -37,7 +37,7 @@ export class ContentCarouselPageComponent implements OnInit {
       'SingleChoice Subject',
       'SingleChoide Body',
       1,
-      [new AnswerOption('yes', ''), new AnswerOption('no', '')],
+      [new AnswerOption('may', ''), new AnswerOption('not', '')],
       [],
       false),
     new ContentText('1',

@@ -3,8 +3,8 @@
     <mat-tab-group>
 
       <mat-tab *ngFor="let content of contents" label="{{content.subject}}">
-        <app-content-choice-participant *ngIf="content.format === CHOICE"></app-content-choice-participant>
-        <app-content-text-participant *ngIf="content.format === TEXT"></app-content-text-participant>
+        <app-content-choice-participant [content]="content" *ngIf="content.format === CHOICE"></app-content-choice-participant>
+        <app-content-text-participant [content]="content" *ngIf="content.format === TEXT"></app-content-text-participant>
       </mat-tab>
 
       <!--

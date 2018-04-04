@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
@@ -20,7 +20,9 @@ class CheckedAnswer {
   styleUrls: ['./content-choice-participant.component.scss']
 })
 export class ContentChoiceParticipantComponent implements OnInit {
-  content: ContentChoice = new ContentChoice('2',
+  @Input() content: ContentChoice;
+
+  dummyContent: ContentChoice = new ContentChoice('2',
     '1',
     '1',
     'Choice Content 1',
