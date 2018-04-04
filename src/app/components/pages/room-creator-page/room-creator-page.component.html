@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
-    <mat-card *ngIf="room && !modify">
+    <mat-card *ngIf="room">
       <mat-card-header>
         <mat-card-title>
           <h3 class="subheading-2">{{ room.name }}</h3>
