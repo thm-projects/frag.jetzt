@@ -64,6 +64,10 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   submitContent() {
+    if (this.singleChoice && this.content.correctOptionIndexes.length !== 1) {
+      this.notificationService.show('In single choice mode you have to select 1 true answer.');
+      return;
+    }
     /*   if (this.content.contentId === '0') {
          this.contentService.addContent(this.content).subscribe();
        } else {
@@ -123,7 +127,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
   editCheckChanges() {
     for (let i = 0; i < this.content.options.length; i++) {
       if (this.content.options[i].label === this.originalDisplayAnswer.answerOption.label) {
-
         if (this.originalDisplayAnswer.answerOption.label.valueOf() !== this.editDisplayAnswer.answerOption.label.valueOf()) {
           this.content.options[i].label = this.editDisplayAnswer.answerOption.label;
         }
@@ -133,15 +136,18 @@ export class ContentChoiceCreatorComponent implements OnInit {
         if (this.originalDisplayAnswer.correct !== this.editDisplayAnswer.correct) {
           if (!this.editDisplayAnswer.correct) {
             for (let j = 0; i < this.content.correctOptionIndexes.length; j++) {
-              console.log(this.content.correctOptionIndexes);
               if (this.content.correctOptionIndexes[j] === i && !this.editDisplayAnswer.correct) {
                 this.content.correctOptionIndexes.splice(j, 1);
-                console.log(this.content.correctOptionIndexes);
               }
             }
           }
           if (this.editDisplayAnswer.correct) {
-            this.content.correctOptionIndexes.push(i);
+            if (this.singleChoice && this.content.correctOptionIndexes.length > 0) {
+              this.notificationService.show('In single mode is only 1 selected answer allowed.');
+              this.editDisplayAnswer.correct = false;
+            } else {
+              this.content.correctOptionIndexes.push(i);
+            }
           }
         }
       }
@@ -150,14 +156,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   deleteAnswer(label: string) {
-    console.log('deleteAnswer: ' + label);
-    console.log('Antwortmöglichkeiten vorher:');
-    console.log(this.content.options);
-    console.log('Richtige Antworten vorher:');
-    console.log(this.content.correctOptionIndexes);
     for (let i = 0; i < this.content.options.length; i++) {
       if (this.content.options[i].label.valueOf() === label.valueOf()) {
-        console.log('found label: ' + label);
         this.lastDeletedDisplayAnswer = new DisplayAnswer(this.content.options[i], false);
         this.content.options.splice(i, 1);
         for (let j = 0; j < this.content.correctOptionIndexes.length; j++) {
@@ -171,17 +171,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
         }
       }
     }
-    console.log('Antwortmöglichkeiten danach:');
-    console.log(this.content.options);
-    console.log('Richtige Antworten danach:');
-    console.log(this.content.correctOptionIndexes);
     this.fillCorrectAnswers();
-    console.log('Last removed item: ');
-    console.log(this.lastDeletedDisplayAnswer);
     this.notificationService.show('Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully deleted.');
   }
 
   recoverDeletedAnswer() {
+    let msgAddon = 'Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully recovered.';
     if (this.lastDeletedDisplayAnswer === null) {
       this.notificationService.show('Nothing to recover');
     }
@@ -193,9 +188,13 @@ export class ContentChoiceCreatorComponent implements OnInit {
     }
     this.content.options.push(this.lastDeletedDisplayAnswer.answerOption);
     if (this.lastDeletedDisplayAnswer.correct) {
-      this.content.correctOptionIndexes.push(this.content.options.length - 1);
+      if (this.singleChoice && this.content.correctOptionIndexes.length > 0) {
+        msgAddon = 'In single mode is only 1 true answer allowed. Recovered item is set to false.';
+      } else {
+        this.content.correctOptionIndexes.push(this.content.options.length - 1);
+      }
     }
-    this.notificationService.show('Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully recovered.');
+    this.notificationService.show(msgAddon);
     this.lastDeletedDisplayAnswer = null;
     this.fillCorrectAnswers();
   }
@@ -204,6 +203,3 @@ export class ContentChoiceCreatorComponent implements OnInit {
     console.log(row);
   }
 }
-
-
-// TODO: nicht 2x die gleiche Antwort
