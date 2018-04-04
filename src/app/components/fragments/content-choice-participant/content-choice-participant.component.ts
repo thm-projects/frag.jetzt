@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
+import { NotificationService } from '../../../services/util/notification.service';
 
 class CheckedAnswer {
   answerOption: AnswerOption;
@@ -32,10 +33,12 @@ export class ContentChoiceParticipantComponent implements OnInit {
       new AnswerOption('Option 4', '30')
     ],
     [2, 3, 4],
-    true);
+    false);
   checkedAnswers: CheckedAnswer[] = [];
+  isAnswerSent = false;
 
-  constructor(private answerService: ContentAnswerService) {
+  constructor(private answerService: ContentAnswerService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -55,6 +58,13 @@ export class ContentChoiceParticipantComponent implements OnInit {
         selectedAnswers.push(i);
       }
     }
+    if (!this.content.multiple && selectedAnswers.length !== 1) {
+      this.notificationService.show('In single choice mode is only 1 selection allowed');
+      this.isAnswerSent = false;
+      return;
+    }
+    this.isAnswerSent = true;
+    this.notificationService.show('Answer successfully sent.');
     // ToDo: Implement function in service
     // this.answerService.addChoiceAnswer(selectedAnswers);
   }

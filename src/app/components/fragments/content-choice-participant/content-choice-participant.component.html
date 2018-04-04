@@ -4,8 +4,13 @@
   <mat-divider></mat-divider>
   <mat-list>
     <mat-list-item *ngFor="let answer of checkedAnswers">
-      <mat-checkbox color="primary" [(ngModel)]="answer.checked" name="answer">{{ answer.answerOption.label }}</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="answer.checked" name="answer">{{ answer.answerOption.label }}
+      </mat-checkbox>
     </mat-list-item>
   </mat-list>
+  <mat-chip-list *ngIf="isAnswerSent">
+    <mat-chip color="primary" selected="true">Answer sent</mat-chip>
+  </mat-chip-list>
+  <mat-divider></mat-divider>
   <button mat-raised-button color="primary">Send answer</button>
 </form>
