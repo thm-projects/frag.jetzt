@@ -16,14 +16,19 @@ export class ContentTextParticipantComponent implements OnInit {
     'This is the body of Text Content 1',
     1);
 
+  textAnswer: string;
+  isAnswerSend = false;
+
   constructor(private answerService: ContentAnswerService) {
   }
 
   ngOnInit() {
   }
 
-  submitAnswer(answer: string) {
-    this.answerService.addAnswerText({
+//  submitAnswer(answer: string) {
+  submitAnswer() {
+    this.isAnswerSend = true;
+/*    this.answerService.addAnswerText({
       id: '0',
       revision: this.content.revision,
       contentId: this.content.contentId,
@@ -32,6 +37,6 @@ export class ContentTextParticipantComponent implements OnInit {
       body: answer,
       read: 'false',
       creationTimestamp: new Date()
-    } as AnswerText).subscribe();
+    } as AnswerText).subscribe(); */
   }
 }
