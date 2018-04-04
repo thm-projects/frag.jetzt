@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-content-text-participant',
@@ -16,10 +17,11 @@ export class ContentTextParticipantComponent implements OnInit {
     'This is the body of Text Content 1',
     1);
 
-  textAnswer: string;
+  textAnswer = '';
   isAnswerSend = false;
 
-  constructor(private answerService: ContentAnswerService) {
+  constructor(private answerService: ContentAnswerService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -27,7 +29,13 @@ export class ContentTextParticipantComponent implements OnInit {
 
 //  submitAnswer(answer: string) {
   submitAnswer() {
+    if (this.textAnswer.trim().valueOf() === '') {
+      this.notificationService.show('No empty answer allowed.');
+      this.textAnswer = '';
+      return;
+    }
     this.isAnswerSend = true;
+    this.notificationService.show('Answer successfully sent.');
 /*    this.answerService.addAnswerText({
       id: '0',
       revision: this.content.revision,
