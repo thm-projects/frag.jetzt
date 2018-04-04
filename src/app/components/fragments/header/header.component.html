@@ -5,10 +5,20 @@
     </button>
     <span class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
+
+    <mat-menu #langMenu="matMenu">
+      <button mat-menu-item (click)="useLanguage('de')">{{ 'header.german' | translate }}</button>
+      <button mat-menu-item (click)="useLanguage('en')">{{ 'header.english' | translate }}</button>
+    </mat-menu>
+
+    <button mat-icon-button [matMenuTriggerFor]="langMenu">
+      <mat-icon>language</mat-icon>
+    </button>
+
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>
-        <span>Logout</span>
+        <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
     <button *ngIf="user" mat-button [matMenuTriggerFor]="appMenu">

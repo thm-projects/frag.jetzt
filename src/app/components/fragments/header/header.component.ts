@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,8 @@ export class HeaderComponent implements OnInit {
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
               private notification: NotificationService,
-              public router: Router) {
+              public router: Router,
+              private translationService: TranslateService) {
   }
 
   ngOnInit() {
@@ -50,5 +52,9 @@ export class HeaderComponent implements OnInit {
         route = '/';
     }
     this.router.navigate([route]);
+  }
+
+  useLanguage(language: string) {
+    this.translationService.use(language);
   }
 }
