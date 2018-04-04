@@ -11,29 +11,32 @@ const httpOptions = {
 
 @Injectable()
 export class ContentService extends BaseHttpService {
-  private contentUrl = 'api/content/';
+  private apiUrl = {
+    base: 'https://arsnova-staging.mni.thm.de/api',
+    content: '/content'
+  };
 
   constructor(private http: HttpClient) {
     super();
   }
 
   getContents(roomId: string): Observable<Content[]> {
-    const url = `${this.contentUrl}/?roomId=${roomId}`;
+    const url = `${this.apiUrl.base}/?roomId=${roomId}`;
     return this.http.get<Content[]>(url).pipe(
       catchError(this.handleError('getContents', []))
     );
   }
 
   addContent(content: Content): Observable<Content> {
-    return this.http.post<Content>(this.contentUrl,
-      { roomId: content.roomId, subject: content.subject, body: content.body, type: 'Content', format: content.format  },
+    return this.http.post<Content>(this.apiUrl.base + this.apiUrl.content + '/',
+      { roomId: content.roomId, subject: content.subject, body: content.body, type: 'Content', format: content.format },
       httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
     );
   }
 
   getContent(contentId: string): Observable<Content> {
-    const url = `${this.contentUrl}/?contentId=${contentId}`;
+    const url = `${this.apiUrl.base}/?contentId=${contentId}`;
     return this.http.get<Content>(url).pipe(
       catchError(this.handleError<Content>(`getContent id=${contentId}`))
     );
