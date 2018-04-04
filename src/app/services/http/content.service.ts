@@ -11,7 +11,7 @@ const httpOptions = {
 
 @Injectable()
 export class ContentService extends BaseHttpService {
-  private contentUrl = 'api/contents';
+  private contentUrl = 'api/content/';
 
   constructor(private http: HttpClient) {
     super();
@@ -25,7 +25,9 @@ export class ContentService extends BaseHttpService {
   }
 
   addContent(content: Content): Observable<Content> {
-    return this.http.post<Content>(this.contentUrl, content, httpOptions).pipe(
+    return this.http.post<Content>(this.contentUrl,
+      { roomId: content.roomId, subject: content.subject, body: content.body, type: 'Content', format: content.format  },
+      httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
     );
   }

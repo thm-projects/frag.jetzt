@@ -14,6 +14,7 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
 })
 export class ContentTextCreatorComponent implements OnInit {
 
+  roomId: string;
   content: ContentText = new ContentText('1',
     '1',
     '0',
@@ -32,9 +33,7 @@ export class ContentTextCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.content.roomId = params['roomId'];
-    });
+    this.roomId = this.route.snapshot.paramMap.get('roomId');
   }
 
   resetAfterSubmit() {
@@ -43,16 +42,15 @@ export class ContentTextCreatorComponent implements OnInit {
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  submitContent() {
+  submitContent(subject: string, body: string) {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
     this.notificationService.show('Content submitted.');
-    // ToDo: Check api call
-    // this.contentService.addContent(this.content);
-    // For Testing:
-    // console.log(this.content);
+    this.contentService.addContent(new ContentText(
+      '1', '1', this.roomId, subject, body, 1
+    )).subscribe();
     this.resetAfterSubmit();
   }
 
