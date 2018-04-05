@@ -77,13 +77,13 @@ export class ContentChoiceCreatorComponent implements OnInit {
     if (this.multipleChoice) {
       this.content.multiple = true;
     }
+    this.notificationService.show('Content submitted.');
     /*   if (this.content.contentId === '0') {
          this.contentService.addContent(this.content).subscribe();
        } else {
          // ToDo: Implement function in service
          // this.contentService.updateContent(this.content).subscribe();
        } */
-    console.log('submit');
   }
 
   addAnswer() {
@@ -207,6 +207,26 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.fillCorrectAnswers();
   }
 
+  switchValue(label: string) {
+    for (let i = 0; i < this.content.options.length; i++) {
+      if (this.content.options[i].label.valueOf() === label.valueOf()) {
+        if (this.content.correctOptionIndexes.length === 0) {
+          this.content.correctOptionIndexes.push(i);
+          this.fillCorrectAnswers();
+          console.log(this.content.correctOptionIndexes);
+          return;
+        }
+        const index = this.content.correctOptionIndexes.indexOf(i);
+        if (index === -1) {
+          this.content.correctOptionIndexes.push(i);
+        } else {
+          this.content.correctOptionIndexes.splice(index, 1);
+        }
+      }
+    }
+    this.fillCorrectAnswers();
+  }
+
   reset($event) {
     $event.preventDefault();
     this.content.subject = '';
@@ -215,9 +235,5 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
     this.notificationService.show('Reset all inputs to default.');
-  }
-
-  showRow(row: any) {
-    console.log(row);
   }
 }
