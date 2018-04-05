@@ -74,12 +74,9 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  updateRoom(room: Room): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${this.apiUrl.rooms}/~${room.shortId}`;
-    return this.http.put(connectionUrl, {
-      ownerId: this.authService.getUser().id,
-      abbreviation: room.abbreviation, name: room.name, description: room.description
-    }, httpOptions).pipe(
+  updateRoom(updatedRoom: Room): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base }${this.apiUrl.rooms}/~${updatedRoom.shortId}`;
+    return this.http.put(connectionUrl, updatedRoom , httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<any>('updateRoom'))
     );
