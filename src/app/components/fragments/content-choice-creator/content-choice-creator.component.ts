@@ -34,7 +34,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
     [],
     true);
 
-  displayedColumns = ['label', 'points'];
+  displayedColumns = ['label', 'points', 'actions'];
 
   displayAnswers: DisplayAnswer[] = [];
   lastDeletedDisplayAnswer: DisplayAnswer;
