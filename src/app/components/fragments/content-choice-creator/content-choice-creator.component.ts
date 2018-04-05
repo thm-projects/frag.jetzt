@@ -24,7 +24,6 @@ export class DisplayAnswer {
 export class ContentChoiceCreatorComponent implements OnInit {
   singleChoice: boolean;
   multipleChoice: boolean;
-  selected = false;
   content: ContentChoice = new ContentChoice('0',
     '1',
     '',
@@ -64,9 +63,19 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   submitContent() {
+    if (this.content.options.length === 0) {
+      this.notificationService.show('Choice content needs answers. Please add some answers.');
+      return;
+    }
     if (this.singleChoice && this.content.correctOptionIndexes.length !== 1) {
       this.notificationService.show('In single choice mode you have to select 1 true answer.');
       return;
+    }
+    if (this.singleChoice) {
+      this.content.multiple = false;
+    }
+    if (this.multipleChoice) {
+      this.content.multiple = true;
     }
     /*   if (this.content.contentId === '0') {
          this.contentService.addContent(this.content).subscribe();
@@ -106,7 +115,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.newAnswerOptionLabel = '';
     this.newAnswerOptionPoints = '';
     this.fillCorrectAnswers();
-    this.submitContent();
   }
 
   openAnswerModificationDialog(label: string, points: string, correct: boolean) {
@@ -197,6 +205,16 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.notificationService.show(msgAddon);
     this.lastDeletedDisplayAnswer = null;
     this.fillCorrectAnswers();
+  }
+
+  reset($event) {
+    $event.preventDefault();
+    this.content.subject = '';
+    this.content.body = '';
+    this.content.options = [];
+    this.content.correctOptionIndexes = [];
+    this.fillCorrectAnswers();
+    this.notificationService.show('Reset all inputs to default.');
   }
 
   showRow(row: any) {

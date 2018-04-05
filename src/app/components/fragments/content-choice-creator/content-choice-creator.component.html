@@ -1,16 +1,10 @@
 <form (ngSubmit)="submitContent()">
   <section class="choice-section" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-    <mat-checkbox *ngIf="!selected" (click)="singleChoice = true; multipleChoice = false; selected = true"
+    <mat-checkbox (click)="singleChoice = true; multipleChoice = false;"
                   color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice
     </mat-checkbox>
-    <mat-checkbox *ngIf="!selected" (click)="multipleChoice = true; singleChoice = false; selected = true"
+    <mat-checkbox (click)="multipleChoice = true; singleChoice = false;"
                   color="primary" [(ngModel)]="multipleChoice" name="multiChoice">Multiple choice
-    </mat-checkbox>
-    <mat-checkbox *ngIf="selected" color="primary" [(ngModel)]="singleChoice" name="singleChoice" disabled>
-      Single choice
-    </mat-checkbox>
-    <mat-checkbox *ngIf="selected" color="primary" [(ngModel)]="multipleChoice" name="multiChoice" disabled>
-      Multiple choice
     </mat-checkbox>
   </section>
   <div *ngIf="singleChoice || multipleChoice">
@@ -74,6 +68,7 @@
     </div>
 
     <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
     <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer()" color="primary">Undo
       deletion
     </button>
