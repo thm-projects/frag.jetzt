@@ -13,7 +13,8 @@ const httpOptions = {
 export class ContentService extends BaseHttpService {
   private apiUrl = {
     base: 'https://arsnova-staging.mni.thm.de/api',
-    content: '/content'
+    content: '/content',
+    find: '/find'
   };
 
   constructor(private http: HttpClient) {
@@ -21,15 +22,19 @@ export class ContentService extends BaseHttpService {
   }
 
   getContents(roomId: string): Observable<Content[]> {
-    const url = `${this.apiUrl.base}/?roomId=${roomId}`;
-    return this.http.get<Content[]>(url).pipe(
+    const url = this.apiUrl.base + this.apiUrl.content + this.apiUrl.find;
+    return this.http.post<Content[]>(url, {
+      properties: { type: 'Content' },
+      externalFilters: { roomId: roomId }
+    }, httpOptions).pipe(
       catchError(this.handleError('getContents', []))
     );
   }
 
   addContent(content: Content): Observable<Content> {
     return this.http.post<Content>(this.apiUrl.base + this.apiUrl.content + '/',
-      { roomId: content.roomId, subject: content.subject, body: content.body, type: 'Content', format: content.format },
+      { roomId: content.roomId, subject: content.subject, body: content.body,
+        type: 'Content', format: content.format, group: 'preparation' },
       httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
     );
