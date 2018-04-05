@@ -6,7 +6,7 @@
     <span class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
 
-    <mat-menu #langMenu="matMenu">
+    <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="useLanguage('de')">{{ 'header.german' | translate }}</button>
       <button mat-menu-item (click)="useLanguage('en')">{{ 'header.english' | translate }}</button>
     </mat-menu>

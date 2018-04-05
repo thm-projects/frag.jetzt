@@ -3,6 +3,7 @@ import { ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef } from '@angular/mater
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -41,7 +42,8 @@ export class RegisterComponent implements OnInit {
 
   matcher = new RegisterErrorStateMatcher();
 
-  constructor(public authenticationService: AuthenticationService,
+  constructor(private translationService: TranslateService,
+              public authenticationService: AuthenticationService,
               public notificationService: NotificationService,
               public dialogRef: MatDialogRef<RegisterComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -59,11 +61,15 @@ export class RegisterComponent implements OnInit {
       !this.password1FormControl.hasError('required') &&
       !this.password2FormControl.hasError('required') && !this.password2FormControl.hasError('passwordIsEqual')) {
       this.authenticationService.register(username, password1).subscribe(() => {
-        this.notificationService.show('Successfully registered. Please check your mail!');
+        this.translationService.get('register.register-successful').subscribe(message => {
+          this.notificationService.show(message);
+        });
         this.dialogRef.close();
       });
     } else {
-      this.notificationService.show('Please fit the requirements shown above.');
+      this.translationService.get('register.register-unsuccessful').subscribe(message => {
+        this.notificationService.show(message);
+      });
     }
   }
 }
