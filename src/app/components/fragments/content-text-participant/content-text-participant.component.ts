@@ -38,16 +38,16 @@ export class ContentTextParticipantComponent implements OnInit {
     }
     this.isAnswerSent = true;
     this.notificationService.show('Answer successfully sent.');
-    /*    this.answerService.addAnswerText({
+        this.answerService.addAnswerText({
           id: '0',
           revision: this.content.revision,
           contentId: this.content.contentId,
           round: this.content.round,
           subject: this.content.subject,
-          body: answer,
+          body: this.textAnswer,
           read: 'false',
           creationTimestamp: new Date()
-        } as AnswerText).subscribe(); */
+        } as AnswerText).subscribe();
   }
 
   abstain($event) {
