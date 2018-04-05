@@ -22,8 +22,8 @@ export class ContentService extends BaseHttpService {
   }
 
   getContents(roomId: string): Observable<Content[]> {
-    const url = this.apiUrl.base + this.apiUrl.content + this.apiUrl.find;
-    return this.http.post<Content[]>(url, {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + this.apiUrl.find;
+    return this.http.post<Content[]>(connectionUrl, {
       properties: { type: 'Content' },
       externalFilters: { roomId: roomId }
     }, httpOptions).pipe(
@@ -32,7 +32,8 @@ export class ContentService extends BaseHttpService {
   }
 
   addContent(content: Content): Observable<Content> {
-    return this.http.post<Content>(this.apiUrl.base + this.apiUrl.content + '/',
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
+    return this.http.post<Content>(connectionUrl,
       { roomId: content.roomId, subject: content.subject, body: content.body,
         type: 'Content', format: content.format, group: 'preparation' },
       httpOptions).pipe(
@@ -41,8 +42,8 @@ export class ContentService extends BaseHttpService {
   }
 
   getContent(contentId: string): Observable<Content> {
-    const url = `${this.apiUrl.base}/?contentId=${contentId}`;
-    return this.http.get<Content>(url).pipe(
+    const connectionUrl = `${this.apiUrl.base}/?contentId=${contentId}`;
+    return this.http.get<Content>(connectionUrl).pipe(
       catchError(this.handleError<Content>(`getContent id=${contentId}`))
     );
   }
