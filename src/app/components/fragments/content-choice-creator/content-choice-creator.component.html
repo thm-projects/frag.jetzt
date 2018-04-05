@@ -4,13 +4,13 @@
                   color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice
     </mat-checkbox>
     <mat-checkbox *ngIf="!selected" (click)="multipleChoice = true; singleChoice = false; selected = true"
-                  color="primary" [(ngModel)]="multipleChoice" name="multiChoice">Multi choice
+                  color="primary" [(ngModel)]="multipleChoice" name="multiChoice">Multiple choice
     </mat-checkbox>
     <mat-checkbox *ngIf="selected" color="primary" [(ngModel)]="singleChoice" name="singleChoice" disabled>
       Single choice
     </mat-checkbox>
     <mat-checkbox *ngIf="selected" color="primary" [(ngModel)]="multipleChoice" name="multiChoice" disabled>
-      Multi choice
+      Multiple choice
     </mat-checkbox>
   </section>
   <div *ngIf="singleChoice || multipleChoice">
