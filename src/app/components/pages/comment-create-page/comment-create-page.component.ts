@@ -50,7 +50,7 @@ export class CommentCreatePageComponent implements OnInit {
       read: false,
       revision: ''
     } as Comment).subscribe(() => {
-      this.child.getComments(this.roomId);
+      this.child.getComments();
       this.notification.show(`Comment '${subject}' successfully created.`);
     });
   }

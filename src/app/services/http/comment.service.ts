@@ -47,10 +47,10 @@ export class CommentService extends BaseHttpService {
   }
 
   getComments(roomId: string): Observable<Comment[]> {
-    const url = `${this.apiUrl.base + this}/?roomId=${roomId}`;
+    const url = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
     return this.http.post<Comment[]>(url, {
-      properties: {},
-      externalFilters: { roomId: roomId }
+      properties: { roomId: roomId },
+      externalFilters: {}
     }, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
@@ -66,7 +66,7 @@ export class CommentService extends BaseHttpService {
   }
 
   updateComment(comment: Comment): Observable<any> {
-    return this.http.put(this.apiUrl + this.apiUrl.comment + comment.id, comment, httpOptions).pipe(
+    return this.http.put(this.apiUrl + this.apiUrl.comment + '/' + comment.id, comment, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('updateComment'))
     );

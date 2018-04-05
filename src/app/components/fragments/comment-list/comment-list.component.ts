@@ -20,6 +20,7 @@ export class CommentListComponent implements OnInit {
   user: User;
   comments: Comment[];
   isLoading = true;
+  roomId: string;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -32,32 +33,16 @@ export class CommentListComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
     this.user = this.authenticationService.getUser();
-    this.route.params.subscribe(params => {
-      this.getRoom(params['roomId']);
-    });
+    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.getComments();
   }
 
-  getRoom(id: string): void {
-    this.roomService.getRoom(id).subscribe(
-      params => {
-        this.getComments(params['id']);
-      });
-  }
-
-  getComments(roomId: string): void {
-    if (this.userRole === UserRole.CREATOR) {
-      this.commentService.getComments(roomId)
+  getComments(): void {
+      this.commentService.getComments(this.roomId)
         .subscribe(comments => {
           this.comments = comments;
           this.isLoading = false;
         });
-    } else if (this.userRole === UserRole.PARTICIPANT) {
-      this.commentService.searchComments(roomId, this.user.id)
-        .subscribe(comments => {
-          this.comments = comments;
-          this.isLoading = false;
-        });
-    }
   }
 
   setRead(comment: Comment): void {
