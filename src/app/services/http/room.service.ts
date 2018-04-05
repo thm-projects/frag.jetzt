@@ -56,26 +56,26 @@ export class RoomService extends BaseHttpService {
   }
 
   getRoom(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.rooms }/~${id}`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
-      catchError(this.handleError<Room>(`getRoom id=${id}`))
+      catchError(this.handleError<Room>(`getRoom id=${ id }`))
     );
   }
 
   addToHistory(roomId: string): void {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.user }/${this.authService.getUser().id}/roomHistory`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
     this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(r => console.log(r));
   }
 
   getRoomById(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.rooms }/${id}`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
-      catchError(this.handleError<Room>(`getRoom id=${id}`))
+      catchError(this.handleError<Room>(`getRoom id=${ id }`))
     );
   }
 
   updateRoom(updatedRoom: Room): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${this.apiUrl.rooms}/~${updatedRoom.shortId}`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ updatedRoom.shortId }`;
     return this.http.put(connectionUrl, updatedRoom , httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<any>('updateRoom'))
@@ -83,7 +83,7 @@ export class RoomService extends BaseHttpService {
   }
 
   deleteRoom(room: Room): Observable<Room> {
-    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.rooms}/${room.id}`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ room.id }`;
     return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))
