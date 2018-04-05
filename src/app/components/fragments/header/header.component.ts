@@ -20,6 +20,8 @@ export class HeaderComponent implements OnInit {
               private notification: NotificationService,
               public router: Router,
               private translationService: TranslateService) {
+
+    translationService.setDefaultLang('en');
   }
 
   ngOnInit() {
