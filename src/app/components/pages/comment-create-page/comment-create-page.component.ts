@@ -17,8 +17,9 @@ import { CommentListComponent } from '../../fragments/comment-list/comment-list.
 })
 export class CommentCreatePageComponent implements OnInit {
   @ViewChild(CommentListComponent) child: CommentListComponent;
-  @Input() room: Room;
+  roomId: string;
   user: User;
+  private date = new Date(Date.now());
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -30,13 +31,7 @@ export class CommentCreatePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUser();
-    this.route.params.subscribe(params => {
-      this.getRoom(params['roomId']);
-    });
-  }
-
-  getRoom(id: string): void {
-    this.roomService.getRoom(id).subscribe(room => this.room = room);
+    this.roomId = this.route.snapshot.paramMap.get('roomId');
   }
 
   send(subject: string, body: string): void {
@@ -47,13 +42,15 @@ export class CommentCreatePageComponent implements OnInit {
     }
     this.commentService.addComment({
       id: '',
-      roomId: this.room.id,
+      roomId: this.roomId,
       userId: this.user.id,
       subject: subject,
       body: body,
-      creationTimestamp: new Date(Date.now())
+      creationTimestamp: this.date.getTime(),
+      read: false,
+      revision: ''
     } as Comment).subscribe(() => {
-      this.child.getComments(this.room.id);
+      this.child.getComments(this.roomId);
       this.notification.show(`Comment '${subject}' successfully created.`);
     });
   }

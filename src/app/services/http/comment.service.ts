@@ -24,7 +24,10 @@ export class CommentService extends BaseHttpService {
   /** TODO: getComment().. **/
 
   addComment(comment: Comment): Observable<Comment> {
-    return this.http.post<Comment>(this.apiUrl.base + this.apiUrl.comment + '/', comment, httpOptions).pipe(
+    return this.http.post<Comment>(this.apiUrl.base + this.apiUrl.comment + '/',
+      { roomId: comment.roomId, subject: comment.subject, body: comment.body,
+        read: comment.read, creationTimestamp: comment.creationTimestamp
+      }, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment>('addComment'))
     );
