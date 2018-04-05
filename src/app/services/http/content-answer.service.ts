@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
+import { AnswerChoice } from '../../models/answer-choice';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -34,6 +36,14 @@ export class ContentAnswerService extends BaseHttpService {
   addAnswerText(answerText: AnswerText): Observable<AnswerText> {
     return this.http.post<AnswerText>(this.textAnswerUrl, answerText, httpOptions).pipe(
       catchError(this.handleError<AnswerText>('addAnswerText'))
+    );
+  }
+
+  addAnswerChoice(answerChoice: AnswerChoice): Observable<AnswerChoice> {
+    // Dummy method copied from addAnswerText.
+    // Todo: Implement correct method with api
+    return this.http.post<AnswerChoice>(this.textAnswerUrl, answerChoice, httpOptions).pipe(
+      catchError(this.handleError<AnswerChoice>('addAnswerText'))
     );
   }
 
