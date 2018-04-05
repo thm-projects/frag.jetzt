@@ -4,6 +4,8 @@ import { ContentType } from '../../../models/content-type.enum';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentText } from '../../../models/content-text';
+import { ContentService } from '../../../services/http/content.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-content-carousel-page',
@@ -46,11 +48,18 @@ export class ContentCarouselPageComponent implements OnInit {
       'TextContent Subject',
       'TextContent Body',
       1)
-];
+  ];
 
-  constructor() {
+  constructor(private contentService: ContentService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      console.log(params['roomId']);
+/*      this.contentService.getContents(params['roomId']).subscribe(result => {
+        this.contents = result;
+      }); */
+    });
   }
 }
