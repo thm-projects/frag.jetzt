@@ -12,5 +12,6 @@
     <mat-chip color="primary" selected="true">Answer sent</mat-chip>
   </mat-chip-list>
   <mat-divider></mat-divider>
-  <button mat-raised-button color="primary">Send answer</button>
+  <button mat-raised-button type="submit" color="primary">Submit</button>
+  <button mat-raised-button (click)="abstain($event)" color="primary">Abstain</button>
 </form>

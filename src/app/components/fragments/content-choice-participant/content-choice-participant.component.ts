@@ -70,4 +70,9 @@ export class ContentChoiceParticipantComponent implements OnInit {
     // ToDo: Implement function in service
     // this.answerService.addChoiceAnswer(selectedAnswers);
   }
+
+  abstain($event) {
+    $event.preventDefault();
+    console.log('abstain');
+  }
 }

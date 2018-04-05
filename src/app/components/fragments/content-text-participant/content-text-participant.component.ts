@@ -49,4 +49,9 @@ export class ContentTextParticipantComponent implements OnInit {
           creationTimestamp: new Date()
         } as AnswerText).subscribe(); */
   }
+
+  abstain($event) {
+    $event.preventDefault();
+    console.log('abstain');
+  }
 }
