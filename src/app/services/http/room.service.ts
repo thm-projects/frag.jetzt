@@ -67,13 +67,6 @@ export class RoomService extends BaseHttpService {
     this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(r => console.log(r));
   }
 
-  getRoomById(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ id }`;
-    return this.http.get<Room>(connectionUrl).pipe(
-      catchError(this.handleError<Room>(`getRoom id=${ id }`))
-    );
-  }
-
   updateRoom(updatedRoom: Room): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ updatedRoom.shortId }`;
     return this.http.put(connectionUrl, updatedRoom , httpOptions).pipe(
