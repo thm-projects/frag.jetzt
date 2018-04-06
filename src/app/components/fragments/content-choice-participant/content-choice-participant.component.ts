@@ -3,7 +3,6 @@ import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { AnswerText } from '../../../models/answer-text';
 import { AnswerChoice } from '../../../models/answer-choice';
 import { ContentType } from '../../../models/content-type.enum';
 
@@ -93,7 +92,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
     /*
     this.answerService.addAnswerChoice({
       id: '0',
-      revision: this.content.revision,
+      revision: '0',
       contentId: this.content.contentId,
       round: this.content.round,
       selectedChoiceIndexes: selectedAnswers,
