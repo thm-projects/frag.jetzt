@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
+import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
   selector: 'app-content-likert-creator',
@@ -25,12 +26,13 @@ export class ContentLikertCreatorComponent implements OnInit {
     1,
     [],
     [],
-    false);
+    false,
+    ContentType.SCALE);
 
   displayedColumns = ['label'];
 
   displayAnswers: DisplayAnswer[] = [];
-  newAnswerOptionPoints = '';
+  newAnswerOptionPoints = '0';
 
   constructor() {
   }

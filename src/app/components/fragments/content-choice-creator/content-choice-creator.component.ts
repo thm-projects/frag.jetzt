@@ -5,6 +5,7 @@ import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
 import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.component';
+import { ContentType } from '../../../models/content-type.enum';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -32,7 +33,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
     1,
     [],
     [],
-    true);
+    true,
+    ContentType.CHOICE);
 
   displayedColumns = ['label', 'points', 'actions'];
 
@@ -233,9 +235,11 @@ export class ContentChoiceCreatorComponent implements OnInit {
     }
     if (this.singleChoice) {
       this.content.multiple = false;
+      this.content.format = ContentType.BINARY;
     }
     if (this.multipleChoice) {
       this.content.multiple = true;
+      this.content.format = ContentType.CHOICE;
     }
     this.notificationService.show('Content submitted.');
     /*   if (this.content.contentId === '0') {

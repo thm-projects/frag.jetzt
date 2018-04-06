@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Content } from '../../../models/content';
 import { ContentType } from '../../../models/content-type.enum';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
@@ -26,22 +25,39 @@ export class ContentCarouselPageComponent implements OnInit {
       1,
       [new AnswerOption('yes', ''), new AnswerOption('no', '')],
       [],
-      true),
+      true,
+      ContentType.CHOICE),
     new ContentChoice('0',
       '1',
       'roomId2',
       'SingleChoice Subject',
-      'SingleChoide Body',
+      'SingleChoice Body',
       1,
       [new AnswerOption('may', ''), new AnswerOption('not', '')],
       [],
-      false),
+      false,
+      ContentType.BINARY),
     new ContentText('1',
       '1',
-      '0',
+      'roomId3',
       'TextContent Subject',
       'TextContent Body',
-      1)
+      1),
+    new ContentChoice('0',
+      '1',
+      'roomId4',
+      'LikertContent Subjekt',
+      'LikertContent Body',
+      1,
+      [
+        new AnswerOption('Strongly agree', '0'),
+        new AnswerOption('Agree', '0'),
+        new AnswerOption('Neither agree nor disagree', '0'),
+        new AnswerOption('Disagree', '0' ),
+      new AnswerOption('Strongly disagree', '0') ],
+      [],
+      false,
+      ContentType.SCALE)
   ];
 
   constructor(private contentService: ContentService,

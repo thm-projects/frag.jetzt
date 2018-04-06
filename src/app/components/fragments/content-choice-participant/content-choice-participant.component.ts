@@ -41,7 +41,8 @@ export class ContentChoiceParticipantComponent implements OnInit {
       new AnswerOption('Option 4', '30')
     ],
     [2, 3, 4],
-    false);
+    false,
+    ContentType.BINARY);
   checkedAnswers: CheckedAnswer[] = [];
   isAnswerSent = false;
 

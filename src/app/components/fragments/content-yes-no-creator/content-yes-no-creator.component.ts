@@ -3,6 +3,7 @@ import { ContentChoice } from '../../../models/content-choice';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { AnswerOption } from '../../../models/answer-option';
 import { NotificationService } from '../../../services/util/notification.service';
+import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
   selector: 'app-content-yes-no-creator',
@@ -22,7 +23,9 @@ export class ContentYesNoCreatorComponent implements OnInit {
     1,
     [],
     [],
-    false);
+    false,
+    ContentType.BINARY
+    );
 
   displayedColumns = ['label'];
 
