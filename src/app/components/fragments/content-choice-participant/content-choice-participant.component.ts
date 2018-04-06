@@ -5,6 +5,7 @@ import { ContentAnswerService } from '../../../services/http/content-answer.serv
 import { NotificationService } from '../../../services/util/notification.service';
 import { AnswerText } from '../../../models/answer-text';
 import { AnswerChoice } from '../../../models/answer-choice';
+import { ContentType } from '../../../models/content-type.enum';
 
 class CheckedAnswer {
   answerOption: AnswerOption;
@@ -23,6 +24,9 @@ class CheckedAnswer {
 })
 export class ContentChoiceParticipantComponent implements OnInit {
   @Input() content: ContentChoice;
+  ContentType: typeof ContentType = ContentType;
+
+  selectedSingleAnswer: string;
 
   dummyContent: ContentChoice = new ContentChoice('2',
     '1',
@@ -56,12 +60,23 @@ export class ContentChoiceParticipantComponent implements OnInit {
   }
 
   submitAnswer(): void {
-    const selectedAnswers: number[] = [];
-    for (let i = 0; i < this.checkedAnswers.length; i++) {
-      if (this.checkedAnswers[i].checked) {
-        selectedAnswers.push(i);
+    console.log(this.selectedSingleAnswer);
+    let selectedAnswers: number[] = [];
+    if (this.content.multiple) {
+      for (let i = 0; i < this.checkedAnswers.length; i++) {
+        if (this.checkedAnswers[i].checked) {
+          selectedAnswers.push(i);
+        }
+      }
+    } else {
+      for (let i = 0; i < this.checkedAnswers.length; i++) {
+        if (this.checkedAnswers[i].answerOption.label === this.selectedSingleAnswer) {
+          selectedAnswers = [i];
+          break;
+        }
       }
     }
+
     if (!this.content.multiple && selectedAnswers.length !== 1) {
       this.notificationService.show('In single choice mode is only 1 selection allowed');
       this.isAnswerSent = false;
@@ -69,6 +84,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
     }
     this.isAnswerSent = true;
     this.notificationService.show('Answer successfully sent.');
+    console.log(selectedAnswers);
     // ToDo: Implement function in service
     /*
     this.answerService.addAnswerChoice({
@@ -78,7 +94,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
       round: this.content.round,
       selectedChoiceIndexes: selectedAnswers,
     } as AnswerChoice).subscribe(result => {
-    TODO: Set isAnswerSent
+    // TODO: Set isAnswerSent
     });
     */
   }
