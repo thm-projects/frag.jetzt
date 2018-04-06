@@ -6,6 +6,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MatDialog } from '@angular/material';
 import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.component';
 import { ContentType } from '../../../models/content-type.enum';
+import { ActivatedRoute } from '@angular/router';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -50,10 +51,14 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
+              private route: ActivatedRoute,
               public dialog: MatDialog) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.content.roomId = params['roomId'];
+    });
     this.fillCorrectAnswers();
   }
 
@@ -225,12 +230,20 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   submitContent() {
+    if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
+      this.notificationService.show('No empty fields allowed. Please check subject and body.');
+      return;
+    }
     if (this.content.options.length === 0) {
       this.notificationService.show('Choice content needs answers. Please add some answers.');
       return;
     }
     if (this.singleChoice && this.content.correctOptionIndexes.length !== 1) {
       this.notificationService.show('In single choice mode you have to select 1 true answer.');
+      return;
+    }
+    if (this.multipleChoice && this.content.correctOptionIndexes.length !== 1) {
+      this.notificationService.show('In multiple choice mode you have to select at least 1 true answer.');
       return;
     }
     if (this.singleChoice) {
@@ -242,11 +255,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.content.format = ContentType.CHOICE;
     }
     this.notificationService.show('Content submitted.');
-    /*   if (this.content.contentId === '0') {
-         this.contentService.addContent(this.content).subscribe();
-       } else {
-         // ToDo: Implement function in service
-         // this.contentService.updateContent(this.content).subscribe();
-       } */
+    // ToDo: Check api call
+    // this.contentService.addContent(this.content);
   }
 }

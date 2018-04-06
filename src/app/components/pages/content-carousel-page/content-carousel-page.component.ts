@@ -46,7 +46,7 @@ export class ContentCarouselPageComponent implements OnInit {
     new ContentChoice('0',
       '1',
       'roomId4',
-      'LikertContent Subjekt',
+      'LikertContent Subject',
       'LikertContent Body',
       1,
       [

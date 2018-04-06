@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
+import { ActivatedRoute } from '@angular/router';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -16,18 +18,24 @@ export class ContentTextCreatorComponent implements OnInit {
     '',
     1);
 
-  constructor(private contentService: ContentService) {
+  constructor(private contentService: ContentService,
+              private notificationService: NotificationService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.content.roomId = params['roomId'];
+    });
   }
 
   submitContent() {
-    if (this.content.contentId === '1') {
-      this.contentService.addContent(this.content).subscribe();
-    } else {
-      // ToDo: Implement function in service
-      // this.contentService.updateContent(this.content).subscribe();
+    if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
+      this.notificationService.show('No empty fields allowed. Please check subject and body.');
+      return;
     }
+    this.notificationService.show('Content sumbitted.');
+    // ToDo: Check api call
+    // this.contentService.addContent(this.content);
   }
 }
