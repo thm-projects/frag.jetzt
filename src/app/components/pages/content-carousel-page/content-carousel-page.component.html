@@ -4,13 +4,13 @@
 
       <mat-tab *ngFor="let content of contents" label="{{content.subject}}">
         <app-content-choice-participant [content]="content"
-                                        *ngIf="content.format === CHOICE"></app-content-choice-participant>
+                                        *ngIf="content.format === ContentType.CHOICE"></app-content-choice-participant>
         <app-content-choice-participant [content]="content"
-                                        *ngIf="content.format === SCALE"></app-content-choice-participant>
+                                        *ngIf="content.format === ContentType.SCALE"></app-content-choice-participant>
         <app-content-choice-participant [content]="content"
-                                        *ngIf="content.format === BINARY"></app-content-choice-participant>
+                                        *ngIf="content.format === ContentType.BINARY"></app-content-choice-participant>
         <app-content-text-participant [content]="content"
-                                      *ngIf="content.format === TEXT"></app-content-text-participant>
+                                      *ngIf="content.format === ContentType.TEXT"></app-content-text-participant>
       </mat-tab>
     </mat-tab-group>
   </div>

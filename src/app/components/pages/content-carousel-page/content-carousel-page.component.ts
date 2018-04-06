@@ -13,12 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./content-carousel-page.component.scss']
 })
 export class ContentCarouselPageComponent implements OnInit {
-  CHOICE: ContentType = ContentType.CHOICE;
-  BINARY: ContentType = ContentType.BINARY;
-  SCALE: ContentType = ContentType.SCALE;
-  NUMBER: ContentType = ContentType.NUMBER;
-  TEXT: ContentType = ContentType.TEXT;
-  GRID: ContentType = ContentType.GRID;
+  ContentType: typeof ContentType = ContentType;
 
   test = [1, 2];
 //  contents: Content[];
