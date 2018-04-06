@@ -83,6 +83,11 @@ export class ContentChoiceParticipantComponent implements OnInit {
       this.isAnswerSent = false;
       return;
     }
+    if (this.content.multiple && selectedAnswers.length === 0) {
+      this.notificationService.show('In multiple choice mode is at least 1 selection needed');
+      this.isAnswerSent = false;
+      return;
+    }
     this.isAnswerSent = true;
     this.notificationService.show('Answer successfully sent.');
     console.log(selectedAnswers);

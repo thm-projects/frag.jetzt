@@ -42,7 +42,7 @@ export class ContentTextParticipantComponent implements OnInit {
     // ToDo: Check correct api call
     this.answerService.addAnswerText({
       id: '0',
-      revision: this.content.revision,
+      revision: '0',
       contentId: this.content.contentId,
       round: this.content.round,
       subject: this.content.subject,

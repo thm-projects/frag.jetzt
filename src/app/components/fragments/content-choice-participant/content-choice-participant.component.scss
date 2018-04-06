@@ -1,4 +1,8 @@
-form > button {
+form > div > button {
+  margin: 20px 0;
+}
+
+form > div > mat-chip-list {
   margin: 20px 0;
 }
 

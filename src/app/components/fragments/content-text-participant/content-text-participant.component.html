@@ -4,10 +4,12 @@
   <mat-divider></mat-divider>
   <mat-form-field class="input-block">
     <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="Your answer"></textarea>
+  </mat-form-field>
+  <div fxLayout fxLayoutGap="5px" fxAlign="row">
+    <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button (click)="abstain($event)" color="primary">Abstain</button>
     <mat-chip-list *ngIf="isAnswerSent">
       <mat-chip color="primary" selected="true">Answer sent</mat-chip>
     </mat-chip-list>
-  </mat-form-field>
-  <button mat-raised-button type="submit" color="primary">Submit</button>
-  <button mat-raised-button (click)="abstain($event)" color="primary">Abstain</button>
+  </div>
 </form>
