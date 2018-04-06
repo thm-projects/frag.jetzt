@@ -77,12 +77,15 @@ export class ContentChoiceParticipantComponent implements OnInit {
       contentId: this.content.contentId,
       round: this.content.round,
       selectedChoiceIndexes: selectedAnswers,
-    } as AnswerChoice).subscribe();
+    } as AnswerChoice).subscribe(result => {
+    TODO: Set isAnswerSent
+    });
     */
   }
 
   abstain($event) {
     $event.preventDefault();
     console.log('abstain');
+    // ToDo: Send emtpy answer to backend
   }
 }

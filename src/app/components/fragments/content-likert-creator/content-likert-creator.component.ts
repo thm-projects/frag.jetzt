@@ -50,6 +50,8 @@ export class ContentLikertCreatorComponent implements OnInit {
     this.fillCorrectAnswers();
   }
 
+  // TODO
+
   submitContent(): void {
     console.log('submitContent');
   }

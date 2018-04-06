@@ -45,6 +45,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
       this.displayAnswers.push(new DisplayAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
     }
   }
+
   setCorrect(label: string) {
     if (label === 'yes') {
       this.content.correctOptionIndexes = [0];
@@ -54,10 +55,13 @@ export class ContentYesNoCreatorComponent implements OnInit {
     }
     this.fillCorrectAnswers();
   }
+
   checkAllowedContent(): boolean {
     return (this.content.correctOptionIndexes.length === 1);
   }
 
+
+  // TODO
   submitContent(): void {
     if (!this.checkAllowedContent()) {
       this.notificationService.show('Select 1 true answer.');

@@ -68,7 +68,7 @@
       </mat-form-field>
       <div fxLayout="column" fxLayoutAlign="center">
         <button mat-button type="button"
-                (click)="addAnswer(); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
+                (click)="addAnswer($event); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
           Add Answer
         </button>
       </div>
@@ -76,7 +76,7 @@
 
     <button mat-raised-button type="submit" color="primary">Submit</button>
     <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
-    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer()" color="primary">Undo
+    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">Undo
       deletion
     </button>
   </div>

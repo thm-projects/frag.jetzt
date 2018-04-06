@@ -62,31 +62,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
     }
   }
 
-  submitContent() {
-    if (this.content.options.length === 0) {
-      this.notificationService.show('Choice content needs answers. Please add some answers.');
-      return;
-    }
-    if (this.singleChoice && this.content.correctOptionIndexes.length !== 1) {
-      this.notificationService.show('In single choice mode you have to select 1 true answer.');
-      return;
-    }
-    if (this.singleChoice) {
-      this.content.multiple = false;
-    }
-    if (this.multipleChoice) {
-      this.content.multiple = true;
-    }
-    this.notificationService.show('Content submitted.');
-    /*   if (this.content.contentId === '0') {
-         this.contentService.addContent(this.content).subscribe();
-       } else {
-         // ToDo: Implement function in service
-         // this.contentService.updateContent(this.content).subscribe();
-       } */
-  }
-
-  addAnswer() {
+  addAnswer($event) {
+    $event.preventDefault();
     if (this.newAnswerOptionLabel === '') {
       this.notificationService.show('No empty answers allowed.');
       this.newAnswerOptionChecked = false;
@@ -118,6 +95,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   openAnswerModificationDialog(label: string, points: string, correct: boolean) {
+    let index = -1;
+    for (let i = 0; i < this.content.options.length; i++) {
+      if (this.content.options[i].label.valueOf() === label.valueOf()) {
+        index = i;
+      }
+    }
     this.editDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
     this.originalDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
     const dialogRef = this.dialog.open(AnswerEditComponent, {
@@ -127,40 +110,29 @@ export class ContentChoiceCreatorComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'edit') {
-          this.editCheckChanges();
+          // this.editCheckChanges();
+          this.saveChanges(index, this.editDisplayAnswer);
         }
       });
   }
 
-  editCheckChanges() {
-    for (let i = 0; i < this.content.options.length; i++) {
-      if (this.content.options[i].label === this.originalDisplayAnswer.answerOption.label) {
-        if (this.originalDisplayAnswer.answerOption.label.valueOf() !== this.editDisplayAnswer.answerOption.label.valueOf()) {
-          this.content.options[i].label = this.editDisplayAnswer.answerOption.label;
-        }
-        if (this.originalDisplayAnswer.answerOption.points.valueOf() !== this.editDisplayAnswer.answerOption.points.valueOf()) {
-          this.content.options[i].points = this.editDisplayAnswer.answerOption.points;
-        }
-        if (this.originalDisplayAnswer.correct !== this.editDisplayAnswer.correct) {
-          if (!this.editDisplayAnswer.correct) {
-            for (let j = 0; i < this.content.correctOptionIndexes.length; j++) {
-              if (this.content.correctOptionIndexes[j] === i && !this.editDisplayAnswer.correct) {
-                this.content.correctOptionIndexes.splice(j, 1);
-              }
-            }
-          }
-          if (this.editDisplayAnswer.correct) {
-            if (this.singleChoice && this.content.correctOptionIndexes.length > 0) {
-              this.notificationService.show('In single mode is only 1 selected answer allowed.');
-              this.editDisplayAnswer.correct = false;
-            } else {
-              this.content.correctOptionIndexes.push(i);
-            }
-          }
-        }
+  saveChanges(index: number, answer: DisplayAnswer) {
+    this.content.options[index].label = answer.answerOption.label;
+    this.content.options[index].points = answer.answerOption.points;
+    const indexInCorrectOptionIndexes = this.content.correctOptionIndexes.indexOf(index);
+    if (indexInCorrectOptionIndexes === -1 && answer.correct) {
+      if (this.singleChoice) {
+        this.content.correctOptionIndexes = [index];
+        this.fillCorrectAnswers();
+        return;
       }
+      this.content.correctOptionIndexes.push(index);
+    }
+    if (indexInCorrectOptionIndexes !== -1 && !answer.correct) {
+      this.content.correctOptionIndexes.splice(indexInCorrectOptionIndexes, 1);
     }
     this.fillCorrectAnswers();
+    this.notificationService.show('Update changes.');
   }
 
   deleteAnswer(label: string) {
@@ -173,7 +145,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
             this.lastDeletedDisplayAnswer.correct = true;
             this.content.correctOptionIndexes.splice(j, 1);
           }
-          if (this.content.correctOptionIndexes[j] >= i) {
+          if (this.content.correctOptionIndexes[j] > i) { // [j] > i
             this.content.correctOptionIndexes[j] = this.content.correctOptionIndexes[j] - 1;
           }
         }
@@ -183,7 +155,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.notificationService.show('Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully deleted.');
   }
 
-  recoverDeletedAnswer() {
+  recoverDeletedAnswer($event) {
+    $event.preventDefault();
     let msgAddon = 'Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully recovered.';
     if (this.lastDeletedDisplayAnswer === null) {
       this.notificationService.show('Nothing to recover');
@@ -208,20 +181,32 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   switchValue(label: string) {
+    let index: number;
+    let isCorrect: boolean;
+
+    // Get id of answer
     for (let i = 0; i < this.content.options.length; i++) {
       if (this.content.options[i].label.valueOf() === label.valueOf()) {
-        if (this.content.correctOptionIndexes.length === 0) {
-          this.content.correctOptionIndexes.push(i);
-          this.fillCorrectAnswers();
-          console.log(this.content.correctOptionIndexes);
-          return;
-        }
-        const index = this.content.correctOptionIndexes.indexOf(i);
-        if (index === -1) {
-          this.content.correctOptionIndexes.push(i);
+        index = i;
+        break;
+      }
+    }
+    // Check if answer is marked as correct
+    isCorrect = !this.displayAnswers[index].correct;
+
+    // Update correct answers
+    if (isCorrect) {
+      if (this.content.correctOptionIndexes.indexOf(index) === -1) {
+        // ToDo: Set back to data model
+        if (this.multipleChoice) {
+          this.content.correctOptionIndexes.push(index);
         } else {
-          this.content.correctOptionIndexes.splice(index, 1);
+          this.content.correctOptionIndexes = [index];
         }
+      }
+    } else {
+      if (this.content.correctOptionIndexes.indexOf(index) !== -1) {
+        this.content.correctOptionIndexes.splice(index, 1);
       }
     }
     this.fillCorrectAnswers();
@@ -235,5 +220,29 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
     this.notificationService.show('Reset all inputs to default.');
+  }
+
+  submitContent() {
+    if (this.content.options.length === 0) {
+      this.notificationService.show('Choice content needs answers. Please add some answers.');
+      return;
+    }
+    if (this.singleChoice && this.content.correctOptionIndexes.length !== 1) {
+      this.notificationService.show('In single choice mode you have to select 1 true answer.');
+      return;
+    }
+    if (this.singleChoice) {
+      this.content.multiple = false;
+    }
+    if (this.multipleChoice) {
+      this.content.multiple = true;
+    }
+    this.notificationService.show('Content submitted.');
+    /*   if (this.content.contentId === '0') {
+         this.contentService.addContent(this.content).subscribe();
+       } else {
+         // ToDo: Implement function in service
+         // this.contentService.updateContent(this.content).subscribe();
+       } */
   }
 }
