@@ -39,10 +39,10 @@
         <mat-cell *matCellDef="let answer">
           <button mat-icon-button
                   (click)="openAnswerModificationDialog(answer.answerOption.label, answer.answerOption.points, answer.correct)"
-                  color="primary">
+                  color="primary" matTooltip="Edit answer">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="deleteAnswer(answer.answerOption.label)">
+          <button mat-icon-button color="primary" (click)="deleteAnswer(answer.answerOption.label)" matTooltip="Delete answer">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-cell>
