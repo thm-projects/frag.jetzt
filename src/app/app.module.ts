@@ -88,6 +88,7 @@ import { FeedbackBarometerPageComponent } from './components/pages/feedback-baro
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownToolbarComponent } from './components/fragments/markdown-toolbar/markdown-toolbar.component';
 
 @NgModule({
   declarations: [
@@ -125,7 +126,8 @@ import { MarkdownModule } from 'ngx-markdown';
     ContentYesNoCreatorComponent,
     AnswerEditComponent,
     ContentDeleteComponent,
-    FeedbackBarometerPageComponent
+    FeedbackBarometerPageComponent,
+    MarkdownToolbarComponent
   ],
   entryComponents: [
     RegisterComponent,
