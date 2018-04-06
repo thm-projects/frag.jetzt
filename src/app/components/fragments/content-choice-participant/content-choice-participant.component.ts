@@ -61,7 +61,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
   }
 
   submitAnswer(): void {
-    console.log(this.selectedSingleAnswer);
     let selectedAnswers: number[] = [];
     if (this.content.multiple) {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
@@ -90,7 +89,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
     }
     this.isAnswerSent = true;
     this.notificationService.show('Answer successfully sent.');
-    console.log(selectedAnswers);
     // ToDo: Implement function in service
     /*
     this.answerService.addAnswerChoice({
