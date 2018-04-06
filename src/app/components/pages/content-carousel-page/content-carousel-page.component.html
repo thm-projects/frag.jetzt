@@ -3,31 +3,15 @@
     <mat-tab-group>
 
       <mat-tab *ngFor="let content of contents" label="{{content.subject}}">
-        <app-content-choice-participant [content]="content" *ngIf="content.format === CHOICE"></app-content-choice-participant>
-        <app-content-text-participant [content]="content" *ngIf="content.format === TEXT"></app-content-text-participant>
+        <app-content-choice-participant [content]="content"
+                                        *ngIf="content.format === CHOICE"></app-content-choice-participant>
+        <app-content-choice-participant [content]="content"
+                                        *ngIf="content.format === SCALE"></app-content-choice-participant>
+        <app-content-choice-participant [content]="content"
+                                        *ngIf="content.format === BINARY"></app-content-choice-participant>
+        <app-content-text-participant [content]="content"
+                                      *ngIf="content.format === TEXT"></app-content-text-participant>
       </mat-tab>
-
-      <!--
-      <mat-tab label="Text">
-        <div class="tab-container">
-          <app-content-text-participant></app-content-text-participant>
-        </div>
-      </mat-tab>
-      <mat-tab label="Choice">
-        <div class="tab-container">
-          <app-content-choice-participant></app-content-choice-participant>
-        </div>
-      </mat-tab>
-      <mat-tab label="Likert">
-        <div class="tab-container">
-          <app-content-choice-participant></app-content-choice-participant>
-        </div>
-      </mat-tab>
-      <mat-tab label="Yes / No">
-        <div class="tab-container">
-          <app-content-choice-participant></app-content-choice-participant>
-        </div>
-      </mat-tab>  -->
     </mat-tab-group>
   </div>
 </div>
