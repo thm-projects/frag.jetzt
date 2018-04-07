@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-feedback-barometer-page',
@@ -18,7 +19,9 @@ export class FeedbackBarometerPageComponent implements OnInit {
 
   dummy = [2, 3, 0, 1]; // dummy data -> delete this with api implementation and add get-data
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(
+    private authenticationService: AuthenticationService,
+    private notification: NotificationService, ) {}
 
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
@@ -36,9 +39,12 @@ export class FeedbackBarometerPageComponent implements OnInit {
   submitFeedback(state: string) {
     this.dummy[state] += 1; // delete this with api implementation and add submit-data
     this.updateFeedback(this.dummy);
+    this.notification.show(`Feedback submitted to room.`);
   }
 
   toggle() {
     // api feature is yet not implemented
+    const temp = 'stopped'; // add status variable
+    this.notification.show(`Feedback transmission ${ temp }.`);
   }
 }
