@@ -1,4 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { MarkdownHelpDialogComponent } from '../../dialogs/markdown-help-dialog/markdown-help-dialog.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-markdown-toolbar',
@@ -33,7 +35,10 @@ export class MarkdownToolbarComponent {
     new Button('code', 'Code', 'code', '`'),
     new Button('quote', 'Quote', 'format_quote', '> ', ''),
     new Button('image', 'Image', 'insert_photo', '![', '](https://...)'),
+    new Button('help', 'Help', 'help', '')
   ];
+
+  constructor(public dialog: MatDialog) { }
 
   /**
    * Gets called in template, run action when a button gets pressed
@@ -52,6 +57,19 @@ export class MarkdownToolbarComponent {
       return;
     }
 
+    // Handle different buttons here
+    switch (button.id) {
+      case 'help':
+        // Open help dialog and prevent default action
+        this.dialog.open(MarkdownHelpDialogComponent);
+        break;
+      default:
+        // Insert the text associated to the button
+        this.insertTag(button.textBefore, button.textAfter);
+    }
+  }
+
+  private insertTag(before: string, after: string) {
     // Get the textarea's text selection positions (no selection when selectionStart == selectionEnd)
     const selectionStart = this.textarea.selectionStart;
     const selectionEnd = this.textarea.selectionEnd;
@@ -59,12 +77,12 @@ export class MarkdownToolbarComponent {
     const text = this.textarea.value;
 
     // Insert the action's text at the cursor's position
-    this.textarea.value = [text.slice(0, selectionStart), button.textBefore, text.slice(selectionStart, selectionEnd),
-      button.textAfter, text.slice(selectionEnd)].join('');
+    this.textarea.value = [text.slice(0, selectionStart), before, text.slice(selectionStart, selectionEnd),
+      after, text.slice(selectionEnd)].join('');
     // Focus the textarea
     this.textarea.focus();
     // Calculate the new cursor position (based on the action's text length and the previous cursor position)
-    const cursorPosition = selectionStart + button.textBefore.length;
+    const cursorPosition = selectionStart + before.length;
     // Set the cursor to the calculated position
     this.textarea.setSelectionRange(cursorPosition, cursorPosition);
   }

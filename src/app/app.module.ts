@@ -89,6 +89,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
 import { MarkdownToolbarComponent } from './components/fragments/markdown-toolbar/markdown-toolbar.component';
+import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-dialog/markdown-help-dialog.component';
 
 @NgModule({
   declarations: [
@@ -127,7 +128,8 @@ import { MarkdownToolbarComponent } from './components/fragments/markdown-toolba
     AnswerEditComponent,
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
-    MarkdownToolbarComponent
+    MarkdownToolbarComponent,
+    MarkdownHelpDialogComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -140,7 +142,8 @@ import { MarkdownToolbarComponent } from './components/fragments/markdown-toolba
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
-    ContentDeleteComponent
+    ContentDeleteComponent,
+    MarkdownHelpDialogComponent
   ],
   imports: [
     AppRoutingModule,
