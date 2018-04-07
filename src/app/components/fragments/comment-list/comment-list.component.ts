@@ -57,7 +57,4 @@ export class CommentListComponent implements OnInit {
     });
   }
 
-  goBack(): void {
-    this.location.back();
-  }
 }
