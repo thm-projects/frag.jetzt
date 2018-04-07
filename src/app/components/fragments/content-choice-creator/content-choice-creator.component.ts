@@ -2,11 +2,11 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
+import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.component';
 import { ContentType } from '../../../models/content-type.enum';
-import { ActivatedRoute } from '@angular/router';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 
@@ -54,6 +54,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
   editDialogMode = false;
   changesAllowed = false;
 
+  roomId: string;
+
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               private route: ActivatedRoute,
@@ -63,9 +65,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.content.roomId = params['roomId'];
-    });
+    this.roomId = this.route.snapshot.paramMap.get('roomId');
     this.fillCorrectAnswers();
   }
 
@@ -229,7 +229,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  submitContent() {
+  submitContent(subject: string, body: string) {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
@@ -258,17 +258,23 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.changesAllowed = true;
       return;
     }
-    // ToDo: Check api call
-    // this.contentService.addContent(this.content);
-    // For Testing:
-    // console.log(this.content);
+    this.contentService.addContent(new ContentChoice('',
+      '1',
+      this.roomId,
+      subject,
+      body,
+      1,
+      [],
+      [],
+      true,
+      ContentType.CHOICE)).subscribe();
     this.resetAfterSubmit();
   }
 
   editDialogClose($event, action: string) {
     $event.preventDefault();
     if (action.valueOf() === 'edit') {
-      this.submitContent();
+      this.submitContent(this.content.subject, this.content.body);
     }
     if (action.valueOf() === 'abort') {
       this.dialogRef.close(action);
