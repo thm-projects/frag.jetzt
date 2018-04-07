@@ -12,7 +12,6 @@ import { FooterLoginDialogComponent } from '../../dialogs/footer-login-dialog/fo
 })
 export class FooterComponent implements OnInit {
 
-
   constructor(
     public authenticationService: AuthenticationService,
     public notificationService: NotificationService,

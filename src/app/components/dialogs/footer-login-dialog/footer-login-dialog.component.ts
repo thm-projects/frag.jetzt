@@ -20,5 +20,4 @@ export class FooterLoginDialogComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
