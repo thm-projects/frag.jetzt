@@ -11,8 +11,9 @@
     <mat-form-field class="input-block">
       <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
     </mat-form-field>
+    <app-markdown-toolbar textareaId="content-choice-body"></app-markdown-toolbar>
     <mat-form-field class="input-block">
-      <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+      <textarea matInput #body id="content-choice-body" [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
     </mat-form-field>
     <mat-divider></mat-divider>
 
