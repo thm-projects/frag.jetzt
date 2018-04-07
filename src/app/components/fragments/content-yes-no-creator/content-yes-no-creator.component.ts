@@ -56,7 +56,8 @@ export class ContentYesNoCreatorComponent implements OnInit {
     }
   }
 
-  setCorrect(label: string) {
+  setCorrect($event, label: string) {
+    $event.preventDefault();
     if (label === 'yes') {
       this.content.correctOptionIndexes = [0];
     }
@@ -70,6 +71,14 @@ export class ContentYesNoCreatorComponent implements OnInit {
     return (this.content.correctOptionIndexes.length === 1);
   }
 
+  resetAfterSubmit() {
+    this.content.subject = '';
+    this.content.body = '';
+    this.content.correctOptionIndexes = [];
+    this.fillCorrectAnswers();
+    this.notificationService.show('Content submitted. Ready for creation of new content.');
+  }
+
   submitContent(): void {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
@@ -81,6 +90,9 @@ export class ContentYesNoCreatorComponent implements OnInit {
     }
     this.notificationService.show('Content sumbitted.');
     // ToDo: Check api call
-   // this.contentService.addContent(this.content);
+    // this.contentService.addContent(this.content);
+    // For Testing:
+    // console.log(this.content);
+    this.resetAfterSubmit();
   }
 }

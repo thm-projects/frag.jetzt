@@ -38,11 +38,11 @@
         <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
         <mat-cell *matCellDef="let answer">
           <button mat-icon-button
-                  (click)="openAnswerModificationDialog(answer.answerOption.label, answer.answerOption.points, answer.correct)"
+                  (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
                   color="primary" matTooltip="Edit answer">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="deleteAnswer(answer.answerOption.label)" matTooltip="Delete answer">
+          <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)" matTooltip="Delete answer">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-cell>

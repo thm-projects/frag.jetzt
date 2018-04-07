@@ -60,7 +60,13 @@ export class ContentLikertCreatorComponent implements OnInit {
     this.fillCorrectAnswers();
   }
 
-  // TODO
+  resetAfterSubmit() {
+    this.content.subject = '';
+    this.content.body = '';
+    this.content.correctOptionIndexes = [];
+    this.fillCorrectAnswers();
+    this.notificationService.show('Content submitted. Ready for creation of new content.');
+  }
 
   submitContent(): void {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
@@ -70,5 +76,8 @@ export class ContentLikertCreatorComponent implements OnInit {
     this.notificationService.show('Content sumbitted.');
     // ToDo: Check api call
     // this.contentService.addContent(this.content);
+    // For Testing:
+    // console.log(this.content);
+    this.resetAfterSubmit();
   }
 }

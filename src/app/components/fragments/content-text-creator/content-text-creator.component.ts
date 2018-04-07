@@ -29,13 +29,22 @@ export class ContentTextCreatorComponent implements OnInit {
     });
   }
 
+  resetAfterSubmit() {
+    this.content.subject = '';
+    this.content.body = '';
+    this.notificationService.show('Content submitted. Ready for creation of new content.');
+  }
+
   submitContent() {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
-    this.notificationService.show('Content sumbitted.');
+    this.notificationService.show('Content submitted.');
     // ToDo: Check api call
     // this.contentService.addContent(this.content);
+    // For Testing:
+    // console.log(this.content);
+    this.resetAfterSubmit();
   }
 }
