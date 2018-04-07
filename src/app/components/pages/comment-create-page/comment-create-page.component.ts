@@ -52,6 +52,7 @@ export class CommentCreatePageComponent implements OnInit {
     } as Comment).subscribe(() => {
       this.child.getComments();
       this.notification.show(`Comment '${subject}' successfully created.`);
+      this.goBack();
     });
   }
 
