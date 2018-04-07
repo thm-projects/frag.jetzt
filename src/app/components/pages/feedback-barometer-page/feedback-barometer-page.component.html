@@ -1,0 +1,11 @@
+<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
+  <mat-card>
+    <div class="evaluation" *ngFor="let opinion of feedback">
+      <mat-progress-bar [value]="opinion.count" color="primary">
+      </mat-progress-bar>
+    </div>
+    <div fxLayoutAlign="center">
+      <button mat-raised-button color="primary" fxLayoutAlign="center">Toggle voting</button>
+    </div>
+  </mat-card>
+</div>
