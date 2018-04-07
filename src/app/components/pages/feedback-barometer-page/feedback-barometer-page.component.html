@@ -1,12 +1,13 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
   <mat-card>
-    <div fxLayout="row" fxLayoutGap="30px" *ngFor="let opinion of feedback">
-      <img class="image" src="./assets/{{ opinion.state }}.png">
-      <mat-progress-bar [value]="opinion.count" color="primary">
+    <div fxLayout="row" fxLayoutGap="30px" *ngFor="let state of feedback">
+      <img class="image" src="./assets/{{ state.name }}.png"
+           (click)="userRole === 0 && submitFeedback(state.state)">
+      <mat-progress-bar [value]="state.count" color="primary">
       </mat-progress-bar>
     </div>
-    <div fxLayoutAlign="center">
-      <button mat-raised-button color="primary" fxLayoutAlign="center">Toggle voting</button>
+    <div fxLayoutAlign="center" *ngIf="userRole === 1">
+      <button mat-raised-button color="primary" fxLayoutAlign="center" (click)="toggle()">Toggle voting</button>
     </div>
   </mat-card>
 </div>
