@@ -1,6 +1,7 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
   <mat-card>
-    <div class="evaluation" *ngFor="let opinion of feedback">
+    <div fxLayout="row" fxLayoutGap="30px" *ngFor="let opinion of feedback">
+      <img class="image" src="./assets/{{ opinion.state }}.png">
       <mat-progress-bar [value]="opinion.count" color="primary">
       </mat-progress-bar>
     </div>
