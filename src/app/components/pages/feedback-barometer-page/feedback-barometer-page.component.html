@@ -1,7 +1,7 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
   <mat-card>
     <div fxLayout="row" fxLayoutGap="30px" *ngFor="let state of feedback">
-      <img class="image" src="./assets/{{ state.name }}.png"
+      <img class="image" matTooltip="{{ state.message }}" src="./assets/{{ state.name }}.png"
            (click)="userRole === 0 && submitFeedback(state.state)">
       <mat-progress-bar [value]="state.count" color="primary">
       </mat-progress-bar>

@@ -10,10 +10,10 @@ import { NotificationService } from '../../../services/util/notification.service
 })
 export class FeedbackBarometerPageComponent implements OnInit {
   feedback: any = [
-    { state: 0, name: 'good', count: 0, },
-    { state: 1, name: 'ok', count: 0, },
-    { state: 2, name: 'not-ok', count: 0, },
-    { state: 3, name: 'bad', count: 0, },
+    { state: 0, name: 'good', message: 'I can follow you.', count: 0, },
+    { state: 1, name: 'ok', message: 'Faster, please!', count: 0, },
+    { state: 2, name: 'not-ok', message: 'Slower, please!', count: 0, },
+    { state: 3, name: 'bad', message: 'You\'ve lost me.', count: 0, },
   ];
   userRole: UserRole;
 
