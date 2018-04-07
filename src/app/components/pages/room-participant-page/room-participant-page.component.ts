@@ -33,7 +33,4 @@ export class RoomParticipantPageComponent implements OnInit {
       });
   }
 
-  goBack(): void {
-    this.location.back();
-  }
 }

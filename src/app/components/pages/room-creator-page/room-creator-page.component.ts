@@ -32,10 +32,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
-  goBack(): void {
-    this.location.back();
-  }
-
   updateRoom(): void {
     if ((this.updRoom.name === this.room.name) &&
       (this.updRoom.description === this.room.description)
