@@ -87,7 +87,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
       return;
     }
     this.isAnswerSent = true;
-    this.notificationService.show('Answer successfully sent.');
     // ToDo: Implement function in service
     /*
     this.answerService.addAnswerChoice({

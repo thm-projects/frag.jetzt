@@ -37,7 +37,6 @@ export class ContentTextParticipantComponent implements OnInit {
       return;
     }
     this.isAnswerSent = true;
-    this.notificationService.show('Answer successfully sent.');
     /*
     // ToDo: Check correct api call
     this.answerService.addAnswerText({
