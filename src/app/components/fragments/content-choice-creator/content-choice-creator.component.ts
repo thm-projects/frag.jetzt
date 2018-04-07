@@ -69,6 +69,17 @@ export class ContentChoiceCreatorComponent implements OnInit {
     }
   }
 
+  findAnswerIndexByLabel(label: string): number {
+    let index = -1;
+    for (let i = 0; i < this.content.options.length; i++) {
+      if (this.content.options[i].label.valueOf() === label.valueOf()) {
+        index = i;
+        break;
+      }
+    }
+    return index;
+  }
+
   addAnswer($event) {
     $event.preventDefault();
     if (this.newAnswerOptionLabel === '') {
@@ -103,12 +114,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   openAnswerModificationDialog($event, label: string, points: string, correct: boolean) {
     $event.preventDefault();
-    let index = -1;
-    for (let i = 0; i < this.content.options.length; i++) {
-      if (this.content.options[i].label.valueOf() === label.valueOf()) {
-        index = i;
-      }
-    }
+    const index = this.findAnswerIndexByLabel(label);
     this.editDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
     this.originalDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
     const dialogRef = this.dialog.open(AnswerEditComponent, {
@@ -146,19 +152,16 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   deleteAnswer($event, label: string) {
     $event.preventDefault();
-    for (let i = 0; i < this.content.options.length; i++) {
-      if (this.content.options[i].label.valueOf() === label.valueOf()) {
-        this.lastDeletedDisplayAnswer = new DisplayAnswer(this.content.options[i], false);
-        this.content.options.splice(i, 1);
-        for (let j = 0; j < this.content.correctOptionIndexes.length; j++) {
-          if (this.content.correctOptionIndexes[j] === i) {
-            this.lastDeletedDisplayAnswer.correct = true;
-            this.content.correctOptionIndexes.splice(j, 1);
-          }
-          if (this.content.correctOptionIndexes[j] > i) { // [j] > i
-            this.content.correctOptionIndexes[j] = this.content.correctOptionIndexes[j] - 1;
-          }
-        }
+    const index = this.findAnswerIndexByLabel(label);
+    this.lastDeletedDisplayAnswer = new DisplayAnswer(this.content.options[index], false);
+    this.content.options.splice(index, 1);
+    for (let j = 0; j < this.content.correctOptionIndexes.length; j++) {
+      if (this.content.correctOptionIndexes[j] === index) {
+        this.lastDeletedDisplayAnswer.correct = true;
+        this.content.correctOptionIndexes.splice(j, 1);
+      }
+      if (this.content.correctOptionIndexes[j] > index) { // [j] > i
+        this.content.correctOptionIndexes[j] = this.content.correctOptionIndexes[j] - 1;
       }
     }
     this.fillCorrectAnswers();
@@ -191,22 +194,13 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   switchValue(label: string) {
-    let index: number;
-
-    // Get id of answer
-    for (let i = 0; i < this.content.options.length; i++) {
-      if (this.content.options[i].label.valueOf() === label.valueOf()) {
-        index = i;
-        break;
-      }
-    }
+    const index = this.findAnswerIndexByLabel(label);
     this.editDisplayAnswer = new DisplayAnswer(
       new AnswerOption(
         this.displayAnswers[index].answerOption.label,
         this.displayAnswers[index].answerOption.points),
       !this.displayAnswers[index].correct);
     this.saveChanges(index, this.editDisplayAnswer, false);
-    // return;
   }
 
   reset($event) {
