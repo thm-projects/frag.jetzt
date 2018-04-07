@@ -59,14 +59,6 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  searchComments(roomId: string, userId: string): Observable<Comment[]> {
-    const connectionUrl = `${this.apiUrl.base}/?roomId=${roomId}&userId=${userId}`;
-    return this.http.get<Comment[]>(connectionUrl).pipe(
-      tap (_ => ''),
-      catchError(this.handleError<Comment[]>('getComments', []))
-    );
-  }
-
   updateComment(comment: Comment): Observable<any> {
     const connectionUrl = this.apiUrl + this.apiUrl.comment + '/' + comment.id;
     return this.http.put(connectionUrl, comment, httpOptions).pipe(
