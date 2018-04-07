@@ -5,6 +5,12 @@ footer {
 mat-expansion-panel {
   background-color: rgb(235, 235, 235);
   color: rgb(60, 60, 60);  
+  height: auto;
+}
+
+mat-toolbar {
+  background-color: rgb(240, 240, 240);
+  color: rgb(140, 140, 140);  
 }
 
 .container {
@@ -13,8 +19,13 @@ mat-expansion-panel {
 }
 
 /* Small screens */
-@media all and (max-width: 500px) {
+@media all and (max-width: 300px) {
   .container {
     flex-direction: column;
+    margin: auto;
+  }
+
+  mat-toolbar {
+    height: auto;
   }
 }
