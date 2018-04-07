@@ -6,6 +6,7 @@
   <mat-form-field class="input-block">
     <textarea matInput #body id="content-text-body" [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
   </mat-form-field>
+  <markdown [data]="content.body"></markdown>
   <div *ngIf="!editDialogMode">
     <button mat-raised-button type="submit" color="primary">Submit</button>
   </div>
