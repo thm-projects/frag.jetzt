@@ -4,7 +4,8 @@
   </mat-form-field>
   <app-markdown-toolbar textareaId="content-text-body"></app-markdown-toolbar>
   <mat-form-field class="input-block">
-    <textarea matInput #body id="content-text-body" [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+    <textarea matInput #body id="content-text-body" [(ngModel)]="content.body" placeholder="Body" name="body"
+              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
   </mat-form-field>
   <markdown [data]="content.body"></markdown>
   <div *ngIf="!editDialogMode">
