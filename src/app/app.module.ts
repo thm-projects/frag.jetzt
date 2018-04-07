@@ -85,7 +85,6 @@ import { ContentYesNoCreatorComponent } from './components/fragments/content-yes
 import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from './components/dialogs/content-delete/content-delete.component';
 import { FeebackBarometerPageComponent } from './components/pages/feeback-barometer-page/feeback-barometer-page.component';
-import {FeedbackBarometerPageComponent} from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
 
 @NgModule({
   declarations: [
