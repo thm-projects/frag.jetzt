@@ -32,5 +32,4 @@ export class RoomParticipantPageComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
 }

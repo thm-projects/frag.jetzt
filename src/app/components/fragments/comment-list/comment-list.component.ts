@@ -56,5 +56,4 @@ export class CommentListComponent implements OnInit {
       this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
     });
   }
-
 }
