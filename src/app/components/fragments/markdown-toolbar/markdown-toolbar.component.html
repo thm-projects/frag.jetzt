@@ -1,5 +1,6 @@
 <div class="markdown-toolbar">
-  <button mat-icon-button *ngFor="let button of buttons" (click)="onClick($event, button);">
+  <button mat-icon-button *ngFor="let button of buttons" (click)="onClick($event, button);"
+          matTooltip="{{button.label}}">
     <mat-icon attr.aria-label="{{button.label}}">{{button.icon}}</mat-icon>
   </button>
 </div>
