@@ -52,6 +52,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   originalDisplayAnswer: DisplayAnswer;
 
   editDialogMode = false;
+  changesAllowed = false;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
@@ -253,6 +254,10 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.content.multiple = true;
       this.content.format = ContentType.CHOICE;
     }
+    if (this.editDialogMode) {
+      this.changesAllowed = true;
+      return;
+    }
     // ToDo: Check api call
     // this.contentService.addContent(this.content);
     // For Testing:
@@ -262,7 +267,15 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   editDialogClose($event, action: string) {
     $event.preventDefault();
-    this.dialogRef.close(action);
+    if (action.valueOf() === 'edit') {
+      this.submitContent();
+    }
+    if (action.valueOf() === 'abort') {
+      this.dialogRef.close(action);
+    }
+    if (this.changesAllowed) {
+      this.dialogRef.close(action);
+    }
   }
 
   onNoClick(): void {
