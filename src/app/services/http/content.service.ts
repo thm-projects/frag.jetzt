@@ -60,8 +60,8 @@ export class ContentService extends BaseHttpService {
     );
   }
 
-  deleteContent(content: Content): Observable<Content> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + content.contentId;
+  deleteContent(contentId: string): Observable<Content> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + contentId;
     return this.http.delete<Content>(connectionUrl, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Content>('deleteContent'))

@@ -75,8 +75,8 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  deleteRoom(room: Room): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ room.id }`;
+  deleteRoom(roomId: string): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ roomId }`;
     return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))

@@ -21,8 +21,8 @@ export class CommentService extends BaseHttpService {
     super();
   }
 
-  getComment(comment: Comment): Observable<Comment> {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.comment }/~${comment.id}`;
+  getComment(commentId: string): Observable<Comment> {
+    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.comment }/~${ commentId }`;
     return this.http.get<Comment>(connectionUrl, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment>('addComment'))
@@ -40,8 +40,8 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  deleteComment(comment: Comment): Observable<Comment> {
-    const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment }/${comment.id}`;
+  deleteComment(commentId: string): Observable<Comment> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.comment }/${ commentId }`;
     return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment>('deleteComment'))

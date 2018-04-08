@@ -52,7 +52,7 @@ export class CommentListComponent implements OnInit {
 
   delete(comment: Comment): void {
     this.comments = this.comments.filter(c => c !== comment);
-    this.commentService.deleteComment(comment).subscribe(room => {
+    this.commentService.deleteComment(comment.id).subscribe(room => {
       this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
     });
   }
