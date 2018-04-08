@@ -20,5 +20,12 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <button mat-raised-button type="submit" color="primary">Submit</button>
+  <div *ngIf="!editDialogMode">
+    <button mat-raised-button type="submit" color="primary">Submit</button>
+  </div>
+  <div *ngIf="editDialogMode">
+    <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
+    <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
+    <button mat-raised-button (click)="editDialogClose($event,'delete')" color="warn">Delete</button>
+  </div>
 </form>

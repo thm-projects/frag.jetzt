@@ -1,5 +1,5 @@
 <form (ngSubmit)="submitContent()">
-  <section class="choice-section" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+  <section class="choice-seformn" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-checkbox (click)="singleChoice = true; multipleChoice = false;"
                   color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice
     </mat-checkbox>
@@ -42,7 +42,8 @@
                   color="primary" matTooltip="Edit answer">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)" matTooltip="Delete answer">
+          <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)"
+                  matTooltip="Delete answer">
             <mat-icon>delete</mat-icon>
           </button>
         </mat-cell>
@@ -73,11 +74,18 @@
         </button>
       </div>
     </div>
-
-    <button mat-raised-button type="submit" color="primary">Submit</button>
-    <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
-    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">Undo
-      deletion
-    </button>
+    <div *ngIf="!editDialogMode">
+      <button mat-raised-button type="submit" color="primary">Submit</button>
+      <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
+      <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
+        Undo
+        deletion
+      </button>
+    </div>
+    <div *ngIf="editDialogMode">
+      <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
+      <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
+      <button mat-raised-button (click)="editDialogClose($event,'delete')" color="warn">Delete</button>
+    </div>
   </div>
 </form>

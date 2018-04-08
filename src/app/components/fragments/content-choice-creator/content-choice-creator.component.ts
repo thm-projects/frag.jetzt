@@ -258,4 +258,13 @@ export class ContentChoiceCreatorComponent implements OnInit {
     // console.log(this.content);
     this.resetAfterSubmit();
   }
+
+  editDialogClose($event, action: string) {
+    $event.preventDefault();
+    this.dialogRef.close(action);
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
 }
