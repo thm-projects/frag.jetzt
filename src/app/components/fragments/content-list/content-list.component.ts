@@ -27,7 +27,7 @@ export class ContentListComponent implements OnInit {
       'MultipleChoice Body',
       1,
       [new AnswerOption('yes', ''), new AnswerOption('no', '')],
-      [],
+      [0],
       true,
       ContentType.CHOICE),
     new ContentChoice('0',
@@ -37,7 +37,7 @@ export class ContentListComponent implements OnInit {
       'SingleChoice Body',
       1,
       [new AnswerOption('may', ''), new AnswerOption('not', '')],
-      [],
+      [1],
       false,
       ContentType.BINARY),
     new ContentText('1',
@@ -220,17 +220,21 @@ export class ContentListComponent implements OnInit {
   }
 
   updateContentChanges(index: number, action: string) {
-    if (action.valueOf() === 'delete') {
-      this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
-      this.contentService.deleteContent(this.contents[index].contentId);
-      this.contents.splice(index, 1);
-    }
-    if (action.valueOf() === 'edit') {
-      this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
-      this.contentService.updateContent(this.contents[index]);
-    }
-    if (action.valueOf() === 'abort') {
+    if (!action) {
       this.contents[index] = this.contentBackup;
+    } else {
+      if (action.valueOf() === 'delete') {
+        this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
+        this.contentService.deleteContent(this.contents[index].contentId);
+        this.contents.splice(index, 1);
+      }
+      if (action.valueOf() === 'edit') {
+        this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
+        this.contentService.updateContent(this.contents[index]);
+      }
+      if (action.valueOf() === 'abort') {
+        this.contents[index] = this.contentBackup;
+      }
     }
   }
 }
