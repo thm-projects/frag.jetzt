@@ -93,6 +93,7 @@ import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-
 import { GenericDataDialogComponent } from './components/dialogs/generic-data-dialog/generic-data-dialog.component';
 import { FooterComponent } from './components/fragments/footer/footer.component';
 import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
+import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
 
 @NgModule({
   declarations: [
@@ -135,7 +136,8 @@ import { FooterLoginDialogComponent } from './components/dialogs/footer-login-di
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,
     FooterComponent,
-    FooterLoginDialogComponent
+    FooterLoginDialogComponent,
+    FooterImprintComponent
   ],
   entryComponents: [
     RegisterComponent,

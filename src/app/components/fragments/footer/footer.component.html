@@ -1,43 +1,9 @@
 <footer>
   <mat-toolbar>
     <div class="container">
-      <button mat-button (click)="openLoginDialog()">Login as Guest</button>
-      <button mat-button target="_blank" href="https://www.thm.de/site/impressum.html">Impressum</button>
+      <a href="imprint" target="_parent">
+        <button mat-button>Impressum</button>
+      </a>
     </div>
   </mat-toolbar>
-  <!-- 
-  //This is the old Footer Layout with an expandable panel
-
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-description>© SWTP WS17/18</mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="container">
-      <mat-list role="list">
-        <h3 mat-subheader>Change Theme</h3>
-        <mat-list-item role="listitem">
-          <mat-slide-toggle></mat-slide-toggle>
-        </mat-list-item>
-      </mat-list>
-      <mat-nav-list>
-        <h3 mat-subheader>Login</h3>
-        <mat-list-item role="listitem">
-          <a (click)="openLoginDialog()">Login as Guest</a>
-        </mat-list-item>
-      </mat-nav-list>
-      <mat-nav-list role="list">
-        <h3 mat-subheader>Useful Links</h3>
-        <mat-list-item role="listitem">
-          <a target="_blank" href="https://www.thm.de/site/impressum.html">Impressum</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <a target="_blank" href="https://www.thm.de/site/rechtsvorschriften.html">Privacy Terms</a>
-        </mat-list-item>
-        <mat-list-item role="listitem">
-          <a target="_blank" href="http://dailylolpics.lolpics.com/wp-content/uploads/2017/10/halp-me.jpg">Help</a>
-        </mat-list-item>
-      </mat-nav-list>
-    </div>
-  </mat-expansion-panel>
--->
 </footer>
