@@ -12,12 +12,13 @@ export class FeedbackBarometerPageComponent implements OnInit {
   feedback: any = [
     { state: 0, name: 'sentiment_very_satisfied', message: 'I can follow you.', count: 0, },
     { state: 1, name: 'sentiment_satisfied', message: 'Faster, please!', count: 0, },
-    { state: 2, name: 'sentiment_dissatisfied', message: 'Slower, please!', count: 0, },
-    { state: 3, name: 'sentiment_very_dissatisfied', message: 'You\'ve lost me.', count: 0, },
+    { state: 2, name: 'sentiment_neutral', message: 'It\'s ok!', count: 0, },
+    { state: 3, name: 'sentiment_dissatisfied', message: 'Slower, please!', count: 0, },
+    { state: 4, name: 'sentiment_very_dissatisfied', message: 'You\'ve lost me.', count: 0, },
   ];
   userRole: UserRole;
 
-  dummy = [2, 3, 0, 1]; // dummy data -> delete this with api implementation and add get-data
+  dummy = [2, 3, 2, 0, 1]; // dummy data -> delete this with api implementation and add get-data
 
   constructor(
     private authenticationService: AuthenticationService,
