@@ -14,7 +14,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ContentCarouselPageComponent implements OnInit {
   ContentType: typeof ContentType = ContentType;
 
-  test = [1, 2];
 //  contents: Content[];
   contents = [
     new ContentChoice('0',
