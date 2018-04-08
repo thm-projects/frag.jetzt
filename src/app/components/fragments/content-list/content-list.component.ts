@@ -117,9 +117,8 @@ export class ContentListComponent implements OnInit {
 
   editChoiceContentDialog(index: number, content: ContentChoice) {
     const dialogRef = this.dialog.open(ContentChoiceCreatorComponent, {
-      width: '400px'
+      width: '800px'
     });
-    // TODO unterscheidung zwischen single / multiple
     if (content.multiple) {
       dialogRef.componentInstance.singleChoice = false;
       dialogRef.componentInstance.multipleChoice = true;
@@ -137,7 +136,7 @@ export class ContentListComponent implements OnInit {
 
   editBinaryContentDialog(index: number, content: ContentChoice) {
     const dialogRef = this.dialog.open(ContentChoiceCreatorComponent, {
-      width: '400px'
+      width: '800px'
     });
     dialogRef.componentInstance.editDialogMode = true;
     dialogRef.componentInstance.multipleChoice = false;
@@ -151,7 +150,7 @@ export class ContentListComponent implements OnInit {
 
   editLikertContentDialog(index: number, content: ContentChoice) {
     const dialogRef = this.dialog.open(ContentLikertCreatorComponent, {
-      width: '400px'
+      width: '800px'
     });
     dialogRef.componentInstance.editDialogMode = true;
     dialogRef.componentInstance.content = content;
@@ -163,7 +162,7 @@ export class ContentListComponent implements OnInit {
 
   editTextContentDialog(index: number, content: ContentText) {
     const dialogRef = this.dialog.open(ContentTextCreatorComponent, {
-      width: '400px'
+      width: '800px'
     });
     dialogRef.componentInstance.editDialogMode = true;
     dialogRef.componentInstance.content = content;
