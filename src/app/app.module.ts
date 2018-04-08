@@ -130,7 +130,8 @@ import { ContentDeleteComponent } from './components/dialogs/content-delete/cont
     ContentChoiceCreatorComponent,
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
-    ContentYesNoCreatorComponent
+    ContentYesNoCreatorComponent,
+    ContentDeleteComponent
   ],
   imports: [
     AppRoutingModule,
