@@ -81,6 +81,7 @@ import { HeaderComponent } from './components/fragments/header/header.component'
 import { ContentLikertCreatorComponent } from './components/fragments/content-likert-creator/content-likert-creator.component';
 import { ContentYesNoCreatorComponent } from './components/fragments/content-yes-no-creator/content-yes-no-creator.component';
 import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edit.component';
+import { ContentDeleteComponent } from './components/dialogs/content-delete/content-delete.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,8 @@ import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edi
     HeaderComponent,
     ContentLikertCreatorComponent,
     ContentYesNoCreatorComponent,
-    AnswerEditComponent
+    AnswerEditComponent,
+    ContentDeleteComponent
   ],
   entryComponents: [
     RegisterComponent,
