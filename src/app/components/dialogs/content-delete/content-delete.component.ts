@@ -16,6 +16,7 @@ import { Content } from '../../../models/content';
   styleUrls: ['./content-delete.component.scss']
 })
 export class ContentDeleteComponent implements OnInit {
+  ContentType: typeof ContentType = ContentType;
   format: ContentType;
   content: Content;
 
@@ -31,8 +32,39 @@ export class ContentDeleteComponent implements OnInit {
 
   onNoClick(): void {
     switch (this.format) {
-      
-        dialogRef.close();
+      case ContentType.CHOICE:
+        this.dialogRef.close();
+        break;
+      case ContentType.SCALE:
+        this.dialogRefLikert.close();
+        break;
+      case ContentType.BINARY:
+        this.dialogRefYesNo.close();
+        break;
+      case ContentType.TEXT:
+        this.dialogRefText.close();
+        break;
+      default:
+        return;
+    }
+  }
+
+  closeDialog(action: string) {
+    switch (this.format) {
+      case ContentType.CHOICE:
+        this.dialogRef.close(action);
+        break;
+      case ContentType.SCALE:
+        this.dialogRefLikert.close(action);
+        break;
+      case ContentType.BINARY:
+        this.dialogRefYesNo.close(action);
+        break;
+      case ContentType.TEXT:
+        this.dialogRefText.close(action);
+        break;
+      default:
+        return;
     }
   }
 

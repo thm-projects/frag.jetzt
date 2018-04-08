@@ -1,3 +1,10 @@
-<p>
-  content-delete works!
-</p>
+<h3>Are you sure?</h3>
+<p>Do you really want to delete content <strong>{{content.subject}}</strong>? This action can not be undone.</p>
+<div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+  <button mat-raised-button color="warn" (click)="closeDialog('delete')">
+    Delete content
+  </button>
+  <button mat-raised-button color="primary" (click)="closeDialog('abort')">
+    Abort
+  </button>
+</div>
