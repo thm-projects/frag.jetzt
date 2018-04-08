@@ -24,5 +24,4 @@ export class FooterImprintComponent implements OnInit {
   prevStep() {
     this.step--;
   }
-
 }
