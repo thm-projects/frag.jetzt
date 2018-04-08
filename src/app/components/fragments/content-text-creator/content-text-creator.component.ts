@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ContentListComponent } from '../content-list/content-list.component';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -18,9 +20,13 @@ export class ContentTextCreatorComponent implements OnInit {
     '',
     1);
 
+  editDialogMode = false;
+
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialogRef: MatDialogRef<ContentListComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {

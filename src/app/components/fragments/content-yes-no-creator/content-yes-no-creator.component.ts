@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ContentChoice } from '../../../models/content-choice';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { AnswerOption } from '../../../models/answer-option';
@@ -6,6 +6,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
 import { ActivatedRoute } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ContentListComponent } from '../content-list/content-list.component';
 
 @Component({
   selector: 'app-content-yes-no-creator',
@@ -34,9 +36,13 @@ export class ContentYesNoCreatorComponent implements OnInit {
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '';
 
+  editDialogMode = false;
+
   constructor(private contentService: ContentService,
               private route: ActivatedRoute,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService,
+              public dialogRef: MatDialogRef<ContentListComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {

@@ -124,7 +124,11 @@ import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edi
     RoomCreateComponent,
     RoomDeleteComponent,
     RoomEditComponent,
-    AnswerEditComponent
+    AnswerEditComponent,
+    ContentChoiceCreatorComponent,
+    ContentLikertCreatorComponent,
+    ContentTextCreatorComponent,
+    ContentYesNoCreatorComponent
   ],
   imports: [
     AppRoutingModule,

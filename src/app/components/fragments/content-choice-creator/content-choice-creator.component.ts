@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.component';
 import { ContentType } from '../../../models/content-type.enum';
 import { ActivatedRoute } from '@angular/router';
+import { ContentListComponent } from '../content-list/content-list.component';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -49,10 +50,14 @@ export class ContentChoiceCreatorComponent implements OnInit {
   editDisplayAnswer: DisplayAnswer;
   originalDisplayAnswer: DisplayAnswer;
 
+  editDialogMode = false;
+
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               private route: ActivatedRoute,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              public dialogRef: MatDialogRef<ContentListComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {

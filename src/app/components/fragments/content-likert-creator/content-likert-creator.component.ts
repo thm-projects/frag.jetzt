@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
@@ -6,6 +6,8 @@ import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { ActivatedRoute } from '@angular/router';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ContentListComponent } from '../content-list/content-list.component';
 
 @Component({
   selector: 'app-content-likert-creator',
@@ -37,9 +39,13 @@ export class ContentLikertCreatorComponent implements OnInit {
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '0';
 
+  editDialogMode = false;
+
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public dialogRef: MatDialogRef<ContentListComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   fillCorrectAnswers() {
