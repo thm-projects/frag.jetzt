@@ -39,6 +39,11 @@ export class ContentService extends BaseHttpService {
 
   updateContent(content: Content) {
     // ToDo: implement service, api call
-    console.log(content);
+    console.log('Content updated.');
+  }
+
+  deleteContent(contentId: string) {
+    // ToDo: implement service, api call
+    console.log('Content deleted.');
   }
 }

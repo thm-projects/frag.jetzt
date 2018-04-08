@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { ContentChoiceCreatorComponent } from '../content-choice-creator/content-choice-creator.component';
 import { ContentLikertCreatorComponent } from '../content-likert-creator/content-likert-creator.component';
 import { ContentTextCreatorComponent } from '../content-text-creator/content-text-creator.component';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-content-list',
@@ -62,10 +63,13 @@ export class ContentListComponent implements OnInit {
       ContentType.SCALE)
   ];
 
+  contentBackup: Content;
+
   ContentType: typeof ContentType = ContentType;
 
   constructor(private contentService: ContentService,
               private route: ActivatedRoute,
+              private notificationService: NotificationService,
               public dialog: MatDialog) {
   }
 
@@ -93,9 +97,52 @@ export class ContentListComponent implements OnInit {
     return index;
   }
 
+  createChoiceContentBackup(content: ContentChoice) {
+    const answerOptions: Array<AnswerOption> = new Array<AnswerOption> ();
+    const correctAnswers: number[] = [];
+
+    for (let i = 0; i < content.options.length; i++) {
+      answerOptions.push(content.options[i]);
+    }
+
+    for (let i = 0; i < content.correctOptionIndexes.length; i++) {
+      correctAnswers.push(content.correctOptionIndexes[i]);
+    }
+
+    this.contentBackup = new ContentChoice(
+      content.contentId,
+      content.revision,
+      content.roomId,
+      content.subject,
+      content.body,
+      content.round,
+      answerOptions,
+      correctAnswers,
+      content.multiple,
+      content.format
+    );
+  }
+
+  createTextContentBackup(content: ContentText) {
+    this.contentBackup = new ContentText(
+      content.contentId,
+      content.revision,
+      content.roomId,
+      content.subject,
+      content.body,
+      content.round
+    );
+  }
+
   editContent(subject: string) {
     const index = this.findIndexOfSubject(subject);
     const format = this.contents[index].format;
+
+    if (format === this.ContentType.TEXT) {
+      this.createTextContentBackup(this.contents[index] as ContentText);
+    } else {
+      this.createChoiceContentBackup(this.contents[index] as ContentChoice);
+    }
 
     switch (format) {
       case this.ContentType.CHOICE:
@@ -130,7 +177,7 @@ export class ContentListComponent implements OnInit {
     dialogRef.componentInstance.content = content;
     dialogRef.afterClosed()
       .subscribe(result => {
-        console.log(result);
+        this.updateContentChanges(index, result);
       });
   }
 
@@ -144,7 +191,7 @@ export class ContentListComponent implements OnInit {
     dialogRef.componentInstance.content = content;
     dialogRef.afterClosed()
       .subscribe(result => {
-        console.log(result);
+        this.updateContentChanges(index, result);
       });
   }
 
@@ -156,7 +203,7 @@ export class ContentListComponent implements OnInit {
     dialogRef.componentInstance.content = content;
     dialogRef.afterClosed()
       .subscribe(result => {
-        console.log(result);
+        this.updateContentChanges(index, result);
       });
   }
 
@@ -168,7 +215,22 @@ export class ContentListComponent implements OnInit {
     dialogRef.componentInstance.content = content;
     dialogRef.afterClosed()
       .subscribe(result => {
-        console.log(result);
+        this.updateContentChanges(index, result);
       });
+  }
+
+  updateContentChanges(index: number, action: string) {
+    if (action.valueOf() === 'delete') {
+      this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
+      this.contentService.deleteContent(this.contents[index].contentId);
+      this.contents.splice(index, 1);
+    }
+    if (action.valueOf() === 'edit') {
+      this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
+      this.contentService.updateContent(this.contents[index]);
+    }
+    if (action.valueOf() === 'abort') {
+      this.contents[index] = this.contentBackup;
+    }
   }
 }
