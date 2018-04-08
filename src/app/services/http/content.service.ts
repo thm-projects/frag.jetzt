@@ -41,10 +41,19 @@ export class ContentService extends BaseHttpService {
     );
   }
 
-  getContent(contentId: string): Observable<Content> {
-    const connectionUrl = `${this.apiUrl.base}/?contentId=${contentId}`;
-    return this.http.get<Content>(connectionUrl).pipe(
-      catchError(this.handleError<Content>(`getContent id=${contentId}`))
+  updateContent(updatedContent: Content): Observable<Content> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + updatedContent.contentId;
+    return this.http.put(connectionUrl, updatedContent, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('updateContent'))
+    );
+  }
+
+  deleteContent(content: Content): Observable<Content> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + content.contentId;
+    return this.http.delete<Content>(connectionUrl, httpOptions).pipe(
+      tap (_ => ''),
+      catchError(this.handleError<Content>('deleteContent'))
     );
   }
 
