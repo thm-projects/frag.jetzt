@@ -26,6 +26,6 @@
   <div *ngIf="editDialogMode">
     <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
     <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
-    <button mat-raised-button (click)="editDialogClose($event,'delete')" color="warn">Delete</button>
+    <button mat-raised-button (click)="openDeletionContentDialog($event)" color="warn">Delete</button>
   </div>
 </form>

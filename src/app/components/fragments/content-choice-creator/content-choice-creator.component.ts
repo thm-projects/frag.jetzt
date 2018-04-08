@@ -8,6 +8,7 @@ import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.compo
 import { ContentType } from '../../../models/content-type.enum';
 import { ActivatedRoute } from '@angular/router';
 import { ContentListComponent } from '../content-list/content-list.component';
+import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -266,5 +267,19 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  openDeletionContentDialog($event): void {
+    $event.preventDefault();
+    const dialogRef = this.dialog.open(ContentDeleteComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.content = this.content;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.dialogRef.close(result);
+        }
+      });
   }
 }

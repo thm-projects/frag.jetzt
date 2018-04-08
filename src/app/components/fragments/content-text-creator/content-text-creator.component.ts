@@ -3,8 +3,9 @@ import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
+import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -25,6 +26,7 @@ export class ContentTextCreatorComponent implements OnInit {
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               private route: ActivatedRoute,
+              public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -61,5 +63,19 @@ export class ContentTextCreatorComponent implements OnInit {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  openDeletionContentDialog($event): void {
+    $event.preventDefault();
+    const dialogRef = this.dialog.open(ContentDeleteComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.content = this.content;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.dialogRef.close(result);
+        }
+      });
   }
 }
