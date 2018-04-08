@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundPageComponent } from './components/pages/page-not-found-page/page-not-found-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
+  MAT_DIALOG_DATA,
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -21,6 +22,7 @@ import {
   MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatDialogRef,
   MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,
@@ -186,7 +188,18 @@ import { ContentDeleteComponent } from './components/dialogs/content-delete/cont
     RoomService,
     CommentService,
     ContentService,
-    ContentAnswerService
+    ContentAnswerService,
+    {
+      provide: MatDialogRef,
+      useValue: {
+        close: (dialogResult: any) => {
+        }
+      }
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: []
+    }
   ],
   bootstrap: [AppComponent]
 })
