@@ -35,7 +35,7 @@ export class MarkdownToolbarComponent {
     new Button('ol', 'Ordered list', 'format_list_numbered', '1. {{TEXT}}'),
     new Button('code', 'Code', 'code', '`{{TEXT}}`'),
     new Button('quote', 'Quote', 'format_quote', '> {{TEXT}}'),
-    new Button('image', 'Image', 'insert_photo', '![{{TEXT}}}]({{URL}})'),
+    new Button('image', 'Image', 'insert_photo', '![{{TEXT}}]({{URL}})'),
     new Button('help', 'Help', 'help', '')
   ];
 
