@@ -22,7 +22,6 @@ export class Data {
   label: string;
   value: string;
 
-  // TODO: constructor needed?
   constructor(id: string, label: string, value?: string) {
     this.id = id;
     this.label = label;
