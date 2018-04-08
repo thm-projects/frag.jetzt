@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
+
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
@@ -34,5 +35,10 @@ export class ContentService extends BaseHttpService {
     return this.http.get<Content>(url).pipe(
       catchError(this.handleError<Content>(`getContent id=${contentId}`))
     );
+  }
+
+  updateContent(content: Content) {
+    // ToDo: implement service, api call
+    console.log(content);
   }
 }

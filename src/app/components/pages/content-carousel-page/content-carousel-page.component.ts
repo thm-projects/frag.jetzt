@@ -14,7 +14,6 @@ import { ActivatedRoute } from '@angular/router';
 export class ContentCarouselPageComponent implements OnInit {
   ContentType: typeof ContentType = ContentType;
 
-  test = [1, 2];
 //  contents: Content[];
   contents = [
     new ContentChoice('0',
@@ -53,8 +52,8 @@ export class ContentCarouselPageComponent implements OnInit {
         new AnswerOption('Strongly agree', '0'),
         new AnswerOption('Agree', '0'),
         new AnswerOption('Neither agree nor disagree', '0'),
-        new AnswerOption('Disagree', '0' ),
-      new AnswerOption('Strongly disagree', '0') ],
+        new AnswerOption('Disagree', '0'),
+        new AnswerOption('Strongly disagree', '0')],
       [],
       false,
       ContentType.SCALE)
@@ -67,9 +66,9 @@ export class ContentCarouselPageComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       // ToDo: Check api call
-/*      this.contentService.getContents(params['roomId']).subscribe(result => {
-        this.contents = result;
-      }); */
+      /*      this.contentService.getContents(params['roomId']).subscribe(result => {
+              this.contents = result;
+            }); */
     });
   }
 }
