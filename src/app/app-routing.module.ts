@@ -13,9 +13,8 @@ import { CommentListComponent } from './components/fragments/comment-list/commen
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
 import { StatisticsComponent } from './components/fragments/statistics/statistics.component';
 import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
-import {
-  ContentCarouselPageComponent
-} from './components/pages/content-carousel-page/content-carousel-page.component';
+import { ContentCarouselPageComponent } from './components/pages/content-carousel-page/content-carousel-page.component';
+import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
 
 const routes: Routes = [
   {
@@ -64,6 +63,12 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
+    path: 'creator/room/:roomId/feedback-barometer',
+    component: FeedbackBarometerPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
     path: 'participant',
     component: HomeParticipantPageComponent,
     canActivate: [AuthenticationGuard],
@@ -84,6 +89,12 @@ const routes: Routes = [
   {
     path: 'participant/room/:roomId/questions',
     component: ContentCarouselPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'participant/room/:roomId/feedback-barometer',
+    component: FeedbackBarometerPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
