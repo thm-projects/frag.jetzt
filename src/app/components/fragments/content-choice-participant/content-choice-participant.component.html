@@ -2,10 +2,28 @@
   <h1 class="mat-headline">{{ content.subject }}</h1>
   <p>{{ content.body }}</p>
   <mat-divider></mat-divider>
-  <mat-list>
+  <mat-list *ngIf="content.multiple">
     <mat-list-item *ngFor="let answer of checkedAnswers">
-      <mat-checkbox color="primary" [(ngModel)]="answer.checked" name="answer">{{ answer.answerOption.label }}</mat-checkbox>
+      <mat-checkbox color="primary" [(ngModel)]="answer.checked" name="answer">
+        {{ answer.answerOption.label }}
+      </mat-checkbox>
     </mat-list-item>
   </mat-list>
-  <button mat-raised-button color="primary">Send answer</button>
+  <mat-radio-group *ngIf="!content.multiple" [(ngModel)]="selectedSingleAnswer" name="Radio">
+    <mat-list>
+      <mat-list-item *ngFor="let answer of checkedAnswers">
+        <mat-radio-button color="primary" [value]="answer.answerOption.label" name="answer">
+          {{ answer.answerOption.label }}
+        </mat-radio-button>
+      </mat-list-item>
+    </mat-list>
+  </mat-radio-group>
+  <mat-divider></mat-divider>
+  <div fxLayout fxLayoutGap="5px" fxAlign="row">
+    <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button (click)="abstain($event)" color="primary">Abstain</button>
+    <mat-chip-list *ngIf="isAnswerSent">
+      <mat-chip color="primary" selected="true">Answer sent</mat-chip>
+    </mat-chip-list>
+  </div>
 </form>

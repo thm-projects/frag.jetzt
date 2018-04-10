@@ -1,25 +1,44 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ContentText } from '../../../models/content-text';
+import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
+import { ContentChoice } from '../../../models/content-choice';
+import { AnswerOption } from '../../../models/answer-option';
+import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
+import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 
 @Component({
-  selector: 'app-content-text-creator',
-  templateUrl: './content-text-creator.component.html',
-  styleUrls: ['./content-text-creator.component.scss']
+  selector: 'app-content-likert-creator',
+  templateUrl: './content-likert-creator.component.html',
+  styleUrls: ['./content-likert-creator.component.scss']
 })
-export class ContentTextCreatorComponent implements OnInit {
+export class ContentLikertCreatorComponent implements OnInit {
+  likertScale = [
+    'Strongly agree',
+    'Agree',
+    'Neither agree nor disagree',
+    'Disagree',
+    'Strongly disagree'
+  ];
 
-  content: ContentText = new ContentText('1',
+  content: ContentChoice = new ContentChoice('0',
     '1',
-    '0',
     '',
     '',
-    1);
+    '',
+    1,
+    [],
+    [],
+    false,
+    ContentType.SCALE);
+
+  displayedColumns = ['label'];
+
+  displayAnswers: DisplayAnswer[] = [];
+  newAnswerOptionPoints = '0';
 
   editDialogMode = false;
 
@@ -31,24 +50,38 @@ export class ContentTextCreatorComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+  fillCorrectAnswers() {
+    this.displayAnswers = [];
+    for (let i = 0; i < this.content.options.length; i++) {
+      this.content.correctOptionIndexes.push(i);
+      this.displayAnswers.push(new DisplayAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
+    }
+  }
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.content.roomId = params['roomId'];
     });
+    for (let i = 0; i < this.likertScale.length; i++) {
+      this.content.options.push(new AnswerOption(this.likertScale[i], this.newAnswerOptionPoints));
+    }
+    this.fillCorrectAnswers();
   }
 
   resetAfterSubmit() {
     this.content.subject = '';
     this.content.body = '';
+    this.content.correctOptionIndexes = [];
+    this.fillCorrectAnswers();
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  submitContent() {
+  submitContent(): void {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
-    this.notificationService.show('Content submitted.');
+    this.notificationService.show('Content sumbitted.');
     // ToDo: Check api call
     // this.contentService.addContent(this.content);
     // For Testing:

@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PageNotFoundPageComponent } from './components/pages/page-not-found-page/page-not-found-page.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
+  MAT_DIALOG_DATA,
   MatAutocompleteModule,
   MatButtonModule,
   MatButtonToggleModule,
@@ -21,6 +22,7 @@ import {
   MatChipsModule,
   MatDatepickerModule,
   MatDialogModule,
+  MatDialogRef,
   MatDividerModule,
   MatExpansionModule,
   MatFormFieldModule,
@@ -78,6 +80,10 @@ import { ContentTextParticipantComponent } from './components/fragments/content-
 import { ContentTextCreatorComponent } from './components/fragments/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { HeaderComponent } from './components/fragments/header/header.component';
+import { ContentLikertCreatorComponent } from './components/fragments/content-likert-creator/content-likert-creator.component';
+import { ContentYesNoCreatorComponent } from './components/fragments/content-yes-no-creator/content-yes-no-creator.component';
+import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edit.component';
+import { ContentDeleteComponent } from './components/dialogs/content-delete/content-delete.component';
 
 @NgModule({
   declarations: [
@@ -110,14 +116,24 @@ import { HeaderComponent } from './components/fragments/header/header.component'
     ContentTextParticipantComponent,
     StatisticsComponent,
     ContentTextCreatorComponent,
-    HeaderComponent
+    HeaderComponent,
+    ContentLikertCreatorComponent,
+    ContentYesNoCreatorComponent,
+    AnswerEditComponent,
+    ContentDeleteComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
     RoomCreateComponent,
     RoomDeleteComponent,
-    RoomEditComponent
+    RoomEditComponent,
+    AnswerEditComponent,
+    ContentChoiceCreatorComponent,
+    ContentLikertCreatorComponent,
+    ContentTextCreatorComponent,
+    ContentYesNoCreatorComponent,
+    ContentDeleteComponent
   ],
   imports: [
     AppRoutingModule,
@@ -172,7 +188,18 @@ import { HeaderComponent } from './components/fragments/header/header.component'
     RoomService,
     CommentService,
     ContentService,
-    ContentAnswerService
+    ContentAnswerService,
+    {
+      provide: MatDialogRef,
+      useValue: {
+        close: (dialogResult: any) => {
+        }
+      }
+    },
+    {
+      provide: MAT_DIALOG_DATA,
+      useValue: []
+    }
   ],
   bootstrap: [AppComponent]
 })

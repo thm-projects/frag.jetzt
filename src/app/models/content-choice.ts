@@ -15,14 +15,15 @@ export class ContentChoice extends Content {
               round: number,
               options: AnswerOption[],
               correctOptionIndexes: number[],
-              multiple: boolean) {
+              multiple: boolean,
+              format: ContentType) {
     super(contentId,
       revision,
       roomId,
       subject,
       body,
       round,
-      ContentType.CHOICE,
+      format,
       new Map());
       this.options = options;
       this.correctOptionIndexes = correctOptionIndexes;

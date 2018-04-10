@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentAnswerService } from '../../../services/http/content-answer.service';
 import { AnswerText } from '../../../models/answer-text';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-content-text-participant',
@@ -9,29 +10,51 @@ import { AnswerText } from '../../../models/answer-text';
   styleUrls: ['./content-text-participant.component.scss']
 })
 export class ContentTextParticipantComponent implements OnInit {
-  content: ContentText = new ContentText('1',
+  @Input() content: ContentText;
+
+  dummyContent: ContentText = new ContentText('1',
     '1',
     '1',
     'Text Content 1',
     'This is the body of Text Content 1',
     1);
 
-  constructor(private answerService: ContentAnswerService) {
+  textAnswer = '';
+  isAnswerSent = false;
+
+  constructor(private answerService: ContentAnswerService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit() {
   }
 
-  submitAnswer(answer: string) {
+//  submitAnswer(answer: string) {
+  submitAnswer() {
+    if (this.textAnswer.trim().valueOf() === '') {
+      this.notificationService.show('No empty answer allowed.');
+      this.textAnswer = '';
+      return;
+    }
+    this.isAnswerSent = true;
+    /*
+    // ToDo: Check correct api call
     this.answerService.addAnswerText({
       id: '0',
-      revision: this.content.revision,
+      revision: '0',
       contentId: this.content.contentId,
       round: this.content.round,
       subject: this.content.subject,
-      body: answer,
+      body: this.textAnswer,
       read: 'false',
       creationTimestamp: new Date()
-    } as AnswerText).subscribe();
+    } as AnswerText).subscribe(result => {
+    // TODO: Set isAnswerSent
+    }); */
+  }
+
+  abstain($event) {
+    $event.preventDefault();
+    console.log('abstain');
   }
 }
