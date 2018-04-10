@@ -1,6 +1,6 @@
 <form (ngSubmit)="submitAnswer()">
   <h1 class="mat-headline">{{ content.subject }}</h1>
-  <p>{{ content.body }}</p>
+  <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
   <mat-form-field class="input-block">
     <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="Your answer"></textarea>

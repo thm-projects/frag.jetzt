@@ -87,6 +87,10 @@ import { ContentDeleteComponent } from './components/dialogs/content-delete/cont
 import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownToolbarComponent } from './components/fragments/markdown-toolbar/markdown-toolbar.component';
+import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-dialog/markdown-help-dialog.component';
+import { GenericDataDialogComponent } from './components/dialogs/generic-data-dialog/generic-data-dialog.component';
 
 @NgModule({
   declarations: [
@@ -124,7 +128,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     ContentYesNoCreatorComponent,
     AnswerEditComponent,
     ContentDeleteComponent,
-    FeedbackBarometerPageComponent
+    FeedbackBarometerPageComponent,
+    MarkdownToolbarComponent,
+    MarkdownHelpDialogComponent,
+    GenericDataDialogComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -137,7 +144,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
-    ContentDeleteComponent
+    ContentDeleteComponent,
+    MarkdownHelpDialogComponent,
+    GenericDataDialogComponent
   ],
   imports: [
     AppRoutingModule,
@@ -146,6 +155,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
+    MarkdownModule.forRoot(),
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,

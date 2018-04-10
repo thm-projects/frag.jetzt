@@ -1,0 +1,7 @@
+<form (ngSubmit)="submit()">
+  <mat-form-field class="input-block" *ngFor="let input of data">
+    <input matInput name="{{input.id}}" [(ngModel)]="input.value" placeholder="{{input.label}}" />
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit">Submit</button>
+</form>
