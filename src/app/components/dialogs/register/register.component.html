@@ -1,4 +1,4 @@
-<form (ngSubmit)="register(userName.value, userPassword1.value, userPassword2.value)" fxLayout="column"
+<form (ngSubmit)="register(userName.value, userPassword1.value)" fxLayout="column"
       fxLayoutAlign="space-around" fxLayoutGap="10px">
   <mat-form-field class="input-block">
     <input matInput #userName placeholder="E-mail" [formControl]="usernameFormControl" [errorStateMatcher]="matcher">
