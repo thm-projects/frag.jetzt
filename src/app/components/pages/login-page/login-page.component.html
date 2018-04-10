@@ -1,25 +1,33 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-tab-group class="login-tab-group">
-      <mat-tab label="Creator">
+      <mat-tab label="{{ 'login-page.creator' | translate }}">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
             <app-login fxFill [role]="UserRole.CREATOR"></app-login>
           </div>
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
-            <button mat-button color="primary" (click)="openRegisterDialog()">Register</button>
-            <button mat-button color="primary" (click)="openPasswordDialog()">Password reset</button>
+            <button mat-button color="primary" (click)="openRegisterDialog()">
+              {{ 'login-page.register' | translate }}
+            </button>
+            <button mat-button color="primary" (click)="openPasswordDialog()">
+              {{ 'login-page.password-reset' | translate }}
+            </button>
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Participant">
+      <mat-tab label="{{ 'login-page.participant' | translate }}">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
             <app-login fxFill [role]="UserRole.PARTICIPANT"></app-login>
           </div>
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
-            <button mat-button color="primary" (click)="openRegisterDialog()">Register</button>
-            <button mat-button color="primary" (click)="openPasswordDialog()">Password reset</button>
+            <button mat-button color="primary" (click)="openRegisterDialog()">
+              {{ 'login-page.register' | translate }}
+            </button>
+            <button mat-button color="primary" (click)="openPasswordDialog()">
+              {{ 'login-page.password-reset' | translate }}
+            </button>
           </div>
         </div>
       </mat-tab>

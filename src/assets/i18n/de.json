@@ -1,0 +1,44 @@
+{
+	"header": {
+		"english": "English",
+		"german": "Deutsch",
+		"logout": "Abmelden"
+	},
+	"login-page": {
+		"creator": "Autor",
+		"participant": "Teilnehmer",
+		"password-reset": "Passwort zurücksetzen",
+		"register": "Registrieren"
+	},
+	"login": {
+		"email": "E-Mail",
+		"email-invalid": "E-Mail Adresse ist ungültig",
+		"email-required": "E-Mail Adresse ist erforderlich",
+		"guest-login": "Anmelden als Gast",
+		"input-incorrect": "Bitte prüfen Sie Ihre Eingaben.",
+		"login": "Anmelden",
+		"login-data-incorrect": "Benutzername oder Passwort nicht korrekt.",
+		"password": "Passwort",
+		"password-required": "Passwort ist erforderlich"
+	},
+	"password-reset": {
+		"email": "E-Mail",
+		"email-invalid": "E-Mail Adresse ist nicht gültig.",
+		"email-required": "E-Mail Adresse ist erforderlich.",
+		"input-incorrect": "Bitte prüfen Sie Ihre Eingabe.",
+		"reset-password": "Passwort zurücksetzen",
+		"reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfen Sie Ihre E-Mails"
+	},
+	"register": {
+		"email": "E-Mail",
+		"email-invalid": "E-Mail Adresse ist nicht gültig",
+		"email-required": "E-Mail Adresse ist erforderlich",
+		"password": "Passwort",
+		"password-required": "Passwort ist erforderlich",
+		"password-unmatch": "Passwörter stimmen nicht überein",
+		"password-verify": "Passwort bestätigen",
+		"register": "Registrieren",
+		"register-successful": "Erfolgreich registriert. Bitte prüfen Sie Ihre E-Mails",
+		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben."
+	}
+}

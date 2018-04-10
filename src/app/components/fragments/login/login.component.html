@@ -1,18 +1,22 @@
 <form (ngSubmit)="login(userEmail.value, userPassword.value)" fxLayout="column" fxLayoutAlign="space-around"
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput #userEmail placeholder="E-mail" [formControl]="usernameFormControl" [errorStateMatcher]="matcher"
-           name="username"/>
-    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">Please enter a
-      <strong>valid</strong> e-mail address.
+    <input matInput #userEmail placeholder="{{ 'login.email' | translate }}" [formControl]="usernameFormControl"
+           [errorStateMatcher]="matcher" name="username"/>
+    <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
+      {{ 'login.email-invalid' | translate }}
     </mat-error>
-    <mat-error *ngIf="usernameFormControl.hasError('required')">E-mail is <strong>required</strong>.</mat-error>
+    <mat-error *ngIf="usernameFormControl.hasError('required')">
+      {{ 'login.email-required' | translate }}
+    </mat-error>
   </mat-form-field>
   <mat-form-field class="input-block">
-    <input matInput #userPassword type="password" placeholder="Password" [formControl]="passwordFormControl"
-           [errorStateMatcher]="matcher" name="password"/>
-    <mat-error *ngIf="passwordFormControl.hasError('required')">Password is <strong>required</strong>.</mat-error>
+    <input matInput #userPassword type="password" placeholder="{{ 'login.password' | translate }}"
+           [formControl]="passwordFormControl" [errorStateMatcher]="matcher" name="password"/>
+    <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">Login</button>
-  <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="guestLogin()" type="button">Login as guest</button>
+  <button mat-raised-button color="primary" type="submit">{{ 'login.login' | translate }}</button>
+  <button mat-raised-button *ngIf="role === UserRole.PARTICIPANT" (click)="guestLogin()" type="button">
+    {{ 'login.guest-login' | translate }}
+  </button>
 </form>

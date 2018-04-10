@@ -47,7 +47,7 @@ import {
   MatToolbarModule,
   MatTooltipModule
 } from '@angular/material';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { RoomPageComponent } from './components/pages/room-page/room-page.component';
 import { RoomCreateComponent } from './components/dialogs/room-create/room-create.component';
 import { LoginComponentPageComponent } from './components/pages/login-page/login-page.component';
@@ -85,6 +85,8 @@ import { ContentYesNoCreatorComponent } from './components/fragments/content-yes
 import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from './components/dialogs/content-delete/content-delete.component';
 import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   declarations: [
@@ -143,6 +145,7 @@ import { FeedbackBarometerPageComponent } from './components/pages/feedback-baro
     BrowserAnimationsModule,
     FlexLayoutModule,
     FormsModule,
+    HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
@@ -175,7 +178,13 @@ import { FeedbackBarometerPageComponent } from './components/pages/feedback-baro
     MatToolbarModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    HttpClientModule
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     {
@@ -206,4 +215,8 @@ import { FeedbackBarometerPageComponent } from './components/pages/feedback-baro
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
 }

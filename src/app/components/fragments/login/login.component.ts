@@ -5,6 +5,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
+import { TranslateService } from '@ngx-translate/core';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -30,6 +31,7 @@ export class LoginComponent implements OnInit {
 
   constructor(public authenticationService: AuthenticationService,
               public router: Router,
+              private translationService: TranslateService,
               public notificationService: NotificationService) {
   }
 
@@ -44,7 +46,9 @@ export class LoginComponent implements OnInit {
       !this.passwordFormControl.hasError('required')) {
       this.authenticationService.login(username, password, this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
     } else {
-      this.notificationService.show('Please fit the requirements shown above.');
+      this.translationService.get('login.input-incorrect').subscribe(message => {
+        this.notificationService.show(message);
+      });
     }
   }
 
@@ -61,7 +65,9 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['participant']);
       }
     } else {
-      this.notificationService.show('Username or password incorrect.');
+      this.translationService.get('login.login-data-incorrect').subscribe(message => {
+        this.notificationService.show(message);
+      });
     }
   }
 }

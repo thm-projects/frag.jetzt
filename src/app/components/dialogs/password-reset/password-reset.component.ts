@@ -4,6 +4,7 @@ import { ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef } from '@angular/mater
 import { RegisterComponent } from '../register/register.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,7 +25,8 @@ export class PasswordResetComponent implements OnInit {
 
   matcher = new PasswordResetErrorStateMatcher();
 
-  constructor(public authenticationService: AuthenticationService,
+  constructor(private translationService: TranslateService,
+              public authenticationService: AuthenticationService,
               public notificationService: NotificationService,
               public dialogRef: MatDialogRef<RegisterComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -38,11 +40,15 @@ export class PasswordResetComponent implements OnInit {
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email')) {
       this.authenticationService.resetPassword(username).subscribe(() => {
-        this.notificationService.show('Password was reset. Please check your mail!');
+        this.translationService.get('password-reset.reset-successful').subscribe(message => {
+          this.notificationService.show(message);
+        });
         this.dialogRef.close();
       });
     } else {
-      this.notificationService.show('Please fit the requirements shown above.');
+      this.translationService.get('password-reset.input-incorrect').subscribe(message => {
+        this.notificationService.show(message);
+      });
     }
   }
 
