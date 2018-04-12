@@ -37,7 +37,6 @@ export class ContentTextParticipantComponent implements OnInit {
       return;
     }
     this.isAnswerSent = true;
-    /*
     // ToDo: Check correct api call
     this.answerService.addAnswerText({
       id: '0',
@@ -48,9 +47,8 @@ export class ContentTextParticipantComponent implements OnInit {
       body: this.textAnswer,
       read: 'false',
       creationTimestamp: new Date()
-    } as AnswerText).subscribe(result => {
+    } as AnswerText).subscribe();
     // TODO: Set isAnswerSent
-    }); */
   }
 
   abstain($event) {

@@ -67,14 +67,4 @@ export class ContentService extends BaseHttpService {
       catchError(this.handleError<Content>('deleteContent'))
     );
   }
-
-  updateContent(content: Content) {
-    // ToDo: implement service, api call
-    console.log('Content updated.');
-  }
-
-  deleteContent(contentId: string) {
-    // ToDo: implement service, api call
-    console.log('Content deleted.');
-  }
 }
