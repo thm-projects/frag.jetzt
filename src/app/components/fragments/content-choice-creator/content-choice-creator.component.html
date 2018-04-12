@@ -1,3 +1,11 @@
+<form (ngSubmit)="submitContent(subject.value, body.value)">
+  <mat-form-field class="input-block">
+    <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+  </mat-form-field>
+  <mat-divider></mat-divider>
 <form (ngSubmit)="submitContent()">
   <section class="choice-seformn" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-checkbox (click)="singleChoice = true; multipleChoice = false;"

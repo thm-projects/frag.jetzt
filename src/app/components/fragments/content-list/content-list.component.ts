@@ -18,7 +18,7 @@ import { NotificationService } from '../../../services/util/notification.service
   styleUrls: ['./content-list.component.scss']
 })
 export class ContentListComponent implements OnInit {
-  //  contents: Content[];
+
   contents = [
     new ContentChoice('0',
       '1',
@@ -67,6 +67,8 @@ export class ContentListComponent implements OnInit {
 
   ContentType: typeof ContentType = ContentType;
 
+  roomId: string;
+
   constructor(private contentService: ContentService,
               private route: ActivatedRoute,
               private notificationService: NotificationService,
@@ -74,9 +76,8 @@ export class ContentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-//      this.getContents(params['roomId']);
-    });
+    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.getContents(this.roomId);
   }
 
   getContents(roomId: string): void {

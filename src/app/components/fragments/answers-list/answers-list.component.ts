@@ -15,8 +15,8 @@ export class AnswersListComponent implements OnInit {
   constructor(
     private contentService: ContentService,
     private contentAnswerService: ContentAnswerService,
-    private route: ActivatedRoute
-  ) { }
+    private route: ActivatedRoute) {
+  }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -25,7 +25,7 @@ export class AnswersListComponent implements OnInit {
   }
 
   getAnswerTexts(contentId: string): void {
-    this.contentAnswerService.getTextAnswers(contentId)
+    this.contentAnswerService.getAnswers(contentId)
       .subscribe(textAnswers => {
         this.textAnswers = textAnswers;
       });

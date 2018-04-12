@@ -87,18 +87,14 @@ export class ContentChoiceParticipantComponent implements OnInit {
       return;
     }
     this.isAnswerSent = true;
-    // ToDo: Implement function in service
-    /*
     this.answerService.addAnswerChoice({
-      id: '0',
-      revision: '0',
+      id: '',
+      revision: '',
       contentId: this.content.contentId,
-      round: this.content.round,
-      selectedChoiceIndexes: selectedAnswers,
-    } as AnswerChoice).subscribe(result => {
+      round: 1,
+      selectedChoiceIndexes: []
+    } as AnswerChoice).subscribe();
     // TODO: Set isAnswerSent
-    });
-    */
   }
 
   abstain($event) {

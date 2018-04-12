@@ -12,45 +12,85 @@ const httpOptions = {
 
 @Injectable()
 export class ContentAnswerService extends BaseHttpService {
-  private textAnswerUrl = 'api/textAnswers';
-  private choiceAnswerUrl = 'api/choiceAnswers';
+  private apiUrl = {
+    base: 'https://arsnova-staging.mni.thm.de/api',
+    answer: '/answer',
+    text: '/text',
+    choice: '/choice',
+    find: '/find'
+  };
 
   constructor(private http: HttpClient) {
     super();
   }
 
-  getTextAnswers(contentId: string): Observable<AnswerText[]> {
-    const url = `${this.textAnswerUrl}/?contentId=${contentId}`;
-    return this.http.get<AnswerText[]>(url).pipe(
-      catchError(this.handleError('getTextAnswers', []))
-    );
-  }
-
-  getChoiceAnswers(contentId: string): Observable<AnswerText[]> {
-    const url = `${this.choiceAnswerUrl}/?contentId=${contentId}`;
-    return this.http.get<AnswerText[]>(url).pipe(
-      catchError(this.handleError('getChoiceAnswers', []))
+  getAnswers(contentId: string): Observable<AnswerText[]> {
+    const url = this.apiUrl.base + this.apiUrl.answer + this.apiUrl.find;
+    return this.http.post<AnswerText[]>(url, {
+      properties: { contentId: contentId },
+      externalFilters: {}
+    }, httpOptions).pipe(
+      catchError(this.handleError('getAnswers', []))
     );
   }
 
   addAnswerText(answerText: AnswerText): Observable<AnswerText> {
-    return this.http.post<AnswerText>(this.textAnswerUrl, answerText, httpOptions).pipe(
+    const url = this.apiUrl.base + this.apiUrl.answer + this.apiUrl.text + '/';
+    return this.http.post<AnswerText>(url, answerText, httpOptions).pipe(
       catchError(this.handleError<AnswerText>('addAnswerText'))
     );
   }
 
   addAnswerChoice(answerChoice: AnswerChoice): Observable<AnswerChoice> {
-    // Dummy method copied from addAnswerText.
-    // Todo: Implement correct method with api
-    return this.http.post<AnswerChoice>(this.textAnswerUrl, answerChoice, httpOptions).pipe(
-      catchError(this.handleError<AnswerChoice>('addAnswerText'))
+    const url = this.apiUrl.base + this.apiUrl.answer + this.apiUrl.choice + '/';
+    return this.http.post<AnswerChoice>(url, answerChoice, httpOptions).pipe(
+      catchError(this.handleError<AnswerChoice>('addAnswerChoice'))
     );
   }
 
   getAnswerText(id: string): Observable<AnswerText> {
-    const url = `${this.textAnswerUrl}/${id}`;
+    const url = `${ this.apiUrl.base + this.apiUrl.answer + this.apiUrl.text}/${ id }`;
     return this.http.get<AnswerText>(url).pipe(
-      catchError(this.handleError<AnswerText>(`getAnswerText id=${id}`))
+      catchError(this.handleError<AnswerText>(`getAnswerText id=${ id }`))
+    );
+  }
+
+  getAnswerChoice(id: string): Observable<AnswerChoice> {
+    const url = `${ this.apiUrl.base + this.apiUrl.answer + this.apiUrl.choice }/${ id }`;
+    return this.http.get<AnswerChoice>(url).pipe(
+      catchError(this.handleError<AnswerChoice>(`getAnswerChoice id=${ id }`))
+    );
+  }
+
+  updateAnswerText(updatedAnswerText: AnswerText): Observable<AnswerText> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.answer + this.apiUrl.text}/${ updatedAnswerText.id }`;
+    return this.http.put(connectionUrl, updatedAnswerText , httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<any>('updateAnswerText'))
+    );
+  }
+
+  updateAnswerChoice(updatedAnswerChoice: AnswerChoice): Observable<AnswerChoice> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.answer + this.apiUrl.choice}/${ updatedAnswerChoice.id }`;
+    return this.http.put(connectionUrl, updatedAnswerChoice , httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<any>('updateAnswerChoice'))
+    );
+  }
+
+  deleteAnswerText(id: string): Observable<AnswerText> {
+    const url = `${ this.apiUrl.base + this.apiUrl.answer }/${ id }`;
+    return this.http.delete<AnswerText>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<AnswerText>('deleteAnswerText'))
+    );
+  }
+
+  deleteAnswerChoice(id: string): Observable<AnswerChoice> {
+    const url = `${ this.apiUrl.base + this.apiUrl.answer }/${ id }`;
+    return this.http.delete<AnswerChoice>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<AnswerChoice>('deleteAnswerText'))
     );
   }
 }

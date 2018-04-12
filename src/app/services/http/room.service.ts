@@ -26,8 +26,8 @@ export class RoomService extends BaseHttpService {
   }
 
   getCreatorRooms(): Observable<Room[]> {
-    const url = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
-    return this.http.post<Room[]>(url, {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
+    return this.http.post<Room[]>(connectionUrl, {
       properties: { ownerId: this.authService.getUser().id },
       externalFilters: {}
     }).pipe(
@@ -37,8 +37,8 @@ export class RoomService extends BaseHttpService {
   }
 
   getParticipantRooms(): Observable<Room[]> {
-    const url = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
-    return this.http.post<Room[]>(url, {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
+    return this.http.post<Room[]>(connectionUrl, {
       properties: {},
       externalFilters: { inHistoryOfUserId: this.authService.getUser().id }
     }).pipe(
@@ -56,37 +56,27 @@ export class RoomService extends BaseHttpService {
   }
 
   getRoom(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.rooms }/~${id}`;
+    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
-      catchError(this.handleError<Room>(`getRoom id=${id}`))
+      catchError(this.handleError<Room>(`getRoom id=${ id }`))
     );
   }
 
   addToHistory(roomId: string): void {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.user }/${this.authService.getUser().id}/roomHistory`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
     this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(r => console.log(r));
   }
 
-  getRoomById(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.rooms }/${id}`;
-    return this.http.get<Room>(connectionUrl).pipe(
-      catchError(this.handleError<Room>(`getRoom id=${id}`))
-    );
-  }
-
-  updateRoom(room: Room): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base }${this.apiUrl.rooms}/~${room.shortId}`;
-    return this.http.put(connectionUrl, {
-      ownerId: this.authService.getUser().id,
-      abbreviation: room.abbreviation, name: room.name, description: room.description
-    }, httpOptions).pipe(
+  updateRoom(updatedRoom: Room): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ updatedRoom.shortId }`;
+    return this.http.put(connectionUrl, updatedRoom , httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<any>('updateRoom'))
     );
   }
 
-  deleteRoom(room: Room): Observable<Room> {
-    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.rooms}/${room.id}`;
+  deleteRoom(roomId: string): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ roomId }`;
     return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))

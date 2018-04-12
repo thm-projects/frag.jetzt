@@ -32,7 +32,7 @@ export class RoomPageComponent implements OnInit {
   }
 
   delete(room: Room): void {
-    this.roomService.deleteRoom(room).subscribe();
+    this.roomService.deleteRoom(room.id).subscribe();
     this.location.back();
   }
 }

@@ -53,10 +53,10 @@ export class StatisticsComponent implements OnInit {
 
   getAnswers(): void {
     for (const question of this.content) {
-      this.contentAnswerService.getTextAnswers(question.contentId).subscribe( answer => {
+      this.contentAnswerService.getAnswers(question.contentId).subscribe( answer => {
         [].push.apply(this.textAnswers, answer);
       });
-      this.contentAnswerService.getChoiceAnswers(question.contentId).subscribe( answer => {
+      this.contentAnswerService.getAnswers(question.contentId).subscribe( answer => {
         [].push.apply(this.choiceAnswers, answer);
       });
     }

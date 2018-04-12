@@ -32,8 +32,4 @@ export class RoomParticipantPageComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
-  goBack(): void {
-    this.location.back();
-  }
 }

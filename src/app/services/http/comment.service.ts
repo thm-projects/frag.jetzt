@@ -11,45 +11,57 @@ const httpOptions = {
 
 @Injectable()
 export class CommentService extends BaseHttpService {
-  private commentsUrl = 'api/comments';
+  private apiUrl = {
+    base: 'https://arsnova-staging.mni.thm.de/api',
+    comment: '/comment',
+    find: '/find'
+  };
 
   constructor( private http: HttpClient ) {
     super();
   }
 
-  addComment(comment: Comment): Observable<Comment> {
-    return this.http.post<Comment>(this.commentsUrl, comment, httpOptions).pipe(
+  getComment(commentId: string): Observable<Comment> {
+    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.comment }/~${ commentId }`;
+    return this.http.get<Comment>(connectionUrl, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment>('addComment'))
     );
   }
 
-  deleteComment(comment: Comment): Observable<Comment> {
-    const url = `${this.commentsUrl}/${comment.id}`;
-    return this.http.delete<Comment>(url, httpOptions).pipe(
+  addComment(comment: Comment): Observable<Comment> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
+    return this.http.post<Comment>(connectionUrl,
+      { roomId: comment.roomId, subject: comment.subject, body: comment.body,
+        read: comment.read, creationTimestamp: comment.creationTimestamp
+      }, httpOptions).pipe(
+      tap (_ => ''),
+      catchError(this.handleError<Comment>('addComment'))
+    );
+  }
+
+  deleteComment(commentId: string): Observable<Comment> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.comment }/${ commentId }`;
+    return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment>('deleteComment'))
     );
   }
 
   getComments(roomId: string): Observable<Comment[]> {
-    const url = `${this.commentsUrl}/?roomId=${roomId}`;
-    return this.http.get<Comment[]>(url).pipe(
-      tap (_ => ''),
-      catchError(this.handleError<Comment[]>('getComments', []))
-    );
-  }
-
-  searchComments(roomId: string, userId: string): Observable<Comment[]> {
-    const url = `${this.commentsUrl}/?roomId=${roomId}&userId=${userId}`;
-    return this.http.get<Comment[]>(url).pipe(
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    return this.http.post<Comment[]>(connectionUrl, {
+      properties: { roomId: roomId },
+      externalFilters: {}
+    }, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
     );
   }
 
   updateComment(comment: Comment): Observable<any> {
-    return this.http.put(this.commentsUrl, comment, httpOptions).pipe(
+    const connectionUrl = this.apiUrl + this.apiUrl.comment + '/' + comment.id;
+    return this.http.put(connectionUrl, comment, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('updateComment'))
     );
