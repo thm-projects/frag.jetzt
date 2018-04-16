@@ -32,9 +32,7 @@ export class FooterComponent implements OnInit {
     });
     dialogRef.afterClosed()
       .subscribe(result => {
-        if(result === 'login'){
-          this.guestLogin();
-        }
+        if(result === 'login'){this.guestLogin();}
       });
   }
 
