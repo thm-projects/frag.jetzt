@@ -15,6 +15,7 @@ import { StatisticsComponent } from './components/fragments/statistics/statistic
 import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
 import { ContentCarouselPageComponent } from './components/pages/content-carousel-page/content-carousel-page.component';
 import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
+import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
 
 const routes: Routes = [
   {
@@ -97,6 +98,10 @@ const routes: Routes = [
     component: FeedbackBarometerPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'imprint',
+    component: FooterImprintComponent
   },
   {
     path: '**',

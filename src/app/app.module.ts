@@ -91,6 +91,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MarkdownToolbarComponent } from './components/fragments/markdown-toolbar/markdown-toolbar.component';
 import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-dialog/markdown-help-dialog.component';
 import { GenericDataDialogComponent } from './components/dialogs/generic-data-dialog/generic-data-dialog.component';
+import { FooterComponent } from './components/fragments/footer/footer.component';
+import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
+import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
 
 @NgModule({
   declarations: [
@@ -131,7 +134,10 @@ import { GenericDataDialogComponent } from './components/dialogs/generic-data-di
     FeedbackBarometerPageComponent,
     MarkdownToolbarComponent,
     MarkdownHelpDialogComponent,
-    GenericDataDialogComponent
+    GenericDataDialogComponent,
+    FooterComponent,
+    FooterLoginDialogComponent,
+    FooterImprintComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -146,7 +152,8 @@ import { GenericDataDialogComponent } from './components/dialogs/generic-data-di
     ContentYesNoCreatorComponent,
     ContentDeleteComponent,
     MarkdownHelpDialogComponent,
-    GenericDataDialogComponent
+    GenericDataDialogComponent,
+    FooterLoginDialogComponent
   ],
   imports: [
     AppRoutingModule,
