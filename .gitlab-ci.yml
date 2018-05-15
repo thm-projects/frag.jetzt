@@ -4,6 +4,7 @@ variables:
 stages:
   - test
   - build
+  - review
   - deploy
 
 tslint:
