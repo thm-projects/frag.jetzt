@@ -40,7 +40,7 @@ ngbuild:
 review:
   stage: review
   script:
-    - rsync -av --delete public /srv/nginx/pages/$CI_BUILD_REF_SLUG
+    - rsync -av --delete "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
   environment:
     name: review/$CI_BUILD_REF_NAME
     url: http://$CI_BUILD_REF_SLUG.$APPS_DOMAIN
@@ -55,7 +55,7 @@ review:
 stop_review:
   stage: review
   script:
-    - rm -rf public /srv/nginx/pages/$CI_BUILD_REF_SLUG
+    - rm -rf "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
   variables:
     GIT_STRATEGY: none
   when: manual
