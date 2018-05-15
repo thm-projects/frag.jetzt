@@ -6,7 +6,7 @@
     <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
   </mat-form-field>
   <mat-divider></mat-divider>
-<form (ngSubmit)="submitContent()">
+<form (ngSubmit)="submitContent(subject.value, body.value)">
   <section class="choice-seformn" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-checkbox (click)="singleChoice = true; multipleChoice = false;"
                   color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice

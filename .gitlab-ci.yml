@@ -1,3 +1,6 @@
+variables:
+  BUILD_DIR: dist
+
 stages:
   - test
   - build
@@ -19,3 +22,32 @@ tslint:
     - npm install rxjs
     - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json ./src/**/*.ts
 
+ngbuild:
+  stage: build
+  tags:
+    - angular
+  allow_failure: false
+  dependencies: []
+  script:
+    - npm install -g @angular/cli
+    - npm install
+    - ng build --prod
+  artifacts:
+    paths:
+      - "$BUILD_DIR"
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  tags:
+    - ssh
+  dependencies:
+    - tslint
+    - ngbuild
+  script:
+    - eval $(ssh-agent -s)
+    - mkdir ~/.ssh #&& echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - scp -r "$BUILD_DIR"* "$SSH_URL"
