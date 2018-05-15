@@ -25,7 +25,7 @@ tslint:
 ngbuild:
   stage: build
   tags:
-    - nodejs
+    - angular
   allow_failure: false
   dependencies: []
   script:
