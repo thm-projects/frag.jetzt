@@ -43,7 +43,7 @@ deploy:
     - ssh
   dependencies:
     - tslint
-    - build
+    - ngbuild
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh #&& echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
