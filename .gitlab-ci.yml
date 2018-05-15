@@ -29,6 +29,7 @@ ngbuild:
   allow_failure: false
   dependencies: []
   script:
+    - npm install -g @angular/cli
     - npm install
     - ng build --prod
   artifacts:
