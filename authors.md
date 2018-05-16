@@ -5,3 +5,4 @@
 * heinrich.marks@mni.thm.de
 * david.donges@mni.thm.de
 * lukas.kimpel@mni.thm.de
+* thomas.lenz@mni.thm.de
