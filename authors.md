@@ -6,3 +6,4 @@
 * david.donges@mni.thm.de
 * lukas.kimpel@mni.thm.de
 * thomas.lenz@mni.thm.de
+* lorenz.detterbeck@mni.thm.de
