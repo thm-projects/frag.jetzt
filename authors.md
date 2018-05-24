@@ -7,3 +7,4 @@
 * lukas.kimpel@mni.thm.de
 * thomas.lenz@mni.thm.de
 * lorenz.detterbeck@mni.thm.de
+* lukas.mauss@mni.thm.de
