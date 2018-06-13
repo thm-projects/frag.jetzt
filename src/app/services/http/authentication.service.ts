@@ -13,8 +13,8 @@ export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
   private user = new BehaviorSubject<User>(undefined);
   private apiUrl = {
-    base: 'https://arsnova-staging.mni.thm.de/api',
-    v2: 'https://arsnova-staging.mni.thm.de/api/v2',
+    base: '/api',
+    v2: '/api/v2',
     auth: '/auth',
     login: '/login',
     user: '/user',

@@ -13,7 +13,7 @@ const httpOptions = {
 @Injectable()
 export class RoomService extends BaseHttpService {
   private apiUrl = {
-    base: 'https://arsnova-staging.mni.thm.de/api',
+    base: '/api',
     rooms: '/room',
     user: '/user',
     findRooms: '/find'

@@ -12,7 +12,7 @@ const httpOptions = {
 @Injectable()
 export class CommentService extends BaseHttpService {
   private apiUrl = {
-    base: 'https://arsnova-staging.mni.thm.de/api',
+    base: '/api',
     comment: '/comment',
     find: '/find'
   };
