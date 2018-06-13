@@ -19,6 +19,7 @@ export class AuthenticationGuard implements CanActivate {
               state: RouterStateSnapshot): boolean {
     // Get active user
     const user: User = this.authenticationService.getUser();
+		console.log(user.role);
     // Get roles having access to this route
     // undefined if every logged in user should have access regardless of its role
     const requiredRoles = next.data['roles'] as Array<UserRole>;

@@ -21,25 +21,4 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  guestLogin(): void {
-    this.authenticationService.guestLogin().subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
-  }
-
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(FooterLoginDialogComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if(result === 'login'){this.guestLogin();}
-      });
-  }
-
-  private checkLogin(loginSuccessful: boolean) {
-    if (loginSuccessful) {
-      this.notificationService.show('Login successful!');
-      this.router.navigate(['participant']);
-    }
-  }
 }

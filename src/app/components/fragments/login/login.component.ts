@@ -20,8 +20,6 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  UserRole = UserRole;
-
   @Input() public role: UserRole;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
@@ -53,7 +51,7 @@ export class LoginComponent implements OnInit {
   }
 
   guestLogin(): void {
-    this.authenticationService.guestLogin().subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+    this.authenticationService.guestLogin(this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
   }
 
   private checkLogin(loginSuccessful: boolean) {

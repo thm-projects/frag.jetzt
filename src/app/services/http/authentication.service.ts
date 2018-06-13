@@ -44,10 +44,10 @@ export class AuthenticationService {
     }, this.httpOptions), userRole, false);
   }
 
-  guestLogin(): Observable<boolean> {
+  guestLogin(userRole: UserRole): Observable<boolean> {
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + this.apiUrl.guest;
 
-    return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), UserRole.PARTICIPANT, true);
+    return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), userRole, true);
   }
 
   register(email: string, password: string): Observable<boolean> {
