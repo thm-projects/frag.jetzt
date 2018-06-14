@@ -10,7 +10,7 @@ import { PasswordResetComponent } from './components/dialogs/password-reset/pass
 import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageNotFoundPageComponent } from './components/pages/page-not-found-page/page-not-found-page.component';
+import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MAT_DIALOG_DATA,
@@ -102,7 +102,7 @@ import { FooterImprintComponent } from './components/pages/footer-imprint/footer
     AppComponent,
     LoginComponentPageComponent,
     LoginComponent,
-    PageNotFoundPageComponent,
+    PageNotFoundComponent,
     PasswordResetComponent,
     RegisterComponent,
     RoomPageComponent,
