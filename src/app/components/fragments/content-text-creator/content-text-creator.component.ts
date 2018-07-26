@@ -43,17 +43,14 @@ export class ContentTextCreatorComponent implements OnInit {
   }
 
   submitContent(subject: string, body: string) {
-      this.contentService.addContent(new ContentText(
-        '1', '1', this.roomId, subject, body, 1
-      )).subscribe();
+    this.contentService.addContent(new ContentText(
+      '1', '1', this.roomId, subject, body, 1
+    )).subscribe();
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
     this.notificationService.show('Content submitted.');
-    this.contentService.addContent(new ContentText(
-      '1', '1', this.roomId, subject, body, 1
-    )).subscribe();
     this.resetAfterSubmit();
   }
 
