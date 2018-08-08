@@ -55,6 +55,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   changesAllowed = false;
 
   roomId: string;
+  roomShortId: string;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
@@ -65,7 +66,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
+    this.roomId = localStorage.getItem(`roomId`);
     this.fillCorrectAnswers();
   }
 

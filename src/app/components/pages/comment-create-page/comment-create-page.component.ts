@@ -18,6 +18,7 @@ import { CommentListComponent } from '../../fragments/comment-list/comment-list.
 export class CommentCreatePageComponent implements OnInit {
   @ViewChild(CommentListComponent) child: CommentListComponent;
   roomId: string;
+  roomShortId: string;
   user: User;
   private date = new Date(Date.now());
 
@@ -31,7 +32,8 @@ export class CommentCreatePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUser();
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
+    this.roomId = localStorage.getItem(`roomId`);
   }
 
   send(subject: string, body: string): void {

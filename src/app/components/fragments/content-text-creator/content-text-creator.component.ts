@@ -15,6 +15,7 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
 export class ContentTextCreatorComponent implements OnInit {
 
   roomId: string;
+  roomShortId: string;
   content: ContentText = new ContentText('1',
     '1',
     '0',
@@ -33,7 +34,8 @@ export class ContentTextCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.roomId = localStorage.getItem(`roomId`);
+    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
   }
 
   resetAfterSubmit() {

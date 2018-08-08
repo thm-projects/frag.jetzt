@@ -38,7 +38,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    this.roomService.getRoom(id)
+    this.roomService.getRoomByShortId(id)
       .subscribe(room => {
         this.room = room;
         if (!room) {

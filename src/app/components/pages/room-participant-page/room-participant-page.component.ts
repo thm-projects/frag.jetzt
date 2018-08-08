@@ -26,7 +26,7 @@ export class RoomParticipantPageComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    this.roomService.getRoom(id)
+    this.roomService.getRoomByShortId(id)
       .subscribe(room => {
         this.room = room;
         this.isLoading = false;

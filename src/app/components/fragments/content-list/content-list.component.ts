@@ -76,7 +76,7 @@ export class ContentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.roomId = localStorage.getItem(`roomId`);
     this.getContents(this.roomId);
   }
 

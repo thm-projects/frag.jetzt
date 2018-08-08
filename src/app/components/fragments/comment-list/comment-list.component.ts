@@ -21,6 +21,7 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
   roomId: string;
+  roomShortId: string;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -33,7 +34,8 @@ export class CommentListComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
     this.user = this.authenticationService.getUser();
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
+    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
+    this.roomId = localStorage.getItem(`roomId`);
     this.getComments();
   }
 

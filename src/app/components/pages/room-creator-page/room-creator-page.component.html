@@ -23,19 +23,19 @@
       <mat-divider></mat-divider>
       <mat-card-actions>
         <button mat-button color="primary" matTooltip="Create new content"
-                routerLink="/creator/room/{{ room.id }}/create-content">
+                routerLink="/creator/room/{{ room.shortId }}/create-content">
           Create content
         </button>
         <button mat-button color="primary" matTooltip="See room comments"
-                routerLink="/creator/room/{{ room.id }}/comments">
+                routerLink="/creator/room/{{ room.shortId }}/comments">
           Comments
         </button>
         <button mat-button color="primary" matTooltip="See feedback"
-                routerLink="/creator/room/{{ room.id }}/feedback-barometer">
+                routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
           Feedback barometer
         </button>
         <button mat-button color="primary" matTooltip="See answer statistics"
-                routerLink="/creator/room/{{ room.id }}/answer-statistics">
+                routerLink="/creator/room/{{ room.shortId }}/answer-statistics">
           Answer statistics
         </button>
         <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">

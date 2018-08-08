@@ -56,9 +56,18 @@ export class RoomService extends BaseHttpService {
   }
 
   getRoom(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ id }`;
+    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
-      catchError(this.handleError<Room>(`getRoom id=${ id }`))
+      tap(room => this.setRoomId(room)),
+      catchError(this.handleError<Room>(`getRoom keyword=${ id }`))
+    );
+  }
+
+  getRoomByShortId(shortId: string): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
+    return this.http.get<Room>(connectionUrl).pipe(
+      tap(room => this.setRoomId(room)),
+      catchError(this.handleError<Room>(`getRoom shortId=${ shortId }`))
     );
   }
 
@@ -81,5 +90,9 @@ export class RoomService extends BaseHttpService {
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))
     );
+  }
+
+  setRoomId(room: Room): void {
+    localStorage.setItem(`roomId`, room.id);
   }
 }
