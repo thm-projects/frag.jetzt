@@ -25,8 +25,8 @@ export class ContentService extends BaseHttpService {
   getContents(roomId: string): Observable<Content[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + this.apiUrl.find;
     return this.http.post<Content[]>(connectionUrl, {
-      properties: { type: 'Content' },
-      externalFilters: { roomId: roomId }
+      properties: { roomId: roomId },
+      externalFilters: {}
     }, httpOptions).pipe(
       catchError(this.handleError('getContents', []))
     );
