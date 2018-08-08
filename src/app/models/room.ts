@@ -6,4 +6,5 @@ export class Room {
   name: string;
   description: string;
   closed: boolean;
+  contentGroups: {[key: string]: [string]};
 }
