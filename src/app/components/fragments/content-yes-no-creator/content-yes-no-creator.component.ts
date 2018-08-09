@@ -20,12 +20,14 @@ export class ContentYesNoCreatorComponent implements OnInit {
     'yes',
     'no'
   ];
-  content: ContentChoice = new ContentChoice('0',
+  content: ContentChoice = new ContentChoice(
+    '0',
     '1',
     '',
     '',
     '',
     1,
+    [],
     [],
     [],
     false,

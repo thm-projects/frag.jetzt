@@ -19,49 +19,7 @@ import { NotificationService } from '../../../services/util/notification.service
 })
 export class ContentListComponent implements OnInit {
 
-  contents = [
-    new ContentChoice('0',
-      '1',
-      'roomId1',
-      'MultipleChoice Subject',
-      'MultipleChoice Body',
-      1,
-      [new AnswerOption('yes', ''), new AnswerOption('no', '')],
-      [0],
-      true,
-      ContentType.CHOICE),
-    new ContentChoice('0',
-      '1',
-      'roomId2',
-      'SingleChoice Subject',
-      'SingleChoice Body',
-      1,
-      [new AnswerOption('may', ''), new AnswerOption('not', '')],
-      [1],
-      false,
-      ContentType.BINARY),
-    new ContentText('1',
-      '1',
-      'roomId3',
-      'TextContent Subject',
-      'TextContent Body',
-      1),
-    new ContentChoice('0',
-      '1',
-      'roomId4',
-      'LikertContent Subject',
-      'LikertContent Body',
-      1,
-      [
-        new AnswerOption('Strongly agree', '0'),
-        new AnswerOption('Agree', '0'),
-        new AnswerOption('Neither agree nor disagree', '0'),
-        new AnswerOption('Disagree', '0'),
-        new AnswerOption('Strongly disagree', '0')],
-      [],
-      false,
-      ContentType.SCALE)
-  ];
+  contents = [];
 
   contentBackup: Content;
 
@@ -117,6 +75,7 @@ export class ContentListComponent implements OnInit {
       content.subject,
       content.body,
       content.round,
+      [],
       answerOptions,
       correctAnswers,
       content.multiple,
@@ -131,7 +90,8 @@ export class ContentListComponent implements OnInit {
       content.roomId,
       content.subject,
       content.body,
-      content.round
+      content.round,
+      [],
     );
   }
 

@@ -7,7 +7,7 @@ export class Content {
   subject: string;
   body: string;
   round: number;
-  groups: [string];
+  groups: string[];
   format: ContentType;
   formatAttributes: Map<string, string>;
 
@@ -17,7 +17,7 @@ export class Content {
               subject: string,
               body: string,
               round: number,
-              groups: [string],
+              groups: string[],
               format: ContentType,
               formatAttributes: Map<string, string>) {
     this.contentId = contentId;

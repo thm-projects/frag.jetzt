@@ -28,7 +28,8 @@ export class DisplayAnswer {
 export class ContentChoiceCreatorComponent implements OnInit {
   singleChoice: boolean;
   multipleChoice: boolean;
-  content: ContentChoice = new ContentChoice('0',
+  content: ContentChoice = new ContentChoice(
+    '0',
     '1',
     '',
     '',
@@ -36,8 +37,10 @@ export class ContentChoiceCreatorComponent implements OnInit {
     1,
     [],
     [],
+    [],
     true,
-    ContentType.CHOICE);
+    ContentType.CHOICE
+  );
 
   displayedColumns = ['label', 'points', 'actions'];
 
@@ -260,16 +263,19 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.changesAllowed = true;
       return;
     }
-    this.contentService.addContent(new ContentChoice('',
-      '1',
+    this.contentService.addContent(new ContentChoice(
+      '',
+      '',
       this.roomId,
       subject,
       body,
       1,
       [],
-      [],
-      true,
-      ContentType.CHOICE)).subscribe();
+      this.content.options,
+      this.content.correctOptionIndexes,
+      this.content.multiple,
+      ContentType.CHOICE
+    )).subscribe();
     this.resetAfterSubmit();
   }
 

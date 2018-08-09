@@ -16,12 +16,15 @@ export class ContentTextCreatorComponent implements OnInit {
 
   roomId: string;
   roomShortId: string;
-  content: ContentText = new ContentText('1',
+  content: ContentText = new ContentText(
+    '1',
     '1',
     '0',
     '',
     '',
-    1);
+    1,
+    [],
+  );
 
   editDialogMode = false;
 
@@ -46,7 +49,13 @@ export class ContentTextCreatorComponent implements OnInit {
 
   submitContent(subject: string, body: string) {
     this.contentService.addContent(new ContentText(
-      '1', '1', this.roomId, subject, body, 1
+      '1',
+      '1',
+      this.roomId,
+      subject,
+      body,
+      1,
+      [],
     )).subscribe();
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');

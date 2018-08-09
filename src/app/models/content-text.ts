@@ -8,13 +8,15 @@ export class ContentText extends Content {
               roomId: string,
               subject: string,
               body: string,
-              round: number) {
+              round: number,
+              groups: string[]) {
     super(contentId,
       revision,
       roomId,
       subject,
       body,
       round,
+      groups,
       ContentType.TEXT,
       new Map());
   }

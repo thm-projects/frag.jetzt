@@ -24,7 +24,8 @@ export class ContentLikertCreatorComponent implements OnInit {
     'Strongly disagree'
   ];
 
-  content: ContentChoice = new ContentChoice('0',
+  content: ContentChoice = new ContentChoice(
+    '0',
     '1',
     '',
     '',
@@ -32,8 +33,10 @@ export class ContentLikertCreatorComponent implements OnInit {
     1,
     [],
     [],
+    [],
     false,
-    ContentType.SCALE);
+    ContentType.SCALE
+  );
 
   displayedColumns = ['label'];
 
