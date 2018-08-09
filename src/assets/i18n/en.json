@@ -19,7 +19,10 @@
 		"login": "Login",
 		"login-data-incorrect": "Username or password incorrect.",
 		"password": "Password",
-		"password-required": "Password is required"
+		"password-required": "Password is required",
+    "activate": "Activate",
+    "activation-key": "Activation key",
+    "activation-key-required": "Activation key required"
 	},
 	"password-reset": {
 		"email": "E-Mail",

@@ -35,7 +35,13 @@ export class AuthenticationService {
     }
   }
 
-  login(email: string, password: string, userRole: UserRole): Observable<boolean> {
+  /*
+   * Three possible return values:
+   * - "true": login successful
+   * - "false": login failed
+   * - "activation": account exists but needs activation with key
+   */
+  login(email: string, password: string, userRole: UserRole): Observable<string> {
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + this.apiUrl.registered;
 
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {
@@ -44,7 +50,7 @@ export class AuthenticationService {
     }, this.httpOptions), userRole, false);
   }
 
-  guestLogin(userRole: UserRole): Observable<boolean> {
+  guestLogin(userRole: UserRole): Observable<string> {
     const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + this.apiUrl.guest;
 
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), userRole, true);
@@ -99,7 +105,7 @@ export class AuthenticationService {
     return this.isLoggedIn() ? this.user.getValue().token : undefined;
   }
 
-  private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole, isGuest: boolean): Observable<boolean> {
+  private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole, isGuest: boolean): Observable<string> {
     return clientAuthentication.map(result => {
       if (result) {
         this.setUser(new User(
@@ -109,12 +115,16 @@ export class AuthenticationService {
           result.token,
           userRole,
           isGuest));
-        return true;
+        return 'true';
       } else {
-        return false;
+        return 'false';
       }
-    }).catch(() => {
-      return of(false);
+    }).catch((e) => {
+      // check if user needs activation
+      if (e.error.errorType === 'DisabledException') {
+        return of('activation');
+      }
+      return of('false');
     });
   }
 

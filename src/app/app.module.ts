@@ -48,6 +48,7 @@ import {
   MatTooltipModule
 } from '@angular/material';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { UserService } from './services/http/user.service';
 import { RoomPageComponent } from './components/pages/room-page/room-page.component';
 import { RoomCreateComponent } from './components/dialogs/room-create/room-create.component';
 import { LoginComponentPageComponent } from './components/pages/login-page/login-page.component';
@@ -70,6 +71,7 @@ import { ContentAnswerService } from './services/http/content-answer.service';
 import { RoomDeleteComponent } from './components/dialogs/room-delete/room-delete.component';
 import { StatisticsComponent } from './components/fragments/statistics/statistics.component';
 import { RoomEditComponent } from './components/dialogs/room-edit/room-edit.component';
+import { UserActivationComponent } from './components/dialogs/user-activation/user-activation.component';
 import { ContentChoiceParticipantComponent } from './components/fragments/content-choice-participant/content-choice-participant.component';
 import { ContentChoiceCreatorComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
 import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
@@ -119,6 +121,7 @@ import { FooterImprintComponent } from './components/pages/footer-imprint/footer
     AnswersListComponent,
     RoomDeleteComponent,
     RoomEditComponent,
+    UserActivationComponent,
     ContentChoiceParticipantComponent,
     ContentChoiceCreatorComponent,
     ContentCreatePageComponent,
@@ -145,6 +148,7 @@ import { FooterImprintComponent } from './components/pages/footer-imprint/footer
     RoomCreateComponent,
     RoomDeleteComponent,
     RoomEditComponent,
+    UserActivationComponent,
     AnswerEditComponent,
     ContentChoiceCreatorComponent,
     ContentLikertCreatorComponent,
@@ -217,6 +221,7 @@ import { FooterImprintComponent } from './components/pages/footer-imprint/footer
     CommentService,
     ContentService,
     ContentAnswerService,
+    UserService,
     {
       provide: MatDialogRef,
       useValue: {

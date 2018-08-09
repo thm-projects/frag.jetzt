@@ -1,0 +1,9 @@
+<form (ngSubmit)="login(userActivationKey.value)" fxLayout="column" fxLayoutAlign="space-around"
+      fxLayoutGap="10px">
+  <mat-form-field class="input-block">
+    <input matInput #userActivationKey type="text" placeholder="{{ 'login.activation-key' | translate }}"
+           [formControl]="activationKeyFormControl" [errorStateMatcher]="matcher" name="activation-key"/>
+    <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'login.activation-key-required' | translate }}</mat-error>
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit">{{ 'login.activate' | translate }}</button>
+</form>
