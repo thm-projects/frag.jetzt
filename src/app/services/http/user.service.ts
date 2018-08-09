@@ -23,10 +23,10 @@ export class UserService extends BaseHttpService {
   }
 
   activate(name: string, activationKey: string): Observable<string> {
-    const connectionUrl: string = this.apiUrl.base + this.apiUrl.user + '/~' + encodeURIComponent(name) + this.apiUrl.activate;
+    const connectionUrl: string = this.apiUrl.base + this.apiUrl.user + '/~' + encodeURIComponent(name) +
+      this.apiUrl.activate + '?key=' + activationKey;
 
     return this.http.post<string>(connectionUrl, {
-        key: activationKey
       }, httpOptions);
   }
 }

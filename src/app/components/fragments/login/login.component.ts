@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -20,8 +20,10 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnChanges {
   @Input() public role: UserRole;
+  @Input() public username: string;
+  @Input() public password: string;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);
@@ -40,14 +42,44 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    let u, p = false;
+    if (changes.username) {
+      this.usernameFormControl.setValue(changes.username.currentValue);
+      u = true;
+    }
+    if (changes.password) {
+      this.passwordFormControl.setValue(changes.password.currentValue);
+      p = true;
+    }
+    if (u && p && !changes.username.isFirstChange() && !changes.username.isFirstChange()) {
+      // TODO: this throws an Exception because data and UI are inconsistent
+      this.activateUser();
+    }
+  }
+
+  activateUser(): void {
+    this.dialog.open(UserActivationComponent, {
+      width: '350px',
+      data: {
+        name: this.username
+      }
+    }).afterClosed().subscribe(result => {
+      if (result && result.success) {
+        this.login(this.username, this.password);
+      }
+    });
+  }
+
   login(username: string, password: string): void {
-    this.name = username;
-    username = username.trim();
-    password = password.trim();
+    this.username = username.trim();
+    this.password = password.trim();
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
       !this.passwordFormControl.hasError('required')) {
-      this.authenticationService.login(username, password, this.role).subscribe(loginSuccessful => this.checkLogin(loginSuccessful));
+      this.authenticationService.login(this.username, this.password, this.role).subscribe(loginSuccessful => {
+        this.checkLogin(loginSuccessful);
+      });
     } else {
       this.translationService.get('login.input-incorrect').subscribe(message => {
         this.notificationService.show(message);
@@ -68,12 +100,7 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['participant']);
       }
     } else if (loginSuccessful === 'activation') {
-      this.dialog.open(UserActivationComponent, {
-        width: '350px',
-        data: {
-          name: this.name
-        }
-      });
+      this.activateUser();
     } else {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);

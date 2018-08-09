@@ -12,6 +12,8 @@ import { UserRole } from '../../../models/user-roles.enum';
 export class LoginComponentPageComponent implements OnInit {
   // Make UserRole available to the template
   UserRole = UserRole;
+  username: string;
+  password: string;
 
   constructor(public dialog: MatDialog) {
   }
@@ -19,6 +21,9 @@ export class LoginComponentPageComponent implements OnInit {
   openRegisterDialog(): void {
     this.dialog.open(RegisterComponent, {
       width: '350px'
+    }).afterClosed().subscribe(result => {
+      this.username = result.username;
+      this.password = result.password;
     });
   }
 

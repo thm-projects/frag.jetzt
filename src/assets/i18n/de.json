@@ -22,7 +22,8 @@
 		"password-required": "Passwort ist erforderlich",
     "activate": "Aktivieren",
     "activation-key": "Aktivierungsschlüssel",
-    "activation-key-required": "Aktivierungsschlüssel erforderlich"
+    "activation-key-required": "Aktivierungsschlüssel erforderlich",
+    "activation-key-incorrect": "Aktivierungsschlüssel falsch"
 	},
 	"password-reset": {
 		"email": "E-Mail",

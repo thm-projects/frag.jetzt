@@ -56,15 +56,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit() {
   }
 
-  register(username: string, password1: string): void {
+  register(username: string, password: string): void {
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
       !this.password1FormControl.hasError('required') &&
       !this.password2FormControl.hasError('required') && !this.password2FormControl.hasError('passwordIsEqual')) {
-      this.authenticationService.register(username, password1).subscribe(() => {
+      this.authenticationService.register(username, password).subscribe(() => {
         this.translationService.get('register.register-successful').subscribe(message => {
           this.notificationService.show(message);
         });
-        this.dialogRef.close();
+        this.dialogRef.close({username: username, password: password});
       });
     } else {
       this.translationService.get('register.register-unsuccessful').subscribe(message => {
