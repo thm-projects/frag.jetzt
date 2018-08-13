@@ -26,8 +26,8 @@ export class DisplayAnswer {
   styleUrls: ['./content-choice-creator.component.scss']
 })
 export class ContentChoiceCreatorComponent implements OnInit {
-  singleChoice: boolean;
-  multipleChoice: boolean;
+  singleChoice = true;
+  multipleChoice = false;
   content: ContentChoice = new ContentChoice(
     '0',
     '1',
@@ -115,9 +115,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
       }
     }
     this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, this.newAnswerOptionPoints));
-    if (this.newAnswerOptionChecked) {
-      this.content.correctOptionIndexes.push(this.content.options.length - 1);
-    }
     this.newAnswerOptionChecked = false;
     this.newAnswerOptionLabel = '';
     this.newAnswerOptionPoints = '';

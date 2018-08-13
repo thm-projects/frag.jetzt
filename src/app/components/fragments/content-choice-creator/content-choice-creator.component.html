@@ -2,11 +2,14 @@
   <mat-form-field class="input-block">
     <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
   </mat-form-field>
+  <app-markdown-toolbar textareaId="content-choice-body"></app-markdown-toolbar>
   <mat-form-field class="input-block">
-    <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+    <textarea matInput #body id="content-choice-body" [(ngModel)]="content.body" placeholder="Body" name="body"
+              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
   </mat-form-field>
+  <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
-<form (ngSubmit)="submitContent(subject.value, body.value)">
+
   <section class="choice-seformn" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-checkbox (click)="singleChoice = true; multipleChoice = false;"
                   color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice
@@ -15,88 +18,68 @@
                   color="primary" [(ngModel)]="multipleChoice" name="multiChoice">Multiple choice
     </mat-checkbox>
   </section>
-  <div *ngIf="singleChoice || multipleChoice">
-    <mat-form-field class="input-block">
-      <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
-    </mat-form-field>
-    <app-markdown-toolbar textareaId="content-choice-body"></app-markdown-toolbar>
-    <mat-form-field class="input-block">
-      <textarea matInput #body id="content-choice-body" [(ngModel)]="content.body" placeholder="Body" name="body"
-                matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
-    </mat-form-field>
-    <markdown [data]="content.body"></markdown>
-    <mat-divider></mat-divider>
 
-    <mat-table #table [dataSource]="displayAnswers">
+  <mat-table #table [dataSource]="displayAnswers">
 
-      <ng-container matColumnDef="label">
-        <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
-        <mat-cell *matCellDef="let answer">
-          <!-- ToDo: Check ngModel -->
-          <mat-checkbox color="primary" (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
-                        [checked]="answer.correct"
-                        name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}
-          </mat-checkbox>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="points">
-        <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-        <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="actions">
-        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
-        <mat-cell *matCellDef="let answer">
-          <button mat-icon-button
-                  (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
-                  color="primary" matTooltip="Edit answer">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)"
-                  matTooltip="Delete answer">
-            <mat-icon>delete</mat-icon>
-          </button>
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-
-    <mat-divider></mat-divider>
-
-    <div fxLayout="row" fxLayoutGap="15px">
-      <div fxLayout="column" fxLayoutAlign="center">
-        <mat-checkbox #answerIsCorrect [(ngModel)]="newAnswerOptionChecked" [checked]="newAnswerOptionChecked"
-                      color="primary" name="ischecked">Is correct
+    <ng-container matColumnDef="label">
+      <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
+      <mat-cell *matCellDef="let answer">
+        <!-- ToDo: Check ngModel -->
+        <mat-checkbox color="primary" (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
+                      [checked]="answer.correct"
+                      name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}
         </mat-checkbox>
-      </div>
-      <mat-form-field class="input-block">
-        <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
-      </mat-form-field>
-      <mat-form-field class="input-block">
-        <input matInput #answerPoints [(ngModel)]="newAnswerOptionPoints" placeholder="Points" name="points">
-      </mat-form-field>
-      <div fxLayout="column" fxLayoutAlign="center">
-        <button mat-button type="button"
-                (click)="addAnswer($event); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
-          Add Answer
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="points">
+      <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
+      <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let answer">
+        <button mat-icon-button
+                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
+                color="primary" matTooltip="Edit answer">
+          <mat-icon>edit</mat-icon>
         </button>
-      </div>
-    </div>
-    <div *ngIf="!editDialogMode">
-      <button mat-raised-button type="submit" color="primary">Submit</button>
-      <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
-      <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
-        Undo
-        deletion
-      </button>
-    </div>
-    <div *ngIf="editDialogMode">
-      <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
-      <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
-      <button mat-raised-button (click)="openDeletionContentDialog($event)" color="warn">Delete</button>
-    </div>
+        <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)"
+                matTooltip="Delete answer">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
+    <mat-form-field class="input-block">
+      <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
+    </mat-form-field>
+    <mat-form-field class="input-block">
+      <input matInput #answerPoints [(ngModel)]="newAnswerOptionPoints" placeholder="Points" name="points">
+    </mat-form-field>
+    <button mat-button type="button"
+            (click)="addAnswer($event); answerIsCorrect.checked = false; answerLabel.value = ''; answerPoints.value = ''">
+      Add Answer
+    </button>
+  </div>
+
+  <div *ngIf="!editDialogMode">
+    <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
+    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
+      Undo
+      deletion
+    </button>
+  </div>
+  <div *ngIf="editDialogMode">
+    <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
+    <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
+    <button mat-raised-button (click)="openDeletionContentDialog($event)" color="warn">Delete</button>
   </div>
 </form>
