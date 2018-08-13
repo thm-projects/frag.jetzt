@@ -36,7 +36,7 @@ export class ContentService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
     return this.http.post<Content>(connectionUrl,
       { roomId: content.roomId, subject: content.subject, body: content.body,
-        type: 'Content', format: content.format, group: 'preparation' },
+        format: content.format, group: 'preparation' },
       httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
     );
@@ -46,7 +46,7 @@ export class ContentService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
     return this.http.post<ContentChoice>(connectionUrl,
       { roomId: contentChoice.roomId, subject: contentChoice.subject, body: contentChoice.body,
-        type: 'ChoiceContent', format: contentChoice.format, group: 'preparation' },
+        format: contentChoice.format, group: 'preparation' },
       httpOptions).pipe(
       catchError(this.handleError<ContentChoice>('addContent'))
     );

@@ -1,8 +1,8 @@
 export enum ContentType {
-  CHOICE,
-  BINARY,
-  SCALE,
-  NUMBER,
-  TEXT,
-  GRID
+  CHOICE = 'CHOICE',
+  BINARY = 'BINARY',
+  SCALE = 'SCALE',
+  NUMBER = 'NUMBER',
+  TEXT = 'TEXT',
+  GRID = 'GRID'
 }
