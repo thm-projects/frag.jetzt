@@ -97,6 +97,9 @@ import { FooterComponent } from './components/fragments/footer/footer.component'
 import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
 import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
 
+export function dialogClose(dialogResult: any) {
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -225,8 +228,7 @@ import { FooterImprintComponent } from './components/pages/footer-imprint/footer
     {
       provide: MatDialogRef,
       useValue: {
-        close: (dialogResult: any) => {
-        }
+        dialogClose
       }
     },
     {
