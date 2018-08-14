@@ -1,4 +1,4 @@
-<form (ngSubmit)="submitContent(subject.value, body.value)">
+<form (ngSubmit)="submitContent(subject.value, body.value)" fxLayout="column" fxLayoutGap="20px">
   <mat-form-field class="input-block">
     <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
   </mat-form-field>
@@ -10,14 +10,14 @@
   <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
 
-  <section class="choice-seformn" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-    <mat-checkbox (click)="singleChoice = true; multipleChoice = false;"
-                  color="primary" [(ngModel)]="singleChoice" name="singleChoice">Single choice
-    </mat-checkbox>
-    <mat-checkbox (click)="multipleChoice = true; singleChoice = false;"
-                  color="primary" [(ngModel)]="multipleChoice" name="multiChoice">Multiple choice
-    </mat-checkbox>
-  </section>
+  <mat-radio-group [(ngModel)]="singleChoice" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+    <mat-radio-button [value]=true [checked]=true>
+      Single Choice
+    </mat-radio-button>
+    <mat-radio-button [value]=false [checked]=false>
+      Multiple Choice
+    </mat-radio-button>
+  </mat-radio-group>
 
   <mat-table #table [dataSource]="displayAnswers">
 

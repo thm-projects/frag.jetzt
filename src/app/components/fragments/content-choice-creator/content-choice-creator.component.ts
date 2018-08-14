@@ -27,7 +27,6 @@ export class DisplayAnswer {
 })
 export class ContentChoiceCreatorComponent implements OnInit {
   singleChoice = true;
-  multipleChoice = false;
   content: ContentChoice = new ContentChoice(
     '0',
     '1',
@@ -244,15 +243,14 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.notificationService.show('In single choice mode you have to select 1 true answer.');
       return;
     }
-    if (this.multipleChoice && this.content.correctOptionIndexes.length < 1) {
+    if (!this.singleChoice && this.content.correctOptionIndexes.length < 1) {
       this.notificationService.show('In multiple choice mode you have to select at least 1 true answer.');
       return;
     }
     if (this.singleChoice) {
       this.content.multiple = false;
       this.content.format = ContentType.BINARY;
-    }
-    if (this.multipleChoice) {
+    } else {
       this.content.multiple = true;
       this.content.format = ContentType.CHOICE;
     }

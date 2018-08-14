@@ -129,9 +129,7 @@ export class ContentListComponent implements OnInit {
     });
     if (content.multiple) {
       dialogRef.componentInstance.singleChoice = false;
-      dialogRef.componentInstance.multipleChoice = true;
     } else {
-      dialogRef.componentInstance.multipleChoice = false;
       dialogRef.componentInstance.singleChoice = true;
     }
     dialogRef.componentInstance.editDialogMode = true;
@@ -147,7 +145,6 @@ export class ContentListComponent implements OnInit {
       width: '800px'
     });
     dialogRef.componentInstance.editDialogMode = true;
-    dialogRef.componentInstance.multipleChoice = false;
     dialogRef.componentInstance.singleChoice = true;
     dialogRef.componentInstance.content = content;
     dialogRef.afterClosed()
