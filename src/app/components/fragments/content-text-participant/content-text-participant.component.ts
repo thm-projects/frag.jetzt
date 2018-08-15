@@ -44,7 +44,7 @@ export class ContentTextParticipantComponent implements OnInit {
     this.answerService.addAnswerText({
       id: '0',
       revision: '0',
-      contentId: this.content.contentId,
+      contentId: this.content.id,
       round: this.content.round,
       subject: this.content.subject,
       body: this.textAnswer,

@@ -7,7 +7,7 @@ export class ContentChoice extends Content {
   correctOptionIndexes: number[];
   multiple: boolean;
 
-  constructor(contentId: string,
+  constructor(id: string,
               revision: string,
               roomId: string,
               subject: string,
@@ -18,7 +18,7 @@ export class ContentChoice extends Content {
               correctOptionIndexes: number[],
               multiple: boolean,
               format: ContentType) {
-    super(contentId,
+    super(id,
       revision,
       roomId,
       subject,

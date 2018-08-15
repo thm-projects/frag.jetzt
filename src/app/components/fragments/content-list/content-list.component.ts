@@ -35,13 +35,13 @@ export class ContentListComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-    this.getContents(this.roomId);
+    this.getContent(this.roomId);
   }
 
-  getContents(roomId: string): void {
+  getContent(roomId: string): void {
     this.contentService.getContents(roomId)
-      .subscribe(contents => {
-        this.contents = contents;
+      .subscribe(content => {
+        this.contents = content;
       });
   }
 
@@ -69,7 +69,7 @@ export class ContentListComponent implements OnInit {
     }
 
     this.contentBackup = new ContentChoice(
-      content.contentId,
+      content.id,
       content.revision,
       content.roomId,
       content.subject,
@@ -85,7 +85,7 @@ export class ContentListComponent implements OnInit {
 
   createTextContentBackup(content: ContentText) {
     this.contentBackup = new ContentText(
-      content.contentId,
+      content.id,
       content.revision,
       content.roomId,
       content.subject,

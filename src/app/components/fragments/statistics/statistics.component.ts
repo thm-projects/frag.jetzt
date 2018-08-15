@@ -52,11 +52,11 @@ export class StatisticsComponent implements OnInit {
   }
 
   getAnswers(): void {
-    for (const question of this.content) {
-      this.contentAnswerService.getAnswers(question.contentId).subscribe( answer => {
+    for (const c of this.content) {
+      this.contentAnswerService.getAnswers(c.id).subscribe( answer => {
         [].push.apply(this.textAnswers, answer);
       });
-      this.contentAnswerService.getAnswers(question.contentId).subscribe( answer => {
+      this.contentAnswerService.getAnswers(c.id).subscribe( answer => {
         [].push.apply(this.choiceAnswers, answer);
       });
     }
@@ -64,19 +64,19 @@ export class StatisticsComponent implements OnInit {
 
   showStatistic(value) {  // refactor answer class structure for less code and more abstraction
     this.statistics = [];
-    for (const question of this.content) {
+    for (const c of this.content) {
       if (value === '1') {
-        if (question.format === ContentType.TEXT) {
-          const count = this.countTextAnswers(question.contentId);
+        if (c.format === ContentType.TEXT) {
+          const count = this.countTextAnswers(c.id);
           this.statistics.push({
-            name: question.subject, answers: count, percent: count * 100 / this.textAnswers.length,
+            name: c.subject, answers: count, percent: count * 100 / this.textAnswers.length,
           });
         }
       } else {
-        if (question.format === ContentType.CHOICE) {
-          const count = this.countChoiceAnswers(question.contentId);
+        if (c.format === ContentType.CHOICE) {
+          const count = this.countChoiceAnswers(c.id);
           this.statistics.push({
-            name: question.subject, answers: count, percent: count * 100 / this.choiceAnswers.length,
+            name: c.subject, answers: count, percent: count * 100 / this.choiceAnswers.length,
           });
         }
       }

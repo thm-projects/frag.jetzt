@@ -93,7 +93,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
     this.answerService.addAnswerChoice({
       id: '',
       revision: '',
-      contentId: this.content.contentId,
+      contentId: this.content.id,
       round: 1,
       selectedChoiceIndexes: []
     } as AnswerChoice).subscribe();

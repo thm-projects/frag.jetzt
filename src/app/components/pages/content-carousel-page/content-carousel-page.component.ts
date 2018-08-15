@@ -24,7 +24,7 @@ export class ContentCarouselPageComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       // ToDo: Check api call
-      /*      this.contentService.getContents(params['roomId']).subscribe(result => {
+      /*      this.contentService.getContent(params['roomId']).subscribe(result => {
               this.contents = result;
             }); */
     });

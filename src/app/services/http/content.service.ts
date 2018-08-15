@@ -35,8 +35,7 @@ export class ContentService extends BaseHttpService {
   addContent(content: Content): Observable<Content> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
     return this.http.post<Content>(connectionUrl,
-      { roomId: content.roomId, subject: content.subject, body: content.body,
-        format: content.format, group: 'preparation' },
+      content,
       httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
     );
@@ -53,7 +52,7 @@ export class ContentService extends BaseHttpService {
   }
 
   updateContent(updatedContent: Content): Observable<Content> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + updatedContent.contentId;
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + updatedContent.id;
     return this.http.put(connectionUrl, updatedContent, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('updateContent'))
