@@ -10,7 +10,7 @@
   <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
 
-  <mat-radio-group [(ngModel)]="singleChoice" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+  <mat-radio-group [(ngModel)]="singleChoice" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-radio-button [value]=true [checked]=true>
       Single Choice
     </mat-radio-button>
@@ -32,16 +32,11 @@
       </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="points">
-      <mat-header-cell *matHeaderCellDef>Points</mat-header-cell>
-      <mat-cell *matCellDef="let answer">{{ answer.answerOption.points }}</mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <button mat-icon-button
-                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
+                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.correct)"
                 color="primary" matTooltip="Edit answer">
           <mat-icon>edit</mat-icon>
         </button>
@@ -60,11 +55,7 @@
     <mat-form-field class="input-block">
       <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
     </mat-form-field>
-    <mat-form-field class="input-block">
-      <input matInput #answerPoints [(ngModel)]="newAnswerOptionPoints" placeholder="Points" name="points">
-    </mat-form-field>
-    <button mat-button type="button"
-            (click)="addAnswer($event); answerLabel.value = ''; answerPoints.value = ''">
+    <button mat-button type="button" (click)="addAnswer($event); answerLabel.value = '';">
       Add Answer
     </button>
   </div>

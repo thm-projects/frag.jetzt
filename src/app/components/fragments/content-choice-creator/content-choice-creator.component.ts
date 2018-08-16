@@ -41,14 +41,13 @@ export class ContentChoiceCreatorComponent implements OnInit {
     ContentType.CHOICE
   );
 
-  displayedColumns = ['label', 'points', 'actions'];
+  displayedColumns = ['label', 'actions'];
 
   displayAnswers: DisplayAnswer[] = [];
   lastDeletedDisplayAnswer: DisplayAnswer;
 
   newAnswerOptionChecked = false;
   newAnswerOptionLabel = '';
-  newAnswerOptionPoints = '';
 
   editDisplayAnswer: DisplayAnswer;
   originalDisplayAnswer: DisplayAnswer;
@@ -97,14 +96,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.notificationService.show('No empty answers allowed.');
       this.newAnswerOptionChecked = false;
       this.newAnswerOptionLabel = '';
-      this.newAnswerOptionPoints = '';
       return;
     }
     if (this.singleChoice && this.content.correctOptionIndexes.length > 0 && this.newAnswerOptionChecked) {
       this.notificationService.show('In single choice mode is only 1 true answer allowed.');
       this.newAnswerOptionChecked = false;
       this.newAnswerOptionLabel = '';
-      this.newAnswerOptionPoints = '';
       return;
     }
     for (let i = 0; i < this.content.options.length; i++) {
@@ -113,10 +110,10 @@ export class ContentChoiceCreatorComponent implements OnInit {
         return;
       }
     }
-    this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, this.newAnswerOptionPoints));
+    let points = (this.newAnswerOptionChecked) ? '10' : '-10';
+    this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, points));
     this.newAnswerOptionChecked = false;
     this.newAnswerOptionLabel = '';
-    this.newAnswerOptionPoints = '';
     this.fillCorrectAnswers();
   }
 
@@ -139,7 +136,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   saveChanges(index: number, answer: DisplayAnswer, matDialogOutput: boolean) {
     this.content.options[index].label = answer.answerOption.label;
-    this.content.options[index].points = answer.answerOption.points;
+    this.content.options[index].points = (answer.correct) ? '10' : '-10';
     const indexInCorrectOptionIndexes = this.content.correctOptionIndexes.indexOf(index);
     if (indexInCorrectOptionIndexes === -1 && answer.correct) {
       if (this.singleChoice) {
