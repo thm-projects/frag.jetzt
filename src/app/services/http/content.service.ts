@@ -32,6 +32,14 @@ export class ContentService extends BaseHttpService {
     );
   }
 
+  getContentsByIds(ids: string[]): Observable<Content[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + ids.toString();
+    return this.http.get<Content[]>(connectionUrl).pipe(
+      tap(() => ''),
+      catchError(this.handleError('getContentsByIds', []))
+    );
+  }
+
   addContent(content: Content): Observable<Content> {
     delete content.id;
     delete content.revision;

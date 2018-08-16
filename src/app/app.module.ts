@@ -15,6 +15,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MAT_DIALOG_DATA,
   MatAutocompleteModule,
+  MatBadgeModule,
   MatButtonModule,
   MatButtonToggleModule,
   MatCardModule,
@@ -65,6 +66,7 @@ import { RoomParticipantPageComponent } from './components/pages/room-participan
 import { DataStoreService } from './services/util/data-store.service';
 import { RoomCreatorPageComponent } from './components/pages/room-creator-page/room-creator-page.component';
 import { ContentListComponent } from './components/fragments/content-list/content-list.component';
+import { ContentGroupsComponent } from './components/fragments/content-groups/content-groups.component';
 import { ContentService } from './services/http/content.service';
 import { AnswersListComponent } from './components/fragments/answers-list/answers-list.component';
 import { ContentAnswerService } from './services/http/content-answer.service';
@@ -75,9 +77,7 @@ import { UserActivationComponent } from './components/dialogs/user-activation/us
 import { ContentChoiceParticipantComponent } from './components/fragments/content-choice-participant/content-choice-participant.component';
 import { ContentChoiceCreatorComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
 import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
-import {
-  ContentCarouselPageComponent
-} from './components/pages/content-carousel-page/content-carousel-page.component';
+import { ContentCarouselPageComponent } from './components/pages/content-carousel-page/content-carousel-page.component';
 import { ContentTextParticipantComponent } from './components/fragments/content-text-participant/content-text-participant.component';
 import { ContentTextCreatorComponent } from './components/fragments/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
@@ -114,6 +114,7 @@ export function dialogClose(dialogResult: any) {
     RegisterComponent,
     RoomCreateComponent,
     RoomListComponent,
+    ContentGroupsComponent,
     HomeCreatorPageComponent,
     CommentCreatePageComponent,
     HomeParticipantPageComponent,
@@ -171,6 +172,7 @@ export function dialogClose(dialogResult: any) {
     HttpClientModule,
     MarkdownModule.forRoot(),
     MatAutocompleteModule,
+    MatBadgeModule,
     MatButtonModule,
     MatButtonToggleModule,
     MatCardModule,
