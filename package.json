@@ -18,7 +18,7 @@
     "@angular/common": "^6.1.2",
     "@angular/compiler": "^6.1.2",
     "@angular/core": "^6.1.2",
-    "@angular/flex-layout": "^5.0.0-beta.14-17a70ee",
+    "@angular/flex-layout": "^6.0.0-beta.18",
     "@angular/forms": "^6.1.2",
     "@angular/http": "^6.1.2",
     "@angular/material": "^6.1.2",
