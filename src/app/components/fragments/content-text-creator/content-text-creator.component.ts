@@ -6,6 +6,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
+import { RoomCreateComponent } from '../../dialogs/room-create/room-create.component';
+import { CollectionSelectComponent } from '../../dialogs/collection-select/collection-select.component';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -45,6 +47,12 @@ export class ContentTextCreatorComponent implements OnInit {
     this.content.subject = '';
     this.content.body = '';
     this.notificationService.show('Content submitted. Ready for creation of new content.');
+  }
+
+  openCollectionSelectDialog(): void {
+    this.dialog.open(CollectionSelectComponent, {
+      width: '350px'
+    });
   }
 
   submitContent(subject: string, body: string) {

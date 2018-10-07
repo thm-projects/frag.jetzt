@@ -1,0 +1,19 @@
+<form>
+  <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+    <div fxLayout="row" fxLayoutAlign="center">
+      <p>
+      Please select a collection or create a new one!
+      </p>
+      <button mat-raised-button color="primary" type="submit">
+        <mat-icon>note_add</mat-icon>
+      </button>
+    </div>
+    <div>
+      <mat-selection-list #collection>
+        <mat-list-option checkboxPosition="before" *ngFor="let collection of collections">
+          {{collection}}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+  </div>
+</form>

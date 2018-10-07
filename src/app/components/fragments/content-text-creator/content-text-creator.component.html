@@ -8,8 +8,8 @@
               matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
   </mat-form-field>
   <markdown [data]="content.body"></markdown>
-  <div *ngIf="!editDialogMode">
-    <button mat-raised-button type="submit" color="primary">Submit</button>
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="!editDialogMode">
+    <button mat-raised-button type="submit" color="primary" (click)="openCollectionSelectDialog()">Submit</button>
   </div>
   <div *ngIf="editDialogMode">
     <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
