@@ -1,0 +1,22 @@
+<div>
+  <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+    <mat-form-field>
+      <input (keypress)="resetEmptyInputs()" matInput #nameText class="input-block" type="text"
+             placeholder="Collection name" maxlength="50" [(ngModel)]="name" name="nameText"/>
+      <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
+      <mat-hint align="end" *ngIf="!emptyInputs">{{nameText.value.length}} / 50</mat-hint>
+      <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
+      <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+    <button (click)="dialogRef.close('abort')" mat-button color="primary">
+      Leave
+    </button>
+    <button (click)="dialogRef.close('edit')" mat-raised-button color="primary">
+      Create
+    </button>
+  </div>
+</div>

@@ -97,7 +97,7 @@ import { FooterComponent } from './components/fragments/footer/footer.component'
 import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
 import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
 import { CollectionSelectComponent } from './components/dialogs/collection-select/collection-select.component';
-import { AddCollectionComponent } from './components/dialogs/add-collection/add-collection.component';
+import { CollectionAddComponent } from './components/dialogs/collection-add/collection-add.component';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -147,7 +147,8 @@ export function dialogClose(dialogResult: any) {
     FooterComponent,
     FooterLoginDialogComponent,
     FooterImprintComponent,
-    CollectionSelectComponent
+    CollectionSelectComponent,
+    CollectionAddComponent
   ],
   entryComponents: [
     RegisterComponent,
@@ -165,7 +166,8 @@ export function dialogClose(dialogResult: any) {
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,
     FooterLoginDialogComponent,
-    CollectionSelectComponent
+    CollectionSelectComponent,
+    CollectionAddComponent
   ],
   imports: [
     AppRoutingModule,
