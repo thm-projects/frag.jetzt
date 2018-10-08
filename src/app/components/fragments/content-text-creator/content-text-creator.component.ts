@@ -6,12 +6,11 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
-import { CollectionSelectComponent } from '../../dialogs/collection-select/collection-select.component';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { RoomService } from '../../../services/http/room.service';
-import {Room} from "../../../models/room";
+import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -32,7 +31,7 @@ export class ContentTextCreatorComponent implements OnInit {
     1,
     [],
   );
-  collections: string[]; // ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
+  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
 
@@ -69,12 +68,6 @@ export class ContentTextCreatorComponent implements OnInit {
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  openCollectionSelectDialog(): void {
-    this.dialog.open(CollectionSelectComponent, {
-      width: '350px'
-    });
-  }
-
   submitContent(subject: string, body: string, group: string) {
     this.contentService.addContent(new ContentText(
       '1',
@@ -89,7 +82,6 @@ export class ContentTextCreatorComponent implements OnInit {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
-    this.notificationService.show('Content submitted.');
     this.resetAfterSubmit();
   }
 
