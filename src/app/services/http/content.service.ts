@@ -33,7 +33,7 @@ export class ContentService extends BaseHttpService {
   }
 
   getContentsByIds(ids: string[]): Observable<Content[]> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + ids.toString();
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/?ids=' + ids;
     return this.http.get<Content[]>(connectionUrl).pipe(
       tap(() => ''),
       catchError(this.handleError('getContentsByIds', []))

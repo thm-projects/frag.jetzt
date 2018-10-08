@@ -35,14 +35,7 @@ export class ContentListComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-    this.getContent(this.roomId);
-  }
 
-  getContent(roomId: string): void {
-    this.contentService.getContents(roomId)
-      .subscribe(content => {
-        this.contents = content;
-      });
   }
 
   findIndexOfSubject(subject: string): number {
