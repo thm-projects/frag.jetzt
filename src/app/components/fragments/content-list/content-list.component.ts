@@ -176,7 +176,7 @@ export class ContentListComponent implements OnInit {
     } else {
       if (action.valueOf() === 'delete') {
         this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
-        this.contentService.deleteContent(this.contents[index].contentId);
+        this.contentService.deleteContent(this.contents[index].id);
         this.contents.splice(index, 1);
       }
       if (action.valueOf() === 'edit') {

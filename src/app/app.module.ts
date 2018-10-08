@@ -146,7 +146,6 @@ export function dialogClose(dialogResult: any) {
     FooterComponent,
     FooterLoginDialogComponent,
     FooterImprintComponent,
-    CollectionSelectComponent,
   ],
   entryComponents: [
     RegisterComponent,
@@ -163,8 +162,7 @@ export function dialogClose(dialogResult: any) {
     ContentDeleteComponent,
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,
-    FooterLoginDialogComponent,
-    CollectionSelectComponent,
+    FooterLoginDialogComponent
   ],
   imports: [
     AppRoutingModule,
