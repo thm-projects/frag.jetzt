@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ContentService } from '../../../services/http/content.service';
 import { Content } from '../../../models/content';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +19,7 @@ import { NotificationService } from '../../../services/util/notification.service
 })
 export class ContentListComponent implements OnInit {
 
-  contents = [];
+  @Input('contents') contents: ContentText[];
 
   contentBackup: Content;
 
