@@ -1,30 +1,17 @@
 <form>
   <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <h3>
-      Please select a collection or create a new one!
+      Please select a collection or enter a new one!
     </h3>
-    <div fxLayout="row" fxLayoutAlign="center">
       <mat-form-field>
-        <input (keypress)="resetEmptyInputs()" matInput #nameText class="input-block" type="text"
-               placeholder="Collection name" maxlength="50" [(ngModel)]="name" name="nameText"/>
-        <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
-        <mat-hint align="end" *ngIf="!emptyInputs">{{nameText.value.length}} / 50</mat-hint>
-        <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
-        <button mat-button *ngIf="name" matSuffix mat-icon-button aria-label="Clear" (click)="name=''">
-          <mat-icon>close</mat-icon>
-        </button>
+        <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto"
+               placeholder="Collection name"/>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
+            {{collection}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
-      <button mat-raised-button color="primary">
-        <mat-icon>note_add</mat-icon>
-      </button>
-    </div>
-    <div>
-      <mat-selection-list #collection>
-        <mat-list-option checkboxPosition="before" *ngFor="let collection of collections">
-          {{collection}}
-        </mat-list-option>
-      </mat-selection-list>
-    </div>
     <button mat-raised-button color="primary" (click)="onNoClick()">
       Done
     </button>

@@ -6,8 +6,12 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
-import { RoomCreateComponent } from '../../dialogs/room-create/room-create.component';
 import { CollectionSelectComponent } from '../../dialogs/collection-select/collection-select.component';
+import { map, startWith } from 'rxjs/operators';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { RoomService } from '../../../services/http/room.service';
+import {Room} from "../../../models/room";
 
 @Component({
   selector: 'app-content-text-creator',
@@ -18,6 +22,7 @@ export class ContentTextCreatorComponent implements OnInit {
 
   roomId: string;
   roomShortId: string;
+  room: Room;
   content: ContentText = new ContentText(
     '1',
     '1',
@@ -27,11 +32,15 @@ export class ContentTextCreatorComponent implements OnInit {
     1,
     [],
   );
+  collections: string[]; // ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
 
   editDialogMode = false;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
+              private roomService: RoomService,
               private route: ActivatedRoute,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
@@ -41,6 +50,17 @@ export class ContentTextCreatorComponent implements OnInit {
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   resetAfterSubmit() {
@@ -55,7 +75,7 @@ export class ContentTextCreatorComponent implements OnInit {
     });
   }
 
-  submitContent(subject: string, body: string) {
+  submitContent(subject: string, body: string, group: string) {
     this.contentService.addContent(new ContentText(
       '1',
       '1',
@@ -63,7 +83,7 @@ export class ContentTextCreatorComponent implements OnInit {
       subject,
       body,
       1,
-      [],
+      [group],
     )).subscribe();
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');

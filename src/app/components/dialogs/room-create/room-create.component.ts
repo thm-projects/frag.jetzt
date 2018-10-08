@@ -4,6 +4,7 @@ import { Room } from '../../../models/room';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { ContentService} from "../../../services/http/content.service";
 
 @Component({
   selector: 'app-room-create',
@@ -18,6 +19,7 @@ export class RoomCreateComponent implements OnInit {
   roomId: string;
 
   constructor(private roomService: RoomService,
+              private contentService: ContentService,
               private router: Router,
               private notification: NotificationService,
               public dialogRef: MatDialogRef<RoomCreateComponent>,
