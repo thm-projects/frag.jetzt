@@ -11,15 +11,31 @@ import { ContentChoiceCreatorComponent } from '../content-choice-creator/content
 import { ContentLikertCreatorComponent } from '../content-likert-creator/content-likert-creator.component';
 import { ContentTextCreatorComponent } from '../content-text-creator/content-text-creator.component';
 import { NotificationService } from '../../../services/util/notification.service';
+import { Room } from '../../../models/room';
+import { RoomService } from '../../../services/http/room.service';
+
+class ContentGroup {
+  name: string;
+  contentIds: string[];
+  autoSort: boolean;
+
+  constructor(name: string, contentIds: string[], autoSort: boolean) {
+    this.name = name;
+    this.contentIds = contentIds;
+    this.autoSort = autoSort;
+  }
+}
 
 @Component({
   selector: 'app-content-list',
   templateUrl: './content-list.component.html',
   styleUrls: ['./content-list.component.scss']
 })
+
+
 export class ContentListComponent implements OnInit {
 
-  @Input('contents') contents: ContentText[];
+  contents: Content[];
 
   contentBackup: Content;
 
@@ -27,7 +43,12 @@ export class ContentListComponent implements OnInit {
 
   roomId: string;
 
+  contentGroup: ContentGroup;
+
+  room: Room;
+
   constructor(private contentService: ContentService,
+              private roomService: RoomService,
               private route: ActivatedRoute,
               private notificationService: NotificationService,
               public dialog: MatDialog) {
@@ -35,7 +56,14 @@ export class ContentListComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-
+    this.roomService.getRoom(this.roomId).subscribe(room => {
+      this.room = room;
+    });
+    this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
+    this.contentService.getContentsByIds(this.contentGroup.contentIds).subscribe( contents => {
+      this.contents = contents;
+    });
+    console.log(this.contents);
   }
 
   findIndexOfSubject(subject: string): number {

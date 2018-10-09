@@ -88,7 +88,7 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/questions',
+    path: 'participant/room/:roomId/:contentGroup',
     component: ContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }

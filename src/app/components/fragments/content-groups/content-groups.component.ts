@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ContentService } from '../../../services/http/content.service';
 import { Content } from '../../../models/content';
-import { ContentText } from '../../../models/content-text';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { UserRole } from '../../../models/user-roles.enum';
 
 class ContentGroup {
   name: string;
@@ -26,11 +26,10 @@ export class ContentGroupsComponent implements OnInit {
   @Input() public contentGroups: {[key: string]: [string]};
   displayedContentGroups: ContentGroup[] = [];
   roomShortId: string;
-  contents: ContentText[];
 
   constructor (private route: ActivatedRoute,
                private router: Router,
-               private contentService: ContentService
+               protected authService: AuthenticationService
   ) {
   }
 
@@ -53,11 +52,13 @@ export class ContentGroupsComponent implements OnInit {
     });
   }
 
-  getContents(contentGroup: ContentGroup) {
-    this.contentService.getContentsByIds(contentGroup.contentIds).subscribe( contents => {
-      this.contents = contents;
-    });
-    this.router.navigate([`creator/room/${this.roomShortId}/${contentGroup.name}`]);
-    console.log(contentGroup.contentIds);
+  viewContents(contentGroup: ContentGroup) {
+    if (this.authService.getRole() === UserRole.CREATOR) {
+      this.router.navigate([`creator/room/${this.roomShortId}/${contentGroup.name}`]);
+
+    } else {
+      this.router.navigate([`participant/room/${this.roomShortId}/${contentGroup.name}`]);
+    }
+    sessionStorage.setItem('contentGroup', JSON.stringify(contentGroup));
   }
 }

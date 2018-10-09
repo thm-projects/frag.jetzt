@@ -1,5 +1,6 @@
 
-    <mat-card *ngFor="let contentGroup of displayedContentGroups" (click)="getContents(contentGroup)">
+    <mat-card *ngFor="let contentGroup of displayedContentGroups" (click)="viewContents(contentGroup)">
+      <mat-divider></mat-divider>
       <mat-card-header>
         <mat-card-title>
           <h4>{{contentGroup.name}}<mat-icon matBadge="{{contentGroup.contentIds.length}}" matBadgePosition="after"></mat-icon></h4>

@@ -1,7 +1,6 @@
 <mat-list>
-  <mat-list-item *ngFor="let content of contents">
-    <button mat-button (click)="editContent(content.subject)">
+  <mat-list-item *ngFor="let content of contents" (click)="editContent(content.subject)">
       {{content.subject}}
-    </button>
+    <mat-divider></mat-divider>
   </mat-list-item>
 </mat-list>
