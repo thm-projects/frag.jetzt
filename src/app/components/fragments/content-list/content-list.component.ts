@@ -63,7 +63,9 @@ export class ContentListComponent implements OnInit {
     this.contentService.getContentsByIds(this.contentGroup.contentIds).subscribe( contents => {
       this.contents = contents;
     });
-    console.log(this.contents);
+    this.route.params.subscribe(params => {
+      sessionStorage.setItem('collection', params['contentGroup']);
+    });
   }
 
   findIndexOfSubject(subject: string): number {

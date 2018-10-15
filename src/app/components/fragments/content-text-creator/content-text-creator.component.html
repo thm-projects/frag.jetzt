@@ -10,7 +10,7 @@
   <markdown [data]="content.body"></markdown>
   <mat-form-field>
     <input matInput #group type="text" matInput [formControl]="myControl" [matAutocomplete]="auto"
-           placeholder="Collection"/>
+           placeholder={{lastCollection}}/>
     <mat-autocomplete #auto="matAutocomplete">
       <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
         {{collection}}

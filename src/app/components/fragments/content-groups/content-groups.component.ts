@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Content } from '../../../models/content';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 
@@ -16,6 +15,7 @@ class ContentGroup {
   }
 }
 
+
 @Component({
   selector: 'app-content-groups',
   templateUrl: './content-groups.component.html',
@@ -23,7 +23,7 @@ class ContentGroup {
 })
 export class ContentGroupsComponent implements OnInit {
 
-  @Input() public contentGroups: {[key: string]: [string]};
+  @Input() public contentGroups: ContentGroup[];
   displayedContentGroups: ContentGroup[] = [];
   roomShortId: string;
 

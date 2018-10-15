@@ -1,14 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-card>
-      <mat-card-actions>
-        <button mat-fab color="primary" matTooltip="Create new content"
-                routerLink="/creator/room/{{ room.shortId }}/create-content">
-          <mat-icon>note_add</mat-icon>
-        </button>
-      </mat-card-actions>
-      <h4>Klicken Sie auf einen Inhalt, um diesen zu editieren     <mat-icon>create</mat-icon></h4>
-      <mat-divider></mat-divider>
       <mat-list>
         <mat-list-item *ngFor="let content of contents" (click)="editContent(content.subject)">
           <h3 mat-line>{{content.subject}}</h3>

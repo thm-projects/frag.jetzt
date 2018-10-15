@@ -34,6 +34,7 @@ export class ContentTextCreatorComponent implements OnInit {
   collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
+  lastCollection: string;
 
   editDialogMode = false;
 
@@ -49,6 +50,7 @@ export class ContentTextCreatorComponent implements OnInit {
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
+    this.lastCollection = sessionStorage.getItem('collection');
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
