@@ -64,6 +64,12 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
+    path: 'creator/room/:roomId/contents',
+    component: ContentCarouselPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
     path: 'creator/room/:roomId/:contentGroup',
     component: ContentListComponent,
     canActivate: [AuthenticationGuard],
