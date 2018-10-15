@@ -88,14 +88,14 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/contents',
-    component: ContentCarouselPageComponent,
+    path: 'participant/room/:roomId/feedback-barometer',
+    component: FeedbackBarometerPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/feedback-barometer',
-    component: FeedbackBarometerPageComponent,
+    path: 'participant/room/:roomId/:contentGroup',
+    component: ContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
