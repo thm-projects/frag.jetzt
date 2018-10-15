@@ -23,7 +23,8 @@
     </mat-menu>
     <button *ngIf="user" mat-button [matMenuTriggerFor]="appMenu">
       <mat-icon>account_box</mat-icon>
-      <span>{{user.loginId}}</span>
+      <span *ngIf="user.isGuest; else elseBlock">Guest</span>
+      <ng-template #elseBlock>{{user.loginId}}</ng-template>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
