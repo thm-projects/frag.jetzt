@@ -28,13 +28,13 @@
         </mat-grid-tile>
       </mat-grid-list>
       <mat-nav-list>
-        <app-content-groups *ngIf="room" [contentGroups]="room.contentGroups"></app-content-groups>
         <mat-list-item matTooltip="See room comments">
           Comments
         </mat-list-item>
         <mat-list-item matTooltip="Join question round">
           Learn
         </mat-list-item>
+        <app-content-groups *ngIf="room" [contentGroups]="room.contentGroups"></app-content-groups>
       </mat-nav-list>
     </mat-card>
   </div>
