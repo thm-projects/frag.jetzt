@@ -84,6 +84,7 @@ export class ContentTextCreatorComponent implements OnInit {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
+    sessionStorage.setItem('collection', group);
     this.resetAfterSubmit();
   }
 
