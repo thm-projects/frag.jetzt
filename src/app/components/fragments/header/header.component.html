@@ -17,12 +17,12 @@
 
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon>
+        <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
     <button *ngIf="user" mat-button [matMenuTriggerFor]="appMenu">
-      <mat-icon>account_box</mat-icon>
+      <mat-icon color="accent">account_box</mat-icon>
       <span *ngIf="user.isGuest; else elseBlock">{{ 'header.guest' | translate }}</span>
       <ng-template #elseBlock>{{user.loginId}}</ng-template>
     </button>

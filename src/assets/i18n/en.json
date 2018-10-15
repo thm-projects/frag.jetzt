@@ -1,9 +1,9 @@
 {
 	"header": {
 		"english": "English",
-		"german": "Deutsch",
+		"german": "German",
 		"logout": "Logout",
-    "guest:": "Guest"
+    "guest": "Guest"
 	},
 	"login-page": {
 		"creator": "Creator",
@@ -61,7 +61,7 @@
     "give-feedback": "Give feedback",
     "create-content": "Create content",
     "live-feedback": "Live feedback",
-    "answer-statistics": "Answer-statistics",
+    "answer-statistics": "Statistics",
     "edit-room": "Edit session",
     "delete-room": "Delete session"
   },

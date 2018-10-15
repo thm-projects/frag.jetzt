@@ -49,7 +49,7 @@
 	},
   "home-page": {
     "create-session": "Neue Session erstellen",
-    "join-demo-session": "Demo-Session beitreten",
+    "join-demo-session": "Demo-Session betreten",
     "session-id": "Session-Id",
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
     "please-enter": "Bitte geben Sie eine Session-ID ein.",
@@ -63,7 +63,7 @@
     "give-feedback": "Feedback geben",
     "create-content": "Frage erstellen",
     "live-feedback": "Live Feedback",
-    "answer-statistics": "Antwortstatistiken",
+    "answer-statistics": "Statistiken",
     "edit-room": "Session bearbeiten",
     "delete-room": "Session löschen"
   },
