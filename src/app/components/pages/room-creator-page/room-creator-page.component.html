@@ -34,7 +34,7 @@
           Feedback barometer
         </button>
         <button mat-button color="primary" matTooltip="See answer statistics"
-                routerLink="/creator/room/{{ room.shortId }}/answer-statistics">
+                routerLink="/creator/room/{{ room.shortId }}/statistics">
           Answer statistics
         </button>
         <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">
