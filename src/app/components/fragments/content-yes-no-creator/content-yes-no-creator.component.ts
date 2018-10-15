@@ -17,8 +17,8 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
 })
 export class ContentYesNoCreatorComponent implements OnInit {
   answerLabels = [
-    'yes',
-    'no'
+    'Ja',
+    'Nein'
   ];
   content: ContentChoice = new ContentChoice(
     '0',

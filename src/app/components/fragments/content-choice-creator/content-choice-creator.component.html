@@ -1,10 +1,10 @@
 <form (ngSubmit)="submitContent(subject.value, body.value)" fxLayout="column" fxLayoutGap="20px">
   <mat-form-field class="input-block">
-    <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
+    <input matInput #subject [(ngModel)]="content.subject" placeholder="{{ 'content.subject' | translate }}" name="subject">
   </mat-form-field>
   <app-markdown-toolbar textareaId="content-choice-body"></app-markdown-toolbar>
   <mat-form-field class="input-block">
-    <textarea matInput #body id="content-choice-body" [(ngModel)]="content.body" placeholder="Body" name="body"
+    <textarea matInput #body id="content-choice-body" [(ngModel)]="content.body" placeholder="{{ 'content.body' | translate }}" name="body"
               matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
   </mat-form-field>
   <markdown [data]="content.body"></markdown>
@@ -22,7 +22,7 @@
   <mat-table #table [dataSource]="displayAnswers">
 
     <ng-container matColumnDef="label">
-      <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <!-- ToDo: Check ngModel -->
         <mat-checkbox color="primary" (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
@@ -33,7 +33,7 @@
     </ng-container>
 
     <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{ 'content.actions' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <button mat-icon-button
                 (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.correct)"
@@ -53,16 +53,16 @@
 
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
     <mat-form-field class="input-block">
-      <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="Answer" name="answer">
+      <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
     <button mat-button type="button" (click)="addAnswer($event); answerLabel.value = '';">
-      Add Answer
+      {{ 'content.add-answer' | translate }}
     </button>
   </div>
 
   <div *ngIf="!editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
-    <button mat-raised-button type="submit" color="primary">Submit</button>
-    <button mat-raised-button (click)="reset($event)" color="primary">Reset</button>
+    <button mat-raised-button type="submit" color="primary">{{ 'content.create' | translate }}</button>
+    <button mat-raised-button (click)="reset($event)" color="primary">{{ 'content.reset' | translate }}</button>
     <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
       Undo
       deletion

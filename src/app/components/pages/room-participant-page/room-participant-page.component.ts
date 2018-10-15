@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -16,7 +16,8 @@ export class RoomParticipantPageComponent implements OnInit {
 
   constructor(private location: Location,
               private roomService: RoomService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -32,4 +33,8 @@ export class RoomParticipantPageComponent implements OnInit {
         this.isLoading = false;
       });
   }
+
+  /*goToComments(): void {
+    this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
+  }*/
 }

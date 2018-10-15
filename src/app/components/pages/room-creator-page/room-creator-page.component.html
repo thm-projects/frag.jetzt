@@ -19,31 +19,31 @@
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
-      <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-button color="primary" matTooltip="Create new content"
+        <button mat-button color="primary" fxFlex="33%"
                 routerLink="/creator/room/{{ room.shortId }}/create-content">
-          Create content
+          {{ 'room-page.create-content' | translate }}
         </button>
-        <button mat-button color="primary" matTooltip="See room comments"
+        <button mat-button color="primary" fxFlex="33%"
                 routerLink="/creator/room/{{ room.shortId }}/comments">
-          Comments
+          {{ 'room-page.comments' | translate }}
         </button>
-        <button mat-button color="primary" matTooltip="See feedback"
+        <button mat-button color="primary" fxFlex="33%"
                 routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
-          Feedback barometer
+          {{ 'room-page.live-feedback' | translate }}
         </button>
-        <button mat-button color="primary" matTooltip="See answer statistics"
+        <button mat-button color="primary" fxFlex="33%"
                 routerLink="/creator/room/{{ room.shortId }}/statistics">
-          Answer statistics
+          {{ 'room-page.answer-statistics' | translate }}
         </button>
-        <button *ngIf="!modify" (click)="showEditDialog()" mat-button color="primary">
-          Edit room
+        <button *ngIf="!modify" fxFlex="33%" (click)="showEditDialog()" mat-button color="primary">
+          {{ 'room-page.edit-room' | translate }}
         </button>
-        <button mat-button color="warn" (click)="openDeletionRoomDialog()">
-          Delete room
+        <button mat-button color="warn" fxFlex="33%" (click)="openDeletionRoomDialog()">
+          {{ 'room-page.delete-room' | translate }}
         </button>
       </mat-card-actions>
+      <mat-divider></mat-divider>
       <app-content-groups *ngIf="room" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>

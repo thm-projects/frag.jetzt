@@ -3,13 +3,13 @@
   <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
   <mat-form-field class="input-block">
-    <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="Your answer"></textarea>
+    <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="{{ 'answer.your-answer' | translate }}"></textarea>
   </mat-form-field>
   <div fxLayout fxLayoutGap="5px" fxAlign="row">
-    <button mat-raised-button type="submit" color="primary">Submit</button>
-    <button mat-raised-button (click)="abstain($event)" color="primary">Abstain</button>
+    <button mat-raised-button type="submit" color="primary">{{ 'answer.submit' | translate }}</button>
+    <button mat-raised-button (click)="abstain($event)" color="primary">{{ 'answer.abstain' | translate }}</button>
     <mat-chip-list *ngIf="isAnswerSent">
-      <mat-chip color="primary" selected="true">Answer sent</mat-chip>
+      <mat-chip color="primary" selected="true">{{ 'answer.sent' | translate }}</mat-chip>
     </mat-chip-list>
   </div>
 </form>

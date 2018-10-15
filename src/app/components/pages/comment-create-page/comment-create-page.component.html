@@ -2,15 +2,14 @@
   <div fxLayout="row" fxLayoutAlign="center">
     <form>
       <mat-form-field class="input-block">
-        <input matInput #commentSubject type="text" maxlength="24" placeholder="Choose a title">
+        <input matInput #commentSubject type="text" maxlength="24" placeholder="{{ 'comment-page.enter-title' | translate}}">
       </mat-form-field>
       <mat-form-field class="input-block">
         <input matInput #commentBody>
-        <textarea matInput placeholder="Add your comment"></textarea>
+        <textarea matInput></textarea>
       </mat-form-field>
-
-      <button mat-raised-button color="primary" (click)="goBack()">Back</button>
-      <button mat-raised-button color="primary" (click)="send(commentSubject.value, commentBody.value)">Send</button>
+      <button mat-raised-button color="primary" (click)="goBack()">{{ 'comment-page.back' | translate}}</button>
+      <button mat-raised-button color="primary" (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
     </form>
   </div>
   <div fxLayout="row" fxLayoutAlign="center">

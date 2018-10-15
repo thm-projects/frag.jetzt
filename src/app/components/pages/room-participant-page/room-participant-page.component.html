@@ -15,24 +15,24 @@
       <mat-divider></mat-divider>
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="Create comment"
+          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-comment' | translate}}"
                   routerLink="/participant/room/{{ room.id }}/create-comment">
             <mat-icon>question_answer</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="Give feedback"
+          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.give-feedback' | translate}}"
                   routerLink="/participant/room/{{ room.id }}/feedback-barometer">
             <mat-icon>thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
       <mat-nav-list>
-        <mat-list-item matTooltip="See room comments">
-          Comments
+        <mat-list-item>
+          {{ 'room-page.comments' | translate }}
         </mat-list-item>
-        <mat-list-item matTooltip="Join question round">
-          Learn
+        <mat-list-item>
+          {{ 'room-page.learn' | translate }}
         </mat-list-item>
         <app-content-groups *ngIf="room" [contentGroups]="room.contentGroups"></app-content-groups>
       </mat-nav-list>

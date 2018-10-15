@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService) {
 
-    translationService.setDefaultLang('en');
+    translationService.setDefaultLang('de');
   }
 
   ngOnInit() {

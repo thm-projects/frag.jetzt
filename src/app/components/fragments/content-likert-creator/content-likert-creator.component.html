@@ -1,9 +1,9 @@
 <form (ngSubmit)="submitContent()">
   <mat-form-field class="input-block">
-    <input matInput #subject [(ngModel)]="content.subject" placeholder="Subject" name="subject">
+    <input matInput #subject [(ngModel)]="content.subject" placeholder="{{ 'content.subject' | translate }}" name="subject">
   </mat-form-field>
   <mat-form-field class="input-block">
-    <textarea matInput #body [(ngModel)]="content.body" placeholder="Body" name="body"></textarea>
+    <textarea matInput #body [(ngModel)]="content.body" placeholder="{{ 'content.body' | translate }}" name="body"></textarea>
   </mat-form-field>
   <mat-divider></mat-divider>
 
@@ -21,7 +21,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   <div *ngIf="!editDialogMode">
-    <button mat-raised-button type="submit" color="primary">Submit</button>
+    <button mat-raised-button type="submit" color="primary">{{ 'content.create' | translate }}</button>
   </div>
   <div *ngIf="editDialogMode">
     <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>

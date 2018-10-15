@@ -1,7 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-tab-group>
-
       <mat-tab *ngFor="let content of contents" label="{{content.subject}}">
         <app-content-choice-participant [content]="content"
                                         *ngIf="content.format === ContentType.CHOICE"></app-content-choice-participant>

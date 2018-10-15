@@ -2,7 +2,8 @@
 	"header": {
 		"english": "English",
 		"german": "Deutsch",
-		"logout": "Logout"
+		"logout": "Logout",
+    "guest:": "Guest"
 	},
 	"login-page": {
 		"creator": "Creator",
@@ -44,5 +45,53 @@
 		"register": "Register",
 		"register-successful": "Successfully registered. Please check your mail.",
 		"register-unsuccessful": "Please check your data."
-	}
+	},
+  "home-page": {
+    "create-session": "Create new session ",
+    "join-demo-session": "Join demo-session",
+    "session-id": "Session-Id",
+    "no-room-found": "No session was found with id:",
+    "please-enter": "Please enter a session-id.",
+    "exactly-8": "A session-id has exactly 8 digits."
+  },
+  "room-page": {
+    "comments": "Comments",
+    "learn": "Learn",
+    "create-comment": "Create comment",
+    "give-feedback": "Give feedback",
+    "create-content": "Create content",
+    "live-feedback": "Live feedback",
+    "answer-statistics": "Answer-statistics",
+    "edit-room": "Edit session",
+    "delete-room": "Delete session"
+  },
+  "comment-page": {
+    "enter-title": "Enter a title",
+    "back": "Back",
+    "send": "Send"
+  },
+  "answer": {
+    "submit": "Submit",
+    "abstain": "Abstain",
+    "sent": "Answer sent.",
+    "your-answer": "Your answer"
+  },
+  "content": {
+    "create": "Create",
+    "collection": "Collection",
+    "body": "Body",
+    "subject": "Subject",
+    "yes": "Yes",
+    "no": "No",
+    "add-answer": "Add answer",
+    "answer": "Answer",
+    "actions": "Actions",
+    "reset": "Reset"
+  },
+  "session": {
+    "session-name": "Session name",
+    "description": "Description",
+    "max-ls": "Max. letters / signs:",
+    "create-session": "Create session"
+  }
 }

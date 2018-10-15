@@ -2,7 +2,7 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/cor
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import { ErrorStateMatcher, MatDialog} from '@angular/material';
+import { ErrorStateMatcher, MatDialog } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
@@ -93,7 +93,9 @@ export class LoginComponent implements OnInit, OnChanges {
 
   private checkLogin(loginSuccessful: string) {
     if (loginSuccessful === 'true') {
-      this.notificationService.show('Login successful!');
+      this.translationService.get('login.login-successful').subscribe(message => {
+        this.notificationService.show(message);
+      });
       if (this.role === UserRole.CREATOR) {
         this.router.navigate(['creator']);
       } else {

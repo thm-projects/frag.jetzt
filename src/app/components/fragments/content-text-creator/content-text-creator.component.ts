@@ -67,7 +67,7 @@ export class ContentTextCreatorComponent implements OnInit {
   resetAfterSubmit() {
     this.content.subject = '';
     this.content.body = '';
-    this.notificationService.show('Content submitted. Ready for creation of new content.');
+    this.notificationService.show('Frage erstellt.');
   }
 
   submitContent(subject: string, body: string, group: string) {
@@ -81,7 +81,7 @@ export class ContentTextCreatorComponent implements OnInit {
       [group],
     )).subscribe();
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
-      this.notificationService.show('No empty fields allowed. Please check subject and body.');
+      this.notificationService.show('Keine leeren Felder erlaubt. Bitte kontrollieren sie Thema und Inhalt.');
       return;
     }
     sessionStorage.setItem('collection', group);

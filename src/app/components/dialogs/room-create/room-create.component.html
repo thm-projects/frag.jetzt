@@ -2,8 +2,8 @@
   <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
       <input (keypress)="resetEmptyInputs()" matInput #longRoomName class="input-block" type="text"
-             placeholder="Room name" maxlength="50" [(ngModel)]="longName" name="roomName"/>
-      <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
+             placeholder="{{ 'session.session-name' | translate}}" maxlength="50" [(ngModel)]="longName" name="roomName"/>
+      <mat-hint align="start" *ngIf="!emptyInputs"><strong>{{ 'session.max-ls' | translate}}</strong></mat-hint>
       <mat-hint align="end" *ngIf="!emptyInputs">{{longRoomName.value.length}} / 50</mat-hint>
       <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
       <button mat-button *ngIf="longName" matSuffix mat-icon-button aria-label="Clear" (click)="longName=''">
@@ -12,15 +12,15 @@
     </mat-form-field>
     <mat-form-field>
       <textarea (keypress)="resetEmptyInputs()" matInput #description type="text"
-             placeholder="Description" maxlength="255" name="description"></textarea>
-      <mat-hint align="start" *ngIf="!emptyInputs"><strong>Max. letters / signs:</strong></mat-hint>
+             placeholder="{{ 'session.description' | translate}}" maxlength="255" name="description"></textarea>
+      <mat-hint align="start" *ngIf="!emptyInputs"><strong>{{ 'session.max-ls' | translate}}</strong></mat-hint>
       <mat-hint align="end" *ngIf="!emptyInputs">{{description.value.length}} / 255</mat-hint>
       <mat-hint align="start" *ngIf="emptyInputs"><strong>Input is required</strong></mat-hint>
       <button mat-button *ngIf="shortName" matSuffix mat-icon-button aria-label="Clear" (click)="shortName=''">
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <button mat-raised-button color="primary" type="submit">Create room
+    <button mat-raised-button color="primary" type="submit">{{ 'session.create-session' | translate}}
     </button>
   </div>
 </form>
