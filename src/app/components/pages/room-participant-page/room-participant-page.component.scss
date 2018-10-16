@@ -7,7 +7,14 @@ mat-card-content>:first-child {
   margin-top: 16px;
 }
 
-mat-icon {
-  font-size: 500%;
+.mat-icon{
+  height:100% !important;
+  width:100% !important;
+  font-size:48px !important;
 }
 
+button {
+  margin: 5px;
+  max-width: 30%;
+  min-width: 30%;
+}

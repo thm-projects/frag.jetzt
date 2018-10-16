@@ -1,5 +1,6 @@
 mat-card {
   max-width: 800px;
+  min-width: 800px;
 }
 
 mat-card-content > :first-child {
@@ -9,4 +10,6 @@ mat-card-content > :first-child {
 
 button {
   margin: 5px;
+  min-width: 30%;
+  max-width: 30%;
 }

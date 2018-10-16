@@ -1,0 +1,9 @@
+<mat-form-field>
+  <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
+         value={{lastCollection}} placeholder="{{'content.collection' | translate}}"/>
+  <mat-autocomplete #auto="matAutocomplete">
+    <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
+      {{collection}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

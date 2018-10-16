@@ -59,9 +59,17 @@
       {{ 'content.add-answer' | translate }}
     </button>
   </div>
-
+  <mat-form-field>
+    <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
+           value={{lastCollection}} placeholder="{{'content.collection' | translate}}"/>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
+        {{collection}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
   <div *ngIf="!editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
-    <button mat-raised-button type="submit" color="primary">{{ 'content.create' | translate }}</button>
+    <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
     <button mat-raised-button (click)="reset($event)" color="primary">{{ 'content.reset' | translate }}</button>
     <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
       Undo

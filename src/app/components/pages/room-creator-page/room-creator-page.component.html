@@ -43,7 +43,6 @@
           {{ 'room-page.delete-room' | translate }}
         </button>
       </mat-card-actions>
-      <mat-divider></mat-divider>
       <app-content-groups *ngIf="room" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>

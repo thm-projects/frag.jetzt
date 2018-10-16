@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
-              private notification: NotificationService,
+              private notificationService: NotificationService,
               public router: Router,
               private translationService: TranslateService) {
 
@@ -31,7 +31,9 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authenticationService.logout();
-    this.notification.show(`Logged out`);
+    this.translationService.get('header.logged-out').subscribe(message => {
+      this.notificationService.show(message);
+    });
     this.router.navigate(['/']);
   }
 

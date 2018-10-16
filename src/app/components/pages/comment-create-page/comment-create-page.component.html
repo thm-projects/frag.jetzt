@@ -9,7 +9,7 @@
         <textarea matInput></textarea>
       </mat-form-field>
       <button mat-raised-button color="primary" (click)="goBack()">{{ 'comment-page.back' | translate}}</button>
-      <button mat-raised-button color="primary" (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
+      <button mat-raised-button color="accent" (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
     </form>
   </div>
   <div fxLayout="row" fxLayoutAlign="center">

@@ -3,7 +3,8 @@
 		"english": "English",
 		"german": "German",
 		"logout": "Logout",
-    "guest": "Guest"
+    "guest": "Guest",
+    "logged-out": "Logout successful."
 	},
 	"login-page": {
 		"creator": "Creator",
@@ -86,7 +87,9 @@
     "add-answer": "Add answer",
     "answer": "Answer",
     "actions": "Actions",
-    "reset": "Reset"
+    "reset": "Reset",
+    "contents": "Contents",
+    "click-here": "Click on a content to edit it"
   },
   "session": {
     "session-name": "Session name",

@@ -18,7 +18,7 @@
     </mat-autocomplete>
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px" *ngIf="!editDialogMode">
-    <button mat-raised-button type="submit" color="primary">{{'content.create' | translate}}</button>
+    <button mat-raised-button type="submit" color="accent">{{'content.create' | translate}}</button>
   </div>
   <div *ngIf="editDialogMode">
     <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>

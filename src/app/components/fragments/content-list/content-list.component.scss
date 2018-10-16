@@ -1,5 +1,6 @@
 mat-card {
   max-width: 800px;
+  min-width: 50%;
 }
 
 mat-card-content > :first-child {
@@ -14,6 +15,10 @@ button {
   margin: 20px;
 }
 
+h2 {
+  color: #3f51b5;
+}
+
 h3 {
-  color: #42A5F5;
+  color: #3f51b5;
 }

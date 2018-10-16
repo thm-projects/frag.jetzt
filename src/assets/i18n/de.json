@@ -3,11 +3,12 @@
 		"english": "English",
 		"german": "Deutsch",
 		"logout": "Abmelden",
-    "guest": "Gast"
+    "guest": "Gast",
+    "logged-out": "Ausloggen erfolgreich."
 	},
 	"login-page": {
-		"creator": "Autor",
-		"participant": "Teilnehmer",
+		"creator": "Dozent/in",
+		"participant": "Student/in",
 		"password-reset": "Passwort zurücksetzen",
 		"register": "Registrieren"
 	},
@@ -88,7 +89,9 @@
     "add-answer": "Antwort hinzufügen",
     "answer": "Antwort",
     "actions": "Richtig / Falsch",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "contents": "Fragen",
+    "click-here": "Klicken Sie auf einen Inhalt, um diesen zu editieren"
   },
   "session": {
     "session-name": "Name der Session",

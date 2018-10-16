@@ -9,6 +9,9 @@ import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.compo
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -58,6 +61,11 @@ export class ContentChoiceCreatorComponent implements OnInit {
   roomId: string;
   roomShortId: string;
 
+  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  lastCollection: string;
+
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               private route: ActivatedRoute,
@@ -70,6 +78,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
     this.fillCorrectAnswers();
+    this.lastCollection = sessionStorage.getItem('collection');
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
   fillCorrectAnswers() {
@@ -88,6 +102,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
       }
     }
     return index;
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   addAnswer($event) {
@@ -110,7 +130,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
         return;
       }
     }
-    let points = (this.newAnswerOptionChecked) ? '10' : '-10';
+    const points = (this.newAnswerOptionChecked) ? '10' : '-10';
     this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, points));
     this.newAnswerOptionChecked = false;
     this.newAnswerOptionLabel = '';
@@ -227,7 +247,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  submitContent(subject: string, body: string) {
+  submitContent(subject: string, body: string, group: string) {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
@@ -255,14 +275,14 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.changesAllowed = true;
       return;
     }
-    this.contentService.addContent(new ContentChoice(
+    this.contentService.addContentChoice(new ContentChoice(
       '',
       '',
       this.roomId,
       subject,
       body,
       1,
-      [],
+      [group],
       this.content.options,
       this.content.correctOptionIndexes,
       this.content.multiple,
@@ -274,7 +294,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   editDialogClose($event, action: string) {
     $event.preventDefault();
     if (action.valueOf() === 'edit') {
-      this.submitContent(this.content.subject, this.content.body);
+      this.submitContent(this.content.subject, this.content.body, this.content.groups[1]);
     }
     if (action.valueOf() === 'abort') {
       this.dialogRef.close(action);

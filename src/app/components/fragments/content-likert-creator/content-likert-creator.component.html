@@ -21,7 +21,7 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   <div *ngIf="!editDialogMode">
-    <button mat-raised-button type="submit" color="primary">{{ 'content.create' | translate }}</button>
+    <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
   </div>
   <div *ngIf="editDialogMode">
     <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>

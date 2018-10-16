@@ -96,6 +96,7 @@ import { GenericDataDialogComponent } from './components/dialogs/generic-data-di
 import { FooterComponent } from './components/fragments/footer/footer.component';
 import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
 import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
+import { CollectionComponent } from './components/collection/collection.component';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -145,6 +146,7 @@ export function dialogClose(dialogResult: any) {
     FooterComponent,
     FooterLoginDialogComponent,
     FooterImprintComponent,
+    CollectionComponent,
   ],
   entryComponents: [
     RegisterComponent,
@@ -161,7 +163,8 @@ export function dialogClose(dialogResult: any) {
     ContentDeleteComponent,
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,
-    FooterLoginDialogComponent
+    FooterLoginDialogComponent,
+    CollectionComponent
   ],
   imports: [
     AppRoutingModule,
