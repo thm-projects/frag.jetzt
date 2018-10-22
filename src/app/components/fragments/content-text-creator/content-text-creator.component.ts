@@ -60,7 +60,6 @@ export class ContentTextCreatorComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 

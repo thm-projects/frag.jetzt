@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-content-likert-creator',
@@ -39,9 +42,14 @@ export class ContentLikertCreatorComponent implements OnInit {
   );
 
   displayedColumns = ['label'];
+  roomId: string;
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '0';
+  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  lastCollection: string;
 
   editDialogMode = false;
 
@@ -62,13 +70,22 @@ export class ContentLikertCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.content.roomId = params['roomId'];
-    });
+    this.roomId = localStorage.getItem(`roomId`);
     for (let i = 0; i < this.likertScale.length; i++) {
       this.content.options.push(new AnswerOption(this.likertScale[i], this.newAnswerOptionPoints));
     }
     this.fillCorrectAnswers();
+    this.lastCollection = sessionStorage.getItem('collection');
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   resetAfterSubmit() {
@@ -79,16 +96,26 @@ export class ContentLikertCreatorComponent implements OnInit {
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  submitContent(): void {
-    if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
+  submitContent(subject: string, body: string, group: string): void {
+    if (subject.valueOf() === '' || body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
     this.notificationService.show('Content sumbitted.');
     // ToDo: Check api call
-    // this.contentService.addContent(this.content);
-    // For Testing:
-    // console.log(this.content);
+    this.contentService.addContent(new ContentChoice(
+      '',
+      '',
+      this.roomId,
+      subject,
+      body,
+      1,
+      [group],
+      this.content.options,
+      this.content.correctOptionIndexes,
+      this.content.multiple,
+      ContentType.SCALE
+    )).subscribe();
     this.resetAfterSubmit();
   }
 

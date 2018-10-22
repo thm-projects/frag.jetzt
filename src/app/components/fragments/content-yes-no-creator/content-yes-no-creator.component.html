@@ -1,28 +1,28 @@
-<form (ngSubmit)="submitContent()">
+<form (ngSubmit)="submitContent(submitContent(subject.value, body.value, group.value))">
   <mat-form-field class="input-block">
     <input matInput #subject [(ngModel)]="content.subject" placeholder="{{ 'content.subject' | translate }}" name="subject">
   </mat-form-field>
   <mat-form-field class="input-block">
     <textarea matInput #body [(ngModel)]="content.body" placeholder="{{ 'content.body' | translate }}" name="body"></textarea>
   </mat-form-field>
-  <mat-divider></mat-divider>
 
-  <mat-table #table [dataSource]="displayAnswers">
-
-    <ng-container matColumnDef="label">
-      <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
-      <mat-cell *matCellDef="let answer">
-        <!-- ToDo: Check ngModel -->
-        <mat-checkbox (click)="setCorrect($event ,answer.answerOption.label)" color="primary" [(ngModel)]="answer.correct" [checked]="answer.correct"
-                      name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}
-        </mat-checkbox>
-      </mat-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
-  <mat-divider></mat-divider>
+        <mat-radio-group [(ngModel)]="yesno" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+          <mat-radio-button [value]=true [checked]=true>
+            Ja
+          </mat-radio-button>
+          <mat-radio-button [value]=false [checked]=false>
+            Nein
+          </mat-radio-button>
+        </mat-radio-group>
+  <mat-form-field>
+    <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
+           value={{lastCollection}} placeholder="{{'content.collection' | translate}}"/>
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
+        {{collection}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
   <div *ngIf="!editDialogMode">
     <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
   </div>

@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-content-yes-no-creator',
@@ -16,6 +19,7 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
   styleUrls: ['./content-yes-no-creator.component.scss']
 })
 export class ContentYesNoCreatorComponent implements OnInit {
+  yesno = true;
   answerLabels = [
     'Ja',
     'Nein'
@@ -34,10 +38,14 @@ export class ContentYesNoCreatorComponent implements OnInit {
     ContentType.BINARY
   );
 
-  displayedColumns = ['label'];
+  roomId: string;
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '';
+  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  lastCollection: string;
 
   editDialogMode = false;
 
@@ -50,13 +58,22 @@ export class ContentYesNoCreatorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.content.roomId = params['roomId'];
-    });
+    this.roomId = localStorage.getItem(`roomId`);
     for (let i = 0; i < this.answerLabels.length; i++) {
       this.content.options.push(new AnswerOption(this.answerLabels[i], this.newAnswerOptionPoints));
     }
     this.fillCorrectAnswers();
+    this.lastCollection = sessionStorage.getItem('collection');
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   fillCorrectAnswers() {
@@ -64,21 +81,6 @@ export class ContentYesNoCreatorComponent implements OnInit {
     for (let i = 0; i < this.content.options.length; i++) {
       this.displayAnswers.push(new DisplayAnswer(this.content.options[i], this.content.correctOptionIndexes.includes(i)));
     }
-  }
-
-  setCorrect($event, label: string) {
-    $event.preventDefault();
-    if (label === 'yes') {
-      this.content.correctOptionIndexes = [0];
-    }
-    if (label === 'no') {
-      this.content.correctOptionIndexes = [1];
-    }
-    this.fillCorrectAnswers();
-  }
-
-  checkAllowedContent(): boolean {
-    return (this.content.correctOptionIndexes.length === 1);
   }
 
   resetAfterSubmit() {
@@ -89,20 +91,30 @@ export class ContentYesNoCreatorComponent implements OnInit {
     this.notificationService.show('Content submitted. Ready for creation of new content.');
   }
 
-  submitContent(): void {
-    if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
+  submitContent(subject: string, body: string, group: string): void {
+    if (subject.valueOf() === '' || body.valueOf() === '') {
       this.notificationService.show('No empty fields allowed. Please check subject and body.');
       return;
     }
-    if (!this.checkAllowedContent()) {
-      this.notificationService.show('Select 1 true answer.');
-      return;
-    }
     this.notificationService.show('Content sumbitted.');
-    // ToDo: Check api call
-    // this.contentService.addContent(this.content);
-    // For Testing:
-    // console.log(this.content);
+    if (this.yesno) {
+      this.content.correctOptionIndexes = [0];
+    } else {
+      this.content.correctOptionIndexes = [1];
+    }
+    this.contentService.addContent(new ContentChoice(
+      '',
+      '',
+      this.roomId,
+      subject,
+      body,
+      1,
+      [group],
+      this.content.options,
+      this.content.correctOptionIndexes,
+      this.content.multiple,
+      ContentType.BINARY
+    )).subscribe();
     this.resetAfterSubmit();
   }
 

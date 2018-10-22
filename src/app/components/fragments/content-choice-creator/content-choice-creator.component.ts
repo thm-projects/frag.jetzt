@@ -275,7 +275,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.changesAllowed = true;
       return;
     }
-    this.contentService.addContentChoice(new ContentChoice(
+    this.contentService.addContent(new ContentChoice(
       '',
       '',
       this.roomId,

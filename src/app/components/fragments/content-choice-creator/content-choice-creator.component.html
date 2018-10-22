@@ -1,4 +1,4 @@
-<form (ngSubmit)="submitContent(subject.value, body.value)" fxLayout="column" fxLayoutGap="20px">
+<form (ngSubmit)="submitContent(subject.value, body.value, group.value)" fxLayout="column" fxLayoutGap="20px">
   <mat-form-field class="input-block">
     <input matInput #subject [(ngModel)]="content.subject" placeholder="{{ 'content.subject' | translate }}" name="subject">
   </mat-form-field>
