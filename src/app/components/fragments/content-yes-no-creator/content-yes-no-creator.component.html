@@ -5,7 +5,6 @@
   <mat-form-field class="input-block">
     <textarea matInput #body [(ngModel)]="content.body" placeholder="{{ 'content.body' | translate }}" name="body"></textarea>
   </mat-form-field>
-
         <mat-radio-group [(ngModel)]="yesno" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
           <mat-radio-button [value]=true [checked]=true>
             Ja

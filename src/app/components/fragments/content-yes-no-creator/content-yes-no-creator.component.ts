@@ -5,12 +5,11 @@ import { AnswerOption } from '../../../models/answer-option';
 import { NotificationService } from '../../../services/util/notification.service';
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
-import { ActivatedRoute } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { map, startWith } from 'rxjs/operators';
 
 @Component({
@@ -50,7 +49,6 @@ export class ContentYesNoCreatorComponent implements OnInit {
   editDialogMode = false;
 
   constructor(private contentService: ContentService,
-              private route: ActivatedRoute,
               private notificationService: NotificationService,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,

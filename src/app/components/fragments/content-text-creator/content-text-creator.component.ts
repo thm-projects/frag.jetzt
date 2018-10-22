@@ -1,16 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { RoomService } from '../../../services/http/room.service';
-import { Room } from '../../../models/room';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -20,8 +17,6 @@ import { Room } from '../../../models/room';
 export class ContentTextCreatorComponent implements OnInit {
 
   roomId: string;
-  roomShortId: string;
-  room: Room;
   content: ContentText = new ContentText(
     '1',
     '1',
@@ -40,8 +35,6 @@ export class ContentTextCreatorComponent implements OnInit {
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              private roomService: RoomService,
-              private route: ActivatedRoute,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -49,7 +42,6 @@ export class ContentTextCreatorComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.lastCollection = sessionStorage.getItem('collection');
     this.filteredOptions = this.myControl.valueChanges
       .pipe(

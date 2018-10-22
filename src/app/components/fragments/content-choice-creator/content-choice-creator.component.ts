@@ -2,7 +2,6 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { AnswerEditComponent } from '../../dialogs/answer-edit/answer-edit.component';
@@ -10,7 +9,7 @@ import { ContentType } from '../../../models/content-type.enum';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../../dialogs/content-delete/content-delete.component';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { map, startWith } from 'rxjs/operators';
 
 export class DisplayAnswer {
@@ -59,7 +58,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
   changesAllowed = false;
 
   roomId: string;
-  roomShortId: string;
 
   collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
@@ -68,14 +66,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              private route: ActivatedRoute,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
-    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
     this.fillCorrectAnswers();
     this.lastCollection = sessionStorage.getItem('collection');
