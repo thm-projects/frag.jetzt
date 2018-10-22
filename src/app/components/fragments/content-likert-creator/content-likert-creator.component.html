@@ -8,7 +8,7 @@
   <mat-divider></mat-divider>
   <mat-table #table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
-      <mat-header-cell *matHeaderCellDef>Answer</mat-header-cell>
+      <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <!-- ToDo: Check ngModel -->
         {{ answer.answerOption.label }}
