@@ -11,6 +11,7 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { map, startWith } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 export class DisplayAnswer {
   answerOption: AnswerOption;
@@ -68,6 +69,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
               private notificationService: NotificationService,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
+              private translationService: TranslateService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -240,12 +242,16 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.content.options = [];
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
-    this.notificationService.show('Content submitted. Ready for creation of new content.');
+    this.translationService.get('content.submitted').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 
   submitContent(subject: string, body: string, group: string) {
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
-      this.notificationService.show('No empty fields allowed. Please check subject and body.');
+      this.translationService.get('content.no-empty').subscribe(message => {
+        this.notificationService.show(message);
+      });
       return;
     }
     if (this.content.options.length === 0) {

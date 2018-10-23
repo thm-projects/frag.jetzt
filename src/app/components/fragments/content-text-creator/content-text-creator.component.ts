@@ -8,6 +8,7 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-text-creator',
@@ -37,6 +38,7 @@ export class ContentTextCreatorComponent implements OnInit {
               private notificationService: NotificationService,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
+              private translationService: TranslateService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -58,7 +60,9 @@ export class ContentTextCreatorComponent implements OnInit {
   resetAfterSubmit() {
     this.content.subject = '';
     this.content.body = '';
-    this.notificationService.show('Frage erstellt.');
+    this.translationService.get('content.submitted').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 
   submitContent(subject: string, body: string, group: string) {
@@ -72,7 +76,9 @@ export class ContentTextCreatorComponent implements OnInit {
       [group],
     )).subscribe();
     if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
-      this.notificationService.show('Keine leeren Felder erlaubt. Bitte kontrollieren sie Thema und Inhalt.');
+      this.translationService.get('content.no-empty').subscribe(message => {
+        this.notificationService.show(message);
+      });
       return;
     }
     sessionStorage.setItem('collection', group);

@@ -49,6 +49,7 @@
 	},
   "home-page": {
     "create-session": "Create new session ",
+    "no-empty-name": "Please enter a name.",
     "join-demo-session": "Join demo-session",
     "session-id": "Session-Id",
     "no-room-found": "No session was found with id:",
@@ -89,7 +90,9 @@
     "actions": "Actions",
     "reset": "Reset",
     "contents": "Contents",
-    "click-here": "Click on a content to edit it"
+    "click-here": "Click on a content to edit it",
+    "submitted": "Content submitted. Ready for creation of new content.",
+    "no-empty": "No empty fields allowed. Please check subject and body."
   },
   "session": {
     "session-name": "Session name",

@@ -11,6 +11,7 @@ import { ContentDeleteComponent } from '../../dialogs/content-delete/content-del
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { map, startWith } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-content-yes-no-creator',
@@ -20,8 +21,8 @@ import { map, startWith } from 'rxjs/operators';
 export class ContentYesNoCreatorComponent implements OnInit {
   yesno = true;
   answerLabels = [
-    'Ja',
-    'Nein'
+    'yes',
+    'no'
   ];
   content: ContentChoice = new ContentChoice(
     '0',
@@ -52,6 +53,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
               private notificationService: NotificationService,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
+              private translationService: TranslateService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -86,15 +88,18 @@ export class ContentYesNoCreatorComponent implements OnInit {
     this.content.body = '';
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
-    this.notificationService.show('Content submitted. Ready for creation of new content.');
+    this.translationService.get('content.submitted').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 
   submitContent(subject: string, body: string, group: string): void {
     if (subject.valueOf() === '' || body.valueOf() === '') {
-      this.notificationService.show('No empty fields allowed. Please check subject and body.');
+      this.translationService.get('content.no-empty').subscribe(message => {
+        this.notificationService.show(message);
+      });
       return;
     }
-    this.notificationService.show('Content sumbitted.');
     if (this.yesno) {
       this.content.correctOptionIndexes = [0];
     } else {

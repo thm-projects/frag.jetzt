@@ -7,10 +7,10 @@
   </mat-form-field>
         <mat-radio-group [(ngModel)]="yesno" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
           <mat-radio-button [value]=true [checked]=true>
-            Ja
+            {{ 'content.yes' | translate }}
           </mat-radio-button>
           <mat-radio-button [value]=false [checked]=false>
-            Nein
+            {{ 'content.no' | translate }}
           </mat-radio-button>
         </mat-radio-group>
   <mat-form-field>

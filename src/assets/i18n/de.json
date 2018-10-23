@@ -50,6 +50,7 @@
 	},
   "home-page": {
     "create-session": "Neue Session erstellen",
+    "no-empty-name": "Bitte geben Sie einen Namen ein.",
     "join-demo-session": "Demo-Session betreten",
     "session-id": "Session-Id",
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
@@ -91,7 +92,9 @@
     "actions": "Richtig / Falsch",
     "reset": "Zurücksetzen",
     "contents": "Fragen",
-    "click-here": "Klicken Sie auf einen Inhalt, um diesen zu editieren"
+    "click-here": "Klicken Sie auf einen Inhalt, um diesen zu editieren",
+    "submitted": "Frage erstellt. Bereit für die Erstellung neuer Fragen.",
+    "no-empty": "Keine leeren Felder erlaubt. Bitte überprüfen sie Thema und Inhalt."
   },
   "session": {
     "session-name": "Name der Session",
