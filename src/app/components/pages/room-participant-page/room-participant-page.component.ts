@@ -33,8 +33,4 @@ export class RoomParticipantPageComponent implements OnInit {
         this.isLoading = false;
       });
   }
-
-  /*goToComments(): void {
-    this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
-  }*/
 }
