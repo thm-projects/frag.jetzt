@@ -18,5 +18,5 @@ import { RoomParticipantPageComponent } from './room-participant-page/room-parti
     RoomParticipantPageComponent
   ]
 })
-export class ParticipantModule{
+export class ParticipantModule {
 }

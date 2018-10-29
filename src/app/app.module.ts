@@ -58,39 +58,29 @@ import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { RoomService } from './services/http/room.service';
 import { RoomListComponent } from './components/shared/room-list/room-list.component';
-import { HomeCreatorPageComponent } from './components/creator/home-creator-page/home-creator-page.component';
-import { CommentCreatePageComponent } from './components/creator/comment-create-page/comment-create-page.component';
 import { CommentService } from './services/http/comment.service';
 import { HomeParticipantPageComponent } from './components/participant/home-participant-page/home-participant-page.component';
 import { RoomParticipantPageComponent } from './components/participant/room-participant-page/room-participant-page.component';
 import { DataStoreService } from './services/util/data-store.service';
-import { RoomCreatorPageComponent } from './components/creator/room-creator-page/room-creator-page.component';
 import { ContentListComponent } from './components/shared/content-list/content-list.component';
 import { ContentGroupsComponent } from './components/shared/content-groups/content-groups.component';
 import { ContentService } from './services/http/content.service';
-import { AnswersListComponent } from './components/creator/answers-list/answers-list.component';
 import { ContentAnswerService } from './services/http/content-answer.service';
 import { RoomDeleteComponent } from './components/creator/_dialogs/room-delete/room-delete.component';
 import { StatisticsComponent } from './components/shared/statistics/statistics.component';
 import { RoomEditComponent } from './components/creator/_dialogs/room-edit/room-edit.component';
 import { UserActivationComponent } from './components/shared/_dialogs/user-activation/user-activation.component';
 import { ContentChoiceParticipantComponent } from './components/participant/content-choice-participant/content-choice-participant.component';
-import { ContentChoiceCreatorComponent } from './components/creator/content-choice-creator/content-choice-creator.component';
-import { ContentCreatePageComponent } from './components/creator/content-create-page/content-create-page.component';
 import { ContentCarouselPageComponent } from './components/shared/content-carousel-page/content-carousel-page.component';
 import { ContentTextParticipantComponent } from './components/participant/content-text-participant/content-text-participant.component';
-import { ContentTextCreatorComponent } from './components/creator/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { HeaderComponent } from './components/shared/header/header.component';
-import { ContentLikertCreatorComponent } from './components/creator/content-likert-creator/content-likert-creator.component';
-import { ContentYesNoCreatorComponent } from './components/creator/content-yes-no-creator/content-yes-no-creator.component';
 import { AnswerEditComponent } from './components/participant/_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from './components/creator/_dialogs/content-delete/content-delete.component';
 import { FeedbackBarometerPageComponent } from './components/shared/feedback-barometer-page/feedback-barometer-page.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
-import { MarkdownToolbarComponent } from './components/creator/markdown-toolbar/markdown-toolbar.component';
 import { MarkdownHelpDialogComponent } from './components/creator/_dialogs/markdown-help-dialog/markdown-help-dialog.component';
 import { GenericDataDialogComponent } from './components/shared/_dialogs/generic-data-dialog/generic-data-dialog.component';
 import { FooterComponent } from './components/shared/footer/footer.component';
@@ -115,31 +105,19 @@ export function dialogClose(dialogResult: any) {
     RoomCreateComponent,
     RoomListComponent,
     ContentGroupsComponent,
-    HomeCreatorPageComponent,
-    CommentCreatePageComponent,
     HomeParticipantPageComponent,
-    CommentListComponent,
     RoomParticipantPageComponent,
-    RoomCreatorPageComponent,
     ContentListComponent,
-    AnswersListComponent,
     RoomDeleteComponent,
     RoomEditComponent,
     UserActivationComponent,
     ContentChoiceParticipantComponent,
-    ContentChoiceCreatorComponent,
-    ContentCreatePageComponent,
     ContentCarouselPageComponent,
     ContentTextParticipantComponent,
-    StatisticsComponent,
-    ContentTextCreatorComponent,
     HeaderComponent,
-    ContentLikertCreatorComponent,
-    ContentYesNoCreatorComponent,
     AnswerEditComponent,
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
-    MarkdownToolbarComponent,
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,
     FooterComponent,
@@ -154,10 +132,6 @@ export function dialogClose(dialogResult: any) {
     RoomEditComponent,
     UserActivationComponent,
     AnswerEditComponent,
-    ContentChoiceCreatorComponent,
-    ContentLikertCreatorComponent,
-    ContentTextCreatorComponent,
-    ContentYesNoCreatorComponent,
     ContentDeleteComponent,
     MarkdownHelpDialogComponent,
     GenericDataDialogComponent,

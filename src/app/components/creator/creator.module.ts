@@ -11,6 +11,8 @@ import { ContentYesNoCreatorComponent } from './content-yes-no-creator/content-y
 import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.component';
 import { MarkdownToolbarComponent } from './markdown-toolbar/markdown-toolbar.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
+import { StatisticsComponent } from '../shared/statistics/statistics.component';
+import { CommentListComponent } from '../shared/comment-list/comment-list.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.
     ContentYesNoCreatorComponent,
     HomeCreatorPageComponent,
     MarkdownToolbarComponent,
-    RoomCreatorPageComponent
+    RoomCreatorPageComponent,
+    StatisticsComponent,
+    CommentListComponent
   ]
 })
 export class CreatorModule {
