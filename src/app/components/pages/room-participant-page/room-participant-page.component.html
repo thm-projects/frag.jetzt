@@ -31,7 +31,7 @@
           <button mat-button color="primary">{{ 'room-page.comments' | translate }}</button>
           <button mat-button color="primary">{{ 'room-page.learn' | translate }}</button>
         </mat-card-actions>
-      <app-content-groups *ngIf="room" [contentGroups]="room.contentGroups"></app-content-groups>
+      <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
   </div>
 </div>
