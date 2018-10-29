@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
-import { LoginComponentPageComponent } from './components/pages/login-page/login-page.component';
-import { HomeCreatorPageComponent } from './components/pages/home-creator-page/home-creator-page.component';
-import { CommentCreatePageComponent } from './components/pages/comment-create-page/comment-create-page.component';
-import { HomeParticipantPageComponent } from './components/pages/home-participant-page/home-participant-page.component';
+import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
+import { LoginPageComponent } from './components/shared/login-page/login-page.component';
+import { HomeCreatorPageComponent } from './components/creator/home-creator-page/home-creator-page.component';
+import { CommentCreatePageComponent } from './components/creator/comment-create-page/comment-create-page.component';
+import { HomeParticipantPageComponent } from './components/participant/home-participant-page/home-participant-page.component';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { UserRole } from './models/user-roles.enum';
-import { RoomParticipantPageComponent } from './components/pages/room-participant-page/room-participant-page.component';
-import { RoomCreatorPageComponent } from './components/pages/room-creator-page/room-creator-page.component';
-import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
-import { ContentListComponent } from './components/fragments/content-list/content-list.component';
-import { StatisticsComponent } from './components/fragments/statistics/statistics.component';
-import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
-import { ContentCarouselPageComponent } from './components/pages/content-carousel-page/content-carousel-page.component';
-import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
-import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
+import { RoomParticipantPageComponent } from './components/participant/room-participant-page/room-participant-page.component';
+import { RoomCreatorPageComponent } from './components/creator/room-creator-page/room-creator-page.component';
+import { CommentListComponent } from './components/shared/comment-list/comment-list.component';
+import { ContentListComponent } from './components/shared/content-list/content-list.component';
+import { StatisticsComponent } from './components/shared/statistics/statistics.component';
+import { ContentCreatePageComponent } from './components/creator/content-create-page/content-create-page.component';
+import { ContentCarouselPageComponent } from './components/shared/content-carousel-page/content-carousel-page.component';
+import { FeedbackBarometerPageComponent } from './components/shared/feedback-barometer-page/feedback-barometer-page.component';
+import { FooterImprintComponent } from './components/shared/footer-imprint/footer-imprint.component';
 
 const routes: Routes = [
   {
@@ -25,7 +25,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: LoginComponentPageComponent
+    component: LoginPageComponent
   },
   {
     path: 'creator',

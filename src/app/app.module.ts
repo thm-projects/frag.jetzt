@@ -3,14 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RoomJoinComponent } from './components/fragments/room-join/room-join.component';
-import { LoginComponent } from './components/fragments/login/login.component';
-import { RegisterComponent } from './components/dialogs/register/register.component';
-import { PasswordResetComponent } from './components/dialogs/password-reset/password-reset.component';
-import { CommentListComponent } from './components/fragments/comment-list/comment-list.component';
+import { RoomJoinComponent } from './components/shared/room-join/room-join.component';
+import { LoginComponent } from './components/shared/login/login.component';
+import { RegisterComponent } from './components/shared/dialogs/register/register.component';
+import { PasswordResetComponent } from './components/shared/dialogs/password-reset/password-reset.component';
+import { CommentListComponent } from './components/shared/comment-list/comment-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { PageNotFoundComponent } from './components/pages/page-not-found/page-not-found.component';
+import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {
   MAT_DIALOG_DATA,
@@ -50,52 +50,52 @@ import {
 } from '@angular/material';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
-import { RoomPageComponent } from './components/pages/room-page/room-page.component';
-import { RoomCreateComponent } from './components/dialogs/room-create/room-create.component';
-import { LoginComponentPageComponent } from './components/pages/login-page/login-page.component';
+import { RoomPageComponent } from './components/shared/room-page/room-page.component';
+import { RoomCreateComponent } from './components/creator/dialogs/room-create/room-create.component';
+import { LoginPageComponent } from './components/shared/login-page/login-page.component';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
 import { RoomService } from './services/http/room.service';
-import { RoomListComponent } from './components/fragments/room-list/room-list.component';
-import { HomeCreatorPageComponent } from './components/pages/home-creator-page/home-creator-page.component';
-import { CommentCreatePageComponent } from './components/pages/comment-create-page/comment-create-page.component';
+import { RoomListComponent } from './components/shared/room-list/room-list.component';
+import { HomeCreatorPageComponent } from './components/creator/home-creator-page/home-creator-page.component';
+import { CommentCreatePageComponent } from './components/creator/comment-create-page/comment-create-page.component';
 import { CommentService } from './services/http/comment.service';
-import { HomeParticipantPageComponent } from './components/pages/home-participant-page/home-participant-page.component';
-import { RoomParticipantPageComponent } from './components/pages/room-participant-page/room-participant-page.component';
+import { HomeParticipantPageComponent } from './components/participant/home-participant-page/home-participant-page.component';
+import { RoomParticipantPageComponent } from './components/participant/room-participant-page/room-participant-page.component';
 import { DataStoreService } from './services/util/data-store.service';
-import { RoomCreatorPageComponent } from './components/pages/room-creator-page/room-creator-page.component';
-import { ContentListComponent } from './components/fragments/content-list/content-list.component';
-import { ContentGroupsComponent } from './components/fragments/content-groups/content-groups.component';
+import { RoomCreatorPageComponent } from './components/creator/room-creator-page/room-creator-page.component';
+import { ContentListComponent } from './components/shared/content-list/content-list.component';
+import { ContentGroupsComponent } from './components/shared/content-groups/content-groups.component';
 import { ContentService } from './services/http/content.service';
-import { AnswersListComponent } from './components/fragments/answers-list/answers-list.component';
+import { AnswersListComponent } from './components/creator/answers-list/answers-list.component';
 import { ContentAnswerService } from './services/http/content-answer.service';
-import { RoomDeleteComponent } from './components/dialogs/room-delete/room-delete.component';
-import { StatisticsComponent } from './components/fragments/statistics/statistics.component';
-import { RoomEditComponent } from './components/dialogs/room-edit/room-edit.component';
-import { UserActivationComponent } from './components/dialogs/user-activation/user-activation.component';
-import { ContentChoiceParticipantComponent } from './components/fragments/content-choice-participant/content-choice-participant.component';
-import { ContentChoiceCreatorComponent } from './components/fragments/content-choice-creator/content-choice-creator.component';
-import { ContentCreatePageComponent } from './components/pages/content-create-page/content-create-page.component';
-import { ContentCarouselPageComponent } from './components/pages/content-carousel-page/content-carousel-page.component';
-import { ContentTextParticipantComponent } from './components/fragments/content-text-participant/content-text-participant.component';
-import { ContentTextCreatorComponent } from './components/fragments/content-text-creator/content-text-creator.component';
+import { RoomDeleteComponent } from './components/creator/dialogs/room-delete/room-delete.component';
+import { StatisticsComponent } from './components/shared/statistics/statistics.component';
+import { RoomEditComponent } from './components/creator/dialogs/room-edit/room-edit.component';
+import { UserActivationComponent } from './components/shared/dialogs/user-activation/user-activation.component';
+import { ContentChoiceParticipantComponent } from './components/participant/content-choice-participant/content-choice-participant.component';
+import { ContentChoiceCreatorComponent } from './components/creator/content-choice-creator/content-choice-creator.component';
+import { ContentCreatePageComponent } from './components/creator/content-create-page/content-create-page.component';
+import { ContentCarouselPageComponent } from './components/shared/content-carousel-page/content-carousel-page.component';
+import { ContentTextParticipantComponent } from './components/participant/content-text-participant/content-text-participant.component';
+import { ContentTextCreatorComponent } from './components/creator/content-text-creator/content-text-creator.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
-import { HeaderComponent } from './components/fragments/header/header.component';
-import { ContentLikertCreatorComponent } from './components/fragments/content-likert-creator/content-likert-creator.component';
-import { ContentYesNoCreatorComponent } from './components/fragments/content-yes-no-creator/content-yes-no-creator.component';
-import { AnswerEditComponent } from './components/dialogs/answer-edit/answer-edit.component';
-import { ContentDeleteComponent } from './components/dialogs/content-delete/content-delete.component';
-import { FeedbackBarometerPageComponent } from './components/pages/feedback-barometer-page/feedback-barometer-page.component';
+import { HeaderComponent } from './components/shared/header/header.component';
+import { ContentLikertCreatorComponent } from './components/creator/content-likert-creator/content-likert-creator.component';
+import { ContentYesNoCreatorComponent } from './components/creator/content-yes-no-creator/content-yes-no-creator.component';
+import { AnswerEditComponent } from './components/participant/dialogs/answer-edit/answer-edit.component';
+import { ContentDeleteComponent } from './components/creator/dialogs/content-delete/content-delete.component';
+import { FeedbackBarometerPageComponent } from './components/shared/feedback-barometer-page/feedback-barometer-page.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
-import { MarkdownToolbarComponent } from './components/fragments/markdown-toolbar/markdown-toolbar.component';
-import { MarkdownHelpDialogComponent } from './components/dialogs/markdown-help-dialog/markdown-help-dialog.component';
-import { GenericDataDialogComponent } from './components/dialogs/generic-data-dialog/generic-data-dialog.component';
-import { FooterComponent } from './components/fragments/footer/footer.component';
-import { FooterLoginDialogComponent } from './components/dialogs/footer-login-dialog/footer-login-dialog.component';
-import { FooterImprintComponent } from './components/pages/footer-imprint/footer-imprint.component';
+import { MarkdownToolbarComponent } from './components/creator/markdown-toolbar/markdown-toolbar.component';
+import { MarkdownHelpDialogComponent } from './components/creator/dialogs/markdown-help-dialog/markdown-help-dialog.component';
+import { GenericDataDialogComponent } from './components/shared/dialogs/generic-data-dialog/generic-data-dialog.component';
+import { FooterComponent } from './components/shared/footer/footer.component';
+import { FooterLoginDialogComponent } from './components/shared/dialogs/footer-login-dialog/footer-login-dialog.component';
+import { FooterImprintComponent } from './components/shared/footer-imprint/footer-imprint.component';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -105,7 +105,7 @@ export function dialogClose(dialogResult: any) {
     AppComponent,
     RoomJoinComponent,
     AppComponent,
-    LoginComponentPageComponent,
+    LoginPageComponent,
     LoginComponent,
     PageNotFoundComponent,
     PasswordResetComponent,
