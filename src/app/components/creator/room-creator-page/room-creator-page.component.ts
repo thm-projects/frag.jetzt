@@ -6,8 +6,8 @@ import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
-import { RoomDeleteComponent } from '../dialogs/room-delete/room-delete.component';
-import { RoomEditComponent } from '../dialogs/room-edit/room-edit.component';
+import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
+import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 
 @Component({
   selector: 'app-room-creator-page',

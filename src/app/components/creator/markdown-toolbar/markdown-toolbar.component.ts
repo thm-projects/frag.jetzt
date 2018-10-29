@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { MarkdownHelpDialogComponent } from '../dialogs/markdown-help-dialog/markdown-help-dialog.component';
+import { MarkdownHelpDialogComponent } from '../_dialogs/markdown-help-dialog/markdown-help-dialog.component';
 import { MatDialog } from '@angular/material';
-import { Data, GenericDataDialogComponent } from '../../shared/dialogs/generic-data-dialog/generic-data-dialog.component';
+import { Data, GenericDataDialogComponent } from '../../shared/_dialogs/generic-data-dialog/generic-data-dialog.component';
 
 @Component({
   selector: 'app-markdown-toolbar',

@@ -6,7 +6,7 @@ import { ErrorStateMatcher, MatDialog } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { UserActivationComponent } from '../dialogs/user-activation/user-activation.component';
+import { UserActivationComponent } from '../_dialogs/user-activation/user-activation.component';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {

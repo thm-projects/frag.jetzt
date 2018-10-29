@@ -3,7 +3,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { FooterLoginDialogComponent } from '../dialogs/footer-login-dialog/footer-login-dialog.component';
+import { FooterLoginDialogComponent } from '../_dialogs/footer-login-dialog/footer-login-dialog.component';
 
 @Component({
   selector: 'app-footer',

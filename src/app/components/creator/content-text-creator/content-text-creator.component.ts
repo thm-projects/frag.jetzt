@@ -4,7 +4,7 @@ import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../../shared/content-list/content-list.component';
-import { ContentDeleteComponent } from '../dialogs/content-delete/content-delete.component';
+import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { map, startWith } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
