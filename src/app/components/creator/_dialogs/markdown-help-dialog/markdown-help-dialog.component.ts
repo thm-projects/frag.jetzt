@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { GenericDataDialogComponent } from '../generic-data-dialog/generic-data-dialog.component';
+import { GenericDataDialogComponent } from '../../../shared/_dialogs/generic-data-dialog/generic-data-dialog.component';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
