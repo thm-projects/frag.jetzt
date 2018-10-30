@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreatorRoutingModule } from './creator-routing.module';
 import { AnswersListComponent } from './answers-list/answers-list.component';
-import { CommentCreatePageComponent } from './comment-create-page/comment-create-page.component';
 import { ContentChoiceCreatorComponent } from './content-choice-creator/content-choice-creator.component';
 import { ContentCreatePageComponent } from './content-create-page/content-create-page.component';
 import { ContentLikertCreatorComponent } from './content-likert-creator/content-likert-creator.component';
@@ -11,17 +10,24 @@ import { ContentYesNoCreatorComponent } from './content-yes-no-creator/content-y
 import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.component';
 import { MarkdownToolbarComponent } from './markdown-toolbar/markdown-toolbar.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
-import { StatisticsComponent } from '../shared/statistics/statistics.component';
-import { CommentListComponent } from '../shared/comment-list/comment-list.component';
+import { EssentialsModule } from '../essentials/essentials.module';
+import { SharedModule } from '../shared/shared.module';
+import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
+import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
+import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
+import { AnswerEditComponent } from '../participant/_dialogs/answer-edit/answer-edit.component';
+import { ContentDeleteComponent } from './_dialogs/content-delete/content-delete.component';
+import { CreatorContentCarouselPageComponent } from './creator-content-carousel-page/creator-content-carousel-page.component';
 
 @NgModule({
   imports: [
     CommonModule,
-    CreatorRoutingModule
+    CreatorRoutingModule,
+    EssentialsModule,
+    SharedModule
   ],
   declarations: [
     AnswersListComponent,
-    CommentCreatePageComponent,
     ContentChoiceCreatorComponent,
     ContentCreatePageComponent,
     ContentLikertCreatorComponent,
@@ -30,8 +36,17 @@ import { CommentListComponent } from '../shared/comment-list/comment-list.compon
     HomeCreatorPageComponent,
     MarkdownToolbarComponent,
     RoomCreatorPageComponent,
-    StatisticsComponent,
-    CommentListComponent
+    RoomCreateComponent,
+    RoomDeleteComponent,
+    RoomEditComponent,
+    CreatorContentCarouselPageComponent
+  ],
+  entryComponents: [
+    RoomCreateComponent,
+    RoomDeleteComponent,
+    RoomEditComponent,
+    AnswerEditComponent,
+    ContentDeleteComponent
   ]
 })
 export class CreatorModule {

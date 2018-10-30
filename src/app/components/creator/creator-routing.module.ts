@@ -8,8 +8,8 @@ import { ContentCreatePageComponent } from './content-create-page/content-create
 import { StatisticsComponent } from '../shared/statistics/statistics.component';
 import { CommentListComponent } from '../shared/comment-list/comment-list.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
-import { ContentCarouselPageComponent } from '../shared/content-carousel-page/content-carousel-page.component';
 import { ContentListComponent } from '../shared/content-list/content-list.component';
+import { CreatorContentCarouselPageComponent } from './creator-content-carousel-page/creator-content-carousel-page.component';
 
 const routes: Routes = [
   {
@@ -19,19 +19,19 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId',
+    path: 'room/:roomId',
     component: RoomCreatorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/create-content',
+    path: 'room/:roomId/create-content',
     component: ContentCreatePageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/statistics',
+    path: 'room/:roomId/statistics',
     component: StatisticsComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
@@ -50,7 +50,7 @@ const routes: Routes = [
   },
   {
     path: 'creator/room/:roomId/contents',
-    component: ContentCarouselPageComponent,
+    component: CreatorContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },

@@ -4,13 +4,13 @@ import { HomeParticipantPageComponent } from './home-participant-page/home-parti
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
-import { CommentCreatePageComponent } from '../creator/comment-create-page/comment-create-page.component';
+import { CommentCreatePageComponent } from './comment-create-page/comment-create-page.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
-import { ContentCarouselPageComponent } from '../shared/content-carousel-page/content-carousel-page.component';
+import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
 
 const routes: Routes = [
   {
-    path: 'participant',
+    path: '',
     component: HomeParticipantPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
@@ -35,7 +35,7 @@ const routes: Routes = [
   },
   {
     path: 'participant/room/:roomId/:contentGroup',
-    component: ContentCarouselPageComponent,
+    component: ParticipantContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   }
@@ -45,6 +45,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-
-export class ParticipantRoutingModule {
-}
+export class ParticipantRoutingModule { }

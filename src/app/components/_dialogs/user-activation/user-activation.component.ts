@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit} from '@angular/core';
-import { NotificationService } from '../../../../services/util/notification.service';
-import { UserService } from '../../../../services/http/user.service';
+import { Component, Inject, OnInit } from '@angular/core';
+import { NotificationService } from '../../../services/util/notification.service';
+import { UserService } from '../../../services/http/user.service';
 import { FormControl, Validators} from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';

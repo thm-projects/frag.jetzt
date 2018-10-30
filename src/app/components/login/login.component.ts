@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
+import { AuthenticationService } from '../../services/http/authentication.service';
 import { Router } from '@angular/router';
-import { NotificationService } from '../../../services/util/notification.service';
+import { NotificationService } from '../../services/util/notification.service';
 import { ErrorStateMatcher, MatDialog } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { UserRole } from '../../../models/user-roles.enum';
+import { UserRole } from '../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../_dialogs/user-activation/user-activation.component';
 

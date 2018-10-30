@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from './components/shared/login-page/login-page.component';
+import { LoginPageComponent } from './components/login-page/login-page.component';
 import { FooterImprintComponent } from './components/shared/footer-imprint/footer-imprint.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
+import { CreatorModule } from './components/creator/creator.module';
+import { ParticipantModule } from './components/participant/participant.module';
 
 const routes: Routes = [
   {
@@ -16,11 +18,11 @@ const routes: Routes = [
   },
   {
     path: 'creator',
-    loadChildren: './components/creator/creator.module#CreatorModule'
+    loadChildren: () => CreatorModule
   },
   {
     path: 'participant',
-    loadChildren: './components/participant/participant.module#ParticipantModule'
+    loadChildren: () => ParticipantModule
   },
   {
     path: 'imprint',
@@ -39,8 +41,7 @@ const routes: Routes = [
   ],
   exports: [
     RouterModule
-  ],
-  declarations: []
+  ]
 })
 export class AppRoutingModule {
 }

@@ -20,11 +20,11 @@ class ContentGroup {
 }
 
 @Component({
-  selector: 'app-content-carousel-page',
-  templateUrl: './content-carousel-page.component.html',
-  styleUrls: ['./content-carousel-page.component.scss']
+  selector: 'app-creator-content-carousel-page',
+  templateUrl: './creator-content-carousel-page.component.html',
+  styleUrls: ['./creator-content-carousel-page.component.scss']
 })
-export class ContentCarouselPageComponent implements OnInit {
+export class CreatorContentCarouselPageComponent implements OnInit {
   ContentType: typeof ContentType = ContentType;
 
   contents: Content[];
