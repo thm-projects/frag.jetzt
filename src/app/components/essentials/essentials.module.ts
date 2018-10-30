@@ -89,8 +89,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     MatToolbarModule,
     MatTooltipModule,
     TranslateModule,
-    BrowserModule,
-    BrowserAnimationsModule,
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
