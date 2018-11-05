@@ -24,6 +24,8 @@ import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LanguageService } from './components/shared/LanguageService';
+import { MarkdownService, MarkedOptions } from 'ngx-markdown';
 export function dialogClose(dialogResult: any) {
 }
 
@@ -65,6 +67,9 @@ export function dialogClose(dialogResult: any) {
     CommentService,
     ContentService,
     ContentAnswerService,
+    LanguageService,
+    MarkdownService,
+    MarkedOptions,
     UserService,
     {
       provide: MatDialogRef,

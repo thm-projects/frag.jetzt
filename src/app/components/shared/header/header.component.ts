@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../LanguageService';
 
 @Component({
   selector: 'app-header',
@@ -19,7 +20,8 @@ export class HeaderComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private notificationService: NotificationService,
               public router: Router,
-              private translationService: TranslateService) {
+              private translationService: TranslateService,
+              private langService: LanguageService) {
 
     translationService.setDefaultLang(this.translationService.getBrowserLang());
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
@@ -62,6 +64,7 @@ export class HeaderComponent implements OnInit {
   useLanguage(language: string) {
     this.translationService.use(language);
     sessionStorage.setItem('currentLang', this.translationService.currentLang);
+    this.langService.langEmitter.emit(language);
 
   }
 }

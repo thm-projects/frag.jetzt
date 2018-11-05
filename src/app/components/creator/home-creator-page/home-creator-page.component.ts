@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { RoomCreateComponent } from '../_dialogs/room-create/room-create.component';
-import { TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../shared/LanguageService';
 
 @Component({
   selector: 'app-home-creator-page',
@@ -11,7 +12,9 @@ import { TranslateService} from '@ngx-translate/core';
 
 export class HomeCreatorPageComponent implements OnInit {
   constructor(public dialog: MatDialog,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
