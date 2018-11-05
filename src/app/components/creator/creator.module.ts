@@ -11,20 +11,31 @@ import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.
 import { MarkdownToolbarComponent } from './markdown-toolbar/markdown-toolbar.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
-import { SharedModule } from '../shared/shared.module';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
 import { AnswerEditComponent } from '../participant/_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from './_dialogs/content-delete/content-delete.component';
 import { CreatorContentCarouselPageComponent } from './creator-content-carousel-page/creator-content-carousel-page.component';
+import { SharedModule } from '../shared/shared.module';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 @NgModule({
   imports: [
     CommonModule,
     CreatorRoutingModule,
     EssentialsModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      isolate: true
+    })
   ],
   declarations: [
     AnswersListComponent,
@@ -50,4 +61,8 @@ import { CreatorContentCarouselPageComponent } from './creator-content-carousel-
   ]
 })
 export class CreatorModule {
+}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, '../../../assets/i18n/', '.json');
 }

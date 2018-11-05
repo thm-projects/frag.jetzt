@@ -21,7 +21,8 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService) {
 
-    translationService.setDefaultLang('de');
+    translationService.setDefaultLang(this.translationService.getBrowserLang());
+    sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
   }
 
   ngOnInit() {
@@ -60,5 +61,7 @@ export class HeaderComponent implements OnInit {
 
   useLanguage(language: string) {
     this.translationService.use(language);
+    sessionStorage.setItem('currentLang', this.translationService.currentLang);
+
   }
 }

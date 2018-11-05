@@ -22,8 +22,8 @@ import { GenericDataDialogComponent } from './components/shared/_dialogs/generic
 import { FooterLoginDialogComponent } from './components/shared/_dialogs/footer-login-dialog/footer-login-dialog.component';
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
-import {BrowserModule} from "@angular/platform-browser";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 export function dialogClose(dialogResult: any) {
 }
 

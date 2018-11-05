@@ -1,7 +1,4 @@
 import { NgModule } from '@angular/core';
-
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -41,8 +38,6 @@ import {
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-
-
 @NgModule({
   imports: [
     TranslateModule.forRoot({
@@ -50,11 +45,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-        }
+        },
+      isolate: true
    })
-
-
-],
+  ],
   exports: [
     MatAutocompleteModule,
     MatBadgeModule,
