@@ -37,25 +37,25 @@ const routes: Routes = [
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/comments',
+    path: 'room/:roomId/comments',
     component: CommentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/feedback-barometer',
+    path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/contents',
+    path: 'room/:roomId/contents',
     component: CreatorContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'creator/room/:roomId/:contentGroup',
+    path: 'room/:roomId/:contentGroup',
     component: ContentListComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
