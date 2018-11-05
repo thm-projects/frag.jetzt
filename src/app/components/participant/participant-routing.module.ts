@@ -16,25 +16,25 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId',
+    path: 'room/:roomId',
     component: RoomParticipantPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/create-comment',
+    path: 'room/:roomId/create-comment',
     component: CommentCreatePageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/feedback-barometer',
+    path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'participant/room/:roomId/:contentGroup',
+    path: 'room/:roomId/:contentGroup',
     component: ParticipantContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
