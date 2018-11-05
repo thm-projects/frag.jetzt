@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../shared/LanguageService';
 
 @Component({
   selector: 'app-home-participant-page',
@@ -7,9 +9,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeParticipantPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
+  }
 
   ngOnInit() {
+    this.translateService.use(sessionStorage.getItem('currentLang'));
   }
 
 }
