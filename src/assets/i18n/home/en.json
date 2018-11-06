@@ -18,6 +18,7 @@
 		"email-required": "E-Mail is required",
 		"guest-login": "Guest login",
 		"input-incorrect": "Please check your data.",
+    "login-successful": "Login successful.",
 		"login": "Login",
 		"login-data-incorrect": "Username or password incorrect.",
 		"password": "Password",
