@@ -1,0 +1,51 @@
+{
+	"header": {
+		"english": "English",
+		"german": "German",
+		"logout": "Logout",
+    "guest": "Guest",
+    "logged-out": "Logout successful."
+	},
+	"login-page": {
+		"creator": "Creator",
+		"participant": "Participant",
+		"password-reset": "Reset password",
+		"register": "Register"
+	},
+	"login": {
+		"email": "E-Mail",
+		"email-invalid": "E-Mail is invalid",
+		"email-required": "E-Mail is required",
+		"guest-login": "Guest login",
+		"input-incorrect": "Please check your data.",
+    "login-successful": "Login successful.",
+		"login": "Login",
+		"login-data-incorrect": "Username or password incorrect.",
+		"password": "Password",
+		"password-required": "Password is required",
+    "activate": "Activate",
+    "activation-key": "Activation key",
+    "activation-key-required": "Activation key required",
+    "activation-key-incorrect": "Activation key is wrong"
+	},
+	"password-reset": {
+		"email": "E-Mail",
+		"email-invalid": "E-Mail is not valid",
+		"email-required": "E-Mail is required",
+		"input-incorrect": "Please check your data.",
+		"reset-password": "Reset password",
+		"reset-successful": "Password was reset. Please check your mail."
+	},
+	"register": {
+		"email": "E-Mail",
+		"email-invalid": "E-Mail is not valid",
+		"email-required": "E-Mail is required",
+		"password": "Password",
+		"password-required": "Password is required",
+		"password-unmatch": "Passwords do not match",
+		"password-verify": "Verify password",
+		"register": "Register",
+		"register-successful": "Successfully registered. Please check your mail.",
+		"register-unsuccessful": "Please check your data."
+	}
+}

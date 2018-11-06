@@ -1,0 +1,29 @@
+<form (ngSubmit)="submitAnswer()">
+  <h1 class="mat-headline">{{ content.subject }}</h1>
+  <markdown [data]="content.body"></markdown>
+  <mat-divider></mat-divider>
+  <mat-list *ngIf="content.multiple">
+    <mat-list-item *ngFor="let answer of checkedAnswers">
+      <mat-checkbox color="primary" [(ngModel)]="answer.checked" name="answer">
+        {{ answer.answerOption.label }}
+      </mat-checkbox>
+    </mat-list-item>
+  </mat-list>
+  <mat-radio-group *ngIf="!content.multiple" [(ngModel)]="selectedSingleAnswer" name="Radio">
+    <mat-list>
+      <mat-list-item *ngFor="let answer of checkedAnswers">
+        <mat-radio-button color="primary" [value]="answer.answerOption.label" name="answer">
+          {{ answer.answerOption.label }}
+        </mat-radio-button>
+      </mat-list-item>
+    </mat-list>
+  </mat-radio-group>
+  <mat-divider></mat-divider>
+  <div fxLayout fxLayoutGap="5px" fxAlign="row">
+    <button mat-raised-button type="submit" color="accent">{{ 'answer.submit' | translate }}</button>
+    <button mat-raised-button (click)="abstain($event)" color="primary">{{ 'answer.abstain' | translate }}</button>
+    <mat-chip-list *ngIf="isAnswerSent">
+      <mat-chip color="primary" selected="true">{{ 'answer.sent' | translate }}</mat-chip>
+    </mat-chip-list>
+  </div>
+</form>

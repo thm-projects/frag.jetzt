@@ -1,0 +1,28 @@
+{
+  "home-page": {
+    "join-demo-session": "Demo-Session betreten",
+    "session-id": "Session-Id",
+    "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
+    "please-enter": "Bitte geben Sie eine Session-ID ein.",
+    "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
+  },
+  "room-page": {
+    "comments": "Kommentare",
+    "learn": "Lernen",
+    "create-comment": "Kommentar abgeben",
+    "give-feedback": "Feedback geben",
+    "live-feedback": "Live Feedback",
+    "answer-statistics": "Statistiken"
+  },
+  "comment-page": {
+    "enter-title": "Geben Sie einen Titel ein",
+    "back": "Zurück",
+    "send": "Senden"
+  },
+  "answer": {
+    "submit": "Absenden",
+    "abstain": "Enthalten",
+    "sent": "Antwort gesendet.",
+    "your-answer": "Ihre Antwort"
+  }
+}

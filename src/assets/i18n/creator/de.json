@@ -1,0 +1,55 @@
+{
+  "home-page": {
+    "create-session": "Neue Session erstellen",
+    "no-empty-name": "Bitte geben Sie einen Namen ein."
+
+  },
+  "room-page": {
+    "comments": "Kommentare",
+    "create-content": "Frage erstellen",
+    "live-feedback": "Live Feedback",
+    "answer-statistics": "Statistiken",
+    "edit-room": "Session bearbeiten",
+    "delete-room": "Session löschen",
+    "sure": "Sind Sie sicher?",
+    "really": "Wollen Sie die Session ",
+    "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "abort": "Abbrechen",
+    "update": "Update"
+  },
+  "content": {
+    "create": "Erstellen",
+    "collection": "Sammlung",
+    "body": "Inhalt",
+    "subject": "Thema",
+    "yes": "Ja",
+    "no": "Nein",
+    "add-answer": "Antwort hinzufügen",
+    "answer": "Antwort",
+    "actions": "Richtig / Falsch",
+    "reset": "Zurücksetzen",
+    "contents": "Fragen",
+    "click-here": "Klicken Sie auf einen Inhalt, um diesen zu editieren",
+    "submitted": "Frage erstellt. Bereit für die Erstellung neuer Fragen.",
+    "no-empty": "Keine leeren Felder erlaubt. Bitte überprüfen sie Thema und Inhalt.",
+    "no-empty2": "Keine leeren Felder erlaubt.",
+    "only-one": "Im Single-Choice-Modus ist nur eine Antwort erlaubt.",
+    "same-answer": "Zweimal die selbe Antwort ist nicht erlaubt.",
+    "changes-made": "Änderungen gespeichert.",
+    "answer-deleted": "Antwort gelöscht.",
+    "answer-recovered": "Antwort wiederhergestellt.",
+    "only-one-true": "Im Single-Modus ist nur eine richtige Antwort erlaubt.",
+    "reset-all": "Alle Eingaben wurden zurückgesetzt.",
+    "need-answers": "Auswahlfragen brauchen Antworten. Bitte fügen Sie Antworten hinzu",
+    "select-one": "Im Single-Choice-Modus muss es eine richtige Antwort geben.",
+    "at-least-one": "Im Multiple-Choice-Modus muss es mindestens eine richtige Antwort geben.",
+    "undo": "Rückgängig",
+    "points": "Punkte"
+  },
+  "session": {
+    "session-name": "Name der Session",
+    "description": "Beschreibung",
+    "max-ls": "Max. Zeichen:",
+    "create-session": "Session erstellen"
+  }
+}
