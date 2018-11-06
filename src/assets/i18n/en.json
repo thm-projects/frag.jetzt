@@ -69,7 +69,8 @@
     "sure": "Are you sure?",
     "really": "Do you really want to delete session ",
     "really2": "? This action can not be undone.",
-    "abort": "Abort"
+    "abort": "Abort",
+    "update": "Update"
   },
   "comment-page": {
     "enter-title": "Enter a title",

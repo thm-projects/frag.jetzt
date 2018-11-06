@@ -71,7 +71,8 @@
     "sure": "Sind Sie sicher?",
     "really": "Wollen Sie die Session ",
     "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
-    "abort": "Abbrechen"
+    "abort": "Abbrechen",
+    "update": "Update"
 
   },
   "comment-page": {

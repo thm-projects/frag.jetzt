@@ -1,19 +1,18 @@
-<!-- TODO Use TranslateService -->
 <div *ngIf="editRoom">
   <mat-form-field class="input-block">
-    <input [(ngModel)]="editRoom.name" #roomName matInput placeholder="Room name" name="room-name"/>
+    <input [(ngModel)]="editRoom.name" #roomName matInput placeholder="{{ 'session.session-name' | translate}}" name="room-name"/>
   </mat-form-field>
   <mat-form-field class="input-block">
             <textarea [(ngModel)]="editRoom.description" #roomDescription matInput matTextareaAutosize
-                      matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="Description" name="description">
+                      matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="{{ 'session.description' | translate}}" name="description">
             </textarea>
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button (click)="dialogRef.close('abort')" mat-button color="primary">
-      Leave
+      {{ 'room-page.abort' | translate}}
     </button>
     <button (click)="dialogRef.close('edit')" mat-raised-button color="primary">
-      Update
+      {{ 'room-page.update' | translate}}
     </button>
   </div>
 </div>
