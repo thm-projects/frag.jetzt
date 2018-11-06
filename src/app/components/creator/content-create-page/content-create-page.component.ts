@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../shared/LanguageService';
 
 @Component({
   selector: 'app-content-create-page',
@@ -7,8 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentCreatePageComponent implements OnInit {
 
-  constructor() { }
+  constructor(private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
+  }
 
   ngOnInit() {
+    this.translateService.use(sessionStorage.getItem('currentLang'));
   }
 }

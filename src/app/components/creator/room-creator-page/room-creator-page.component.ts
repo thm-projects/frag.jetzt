@@ -8,6 +8,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MatDialog } from '@angular/material';
 import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../shared/LanguageService';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -22,11 +24,15 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               protected notification: NotificationService,
               protected route: ActivatedRoute,
               protected location: Location,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
     super(roomService, route, location);
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
+    this.translateService.use(sessionStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
