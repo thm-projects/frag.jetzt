@@ -3,6 +3,8 @@ import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../shared/LanguageService';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -17,13 +19,16 @@ export class RoomParticipantPageComponent implements OnInit {
   constructor(private location: Location,
               private roomService: RoomService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
+    this.translateService.use(sessionStorage.getItem('currentLang'));
   }
 
   getRoom(id: string): void {
