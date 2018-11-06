@@ -111,20 +111,26 @@ export class ContentChoiceCreatorComponent implements OnInit {
   addAnswer($event) {
     $event.preventDefault();
     if (this.newAnswerOptionLabel === '') {
-      this.notificationService.show('No empty answers allowed.');
+      this.translationService.get('content.no-empty2').subscribe(message => {
+        this.notificationService.show(message);
+      });
       this.newAnswerOptionChecked = false;
       this.newAnswerOptionLabel = '';
       return;
     }
     if (this.singleChoice && this.content.correctOptionIndexes.length > 0 && this.newAnswerOptionChecked) {
-      this.notificationService.show('In single choice mode is only 1 true answer allowed.');
+      this.translationService.get('content.only-one').subscribe(message => {
+        this.notificationService.show(message);
+      });
       this.newAnswerOptionChecked = false;
       this.newAnswerOptionLabel = '';
       return;
     }
     for (let i = 0; i < this.content.options.length; i++) {
       if (this.content.options[i].label.valueOf() === this.newAnswerOptionLabel.valueOf()) {
-        this.notificationService.show('Same answer label is not allowed.');
+        this.translationService.get('content.same-answer').subscribe(message => {
+          this.notificationService.show(message);
+        });
         return;
       }
     }
@@ -169,7 +175,9 @@ export class ContentChoiceCreatorComponent implements OnInit {
     }
     this.fillCorrectAnswers();
     if (matDialogOutput) {
-      this.notificationService.show('Update changes.');
+      this.translationService.get('content.changes-made').subscribe(message => {
+        this.notificationService.show(message);
+      });
     }
   }
 
@@ -188,30 +196,32 @@ export class ContentChoiceCreatorComponent implements OnInit {
       }
     }
     this.fillCorrectAnswers();
-    this.notificationService.show('Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully deleted.');
+    this.translationService.get('content.answer-deleted').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 
   recoverDeletedAnswer($event) {
     $event.preventDefault();
-    let msgAddon = 'Answer "' + this.lastDeletedDisplayAnswer.answerOption.label + '" successfully recovered.';
-    if (this.lastDeletedDisplayAnswer === null) {
-      this.notificationService.show('Nothing to recover.');
-    }
+    this.translationService.get('content.answer-recovered').subscribe(message => { this.notificationService.show(message);
+    });
     for (let i = 0; i < this.content.options.length; i++) {
       if (this.content.options[i].label.valueOf() === this.lastDeletedDisplayAnswer.answerOption.label.valueOf()) {
-        this.notificationService.show('Same answer label is not allowed.');
+        this.translationService.get('content.same-answer').subscribe(message => {
+          this.notificationService.show(message);
+        });
         return;
       }
     }
     this.content.options.push(this.lastDeletedDisplayAnswer.answerOption);
     if (this.lastDeletedDisplayAnswer.correct) {
       if (this.singleChoice && this.content.correctOptionIndexes.length > 0) {
-        msgAddon = 'In single mode is only 1 true answer allowed. Recovered item is set to false.';
+        this.translationService.get('content.only-one-true').subscribe(message => { this.notificationService.show(message);
+        });
       } else {
         this.content.correctOptionIndexes.push(this.content.options.length - 1);
       }
     }
-    this.notificationService.show(msgAddon);
     this.lastDeletedDisplayAnswer = null;
     this.fillCorrectAnswers();
   }
@@ -233,7 +243,9 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.content.options = [];
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
-    this.notificationService.show('Reset all inputs to default.');
+    this.translationService.get('content.reset-all').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 
   resetAfterSubmit() {
@@ -255,15 +267,21 @@ export class ContentChoiceCreatorComponent implements OnInit {
       return;
     }
     if (this.content.options.length === 0) {
-      this.notificationService.show('Choice content needs answers. Please add some answers.');
+      this.translationService.get('content.need-answers').subscribe(message => {
+        this.notificationService.show(message);
+      });
       return;
     }
     if (this.singleChoice && this.content.correctOptionIndexes.length !== 1) {
-      this.notificationService.show('In single choice mode you have to select 1 true answer.');
+      this.translationService.get('content.select-one').subscribe(message => {
+        this.notificationService.show(message);
+      });
       return;
     }
     if (!this.singleChoice && this.content.correctOptionIndexes.length < 1) {
-      this.notificationService.show('In multiple choice mode you have to select at least 1 true answer.');
+      this.translationService.get('content.at-least-one').subscribe(message => {
+        this.notificationService.show(message);
+      });
       return;
     }
     if (this.singleChoice) {

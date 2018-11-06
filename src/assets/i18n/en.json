@@ -97,7 +97,20 @@
     "contents": "Contents",
     "click-here": "Click on a content to edit it",
     "submitted": "Content submitted. Ready for creation of new content.",
-    "no-empty": "No empty fields allowed. Please check subject and body."
+    "no-empty": "No empty fields allowed. Please check subject and body.",
+    "no-empty2": "No empty filed allowed.",
+    "only-one": "In single choice mode is only 1 true answer allowed.",
+    "same-answer": "Same answer label is not allowed.",
+    "changes-made": "Changes are made.",
+    "answer-deleted": "Answer deleted.",
+    "answer-recovered": "Answer recovered.",
+    "only-one-true": "In single mode is only 1 true answer allowed.",
+    "reset-all": "Reseted all inputs",
+    "need-answers": "Choice content needs answers. Please add some answers.",
+    "select-one": "In single choice mode you have to select 1 true answer.",
+    "at-least-one": "In multiple choice mode you have to select at least 1 true answer.",
+    "undo": "Undo",
+    "points": "Points"
   },
   "session": {
     "session-name": "Session name",
