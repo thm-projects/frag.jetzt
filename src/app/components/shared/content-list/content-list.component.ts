@@ -14,7 +14,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import {TranslateService} from "@ngx-translate/core";
-import {LanguageService} from "../LanguageService";
+import {LanguageService} from "../../../services/util/language.service";
 
 class ContentGroup {
   name: string;

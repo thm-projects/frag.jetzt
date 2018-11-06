@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../LanguageService';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-header',

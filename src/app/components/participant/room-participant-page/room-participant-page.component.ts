@@ -4,7 +4,7 @@ import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../shared/LanguageService';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-room-participant-page',

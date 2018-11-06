@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../shared/LanguageService';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-content-create-page',

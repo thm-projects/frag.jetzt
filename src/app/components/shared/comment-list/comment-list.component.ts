@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import {TranslateService} from "@ngx-translate/core";
-import {LanguageService} from "../LanguageService";
+import {LanguageService} from "../../../services/util/language.service";
 
 @Component({
   selector: 'app-comment-list',

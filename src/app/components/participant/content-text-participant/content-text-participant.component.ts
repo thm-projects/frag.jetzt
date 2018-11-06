@@ -4,7 +4,7 @@ import { ContentAnswerService } from '../../../services/http/content-answer.serv
 import { AnswerText } from '../../../models/answer-text';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../shared/LanguageService';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-content-text-participant',

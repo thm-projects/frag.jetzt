@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material';
 import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../shared/LanguageService';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-room-creator-page',
