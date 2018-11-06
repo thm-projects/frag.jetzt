@@ -12,16 +12,6 @@ import { NotificationService } from '../../../services/util/notification.service
 export class ContentTextParticipantComponent implements OnInit {
   @Input() content: ContentText;
 
-  dummyContent: ContentText = new ContentText(
-    '1',
-    '1',
-    '1',
-    'Text Content 1',
-    'This is the body of Text Content 1',
-    1,
-    []
-  );
-
   textAnswer = '';
   isAnswerSent = false;
 
