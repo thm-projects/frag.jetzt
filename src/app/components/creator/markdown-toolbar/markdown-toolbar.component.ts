@@ -164,7 +164,6 @@ class Button {
   icon: string;
   /**
    * Format string
-   * TODO:
    */
   format: string;
 
