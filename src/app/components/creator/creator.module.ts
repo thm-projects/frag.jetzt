@@ -14,7 +14,7 @@ import { EssentialsModule, HttpLoaderFactory} from '../essentials/essentials.mod
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
-import { AnswerEditComponent } from '../participant/_dialogs/answer-edit/answer-edit.component';
+import { AnswerEditComponent } from './_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from './_dialogs/content-delete/content-delete.component';
 import { CreatorContentCarouselPageComponent } from './creator-content-carousel-page/creator-content-carousel-page.component';
 import { SharedModule } from '../shared/shared.module';

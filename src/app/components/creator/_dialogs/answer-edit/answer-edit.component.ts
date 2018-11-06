@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ContentChoiceCreatorComponent, DisplayAnswer } from '../../../creator/content-choice-creator/content-choice-creator.component';
+import { ContentChoiceCreatorComponent, DisplayAnswer } from '../../content-choice-creator/content-choice-creator.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
