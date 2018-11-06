@@ -67,7 +67,12 @@
     "live-feedback": "Live Feedback",
     "answer-statistics": "Statistiken",
     "edit-room": "Session bearbeiten",
-    "delete-room": "Session löschen"
+    "delete-room": "Session löschen",
+    "sure": "Sind Sie sicher?",
+    "really": "Wollen Sie die Session ",
+    "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "abort": "Abbrechen"
+
   },
   "comment-page": {
     "enter-title": "Geben Sie einen Titel ein",

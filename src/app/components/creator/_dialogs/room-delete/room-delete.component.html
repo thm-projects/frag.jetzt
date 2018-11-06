@@ -1,11 +1,10 @@
-<!-- TODO: Use TranslateService -->
-<h3>Are you sure?</h3>
-<p>Do you really want to delete room <strong>{{room.name}}</strong>? This action can not be undone.</p>
+<h3>{{ 'room-page.sure' | translate }}</h3>
+<p>{{ 'room-page.really' | translate}}<strong>{{room.name}}</strong>{{ 'room-page.really2' | translate}}</p>
 <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
   <button mat-raised-button color="warn" (click)="dialogRef.close('delete')">
-    Delete room
+    {{ 'room-page.delete-room' | translate }}
   </button>
   <button mat-raised-button color="primary" (click)="onNoClick()">
-    Leave
+    {{ 'room-page.abort' | translate }}
   </button>
 </div>
