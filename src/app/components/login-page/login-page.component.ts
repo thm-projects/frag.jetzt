@@ -10,7 +10,6 @@ import { UserRole } from '../../models/user-roles.enum';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
-  // Make UserRole available to the template
   UserRole = UserRole;
   username: string;
   password: string;

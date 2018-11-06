@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../shared/LanguageService';
 

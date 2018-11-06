@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentType } from '../../../models/content-type.enum';
-import { AnswerOption } from '../../../models/answer-option';
-import { ContentChoice } from '../../../models/content-choice';
-import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { ActivatedRoute } from '@angular/router';
 import { Content } from '../../../models/content';

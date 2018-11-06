@@ -27,24 +27,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
 
   selectedSingleAnswer: string;
 
-  dummyContent: ContentChoice = new ContentChoice(
-    '2',
-    '1',
-    '1',
-    'Choice Content 1',
-    'This is the body of Choice Content 1',
-    1,
-    [],
-    [
-      new AnswerOption('Option 1', '0'),
-      new AnswerOption('Option 2', '10'),
-      new AnswerOption('Option 3', '20'),
-      new AnswerOption('Option 4', '30')
-    ],
-    [2, 3, 4],
-    false,
-    ContentType.BINARY
-  );
   checkedAnswers: CheckedAnswer[] = [];
   isAnswerSent = false;
 
