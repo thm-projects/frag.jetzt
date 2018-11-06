@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { Router } from '@angular/router';
-import { NotificationService } from '../../../../services/util/notification.service';
 import { ContentType } from '../../../../models/content-type.enum';
 import { Content } from '../../../../models/content';
 
@@ -15,9 +13,7 @@ export class ContentDeleteComponent implements OnInit {
   format: ContentType;
   content: Content;
 
-  constructor(private router: Router,
-              private notification: NotificationService,
-              public dialogRef: MatDialogRef<any>,
+  constructor(public dialogRef: MatDialogRef<any>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
