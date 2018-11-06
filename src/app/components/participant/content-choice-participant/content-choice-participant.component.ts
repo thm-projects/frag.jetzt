@@ -5,6 +5,8 @@ import { ContentAnswerService } from '../../../services/http/content-answer.serv
 import { NotificationService } from '../../../services/util/notification.service';
 import { AnswerChoice } from '../../../models/answer-choice';
 import { ContentType } from '../../../models/content-type.enum';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../services/util/language.service';
 
 class CheckedAnswer {
   answerOption: AnswerOption;
@@ -31,11 +33,15 @@ export class ContentChoiceParticipantComponent implements OnInit {
   isAnswerSent = false;
 
   constructor(private answerService: ContentAnswerService,
-              private notificationService: NotificationService) {
-  }
+              private notificationService: NotificationService,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+  langService.langEmitter.subscribe(lang => translateService.use(lang));
+}
 
   ngOnInit() {
     this.initAnswers();
+    this.translateService.use(sessionStorage.getItem('currentLang'));
   }
 
   initAnswers(): void {
