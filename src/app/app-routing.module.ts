@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from './components/login-page/login-page.component';
+import { LoginPageComponent } from './components/home/login-page/login-page.component';
 import { FooterImprintComponent } from './components/shared/footer-imprint/footer-imprint.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { CreatorModule } from './components/creator/creator.module';

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { Router } from '@angular/router';
-import { RegisterErrorStateMatcher } from '../../_dialogs/register/register.component';
+import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register.component';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { NotificationService } from '../../../services/util/notification.service';
