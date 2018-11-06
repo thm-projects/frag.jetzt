@@ -8,6 +8,8 @@ import { AnswerText } from '../../../models/answer-text';
 import { AnswerChoice } from '../../../models/answer-choice';
 import { ContentType } from '../../../models/content-type.enum';
 
+/* TODO: Use TranslateService */
+
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',

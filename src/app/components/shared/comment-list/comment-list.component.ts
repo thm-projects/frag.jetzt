@@ -8,6 +8,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
+import {TranslateService} from "@ngx-translate/core";
+import {LanguageService} from "../LanguageService";
 
 @Component({
   selector: 'app-comment-list',
@@ -28,7 +30,10 @@ export class CommentListComponent implements OnInit {
               private roomService: RoomService,
               private location: Location,
               private commentService: CommentService,
-              private notification: NotificationService) {
+              private notification: NotificationService,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
@@ -37,6 +42,7 @@ export class CommentListComponent implements OnInit {
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
     this.getComments();
+    this.translateService.use(sessionStorage.getItem('currentLang'));
   }
 
   getComments(): void {

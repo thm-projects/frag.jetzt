@@ -13,6 +13,8 @@ import { ContentTextCreatorComponent } from '../../creator/content-text-creator/
 import { NotificationService } from '../../../services/util/notification.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
+import {TranslateService} from "@ngx-translate/core";
+import {LanguageService} from "../LanguageService";
 
 class ContentGroup {
   name: string;
@@ -51,7 +53,10 @@ export class ContentListComponent implements OnInit {
               private roomService: RoomService,
               private route: ActivatedRoute,
               private notificationService: NotificationService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
@@ -66,6 +71,7 @@ export class ContentListComponent implements OnInit {
     this.route.params.subscribe(params => {
       sessionStorage.setItem('collection', params['contentGroup']);
     });
+    this.translateService.use(sessionStorage.getItem('currentLang'));
   }
 
   findIndexOfSubject(subject: string): number {

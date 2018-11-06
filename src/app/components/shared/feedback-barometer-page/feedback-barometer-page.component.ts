@@ -3,6 +3,8 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 
+/* ToDo: Use TranslateService */
+
 @Component({
   selector: 'app-feedback-barometer-page',
   templateUrl: './feedback-barometer-page.component.html',
