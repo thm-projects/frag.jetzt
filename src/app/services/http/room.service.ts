@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
+import { ContentGroup } from '../../models/content-group';
+import { Content } from '../../models/content';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -63,6 +65,14 @@ export class RoomService extends BaseHttpService {
     );
   }
 
+  getContentGroups(id: string): Observable<ContentGroup[]> {
+    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
+    return this.http.get<ContentGroup[]>(connectionUrl).pipe(
+      tap(() => ''),
+      catchError(this.handleError<ContentGroup[]>(`getContentGroup keyword=${ id }`))
+    );
+  }
+
   getRoomByShortId(shortId: string): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
@@ -93,6 +103,6 @@ export class RoomService extends BaseHttpService {
   }
 
   setRoomId(room: Room): void {
-    localStorage.setItem(`roomId`, room.id);
+    localStorage.setItem('roomId', room.id);
   }
 }
