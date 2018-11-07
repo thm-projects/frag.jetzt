@@ -51,7 +51,6 @@ export class ContentTextCreatorComponent implements OnInit {
   }
 
   submitContent() {
-    console.log(this.contentCol)
     this.contentService.addContent(new ContentText(
       '1',
       '1',
