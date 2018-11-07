@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
@@ -29,6 +29,10 @@ export class DisplayAnswer {
   styleUrls: ['./content-choice-creator.component.scss']
 })
 export class ContentChoiceCreatorComponent implements OnInit {
+  @Input() contentSub;
+  @Input() contentBod;
+  @Input() contentCol;
+
   singleChoice = true;
   content: ContentChoice = new ContentChoice(
     '0',
@@ -259,8 +263,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
     });
   }
 
-  submitContent(subject: string, body: string, group: string) {
-    if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
+  submitContent() {
+    if (this.contentBod === '' || this.contentSub === '') {
       this.translationService.get('content.no-empty').subscribe(message => {
         this.notificationService.show(message);
       });
@@ -299,10 +303,10 @@ export class ContentChoiceCreatorComponent implements OnInit {
       '',
       '',
       this.roomId,
-      subject,
-      body,
+      this.contentSub,
+      this.contentBod,
       1,
-      [group],
+      [this.contentCol],
       this.content.options,
       this.content.correctOptionIndexes,
       this.content.multiple,
@@ -314,7 +318,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   editDialogClose($event, action: string) {
     $event.preventDefault();
     if (action.valueOf() === 'edit') {
-      this.submitContent(this.content.subject, this.content.body, this.content.groups[1]);
+      this.submitContent();
     }
     if (action.valueOf() === 'abort') {
       this.dialogRef.close(action);
