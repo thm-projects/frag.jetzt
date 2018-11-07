@@ -17,10 +17,10 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
-  <app-content-text-creator *ngIf="format === 'text'" (reset)="resetInputs($event)"
+  <app-content-text-creator *ngIf="format === 'text'" (reset)="resetInputs()"
        [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-text-creator>
-  <app-content-choice-creator *ngIf="format === 'choice'" (reset)="resetInputs($event)"
+  <app-content-choice-creator *ngIf="format === 'choice'" (resetP)="resetInputs()"
        [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-choice-creator>
   <app-content-likert-creator *ngIf="format === 'likert'" (reset)="resetInputs()"

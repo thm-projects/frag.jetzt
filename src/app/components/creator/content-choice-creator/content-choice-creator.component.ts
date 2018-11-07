@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentService } from '../../../services/http/content.service';
@@ -32,6 +32,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
   @Input() contentSub;
   @Input() contentBod;
   @Input() contentCol;
+  @Output() resetP = new EventEmitter<boolean>();
+
 
   singleChoice = true;
   content: ContentChoice = new ContentChoice(
@@ -253,8 +255,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   resetAfterSubmit() {
-    this.content.subject = '';
-    this.content.body = '';
+    this.resetP.emit(true);
     this.content.options = [];
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
