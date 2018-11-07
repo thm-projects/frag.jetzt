@@ -13,12 +13,12 @@
       </mat-tab>
       <mat-tab label="Likert">
         <div class="tab-container">
-          <app-content-likert-creator></app-content-likert-creator>
+          <app-content-creator [format]="'likert'"></app-content-creator>
         </div>
       </mat-tab>
       <mat-tab label="{{ 'content.yes' | translate }} / {{ 'content.no' | translate }}">
         <div class="tab-container">
-          <app-content-yes-no-creator></app-content-yes-no-creator>
+          <app-content-creator [format]="'yesno'"></app-content-creator>
         </div>
       </mat-tab>
     </mat-tab-group>
