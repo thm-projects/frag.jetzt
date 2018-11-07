@@ -48,4 +48,9 @@ export class ContentCreatorComponent implements OnInit {
     const filterValue = value.toLowerCase();
     return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
+
+  resetInputs() {
+    this.content.subject = '';
+    this.content.body = '';
+  }
 }

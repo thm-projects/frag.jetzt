@@ -1,10 +1,10 @@
 <form>
 <mat-form-field class="input-block">
-  <input matInput #subject placeholder="{{'content.subject' | translate}}" name="subject">
+  <input matInput #subject [(ngModel)]="content.subject" placeholder="{{'content.subject' | translate}}" name="subject">
 </mat-form-field>
 <app-markdown-toolbar textareaId="content-text-body"></app-markdown-toolbar>
 <mat-form-field class="input-block">
-    <textarea matInput #body placeholder="{{'content.body' | translate}}" name="body"
+    <textarea matInput #body [(ngModel)]="content.body" placeholder="{{'content.body' | translate}}" name="body"
               matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
 </mat-form-field>
 <markdown [data]="content.body"></markdown>
@@ -17,16 +17,16 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
-  <app-content-text-creator *ngIf="format === 'text'"
+  <app-content-text-creator *ngIf="format === 'text'" (reset)="resetInputs($event)"
        [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-text-creator>
-  <app-content-choice-creator *ngIf="format === 'choice'"
+  <app-content-choice-creator *ngIf="format === 'choice'" (reset)="resetInputs()"
        [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-choice-creator>
-  <app-content-likert-creator *ngIf="format === 'likert'"
+  <app-content-likert-creator *ngIf="format === 'likert'" (reset)="resetInputs()"
        [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-likert-creator>
-  <app-content-yes-no-creator *ngIf="format === 'yesno'"
+  <app-content-yes-no-creator *ngIf="format === 'yesno'" (reset)="resetInputs()"
                               [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-yes-no-creator>
 </form>

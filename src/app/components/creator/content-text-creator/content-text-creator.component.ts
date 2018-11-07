@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -16,6 +16,7 @@ export class ContentTextCreatorComponent implements OnInit {
   @Input() contentSub;
   @Input() contentBod;
   @Input() contentCol;
+  @Output() reset = new EventEmitter<boolean>();
 
   roomId: string;
   content: ContentText = new ContentText(
@@ -43,8 +44,7 @@ export class ContentTextCreatorComponent implements OnInit {
   }
 
   resetAfterSubmit() {
-    this.content.subject = '';
-    this.content.body = '';
+    this.reset.emit(true);
     this.translationService.get('content.submitted').subscribe(message => {
       this.notificationService.show(message);
     });
