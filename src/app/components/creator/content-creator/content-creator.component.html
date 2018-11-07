@@ -26,4 +26,7 @@
   <app-content-likert-creator *ngIf="format === 'likert'"
        [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
   </app-content-likert-creator>
+  <app-content-yes-no-creator *ngIf="format === 'yesno'"
+                              [contentSub] = "subject.value" [contentBod]="body.value" [contentCol]="group.value">
+  </app-content-yes-no-creator>
 </form>

@@ -1,27 +1,12 @@
-<form (ngSubmit)="submitContent(subject.value, body.value, group.value)">
-  <mat-form-field class="input-block">
-    <input matInput #subject [(ngModel)]="content.subject" placeholder="{{ 'content.subject' | translate }}" name="subject">
-  </mat-form-field>
-  <mat-form-field class="input-block">
-    <textarea matInput #body [(ngModel)]="content.body" placeholder="{{ 'content.body' | translate }}" name="body"></textarea>
-  </mat-form-field>
-        <mat-radio-group [(ngModel)]="yesno" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-          <mat-radio-button [value]=true [checked]=true>
-            {{ 'content.yes' | translate }}
-          </mat-radio-button>
-          <mat-radio-button [value]=false [checked]=false>
-            {{ 'content.no' | translate }}
-          </mat-radio-button>
-        </mat-radio-group>
-  <mat-form-field>
-    <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
-           value={{lastCollection}} placeholder="{{'content.collection' | translate}}"/>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
-        {{collection}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+<form (ngSubmit)="submitContent()">
+  <mat-radio-group [(ngModel)]="yesno" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+    <mat-radio-button [value]=true [checked]=true>
+      {{ 'content.yes' | translate }}
+    </mat-radio-button>
+    <mat-radio-button [value]=false [checked]=false>
+      {{ 'content.no' | translate }}
+    </mat-radio-button>
+  </mat-radio-group>
   <div *ngIf="!editDialogMode">
     <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
   </div>
