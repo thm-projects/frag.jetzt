@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
@@ -22,6 +22,7 @@ export class ContentLikertCreatorComponent implements OnInit {
   @Input() contentSub;
   @Input() contentBod;
   @Input() contentCol;
+  @Output() reset = new EventEmitter<boolean>();
 
   likertScale = [
     'Strongly agree',
@@ -93,8 +94,7 @@ export class ContentLikertCreatorComponent implements OnInit {
   }
 
   resetAfterSubmit() {
-    this.content.subject = '';
-    this.content.body = '';
+    this.reset.emit(true);
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
     this.translationService.get('content.submitted').subscribe(message => {
