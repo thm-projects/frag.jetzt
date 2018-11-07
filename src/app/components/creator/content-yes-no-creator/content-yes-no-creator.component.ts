@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { ContentChoice } from '../../../models/content-choice';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { AnswerOption } from '../../../models/answer-option';
@@ -22,6 +22,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
   @Input() contentSub;
   @Input() contentBod;
   @Input() contentCol;
+  @Output() reset = new EventEmitter<boolean>();
 
   yesno = true;
   answerLabels = [
@@ -88,8 +89,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
   }
 
   resetAfterSubmit() {
-    this.content.subject = '';
-    this.content.body = '';
+    this.reset.emit(true);
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
     this.translationService.get('content.submitted').subscribe(message => {
