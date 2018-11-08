@@ -22,8 +22,6 @@ export class ContentCreatePageComponent implements OnInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-
-
   ngOnInit() {
     this.translateService.use(sessionStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
@@ -33,7 +31,8 @@ export class ContentCreatePageComponent implements OnInit {
   }
 
   getGroups(id: string): void {
-      this.roomService.getRoomByShortId(id).subscribe(room => {
+    this.roomService.getRoomByShortId(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
     });
+  }
 }

@@ -13,6 +13,7 @@ import { Room } from '../../../models/room';
 export class ContentCreatorComponent implements OnInit {
   @Input() format;
   @Input() contentGroups;
+
   room: Room;
 
   content: ContentText = new ContentText(
