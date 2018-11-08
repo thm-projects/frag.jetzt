@@ -12,7 +12,7 @@
   <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
          value={{lastCollection}} placeholder="{{'content.collection' | translate}}"/>
   <mat-autocomplete #auto="matAutocomplete">
-    <mat-option *ngFor="let collection of collections" [value]="collection">
+    <mat-option *ngFor="let collection of contentGroups" [value]="collection.name">
       {{collection.name}}
     </mat-option>
   </mat-autocomplete>

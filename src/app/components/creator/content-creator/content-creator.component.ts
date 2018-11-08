@@ -28,7 +28,7 @@ export class ContentCreatorComponent extends RoomPageComponent implements OnInit
     1,
     [],
   );
-  collections: ContentGroup[];
+  contentGroups: ContentGroup[];
   lastCollection: string;
   myControl = new FormControl();
 
@@ -52,8 +52,9 @@ export class ContentCreatorComponent extends RoomPageComponent implements OnInit
 
   getRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
-      this.collections = room.contentGroups;
+      this.contentGroups = room.contentGroups;
     });
+
   }
 
   resetInputs() {
