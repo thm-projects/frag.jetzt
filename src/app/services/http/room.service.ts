@@ -65,14 +65,6 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  getContentGroups(id: string): Observable<ContentGroup[]> {
-    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
-    return this.http.get<ContentGroup[]>(connectionUrl).pipe(
-      tap(() => ''),
-      catchError(this.handleError<ContentGroup[]>(`getContentGroup keyword=${ id }`))
-    );
-  }
-
   getRoomByShortId(shortId: string): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(

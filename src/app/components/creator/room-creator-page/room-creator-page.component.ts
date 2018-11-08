@@ -35,7 +35,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.translateService.use(sessionStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
-      console.log(this.room.name);
+      if (this.room) {
+        console.log('room exists');
+      }
     });
   }
 
