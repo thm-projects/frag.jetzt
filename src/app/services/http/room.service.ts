@@ -34,7 +34,7 @@ export class RoomService extends BaseHttpService {
       externalFilters: {}
     }).pipe(
       tap(() => ''),
-      catchError(this.handleError('getRooms', []))
+      catchError(this.handleError('getCreatorRooms', []))
     );
   }
 
@@ -45,7 +45,7 @@ export class RoomService extends BaseHttpService {
       externalFilters: { inHistoryOfUserId: this.authService.getUser().id }
     }).pipe(
       tap(() => ''),
-      catchError(this.handleError('getRooms', []))
+      catchError(this.handleError('getParticipantRooms', []))
     );
   }
 
