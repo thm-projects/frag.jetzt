@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { ContentChoice } from '../../../models/content-choice';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { AnswerOption } from '../../../models/answer-option';
@@ -19,6 +19,11 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./content-yes-no-creator.component.scss']
 })
 export class ContentYesNoCreatorComponent implements OnInit {
+  @Input() contentSub;
+  @Input() contentBod;
+  @Input() contentCol;
+  @Output() reset = new EventEmitter<boolean>();
+
   yesno = true;
   answerLabels = [
     'yes',
@@ -84,8 +89,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
   }
 
   resetAfterSubmit() {
-    this.content.subject = '';
-    this.content.body = '';
+    this.reset.emit(true);
     this.content.correctOptionIndexes = [];
     this.fillCorrectAnswers();
     this.translationService.get('content.submitted').subscribe(message => {
@@ -93,8 +97,8 @@ export class ContentYesNoCreatorComponent implements OnInit {
     });
   }
 
-  submitContent(subject: string, body: string, group: string): void {
-    if (subject.valueOf() === '' || body.valueOf() === '') {
+  submitContent(): void {
+    if (this.contentSub === '' || this.contentBod === '') {
       this.translationService.get('content.no-empty').subscribe(message => {
         this.notificationService.show(message);
       });
@@ -109,10 +113,10 @@ export class ContentYesNoCreatorComponent implements OnInit {
       '',
       '',
       this.roomId,
-      subject,
-      body,
+      this.contentSub,
+      this.contentBod,
       1,
-      [group],
+      [this.contentCol],
       this.content.options,
       this.content.correctOptionIndexes,
       this.content.multiple,

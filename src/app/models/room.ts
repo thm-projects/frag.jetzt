@@ -1,3 +1,5 @@
+import { ContentGroup } from './content-group';
+
 export class Room {
   id: string;
   revision: string;
@@ -6,5 +8,5 @@ export class Room {
   name: string;
   description: string;
   closed: boolean;
-  contentGroups: {[key: string]: [string]};
+  contentGroups: ContentGroup[];
 }

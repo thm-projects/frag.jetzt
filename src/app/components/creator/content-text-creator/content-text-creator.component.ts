@@ -1,13 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../../shared/content-list/content-list.component';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
-import { map, startWith } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -16,6 +13,10 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./content-text-creator.component.scss']
 })
 export class ContentTextCreatorComponent implements OnInit {
+  @Input() contentSub;
+  @Input() contentBod;
+  @Input() contentCol;
+  @Output() reset = new EventEmitter<boolean>();
 
   roomId: string;
   content: ContentText = new ContentText(
@@ -27,10 +28,6 @@ export class ContentTextCreatorComponent implements OnInit {
     1,
     [],
   );
-  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
-  lastCollection: string;
 
   editDialogMode = false;
 
@@ -44,44 +41,32 @@ export class ContentTextCreatorComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-    this.lastCollection = sessionStorage.getItem('collection');
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   resetAfterSubmit() {
-    this.content.subject = '';
-    this.content.body = '';
+    this.reset.emit(true);
     this.translationService.get('content.submitted').subscribe(message => {
       this.notificationService.show(message);
     });
   }
 
-  submitContent(subject: string, body: string, group: string) {
+  submitContent() {
     this.contentService.addContent(new ContentText(
       '1',
       '1',
       this.roomId,
-      subject,
-      body,
+      this.contentSub,
+      this.contentBod,
       1,
-      [group],
+      [this.contentCol],
     )).subscribe();
-    if (this.content.body.valueOf() === '' || this.content.body.valueOf() === '') {
+    if (this.contentSub === '' || this.contentBod === '') {
       this.translationService.get('content.no-empty').subscribe(message => {
         this.notificationService.show(message);
       });
       return;
     }
-    sessionStorage.setItem('collection', group);
+    sessionStorage.setItem('collection', this.contentCol);
     this.resetAfterSubmit();
   }
 

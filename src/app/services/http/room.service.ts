@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
+import { ContentGroup } from '../../models/content-group';
+import { Content } from '../../models/content';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -32,7 +34,7 @@ export class RoomService extends BaseHttpService {
       externalFilters: {}
     }).pipe(
       tap(() => ''),
-      catchError(this.handleError('getRooms', []))
+      catchError(this.handleError('getCreatorRooms', []))
     );
   }
 
@@ -43,7 +45,7 @@ export class RoomService extends BaseHttpService {
       externalFilters: { inHistoryOfUserId: this.authService.getUser().id }
     }).pipe(
       tap(() => ''),
-      catchError(this.handleError('getRooms', []))
+      catchError(this.handleError('getParticipantRooms', []))
     );
   }
 
@@ -93,6 +95,6 @@ export class RoomService extends BaseHttpService {
   }
 
   setRoomId(room: Room): void {
-    localStorage.setItem(`roomId`, room.id);
+    localStorage.setItem('roomId', room.id);
   }
 }

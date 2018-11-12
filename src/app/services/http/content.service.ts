@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { ContentChoice } from '../../models/content-choice';
+import { ContentGroup } from '../../models/content-group';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

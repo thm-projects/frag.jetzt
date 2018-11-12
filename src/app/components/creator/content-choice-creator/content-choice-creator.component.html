@@ -1,12 +1,4 @@
-<form (ngSubmit)="submitContent(subject.value, body.value, group.value)" fxLayout="column" fxLayoutGap="20px">
-  <mat-form-field class="input-block">
-    <input matInput #subject [(ngModel)]="content.subject" placeholder="{{ 'content.subject' | translate }}" name="subject">
-  </mat-form-field>
-  <app-markdown-toolbar textareaId="content-choice-body"></app-markdown-toolbar>
-  <mat-form-field class="input-block">
-    <textarea matInput #body id="content-choice-body" [(ngModel)]="content.body" placeholder="{{ 'content.body' | translate }}" name="body"
-              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8"></textarea>
-  </mat-form-field>
+<form (ngSubmit)="submitContent()" fxLayout="column" fxLayoutGap="20px">
   <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
 
@@ -58,15 +50,6 @@
       {{ 'content.add-answer' | translate }}
     </button>
   </div>
-  <mat-form-field>
-    <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
-           value={{lastCollection}} placeholder="{{'content.collection' | translate}}"/>
-    <mat-autocomplete #auto="matAutocomplete">
-      <mat-option *ngFor="let collection of filteredOptions | async" [value]="collection">
-        {{collection}}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
   <div *ngIf="!editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
     <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
     <button mat-raised-button (click)="reset($event)" color="primary">{{ 'content.reset' | translate }}</button>

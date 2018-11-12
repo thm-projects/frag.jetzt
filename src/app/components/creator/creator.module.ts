@@ -21,6 +21,7 @@ import { SharedModule } from '../shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { ContentCreatorComponent } from './content-creator/content-creator.component';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     RoomCreateComponent,
     RoomDeleteComponent,
     RoomEditComponent,
-    CreatorContentCarouselPageComponent
+    CreatorContentCarouselPageComponent,
+    ContentCreatorComponent
   ],
   entryComponents: [
     RoomCreateComponent,
