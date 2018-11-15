@@ -6,6 +6,7 @@ import { ContentChoice } from '../../../models/content-choice';
 import { ContentText } from '../../../models/content-text';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentType } from '../../../models/content-type.enum';
+import { ContentGroup } from '../../../models/content-group';
 import { MatDialog } from '@angular/material';
 import { ContentChoiceCreatorComponent } from '../../creator/content-choice-creator/content-choice-creator.component';
 import { ContentLikertCreatorComponent } from '../../creator/content-likert-creator/content-likert-creator.component';
@@ -15,18 +16,6 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-
-class ContentGroup {
-  name: string;
-  contentIds: string[];
-  autoSort: boolean;
-
-  constructor(name: string, contentIds: string[], autoSort: boolean) {
-    this.name = name;
-    this.contentIds = contentIds;
-    this.autoSort = autoSort;
-  }
-}
 
 @Component({
   selector: 'app-content-list',
