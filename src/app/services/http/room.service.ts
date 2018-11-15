@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Room } from '../../models/room';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, map } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
 import { ContentGroup } from '../../models/content-group';
@@ -60,6 +60,7 @@ export class RoomService extends BaseHttpService {
   getRoom(id: string): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
+      map(room => this.parseDefaultContentGroup(room)),
       tap(room => this.setRoomId(room)),
       catchError(this.handleError<Room>(`getRoom keyword=${ id }`))
     );
@@ -68,6 +69,7 @@ export class RoomService extends BaseHttpService {
   getRoomByShortId(shortId: string): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
+      map(room => this.parseDefaultContentGroup(room)),
       tap(room => this.setRoomId(room)),
       catchError(this.handleError<Room>(`getRoom shortId=${ shortId }`))
     );
@@ -92,6 +94,16 @@ export class RoomService extends BaseHttpService {
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))
     );
+  }
+
+  parseDefaultContentGroup(room: Room): Room {
+    // ToDo: i18n
+    for (let cg of room.contentGroups) {
+      if (!cg.name || cg.name === "") {
+        cg.name = "Default"
+      }
+    }
+    return room;
   }
 
   setRoomId(room: Room): void {
