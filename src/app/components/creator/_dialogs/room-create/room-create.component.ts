@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ContentService } from '../../../../services/http/content.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room-create',
@@ -23,6 +24,7 @@ export class RoomCreateComponent implements OnInit {
               private router: Router,
               private notification: NotificationService,
               public dialogRef: MatDialogRef<RoomCreateComponent>,
+              private translateService: TranslateService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -31,6 +33,7 @@ export class RoomCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   resetEmptyInputs(): void {
@@ -49,7 +52,11 @@ export class RoomCreateComponent implements OnInit {
       description: description
     } as Room).subscribe(room => {
       this.room = room;
-      this.notification.show(`Room '${this.room.name}' successfully created.`);
+      let msg1: string;
+      let msg2: string;
+      this.translateService.get('home-page.created-1').subscribe(msg => { msg1 = msg; });
+      this.translateService.get('home-page.created-2').subscribe(msg => { msg2 = msg; });
+      this.notification.show(msg1 + longRoomName + msg2);
       this.router.navigate([`/creator/room/${this.room.shortId}`]);
       this.dialogRef.close();
     });
