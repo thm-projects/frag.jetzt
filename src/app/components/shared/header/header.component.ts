@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
@@ -22,13 +22,17 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService,
               private langService: LanguageService) {
-
-    translationService.setDefaultLang(this.translationService.getBrowserLang());
-    sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
   }
 
   ngOnInit() {
     // Subscribe to user data (update component's user when user data changes: e.g. login, logout)
+    if (!localStorage.getItem('currentLang')) {
+      const lang = this.translationService.getBrowserLang();
+      this.translationService.setDefaultLang(lang);
+      localStorage.setItem('currentLang', lang);
+    } else {
+      this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
+    }
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
@@ -63,7 +67,7 @@ export class HeaderComponent implements OnInit {
 
   useLanguage(language: string) {
     this.translationService.use(language);
-    sessionStorage.setItem('currentLang', this.translationService.currentLang);
+    localStorage.setItem('currentLang', language);
     this.langService.langEmitter.emit(language);
 
   }
