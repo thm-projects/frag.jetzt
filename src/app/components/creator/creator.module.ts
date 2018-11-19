@@ -16,7 +16,6 @@ import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.componen
 import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
 import { AnswerEditComponent } from './_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from './_dialogs/content-delete/content-delete.component';
-import { CreatorContentCarouselPageComponent } from './creator-content-carousel-page/creator-content-carousel-page.component';
 import { SharedModule } from '../shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
@@ -51,7 +50,6 @@ import { ContentCreatorComponent } from './content-creator/content-creator.compo
     RoomCreateComponent,
     RoomDeleteComponent,
     RoomEditComponent,
-    CreatorContentCarouselPageComponent,
     ContentCreatorComponent
   ],
   entryComponents: [
