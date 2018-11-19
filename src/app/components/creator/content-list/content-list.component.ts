@@ -60,7 +60,7 @@ export class ContentListComponent implements OnInit {
     this.route.params.subscribe(params => {
       sessionStorage.setItem('collection', params['contentGroup']);
     });
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   findIndexOfSubject(subject: string): number {
