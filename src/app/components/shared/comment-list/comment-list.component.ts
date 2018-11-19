@@ -42,7 +42,7 @@ export class CommentListComponent implements OnInit {
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
     this.getComments();
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   getComments(): void {
