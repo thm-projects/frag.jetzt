@@ -95,7 +95,6 @@ export class RoomService extends BaseHttpService {
   }
 
   parseDefaultContentGroup(room: Room): Room {
-    // ToDo: i18n
     if (room.contentGroups) {
       for (let cg of room.contentGroups) {
         if (!cg.name || cg.name === '') {

@@ -38,6 +38,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
+  /* TODO: i18n */
+
   updateRoom(): void {
     if ((this.updRoom.name === this.room.name) &&
       (this.updRoom.description === this.room.description)

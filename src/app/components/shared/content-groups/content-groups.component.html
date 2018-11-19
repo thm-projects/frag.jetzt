@@ -3,7 +3,10 @@
       <mat-divider></mat-divider>
       <mat-card-header>
         <mat-card-title>
-          <h4>{{contentGroup.name}}<mat-icon color="accent" matBadge="{{contentGroup.contentIds.length}}" matBadgePosition="after" matBadgeColor="accent"></mat-icon></h4>
+          <h4 *ngIf="!(contentGroup.name == 'Default')">{{contentGroup.name}}<mat-icon color="accent"
+           matBadge="{{contentGroup.contentIds.length}}" matBadgePosition="after" matBadgeColor="accent"></mat-icon></h4>
+          <h4 *ngIf="contentGroup.name == 'Default'">{{'room-page.default-content-group' | translate}}<mat-icon color="accent"
+           matBadge="{{contentGroup.contentIds.length}}" matBadgePosition="after" matBadgeColor="accent"></mat-icon></h4>
         </mat-card-title>
       </mat-card-header>
     </mat-card>

@@ -12,7 +12,8 @@
     "create-comment": "Create comment",
     "give-feedback": "Give feedback",
     "live-feedback": "Live feedback",
-    "answer-statistics": "Statistics"
+    "answer-statistics": "Statistics",
+    "default-content-group": "Default"
   },
   "comment-page": {
     "enter-title": "Enter a title",
