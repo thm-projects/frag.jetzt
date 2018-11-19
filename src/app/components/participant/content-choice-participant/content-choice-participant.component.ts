@@ -41,7 +41,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
 
   ngOnInit() {
     this.initAnswers();
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   initAnswers(): void {
