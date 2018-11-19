@@ -2,7 +2,7 @@ import { Component, Inject, Input, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ContentListComponent } from '../../shared/content-list/content-list.component';
+import { ContentListComponent } from '../content-list/content-list.component';
 import { Room } from '../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 

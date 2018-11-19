@@ -3,7 +3,7 @@ import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ContentListComponent } from '../../shared/content-list/content-list.component';
+import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { TranslateService } from '@ngx-translate/core';
 

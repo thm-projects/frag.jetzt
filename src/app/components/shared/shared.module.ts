@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { ContentGroupsComponent } from './content-groups/content-groups.component';
-import { ContentListComponent } from './content-list/content-list.component';
 import { FeedbackBarometerPageComponent } from './feedback-barometer-page/feedback-barometer-page.component';
 import { FooterComponent } from './footer/footer.component';
 import { FooterImprintComponent } from './footer-imprint/footer-imprint.component';
@@ -32,7 +31,6 @@ import { SharedRoutingModule } from './shared-routing.module';
     RoomPageComponent,
     RoomListComponent,
     ContentGroupsComponent,
-    ContentListComponent,
     HeaderComponent,
     AnswerEditComponent,
     ContentDeleteComponent,
@@ -52,7 +50,6 @@ import { SharedRoutingModule } from './shared-routing.module';
     RoomPageComponent,
     RoomListComponent,
     ContentGroupsComponent,
-    ContentListComponent,
     HeaderComponent,
     AnswerEditComponent,
     ContentDeleteComponent,

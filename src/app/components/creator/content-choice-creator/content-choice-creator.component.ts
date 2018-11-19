@@ -6,7 +6,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { AnswerEditComponent } from '../_dialogs/answer-edit/answer-edit.component';
 import { ContentType } from '../../../models/content-type.enum';
-import { ContentListComponent } from '../../shared/content-list/content-list.component';
+import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { TranslateService } from '@ngx-translate/core';
 
