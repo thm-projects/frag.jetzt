@@ -5,8 +5,6 @@ import { Observable } from 'rxjs/Observable';
 import { catchError, tap, map } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
-import { ContentGroup } from '../../models/content-group';
-import { Content } from '../../models/content';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -98,9 +96,11 @@ export class RoomService extends BaseHttpService {
 
   parseDefaultContentGroup(room: Room): Room {
     // ToDo: i18n
-    for (let cg of room.contentGroups) {
-      if (!cg.name || cg.name === "") {
-        cg.name = "Default"
+    if (room.contentGroups) {
+      for (let cg of room.contentGroups) {
+        if (!cg.name || cg.name === '') {
+          cg.name = 'Default';
+        }
       }
     }
     return room;
