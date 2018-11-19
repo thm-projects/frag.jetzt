@@ -1,7 +1,9 @@
 {
   "home-page": {
     "create-session": "Neue Session erstellen",
-    "no-empty-name": "Bitte geben Sie einen Namen ein."
+    "no-empty-name": "Bitte geben Sie einen Namen ein.",
+    "created-1": "Session '",
+    "created-2": "' erfolgreich erstellt."
 
   },
   "room-page": {
@@ -15,7 +17,8 @@
     "really": "Wollen Sie die Session ",
     "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
     "abort": "Abbrechen",
-    "update": "Update"
+    "update": "Update",
+    "default-content-group": "Standard"
   },
   "content": {
     "create": "Erstellen",

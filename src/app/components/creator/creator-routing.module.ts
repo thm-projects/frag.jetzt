@@ -8,8 +8,7 @@ import { ContentCreatePageComponent } from './content-create-page/content-create
 import { StatisticsComponent } from '../shared/statistics/statistics.component';
 import { CommentListComponent } from '../shared/comment-list/comment-list.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
-import { ContentListComponent } from '../shared/content-list/content-list.component';
-import { CreatorContentCarouselPageComponent } from './creator-content-carousel-page/creator-content-carousel-page.component';
+import { ContentListComponent } from './content-list/content-list.component';
 
 const routes: Routes = [
   {
@@ -45,12 +44,6 @@ const routes: Routes = [
   {
     path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
-  },
-  {
-    path: 'room/:roomId/contents',
-    component: CreatorContentCarouselPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },

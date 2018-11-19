@@ -25,7 +25,7 @@ export class ContentTextParticipantComponent implements OnInit {
 }
 
   ngOnInit() {
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   submitAnswer() {

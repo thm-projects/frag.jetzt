@@ -28,7 +28,7 @@ export class RoomParticipantPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   getRoom(id: string): void {

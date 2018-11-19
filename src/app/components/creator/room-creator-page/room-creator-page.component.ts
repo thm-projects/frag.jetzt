@@ -32,11 +32,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   ngOnInit() {
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
   }
+
+  /* TODO: i18n */
 
   updateRoom(): void {
     if ((this.updRoom.name === this.room.name) &&

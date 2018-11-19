@@ -12,7 +12,8 @@
     "create-comment": "Kommentar abgeben",
     "give-feedback": "Feedback geben",
     "live-feedback": "Live Feedback",
-    "answer-statistics": "Statistiken"
+    "answer-statistics": "Statistiken",
+    "default-content-group": "Standard"
   },
   "comment-page": {
     "enter-title": "Geben Sie einen Titel ein",

@@ -6,27 +6,16 @@ import { ContentChoice } from '../../../models/content-choice';
 import { ContentText } from '../../../models/content-text';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentType } from '../../../models/content-type.enum';
+import { ContentGroup } from '../../../models/content-group';
 import { MatDialog } from '@angular/material';
-import { ContentChoiceCreatorComponent } from '../../creator/content-choice-creator/content-choice-creator.component';
-import { ContentLikertCreatorComponent } from '../../creator/content-likert-creator/content-likert-creator.component';
-import { ContentTextCreatorComponent } from '../../creator/content-text-creator/content-text-creator.component';
+import { ContentChoiceCreatorComponent } from '../content-choice-creator/content-choice-creator.component';
+import { ContentLikertCreatorComponent } from '../content-likert-creator/content-likert-creator.component';
+import { ContentTextCreatorComponent } from '../content-text-creator/content-text-creator.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-
-class ContentGroup {
-  name: string;
-  contentIds: string[];
-  autoSort: boolean;
-
-  constructor(name: string, contentIds: string[], autoSort: boolean) {
-    this.name = name;
-    this.contentIds = contentIds;
-    this.autoSort = autoSort;
-  }
-}
 
 @Component({
   selector: 'app-content-list',
@@ -71,7 +60,7 @@ export class ContentListComponent implements OnInit {
     this.route.params.subscribe(params => {
       sessionStorage.setItem('collection', params['contentGroup']);
     });
-    this.translateService.use(sessionStorage.getItem('currentLang'));
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   findIndexOfSubject(subject: string): number {

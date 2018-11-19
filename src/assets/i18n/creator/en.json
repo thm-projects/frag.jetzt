@@ -1,7 +1,9 @@
 {
   "home-page": {
     "create-session": "Create new session ",
-    "no-empty-name": "Please enter a name."
+    "no-empty-name": "Please enter a name.",
+    "created-1": "Session '",
+    "created-2": "' successfully created."
   },
   "room-page": {
     "comments": "Comments",
@@ -14,7 +16,8 @@
     "really": "Do you really want to delete session ",
     "really2": "? This action can not be undone.",
     "abort": "Abort",
-    "update": "Update"
+    "update": "Update",
+    "default-content-group": "Default"
   },
   "content": {
     "create": "Create",

@@ -6,11 +6,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { AnswerEditComponent } from '../_dialogs/answer-edit/answer-edit.component';
 import { ContentType } from '../../../models/content-type.enum';
-import { ContentListComponent } from '../../shared/content-list/content-list.component';
+import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { map, startWith } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 export class DisplayAnswer {
@@ -66,9 +63,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   roomId: string;
 
-  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
   lastCollection: string;
 
   constructor(private contentService: ContentService,
@@ -83,11 +77,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     this.fillCorrectAnswers();
     this.lastCollection = sessionStorage.getItem('collection');
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
   }
 
   fillCorrectAnswers() {
@@ -106,12 +95,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
       }
     }
     return index;
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   addAnswer($event) {
