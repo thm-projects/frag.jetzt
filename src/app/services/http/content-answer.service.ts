@@ -42,7 +42,7 @@ export class ContentAnswerService extends BaseHttpService {
   }
 
   addAnswerChoice(answerChoice: AnswerChoice): Observable<AnswerChoice> {
-    const url = this.apiUrl.base + this.apiUrl.answer + this.apiUrl.choice + '/';
+    const url = this.apiUrl.base + this.apiUrl.answer + '/';
     return this.http.post<AnswerChoice>(url, answerChoice, httpOptions).pipe(
       catchError(this.handleError<AnswerChoice>('addAnswerChoice'))
     );

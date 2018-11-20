@@ -50,6 +50,8 @@ export class ContentChoiceParticipantComponent implements OnInit {
     }
   }
 
+  // TODO: check answers
+
   submitAnswer(): void {
     let selectedAnswers: number[] = [];
     if (this.content.multiple) {
@@ -67,6 +69,8 @@ export class ContentChoiceParticipantComponent implements OnInit {
       }
     }
 
+    // TODO: i18n
+
     if (!this.content.multiple && selectedAnswers.length !== 1) {
       this.notificationService.show('In single choice mode is only 1 selection allowed');
       this.isAnswerSent = false;
@@ -79,11 +83,13 @@ export class ContentChoiceParticipantComponent implements OnInit {
     }
     this.isAnswerSent = true;
     this.answerService.addAnswerChoice({
-      id: '',
-      revision: '',
+      id: null,
+      revision: null,
       contentId: this.content.id,
       round: 1,
-      selectedChoiceIndexes: []
+      selectedChoiceIndexes: [],
+      creationTimestamp: null,
+      format: ContentType.CHOICE
     } as AnswerChoice).subscribe();
     // TODO: Set isAnswerSent
   }
