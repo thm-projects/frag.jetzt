@@ -59,8 +59,8 @@ export class ContentTextCreatorComponent implements OnInit {
       localStorage.setItem('currentCol', this.contentCol);
     }
     this.contentService.addContent(new ContentText(
-      '1',
-      '1',
+      null,
+      null,
       this.roomId,
       this.contentSub,
       this.contentBod,

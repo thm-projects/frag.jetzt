@@ -42,8 +42,6 @@ export class ContentService extends BaseHttpService {
   }
 
   addContent(content: Content): Observable<Content> {
-    delete content.id;
-    delete content.revision;
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
     return this.http.post<Content>(connectionUrl,
       content,
