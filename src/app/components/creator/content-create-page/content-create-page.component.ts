@@ -27,7 +27,6 @@ export class ContentCreatePageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.getGroups(params['roomId']);
     });
-    this.lastCollection = sessionStorage.getItem('collection');
   }
 
   getGroups(id: string): void {

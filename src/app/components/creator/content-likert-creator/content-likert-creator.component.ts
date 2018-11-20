@@ -8,9 +8,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../content-list/content-list.component';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs/Observable';
-import { map, startWith } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -51,10 +48,6 @@ export class ContentLikertCreatorComponent implements OnInit {
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = '0';
-  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
-  lastCollection: string;
 
   editDialogMode = false;
 
@@ -80,17 +73,6 @@ export class ContentLikertCreatorComponent implements OnInit {
       this.content.options.push(new AnswerOption(this.likertScale[i], this.newAnswerOptionPoints));
     }
     this.fillCorrectAnswers();
-    this.lastCollection = sessionStorage.getItem('collection');
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   resetAfterSubmit() {

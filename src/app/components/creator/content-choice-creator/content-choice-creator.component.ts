@@ -63,8 +63,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   roomId: string;
 
-  lastCollection: string;
-
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               public dialog: MatDialog,
@@ -76,7 +74,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
     this.fillCorrectAnswers();
-    this.lastCollection = sessionStorage.getItem('collection');
   }
 
   fillCorrectAnswers() {

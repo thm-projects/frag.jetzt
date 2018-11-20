@@ -17,6 +17,8 @@ export class ContentCreatorComponent implements OnInit {
 
   room: Room;
 
+  lastCollection: string;
+
   content: ContentText = new ContentText(
     '1',
     '1',
