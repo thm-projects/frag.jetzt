@@ -288,8 +288,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
       contentGroup = this.contentCol;
     }
     this.contentService.addContent(new ContentChoice(
-      '',
-      '',
+      null,
+      null,
       this.roomId,
       this.contentSub,
       this.contentBod,
