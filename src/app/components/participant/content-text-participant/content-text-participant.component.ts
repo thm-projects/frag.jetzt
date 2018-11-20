@@ -5,6 +5,7 @@ import { AnswerText } from '../../../models/answer-text';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { ContentType } from '../../../models/content-type.enum';
 
 @Component({
   selector: 'app-content-text-participant',
@@ -35,16 +36,16 @@ export class ContentTextParticipantComponent implements OnInit {
       return;
     }
     this.isAnswerSent = true;
-    // ToDo: Check correct api call
     this.answerService.addAnswerText({
-      id: '0',
-      revision: '0',
+      id: null,
+      revision: null,
       contentId: this.content.id,
       round: this.content.round,
       subject: this.content.subject,
       body: this.textAnswer,
       read: 'false',
-      creationTimestamp: new Date()
+      creationTimestamp: null,
+      format: ContentType.TEXT
     } as AnswerText).subscribe();
     // TODO: Set isAnswerSent
   }
