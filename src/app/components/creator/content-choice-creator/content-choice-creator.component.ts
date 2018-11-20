@@ -226,6 +226,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   reset($event) {
+    this.resetP.emit(true);
     $event.preventDefault();
     this.content.subject = '';
     this.content.body = '';
