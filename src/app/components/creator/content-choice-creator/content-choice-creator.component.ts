@@ -284,6 +284,12 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.changesAllowed = true;
       return;
     }
+    let contentGroup: string;
+    if (this.contentCol === 'Default') {
+      contentGroup = '';
+    } else {
+      contentGroup = this.contentCol;
+    }
     this.contentService.addContent(new ContentChoice(
       '',
       '',
@@ -291,7 +297,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.contentSub,
       this.contentBod,
       1,
-      [this.contentCol],
+      [contentGroup],
       this.content.options,
       this.content.correctOptionIndexes,
       this.content.multiple,
