@@ -91,7 +91,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
       creationTimestamp: null,
       format: ContentType.CHOICE
     } as AnswerChoice).subscribe();
-    // TODO: Set isAnswerSent
+    // TODO: replace matchip with notification
   }
 
   abstain($event) {
