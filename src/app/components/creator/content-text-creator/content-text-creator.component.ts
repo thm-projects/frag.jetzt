@@ -58,8 +58,8 @@ export class ContentTextCreatorComponent implements OnInit {
       contentGroup = this.contentCol;
     }
     this.contentService.addContent(new ContentText(
-      '1',
-      '1',
+      null,
+      null,
       this.roomId,
       this.contentSub,
       this.contentBod,
