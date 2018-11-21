@@ -32,7 +32,7 @@ ngbuild:
   script:
     - npm install -g @angular/cli
     - npm install
-    - ng build --prod
+    - ng build --prod --aot=false
   artifacts:
     paths:
       - "$BUILD_DIR"
