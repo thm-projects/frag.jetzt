@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
-import { ActivatedRoute } from '@angular/router';
 import { Content } from '../../../models/content';
 
 class ContentGroup {
@@ -27,16 +26,13 @@ export class ParticipantContentCarouselPageComponent implements OnInit {
   contents: Content[];
   contentGroup: ContentGroup;
 
-  constructor(private contentService: ContentService,
-              private route: ActivatedRoute) {
+  constructor(private contentService: ContentService) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
       this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
       this.contentService.getContentsByIds(this.contentGroup.contentIds).subscribe( contents => {
         this.contents = contents;
       });
-    });
   }
 }
