@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AnswerText } from '../../models/answer-text';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { AnswerChoice } from '../../models/answer-choice';

@@ -1,12 +1,12 @@
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
 import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from '../util/data-store.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class AuthenticationService {
@@ -62,9 +62,9 @@ export class AuthenticationService {
     return this.http.post<boolean>(connectionUrl, {
       loginId: email,
       password: password
-    }, this.httpOptions).map(() => {
+    }, this.httpOptions).pipe(map(() => {
       return true;
-    });
+    }));
   }
 
   resetPassword(email: string): Observable<boolean> {
@@ -73,9 +73,9 @@ export class AuthenticationService {
     return this.http.post(connectionUrl, {
       key: null,
       password: null
-    }, this.httpOptions).map(() => {
+    }, this.httpOptions).pipe(map(() => {
       return true;
-    });
+    }));
   }
 
   logout() {
@@ -106,7 +106,7 @@ export class AuthenticationService {
   }
 
   private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole, isGuest: boolean): Observable<string> {
-    return clientAuthentication.map(result => {
+    return clientAuthentication.pipe(map(result => {
       if (result) {
         this.setUser(new User(
           result.userId,
@@ -119,13 +119,13 @@ export class AuthenticationService {
       } else {
         return 'false';
       }
-    }).catch((e) => {
+    }),catchError((e) => {
       // check if user needs activation
       if (e.error.errorType === 'DisabledException') {
         return of('activation');
       }
       return of('false');
-    });
+    }),);
   }
 
   get watchUser() {

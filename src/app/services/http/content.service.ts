@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Content } from '../../models/content';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { ContentChoice } from '../../models/content-choice';
