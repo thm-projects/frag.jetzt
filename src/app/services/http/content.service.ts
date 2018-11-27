@@ -4,8 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
-import { ContentChoice } from '../../models/content-choice';
-import { ContentGroup } from '../../models/content-group';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -47,16 +45,6 @@ export class ContentService extends BaseHttpService {
       content,
       httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
-    );
-  }
-
-  addContentChoice(contentChoice: ContentChoice): Observable<ContentChoice> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
-    return this.http.post<ContentChoice>(connectionUrl,
-      { roomId: contentChoice.roomId, subject: contentChoice.subject, body: contentChoice.body,
-        format: contentChoice.format, group: 'preparation' },
-      httpOptions).pipe(
-      catchError(this.handleError<ContentChoice>('addContent'))
     );
   }
 
