@@ -22,7 +22,6 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ContentCreatorComponent } from './content-creator/content-creator.component';
 import { ContentListComponent } from './content-list/content-list.component';
-import { ListStatisticComponent } from './list-statistic/list-statistic.component';
 
 @NgModule({
   imports: [
@@ -53,8 +52,7 @@ import { ListStatisticComponent } from './list-statistic/list-statistic.componen
     RoomDeleteComponent,
     RoomEditComponent,
     ContentCreatorComponent,
-    ContentListComponent,
-    ListStatisticComponent
+    ContentListComponent
   ],
   entryComponents: [
     RoomCreateComponent,
