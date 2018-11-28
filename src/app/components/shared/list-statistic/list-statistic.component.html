@@ -1,16 +1,15 @@
-<div fxLayoutAlign="center" fxLayoutGap="10px">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-    <ng-container matColumnDef="content">
-      <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
-      <mat-cell *matCellDef="let cp"> {{cp.content}}</mat-cell>
-    </ng-container>
+  <ng-container matColumnDef="content">
+    <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
+    <mat-cell *matCellDef="let cp"> {{cp.content}}</mat-cell>
+  </ng-container>
 
-    <ng-container matColumnDef="percentage">
-      <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-      <mat-cell *matCellDef="let cp"> {{cp.percent}}</mat-cell>
-    </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-  </table>
-</div>
+  <ng-container matColumnDef="percentage">
+    <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
+    <mat-cell *matCellDef="let cp"> {{cp.percent}}</mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+</table>
