@@ -9,4 +9,13 @@ table{
 
 mat-header-cell {
   color: #3f51b5;
+  background-color: #e0e0e0;
+}
+
+mat-cell {
+  background-color: #ffe082;
+}
+
+mat-toolbar {
+  height: 15px;
 }

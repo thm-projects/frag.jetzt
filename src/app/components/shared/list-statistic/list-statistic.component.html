@@ -1,13 +1,16 @@
+<mat-toolbar></mat-toolbar>
+<mat-progress-bar mode="determinate" value="{{total}}"></mat-progress-bar>
+<mat-toolbar></mat-toolbar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <ng-container matColumnDef="content">
     <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
-    <mat-cell *matCellDef="let cp"> {{cp.content}}</mat-cell>
+    <mat-cell *matCellDef="let cp"> {{cp.content.subject}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="percentage">
     <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-    <mat-cell *matCellDef="let cp"> {{cp.percent}}</mat-cell>
+    <mat-cell *matCellDef="let cp">{{cp.percent}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
