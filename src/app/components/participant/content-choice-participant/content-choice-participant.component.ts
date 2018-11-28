@@ -54,18 +54,16 @@ export class ContentChoiceParticipantComponent implements OnInit {
 
   submitAnswer(): void {
     let selectedAnswers: number[] = [];
-    let index = 0;
     if (this.content.multiple) {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
         if (this.checkedAnswers[i].checked) {
-          selectedAnswers[index] = i;
-          index++;
+          selectedAnswers.push(i);
         }
       }
     } else {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
         if (this.checkedAnswers[i].answerOption.label === this.selectedSingleAnswer) {
-          selectedAnswers[index] = i;
+          selectedAnswers.push(i);
           break;
         }
       }
