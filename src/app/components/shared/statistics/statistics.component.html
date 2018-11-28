@@ -3,24 +3,24 @@
     <mat-tab-group>
       <mat-tab *ngFor="let cg of contentGroups; let i = index" label="{{cg.name}}">
         <div fxLayoutAlign="center" fxLayoutGap="10px">
-          <table mat-table [dataSource]="dataSource">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="content">
               <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
-              <mat-cell *ngFor="let data"> {{data.content}}</mat-cell>
+              <mat-cell *matCellDef="let cp"> {{cp.content}}</mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="percentage">
               <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-              <mat-cell *ngFor="let data"> {{data.percent}}</mat-cell>
+              <mat-cell *matCellDef="let cp"> {{cp.percent}}</mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </table>
-          <button mat-raised-button color="primary">Before</button>
-          <div><b>{{ i }} / {{ contentGroups.length }}</b></div>
-          <button mat-raised-button color="primary">Next</button>
         </div>
+        <button mat-raised-button color="primary">Before</button>
+        <div><b>{{ i+1 }} / {{ contentGroups.length }}</b></div>
+        <button mat-raised-button color="primary">Next</button>
       </mat-tab>
     </mat-tab-group>
   </mat-card>
