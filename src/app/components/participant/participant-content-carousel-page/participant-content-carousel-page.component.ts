@@ -2,18 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
 import { Content } from '../../../models/content';
-
-class ContentGroup {
-  name: string;
-  contentIds: string[];
-  autoSort: boolean;
-
-  constructor(name: string, contentIds: string[], autoSort: boolean) {
-    this.name = name;
-    this.contentIds = contentIds;
-    this.autoSort = autoSort;
-  }
-}
+import { ContentGroup } from '../../../models/content-group';
 
 @Component({
   selector: 'app-participant-content-carousel-page',
