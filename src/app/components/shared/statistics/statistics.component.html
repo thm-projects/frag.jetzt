@@ -1,8 +1,14 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
   <mat-card>
-    <mat-tab-group>
+    <mat-card-header>
+      <h2>Learning status</h2>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-tab-group color ="accent">
       <mat-tab *ngFor="let cg of contentGroups; let i = index" label="{{cg.name}}">
+        <div fxLayout="column" fxLayoutAlign="center">
         <app-list-statistic [contentGroup]="cg"></app-list-statistic>
+        </div>
       </mat-tab>
     </mat-tab-group>
   </mat-card>
