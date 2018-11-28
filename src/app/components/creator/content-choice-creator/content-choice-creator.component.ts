@@ -120,14 +120,14 @@ export class ContentChoiceCreatorComponent implements OnInit {
         return;
       }
     }
-    const points = (this.newAnswerOptionChecked) ? '10' : '-10';
+    const points = (this.newAnswerOptionChecked) ? 10 : -10;
     this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, points));
     this.newAnswerOptionChecked = false;
     this.newAnswerOptionLabel = '';
     this.fillCorrectAnswers();
   }
 
-  openAnswerModificationDialog($event, label: string, points: string, correct: boolean) {
+  openAnswerModificationDialog($event, label: string, points: number, correct: boolean) {
     $event.preventDefault();
     const index = this.findAnswerIndexByLabel(label);
     this.editDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
@@ -146,7 +146,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   saveChanges(index: number, answer: DisplayAnswer, matDialogOutput: boolean) {
     this.content.options[index].label = answer.answerOption.label;
-    this.content.options[index].points = (answer.correct) ? '10' : '-10';
+    this.content.options[index].points = (answer.correct) ? 10 : -10;
     const indexInCorrectOptionIndexes = this.content.correctOptionIndexes.indexOf(index);
     if (indexInCorrectOptionIndexes === -1 && answer.correct) {
       if (this.singleChoice) {

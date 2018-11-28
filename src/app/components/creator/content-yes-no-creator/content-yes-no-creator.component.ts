@@ -46,7 +46,7 @@ export class ContentYesNoCreatorComponent implements OnInit {
   roomId: string;
 
   displayAnswers: DisplayAnswer[] = [];
-  newAnswerOptionPoints = '';
+  newAnswerOptionPoints = 0;
   collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;

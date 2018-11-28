@@ -50,7 +50,7 @@ export class ContentLikertCreatorComponent implements OnInit {
   roomId: string;
 
   displayAnswers: DisplayAnswer[] = [];
-  newAnswerOptionPoints = '0';
+  newAnswerOptionPoints = 0;
   collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
