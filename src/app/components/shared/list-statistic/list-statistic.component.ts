@@ -24,7 +24,6 @@ export class ListStatisticComponent implements OnInit {
 
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
-  percents: number[] = [];
   displayedColumns = ['content', 'percentage'];
   dataSource: ContentPercents[];
   total = 0;
@@ -37,7 +36,6 @@ export class ListStatisticComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.percents = [73, 87, 69, 92, 77];
     this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe(contents => {
       this.getContents(contents);
     });
