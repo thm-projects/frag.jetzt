@@ -13,9 +13,44 @@ mat-header-cell {
 }
 
 mat-cell {
-  background-color: #ffe082;
+  background-color: #E0E0E0;
 }
 
 mat-toolbar {
   height: 15px;
+  color: white;
 }
+
+.positiveC {
+  background-color: #AED581;
+}
+
+.negativeC {
+  background-color: #FF8A65;
+}
+
+.okayC {
+  background-color: #FFD54F;
+}
+
+.positiveP {
+  background-color: #AED581 !important;
+}
+
+.negativeP {
+  background-color: #FF8A65 !important;
+}
+
+.okayP {
+  background-color: #FFB74D !important;
+}
+
+.emptyC {
+  color: #E0E0E0;
+  background: #E0E0E0;
+}
+
+.emptyCC {
+  background: #E0E0E0;
+}
+

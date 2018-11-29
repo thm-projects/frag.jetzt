@@ -10,12 +10,16 @@
 
   <ng-container matColumnDef="content">
     <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
-    <mat-cell *matCellDef="let cp"> {{cp.content.subject}}</mat-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent > 85,
+      'okayC' : cp.percent > 49 && cp.percent < 85, 'negativeC' : cp.percent < 50,
+      'emptyCC' : cp.percent < 0 }">{{cp.content.subject}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="percentage">
     <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-    <mat-cell *matCellDef="let cp">{{cp.percent.toFixed() * ' %'}}</mat-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent > 85,
+      'okayC' : cp.percent > 49 && cp.percent < 85, 'negativeC' : cp.percent < 50,
+      'emptyC' : cp.percent < 0 }">{{cp.percent.toFixed() + ' %'}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
