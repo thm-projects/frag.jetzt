@@ -10,7 +10,7 @@
 
   <ng-container matColumnDef="percentage">
     <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-    <mat-cell *matCellDef="let cp">{{cp.percent}}</mat-cell>
+    <mat-cell *matCellDef="let cp">{{cp.percent.toFixed() * ' %'}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
