@@ -4,7 +4,7 @@
       <h2>Learning status</h2>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <mat-tab-group color ="accent">
+    <mat-tab-group>
       <mat-tab *ngFor="let cg of contentGroups; let i = index" label="{{cg.name}}">
         <div fxLayout="column" fxLayoutAlign="center">
         <app-list-statistic [contentGroup]="cg"></app-list-statistic>
