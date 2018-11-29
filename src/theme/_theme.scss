@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 html, body {
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -8,3 +10,13 @@ html, body {
 
 @import '_util.scss';
 @import '_form.scss';
+
+.alternate-theme {
+  $alternate-primary: mat-palette($mat-light-green, 300);
+  $alternate-accent: mat-palette($mat-amber, 300);
+  $alternate-warn:  mat-palette($mat-deep-orange, 300);
+
+  $alternate-theme: mat-light-theme($alternate-primary, $alternate-accent, $alternate-warn);
+
+  @include angular-material-theme($alternate-theme);
+}
