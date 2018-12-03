@@ -50,7 +50,7 @@ export class ListStatisticComponent implements OnInit {
       this.dataSource[i].content = this.contents[i];
       if (contents[i].format === ContentType.CHOICE) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
-          const percent = this.getCountCorrect(contents[i].options, answer.roundStatistics[0].independentCounts);
+          const percent = this.getCountCorrect(contents[i].options, answer.roundStatistics[0].independentCounts, contents[i].multiple);
           this.dataSource[i].percent = percent;
           if (percent >= 0) {
             console.log(percent);
@@ -64,22 +64,45 @@ export class ListStatisticComponent implements OnInit {
     }
   }
 
-  getCountCorrect(options: AnswerOption[], indCounts: number[]): number {
-    let correctIndex;
+  getCountCorrect(options: AnswerOption[], indCounts: number[], multiple: boolean): number {
     this.correctCounts = 0;
     this.totalCounts = 0;
     const length = options.length;
+    let correctIndex = new Array<number>();
     let res: number;
-    for (let i = 0; i < length; i++) {
-      if (options[i].points > 0) {
-        correctIndex = i;
+    if (multiple) {
+      let cic = 0;
+      let cac = 0;
+      let idc = 0;
+      for (let i = 0; i < length; i++) {
+        if (options[i].points > 0) {
+          correctIndex[cic] = i;
+          cic++;
+        }
       }
-    }
-    for (let i = 0; i < length; i++) {
-      if (i === correctIndex) {
-        this.correctCounts += indCounts[i];
+      for (let i = 0; i < length; i++) {
+        if (correctIndex.includes(i)) {
+          cac++;
+        }
+        idc = indCounts[i];
+        if (cac === cic) {
+          this.correctCounts += idc;
+          cac = 0;
+        }
+        this.totalCounts += idc;
       }
-      this.totalCounts += indCounts[i];
+    } else {
+      for (let i = 0; i < length; i++) {
+        if (options[i].points > 0) {
+          correctIndex[0] = i;
+        }
+      }
+      for (let i = 0; i < length; i++) {
+        if (correctIndex.includes(i)) {
+          this.correctCounts += indCounts[i];
+        }
+        this.totalCounts += indCounts[i];
+      }
     }
     if (this.totalCounts) {
       res = ((this.correctCounts / this.totalCounts) * 100);
