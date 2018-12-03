@@ -1,9 +1,9 @@
 <mat-toolbar></mat-toolbar>
-<mat-progress-bar class="alternate-theme" mode="determinate" value="{{total}}"
+<mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
                   *ngIf="total > 85" color="primary"></mat-progress-bar>
-<mat-progress-bar class="alternate-theme" mode="determinate" value="{{total}}"
+<mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
                   *ngIf="total < 85 && total > 49" color="accent"></mat-progress-bar>
-<mat-progress-bar class="alternate-theme" mode="determinate" value="{{total}}"
+<mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
                   *ngIf="total < 49" color="warn"></mat-progress-bar>
 <mat-toolbar></mat-toolbar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
