@@ -6,8 +6,6 @@ import { Room } from '../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 
-/* TODO: Use TranslateService */
-
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
