@@ -61,7 +61,6 @@ export class ListStatisticComponent implements OnInit {
           }
           this.dataSource[i].percent = percent;
           if (percent >= 0) {
-            console.log(percent);
             this.totalP += percent;
             this.total = this.totalP / this.contentCounter;
           } else {
