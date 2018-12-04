@@ -6,8 +6,10 @@ import { ContentType } from '../../../models/content-type.enum';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
 import { Combination } from '../../../models/round-statistics';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../services/util/language.service';
 
-export class ContentPercents {
+export class ContentStatistic {
   content: Content;
   percent: number;
   counts: number;
@@ -37,15 +39,19 @@ export class ListStatisticComponent implements OnInit {
     empty: -1,
     zero: 0
   };
-  dataSource: ContentPercents[];
+  dataSource: ContentStatistic[];
   total = 0;
   totalP = 0;
   contentCounter = 0;
 
-  constructor(private contentService: ContentService) {
+  constructor(private contentService: ContentService,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe(contents => {
       this.getData(contents);
     });
@@ -55,9 +61,9 @@ export class ListStatisticComponent implements OnInit {
     this.contents = contents;
     const length = contents.length;
     let percent;
-    this.dataSource = new Array<ContentPercents>(length);
+    this.dataSource = new Array<ContentStatistic>(length);
     for (let i = 0; i < length; i++) {
-      this.dataSource[i] = new ContentPercents(null, 0, 0, 0 );
+      this.dataSource[i] = new ContentStatistic(null, 0, 0, 0 );
       this.dataSource[i].content = this.contents[i];
       if (contents[i].format === ContentType.CHOICE) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {

@@ -20,6 +20,7 @@
     "default-content-group": "Default"
   },
   "content": {
+    "content": "Content",
     "create": "Create",
     "collection": "Collection",
     "body": "Body",
@@ -53,5 +54,11 @@
     "description": "Description",
     "max-ls": "Max. letters / signs:",
     "create-session": "Create session"
+  },
+  "statistic": {
+    "learning-status": "Learning status",
+    "total": "Total",
+    "percentage": "Percentage",
+    "abstentions": "Abstentions"
   }
 }

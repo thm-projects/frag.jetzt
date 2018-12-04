@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { RoomService } from '../../../services/http/room.service';
 import { ContentGroup } from '../../../models/content-group';
 import { Room } from '../../../models/room';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../services/util/language.service';
 
 /* TODO: Use TranslateService */
 
@@ -19,7 +21,10 @@ export class StatisticsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private roomService: RoomService) {
+    private roomService: RoomService,
+    private translateService: TranslateService,
+    protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit(): void {
@@ -27,6 +32,7 @@ export class StatisticsComponent implements OnInit {
   }
 
   getRoom(id: string): void {
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.roomService.getRoom(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
     });
