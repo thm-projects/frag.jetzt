@@ -25,6 +25,10 @@ export class ListStatisticComponent implements OnInit {
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
   displayedColumns = ['content', 'percentage'];
+  statusGood = 85;
+  statusOkay = 50;
+  statusEmpty = -1;
+  statusZero = 0;
   dataSource: ContentPercents[];
   total = 0;
   totalP = 0;
@@ -56,6 +60,8 @@ export class ListStatisticComponent implements OnInit {
             console.log(percent);
             this.totalP += percent;
             this.total = this.totalP / this.contentCounter;
+          } else {
+            this.total = -1;
           }
         });
       } else {
@@ -68,7 +74,7 @@ export class ListStatisticComponent implements OnInit {
     this.correctCounts = 0;
     this.totalCounts = 0;
     const length = options.length;
-    let correctIndex = new Array<number>();
+    const correctIndex = new Array<number>();
     let res: number;
     if (multiple) {
       let cic = 0;
@@ -79,7 +85,7 @@ export class ListStatisticComponent implements OnInit {
           cic++;
         }
       }
-      let corrects = new Array<number>();
+      const corrects = new Array<number>();
       for (let i = 0; i < length; i++) {
         if (correctIndex.includes(i)) {
           corrects[cac] = indCounts[i];
