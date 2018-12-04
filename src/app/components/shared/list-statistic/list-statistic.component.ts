@@ -37,11 +37,11 @@ export class ListStatisticComponent implements OnInit {
 
   ngOnInit() {
     this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe(contents => {
-      this.getContents(contents);
+      this.getData(contents);
     });
   }
 
-  getContents(contents: ContentChoice[]) {
+  getData(contents: ContentChoice[]) {
     this.contents = contents;
     const length = contents.length;
     this.dataSource = new Array<ContentPercents>(length);
@@ -50,7 +50,7 @@ export class ListStatisticComponent implements OnInit {
       this.dataSource[i].content = this.contents[i];
       if (contents[i].format === ContentType.CHOICE) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
-          const percent = this.getCountCorrect(contents[i].options, answer.roundStatistics[0].independentCounts, contents[i].multiple);
+          const percent = this.evaluateStatistics(contents[i].options, answer.roundStatistics[0].independentCounts, contents[i].multiple);
           this.dataSource[i].percent = percent;
           if (percent >= 0) {
             console.log(percent);
@@ -64,7 +64,7 @@ export class ListStatisticComponent implements OnInit {
     }
   }
 
-  getCountCorrect(options: AnswerOption[], indCounts: number[], multiple: boolean): number {
+  evaluateStatistics(options: AnswerOption[], indCounts: number[], multiple: boolean): number {
     this.correctCounts = 0;
     this.totalCounts = 0;
     const length = options.length;
