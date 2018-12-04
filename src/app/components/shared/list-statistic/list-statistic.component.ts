@@ -73,24 +73,24 @@ export class ListStatisticComponent implements OnInit {
     if (multiple) {
       let cic = 0;
       let cac = 0;
-      let idc = 0;
       for (let i = 0; i < length; i++) {
         if (options[i].points > 0) {
           correctIndex[cic] = i;
           cic++;
         }
       }
+      let corrects = new Array<number>();
       for (let i = 0; i < length; i++) {
         if (correctIndex.includes(i)) {
+          corrects[cac] = indCounts[i];
           cac++;
         }
-        idc = indCounts[i];
-        if (cac === cic) {
-          this.correctCounts += idc;
-          cac = 0;
-        }
-        this.totalCounts += idc;
+        this.totalCounts += indCounts[i];
       }
+      console.log(corrects);
+      console.log(Math.min.apply(Math, corrects));
+      this.correctCounts += Math.min.apply(Math, corrects);
+      this.totalCounts -= Math.min.apply(Math, corrects);
     } else {
       for (let i = 0; i < length; i++) {
         if (options[i].points > 0) {
