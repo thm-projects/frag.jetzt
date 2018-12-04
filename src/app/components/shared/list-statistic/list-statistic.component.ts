@@ -5,6 +5,7 @@ import { Content } from '../../../models/content';
 import { ContentType } from '../../../models/content-type.enum';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentChoice } from '../../../models/content-choice';
+import { Combination } from '../../../models/round-statistics';
 
 export class ContentPercents {
   content: Content;
@@ -32,8 +33,6 @@ export class ListStatisticComponent implements OnInit {
   dataSource: ContentPercents[];
   total = 0;
   totalP = 0;
-  correctCounts = 0;
-  totalCounts = 0;
   contentCounter = 0;
 
   constructor(private contentService: ContentService) {
@@ -48,13 +47,18 @@ export class ListStatisticComponent implements OnInit {
   getData(contents: ContentChoice[]) {
     this.contents = contents;
     const length = contents.length;
+    let percent;
     this.dataSource = new Array<ContentPercents>(length);
     for (let i = 0; i < length; i++) {
       this.dataSource[i] = new ContentPercents(null, 0 );
       this.dataSource[i].content = this.contents[i];
       if (contents[i].format === ContentType.CHOICE) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
-          const percent = this.evaluateStatistics(contents[i].options, answer.roundStatistics[0].independentCounts, contents[i].multiple);
+          if (contents[i].multiple) {
+            percent = this.evaluateMultiple(contents[i].options, answer.roundStatistics[0].combinatedCounts);
+          } else {
+            percent = this.evaluateSingle(contents[i].options, answer.roundStatistics[0].independentCounts);
+          }
           this.dataSource[i].percent = percent;
           if (percent >= 0) {
             console.log(percent);
@@ -70,34 +74,12 @@ export class ListStatisticComponent implements OnInit {
     }
   }
 
-  evaluateStatistics(options: AnswerOption[], indCounts: number[], multiple: boolean): number {
-    this.correctCounts = 0;
-    this.totalCounts = 0;
+  evaluateSingle(options: AnswerOption[], indCounts: number[]): number {
+    let correctCounts = 0;
+    let totalCounts = 0;
     const length = options.length;
-    const correctIndex = new Array<number>();
+    let correctIndex = new Array<number>();
     let res: number;
-    if (multiple) {
-      let cic = 0;
-      let cac = 0;
-      for (let i = 0; i < length; i++) {
-        if (options[i].points > 0) {
-          correctIndex[cic] = i;
-          cic++;
-        }
-      }
-      const corrects = new Array<number>();
-      for (let i = 0; i < length; i++) {
-        if (correctIndex.includes(i)) {
-          corrects[cac] = indCounts[i];
-          cac++;
-        }
-        this.totalCounts += indCounts[i];
-      }
-      console.log(corrects);
-      console.log(Math.min.apply(Math, corrects));
-      this.correctCounts += Math.min.apply(Math, corrects);
-      this.totalCounts -= Math.min.apply(Math, corrects);
-    } else {
       for (let i = 0; i < length; i++) {
         if (options[i].points > 0) {
           correctIndex[0] = i;
@@ -105,13 +87,12 @@ export class ListStatisticComponent implements OnInit {
       }
       for (let i = 0; i < length; i++) {
         if (correctIndex.includes(i)) {
-          this.correctCounts += indCounts[i];
+          correctCounts += indCounts[i];
         }
-        this.totalCounts += indCounts[i];
+        totalCounts += indCounts[i];
       }
-    }
-    if (this.totalCounts) {
-      res = ((this.correctCounts / this.totalCounts) * 100);
+    if (totalCounts) {
+      res = ((correctCounts / totalCounts) * 100);
       this.contentCounter++;
     } else {
       res = -1;
