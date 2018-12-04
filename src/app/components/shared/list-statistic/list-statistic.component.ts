@@ -10,6 +10,7 @@ import { Combination } from '../../../models/round-statistics';
 export class ContentPercents {
   content: Content;
   percent: number;
+
   constructor(content: Content, percent: number) {
     this.content = content;
     this.percent = percent;
@@ -77,7 +78,7 @@ export class ListStatisticComponent implements OnInit {
     let correctCounts = 0;
     let totalCounts = 0;
     const length = options.length;
-    let correctIndex = new Array<number>();
+    const correctIndex = new Array<number>();
     let res: number;
       for (let i = 0; i < length; i++) {
         if (options[i].points > 0) {
@@ -109,7 +110,7 @@ export class ListStatisticComponent implements OnInit {
     let correctCounts = 0;
     let totalCounts = 0;
     const optionsLength = options.length;
-    let correctIndexes = new Array<number>();
+    const correctIndexes = new Array<number>();
     let res: number;
     let cic = 0;
     for (let i = 0; i < optionsLength; i++) {
