@@ -99,4 +99,36 @@ export class ListStatisticComponent implements OnInit {
     }
     return res;
   }
+
+  evaluateMultiple(options: AnswerOption[], combCounts: Combination[]): number {
+    let combLength;
+    if (combCounts) {
+      combLength = combCounts.length;
+    } else {
+      return -1;
+    }
+    let correctCounts = 0;
+    let totalCounts = 0;
+    const optionsLength = options.length;
+    let correctIndexes = new Array<number>();
+    let res: number;
+    let cic = 0;
+    for (let i = 0; i < optionsLength; i++) {
+      if (options[i].points > 0) {
+        correctIndexes[cic] = i;
+        cic++;
+      }
+    }
+    for (let i = 0; i < combLength; i++) {
+      if (combCounts[i].selectedChoiceIndexes.length === correctIndexes.length) {
+        if (combCounts[i].selectedChoiceIndexes.toString() === correctIndexes.toString()) {
+          correctCounts += combCounts[i].count;
+        }
+      }
+      totalCounts += combCounts[i].count;
+    }
+    res = ((correctCounts / totalCounts) * 100);
+    this.contentCounter++;
+    return res;
+  }
 }
