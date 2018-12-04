@@ -25,5 +25,11 @@
     "abstain": "Enthalten",
     "sent": "Antwort gesendet.",
     "your-answer": "Ihre Antwort"
+  },
+  "statistic": {
+    "learning-status": "Lernstand",
+    "total": "Total",
+    "percentage": "Prozent",
+    "abstentions": "Enthaltungen"
   }
 }

@@ -25,5 +25,11 @@
     "abstain": "Abstain",
     "sent": "Answer sent.",
     "your-answer": "Your answer"
+  },
+  "statistic": {
+    "learning-status": "Learning status",
+    "total": "Total",
+    "percentage": "Percentage",
+    "abstentions": "Abstentions"
   }
 }
