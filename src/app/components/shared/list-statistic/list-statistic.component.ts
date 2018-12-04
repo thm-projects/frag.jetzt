@@ -10,10 +10,14 @@ import { Combination } from '../../../models/round-statistics';
 export class ContentPercents {
   content: Content;
   percent: number;
+  counts: number;
+  abstentions: number;
 
-  constructor(content: Content, percent: number) {
+  constructor(content: Content, percent: number, counts: number, abstentions: number) {
     this.content = content;
     this.percent = percent;
+    this.counts = counts;
+    this.abstentions = abstentions;
   }
 }
 @Component({
@@ -26,7 +30,7 @@ export class ListStatisticComponent implements OnInit {
 
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
-  displayedColumns = ['content', 'percentage'];
+  displayedColumns = ['content', 'counts', 'abstentions', 'percentage'];
   statusGood = 85;
   statusOkay = 50;
   statusEmpty = -1;
@@ -51,7 +55,7 @@ export class ListStatisticComponent implements OnInit {
     let percent;
     this.dataSource = new Array<ContentPercents>(length);
     for (let i = 0; i < length; i++) {
-      this.dataSource[i] = new ContentPercents(null, 0 );
+      this.dataSource[i] = new ContentPercents(null, 0, 0, 0 );
       this.dataSource[i].content = this.contents[i];
       if (contents[i].format === ContentType.CHOICE) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
@@ -60,6 +64,8 @@ export class ListStatisticComponent implements OnInit {
           } else {
             percent = this.evaluateSingle(contents[i].options, answer.roundStatistics[0].independentCounts);
           }
+          this.dataSource[i].abstentions = answer.roundStatistics[0].abstentionCount;
+          this.dataSource[i].counts = this.getTotalCounts(answer.roundStatistics[0].independentCounts);
           this.dataSource[i].percent = percent;
           if (percent >= 0) {
             this.totalP += percent;
@@ -72,6 +78,15 @@ export class ListStatisticComponent implements OnInit {
         this.dataSource[i].percent = -1;
       }
     }
+  }
+
+  getTotalCounts(indCounts: number[]): number {
+    let total = 0;
+    const indLength = indCounts.length;
+    for (let i = 0; i < indLength; i++) {
+      total += indCounts[i];
+    }
+    return total;
   }
 
   evaluateSingle(options: AnswerOption[], indCounts: number[]): number {

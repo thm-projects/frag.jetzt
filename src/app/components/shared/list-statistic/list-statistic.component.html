@@ -22,6 +22,20 @@
       'emptyC' : cp.percent < statusZero }">{{cp.percent.toFixed() + ' %'}}</mat-cell>
   </ng-container>
 
+  <ng-container matColumnDef="counts">
+    <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent > statusGood,
+      'okayC' : cp.percent >= statusOkay && cp.percent < statusGood, 'negativeC' : cp.percent < statusOkay,
+      'emptyC' : cp.percent < statusZero }">{{cp.counts}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="abstentions">
+    <mat-header-cell *matHeaderCellDef> Abstentions </mat-header-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent > statusGood,
+      'okayC' : cp.percent >= statusOkay && cp.percent < statusGood, 'negativeC' : cp.percent < statusOkay,
+      'emptyC' : cp.percent < statusZero }">{{cp.abstentions}}</mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
   <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
 </table>
