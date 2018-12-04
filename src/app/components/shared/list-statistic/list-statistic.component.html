@@ -1,39 +1,39 @@
 <mat-toolbar></mat-toolbar>
 <mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
-                  *ngIf="total > statusGood" color="primary"></mat-progress-bar>
+                  *ngIf="total > status.good" color="primary"></mat-progress-bar>
 <mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
-                  *ngIf="total < statusGood && total >= statusOkay" color="accent"></mat-progress-bar>
+                  *ngIf="total < status.good && total >= status.okay" color="accent"></mat-progress-bar>
 <mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
-                  *ngIf="total < statusOkay && total > statusEmpty" color="warn"></mat-progress-bar>
+                  *ngIf="total < status.okay && total > status.empty" color="warn"></mat-progress-bar>
 <mat-toolbar></mat-toolbar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <ng-container matColumnDef="content">
     <mat-header-cell *matHeaderCellDef> Content </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= statusGood,
-      'okayC' : cp.percent >= statusOkay && cp.percent < statusGood, 'negativeC' : cp.percent < statusOkay,
-      'emptyCC' : cp.percent < statusZero }">{{cp.content.subject}}</mat-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+      'emptyCC' : cp.percent < status.zero }">{{cp.content.subject}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="percentage">
     <mat-header-cell *matHeaderCellDef> Percentage </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= statusGood,
-      'okayC' : cp.percent >= statusOkay && cp.percent < statusGood, 'negativeC' : cp.percent < statusOkay,
-      'emptyC' : cp.percent < statusZero }">{{cp.percent.toFixed() + ' %'}}</mat-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+      'emptyC' : cp.percent < status.zero }">{{cp.percent.toFixed() + ' %'}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="counts">
     <mat-header-cell *matHeaderCellDef> Total </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= statusGood,
-      'okayC' : cp.percent >= statusOkay && cp.percent < statusGood, 'negativeC' : cp.percent < statusOkay,
-      'emptyC' : cp.percent < statusZero }">{{cp.counts}}</mat-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+      'emptyC' : cp.percent < status.zero }">{{cp.counts}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="abstentions">
     <mat-header-cell *matHeaderCellDef> Abstentions </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= statusGood,
-      'okayC' : cp.percent >= statusOkay && cp.percent < statusGood, 'negativeC' : cp.percent < statusOkay,
-      'emptyC' : cp.percent < statusZero }">{{cp.abstentions}}</mat-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+      'emptyC' : cp.percent < status.zero }">{{cp.abstentions}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

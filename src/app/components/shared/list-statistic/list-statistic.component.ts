@@ -31,10 +31,12 @@ export class ListStatisticComponent implements OnInit {
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
   displayedColumns = ['content', 'counts', 'abstentions', 'percentage'];
-  statusGood = 85;
-  statusOkay = 50;
-  statusEmpty = -1;
-  statusZero = 0;
+  status = {
+    good: 85 ,
+    okay: 50 ,
+    empty: -1,
+    zero: 0
+  };
   dataSource: ContentPercents[];
   total = 0;
   totalP = 0;
