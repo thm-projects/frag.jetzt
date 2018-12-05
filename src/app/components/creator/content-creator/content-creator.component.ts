@@ -27,7 +27,6 @@ export class ContentCreatorComponent implements OnInit {
     [],
   );
 
-  lastCollection: string;
   myControl = new FormControl();
 
   editDialogMode = false;

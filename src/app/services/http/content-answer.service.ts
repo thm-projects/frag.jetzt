@@ -35,14 +35,14 @@ export class ContentAnswerService extends BaseHttpService {
   }
 
   addAnswerText(answerText: AnswerText): Observable<AnswerText> {
-    const url = this.apiUrl.base + this.apiUrl.answer + this.apiUrl.text + '/';
+    const url = this.apiUrl.base + this.apiUrl.answer + '/';
     return this.http.post<AnswerText>(url, answerText, httpOptions).pipe(
       catchError(this.handleError<AnswerText>('addAnswerText'))
     );
   }
 
   addAnswerChoice(answerChoice: AnswerChoice): Observable<AnswerChoice> {
-    const url = this.apiUrl.base + this.apiUrl.answer + this.apiUrl.choice + '/';
+    const url = this.apiUrl.base + this.apiUrl.answer + '/';
     return this.http.post<AnswerChoice>(url, answerChoice, httpOptions).pipe(
       catchError(this.handleError<AnswerChoice>('addAnswerChoice'))
     );

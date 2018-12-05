@@ -4,8 +4,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
+import { AnswerChoice } from '../../models/answer-choice';
+import { AnswerStatistics } from '../../models/answer-statistics';
 import { ContentChoice } from '../../models/content-choice';
-import { ContentGroup } from '../../models/content-group';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -41,24 +42,20 @@ export class ContentService extends BaseHttpService {
     );
   }
 
+  getContentChoiceByIds(ids: string[]): Observable<ContentChoice[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/?ids=' + ids;
+    return this.http.get<ContentChoice[]>(connectionUrl).pipe(
+      tap(() => ''),
+      catchError(this.handleError('getContentsByIds', []))
+    );
+  }
+
   addContent(content: Content): Observable<Content> {
-    delete content.id;
-    delete content.revision;
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
     return this.http.post<Content>(connectionUrl,
       content,
       httpOptions).pipe(
       catchError(this.handleError<Content>('addContent'))
-    );
-  }
-
-  addContentChoice(contentChoice: ContentChoice): Observable<ContentChoice> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/';
-    return this.http.post<ContentChoice>(connectionUrl,
-      { roomId: contentChoice.roomId, subject: contentChoice.subject, body: contentChoice.body,
-        format: contentChoice.format, group: 'preparation' },
-      httpOptions).pipe(
-      catchError(this.handleError<ContentChoice>('addContent'))
     );
   }
 
@@ -75,6 +72,14 @@ export class ContentService extends BaseHttpService {
     return this.http.delete<Content>(connectionUrl, httpOptions).pipe(
       tap (_ => ''),
       catchError(this.handleError<Content>('deleteContent'))
+    );
+  }
+
+  getAnswer(contentId: string): Observable<AnswerStatistics> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + contentId + '/stats';
+    return this.http.get<AnswerStatistics>(connectionUrl).pipe(
+      tap(() => ''),
+      catchError(this.handleError<AnswerStatistics>(`getRoom shortId=${ contentId }`))
     );
   }
 }

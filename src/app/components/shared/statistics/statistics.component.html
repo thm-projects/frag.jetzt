@@ -1,33 +1,13 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
   <mat-card>
+    <mat-card-header>
+      <h2>{{'statistic.learning-status' | translate}}</h2>
+    </mat-card-header>
+    <mat-divider></mat-divider>
     <mat-tab-group>
-      <mat-tab label="Answer statistic">
-        <mat-select placeholder="Answers" fxLayoutAlign="right" (change)="showStatistic($event.value)">
-          <mat-option *ngFor="let state of states" [value]="state.value">
-            {{ state.viewValue }}
-          </mat-option>
-        </mat-select>
-        <div *ngFor="let statistic of statistics">
-          {{ statistic.name }}
-          <mat-progress-bar [value]="statistic.percent">
-          </mat-progress-bar>
-          <div align="right"> Responded answers: {{ statistic.answers }} </div>
-        </div>
-      </mat-tab>
-      <mat-tab label="Evaluation" (choose)="showEvaluation(selectedContent.index)">
-        <h2 fxLayoutAlign="center">{{ selectedContent.name }}</h2>
-        <div class="evaluation" *ngFor="let choice of evaluation">
-          {{ choice.name }}
-          <mat-progress-bar [value]="choice.percent" color="primary" *ngIf="choice.correct">
-          </mat-progress-bar>
-          <mat-progress-bar [value]="choice.percent" color="warn" *ngIf="!choice.correct">
-          </mat-progress-bar>
-          <div align="right"> Selected: {{ choice.answers }} times</div>
-        </div>
-        <div fxLayoutAlign="center" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index - 1)">Before</button>
-          <div><b>{{ selectedContent.index }} / {{ selectedContent.length }}</b></div>
-          <button mat-raised-button color="primary" (click)="showEvaluation(selectedContent.index + 1)">Next</button>
+      <mat-tab *ngFor="let cg of contentGroups; let i = index" label="{{cg.name}}">
+        <div fxLayout="column" fxLayoutAlign="center">
+        <app-list-statistic [contentGroup]="cg"></app-list-statistic>
         </div>
       </mat-tab>
     </mat-tab-group>

@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 html, body {
   font-family: 'Roboto', 'Helvetica Neue', sans-serif;
   margin: 0;
@@ -8,3 +10,13 @@ html, body {
 
 @import '_util.scss';
 @import '_form.scss';
+
+.progress-theme {
+  $progress-primary: mat-palette($mat-light-green, 300);
+  $progress-accent: mat-palette($mat-amber, 300);
+  $progress-warn:  mat-palette($mat-deep-orange, 300);
+
+  $progress-theme: mat-light-theme($progress-primary, $progress-accent, $progress-warn);
+
+  @include angular-material-theme($progress-theme);
+}

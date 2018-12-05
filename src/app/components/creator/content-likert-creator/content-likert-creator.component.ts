@@ -50,7 +50,7 @@ export class ContentLikertCreatorComponent implements OnInit {
   roomId: string;
 
   displayAnswers: DisplayAnswer[] = [];
-  newAnswerOptionPoints = '0';
+  newAnswerOptionPoints = 0;
   collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -109,14 +109,20 @@ export class ContentLikertCreatorComponent implements OnInit {
       });
       return;
     }
+    let contentGroup: string;
+    if (this.contentCol === 'Default') {
+      contentGroup = '';
+    } else {
+      contentGroup = this.contentCol;
+    }
     this.contentService.addContent(new ContentChoice(
-      '',
-      '',
+      null,
+      null,
       this.roomId,
       this.contentSub,
       this.contentBod,
       1,
-      [this.contentCol],
+      [contentGroup],
       this.content.options,
       this.content.correctOptionIndexes,
       this.content.multiple,

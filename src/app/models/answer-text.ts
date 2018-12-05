@@ -1,3 +1,5 @@
+import { ContentType } from './content-type.enum';
+
 export class AnswerText {
   id: string;
   revision: string;
@@ -7,4 +9,5 @@ export class AnswerText {
   body: string;
   read: string;
   creationTimestamp: Date;
+  format: ContentType;
 }

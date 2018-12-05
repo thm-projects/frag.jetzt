@@ -63,8 +63,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   roomId: string;
 
-  lastCollection: string;
-
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               public dialog: MatDialog,
@@ -76,7 +74,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
     this.fillCorrectAnswers();
-    this.lastCollection = sessionStorage.getItem('collection');
   }
 
   fillCorrectAnswers() {
@@ -123,14 +120,14 @@ export class ContentChoiceCreatorComponent implements OnInit {
         return;
       }
     }
-    const points = (this.newAnswerOptionChecked) ? '10' : '-10';
+    const points = (this.newAnswerOptionChecked) ? 10 : -10;
     this.content.options.push(new AnswerOption(this.newAnswerOptionLabel, points));
     this.newAnswerOptionChecked = false;
     this.newAnswerOptionLabel = '';
     this.fillCorrectAnswers();
   }
 
-  openAnswerModificationDialog($event, label: string, points: string, correct: boolean) {
+  openAnswerModificationDialog($event, label: string, points: number, correct: boolean) {
     $event.preventDefault();
     const index = this.findAnswerIndexByLabel(label);
     this.editDisplayAnswer = new DisplayAnswer(new AnswerOption(label, points), correct);
@@ -149,7 +146,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
 
   saveChanges(index: number, answer: DisplayAnswer, matDialogOutput: boolean) {
     this.content.options[index].label = answer.answerOption.label;
-    this.content.options[index].points = (answer.correct) ? '10' : '-10';
+    this.content.options[index].points = (answer.correct) ? 10 : -10;
     const indexInCorrectOptionIndexes = this.content.correctOptionIndexes.indexOf(index);
     if (indexInCorrectOptionIndexes === -1 && answer.correct) {
       if (this.singleChoice) {
@@ -226,6 +223,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   reset($event) {
+    this.resetP.emit(true);
     $event.preventDefault();
     this.content.subject = '';
     this.content.body = '';
@@ -283,14 +281,20 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.changesAllowed = true;
       return;
     }
+    let contentGroup: string;
+    if (this.contentCol === 'Default') {
+      contentGroup = '';
+    } else {
+      contentGroup = this.contentCol;
+    }
     this.contentService.addContent(new ContentChoice(
-      '',
-      '',
+      null,
+      null,
       this.roomId,
       this.contentSub,
       this.contentBod,
       1,
-      [this.contentCol],
+      [contentGroup],
       this.content.options,
       this.content.correctOptionIndexes,
       this.content.multiple,

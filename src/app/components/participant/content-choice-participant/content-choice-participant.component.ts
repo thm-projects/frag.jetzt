@@ -50,6 +50,8 @@ export class ContentChoiceParticipantComponent implements OnInit {
     }
   }
 
+  // TODO: check answers
+
   submitAnswer(): void {
     let selectedAnswers: number[] = [];
     if (this.content.multiple) {
@@ -61,36 +63,43 @@ export class ContentChoiceParticipantComponent implements OnInit {
     } else {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
         if (this.checkedAnswers[i].answerOption.label === this.selectedSingleAnswer) {
-          selectedAnswers = [i];
+          selectedAnswers.push(i);
           break;
         }
       }
     }
 
-    if (!this.content.multiple && selectedAnswers.length !== 1) {
-      this.notificationService.show('In single choice mode is only 1 selection allowed');
-      this.isAnswerSent = false;
-      return;
-    }
-    if (this.content.multiple && selectedAnswers.length === 0) {
-      this.notificationService.show('In multiple choice mode is at least 1 selection needed');
+    // TODO: i18n
+
+    if (selectedAnswers.length === 0) {
+      this.notificationService.show('At least 1 selection needed');
       this.isAnswerSent = false;
       return;
     }
     this.isAnswerSent = true;
     this.answerService.addAnswerChoice({
-      id: '',
-      revision: '',
+      id: null,
+      revision: null,
       contentId: this.content.id,
       round: 1,
-      selectedChoiceIndexes: []
+      selectedChoiceIndexes: selectedAnswers,
+      creationTimestamp: null,
+      format: ContentType.CHOICE
     } as AnswerChoice).subscribe();
-    // TODO: Set isAnswerSent
+    // TODO: replace matchip with notification
   }
 
   abstain($event) {
     $event.preventDefault();
     console.log('abstain');
-    // ToDo: Send emtpy answer to backend
+    this.answerService.addAnswerChoice({
+      id: null,
+      revision: null,
+      contentId: this.content.id,
+      round: 1,
+      selectedChoiceIndexes: [],
+      creationTimestamp: null,
+      format: ContentType.CHOICE
+    } as AnswerChoice).subscribe();
   }
 }

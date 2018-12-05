@@ -51,14 +51,20 @@ export class ContentTextCreatorComponent implements OnInit {
   }
 
   submitContent() {
+    let contentGroup: string;
+    if (this.contentCol === 'Default') {
+      contentGroup = '';
+    } else {
+      contentGroup = this.contentCol;
+    }
     this.contentService.addContent(new ContentText(
-      '1',
-      '1',
+      null,
+      null,
       this.roomId,
       this.contentSub,
       this.contentBod,
       1,
-      [this.contentCol],
+      [contentGroup],
     )).subscribe();
     if (this.contentSub === '' || this.contentBod === '') {
       this.translationService.get('content.no-empty').subscribe(message => {

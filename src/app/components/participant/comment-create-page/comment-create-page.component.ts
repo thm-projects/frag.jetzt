@@ -35,6 +35,8 @@ export class CommentCreatePageComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
   }
 
+  // TODO: check if empty
+
   send(subject: string, body: string): void {
     subject = subject.trim();
     body = body.trim();

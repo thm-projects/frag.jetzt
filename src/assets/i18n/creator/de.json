@@ -21,6 +21,7 @@
     "default-content-group": "Standard"
   },
   "content": {
+    "content": "Frage",
     "create": "Erstellen",
     "collection": "Sammlung",
     "body": "Inhalt",
@@ -54,5 +55,11 @@
     "description": "Beschreibung",
     "max-ls": "Max. Zeichen:",
     "create-session": "Session erstellen"
+  },
+  "statistic": {
+    "learning-status": "Lernstand",
+    "total": "Total",
+    "percentage": "Prozent",
+    "abstentions": "Enthaltungen"
   }
 }

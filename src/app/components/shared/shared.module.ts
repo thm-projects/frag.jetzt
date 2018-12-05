@@ -18,6 +18,7 @@ import { GenericDataDialogComponent } from './_dialogs/generic-data-dialog/gener
 import { CommentCreatePageComponent } from '../participant/comment-create-page/comment-create-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
+import { ListStatisticComponent } from './list-statistic/list-statistic.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { SharedRoutingModule } from './shared-routing.module';
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    ListStatisticComponent
   ],
   exports: [
     RoomJoinComponent,

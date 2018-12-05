@@ -2,18 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
-
-class ContentGroup {
-  name: string;
-  contentIds: string[];
-  autoSort: boolean;
-
-  constructor(name: string, contentIds: string[], autoSort: boolean) {
-    this.name = name;
-    this.contentIds = contentIds;
-    this.autoSort = autoSort;
-  }
-}
+import { ContentGroup } from '../../../models/content-group';
 
 
 @Component({
@@ -24,7 +13,6 @@ class ContentGroup {
 export class ContentGroupsComponent implements OnInit {
 
   @Input() public contentGroups: ContentGroup[];
-  displayedContentGroups: ContentGroup[] = [];
   roomShortId: string;
 
   constructor (private route: ActivatedRoute,
@@ -35,21 +23,6 @@ export class ContentGroupsComponent implements OnInit {
 
   ngOnInit() {
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
-    Object.keys(this.contentGroups).forEach(key => {
-      if (key === '') {
-        const cg = new ContentGroup(
-          'Default Content Group',
-          this.contentGroups[key]['contentIds'],
-          this.contentGroups[key]['autoSort']);
-        this.displayedContentGroups.push(cg);
-      } else {
-        const cg = new ContentGroup(
-          key,
-          this.contentGroups[key]['contentIds'],
-          this.contentGroups[key]['autoSort']);
-        this.displayedContentGroups.push(cg);
-      }
-    });
   }
 
   viewContents(contentGroup: ContentGroup) {
