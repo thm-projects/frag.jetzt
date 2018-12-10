@@ -8,15 +8,18 @@ import { ContentChoice } from '../../../models/content-choice';
 import { Combination } from '../../../models/round-statistics';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { ActivatedRoute } from '@angular/router';
 
 export class ContentStatistic {
   content: Content;
+  contentId: string;
   percent: number;
   counts: number;
   abstentions: number;
 
-  constructor(content: Content, percent: number, counts: number, abstentions: number) {
+  constructor(content: Content, contentId: string, percent: number, counts: number, abstentions: number) {
     this.content = content;
+    this.contentId = contentId;
     this.percent = percent;
     this.counts = counts;
     this.abstentions = abstentions;
@@ -43,14 +46,19 @@ export class ListStatisticComponent implements OnInit {
   total = 0;
   totalP = 0;
   contentCounter = 0;
+  roomId: number;
 
   constructor(private contentService: ContentService,
               private translateService: TranslateService,
-              protected langService: LanguageService) {
+              protected langService: LanguageService,
+              protected route: ActivatedRoute) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.roomId = params['roomId'];
+    });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe(contents => {
       this.getData(contents);
@@ -63,7 +71,7 @@ export class ListStatisticComponent implements OnInit {
     let percent;
     this.dataSource = new Array<ContentStatistic>(length);
     for (let i = 0; i < length; i++) {
-      this.dataSource[i] = new ContentStatistic(null, 0, 0, 0 );
+      this.dataSource[i] = new ContentStatistic(null, null, 0, 0, 0 );
       this.dataSource[i].content = this.contents[i];
       if (contents[i].format === ContentType.CHOICE) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
@@ -76,6 +84,7 @@ export class ListStatisticComponent implements OnInit {
           }
           this.dataSource[i].abstentions = answer.roundStatistics[0].abstentionCount;
           this.dataSource[i].percent = percent;
+          this.dataSource[i].contentId = contents[i].id;
           if (percent >= 0) {
             this.totalP += percent;
             this.total = this.totalP / this.contentCounter;
