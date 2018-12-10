@@ -34,11 +34,11 @@ export class ContentService extends BaseHttpService {
     );
   }
 
-  getContent(id: string): Observable<Content> {
+  getChoiceContent(id: string): Observable<ContentChoice> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + id;
-    return this.http.get<Content>(connectionUrl).pipe(
+    return this.http.get<ContentChoice>(connectionUrl).pipe(
       tap(() => ''),
-      catchError(this.handleError<Content>('getRoom by id: ' + id))
+      catchError(this.handleError<ContentChoice>('getRoom by id: ' + id))
     );
   }
 

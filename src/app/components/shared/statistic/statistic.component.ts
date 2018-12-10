@@ -3,6 +3,7 @@ import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Content } from '../../../models/content';
 import { ContentService } from '../../../services/http/content.service';
+import { ContentChoice } from '../../../models/content-choice';
 
 export class ContentStatistic {
   content: Content;
@@ -30,8 +31,8 @@ export class StatisticComponent implements OnInit {
   chart = [];
   colors: string[] = ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
                       'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)'];
-  labels: string[] = ['a', 'b', 'c', 'd'];
-  data: number[] = [12, 30, 43, 32];
+  labels: string[];
+  data: number[];
   stats: ContentStatistic;
   contentId: string;
   subject: string;
@@ -40,28 +41,48 @@ export class StatisticComponent implements OnInit {
               private contentService: ContentService) { }
 
   ngOnInit() {
+    this.labels = new Array<string>();
+    this.data = new Array<number>();
     this.route.params.subscribe(params => {
       this.contentId = params['contentId'];
     });
-    this.contentService.getContent(this.contentId).subscribe(content => {
-      this.subject = content.subject;
+    this.contentService.getChoiceContent(this.contentId).subscribe(content => {
+      this.getData(content);
     });
-    this.chart = new Chart('chart', {
-      type: 'bar',
-      data: {
-        labels: this.labels,
-        datasets: [{
-          data: this.data,
-          backgroundColor: this.colors
-        }]
-      },
-      options: {
-        title: this.subject,
-        legend: {
-          display: false
+  }
+
+  getData(content: ContentChoice) {
+    this.subject = content.subject;
+    const length = content.options.length;
+    for (let i = 0; i < length; i++) {
+      this.labels[i] = content.options[i].label;
+    }
+    this.contentService.getAnswer(content.id).subscribe(answer => {
+      this.data = answer.roundStatistics[0].independentCounts;
+      this.chart = new Chart('chart', {
+        type: 'bar',
+        data: {
+          labels: this.labels,
+          datasets: [{
+            data: this.data,
+            backgroundColor: this.colors
+          }]
         },
-        responsive: true
-      }
+        options: {
+          legend: {
+            display: false
+          },
+          responsive: true,
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                precision: 0
+              }
+            }]
+          }
+        }
+      });
     });
   }
 }
