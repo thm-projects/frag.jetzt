@@ -10,29 +10,37 @@
 
   <ng-container matColumnDef="content">
     <mat-header-cell *matHeaderCellDef> {{'content.content' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
-      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+    <mat-cell *matCellDef="let cp" [ngClass]="{
+      'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good,
+      'negativeC' : cp.percent < status.okay,
       'emptyCC' : cp.percent < status.zero }">{{cp.content.subject}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="percentage">
     <mat-header-cell *matHeaderCellDef> {{'statistic.percentage' | translate }} </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
-      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+    <mat-cell *matCellDef="let cp" [ngClass]="{
+      'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good,
+      'negativeC' : cp.percent < status.okay,
       'emptyC' : cp.percent < status.zero }">{{cp.percent.toFixed() + ' %'}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="counts">
     <mat-header-cell *matHeaderCellDef> {{'statistic.total' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
-      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+    <mat-cell *matCellDef="let cp" [ngClass]="{
+      'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good,
+      'negativeC' : cp.percent < status.okay,
       'emptyC' : cp.percent < status.zero }">{{cp.counts}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="abstentions">
     <mat-header-cell *matHeaderCellDef> {{'statistic.abstentions' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{'positiveC' : cp.percent >= status.good,
-      'okayC' : cp.percent >= status.okay && cp.percent < status.good, 'negativeC' : cp.percent < status.okay,
+    <mat-cell *matCellDef="let cp" [ngClass]="{
+      'positiveC' : cp.percent >= status.good,
+      'okayC' : cp.percent >= status.okay && cp.percent < status.good,
+      'negativeC' : cp.percent < status.okay,
       'emptyC' : cp.percent < status.zero }">{{cp.abstentions}}</mat-cell>
   </ng-container>
 

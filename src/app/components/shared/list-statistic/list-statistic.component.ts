@@ -69,11 +69,12 @@ export class ListStatisticComponent implements OnInit {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
           if (contents[i].multiple) {
             percent = this.evaluateMultiple(contents[i].options, answer.roundStatistics[0].combinatedCounts);
+            this.dataSource[i].counts = this.getMultipleCounts(answer.roundStatistics[0].combinatedCounts);
           } else {
             percent = this.evaluateSingle(contents[i].options, answer.roundStatistics[0].independentCounts);
+            this.dataSource[i].counts = this.getSingleCounts(answer.roundStatistics[0].independentCounts);
           }
           this.dataSource[i].abstentions = answer.roundStatistics[0].abstentionCount;
-          this.dataSource[i].counts = this.getTotalCounts(answer.roundStatistics[0].independentCounts);
           this.dataSource[i].percent = percent;
           if (percent >= 0) {
             this.totalP += percent;
@@ -88,11 +89,24 @@ export class ListStatisticComponent implements OnInit {
     }
   }
 
-  getTotalCounts(indCounts: number[]): number {
+  getSingleCounts(answers: number[]): number {
     let total = 0;
-    const indLength = indCounts.length;
+    const indLength = answers.length;
     for (let i = 0; i < indLength; i++) {
-      total += indCounts[i];
+      total += answers[i];
+    }
+    return total;
+  }
+
+  getMultipleCounts(answers: Combination[]): number {
+    let total = 0;
+    if (answers) {
+      const indLength = answers.length;
+      for (let i = 0; i < indLength; i++) {
+        total += answers[i].count;
+      }
+    } else {
+      total = -1;
     }
     return total;
   }
