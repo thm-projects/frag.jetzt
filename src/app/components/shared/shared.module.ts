@@ -20,6 +20,7 @@ import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ListStatisticComponent } from './list-statistic/list-statistic.component';
 import { ChartsModule } from 'ng2-charts';
+import { StatisticComponent } from './statistic/statistic.component';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { ChartsModule } from 'ng2-charts';
     CommentCreatePageComponent,
     CommentListComponent,
     StatisticsPageComponent,
-    ListStatisticComponent
+    ListStatisticComponent,
+    StatisticComponent
   ],
   exports: [
     RoomJoinComponent,
