@@ -55,7 +55,11 @@ export class StatisticComponent implements OnInit {
     this.subject = content.subject;
     const length = content.options.length;
     for (let i = 0; i < length; i++) {
-      this.labels[i] = content.options[i].label;
+      if (content.options[i].label.length > 20) {
+        this.labels[i] = content.options[i].label.substr(0, 20) + '..';
+      } else {
+        this.labels[i] = content.options[i].label;
+      }
     }
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
