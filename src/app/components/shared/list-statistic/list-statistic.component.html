@@ -4,7 +4,7 @@
 <mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
                   *ngIf="total < status.good && total >= status.okay" color="accent"></mat-progress-bar>
 <mat-progress-bar class="progress-theme" mode="determinate" value="{{total}}"
-                  *ngIf="total < status.okay && total > status.empty" color="warn"></mat-progress-bar>
+                  *ngIf="total < status.okay && total >= status.empty" color="warn"></mat-progress-bar>
 <mat-toolbar></mat-toolbar>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 

@@ -5,7 +5,7 @@ import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { ContentCreatePageComponent } from './content-create-page/content-create-page.component';
-import { StatisticsComponent } from '../shared/statistics/statistics.component';
+import { StatisticsPageComponent } from '../shared/statistics-page/statistics-page.component';
 import { CommentListComponent } from '../shared/comment-list/comment-list.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
 import { ContentListComponent } from './content-list/content-list.component';
@@ -31,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: 'room/:roomId/statistics',
-    component: StatisticsComponent,
+    component: StatisticsPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },

@@ -8,11 +8,11 @@ import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-statistics',
-  templateUrl: './statistics.component.html',
-  styleUrls: ['./statistics.component.scss']
+  templateUrl: './statistics-page.component.html',
+  styleUrls: ['./statistics-page.component.scss']
 })
 
-export class StatisticsComponent implements OnInit {
+export class StatisticsPageComponent implements OnInit {
 
   room: Room;
   contentGroups: ContentGroup[];
