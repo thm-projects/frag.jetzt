@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { Content } from '../../../models/content';
+import { ContentService } from '../../../services/http/content.service';
 
 export class ContentStatistic {
   content: Content;
@@ -32,15 +33,19 @@ export class StatisticComponent implements OnInit {
   labels: string[] = ['a', 'b', 'c', 'd'];
   data: number[] = [12, 30, 43, 32];
   stats: ContentStatistic;
-  roomId: string;
+  contentId: string;
+  subject: string;
 
-  constructor(protected route: ActivatedRoute) { }
+  constructor(protected route: ActivatedRoute,
+              private contentService: ContentService) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.roomId = params['contentId'];
+      this.contentId = params['contentId'];
     });
-    console.log(this.roomId);
+    this.contentService.getContent(this.contentId).subscribe(content => {
+      this.subject = content.subject;
+    });
     this.chart = new Chart('chart', {
       type: 'bar',
       data: {
@@ -51,6 +56,7 @@ export class StatisticComponent implements OnInit {
         }]
       },
       options: {
+        title: this.subject,
         legend: {
           display: false
         },
