@@ -73,6 +73,7 @@ export class StatisticComponent implements OnInit {
             display: false
           },
           responsive: true,
+          maintainAspectRatio: false,
           scales: {
             yAxes: [{
               ticks: {
