@@ -88,7 +88,7 @@ export class ListStatisticComponent implements OnInit {
           if (percent >= 0) {
             this.totalP += percent;
             this.total = this.totalP / this.contentCounter;
-          } else {
+          } else if (this.total < 0) {
             this.total = -1;
           }
         });
