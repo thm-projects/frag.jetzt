@@ -27,6 +27,7 @@
     "your-answer": "Your answer"
   },
   "statistic": {
+    "content": "Content",
     "learning-status": "Learning status",
     "total": "Total",
     "percentage": "Percentage",
