@@ -42,7 +42,6 @@ export class ContentCreatorComponent implements OnInit {
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.lastCollection = sessionStorage.getItem('collection');
-    console.log(this.lastCollection);
   }
 
   resetInputs() {
