@@ -13,7 +13,7 @@
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
-      <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button color="accent" matTooltip="{{ 'room-page.create-comment' | translate}}"
                   routerLink="/participant/room/{{ room.id }}/create-comment">
@@ -26,11 +26,13 @@
             <mat-icon>thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button color="accent" matTooltip="Lernstand"
+                  routerLink="/participant/room/{{ room.shortId }}/statistics">
+            <mat-icon>insert_chart</mat-icon>
+          </button>
+        </mat-grid-tile>
       </mat-grid-list>
-        <mat-card-actions>
-          <button mat-button color="primary">{{ 'room-page.comments' | translate }}</button>
-          <button mat-button color="primary">{{ 'room-page.learn' | translate }}</button>
-        </mat-card-actions>
       <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
   </div>

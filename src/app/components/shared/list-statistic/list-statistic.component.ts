@@ -9,6 +9,8 @@ import { Combination } from '../../../models/round-statistics';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { UserRole } from '../../../models/user-roles.enum';
 
 export class ContentStatistic {
   content: Content;
@@ -47,17 +49,24 @@ export class ListStatisticComponent implements OnInit {
   totalP = 0;
   contentCounter = 0;
   roomId: number;
+  nextLink: string;
 
   constructor(private contentService: ContentService,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              protected route: ActivatedRoute) {
+              protected route: ActivatedRoute,
+              protected authService: AuthenticationService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.roomId = params['roomId'];
+      if (this.authService.getRole() === UserRole.CREATOR) {
+        this.nextLink = `/creator/room/${ this.roomId }/statistics/`;
+      } else {
+        this.nextLink = `/participant/room/${ this.roomId }/statistics/`;
+      }
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe(contents => {

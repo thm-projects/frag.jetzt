@@ -8,8 +8,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
-import {TranslateService} from "@ngx-translate/core";
-import {LanguageService} from "../../../services/util/language.service";
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-comment-list',

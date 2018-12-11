@@ -7,6 +7,8 @@ import { RoomParticipantPageComponent } from './room-participant-page/room-parti
 import { CommentCreatePageComponent } from './comment-create-page/comment-create-page.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
+import { StatisticsPageComponent } from '../shared/statistics-page/statistics-page.component';
+import { StatisticComponent } from '../shared/statistic/statistic.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,18 @@ const routes: Routes = [
   {
     path: 'room/:roomId',
     component: RoomParticipantPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'room/:roomId/statistics',
+    component: StatisticsPageComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'room/:roomId/statistics/:contentId',
+    component: StatisticComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },

@@ -9,12 +9,12 @@
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <ng-container matColumnDef="content">
-    <mat-header-cell *matHeaderCellDef> {{'content.content' | translate}} </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> {{'statistic.content' | translate}} </mat-header-cell>
     <mat-cell *matCellDef="let cp" [ngClass]="{
       'positiveC' : cp.percent >= status.good,
       'okayC' : cp.percent >= status.okay && cp.percent < status.good,
       'negativeC' : cp.percent < status.okay,
-      'emptyCC' : cp.percent < status.zero }" routerLink="/creator/room/{{ roomId }}/statistics/{{cp.contentId}}">{{cp.content.subject}}</mat-cell>
+      'emptyCC' : cp.percent < status.zero }" routerLink="{{nextLink}}{{cp.contentId}}">{{cp.content.subject}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="percentage">
@@ -23,7 +23,7 @@
       'positiveC' : cp.percent >= status.good,
       'okayC' : cp.percent >= status.okay && cp.percent < status.good,
       'negativeC' : cp.percent < status.okay,
-      'emptyC' : cp.percent < status.zero }" routerLink="/creator/room/{{ roomId }}/statistics/{{cp.contentId}}">{{cp.percent.toFixed() + ' %'}}</mat-cell>
+      'emptyC' : cp.percent < status.zero }" routerLink="{{nextLink}}{{cp.contentId}}">{{cp.percent.toFixed() + ' %'}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="counts">
@@ -32,7 +32,7 @@
       'positiveC' : cp.percent >= status.good,
       'okayC' : cp.percent >= status.okay && cp.percent < status.good,
       'negativeC' : cp.percent < status.okay,
-      'emptyC' : cp.percent < status.zero }" routerLink="/creator/room/{{ roomId }}/statistics/{{cp.contentId}}">{{cp.counts}}</mat-cell>
+      'emptyC' : cp.percent < status.zero }" routerLink="{{nextLink}}{{cp.contentId}}">{{cp.counts}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="abstentions">
@@ -41,7 +41,7 @@
       'positiveC' : cp.percent >= status.good,
       'okayC' : cp.percent >= status.okay && cp.percent < status.good,
       'negativeC' : cp.percent < status.okay,
-      'emptyC' : cp.percent < status.zero }" routerLink="/creator/room/{{ roomId }}/statistics/{{cp.contentId}}">{{cp.abstentions}}</mat-cell>
+      'emptyC' : cp.percent < status.zero }" routerLink="{{nextLink}}{{cp.contentId}}">{{cp.abstentions}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
