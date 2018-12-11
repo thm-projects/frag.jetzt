@@ -52,6 +52,7 @@ export class ContentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     this.roomService.getRoom(this.roomId).subscribe(room => {
       this.room = room;
+      this.roomId = room.shortId;
     });
     this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
     this.contentService.getContentsByIds(this.contentGroup.contentIds).subscribe( contents => {
