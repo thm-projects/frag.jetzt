@@ -10,7 +10,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomPageComponent } from './room-page/room-page.component';
-import { StatisticsComponent } from './statistics/statistics.component';
+import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { AnswerEditComponent } from '../creator/_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from '../creator/_dialogs/content-delete/content-delete.component';
 import { MarkdownHelpDialogComponent } from '../creator/_dialogs/markdown-help-dialog/markdown-help-dialog.component';
@@ -19,11 +19,14 @@ import { CommentCreatePageComponent } from '../participant/comment-create-page/c
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ListStatisticComponent } from './list-statistic/list-statistic.component';
+import { ChartsModule } from 'ng2-charts';
+import { StatisticComponent } from './statistic/statistic.component';
 
 @NgModule({
   imports: [
     CommonModule,
     EssentialsModule,
+    ChartsModule,
     SharedRoutingModule
   ],
   declarations: [
@@ -43,8 +46,9 @@ import { ListStatisticComponent } from './list-statistic/list-statistic.componen
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
-    StatisticsComponent,
-    ListStatisticComponent
+    StatisticsPageComponent,
+    ListStatisticComponent,
+    StatisticComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -63,7 +67,7 @@ import { ListStatisticComponent } from './list-statistic/list-statistic.componen
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
-    StatisticsComponent
+    StatisticsPageComponent
   ],
   entryComponents: [
     MarkdownHelpDialogComponent,

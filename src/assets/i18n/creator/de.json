@@ -57,6 +57,7 @@
     "create-session": "Session erstellen"
   },
   "statistic": {
+    "content": "Frage",
     "learning-status": "Lernstand",
     "total": "Total",
     "percentage": "Prozent",

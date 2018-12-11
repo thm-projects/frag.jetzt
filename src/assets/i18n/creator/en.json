@@ -56,6 +56,7 @@
     "create-session": "Create session"
   },
   "statistic": {
+    "content": "Content,
     "learning-status": "Learning status",
     "total": "Total",
     "percentage": "Percentage",
