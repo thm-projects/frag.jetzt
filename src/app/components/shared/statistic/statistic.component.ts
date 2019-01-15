@@ -31,7 +31,9 @@ export class StatisticComponent implements OnInit {
   chart = [];
   colors: string[] = ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
                       'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)'];
-  labels: string[];
+  label = 'ABCDEFGH';
+  labels: string[]; // = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  answers: string[];
   data: number[];
   stats: ContentStatistic;
   contentId: string;
@@ -41,6 +43,7 @@ export class StatisticComponent implements OnInit {
               private contentService: ContentService) { }
 
   ngOnInit() {
+    this.answers = new Array<string>();
     this.labels = new Array<string>();
     this.data = new Array<number>();
     this.route.params.subscribe(params => {
@@ -55,10 +58,11 @@ export class StatisticComponent implements OnInit {
     this.subject = content.subject;
     const length = content.options.length;
     for (let i = 0; i < length; i++) {
+      this.labels[i] = this.label.charAt(i);
       if (content.options[i].label.length > 20) {
-        this.labels[i] = content.options[i].label.substr(0, 20) + '..';
+        this.answers[i] = content.options[i].label.substr(0, 20) + '..';
       } else {
-        this.labels[i] = content.options[i].label;
+        this.answers[i] = content.options[i].label;
       }
     }
     this.contentService.getAnswer(content.id).subscribe(answer => {
