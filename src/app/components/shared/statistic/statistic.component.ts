@@ -56,11 +56,10 @@ export class StatisticComponent implements OnInit {
       this.answerList[i] = new AnswerList(null, null);
       this.labels[i] = this.label.charAt(i);
       this.answerList[i].label = this.labels[i];
-      this.answerList[i].answer = content.options[i].label;
       if (content.options[i].label.length > 20) {
-        this.answers[i] = content.options[i].label.substr(0, 20) + '..';
+        this.answerList[i].answer = content.options[i].label.substr(0, 30) + '..';
       } else {
-        this.answers[i] = content.options[i].label;
+        this.answerList[i].answer = content.options[i].label;
       }
     }
     this.contentService.getAnswer(content.id).subscribe(answer => {
