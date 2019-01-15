@@ -38,7 +38,6 @@ export class StatisticComponent implements OnInit {
 
   ngOnInit() {
     this.maxLength = innerWidth / 12;
-    console.log(this.maxLength);
     this.answers = new Array<string>();
     this.labels = new Array<string>();
     this.answerList = new Array<AnswerList>();
