@@ -31,11 +31,14 @@ export class StatisticComponent implements OnInit {
   data: number[];
   contentId: string;
   subject: string;
+  maxLength: number;
 
   constructor(protected route: ActivatedRoute,
               private contentService: ContentService) { }
 
   ngOnInit() {
+    this.maxLength = innerWidth / 12;
+    console.log(this.maxLength);
     this.answers = new Array<string>();
     this.labels = new Array<string>();
     this.answerList = new Array<AnswerList>();
@@ -55,8 +58,8 @@ export class StatisticComponent implements OnInit {
       this.answerList[i] = new AnswerList(null, null);
       this.labels[i] = this.label.charAt(i);
       this.answerList[i].label = this.labels[i];
-      if (content.options[i].label.length > 20) {
-        this.answerList[i].answer = content.options[i].label.substr(0, 30) + '..';
+      if (content.options[i].label.length > this.maxLength) {
+        this.answerList[i].answer = content.options[i].label.substr(0, this.maxLength) + '..';
       } else {
         this.answerList[i].answer = content.options[i].label;
       }
