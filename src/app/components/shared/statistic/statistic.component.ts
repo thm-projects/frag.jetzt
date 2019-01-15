@@ -1,23 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
-import { Content } from '../../../models/content';
 import { ContentService } from '../../../services/http/content.service';
 import { ContentChoice } from '../../../models/content-choice';
 
-export class ContentStatistic {
-  content: Content;
-  contentId: string;
-  percent: number;
-  counts: number;
-  abstentions: number;
+export class AnswerList {
+  label: string;
+  answer: string;
 
-  constructor(content: Content, contentId: string, percent: number, counts: number, abstentions: number) {
-    this.content = content;
-    this.contentId = contentId;
-    this.percent = percent;
-    this.counts = counts;
-    this.abstentions = abstentions;
+  constructor(label: string, answer: string) {
+    this.label = label;
+    this.answer = answer;
   }
 }
 
@@ -34,8 +27,9 @@ export class StatisticComponent implements OnInit {
   label = 'ABCDEFGH';
   labels: string[]; // = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   answers: string[];
+  answerList: AnswerList[];
+  displayedColumns = ['labels', 'answers'];
   data: number[];
-  stats: ContentStatistic;
   contentId: string;
   subject: string;
 
@@ -45,6 +39,7 @@ export class StatisticComponent implements OnInit {
   ngOnInit() {
     this.answers = new Array<string>();
     this.labels = new Array<string>();
+    this.answerList = new Array<AnswerList>();
     this.data = new Array<number>();
     this.route.params.subscribe(params => {
       this.contentId = params['contentId'];
@@ -58,7 +53,10 @@ export class StatisticComponent implements OnInit {
     this.subject = content.subject;
     const length = content.options.length;
     for (let i = 0; i < length; i++) {
+      this.answerList[i] = new AnswerList(null, null);
       this.labels[i] = this.label.charAt(i);
+      this.answerList[i].label = this.labels[i];
+      this.answerList[i].answer = content.options[i].label;
       if (content.options[i].label.length > 20) {
         this.answers[i] = content.options[i].label.substr(0, 20) + '..';
       } else {
