@@ -24,7 +24,10 @@
     "submit": "Submit",
     "abstain": "Abstain",
     "sent": "Answer sent.",
-    "your-answer": "Your answer"
+    "abstention-sent": "Abstention sent.",
+    "your-answer": "Your answer",
+    "at-least-one": "Please select at least one answer.",
+    "please-one": "Please select an answer."
   },
   "statistic": {
     "content": "Content",

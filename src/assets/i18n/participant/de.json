@@ -24,7 +24,10 @@
     "submit": "Absenden",
     "abstain": "Enthalten",
     "sent": "Antwort gesendet.",
-    "your-answer": "Ihre Antwort"
+    "abstention-sent": "Enthaltung gesendet.",
+    "your-answer": "Ihre Antwort",
+    "at-least-one": "Bitte wählen sie mindestens eine Antwort.",
+    "please-one": "Bitte wählen sie eine Antwort."
   },
   "statistic": {
     "content": "Frage",
