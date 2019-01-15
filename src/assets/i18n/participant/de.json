@@ -27,7 +27,8 @@
     "abstention-sent": "Enthaltung gesendet.",
     "your-answer": "Ihre Antwort",
     "at-least-one": "Bitte wählen sie mindestens eine Antwort.",
-    "please-one": "Bitte wählen sie eine Antwort."
+    "please-one": "Bitte wählen sie eine Antwort.",
+    "please-answer": "Bitte geben sie eine Antwort ein."
   },
   "statistic": {
     "content": "Frage",

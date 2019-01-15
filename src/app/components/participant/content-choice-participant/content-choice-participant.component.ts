@@ -49,8 +49,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
     }
   }
 
-  // TODO: check answers
-
   submitAnswer(): void {
     let selectedAnswers: number[] = [];
     if (this.content.multiple) {
@@ -67,9 +65,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
         }
       }
     }
-
-    // TODO: i18n
-
     if (selectedAnswers.length === 0) {
       if (this.content.multiple) {
         this.translateService.get('answer.al-least-one').subscribe(message => {

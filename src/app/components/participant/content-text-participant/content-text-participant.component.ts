@@ -30,7 +30,9 @@ export class ContentTextParticipantComponent implements OnInit {
 
   submitAnswer() {
     if (this.textAnswer.trim().valueOf() === '') {
-      this.notificationService.show('No empty answer allowed.');
+      this.translateService.get('answer.please-answer').subscribe(message => {
+        this.notificationService.show(message);
+      });
       this.textAnswer = '';
       return;
     }

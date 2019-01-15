@@ -27,7 +27,8 @@
     "abstention-sent": "Abstention sent.",
     "your-answer": "Your answer",
     "at-least-one": "Please select at least one answer.",
-    "please-one": "Please select an answer."
+    "please-one": "Please select an answer.",
+    "please-answer": "Please enter an answer."
   },
   "statistic": {
     "content": "Content",
