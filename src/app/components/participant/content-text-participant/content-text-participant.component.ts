@@ -16,7 +16,6 @@ export class ContentTextParticipantComponent implements OnInit {
   @Input() content: ContentText;
 
   textAnswer = '';
-  isAnswerSent = false;
 
   constructor(private answerService: ContentAnswerService,
               private notificationService: NotificationService,
@@ -31,11 +30,15 @@ export class ContentTextParticipantComponent implements OnInit {
 
   submitAnswer() {
     if (this.textAnswer.trim().valueOf() === '') {
-      this.notificationService.show('No empty answer allowed.');
+      this.translateService.get('answer.please-answer').subscribe(message => {
+        this.notificationService.show(message);
+      });
       this.textAnswer = '';
       return;
     }
-    this.isAnswerSent = true;
+    this.translateService.get('answer.sent').subscribe(message => {
+      this.notificationService.show(message);
+    });
     this.answerService.addAnswerText({
       id: null,
       revision: null,
@@ -47,11 +50,12 @@ export class ContentTextParticipantComponent implements OnInit {
       creationTimestamp: null,
       format: ContentType.TEXT
     } as AnswerText).subscribe();
-    // TODO: Set isAnswerSent
   }
 
   abstain($event) {
     $event.preventDefault();
-    console.log('abstain');
+    this.translateService.get('answer.abstention-sent').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 }

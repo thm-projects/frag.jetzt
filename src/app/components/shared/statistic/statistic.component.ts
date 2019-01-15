@@ -1,23 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
-import { Content } from '../../../models/content';
 import { ContentService } from '../../../services/http/content.service';
 import { ContentChoice } from '../../../models/content-choice';
 
-export class ContentStatistic {
-  content: Content;
-  contentId: string;
-  percent: number;
-  counts: number;
-  abstentions: number;
+export class AnswerList {
+  label: string;
+  answer: string;
 
-  constructor(content: Content, contentId: string, percent: number, counts: number, abstentions: number) {
-    this.content = content;
-    this.contentId = contentId;
-    this.percent = percent;
-    this.counts = counts;
-    this.abstentions = abstentions;
+  constructor(label: string, answer: string) {
+    this.label = label;
+    this.answer = answer;
   }
 }
 
@@ -31,17 +24,23 @@ export class StatisticComponent implements OnInit {
   chart = [];
   colors: string[] = ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
                       'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)'];
-  labels: string[];
+  label = 'ABCDEFGH';
+  labels: string[]; // = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  answers: string[];
+  answerList: AnswerList[];
   data: number[];
-  stats: ContentStatistic;
   contentId: string;
   subject: string;
+  maxLength: number;
 
   constructor(protected route: ActivatedRoute,
               private contentService: ContentService) { }
 
   ngOnInit() {
+    this.maxLength = innerWidth / 12;
+    this.answers = new Array<string>();
     this.labels = new Array<string>();
+    this.answerList = new Array<AnswerList>();
     this.data = new Array<number>();
     this.route.params.subscribe(params => {
       this.contentId = params['contentId'];
@@ -55,10 +54,13 @@ export class StatisticComponent implements OnInit {
     this.subject = content.subject;
     const length = content.options.length;
     for (let i = 0; i < length; i++) {
-      if (content.options[i].label.length > 20) {
-        this.labels[i] = content.options[i].label.substr(0, 20) + '..';
+      this.answerList[i] = new AnswerList(null, null);
+      this.labels[i] = this.label.charAt(i);
+      this.answerList[i].label = this.labels[i];
+      if (content.options[i].label.length > this.maxLength) {
+        this.answerList[i].answer = content.options[i].label.substr(0, this.maxLength) + '..';
       } else {
-        this.labels[i] = content.options[i].label;
+        this.answerList[i].answer = content.options[i].label;
       }
     }
     this.contentService.getAnswer(content.id).subscribe(answer => {
