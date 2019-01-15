@@ -71,9 +71,20 @@ export class ContentChoiceParticipantComponent implements OnInit {
     // TODO: i18n
 
     if (selectedAnswers.length === 0) {
-      this.notificationService.show('At least 1 selection needed');
+      if (this.content.multiple) {
+        this.translateService.get('answer.al-least-one').subscribe(message => {
+          this.notificationService.show(message);
+        });
+      } else {
+        this.translateService.get('answer.please-one').subscribe(message => {
+          this.notificationService.show(message);
+        });
+      }
       return;
     }
+    this.translateService.get('answer.sent').subscribe(message => {
+      this.notificationService.show(message);
+    });
     this.answerService.addAnswerChoice({
       id: null,
       revision: null,
@@ -87,7 +98,9 @@ export class ContentChoiceParticipantComponent implements OnInit {
 
   abstain($event) {
     $event.preventDefault();
-    console.log('abstain');
+    this.translateService.get('answer.abstention-sent').subscribe(message => {
+      this.notificationService.show(message);
+    });
     this.answerService.addAnswerChoice({
       id: null,
       revision: null,

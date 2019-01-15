@@ -34,6 +34,9 @@ export class ContentTextParticipantComponent implements OnInit {
       this.textAnswer = '';
       return;
     }
+    this.translateService.get('answer.sent').subscribe(message => {
+      this.notificationService.show(message);
+    });
     this.answerService.addAnswerText({
       id: null,
       revision: null,
@@ -49,6 +52,8 @@ export class ContentTextParticipantComponent implements OnInit {
 
   abstain($event) {
     $event.preventDefault();
-    console.log('abstain');
+    this.translateService.get('answer.abstention-sent').subscribe(message => {
+      this.notificationService.show(message);
+    });
   }
 }
