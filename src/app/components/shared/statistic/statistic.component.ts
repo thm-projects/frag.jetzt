@@ -28,7 +28,6 @@ export class StatisticComponent implements OnInit {
   labels: string[]; // = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   answers: string[];
   answerList: AnswerList[];
-  displayedColumns = ['labels', 'answers'];
   data: number[];
   contentId: string;
   subject: string;
