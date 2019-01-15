@@ -16,7 +16,6 @@ export class ContentTextParticipantComponent implements OnInit {
   @Input() content: ContentText;
 
   textAnswer = '';
-  isAnswerSent = false;
 
   constructor(private answerService: ContentAnswerService,
               private notificationService: NotificationService,
@@ -35,7 +34,6 @@ export class ContentTextParticipantComponent implements OnInit {
       this.textAnswer = '';
       return;
     }
-    this.isAnswerSent = true;
     this.answerService.addAnswerText({
       id: null,
       revision: null,
@@ -47,7 +45,6 @@ export class ContentTextParticipantComponent implements OnInit {
       creationTimestamp: null,
       format: ContentType.TEXT
     } as AnswerText).subscribe();
-    // TODO: Set isAnswerSent
   }
 
   abstain($event) {

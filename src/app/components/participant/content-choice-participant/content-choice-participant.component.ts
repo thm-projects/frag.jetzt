@@ -30,7 +30,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
   selectedSingleAnswer: string;
 
   checkedAnswers: CheckedAnswer[] = [];
-  isAnswerSent = false;
 
   constructor(private answerService: ContentAnswerService,
               private notificationService: NotificationService,
@@ -73,10 +72,8 @@ export class ContentChoiceParticipantComponent implements OnInit {
 
     if (selectedAnswers.length === 0) {
       this.notificationService.show('At least 1 selection needed');
-      this.isAnswerSent = false;
       return;
     }
-    this.isAnswerSent = true;
     this.answerService.addAnswerChoice({
       id: null,
       revision: null,
@@ -86,7 +83,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
       creationTimestamp: null,
       format: ContentType.CHOICE
     } as AnswerChoice).subscribe();
-    // TODO: replace matchip with notification
   }
 
   abstain($event) {
