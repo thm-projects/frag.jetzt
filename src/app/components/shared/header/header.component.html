@@ -22,10 +22,9 @@
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
-    <button *ngIf="user" mat-button [matMenuTriggerFor]="appMenu">
-      <mat-icon color="accent">account_box</mat-icon>
-      <span *ngIf="user.isGuest; else elseBlock">{{ 'header.guest' | translate }}</span>
-      <ng-template #elseBlock>{{user.loginId}}</ng-template>
+    <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
+      <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon" color="accent">record_voice_over</mat-icon>
+      <mat-icon *ngIf="user.role === 0" aria-label="Example icon-button with a heart icon" color="accent">supervisor_account</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
