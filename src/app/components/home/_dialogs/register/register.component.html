@@ -12,6 +12,14 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
+    <input matInput #userName2 placeholder="{{ 'register.email-verify' | translate }}" [formControl]="username2FormControl"
+           [errorStateMatcher]="matcher">
+    <mat-error *ngIf="username2FormControl.hasError('emailIsEqual') && !username2FormControl.hasError('required')">
+      {{ 'register.email-unmatch' | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <mat-form-field class="input-block">
     <input matInput type="password" #userPassword1 placeholder="{{ 'register.password' | translate }}"
            [formControl]="password1FormControl" [errorStateMatcher]="matcher">
     <mat-error *ngIf="password1FormControl.hasError('required')">
