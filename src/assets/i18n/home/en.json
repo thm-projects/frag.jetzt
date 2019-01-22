@@ -38,8 +38,10 @@
 	},
 	"register": {
 		"email": "E-Mail",
+    "email-verify": "Verify E-Mail",
 		"email-invalid": "E-Mail is not valid",
 		"email-required": "E-Mail is required",
+    "email-unmatch": "E-Mails do not match",
 		"password": "Password",
 		"password-required": "Password is required",
 		"password-unmatch": "Passwords do not match",
