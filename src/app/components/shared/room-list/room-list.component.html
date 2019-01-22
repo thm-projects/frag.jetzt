@@ -9,6 +9,7 @@
     </mat-expansion-panel-header>
   </mat-expansion-panel>
   <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
   <mat-expansion-panel *ngFor="let room of rooms">
     <mat-expansion-panel-header>
       <button mat-button color="accent" routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
