@@ -4,7 +4,8 @@
 		"german": "Deutsch",
 		"logout": "Abmelden",
     "guest": "Gast",
-    "logged-out": "Ausloggen erfolgreich."
+    "logged-out": "Ausloggen erfolgreich.",
+    "back": "Zurück"
 	},
 	"login-page": {
 		"creator": "Dozent/in",

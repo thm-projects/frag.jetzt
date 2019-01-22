@@ -4,7 +4,8 @@
 		"german": "German",
 		"logout": "Logout",
     "guest": "Guest",
-    "logged-out": "Logout successful."
+    "logged-out": "Logout successful.",
+    "back": "Back"
 	},
 	"login-page": {
 		"creator": "Creator",
