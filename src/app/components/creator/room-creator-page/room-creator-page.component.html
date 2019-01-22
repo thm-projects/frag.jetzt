@@ -19,30 +19,44 @@
         </p>
       </mat-card-content>
       <mat-divider></mat-divider>
-      <mat-card-actions>
+      <mat-grid-list cols="3" rowHeight="2:1">
+        <mat-grid-tile colspan="1" rowspan="1">
         <button mat-button color="primary" background-color="accent"
                 routerLink="/creator/room/{{ room.shortId }}/create-content">
           {{ 'room-page.create-content' | translate }}
         </button>
-        <button mat-button color="primary"
-                routerLink="/creator/room/{{ room.shortId }}/comments">
-          {{ 'room-page.comments' | translate }}
-        </button>
-        <button mat-button color="primary"
-                routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
-          {{ 'room-page.live-feedback' | translate }}
-        </button>
-        <button mat-button color="primary"
-                routerLink="/creator/room/{{ room.shortId }}/statistics">
-          {{ 'room-page.answer-statistics' | translate }}
-        </button>
-        <button mat-button *ngIf="!modify" (click)="showEditDialog()"  color="primary">
-          {{ 'room-page.edit-room' | translate }}
-        </button>
-        <button mat-button color="warn" (click)="openDeletionRoomDialog()">
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-button color="primary"
+                  routerLink="/creator/room/{{ room.shortId }}/comments">
+            {{ 'room-page.comments' | translate }}
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-button color="primary"
+                  routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
+            {{ 'room-page.live-feedback' | translate }}
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list cols="3" rowHeight="2:1">
+       <mat-grid-tile>
+         <button mat-button color="primary"
+                 routerLink="/creator/room/{{ room.shortId }}/statistics">
+           {{ 'room-page.answer-statistics' | translate }}
+         </button>
+       </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-button *ngIf="!modify" (click)="showEditDialog()"  color="primary">
+            {{ 'room-page.edit-room' | translate }}
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+        <button mat-icon-button color="warn" (click)="openDeletionRoomDialog()">
           {{ 'room-page.delete-room' | translate }}
         </button>
-      </mat-card-actions>
+        </mat-grid-tile>
+      </mat-grid-list>
       <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
