@@ -1,6 +1,8 @@
-mat-card {
+@import '../../../../styles';
+
+.mat-card {
   width: 800px;
-  background-color: #c8e6c9;
+  background-color: mat-color($arsnova-warn, 100);
 }
 
 mat-card-content > :first-child {
@@ -20,4 +22,8 @@ button {
   height:100% !important;
   width:100% !important;
   font-size:48px !important;
+}
+
+.warn {
+  color: #ff8a80;
 }
