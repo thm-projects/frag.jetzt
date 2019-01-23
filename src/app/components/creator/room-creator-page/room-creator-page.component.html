@@ -21,38 +21,40 @@
       <mat-divider></mat-divider>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile colspan="1" rowspan="1">
-        <button mat-icon-button color="primary" background-color="accent"
+        <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-content' | translate}}"
                 routerLink="/creator/room/{{ room.shortId }}/create-content">
           <mat-icon>note_add</mat-icon>
         </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary"
+          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.comments' | translate}}"
                   routerLink="/creator/room/{{ room.shortId }}/comments">
             <mat-icon>question_answer</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button *ngIf="!modify" (click)="showEditDialog()"  color="accent">
+          <button mat-icon-button *ngIf="!modify" (click)="showEditDialog()"  color="accent"
+                  matTooltip="{{ 'room-page.edit-room' | translate}}">
             <mat-icon>create</mat-icon>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
-         <button mat-icon-button color="primary"
+         <button mat-icon-button color="primary" matTooltip="{{ 'room-page.answer-statistics' | translate}}"
                  routerLink="/creator/room/{{ room.shortId }}/statistics">
            <mat-icon>insert_chart</mat-icon>
          </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary"
+          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.live-feedback' | translate}}"
                   routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon>thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-        <button mat-icon-button color="warn" (click)="openDeletionRoomDialog()">
+        <button mat-icon-button color="warn" (click)="openDeletionRoomDialog()"
+                matTooltip="{{ 'room-page.delete-room' | translate}}">
           <mat-icon>delete_forever</mat-icon>
         </button>
         </mat-grid-tile>
