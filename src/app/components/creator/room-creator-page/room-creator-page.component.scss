@@ -1,13 +1,23 @@
 mat-card {
   width: 800px;
+  background-color: #c8e6c9;
 }
 
 mat-card-content > :first-child {
-  margin-top: 16px;
-  margin-bottom: 16px;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
 button {
   margin: 5px;
   width: 30%;
+  &:hover {
+    transform: scale(1.25)
+  }
+}
+
+.mat-icon{
+  height:100% !important;
+  width:100% !important;
+  font-size:48px !important;
 }

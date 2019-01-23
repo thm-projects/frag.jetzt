@@ -1,5 +1,4 @@
 <mat-card *ngFor="let contentGroup of contentGroups" (click)="viewContents(contentGroup)">
-  <mat-divider></mat-divider>
   <mat-card-header>
     <mat-card-title>
       <h4 *ngIf="!(contentGroup.name == 'Default')">{{contentGroup.name}}<mat-icon color="accent"
