@@ -1,18 +1,11 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card>
     <mat-tab-group class="login-tab-group">
       <mat-tab label="{{ 'login-page.creator' | translate }}">
         <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
             <app-login fxFill [role]="UserRole.CREATOR" [username]="username" [password]="password"></app-login>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
-            <button mat-button color="primary" (click)="openRegisterDialog()">
-              {{ 'login-page.register' | translate }}
-            </button>
-            <button mat-button color="primary" (click)="openPasswordDialog()">
-              {{ 'login-page.password-reset' | translate }}
-            </button>
           </div>
         </div>
       </mat-tab>
@@ -21,16 +14,18 @@
           <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
             <app-login fxFill [role]="UserRole.PARTICIPANT"></app-login>
           </div>
-          <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
-            <button mat-button color="primary" (click)="openRegisterDialog()">
-              {{ 'login-page.register' | translate }}
-            </button>
-            <button mat-button color="primary" (click)="openPasswordDialog()">
-              {{ 'login-page.password-reset' | translate }}
-            </button>
-          </div>
         </div>
       </mat-tab>
     </mat-tab-group>
+      <mat-divider></mat-divider>
+      <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
+        <button mat-raised-button color="primary" (click)="openRegisterDialog()">
+          {{ 'login-page.register' | translate }}
+        </button>
+        <button mat-raised-button color="primary" (click)="openPasswordDialog()">
+          {{ 'login-page.password-reset' | translate }}
+        </button>
+      </div>
+    </mat-card>
   </div>
 </div>
