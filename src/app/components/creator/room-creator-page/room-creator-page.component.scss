@@ -10,6 +10,9 @@ mat-card-content > :first-child {
 button {
   margin: 5px;
   width: 30%;
+  &:hover {
+    transform: scale(1.25)
+  }
 }
 
 .mat-icon{
