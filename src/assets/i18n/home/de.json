@@ -11,7 +11,8 @@
 		"creator": "Dozent/in",
 		"participant": "Student/in",
 		"password-reset": "Passwort zurücksetzen",
-		"register": "Registrieren"
+		"register": "Registrieren",
+    "welcome": "Wilkommen bei"
 	},
 	"login": {
 		"email": "E-Mail",
@@ -39,8 +40,10 @@
 	},
 	"register": {
 		"email": "E-Mail",
+    "email-verify": "E-Mail bestätigen",
 		"email-invalid": "E-Mail Adresse ist nicht gültig",
 		"email-required": "E-Mail Adresse ist erforderlich",
+    "email-unmatch": "E-Mail Adressen stimmen nicht überein",
 		"password": "Passwort",
 		"password-required": "Passwort ist erforderlich",
 		"password-unmatch": "Passwörter stimmen nicht überein",

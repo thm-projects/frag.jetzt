@@ -9,7 +9,7 @@
 </mat-form-field>
 <markdown [data]="content.body"></markdown>
 <mat-form-field>
-  <input matInput #group matInput [formControl]="myControl" [matAutocomplete]="auto"
+  <input matInput #group [formControl]="myControl" [matAutocomplete]="auto"
          placeholder="{{'content.collection' | translate}}" value="{{lastCollection}}" />
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option *ngFor="let collection of contentGroups" [value]="collection.name">

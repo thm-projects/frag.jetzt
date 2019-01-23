@@ -1,0 +1,73 @@
+@import '../../../../styles';
+
+.mat-raised-button {
+  margin-top: 2%;
+}
+
+.inner {
+  min-width: 323px;
+}
+
+.main-heading {
+  text-align: center;
+}
+
+.main-heading-primary {
+  display: block;
+  font-size: 150%;
+  font-weight: bold;
+  text-align: center;
+  letter-spacing: 10px;
+  color: mat-color($arsnova-primary,500);
+  animation: moveInLeft 2s ease-out;
+}
+
+.main-heading-secondary {
+  font-family: sans-serif;
+  display: block;
+  font-size: 50%;
+  text-align: center;
+  letter-spacing: 10px;
+  color: mat-color($arsnova-accent,500);
+  animation: moveInRight 1s ease-out;
+}
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+
+  80% {
+    transform: translateX(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+
+  80% {
+    transform: translateX(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+.regButton {
+  min-width: 107px;
+}
+
+.pwButton {
+  min-width: 178px;
+}
