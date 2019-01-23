@@ -4,7 +4,7 @@
       <mat-card-header fxlayoutalign="center">
         <mat-card-title fxlayoutalign="center">
           <h1 class="main-heading">
-            <span class="main-heading-secondary">Welcome to</span>
+            <span class="main-heading-secondary">{{ 'login-page.welcome' | translate }}</span>
             <span class="main-heading-primary">ARSnova</span>
           </h1>
       </mat-card-title>
@@ -29,7 +29,7 @@
                 </div>
              </mat-tab>
              </mat-tab-group>
-             <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="5px">
+             <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="18px">
                 <button mat-raised-button class="regButton" color="primary" (click)="openRegisterDialog()">
                   {{ 'login-page.register' | translate }}
                 </button>

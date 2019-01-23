@@ -10,7 +10,8 @@
 		"creator": "Creator",
 		"participant": "Participant",
 		"password-reset": "Reset password",
-		"register": "Register"
+		"register": "Register",
+    "welcome": "welcome to"
 	},
 	"login": {
 		"email": "E-Mail",

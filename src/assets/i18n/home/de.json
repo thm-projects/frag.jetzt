@@ -10,7 +10,8 @@
 		"creator": "Dozent/in",
 		"participant": "Student/in",
 		"password-reset": "Passwort zurücksetzen",
-		"register": "Registrieren"
+		"register": "Registrieren",
+    "welcome": "Wilkommen bei"
 	},
 	"login": {
 		"email": "E-Mail",
