@@ -18,10 +18,10 @@
     </button>
 
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="logout()">
-        <mat-icon class="warn">exit_to_app</mat-icon>
-        <span>{{ 'header.logout' | translate }}</span>
+      <button mat-icon-button class="warn" (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
       </button>
+      <span>{{ 'header.logout' | translate }}</span>
     </mat-menu>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
       <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon" color="accent">record_voice_over</mat-icon>
