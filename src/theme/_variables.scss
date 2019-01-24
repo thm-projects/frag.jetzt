@@ -6,7 +6,7 @@ $arsnova-primary: mat-palette($mat-teal,300);
 $arsnova-accent: mat-palette($mat-orange, 100); //$mat-blue-gray, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$arsnova-warn: mat-palette($mat-light-blue, 100);
+$arsnova-warn: mat-palette($mat-blue, 100);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $arsnova-theme: mat-light-theme($arsnova-primary, $arsnova-accent, $arsnova-warn);
