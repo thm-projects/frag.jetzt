@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
   </div>
-  <mat-expansion-panel [disabled]="true">
+  <mat-expansion-panel [disabled]="true" class="matPanelHeader">
     <mat-expansion-panel-header>
       <mat-panel-title>Session-Id</mat-panel-title>
       <mat-panel-description>Name</mat-panel-description>
@@ -10,7 +10,7 @@
   </mat-expansion-panel>
   <mat-divider></mat-divider>
   <mat-divider></mat-divider>
-  <mat-expansion-panel *ngFor="let room of rooms">
+  <mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
     <mat-expansion-panel-header>
       <button mat-button color="accent" routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
         <mat-icon>input</mat-icon>
