@@ -1,7 +1,8 @@
 mat-card {
-  max-width: 800px;
-  min-width: 50%;
+    width: 800px;
+    background-color: #fff8e1;  //mat-color($arsnova-warn, 100);
 }
+
 
 mat-card-content > :first-child {
   margin-top: 16px;
@@ -16,7 +17,7 @@ button {
 }
 
 h2 {
-  color: #3f51b5;
+  color: #90a4ae;
 }
 
 h3 {
