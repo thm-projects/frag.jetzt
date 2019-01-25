@@ -2,7 +2,7 @@
 
 mat-card {
   width: 800px;
-  background-color: #fff8e1 !important;  //mat-color($arsnova-warn, 100);
+  background-color: #fff8e1 !important;
 }
 
 mat-card-content > :first-child {
@@ -22,4 +22,33 @@ button {
   height:100% !important;
   width:100% !important;
   font-size:48px !important;
+}
+
+p {
+  font-size: medium;
+}
+
+h3 {
+  font-size: larger;
+}
+
+h4 {
+  font-size: medium;
+  color: mat-color($arsnova-primary, 200);
+}
+
+h2 {
+  font-size: large;
+}
+
+mat-card-header {
+  height: 12%;
+}
+
+mat-card-title {
+  height: 40%;
+}
+
+mat-card-subtitle {
+  height: 20%;
 }
