@@ -7,9 +7,7 @@
           <h3 class="subheading-2">{{ room.name }}</h3>
         </mat-card-title>
         <mat-card-subtitle fxLayoutAlign="center">
-          <div>
             {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
-          </div>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
@@ -52,7 +50,7 @@
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-        <button mat-icon-button class="warn" (click)="openDeletionRoomDialog()"
+        <button mat-icon-button color="warn" (click)="openDeletionRoomDialog()"
                 matTooltip="{{ 'room-page.delete-room' | translate}}">
           <mat-icon>delete_forever</mat-icon>
         </button>
