@@ -1,13 +1,13 @@
 <div fxLayout="row" fxLayoutAlign="center">
     <mat-card>
-      <h2>{{ 'content.contents' | translate}}</h2>
+      <h2 fxLayoutAlign="center">{{ 'content.contents' | translate}}</h2>
       <mat-divider></mat-divider>
       <mat-card-actions>
-        <button mat-fab color="accent" matTooltip="Fragen präsentieren"
+        <button mat-fab color="primary" matTooltip="Fragen präsentieren"
                 routerLink="/creator/room/{{ roomId }}/contents">
           <mat-icon>school</mat-icon>
         </button>
-        <button mat-fab color="accent" matTooltip="Neue Frage erstellen"
+        <button mat-fab color="primary" matTooltip="Neue Frage erstellen"
                 routerLink="/creator/room/{{ roomId }}/create-content">
           <mat-icon>note_add</mat-icon>
         </button>
