@@ -16,6 +16,7 @@ export class StatisticsPageComponent implements OnInit {
 
   room: Room;
   contentGroups: ContentGroup[];
+  isLoading = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,6 +34,7 @@ export class StatisticsPageComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.roomService.getRoom(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
+      this.isLoading = false;
     });
   }
 

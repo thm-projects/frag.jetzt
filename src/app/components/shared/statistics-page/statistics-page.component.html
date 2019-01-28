@@ -4,6 +4,11 @@
       <h2>{{'statistic.learning-status' | translate}}</h2>
     </mat-card-header>
     <mat-divider></mat-divider>
+    <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+      </div>
+    </div>
     <mat-tab-group>
       <mat-tab *ngFor="let cg of contentGroups; let i = index" label="{{cg.name}}">
         <div fxLayout="column" fxLayoutAlign="center">
