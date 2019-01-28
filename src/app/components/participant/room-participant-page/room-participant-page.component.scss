@@ -1,3 +1,5 @@
+@import '../../../../styles';
+
 mat-card {
   width: 100%;
   max-width: 800px;
@@ -18,6 +20,36 @@ button {
   margin: 5px;
   max-width: 30%;
   min-width: 30%;
+}
+
+p {
+  font-size: medium;
+}
+
+h3 {
+  font-size: larger;
+}
+
+h4 {
+  font-size: medium;
+  color: mat-color($arsnova-primary, 200);
+}
+
+h2 {
+  font-size: large;
+}
+
+mat-card-header {
+  min-height: 80px;
+  height: 12%!important;
+}
+
+mat-card-title {
+  height: 40%;
+}
+
+mat-card-subtitle {
+  height: 20%;
 }
 
 mat-expansion-panel {

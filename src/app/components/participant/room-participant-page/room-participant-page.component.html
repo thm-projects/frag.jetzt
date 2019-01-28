@@ -3,8 +3,10 @@
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
       <mat-card-header fxLayoutAlign="center">
-        <mat-card-title><h3 class="subheading-2">{{ room.name }}</h3></mat-card-title>
-        <mat-card-subtitle fxLayoutAlign="center">{{ room.shortId }}</mat-card-subtitle>
+        <mat-card-title><h2>{{ room.name }}</h2></mat-card-title>
+        <mat-card-subtitle fxLayoutAlign="center">
+          <h3>{{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}</h3>
+        </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
@@ -17,7 +19,6 @@
           </p>
         </mat-expansion-panel>
       </mat-card-content>
-      <mat-divider></mat-divider>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-comment' | translate}}"
