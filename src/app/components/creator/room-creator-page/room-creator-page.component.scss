@@ -11,17 +11,30 @@ mat-card-content > :first-child {
 }
 
 button {
-  margin: 5px;
   width: 30%;
   &:hover {
     transform: scale(1.25)
   }
 }
 
-.mat-icon{
-  height:100% !important;
-  width:100% !important;
+mat-icon{
+  height:90% !important;
+  width: 90% !important;
   font-size:48px !important;
+}
+
+.smallerIcon {
+  height:80% !important;
+  width:80% !important;
+  font-size:48px !important;
+}
+
+mat-grid-list {
+  margin-bottom: 10px !important;
+}
+
+mat-tooltip-component {
+  position: relative;
 }
 
 p {
@@ -57,5 +70,4 @@ mat-card-subtitle {
 mat-expansion-panel {
   background-color: #fff8e1!important;
   min-width: 200px;
-  text-align: center;
 }
