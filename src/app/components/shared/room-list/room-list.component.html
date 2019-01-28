@@ -4,22 +4,22 @@
   </div>
   <mat-expansion-panel [disabled]="true" class="matPanelHeader">
     <mat-expansion-panel-header>
-      <mat-panel-title>Session-Id</mat-panel-title>
-      <mat-panel-description>Name</mat-panel-description>
+      <mat-panel-title>Name</mat-panel-title>
+      <mat-panel-description>Session-Id</mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
   <mat-divider></mat-divider>
   <mat-divider></mat-divider>
   <mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
     <mat-expansion-panel-header>
-      <button mat-button color="accent" routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
+      <button mat-button color="primary" routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
         <mat-icon>input</mat-icon>
       </button>
       <mat-panel-title>
-        {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
+        {{ room.name }}
       </mat-panel-title>
       <mat-panel-description>
-        {{ room.name }}
+        {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
       </mat-panel-description>
     </mat-expansion-panel-header>
     <p>
