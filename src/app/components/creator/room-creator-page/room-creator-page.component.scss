@@ -42,7 +42,8 @@ h2 {
 }
 
 mat-card-header {
-  height: 12%;
+  min-height: 80px;
+  height: 12%!important;
 }
 
 mat-card-title {
