@@ -14,7 +14,7 @@
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
-        <mat-expansion-panel class="mat-elevation-z0">
+        <mat-expansion-panel *ngIf="!room.description == ''" class="mat-elevation-z0">
           <mat-expansion-panel-header>
             <h4>{{ 'room-page.description' | translate }}</h4>
           </mat-expansion-panel-header>
