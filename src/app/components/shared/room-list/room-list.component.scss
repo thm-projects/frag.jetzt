@@ -16,9 +16,11 @@ button {
 }
 
 mat-panel-title {
-  width: 15%;
+  flex-basis: 0;
+  align-items: center;
+  min-width: 100px;
 }
 
 .headerTitle {
-  width: 10%;
+  width: 8%!important;
 }
