@@ -8,26 +8,31 @@
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
-        <p>
-          {{ room.description }}
-        </p>
+        <mat-expansion-panel *ngIf="!room.description == ''" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <h4>{{ 'room-page.description' | translate }}</h4>
+          </mat-expansion-panel-header>
+          <p>
+            {{ room.description }}
+          </p>
+        </mat-expansion-panel>
       </mat-card-content>
       <mat-divider></mat-divider>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button color="accent" matTooltip="{{ 'room-page.create-comment' | translate}}"
+          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-comment' | translate}}"
                   routerLink="/participant/room/{{ room.id }}/create-comment">
             <mat-icon>question_answer</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="accent" matTooltip="{{ 'room-page.give-feedback' | translate}}"
+          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.give-feedback' | translate}}"
                   routerLink="/participant/room/{{ room.id }}/feedback-barometer">
             <mat-icon>thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="accent" matTooltip="Lernstand"
+          <button mat-icon-button color="primary" matTooltip="Lernstand"
                   routerLink="/participant/room/{{ room.shortId }}/statistics">
             <mat-icon>insert_chart</mat-icon>
           </button>
