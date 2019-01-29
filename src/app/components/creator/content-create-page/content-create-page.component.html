@@ -1,11 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-tab-group>
-      <mat-tab label="Text">
-        <div class="tab-container">
-          <app-content-creator [format]="'text'" [contentGroups]="contentGroups"></app-content-creator>
-        </div>
-      </mat-tab>
       <mat-tab label="Single / Multiple Choice">
         <div class="tab-container">
           <app-content-creator [format]="'choice'" [contentGroups]="contentGroups"></app-content-creator>
@@ -21,6 +16,11 @@
           <app-content-creator [format]="'yesno'" [contentGroups]="contentGroups"></app-content-creator>
         </div>
       </mat-tab>
+      <mat-tab label="Text">
+      <div class="tab-container">
+        <app-content-creator [format]="'text'" [contentGroups]="contentGroups"></app-content-creator>
+      </div>
+    </mat-tab>
     </mat-tab-group>
   </div>
 </div>
