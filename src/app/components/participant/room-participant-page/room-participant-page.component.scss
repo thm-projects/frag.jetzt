@@ -1,20 +1,71 @@
+@import '../../../../styles';
+
 mat-card {
   width: 100%;
   max-width: 800px;
+  background-color: #fff8e1 !important;
 }
 
 mat-card-content>:first-child {
-  margin-top: 16px;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 
-.mat-icon{
-  height:100% !important;
-  width:100% !important;
+mat-icon{
+  height:90% !important;
+  width: 90% !important;
+  font-size:48px !important;
+}
+
+.smallerIcon {
+  height:80% !important;
+  width:80% !important;
   font-size:48px !important;
 }
 
 button {
-  margin: 5px;
-  max-width: 30%;
-  min-width: 30%;
+  width: 30%;
+}
+
+p {
+  font-size: medium;
+}
+
+h3 {
+  font-size: larger;
+}
+
+h4 {
+  font-size: medium;
+  color: mat-color($arsnova-primary, 200);
+}
+
+h2 {
+  font-size: large;
+}
+
+mat-card-header {
+  min-height: 80px!important;
+  height: 12%!important;
+}
+
+mat-card-title {
+  height: 40%;
+}
+
+mat-card-subtitle {
+  height: 20%;
+}
+
+mat-expansion-panel {
+  background-color: #fff8e1!important;
+  min-width: 200px;
+}
+
+mat-grid-list {
+  margin-bottom: 10px !important;
+}
+
+mat-tooltip-component {
+  position: relative;
 }

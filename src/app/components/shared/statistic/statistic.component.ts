@@ -32,6 +32,7 @@ export class StatisticComponent implements OnInit {
   contentId: string;
   subject: string;
   maxLength: number;
+  isLoading = true;
 
   constructor(protected route: ActivatedRoute,
               private contentService: ContentService) { }
@@ -47,6 +48,7 @@ export class StatisticComponent implements OnInit {
     });
     this.contentService.getChoiceContent(this.contentId).subscribe(content => {
       this.getData(content);
+      this.isLoading = false;
     });
   }
 

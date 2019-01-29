@@ -1,3 +1,26 @@
 button {
   margin-right: 10px;
 }
+
+.mat-expansion-panel-header-description {
+  flex-basis: 0;
+  align-items: center;
+}
+
+.matPanel {
+  background-color: #cfd8dc;
+}
+
+.matPanelHeader {
+  background-color: #bbdefb;
+}
+
+mat-panel-title {
+  flex-basis: 0;
+  align-items: center;
+  min-width: 100px;
+}
+
+.headerTitle {
+  width: 8%!important;
+}

@@ -7,6 +7,11 @@
     <mat-toolbar></mat-toolbar>
   <div>
     <div style="position: relative; height: 60vh">
+      <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+        <div fxLayout="row" fxLayoutAlign="center">
+          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+        </div>
+      </div>
       <canvas id="chart"></canvas>
     </div>
   </div>

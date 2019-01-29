@@ -1,24 +1,28 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+    <mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
       <mat-card-header fxLayoutAlign="center">
-        <mat-card-title>
-          <h3 class="subheading-2">{{ room.name }}</h3>
+        <mat-card-title fxLayoutAlign="center">
+          <h2>{{ room.name }}</h2>
         </mat-card-title>
-        <mat-card-subtitle>
-          <div>
-            {{ room.shortId }}
-          </div>
+        <mat-card-subtitle fxLayoutAlign="center">
+          <h3>
+            {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
+          </h3>
         </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
-        <p>
-          {{ room.description }}
-        </p>
+        <mat-expansion-panel *ngIf="!room.description == ''" class="mat-elevation-z0">
+          <mat-expansion-panel-header>
+            <h4>{{ 'room-page.description' | translate }}</h4>
+          </mat-expansion-panel-header>
+          <p>
+            {{ room.description }}
+          </p>
+        </mat-expansion-panel>
       </mat-card-content>
-      <mat-divider></mat-divider>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile colspan="1" rowspan="1">
         <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-content' | translate}}"
@@ -49,7 +53,7 @@
         <mat-grid-tile>
           <button mat-icon-button color="primary" matTooltip="{{ 'room-page.live-feedback' | translate}}"
                   routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
-            <mat-icon>thumbs_up_down</mat-icon>
+            <mat-icon class="smallerIcon">thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
