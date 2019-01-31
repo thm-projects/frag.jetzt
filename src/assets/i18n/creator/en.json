@@ -33,7 +33,6 @@
     "actions": "Options",
     "reset": "Reset",
     "contents": "Contents",
-    "click-here": "Click on a content to edit it",
     "submitted": "Content submitted. Ready for creation of new content.",
     "no-empty": "No empty fields allowed. Please check subject and body.",
     "no-empty2": "No empty filed allowed.",

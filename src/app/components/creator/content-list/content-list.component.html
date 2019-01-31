@@ -12,7 +12,6 @@
           <mat-icon>note_add</mat-icon>
         </button>
       </mat-card-actions>
-     <h4>{{ 'content.click-here' | translate}}<mat-icon>create</mat-icon></h4>
       <mat-divider></mat-divider>
       <mat-list>
         <mat-list-item *ngFor="let content of contents" (click)="editContent(content.subject)">
