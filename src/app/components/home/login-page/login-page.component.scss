@@ -5,11 +5,12 @@
 }
 
 .inner {
-  min-width: 323px;
+  min-width: 320px;
   background-color: #f5f5f5;
 }
 
 .outer {
+  width: 500px;
   background-color: #bbdefb;
 }
 
@@ -75,4 +76,8 @@
 
 .pwButton {
   min-width: 178px;
+}
+
+mat-card-header {
+  justify-content: center;
 }

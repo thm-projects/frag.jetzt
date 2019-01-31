@@ -1,6 +1,5 @@
 <form (ngSubmit)="submitAnswer()">
   <h1 class="mat-headline">{{ content.subject }}</h1>
-  <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
   <mat-list *ngIf="content.multiple">
     <mat-list-item *ngFor="let answer of checkedAnswers">
@@ -20,7 +19,7 @@
   </mat-radio-group>
   <mat-divider></mat-divider>
   <div fxLayout fxLayoutGap="5px" fxAlign="row">
-    <button mat-raised-button type="submit" color="accent">{{ 'answer.submit' | translate }}</button>
-    <button mat-raised-button (click)="abstain($event)" color="primary">{{ 'answer.abstain' | translate }}</button>
+    <button mat-raised-button [disabled]="alreadySent" type="submit" color="accent">{{ 'answer.submit' | translate }}</button>
+    <button mat-raised-button [disabled]="alreadySent" (click)="abstain($event)" color="primary">{{ 'answer.abstain' | translate }}</button>
   </div>
 </form>

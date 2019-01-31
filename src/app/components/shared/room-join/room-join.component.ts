@@ -6,6 +6,8 @@ import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { NotificationService } from '../../../services/util/notification.service';
+import {LanguageService} from "../../../services/util/language.service";
+import {TranslateService} from "@ngx-translate/core";
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -22,7 +24,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class RoomJoinComponent implements OnInit {
 
   room: Room;
-  demoId = '82458028';
+  demoId = '26973546';
 
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
@@ -30,8 +32,8 @@ export class RoomJoinComponent implements OnInit {
 
   constructor(private roomService: RoomService,
               private router: Router,
-              public notificationService: NotificationService
-  ) {
+              public notificationService: NotificationService,
+              private translateService: TranslateService) {
   }
 
   ngOnInit() {
@@ -42,7 +44,9 @@ export class RoomJoinComponent implements OnInit {
       .subscribe(room => {
         this.room = room;
         if (!room) {
-          this.notificationService.show(`No room was found with id: ${id}`);
+          this.translateService.get('home-page.no-room-found').subscribe(message => {
+            this.notificationService.show(message);
+          });
         } else {
           this.roomService.addToHistory(this.room.id);
           this.router.navigate([`/participant/room/${this.room.shortId}`]);

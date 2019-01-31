@@ -2,7 +2,7 @@
   "home-page": {
     "join-demo-session": "Join demo-session",
     "session-id": "Session-Id",
-    "no-room-found": "No session was found with id:",
+    "no-room-found": "No session was found with this id.",
     "please-enter": "Please enter a session-id.",
     "exactly-8": "A session-id has exactly 8 digits."
   },

@@ -1,14 +1,14 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-card class="outer">
-      <mat-card-header fxlayoutalign="center">
-        <mat-card-title fxlayoutalign="center">
-          <h1 class="main-heading">
+      <mat-card-header>
+        <mat-card-title>
+          <h1>
             <span class="main-heading-secondary">{{ 'login-page.welcome' | translate }}</span>
             <span class="main-heading-primary">ARSnova</span>
           </h1>
-      </mat-card-title>
-    </mat-card-header>
+        </mat-card-title>
+      </mat-card-header>
     <mat-card-content>
       <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
           <div fxLayout="row" fxLayoutAlign="center">
@@ -29,7 +29,7 @@
                 </div>
              </mat-tab>
              </mat-tab-group>
-             <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="18px">
+             <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px">
                 <button mat-raised-button class="regButton" color="primary" (click)="openRegisterDialog()">
                   {{ 'login-page.register' | translate }}
                 </button>

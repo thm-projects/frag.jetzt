@@ -21,6 +21,7 @@ mat-icon{
   height:90% !important;
   width: 90% !important;
   font-size:48px !important;
+  text-align: center;
 }
 
 .smallerIcon {
@@ -47,7 +48,7 @@ h3 {
 
 h4 {
   font-size: medium;
-  color: mat-color($arsnova-primary, 200);
+  color: mat-color($arsnova-primary, 300);
 }
 
 h2 {

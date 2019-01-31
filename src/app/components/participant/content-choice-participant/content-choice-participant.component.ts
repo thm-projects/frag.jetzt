@@ -31,6 +31,8 @@ export class ContentChoiceParticipantComponent implements OnInit {
 
   checkedAnswers: CheckedAnswer[] = [];
 
+  alreadySent = false;
+
   constructor(private answerService: ContentAnswerService,
               private notificationService: NotificationService,
               private translateService: TranslateService,
@@ -89,6 +91,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
       creationTimestamp: null,
       format: ContentType.CHOICE
     } as AnswerChoice).subscribe();
+    this.alreadySent = true;
   }
 
   abstain($event) {
@@ -105,5 +108,6 @@ export class ContentChoiceParticipantComponent implements OnInit {
       creationTimestamp: null,
       format: ContentType.CHOICE
     } as AnswerChoice).subscribe();
+    this.alreadySent = true;
   }
 }
