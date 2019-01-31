@@ -15,10 +15,15 @@ button {
   margin: 20px;
 }
 
-h2 {
-  color: #90a4ae;
+.matPanel {
+  background-color: #cfd8dc;
 }
 
-h3 {
-  color: #3f51b5;
+.matPanelHeader {
+  background-color: #bbdefb;
+}
+
+mat-panel-title {
+  flex-basis: 0;
+  align-items: center;
 }

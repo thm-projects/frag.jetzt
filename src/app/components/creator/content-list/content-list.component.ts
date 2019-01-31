@@ -16,6 +16,8 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
+
 
 @Component({
   selector: 'app-content-list',
@@ -140,6 +142,22 @@ export class ContentListComponent implements OnInit {
         default:
           return;
     }
+  }
+
+  deleteContentDialog(delContent: Content) {
+    const index = this.findIndexOfSubject(delContent.subject);
+    const dialogRef = this.dialog.open(ContentDeleteComponent, {
+      width: '800px'
+    });
+    dialogRef.componentInstance.content = delContent;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result.valueOf() === 'delete') {
+          this.notificationService.show('Content "' + delContent.subject + '" deleted.');
+          this.contentService.deleteContent(delContent.id);
+          this.contents.splice(index, 1);
+        }
+      });
   }
 
   editChoiceContentDialog(index: number, content: ContentChoice) {

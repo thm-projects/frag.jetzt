@@ -13,14 +13,23 @@
         </button>
       </mat-card-actions>
       <mat-divider></mat-divider>
-      <mat-list>
-        <mat-list-item *ngFor="let content of contents" (click)="editContent(content.subject)">
-          <h3 mat-line>{{content.subject}}</h3>
-          <p mat-line>
-            <span>{{content.body}}</span>
-          </p>
-          <mat-divider></mat-divider>
-        </mat-list-item>
-      </mat-list>
+      <mat-card-content>
+      <mat-expansion-panel *ngFor="let content of contents" class="matPanel">
+        <mat-expansion-panel-header>
+          <button mat-button color="accent" (click)="editContent(content.subject)">
+            <mat-icon>create</mat-icon>
+          </button>
+          <button mat-button color="warn" (click)="deleteContentDialog(content)">
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+          <mat-panel-title>
+            {{ content.subject }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <p>
+          {{ content.body }}
+        </p>
+      </mat-expansion-panel>
+      </mat-card-content>
     </mat-card>
   </div>
