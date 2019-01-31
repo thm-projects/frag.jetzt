@@ -152,11 +152,7 @@ export class ContentListComponent implements OnInit {
     dialogRef.componentInstance.content = delContent;
     dialogRef.afterClosed()
       .subscribe(result => {
-        if (result.valueOf() === 'delete') {
-          this.notificationService.show('Content "' + delContent.subject + '" deleted.');
-          this.contentService.deleteContent(delContent.id);
-          this.contents.splice(index, 1);
-        }
+        this.updateContentChanges(index, result);
       });
   }
 
@@ -220,7 +216,7 @@ export class ContentListComponent implements OnInit {
     } else {
       if (action.valueOf() === 'delete') {
         this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
-        this.contentService.deleteContent(this.contents[index].id);
+        this.contentService.deleteContent(this.contents[index].id).subscribe();
         this.contents.splice(index, 1);
       }
       if (action.valueOf() === 'edit') {
