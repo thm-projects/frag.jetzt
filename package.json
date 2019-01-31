@@ -27,6 +27,7 @@
     "@angular/router": "7.1.0",
     "@ngx-translate/core": "^10.0.2",
     "@ngx-translate/http-loader": "^3.0.1",
+    "@stomp/ng2-stompjs": "^7.2.0",
     "chart.js": "^2.7.3",
     "core-js": "^2.5.7",
     "hammerjs": "^2.0.8",

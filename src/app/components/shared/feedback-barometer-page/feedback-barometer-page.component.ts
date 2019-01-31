@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
+import { RxStompService } from '@stomp/ng2-stompjs';
+import { Message } from '@stomp/stompjs';
+import { CreateFeedback } from '../../../models/messages/create-feedback';
+import { GetFeedback } from '../../../models/messages/get-feedback';
 
 /* ToDo: Use TranslateService */
 
@@ -18,16 +23,29 @@ export class FeedbackBarometerPageComponent implements OnInit {
     { state: 3, name: 'sentiment_very_dissatisfied', message: 'Abgehängt.', count: 0, }
   ];
   userRole: UserRole;
-
-  dummy = [2, 3, 2, 1]; // dummy data -> delete this with api implementation and add get-data
+  roomId: string;
 
   constructor(
     private authenticationService: AuthenticationService,
-    private notification: NotificationService, ) {}
+    private notification: NotificationService,
+    private rxStompService: RxStompService,
+    private route: ActivatedRoute, ) {
+      this.roomId = this.route.snapshot.params.roomId;
+    }
 
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
-    this.updateFeedback(this.dummy);
+
+    this.rxStompService.watch(`/room/${this.roomId}/feedback.stream`).subscribe((message: Message) => {
+      this.parseIncomingMessage(message);
+    });
+
+    const getFeedback = new GetFeedback();
+
+    this.rxStompService.publish({
+      destination: `/backend/room/${this.roomId}/feedback.query`,
+      body: JSON.stringify(getFeedback)
+    });
   }
 
   private updateFeedback(data) {
@@ -38,15 +56,22 @@ export class FeedbackBarometerPageComponent implements OnInit {
     }
   }
 
-  submitFeedback(state: string) {
-    this.dummy[state] += 1; // delete this with api implementation and add submit-data
-    this.updateFeedback(this.dummy);
-    this.notification.show(`Feedback submitted to room.`);
+  submitFeedback(state: number) {
+    const createFeedback = new CreateFeedback(state);
+    this.rxStompService.publish({
+      destination: `/backend/room/${this.roomId}/feedback.command`,
+      body: JSON.stringify(createFeedback)
+    });
   }
 
   toggle() {
     // api feature is yet not implemented
     const temp = 'stopped'; // add status variable
     this.notification.show(`Feedback transmission ${ temp }.`);
+  }
+
+  parseIncomingMessage(message: Message) {
+    const values = JSON.parse(message.body).payload.values;
+    this.updateFeedback(values);
   }
 }
