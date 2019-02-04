@@ -9,16 +9,14 @@
           <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
         </div>
       </div>
-      <mat-card-actions>
-        <button mat-fab color="primary" matTooltip="Fragen präsentieren"
+      <button mat-fab color="primary" matTooltip="Fragen präsentieren"
                 routerLink="/creator/room/{{ roomId }}/contents">
-          <mat-icon>school</mat-icon>
-        </button>
-        <button mat-fab color="primary" matTooltip="Neue Frage erstellen"
+        <mat-icon>school</mat-icon>
+      </button>
+      <button mat-fab color="primary" matTooltip="Neue Frage erstellen"
                 routerLink="/creator/room/{{ roomId }}/create-content">
-          <mat-icon>note_add</mat-icon>
-        </button>
-      </mat-card-actions>
+        <mat-icon>note_add</mat-icon>
+      </button>
       <mat-divider></mat-divider>
       <mat-card-content>
       <mat-expansion-panel *ngFor="let content of contents" class="matPanel">
