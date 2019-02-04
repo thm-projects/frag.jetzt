@@ -1,6 +1,6 @@
 mat-card {
   width: 800px;
-  background-color: #fff8e1;  //mat-color($arsnova-warn, 100);
+  background-color: #fff8e1;
 }
 
 mat-card-content > :first-child {
@@ -8,19 +8,20 @@ mat-card-content > :first-child {
   margin-bottom: 5%;
 }
 
-button {
-  margin: 20px;
-}
-
 .matPanel {
   background-color: #cfd8dc;
-}
-
-.matPanelHeader {
-  background-color: #bbdefb;
 }
 
 mat-panel-title {
   flex-basis: 0;
   align-items: center;
 }
+
+h2 {
+  font-size: larger;
+}
+
+.actionButton {
+  margin: 20px;
+}
+

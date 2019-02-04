@@ -1,24 +1,24 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
-    <mat-card>
-      <mat-card-header>
-        <h2 fxLayoutAlign="center">{{ 'content.contents' | translate}}</h2>
-      </mat-card-header>
-      <mat-divider></mat-divider>
-      <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
-        <div fxLayout="row" fxLayoutAlign="center">
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
-        </div>
+  <mat-card>
+    <mat-card-header>
+      <h2 fxLayoutAlign="center">{{ 'content.contents' | translate}}</h2>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+      <div fxLayout="row" fxLayoutAlign="center">
+        <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
-      <button mat-fab color="primary" matTooltip="Fragen präsentieren"
-                routerLink="/creator/room/{{ roomId }}/contents">
-        <mat-icon>school</mat-icon>
-      </button>
-      <button mat-fab color="primary" matTooltip="Neue Frage erstellen"
-                routerLink="/creator/room/{{ roomId }}/create-content">
-        <mat-icon>note_add</mat-icon>
-      </button>
-      <mat-divider></mat-divider>
-      <mat-card-content>
+    </div>
+    <button class="actionButton" mat-fab color="primary" matTooltip="Fragen präsentieren"
+              routerLink="/creator/room/{{ roomId }}/contents">
+      <mat-icon>school</mat-icon>
+    </button>
+    <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
+              routerLink="/creator/room/{{ roomId }}/create-content">
+      <mat-icon>note_add</mat-icon>
+    </button>
+    <mat-divider></mat-divider>
+    <mat-card-content>
       <mat-expansion-panel *ngFor="let content of contents" class="matPanel">
         <mat-expansion-panel-header>
           <button mat-button color="accent" (click)="$event.stopPropagation();">
@@ -35,6 +35,6 @@
           {{ content.body }}
         </p>
       </mat-expansion-panel>
-      </mat-card-content>
-    </mat-card>
-  </div>
+    </mat-card-content>
+  </mat-card>
+</div>
