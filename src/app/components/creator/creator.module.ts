@@ -63,8 +63,7 @@ import { ContentListComponent } from './content-list/content-list.component';
     ContentChoiceCreatorComponent,
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
-    ContentYesNoCreatorComponent
-
+    ContentYesNoCreatorComponent,
   ]
 })
 export class CreatorModule {
