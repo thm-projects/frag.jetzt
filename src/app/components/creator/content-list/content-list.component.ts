@@ -40,6 +40,8 @@ export class ContentListComponent implements OnInit {
 
   room: Room;
 
+  isLoading = true;
+
   constructor(private contentService: ContentService,
               private roomService: RoomService,
               private route: ActivatedRoute,
@@ -64,6 +66,7 @@ export class ContentListComponent implements OnInit {
       sessionStorage.setItem('collection', params['contentGroup']);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.isLoading = false;
   }
 
   findIndexOfSubject(subject: string): number {
