@@ -146,6 +146,7 @@ export class ContentListComponent implements OnInit {
 
   deleteContentDialog(delContent: Content) {
     const index = this.findIndexOfSubject(delContent.subject);
+    this.contentBackup = delContent;
     const dialogRef = this.dialog.open(ContentDeleteComponent, {
       width: '800px'
     });
