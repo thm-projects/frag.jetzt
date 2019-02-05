@@ -8,7 +8,7 @@ mat-card-content > :first-child {
   margin-bottom: 5%;
 }
 
-.matPanel {
+mat-expansion-panel {
   background-color: #cfd8dc;
 }
 
@@ -23,5 +23,9 @@ h2 {
 
 .actionButton {
   margin: 20px;
+}
+
+.deleteButton {
+  margin-right: 15px;
 }
 

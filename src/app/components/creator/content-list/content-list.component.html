@@ -4,7 +4,7 @@
       <h2 fxLayoutAlign="center">{{ 'content.contents' | translate}}</h2>
     </mat-card-header>
     <mat-divider></mat-divider>
-    <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+    <div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
       <div fxLayout="row" fxLayoutAlign="center">
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
@@ -19,12 +19,12 @@
     </button>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <mat-expansion-panel *ngFor="let content of contents" class="matPanel">
+      <mat-expansion-panel *ngFor="let content of contents">
         <mat-expansion-panel-header>
-          <button mat-button color="accent" (click)="$event.stopPropagation();">
+          <button mat-icon-button color="accent" (click)="$event.stopPropagation();">
             <mat-icon>create</mat-icon>
           </button>
-          <button mat-button color="warn" (click)="deleteContentDialog(content);$event.stopPropagation();">
+          <button mat-icon-button color="warn" (click)="deleteContentDialog(content);$event.stopPropagation();"  class="deleteButton">
             <mat-icon>delete_forever</mat-icon>
           </button>
           <mat-panel-title>
