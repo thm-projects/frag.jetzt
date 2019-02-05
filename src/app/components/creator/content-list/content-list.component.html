@@ -1,7 +1,9 @@
 <div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
   <mat-card>
     <mat-card-header>
-      <h2 fxLayoutAlign="center">{{ 'content.contents' | translate}}</h2>
+      <mat-card-title>
+        <h2>{{ collectionName }}</h2>
+      </mat-card-title>
     </mat-card-header>
     <mat-divider></mat-divider>
     <div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
@@ -9,14 +11,20 @@
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
     </div>
+    <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-tile>
     <button class="actionButton" mat-fab color="primary" matTooltip="Fragen präsentieren"
               routerLink="/creator/room/{{ roomId }}/contents">
       <mat-icon>school</mat-icon>
     </button>
+      </mat-grid-tile>
+      <mat-grid-tile>
     <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
               routerLink="/creator/room/{{ roomId }}/create-content">
       <mat-icon>note_add</mat-icon>
     </button>
+      </mat-grid-tile>
+    </mat-grid-list>
     <mat-divider></mat-divider>
     <mat-card-content>
       <mat-expansion-panel *ngFor="let content of contents">

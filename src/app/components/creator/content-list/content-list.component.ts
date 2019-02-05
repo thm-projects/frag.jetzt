@@ -42,6 +42,8 @@ export class ContentListComponent implements OnInit {
 
   isLoading = true;
 
+  collectionName: string;
+
   constructor(private contentService: ContentService,
               private roomService: RoomService,
               private route: ActivatedRoute,
@@ -64,6 +66,7 @@ export class ContentListComponent implements OnInit {
     });
     this.route.params.subscribe(params => {
       sessionStorage.setItem('collection', params['contentGroup']);
+      this.collectionName = params['contentGroup'];
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.isLoading = false;
