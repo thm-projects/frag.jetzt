@@ -20,7 +20,8 @@
     "abort": "Abbrechen",
     "update": "Update",
     "default-content-group": "Standard",
-    "description": "Beschreibung"
+    "description": "Beschreibung",
+    "present": "Präsentieren"
   },
   "content": {
     "content": "Frage",

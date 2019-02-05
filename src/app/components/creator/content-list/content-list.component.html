@@ -13,21 +13,21 @@
     </div>
     <mat-grid-list cols="3" rowHeight="1:1">
       <mat-grid-tile>
-        <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
+        <button class="actionButton" mat-icon-button color="primary" matTooltip="{{ 'room-page.create-content' | translate}}"
                 routerLink="/creator/room/{{ roomId }}/create-content">
-          <mat-icon>note_add</mat-icon>
+          <mat-icon class="actionIcon">note_add</mat-icon>
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button class="actionButton" mat-fab color="primary" matTooltip="Fragen präsentieren"
+        <button class="actionButton" mat-icon-button color="primary" matTooltip="{{ 'room-page.present' | translate}}"
                 routerLink="/creator/room/{{ roomId }}/contents">
-          <mat-icon>school</mat-icon>
+          <mat-icon class="actionIcon">school</mat-icon>
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button class="actionButton" mat-fab color="primary" matTooltip="Statistiken"
+        <button class="actionButton" mat-icon-button color="primary" matTooltip="{{ 'room-page.answer-statistics' | translate}}"
                 routerLink="/creator/room/{{ roomId }}/contents">
-          <mat-icon>insert_chart</mat-icon>
+          <mat-icon class="actionIcon">insert_chart</mat-icon>
         </button>
       </mat-grid-tile>
     </mat-grid-list>

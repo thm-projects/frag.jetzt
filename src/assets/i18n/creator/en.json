@@ -19,7 +19,8 @@
     "abort": "Abort",
     "update": "Update",
     "default-content-group": "Default",
-    "description": "Description"
+    "description": "Description",
+    "present": "Present"
   },
   "content": {
     "content": "Content",
