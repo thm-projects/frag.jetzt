@@ -28,6 +28,7 @@ h2 {
 .actionButton {
   margin: 20px;
   width: 30%;
+
   &:hover {
     transform: scale(1.25)
   }
@@ -42,8 +43,8 @@ mat-tooltip-component {
 }
 
 .actionIcon {
-  height:90% !important;
+  height: 90% !important;
   width: 90% !important;
-  font-size:48px !important;
+  font-size: 48px !important;
   text-align: center;
 }
