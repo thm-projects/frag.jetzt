@@ -49,8 +49,8 @@
     "at-least-one": "In multiple choice mode you have to select at least 1 true answer.",
     "undo": "Undo",
     "points": "Points",
-    "delete": "Löschen",
-    "abort": "Abbrechen"
+    "delete": "Delete",
+    "abort": "Abort"
   },
   "session": {
     "session-name": "Session name",

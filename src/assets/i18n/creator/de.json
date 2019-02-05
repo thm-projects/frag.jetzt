@@ -50,8 +50,8 @@
     "at-least-one": "Im Multiple-Choice-Modus muss es mindestens eine richtige Antwort geben.",
     "undo": "Rückgängig",
     "points": "Punkte",
-    "delete": "Delete",
-    "abort": "Abort"
+    "delete": "Löschen",
+    "abort": "Abbrechen"
   },
   "session": {
     "session-name": "Name der Session",
