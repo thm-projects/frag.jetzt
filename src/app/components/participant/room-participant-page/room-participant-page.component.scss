@@ -25,6 +25,9 @@ mat-icon{
 
 button {
   width: 30%;
+  &:hover {
+    transform: scale(1.25)
+  }
 }
 
 p {
@@ -63,7 +66,7 @@ mat-expansion-panel {
 }
 
 mat-grid-list {
-  margin-bottom: 10px !important;
+  margin-bottom: 20px !important;
 }
 
 mat-tooltip-component {
