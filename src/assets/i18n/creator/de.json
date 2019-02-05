@@ -14,7 +14,8 @@
     "edit-room": "Session bearbeiten",
     "delete-room": "Session löschen",
     "sure": "Sind Sie sicher?",
-    "really": "Wollen Sie die Session ",
+    "reallySession": "Wollen Sie die Session ",
+    "reallyContent": "Wollen Sie die Frage ",
     "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
     "abort": "Abbrechen",
     "update": "Update",
@@ -48,7 +49,9 @@
     "select-one": "Im Single-Choice-Modus muss es eine richtige Antwort geben.",
     "at-least-one": "Im Multiple-Choice-Modus muss es mindestens eine richtige Antwort geben.",
     "undo": "Rückgängig",
-    "points": "Punkte"
+    "points": "Punkte",
+    "delete": "Delete",
+    "abort": "Abort"
   },
   "session": {
     "session-name": "Name der Session",
