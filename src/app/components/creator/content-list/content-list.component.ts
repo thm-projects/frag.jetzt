@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentService } from '../../../services/http/content.service';
 import { Content } from '../../../models/content';
 import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentText } from '../../../models/content-text';
 import { AnswerOption } from '../../../models/answer-option';
@@ -47,6 +48,7 @@ export class ContentListComponent implements OnInit {
   constructor(private contentService: ContentService,
               private roomService: RoomService,
               private route: ActivatedRoute,
+              private location: Location,
               private notificationService: NotificationService,
               public dialog: MatDialog,
               private translateService: TranslateService,
@@ -225,6 +227,9 @@ export class ContentListComponent implements OnInit {
         this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
         this.contentService.deleteContent(this.contents[index].id).subscribe();
         this.contents.splice(index, 1);
+        if (this.contents.length === 0) {
+          this.location.back();
+        }
       }
       if (action.valueOf() === 'edit') {
         this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
