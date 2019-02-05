@@ -11,7 +11,13 @@
         <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
       </div>
     </div>
-    <mat-grid-list cols="2" rowHeight="2:1">
+    <mat-grid-list cols="3" rowHeight="1:1">
+      <mat-grid-tile>
+        <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
+                routerLink="/creator/room/{{ roomId }}/create-content">
+          <mat-icon>note_add</mat-icon>
+        </button>
+      </mat-grid-tile>
       <mat-grid-tile>
         <button class="actionButton" mat-fab color="primary" matTooltip="Fragen präsentieren"
                 routerLink="/creator/room/{{ roomId }}/contents">
@@ -19,9 +25,9 @@
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
-                routerLink="/creator/room/{{ roomId }}/create-content">
-          <mat-icon>note_add</mat-icon>
+        <button class="actionButton" mat-fab color="primary" matTooltip="Statistiken"
+                routerLink="/creator/room/{{ roomId }}/contents">
+          <mat-icon>insert_chart</mat-icon>
         </button>
       </mat-grid-tile>
     </mat-grid-list>
