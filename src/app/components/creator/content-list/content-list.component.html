@@ -13,16 +13,16 @@
     </div>
     <mat-grid-list cols="2" rowHeight="2:1">
       <mat-grid-tile>
-    <button class="actionButton" mat-fab color="primary" matTooltip="Fragen präsentieren"
-              routerLink="/creator/room/{{ roomId }}/contents">
-      <mat-icon>school</mat-icon>
-    </button>
+        <button class="actionButton" mat-fab color="primary" matTooltip="Fragen präsentieren"
+                routerLink="/creator/room/{{ roomId }}/contents">
+          <mat-icon>school</mat-icon>
+        </button>
       </mat-grid-tile>
       <mat-grid-tile>
-    <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
-              routerLink="/creator/room/{{ roomId }}/create-content">
-      <mat-icon>note_add</mat-icon>
-    </button>
+        <button class="actionButton" mat-fab color="primary" matTooltip="Neue Frage erstellen"
+                routerLink="/creator/room/{{ roomId }}/create-content">
+          <mat-icon>note_add</mat-icon>
+        </button>
       </mat-grid-tile>
     </mat-grid-list>
     <mat-divider></mat-divider>
@@ -32,7 +32,8 @@
           <button mat-icon-button color="accent" (click)="$event.stopPropagation();">
             <mat-icon>create</mat-icon>
           </button>
-          <button mat-icon-button color="warn" (click)="deleteContentDialog(content);$event.stopPropagation();"  class="deleteButton">
+          <button mat-icon-button color="warn" (click)="deleteContentDialog(content);$event.stopPropagation();"
+                  class="deleteButton">
             <mat-icon>delete_forever</mat-icon>
           </button>
           <mat-panel-title>
