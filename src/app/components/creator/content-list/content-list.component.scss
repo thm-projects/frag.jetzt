@@ -17,6 +17,10 @@ mat-panel-title {
   align-items: center;
 }
 
+mat-expansion-panel-header {
+  background-color: #cfd8dc !important;
+}
+
 h2 {
   font-size: larger;
 }
@@ -28,4 +32,3 @@ h2 {
 .deleteButton {
   margin-right: 15px;
 }
-
