@@ -18,6 +18,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
+import { ContentCreatorComponent } from '../content-creator/content-creator.component';
 
 
 @Component({
@@ -86,17 +87,6 @@ export class ContentListComponent implements OnInit {
   }
 
   createChoiceContentBackup(content: ContentChoice) {
-    const answerOptions: Array<AnswerOption> = new Array<AnswerOption> ();
-    const correctAnswers: number[] = [];
-
-    for (let i = 0; i < content.options.length; i++) {
-      answerOptions.push(content.options[i]);
-    }
-
-    for (let i = 0; i < content.correctOptionIndexes.length; i++) {
-      correctAnswers.push(content.correctOptionIndexes[i]);
-    }
-
     this.contentBackup = new ContentChoice(
       content.id,
       content.revision,
@@ -104,9 +94,9 @@ export class ContentListComponent implements OnInit {
       content.subject,
       content.body,
       content.round,
-      [],
-      answerOptions,
-      correctAnswers,
+      content.groups,
+      content.options,
+      content.correctOptionIndexes,
       content.multiple,
       content.format
     );
@@ -124,8 +114,8 @@ export class ContentListComponent implements OnInit {
     );
   }
 
-  editContent(subject: string) {
-    const index = this.findIndexOfSubject(subject);
+  editContent(content: Content) {
+    const index = this.findIndexOfSubject(content.subject);
     const format = this.contents[index].format;
 
     if (format === this.ContentType.TEXT) {
@@ -136,7 +126,7 @@ export class ContentListComponent implements OnInit {
 
     switch (format) {
       case this.ContentType.CHOICE:
-        this.editChoiceContentDialog(index, this.contents[index] as ContentChoice);
+        this.editChoiceContentDialog(content);
         break;
       case this.ContentType.BINARY:
         this.editBinaryContentDialog(index, this.contents[index] as ContentChoice);
@@ -152,7 +142,7 @@ export class ContentListComponent implements OnInit {
     }
   }
 
-  deleteContentDialog(delContent: Content) {
+  deleteContent(delContent: Content) {
     const index = this.findIndexOfSubject(delContent.subject);
     this.contentBackup = delContent;
     const dialogRef = this.dialog.open(ContentDeleteComponent, {
@@ -165,17 +155,13 @@ export class ContentListComponent implements OnInit {
       });
   }
 
-  editChoiceContentDialog(index: number, content: ContentChoice) {
-    const dialogRef = this.dialog.open(ContentChoiceCreatorComponent, {
+  editChoiceContentDialog(delContent: Content) {
+    const index = this.findIndexOfSubject(delContent.subject);
+    const dialogRef = this.dialog.open(ContentCreatorComponent, {
       width: '800px'
     });
-    if (content.multiple) {
-      dialogRef.componentInstance.singleChoice = false;
-    } else {
-      dialogRef.componentInstance.singleChoice = true;
-    }
     dialogRef.componentInstance.editDialogMode = true;
-    dialogRef.componentInstance.content = content;
+    dialogRef.componentInstance.content = delContent;
     dialogRef.afterClosed()
       .subscribe(result => {
         this.updateContentChanges(index, result);
