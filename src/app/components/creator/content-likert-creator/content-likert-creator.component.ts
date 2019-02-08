@@ -1,13 +1,10 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { ContentChoice } from '../../../models/content-choice';
 import { AnswerOption } from '../../../models/answer-option';
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ContentListComponent } from '../content-list/content-list.component';
-import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -54,16 +51,10 @@ export class ContentLikertCreatorComponent implements OnInit {
   collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
-  lastCollection: string;
-
-  editDialogMode = false;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              public dialog: MatDialog,
-              public dialogRef: MatDialogRef<ContentListComponent>,
-              private translationService: TranslateService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              private translationService: TranslateService) {
   }
 
   fillCorrectAnswers() {
@@ -80,7 +71,6 @@ export class ContentLikertCreatorComponent implements OnInit {
       this.content.options.push(new AnswerOption(this.likertScale[i], this.newAnswerOptionPoints));
     }
     this.fillCorrectAnswers();
-    this.lastCollection = sessionStorage.getItem('collection');
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -129,28 +119,5 @@ export class ContentLikertCreatorComponent implements OnInit {
       ContentType.SCALE
     )).subscribe();
     this.resetAfterSubmit();
-  }
-
-  editDialogClose($event, action: string) {
-    $event.preventDefault();
-    this.dialogRef.close(action);
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  openDeletionContentDialog($event): void {
-    $event.preventDefault();
-    const dialogRef = this.dialog.open(ContentDeleteComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.content = this.content;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.dialogRef.close(result);
-        }
-      });
   }
 }
