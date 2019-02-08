@@ -5,13 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { ContentChoice } from '../../../models/content-choice';
 import { ContentText } from '../../../models/content-text';
-import { AnswerOption } from '../../../models/answer-option';
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentGroup } from '../../../models/content-group';
 import { MatDialog } from '@angular/material';
-import { ContentChoiceCreatorComponent } from '../content-choice-creator/content-choice-creator.component';
-import { ContentLikertCreatorComponent } from '../content-likert-creator/content-likert-creator.component';
-import { ContentTextCreatorComponent } from '../content-text-creator/content-text-creator.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
@@ -33,8 +29,6 @@ export class ContentListComponent implements OnInit {
   contents: Content[];
 
   contentBackup: Content;
-
-  ContentType: typeof ContentType = ContentType;
 
   roomId: string;
 
@@ -114,34 +108,6 @@ export class ContentListComponent implements OnInit {
     );
   }
 
-  editContent(content: Content) {
-    const index = this.findIndexOfSubject(content.subject);
-    const format = this.contents[index].format;
-
-    if (format === this.ContentType.TEXT) {
-      this.createTextContentBackup(this.contents[index] as ContentText);
-    } else {
-      this.createChoiceContentBackup(this.contents[index] as ContentChoice);
-    }
-
-    switch (format) {
-      case this.ContentType.CHOICE:
-        this.editChoiceContentDialog(content);
-        break;
-      case this.ContentType.BINARY:
-        this.editBinaryContentDialog(index, this.contents[index] as ContentChoice);
-        break;
-      case this.ContentType.SCALE:
-        this.editLikertContentDialog(index, this.contents[index] as ContentChoice);
-        break;
-      case this.ContentType.TEXT:
-        this.editTextContentDialog(index, this.contents[index] as ContentText);
-        break;
-        default:
-          return;
-    }
-  }
-
   deleteContent(delContent: Content) {
     const index = this.findIndexOfSubject(delContent.subject);
     this.contentBackup = delContent;
@@ -155,50 +121,19 @@ export class ContentListComponent implements OnInit {
       });
   }
 
-  editChoiceContentDialog(delContent: Content) {
-    const index = this.findIndexOfSubject(delContent.subject);
+  editContent(edContent: Content) {
+    if (edContent.format === ContentType.TEXT) {
+      this.createTextContentBackup(edContent as ContentText);
+    } else {
+      this.createChoiceContentBackup(edContent as ContentChoice);
+    }
+
+    const index = this.findIndexOfSubject(edContent.subject);
     const dialogRef = this.dialog.open(ContentCreatorComponent, {
       width: '800px'
     });
     dialogRef.componentInstance.editDialogMode = true;
-    dialogRef.componentInstance.content = delContent;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        this.updateContentChanges(index, result);
-      });
-  }
-
-  editBinaryContentDialog(index: number, content: ContentChoice) {
-    const dialogRef = this.dialog.open(ContentChoiceCreatorComponent, {
-      width: '800px'
-    });
-    dialogRef.componentInstance.editDialogMode = true;
-    dialogRef.componentInstance.singleChoice = true;
-    dialogRef.componentInstance.content = content;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        this.updateContentChanges(index, result);
-      });
-  }
-
-  editLikertContentDialog(index: number, content: ContentChoice) {
-    const dialogRef = this.dialog.open(ContentLikertCreatorComponent, {
-      width: '800px'
-    });
-    dialogRef.componentInstance.editDialogMode = true;
-    dialogRef.componentInstance.content = content;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        this.updateContentChanges(index, result);
-      });
-  }
-
-  editTextContentDialog(index: number, content: ContentText) {
-    const dialogRef = this.dialog.open(ContentTextCreatorComponent, {
-      width: '800px'
-    });
-    dialogRef.componentInstance.editDialogMode = true;
-    dialogRef.componentInstance.content = content;
+    dialogRef.componentInstance.content = edContent;
     dialogRef.afterClosed()
       .subscribe(result => {
         this.updateContentChanges(index, result);
