@@ -1,10 +1,7 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
 import { ContentService } from '../../../services/http/content.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ContentListComponent } from '../content-list/content-list.component';
-import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -33,10 +30,7 @@ export class ContentTextCreatorComponent implements OnInit {
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              public dialog: MatDialog,
-              public dialogRef: MatDialogRef<ContentListComponent>,
-              private translationService: TranslateService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              private translationService: TranslateService) {
   }
 
   ngOnInit() {
@@ -74,28 +68,5 @@ export class ContentTextCreatorComponent implements OnInit {
     }
     sessionStorage.setItem('collection', this.contentCol);
     this.resetAfterSubmit();
-  }
-
-  editDialogClose($event, action: string) {
-    $event.preventDefault();
-    this.dialogRef.close(action);
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  openDeletionContentDialog($event): void {
-    $event.preventDefault();
-    const dialogRef = this.dialog.open(ContentDeleteComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.content = this.content;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.dialogRef.close(result);
-        }
-      });
   }
 }
