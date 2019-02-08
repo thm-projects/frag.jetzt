@@ -48,9 +48,6 @@ export class ContentLikertCreatorComponent implements OnInit {
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = 0;
-  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
@@ -70,17 +67,6 @@ export class ContentLikertCreatorComponent implements OnInit {
     for (let i = 0; i < this.likertScale.length; i++) {
       this.content.options.push(new AnswerOption(this.likertScale[i], this.newAnswerOptionPoints));
     }
-    this.fillCorrectAnswers();
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   resetAfterSubmit() {
