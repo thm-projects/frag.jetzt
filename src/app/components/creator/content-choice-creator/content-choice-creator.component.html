@@ -15,7 +15,6 @@
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <!-- ToDo: Check ngModel -->
         <mat-checkbox color="primary" (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
                       [checked]="answer.correct"
                       name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}
@@ -27,7 +26,7 @@
       <mat-header-cell *matHeaderCellDef>{{ 'content.actions' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <button mat-icon-button
-                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.correct)"
+                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
                 color="primary" matTooltip="Edit answer">
           <mat-icon>edit</mat-icon>
         </button>
@@ -50,16 +49,8 @@
       {{ 'content.add-answer' | translate }}
     </button>
   </div>
-  <div *ngIf="!editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
     <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
     <button mat-raised-button (click)="reset($event)" color="primary">{{ 'content.reset' | translate }}</button>
-    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
-      {{ 'content.undo' | translate}}
-    </button>
-  </div>
-  <div *ngIf="editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
-    <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
-    <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
-    <button mat-raised-button (click)="openDeletionContentDialog($event)" color="warn">Delete</button>
   </div>
 </form>

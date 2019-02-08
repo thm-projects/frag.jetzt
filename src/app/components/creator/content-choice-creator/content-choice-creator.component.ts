@@ -58,17 +58,13 @@ export class ContentChoiceCreatorComponent implements OnInit {
   editDisplayAnswer: DisplayAnswer;
   originalDisplayAnswer: DisplayAnswer;
 
-  editDialogMode = false;
-  changesAllowed = false;
-
   roomId: string;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               public dialog: MatDialog,
               public dialogRef: MatDialogRef<ContentListComponent>,
-              private translationService: TranslateService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              private translationService: TranslateService) {
   }
 
   ngOnInit() {
@@ -277,10 +273,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
       this.content.multiple = true;
       this.content.format = ContentType.CHOICE;
     }
-    if (this.editDialogMode) {
-      this.changesAllowed = true;
-      return;
-    }
     let contentGroup: string;
     if (this.contentCol === 'Default') {
       contentGroup = '';
@@ -303,34 +295,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
     this.resetAfterSubmit();
   }
 
-  editDialogClose($event, action: string) {
-    $event.preventDefault();
-    if (action.valueOf() === 'edit') {
-      this.submitContent();
-    }
-    if (action.valueOf() === 'abort') {
-      this.dialogRef.close(action);
-    }
-    if (this.changesAllowed) {
-      this.dialogRef.close(action);
-    }
-  }
-
   onNoClick(): void {
     this.dialogRef.close();
-  }
-
-  openDeletionContentDialog($event): void {
-    $event.preventDefault();
-    const dialogRef = this.dialog.open(ContentDeleteComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.content = this.content;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.dialogRef.close(result);
-        }
-      });
   }
 }
