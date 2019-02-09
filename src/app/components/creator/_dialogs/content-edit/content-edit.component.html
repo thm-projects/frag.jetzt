@@ -3,7 +3,7 @@
     <input matInput [(ngModel)]="content.subject" maxlength="20" placeholder="Thema" name="subject"/>
   </mat-form-field>
   <mat-form-field class="input-block">
-    <input matInput [(ngModel)]="content.body"  placeholder="Inhalt" name="body">
+    <textarea matInput [(ngModel)]="content.body" rows="3" maxlength="100" placeholder="Inhalt" name="body"></textarea>
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button (click)="dialogRef.close()" mat-button color="primary">
