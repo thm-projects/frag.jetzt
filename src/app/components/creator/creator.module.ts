@@ -22,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ContentCreatorComponent } from './content-creator/content-creator.component';
 import { ContentListComponent } from './content-list/content-list.component';
+import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { ContentListComponent } from './content-list/content-list.component';
     RoomDeleteComponent,
     RoomEditComponent,
     ContentCreatorComponent,
-    ContentListComponent
+    ContentListComponent,
+    ContentEditComponent
   ],
   entryComponents: [
     RoomCreateComponent,
