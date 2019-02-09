@@ -1,3 +1,17 @@
-<p>
-  content-edit works!
-</p>
+<div>
+  <mat-form-field class="input-block">
+    <input matInput placeholder="Thema" name="subject"/>
+  </mat-form-field>
+  <mat-form-field class="input-block">
+    <input matInput
+           placeholder="Inhalt" name="body">
+  </mat-form-field>
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+    <button (click)="dialogRef.close()" mat-button color="primary">
+      {{ 'room-page.abort' | translate }}
+    </button>
+    <button (click)="dialogRef.close('edit')" mat-raised-button color="primary">
+      {{ 'room-page.update' | translate }}
+    </button>
+  </div>
+</div>
