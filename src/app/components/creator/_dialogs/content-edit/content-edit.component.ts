@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ContentListComponent } from '../../content-list/content-list.component';
-import { DisplayAnswer } from '../../content-choice-creator/content-choice-creator.component';
+import { Content } from '../../../../models/content';
 
 @Component({
   selector: 'app-content-edit',
@@ -9,7 +9,7 @@ import { DisplayAnswer } from '../../content-choice-creator/content-choice-creat
   styleUrls: ['./content-edit.component.scss']
 })
 export class ContentEditComponent implements OnInit {
-  answer: DisplayAnswer;
+  content: Content;
 
   constructor(public dialogRef: MatDialogRef<ContentListComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {

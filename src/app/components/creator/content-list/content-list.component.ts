@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { ContentCreatorComponent } from '../content-creator/content-creator.component';
+import { ContentEditComponent } from '../_dialogs/content-edit/content-edit.component';
 
 
 @Component({
@@ -129,10 +130,9 @@ export class ContentListComponent implements OnInit {
     }
 
     const index = this.findIndexOfSubject(edContent.subject);
-    const dialogRef = this.dialog.open(ContentCreatorComponent, {
+    const dialogRef = this.dialog.open(ContentEditComponent, {
       width: '800px'
     });
-    dialogRef.componentInstance.editDialogMode = true;
     dialogRef.componentInstance.content = edContent;
     dialogRef.afterClosed()
       .subscribe(result => {
