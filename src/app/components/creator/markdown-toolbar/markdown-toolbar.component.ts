@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MarkdownHelpDialogComponent } from '../_dialogs/markdown-help-dialog/markdown-help-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Data, GenericDataDialogComponent } from '../../shared/_dialogs/generic-data-dialog/generic-data-dialog.component';
 
@@ -36,7 +35,6 @@ export class MarkdownToolbarComponent {
     new Button('code', 'Code', 'code', '`{{TEXT}}`'),
     new Button('quote', 'Quote', 'format_quote', '> {{TEXT}}'),
     new Button('image', 'Image', 'insert_photo', '![{{TEXT}}]({{URL}})'),
-    new Button('help', 'Help', 'help', '')
   ];
 
   constructor(public dialog: MatDialog) { }
@@ -65,10 +63,6 @@ export class MarkdownToolbarComponent {
 
     // Handle different buttons here
     switch (button.id) {
-      case 'help':
-        // Open help dialog and prevent default action
-        this.dialog.open(MarkdownHelpDialogComponent);
-        break;
       case 'link':
       case 'image':
         // Open a configuration dialog
