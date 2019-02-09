@@ -113,7 +113,7 @@ export class ContentListComponent implements OnInit {
     const index = this.findIndexOfSubject(delContent.subject);
     this.contentBackup = delContent;
     const dialogRef = this.dialog.open(ContentDeleteComponent, {
-      width: '800px'
+      width: '400px'
     });
     dialogRef.componentInstance.content = delContent;
     dialogRef.afterClosed()
@@ -131,7 +131,7 @@ export class ContentListComponent implements OnInit {
 
     const index = this.findIndexOfSubject(edContent.subject);
     const dialogRef = this.dialog.open(ContentEditComponent, {
-      width: '800px'
+      width: '400px'
     });
     dialogRef.componentInstance.content = edContent;
     dialogRef.afterClosed()
@@ -144,20 +144,18 @@ export class ContentListComponent implements OnInit {
     if (!action) {
       this.contents[index] = this.contentBackup;
     } else {
-      if (action.valueOf() === 'delete') {
-        this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
-        this.contentService.deleteContent(this.contents[index].id).subscribe();
-        this.contents.splice(index, 1);
-        if (this.contents.length === 0) {
-          this.location.back();
-        }
-      }
-      if (action.valueOf() === 'edit') {
-        this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
-        this.contentService.updateContent(this.contents[index]);
-      }
-      if (action.valueOf() === 'abort') {
-        this.contents[index] = this.contentBackup;
+      switch (action.valueOf()) {
+        case 'delete':
+          this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
+          this.contentService.deleteContent(this.contents[index].id).subscribe();
+          this.contents.splice(index, 1);
+          if (this.contents.length === 0) {
+            this.location.back();
+          }
+          break;
+        case 'abort':
+          this.contents[index] = this.contentBackup;
+          break;
       }
     }
   }
