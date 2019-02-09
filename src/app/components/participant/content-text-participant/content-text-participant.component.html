@@ -1,6 +1,5 @@
 <form (ngSubmit)="submitAnswer()">
   <h1 class="mat-headline">{{ content.subject }}</h1>
-  <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
   <mat-form-field class="input-block">
     <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="{{ 'answer.your-answer' | translate }}"></textarea>

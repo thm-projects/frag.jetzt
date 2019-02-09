@@ -3,12 +3,10 @@
   <input matInput #subject [(ngModel)]="content.subject" placeholder="{{'content.subject' | translate}}" name="subject"
   maxlength="20">
 </mat-form-field>
-<app-markdown-toolbar textareaId="content-text-body"></app-markdown-toolbar>
 <mat-form-field class="input-block">
     <textarea matInput #body [(ngModel)]="content.body" placeholder="{{'content.body' | translate}}" name="body"
               matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" maxlength="100"></textarea>
 </mat-form-field>
-<markdown [data]="content.body"></markdown>
 <mat-form-field>
   <input matInput #group [formControl]="myControl" [matAutocomplete]="auto"
          placeholder="{{'content.collection' | translate}}" [(ngModel)]="lastCollection" />

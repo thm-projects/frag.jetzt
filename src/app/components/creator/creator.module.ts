@@ -7,7 +7,6 @@ import { ContentLikertCreatorComponent } from './content-likert-creator/content-
 import { ContentTextCreatorComponent } from './content-text-creator/content-text-creator.component';
 import { ContentYesNoCreatorComponent } from './content-yes-no-creator/content-yes-no-creator.component';
 import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.component';
-import { MarkdownToolbarComponent } from './markdown-toolbar/markdown-toolbar.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
@@ -45,7 +44,6 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
     HomeCreatorPageComponent,
-    MarkdownToolbarComponent,
     RoomCreatorPageComponent,
     RoomCreateComponent,
     RoomDeleteComponent,

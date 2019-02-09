@@ -1,5 +1,4 @@
 <form (ngSubmit)="submitContent()" fxLayout="column" fxLayoutGap="20px">
-  <markdown [data]="content.body"></markdown>
   <mat-divider></mat-divider>
 
   <mat-radio-group [(ngModel)]="singleChoice" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
