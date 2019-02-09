@@ -127,12 +127,11 @@ export class ContentListComponent implements OnInit {
     } else {
       this.createChoiceContentBackup(edContent as ContentChoice);
     }
-
     const index = this.findIndexOfSubject(edContent.subject);
     const dialogRef = this.dialog.open(ContentEditComponent, {
       width: '400px'
     });
-    dialogRef.componentInstance.content = edContent;
+    dialogRef.componentInstance.content = this.contentBackup;
     dialogRef.afterClosed()
       .subscribe(result => {
         this.updateContentChanges(index, result);
@@ -153,7 +152,10 @@ export class ContentListComponent implements OnInit {
           }
           break;
         case 'update':
-          this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
+          this.contents[index].subject = this.contentBackup.subject;
+          this.contentService.updateContent(this.contentBackup).subscribe( () => {
+            this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
+          });
           break;
         case 'abort':
           this.contents[index] = this.contentBackup;
