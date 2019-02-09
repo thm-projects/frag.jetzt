@@ -22,6 +22,10 @@ mat-expansion-panel-header {
   background-color: #bbdefb !important;
 }
 
+.mat-expansion-panel-header-title {
+  word-break: break-all;
+}
+
 h2 {
   font-size: larger;
 }
