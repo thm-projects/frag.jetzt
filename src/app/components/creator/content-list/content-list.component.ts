@@ -14,7 +14,6 @@ import { RoomService } from '../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
-import { ContentCreatorComponent } from '../content-creator/content-creator.component';
 import { ContentEditComponent } from '../_dialogs/content-edit/content-edit.component';
 
 
