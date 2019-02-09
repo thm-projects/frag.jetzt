@@ -64,6 +64,7 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
+    ContentEditComponent
   ]
 })
 export class CreatorModule {
