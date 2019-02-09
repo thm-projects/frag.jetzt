@@ -1,9 +1,9 @@
 <div *ngIf="editRoom">
   <mat-form-field class="input-block">
-    <input [(ngModel)]="editRoom.name" #roomName matInput placeholder="{{ 'session.session-name' | translate}}" name="room-name"/>
+    <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" name="room-name"/>
   </mat-form-field>
   <mat-form-field class="input-block">
-            <textarea [(ngModel)]="editRoom.description" #roomDescription matInput matTextareaAutosize
+            <textarea [(ngModel)]="editRoom.description" matInput matTextareaAutosize
                       matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="{{ 'session.description' | translate}}" name="description">
             </textarea>
   </mat-form-field>
