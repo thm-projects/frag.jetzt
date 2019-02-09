@@ -62,7 +62,6 @@ export class ContentChoiceCreatorComponent implements OnInit {
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
               public dialog: MatDialog,
-              public dialogRef: MatDialogRef<ContentListComponent>,
               private translationService: TranslateService) {
   }
 
@@ -292,9 +291,5 @@ export class ContentChoiceCreatorComponent implements OnInit {
       ContentType.CHOICE
     )).subscribe();
     this.resetAfterSubmit();
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
   }
 }
