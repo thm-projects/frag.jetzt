@@ -9,3 +9,15 @@ mat-header-cell {
 mat-cell {
   background-color: #ffecb3;
 }
+
+.add-icon {
+  line-height: 100%;
+  height: 100% !important;
+  width: 100% !important;
+  font-size: 40px !important;
+  transition: 0.5s;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}

@@ -44,7 +44,7 @@
       <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
     <button mat-icon-button (click)="addAnswer($event); answerLabel.value = '';">
-      <mat-icon color="primary">add_box</mat-icon>
+      <mat-icon class="add-icon" color="primary">add_box</mat-icon>
     </button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
