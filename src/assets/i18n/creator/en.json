@@ -51,7 +51,9 @@
     "undo": "Undo",
     "points": "Points",
     "delete": "Delete",
-    "abort": "Abort"
+    "abort": "Abort",
+    "delete-answer": "Delete answer",
+    "edit-answer": "Edit answer"
   },
   "session": {
     "session-name": "Session name",

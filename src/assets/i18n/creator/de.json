@@ -52,7 +52,9 @@
     "undo": "Rückgängig",
     "points": "Punkte",
     "delete": "Löschen",
-    "abort": "Abbrechen"
+    "abort": "Abbrechen",
+    "delete-answer": "Antwort löschen",
+    "edit-answer": "Antwort bearteiten"
   },
   "session": {
     "session-name": "Name der Session",

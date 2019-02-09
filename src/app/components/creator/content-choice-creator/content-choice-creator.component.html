@@ -11,7 +11,7 @@
     </mat-radio-button>
   </mat-radio-group>
 
-  <mat-table #table [dataSource]="displayAnswers">
+  <mat-table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
@@ -27,11 +27,11 @@
       <mat-cell *matCellDef="let answer">
         <button mat-icon-button
                 (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
-                color="primary" matTooltip="Edit answer">
+                color="primary" matTooltip="{{ 'content.edit-answer' | translate }}">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)"
-                matTooltip="Delete answer">
+                matTooltip="{{ 'content.delete-answer' | translate }}">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
