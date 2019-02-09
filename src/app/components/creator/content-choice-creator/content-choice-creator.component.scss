@@ -1,5 +1,5 @@
 form > button {
-  margin: 20px;
+  margin: 10px;
 }
 
 mat-header-cell {
@@ -20,4 +20,8 @@ mat-cell {
   &:hover {
     transform: scale(1.2);
   }
+}
+
+.mat-raised-button {
+  min-width: 120px;
 }
