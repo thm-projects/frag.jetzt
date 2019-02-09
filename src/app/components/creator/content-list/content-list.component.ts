@@ -153,6 +153,9 @@ export class ContentListComponent implements OnInit {
             this.location.back();
           }
           break;
+        case 'update':
+          this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
+          break;
         case 'abort':
           this.contents[index] = this.contentBackup;
           break;
