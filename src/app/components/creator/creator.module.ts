@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreatorRoutingModule } from './creator-routing.module';
-import { AnswersListComponent } from './answers-list/answers-list.component';
 import { ContentChoiceCreatorComponent } from './content-choice-creator/content-choice-creator.component';
 import { ContentCreatePageComponent } from './content-create-page/content-create-page.component';
 import { ContentLikertCreatorComponent } from './content-likert-creator/content-likert-creator.component';
@@ -40,7 +39,6 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
     })
   ],
   declarations: [
-    AnswersListComponent,
     ContentChoiceCreatorComponent,
     ContentCreatePageComponent,
     ContentLikertCreatorComponent,
