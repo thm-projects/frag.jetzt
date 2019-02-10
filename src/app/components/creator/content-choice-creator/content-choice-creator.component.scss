@@ -6,8 +6,17 @@ mat-header-cell {
   background-color: #ffe0b2;
 }
 
-mat-cell {
+mat-row {
   background-color: #ffecb3;
+
+  &:last-child {
+    animation: fadeIn 3s;
+  }
+}
+
+@keyframes fadeIn {
+  0% {background-color: #b2dfdb}
+  100% {background-color: #ffecb3}
 }
 
 .add-icon {
