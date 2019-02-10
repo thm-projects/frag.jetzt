@@ -39,15 +39,15 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-form-field class="input-block">
       <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
-    <button *ngIf="singleChoice" mat-icon-button (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
-      <mat-icon class="add-icon" color="primary">add_circle</mat-icon>
+    <button *ngIf="singleChoice" mat-icon-button class="addButton" (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
+      <mat-icon class="addIcon" color="primary">add_circle</mat-icon>
     </button>
     <button *ngIf="!singleChoice" mat-icon-button (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
-      <mat-icon class="add-icon" color="primary">add_box</mat-icon>
+      <mat-icon class="addIcon" color="primary">add_box</mat-icon>
     </button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="25px">
