@@ -19,15 +19,18 @@ mat-row {
   100% {background-color: #ffecb3}
 }
 
-.add-icon {
+.addIcon {
   line-height: 100%;
   height: 100% !important;
   width: 100% !important;
   font-size: 40px !important;
-  transition: 0.5s;
+}
 
-  &:hover {
-    transform: scale(1.2);
+.addButton {
+  transition-duration: 0.5s;
+
+  &:focus {
+    transform: rotate(90deg);
   }
 }
 
