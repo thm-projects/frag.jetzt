@@ -1,9 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { FooterLoginDialogComponent } from '../_dialogs/footer-login-dialog/footer-login-dialog.component';
 
 @Component({
   selector: 'app-footer',
