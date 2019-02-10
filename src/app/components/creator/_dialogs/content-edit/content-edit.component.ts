@@ -22,16 +22,8 @@ export class ContentEditComponent implements OnInit {
   ngOnInit() {
     for (let i = 0; i < this.content.options.length; i++) {
       let correct: boolean;
-      if (this.content.options[i].points < 0) {
-        correct = false;
-      } else {
-        correct = true;
-      }
+      correct = this.content.options[i].points >= 0;
       this.displayAnswers[i] = new DisplayAnswer(new AnswerOption(this.content.options[i].label, this.content.options[i].points), correct);
     }
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close('abort');
   }
 }
