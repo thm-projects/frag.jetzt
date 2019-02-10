@@ -112,7 +112,7 @@ export class ContentListComponent implements OnInit {
 
   deleteContent(delContent: Content) {
     const index = this.findIndexOfSubject(delContent.subject);
-    this.contentBackup = delContent;
+    this.createChoiceContentBackup(delContent as ContentChoice);
     const dialogRef = this.dialog.open(ContentDeleteComponent, {
       width: '400px'
     });
@@ -142,7 +142,7 @@ export class ContentListComponent implements OnInit {
 
   updateContentChanges(index: number, action: string) {
     if (!action) {
-      this.contents[index] = this.contentBackup;
+      this.contents[index] = this.contentCBackup;
     } else {
       switch (action.valueOf()) {
         case 'delete':

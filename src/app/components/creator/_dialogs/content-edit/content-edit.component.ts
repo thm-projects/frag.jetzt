@@ -32,6 +32,6 @@ export class ContentEditComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    this.dialogRef.close('abort');
   }
 }
