@@ -30,6 +30,8 @@ export class ContentListComponent implements OnInit {
 
   contentBackup: Content;
 
+  contentCBackup: ContentChoice;
+
   roomId: string;
 
   contentGroup: ContentGroup;
@@ -81,7 +83,7 @@ export class ContentListComponent implements OnInit {
   }
 
   createChoiceContentBackup(content: ContentChoice) {
-    this.contentBackup = new ContentChoice(
+    this.contentCBackup = new ContentChoice(
       content.id,
       content.revision,
       content.roomId,
@@ -131,7 +133,7 @@ export class ContentListComponent implements OnInit {
     const dialogRef = this.dialog.open(ContentEditComponent, {
       width: '400px'
     });
-    dialogRef.componentInstance.content = this.contentBackup;
+    dialogRef.componentInstance.content = this.contentCBackup;
     dialogRef.afterClosed()
       .subscribe(result => {
         this.updateContentChanges(index, result);
@@ -152,13 +154,13 @@ export class ContentListComponent implements OnInit {
           }
           break;
         case 'update':
-          this.contents[index] = this.contentBackup;
-          this.contentService.updateContent(this.contentBackup).subscribe( () => {
+          this.contents[index] = this.contentCBackup;
+          this.contentService.updateContent(this.contentCBackup).subscribe( () => {
             this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
           });
           break;
         case 'abort':
-          this.contents[index] = this.contentBackup;
+          this.contents[index] = this.contentCBackup;
           break;
       }
     }
