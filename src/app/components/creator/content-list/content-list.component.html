@@ -20,15 +20,14 @@
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
-        <button class="actionButton" mat-icon-button color="primary" matTooltip="{{ 'room-page.present' | translate}}"
-                routerLink="/creator/room/{{ roomId }}/contents">
+        <button class="actionButton" mat-icon-button color="primary" matTooltip="{{ 'room-page.present' | translate}}" (click)="notAvailable()">
           <mat-icon class="actionIcon">school</mat-icon>
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
         <button class="actionButton" mat-icon-button color="primary"
                 matTooltip="{{ 'room-page.answer-statistics' | translate}}"
-                routerLink="/creator/room/{{ roomId }}/contents">
+                routerLink="/creator/room/{{ roomId }}/statistics">
           <mat-icon class="actionIcon">insert_chart</mat-icon>
         </button>
       </mat-grid-tile>

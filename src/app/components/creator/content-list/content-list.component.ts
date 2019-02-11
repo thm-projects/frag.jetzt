@@ -71,6 +71,10 @@ export class ContentListComponent implements OnInit {
     this.isLoading = false;
   }
 
+  notAvailable() {
+    this.notificationService.show('This feature has not been implemented yet!');
+  }
+
   findIndexOfSubject(subject: string): number {
     let index = -1;
     for (let i = 0; i < this.contents.length; i++) {
