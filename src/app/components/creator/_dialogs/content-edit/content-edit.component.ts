@@ -35,7 +35,6 @@ export class ContentEditComponent implements OnInit {
   updateAnswer(index: number) {
     if (this.displayAnswers[index].correct === true) {
       this.ansCounter++;
-      console.log(this.ansCounter);
       if ((!this.content.multiple) && this.ansCounter > 1) {
         for (let i = 0; i < this.displayAnswers.length; i++) {
           if (!(i === index)) {
@@ -67,7 +66,6 @@ export class ContentEditComponent implements OnInit {
       return;
     }
     for (let i = 0; i < this.content.options.length; i++) {
-      console.log(i);
       if (this.displayAnswers[i].answerOption.label === '') {
         this.translateService.get('content.no-empty2').subscribe(message => {
           this.notificationService.show(message);
