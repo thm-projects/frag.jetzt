@@ -16,7 +16,7 @@
     </ng-container>
     <ng-container matColumnDef="checked">
       <mat-cell *matCellDef="let answer; let i = index">
-        <mat-checkbox color="primary" [(ngModel)]="answer.correct"
+        <mat-checkbox color="accent" [(ngModel)]="answer.correct"
                       [checked]="answer.correct" (ngModelChange)="updateAnswer(i)"></mat-checkbox>
       </mat-cell>
     </ng-container>
