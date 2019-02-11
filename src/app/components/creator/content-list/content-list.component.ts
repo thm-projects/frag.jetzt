@@ -150,7 +150,9 @@ export class ContentListComponent implements OnInit {
     } else {
       switch (action.valueOf()) {
         case 'delete':
-          this.notificationService.show('Content "' + this.contents[index].subject + '" deleted.');
+          this.translateService.get('content.content-deleted').subscribe(message => {
+            this.notificationService.show(message);
+          });
           this.contentService.deleteContent(this.contents[index].id).subscribe();
           this.contents.splice(index, 1);
           if (this.contents.length === 0) {
@@ -159,8 +161,8 @@ export class ContentListComponent implements OnInit {
           break;
         case 'update':
           this.contents[index] = this.contentCBackup;
-          this.contentService.updateChoiceContent(this.contentCBackup).subscribe( () => {
-            this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
+          this.translateService.get('content.content-updated').subscribe(message => {
+            this.notificationService.show(message);
           });
           break;
         case 'abort':

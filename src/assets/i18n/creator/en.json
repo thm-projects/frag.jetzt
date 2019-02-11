@@ -54,7 +54,9 @@
     "delete": "Delete",
     "abort": "Abort",
     "delete-answer": "Delete answer",
-    "edit-answer": "Edit answer"
+    "edit-answer": "Edit answer",
+    "content-deleted": "Content has been deleted.",
+    "content-updated": "Content has been updated."
   },
   "session": {
     "session-name": "Session name",
