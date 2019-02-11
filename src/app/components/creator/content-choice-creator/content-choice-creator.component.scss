@@ -1,11 +1,43 @@
 form > button {
-  margin: 20px 0;
+  margin: 10px;
 }
 
 mat-header-cell {
   background-color: #ffe0b2;
 }
 
-mat-cell {
+mat-row {
   background-color: #ffecb3;
+
+  &:last-child {
+    animation: fadeIn 2s;
+  }
+}
+
+@keyframes fadeIn {
+  0% {background-color: #b2dfdb}
+  100% {background-color: #ffecb3}
+}
+
+.addIcon {
+  line-height: 100%;
+  height: 100% !important;
+  width: 100% !important;
+  font-size: 40px !important;
+}
+
+.addButton {
+  transition-duration: 0.5s;
+
+  &:focus {
+    transform: rotate(90deg);
+  }
+}
+
+.mat-raised-button {
+  min-width: 120px;
+}
+
+mat-form-field {
+  min-width: 250px;
 }

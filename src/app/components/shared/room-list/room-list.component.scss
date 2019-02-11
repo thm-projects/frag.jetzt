@@ -9,10 +9,16 @@ button {
 
 .matPanel {
   background-color: #cfd8dc;
+  margin-bottom: 5px;
 }
 
 .matPanelHeader {
   background-color: #bbdefb;
+  margin-bottom: 5px;
+}
+
+.matPanelListHeader {
+  background-color: #cfd8dc !important;
 }
 
 mat-panel-title {
@@ -23,4 +29,13 @@ mat-panel-title {
 
 .headerTitle {
   width: 8%!important;
+}
+
+mat-card-title {
+  text-align: center;
+}
+
+mat-card {
+  background-color: #cfd8dc;
+  color: #4db6ac;
 }

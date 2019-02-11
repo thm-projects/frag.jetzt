@@ -1,22 +1,16 @@
 <form (ngSubmit)="submitContent()" fxLayout="column" fxLayoutGap="20px">
   <mat-divider></mat-divider>
-  <mat-table #table [dataSource]="displayAnswers">
+  <mat-table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <!-- ToDo: Check ngModel -->
         {{ answer.answerOption.label }}
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <div *ngIf="!editDialogMode">
+  <div>
     <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
-  </div>
-  <div *ngIf="editDialogMode">
-    <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
-    <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
-    <button mat-raised-button (click)="openDeletionContentDialog($event)" color="warn">Delete</button>
   </div>
 </form>

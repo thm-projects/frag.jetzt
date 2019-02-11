@@ -75,6 +75,14 @@ export class ContentService extends BaseHttpService {
     );
   }
 
+  updateChoiceContent(updatedContent: ContentChoice): Observable<ContentChoice> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + updatedContent.id;
+    return this.http.put(connectionUrl, updatedContent, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('updateContentChoice'))
+    );
+  }
+
   deleteContent(contentId: string): Observable<Content> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.content + '/' + contentId;
     return this.http.delete<Content>(connectionUrl, httpOptions).pipe(

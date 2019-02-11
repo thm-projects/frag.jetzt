@@ -18,8 +18,6 @@ import { ContentService } from './services/http/content.service';
 import { ContentAnswerService } from './services/http/content-answer.service';
 import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
-import { GenericDataDialogComponent } from './components/shared/_dialogs/generic-data-dialog/generic-data-dialog.component';
-import { FooterLoginDialogComponent } from './components/shared/_dialogs/footer-login-dialog/footer-login-dialog.component';
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -36,15 +34,12 @@ export function dialogClose(dialogResult: any) {
     LoginComponent,
     PasswordResetComponent,
     RegisterComponent,
-    UserActivationComponent,
-    FooterLoginDialogComponent
+    UserActivationComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
-    UserActivationComponent,
-    GenericDataDialogComponent,
-    FooterLoginDialogComponent
+    UserActivationComponent
   ],
   imports: [
     AppRoutingModule,

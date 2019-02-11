@@ -16,8 +16,4 @@ export class AnswerEditComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
 }

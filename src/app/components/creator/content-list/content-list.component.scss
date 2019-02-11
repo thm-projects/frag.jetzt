@@ -1,24 +1,55 @@
 mat-card {
-    width: 800px;
-    background-color: #fff8e1;  //mat-color($arsnova-warn, 100);
+  width: 800px;
+  background-color: #fff8e1;
 }
 
 mat-card-content > :first-child {
-  margin-top: 16px;
+  margin-top: 15px;
 }
 
-mat-card-actions {
-  margin: 20px;
+mat-expansion-panel {
+  background-color: #bbdefb;
+  margin-bottom: 5px;
 }
 
-button {
-  margin: 20px;
+mat-panel-title {
+  flex-basis: 0;
+  align-items: center;
+  font-size: medium;
+}
+
+mat-expansion-panel-header {
+  background-color: #bbdefb !important;
+}
+
+.mat-expansion-panel-header-title {
+  word-break: break-all;
 }
 
 h2 {
-  color: #90a4ae;
+  font-size: larger;
 }
 
-h3 {
-  color: #3f51b5;
+.actionButton {
+  margin: 20px;
+  width: 30%;
+
+  &:hover {
+    transform: scale(1.25)
+  }
+}
+
+.deleteButton {
+  margin-right: 15px;
+}
+
+mat-tooltip-component {
+  position: relative;
+}
+
+.actionIcon {
+  height: 90% !important;
+  width: 90% !important;
+  font-size: 48px !important;
+  text-align: center;
 }

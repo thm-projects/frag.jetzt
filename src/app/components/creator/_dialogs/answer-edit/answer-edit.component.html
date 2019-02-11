@@ -1,11 +1,11 @@
 <div *ngIf="answer">
   <mat-form-field class="input-block">
-    <input [(ngModel)]="answer.answerOption.label" #roomName matInput placeholder="{{ 'content.answer' | translate }}" name="answer-label"/>
+    <input [(ngModel)]="answer.answerOption.label" matInput
+           placeholder="{{ 'content.answer' | translate }}" name="answer-label"/>
   </mat-form-field>
   <mat-form-field class="input-block">
-            <textarea [(ngModel)]="answer.answerOption.points" #roomDescription matInput matTextareaAutosize
-                      matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="{{ 'content.points' | translate }}" name="points">
-            </textarea>
+    <input [(ngModel)]="answer.answerOption.points" matInput
+           placeholder="{{ 'content.points' | translate }}" name="points">
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button (click)="dialogRef.close()" mat-button color="primary">

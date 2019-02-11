@@ -1,16 +1,10 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ContentChoice } from '../../../models/content-choice';
 import { DisplayAnswer } from '../content-choice-creator/content-choice-creator.component';
 import { AnswerOption } from '../../../models/answer-option';
 import { NotificationService } from '../../../services/util/notification.service';
 import { ContentType } from '../../../models/content-type.enum';
 import { ContentService } from '../../../services/http/content.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
-import { ContentListComponent } from '../content-list/content-list.component';
-import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
-import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -47,38 +41,18 @@ export class ContentYesNoCreatorComponent implements OnInit {
 
   displayAnswers: DisplayAnswer[] = [];
   newAnswerOptionPoints = 0;
-  collections: string[] = ['ARSnova', 'Angular', 'HTML', 'TypeScript' ];
-  myControl = new FormControl();
-  filteredOptions: Observable<string[]>;
-  lastCollection: string;
-
-  editDialogMode = false;
 
   constructor(private contentService: ContentService,
               private notificationService: NotificationService,
-              public dialog: MatDialog,
-              public dialogRef: MatDialogRef<ContentListComponent>,
-              private translationService: TranslateService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              private translationService: TranslateService) {
   }
 
   ngOnInit() {
-    this.roomId = localStorage.getItem(`roomId`);
+    this.roomId = localStorage.getItem('roomId');
     for (let i = 0; i < this.answerLabels.length; i++) {
       this.content.options.push(new AnswerOption(this.answerLabels[i], this.newAnswerOptionPoints));
     }
     this.fillCorrectAnswers();
-    this.lastCollection = sessionStorage.getItem('collection');
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.collections.filter(collection => collection.toLowerCase().includes(filterValue));
   }
 
   fillCorrectAnswers() {
@@ -129,28 +103,5 @@ export class ContentYesNoCreatorComponent implements OnInit {
       ContentType.BINARY
     )).subscribe();
     this.resetAfterSubmit();
-  }
-
-  editDialogClose($event, action: string) {
-    $event.preventDefault();
-    this.dialogRef.close(action);
-  }
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-  openDeletionContentDialog($event): void {
-    $event.preventDefault();
-    const dialogRef = this.dialog.open(ContentDeleteComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.content = this.content;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.dialogRef.close(result);
-        }
-      });
   }
 }

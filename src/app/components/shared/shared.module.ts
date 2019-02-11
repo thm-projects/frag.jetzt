@@ -13,8 +13,6 @@ import { RoomPageComponent } from './room-page/room-page.component';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { AnswerEditComponent } from '../creator/_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from '../creator/_dialogs/content-delete/content-delete.component';
-import { MarkdownHelpDialogComponent } from '../creator/_dialogs/markdown-help-dialog/markdown-help-dialog.component';
-import { GenericDataDialogComponent } from './_dialogs/generic-data-dialog/generic-data-dialog.component';
 import { CommentCreatePageComponent } from '../participant/comment-create-page/comment-create-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
@@ -39,8 +37,6 @@ import { StatisticComponent } from './statistic/statistic.component';
     AnswerEditComponent,
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
-    MarkdownHelpDialogComponent,
-    GenericDataDialogComponent,
     FooterComponent,
     FooterImprintComponent,
     FeedbackBarometerPageComponent,
@@ -60,18 +56,12 @@ import { StatisticComponent } from './statistic/statistic.component';
     AnswerEditComponent,
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
-    MarkdownHelpDialogComponent,
-    GenericDataDialogComponent,
     FooterComponent,
     FooterImprintComponent,
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
     StatisticsPageComponent
-  ],
-  entryComponents: [
-    MarkdownHelpDialogComponent,
-    GenericDataDialogComponent
   ]
 })
 export class SharedModule {

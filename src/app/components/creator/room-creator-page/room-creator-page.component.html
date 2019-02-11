@@ -14,7 +14,7 @@
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
-        <mat-expansion-panel *ngIf="!room.description == ''" class="mat-elevation-z0">
+        <mat-expansion-panel *ngIf="!(room.description == '')" class="mat-elevation-z0">
           <mat-expansion-panel-header>
             <h4>{{ 'room-page.description' | translate }}</h4>
           </mat-expansion-panel-header>
@@ -37,7 +37,7 @@
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button *ngIf="!modify" (click)="showEditDialog()"  color="accent"
+          <button mat-icon-button *ngIf="!modify" (click)="showEditDialog()" color="accent"
                   matTooltip="{{ 'room-page.edit-room' | translate}}">
             <mat-icon>create</mat-icon>
           </button>

@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { MarkdownModule } from 'ngx-markdown';
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -86,7 +85,6 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
     FlexLayoutModule,
     FormsModule,
     HttpClientModule,
-    MarkdownModule,
     ReactiveFormsModule
   ],
   declarations: []

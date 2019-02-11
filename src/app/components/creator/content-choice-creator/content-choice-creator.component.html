@@ -1,6 +1,4 @@
 <form (ngSubmit)="submitContent()" fxLayout="column" fxLayoutGap="20px">
-  <markdown [data]="content.body"></markdown>
-  <mat-divider></mat-divider>
 
   <mat-radio-group [(ngModel)]="singleChoice" [ngModelOptions]="{standalone: true}" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-radio-button [value]=true [checked]=true>
@@ -11,11 +9,10 @@
     </mat-radio-button>
   </mat-radio-group>
 
-  <mat-table #table [dataSource]="displayAnswers">
+  <mat-table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <!-- ToDo: Check ngModel -->
         <mat-checkbox color="primary" (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
                       [checked]="answer.correct"
                       name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}
@@ -27,12 +24,12 @@
       <mat-header-cell *matHeaderCellDef>{{ 'content.actions' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
         <button mat-icon-button
-                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.correct)"
-                color="primary" matTooltip="Edit answer">
+                (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
+                color="primary" matTooltip="{{ 'content.edit-answer' | translate }}">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)"
-                matTooltip="Delete answer">
+                matTooltip="{{ 'content.delete-answer' | translate }}">
           <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
@@ -42,24 +39,19 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
 
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-form-field class="input-block">
       <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
-    <button mat-button type="button" (click)="addAnswer($event); answerLabel.value = '';">
-      {{ 'content.add-answer' | translate }}
+    <button *ngIf="singleChoice" mat-icon-button class="addButton" (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
+      <mat-icon class="addIcon" color="primary">add_circle</mat-icon>
+    </button>
+    <button *ngIf="!singleChoice" mat-icon-button (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
+      <mat-icon class="addIcon" color="primary">add_box</mat-icon>
     </button>
   </div>
-  <div *ngIf="!editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="25px">
     <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
     <button mat-raised-button (click)="reset($event)" color="primary">{{ 'content.reset' | translate }}</button>
-    <button mat-raised-button *ngIf="lastDeletedDisplayAnswer" (click)="recoverDeletedAnswer($event)" color="primary">
-      {{ 'content.undo' | translate}}
-    </button>
-  </div>
-  <div *ngIf="editDialogMode" fxLayout="row" fxLayoutAlign="center" fxLayoutGap="50px">
-    <button mat-raised-button (click)="editDialogClose($event,'edit')" color="primary">Update</button>
-    <button mat-raised-button (click)="editDialogClose($event,'abort')" color="primary">Abort</button>
-    <button mat-raised-button (click)="openDeletionContentDialog($event)" color="warn">Delete</button>
   </div>
 </form>
