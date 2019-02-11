@@ -1,9 +1,9 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
   <mat-form-field>
-    <input matInput [(ngModel)]="content.subject" maxlength="20" placeholder="Thema" name="subject"/>
+    <input matInput [(ngModel)]="content.subject" maxlength="20" placeholder="{{'content.subject' | translate}}" name="subject"/>
   </mat-form-field>
   <mat-form-field>
-    <textarea matInput [(ngModel)]="content.body" rows="3" maxlength="100" placeholder="Inhalt" name="body"></textarea>
+    <textarea matInput [(ngModel)]="content.body" rows="3" maxlength="100" placeholder="{{'content.body' | translate}}" name="body"></textarea>
   </mat-form-field>
   <h4>{{'content.answers' | translate}}</h4>
   <mat-table [dataSource]="displayAnswers">
