@@ -7,14 +7,16 @@
   </mat-form-field>
   <mat-table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
-      <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <mat-checkbox color="primary" [(ngModel)]="answer.correct"
-                    [checked]="answer.correct"
-                    name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}</mat-checkbox>
+        <h4>{{answer.answerOption.label}}</h4>
       </mat-cell>
     </ng-container>
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <ng-container matColumnDef="checked">
+      <mat-cell *matCellDef="let answer">
+        <mat-checkbox color="primary" [(ngModel)]="answer.correct"
+                      [checked]="answer.correct"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">

@@ -13,7 +13,7 @@ import { AnswerOption } from '../../../../models/answer-option';
 export class ContentEditComponent implements OnInit {
   content: ContentChoice;
   displayAnswers: DisplayAnswer[] = [];
-  displayedColumns = ['label'];
+  displayedColumns = ['label', 'checked'];
 
   constructor(public dialogRef: MatDialogRef<ContentListComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
