@@ -17,7 +17,7 @@
     <ng-container matColumnDef="checked">
       <mat-cell *matCellDef="let answer; let i = index">
         <mat-checkbox color="primary" [(ngModel)]="answer.correct"
-                      [checked]="answer.correct" (ngModelChange)="update(i)"></mat-checkbox>
+                      [checked]="answer.correct" (ngModelChange)="updateAnswer(i)"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -26,7 +26,7 @@
     <button (click)="dialogRef.close('abort')" mat-button color="primary">
       {{ 'room-page.abort' | translate }}
     </button>
-    <button (click)="dialogRef.close('update')" mat-raised-button color="primary">
+    <button (click)="updateContent()" mat-raised-button color="primary">
       {{ 'room-page.update' | translate }}
     </button>
   </div>
