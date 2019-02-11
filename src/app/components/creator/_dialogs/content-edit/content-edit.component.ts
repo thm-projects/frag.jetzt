@@ -32,9 +32,6 @@ export class ContentEditComponent implements OnInit {
       this.content.options[index].points = 10;
     } else {
       this.content.options[index].points = -10;
-      // this.content.correctOptionIndexes[index] = -10;
-
     }
-    console.log('updated:' + index + this.displayAnswers[index].correct + this.content.options[index].points);
   }
 }
