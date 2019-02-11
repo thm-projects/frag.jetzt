@@ -155,7 +155,7 @@ export class ContentListComponent implements OnInit {
           break;
         case 'update':
           this.contents[index] = this.contentCBackup;
-          this.contentService.updateContent(this.contentCBackup).subscribe( () => {
+          this.contentService.updateChoiceContent(this.contentCBackup).subscribe( () => {
             this.notificationService.show('Content "' + this.contents[index].subject + '" updated.');
           });
           break;

@@ -10,14 +10,14 @@
     <ng-container matColumnDef="label">
       <mat-cell *matCellDef="let answer">
         <mat-form-field class="input-block">
-          <input matInput [(ngModel)]="answer.answerOption.label" maxlength="20" name="answer"/>
+          <input matInput [(ngModel)]="answer.answerOption.label" maxlength="20" placeholder="A" name="answer"/>
         </mat-form-field>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="checked">
-      <mat-cell *matCellDef="let answer">
+      <mat-cell *matCellDef="let answer; let i = index">
         <mat-checkbox color="primary" [(ngModel)]="answer.correct"
-                      [checked]="answer.correct"></mat-checkbox>
+                      [checked]="answer.correct" (ngModelChange)="update(i)"></mat-checkbox>
       </mat-cell>
     </ng-container>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

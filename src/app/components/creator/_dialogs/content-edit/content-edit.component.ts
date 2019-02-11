@@ -22,8 +22,19 @@ export class ContentEditComponent implements OnInit {
   ngOnInit() {
     for (let i = 0; i < this.content.options.length; i++) {
       let correct: boolean;
-      correct = this.content.options[i].points >= 0;
+      correct = this.content.options[i].points > 0;
       this.displayAnswers[i] = new DisplayAnswer(new AnswerOption(this.content.options[i].label, this.content.options[i].points), correct);
     }
+  }
+
+  update(index: number) {
+    if (this.displayAnswers[index].correct === true) {
+      this.content.options[index].points = 10;
+    } else {
+      this.content.options[index].points = -10;
+      // this.content.correctOptionIndexes[index] = -10;
+
+    }
+    console.log('updated:' + index + this.displayAnswers[index].correct + this.content.options[index].points);
   }
 }
