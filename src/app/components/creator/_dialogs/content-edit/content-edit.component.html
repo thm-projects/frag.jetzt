@@ -1,14 +1,14 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
-  <mat-form-field class="input-block">
+  <mat-form-field>
     <input matInput [(ngModel)]="content.subject" maxlength="20" placeholder="Thema" name="subject"/>
   </mat-form-field>
-  <mat-form-field class="input-block">
+  <mat-form-field>
     <textarea matInput [(ngModel)]="content.body" rows="3" maxlength="100" placeholder="Inhalt" name="body"></textarea>
   </mat-form-field>
+  <h4>{{'content.answers' | translate}}</h4>
   <mat-table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
       <mat-cell *matCellDef="let answer">
-        <h3>A:</h3>
         <mat-form-field class="input-block">
           <input matInput [(ngModel)]="answer.answerOption.label" maxlength="20" name="answer"/>
         </mat-form-field>
