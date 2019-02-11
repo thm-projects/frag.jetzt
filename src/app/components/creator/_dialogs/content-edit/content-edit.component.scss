@@ -3,5 +3,21 @@ textarea {
 }
 
 .mat-column-checked {
+  display: flex;
   justify-content: flex-end;
+  max-width: 30px;
+}
+
+mat-row {
+  background-color: #bbdefb;
+  border-color: #bbdefb;
+}
+
+h3 {
+  padding-right: 10px;
+  color: #4db6ac;
+}
+
+mat-cell {
+  padding-left: 10px!important;
 }

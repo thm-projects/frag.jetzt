@@ -8,7 +8,10 @@
   <mat-table [dataSource]="displayAnswers">
     <ng-container matColumnDef="label">
       <mat-cell *matCellDef="let answer">
-        <h4>{{answer.answerOption.label}}</h4>
+        <h3>A:</h3>
+        <mat-form-field class="input-block">
+          <input matInput [(ngModel)]="answer.answerOption.label" maxlength="20" name="answer"/>
+        </mat-form-field>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="checked">
