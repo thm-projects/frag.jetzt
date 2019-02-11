@@ -16,6 +16,7 @@ export class ContentEditComponent implements OnInit {
   content: ContentChoice;
   displayAnswers: DisplayAnswer[] = [];
   displayedColumns = ['label', 'checked'];
+  ansCounter = 1;
 
   constructor(private translateService: TranslateService,
               private notificationService: NotificationService,
@@ -33,8 +34,20 @@ export class ContentEditComponent implements OnInit {
 
   updateAnswer(index: number) {
     if (this.displayAnswers[index].correct === true) {
+      this.ansCounter++;
+      console.log(this.ansCounter);
+      if ((!this.content.multiple) && this.ansCounter > 1) {
+        for (let i = 0; i < this.displayAnswers.length; i++) {
+          if (!(i === index)) {
+            this.displayAnswers[i].correct = false;
+            this.content.options[i].points = -10;
+          }
+        }
+        this.ansCounter = 1;
+      }
       this.content.options[index].points = 10;
     } else {
+      this.ansCounter--;
       this.content.options[index].points = -10;
     }
   }
