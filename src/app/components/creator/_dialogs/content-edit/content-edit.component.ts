@@ -40,33 +40,52 @@ export class ContentEditComponent implements OnInit {
   }
 
   updateContent() {
+    let counter = 0;
     if (this.content.subject === '' || this.content.body === '') {
       this.translateService.get('content.no-empty').subscribe(message => {
         this.notificationService.show(message);
       });
       return;
     }
-    if (this.content.options.length === 0) {
+    if (this.displayAnswers.length === 0) {
       this.translateService.get('content.need-answers').subscribe(message => {
         this.notificationService.show(message);
       });
       return;
     }
     for (let i = 0; i < this.content.options.length; i++) {
-      if (this.content.options[i].label === '') {
+      console.log(i);
+      if (this.displayAnswers[i].answerOption.label === '') {
         this.translateService.get('content.no-empty2').subscribe(message => {
           this.notificationService.show(message);
         });
         return;
       }
-      if (this.content.options[i].points > 0 && this.content.multiple) {
-        this.dialogRef.close('update');
-      } else {
+      if (this.content.options[i].points > 0) {
+        counter++;
+      }
+    }
+    if (counter <= 0) {
+      if (this.content.multiple) {
         this.translateService.get('content.at-least-one').subscribe(message => {
+          this.notificationService.show(message);
+          return;
+        });
+      } else {
+        this.translateService.get('content.select-one').subscribe(message => {
+          this.notificationService.show(message);
+          return;
+        });
+      }
+    } else {
+      if ((!this.content.multiple) && counter > 1) {
+        this.translateService.get('content.select-one').subscribe(message => {
           this.notificationService.show(message);
         });
         return;
       }
+      this.dialogRef.close('update');
+      return;
     }
   }
 }
