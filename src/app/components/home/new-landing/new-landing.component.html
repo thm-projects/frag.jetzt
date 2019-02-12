@@ -1,0 +1,23 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="50px" fxFill>
+  <form>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+      <mat-form-field class="input-block">
+        <input matInput #roomId placeholder="Join Session!" maxlength="8" [matAutocomplete]="auto"/>
+        <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let session of sessions" [value]="session.id">
+            {{session.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-fab color="primary" type="submit">
+        <mat-icon>input</mat-icon>
+      </button>
+    </div>
+  </form>
+  <button mat-button class="demo" color="primary">Demo Session<mat-icon color="accent">lightbulb_outline</mat-icon></button>
+    <button mat-fab  color="accent" (click)="openCreateRoomDialog()">
+      <mat-icon>add</mat-icon>
+    </button>
+  <h3>Neue Session erstellen!</h3>
+</div>

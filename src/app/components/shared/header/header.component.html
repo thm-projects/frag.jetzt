@@ -23,6 +23,9 @@
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
+    <button mat-icon-button>
+      <mat-icon>account_box</mat-icon>
+    </button>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
       <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon" color="accent">record_voice_over</mat-icon>
       <mat-icon *ngIf="user.role === 0" aria-label="Example icon-button with a heart icon" color="accent">supervisor_account</mat-icon>

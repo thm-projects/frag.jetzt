@@ -24,6 +24,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
 import { MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
+import { RoomCreateComponent } from './components/creator/_dialogs/room-create/room-create.component';
 export function dialogClose(dialogResult: any) {
 }
 
@@ -34,12 +36,15 @@ export function dialogClose(dialogResult: any) {
     LoginComponent,
     PasswordResetComponent,
     RegisterComponent,
-    UserActivationComponent
+    UserActivationComponent,
+    NewLandingComponent,
+    RoomCreateComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
-    UserActivationComponent
+    UserActivationComponent,
+    RoomCreateComponent
   ],
   imports: [
     AppRoutingModule,
