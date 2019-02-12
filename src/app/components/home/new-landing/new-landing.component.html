@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="50px" fxFill>
   <form>
     <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-      <mat-form-field class="input-block">
+      <mat-form-field class="number">
         <input matInput #roomId placeholder="Join Session!" maxlength="8" [matAutocomplete]="auto"/>
         <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
         <mat-autocomplete #auto="matAutocomplete">
