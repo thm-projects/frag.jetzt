@@ -6,6 +6,10 @@ mat-form-field.input-block {
   border-top-style: none;
 }
 
+.mat-fab .mat-button-wrapper {
+  padding: 0!important;
+}
+
 mat-dialog-container {
   background-color: #bbdefb !important;
 }
