@@ -6,8 +6,7 @@ import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { NotificationService } from '../../../services/util/notification.service';
-import {LanguageService} from "../../../services/util/language.service";
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,7 +23,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class RoomJoinComponent implements OnInit {
 
   room: Room;
-  demoId = '26973546'; // online 95680586, change before merging
+  demoId = '26973546';
 
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 

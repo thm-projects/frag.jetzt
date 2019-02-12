@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class NewLandingComponent implements OnInit {
 
   user: User;
-  demoId = 88992370;
+  demoId = 88992370; // online 95680586, change before merging
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
