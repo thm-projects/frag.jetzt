@@ -2,6 +2,10 @@ mat-form-field.input-block {
   display: block;
 }
 
+.mat-form-field-infix {
+  border-top-style: none;
+}
+
 mat-dialog-container {
   background-color: #bbdefb !important;
 }
