@@ -4,16 +4,7 @@ import { MatDialog } from '@angular/material';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
-
-export class Session {
-  name: string;
-  id: number;
-
-  constructor(name: string, id: number) {
-    this.id = id;
-    this.name = name;
-  }
-}
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-landing',
@@ -22,17 +13,14 @@ export class Session {
 })
 export class NewLandingComponent implements OnInit {
 
-  sessions: Session[] = new Array<Session>();
   user: User;
 
   constructor(public authenticationService: AuthenticationService,
+              private router: Router,
               public dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.sessions[0] = new Session('Angular', 98299243);
-    this.sessions[1] = new Session('Typescript', 52009627);
-    this.sessions[2] = new Session('Angular', 48590407);
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
@@ -42,9 +30,13 @@ export class NewLandingComponent implements OnInit {
     });
   }
 
-  login(): void {
+  joinRoom(id: number) {
     if (!this.user) {
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe();
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
+        if (loggedIn === 'true') {
+          this.router.navigate([`/participant/room/${id}`]);
+        }
+      });
     }
   }
 }

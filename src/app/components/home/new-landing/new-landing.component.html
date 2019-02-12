@@ -2,15 +2,10 @@
   <form>
     <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
       <mat-form-field class="number">
-        <input matInput #roomId placeholder="Join Session!" maxlength="8" [matAutocomplete]="auto"/>
+        <input matInput #roomId placeholder="Join Session!" maxlength="8"/>
         <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
-        <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let session of sessions" [value]="session.id">
-            {{session.name}}
-          </mat-option>
-        </mat-autocomplete>
       </mat-form-field>
-      <button mat-fab color="primary" type="submit" (click)="login()">
+      <button mat-fab color="primary" type="submit" (click)="joinRoom(roomId.value)">
         <mat-icon>input</mat-icon>
       </button>
     </div>
