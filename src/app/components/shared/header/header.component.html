@@ -23,7 +23,7 @@
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
-    <button mat-icon-button>
+    <button mat-icon-button *ngIf="!user">
       <mat-icon>account_box</mat-icon>
     </button>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
