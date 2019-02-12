@@ -4,76 +4,10 @@
   margin-top: 2%;
 }
 
-.outer {
-  width: 50%;
-  min-width: 300px;
-  background-color: #bbdefb;
-}
-
-.main-heading {
-  text-align: center;
-}
-
-.main-heading-primary {
-  display: block;
-  font-size: 120%;
-  font-weight: bold;
-  text-align: center;
-  letter-spacing: 10px;
-  color: mat-color($arsnova-primary,500);
-  animation: moveInLeft 2s ease-out;
-}
-
-.main-heading-secondary {
-  font-family: sans-serif;
-  display: block;
-  font-size: 40%;
-  text-align: center;
-  letter-spacing: 10px;
-  color: mat-color($arsnova-accent,500);
-  animation: moveInRight 1s ease-out;
-}
-
-@keyframes moveInLeft {
-  0% {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-
-  80% {
-    transform: translateX(10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
-}
-
-@keyframes moveInRight {
-  0% {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-
-  80% {
-    transform: translateX(-10px);
-  }
-
-  100% {
-    opacity: 1;
-    transform: translate(0);
-  }
-}
-
 .regButton {
   min-width: 107px;
 }
 
 .pwButton {
   min-width: 178px;
-}
-
-mat-card-header {
-  justify-content: center;
 }

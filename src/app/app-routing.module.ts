@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginPageComponent } from './components/home/login-page/login-page.component';
 import { FooterImprintComponent } from './components/shared/footer-imprint/footer-imprint.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { CreatorModule } from './components/creator/creator.module';
 import { ParticipantModule } from './components/participant/participant.module';
+import { HomePageComponent } from './components/home/home-page/home-page.component';
 
 const routes: Routes = [
   {
@@ -14,7 +14,7 @@ const routes: Routes = [
   },
   {
     path: 'home',
-    component: LoginPageComponent
+    component: HomePageComponent
   },
   {
     path: 'creator',
