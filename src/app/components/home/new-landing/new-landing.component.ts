@@ -14,6 +14,7 @@ import { Router } from '@angular/router';
 export class NewLandingComponent implements OnInit {
 
   user: User;
+  demoId = 88992370;
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
@@ -30,6 +31,10 @@ export class NewLandingComponent implements OnInit {
     });
   }
 
+  joinDemo() {
+    this.joinRoom(this.demoId);
+  }
+
   joinRoom(id: number) {
     if (!this.user) {
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
@@ -37,6 +42,8 @@ export class NewLandingComponent implements OnInit {
           this.router.navigate([`/participant/room/${id}`]);
         }
       });
+    } else {
+      this.router.navigate([`/participant/room/${id}`]);
     }
   }
 }
