@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomCreateComponent } from '../../creator/_dialogs/room-create/room-create.component';
+import { RoomCreateComponent } from '../_dialogs/room-create/room-create.component';
 import { MatDialog } from '@angular/material';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
   selector: 'app-new-landing',
@@ -18,11 +20,15 @@ export class NewLandingComponent implements OnInit {
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   openCreateRoomDialog(): void {
