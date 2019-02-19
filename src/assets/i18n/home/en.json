@@ -10,7 +10,7 @@
 	"login-page": {
 		"creator": "Creator",
 		"participant": "Participant",
-		"password-reset": "Reset password",
+		"password-reset": "Forgot your password?",
 		"register": "Register",
     "welcome": "Welcome to"
 	},

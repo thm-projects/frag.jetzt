@@ -10,7 +10,7 @@
 	"login-page": {
 		"creator": "Dozent/in",
 		"participant": "Student/in",
-		"password-reset": "Passwort zurücksetzen",
+		"password-reset": "Passwort vergessen?",
 		"register": "Registrieren",
     "welcome": "Willkommen bei"
 	},
