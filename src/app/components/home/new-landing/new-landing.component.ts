@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { LoginPageComponent } from '../login-page/login-page.component';
 
 @Component({
   selector: 'app-new-landing',
@@ -25,6 +26,12 @@ export class NewLandingComponent implements OnInit {
 
   openCreateRoomDialog(): void {
     this.dialog.open(RoomCreateComponent, {
+      width: '350px'
+    });
+  }
+
+  openLoginDialog(): void {
+    this.dialog.open(LoginPageComponent, {
       width: '350px'
     });
   }
