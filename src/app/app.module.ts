@@ -43,7 +43,8 @@ export function dialogClose(dialogResult: any) {
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
-    UserActivationComponent
+    UserActivationComponent,
+    LoginPageComponent
   ],
   imports: [
     AppRoutingModule,
