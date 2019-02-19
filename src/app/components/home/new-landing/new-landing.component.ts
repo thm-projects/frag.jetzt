@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { LoginPageComponent } from '../login-page/login-page.component';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-new-landing',
@@ -13,15 +15,27 @@ import { LoginPageComponent } from '../login-page/login-page.component';
 })
 export class NewLandingComponent implements OnInit {
 
+  user: User;
+
   constructor(private router: Router,
               public dialog: MatDialog,
               private translateService: TranslateService,
-              protected langService: LanguageService) {
+              protected langService: LanguageService,
+              public authenticationService: AuthenticationService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+  }
+
+  createSession() {
+    if (this.user) {
+      this.openCreateRoomDialog();
+    } else {
+      this.openLoginDialog();
+    }
   }
 
   openCreateRoomDialog(): void {
