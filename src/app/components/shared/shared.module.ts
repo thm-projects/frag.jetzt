@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { FooterImprintComponent } from './footer-imprint/footer-imprint.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RoomJoinComponent } from './room-join/room-join.component';
+import { RoomJoinComponent } from '../home/room-join/room-join.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomPageComponent } from './room-page/room-page.component';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
