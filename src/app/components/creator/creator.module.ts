@@ -9,7 +9,6 @@ import { ContentYesNoCreatorComponent } from './content-yes-no-creator/content-y
 import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
-import { RoomCreateComponent } from '../shared/_dialogs/room-create/room-create.component';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
 import { AnswerEditComponent } from './_dialogs/answer-edit/answer-edit.component';
@@ -45,7 +44,6 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
     ContentYesNoCreatorComponent,
     HomeCreatorPageComponent,
     RoomCreatorPageComponent,
-    RoomCreateComponent,
     RoomDeleteComponent,
     RoomEditComponent,
     ContentCreatorComponent,
@@ -53,7 +51,6 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
     ContentEditComponent
   ],
   entryComponents: [
-    RoomCreateComponent,
     RoomDeleteComponent,
     RoomEditComponent,
     AnswerEditComponent,
