@@ -19,6 +19,7 @@ import { ListStatisticComponent } from './list-statistic/list-statistic.componen
 import { ChartsModule } from 'ng2-charts';
 import { StatisticComponent } from './statistic/statistic.component';
 import { RoomJoinComponent } from './room-join/room-join.component';
+import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { RoomJoinComponent } from './room-join/room-join.component';
     CommentListComponent,
     StatisticsPageComponent,
     ListStatisticComponent,
-    StatisticComponent
+    StatisticComponent,
+    RoomCreateComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -62,6 +64,9 @@ import { RoomJoinComponent } from './room-join/room-join.component';
     CommentCreatePageComponent,
     CommentListComponent,
     StatisticsPageComponent
+  ],
+  entryComponents: [
+    RoomCreateComponent
   ]
 })
 export class SharedModule {

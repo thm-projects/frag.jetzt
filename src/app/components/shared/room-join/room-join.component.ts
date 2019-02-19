@@ -7,6 +7,9 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { ErrorStateMatcher } from '@angular/material';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { UserRole } from '../../../models/user-roles.enum';
+import { User } from '../../../models/user';
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -23,7 +26,9 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class RoomJoinComponent implements OnInit {
 
   room: Room;
-  demoId = '26973546';
+  demoId = '95680586';
+  user: User;
+  loggedIn: boolean;
 
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
@@ -32,7 +37,8 @@ export class RoomJoinComponent implements OnInit {
   constructor(private roomService: RoomService,
               private router: Router,
               public notificationService: NotificationService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              public authenticationService: AuthenticationService, ) {
   }
 
   ngOnInit() {
@@ -47,8 +53,15 @@ export class RoomJoinComponent implements OnInit {
             this.notificationService.show(message);
           });
         } else {
+          if (!this.user) {
+            this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
+              if (loggedIn === 'true') {
+                this.router.navigate([`/participant/room/${id}`]);
+              }
+            });
+          }
           this.roomService.addToHistory(this.room.id);
-          this.router.navigate([`/participant/room/${this.room.shortId}`]);
+          this.router.navigate([`/participant/room/${id}`]);
         }
       });
   }

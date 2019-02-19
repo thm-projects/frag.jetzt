@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { MatDialog } from '@angular/material';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { User } from '../../../models/user';
-import { UserRole } from '../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -15,11 +12,7 @@ import { LanguageService } from '../../../services/util/language.service';
 })
 export class NewLandingComponent implements OnInit {
 
-  user: User;
-  demoId = 95680586;
-
-  constructor(public authenticationService: AuthenticationService,
-              private router: Router,
+  constructor(private router: Router,
               public dialog: MatDialog,
               private translateService: TranslateService,
               protected langService: LanguageService) {
@@ -27,7 +20,6 @@ export class NewLandingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
     this.translateService.use(localStorage.getItem('currentLang'));
   }
 
@@ -35,21 +27,5 @@ export class NewLandingComponent implements OnInit {
     this.dialog.open(RoomCreateComponent, {
       width: '350px'
     });
-  }
-
-  joinDemo() {
-    this.joinRoom(this.demoId);
-  }
-
-  joinRoom(id: number) {
-    if (!this.user) {
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
-        if (loggedIn === 'true') {
-          this.router.navigate([`/participant/room/${id}`]);
-        }
-      });
-    } else {
-      this.router.navigate([`/participant/room/${id}`]);
-    }
   }
 }
