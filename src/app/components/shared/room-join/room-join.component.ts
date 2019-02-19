@@ -38,7 +38,7 @@ export class RoomJoinComponent implements OnInit {
               private router: Router,
               public notificationService: NotificationService,
               private translateService: TranslateService,
-              public authenticationService: AuthenticationService, ) {
+              public authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
