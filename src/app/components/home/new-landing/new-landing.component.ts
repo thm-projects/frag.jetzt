@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomCreateComponent } from '../_dialogs/room-create/room-create.component';
+import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';
 import { MatDialog } from '@angular/material';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';

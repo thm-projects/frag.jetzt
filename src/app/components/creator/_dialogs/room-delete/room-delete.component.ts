@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { RoomCreateComponent } from '../../../home/_dialogs/room-create/room-create.component';
+import { RoomCreateComponent } from '../../../shared/_dialogs/room-create/room-create.component';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 

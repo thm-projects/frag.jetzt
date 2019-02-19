@@ -25,7 +25,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
 import { MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
-import { RoomCreateComponent } from './components/home/_dialogs/room-create/room-create.component';
+import { RoomCreateComponent } from './components/shared/_dialogs/room-create/room-create.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 export function dialogClose(dialogResult: any) {
 }
