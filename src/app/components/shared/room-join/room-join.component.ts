@@ -29,7 +29,6 @@ export class RoomJoinComponent implements OnInit {
   room: Room;
   demoId = '95680586';
   user: User;
-  loggedIn: string;
 
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
@@ -43,6 +42,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
   getRoom(id: string): void {
@@ -56,12 +56,12 @@ export class RoomJoinComponent implements OnInit {
         } else {
           if (!this.user) {
             this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
-              this.loggedIn = loggedIn;
+              if (loggedIn === 'true') {
+                this.addAndNavigate();
+              }
             });
-          }
-          if (this.loggedIn = 'true') {
-            this.roomService.addToHistory(this.room.id);
-            this.router.navigate([`/participant/room/${id}`]);
+          } else {
+            this.addAndNavigate();
           }
         }
       });
@@ -71,6 +71,11 @@ export class RoomJoinComponent implements OnInit {
     if (!this.roomFormControl.hasError('required') && !this.roomFormControl.hasError('minlength')) {
       this.getRoom(id);
     }
+  }
+
+  addAndNavigate() {
+    this.roomService.addToHistory(this.room.id);
+    this.router.navigate([`/participant/room/${this.room.shortId}`]);
   }
 
   joinDemo(): void {
