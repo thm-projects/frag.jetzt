@@ -18,6 +18,7 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { ListStatisticComponent } from './list-statistic/list-statistic.component';
 import { ChartsModule } from 'ng2-charts';
 import { StatisticComponent } from './statistic/statistic.component';
+import { RoomJoinComponent } from './room-join/room-join.component';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { StatisticComponent } from './statistic/statistic.component';
     SharedRoutingModule
   ],
   declarations: [
+    RoomJoinComponent,
     PageNotFoundComponent,
     RoomPageComponent,
     RoomListComponent,
@@ -45,6 +47,7 @@ import { StatisticComponent } from './statistic/statistic.component';
     StatisticComponent
   ],
   exports: [
+    RoomJoinComponent,
     PageNotFoundComponent,
     RoomPageComponent,
     RoomListComponent,

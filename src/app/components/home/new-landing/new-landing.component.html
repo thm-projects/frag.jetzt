@@ -1,16 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="50px" fxFill>
-  <form>
-    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-      <mat-form-field class="number">
-        <input matInput #roomId placeholder="Join Session!" maxlength="8"/>
-        <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
-      </mat-form-field>
-      <button mat-fab color="primary" type="submit" (click)="joinRoom(roomId.value)">
-        <mat-icon>input</mat-icon>
-      </button>
-    </div>
-  </form>
-  <button mat-button class="demo" color="primary" (click)="joinDemo()">Demo Session<mat-icon color="accent">lightbulb_outline</mat-icon></button>
+    <app-room-join></app-room-join>
     <button mat-fab class="fab-extended" color="accent" (click)="openCreateRoomDialog()">
       <mat-icon class="add">add</mat-icon>
       Create Session
