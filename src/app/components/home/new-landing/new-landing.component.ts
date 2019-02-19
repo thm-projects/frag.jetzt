@@ -16,7 +16,7 @@ import { LanguageService } from '../../../services/util/language.service';
 export class NewLandingComponent implements OnInit {
 
   user: User;
-  demoId = 88992370; // online 95680586, change before merging
+  demoId = 95680586;
 
   constructor(public authenticationService: AuthenticationService,
               private router: Router,
