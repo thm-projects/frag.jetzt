@@ -14,6 +14,13 @@
 		"register": "Registrieren",
     "welcome": "Willkommen bei"
 	},
+  "home-page": {
+    "join-demo-session": "Demo-Session betreten",
+    "session-id": "Session-Id",
+    "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
+    "please-enter": "Bitte geben Sie eine Session-ID ein.",
+    "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
+  },
 	"login": {
 		"email": "E-Mail",
 		"email-invalid": "E-Mail Adresse ist ungültig",
@@ -51,5 +58,11 @@
 		"register": "Registrieren",
 		"register-successful": "Erfolgreich registriert. Bitte prüfen Sie Ihre E-Mails",
 		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben."
-	}
+	},
+  "session": {
+    "session-name": "Name der Session",
+    "description": "Beschreibung",
+    "max-ls": "Max. Zeichen:",
+    "create-session": "Session erstellen"
+  }
 }
