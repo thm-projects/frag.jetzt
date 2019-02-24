@@ -1,4 +1,10 @@
 {
+  "home-page": {
+		"create-session": "Create session",
+    "no-empty-name": "Please enter a name.",
+    "created-1": "Session '",
+    "created-2": "' successfully created."
+  },
   "room-page": {
     "comments": "Comments",
     "create-content": "Create content",

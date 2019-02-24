@@ -7,6 +7,8 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { MatDialog } from '@angular/material';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +23,8 @@ export class HeaderComponent implements OnInit {
               private notificationService: NotificationService,
               public router: Router,
               private translationService: TranslateService,
-              private langService: LanguageService) {
+              private langService: LanguageService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -69,6 +72,16 @@ export class HeaderComponent implements OnInit {
     this.translationService.use(language);
     localStorage.setItem('currentLang', language);
     this.langService.langEmitter.emit(language);
-
   }
+
+  login(isDozent: boolean) {
+    const dialogRef = this.dialog.open(LoginComponent, {
+      width: '350px'
+    });
+    let role = (isDozent === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
+    console.log(role);
+    dialogRef.componentInstance.role = role;
+    dialogRef.componentInstance.isStandard = true;
+  }
+
 }

@@ -1,4 +1,10 @@
 {
+  "home-page": {
+		"create-session": "Session erstellen",
+    "no-empty-name": "Bitte geben Sie einen Namen ein.",
+    "created-1": "Session '",
+    "created-2": "' erfolgreich erstellt."
+  },
   "room-page": {
     "comments": "Kommentare",
     "create-content": "Frage erstellen",

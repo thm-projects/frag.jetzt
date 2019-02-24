@@ -50,7 +50,7 @@ export class NewLandingComponent implements OnInit {
       width: '350px'
     });
     dialogRef.componentInstance.role = UserRole.CREATOR;
-    dialogRef.componentInstance.loginType = 'beforecreation';
+    dialogRef.componentInstance.isStandard = false;
     dialogRef.afterClosed()
       .subscribe(result => {
           if (this.user && !this.user.isGuest) {
