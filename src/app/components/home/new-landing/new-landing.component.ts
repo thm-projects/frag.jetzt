@@ -51,6 +51,7 @@ export class NewLandingComponent implements OnInit {
     });
     dialogRef.componentInstance.role = UserRole.CREATOR;
     dialogRef.componentInstance.isStandard = false;
+    dialogRef.componentInstance.guestAllowed = false;
     dialogRef.afterClosed()
       .subscribe(result => {
           if (this.user && !this.user.isGuest) {
