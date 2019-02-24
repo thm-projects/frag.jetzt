@@ -2,13 +2,13 @@
 
 .outer {
   width: 90%;
-  max-width: 600px;
+  max-width: 400px;
   background-color: #bbdefb;
 }
 
 .main-heading-primary {
   display: block;
-  font-size: 120%;
+  font-size: 150%;
   font-weight: bold;
   text-align: center;
   letter-spacing: 10px;
@@ -19,7 +19,7 @@
 .main-heading-secondary {
   font-family: sans-serif;
   display: block;
-  font-size: 40%;
+  font-size: 60%;
   text-align: center;
   letter-spacing: 10px;
   color: mat-color($arsnova-accent,500);
