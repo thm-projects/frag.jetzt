@@ -19,7 +19,11 @@
     "session-id": "Session-Id",
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
     "please-enter": "Bitte geben Sie eine Session-ID ein.",
-    "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
+		"exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
+		"create-session": "Neue Session erstellen",
+    "no-empty-name": "Bitte geben Sie einen Namen ein.",
+    "created-1": "Session '",
+    "created-2": "' erfolgreich erstellt."
   },
 	"login": {
 		"email": "E-Mail",
