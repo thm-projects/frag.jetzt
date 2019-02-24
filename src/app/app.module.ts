@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
-import { LoginPageComponent } from './components/home/login-page/login-page.component';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
@@ -32,7 +31,6 @@ export function dialogClose(dialogResult: any) {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent,
     LoginComponent,
     PasswordResetComponent,
     RegisterComponent,
@@ -44,7 +42,7 @@ export function dialogClose(dialogResult: any) {
     RegisterComponent,
     PasswordResetComponent,
     UserActivationComponent,
-    LoginPageComponent
+    LoginComponent
   ],
   imports: [
     AppRoutingModule,

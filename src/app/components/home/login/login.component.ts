@@ -7,6 +7,7 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../_dialogs/user-activation/user-activation.component';
+import { PasswordResetComponent } from '../_dialogs/password-reset/password-reset.component';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -108,5 +109,11 @@ export class LoginComponent implements OnInit, OnChanges {
         this.notificationService.show(message);
       });
     }
+  }
+
+  openPasswordDialog(): void {
+    this.dialog.open(PasswordResetComponent, {
+      width: '350px'
+    });
   }
 }

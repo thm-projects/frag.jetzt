@@ -4,9 +4,9 @@ import { MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { LoginPageComponent } from '../login-page/login-page.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
+import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-new-landing',
@@ -31,7 +31,7 @@ export class NewLandingComponent implements OnInit {
   }
 
   createSession() {
-    if (this.user) {
+    if (this.user  && !this.user.isGuest) {
       this.openCreateRoomDialog();
     } else {
       this.openLoginDialog();
@@ -45,7 +45,7 @@ export class NewLandingComponent implements OnInit {
   }
 
   openLoginDialog(): void {
-    this.dialog.open(LoginPageComponent, {
+    this.dialog.open(LoginComponent, {
       width: '350px'
     });
   }
