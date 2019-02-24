@@ -1,7 +1,5 @@
 {
   "home-page": {
-    "join-demo-session": "Demo-Session betreten",
-    "session-id": "Session-Id",
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
     "please-enter": "Bitte geben Sie eine Session-ID ein.",
     "exactly-8": "Eine Session-ID hat genau 8 Ziffern."

@@ -2,7 +2,7 @@
 <form (ngSubmit)="joinRoom(roomId.value)">
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field class="number">
-      <input matInput #roomId placeholder="Join Session!" [formControl]="roomFormControl"
+      <input matInput #roomId placeholder="Session-Id" [formControl]="roomFormControl"
              [errorStateMatcher]="matcher" maxlength="8"/>
       <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
       <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>
