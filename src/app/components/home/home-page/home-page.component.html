@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
-  <div fxLayout="row" fxLayoutAlign="center">
+  <div fxLayout="row" fxLayoutAlign="center" *ngIf="mobile === true">
     <h1>
       <span class="main-heading-secondary">{{ 'login-page.welcome' | translate }}</span>
       <span class="main-heading-primary">ARSnova</span>
