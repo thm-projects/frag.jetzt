@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import { ErrorStateMatcher, MatDialog } from '@angular/material';
+import { ErrorStateMatcher, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,9 +23,9 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnChanges {
-  @Input() public role: UserRole;
-  @Input() public username: string;
-  @Input() public password: string;
+  role: UserRole;
+  username: string;
+  password: string;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);
@@ -38,7 +38,8 @@ export class LoginComponent implements OnInit, OnChanges {
               public router: Router,
               private translationService: TranslateService,
               public notificationService: NotificationService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
@@ -98,11 +99,13 @@ export class LoginComponent implements OnInit, OnChanges {
       this.translationService.get('login.login-successful').subscribe(message => {
         this.notificationService.show(message);
       });
+      this.dialog.closeAll();
+      /*
       if (this.role === UserRole.CREATOR) {
         this.router.navigate(['creator']);
       } else {
         this.router.navigate(['participant']);
-      }
+      } */
     } else if (loginSuccessful === 'activation') {
       this.activateUser();
     } else {

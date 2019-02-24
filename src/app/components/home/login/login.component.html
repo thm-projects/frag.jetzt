@@ -1,4 +1,4 @@
-<form (ngSubmit)="login(userEmail.value, userPassword.value)" fxLayout="column" fxLayoutAlign="space-around"
+<form fxLayout="column" fxLayoutAlign="space-around"
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
     <input matInput #userEmail placeholder="{{ 'login.email' | translate }}" [formControl]="usernameFormControl"
@@ -20,7 +20,7 @@
       {{ 'login-page.password-reset' | translate }}
   </button>
   </div>
-  <button mat-raised-button color="primary" type="submit">{{ 'login.login' | translate }}</button>
+  <button mat-raised-button color="primary" (click)="login(userEmail.value, userPassword.value)">{{ 'login.login' | translate }}</button>
   <button mat-raised-button (click)="guestLogin()" type="button" class="guestButton">
     {{ 'login.guest-login' | translate }}
   </button>

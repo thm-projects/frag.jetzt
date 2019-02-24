@@ -7,6 +7,7 @@ import { LanguageService } from '../../../services/util/language.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { LoginComponent } from '../login/login.component';
+import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-new-landing',
@@ -31,10 +32,10 @@ export class NewLandingComponent implements OnInit {
   }
 
   createSession() {
-    if (this.user  && !this.user.isGuest) {
-      this.openCreateRoomDialog();
-    } else {
+    if (!this.user  || this.user.isGuest) {
       this.openLoginDialog();
+    } else {
+      this.openCreateRoomDialog();
     }
   }
 
@@ -45,8 +46,9 @@ export class NewLandingComponent implements OnInit {
   }
 
   openLoginDialog(): void {
-    this.dialog.open(LoginComponent, {
+    const dialogRef = this.dialog.open(LoginComponent, {
       width: '350px'
     });
+    dialogRef.componentInstance.role = UserRole.CREATOR;
   }
 }
