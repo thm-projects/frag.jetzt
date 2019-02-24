@@ -23,7 +23,17 @@
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
-    <button mat-icon-button *ngIf="!user">
+
+    <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item>
+          <span>{{ 'login-page.creator' | translate }}</span>
+        </button>
+        <button mat-menu-item>
+            <span>{{ 'login-page.participant' | translate }}</span>
+          </button>
+    </mat-menu>
+
+    <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu">
       <mat-icon>account_box</mat-icon>
     </button>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
