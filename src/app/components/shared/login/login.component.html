@@ -16,15 +16,15 @@
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
   <div align="start">
-    <button mat-button color="accent" class="pwReset" (click)="openPasswordDialog()">
+    <button mat-button color="primary" class="pwReset" (click)="openPasswordDialog()">
       {{ 'login-page.password-reset' | translate }}
   </button>
   </div>
   <button mat-raised-button color="primary" (click)="login(userEmail.value, userPassword.value)">{{ 'login.login' | translate }}</button>
-  <button mat-raised-button (click)="guestLogin()" type="button" class="guestButton">
+  <button mat-raised-button color="accent" (click)="guestLogin()" type="button" class="guestButton">
     {{ 'login.guest-login' | translate }}
   </button>
-  <button mat-button color="accent" (click)="openRegisterDialog()">
+  <button mat-button color="primary" (click)="openRegisterDialog()">
       {{ 'login-page.register' | translate }}
     </button>
 </form>
