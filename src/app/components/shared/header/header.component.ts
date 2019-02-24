@@ -79,7 +79,6 @@ export class HeaderComponent implements OnInit {
       width: '350px'
     });
     let role = (isDozent === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
-    console.log(role);
     dialogRef.componentInstance.role = role;
     dialogRef.componentInstance.isStandard = true;
   }
