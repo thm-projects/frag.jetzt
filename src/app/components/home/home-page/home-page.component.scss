@@ -2,7 +2,7 @@
 
 .outer {
   width: 90%;
-  max-width: 400px;
+  max-width: 500px;
   background-color: #bbdefb;
 }
 
@@ -14,6 +14,7 @@
   letter-spacing: 10px;
   color: mat-color($arsnova-primary,500);
   animation: moveInLeft 2s ease-out;
+  padding-top: 10px;
 }
 
 .main-heading-secondary {
