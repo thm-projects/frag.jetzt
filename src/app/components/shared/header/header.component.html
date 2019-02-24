@@ -26,11 +26,13 @@
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
         <button mat-menu-item>
+          <mat-icon color="primary">record_voice_over</mat-icon>
           <span>{{ 'login-page.creator' | translate }}</span>
         </button>
         <button mat-menu-item>
-            <span>{{ 'login-page.participant' | translate }}</span>
-          </button>
+          <mat-icon color="primary">supervisor_account</mat-icon>
+          <span>{{ 'login-page.participant' | translate }}</span>
+        </button>
     </mat-menu>
 
     <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu">
