@@ -6,8 +6,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
-import { LoginComponent } from '../login/login.component';
 import { UserRole } from '../../../models/user-roles.enum';
+import { LoginComponent } from '../../shared/login/login.component';
 
 @Component({
   selector: 'app-new-landing',

@@ -31,7 +31,6 @@ export function dialogClose(dialogResult: any) {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     PasswordResetComponent,
     RegisterComponent,
     UserActivationComponent,
@@ -41,8 +40,7 @@ export function dialogClose(dialogResult: any) {
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
-    UserActivationComponent,
-    LoginComponent
+    UserActivationComponent
   ],
   imports: [
     AppRoutingModule,

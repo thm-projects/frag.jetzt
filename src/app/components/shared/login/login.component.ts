@@ -6,9 +6,9 @@ import { ErrorStateMatcher, MatDialog, MAT_DIALOG_DATA } from '@angular/material
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { UserActivationComponent } from '../_dialogs/user-activation/user-activation.component';
-import { PasswordResetComponent } from '../_dialogs/password-reset/password-reset.component';
-import { RegisterComponent } from '../_dialogs/register/register.component';
+import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
+import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
+import { RegisterComponent } from '../../home/_dialogs/register/register.component';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
