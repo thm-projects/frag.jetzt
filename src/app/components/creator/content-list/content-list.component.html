@@ -36,6 +36,9 @@
     <mat-card-content>
       <mat-expansion-panel *ngFor="let content of contents">
         <mat-expansion-panel-header>
+          <mat-panel-title>
+              {{ content.subject }}
+          </mat-panel-title>
           <button mat-icon-button color="accent" (click)="editContent(content);$event.stopPropagation();">
             <mat-icon>create</mat-icon>
           </button>
@@ -43,12 +46,9 @@
                   class="deleteButton">
             <mat-icon>delete_forever</mat-icon>
           </button>
-          <mat-panel-title>
-            {{ content.subject }}
-          </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-panel-description>
-            {{ content.body }}
+          {{ content.body }}
         </mat-panel-description>
       </mat-expansion-panel>
     </mat-card-content>
