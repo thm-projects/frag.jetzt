@@ -26,6 +26,7 @@ export class LoginComponent implements OnInit, OnChanges {
   role: UserRole;
   username: string;
   password: string;
+  loginType = 'standard';
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);
@@ -99,13 +100,18 @@ export class LoginComponent implements OnInit, OnChanges {
       this.translationService.get('login.login-successful').subscribe(message => {
         this.notificationService.show(message);
       });
-      this.dialog.closeAll();
-      /*
-      if (this.role === UserRole.CREATOR) {
-        this.router.navigate(['creator']);
-      } else {
-        this.router.navigate(['participant']);
-      } */
+      switch(this.loginType) {
+        case 'standard':
+          if (this.role === UserRole.CREATOR) {
+            this.router.navigate(['creator']);
+          } else {
+            this.router.navigate(['participant']);
+          }
+          break;
+        case 'beforecreation':
+          this.dialog.closeAll();
+        break;
+      }
     } else if (loginSuccessful === 'activation') {
       this.activateUser();
     } else {

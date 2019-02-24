@@ -50,5 +50,6 @@ export class NewLandingComponent implements OnInit {
       width: '350px'
     });
     dialogRef.componentInstance.role = UserRole.CREATOR;
+    dialogRef.componentInstance.loginType = 'beforecreation';
   }
 }
