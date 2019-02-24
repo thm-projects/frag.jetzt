@@ -8,7 +8,9 @@
   top: 0;
   text-align: center;
   transition: all 0.25s;
-  margin-top: 1.5%;
+  margin-top: 10px;
+  max-height: 80px;
+  padding: 5px; 
 
   &:hover {
     cursor: pointer;
