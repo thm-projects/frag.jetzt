@@ -8,6 +8,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../_dialogs/password-reset/password-reset.component';
+import { RegisterComponent } from '../_dialogs/register/register.component';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -114,6 +115,15 @@ export class LoginComponent implements OnInit, OnChanges {
   openPasswordDialog(): void {
     this.dialog.open(PasswordResetComponent, {
       width: '350px'
+    });
+  }
+
+  openRegisterDialog(): void {
+    this.dialog.open(RegisterComponent, {
+      width: '350px'
+    }).afterClosed().subscribe(result => {
+      this.username = result.username;
+      this.password = result.password;
     });
   }
 }

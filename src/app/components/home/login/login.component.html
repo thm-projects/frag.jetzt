@@ -10,19 +10,21 @@
       {{ 'login.email-required' | translate }}
     </mat-error>
   </mat-form-field>
-  <mat-form-field class="input-block">
+  <mat-form-field>
     <input matInput #userPassword type="password" placeholder="{{ 'login.password' | translate }}"
            [formControl]="passwordFormControl" [errorStateMatcher]="matcher" name="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button (click)="openPasswordDialog()" class="pwButton" color="primary" mat-button>
+  <div align="start">
+    <button mat-button color="accent" class="pwReset" (click)="openPasswordDialog()">
       {{ 'login-page.password-reset' | translate }}
   </button>
-  <button mat-raised-button color="accent" type="submit">{{ 'login.login' | translate }}</button>
+  </div>
+  <button mat-raised-button color="primary" type="submit">{{ 'login.login' | translate }}</button>
   <button mat-raised-button (click)="guestLogin()" type="button" class="guestButton">
     {{ 'login.guest-login' | translate }}
   </button>
-  <button mat-raised-button color="primary" (click)="openRegisterDialog()">
+  <button mat-button color="accent" (click)="openRegisterDialog()">
       {{ 'login-page.register' | translate }}
     </button>
 </form>
