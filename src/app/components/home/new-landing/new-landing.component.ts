@@ -51,5 +51,11 @@ export class NewLandingComponent implements OnInit {
     });
     dialogRef.componentInstance.role = UserRole.CREATOR;
     dialogRef.componentInstance.loginType = 'beforecreation';
+    dialogRef.afterClosed()
+      .subscribe(result => {
+          if (this.user && !this.user.isGuest) {
+            this.openCreateRoomDialog();
+          }
+      });
   }
 }
