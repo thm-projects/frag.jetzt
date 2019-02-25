@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/home/login/login.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
