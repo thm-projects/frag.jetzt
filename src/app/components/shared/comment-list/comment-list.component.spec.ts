@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommentListComponent } from './comment-list.component';
 
@@ -23,3 +23,4 @@ describe('CommentListComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */
