@@ -37,7 +37,7 @@ export class ListStatisticComponent implements OnInit {
 
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
-  displayedColumns = ['content', 'counts', 'abstentions', 'percentage'];
+  displayedColumns = ['content', 'counts', 'percentage'];
   status = {
     good: 85 ,
     okay: 50 ,

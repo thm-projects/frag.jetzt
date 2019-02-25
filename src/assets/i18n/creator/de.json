@@ -67,7 +67,7 @@
   "statistic": {
     "content": "Frage",
     "learning-status": "Lernstand",
-    "total": "Total",
+    "answrs": "Antworten",
     "percentage": "Prozent",
     "abstentions": "Enthaltungen"
   }

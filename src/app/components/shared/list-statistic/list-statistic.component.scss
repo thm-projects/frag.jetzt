@@ -2,14 +2,21 @@ table{
   width: 100%;
 }
 
+.mat-column-content {
+  min-width: 120px;
+  padding-left: 4%;
+}
+
 .mat-column-percentage {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  padding-right: 4%;
 }
 
 .mat-column-counts {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  text-align: center!important;
 }
 
 .mat-column-abstentions {

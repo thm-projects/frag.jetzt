@@ -27,7 +27,7 @@
   </ng-container>
 
   <ng-container matColumnDef="counts">
-    <mat-header-cell *matHeaderCellDef> {{'statistic.total' | translate}} </mat-header-cell>
+    <mat-header-cell *matHeaderCellDef> {{'statistic.answers' | translate}} </mat-header-cell>
     <mat-cell *matCellDef="let cp" [ngClass]="{
       'positiveC' : cp.percent >= status.good,
       'okayC' : cp.percent >= status.okay && cp.percent < status.good,
