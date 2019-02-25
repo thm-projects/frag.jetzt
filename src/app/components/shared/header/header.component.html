@@ -22,6 +22,10 @@
         <mat-icon color="primary">style</mat-icon>
         <span>Meine Sessions</span>
       </button>
+      <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
+        <mat-icon color="primary">turned_in</mat-icon>
+        <span>Besuchte Sessions</span>
+      </button>
       <button mat-menu-item  (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
