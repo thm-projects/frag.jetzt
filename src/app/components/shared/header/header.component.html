@@ -19,7 +19,7 @@
 
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
-        <mat-icon color="primary">archive</mat-icon>
+        <mat-icon color="primary">style</mat-icon>
         <span>Meine Sessions</span>
       </button>
       <button mat-menu-item  (click)="logout()">
