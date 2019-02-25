@@ -1,4 +1,4 @@
-import { TestBed, inject } from '@angular/core/testing';
+/* import { TestBed, inject } from '@angular/core/testing';
 
 import { ContentAnswerService } from './content-answer.service';
 
@@ -13,3 +13,4 @@ describe('ContentAnswerService', () => {
     expect(service).toBeTruthy();
   }));
 });
+ */
