@@ -1,5 +1,4 @@
-<form fxLayout="column" fxLayoutAlign="space-around"
-      fxLayoutGap="10px">
+<form fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="5px">
   <mat-form-field class="input-block">
     <input matInput #userEmail placeholder="{{ 'login.email' | translate }}" [formControl]="usernameFormControl"
            [errorStateMatcher]="matcher" name="username"/>
@@ -15,16 +14,19 @@
            [formControl]="passwordFormControl" [errorStateMatcher]="matcher" name="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <div align="start">
-    <button mat-button color="primary" class="pwReset" (click)="openPasswordDialog()">
-      {{ 'login-page.password-reset' | translate }}
-  </button>
-  </div>
   <button mat-raised-button color="accent" (click)="login(userEmail.value, userPassword.value)">{{ 'login.login' | translate }}</button>
   <button mat-raised-button *ngIf="guestAllowed === true" color="primary" (click)="guestLogin()" type="button" class="guestButton">
     {{ 'login.guest-login' | translate }}
   </button>
-  <button mat-button color="primary" (click)="openRegisterDialog()">
+  <div align="start">
+      <button mat-button color="primary" class="pwReset" (click)="openPasswordDialog()">
+        {{ 'login-page.password-reset' | translate }}
+    </button>
+  </div>
+  <div fxLayout="row">
+    <p>Noch keinen Account?</p>
+    <button mat-button color="primary" class="regButton" (click)="openRegisterDialog()">
       {{ 'login-page.register' | translate }}
     </button>
+  </div>
 </form>
