@@ -18,7 +18,11 @@
     </button>
 
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-      <button mat-button  (click)="logout()">
+      <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
+        <mat-icon color="primary">archive</mat-icon>
+        <span>Meine Sessions</span>
+      </button>
+      <button mat-menu-item  (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
