@@ -5,7 +5,7 @@
       <span> {{ 'header.back' | translate }}</span>
     </button>
     <span class="fill-remaining-space"></span>
-    <span class="app-title" (click)="goToHomepage()">ARSnova</span>
+    <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
 
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
@@ -18,11 +18,34 @@
     </button>
 
     <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
-      <button mat-button  (click)="logout()">
+      <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
+        <mat-icon color="primary">style</mat-icon>
+        <span>{{'header.my-sessions' | translate}}</span>
+      </button>
+      <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
+        <mat-icon color="primary">turned_in</mat-icon>
+        <span>{{'header.visited-sessions' | translate}}</span>
+      </button>
+      <button mat-menu-item  (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
+
+    <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+        <button mat-menu-item (click)=login(true)>
+          <mat-icon color="primary">record_voice_over</mat-icon>
+          <span>{{ 'login-page.creator' | translate }}</span>
+        </button>
+        <button mat-menu-item (click)=login(false)>
+          <mat-icon color="primary">supervisor_account</mat-icon>
+          <span>{{ 'login-page.participant' | translate }}</span>
+        </button>
+    </mat-menu>
+
+    <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu">
+      <mat-icon>account_box</mat-icon>
+    </button>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
       <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon" color="accent">record_voice_over</mat-icon>
       <mat-icon *ngIf="user.role === 0" aria-label="Example icon-button with a heart icon" color="accent">supervisor_account</mat-icon>

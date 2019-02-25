@@ -6,8 +6,11 @@ import { RegisterErrorStateMatcher } from '../../home/_dialogs/register/register
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material';
 import { NotificationService } from '../../../services/util/notification.service';
-import {LanguageService} from "../../../services/util/language.service";
-import {TranslateService} from "@ngx-translate/core";
+import { TranslateService } from '@ngx-translate/core';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { UserRole } from '../../../models/user-roles.enum';
+import { User } from '../../../models/user';
+import {log} from "util";
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -24,7 +27,8 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
 export class RoomJoinComponent implements OnInit {
 
   room: Room;
-  demoId = '26973546';
+  demoId = '95680586';
+  user: User;
 
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
 
@@ -33,10 +37,12 @@ export class RoomJoinComponent implements OnInit {
   constructor(private roomService: RoomService,
               private router: Router,
               public notificationService: NotificationService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              public authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
+    this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
   getRoom(id: string): void {
@@ -48,8 +54,15 @@ export class RoomJoinComponent implements OnInit {
             this.notificationService.show(message);
           });
         } else {
-          this.roomService.addToHistory(this.room.id);
-          this.router.navigate([`/participant/room/${this.room.shortId}`]);
+          if (!this.user) {
+            this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
+              if (loggedIn === 'true') {
+                this.addAndNavigate();
+              }
+            });
+          } else {
+            this.addAndNavigate();
+          }
         }
       });
   }
@@ -58,6 +71,11 @@ export class RoomJoinComponent implements OnInit {
     if (!this.roomFormControl.hasError('required') && !this.roomFormControl.hasError('minlength')) {
       this.getRoom(id);
     }
+  }
+
+  addAndNavigate() {
+    this.roomService.addToHistory(this.room.id);
+    this.router.navigate([`/participant/room/${this.room.shortId}`]);
   }
 
   joinDemo(): void {

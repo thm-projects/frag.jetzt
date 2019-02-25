@@ -7,7 +7,6 @@ import { FooterComponent } from './footer/footer.component';
 import { FooterImprintComponent } from './footer-imprint/footer-imprint.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomListComponent } from './room-list/room-list.component';
 import { RoomPageComponent } from './room-page/room-page.component';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
@@ -19,6 +18,9 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { ListStatisticComponent } from './list-statistic/list-statistic.component';
 import { ChartsModule } from 'ng2-charts';
 import { StatisticComponent } from './statistic/statistic.component';
+import { RoomJoinComponent } from './room-join/room-join.component';
+import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   imports: [
@@ -44,7 +46,9 @@ import { StatisticComponent } from './statistic/statistic.component';
     CommentListComponent,
     StatisticsPageComponent,
     ListStatisticComponent,
-    StatisticComponent
+    StatisticComponent,
+    RoomCreateComponent,
+    LoginComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -62,6 +66,10 @@ import { StatisticComponent } from './statistic/statistic.component';
     CommentCreatePageComponent,
     CommentListComponent,
     StatisticsPageComponent
+  ],
+  entryComponents: [
+    RoomCreateComponent,
+    LoginComponent
   ]
 })
 export class SharedModule {

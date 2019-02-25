@@ -20,8 +20,9 @@
     {{ room.description }}
   </p>
 </mat-expansion-panel>
-<mat-card *ngIf="rooms.length === 0">
+<mat-card *ngIf="rooms && rooms.length === 0">
   <mat-card-header>
-    <mat-card-title>Sie haben noch keine Sessions erstellt!</mat-card-title>
+    <mat-card-title *ngIf="baseUrl === 'creator'">Sie haben noch keine Sessions erstellt!</mat-card-title>
+    <mat-card-title *ngIf="baseUrl === 'participant'">Sie sind noch keiner Session beigetreten!</mat-card-title>
   </mat-card-header>
 </mat-card>

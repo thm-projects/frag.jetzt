@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { LoginComponent } from './components/home/login/login.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
-import { LoginPageComponent } from './components/home/login-page/login-page.component';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
 import { AuthenticationGuard } from './guards/authentication.guard';
@@ -24,17 +22,19 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
 import { MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
+import { HomePageComponent } from './components/home/home-page/home-page.component';
 export function dialogClose(dialogResult: any) {
 }
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginPageComponent,
-    LoginComponent,
     PasswordResetComponent,
     RegisterComponent,
-    UserActivationComponent
+    UserActivationComponent,
+    NewLandingComponent,
+    HomePageComponent
   ],
   entryComponents: [
     RegisterComponent,

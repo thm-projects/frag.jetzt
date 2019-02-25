@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
-import { RoomCreateComponent } from '../room-create/room-create.component';
+import { RoomCreateComponent } from '../../../shared/_dialogs/room-create/room-create.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({

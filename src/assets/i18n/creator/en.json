@@ -1,6 +1,6 @@
 {
   "home-page": {
-    "create-session": "Create new session ",
+		"create-session": "Create session",
     "no-empty-name": "Please enter a name.",
     "created-1": "Session '",
     "created-2": "' successfully created."

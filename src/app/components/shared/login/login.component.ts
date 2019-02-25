@@ -1,12 +1,14 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import { ErrorStateMatcher, MatDialog } from '@angular/material';
+import { ErrorStateMatcher, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
-import { UserActivationComponent } from '../_dialogs/user-activation/user-activation.component';
+import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
+import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
+import { RegisterComponent } from '../../home/_dialogs/register/register.component';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -21,9 +23,11 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnChanges {
-  @Input() public role: UserRole;
-  @Input() public username: string;
-  @Input() public password: string;
+  role: UserRole;
+  username: string;
+  password: string;
+  isStandard = true;
+  guestAllowed = true;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);
@@ -36,7 +40,8 @@ export class LoginComponent implements OnInit, OnChanges {
               public router: Router,
               private translationService: TranslateService,
               public notificationService: NotificationService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
@@ -96,10 +101,13 @@ export class LoginComponent implements OnInit, OnChanges {
       this.translationService.get('login.login-successful').subscribe(message => {
         this.notificationService.show(message);
       });
-      if (this.role === UserRole.CREATOR) {
-        this.router.navigate(['creator']);
-      } else {
-        this.router.navigate(['participant']);
+      this.dialog.closeAll();
+      if (this.isStandard) {
+        if (this.role === UserRole.CREATOR) {
+          this.router.navigate(['creator']);
+        } else {
+          this.router.navigate(['participant']);
+        }
       }
     } else if (loginSuccessful === 'activation') {
       this.activateUser();
@@ -108,5 +116,20 @@ export class LoginComponent implements OnInit, OnChanges {
         this.notificationService.show(message);
       });
     }
+  }
+
+  openPasswordDialog(): void {
+    this.dialog.open(PasswordResetComponent, {
+      width: '350px'
+    });
+  }
+
+  openRegisterDialog(): void {
+    this.dialog.open(RegisterComponent, {
+      width: '350px'
+    }).afterClosed().subscribe(result => {
+      this.username = result.username;
+      this.password = result.password;
+    });
   }
 }
