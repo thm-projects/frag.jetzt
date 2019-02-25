@@ -5,7 +5,9 @@
 		"logout": "Logout",
     "guest": "Guest",
     "logged-out": "Logout successful.",
-    "back": "Back"
+		"back": "Back",
+		"my-sessions": "My Sessions",
+		"visited-sessions": "Visited Sessions"
 	},
 	"login-page": {
 		"creator": "Creator",
