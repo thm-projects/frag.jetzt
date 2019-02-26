@@ -71,7 +71,8 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
   ],
   entryComponents: [
     RoomCreateComponent,
-    LoginComponent
+    LoginComponent,
+    StatisticHelpComponent
   ]
 })
 export class SharedModule {

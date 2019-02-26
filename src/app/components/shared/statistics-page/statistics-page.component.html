@@ -3,7 +3,7 @@
     <mat-card-header>
       <h2>{{'statistic.learning-status' | translate}}</h2>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button><mat-icon color="primary">help</mat-icon></button>
+      <button mat-icon-button (click)="showHelp()"><mat-icon color="primary">help</mat-icon></button>
     </mat-card-header>
     <mat-divider></mat-divider>
     <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
