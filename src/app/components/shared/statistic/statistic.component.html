@@ -1,22 +1,24 @@
-<div fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center">
-  <mat-card>
-    <mat-card-header>
-      <h3>{{subject}}</h3>
-    </mat-card-header>
-    <mat-divider></mat-divider>
-    <mat-toolbar></mat-toolbar>
-  <div>
-    <div style="position: relative; height: 60vh">
-      <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
-        <div fxLayout="row" fxLayoutAlign="center">
-          <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card>
+      <mat-card-header>
+        <h3>{{subject}}</h3>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <mat-toolbar></mat-toolbar>
+      <div>
+        <div style="position: relative; height: 60vh">
+          <div *ngIf="isLoading"                                                                                                                                                                                                                                                                                                                                                          fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+            <div fxLayout="row" fxLayoutAlign="center">
+              <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+            </div>
+          </div>
+          <canvas id="chart"></canvas>
         </div>
       </div>
-      <canvas id="chart"></canvas>
-    </div>
+      <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let a of answerList">{{a.label}} : {{a.answer}}</mat-list-item>
+      </mat-list>
+    </mat-card>
   </div>
-  <mat-list role="list">
-    <mat-list-item role="listitem" *ngFor="let a of answerList">{{a.label}} : {{a.answer}}</mat-list-item>
-  </mat-list>
-</mat-card>
 </div>
