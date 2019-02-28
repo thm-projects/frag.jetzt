@@ -65,8 +65,11 @@ export class StatisticComponent implements OnInit {
         this.answerList[i].answer = content.options[i].label;
       }
     }
+    this.labels.push('Abstentions');
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
+      this.data.push(answer.roundStatistics[0].abstentionCount);
+      console.log(this.data);
       this.chart = new Chart('chart', {
         type: 'bar',
         data: {
