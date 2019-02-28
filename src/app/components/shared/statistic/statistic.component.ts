@@ -50,7 +50,6 @@ export class StatisticComponent implements OnInit {
       this.getData(content);
       this.isLoading = false;
     });
-    this.chart.fillText(10, 10, 10);
   }
 
   getData(content: ContentChoice) {
@@ -82,7 +81,7 @@ export class StatisticComponent implements OnInit {
             display: false
           },
           tooltips: {
-            enabled: false
+            mode: 'index'
           },
           responsive: true,
           maintainAspectRatio: false,
