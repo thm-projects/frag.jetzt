@@ -21,7 +21,7 @@ export class AnswerList {
 })
 export class StatisticComponent implements OnInit {
 
-  chart = [];
+  chart = Chart;
   colors: string[] = ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
                       'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)'];
   label = 'ABCDEFGH';
@@ -50,6 +50,7 @@ export class StatisticComponent implements OnInit {
       this.getData(content);
       this.isLoading = false;
     });
+    this.chart.fillText(10, 10, 10);
   }
 
   getData(content: ContentChoice) {
@@ -79,6 +80,9 @@ export class StatisticComponent implements OnInit {
         options: {
           legend: {
             display: false
+          },
+          tooltips: {
+            enabled: false
           },
           responsive: true,
           maintainAspectRatio: false,
