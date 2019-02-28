@@ -3,6 +3,8 @@ import { Chart } from 'chart.js';
 import { ActivatedRoute } from '@angular/router';
 import { ContentService } from '../../../services/http/content.service';
 import { ContentChoice } from '../../../models/content-choice';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../services/util/language.service';
 
 export class AnswerList {
   label: string;
@@ -35,9 +37,14 @@ export class StatisticComponent implements OnInit {
   isLoading = true;
 
   constructor(protected route: ActivatedRoute,
-              private contentService: ContentService) { }
+              private contentService: ContentService,
+              private translateService: TranslateService,
+              protected langService: LanguageService) {
+              langService.langEmitter.subscribe(lang => translateService.use(lang));
+  }
 
   ngOnInit() {
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.maxLength = innerWidth / 12;
     this.answers = new Array<string>();
     this.labels = new Array<string>();
@@ -65,11 +72,12 @@ export class StatisticComponent implements OnInit {
         this.answerList[i].answer = content.options[i].label;
       }
     }
-    this.labels.push('Abstentions');
+    this.translateService.get('statistic.abstentions').subscribe(label => {
+      this.labels.push(label);
+    });
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
       this.data.push(answer.roundStatistics[0].abstentionCount);
-      console.log(this.data);
       this.chart = new Chart('chart', {
         type: 'bar',
         data: {

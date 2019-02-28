@@ -27,7 +27,7 @@ export class StatisticsPageComponent implements OnInit {
               private roomService: RoomService,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              public dialog: MatDialog,) {
+              public dialog: MatDialog) {
               langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
