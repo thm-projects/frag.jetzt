@@ -64,8 +64,10 @@ mat-toolbar {
 .emptyC {
   color: #E0E0E0;
   background: #E0E0E0;
+  pointer-events: none;
 }
 
 .emptyCC {
   background: #E0E0E0;
+  pointer-events: none;
 }
