@@ -8,3 +8,13 @@ mat-toolbar {
   height: 15px;
   background-color: #fff8e1;
 }
+
+.mat-raised-button {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0%;
+  padding-bottom: 0%;
+  padding-right: 5%;
+  padding-left: 5%;
+  max-height: 50px;
+}
