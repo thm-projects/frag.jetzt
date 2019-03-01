@@ -35,6 +35,8 @@ export class StatisticComponent implements OnInit {
   subject: string;
   maxLength: number;
   isLoading = true;
+  showsCorrect = false;
+  correctIndexes: number[];
 
   constructor(protected route: ActivatedRoute,
               private contentService: ContentService,
@@ -50,6 +52,7 @@ export class StatisticComponent implements OnInit {
     this.labels = new Array<string>();
     this.answerList = new Array<AnswerList>();
     this.data = new Array<number>();
+    this.correctIndexes = new Array<number>();
     this.route.params.subscribe(params => {
       this.contentId = params['contentId'];
     });
@@ -57,6 +60,22 @@ export class StatisticComponent implements OnInit {
       this.getData(content);
       this.isLoading = false;
     });
+  }
+
+  switchAnswers() {
+    if (this.showsCorrect === false) {
+      this.showCorrect();
+    } else {
+      this.showNormal();
+    }
+  }
+
+  showCorrect() {
+    this.showsCorrect = true;
+  }
+
+  showNormal() {
+    this.showsCorrect = false;
   }
 
   getData(content: ContentChoice) {
