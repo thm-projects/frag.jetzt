@@ -61,6 +61,37 @@ export class StatisticComponent implements OnInit {
     });
   }
 
+  createChart(colors: string[]) {
+    this.chart = new Chart('chart', {
+      type: 'bar',
+      data: {
+        labels: this.labels,
+        datasets: [{
+          data: this.data,
+          backgroundColor: colors
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        tooltips: {
+          mode: 'index'
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              precision: 0
+            }
+          }]
+        }
+      }
+    });
+  }
+
   switchAnswers() {
     if (this.showsCorrect === false) {
       this.showCorrect();
@@ -70,66 +101,12 @@ export class StatisticComponent implements OnInit {
   }
 
   showCorrect() {
-    this.chart = new Chart('chart', {
-      type: 'bar',
-      data: {
-        labels: this.labels,
-        datasets: [{
-          data: this.data,
-          backgroundColor: this.ccolors
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-        tooltips: {
-          mode: 'index'
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              precision: 0
-            }
-          }]
-        }
-      }
-    });
+    this.createChart(this.ccolors);
     this.showsCorrect = true;
   }
 
   showNormal() {
-    this.chart = new Chart('chart', {
-      type: 'bar',
-      data: {
-        labels: this.labels,
-        datasets: [{
-          data: this.data,
-          backgroundColor: this.colors
-        }]
-      },
-      options: {
-        legend: {
-          display: false
-        },
-        tooltips: {
-          mode: 'index'
-        },
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            ticks: {
-              beginAtZero: true,
-              precision: 0
-            }
-          }]
-        }
-      }
-    });
+    this.createChart(this.colors);
     this.showsCorrect = false;
   }
 
@@ -157,34 +134,7 @@ export class StatisticComponent implements OnInit {
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
       this.data.push(answer.roundStatistics[0].abstentionCount);
-      this.chart = new Chart('chart', {
-        type: 'bar',
-        data: {
-          labels: this.labels,
-          datasets: [{
-            data: this.data,
-            backgroundColor: this.colors
-          }]
-        },
-        options: {
-          legend: {
-            display: false
-          },
-          tooltips: {
-            mode: 'index'
-          },
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            yAxes: [{
-              ticks: {
-                beginAtZero: true,
-                precision: 0
-              }
-            }]
-          }
-        }
-      });
+      this.createChart(this.colors);
     });
   }
 }
