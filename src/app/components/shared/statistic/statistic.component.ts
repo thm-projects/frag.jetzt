@@ -26,6 +26,7 @@ export class StatisticComponent implements OnInit {
   chart = Chart;
   colors: string[] = ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
                       'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)'];
+  ccolors: string[] = [];
   label = 'ABCDEFGH';
   labels: string[]; // = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
   answers: string[];
@@ -36,7 +37,6 @@ export class StatisticComponent implements OnInit {
   maxLength: number;
   isLoading = true;
   showsCorrect = false;
-  correctIndexes: number[];
 
   constructor(protected route: ActivatedRoute,
               private contentService: ContentService,
@@ -52,7 +52,6 @@ export class StatisticComponent implements OnInit {
     this.labels = new Array<string>();
     this.answerList = new Array<AnswerList>();
     this.data = new Array<number>();
-    this.correctIndexes = new Array<number>();
     this.route.params.subscribe(params => {
       this.contentId = params['contentId'];
     });
@@ -71,10 +70,66 @@ export class StatisticComponent implements OnInit {
   }
 
   showCorrect() {
+    this.chart = new Chart('chart', {
+      type: 'bar',
+      data: {
+        labels: this.labels,
+        datasets: [{
+          data: this.data,
+          backgroundColor: this.ccolors
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        tooltips: {
+          mode: 'index'
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              precision: 0
+            }
+          }]
+        }
+      }
+    });
     this.showsCorrect = true;
   }
 
   showNormal() {
+    this.chart = new Chart('chart', {
+      type: 'bar',
+      data: {
+        labels: this.labels,
+        datasets: [{
+          data: this.data,
+          backgroundColor: this.colors
+        }]
+      },
+      options: {
+        legend: {
+          display: false
+        },
+        tooltips: {
+          mode: 'index'
+        },
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+              precision: 0
+            }
+          }]
+        }
+      }
+    });
     this.showsCorrect = false;
   }
 
@@ -89,6 +144,11 @@ export class StatisticComponent implements OnInit {
         this.answerList[i].answer = content.options[i].label.substr(0, this.maxLength) + '..';
       } else {
         this.answerList[i].answer = content.options[i].label;
+      }
+      if (content.options[i].points <= 0) {
+        this.ccolors[i] = 'rgba(244,67,54, 0.8)';
+      } else {
+        this.ccolors[i] = 'rgba(76,175,80, 0.8)';
       }
     }
     this.translateService.get('statistic.abstentions').subscribe(label => {
