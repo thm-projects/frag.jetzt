@@ -67,7 +67,7 @@
   "statistic": {
     "content": "Content",
     "learning-status": "Learning status",
-    "total": "Total",
+    "answers": "Answers",
     "percentage": "Percentage",
     "abstentions": "Abstentions"
   }

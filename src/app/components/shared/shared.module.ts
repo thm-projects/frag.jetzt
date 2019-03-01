@@ -21,6 +21,7 @@ import { StatisticComponent } from './statistic/statistic.component';
 import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { LoginComponent } from './login/login.component';
+import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { LoginComponent } from './login/login.component';
     ListStatisticComponent,
     StatisticComponent,
     RoomCreateComponent,
-    LoginComponent
+    LoginComponent,
+    StatisticHelpComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -69,7 +71,8 @@ import { LoginComponent } from './login/login.component';
   ],
   entryComponents: [
     RoomCreateComponent,
-    LoginComponent
+    LoginComponent,
+    StatisticHelpComponent
   ]
 })
 export class SharedModule {

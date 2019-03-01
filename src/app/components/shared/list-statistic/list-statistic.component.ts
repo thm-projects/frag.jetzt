@@ -8,7 +8,7 @@ import { ContentChoice } from '../../../models/content-choice';
 import { Combination } from '../../../models/round-statistics';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 
@@ -37,7 +37,7 @@ export class ListStatisticComponent implements OnInit {
 
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
-  displayedColumns = ['content', 'counts', 'abstentions', 'percentage'];
+  displayedColumns = ['content', 'counts', 'percentage'];
   status = {
     good: 85 ,
     okay: 50 ,
@@ -45,14 +45,15 @@ export class ListStatisticComponent implements OnInit {
     zero: 0
   };
   dataSource: ContentStatistic[];
-  total = 0;
+  total: number;
   totalP = 0;
   contentCounter = 0;
   roomId: number;
-  nextLink: string;
+  baseUrl: string;
 
   constructor(private contentService: ContentService,
               private translateService: TranslateService,
+              private router: Router,
               protected langService: LanguageService,
               protected route: ActivatedRoute,
               protected authService: AuthenticationService) {
@@ -62,16 +63,24 @@ export class ListStatisticComponent implements OnInit {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.roomId = params['roomId'];
-      if (this.authService.getRole() === UserRole.CREATOR) {
-        this.nextLink = `/creator/room/${ this.roomId }/statistics/`;
-      } else {
-        this.nextLink = `/participant/room/${ this.roomId }/statistics/`;
-      }
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe(contents => {
       this.getData(contents);
     });
+    this.getBaseUrl();
+  }
+
+  getBaseUrl() {
+    if (this.authService.getRole() === UserRole.CREATOR) {
+      this.baseUrl = `/creator/room/${ this.roomId }/statistics/`;
+    } else {
+      this.baseUrl = `/participant/room/${ this.roomId }/statistics/`;
+    }
+  }
+
+  goToStats(id: string) {
+    this.router.navigate([`${this.baseUrl}${id}`]);
   }
 
   getData(contents: ContentChoice[]) {

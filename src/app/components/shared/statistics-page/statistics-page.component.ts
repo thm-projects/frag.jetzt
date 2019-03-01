@@ -5,7 +5,8 @@ import { ContentGroup } from '../../../models/content-group';
 import { Room } from '../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { MatTabGroup } from '@angular/material';
+import { MatTabGroup, MatDialog } from '@angular/material';
+import { StatisticHelpComponent } from '../_dialogs/statistic-help/statistic-help.component';
 
 @Component({
   selector: 'app-statistics',
@@ -22,12 +23,12 @@ export class StatisticsPageComponent implements OnInit {
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
-  constructor(
-    private route: ActivatedRoute,
-    private roomService: RoomService,
-    private translateService: TranslateService,
-    protected langService: LanguageService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+  constructor(private route: ActivatedRoute,
+              private roomService: RoomService,
+              private translateService: TranslateService,
+              protected langService: LanguageService,
+              public dialog: MatDialog) {
+              langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit(): void {
@@ -46,6 +47,12 @@ export class StatisticsPageComponent implements OnInit {
           this.tabGroup.selectedIndex = i;
         }
       }
+    });
+  }
+
+  showHelp(): void {
+    this.dialog.open(StatisticHelpComponent, {
+      width: '350px'
     });
   }
 
