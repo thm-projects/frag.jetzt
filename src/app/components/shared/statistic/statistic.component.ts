@@ -24,8 +24,8 @@ export class AnswerList {
 export class StatisticComponent implements OnInit {
 
   chart = Chart;
-  colors: string[] = ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
-                      'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)'];
+  colors: string[] = [];     /* ['rgba(33,150,243, 0.8)', 'rgba(76,175,80, 0.8)', 'rgba(255,235,59, 0.8)', 'rgba(244,67,54, 0.8)',
+                                 'rgba(96,125,139, 0.8)', 'rgba(63,81,181, 0.8)', 'rgba(233,30,99, 0.8)', 'rgba(121,85,72, 0.8)']; */
   ccolors: string[] = [];
   label = 'ABCDEFGH';
   labels: string[]; // = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
@@ -133,10 +133,11 @@ export class StatisticComponent implements OnInit {
         this.ccolors[i] = 'rgba(76,175,80, 0.8)';
       }
     }
+    this.ccolors.push('rgba(189,189,189, 0.8)');
+    this.colors.push('rgba(189,189,189, 0.8)');
     this.translateService.get('statistic.abstentions').subscribe(label => {
       this.labels.push(label);
     });
-    this.ccolors.push('rgba(189,189,189, 0.8)')
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
       this.data.push(answer.roundStatistics[0].abstentionCount);
