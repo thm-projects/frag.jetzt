@@ -1,12 +1,15 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-card>
-        <div fxLayout="row" fxLayoutAlign="center">
-          <mat-card-title>
-            <h4>{{subject}}</h4>
-          </mat-card-title>
-          <button mat-raised-button>Show Correct</button>
-        </div>
+      <mat-card-header>
+        <mat-card-title>
+          <h4>{{subject}}</h4>
+        </mat-card-title>
+        <span class="fill-remaining-space"></span>
+        <button mat-icon-button color="primary">
+          <mat-icon>info</mat-icon>
+        </button>
+      </mat-card-header>
       <mat-divider></mat-divider>
       <mat-toolbar></mat-toolbar>
       <div>
