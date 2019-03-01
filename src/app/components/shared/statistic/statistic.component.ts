@@ -131,6 +131,7 @@ export class StatisticComponent implements OnInit {
     this.translateService.get('statistic.abstentions').subscribe(label => {
       this.labels.push(label);
     });
+    this.ccolors.push('rgba(189,189,189, 0.8)')
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
       this.data.push(answer.roundStatistics[0].abstentionCount);
