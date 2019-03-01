@@ -122,6 +122,11 @@ export class StatisticComponent implements OnInit {
       } else {
         this.answerList[i].answer = content.options[i].label;
       }
+      if (i % 2 === 0) {
+        this.colors[i] = 'rgba(255,224,130, 1.0)';
+      } else {
+        this.colors[i] = 'rgba(128,203,196, 1.0)';
+      }
       if (content.options[i].points <= 0) {
         this.ccolors[i] = 'rgba(244,67,54, 0.8)';
       } else {
