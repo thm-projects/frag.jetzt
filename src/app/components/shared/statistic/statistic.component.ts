@@ -133,14 +133,16 @@ export class StatisticComponent implements OnInit {
         this.ccolors[i] = 'rgba(76,175,80, 0.8)';
       }
     }
-    this.ccolors.push('rgba(189,189,189, 0.8)');
-    this.colors.push('rgba(189,189,189, 0.8)');
-    this.translateService.get('statistic.abstentions').subscribe(label => {
-      this.labels.push(label);
-    });
     this.contentService.getAnswer(content.id).subscribe(answer => {
       this.data = answer.roundStatistics[0].independentCounts;
       this.data.push(answer.roundStatistics[0].abstentionCount);
+      if (this.data[this.data.length - 1] > 0) {
+        this.ccolors.push('rgba(189,189,189, 0.8)');
+        this.colors.push('rgba(189,189,189, 0.8)');
+        this.translateService.get('statistic.abstentions').subscribe(label => {
+          this.labels.push(label);
+        });
+      }
       this.createChart(this.colors);
     });
   }
