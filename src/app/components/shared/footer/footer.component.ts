@@ -11,6 +11,9 @@ import { MatDialog } from '@angular/material';
 })
 export class FooterComponent implements OnInit {
 
+  blogUrl = 'https://arsnova.thm.de/blog/';
+  dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
+  imprUrl = 'https://arsnova.thm.de/blog/impressum/';
   constructor(
     public authenticationService: AuthenticationService,
     public notificationService: NotificationService,
@@ -20,4 +23,15 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  navToBlog() {
+    window.open(this.blogUrl, '_blank');
+  }
+  navToDSGVO() {
+    window.open(this.dsgvoUrl, '_blank');
+  }
+  navToImprint() {
+    window.open(this.imprUrl, '_blank');
+  }
+
 }
