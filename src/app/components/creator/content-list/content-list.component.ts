@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { ContentEditComponent } from '../_dialogs/content-edit/content-edit.component';
+import { InnerSubscriber } from 'rxjs/internal/InnerSubscriber';
 
 
 @Component({
@@ -42,6 +43,8 @@ export class ContentListComponent implements OnInit {
 
   collectionName: string;
 
+  labelMaxLength: number;
+
   constructor(private contentService: ContentService,
               private roomService: RoomService,
               private route: ActivatedRoute,
@@ -54,6 +57,7 @@ export class ContentListComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.labelMaxLength = innerWidth / 30;
     this.roomId = localStorage.getItem(`roomId`);
     this.roomService.getRoom(this.roomId).subscribe(room => {
       this.room = room;
@@ -62,6 +66,13 @@ export class ContentListComponent implements OnInit {
     this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
     this.contentService.getContentsByIds(this.contentGroup.contentIds).subscribe( contents => {
       this.contents = contents;
+      for (let i = 0; i < this.contents.length; i++) {
+        if (this.contents[i].subject.length > this.labelMaxLength) {
+          this.contents[i].subject = this.contents[i].subject.substr(0, this.labelMaxLength) + '..';
+          console.log(this.contents);
+        }
+      }
+
     });
     this.route.params.subscribe(params => {
       sessionStorage.setItem('collection', params['contentGroup']);
