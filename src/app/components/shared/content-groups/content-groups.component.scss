@@ -7,19 +7,25 @@
   position: relative;
   top: 0;
   text-align: center;
-  transition: all 0.25s;
+  transition: all 0.5;
   margin-top: 10px;
-  max-height: 80px;
-  padding: 5px; 
+  max-height: 50px;
+  padding: 5px;
 
   &:hover {
     cursor: pointer;
     background-color: mat-color($arsnova-primary, 200);
-    top: -15px;
-    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+    transform: translateZ(20px);
+    transform: translateY(-5px);
+    transform: scaleY(1.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
 }
 
 mat-icon {
   margin-top: 20px;
+}
+
+mat-card-title {
+  margin-top: 18px;
 }

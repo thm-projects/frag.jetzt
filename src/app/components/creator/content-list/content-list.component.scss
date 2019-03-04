@@ -16,10 +16,13 @@ mat-panel-title {
   flex-basis: 0;
   align-items: center;
   font-size: medium;
+  margin-right: 5px;
 }
 
 mat-expansion-panel-header {
   background-color: #bbdefb !important;
+  padding-left: 3%;
+  padding-right: 3%;
 }
 
 .mat-expansion-panel-header-title {
@@ -39,8 +42,13 @@ h2 {
   }
 }
 
+.editButton {
+  width: 15%;
+  max-width: 60px;
+}
+
 .deleteButton {
-  margin-right: 15px;
+  margin-right: 4%;
 }
 
 mat-tooltip-component {

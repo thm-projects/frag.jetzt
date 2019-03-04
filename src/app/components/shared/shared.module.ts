@@ -4,7 +4,6 @@ import { CommentListComponent } from './comment-list/comment-list.component';
 import { ContentGroupsComponent } from './content-groups/content-groups.component';
 import { FeedbackBarometerPageComponent } from './feedback-barometer-page/feedback-barometer-page.component';
 import { FooterComponent } from './footer/footer.component';
-import { FooterImprintComponent } from './footer-imprint/footer-imprint.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RoomListComponent } from './room-list/room-list.component';
@@ -41,7 +40,6 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
     FooterComponent,
-    FooterImprintComponent,
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
@@ -63,7 +61,6 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
     FooterComponent,
-    FooterImprintComponent,
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,

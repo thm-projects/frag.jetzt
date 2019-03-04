@@ -10,8 +10,12 @@
   background-color: #FFD54F;
 }
 
+.emptyC {
+  background-color: #E0E0E0;
+}
+
 mat-chip {
-  width: 100px!important;
+  width: 130px!important;
   display: flex;
   justify-content: center;
 }

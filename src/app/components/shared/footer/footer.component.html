@@ -1,9 +1,18 @@
 <footer>
   <mat-toolbar>
-    <div class="container">
-      <a href="imprint" target="_parent">
-        <button mat-button>Impressum</button>
-      </a>
-    </div>
+    <button mat-button (click)="navToBlog()">
+      <mat-icon>notes</mat-icon>
+      Blog
+    </button>
+    <span class="fill-remaining-space"></span>
+    <button mat-button (click)="navToDSGVO()">
+      <mat-icon>security</mat-icon>
+      DSGVO
+    </button>
+    <span class="fill-remaining-space"></span>
+    <button mat-button (click)="navToImprint()">
+      <mat-icon>info</mat-icon>
+      Impressum
+    </button>
   </mat-toolbar>
 </footer>

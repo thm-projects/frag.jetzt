@@ -1,10 +1,12 @@
 <mat-card *ngFor="let contentGroup of contentGroups" (click)="viewContents(contentGroup)">
   <mat-card-header>
-    <mat-card-title>
-      <h4 *ngIf="!(contentGroup.name === 'Default')">{{contentGroup.name}}</h4>
-      <h4 *ngIf="contentGroup.name === 'Default'">{{'room-page.default-content-group' | translate}}</h4>
+    <mat-card-title *ngIf="contentGroup.name === 'Default'">
+      {{'room-page.default-content-group' | translate}}
     </mat-card-title>
-    <mat-icon color="accent" matBadge="{{contentGroup.contentIds.length}}" 
+    <mat-card-title *ngIf="!(contentGroup.name === 'Default')">
+      {{contentGroup.name}}
+    </mat-card-title>
+    <mat-icon color="accent" matBadge="{{contentGroup.contentIds.length}}"
       matBadgePosition="after" matBadgeColor="accent"></mat-icon>
   </mat-card-header>
 </mat-card>

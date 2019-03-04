@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
-import {log} from "util";
+import { log } from 'util';
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -30,7 +30,7 @@ export class RoomJoinComponent implements OnInit {
   demoId = '95680586';
   user: User;
 
-  roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8)]);
+  roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
 
   matcher = new RegisterErrorStateMatcher();
 

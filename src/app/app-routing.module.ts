@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FooterImprintComponent } from './components/shared/footer-imprint/footer-imprint.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { CreatorModule } from './components/creator/creator.module';
 import { ParticipantModule } from './components/participant/participant.module';
@@ -23,10 +22,6 @@ const routes: Routes = [
   {
     path: 'participant',
     loadChildren: () => ParticipantModule
-  },
-  {
-    path: 'imprint',
-    component: FooterImprintComponent
   },
   {
     path: '**',

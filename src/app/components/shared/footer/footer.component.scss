@@ -1,38 +1,24 @@
 footer {
-    overflow-y: auto;   
-}
-
-mat-expansion-panel {
-  background-color: rgb(235, 235, 235);
-  color: rgb(60, 60, 60);  
-  height: auto;
+    overflow-y: auto;
 }
 
 mat-toolbar {
   background-color: rgb(240, 240, 240);
-  color: rgb(140, 140, 140);  
   height: auto;
+  &:first-child {
+    padding-left: 0px;
+  }
+  &:last-child {
+    padding-right: 0px;
+  }
 }
 
 button {
   min-height: 28px;
   font-size: 12px;
-  color: rgb(140, 140, 140);  
+  color: #80cbc4;
 }
 
-.container {
-  display: flex;
-  justify-content: space-around;
-}
-
-/* Small screens */
-@media all and (max-width: 300px) {
-  .container {
-    flex-direction: column;
-    margin: auto;
-  }
-
-  mat-toolbar {
-    height: auto;
-  }
+mat-icon {
+  margin-right: 2%;
 }
