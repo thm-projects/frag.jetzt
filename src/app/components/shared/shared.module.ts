@@ -4,7 +4,6 @@ import { CommentListComponent } from './comment-list/comment-list.component';
 import { ContentGroupsComponent } from './content-groups/content-groups.component';
 import { FeedbackBarometerPageComponent } from './feedback-barometer-page/feedback-barometer-page.component';
 import { FooterComponent } from './footer/footer.component';
-import { FooterImprintComponent } from './footer-imprint/footer-imprint.component';
 import { HeaderComponent } from './header/header.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RoomListComponent } from './room-list/room-list.component';
@@ -22,7 +21,6 @@ import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
-import { ImprintComponent } from './imprint/imprint.component';
 
 @NgModule({
   imports: [
@@ -42,7 +40,6 @@ import { ImprintComponent } from './imprint/imprint.component';
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
     FooterComponent,
-    FooterImprintComponent,
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
@@ -51,8 +48,7 @@ import { ImprintComponent } from './imprint/imprint.component';
     StatisticComponent,
     RoomCreateComponent,
     LoginComponent,
-    StatisticHelpComponent,
-    ImprintComponent
+    StatisticHelpComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -65,7 +61,6 @@ import { ImprintComponent } from './imprint/imprint.component';
     ContentDeleteComponent,
     FeedbackBarometerPageComponent,
     FooterComponent,
-    FooterImprintComponent,
     FeedbackBarometerPageComponent,
     CommentCreatePageComponent,
     CommentListComponent,
