@@ -8,19 +8,19 @@ mat-card {
 
 mat-card-content>:first-child {
   margin-top: 5%;
-  margin-bottom: 5%;
 }
 
-mat-icon{
-  height:90% !important;
-  width: 90% !important;
-  font-size:48px !important;
+.mat-icon-button {
+  width: 75%;
+  height: 75%;
+  margin-bottom: 10px;
 }
 
-.smallerIcon {
-  height:80% !important;
-  width:80% !important;
-  font-size:48px !important;
+mat-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  line-height: 100%!important;
 }
 
 button {
@@ -67,6 +67,10 @@ mat-expansion-panel {
 
 mat-grid-list {
   margin-bottom: 20px !important;
+}
+
+mat-grid-tile {
+  height: 20px;
 }
 
 mat-tooltip-component {
