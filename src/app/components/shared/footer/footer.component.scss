@@ -4,7 +4,6 @@ footer {
 
 mat-toolbar {
   background-color: rgb(240, 240, 240);
-  color: rgb(140, 140, 140);
   height: auto;
   &:first-child {
     padding-left: 0px;
@@ -17,7 +16,7 @@ mat-toolbar {
 button {
   min-height: 28px;
   font-size: 12px;
-  color: rgb(140, 140, 140);
+  color: #80cbc4;
 }
 
 mat-icon {
