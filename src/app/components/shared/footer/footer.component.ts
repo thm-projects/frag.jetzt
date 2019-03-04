@@ -24,7 +24,7 @@ export class FooterComponent implements OnInit {
 
   navToBlog() {
     this.notificationService.show('Der Blog wird in einem neuen Fenster geöffnet..', 'Öffnen' , {
-      duration: 5000
+      duration: 4000
     });
     this.notificationService.snackRef.afterDismissed().subscribe(info => {
       if (info.dismissedByAction === true) {
