@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
@@ -15,7 +14,6 @@ export class FooterComponent implements OnInit {
   dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
   imprUrl = 'https://arsnova.thm.de/blog/impressum/';
   constructor(
-    public authenticationService: AuthenticationService,
     public notificationService: NotificationService,
     public router: Router,
     public dialog: MatDialog
@@ -25,6 +23,9 @@ export class FooterComponent implements OnInit {
   }
 
   navToBlog() {
+    this.notificationService.show('Der Blog wird in einem neuen Fenster geöffnet', 'Okay!' , {
+      duration: 3000
+    });
     window.open(this.blogUrl, '_blank');
   }
   navToDSGVO() {

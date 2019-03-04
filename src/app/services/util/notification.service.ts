@@ -10,8 +10,8 @@ export class NotificationService {
   constructor(private snackBar: MatSnackBar) {
   }
 
-  show(message: string, config?: MatSnackBarConfig) {
+  show(message: string, action?: string, config?: MatSnackBarConfig) {
     // Delegate the message and merge the (optionally) passed config with the default config
-    this.snackBar.open(message, '', Object.assign({}, this.defaultConfig, config));
+    this.snackBar.open(message, action, Object.assign({}, this.defaultConfig, config));
   }
 }
