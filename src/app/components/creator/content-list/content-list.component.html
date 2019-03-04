@@ -39,11 +39,12 @@
           <mat-panel-title>
               {{ content.subject }}
           </mat-panel-title>
-          <button mat-icon-button color="accent" (click)="editContent(content);$event.stopPropagation();">
+          <button mat-icon-button color="accent" (click)="editContent(content);$event.stopPropagation();"
+                  class="editButton">
             <mat-icon>create</mat-icon>
           </button>
           <button mat-icon-button color="warn" (click)="deleteContent(content);$event.stopPropagation();"
-                  class="deleteButton">
+                  class="deleteButton editButton">
             <mat-icon>delete_forever</mat-icon>
           </button>
         </mat-expansion-panel-header>

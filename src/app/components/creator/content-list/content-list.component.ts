@@ -57,7 +57,7 @@ export class ContentListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.labelMaxLength = innerWidth / 30;
+    this.labelMaxLength = innerWidth / 20;
     this.roomId = localStorage.getItem(`roomId`);
     this.roomService.getRoom(this.roomId).subscribe(room => {
       this.room = room;
