@@ -45,6 +45,8 @@ export class ContentListComponent implements OnInit {
 
   labelMaxLength: number;
 
+  labels: string[] = [];
+
   constructor(private contentService: ContentService,
               private roomService: RoomService,
               private route: ActivatedRoute,
@@ -68,8 +70,9 @@ export class ContentListComponent implements OnInit {
       this.contents = contents;
       for (let i = 0; i < this.contents.length; i++) {
         if (this.contents[i].subject.length > this.labelMaxLength) {
-          this.contents[i].subject = this.contents[i].subject.substr(0, this.labelMaxLength) + '..';
-          console.log(this.contents);
+          this.labels[i] = this.contents[i].subject.substr(0, this.labelMaxLength) + '..';
+        } else {
+          this.labels[i] = this.contents[i].subject;
         }
       }
 
@@ -172,6 +175,7 @@ export class ContentListComponent implements OnInit {
           break;
         case 'update':
           this.contents[index] = this.contentCBackup;
+          this.contentService.updateContent(this.contents[index]).subscribe();
           this.translateService.get('content.content-updated').subscribe(message => {
             this.notificationService.show(message);
           });

@@ -34,10 +34,10 @@
     </mat-grid-list>
     <mat-divider></mat-divider>
     <mat-card-content>
-      <mat-expansion-panel *ngFor="let content of contents">
+      <mat-expansion-panel *ngFor="let content of contents; index as i">
         <mat-expansion-panel-header>
           <mat-panel-title>
-              {{ content.subject }}
+              {{ labels[i] }}
           </mat-panel-title>
           <button mat-icon-button color="accent" (click)="editContent(content);$event.stopPropagation();"
                   class="editButton">
