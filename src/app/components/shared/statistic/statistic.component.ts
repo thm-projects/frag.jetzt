@@ -46,6 +46,7 @@ export class StatisticComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scroll(0, 0); // Maybe not so bad without header..
     this.translateService.use(localStorage.getItem('currentLang'));
     this.maxLength = innerWidth / 12;
     this.answers = new Array<string>();

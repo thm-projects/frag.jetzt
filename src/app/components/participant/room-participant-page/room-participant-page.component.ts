@@ -25,6 +25,7 @@ export class RoomParticipantPageComponent implements OnInit {
   }
 
   ngOnInit() {
+    window.scroll(0, 0);
     this.route.params.subscribe(params => {
       this.getRoom(params['roomId']);
     });
