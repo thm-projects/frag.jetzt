@@ -17,17 +17,17 @@ button {
   }
 }
 
-mat-icon{
-  height:90% !important;
-  width: 90% !important;
-  font-size:48px !important;
-  text-align: center;
+.mat-icon-button {
+  width: 75%;
+  height: 75%;
+  margin-bottom: 20px;
 }
 
-.smallerIcon {
-  height:80% !important;
-  width:80% !important;
-  font-size:48px !important;
+mat-icon {
+  font-size: 50px;
+  height: 50px;
+  width: 50px;
+  line-height: 100%!important;
 }
 
 mat-grid-list {
@@ -66,6 +66,10 @@ mat-card-title {
 
 mat-card-subtitle {
   height: 20%;
+}
+
+mat-grid-tile {
+  height: 20px;
 }
 
 mat-expansion-panel {
