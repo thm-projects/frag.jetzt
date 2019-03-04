@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { MatTabGroup, MatDialog } from '@angular/material';
 import { StatisticHelpComponent } from '../_dialogs/statistic-help/statistic-help.component';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-statistics',
@@ -27,7 +28,8 @@ export class StatisticsPageComponent implements OnInit {
               private roomService: RoomService,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private notificationService: NotificationService) {
               langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -41,12 +43,16 @@ export class StatisticsPageComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.roomService.getRoom(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
-      this.isLoading = false;
-      for (let i = 0; i < this.contentGroups.length; i++) {
-        if (this.currentCG.includes(this.contentGroups[i].name)) {
-          this.tabGroup.selectedIndex = i;
+      if (this.contentGroups) {
+        for (let i = 0; i < this.contentGroups.length; i++) {
+          if (this.currentCG.includes(this.contentGroups[i].name)) {
+            this.tabGroup.selectedIndex = i;
+          }
         }
+      } else {
+        this.notificationService.show('No questions have been created yet!');
       }
+      this.isLoading = false;
     });
   }
 
