@@ -23,16 +23,34 @@ export class FooterComponent implements OnInit {
   }
 
   navToBlog() {
-    this.notificationService.show('Der Blog wird in einem neuen Fenster geöffnet', 'Okay!' , {
-      duration: 3000
+    this.notificationService.show('Der Blog wird in einem neuen Fenster geöffnet..', 'Öffnen' , {
+      duration: 5000
     });
-    window.open(this.blogUrl, '_blank');
+    this.notificationService.snackRef.afterDismissed().subscribe(info => {
+      if (info.dismissedByAction === true) {
+        window.open(this.blogUrl, '_blank');
+      }
+    });
   }
   navToDSGVO() {
-    window.open(this.dsgvoUrl, '_blank');
+    this.notificationService.show('Die Datenschutzverordnung wird in einem neuen Fenster geöffnet..', 'Öffnen' , {
+      duration: 5000
+    });
+    this.notificationService.snackRef.afterDismissed().subscribe(info => {
+      if (info.dismissedByAction === true) {
+        window.open(this.dsgvoUrl, '_blank');
+      }
+    });
   }
   navToImprint() {
-    window.open(this.imprUrl, '_blank');
+    this.notificationService.show('Das Impressum wird in einem neuen Fenster geöffnet..', 'Öffnen' , {
+      duration: 5000
+    });
+    this.notificationService.snackRef.afterDismissed().subscribe(info => {
+      if (info.dismissedByAction === true) {
+        window.open(this.imprUrl, '_blank');
+      }
+    });
   }
 
 }

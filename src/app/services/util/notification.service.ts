@@ -6,12 +6,13 @@ export class NotificationService {
   private defaultConfig = {
     duration: 2000
   };
+  public snackRef: any;
 
-  constructor(private snackBar: MatSnackBar) {
+  constructor(public snackBar: MatSnackBar) {
   }
 
   show(message: string, action?: string, config?: MatSnackBarConfig) {
     // Delegate the message and merge the (optionally) passed config with the default config
-    this.snackBar.open(message, action, Object.assign({}, this.defaultConfig, config));
+    this.snackRef = this.snackBar.open(message, action, Object.assign({}, this.defaultConfig, config));
   }
 }
