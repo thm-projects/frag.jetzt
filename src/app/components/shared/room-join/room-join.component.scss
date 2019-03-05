@@ -18,3 +18,7 @@ mat-error {
   width: 65px;
   height: 65px;
 }
+
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
