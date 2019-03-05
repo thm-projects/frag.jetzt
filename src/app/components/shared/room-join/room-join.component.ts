@@ -29,8 +29,8 @@ export class RoomJoinComponent implements OnInit {
   room: Room;
   demoId = '95680586';
   user: User;
-  
-  roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
+
+  roomFormControl = new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]);
 
   matcher = new RegisterErrorStateMatcher();
 
@@ -46,7 +46,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    this.roomService.getRoomByShortId(id)
+    this.roomService.getRoomByShortId(id.replace(/\s/g, ""))
       .subscribe(room => {
         this.room = room;
         if (!room) {
