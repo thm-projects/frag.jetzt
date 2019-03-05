@@ -46,7 +46,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    if (id.length -1 < 8) {
+    if (id.length - (id.split(' ').length -1) < 8) {
       this.translateService.get('home-page.exactly-8').subscribe(message => {
         this.notificationService.show(message);
       });
