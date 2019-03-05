@@ -1,10 +1,10 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="50px" fxFill>
 <form (ngSubmit)="joinRoom(roomId.value)">
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <mat-form-field class="number">
-      <input matInput inputmode="numeric" type="number" pattern="[0-9]*" #roomId placeholder="Session-Id" [formControl]="roomFormControl"
-             [errorStateMatcher]="matcher" max="8"/>
-      <mat-hint align="end">{{roomId.value.length}} / 8</mat-hint>
+    <mat-form-field>
+      <input matInput #roomId type="number" placeholder="Session-Id" [formControl]="roomFormControl"
+             [errorStateMatcher]="matcher"/>
+      <mat-hint align="end">{{roomId.value.split(' ').join(' ').length}} / 8</mat-hint>
       <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>
       <mat-error *ngIf="roomFormControl.hasError('minlength')">{{ 'home-page.exactly-8' | translate}}</mat-error>
     </mat-form-field>
