@@ -25,7 +25,8 @@
 		"create-session": "Create session",
     "no-empty-name": "Please enter a name.",
     "created-1": "Session '",
-    "created-2": "' successfully created."
+		"created-2": "' successfully created.",
+		"only-numbers": "A session-id only contains numbers."
   },
 	"login": {
 		"email": "E-Mail",

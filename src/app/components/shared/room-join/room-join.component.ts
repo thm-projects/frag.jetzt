@@ -30,7 +30,7 @@ export class RoomJoinComponent implements OnInit {
   demoId = '95680586';
   user: User;
 
-  roomFormControl = new FormControl('', [Validators.required, Validators.minLength(9), Validators.maxLength(9)]);
+  roomFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
 
   matcher = new RegisterErrorStateMatcher();
 
@@ -46,7 +46,16 @@ export class RoomJoinComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    this.roomService.getRoomByShortId(id.replace(/\s/g, ""))
+    if (id.length -1 < 8) {
+      this.translateService.get('home-page.exactly-8').subscribe(message => {
+        this.notificationService.show(message);
+      });
+    } else if (this.roomFormControl.hasError('pattern')) {
+      this.translateService.get('home-page.only-numbers').subscribe(message => {
+        this.notificationService.show(message);
+      });
+    } else {
+      this.roomService.getRoomByShortId(id.replace(/\s/g, ""))
       .subscribe(room => {
         this.room = room;
         if (!room) {
@@ -65,6 +74,8 @@ export class RoomJoinComponent implements OnInit {
           }
         }
       });
+    }
+    
   }
 
   joinRoom(id: string): void {
