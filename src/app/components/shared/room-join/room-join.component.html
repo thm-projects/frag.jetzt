@@ -2,7 +2,7 @@
 <form (ngSubmit)="joinRoom(roomId.value)">
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
-      <input matInput #roomId type="number" placeholder="Session-Id" [formControl]="roomFormControl"
+      <input matInput #roomId type="number" onkeydown="if(this.value.length === 8) return false;" placeholder="Session-Id" [formControl]="roomFormControl"
              [errorStateMatcher]="matcher"/>
       <mat-hint align="end">{{roomId.value.split(' ').join(' ').length}} / 8</mat-hint>
       <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>

@@ -29,7 +29,7 @@ export class RoomJoinComponent implements OnInit {
   room: Room;
   demoId = '95680586';
   user: User;
-
+  
   roomFormControl = new FormControl('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]);
 
   matcher = new RegisterErrorStateMatcher();
