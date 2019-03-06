@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { UserService } from '../../../../services/http/user.service';
-import { FormControl, Validators} from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef} from '@angular/material';
+import { FormControl, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -31,7 +31,7 @@ export class UserActivationComponent implements OnInit {
 
     this.userService.activate(this.data.name.trim(), activationKey).subscribe(
       ret => {
-        this.dialogRef.close({success: true});
+        this.dialogRef.close({ success: true });
       },
       err => {
         this.translationService.get('login.activation-key-incorrect').subscribe(message => {

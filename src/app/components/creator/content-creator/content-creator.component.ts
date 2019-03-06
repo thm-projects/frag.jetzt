@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ContentText } from '../../../models/content-text';
-import { FormControl } from '@angular/forms';;
+import { FormControl } from '@angular/forms';
 import { Room } from '../../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 

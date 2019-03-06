@@ -52,7 +52,7 @@ export class ContentChoiceParticipantComponent implements OnInit {
   }
 
   submitAnswer(): void {
-    let selectedAnswers: number[] = [];
+    const selectedAnswers: number[] = [];
     if (this.content.multiple) {
       for (let i = 0; i < this.checkedAnswers.length; i++) {
         if (this.checkedAnswers[i].checked) {
