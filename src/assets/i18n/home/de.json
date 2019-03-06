@@ -4,7 +4,7 @@
 		"german": "Deutsch",
 		"logout": "Abmelden",
     "guest": "Gast",
-    "logged-out": "Ausloggen erfolgreich.",
+        "logged-out": "Ausloggen erfolgreich.",
 		"back": "Zurück",
 		"my-sessions": "Meine Sessions",
 		"visited-sessions": "Besuchte Sessions"
@@ -14,34 +14,35 @@
 		"participant": "Student/in",
 		"password-reset": "Passwort vergessen?",
 		"register": "Registrieren",
-    "welcome": "Willkommen bei"
+        "welcome": "Willkommen bei"
 	},
-  "home-page": {
-    "join-demo-session": "Demo-Session betreten",
-    "session-id": "Session-Id",
-    "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
-    "please-enter": "Bitte geben Sie eine Session-ID ein.",
-		"exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
-		"create-session": "Session erstellen",
-    "no-empty-name": "Bitte geben Sie einen Namen ein.",
-    "created-1": "Session '",
-    "created-2": "' erfolgreich erstellt."
-  },
+    "home-page": {
+        "join-demo-session": "Demo-Session betreten",
+        "session-id": "Session-Id",
+        "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
+        "please-enter": "Bitte geben Sie eine Session-ID ein.",
+	    "exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
+	    "create-session": "Session erstellen",
+  	    "no-empty-name": "Bitte geben Sie einen Namen ein.",
+  	    "created-1": "Session '",
+	    "created-2": "' erfolgreich erstellt.",
+	    "only-numbers": "Eine Session-Id besteht aus Nummern."
+    },
 	"login": {
 		"email": "E-Mail",
 		"email-invalid": "E-Mail Adresse ist ungültig",
 		"email-required": "E-Mail Adresse ist erforderlich",
 		"guest-login": "Anmelden als Gast",
 		"input-incorrect": "Bitte prüfen Sie Ihre Eingaben.",
-    "login-successful": "Login erfolgreich.",
+        "login-successful": "Login erfolgreich.",
 		"login": "Anmelden",
 		"login-data-incorrect": "Benutzername oder Passwort nicht korrekt.",
 		"password": "Passwort",
 		"password-required": "Passwort ist erforderlich",
-    "activate": "Aktivieren",
-    "activation-key": "Aktivierungsschlüssel",
-    "activation-key-required": "Aktivierungsschlüssel erforderlich",
-    "activation-key-incorrect": "Aktivierungsschlüssel falsch"
+        "activate": "Aktivieren",
+        "activation-key": "Aktivierungsschlüssel",
+        "activation-key-required": "Aktivierungsschlüssel erforderlich",
+        "activation-key-incorrect": "Aktivierungsschlüssel falsch"
 	},
 	"password-reset": {
 		"email": "E-Mail",
@@ -53,10 +54,10 @@
 	},
 	"register": {
 		"email": "E-Mail",
-    "email-verify": "E-Mail bestätigen",
+        "email-verify": "E-Mail bestätigen",
 		"email-invalid": "E-Mail Adresse ist nicht gültig",
 		"email-required": "E-Mail Adresse ist erforderlich",
-    "email-unmatch": "E-Mail Adressen stimmen nicht überein",
+        "email-unmatch": "E-Mail Adressen stimmen nicht überein",
 		"password": "Passwort",
 		"password-required": "Passwort ist erforderlich",
 		"password-unmatch": "Passwörter stimmen nicht überein",
@@ -65,10 +66,10 @@
 		"register-successful": "Erfolgreich registriert. Bitte prüfen Sie Ihre E-Mails",
 		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben."
 	},
-  "session": {
-    "session-name": "Name der Session",
-    "description": "Beschreibung",
-    "max-ls": "Max. Zeichen:",
-    "create-session": "Session erstellen"
+    "session": {
+        "session-name": "Name der Session",
+        "description": "Beschreibung",
+        "max-ls": "Max. Zeichen:",
+        "create-session": "Session erstellen"
   }
 }
