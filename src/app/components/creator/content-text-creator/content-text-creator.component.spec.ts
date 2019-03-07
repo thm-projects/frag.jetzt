@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContentTextCreatorComponent } from './content-text-creator.component';
 
@@ -23,3 +23,4 @@ describe('ContentTextCreatorComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */

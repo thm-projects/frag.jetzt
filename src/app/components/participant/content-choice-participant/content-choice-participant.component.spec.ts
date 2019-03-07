@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ContentChoiceParticipantComponent } from './content-choice-participant.component';
 
@@ -23,3 +23,4 @@ describe('ContentChoiceParticipantComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */

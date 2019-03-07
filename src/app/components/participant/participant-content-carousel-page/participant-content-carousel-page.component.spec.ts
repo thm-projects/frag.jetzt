@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page.component';
 
@@ -23,3 +23,4 @@ describe('CreatorContentCarouselPageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ */
