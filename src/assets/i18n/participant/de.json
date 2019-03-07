@@ -31,7 +31,7 @@
   },
   "statistic": {
     "content": "Frage",
-    "learning-status": "Lernstand",
+    "answer-statistic": "Antwortstatistik",
     "answers": "Antworten",
     "percentage": "Prozent",
     "abstentions": "Enthaltungen"
