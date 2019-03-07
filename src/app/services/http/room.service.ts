@@ -96,7 +96,7 @@ export class RoomService extends BaseHttpService {
 
   parseDefaultContentGroup(room: Room): Room {
     if (room.contentGroups) {
-      for (let cg of room.contentGroups) {
+      for (const cg of room.contentGroups) {
         if (!cg.name || cg.name === '') {
           cg.name = 'Default';
         }

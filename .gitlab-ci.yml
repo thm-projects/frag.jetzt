@@ -21,7 +21,7 @@ tslint:
     - npm install @angular/core
     - npm install typescript
     - npm install rxjs
-    - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json ./src/**/*.ts
+    - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
 
 ngbuild:
   stage: build

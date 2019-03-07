@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '350px'
     });
-    let role = (isDozent === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
+    const role = (isDozent === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
     dialogRef.componentInstance.role = role;
     dialogRef.componentInstance.isStandard = true;
   }

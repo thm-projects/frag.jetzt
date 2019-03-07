@@ -1,5 +1,4 @@
-
-import {catchError, map} from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
 import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
@@ -119,13 +118,13 @@ export class AuthenticationService {
       } else {
         return 'false';
       }
-    }),catchError((e) => {
+    }), catchError((e) => {
       // check if user needs activation
       if (e.error.errorType === 'DisabledException') {
         return of('activation');
       }
       return of('false');
-    }),);
+    }), );
   }
 
   get watchUser() {
