@@ -34,7 +34,10 @@ export class StatisticsPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentCG = sessionStorage.getItem('contentGroup');
+    if (sessionStorage.getItem('contentGroup')) {
+      console.log('in if');
+      this.currentCG = sessionStorage.getItem('contentGroup');
+    }
     this.getRoom(localStorage.getItem('roomId'));
     this.tabGroup.selectedIndex = 1;
   }
@@ -44,9 +47,11 @@ export class StatisticsPageComponent implements OnInit {
     this.roomService.getRoom(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
       if (this.contentGroups) {
-        for (let i = 0; i < this.contentGroups.length; i++) {
-          if (this.currentCG.includes(this.contentGroups[i].name)) {
-            this.tabGroup.selectedIndex = i;
+        if( this.currentCG) {
+          for (let i = 0; i < this.contentGroups.length; i++) {
+            if (this.currentCG.includes(this.contentGroups[i].name)) {
+              this.tabGroup.selectedIndex = i;
+            }
           }
         }
       } else {

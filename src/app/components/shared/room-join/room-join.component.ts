@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
-import { log } from 'util';
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -64,13 +63,12 @@ export class RoomJoinComponent implements OnInit {
           });
         } else {
           if (!this.user) {
-            this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
-              if (loggedIn === 'true') {
-                this.addAndNavigate();
-              }
-            });
+            this.guestLogin();
           } else {
-            this.addAndNavigate();
+            if (this.user.role === UserRole.CREATOR) {
+              this.authenticationService.logout();
+              this.guestLogin();
+            }
           }
         }
       });
@@ -81,6 +79,14 @@ export class RoomJoinComponent implements OnInit {
     if (!this.roomFormControl.hasError('required') && !this.roomFormControl.hasError('minlength')) {
       this.getRoom(id);
     }
+  }
+
+  guestLogin() {
+    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
+      if (loggedIn === 'true') {
+        this.addAndNavigate();
+      }
+    });
   }
 
   addAndNavigate() {

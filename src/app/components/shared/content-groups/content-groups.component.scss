@@ -17,7 +17,8 @@
     background-color: mat-color($arsnova-primary, 200);
     transform: translateZ(20px);
     transform: translateY(-5px);
-    transform: scaleY(1.2);
+    transform: scaleY(1.1);
+    transform: scaleX(1.01);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
   }
 }
