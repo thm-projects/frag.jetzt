@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod",
-    "test": "ng test --watch=false --browsers=ChromeHeadless",
+    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json"
