@@ -2,13 +2,19 @@ variables:
   BUILD_DIR: dist
 
 stages:
+  - codestyle
   - test
   - build
   - review
   - deploy
 
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
 tslint:
-  stage: test
+  stage: codestyle
   tags:
     - nodejs
   allow_failure: false
@@ -22,6 +28,16 @@ tslint:
     - npm install typescript
     - npm install rxjs
     - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
+
+unit_tests:
+  stage: test
+  tags:
+    - nodejs
+  allow_failure: false
+  dependencies: []
+  script:
+    - npm install
+    - npm test
 
 ngbuild:
   stage: build
