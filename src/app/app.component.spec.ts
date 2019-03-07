@@ -1,7 +1,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SharedModule } from './components/shared/shared.module';
-import { RouterTestingModule } from '@angular/router/testing'
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from './services/http/authentication.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { NotificationService } from './services/util/notification.service';
