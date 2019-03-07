@@ -10,7 +10,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
-import { log } from 'util';
 
 export class JoinErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -75,7 +74,6 @@ export class RoomJoinComponent implements OnInit {
         }
       });
     }
-    
   }
 
   joinRoom(id: string): void {
