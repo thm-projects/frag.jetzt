@@ -35,6 +35,8 @@ unit_tests:
     - nodejs
   allow_failure: false
   dependencies: []
+  variables:
+    CHROME_BIN: /usr/bin/chromium-browser
   script:
     - npm install
     - npm test
