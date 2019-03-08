@@ -71,5 +71,11 @@
 		"description": "Beschreibung",
 		"max-ls": "Max. Zeichen:",
 		"create-session": "Session erstellen"
-	}
+  },
+  "footer": {
+    "dsgvo": "DSGVO",
+    "imprint": "Impressum",
+    "will-open": " wird in einem neuen Fenster geöffnet..",
+    "open": "Öffnen"
+  }
 }

@@ -7,12 +7,12 @@
     <span class="fill-remaining-space"></span>
     <button mat-button (click)="navToDSGVO()">
       <mat-icon>security</mat-icon>
-      DSGVO
+      {{ 'footer.dsgvo' | translate}}
     </button>
     <span class="fill-remaining-space"></span>
     <button mat-button (click)="navToImprint()">
       <mat-icon>info</mat-icon>
-      Impressum
+      {{ 'footer.imprint' | translate}}
     </button>
   </mat-toolbar>
 </footer>

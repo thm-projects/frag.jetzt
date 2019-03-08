@@ -40,10 +40,10 @@ export class StatisticsPageComponent implements OnInit {
     }
     this.getRoom(localStorage.getItem('roomId'));
     this.tabGroup.selectedIndex = 1;
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   getRoom(id: string): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.roomService.getRoom(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
       if (this.contentGroups) {
