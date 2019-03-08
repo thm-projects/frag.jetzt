@@ -69,6 +69,7 @@
     "answer-statistic": "Answer statistic",
     "answers": "Answers",
     "percentage": "Percentage",
-    "abstentions": "Abstentions"
+    "abstentions": "Abstentions",
+    "no-questions": "There are no answers yet."
   }
 }
