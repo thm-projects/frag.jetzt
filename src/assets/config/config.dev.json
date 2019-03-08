@@ -1,0 +1,14 @@
+{
+    "env": {
+        "name": "dev"
+    },
+    
+    "authentication": {
+        "lecturer": {
+            "allowGuest": false
+        },
+        "student": {
+            "allowGuest": true
+        }
+    }
+}
