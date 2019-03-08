@@ -18,7 +18,7 @@
     </mat-list>
   </mat-radio-group>
   <mat-divider></mat-divider>
-  <div fxLayout fxLayoutGap="5px" fxAlign="row">
+  <div fxLayoutAlign="center" fxLayoutGap="20px" fxAlign="row">
     <button mat-raised-button [disabled]="alreadySent" type="submit" color="accent">{{ 'answer.submit' | translate }}</button>
     <button mat-raised-button [disabled]="alreadySent" (click)="abstain($event)" color="primary">{{ 'answer.abstain' | translate }}</button>
   </div>
