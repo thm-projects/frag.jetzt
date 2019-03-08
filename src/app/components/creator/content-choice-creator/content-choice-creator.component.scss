@@ -8,15 +8,6 @@ mat-header-cell {
 
 mat-row {
   background-color: #ffecb3;
-
-  &:last-child {
-    animation: fadeIn 2s;
-  }
-}
-
-@keyframes fadeIn {
-  0% {background-color: #b2dfdb}
-  100% {background-color: #ffecb3}
 }
 
 .addIcon {
@@ -39,5 +30,5 @@ mat-row {
 }
 
 mat-form-field {
-  min-width: 250px;
+  width: 85%;
 }
