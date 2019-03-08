@@ -70,6 +70,9 @@
     "answers": "Antworten",
     "percentage": "Prozent",
     "abstentions": "Enthaltungen",
-    "no-questions": "Es sind noch keine Antworten vorhanden."
+    "no-questions": "Es sind noch keine Antworten vorhanden.",
+    "good": "Gut",
+    "improvable": "Luft nach oben",
+    "no-answers": "Keine Antworten"
   }
 }
