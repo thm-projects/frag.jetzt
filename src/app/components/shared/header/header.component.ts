@@ -52,20 +52,7 @@ export class HeaderComponent implements OnInit {
   }
 
   goToHomepage() {
-    const role: UserRole = this.user !== undefined ? this.user.role : undefined;
-    let route: string;
-
-    switch (role) {
-      case UserRole.PARTICIPANT:
-        route = '/participant';
-        break;
-      case UserRole.CREATOR:
-        route = '/creator';
-        break;
-      default:
-        route = '/';
-    }
-    this.router.navigate([route]);
+    this.router.navigate(['/home']);
   }
 
   useLanguage(language: string) {
