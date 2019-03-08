@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
@@ -26,8 +26,13 @@ import { NewLandingComponent } from './components/home/new-landing/new-landing.c
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
 import { myRxStompConfig } from './rx-stomp.config';
+import { AppConfig } from './app.config';
 
 export function dialogClose(dialogResult: any) {
+}
+
+export function initializeApp(appConfig: AppConfig) {
+  return () => appConfig.load();
 }
 
 @NgModule({
@@ -52,6 +57,11 @@ export function dialogClose(dialogResult: any) {
     SharedModule
   ],
   providers: [
+    AppConfig,
+    { provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfig], multi: true
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
