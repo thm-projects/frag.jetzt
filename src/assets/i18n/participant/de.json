@@ -34,6 +34,10 @@
     "answer-statistic": "Antwortstatistik",
     "answers": "Antworten",
     "percentage": "Prozent",
-    "abstentions": "Enthaltungen"
+    "abstentions": "Enthaltungen",
+    "no-questions": "Es sind noch keine Antworten vorhanden.",
+    "good": "Gut",
+    "improvable": "Luft nach oben",
+    "no-answers": "Keine Antworten"
   }
 }

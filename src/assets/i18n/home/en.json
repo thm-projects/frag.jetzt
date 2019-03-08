@@ -10,8 +10,8 @@
 		"visited-sessions": "Visited Sessions"
 	},
 	"login-page": {
-		"creator": "Creator",
-		"participant": "Participant",
+		"creator": "Lecturer",
+		"participant": "Student",
 		"password-reset": "Forgot your password?",
 		"register": "Register",
 		"welcome": "Welcome to"
@@ -71,5 +71,11 @@
 		"description": "Description",
 		"max-ls": "Max. letters / signs:",
 		"create-session": "Create session"
-	}
+	},
+  "footer": {
+    "dsgvo": "GDPR",
+    "imprint": "Imprint",
+    "will-open": " will be opened in a new tab..",
+    "open": "Open"
+  }
 }

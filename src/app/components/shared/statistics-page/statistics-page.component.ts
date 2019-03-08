@@ -35,15 +35,14 @@ export class StatisticsPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (sessionStorage.getItem('contentGroup')) {
-      console.log('in if');
       this.currentCG = sessionStorage.getItem('contentGroup');
     }
     this.getRoom(localStorage.getItem('roomId'));
     this.tabGroup.selectedIndex = 1;
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   getRoom(id: string): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.roomService.getRoom(id).subscribe(room => {
       this.contentGroups = room.contentGroups;
       if (this.contentGroups) {
@@ -55,7 +54,9 @@ export class StatisticsPageComponent implements OnInit {
           }
         }
       } else {
-        this.notificationService.show('No questions have been created yet!');
+        this.translateService.get('no-questions').subscribe( message => {
+          this.notificationService.show(message);
+        });
       }
       this.isLoading = false;
     });
