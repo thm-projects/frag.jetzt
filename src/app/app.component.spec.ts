@@ -1,3 +1,6 @@
+import { APP_INITIALIZER } from '@angular/core';
+import { initializeApp } from './app.module';
+import { AppConfig } from './app.config';
 import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SharedModule } from './components/shared/shared.module';
@@ -16,6 +19,11 @@ describe('AppComponent', () => {
         AppComponent
       ],
       providers: [
+        AppConfig,
+        { provide: APP_INITIALIZER,
+          useFactory: initializeApp,
+          deps: [AppConfig], multi: true
+        },
         AuthenticationService,
         DataStoreService,
         NotificationService,
