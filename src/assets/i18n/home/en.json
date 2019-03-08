@@ -10,8 +10,8 @@
 		"visited-sessions": "Visited Sessions"
 	},
 	"login-page": {
-		"creator": "Creator",
-		"participant": "Participant",
+		"creator": "Lecturer",
+		"participant": "Student",
 		"password-reset": "Forgot your password?",
 		"register": "Register",
 		"welcome": "Welcome to"
