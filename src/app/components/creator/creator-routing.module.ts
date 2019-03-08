@@ -10,6 +10,7 @@ import { CommentListComponent } from '../shared/comment-list/comment-list.compon
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { StatisticComponent } from '../shared/statistic/statistic.component';
+import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,12 @@ const routes: Routes = [
   {
     path: 'room/:roomId/:contentGroup',
     component: ContentListComponent,
+    canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
+  },
+  {
+    path: 'room/:roomId/:contentGroup/presentation',
+    component: ContentPresentationComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   }

@@ -20,6 +20,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ContentCreatorComponent } from './content-creator/content-creator.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
+import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
     RoomEditComponent,
     ContentCreatorComponent,
     ContentListComponent,
-    ContentEditComponent
+    ContentEditComponent,
+    ContentPresentationComponent
   ],
   entryComponents: [
     RoomDeleteComponent,
