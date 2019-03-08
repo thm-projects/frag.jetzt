@@ -35,6 +35,9 @@
     "answers": "Answers",
     "percentage": "Percentage",
     "abstentions": "Abstentions",
-    "no-questions": "There are no answers yet."
+    "no-questions": "There are no answers yet.",
+    "good": "Good",
+    "improvable": "Improvable",
+    "no-answers": "No answers"
   }
 }
