@@ -1,3 +1,6 @@
+import { ContentChoice } from './../../../models/content-choice';
+import { ContentService } from './../../../services/http/content.service';
+import { ContentGroup } from './../../../models/content-group';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContentPresentationComponent implements OnInit {
 
-  constructor() { }
+  contents: ContentChoice[];
+  contentGroup: ContentGroup;
+  labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+
+  constructor(private contentService: ContentService) {
+  }
 
   ngOnInit() {
+      this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
+      this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe( contents => {
+        this.contents = contents;
+      });
   }
 
 }
