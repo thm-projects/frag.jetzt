@@ -35,7 +35,6 @@ export class StatisticsPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (sessionStorage.getItem('contentGroup')) {
-      console.log('in if');
       this.currentCG = sessionStorage.getItem('contentGroup');
     }
     this.getRoom(localStorage.getItem('roomId'));
@@ -55,7 +54,9 @@ export class StatisticsPageComponent implements OnInit {
           }
         }
       } else {
-        this.notificationService.show('No questions have been created yet!');
+        this.translateService.get('no-questions').subscribe( message => {
+          this.notificationService.show(message);
+        });
       }
       this.isLoading = false;
     });
