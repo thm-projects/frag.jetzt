@@ -43,10 +43,10 @@
     <mat-form-field class="input-block">
       <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
-    <button *ngIf="singleChoice" mat-icon-button class="addButton" (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
+    <button *ngIf="singleChoice" mat-icon-button class="addButton" (click)="addAnswer($event); answerLabel.value = '';">
       <mat-icon class="addIcon" color="primary">add_circle</mat-icon>
     </button>
-    <button *ngIf="!singleChoice" mat-icon-button (click)="addAnswer($event); answerLabel.value = '';" matTooltip="{{'content.add-answer' | translate}}">
+    <button *ngIf="!singleChoice" mat-icon-button (click)="addAnswer($event); answerLabel.value = '';">
       <mat-icon class="addIcon" color="primary">add_box</mat-icon>
     </button>
   </div>
