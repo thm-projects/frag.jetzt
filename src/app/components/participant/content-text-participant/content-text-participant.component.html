@@ -4,7 +4,7 @@
   <mat-form-field class="input-block">
     <textarea matInput [(ngModel)]="textAnswer" name="answer" #answer placeholder="{{ 'answer.your-answer' | translate }}"></textarea>
   </mat-form-field>
-  <div fxLayout fxLayoutGap="5px" fxAlign="row">
+  <div fxLayoutAlign="center" fxLayoutGap="20px" fxAlign="row">
     <button mat-raised-button type="submit" color="accent">{{ 'answer.submit' | translate }}</button>
     <button mat-raised-button (click)="abstain($event)" color="primary">{{ 'answer.abstain' | translate }}</button>
   </div>
