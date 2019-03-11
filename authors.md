@@ -9,6 +9,7 @@
 * lorenz.detterbeck@mni.thm.de
 * lukas.mauss@mni.thm.de
 * louis.peter@mni.thm.de
+* berna.tuelek@mni.thm.de
 * sebastian.wittek@mni.thm.de
 * anris.ceta@mni.thm.de
 * thomas.gross@mni.thm.de
