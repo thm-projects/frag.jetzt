@@ -8,3 +8,4 @@
 * thomas.lenz@mni.thm.de
 * lorenz.detterbeck@mni.thm.de
 * lukas.mauss@mni.thm.de
+* louis.peter@mni.thm.de
