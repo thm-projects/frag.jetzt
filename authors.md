@@ -9,6 +9,7 @@
 * lorenz.detterbeck@mni.thm.de
 * lukas.mauss@mni.thm.de
 * louis.peter@mni.thm.de
+* mariana.baho@mni.thm.de
 * berna.tuelek@mni.thm.de
 * thisari.muthuwahandi@mni.thm.de
 * sebastian.wittek@mni.thm.de
