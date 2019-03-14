@@ -1,37 +1,12 @@
-<mat-card *ngFor="let comment of comments">
-  <mat-card-header>
+<mat-toolbar [ngStyle]="{'background-color':'#bbdefb'}">List of Questions</mat-toolbar>
+<mat-card class="card-container" [ngStyle]="{'background-color':'#4db6ac'}">
+  <mat-card *ngFor="let comment of comments">
     <mat-card-title>{{comment.subject}}</mat-card-title>
-    <mat-card-subtitle>
-      <span class="mat-caption">Submitted on {{ comment.creationTimestamp | date:'dd-MM-yyyy HH:mm:ss' }}</span>
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-divider></mat-divider>
-  <mat-card-content>
-    <p>{{comment.body}}</p>
-  </mat-card-content>
-  <mat-divider></mat-divider>
-  <mat-card-actions *ngIf="userRole === userRoleTemp">
-    <button mat-icon-button *ngIf="comment.read" color="primary" matTooltip="Mark as read"
-            (click)="setRead(comment)">
-      <mat-icon>speaker_notes</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="!comment.read" color="warn" matTooltip="Mark as unread"
-            (click)="setRead(comment)">
-      <mat-icon>speaker_notes_off</mat-icon>
-    </button>
-    <button mat-icon-button color="warn" matTooltip="Delete comment"
-            (click)="delete(comment)">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </mat-card-actions>
-  <mat-card-actions *ngIf="userRole !== userRoleTemp">
-    <button mat-icon-button *ngIf="comment.read" color="primary" matTooltip="Mark as read"
-            (click)="setRead(comment)" disabled>
-      <mat-icon>speaker_notes</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="!comment.read" color="warn" matTooltip="Mark as unread"
-            (click)="setRead(comment)" disabled>
-      <mat-icon>speaker_notes_off</mat-icon>
-    </button>
-  </mat-card-actions>
+
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <p>{{comment.body}}</p>
+    </mat-card-content>
+  </mat-card>
 </mat-card>
+
