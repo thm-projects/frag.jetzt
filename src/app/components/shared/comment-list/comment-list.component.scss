@@ -3,7 +3,7 @@ mat-card {
   background-color: #b2ebf2;
 }
 
-mat-card-content>:first-child {
+mat-card-content > :first-child {
   margin-top: 20px;
 }
 
@@ -15,4 +15,8 @@ mat-toolbar {
 
 .outer-card {
   border-radius: 8px;
+}
+
+.btn-right {
+  float: right;
 }
