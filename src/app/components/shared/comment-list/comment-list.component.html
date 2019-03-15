@@ -1,8 +1,7 @@
 <mat-toolbar [ngStyle]="{'background-color':'#bbdefb'}">List of Questions</mat-toolbar>
-<mat-card class="card-container" [ngStyle]="{'background-color':'#4db6ac'}">
-  <mat-card *ngFor="let comment of comments">
+<mat-card class="outer-card" [ngStyle]="{'background-color':'#b2ebf2'}">
+  <mat-card class="card-container"  *ngFor="let comment of comments">
     <mat-card-title>{{comment.subject}}</mat-card-title>
-
     <mat-divider></mat-divider>
     <mat-card-content>
       <p>{{comment.body}}</p>
