@@ -34,7 +34,7 @@ export class NewLandingComponent implements OnInit {
   }
 
   createSession() {
-    if (!this.user  || this.user.isGuest) {
+    if (!this.user) {
       this.openLoginDialog();
     } else {
       this.openCreateRoomDialog();
@@ -56,7 +56,7 @@ export class NewLandingComponent implements OnInit {
     dialogRef.componentInstance.guestAllowed = this.authentication.lecturer.allowGuest;
     dialogRef.afterClosed()
       .subscribe(result => {
-          if (this.user && !this.user.isGuest) {
+          if (this.user) {
             this.openCreateRoomDialog();
           }
       });

@@ -30,7 +30,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
     private notification: NotificationService,
     private rxStompService: RxStompService,
     private route: ActivatedRoute, ) {
-      this.roomId = this.route.snapshot.params.roomId;
+      this.roomId = localStorage.getItem(`roomId`);
     }
 
   ngOnInit() {
