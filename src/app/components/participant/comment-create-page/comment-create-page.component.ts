@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { FormControl, Validators } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { Comment } from '../../../models/comment';
 import { RoomService } from '../../../services/http/room.service';
 import { CommentService } from '../../../services/http/comment.service';
@@ -20,6 +22,8 @@ export class CommentCreatePageComponent implements OnInit {
   roomShortId: string;
   user: User;
   private date = new Date(Date.now());
+  private emptySubject = new FormControl('', [Validators.required]);
+  private emptyBody = new FormControl('', [Validators.required]);
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -27,7 +31,8 @@ export class CommentCreatePageComponent implements OnInit {
     private roomService: RoomService,
     private commentService: CommentService,
     private location: Location,
-    private notification: NotificationService) { }
+    private notification: NotificationService,
+    private translationService: TranslateService) { }
 
   ngOnInit(): void {
     this.user = this.authenticationService.getUser();
@@ -40,7 +45,22 @@ export class CommentCreatePageComponent implements OnInit {
   send(subject: string, body: string): void {
     subject = subject.trim();
     body = body.trim();
-    if (!subject || !body) {
+    if (!subject && !body) {
+      this.translationService.get('comment-page.error-both-fields').subscribe(message => {
+        this.notification.show(message);
+      });
+      return;
+    }
+    if (!subject) {
+      this.translationService.get('comment-page.error-title').subscribe(message => {
+        this.notification.show(message);
+      });
+      return;
+    }
+    if (!body) {
+      this.translationService.get('comment-page.error-comment').subscribe(message => {
+        this.notification.show(message);
+      });
       return;
     }
     this.commentService.addComment({
