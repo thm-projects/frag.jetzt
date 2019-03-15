@@ -15,9 +15,12 @@
     "description": "Beschreibung"
   },
   "comment-page": {
-    "enter-title": "Geben Sie einen Titel ein",
-    "back": "Zurück",
-    "send": "Senden"
+    "enter-title": "Titel",
+    "enter-comment": "Kommentar",
+    "send": "Senden",
+    "error-comment": "Bitte geben Sie ein Kommentar ein!",
+    "error-title": "Bitte geben Sie einen Titel ein!",
+    "error-both-fields": "Bitte füllen Sie alle Felder aus!"
   },
   "answer": {
     "submit": "Absenden",

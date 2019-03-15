@@ -2,18 +2,20 @@
   <div fxLayout="row" fxLayoutAlign="center">
     <form>
       <mat-form-field class="input-block">
-        <input matInput #commentSubject type="text" maxlength="24" placeholder="{{ 'comment-page.enter-title' | translate}}">
+        <input matInput #commentSubject type="text" maxlength="25"
+          placeholder="{{ 'comment-page.enter-title' | translate}}" onkeypress="return event.keyCode !=13;"
+          [formControl]="emptySubject">
+        <mat-hint align="end" *ngIf="!emptyInputs">{{commentSubject.value.length}} / 25</mat-hint>
       </mat-form-field>
       <mat-form-field class="input-block">
-        <input matInput #commentBody>
-        <textarea matInput></textarea>
+        <textarea matInput #commentBody placeholder="{{ 'comment-page.enter-comment' | translate}}" matTextareaAutosize
+          matAutosizeMinRows=1 matAutosizeMaxRows=5 [formControl]="emptyBody"></textarea>
       </mat-form-field>
-      <button mat-raised-button color="primary" (click)="goBack()">{{ 'comment-page.back' | translate}}</button>
-      <button mat-raised-button color="accent" (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
+      <button mat-raised-button color="accent"
+        (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
     </form>
   </div>
   <div fxLayout="row" fxLayoutAlign="center">
     <app-comment-list></app-comment-list>
   </div>
 </div>
-
