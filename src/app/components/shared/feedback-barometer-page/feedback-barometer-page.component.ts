@@ -36,14 +36,14 @@ export class FeedbackBarometerPageComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
 
-    this.rxStompService.watch(`/room/${this.roomId}/feedback.stream`).subscribe((message: Message) => {
+    this.rxStompService.watch(`/queue/${this.roomId}.feedback.stream`).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
 
     const getFeedback = new GetFeedback();
 
     this.rxStompService.publish({
-      destination: `/backend/room/${this.roomId}/feedback.query`,
+      destination: `/backend/queue/${this.roomId}.feedback.query`,
       body: JSON.stringify(getFeedback)
     });
   }
@@ -59,7 +59,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
   submitFeedback(state: number) {
     const createFeedback = new CreateFeedback(state);
     this.rxStompService.publish({
-      destination: `/backend/room/${this.roomId}/feedback.command`,
+      destination: `/backend/queue/${this.roomId}.feedback.command`,
       body: JSON.stringify(createFeedback)
     });
   }
