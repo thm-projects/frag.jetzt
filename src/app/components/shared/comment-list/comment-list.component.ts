@@ -52,16 +52,4 @@ export class CommentListComponent implements OnInit {
           this.isLoading = false;
         });
   }
-
-  setRead(comment: Comment): void {
-    this.comments.find(c => c.id === comment.id).read = !comment.read;
-    this.commentService.updateComment(comment).subscribe();
-  }
-
-  delete(comment: Comment): void {
-    this.comments = this.comments.filter(c => c !== comment);
-    this.commentService.deleteComment(comment.id).subscribe(room => {
-      this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
-    });
-  }
 }
