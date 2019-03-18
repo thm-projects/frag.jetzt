@@ -1,26 +1,26 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { Comment } from '../../../models/comment';
-import { CommentService } from '../../../services/http/comment.service';
-import { RoomService } from '../../../services/http/room.service';
-import { NotificationService } from '../../../services/util/notification.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { RoomService } from '../../../services/http/room.service';
+import { Location } from '@angular/common';
+import { CommentService } from '../../../services/http/comment.service';
+import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 
 @Component({
-  selector: 'app-comment-list',
-  templateUrl: './comment-list.component.html',
-  styleUrls: ['./comment-list.component.scss']
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.scss']
 })
-export class CommentListComponent implements OnInit {
+export class CommentComponent implements OnInit {
+  @Input() comment: Comment;
   userRoleTemp: any = UserRole.CREATOR;
   userRole: UserRole;
   user: User;
-  comments: Comment[];
   isLoading = true;
   roomId: string;
   roomShortId: string;
@@ -33,23 +33,22 @@ export class CommentListComponent implements OnInit {
               private notification: NotificationService,
               private translateService: TranslateService,
               protected langService: LanguageService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
-  }
+    langService.langEmitter.subscribe(lang => translateService.use(lang)); }
 
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
     this.user = this.authenticationService.getUser();
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
-    this.getComments();
     this.translateService.use(localStorage.getItem('currentLang'));
   }
+  setRead(comment: Comment): void {
+    this.commentService.updateComment(comment).subscribe();
+  }
 
-  getComments(): void {
-      this.commentService.getComments(this.roomId)
-        .subscribe(comments => {
-          this.comments = comments;
-          this.isLoading = false;
-        });
+  delete(comment: Comment): void {
+    this.commentService.deleteComment(comment.id).subscribe(room => {
+      this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
+    });
   }
 }
