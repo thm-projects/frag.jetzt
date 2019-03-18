@@ -37,6 +37,7 @@ export class CommentComponent implements OnInit {
   }
 
   setRead(comment: Comment): void {
+    comment.read = !comment.read;
     this.commentService.updateComment(comment).subscribe();
   }
 

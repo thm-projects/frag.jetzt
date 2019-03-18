@@ -19,8 +19,8 @@ mat-toolbar {
   border-radius: 2px;
 }
 
-.outer-card {
-  border-radius: 8px;
+.card-container :hover {
+  cursor: pointer;
 }
 
 mat-icon {
@@ -33,6 +33,10 @@ mat-icon {
 
 .correct-icon {
   color: green;
+}
+
+.read-icon {
+  color: blue;
 }
 
 mat-card-title {
