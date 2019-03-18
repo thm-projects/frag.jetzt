@@ -1,5 +1,11 @@
-<mat-card>
-  <mat-card-title>{{comment.subject}}</mat-card-title>
+<mat-card class="card-container">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <mat-card-title>{{comment.subject}}</mat-card-title>
+    <span class="fill-remaining-space"></span>
+    <button mat-icon-button [disabled]="userRole === 0" (click)="setCorrect(comment)">
+      <mat-icon [ngClass]="{'correct-icon' : comment.correct === true}">check_circle</mat-icon>
+    </button>
+  </div>
   <mat-divider></mat-divider>
   <mat-card-content>
     <p>{{comment.body}}</p>

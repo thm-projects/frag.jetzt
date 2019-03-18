@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Comment } from '../../../models/comment';
@@ -17,7 +17,6 @@ import { LanguageService } from '../../../services/util/language.service';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
-  userRoleTemp: any = UserRole.CREATOR;
   userRole: UserRole;
   user: User;
   comments: Comment[];
