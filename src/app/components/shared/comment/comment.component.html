@@ -5,6 +5,9 @@
     <button mat-icon-button [disabled]="userRole === 0" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Antwort richtig' : null">
       <mat-icon [ngClass]="{'correct-icon' : comment.correct === true}">check_circle</mat-icon>
     </button>
+    <button mat-icon-button [disabled]="userRole === 0" (click)="setFavorite(comment)" [matTooltip]="comment.favorite ? 'mark as favorite' : 'mark as not favorite'">
+      <mat-icon [ngClass]="{'favorite-icon' : comment.favorite === true}">star</mat-icon>
+    </button>
     <button mat-icon-button [disabled]="userRole === 0" (click)="setRead(comment)" [matTooltip]="comment.read ? 'mark me as unread' : 'mark me as read'">
       <mat-icon [ngClass]="{'read-icon' : comment.read === true}">visibility</mat-icon>
     </button>

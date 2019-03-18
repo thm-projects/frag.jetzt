@@ -43,6 +43,11 @@ export class CommentComponent implements OnInit {
     this.commentService.updateComment(comment).subscribe();
   }
 
+  setFavorite(comment: Comment): void {
+    comment.favorite = !comment.favorite;
+    this.commentService.updateComment(comment).subscribe();
+  }
+
   delete(comment: Comment): void {
     this.commentService.deleteComment(comment.id).subscribe(room => {
       this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
