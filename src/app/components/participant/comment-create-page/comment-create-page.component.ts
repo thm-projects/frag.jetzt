@@ -22,8 +22,9 @@ export class CommentCreatePageComponent implements OnInit {
   roomShortId: string;
   user: User;
   private date = new Date(Date.now());
-  private emptySubject = new FormControl('', [Validators.required]);
-  private emptyBody = new FormControl('', [Validators.required]);
+  subjectForm = new FormControl('', [Validators.required]);
+  bodyForm = new FormControl('', [Validators.required]);
+
 
   constructor(
     protected authenticationService: AuthenticationService,
@@ -39,8 +40,6 @@ export class CommentCreatePageComponent implements OnInit {
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
   }
-
-  // TODO: check if empty
 
   send(subject: string, body: string): void {
     subject = subject.trim();
@@ -75,7 +74,6 @@ export class CommentCreatePageComponent implements OnInit {
     } as Comment).subscribe(() => {
       this.child.getComments();
       this.notification.show(`Comment '${subject}' successfully created.`);
-      this.goBack();
     });
   }
 
