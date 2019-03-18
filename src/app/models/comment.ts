@@ -6,5 +6,6 @@ export class Comment {
   subject: string;
   body: string;
   read: boolean;
+  correct: boolean;
   creationTimestamp: number;
 }
