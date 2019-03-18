@@ -3,8 +3,9 @@ mat-card {
   background-color: #4db6ac;
 }
 
-mat-card-content>:first-child {
-  margin-top: 20px;
+app-comment {
+  overflow: auto;
+  overflow-wrap: break-word;
 }
 
 .card-container {
@@ -13,20 +14,22 @@ mat-card-content>:first-child {
   overflow-wrap: break-word;
 }
 
-mat-card-title {
-  font-size: 20px;
+.outer-card {
+  border-radius: 8px;
 }
 
 input {
   border: 2px solid #4db6ac;
-  border-radius: 30px;
-   padding: 5px 10px 5px 20px;
-   width: 50%;
+  box-sizing: border-box;
+  padding: 5px 10px 5px 30px;
+  margin-bottom: 0px;
 }
 
 .search-results li {
   list-style-type: none;
-  width: 50%;
+  display: block;
+  width: 100%;
+  margin-top: 0px;
 }
 
 li a {
@@ -35,6 +38,12 @@ li a {
   display: block;
   color: black;
    background-color: #b2dfdb;
-   padding: 10px;
-   
+   padding: 10px; 
+}
+
+.search-results :hover {
+  background-color: #4db6ac;
+}
+
+.search-results li a:hover {
 }

@@ -6,11 +6,11 @@ import { UserRole } from '../../models/user-roles.enum';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { ContentCreatePageComponent } from './content-create-page/content-create-page.component';
 import { StatisticsPageComponent } from '../shared/statistics-page/statistics-page.component';
-import { CommentListComponent } from '../shared/comment-list/comment-list.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
 import { ContentListComponent } from './content-list/content-list.component';
 import { StatisticComponent } from '../shared/statistic/statistic.component';
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
+import { CommentCreatorPageComponent } from './comment-creator-page/comment-creator-page.component';
 
 const routes: Routes = [
   {
@@ -45,7 +45,7 @@ const routes: Routes = [
   },
   {
     path: 'room/:roomId/comments',
-    component: CommentListComponent,
+    component: CommentCreatorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
