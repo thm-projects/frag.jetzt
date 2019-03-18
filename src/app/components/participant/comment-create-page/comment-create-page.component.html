@@ -4,12 +4,13 @@
       <mat-form-field class="input-block">
         <input matInput #commentSubject type="text" maxlength="25"
           placeholder="{{ 'comment-page.enter-title' | translate}}" onkeypress="return event.keyCode !=13;"
-          [formControl]="emptySubject">
-        <mat-hint align="end" *ngIf="!emptyInputs">{{commentSubject.value.length}} / 25</mat-hint>
+          [formControl]="subjectForm">
+        <mat-hint align="end">{{commentSubject.value.length}} / 25</mat-hint>
       </mat-form-field>
       <mat-form-field class="input-block">
-        <textarea matInput #commentBody placeholder="{{ 'comment-page.enter-comment' | translate}}" matTextareaAutosize
-          matAutosizeMinRows=1 matAutosizeMaxRows=5 [formControl]="emptyBody"></textarea>
+        <textarea matInput #commentBody placeholder="{{ 'comment-page.enter-comment' | translate}}"
+         matAutosizeMinRows=2 matAutosizeMaxRows=5  maxlength="255" [formControl]="bodyForm"></textarea>
+          <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
       </mat-form-field>
       <button mat-raised-button color="accent"
         (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>

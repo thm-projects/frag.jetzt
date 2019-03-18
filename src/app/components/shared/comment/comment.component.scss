@@ -1,0 +1,40 @@
+mat-card {
+  margin-bottom: 20px;
+  background-color: #b2ebf2;
+}
+
+mat-card-content>:first-child {
+  margin-top: 20px;
+}
+
+mat-toolbar {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #bbdefb;
+}
+
+.card-container {
+  background-color: #4dd0e1;
+  opacity: 0.7;
+  border-radius: 2px;
+}
+
+.outer-card {
+  border-radius: 8px;
+}
+
+mat-icon {
+  color: white;
+}
+
+.incorrect-icon {
+  color: white;
+}
+
+.correct-icon {
+  color: green;
+}
+
+mat-card-title {
+  margin: 0px;
+}

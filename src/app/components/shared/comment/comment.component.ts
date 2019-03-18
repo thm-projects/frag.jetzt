@@ -4,7 +4,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute } from '@angular/router';
-import { RoomService } from '../../../services/http/room.service';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -18,16 +17,12 @@ import { LanguageService } from '../../../services/util/language.service';
 })
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
-  userRoleTemp: any = UserRole.CREATOR;
   userRole: UserRole;
   user: User;
   isLoading = true;
-  roomId: string;
-  roomShortId: string;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
-              private roomService: RoomService,
               private location: Location,
               private commentService: CommentService,
               private notification: NotificationService,
@@ -38,11 +33,15 @@ export class CommentComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
     this.user = this.authenticationService.getUser();
-    this.roomShortId = this.route.snapshot.paramMap.get('roomId');
-    this.roomId = localStorage.getItem(`roomId`);
     this.translateService.use(localStorage.getItem('currentLang'));
   }
+
   setRead(comment: Comment): void {
+    this.commentService.updateComment(comment).subscribe();
+  }
+
+  setCorrect(comment: Comment): void {
+    comment.correct = !comment.correct;
     this.commentService.updateComment(comment).subscribe();
   }
 
