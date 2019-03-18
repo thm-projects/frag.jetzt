@@ -22,3 +22,19 @@ mat-toolbar {
 .outer-card {
   border-radius: 8px;
 }
+
+mat-icon {
+  color: white;
+}
+
+.incorrect-icon {
+  color: white;
+}
+
+.correct-icon {
+  color: green;
+}
+
+mat-card-title {
+  margin: 0px;
+}
