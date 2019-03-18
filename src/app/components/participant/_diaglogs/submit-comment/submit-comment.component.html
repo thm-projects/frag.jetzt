@@ -1,3 +1,17 @@
-<p>
-  submit-comment works!
-</p>
+<h2>{{ 'comment-page.sure' | translate }}</h2>
+
+<h4>{{comment.subject}}</h4>
+<p>{{comment.body}}</p>
+
+<button mat-raised-button color="warn" (click)="closeDialog('abort')">
+  {{ 'comment-page.back' | translate }}
+</button>
+
+<button mat-raised-button color="primary" (click)="closeDialog('send')">
+  <button mat-raised-button color="warn" (click)="onNoClick()">
+    {{ 'comment-page.back' | translate }}
+  </button>
+
+  <button mat-raised-button color="primary" (click)="send(comment.subject, comment.body)">
+    {{ 'comment-page.send' | translate}}
+  </button>
