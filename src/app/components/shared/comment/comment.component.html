@@ -2,13 +2,13 @@
   <div fxLayout="row" fxLayoutAlign="center center">
     <mat-card-title>{{comment.subject}}</mat-card-title>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button [disabled]="userRole === 0" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Antwort richtig' : null">
+    <button mat-icon-button [disabled]="isCreator" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Antwort richtig' : null">
       <mat-icon [ngClass]="{'correct-icon' : comment.correct === true}">check_circle</mat-icon>
     </button>
-    <button mat-icon-button [disabled]="userRole === 0" (click)="setFavorite(comment)" [matTooltip]="comment.favorite ? 'mark as favorite' : 'mark as not favorite'">
+    <button mat-icon-button [disabled]="isCreator" (click)="setFavorite(comment)" [matTooltip]="comment.favorite ? 'mark as favorite' : 'mark as not favorite'">
       <mat-icon [ngClass]="{'favorite-icon' : comment.favorite === true}">star</mat-icon>
     </button>
-    <button mat-icon-button [disabled]="userRole === 0" (click)="setRead(comment)" [matTooltip]="comment.read ? 'mark me as unread' : 'mark me as read'">
+    <button mat-icon-button [disabled]="isCreator" (click)="setRead(comment)" [matTooltip]="comment.read ? 'mark me as unread' : 'mark me as read'">
       <mat-icon [ngClass]="{'read-icon' : comment.read === true}">visibility</mat-icon>
     </button>
   </div>
