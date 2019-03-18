@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { UserRole } from '../../../models/user-roles.enum';
-import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -18,7 +17,6 @@ import { LanguageService } from '../../../services/util/language.service';
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   userRole: UserRole;
-  user: User;
   isLoading = true;
 
   constructor(protected authenticationService: AuthenticationService,
@@ -32,7 +30,6 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
-    this.user = this.authenticationService.getUser();
     this.translateService.use(localStorage.getItem('currentLang'));
   }
 
