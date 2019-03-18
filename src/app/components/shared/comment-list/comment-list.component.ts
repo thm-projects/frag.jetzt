@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
+=======
+import { Component, Input, OnInit } from '@angular/core';
+>>>>>>> a0f6bb05fb39a0233a51dc9debdfa829bf04b279
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -61,28 +65,5 @@ export class CommentListComponent implements OnInit{
           this.comments = comments;
           this.isLoading = false;
         });
-  }
-
-  setRead(comment: Comment): void {
-    this.comments.find(c => c.id === comment.id).read = !comment.read;
-    this.commentService.updateComment(comment).subscribe();
-  }
-
-  delete(comment: Comment): void {
-    this.comments = this.comments.filter(c => c !== comment);
-    this.commentService.deleteComment(comment.id).subscribe(room => {
-      this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
-    });
-  }
-
-  searchx(term: string): void {
-    term = term.trim().toLowerCase();
-    this.comments.filter(c => {
-       c.subject.toLowerCase().includes(term);
-    });
-  }
-
-  search(term: string): void {
-    this.searchTerms.next(term);
   }
 }

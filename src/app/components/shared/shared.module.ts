@@ -21,6 +21,7 @@ import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
+import { CommentComponent } from './comment/comment.component';
 
 @NgModule({
   imports: [
@@ -48,7 +49,8 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
     StatisticComponent,
     RoomCreateComponent,
     LoginComponent,
-    StatisticHelpComponent
+    StatisticHelpComponent,
+    CommentComponent
   ],
   exports: [
     RoomJoinComponent,

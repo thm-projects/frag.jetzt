@@ -4,11 +4,5 @@
     <a routerLink="/comment/{{comment.id}}">{{comment.subject}}</a>
 </ul>
 <mat-card class="outer-card">
-  <mat-card class="card-container" *ngFor="let comment of comments">
-    <mat-card-title>{{comment.subject}}</mat-card-title>
-    <mat-divider></mat-divider>
-    <mat-card-content>
-      <p>{{comment.body}}</p>
-    </mat-card-content>
-  </mat-card>
+    <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
 </mat-card>
