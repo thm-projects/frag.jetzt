@@ -1,4 +1,8 @@
-<mat-toolbar >List of Questions</mat-toolbar>
+<input matInput #searchBox placeholder="search in comments" (input)="search(searchBox.value)">
+<ul class="search-results">
+  <li *ngFor="let comment of comments$  | async">
+    <a routerLink="/comment/{{comment.id}}">{{comment.subject}}</a>
+</ul>
 <mat-card class="outer-card">
   <mat-card class="card-container" *ngFor="let comment of comments">
     <mat-card-title>{{comment.subject}}</mat-card-title>

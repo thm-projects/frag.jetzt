@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe, PipeTransform } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { RoomService } from '../../../services/http/room.service';
@@ -16,7 +18,7 @@ import { LanguageService } from '../../../services/util/language.service';
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss']
 })
-export class CommentListComponent implements OnInit {
+export class CommentListComponent implements OnInit{
   userRoleTemp: any = UserRole.CREATOR;
   userRole: UserRole;
   user: User;
@@ -24,6 +26,8 @@ export class CommentListComponent implements OnInit {
   isLoading = true;
   roomId: string;
   roomShortId: string;
+  private searchTerms = new Subject<string>();
+  comments$: Observable<Comment[]>;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -42,7 +46,13 @@ export class CommentListComponent implements OnInit {
     this.roomShortId = this.route.snapshot.paramMap.get('roomId');
     this.roomId = localStorage.getItem(`roomId`);
     this.getComments();
-    this.translateService.use(localStorage.getItem('currentLang'));
+     this.comments$ = this.searchTerms.pipe(
+      debounceTime(100),
+      distinctUntilChanged(),
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => this.commentService.searchComments(this.roomId, term)),
+    ); 
+    this.translateService.use(localStorage.getItem('currentLang')); 
   }
 
   getComments(): void {
@@ -63,5 +73,16 @@ export class CommentListComponent implements OnInit {
     this.commentService.deleteComment(comment.id).subscribe(room => {
       this.notification.show(`Comment '${comment.subject}' successfully deleted.`);
     });
+  }
+
+  searchx(term: string): void {
+    term = term.trim().toLowerCase();
+    this.comments.filter(c => {
+       c.subject.toLowerCase().includes(term);
+    });
+  }
+
+  search(term: string): void {
+    this.searchTerms.next(term);
   }
 }

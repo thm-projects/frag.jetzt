@@ -1,8 +1,8 @@
 {
   "home-page": {
-    "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
-    "please-enter": "Bitte geben Sie eine Session-ID ein.",
-    "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
+    "no-room-found": "Es wurde keine Session mit dieser ID gefunden",
+    "please-enter": "Bitte geben Sie eine Session-ID ein",
+    "exactly-8": "Eine Session-ID hat genau 8 Ziffern"
   },
   "room-page": {
     "comments": "Kommentare",
@@ -18,19 +18,19 @@
     "enter-title": "Titel",
     "enter-comment": "Kommentar",
     "send": "Senden",
-    "error-comment": "Bitte geben Sie ein Kommentar ein!",
-    "error-title": "Bitte geben Sie einen Titel ein!",
-    "error-both-fields": "Bitte füllen Sie alle Felder aus!"
+    "error-comment": "Bitte geben Sie einen Kommentartext ein",
+    "error-title": "Bitte geben Sie einen Titel ein",
+    "error-both-fields": "Bitte füllen Sie alle Felder aus"
   },
   "answer": {
     "submit": "Absenden",
     "abstain": "Enthalten",
-    "sent": "Antwort gesendet.",
-    "abstention-sent": "Enthaltung gesendet.",
+    "sent": "Antwort gesendet",
+    "abstention-sent": "Enthaltung gesendet",
     "your-answer": "Ihre Antwort",
-    "at-least-one": "Bitte wählen sie mindestens eine Antwort.",
-    "please-one": "Bitte wählen sie eine Antwort.",
-    "please-answer": "Bitte geben sie eine Antwort ein."
+    "at-least-one": "Bitte wählen sie mindestens eine Antwort",
+    "please-one": "Bitte wählen sie eine Antwort",
+    "please-answer": "Bitte geben sie eine Antwort ein"
   },
   "statistic": {
     "content": "Frage",
@@ -38,7 +38,7 @@
     "answers": "Antworten",
     "percentage": "Prozent",
     "abstentions": "Enthaltungen",
-    "no-questions": "Es sind noch keine Antworten vorhanden.",
+    "no-questions": "Es sind noch keine Antworten vorhanden",
     "good": "Gut",
     "improvable": "Luft nach oben",
     "no-answers": "Keine Antworten"

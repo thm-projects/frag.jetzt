@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { catchError, tap } from 'rxjs/operators';
@@ -17,14 +17,14 @@ export class CommentService extends BaseHttpService {
     find: '/find'
   };
 
-  constructor( private http: HttpClient ) {
+  constructor(private http: HttpClient) {
     super();
   }
 
   getComment(commentId: string): Observable<Comment> {
-    const connectionUrl = `${ this.apiUrl.base }${ this.apiUrl.comment }/~${ commentId }`;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/~${commentId}`;
     return this.http.get<Comment>(connectionUrl, httpOptions).pipe(
-      tap (_ => ''),
+      tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))
     );
   }
@@ -32,18 +32,19 @@ export class CommentService extends BaseHttpService {
   addComment(comment: Comment): Observable<Comment> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
     return this.http.post<Comment>(connectionUrl,
-      { roomId: comment.roomId, subject: comment.subject, body: comment.body,
+      {
+        roomId: comment.roomId, subject: comment.subject, body: comment.body,
         read: comment.read, creationTimestamp: comment.creationTimestamp
       }, httpOptions).pipe(
-      tap (_ => ''),
-      catchError(this.handleError<Comment>('addComment'))
-    );
+        tap(_ => ''),
+        catchError(this.handleError<Comment>('addComment'))
+      );
   }
 
   deleteComment(commentId: string): Observable<Comment> {
-    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.comment }/${ commentId }`;
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment}/${commentId}`;
     return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
-      tap (_ => ''),
+      tap(_ => ''),
       catchError(this.handleError<Comment>('deleteComment'))
     );
   }
@@ -54,10 +55,26 @@ export class CommentService extends BaseHttpService {
       properties: { roomId: roomId },
       externalFilters: {}
     }, httpOptions).pipe(
-      tap (_ => ''),
+      tap(_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
     );
   }
+
+  searchComments(roomId: string, term:string): Observable<Comment[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    term = term.trim();
+
+    // Add safe, URL encoded search parameter if there is a search term
+    const options = term ?
+      { params: new HttpParams().set('subject', term) } : {};
+    return this.http.post<Comment[]>(connectionUrl, {
+      properties: { roomId: roomId },
+      externalFilters: {}
+    }, options).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Comment[]>('getComments', []))
+    );
+ } 
 
   updateComment(comment: Comment): Observable<any> {
     const connectionUrl = this.apiUrl + this.apiUrl.comment + '/' + comment.id;
@@ -66,4 +83,5 @@ export class CommentService extends BaseHttpService {
       catchError(this.handleError<any>('updateComment'))
     );
   }
+
 }
