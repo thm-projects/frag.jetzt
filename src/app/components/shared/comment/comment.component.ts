@@ -43,7 +43,6 @@ export class CommentComponent implements OnInit {
   setCorrect(comment: Comment): void {
     comment.correct = !comment.correct;
     this.commentService.updateComment(comment).subscribe();
-    console.log('is' + comment.correct);
   }
 
   delete(comment: Comment): void {

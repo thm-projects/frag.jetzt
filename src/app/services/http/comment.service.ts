@@ -60,7 +60,7 @@ export class CommentService extends BaseHttpService {
   }
 
   updateComment(comment: Comment): Observable<any> {
-    const connectionUrl = this.apiUrl + this.apiUrl.comment + '/' + comment.id;
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http.put(connectionUrl, comment, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('updateComment'))
