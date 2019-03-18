@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { Component, OnInit } from '@angular/core';
-=======
-import { Component, Input, OnInit } from '@angular/core';
->>>>>>> a0f6bb05fb39a0233a51dc9debdfa829bf04b279
-=======
-import { Component, OnInit } from '@angular/core';
->>>>>>> b275bae9e04ebe1a7088d23418c209efe7295036
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -26,12 +18,7 @@ import { LanguageService } from '../../../services/util/language.service';
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss']
 })
-<<<<<<< HEAD
-export class CommentListComponent implements OnInit{
-  userRoleTemp: any = UserRole.CREATOR;
-=======
 export class CommentListComponent implements OnInit {
->>>>>>> b275bae9e04ebe1a7088d23418c209efe7295036
   userRole: UserRole;
   user: User;
   comments: Comment[];
