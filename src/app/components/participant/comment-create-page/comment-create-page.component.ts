@@ -1,10 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { FormControl, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Comment } from '../../../models/comment';
-import { RoomService } from '../../../services/http/room.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -29,9 +27,7 @@ export class CommentCreatePageComponent implements OnInit {
   constructor(
     protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
-    private roomService: RoomService,
     private commentService: CommentService,
-    private location: Location,
     private notification: NotificationService,
     private translationService: TranslateService) { }
 
@@ -75,9 +71,5 @@ export class CommentCreatePageComponent implements OnInit {
       this.child.getComments();
       this.notification.show(`Comment '${subject}' successfully created.`);
     });
-  }
-
-  goBack(): void {
-    this.location.back();
   }
 }
