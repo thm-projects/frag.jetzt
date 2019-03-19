@@ -49,14 +49,13 @@ export class CommentListComponent implements OnInit {
   }
 
   parseIncomingMessage(message: Message) {
-    console.log(message);
     const payload = JSON.parse(message.body).payload;
     const c = new Comment();
     c.roomId = this.roomId;
     c.subject = payload.subject;
     c.body = payload.body;
 
-    this.comments.concat(c);
+    this.comments = this.comments.concat(c);
   }
 }
 
