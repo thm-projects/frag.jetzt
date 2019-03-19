@@ -79,7 +79,7 @@
     "enter-title": "Titel",
     "enter-comment": "Kommentar",
     "send": "Senden",
-    "back": "Zurück",
+    "abort": "Abbrechen",
     "error-comment": "Bitte geben Sie ein Kommentar ein!",
     "error-title": "Bitte geben Sie einen Titel ein!",
     "error-both-fields": "Bitte füllen Sie alle Felder aus!"

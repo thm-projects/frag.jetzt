@@ -29,8 +29,7 @@ export class CommentPageComponent implements OnInit {
         });
         dialogRef.afterClosed()
           .subscribe(result => {
-            if (result !== null) {
-              console.log(result);
+            if (result) {
               this.send(result);
             } else {
               return;

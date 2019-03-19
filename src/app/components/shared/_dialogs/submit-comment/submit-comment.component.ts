@@ -41,7 +41,7 @@ export class SubmitCommentComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close('abort');
+    this.dialogRef.close();
   }
 
   checkInputData(subject: string, body: string): boolean {
@@ -69,15 +69,13 @@ export class SubmitCommentComponent implements OnInit {
   }
 
   closeDialog(subject: string, body: string) {
-    this.checkInputData(subject, body);
-    const comment = new Comment();
-    /* this.route.params.subscribe(params => {
-      comment.roomId = params['roomId'];
-    }); */
-    comment.roomId = localStorage.getItem(`roomId`);
-    comment.subject = subject;
-    comment.body = body;
-    comment.userId = this.user.id;
-    this.dialogRef.close(comment);
+    if (this.checkInputData(subject, body) === true) {
+      const comment = new Comment();
+      comment.roomId = localStorage.getItem(`roomId`);
+      comment.subject = subject;
+      comment.body = body;
+      comment.userId = this.user.id;
+      this.dialogRef.close(comment);
+    }
   }
 }
