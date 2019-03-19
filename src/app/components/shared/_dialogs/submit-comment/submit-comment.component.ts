@@ -1,11 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Comment } from '../../../../models/comment';
-import { ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { CommentPageComponent } from '../../comment-page/comment-page.component';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 
@@ -20,16 +18,16 @@ export class SubmitCommentComponent implements OnInit {
   comment: Comment;
 
   user: User;
+  roomId: string;
 
   subjectForm = new FormControl('', [Validators.required]);
   bodyForm = new FormControl('', [Validators.required]);
   private date = new Date(Date.now());
 
-  constructor(private route: ActivatedRoute,
+  constructor(
               private notification: NotificationService,
               public dialogRef: MatDialogRef<CommentPageComponent>,
               private translateService: TranslateService,
-              protected authenticationService: AuthenticationService,
               public dialog: MatDialog,
               private translationService: TranslateService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -37,7 +35,6 @@ export class SubmitCommentComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.user = this.authenticationService.getUser();
   }
 
   onNoClick(): void {
