@@ -13,7 +13,7 @@
         <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
       </mat-form-field>
       <button mat-raised-button color="accent"
-              (click)="closeDialog('send')">{{ 'comment-page.send' | translate}}</button>
+              (click)="closeDialog(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
     </form>
   </div>
 </div>
