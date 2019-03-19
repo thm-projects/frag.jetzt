@@ -74,5 +74,14 @@
     "good": "Good",
     "improvable": "Improvable",
     "no-answers": "No answers"
+  },
+  "comment-page": {
+    "enter-title": "Title",
+    "enter-comment": "Comment",
+    "send": "Send",
+    "back": "Back",
+    "error-title": "Please enter a title!",
+    "error-comment": "Please enter a comment!",
+    "error-both-fields": "Please fill in all fields!"
   }
 }
