@@ -1,20 +1,20 @@
 /* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommentCreatePageComponent } from './comment-create-page.component';
+import { CommentPageComponent } from './comment-page.component';
 
-describe('CommentCreatePageComponent', () => {
-  let component: CommentCreatePageComponent;
-  let fixture: ComponentFixture<CommentCreatePageComponent>;
+describe('CommentPageComponent', () => {
+  let component: CommentPageComponent;
+  let fixture: ComponentFixture<CommentPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommentCreatePageComponent ]
+      declarations: [ CommentPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommentCreatePageComponent);
+    fixture = TestBed.createComponent(CommentPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

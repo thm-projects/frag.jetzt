@@ -4,11 +4,11 @@ import { HomeParticipantPageComponent } from './home-participant-page/home-parti
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
-import { CommentCreatePageComponent } from './comment-create-page/comment-create-page.component';
 import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-page/feedback-barometer-page.component';
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
 import { StatisticsPageComponent } from '../shared/statistics-page/statistics-page.component';
 import { StatisticComponent } from '../shared/statistic/statistic.component';
+import { CommentParticipantPageComponent } from './comment-participant-page/comment-participant-page.component';
 
 const routes: Routes = [
   {
@@ -36,8 +36,8 @@ const routes: Routes = [
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
-    path: 'room/:roomId/create-comment',
-    component: CommentCreatePageComponent,
+    path: 'room/:roomId/comments',
+    component: CommentParticipantPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },

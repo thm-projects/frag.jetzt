@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { CommentCreatePageComponent } from '../../comment-create-page/comment-create-page.component';
+import { CommentPageComponent } from '../../comment-page/comment-page.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 
 
@@ -19,7 +19,7 @@ export class SubmitCommentComponent implements OnInit {
 
   constructor(private router: Router,
               private notification: NotificationService,
-              public dialogRef: MatDialogRef<CommentCreatePageComponent>,
+              public dialogRef: MatDialogRef<CommentPageComponent>,
               private translateService: TranslateService,
               protected authenticationService: AuthenticationService,
               public dialog: MatDialog,

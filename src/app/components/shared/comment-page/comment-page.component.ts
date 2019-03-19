@@ -7,16 +7,16 @@ import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
-import { CommentListComponent } from '../../shared/comment-list/comment-list.component';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 import { MatDialog } from '@angular/material';
-import { SubmitCommentComponent } from '../_diaglogs/submit-comment/submit-comment.component';
+import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-comment.component';
 
 @Component({
-  selector: 'app-comment-create-page',
-  templateUrl: './comment-create-page.component.html',
-  styleUrls: ['./comment-create-page.component.scss']
+  selector: 'app-comment-page',
+  templateUrl: './comment-page.component.html',
+  styleUrls: ['./comment-page.component.scss']
 })
-export class CommentCreatePageComponent implements OnInit {
+export class CommentPageComponent implements OnInit {
   @ViewChild(CommentListComponent) child: CommentListComponent;
   roomId: string;
   roomShortId: string;

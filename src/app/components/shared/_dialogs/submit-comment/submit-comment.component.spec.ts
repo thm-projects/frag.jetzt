@@ -1,3 +1,4 @@
+/*
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SubmitCommentComponent } from './submit-comment.component';
@@ -23,3 +24,4 @@ describe('SubmitCommentComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+*/
