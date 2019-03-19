@@ -8,6 +8,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { CommentListComponent } from '../../shared/comment-list/comment-list.component';
+import { MatDialog } from '@angular/material';
+import { SubmitCommentComponent } from '../_diaglogs/submit-comment/submit-comment.component';
 
 @Component({
   selector: 'app-comment-create-page',
@@ -29,6 +31,7 @@ export class CommentCreatePageComponent implements OnInit {
     private route: ActivatedRoute,
     private commentService: CommentService,
     private notification: NotificationService,
+    public dialog: MatDialog,
     private translationService: TranslateService) { }
 
   ngOnInit(): void {
@@ -37,27 +40,55 @@ export class CommentCreatePageComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
   }
 
-  send(subject: string, body: string): void {
+  pressSend(subject: string, body: string): void{
+    if (this.checkInputData(subject, body)) {
+      this.openSubmitDialog(subject, body);
+    }
+  }
+
+
+  openSubmitDialog(subject: string, body: string): void {
+
+        const dialogRef = this.dialog.open(SubmitCommentComponent, {
+          width: '400px'
+        });
+        dialogRef.componentInstance.comment = new Comment();
+        dialogRef.componentInstance.comment.subject = subject;
+        dialogRef.componentInstance.comment.body = body;
+        dialogRef.afterClosed()
+          .subscribe(result => {
+            if (result === 'send') {
+              this.send(subject, body);
+            } else {
+              return;
+            }
+          });
+    }
+
+  checkInputData(subject: string, body: string): boolean {
     subject = subject.trim();
     body = body.trim();
     if (!subject && !body) {
       this.translationService.get('comment-page.error-both-fields').subscribe(message => {
         this.notification.show(message);
       });
-      return;
+      return false;
     }
     if (!subject) {
       this.translationService.get('comment-page.error-title').subscribe(message => {
         this.notification.show(message);
       });
-      return;
+      return false;
     }
     if (!body) {
       this.translationService.get('comment-page.error-comment').subscribe(message => {
         this.notification.show(message);
       });
-      return;
+      return false;
     }
+  }
+
+  send(subject: string, body: string): void {
     this.commentService.addComment({
       id: '',
       roomId: this.roomId,

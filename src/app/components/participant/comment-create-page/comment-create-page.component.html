@@ -13,10 +13,11 @@
           <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
       </mat-form-field>
       <button mat-raised-button color="accent"
-        (click)="send(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
+        (click)="pressSend(commentSubject.value, commentBody.value)">{{ 'comment-page.send' | translate}}</button>
     </form>
   </div>
   <div fxLayout="row" fxLayoutAlign="center">
     <app-comment-list></app-comment-list>
   </div>
 </div>
+
