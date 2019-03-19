@@ -40,7 +40,7 @@ export class CommentCreatePageComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
   }
 
-  pressSend(subject: string, body: string): void{
+  pressSend(subject: string, body: string): void {
     if (this.checkInputData(subject, body)) {
       this.openSubmitDialog(subject, body);
     }
@@ -86,6 +86,7 @@ export class CommentCreatePageComponent implements OnInit {
       });
       return false;
     }
+    return true;
   }
 
   send(subject: string, body: string): void {
