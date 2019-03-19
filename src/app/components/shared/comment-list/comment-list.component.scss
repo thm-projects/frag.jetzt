@@ -17,42 +17,46 @@ mat-toolbar {
   background-color: #bbdefb;
 }
 
-.card-container {
-  background-color: #b2dfdb;
-  overflow: auto;
-  overflow-wrap: break-word;
-}
-
-.outer-card {
-  border-radius: 8px;
-}
-
 input {
-  border: 2px solid #4db6ac;
   box-sizing: border-box;
-  padding: 5px 10px 5px 30px;
-  margin-bottom: 0px;
+  padding: 5px 10px 5px 10px; 
 }
 
-.search-results li {
-  list-style-type: none;
-  display: block;
-  width: 100%;
-  margin-top: 0px;
+mat-list-item{
+height:50px;
 }
 
-li a {
-  border: 1px solid #4db6ac;
+a {
   text-decoration: none;
   display: block;
   color: black;
-   background-color: #b2dfdb;
-   padding: 10px; 
+  background-color: #b2dfdb;
 }
 
-.search-results :hover {
+mat-nav-list :hover {
   background-color: #4db6ac;
 }
 
-.search-results li a:hover {
+.app-class .mat-list-item {
+  padding: 1px;
+}
+
+button{
+  border-left: 3px solid #b2dfdb;
+  border-radius: 0px;
+  min-height: 100% !important;
+  min-width: 80px;
+}
+
+mat-icon {
+  padding: 10px;
+}
+
+mat-label {
+  border-radius: 0px;
+}
+
+#search-container{
+  background-color: #4db6ac;
+  margin-bottom: 10px;
 }

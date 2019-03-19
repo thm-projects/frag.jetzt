@@ -1,8 +1,17 @@
-<input matInput #searchBox placeholder="search in comments" (input)="search(searchBox.value)">
-<ul class="search-results">
-  <li *ngFor="let comment of comments$  | async">
-    <a routerLink="/comment/{{comment.id}}">{{comment.subject}}</a>
-</ul>
-<mat-card class="outer-card">
-    <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
+<div fxLayout="row" id="search-container">
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input matInput #searchBox placeholder="Search in comments" (focus)="hideCommentsList=true"
+    (input)="search(searchBox.value)">
+  <button mat-flat-button color="accent" (click)="hideCommentsList=false; searchBox.value='';">Cancel</button>
+</div>
+<!--<mat-card class="outer-card">
+  <app-comment *ngFor="let current of comments$ | async" [comment]="current"> </app-comment>
+</mat-card>-->
+<mat-nav-list class="app-class"  *ngIf="hideCommentsList">
+  <a mat-list-item href="/comment/{{comment.id}}" *ngFor="let comment of comments$  | async"> {{comment.subject}} </a>
+</mat-nav-list>
+<mat-card class="outer-card" *ngIf="!hideCommentsList">
+  <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
 </mat-card>
