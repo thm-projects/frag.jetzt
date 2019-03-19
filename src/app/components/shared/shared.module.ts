@@ -22,7 +22,7 @@ import { RoomCreateComponent } from './_dialogs/room-create/room-create.componen
 import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
 import { CommentComponent } from './comment/comment.component';
-import {SubmitCommentComponent} from "./_dialogs/submit-comment/submit-comment.component";
+import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment.component';
 
 @NgModule({
   imports: [
