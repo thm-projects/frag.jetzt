@@ -1,6 +1,7 @@
 mat-card {
   margin-bottom: 20px;
-  background-color: #b2ebf2;
+  background-color: #4dd0e1;
+  cursor: pointer;
 }
 
 mat-card-content>:first-child {
@@ -13,21 +14,7 @@ mat-toolbar {
   background-color: #bbdefb;
 }
 
-.card-container {
-  background-color: #4dd0e1;
-  opacity: 0.7;
-  border-radius: 2px;
-}
-
-.outer-card {
-  border-radius: 8px;
-}
-
 mat-icon {
-  color: white;
-}
-
-.incorrect-icon {
   color: white;
 }
 
@@ -35,6 +22,10 @@ mat-icon {
   color: green;
 }
 
-mat-card-title {
-  margin: 0px;
+.read-icon {
+  color: blue;
+}
+
+.favorite-icon {
+  color: #fdd835;
 }

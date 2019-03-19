@@ -11,7 +11,7 @@ import { RoomPageComponent } from './room-page/room-page.component';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { AnswerEditComponent } from '../creator/_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from '../creator/_dialogs/content-delete/content-delete.component';
-import { CommentCreatePageComponent } from '../participant/comment-create-page/comment-create-page.component';
+import { CommentPageComponent } from './comment-page/comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ListStatisticComponent } from './list-statistic/list-statistic.component';
@@ -22,6 +22,7 @@ import { RoomCreateComponent } from './_dialogs/room-create/room-create.componen
 import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
 import { CommentComponent } from './comment/comment.component';
+import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,7 @@ import { CommentComponent } from './comment/comment.component';
     FeedbackBarometerPageComponent,
     FooterComponent,
     FeedbackBarometerPageComponent,
-    CommentCreatePageComponent,
+    CommentPageComponent,
     CommentListComponent,
     StatisticsPageComponent,
     ListStatisticComponent,
@@ -50,7 +51,8 @@ import { CommentComponent } from './comment/comment.component';
     RoomCreateComponent,
     LoginComponent,
     StatisticHelpComponent,
-    CommentComponent
+    CommentComponent,
+    SubmitCommentComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -64,14 +66,16 @@ import { CommentComponent } from './comment/comment.component';
     FeedbackBarometerPageComponent,
     FooterComponent,
     FeedbackBarometerPageComponent,
-    CommentCreatePageComponent,
+    CommentPageComponent,
     CommentListComponent,
-    StatisticsPageComponent
+    StatisticsPageComponent,
+    SubmitCommentComponent
   ],
   entryComponents: [
     RoomCreateComponent,
     LoginComponent,
-    StatisticHelpComponent
+    StatisticHelpComponent,
+    SubmitCommentComponent
   ]
 })
 export class SharedModule {

@@ -7,6 +7,15 @@ app-comment {
   overflow: auto;
   overflow-wrap: break-word;
 }
+mat-card-content>:first-child {
+  margin-top: 20px;
+}
+
+mat-toolbar {
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #bbdefb;
+}
 
 .card-container {
   background-color: #b2dfdb;
