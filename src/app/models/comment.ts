@@ -10,14 +10,14 @@ export class Comment {
   favorite: boolean;
   creationTimestamp: number;
 
-  constructor(roomId: string,
-              userId: string,
-              subject: string,
-              body: string,
-              read: boolean,
-              correct: boolean,
-              favorite: boolean,
-              creationTimestamp: number) {
+  constructor(roomId: string = '',
+              userId: string = '',
+              subject: string = '',
+              body: string = '',
+              read: boolean = false,
+              correct: boolean = false,
+              favorite: boolean = false,
+              creationTimestamp: number = 0) {
     this.id = '';
     this.roomId = roomId;
     this.userId = userId;
