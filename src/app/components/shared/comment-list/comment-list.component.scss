@@ -1,18 +1,11 @@
 mat-card {
   margin-bottom: 20px;
   background-color: #b2ebf2;
-}
-
-mat-card-content>:first-child {
-  margin-top: 20px;
+  border-radius: 8px;
 }
 
 mat-toolbar {
   border-radius: 10px;
   margin-bottom: 20px;
   background-color: #bbdefb;
-}
-
-.outer-card {
-  border-radius: 8px;
 }
