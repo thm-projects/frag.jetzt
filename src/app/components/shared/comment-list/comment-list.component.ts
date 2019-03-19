@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,7 +14,7 @@ export class CommentListComponent implements OnInit {
   isLoading = true;
   roomId: string;
   private hideCommentsList: boolean;
-  private comments$: Observable<Comment[]>;
+  private filteredComments: Comment[];
 
   constructor(private commentService: CommentService,
     private route: ActivatedRoute,
@@ -43,6 +42,7 @@ export class CommentListComponent implements OnInit {
       });
   }
 
-  search(term: string): void {
+  searchComments(term: string): void { 
+    this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(term));
   }
 }
