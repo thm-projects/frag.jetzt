@@ -29,7 +29,7 @@ export class CommentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     this.comments = [];
     this.hideCommentsList = false;
-    this.rxStompService.watch(`/queue/${this.roomId}.comment.stream`).subscribe((message: Message) => {
+    this.rxStompService.watch(`/topic/${this.roomId}.comment.stream`).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
     this.getComments();
