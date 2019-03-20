@@ -66,4 +66,6 @@ export class CommentService extends BaseHttpService {
       catchError(this.handleError<any>('updateComment'))
     );
   }
+
+  patchComment
 }

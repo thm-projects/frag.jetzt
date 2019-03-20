@@ -7,6 +7,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 
 @Component({
   selector: 'app-comment',
@@ -24,7 +25,8 @@ export class CommentComponent implements OnInit {
               private commentService: CommentService,
               private notification: NotificationService,
               private translateService: TranslateService,
-              protected langService: LanguageService) {
+              protected langService: LanguageService,
+              private wsCommentService: WsCommentServiceService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang)); }
 
   ngOnInit() {
@@ -35,18 +37,18 @@ export class CommentComponent implements OnInit {
   }
 
   setRead(comment: Comment): void {
-    comment.read = !comment.read;
-    this.commentService.updateComment(comment).subscribe();
+    this.comment = this.wsCommentService.toggleRead(comment);
+    // this.commentService.updateComment(comment).subscribe();
   }
 
   setCorrect(comment: Comment): void {
-    comment.correct = !comment.correct;
-    this.commentService.updateComment(comment).subscribe();
+    this.comment = this.wsCommentService.toggleCorrect(comment);
+    // this.commentService.updateComment(comment).subscribe();
   }
 
   setFavorite(comment: Comment): void {
-    comment.favorite = !comment.favorite;
-    this.commentService.updateComment(comment).subscribe();
+    this.comment = this.wsCommentService.toggleFavorite(comment);
+    // this.commentService.updateComment(comment).subscribe();
   }
 
   delete(comment: Comment): void {

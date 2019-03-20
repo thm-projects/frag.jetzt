@@ -1,15 +1,12 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Comment } from '../../../models/comment';
 import { User } from '../../../models/user';
-import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { CommentListComponent } from '../comment-list/comment-list.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { MatDialog } from '@angular/material';
 import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-comment.component';
-import { RxStompService } from '@stomp/ng2-stompjs';
-import { CreateComment } from '../../../models/messages/create-comment';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 
 @Component({
   selector: 'app-comment-page',
@@ -20,14 +17,11 @@ export class CommentPageComponent implements OnInit {
   roomId: string;
   user: User;
 
-  @ViewChild(CommentListComponent) child: CommentListComponent;
-
   constructor(private route: ActivatedRoute,
-              private commentService: CommentService,
               private notification: NotificationService,
               public dialog: MatDialog,
-              private rxStompService: RxStompService,
-              private authenticationService: AuthenticationService) { }
+              private authenticationService: AuthenticationService,
+              private wsCommentService: WsCommentServiceService) { }
 
   ngOnInit(): void {
     this.roomId = localStorage.getItem('roomId');
@@ -51,27 +45,6 @@ export class CommentPageComponent implements OnInit {
     }
 
   send(comment: Comment): void {
-    /*this.commentService.addComment({
-      id: '',
-      roomId: comment.roomId,
-      userId: comment.userId,
-      subject: comment.subject,
-      body: comment.body,
-      creationTimestamp: comment.creationTimestamp,
-      read: false,
-      revision: ''
-    } as Comment).subscribe(() => {
-      this.child.getComments();
-      this.notification.show(`Comment '${comment.subject}' successfully created.`);
-    });*/
-    const message = new CreateComment(comment.roomId, comment.userId, comment.body);
-    this.rxStompService.publish({
-      destination: `/queue/comment.command`,
-      body: JSON.stringify(message),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
-
+    this.wsCommentService.add(comment);
   }
 }

@@ -1,17 +1,15 @@
 export class PatchComment {
   type: string;
   payload: {
-      roomId: string;
-      creatorId: string;
-      body: string;
+      commentId;
+      changes: Map<string, any>;
   };
 
-  constructor(roomId: string, creatorId: string, body: string) {
+  constructor(commentId: string, changes: Map<string, any>) {
       this.type = 'PatchComment';
       this.payload = {
-          roomId: roomId,
-          creatorId: creatorId,
-          body: body
+        commentId: commentId,
+        changes: changes
       };
   }
 }
