@@ -1,14 +1,16 @@
+import { TSMap } from 'typescript-map';
+
 export class PatchComment {
   type: string;
   payload: {
-      commentId;
-      changes: Map<string, any>;
+      id: string;
+      changes: TSMap<string, any>;
   };
 
-  constructor(commentId: string, changes: Map<string, any>) {
+  constructor(id: string, changes: TSMap<string, any>) {
       this.type = 'PatchComment';
       this.payload = {
-        commentId: commentId,
+        id: id,
         changes: changes
       };
   }
