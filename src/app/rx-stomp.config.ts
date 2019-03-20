@@ -18,6 +18,6 @@ export const myRxStompConfig: InjectableRxStompConfig = {
   // It can be quite verbose, not recommended in production
   // Skip this key to stop logging to console
   debug: (msg: string): void => {
-    // console.log(new Date(), 'STOMP debug: ' + msg);
+    console.log(new Date(), 'STOMP debug: ' + msg);
   }
 };
