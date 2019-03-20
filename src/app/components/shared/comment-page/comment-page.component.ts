@@ -30,7 +30,7 @@ export class CommentPageComponent implements OnInit {
               private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.roomId = localStorage.getItem("roomId");
+    this.roomId = localStorage.getItem('roomId');
     this.user = this.authenticationService.getUser();
   }
 
@@ -64,7 +64,7 @@ export class CommentPageComponent implements OnInit {
       this.child.getComments();
       this.notification.show(`Comment '${comment.subject}' successfully created.`);
     });*/
-    const message = new CreateComment(comment.roomId, comment.userId, comment.subject, comment.body);
+    const message = new CreateComment(comment.roomId, comment.userId, comment.body);
     this.rxStompService.publish({
       destination: `/queue/comment.command`,
       body: JSON.stringify(message),

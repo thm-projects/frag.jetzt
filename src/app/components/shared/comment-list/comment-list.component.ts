@@ -49,13 +49,18 @@ export class CommentListComponent implements OnInit {
   }
 
   parseIncomingMessage(message: Message) {
-    const payload = JSON.parse(message.body).payload;
-    const c = new Comment();
-    c.roomId = this.roomId;
-    c.subject = payload.subject;
-    c.body = payload.body;
-
-    this.comments = this.comments.concat(c);
+    const msg = JSON.parse(message.body);
+    const payload = msg.payload;
+    if (msg.type === 'CommentCreated') {
+      const c = new Comment();
+      c.roomId = this.roomId;
+      c.body = payload.body;
+      c.id = payload.id;
+      c.creationTimestamp = payload.timestamp;
+      this.comments = this.comments.concat(c);
+    } else if (msg.type === 'CommentPatched') {
+      console.log(msg);
+    }
   }
 }
 

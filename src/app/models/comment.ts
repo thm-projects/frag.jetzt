@@ -3,7 +3,6 @@ export class Comment {
   roomId: string;
   userId: string;
   revision: string;
-  subject: string;
   body: string;
   read: boolean;
   correct: boolean;
@@ -12,7 +11,6 @@ export class Comment {
 
   constructor(roomId: string = '',
               userId: string = '',
-              subject: string = '',
               body: string = '',
               read: boolean = false,
               correct: boolean = false,
@@ -22,7 +20,6 @@ export class Comment {
     this.roomId = roomId;
     this.userId = userId;
     this.revision = '';
-    this.subject = subject;
     this.body = body;
     this.read = read;
     this.correct = correct;
