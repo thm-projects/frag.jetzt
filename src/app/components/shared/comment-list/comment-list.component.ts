@@ -20,7 +20,7 @@ export class CommentListComponent implements OnInit {
 
   constructor(private commentService: CommentService,
     private translateService: TranslateService,
-    protected langService: LanguageService) {
+    protected langService: LanguageService,
     private rxStompService: RxStompService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
