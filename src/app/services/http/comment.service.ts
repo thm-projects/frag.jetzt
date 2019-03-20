@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { catchError, tap } from 'rxjs/operators';
@@ -60,22 +60,6 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  searchComments(roomId: string, term:string): Observable<Comment[]> {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
-    term = term.trim();
-
-    // Add safe, URL encoded search parameter if there is a search term
-    const options = term ?
-      { params: new HttpParams().set('subject', term) } : {};
-    return this.http.post<Comment[]>(connectionUrl, {
-      properties: { roomId: roomId },
-      externalFilters: {}
-    }, options).pipe(
-      tap(_ => ''),
-      catchError(this.handleError<Comment[]>('getComments', []))
-    );
- } 
-
   updateComment(comment: Comment): Observable<any> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http.put(connectionUrl, comment, httpOptions).pipe(
@@ -83,5 +67,4 @@ export class CommentService extends BaseHttpService {
       catchError(this.handleError<any>('updateComment'))
     );
   }
-
 }

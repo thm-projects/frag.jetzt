@@ -7,45 +7,20 @@ app-comment {
   overflow: auto;
   overflow-wrap: break-word;
 }
-mat-card-content>:first-child {
-  margin-top: 20px;
-}
-
-mat-toolbar {
-  border-radius: 10px;
-  margin-bottom: 20px;
-  background-color: #bbdefb;
-}
 
 input {
   box-sizing: border-box;
-  padding: 5px 10px 5px 10px; 
-}
-
-mat-list-item{
-height:50px;
-}
-
-a {
-  text-decoration: none;
-  display: block;
-  color: black;
-  background-color: #b2dfdb;
-}
-
-mat-nav-list :hover {
+  padding: 0 10px 0 20px; 
+  width: 100%;
   background-color: #4db6ac;
-}
-
-.app-class .mat-list-item {
-  padding: 1px;
+  border: none;
 }
 
 button{
   border-left: 3px solid #b2dfdb;
   border-radius: 0px;
   min-height: 100% !important;
-  min-width: 80px;
+  min-width: 100px;
 }
 
 mat-icon {
@@ -53,6 +28,7 @@ mat-icon {
 }
 
 mat-label {
+  min-height: 100% !important;
   border-radius: 0px;
 }
 

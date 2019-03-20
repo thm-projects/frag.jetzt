@@ -1,8 +1,8 @@
 {
   "home-page": {
-    "no-room-found": "No session was found with this ID",
-    "please-enter": "Please enter a session-ID",
-    "exactly-8": "A session-ID has exactly 8 digits"
+    "no-room-found": "No session was found with this ID.",
+    "please-enter": "Please enter a session-ID.",
+    "exactly-8": "A session-ID has exactly 8 digits."
   },
   "room-page": {
     "comments": "Comments",
@@ -19,9 +19,13 @@
     "enter-comment": "Comment",
     "send": "Send",
     "abort": "Cancel",
-    "error-title": "Please enter a title",
-    "error-comment": "Please enter a comment-text",
-    "error-both-fields": "Please fill in all fields"
+    "error-title": "Please enter a title.",
+    "error-comment": "Please enter a comment-text.",
+    "error-both-fields": "Please fill in all fields."
+  },
+  "comment-list-page": {
+    "search-box-placeholder-text": "Search in comments",
+    "cancel": "Cancel"
   },
   "answer": {
     "submit": "Submit",
@@ -29,9 +33,9 @@
     "sent": "Answer sent",
     "abstention-sent": "Abstention sent",
     "your-answer": "Your answer",
-    "at-least-one": "Please select at least one answer",
-    "please-one": "Please select an answer",
-    "please-answer": "Please enter an answer"
+    "at-least-one": "Please select at least one answer.",
+    "please-one": "Please select an answer.",
+    "please-answer": "Please enter an answer."
   },
   "statistic": {
     "content": "Content",
@@ -39,7 +43,7 @@
     "answers": "Answers",
     "percentage": "Percentage",
     "abstentions": "Abstentions",
-    "no-questions": "There are no answers yet",
+    "no-questions": "There are no answers yet.",
     "good": "Good",
     "improvable": "Improvable",
     "no-answers": "No answers"

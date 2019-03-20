@@ -13,15 +13,10 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
   roomId: string;
-  private hideCommentsList: boolean;
-  private filteredComments: Comment[];
+  hideCommentsList: boolean;
+  filteredComments: Comment[];
 
   constructor(private commentService: CommentService,
-    private route: ActivatedRoute,
-    private roomService: RoomService,
-    private location: Location,
-    private commentService: CommentService,
-    private notification: NotificationService,
     private translateService: TranslateService,
     protected langService: LanguageService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
@@ -42,7 +37,7 @@ export class CommentListComponent implements OnInit {
       });
   }
 
-  searchComments(term: string): void { 
+  searchComments(term: string): void {
     this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(term));
   }
 }
