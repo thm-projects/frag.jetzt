@@ -7,7 +7,7 @@ export class PatchComment {
   };
 
   constructor(roomId: string, creatorId: string, body: string) {
-      this.type = 'CreateComment';
+      this.type = 'PatchComment';
       this.payload = {
           roomId: roomId,
           creatorId: creatorId,

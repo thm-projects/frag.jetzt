@@ -7,7 +7,7 @@ export class Comment {
   read: boolean;
   correct: boolean;
   favorite: boolean;
-  creationTimestamp: number;
+  creationTimestamp: Date;
 
   constructor(roomId: string = '',
               userId: string = '',
@@ -15,7 +15,7 @@ export class Comment {
               read: boolean = false,
               correct: boolean = false,
               favorite: boolean = false,
-              creationTimestamp: number = 0) {
+              creationTimestamp: Date = null) {
     this.id = '';
     this.roomId = roomId;
     this.userId = userId;
