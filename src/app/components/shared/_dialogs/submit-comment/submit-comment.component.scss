@@ -10,6 +10,16 @@ form {
   margin-bottom: 50px;
 }
 
+app-comment-list {
+  width: 100%;
+  max-width: 800px;
+}
+
+button {
+  float: right;
+  min-width: 80px;
+}
+
 textarea {
   line-height: 120%;
 }

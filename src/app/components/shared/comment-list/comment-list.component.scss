@@ -1,5 +1,38 @@
 mat-card {
-  margin-bottom: 20px;
-  background-color: #b2ebf2;
-  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #4db6ac;
+}
+
+app-comment {
+  overflow: auto;
+  overflow-wrap: break-word;
+}
+
+input {
+  box-sizing: border-box;
+  padding: 0 10px 0 20px; 
+  width: 100%;
+  background-color: #4db6ac;
+  border: none;
+}
+
+button{
+  border-left: 3px solid #b2dfdb;
+  border-radius: 0px;
+  min-height: 100% !important;
+  min-width: 100px;
+}
+
+mat-icon {
+  padding: 10px;
+}
+
+mat-label {
+  min-height: 100% !important;
+  border-radius: 0px;
+}
+
+#search-container{
+  background-color: #4db6ac;
+  margin-bottom: 10px;
 }

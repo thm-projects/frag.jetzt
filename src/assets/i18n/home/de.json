@@ -18,25 +18,25 @@
 	},
 	"home-page": {
 		"join-demo-session": "Demo-Session betreten",
-		"session-id": "Session-Id",
-		"no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
-		"please-enter": "Bitte geben Sie eine Session-ID ein.",
-		"exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
+		"session-id": "Session-ID",
+		"no-room-found": "Es wurde keine Session mit dieser ID gefunden",
+		"please-enter": "Bitte geben Sie eine Session-ID ein",
+		"exactly-8": "Eine Session-ID hat genau 8 Ziffern",
 		"create-session": "Session erstellen",
-		"no-empty-name": "Bitte geben Sie einen Namen ein.",
+		"no-empty-name": "Bitte geben Sie einen Namen ein",
 		"created-1": "Session '",
-		"created-2": "' erfolgreich erstellt.",
-		"only-numbers": "Eine Session-Id besteht aus Nummern."
+		"created-2": "' erfolgreich erstellt",
+		"only-numbers": "Eine Session-ID besteht aus Ziffern"
 	},
 	"login": {
-		"email": "E-Mail",
-		"email-invalid": "E-Mail Adresse ist ungültig",
-		"email-required": "E-Mail Adresse ist erforderlich",
+		"email": "E-mail",
+		"email-invalid": "E-mail Adresse ist ungültig",
+		"email-required": "E-mail Adresse ist erforderlich",
 		"guest-login": "Anmelden als Gast",
-		"input-incorrect": "Bitte prüfen Sie Ihre Eingaben.",
-		"login-successful": "Login erfolgreich.",
+		"input-incorrect": "Bitte prüfen Sie Ihre Eingaben",
+		"login-successful": "Login erfolgreich",
 		"login": "Anmelden",
-		"login-data-incorrect": "Benutzername oder Passwort nicht korrekt.",
+		"login-data-incorrect": "Benutzername oder Passwort nicht korrekt",
 		"password": "Passwort",
 		"password-required": "Passwort ist erforderlich",
 		"activate": "Aktivieren",
@@ -45,26 +45,26 @@
 		"activation-key-incorrect": "Aktivierungsschlüssel falsch"
 	},
 	"password-reset": {
-		"email": "E-Mail",
-		"email-invalid": "E-Mail Adresse ist nicht gültig.",
-		"email-required": "E-Mail Adresse ist erforderlich.",
-		"input-incorrect": "Bitte prüfen Sie Ihre Eingabe.",
+		"email": "E-mail",
+		"email-invalid": "E-mail Adresse ist ungültig.",
+		"email-required": "E-mail Adresse ist erforderlich.",
+		"input-incorrect": "Bitte prüfen Sie Ihre Eingaben",
 		"reset-password": "Passwort zurücksetzen",
-		"reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfen Sie Ihre E-Mails"
+		"reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfen Sie Ihre E-mails"
 	},
 	"register": {
-		"email": "E-Mail",
-		"email-verify": "E-Mail bestätigen",
-		"email-invalid": "E-Mail Adresse ist nicht gültig",
-		"email-required": "E-Mail Adresse ist erforderlich",
-		"email-unmatch": "E-Mail Adressen stimmen nicht überein",
+		"email": "E-mail",
+		"email-verify": "E-mail bestätigen",
+		"email-invalid": "E-mail Adresse ist ungültig",
+		"email-required": "E-mail Adresse ist erforderlich",
+		"email-unmatch": "E-mail Adressen stimmen nicht überein",
 		"password": "Passwort",
 		"password-required": "Passwort ist erforderlich",
 		"password-unmatch": "Passwörter stimmen nicht überein",
 		"password-verify": "Passwort bestätigen",
 		"register": "Registrieren",
-		"register-successful": "Erfolgreich registriert. Bitte prüfen Sie Ihre E-Mails",
-		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben."
+		"register-successful": "Erfolgreich registriert. Bitte prüfen Sie Ihre E-mails",
+		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben"
 	},
 	"session": {
 		"session-name": "Name der Session",
@@ -75,7 +75,7 @@
   "footer": {
     "dsgvo": "DSGVO",
     "imprint": "Impressum",
-    "will-open": " wird in einem neuen Fenster geöffnet..",
+    "will-open": " wird in einem neuen Fenster geöffnet...",
     "open": "Öffnen"
   }
 }

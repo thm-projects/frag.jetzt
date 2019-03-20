@@ -1,3 +1,15 @@
-<mat-card>
-    <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
+<div fxLayout="row" id="search-container">
+  <mat-label>
+    <mat-icon>search</mat-icon>
+  </mat-label>
+  <input #searchBox placeholder="{{ 'comment-list-page.search-box-placeholder-text' | translate }}"
+    (focus)="hideCommentsList=true" (input)="searchComments(searchBox.value)">
+  <button mat-flat-button color="accent" *ngIf="hideCommentsList"
+    (click)="hideCommentsList=false;searchBox.value='';">{{ 'comment-list-page.cancel' | translate }}</button>
+</div>
+<mat-card class="outer-card" *ngIf="hideCommentsList && searchBox.value!=''">
+  <app-comment *ngFor="let current of filteredComments" [comment]="current"> </app-comment>
+</mat-card>
+<mat-card class="outer-card" *ngIf="!hideCommentsList">
+  <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
 </mat-card>
