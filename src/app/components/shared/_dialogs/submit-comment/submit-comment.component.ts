@@ -25,12 +25,12 @@ export class SubmitCommentComponent implements OnInit {
   private date = new Date(Date.now());
 
   constructor(
-              private notification: NotificationService,
-              public dialogRef: MatDialogRef<CommentPageComponent>,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              private translationService: TranslateService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+    private notification: NotificationService,
+    public dialogRef: MatDialogRef<CommentPageComponent>,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    private translationService: TranslateService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
@@ -58,6 +58,7 @@ export class SubmitCommentComponent implements OnInit {
       comment.roomId = localStorage.getItem(`roomId`);
       comment.body = body;
       comment.userId = this.user.id;
+      comment.createdFromDozent = this.user.role === 1;
       this.dialogRef.close(comment);
     }
   }
