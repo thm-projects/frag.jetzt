@@ -9,7 +9,7 @@ export class Comment {
   favorite: boolean;
   creationTimestamp: Date;
   score: number;
-  createdFromDozent: boolean;
+  createdFromLecturer: boolean;
 
   constructor(roomId: string = '',
               userId: string = '',
@@ -19,7 +19,7 @@ export class Comment {
               favorite: boolean = false,
               creationTimestamp: Date = null,
               score: number = 0,
-              createdFromDozent = false) {
+              createdFromLecturer = false) {
     this.id = '';
     this.roomId = roomId;
     this.userId = userId;
@@ -30,6 +30,6 @@ export class Comment {
     this.favorite = favorite;
     this.creationTimestamp = creationTimestamp;
     this.score = score;
-    this.createdFromDozent = createdFromDozent;
+    this.createdFromLecturer = createdFromLecturer;
   }
 }

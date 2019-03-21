@@ -58,7 +58,7 @@ export class SubmitCommentComponent implements OnInit {
       comment.roomId = localStorage.getItem(`roomId`);
       comment.body = body;
       comment.userId = this.user.id;
-      comment.createdFromDozent = this.user.role === 1;
+      comment.createdFromLecturer = this.user.role === 1;
       this.dialogRef.close(comment);
     }
   }
