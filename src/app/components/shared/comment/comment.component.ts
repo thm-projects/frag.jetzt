@@ -8,8 +8,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { RxStompService } from '@stomp/ng2-stompjs';
-import { Message } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-comment',
@@ -28,8 +26,7 @@ export class CommentComponent implements OnInit {
               private notification: NotificationService,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              private wsCommentService: WsCommentServiceService,
-              private rxStompService: RxStompService) {
+              private wsCommentService: WsCommentServiceService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang)); }
 
   ngOnInit() {
@@ -37,9 +34,6 @@ export class CommentComponent implements OnInit {
       this.isCreator = true;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.rxStompService.watch(`/topic/${this.comment.roomId}.comment.stream`).subscribe((message: Message) => {
-      this.parseIncomingMessage(message);
-    });
   }
 
   setRead(comment: Comment): void {
@@ -62,7 +56,7 @@ export class CommentComponent implements OnInit {
       this.notification.show(`Comment '${comment.body}' successfully deleted.`);
     });
   }
-
+  /*
   parseIncomingMessage(message: Message) {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
@@ -78,5 +72,5 @@ export class CommentComponent implements OnInit {
         }
       }
     }
-  }
+  } */
 }
