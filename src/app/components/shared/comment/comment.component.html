@@ -1,6 +1,8 @@
 <mat-card class="card-container">
   <div fxLayout="row" fxLayoutAlign="center center">
-    <mat-card-title>{{comment.subject}}</mat-card-title>
+    <mat-card-content>
+      <p>{{comment.body}}</p>
+    </mat-card-content>
     <span class="fill-remaining-space"></span>
     <button mat-icon-button [disabled]="isCreator" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">
       <mat-icon [ngClass]="{'correct-icon' : comment.correct === true}">check_circle</mat-icon>
@@ -12,8 +14,4 @@
       <mat-icon [ngClass]="{'read-icon' : comment.read === true}">visibility</mat-icon>
     </button>
   </div>
-  <mat-divider></mat-divider>
-  <mat-card-content>
-    <p>{{comment.body}}</p>
-  </mat-card-content>
 </mat-card>
