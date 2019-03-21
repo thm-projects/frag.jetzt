@@ -59,25 +59,19 @@ export class CommentListComponent implements OnInit {
       c.creationTimestamp = payload.timestamp;
       this.comments = this.comments.concat(c);
     } else if (msg.type === 'CommentPatched') {
-      const c = this.comments.find((comment: Comment) => comment.id === payload.id);
-      if (c) {
-        const index = this.comments.indexOf(c);
-        console.log(index);
-        const newList = this.comments.slice(0);
-        const changes = payload.changes;
-        // ToDo: there must be a better way to update the model
-        for (const change of changes) {
-          console.log(change);
-          if (change.read) {
-            c.read = change.read;
-          } else if (change.favorite) {
-            c.favorite = change.favorite;
-          } else if (change.correct) {
-            c.correct = change.correct;
+        for (let i = 0; i < this.comments.length; i++) {
+          if (payload.id === this.comments[i].id) {
+            for (const [key, value] of Object.entries(payload.changes)) {
+              switch (key) {
+                case 'read':       this.comments[i].read = <boolean>value;
+                                   break;
+                case 'correct' :   this.comments[i].correct = <boolean>value;
+                                   break;
+                case 'favorite' :  this.comments[i].favorite = <boolean>value;
+                                   break;
+              }
+            }
           }
-        }
-        newList[index] = c;
-        this.comments = newList;
       }
     }
   }

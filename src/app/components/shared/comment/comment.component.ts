@@ -38,17 +38,14 @@ export class CommentComponent implements OnInit {
 
   setRead(comment: Comment): void {
     this.comment = this.wsCommentService.toggleRead(comment);
-    // this.commentService.updateComment(comment).subscribe();
   }
 
   setCorrect(comment: Comment): void {
     this.comment = this.wsCommentService.toggleCorrect(comment);
-    // this.commentService.updateComment(comment).subscribe();
   }
 
   setFavorite(comment: Comment): void {
     this.comment = this.wsCommentService.toggleFavorite(comment);
-    // this.commentService.updateComment(comment).subscribe();
   }
 
   delete(comment: Comment): void {
