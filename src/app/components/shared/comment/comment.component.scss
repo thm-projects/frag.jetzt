@@ -14,20 +14,28 @@ mat-toolbar {
   background-color: #bbdefb;
 }
 
-mat-icon {
-  color: white;
+.incorrect-icon {
+  color: #c8e6c9;
 }
 
 .correct-icon {
-  color: green;
+  color: #66bb6a;
 }
 
 .read-icon {
-  color: blue;
+  color: #1e88e5;
+}
+
+.unread-icon {
+  color: #e3f2fd;
 }
 
 .favorite-icon {
   color: #fdd835;
+}
+
+.not-favorite-icon {
+  color: #fffde7;
 }
 
 .proffesor-icon {

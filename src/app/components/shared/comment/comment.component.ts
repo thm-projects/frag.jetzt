@@ -18,7 +18,7 @@ import { MatDialog } from '@angular/material';
 })
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
-  isCreator = false;
+  isStudent = false;
   isLoading = true;
 
   constructor(protected authenticationService: AuthenticationService,
@@ -34,7 +34,7 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
     if (this.authenticationService.getRole() === 0) {
-      this.isCreator = true;
+      this.isStudent = true;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
   }
