@@ -59,5 +59,5 @@ export class WsCommentServiceService {
           'content-type': 'application/json'
         }
       });
-    }
+  }
 }
