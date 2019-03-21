@@ -51,6 +51,14 @@ export class CommentComponent implements OnInit {
     this.comment = this.wsCommentService.toggleFavorite(comment);
   }
 
+  voteUp(comment: Comment): void {
+    this.wsCommentService.voteUp(comment);
+  }
+
+  voteDown(comment: Comment): void {
+    this.wsCommentService.voteDown(comment);
+  }
+
   delete(comment: Comment): void {
     this.commentService.deleteComment(comment.id).subscribe(room => {
       this.notification.show(`Comment '${comment.body}' successfully deleted.`);

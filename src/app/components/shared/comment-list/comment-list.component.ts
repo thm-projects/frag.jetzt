@@ -19,9 +19,9 @@ export class CommentListComponent implements OnInit {
   filteredComments: Comment[];
 
   constructor(private commentService: CommentService,
-    private translateService: TranslateService,
-    protected langService: LanguageService,
-    private rxStompService: RxStompService) {
+              private translateService: TranslateService,
+              protected langService: LanguageService,
+              private rxStompService: RxStompService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -51,28 +51,36 @@ export class CommentListComponent implements OnInit {
   parseIncomingMessage(message: Message) {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
-    if (msg.type === 'CommentCreated') {
-      const c = new Comment();
-      c.roomId = this.roomId;
-      c.body = payload.body;
-      c.id = payload.id;
-      c.creationTimestamp = payload.timestamp;
-      this.comments = this.comments.concat(c);
-    } else if (msg.type === 'CommentPatched') {
+    switch (msg.type) {
+      case 'CommentCreated':
+        const c = new Comment();
+        c.roomId = this.roomId;
+        c.body = payload.body;
+        c.id = payload.id;
+        c.creationTimestamp = payload.timestamp;
+        this.comments = this.comments.concat(c);
+        break;
+      case 'CommentPatched':
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
               switch (key) {
-                case 'read':       this.comments[i].read = <boolean>value;
-                                   break;
-                case 'correct' :   this.comments[i].correct = <boolean>value;
-                                   break;
-                case 'favorite' :  this.comments[i].favorite = <boolean>value;
-                                   break;
+                case 'read':
+                  this.comments[i].read = <boolean>value;
+                  break;
+                case 'correct' :
+                  this.comments[i].correct = <boolean>value;
+                  break;
+                case 'favorite' :
+                  this.comments[i].favorite = <boolean>value;
+                  break;
+                case 'score' :
+                  this.comments[i].score = <number>value;
+                  break;
               }
             }
           }
-      }
+        }
     }
   }
 }
