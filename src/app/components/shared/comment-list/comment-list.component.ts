@@ -62,7 +62,6 @@ export class CommentListComponent implements OnInit {
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
-              console.log(value);
               switch (key) {
                 case 'read':       this.comments[i].read = value;
                                    break;

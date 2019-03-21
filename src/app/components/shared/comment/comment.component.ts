@@ -38,17 +38,14 @@ export class CommentComponent implements OnInit {
 
   setRead(comment: Comment): void {
     this.comment = this.wsCommentService.toggleRead(comment);
-    // this.commentService.updateComment(comment).subscribe();
   }
 
   setCorrect(comment: Comment): void {
     this.comment = this.wsCommentService.toggleCorrect(comment);
-    // this.commentService.updateComment(comment).subscribe();
   }
 
   setFavorite(comment: Comment): void {
     this.comment = this.wsCommentService.toggleFavorite(comment);
-    // this.commentService.updateComment(comment).subscribe();
   }
 
   delete(comment: Comment): void {
@@ -56,21 +53,4 @@ export class CommentComponent implements OnInit {
       this.notification.show(`Comment '${comment.body}' successfully deleted.`);
     });
   }
-  /*
-  parseIncomingMessage(message: Message) {
-    const msg = JSON.parse(message.body);
-    const payload = msg.payload;
-    if (payload.id === this.comment.id) {
-      for (const [key, value] of Object.entries(payload.changes)) {
-        console.log(value);
-        switch (key) {
-          case 'read':     this.comment.read = value;
-                           break;
-          case 'correct' : this.comment.correct = value;
-                           break;
-          case 'favorite' : this.comment.favorite = value;
-        }
-      }
-    }
-  } */
 }
