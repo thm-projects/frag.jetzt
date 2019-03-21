@@ -14,6 +14,13 @@ mat-toolbar {
   background-color: #bbdefb;
 }
 
+.voting-icon {
+  width: 100%;
+  height: 100%;
+  font-size: 35px;
+  line-height: 100%!important;
+}
+
 .incorrect-icon {
   color: #c8e6c9;
 }
@@ -44,8 +51,17 @@ mat-toolbar {
   margin-top: 10px;
 }
 
-
-h3 {
+h2 {
   text-align: center;
   margin: 0;
+}
+
+.body {
+  min-width: 200px;
+  min-height: 100px;
+  text-align: start;
+  font-size: large;
+  max-height: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

@@ -1,26 +1,25 @@
 <mat-card class="card-container">
   <div fxLayout="row" fxLayoutAlign="center center">
-    <div *ngIf="comment.createdFromLecturer !== false" mat-card-avatar class="proffesor-icon" matTooltip="created from lecturer"><mat-icon>record_voice_over</mat-icon></div>
-    <mat-card-content>
-      <p (click)="openPresentDialog(comment.body)">{{comment.body}}</p>
-    </mat-card-content>
+    <div fxLayout="column">
+      <button mat-icon-button *ngIf="comment.correct || !isStudent" [disabled]="isStudent" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">
+        <mat-icon [ngClass]="{true : 'correct-icon', false: 'incorrect-icon'}[comment.correct]">check_circle</mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="comment.favorite || !isStudent" [disabled]="isStudent" (click)="setFavorite(comment)" [matTooltip]="comment.favorite ? 'Mark as not favorite' : 'Mark as favorite'">
+        <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-favorite-icon'}[comment.favorite]">star</mat-icon>
+      </button>
+      <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)" [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
+        <mat-icon [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
+      </button>
+    </div>
+    <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button *ngIf="comment.correct || !isStudent" [disabled]="isStudent" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">
-      <mat-icon [ngClass]="{true : 'correct-icon', false: 'incorrect-icon'}[comment.correct]">check_circle</mat-icon>
-    </button>
-    <button mat-icon-button *ngIf="comment.favorite || !isStudent" [disabled]="isStudent" (click)="setFavorite(comment)" [matTooltip]="comment.favorite ? 'Mark as not favorite' : 'Mark as favorite'">
-      <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-favorite-icon'}[comment.favorite]">star</mat-icon>
-    </button>
-    <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)" [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
-      <mat-icon [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
-    </button>
     <div fxLayout="column">
       <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
-        <mat-icon>keyboard_arrow_up</mat-icon>
+        <mat-icon class="voting-icon">keyboard_arrow_up</mat-icon>
       </button>
-        <h3>{{comment.score}}</h3>
+        <h2>{{comment.score}}</h2>
       <button mat-icon-button [disabled]="!isStudent" (click)="voteDown(comment)">
-        <mat-icon>keyboard_arrow_down</mat-icon>
+        <mat-icon class="voting-icon">keyboard_arrow_down</mat-icon>
       </button>
     </div>
   </div>
