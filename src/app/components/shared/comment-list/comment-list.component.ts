@@ -63,11 +63,11 @@ export class CommentListComponent implements OnInit {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
               switch (key) {
-                case 'read':       this.comments[i].read = value;
+                case 'read':       this.comments[i].read = <boolean>value;
                                    break;
-                case 'correct' :   this.comments[i].correct = value;
+                case 'correct' :   this.comments[i].correct = <boolean>value;
                                    break;
-                case 'favorite' :  this.comments[i].favorite = value;
+                case 'favorite' :  this.comments[i].favorite = <boolean>value;
                                    break;
               }
             }
@@ -75,6 +75,5 @@ export class CommentListComponent implements OnInit {
       }
     }
   }
-
 }
 
