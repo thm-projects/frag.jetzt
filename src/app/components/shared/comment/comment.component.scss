@@ -4,7 +4,7 @@ mat-card {
   cursor: pointer;
 }
 
-mat-card-content>:first-child {
+mat-card-content > :first-child {
   margin-top: 20px;
 }
 
@@ -31,9 +31,8 @@ mat-icon {
 }
 
 .proffesor-icon {
-  background-image: url("https://image.flaticon.com/icons/svg/158/158279.svg");
   background-size: cover;
   margin-right: 10px;
-  border: 2px solid darkslategray;
+  margin-top: 10px;
 }
 
