@@ -1,4 +1,4 @@
-export class PatchVoting {
+export abstract class AbstractVote {
   type: string;
   payload: {
     userId: string;
@@ -6,8 +6,8 @@ export class PatchVoting {
     vote: number;
   };
 
-  constructor(userId: string, commentId: string, vote: number) {
-    this.type = 'PatchComment';
+  protected constructor(type: string, userId: string, commentId: string, vote: number) {
+    this.type = type;
     this.payload = {
       userId: userId,
       commentId: commentId,

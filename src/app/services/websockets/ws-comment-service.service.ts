@@ -4,6 +4,8 @@ import { RxStompService } from '@stomp/ng2-stompjs';
 import { CreateComment } from '../../models/messages/create-comment';
 import { PatchComment } from '../../models/messages/patch-comment';
 import { TSMap } from 'typescript-map';
+import { Vote } from '../../models/vote';
+import { UpVote } from '../../models/messages/up-vote';
 
 
 @Injectable({
@@ -49,9 +51,12 @@ export class WsCommentServiceService {
     return comment;
   }
 
+  voteUp(comment: Comment): void {
+    const message = new UpVote(comment.userId, comment.id);
+  }
+
   private patchComment(comment: Comment, changes: TSMap<string, any>): void {
     const message = new PatchComment(comment.id, changes);
-    console.log(message);
       this.rxStompService.publish({
         destination: `/queue/comment.command.patch`,
         body: JSON.stringify(message),
