@@ -54,7 +54,7 @@ export class WsCommentServiceService {
   voteUp(comment: Comment): void {
     const message = new UpVote(comment.userId, comment.id);
     this.rxStompService.publish({
-      destination: `/queue/comment.command.patch`,
+      destination: `/queue/vote.command.upvote`,
       body: JSON.stringify(message),
       headers: {
         'content-type': 'application/json'
@@ -65,7 +65,7 @@ export class WsCommentServiceService {
   voteDown(comment: Comment): void {
     const message = new DownVote(comment.userId, comment.id);
     this.rxStompService.publish({
-      destination: `/queue/comment.command.patch`,
+      destination: `/queue/vote.command.downvote`,
       body: JSON.stringify(message),
       headers: {
         'content-type': 'application/json'

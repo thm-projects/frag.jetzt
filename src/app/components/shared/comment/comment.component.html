@@ -14,5 +14,12 @@
     <button mat-icon-button [disabled]="isCreator" (click)="setRead(comment)" [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
       <mat-icon [ngClass]="{'read-icon' : comment.read === true}">visibility</mat-icon>
     </button>
+    <button mat-icon-button [disabled]="!isCreator" (click)="voteUp(comment)">
+      <mat-icon>keyboard_arrow_up</mat-icon>
+    </button>
+    <h4>{{comment.score}}</h4>
+    <button mat-icon-button [disabled]="!isCreator" (click)="voteDown(comment)">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
   </div>
 </mat-card>
