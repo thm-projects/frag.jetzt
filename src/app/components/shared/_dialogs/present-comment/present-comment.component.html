@@ -1,0 +1,8 @@
+<mat-slider min="2.1" max="6" step="0.2" value="1.2" thumbLabel tickInterval="auto"
+            [(ngModel)]="sliderValue" (change)="updateFontSize()" id="slider"></mat-slider>
+<button id="exitButton" mat-raised-button color="warn" (click)="onCloseClick()">
+  <mat-icon >exit_to_app</mat-icon>
+</button>
+<div id="comment">
+  {{body}}
+</div>

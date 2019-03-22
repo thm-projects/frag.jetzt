@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
 import { CommentComponent } from './comment/comment.component';
 import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment.component';
+import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment
     LoginComponent,
     StatisticHelpComponent,
     CommentComponent,
-    SubmitCommentComponent
+    SubmitCommentComponent,
+    PresentCommentComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -69,13 +71,15 @@ import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment
     CommentPageComponent,
     CommentListComponent,
     StatisticsPageComponent,
-    SubmitCommentComponent
+    SubmitCommentComponent,
+    PresentCommentComponent
   ],
   entryComponents: [
     RoomCreateComponent,
     LoginComponent,
     StatisticHelpComponent,
-    SubmitCommentComponent
+    SubmitCommentComponent,
+    PresentCommentComponent
   ]
 })
 export class SharedModule {

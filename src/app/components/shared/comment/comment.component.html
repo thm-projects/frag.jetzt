@@ -2,7 +2,7 @@
   <div fxLayout="row" fxLayoutAlign="center center">
     <div *ngIf="comment.createdFromLecturer !== false" mat-card-avatar class="proffesor-icon" matTooltip="created from lecturer"><mat-icon>record_voice_over</mat-icon></div>
     <mat-card-content>
-      <p>{{comment.body}}</p>
+      <p (click)="openPresentDialog(comment.body)">{{comment.body}}</p>
     </mat-card-content>
     <span class="fill-remaining-space"></span>
     <button mat-icon-button [disabled]="isCreator" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">

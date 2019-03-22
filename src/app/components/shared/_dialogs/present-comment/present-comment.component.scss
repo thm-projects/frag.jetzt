@@ -1,0 +1,23 @@
+#comment {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 90vh;
+  font-size: 2.1em;
+  margin: 0.5em 0.5em;
+
+}
+
+#exitButton {
+  position:absolute;
+  top:2em;
+  right:2em;
+}
+
+#slider {
+  position:absolute;
+  top:2em;
+  left:2em;
+}

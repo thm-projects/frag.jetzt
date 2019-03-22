@@ -8,6 +8,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-comment',
@@ -25,6 +27,7 @@ export class CommentComponent implements OnInit {
               private commentService: CommentService,
               private notification: NotificationService,
               private translateService: TranslateService,
+              public dialog: MatDialog,
               protected langService: LanguageService,
               private wsCommentService: WsCommentServiceService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang)); }
@@ -52,5 +55,25 @@ export class CommentComponent implements OnInit {
     this.commentService.deleteComment(comment.id).subscribe(room => {
       this.notification.show(`Comment '${comment.body}' successfully deleted.`);
     });
+  }
+
+  openPresentDialog(body: string): void {
+    const dialogRef = this.dialog.open(PresentCommentComponent, {
+      position: {
+        left: '10px',
+        right: '10px'
+      },
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%'
+    });
+    dialogRef.componentInstance.body = body;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'close') {
+          return;
+        }
+      });
   }
 }
