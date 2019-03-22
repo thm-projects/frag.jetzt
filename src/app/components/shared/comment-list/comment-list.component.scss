@@ -21,7 +21,7 @@ input {
 }
 
 button{
-  min-height: 100% !important;
+  //min-height: 100% !important;
   min-width: 100px;
 }
 
@@ -34,3 +34,20 @@ mat-icon {
   background-color: #80cbc4;
   margin-bottom: 10px;
 }
+
+
+.add-button {
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  top: 80%;
+  right: 35%;
+}
+
+.add-icon {
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  line-height: 100%!important;
+}
+

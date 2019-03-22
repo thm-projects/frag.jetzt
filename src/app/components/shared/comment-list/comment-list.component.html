@@ -14,3 +14,6 @@
 <mat-card class="outer-card" *ngIf="!hideCommentsList">
   <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
 </mat-card>
+<button mat-icon-button class="add-button" color="accent" (click)="openSubmitDialog()">
+  <mat-icon class="add-icon">add_circle</mat-icon>
+</button>

@@ -3,9 +3,9 @@ import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { CommentPageComponent } from '../../comment-page/comment-page.component';
 import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
+import { CommentListComponent } from '../../comment-list/comment-list.component';
 
 
 @Component({
@@ -20,17 +20,15 @@ export class SubmitCommentComponent implements OnInit {
   user: User;
   roomId: string;
 
-  subjectForm = new FormControl('', [Validators.required]);
   bodyForm = new FormControl('', [Validators.required]);
-  private date = new Date(Date.now());
 
   constructor(
-    private notification: NotificationService,
-    public dialogRef: MatDialogRef<CommentPageComponent>,
-    private translateService: TranslateService,
-    public dialog: MatDialog,
-    private translationService: TranslateService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+              private notification: NotificationService,
+              public dialogRef: MatDialogRef<CommentListComponent>,
+              private translateService: TranslateService,
+              public dialog: MatDialog,
+              private translationService: TranslateService,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {

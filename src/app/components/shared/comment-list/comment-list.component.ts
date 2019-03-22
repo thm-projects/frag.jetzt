@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
+import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-comment.component';
+import { MatDialog } from '@angular/material';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-comment-list',
@@ -12,16 +16,19 @@ import { Message } from '@stomp/stompjs';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
+  @Input() user: User;
+  @Input() roomId: string;
   comments: Comment[];
   isLoading = true;
-  roomId: string;
   hideCommentsList: boolean;
   filteredComments: Comment[];
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
+              public dialog: MatDialog,
               protected langService: LanguageService,
-              private rxStompService: RxStompService) {
+              private rxStompService: RxStompService,
+              private wsCommentService: WsCommentServiceService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -87,6 +94,26 @@ export class CommentListComponent implements OnInit {
           }
         }
     }
+  }
+
+  openSubmitDialog(): void {
+    const dialogRef = this.dialog.open(SubmitCommentComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.user = this.user;
+    dialogRef.componentInstance.roomId = this.roomId;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.send(result);
+        } else {
+          return;
+        }
+      });
+  }
+
+  send(comment: Comment): void {
+    this.wsCommentService.add(comment);
   }
 }
 
