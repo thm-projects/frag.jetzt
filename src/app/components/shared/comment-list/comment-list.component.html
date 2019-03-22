@@ -15,5 +15,5 @@
   <app-comment *ngFor="let current of filteredComments" [comment]="current"> </app-comment>
 </mat-card>
 <mat-card class="outer-card" *ngIf="!hideCommentsList">
-  <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
+  <app-comment *ngFor="let current of comments | orderBy: 'score'" [comment]="current"> </app-comment>
 </mat-card>

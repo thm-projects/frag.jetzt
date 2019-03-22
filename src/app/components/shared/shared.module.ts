@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
 import { CommentComponent } from './comment/comment.component';
 import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment.component';
+import { OrderBy} from './sort';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 
 @NgModule({
@@ -54,6 +55,7 @@ import { PresentCommentComponent } from './_dialogs/present-comment/present-comm
     StatisticHelpComponent,
     CommentComponent,
     SubmitCommentComponent,
+    OrderBy,
     PresentCommentComponent
   ],
   exports: [

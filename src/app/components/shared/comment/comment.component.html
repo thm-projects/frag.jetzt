@@ -1,6 +1,7 @@
 <mat-card class="card-container">
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <div fxLayout="column">
+  <div fxLayout="column">
+    <div fxLayout="row">
+      <span class="fill-remaining-space"></span>
       <button mat-icon-button *ngIf="comment.correct || !isStudent" [disabled]="isStudent" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">
         <mat-icon [ngClass]="{true : 'correct-icon', false: 'incorrect-icon'}[comment.correct]">check_circle</mat-icon>
       </button>
@@ -11,16 +12,18 @@
         <mat-icon [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
       </button>
     </div>
-    <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
-    <span class="fill-remaining-space"></span>
-    <div fxLayout="column">
-      <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
-        <mat-icon class="voting-icon" [ngClass]="{'upvoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
-      </button>
+    <div fxLayout="row">
+      <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
+      <span class="fill-remaining-space"></span>
+      <div fxLayout="column">
+        <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
+          <mat-icon class="voting-icon" [ngClass]="{'upvoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
+        </button>
         <h2>{{comment.score}}</h2>
-      <button mat-icon-button [disabled]="!isStudent" (click)="voteDown(comment)">
-        <mat-icon class="voting-icon" [ngClass]="{'downvoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
-      </button>
+        <button mat-icon-button [disabled]="!isStudent" (click)="voteDown(comment)">
+          <mat-icon class="voting-icon" [ngClass]="{'downvoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
 </mat-card>
