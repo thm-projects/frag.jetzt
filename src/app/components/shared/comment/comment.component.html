@@ -1,5 +1,6 @@
 <mat-card class="card-container">
   <div fxLayout="row" fxLayoutAlign="center center">
+    <div *ngIf="comment.createdFromLecturer !== false" mat-card-avatar class="proffesor-icon" matTooltip="created from lecturer"><mat-icon>record_voice_over</mat-icon></div>
     <mat-card-content>
       <p>{{comment.body}}</p>
     </mat-card-content>

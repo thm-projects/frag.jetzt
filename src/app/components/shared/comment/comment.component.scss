@@ -4,7 +4,7 @@ mat-card {
   cursor: pointer;
 }
 
-mat-card-content>:first-child {
+mat-card-content > :first-child {
   margin-top: 20px;
 }
 
@@ -29,3 +29,10 @@ mat-icon {
 .favorite-icon {
   color: #fdd835;
 }
+
+.proffesor-icon {
+  background-size: cover;
+  margin-right: 10px;
+  margin-top: 10px;
+}
+
