@@ -15,11 +15,11 @@
     <span class="fill-remaining-space"></span>
     <div fxLayout="column">
       <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
-        <mat-icon class="voting-icon">keyboard_arrow_up</mat-icon>
+        <mat-icon class="voting-icon" [ngClass]="{'upvoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
       </button>
         <h2>{{comment.score}}</h2>
       <button mat-icon-button [disabled]="!isStudent" (click)="voteDown(comment)">
-        <mat-icon class="voting-icon">keyboard_arrow_down</mat-icon>
+        <mat-icon class="voting-icon" [ngClass]="{'downvoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
       </button>
     </div>
   </div>

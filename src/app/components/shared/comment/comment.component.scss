@@ -2,6 +2,9 @@ mat-card {
   margin-bottom: 20px;
   background-color: #4dd0e1;
   cursor: pointer;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-right: 5px;
 }
 
 mat-card-content > :first-child {
@@ -15,10 +18,18 @@ mat-toolbar {
 }
 
 .voting-icon {
-  width: 100%;
-  height: 100%;
+  width: 35px;
+  height: 35px;
   font-size: 35px;
   line-height: 100%!important;
+}
+
+.upvoted {
+  color: #66bb6a;
+}
+
+.downvoted {
+  color: #FF8A65;
 }
 
 .incorrect-icon {

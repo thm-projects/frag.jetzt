@@ -20,6 +20,7 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   isStudent = false;
   isLoading = true;
+  hasVoted = 0;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -52,11 +53,17 @@ export class CommentComponent implements OnInit {
   }
 
   voteUp(comment: Comment): void {
-    this.wsCommentService.voteUp(comment);
+    if (this.hasVoted !== 1) {
+      this.wsCommentService.voteUp(comment);
+      this.hasVoted = 1;
+    }
   }
 
   voteDown(comment: Comment): void {
-    this.wsCommentService.voteDown(comment);
+    if (this.hasVoted !== -1) {
+      this.wsCommentService.voteDown(comment);
+      this.hasVoted = -1;
+    }
   }
 
   delete(comment: Comment): void {
