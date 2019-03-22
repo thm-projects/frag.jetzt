@@ -1,11 +1,14 @@
 <div fxLayout="row" id="search-container">
-  <mat-label>
-    <mat-icon>search</mat-icon>
+  <mat-label fxLayoutAlign="center center">
+    <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list-page.search-box-placeholder-text' | translate }}"
          (input)="searchComments(searchBox.value)">
-  <button mat-button matSuffix *ngIf="searchBox.value" (click)="hideCommentsList=false; searchBox.value=''">
+  <button mat-button *ngIf="searchBox.value" (click)="hideCommentsList=false; searchBox.value=''">
     <mat-icon>close</mat-icon>
+  </button>
+  <button mat-button *ngIf="!searchBox.value" color="accent" (click)="openSubmitDialog()">
+    <mat-icon class="add-icon">add_circle</mat-icon>
   </button>
 </div>
 <mat-card class="outer-card" *ngIf="hideCommentsList">
@@ -14,6 +17,3 @@
 <mat-card class="outer-card" *ngIf="!hideCommentsList">
   <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
 </mat-card>
-<button mat-icon-button class="add-button" color="accent" (click)="openSubmitDialog()">
-  <mat-icon class="add-icon">add_circle</mat-icon>
-</button>

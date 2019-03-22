@@ -15,17 +15,9 @@ input {
   background-color: #80cbc4;
   border: none;
   outline: none;
-  max-height: 44px;
+  min-height: 60px;
   font-size: large;
   border-radius: 5px;
-}
-
-button{
-  min-width: 100px;
-}
-
-mat-icon {
-  padding: 10px;
 }
 
 #search-container{
@@ -36,17 +28,19 @@ mat-icon {
 
 
 .add-button {
-  width: 60px;
-  height: 60px;
-  position: fixed;
-  top: 82%;
-  right: 35%;
+  width: 44px!important;
+  height: 44px!important;
+  text-align: center;
 }
 
 .add-icon {
-  font-size: 60px;
-  height: 60px;
-  width: 60px;
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
   line-height: 100%!important;
+}
+
+.search-icon {
+  padding: 10px;
 }
 
