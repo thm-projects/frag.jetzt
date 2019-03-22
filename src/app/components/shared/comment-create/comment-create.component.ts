@@ -10,11 +10,11 @@ import { User } from '../../../models/user';
 import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
-  selector: 'app-comments-creator-shared',
-  templateUrl: './comments-creator-shared.component.html',
-  styleUrls: ['./comments-creator-shared.component.scss']
+  selector: 'app-comment-create',
+  templateUrl: './comment-create.component.html',
+  styleUrls: ['./comment-create.component.scss']
 })
-export class CommentsCreatorSharedComponent implements OnInit {
+export class CommentCreateComponent implements OnInit {
 
   @ViewChild(CommentListComponent) child: CommentListComponent;
   roomId: string;
