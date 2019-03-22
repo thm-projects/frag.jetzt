@@ -1,4 +1,4 @@
-<mat-card class="card-container">
+<mat-card class="card-container" (click)="openPresentDialog(comment.body)">
   <div fxLayout="column">
     <div fxLayout="row">
       <span class="fill-remaining-space"></span>
@@ -13,7 +13,7 @@
       </button>
     </div>
     <div fxLayout="row">
-      <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
+      <div class="body">{{comment.body}}</div>
       <span class="fill-remaining-space"></span>
       <div fxLayout="column">
         <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
