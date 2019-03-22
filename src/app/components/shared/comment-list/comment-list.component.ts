@@ -45,7 +45,12 @@ export class CommentListComponent implements OnInit {
   }
 
   searchComments(term: string): void {
-    this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(term));
+    if (term) {
+      this.hideCommentsList = true;
+      this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(term));
+    } else {
+      this.hideCommentsList = false;
+    }
   }
 
   parseIncomingMessage(message: Message) {

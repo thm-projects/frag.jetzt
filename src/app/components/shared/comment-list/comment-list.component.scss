@@ -1,9 +1,6 @@
 mat-card {
   margin-bottom: 10px;
   background-color: #4db6ac;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 800px;
 }
 
 app-comment {
@@ -13,15 +10,17 @@ app-comment {
 
 input {
   box-sizing: border-box;
-  padding: 0 10px 0 20px;
-  width: 100%;
-  background-color: #4db6ac;
+  padding: 0 10px 0 5px;
+  width: 90%;
+  background-color: #80cbc4;
   border: none;
+  outline: none;
+  max-height: 44px;
+  font-size: large;
+  border-radius: 5px;
 }
 
 button{
-  border-left: 3px solid #b2dfdb;
-  border-radius: 0px;
   min-height: 100% !important;
   min-width: 100px;
 }
@@ -30,12 +29,8 @@ mat-icon {
   padding: 10px;
 }
 
-mat-label {
-  min-height: 100% !important;
-  border-radius: 0px;
-}
-
 #search-container{
-  background-color: #4db6ac;
+  border-radius: 5px;
+  background-color: #80cbc4;
   margin-bottom: 10px;
 }
