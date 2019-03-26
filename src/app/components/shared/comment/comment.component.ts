@@ -18,8 +18,9 @@ import { MatDialog } from '@angular/material';
 })
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
-  isCreator = false;
+  isStudent = false;
   isLoading = true;
+  hasVoted = 0;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -34,7 +35,7 @@ export class CommentComponent implements OnInit {
 
   ngOnInit() {
     if (this.authenticationService.getRole() === 0) {
-      this.isCreator = true;
+      this.isStudent = true;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
   }
@@ -49,6 +50,20 @@ export class CommentComponent implements OnInit {
 
   setFavorite(comment: Comment): void {
     this.comment = this.wsCommentService.toggleFavorite(comment);
+  }
+
+  voteUp(comment: Comment): void {
+    if (this.hasVoted !== 1) {
+      this.wsCommentService.voteUp(comment);
+      this.hasVoted = 1;
+    }
+  }
+
+  voteDown(comment: Comment): void {
+    if (this.hasVoted !== -1) {
+      this.wsCommentService.voteDown(comment);
+      this.hasVoted = -1;
+    }
   }
 
   delete(comment: Comment): void {

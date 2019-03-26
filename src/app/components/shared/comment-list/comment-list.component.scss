@@ -1,9 +1,6 @@
 mat-card {
   margin-bottom: 10px;
   background-color: #4db6ac;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 800px;
 }
 
 app-comment {
@@ -13,29 +10,37 @@ app-comment {
 
 input {
   box-sizing: border-box;
-  padding: 0 10px 0 20px;
-  width: 100%;
-  background-color: #4db6ac;
+  padding: 0 10px 0 5px;
+  width: 90%;
+  background-color: #80cbc4;
   border: none;
-}
-
-button{
-  border-left: 3px solid #b2dfdb;
-  border-radius: 0px;
-  min-height: 100% !important;
-  min-width: 100px;
-}
-
-mat-icon {
-  padding: 10px;
-}
-
-mat-label {
-  min-height: 100% !important;
-  border-radius: 0px;
+  outline: none;
+  min-height: 60px;
+  font-size: large;
+  border-radius: 5px;
 }
 
 #search-container{
-  background-color: #4db6ac;
+  border-radius: 5px;
+  background-color: #80cbc4;
   margin-bottom: 10px;
 }
+
+
+.add-button {
+  width: 44px!important;
+  height: 44px!important;
+  text-align: center;
+}
+
+.add-icon {
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
+  line-height: 100%!important;
+}
+
+.search-icon {
+  padding: 10px;
+}
+

@@ -1,15 +1,13 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
+  <mat-form-field class="input-block">
+      <textarea matInput #commentBody placeholder="{{ 'comment-page.enter-comment' | translate}}"
+                matAutosizeMinRows=2 matAutosizeMaxRows=5  maxlength="255" [formControl]="bodyForm"></textarea>
+    <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
+  </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center">
-    <form>
-      <mat-form-field class="input-block">
-        <textarea matInput #commentBody placeholder="{{ 'comment-page.enter-comment' | translate}}"
-                  matAutosizeMinRows=2 matAutosizeMaxRows=5  maxlength="255" [formControl]="bodyForm"></textarea>
-        <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
-      </mat-form-field>
-      <button mat-raised-button color="warn"
-              (click)="onNoClick()">{{ 'comment-page.abort' | translate}}</button>
-      <button mat-raised-button color="accent"
-              (click)="closeDialog(commentBody.value)">{{ 'comment-page.send' | translate}}</button>
-    </form>
+    <button mat-raised-button color="warn"
+            (click)="onNoClick()">{{ 'comment-page.abort' | translate}}</button>
+    <button mat-raised-button color="accent"
+            (click)="closeDialog(commentBody.value)">{{ 'comment-page.send' | translate}}</button>
   </div>
 </div>

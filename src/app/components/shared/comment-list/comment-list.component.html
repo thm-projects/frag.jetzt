@@ -1,15 +1,19 @@
 <div fxLayout="row" id="search-container">
-  <mat-label>
-    <mat-icon>search</mat-icon>
+  <mat-label fxLayoutAlign="center center">
+    <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list-page.search-box-placeholder-text' | translate }}"
-    (focus)="hideCommentsList=true" (input)="searchComments(searchBox.value)">
-  <button mat-flat-button color="accent" *ngIf="hideCommentsList"
-    (click)="hideCommentsList=false;searchBox.value='';">{{ 'comment-list-page.cancel' | translate }}</button>
+         (input)="searchComments(searchBox.value)">
+  <button mat-button *ngIf="searchBox.value" (click)="hideCommentsList=false; searchBox.value=''">
+    <mat-icon>close</mat-icon>
+  </button>
+  <button mat-button *ngIf="!searchBox.value" color="accent" (click)="openSubmitDialog()">
+    <mat-icon class="add-icon">add_circle</mat-icon>
+  </button>
 </div>
-<mat-card class="outer-card" *ngIf="hideCommentsList && searchBox.value!=''">
+<mat-card class="outer-card" *ngIf="hideCommentsList">
   <app-comment *ngFor="let current of filteredComments" [comment]="current"> </app-comment>
 </mat-card>
 <mat-card class="outer-card" *ngIf="!hideCommentsList">
-  <app-comment *ngFor="let current of comments" [comment]="current"> </app-comment>
+  <app-comment *ngFor="let current of comments | orderBy: 'score'" [comment]="current"> </app-comment>
 </mat-card>
