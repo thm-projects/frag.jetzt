@@ -20,7 +20,8 @@
     "update": "Update",
     "default-content-group": "Standard",
     "description": "Beschreibung",
-    "present": "Präsentieren"
+    "present": "Präsentieren",
+    "session-settings": "Session Einstellungen"
   },
   "content": {
     "content": "Frage",

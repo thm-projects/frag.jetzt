@@ -79,3 +79,12 @@ mat-expansion-panel {
   background-color: var(--content-mat-card)!important;
   min-width: 200px;
 }
+
+#sessionHeader {
+  width: auto;
+}
+
+#sessionSettingsButton {
+  width: 10%;
+  float: right;
+}

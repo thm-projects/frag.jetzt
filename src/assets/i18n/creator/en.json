@@ -20,7 +20,8 @@
     "update": "Update",
     "default-content-group": "Default",
     "description": "Description",
-    "present": "Present"
+    "present": "Present",
+    "session-settings": "Session settings"
   },
   "content": {
     "content": "Content",
