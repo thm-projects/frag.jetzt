@@ -5,8 +5,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
-import { CreateFeedback } from '../../../models/messages/create-feedback';
-import { GetFeedback } from '../../../models/messages/get-feedback';
+import { WsFeedbackService } from '../../../services/websockets/ws-feedback.service';
 
 /* ToDo: Use TranslateService */
 
@@ -29,6 +28,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private notification: NotificationService,
     private rxStompService: RxStompService,
+    private wsFeedbackService: WsFeedbackService,
     private route: ActivatedRoute, ) {
       this.roomId = localStorage.getItem(`roomId`);
     }
@@ -40,12 +40,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
       this.parseIncomingMessage(message);
     });
 
-    const getFeedback = new GetFeedback();
-
-    this.rxStompService.publish({
-      destination: `/backend/queue/${this.roomId}.feedback.query`,
-      body: JSON.stringify(getFeedback)
-    });
+    this.wsFeedbackService.get(this.roomId);
   }
 
   private updateFeedback(data) {
@@ -57,11 +52,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
   }
 
   submitFeedback(state: number) {
-    const createFeedback = new CreateFeedback(state);
-    this.rxStompService.publish({
-      destination: `/backend/queue/${this.roomId}.feedback.command`,
-      body: JSON.stringify(createFeedback)
-    });
+    this.wsFeedbackService.send(state, this.roomId);
   }
 
   toggle() {
