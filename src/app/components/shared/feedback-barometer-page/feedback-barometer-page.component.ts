@@ -36,7 +36,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
 
-    this.rxStompService.watch(`/queue/${this.roomId}.feedback.stream`).subscribe((message: Message) => {
+    this.rxStompService.watch(`/topic/${this.roomId}.feedback.stream`).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
 
