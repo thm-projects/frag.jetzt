@@ -1,10 +1,27 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
- 
-  <div fxLayout="row" fxLayoutAlign="center">
-    <button mat-raised-button color="warn"
-            (click)="onNoClick()">{{ 'comment-page.abort' | translate}}</button>
-    <button mat-raised-button color="accent"
-            (click)="closeDialog(commentBody.value)">{{ 'comment-page.send' | translate}}</button>
-  </div>
-</div>
+<mat-list>
 
+  <mat-list-item>
+    <mat-radio-button>
+    </mat-radio-button>
+  </mat-list-item>
+
+  <mat-list-item>
+    <mat-radio-button>
+
+      <mat-list-item>
+        <mat-radio-button>
+        </mat-radio-button>
+      </mat-list-item>
+
+      <mat-list-item>
+        <mat-radio-button>
+        </mat-radio-button>
+      </mat-list-item>
+
+    </mat-radio-button>
+  </mat-list-item>
+</mat-list>
+<button mat-raised-button color="warn" (click)="dialogRef.close('delete')">Abort
+</button>
+<button mat-raised-button color="primary" (click)="onNoClick()">Export
+</button>
