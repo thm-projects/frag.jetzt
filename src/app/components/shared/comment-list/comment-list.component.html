@@ -7,6 +7,11 @@
   <button mat-button *ngIf="searchBox.value" (click)="hideCommentsList=false; searchBox.value=''">
     <mat-icon>close</mat-icon>
   </button>
+
+  <button mat-button *ngIf="!searchBox.value && userRole == '1'" color="accent" [matTooltip]="'Export comments'" (click)="export(true)">
+    <mat-icon class="add-icon">cloud_download</mat-icon>
+  </button>
+
   <button mat-button *ngIf="!searchBox.value" color="accent" (click)="openSubmitDialog()">
     <mat-icon class="add-icon">add_circle</mat-icon>
   </button>

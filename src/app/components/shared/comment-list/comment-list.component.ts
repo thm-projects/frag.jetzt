@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -9,6 +9,8 @@ import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-commen
 import { MatDialog } from '@angular/material';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -18,17 +20,20 @@ import { User } from '../../../models/user';
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
+  //@Output() exportClick = new EventEmitter<boolean>();
   comments: Comment[];
   isLoading = true;
   hideCommentsList: boolean;
   filteredComments: Comment[];
+  userRole: UserRole;
 
   constructor(private commentService: CommentService,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              protected langService: LanguageService,
-              private rxStompService: RxStompService,
-              private wsCommentService: WsCommentServiceService) {
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    protected langService: LanguageService,
+    private rxStompService: RxStompService,
+    private wsCommentService: WsCommentServiceService,
+    private authenticationService: AuthenticationService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -41,6 +46,8 @@ export class CommentListComponent implements OnInit {
     });
     this.getComments();
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.userRole = this.authenticationService.getRole();
+
   }
 
   getComments(): void {
@@ -80,13 +87,13 @@ export class CommentListComponent implements OnInit {
                 case 'read':
                   this.comments[i].read = <boolean>value;
                   break;
-                case 'correct' :
+                case 'correct':
                   this.comments[i].correct = <boolean>value;
                   break;
-                case 'favorite' :
+                case 'favorite':
                   this.comments[i].favorite = <boolean>value;
                   break;
-                case 'score' :
+                case 'score':
                   this.comments[i].score = <number>value;
                   break;
               }
@@ -114,6 +121,10 @@ export class CommentListComponent implements OnInit {
 
   send(comment: Comment): void {
     this.wsCommentService.add(comment);
+  }
+
+  export(clicked: boolean): void { 
+    this.commentService.setState(clicked);
   }
 }
 
