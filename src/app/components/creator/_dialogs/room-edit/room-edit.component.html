@@ -7,6 +7,8 @@
                       matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="{{ 'session.description' | translate}}" name="description">
             </textarea>
   </mat-form-field>
+  <mat-slider thumbLabel id="commentSlider" tickInterval="0" min="-50" max="50" step="1" value="0"
+              color="accent"></mat-slider>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button (click)="dialogRef.close('abort')" mat-button color="primary">
       {{ 'room-page.abort' | translate}}
