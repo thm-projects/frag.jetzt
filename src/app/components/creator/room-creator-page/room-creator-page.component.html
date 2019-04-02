@@ -3,8 +3,6 @@
     <mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
       <mat-card-header fxLayoutAlign="center" fxLayout="row">
-        <span class="fill-remaining-space"></span>
-        <div fxLayout="column" id="sessionHeader">
         <mat-card-title fxLayoutAlign="center">
           <h2>{{ room.name }}</h2>
         </mat-card-title>
@@ -13,11 +11,6 @@
             {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
           </h3>
         </mat-card-subtitle>
-        </div>
-        <span class="fill-remaining-space"></span>
-        <button mat-icon-button id= "sessionSettingsButton" color="primary" matTooltip="{{ 'room-page.session-settings' | translate}}">
-          <mat-icon>settings</mat-icon>
-        </button>
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
@@ -45,8 +38,8 @@
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button *ngIf="!modify" (click)="showEditDialog()" color="accent"
-                  matTooltip="{{ 'room-page.edit-room' | translate}}">
-            <mat-icon>create</mat-icon>
+                  matTooltip="{{ 'room-page.session-settings' | translate}}">
+            <mat-icon>settings</mat-icon>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
