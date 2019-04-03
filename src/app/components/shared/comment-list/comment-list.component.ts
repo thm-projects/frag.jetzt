@@ -22,8 +22,11 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
   hideCommentsList: boolean;
+  isIconHide: boolean;
   filteredComments: Comment[];
   userRole: UserRole;
+  isSortDesc: boolean;
+  isSortByTime: boolean;
 
   constructor(private commentService: CommentService,
     private translateService: TranslateService,
@@ -122,5 +125,41 @@ export class CommentListComponent implements OnInit {
 
   export(clicked: boolean): void {
     this.commentService.exportButtonClicked(clicked);
+  }
+
+  filterFavorite(): void {
+    this.filteredComments = this.comments.filter(c => c.favorite);
+  }
+
+  filterMarkAsRead(): void {
+    this.filteredComments = this.comments.filter(c => c.read);
+  }
+
+  filterMarkAsCorrect(): void {
+    this.filteredComments = this.comments.filter(c => c.correct);
+  }
+
+  sort(): void {
+    this.comments.sort((a, b) => {
+     if (a.score > b.score) {
+        return a.score - b.score;
+      }
+    });
+  }
+
+  sortDesc(): void {
+    this.comments.sort((a, b) => {
+      if (a.score < b.score) {
+        return b.score - a.score;
+      }
+    });
+  }
+
+  sortTimeStamp(): void {
+    this.comments.sort((a, b) => {
+      if (a.timestamp > b.timestamp) {
+        return 1;
+      }
+    });
   }
 }

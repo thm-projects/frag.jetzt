@@ -46,3 +46,17 @@ input {
 #export-icon {
   color: rgba(30,136,229,0.7)
 }
+
+.add-filterIcon {
+  font-size: 45px;
+  height: 50px;
+  width: 50px;
+  line-height: 100%!important;
+  padding-right: 15px;
+  padding-top: 8px;
+}
+
+.mat-form-field {
+  float: left;
+  padding-left: 10px;
+}
