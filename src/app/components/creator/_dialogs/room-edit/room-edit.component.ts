@@ -20,5 +20,10 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit() {
+
+  }
+
+  onSliderChange(event: any) {
+    this.editRoom.commentThreshold = event.value;
   }
 }

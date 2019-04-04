@@ -8,5 +8,6 @@ export class Room {
   name: string;
   description: string;
   closed: boolean;
+  commentThreshold: number;
   contentGroups: ContentGroup[];
 }

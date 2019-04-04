@@ -1,14 +1,29 @@
 <div *ngIf="editRoom">
-  <mat-form-field class="input-block">
-    <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" name="room-name"/>
-  </mat-form-field>
-  <mat-form-field class="input-block">
-            <textarea [(ngModel)]="editRoom.description" matInput matTextareaAutosize
-                      matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="{{ 'session.description' | translate}}" name="description">
-            </textarea>
-  </mat-form-field>
-  <mat-slider thumbLabel id="commentSlider" tickInterval="0" min="-50" max="50" step="1" value="0"
-              color="accent"></mat-slider>
+  <mat-card class="header" fxLayoutAlign="center">
+    <mat-card-title class="title" fxLayoutAlign="center">General</mat-card-title>
+  </mat-card>
+  <div fxLayout="column">
+    <mat-form-field class="input-block">
+      <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" name="room-name"/>
+    </mat-form-field>
+    <mat-form-field class="input-block">
+              <textarea [(ngModel)]="editRoom.description" matInput matTextareaAutosize
+                        matAutosizeMinRows="2" matAutosizeMaxRows="5" placeholder="{{ 'session.description' | translate}}" name="description">
+              </textarea>
+    </mat-form-field>
+  </div>
+  <mat-card class="header" fxLayoutAlign="center">
+    <mat-card-title class="title" fxLayoutAlign="center">Comments</mat-card-title>
+  </mat-card>
+  <div  fxLayout="column">
+    <div fxLayout="row">
+      <mat-label>Threshold for visible comments:</mat-label>
+      <span class="fill-remaining-space"></span>
+      <mat-label>{{editRoom.commentThreshold | number}}</mat-label>
+    </div>
+      <mat-slider id="commentSlider" min="-50" max="50" step="1" value="0"
+                  color="accent" [(ngModel)]="editRoom.commentThreshold" (input)="onSliderChange($event)"></mat-slider>
+  </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button (click)="dialogRef.close('abort')" mat-button color="primary">
       {{ 'room-page.abort' | translate}}

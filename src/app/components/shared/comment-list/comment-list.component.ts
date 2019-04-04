@@ -10,6 +10,8 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { AuthenticationService } from '../../../services/http/authentication.service';
+import { Room } from '../../../models/room';
+import { RoomService } from '../../../services/http/room.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -19,6 +21,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
+  room: Room;
   comments: Comment[];
   isLoading = true;
   hideCommentsList: boolean;
@@ -31,12 +34,16 @@ export class CommentListComponent implements OnInit {
     public dialog: MatDialog,
     protected langService: LanguageService,
     private wsCommentService: WsCommentServiceService,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private wsCommentService: WsCommentServiceService,
+    protected roomService: RoomService
+  ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
+    this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
     this.comments = [];
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
@@ -65,6 +72,22 @@ export class CommentListComponent implements OnInit {
     }
   }
 
+  getCommentsCreator(): Comment[] {
+    if (this.hideCommentsList) {
+      return this.filteredComments.filter( x => x.score >= this.room.commentThreshold );
+    } else {
+      return  this.comments.filter( x => x.score >= this.room.commentThreshold );
+    }
+  }
+
+  getCommentsParticipant(): Comment[] {
+    if ( this.hideCommentsList) {
+      return this.filteredComments;
+    } else {
+      return this.comments;
+    }
+  }
+
   parseIncomingMessage(message: Message) {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
@@ -74,7 +97,7 @@ export class CommentListComponent implements OnInit {
         c.roomId = this.roomId;
         c.body = payload.body;
         c.id = payload.id;
-        c.timestamp = new Date();
+        c.creationTimestamp = payload.timestamp;
         this.comments = this.comments.concat(c);
         break;
       case 'CommentPatched':

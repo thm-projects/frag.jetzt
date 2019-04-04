@@ -52,6 +52,7 @@ export class RoomCreateComponent implements OnInit {
       description: description
     } as Room).subscribe(room => {
       this.room = room;
+      room.commentThreshold = -100;
       let msg1: string;
       let msg2: string;
       this.translateService.get('home-page.created-1').subscribe(msg => { msg1 = msg; });

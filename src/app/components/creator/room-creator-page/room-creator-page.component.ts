@@ -44,13 +44,15 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   updateRoom(): void {
     if ((this.updRoom.name === this.room.name) &&
-      (this.updRoom.description === this.room.description)
+      (this.updRoom.description === this.room.description) &&
+      (this.updRoom.commentThreshold === this.room.commentThreshold)
     ) {
       this.notification.show('There were no changes');
       return;
     } else {
       this.room.name = this.updRoom.name;
       this.room.description = this.updRoom.description;
+      this.room.commentThreshold = this.updRoom.commentThreshold;
       this.roomService.updateRoom(this.room)
         .subscribe(() => {
           this.notification.show('Changes are made');
@@ -86,6 +88,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.updRoom.name = this.room.name;
     this.updRoom.shortId = this.room.shortId;
     this.updRoom.description = this.room.description;
+    this.updRoom.commentThreshold = this.room.commentThreshold;
     const dialogRef = this.dialog.open(RoomEditComponent, {
       width: '400px'
     });

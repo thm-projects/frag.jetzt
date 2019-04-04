@@ -1,3 +1,15 @@
+@import '../../../../../styles';
+
+.header {
+  color: black;
+  background-color: mat-color($arsnova-primary,500);
+  margin: 0 0 10px 0;
+}
+
+.title {
+  // color: ;
+}
+
 #commentSlider {
   width: 100%;
 }
