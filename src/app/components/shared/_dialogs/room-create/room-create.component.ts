@@ -40,7 +40,7 @@ export class RoomCreateComponent implements OnInit {
     this.emptyInputs = false;
   }
 
-  addRoom(longRoomName: string, description: string) {
+  addRoom(longRoomName: string, description: string, commentThreshold: number) {
     longRoomName = longRoomName.trim();
     if (!longRoomName) {
       this.emptyInputs = true;
@@ -49,10 +49,10 @@ export class RoomCreateComponent implements OnInit {
     this.roomService.addRoom({
       name: longRoomName,
       abbreviation: '00000000',
-      description: description
+      description: description,
+      commentThreshold: commentThreshold
     } as Room).subscribe(room => {
       this.room = room;
-      room.commentThreshold = -100;
       let msg1: string;
       let msg2: string;
       this.translateService.get('home-page.created-1').subscribe(msg => { msg1 = msg; });

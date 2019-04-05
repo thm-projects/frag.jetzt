@@ -51,7 +51,8 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
     return this.http.post<Room>(connectionUrl, {
       ownerId: this.authService.getUser().id,
-      abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description
+      abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description,
+      commentThreshold: room.commentThreshold
     }, httpOptions);
   }
 
