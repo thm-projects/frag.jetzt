@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,7 +20,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
-  //@Output() exportClick = new EventEmitter<boolean>();
+  
   comments: Comment[];
   isLoading = true;
   hideCommentsList: boolean;
@@ -123,8 +123,7 @@ export class CommentListComponent implements OnInit {
     this.wsCommentService.add(comment);
   }
 
-  export(clicked: boolean): void { 
+  export(clicked: boolean): void {
     this.commentService.setState(clicked);
   }
 }
-
