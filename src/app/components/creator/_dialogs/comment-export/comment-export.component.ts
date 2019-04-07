@@ -29,18 +29,18 @@ export class CommentExportComponent implements OnInit {
   getComments(): void {
     this.commentService.getComments(this.roomId)
       .subscribe(comments => {
-        this.comments = comments
+        this.comments = comments;
       });
   }
 
   onChange(change: MatRadioChange): string {
-    var csv = document.getElementById("csvBlock");
-    if (change.value == 'json') {
-      csv.style.visibility = "hidden";
+    const csv = document.getElementById('csvBlock');
+    if (change.value === 'json') {
+      csv.style.visibility = 'hidden';
       this.csvSelected = false;
     }
-    if (change.value == 'csv') {
-      csv.style.visibility = "visible";
+    if (change.value === 'csv') {
+      csv.style.visibility = 'visible';
       this.csvSelected = true;
     }
     return this.currentButton = change.value;
@@ -51,42 +51,42 @@ export class CommentExportComponent implements OnInit {
   }
 
   exportJson() {
-    var myBlob = new Blob([JSON.stringify(this.comments, null, 2)], { type: 'application/json' });
-    var link = document.createElement('a');
+    const myBlob = new Blob([JSON.stringify(this.comments, null, 2)], { type: 'application/json' });
+    const link = document.createElement('a');
     link.setAttribute('download', 'comments.json');
-    link.href = window.URL.createObjectURL(myBlob);;
+    link.href = window.URL.createObjectURL(myBlob);
     link.click();
   }
 
   exportCsv(delimiter: string) {
-    if (this.comments.length == 0) {
+    if (this.comments.length === 0) {
       return;
     }
     let csv: string;
-    let keyFields = Object.keys(this.comments[0]).map(i => `"${i}"`).join(delimiter) + '\n';
+    const keyFields = Object.keys(this.comments[0]).map(i => `"${i}"`).join(delimiter) + '\n';
     let valueFields = '';
     this.comments.forEach(element => {
       valueFields += Object.values(element).map(i => `"${i}"`).join(delimiter) + '\n';
     });
     csv = keyFields + valueFields;
-    var myBlob = new Blob([csv], { type: 'text/csv' });
-    var link = document.createElement('a');
+    const myBlob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
     link.setAttribute('download', 'comments.csv');
-    link.href = window.URL.createObjectURL(myBlob);;
+    link.href = window.URL.createObjectURL(myBlob);
     link.click();
   }
 
   onExport() {
-    if (this.currentButton == 'json') {
+    if (this.currentButton === 'json') {
       this.exportJson();
       this.onNoClick();
     }
     if (this.csvSelected) {
-      if (this.currentButton == 'comma') {
+      if (this.currentButton === 'comma') {
         this.exportCsv(',');
         this.onNoClick();
       }
-      if (this.currentButton == 'semicolon') {
+      if (this.currentButton === 'semicolon') {
         this.exportCsv(';');
         this.onNoClick();
       }

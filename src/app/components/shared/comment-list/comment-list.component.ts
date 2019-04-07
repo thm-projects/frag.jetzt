@@ -20,7 +20,6 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
-  
   comments: Comment[];
   isLoading = true;
   hideCommentsList: boolean;
