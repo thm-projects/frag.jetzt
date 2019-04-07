@@ -89,8 +89,7 @@ export class CommentExportComponent implements OnInit {
       if (this.currentButton === 'semicolon') {
         this.exportCsv(';');
         this.onNoClick();
-      }
-      else {
+      } else {
         this.exportCsv(',');
         this.onNoClick();
       }
