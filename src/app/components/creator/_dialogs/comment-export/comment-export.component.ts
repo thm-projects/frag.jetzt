@@ -51,7 +51,13 @@ export class CommentExportComponent implements OnInit {
   }
 
   exportJson() {
-    const myBlob = new Blob([JSON.stringify(this.comments, null, 2)], { type: 'application/json' });
+    let jsonComments = JSON.parse(JSON.stringify(this.comments));
+    jsonComments.forEach(element => {
+      delete element.id;
+      delete element.roomId;
+      delete element.creatorId;
+    });
+    const myBlob = new Blob([JSON.stringify(jsonComments, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
     link.setAttribute('download', 'comments.json');
     link.href = window.URL.createObjectURL(myBlob);
@@ -60,11 +66,12 @@ export class CommentExportComponent implements OnInit {
 
   exportCsv(delimiter: string) {
     let csv: string;
-    const keyFields = Object.keys(this.comments[0]).map(i => `"${i}"`).join(delimiter) + '\r\n';
+    let keyFields = '';
     let valueFields = '';
+    keyFields = Object.keys(this.comments[0]).slice(3).join(delimiter) + '\r\n';
     this.comments.forEach(element => {
-      element.body = element.body.replace(/[\r\n]/g, ' ').replace(/"/g, '""');
-      valueFields += Object.values(element).map(i => `"${i}"`).join(delimiter) + '\r\n';
+      element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/"/g, '""') + '"';
+      valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
     });
     csv = keyFields + valueFields;
     const myBlob = new Blob([csv], { type: 'text/csv' });
