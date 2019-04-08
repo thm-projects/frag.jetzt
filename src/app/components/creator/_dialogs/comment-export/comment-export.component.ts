@@ -51,7 +51,7 @@ export class CommentExportComponent implements OnInit {
   }
 
   exportJson() {
-    let jsonComments = JSON.parse(JSON.stringify(this.comments));
+    const jsonComments = JSON.parse(JSON.stringify(this.comments));
     jsonComments.forEach(element => {
       delete element.id;
       delete element.roomId;
