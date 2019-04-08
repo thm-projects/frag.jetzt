@@ -19,7 +19,7 @@
     <div fxLayout="row">
       <mat-label>Threshold for visible comments:</mat-label>
       <span class="fill-remaining-space"></span>
-      <mat-label>{{editRoom.commentThreshold | number}}</mat-label>
+      <mat-label>{{commentThreshold | number}}</mat-label>
     </div>
       <mat-slider id="commentSlider" min="-50" max="50" step="1" value="0"
                   color="accent" [(ngModel)]="editRoom.commentThreshold" (input)="onSliderChange($event)"></mat-slider>

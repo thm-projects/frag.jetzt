@@ -48,12 +48,11 @@ export class RoomService extends BaseHttpService {
   }
 
   addRoom(room: Room): Observable<Room> {
+    delete room.id;
+    delete room.revision;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
-    return this.http.post<Room>(connectionUrl, {
-      ownerId: this.authService.getUser().id,
-      abbreviation: room.abbreviation, name: room.name, closed: room.closed, description: room.description,
-      commentThreshold: room.commentThreshold
-    }, httpOptions);
+    room.ownerId = this.authService.getUser().id;
+    return this.http.post<Room>(connectionUrl, room, httpOptions);
   }
 
   getRoom(id: string): Observable<Room> {

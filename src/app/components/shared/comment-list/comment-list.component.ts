@@ -73,10 +73,18 @@ export class CommentListComponent implements OnInit {
   }
 
   getCommentsCreator(): Comment[] {
+    // ToDo: get a default comment threshold from config settings file
+    let commentThreshold = -10;
+    if (
+      (this.room.extensions.get('comments') != null) &&
+      (this.room.extensions.get('comments').get('commentThreshold'))
+    ) {
+      commentThreshold = this.room.extensions.get('comments').get('commentThreshold');
+    }
     if (this.hideCommentsList) {
-      return this.filteredComments.filter( x => x.score >= this.room.commentThreshold );
+      return this.filteredComments.filter( x => x.score >= commentThreshold );
     } else {
-      return  this.comments.filter( x => x.score >= this.room.commentThreshold );
+      return  this.comments.filter( x => x.score >= commentThreshold );
     }
   }
 

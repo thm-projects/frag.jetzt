@@ -10,6 +10,7 @@ import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.compone
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -20,6 +21,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   room: Room;
   updRoom: Room;
   themeClass = localStorage.getItem('classNameOfTheme');
+  commentThreshold: number;
+  updCommentThreshold: number;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -45,14 +48,19 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   updateRoom(): void {
     if ((this.updRoom.name === this.room.name) &&
       (this.updRoom.description === this.room.description) &&
-      (this.updRoom.commentThreshold === this.room.commentThreshold)
+      (this.commentThreshold === this.updCommentThreshold)
     ) {
       this.notification.show('There were no changes');
       return;
     } else {
       this.room.name = this.updRoom.name;
       this.room.description = this.updRoom.description;
-      this.room.commentThreshold = this.updRoom.commentThreshold;
+      if (this.room.extensions === null) {
+        this.room.extensions = new TSMap();
+      }
+      const commentExtension: TSMap<string, any> = new TSMap();
+      commentExtension.set('threshold', this.updCommentThreshold);
+      this.room.extensions.set('comments', commentExtension);
       this.roomService.updateRoom(this.room)
         .subscribe(() => {
           this.notification.show('Changes are made');
@@ -84,15 +92,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   showEditDialog(): void {
-    this.updRoom = new Room();
-    this.updRoom.name = this.room.name;
-    this.updRoom.shortId = this.room.shortId;
-    this.updRoom.description = this.room.description;
-    this.updRoom.commentThreshold = this.room.commentThreshold;
+    this.updRoom = this.room;
     const dialogRef = this.dialog.open(RoomEditComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.editRoom = this.updRoom;
+    dialogRef.componentInstance.commentThreshold = this.updCommentThreshold;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'abort') {
