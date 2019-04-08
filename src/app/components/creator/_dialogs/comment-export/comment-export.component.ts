@@ -21,7 +21,7 @@ export class CommentExportComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.currentButton = '1';
+    this.currentButton = 'json';
     this.roomId = localStorage.getItem(`roomId`);
     this.getComments();
   }
@@ -59,14 +59,12 @@ export class CommentExportComponent implements OnInit {
   }
 
   exportCsv(delimiter: string) {
-    if (this.comments.length === 0) {
-      return;
-    }
     let csv: string;
-    const keyFields = Object.keys(this.comments[0]).map(i => `"${i}"`).join(delimiter) + '\n';
+    const keyFields = Object.keys(this.comments[0]).map(i => `"${i}"`).join(delimiter) + '\r\n';
     let valueFields = '';
     this.comments.forEach(element => {
-      valueFields += Object.values(element).map(i => `"${i}"`).join(delimiter) + '\n';
+      element.body = element.body.replace(/[\r\n]/g, ' ').replace(/"/g, '""');
+      valueFields += Object.values(element).map(i => `"${i}"`).join(delimiter) + '\r\n';
     });
     csv = keyFields + valueFields;
     const myBlob = new Blob([csv], { type: 'text/csv' });

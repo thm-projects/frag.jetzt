@@ -23,13 +23,11 @@ export class CommentCreatorPageComponent implements OnInit {
   }
 
   onClick(): void {
-    this.openSubmitDialog();
     this.commentService.setState(false);
-  }
-
-  openSubmitDialog(): void {
-    const dialogRef = this.dialog.open(CommentExportComponent, {
-      width: '400px', height: '300px'
-    });
+    if (this.dialog.openDialogs.length === 0) {
+      const dialogRef = this.dialog.open(CommentExportComponent, {
+        width: '400px', height: '300px'
+      });
+    }
   }
 }

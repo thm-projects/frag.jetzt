@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
@@ -34,7 +34,8 @@ export class CommentService extends BaseHttpService {
   addComment(comment: Comment): Observable<Comment> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
     return this.http.post<Comment>(connectionUrl,
-      { roomId: comment.roomId, body: comment.body,
+      {
+        roomId: comment.roomId, body: comment.body,
         read: comment.read, creationTimestamp: comment.creationTimestamp
       }, httpOptions).pipe(
         tap(_ => ''),

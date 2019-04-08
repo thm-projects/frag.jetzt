@@ -3,15 +3,14 @@
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list-page.search-box-placeholder-text' | translate }}"
-         (input)="searchComments(searchBox.value)">
+    (input)="searchComments(searchBox.value)">
   <button mat-button *ngIf="searchBox.value" (click)="hideCommentsList=false; searchBox.value=''">
     <mat-icon>close</mat-icon>
   </button>
-
-  <button mat-button *ngIf="!searchBox.value && userRole == '1'" color="accent" [matTooltip]="'Export comments'" (click)="export(true)">
+  <button mat-button *ngIf="!searchBox.value && userRole == '1'" [disabled]="!comments.length > 0" color="accent"
+    [matTooltip]="'Export comments'" (click)="export(true)">
     <mat-icon class="add-icon">cloud_download</mat-icon>
   </button>
-
   <button mat-button *ngIf="!searchBox.value" color="accent" (click)="openSubmitDialog()">
     <mat-icon class="add-icon">add_circle</mat-icon>
   </button>
