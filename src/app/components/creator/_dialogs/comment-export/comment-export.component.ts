@@ -56,6 +56,7 @@ export class CommentExportComponent implements OnInit {
       delete element.id;
       delete element.roomId;
       delete element.creatorId;
+      element.body = element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ');
     });
     const myBlob = new Blob([JSON.stringify(jsonComments, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
@@ -70,7 +71,7 @@ export class CommentExportComponent implements OnInit {
     let valueFields = '';
     keyFields = Object.keys(this.comments[0]).slice(3).join(delimiter) + '\r\n';
     this.comments.forEach(element => {
-      element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/"/g, '""') + '"';
+      element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
       valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
     });
     csv = keyFields + valueFields;
