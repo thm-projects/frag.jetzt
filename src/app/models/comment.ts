@@ -7,7 +7,7 @@ export class Comment {
   read: boolean;
   correct: boolean;
   favorite: boolean;
-  creationTimestamp: Date;
+  timestamp: Date;
   score: number;
   createdFromLecturer: boolean;
 
@@ -28,7 +28,7 @@ export class Comment {
     this.read = read;
     this.correct = correct;
     this.favorite = favorite;
-    this.creationTimestamp = creationTimestamp;
+    this.timestamp = creationTimestamp;
     this.score = score;
     this.createdFromLecturer = createdFromLecturer;
   }

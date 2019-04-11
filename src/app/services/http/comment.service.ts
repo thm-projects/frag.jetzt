@@ -33,7 +33,7 @@ export class CommentService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
     return this.http.post<Comment>(connectionUrl,
       { roomId: comment.roomId, body: comment.body,
-        read: comment.read, creationTimestamp: comment.creationTimestamp
+        read: comment.read, creationTimestamp: comment.timestamp
       }, httpOptions).pipe(
         tap(_ => ''),
         catchError(this.handleError<Comment>('addComment'))
