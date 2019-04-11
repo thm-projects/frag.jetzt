@@ -17,15 +17,15 @@ export class CommentCreatorPageComponent implements OnInit {
   ngOnInit() {
     this.commentService.exportButton.subscribe(s => {
       if (s === true) {
-        this.onClick();
+        this.showExportDialog();
       }
     });
   }
 
-  onClick(): void {
+  showExportDialog(): void {
     this.commentService.setState(false);
     if (this.dialog.openDialogs.length === 0) {
-      const dialogRef = this.dialog.open(CommentExportComponent, {
+      this.dialog.open(CommentExportComponent, {
         width: '400px', height: '300px'
       });
     }

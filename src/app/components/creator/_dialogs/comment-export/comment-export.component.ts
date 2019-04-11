@@ -50,7 +50,7 @@ export class CommentExportComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  exportJson() {
+  exportJson(date: string) {
     const jsonComments = JSON.parse(JSON.stringify(this.comments));
     jsonComments.forEach(element => {
       delete element.id;
@@ -60,12 +60,13 @@ export class CommentExportComponent implements OnInit {
     });
     const myBlob = new Blob([JSON.stringify(jsonComments, null, 2)], { type: 'application/json' });
     const link = document.createElement('a');
-    link.setAttribute('download', 'comments.json');
+    const fileName = 'comments_' + date + '.json';
+    link.setAttribute('download', fileName);
     link.href = window.URL.createObjectURL(myBlob);
     link.click();
   }
 
-  exportCsv(delimiter: string) {
+  exportCsv(delimiter: string, date: string) {
     let csv: string;
     let keyFields = '';
     let valueFields = '';
@@ -77,26 +78,29 @@ export class CommentExportComponent implements OnInit {
     csv = keyFields + valueFields;
     const myBlob = new Blob([csv], { type: 'text/csv' });
     const link = document.createElement('a');
-    link.setAttribute('download', 'comments.csv');
+    const fileName = 'comments_' + date + '.csv';
+    link.setAttribute('download', fileName);
     link.href = window.URL.createObjectURL(myBlob);
     link.click();
   }
 
   onExport() {
+    const date = new Date();
+    const timestamp = date.getFullYear() + '_' + ('0' + (date.getMonth() + 1)).slice(-2) + '_' + ('0' + date.getDate()).slice(-2) + '_' + ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
     if (this.currentButton === 'json') {
-      this.exportJson();
+      this.exportJson(timestamp);
       this.onNoClick();
     }
     if (this.csvSelected) {
       if (this.currentButton === 'comma') {
-        this.exportCsv(',');
+        this.exportCsv(',', timestamp);
         this.onNoClick();
       }
       if (this.currentButton === 'semicolon') {
-        this.exportCsv(';');
+        this.exportCsv(';', timestamp);
         this.onNoClick();
       } else {
-        this.exportCsv(',');
+        this.exportCsv(',', timestamp);
         this.onNoClick();
       }
     }
