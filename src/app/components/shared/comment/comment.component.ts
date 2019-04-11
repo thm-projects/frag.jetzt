@@ -10,12 +10,20 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material';
+import { trigger, transition, style, animate, state } from '@angular/animations';
 
 @Component({
   selector: 'app-comment',
   templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.scss']
+  styleUrls: ['./comment.component.scss'],
+  animations: [
+    trigger('slide', [
+      state('void', style({opacity: 0, transform: 'translateY(-10px)'})),
+      transition('void <=> *', animate(700)),
+    ]),
+  ]
 })
+
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   isStudent = false;
