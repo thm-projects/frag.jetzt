@@ -75,6 +75,8 @@ h2 {
   max-height: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-left: 2%;
+  padding-right: 2%;
 }
 
 .mat-icon {
@@ -83,4 +85,6 @@ h2 {
 
 #date {
   margin-top: 1.2%;
+  padding-left: 2%;
+  opacity: 0.4;
 }
