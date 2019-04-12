@@ -25,13 +25,14 @@
         </button>
       </div>
     </div>
-    <div id="footer">
-      <div *ngIf="lang === 'de'; else englishDate">
-        {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
-      </div>
-      <ng-template #englishDate>
-          {{comment.timestamp | date: 'h:mm:ss a, M/d/yy'}}
-      </ng-template>
+  </div>
+  <div id="footer">
+    <div *ngIf="lang === 'de'; else englishDate">
+      {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
     </div>
+    <ng-template #englishDate>
+      {{comment.timestamp | date: 'h:mm:ss a, M/d/yy'}}
+    </ng-template>
   </div>
 </mat-card>
+

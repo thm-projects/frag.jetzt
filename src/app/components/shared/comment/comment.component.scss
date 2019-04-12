@@ -71,7 +71,7 @@ h2 {
   min-width: 200px;
   min-height: 100px;
   text-align: start;
-  font-size: x-large;
+  font-size: 150%;
   max-height: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -80,5 +80,11 @@ h2 {
 .date {
   position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
+}
+
+#footer {
+  margin-left: 0;
+  margin-top: 1.2%;
+
 }
