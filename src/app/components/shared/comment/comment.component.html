@@ -9,7 +9,7 @@
         <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-favorite-icon'}[comment.favorite]">favorite_border</mat-icon>
       </button>
       <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)" [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
-        <mat-icon [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
+        <mat-icon class="icon" [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
       </button>
     </div>
     <div fxLayout="row">
