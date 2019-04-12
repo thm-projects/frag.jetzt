@@ -26,7 +26,7 @@
       </div>
     </div>
   </div>
-  <div id="footer">
+  <div id="date">
     <div *ngIf="lang === 'de'; else englishDate">
       {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
     </div>
