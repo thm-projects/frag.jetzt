@@ -13,7 +13,7 @@
       </button>
     </div>
     <div fxLayout="row">
-      <div class="body" (click)="openPresentDialog(comment.body)"><h2>{{comment.body}}</h2></div>
+      <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
       <span class="fill-remaining-space"></span>
       <div fxLayout="column">
         <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
