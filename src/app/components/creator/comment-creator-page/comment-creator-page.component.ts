@@ -26,7 +26,7 @@ export class CommentCreatorPageComponent implements OnInit {
     this.commentService.exportButtonClicked(false);
     if (this.dialog.openDialogs.length === 0) {
       this.dialog.open(CommentExportComponent, {
-        width: '400px', height: '300px'
+        width: '400px', height: '300px', restoreFocus: false
       });
     }
   }

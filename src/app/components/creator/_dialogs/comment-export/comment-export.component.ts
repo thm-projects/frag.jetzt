@@ -17,8 +17,7 @@ export class CommentExportComponent implements OnInit {
   roomId: string;
 
   constructor(public dialogRef: MatDialogRef<CommentCreatorPageComponent>,
-    private commentService: CommentService,
-  ) { }
+    private commentService: CommentService) { }
 
   ngOnInit() {
     this.currentButton = 'json';
