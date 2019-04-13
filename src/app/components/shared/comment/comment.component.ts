@@ -10,7 +10,17 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material';
-import { trigger, transition, style, animate, state } from '@angular/animations';
+import { trigger, transition, style, animate, state, keyframes } from '@angular/animations';
+
+export const rubberBand = [
+  style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
+  style({ transform: 'scale3d(1.25, 0.75, 1)', offset: .3 }),
+  style({ transform: 'scale3d(0.75, 1.25, 1)', offset: .4 }),
+  style({ transform: 'scale3d(1.15, 0.85, 1)', offset: .5 }),
+  style({ transform: 'scale3d(0.95, 1.05, 1)', offset: .65 }),
+  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: .75 }),
+  style({ transform: 'scale3d(1, 1, 1)', offset: 1 })
+]
 
 @Component({
   selector: 'app-comment',
@@ -18,9 +28,12 @@ import { trigger, transition, style, animate, state } from '@angular/animations'
   styleUrls: ['./comment.component.scss'],
   animations: [
     trigger('slide', [
-      state('void', style({opacity: 0, transform: 'translateY(-10px)'})),
+      state('void', style({ opacity: 0, transform: 'translateY(-10px)' })),
       transition('void <=> *', animate(700)),
     ]),
+    trigger('rubberBand', [
+      transition('* => rubberBand', animate(900, keyframes(rubberBand))),
+    ])
   ]
 })
 
@@ -29,17 +42,30 @@ export class CommentComponent implements OnInit {
   isStudent = false;
   isLoading = true;
   hasVoted = 0;
+  animationState: string;
 
   constructor(protected authenticationService: AuthenticationService,
-              private route: ActivatedRoute,
-              private location: Location,
-              private commentService: CommentService,
-              private notification: NotificationService,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              protected langService: LanguageService,
-              private wsCommentService: WsCommentServiceService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang)); }
+    private route: ActivatedRoute,
+    private location: Location,
+    private commentService: CommentService,
+    private notification: NotificationService,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    protected langService: LanguageService,
+    private wsCommentService: WsCommentServiceService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
+  }
+
+  startAnimation(state) {
+    console.log(state)
+    if (!this.animationState) {
+      this.animationState = state;
+    }
+  }
+
+  resetAnimationState() {
+    this.animationState = '';
+  }
 
   ngOnInit() {
     if (this.authenticationService.getRole() === 0) {
