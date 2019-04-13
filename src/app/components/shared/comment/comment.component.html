@@ -2,6 +2,14 @@
   <div fxLayout="column">
     <div fxLayout="row">
       <span class="fill-remaining-space"></span>
+      <div id="date">
+        <div *ngIf="lang === 'de'; else englishDate">
+          {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
+        </div>
+        <ng-template #englishDate>
+          {{comment.timestamp | date: 'h:mm:ss a, M/d/yy'}}
+        </ng-template>
+      </div>
       <button mat-icon-button *ngIf="comment.correct || !isStudent" [disabled]="isStudent" (click)="setCorrect(comment)" [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">
         <mat-icon [ngClass]="{true : 'correct-icon', false: 'incorrect-icon'}[comment.correct]">check_circle</mat-icon>
       </button>
@@ -25,14 +33,6 @@
         </button>
       </div>
     </div>
-  </div>
-  <div id="date">
-    <div *ngIf="lang === 'de'; else englishDate">
-      {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
-    </div>
-    <ng-template #englishDate>
-      {{comment.timestamp | date: 'h:mm:ss a, M/d/yy'}}
-    </ng-template>
   </div>
 </mat-card>
 
