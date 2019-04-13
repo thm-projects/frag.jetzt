@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
+import { ThemeService } from '../../../../theme/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ import { LoginComponent } from '../login/login.component';
 })
 export class HeaderComponent implements OnInit {
   user: User;
+  themeClass = localStorage.getItem('classNameOfTheme');
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -24,7 +26,9 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService,
               private langService: LanguageService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private themeService: ThemeService
+  ) {
   }
 
   ngOnInit() {
@@ -59,6 +63,16 @@ export class HeaderComponent implements OnInit {
     this.translationService.use(language);
     localStorage.setItem('currentLang', language);
     this.langService.langEmitter.emit(language);
+  }
+
+  changeTheme(theme) {
+    this.themeClass = theme;
+    localStorage.setItem('classNameOfTheme', theme);
+    if (theme === '') {
+      this.themeService.setActiveThem('arsnovaTheme');
+    } else {
+      this.themeService.setActiveThem(theme);
+    }
   }
 
   login(isDozent: boolean) {
