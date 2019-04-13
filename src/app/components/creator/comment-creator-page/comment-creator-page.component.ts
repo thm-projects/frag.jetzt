@@ -23,7 +23,7 @@ export class CommentCreatorPageComponent implements OnInit {
   }
 
   showExportDialog(): void {
-    this.commentService.setState(false);
+    this.commentService.exportButtonClicked(false);
     if (this.dialog.openDialogs.length === 0) {
       this.dialog.open(CommentExportComponent, {
         width: '400px', height: '300px'

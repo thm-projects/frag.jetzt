@@ -123,6 +123,6 @@ export class CommentListComponent implements OnInit {
   }
 
   export(clicked: boolean): void {
-    this.commentService.setState(clicked);
+    this.commentService.exportButtonClicked(clicked);
   }
 }
