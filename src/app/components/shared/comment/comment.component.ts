@@ -14,11 +14,11 @@ import { trigger, transition, style, animate, state, keyframes } from '@angular/
 
 export const rubberBand = [
   style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
-  style({ transform: 'scale3d(1.05, 0.75, 1)', offset: .3 }),
-  style({ transform: 'scale3d(0.75, 1.05, 1)', offset: .4 }),
-  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: .5 }),
-  style({ transform: 'scale3d(0.95, 1.05, 1)', offset: .65 }),
-  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: .75 }),
+  style({ transform: 'scale3d(1.05, 0.75, 1)', offset: 0.3 }),
+  style({ transform: 'scale3d(0.75, 1.05, 1)', offset: 0.4 }),
+  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: 0.5 }),
+  style({ transform: 'scale3d(0.95, 1.05, 1)', offset: 0.65 }),
+  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: 0.75 }),
   style({ transform: 'scale3d(1, 1, 1)', offset: 1 })
 ];
 
@@ -56,21 +56,21 @@ export class CommentComponent implements OnInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  startAnimation(state_: any) {
-    if (!this.animationState) {
-      this.animationState = state_;
-    }
-  }
-
-  resetAnimationState() {
-    this.animationState = '';
-  }
-
   ngOnInit() {
     if (this.authenticationService.getRole() === 0) {
       this.isStudent = true;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
+  }
+
+  startAnimation(state_: any): void {
+    if (!this.animationState) {
+      this.animationState = state_;
+    }
+  }
+
+  resetAnimationState(): void {
+    this.animationState = '';
   }
 
   setRead(comment: Comment): void {
