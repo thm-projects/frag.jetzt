@@ -3,7 +3,7 @@
     <div fxLayout="row">
       <span class="fill-remaining-space"></span>
       <div id="date">
-        <div *ngIf="lang === 'de'; else englishDate">
+        <div *ngIf="language === 'de'; else englishDate">
           {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
         </div>
         <ng-template #englishDate>

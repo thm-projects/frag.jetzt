@@ -21,7 +21,7 @@ export class CommentComponent implements OnInit {
   isStudent = false;
   isLoading = true;
   hasVoted = 0;
-  lang: string;
+  language: string;
 
   constructor(protected authenticationService: AuthenticationService,
               private route: ActivatedRoute,
@@ -34,7 +34,7 @@ export class CommentComponent implements OnInit {
               private wsCommentService: WsCommentServiceService) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
-      this.lang = lang;
+      this.language = lang;
       } );
   }
 
@@ -42,8 +42,8 @@ export class CommentComponent implements OnInit {
     if (this.authenticationService.getRole() === 0) {
       this.isStudent = true;
     }
-    this.lang = localStorage.getItem('currentLang');
-    this.translateService.use(this.lang);
+    this.language = localStorage.getItem('currentLang');
+    this.translateService.use(this.language);
   }
 
   setRead(comment: Comment): void {
