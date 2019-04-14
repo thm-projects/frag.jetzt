@@ -1,6 +1,6 @@
 mat-card {
   margin-bottom: 10px;
-  background-color: #4db6ac;
+  background-color: var(--comment-list-bg);
 }
 
 app-comment {
@@ -12,7 +12,7 @@ input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
   width: 90%;
-  background-color: #80cbc4;
+  background-color: var(--input-search-cl);
   border: none;
   outline: none;
   min-height: 60px;
@@ -20,15 +20,15 @@ input {
   border-radius: 5px;
 }
 
-#search-container{
+#search-container {
   border-radius: 5px;
-  background-color: #80cbc4;
+  background-color: var(--input-search-cl);
   margin-bottom: 10px;
 }
 
 .add-button {
-  width: 44px!important;
-  height: 44px!important;
+  width: 44px !important;
+  height: 44px !important;
   text-align: center;
 }
 
@@ -36,7 +36,7 @@ input {
   font-size: 45px;
   height: 45px;
   width: 45px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .search-icon {

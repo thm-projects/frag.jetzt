@@ -9,14 +9,14 @@ textarea {
 }
 
 mat-row {
-  background-color: #bbdefb;
-  border-color: #bbdefb;
+  background-color: var(--mat-row);
+  border-color: var(--mat-row);
 }
 
 h4 {
   margin: 0px !important;
   padding-bottom: 10px;
-  color: #4db6ac;
+  color: var(--heading-4);
 }
 
 mat-cell {

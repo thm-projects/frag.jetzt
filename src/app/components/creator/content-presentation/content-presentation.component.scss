@@ -11,12 +11,12 @@ mat-card {
   width: 800px;
   max-width: 90%;
   margin-top: 20px;
-  background-color: #fff8e1;
+  background-color: var(--content-mat-card);
 }
 
 h3 {
   font-size: 150%;
-  color: #26a69a;
+  color: var(--content-prasentation-header);
 }
 
 h4 {

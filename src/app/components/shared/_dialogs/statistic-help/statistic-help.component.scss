@@ -1,21 +1,21 @@
 .positiveC {
-  background-color: #AED581;
+  background-color: var(--positiveC);
 }
 
 .negativeC {
-  background-color: #FF8A65;
+  background-color: var(--negativeC);
 }
 
 .okayC {
-  background-color: #FFD54F;
+  background-color: var(--okayC);
 }
 
 .emptyC {
-  background-color: #E0E0E0;
+  background-color: var(--emptyC);
 }
 
 mat-chip {
-  width: 130px!important;
+  width: 130px !important;
   display: flex;
   justify-content: center;
 }

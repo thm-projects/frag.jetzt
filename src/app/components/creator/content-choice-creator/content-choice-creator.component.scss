@@ -3,11 +3,11 @@ form > button {
 }
 
 mat-header-cell {
-  background-color: #ffe0b2;
+  background-color: var(--content-creator-cell);
 }
 
 mat-row {
-  background-color: #ffecb3;
+  background-color: var(--content-creator-row);
 }
 
 .addIcon {

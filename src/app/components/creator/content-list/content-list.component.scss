@@ -1,7 +1,7 @@
 mat-card {
   width: 800px;
   max-width: 90%;
-  background-color: #fff8e1;
+  background-color:var(--content-mat-card);
 }
 
 mat-card-content > :first-child {
@@ -9,7 +9,7 @@ mat-card-content > :first-child {
 }
 
 mat-expansion-panel {
-  background-color: #bbdefb;
+  background-color: var(--content-mat-expansion-panel);
   margin-bottom: 5px;
 }
 
@@ -21,7 +21,7 @@ mat-panel-title {
 }
 
 mat-expansion-panel-header {
-  background-color: #bbdefb !important;
+  background-color: var(--content-mat-expansion-panel) !important;
   padding-left: 3%;
   padding-right: 3%;
 }

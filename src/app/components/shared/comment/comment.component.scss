@@ -1,6 +1,6 @@
 mat-card {
   margin-bottom: 20px;
-  background-color: #4dd0e1;
+  background-color: var(--comment-mat-card);
   cursor: pointer;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -14,46 +14,46 @@ mat-card-content > :first-child {
 mat-toolbar {
   border-radius: 10px;
   margin-bottom: 20px;
-  background-color: #bbdefb;
+  background-color: var(--comment-mat-toolbar);
 }
 
 .voting-icon {
   width: 35px;
   height: 35px;
   font-size: 35px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .upvoted {
-  color: #66bb6a;
+  color: var(--upvoted);
 }
 
 .downvoted {
-  color: #FF8A65;
+  color: var(--downvoted);
 }
 
 .incorrect-icon {
-  color: #c8e6c9;
+  color: var(--incorrect-icon);
 }
 
 .correct-icon {
-  color: #66bb6a;
+  color: var(--correct-icon);
 }
 
 .read-icon {
-  color: #1e88e5;
+  color: var(--read-icon);
 }
 
 .unread-icon {
-  color: #e3f2fd;
+  color: var(--unread-icon);
 }
 
 .favorite-icon {
-  color: #fdd835;
+  color: var(--favorite-icon);
 }
 
 .not-favorite-icon {
-  color: #fffde7;
+  color: var(--not-favorite-icon);
 }
 
 .proffessor-icon {

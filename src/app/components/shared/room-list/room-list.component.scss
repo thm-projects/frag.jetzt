@@ -8,17 +8,17 @@ button {
 }
 
 .matPanel {
-  background-color: #cfd8dc;
+  background-color: var(--room-list-mPanel);
   margin-bottom: 5px;
 }
 
 .matPanelHeader {
-  background-color: #bbdefb;
+  background-color: var(--room-list-mPHeader);
   margin-bottom: 5px;
 }
 
 .matPanelListHeader {
-  background-color: #cfd8dc !important;
+  background-color: var(--room-list-mPLHeader) !important;
 }
 
 mat-panel-title {
@@ -28,7 +28,7 @@ mat-panel-title {
 }
 
 .headerTitle {
-  width: 8%!important;
+  width: 8% !important;
 }
 
 mat-card-title {
@@ -36,6 +36,6 @@ mat-card-title {
 }
 
 mat-card {
-  background-color: #cfd8dc;
-  color: #4db6ac;
+  background-color: var(--room-list-card-bg);
+  color: var(--room-list-card-color);
 }

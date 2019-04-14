@@ -1,12 +1,7 @@
+import { dark } from './dark-Theme/darkTheme.const';
+import { defaultTheme } from './default-Theme/defaultTheme.const';
+
 export const themes = {
-  arsnovaTheme: {
-    '--button-color': '#80cbc4',
-    '--background-color': '#b2dfdb',
-    '--black-color' : '#000000'
-  },
-  dark: {
-    '--button-color': '#80cbc4',
-    '--background-color': '#000000',
-    '--black-color' : '#000000'
-  }
+  arsnovaTheme: defaultTheme,
+  dark: dark
 };
