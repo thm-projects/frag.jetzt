@@ -70,7 +70,7 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  exportButtonClicked(state: boolean) {
+  exportButtonClicked(state: boolean): void {
     this.exportButton.next(state);
   }
 }

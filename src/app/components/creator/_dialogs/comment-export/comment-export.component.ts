@@ -45,11 +45,11 @@ export class CommentExportComponent implements OnInit {
     return this.currentButton = change.value;
   }
 
-  onNoClick() {
+  onNoClick(): void {
     this.dialogRef.close();
   }
 
-  exportJson(date: string) {
+  exportJson(date: string): void {
     const jsonComments = JSON.parse(JSON.stringify(this.comments));
     jsonComments.forEach(element => {
       delete element.id;
@@ -65,7 +65,7 @@ export class CommentExportComponent implements OnInit {
     link.click();
   }
 
-  exportCsv(delimiter: string, date: string) {
+  exportCsv(delimiter: string, date: string): void {
     let csv: string;
     let keyFields = '';
     let valueFields = '';
@@ -83,7 +83,7 @@ export class CommentExportComponent implements OnInit {
     link.click();
   }
 
-  onExport() {
+  onExport(): void {
     const date = new Date();
     const dateString = date.getFullYear() + '_' + ('0' + (date.getMonth() + 1)).slice(-2) + '_' + ('0' + date.getDate()).slice(-2);
     const timeString = ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
