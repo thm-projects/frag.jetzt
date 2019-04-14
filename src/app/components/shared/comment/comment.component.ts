@@ -20,7 +20,7 @@ export const rubberBand = [
   style({ transform: 'scale3d(0.95, 1.05, 1)', offset: .65 }),
   style({ transform: 'scale3d(1.05, 0.95, 1)', offset: .75 }),
   style({ transform: 'scale3d(1, 1, 1)', offset: 1 })
-]
+];
 
 @Component({
   selector: 'app-comment',
@@ -56,8 +56,8 @@ export class CommentComponent implements OnInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  startAnimation(state) {
-    console.log(state)
+  startAnimation(state: string) {
+    console.log(state);
     if (!this.animationState) {
       this.animationState = state;
     }
