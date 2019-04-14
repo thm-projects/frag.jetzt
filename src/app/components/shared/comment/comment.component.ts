@@ -56,7 +56,7 @@ export class CommentComponent implements OnInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  startAnimation(state_:any) {
+  startAnimation(state_: any) {
     console.log(state_);
     if (!this.animationState) {
       this.animationState = state_;
