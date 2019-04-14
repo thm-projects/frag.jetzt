@@ -57,7 +57,6 @@ export class CommentComponent implements OnInit {
   }
 
   startAnimation(state_: any) {
-    console.log(state_);
     if (!this.animationState) {
       this.animationState = state_;
     }
