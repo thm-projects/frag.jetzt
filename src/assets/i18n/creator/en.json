@@ -82,7 +82,11 @@
     "abort": "Cancel",
     "error-title": "Please enter a title.",
     "error-comment": "Please enter a comment.",
-    "error-both-fields": "Please fill in all fields."
+    "error-both-fields": "Please fill in all fields.",
+    "delimiter": "Please select a delimiter:",
+    "comma": "Comma",
+    "semicolon": "Semicolon",
+    "export": "Export"
   },
   "comment-list-page": {
     "search-box-placeholder-text": "Search in comments",

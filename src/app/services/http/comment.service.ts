@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
@@ -17,6 +17,8 @@ export class CommentService extends BaseHttpService {
     find: '/find'
   };
 
+  exportButton = new Subject<boolean>();
+
   constructor(private http: HttpClient) {
     super();
   }
@@ -32,7 +34,8 @@ export class CommentService extends BaseHttpService {
   addComment(comment: Comment): Observable<Comment> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/';
     return this.http.post<Comment>(connectionUrl,
-      { roomId: comment.roomId, body: comment.body,
+      {
+        roomId: comment.roomId, body: comment.body,
         read: comment.read, creationTimestamp: comment.creationTimestamp
       }, httpOptions).pipe(
         tap(_ => ''),
@@ -65,5 +68,9 @@ export class CommentService extends BaseHttpService {
       tap(_ => ''),
       catchError(this.handleError<any>('updateComment'))
     );
+  }
+
+  exportButtonClicked(state: boolean): void {
+    this.exportButton.next(state);
   }
 }

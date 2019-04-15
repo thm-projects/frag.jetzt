@@ -1,0 +1,26 @@
+mat-radio-button {
+   display: block;
+}
+
+mat-divider {
+   margin: 30px 0 30px 0;
+}
+
+* { 
+   margin-bottom: 10px;
+}
+
+button {
+   float:right !important;
+   margin: 0 0 0 10px;
+}
+
+#csvBlock {
+   margin: 10px 0 20px 30px;
+   visibility: hidden;
+   transform: scale(0.9);
+}
+
+#csvOptions mat-radio-button{
+   margin-top:10px;
+}
