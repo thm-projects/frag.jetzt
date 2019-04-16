@@ -7,7 +7,6 @@
     <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
 
-
     <mat-menu #themeMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="changeTheme('')">{{ 'default' | translate }}</button>
       <button mat-menu-item (click)="changeTheme('dark')">{{ 'dark' | translate }}</button>
@@ -56,8 +55,8 @@
       <mat-icon>account_box</mat-icon>
     </button>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
-      <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon" color="accent">record_voice_over</mat-icon>
-      <mat-icon *ngIf="user.role === 0" aria-label="Example icon-button with a heart icon" color="accent">supervisor_account</mat-icon>
+      <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon">record_voice_over</mat-icon>
+      <mat-icon *ngIf="user.role === 0" aria-label="Example icon-button with a heart icon">supervisor_account</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

@@ -13,7 +13,7 @@
     <ng-container matColumnDef="label">
       <mat-header-cell *matHeaderCellDef>{{ 'content.answer' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <mat-checkbox color="primary" (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
+        <mat-checkbox (click)="switchValue(answer.answerOption.label)" [(ngModel)]="answer.correct"
                       [checked]="answer.correct"
                       name="{{ answer.answerOption.label }}">{{ answer.answerOption.label }}
         </mat-checkbox>

@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill [ngClass]="themeClass">
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">

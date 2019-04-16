@@ -26,6 +26,7 @@ export const defaultTheme = {
   '--comment-list-bg': '#4db6ac', // shared/comment-list.component.scss
   '--input-search-cl': '#80cbc4', // shared/comment-list.component.scss
   '--content-group-card': '#bbdefb', // shared/content-groups.component.scss
+  '--content-group-card-hover': '#4db6ac', // shared/content-groups.component.scss
   '--footer-bg-color': 'rgb(240, 240, 240)', // shared/footer.component.scss
   '--footer-button': '#80cbc4', // shared/footer.component.scss
   '--list-st-hCell': '#4db6ac', // shared/list-statistic.component.scss
@@ -43,4 +44,5 @@ export const defaultTheme = {
   '--room-list-card-bg': '#cfd8dc', // shared/room-list.component.scss
   '--room-list-card-color': '#4db6ac', // shared/room-list.component.scss
   '--statistic-bg-color': '#fff8e1', // shared/statistic.component.scss & shared/statistics-page.component.scss
+  '--dialog-bg': '#e0f2f1'
 };

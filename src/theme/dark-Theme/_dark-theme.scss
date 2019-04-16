@@ -23,7 +23,7 @@ mat-form-field.input-block {
 }
 
 .mat-dialog-container {
-  background-color: #e0f2f1;
+  background-color: white;
 }
 
 .mat-tab-header {
@@ -31,9 +31,9 @@ mat-form-field.input-block {
 }
 
 
-$dark-primary: mat-palette($mat-gray);
-$dark-accent: mat-palette($mat-blue-gray);
-$dark-warn: mat-palette($mat-red);
+$dark-primary: mat-palette($mat-blue-gray, 800);
+$dark-accent: mat-palette($mat-blue-gray, 500);
+$dark-warn: mat-palette($mat-red, A200);
 
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 

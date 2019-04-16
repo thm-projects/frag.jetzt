@@ -32,19 +32,22 @@ button {
 
 p {
   font-size: medium;
-}
-
-h3 {
-  font-size: larger;
-}
-
-h4 {
-  font-size: medium;
-  color: mat-color($arsnova-primary, 300);
+  color: var(--text-2)!important;
 }
 
 h2 {
   font-size: large;
+  color: var(--text-1)!important;
+}
+
+h3 {
+  font-size: larger;
+  color: var(--text-3)!important;
+}
+
+h4 {
+  font-size: medium;
+  color: var(--text-1)!important;
 }
 
 mat-card-header {

@@ -15,9 +15,9 @@
     <mat-icon class="add-icon">add_circle</mat-icon>
   </button>
 </div>
-<mat-card class="outer-card" *ngIf="hideCommentsList">
-  <app-comment *ngFor="let current of filteredComments" [comment]="current"></app-comment>
+<mat-card id="outer-card" *ngIf="hideCommentsList">
+  <app-comment *ngFor="let current of filteredComments" [comment]="current"> </app-comment>
 </mat-card>
-<mat-card class="outer-card" *ngIf="!hideCommentsList">
-  <app-comment *ngFor="let current of comments | orderBy: 'score'" [comment]="current"></app-comment>
+<mat-card *ngIf="!hideCommentsList">
+  <app-comment *ngFor="let current of comments | orderBy: 'score'" [comment]="current"> </app-comment>
 </mat-card>

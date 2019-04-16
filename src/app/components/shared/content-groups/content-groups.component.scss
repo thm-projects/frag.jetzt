@@ -1,7 +1,7 @@
 @import '../../../../theme/default-Theme/_variables.scss';
 
 .mat-card {
-  background-color: var(--content-group-card);
+  background-color: var(--content-group-card) !important;
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   position: relative;
@@ -14,7 +14,7 @@
 
   &:hover {
     cursor: pointer;
-    background-color: mat-color($arsnova-primary, 200);
+    background-color: var(--content-group-card-hover) !important;
     transform: translateZ(20px);
     transform: translateY(-5px);
     transform: scaleY(1.1);

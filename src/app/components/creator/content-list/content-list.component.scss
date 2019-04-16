@@ -1,7 +1,7 @@
 mat-card {
   width: 800px;
   max-width: 90%;
-  background-color:var(--content-mat-card);
+  background-color: var(--content-mat-card)!important;
 }
 
 mat-card-content > :first-child {
@@ -21,17 +21,26 @@ mat-panel-title {
 }
 
 mat-expansion-panel-header {
-  background-color: var(--content-mat-expansion-panel) !important;
+  background-color: var(--content-group-card) !important;
   padding-left: 3%;
   padding-right: 3%;
+  word-break: break-all;
 }
 
-.mat-expansion-panel-header-title {
-  word-break: break-all;
+.matPanel {
+  background-color: var(--content-group-card);
+  margin-bottom: 5px;
+  color: black!important;
+}
+
+.panelTitle {
+  width: 8% !important;
+  color: black !important;
 }
 
 h2 {
   font-size: larger;
+  color: black !important;
 }
 
 .actionButton {

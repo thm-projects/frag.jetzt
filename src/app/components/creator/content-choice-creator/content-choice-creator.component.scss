@@ -10,6 +10,10 @@ mat-row {
   background-color: var(--content-creator-row);
 }
 
+.mat-checkbox {
+  color: var(--text-1) !important;
+}
+
 .addIcon {
   line-height: 100%;
   height: 100% !important;

@@ -7,14 +7,17 @@ button {
   align-items: center;
 }
 
+
 .matPanel {
   background-color: var(--room-list-mPanel);
   margin-bottom: 5px;
+  color: black!important;
 }
 
-.matPanelHeader {
+#matPanelHeader {
   background-color: var(--room-list-mPHeader);
   margin-bottom: 5px;
+  color: white;
 }
 
 .matPanelListHeader {
@@ -29,13 +32,20 @@ mat-panel-title {
 
 .headerTitle {
   width: 8% !important;
+  color: var(--room-list-card-color)!important;
 }
+
+.panelTitle {
+  width: 8% !important;
+  color: black !important;
+}
+
 
 mat-card-title {
   text-align: center;
 }
 
-mat-card {
+#no-sessions-card {
   background-color: var(--room-list-card-bg);
   color: var(--room-list-card-color);
 }

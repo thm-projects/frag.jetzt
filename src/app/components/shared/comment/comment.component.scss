@@ -1,4 +1,4 @@
-mat-card {
+#comment-card {
   margin-bottom: 20px;
   background-color: var(--comment-mat-card);
   cursor: pointer;
@@ -54,12 +54,6 @@ mat-toolbar {
 
 .not-favorite-icon {
   color: var(--not-favorite-icon);
-}
-
-.proffessor-icon {
-  background-size: cover;
-  margin-right: 10px;
-  margin-top: 10px;
 }
 
 h2 {
