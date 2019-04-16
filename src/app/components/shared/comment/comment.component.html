@@ -1,7 +1,7 @@
-<mat-card class="card-container">
-  <div fxLayout="column">
-    <div fxLayout="row">
-      <span class="fill-remaining-space"></span>
+<mat-card class="card-container" [@slide]>
+    <div fxLayout="column">
+      <div fxLayout="row">
+        <span class="fill-remaining-space"></span>
       <div id="date">
         <div *ngIf="language === 'de'; else englishDate">
           {{comment.timestamp | date: ' HH:mm:ss '}}Uhr,{{comment.timestamp | date: ' M.d.yy'}}
@@ -15,24 +15,24 @@
       </button>
       <button mat-icon-button *ngIf="comment.favorite || !isStudent" [disabled]="isStudent" (click)="setFavorite(comment)" [matTooltip]="comment.favorite ? 'Mark as not favorite' : 'Mark as favorite'">
         <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-favorite-icon'}[comment.favorite]">favorite_border</mat-icon>
-      </button>
-      <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)" [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
-        <mat-icon class="icon" [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
-      </button>
-    </div>
-    <div fxLayout="row">
-      <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
-      <span class="fill-remaining-space"></span>
-      <div fxLayout="column">
-        <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)">
-          <mat-icon class="voting-icon" [ngClass]="{'upvoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
         </button>
-        <h2>{{comment.score}}</h2>
-        <button mat-icon-button [disabled]="!isStudent" (click)="voteDown(comment)">
-          <mat-icon class="voting-icon" [ngClass]="{'downvoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
+        <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)" [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
+        <mat-icon class="icon" [ngClass]="{true: 'read-icon', false: 'unread-icon'}[comment.read]">visibility</mat-icon>
         </button>
       </div>
+      <div fxLayout="row">
+        <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
+        <span class="fill-remaining-space"></span>
+        <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState" (@rubberBand.done)="resetAnimationState()">
+          <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)" >
+            <mat-icon class="voting-icon" [ngClass]="{'upvoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
+          </button>
+          <h2>{{comment.score}}</h2>
+          <button mat-icon-button [disabled]="!isStudent" (click)="voteDown(comment)">
+            <mat-icon class="voting-icon" [ngClass]="{'downvoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</mat-card>
+  </mat-card>  
 

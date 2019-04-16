@@ -1,0 +1,14 @@
+<mat-radio-group (change)="onChange($event)">
+  <mat-radio-button value="json" #json checked (click)="comma.checked=true">JSON</mat-radio-button>
+  <mat-divider></mat-divider>
+  <mat-radio-button #csv value="csv">CSV</mat-radio-button>
+</mat-radio-group>
+<div id="csvBlock">
+  <mat-hint>{{'comment-page.delimiter' | translate}}</mat-hint>
+  <mat-radio-group (change)="onChange($event)" id="csvOptions">
+    <mat-radio-button value="comma" #comma checked>{{'comment-page.comma' | translate}}</mat-radio-button>
+    <mat-radio-button value="semicolon" #semicolon>{{'comment-page.semicolon' | translate}}</mat-radio-button>
+  </mat-radio-group>
+</div>
+<button mat-raised-button color="primary" (click)="onExport()">{{'comment-page.export' | translate}}</button>
+<button mat-raised-button color="warn" (click)="onNoClick()">{{'comment-page.abort' | translate}}</button>

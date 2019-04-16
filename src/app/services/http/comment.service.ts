@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
@@ -16,6 +16,8 @@ export class CommentService extends BaseHttpService {
     comment: '/comment',
     find: '/find'
   };
+
+  exportButton = new Subject<boolean>();
 
   constructor(private http: HttpClient) {
     super();
@@ -65,5 +67,9 @@ export class CommentService extends BaseHttpService {
       tap(_ => ''),
       catchError(this.handleError<any>('updateComment'))
     );
+  }
+
+  exportButtonClicked(state: boolean): void {
+    this.exportButton.next(state);
   }
 }
