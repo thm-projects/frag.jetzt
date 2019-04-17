@@ -1,8 +1,13 @@
-import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
+import { RxStompConfig } from '@stomp/rx-stomp';
 
-export const myRxStompConfig: InjectableRxStompConfig = {
+export const ARSRxStompConfig: RxStompConfig = {
   // Which server?
   brokerURL: `ws://${window.location.hostname}:8080/ws/websocket`,
+
+  connectHeaders: {
+    login: 'guest',
+    password: 'guest'
+  },
 
   // How often to heartbeat?
   // Interval in milliseconds, set to 0 to disable
