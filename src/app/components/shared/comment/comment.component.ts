@@ -42,6 +42,7 @@ export class CommentComponent implements OnInit {
   isStudent = false;
   isLoading = true;
   hasVoted = 0;
+  language: string;
   animationState: string;
 
   constructor(protected authenticationService: AuthenticationService,
@@ -53,14 +54,18 @@ export class CommentComponent implements OnInit {
     public dialog: MatDialog,
     protected langService: LanguageService,
     private wsCommentService: WsCommentServiceService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.langEmitter.subscribe(lang => {
+      translateService.use(lang);
+      this.language = lang;
+      } );
   }
 
   ngOnInit() {
     if (this.authenticationService.getRole() === 0) {
       this.isStudent = true;
     }
-    this.translateService.use(localStorage.getItem('currentLang'));
+    this.language = localStorage.getItem('currentLang');
+    this.translateService.use(this.language);
   }
 
   startAnimation(state_: any): void {

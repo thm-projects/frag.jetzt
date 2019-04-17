@@ -75,7 +75,7 @@ export class CommentListComponent implements OnInit {
         c.roomId = this.roomId;
         c.body = payload.body;
         c.id = payload.id;
-        c.creationTimestamp = payload.timestamp;
+        c.timestamp = new Date();
         this.comments = this.comments.concat(c);
         break;
       case 'CommentPatched':
