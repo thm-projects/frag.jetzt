@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RxStompService } from '@stomp/ng2-stompjs';
+import { WsConnectorService } from '../../services/websockets/ws-connector.service';
 import { CreateFeedback } from '../../models/messages/create-feedback';
 import { GetFeedback } from '../../models/messages/get-feedback';
 
@@ -7,22 +7,16 @@ import { GetFeedback } from '../../models/messages/get-feedback';
   providedIn: 'root'
 })
 export class WsFeedbackService {
-  constructor(private rxStompService: RxStompService) {}
+  constructor(private wsConnector: WsConnectorService) {}
 
   send(feedback: number, roomId: string) {
     const createFeedback = new CreateFeedback(feedback);
-    this.rxStompService.publish({
-      destination: `/backend/queue/${roomId}.feedback.command`,
-      body: JSON.stringify(createFeedback)
-    });
+    this.wsConnector.send(`/backend/queue/${roomId}.feedback.command`, JSON.stringify(createFeedback));
   }
 
   get(roomId: string) {
     const getFeedback = new GetFeedback();
 
-    this.rxStompService.publish({
-      destination: `/backend/queue/${roomId}.feedback.query`,
-      body: JSON.stringify(getFeedback)
-    });
+    this.wsConnector.send(`/backend/queue/${roomId}.feedback.query`, JSON.stringify(getFeedback));
   }
 }

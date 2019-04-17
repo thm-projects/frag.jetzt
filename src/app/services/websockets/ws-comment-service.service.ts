@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Comment } from '../../models/comment';
-import { RxStompService } from '@stomp/ng2-stompjs';
+import { WsConnectorService } from '../../services/websockets/ws-connector.service';
 import { CreateComment } from '../../models/messages/create-comment';
 import { PatchComment } from '../../models/messages/patch-comment';
 import { TSMap } from 'typescript-map';
 import { UpVote } from '../../models/messages/up-vote';
 import { DownVote } from '../../models/messages/down-vote';
+import { Observable } from 'rxjs';
+import { IMessage } from '@stomp/stompjs';
 
 
 @Injectable({
@@ -13,17 +15,11 @@ import { DownVote } from '../../models/messages/down-vote';
 })
 export class WsCommentServiceService {
 
-  constructor(private rxStompService: RxStompService) { }
+  constructor(private wsConnector: WsConnectorService) { }
 
   add(comment: Comment): void {
     const message = new CreateComment(comment.roomId, comment.userId, comment.body);
-    this.rxStompService.publish({
-      destination: `/queue/comment.command.create`,
-      body: JSON.stringify(message),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
+    this.wsConnector.send(`/queue/comment.command.create`, JSON.stringify(message));
   }
 
   toggleRead(comment: Comment): Comment {
@@ -53,34 +49,20 @@ export class WsCommentServiceService {
 
   voteUp(comment: Comment): void {
     const message = new UpVote(comment.userId, comment.id);
-    this.rxStompService.publish({
-      destination: `/queue/vote.command.upvote`,
-      body: JSON.stringify(message),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
+    this.wsConnector.send(`/queue/vote.command.upvote`, JSON.stringify(message));
   }
 
   voteDown(comment: Comment): void {
     const message = new DownVote(comment.userId, comment.id);
-    this.rxStompService.publish({
-      destination: `/queue/vote.command.downvote`,
-      body: JSON.stringify(message),
-      headers: {
-        'content-type': 'application/json'
-      }
-    });
+    this.wsConnector.send(`/queue/vote.command.downvote`, JSON.stringify(message));
   }
 
   private patchComment(comment: Comment, changes: TSMap<string, any>): void {
     const message = new PatchComment(comment.id, changes);
-      this.rxStompService.publish({
-        destination: `/queue/comment.command.patch`,
-        body: JSON.stringify(message),
-        headers: {
-          'content-type': 'application/json'
-        }
-      });
+    this.wsConnector.send(`/queue/comment.command.patch`, JSON.stringify(message));
+  }
+
+  getCommentStream(roomId: string): Observable<IMessage> {
+    return this.wsConnector.getWatcher(`/topic/${roomId}.comment.stream`);
   }
 }

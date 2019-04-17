@@ -3,7 +3,6 @@ import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-comment.component';
 import { MatDialog } from '@angular/material';
@@ -30,7 +29,6 @@ export class CommentListComponent implements OnInit {
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected langService: LanguageService,
-    private rxStompService: RxStompService,
     private wsCommentService: WsCommentServiceService,
     private authenticationService: AuthenticationService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
@@ -40,7 +38,7 @@ export class CommentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     this.comments = [];
     this.hideCommentsList = false;
-    this.rxStompService.watch(`/topic/${this.roomId}.comment.stream`).subscribe((message: Message) => {
+    this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
     this.getComments();
