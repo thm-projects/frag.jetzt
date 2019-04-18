@@ -43,9 +43,10 @@ export const dark = {
   '--room-list-mPHeader': '#9e9e9e', // shared/room-list.component.scss
   '--room-list-card-bg': '#455a64', // shared/room-list.component.scss
   '--room-list-card-color': '#eeeeee', // shared/room-list.component.scss
-  '--statistic-bg-color' : '#dddddd', // shared/statistic.component.scss & shared/statistics-page.component.scss
+  '--statistic-bg-color' : '#bdbdbd', // shared/statistic.component.scss & shared/statistics-page.component.scss
   '--text-1': '#37474f', // could be used for all texts
   '--text-2': '#004d40', // could be used for all texts
   '--text-3': '#78909c', // could be used for all texts
-  '--dialog-bg': '#78909c'
+  '--dialog-bg': '#78909c',
+  'stats-ok': '#FFB74D'
 };

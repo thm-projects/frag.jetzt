@@ -24,17 +24,18 @@ table {
 }
 
 mat-header-cell {
-  color: var(--list-st-hCell);
+  color: black!important;
   background-color: var(--list-st-hCell-bg);
 }
 
 mat-cell {
+  color: black!important;
   background-color: var(--list-st-mCell-bg);
 }
 
 mat-toolbar {
   height: 20px;
-  background-color: var(--list-st-toolbar-bg);
+  background-color: var(--statistic-bg-color)!important;
 }
 
 .positiveC {

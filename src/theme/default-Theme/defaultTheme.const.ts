@@ -44,5 +44,5 @@ export const defaultTheme = {
   '--room-list-card-bg': '#cfd8dc', // shared/room-list.component.scss
   '--room-list-card-color': '#4db6ac', // shared/room-list.component.scss
   '--statistic-bg-color': '#fff8e1', // shared/statistic.component.scss & shared/statistics-page.component.scss
-  '--dialog-bg': '#e0f2f1'
+  '--dialog-bg': '#e0f2f1',
 };
