@@ -8,8 +8,8 @@
     <span class="fill-remaining-space"></span>
 
     <mat-menu #themeMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="changeTheme('')">{{ 'default' | translate }}</button>
-      <button mat-menu-item (click)="changeTheme('dark')">{{ 'dark' | translate }}</button>
+      <button mat-menu-item (click)="changeTheme('')">{{ 'header.default' | translate }}</button>
+      <button mat-menu-item (click)="changeTheme('dark')">{{ 'header.dark' | translate }}</button>
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">

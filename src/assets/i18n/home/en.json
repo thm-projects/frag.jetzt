@@ -7,7 +7,9 @@
 		"logged-out": "Logout successful",
 		"back": "Back",
 		"my-sessions": "My Sessions",
-		"visited-sessions": "Visited Sessions"
+		"visited-sessions": "Visited Sessions",
+    "default": "ARSnova",
+    "dark": "Night"
 	},
 	"login-page": {
 		"creator": "Lecturer",
