@@ -7,18 +7,21 @@ button {
   align-items: center;
 }
 
+
 .matPanel {
-  background-color: #cfd8dc;
+  background-color: var(--room-list-mPanel);
   margin-bottom: 5px;
+  color: black!important;
 }
 
-.matPanelHeader {
-  background-color: #bbdefb;
+#matPanelHeader {
+  background-color: var(--room-list-mPHeader);
   margin-bottom: 5px;
+  color: white;
 }
 
 .matPanelListHeader {
-  background-color: #cfd8dc !important;
+  background-color: var(--room-list-mPLHeader) !important;
 }
 
 mat-panel-title {
@@ -28,14 +31,21 @@ mat-panel-title {
 }
 
 .headerTitle {
-  width: 8%!important;
+  width: 8% !important;
+  color: var(--room-list-card-color)!important;
 }
+
+.panelTitle {
+  width: 8% !important;
+  color: black !important;
+}
+
 
 mat-card-title {
   text-align: center;
 }
 
-mat-card {
-  background-color: #cfd8dc;
-  color: #4db6ac;
+#no-sessions-card {
+  background-color: var(--room-list-card-bg);
+  color: var(--room-list-card-color);
 }

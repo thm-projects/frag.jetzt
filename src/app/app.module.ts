@@ -26,6 +26,7 @@ import { MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { AppConfig } from './app.config';
+import { ThemeModule } from '../theme/theme.module';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -53,7 +54,8 @@ export function initializeApp(appConfig: AppConfig) {
     BrowserModule,
     BrowserAnimationsModule,
     EssentialsModule,
-    SharedModule
+    SharedModule,
+    ThemeModule
   ],
   providers: [
     AppConfig,

@@ -1,7 +1,7 @@
-<div fxLayout="column" fxFill>
-  <app-header></app-header>
-  <div fxFlex class="app-component">
-    <router-outlet></router-outlet>
+  <div [ngClass]="header.themeClass" fxLayout="column" fxFill appTheme>
+    <app-header #header></app-header>
+    <div fxFlex class="app-component">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
   </div>
-  <app-footer></app-footer>
-</div>

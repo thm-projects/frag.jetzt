@@ -1,4 +1,5 @@
-@import 'theme/_variables.scss';
+@import 'theme/default-Theme/_variables.scss';
+@import "theme/dark-Theme/dark-theme";
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -11,4 +12,10 @@
 // that you are using.
 @include angular-material-theme($arsnova-theme);
 
-@import 'theme/_theme.scss';
+
+.dark {
+  @include angular-material-theme($dark-theme);
+}
+
+
+@import 'theme/default-Theme/theme';

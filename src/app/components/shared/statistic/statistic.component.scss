@@ -1,12 +1,12 @@
 mat-card {
   width: 800px;
   max-width: 90%;
-  background-color: #fff8e1 !important;
+  background-color: var(--statistic-bg-color) !important;
 }
 
 mat-toolbar {
   height: 15px;
-  background-color: #fff8e1;
+  background-color: var(--statistic-bg-color);
 }
 
 .mat-icon-button {

@@ -1,8 +1,6 @@
-@import '../theme/_variables.scss';
+@import '../theme/default-Theme/_variables.scss';
 
 .app-component {
   padding: 4%;
-  background-color: #b2dfdb;
+  background-color:var(--background-color);
 }
-
-

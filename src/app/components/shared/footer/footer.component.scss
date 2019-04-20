@@ -1,13 +1,15 @@
 footer {
-    overflow-y: auto;
+  overflow-y: auto;
 }
 
-mat-toolbar {
-  background-color: rgb(240, 240, 240);
+#footer-toolbar {
+  background-color: var(--footer-bg-color);
   height: auto;
+
   &:first-child {
     padding-left: 0px;
   }
+
   &:last-child {
     padding-right: 0px;
   }
@@ -16,7 +18,7 @@ mat-toolbar {
 button {
   min-height: 28px;
   font-size: 12px;
-  color: #80cbc4;
+  color: var(--footer-button);
 }
 
 mat-icon {

@@ -19,6 +19,7 @@ import { LanguageService } from '../../../services/util/language.service';
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit {
   room: Room;
   updRoom: Room;
+  themeClass = localStorage.getItem('classNameOfTheme');
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
