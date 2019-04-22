@@ -22,6 +22,7 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
   hideCommentsList: boolean;
+  isIconHide: boolean;
   filteredComments: Comment[];
   userRole: UserRole;
 
@@ -122,5 +123,36 @@ export class CommentListComponent implements OnInit {
 
   export(clicked: boolean): void {
     this.commentService.exportButtonClicked(clicked);
+  }
+
+  filterFavorite(): void {
+    this.filteredComments = this.comments.filter(c => c.favorite);
+  }
+
+  filterMarkAsRead(): void {
+    this.filteredComments = this.comments.filter(c => c.read);
+  }
+
+  filterMarkAsCorrect(): void {
+    this.filteredComments = this.comments.filter(c => c.correct);
+  }
+
+  sortVote(): void {
+    this.comments.sort((a, b) => {
+        return a.score - b.score;
+    });
+  }
+
+  sortVoteDesc(): void {
+    this.comments.sort((a, b) => {
+        return b.score - a.score;
+    });
+  }
+
+  sortTimeStamp(): void {
+    this.comments.sort((a, b) => {
+      const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
+      return +dateB - +dateA;
+    });
   }
 }
