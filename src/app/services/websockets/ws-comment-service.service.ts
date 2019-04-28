@@ -3,6 +3,7 @@ import { Comment } from '../../models/comment';
 import { WsConnectorService } from '../../services/websockets/ws-connector.service';
 import { CreateComment } from '../../models/messages/create-comment';
 import { PatchComment } from '../../models/messages/patch-comment';
+import { HighlightComment } from '../../models/messages/highlight-comment';
 import { TSMap } from 'typescript-map';
 import { UpVote } from '../../models/messages/up-vote';
 import { DownVote } from '../../models/messages/down-vote';
@@ -60,6 +61,16 @@ export class WsCommentServiceService {
   private patchComment(comment: Comment, changes: TSMap<string, any>): void {
     const message = new PatchComment(comment.id, changes);
     this.wsConnector.send(`/queue/comment.command.patch`, JSON.stringify(message));
+  }
+
+  highlight(comment: Comment) {
+    const message = new HighlightComment(comment.id, true);
+    this.wsConnector.send(`/queue/comment.command.highlight`, JSON.stringify(message));
+  }
+
+  lowlight(comment: Comment) {
+    const message = new HighlightComment(comment.id, false);
+    this.wsConnector.send(`/queue/comment.command.highlight`, JSON.stringify(message));
   }
 
   getCommentStream(roomId: string): Observable<IMessage> {

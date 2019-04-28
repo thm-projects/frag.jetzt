@@ -110,7 +110,8 @@ export class CommentComponent implements OnInit {
     });
   }
 
-  openPresentDialog(body: string): void {
+  openPresentDialog(comment: Comment): void {
+    this.wsCommentService.highlight(comment);
     const dialogRef = this.dialog.open(PresentCommentComponent, {
       position: {
         left: '10px',
@@ -121,9 +122,10 @@ export class CommentComponent implements OnInit {
       height: '100%',
       width: '100%'
     });
-    dialogRef.componentInstance.body = body;
+    dialogRef.componentInstance.body = comment.body;
     dialogRef.afterClosed()
       .subscribe(result => {
+        this.wsCommentService.lowlight(comment);
         if (result === 'close') {
           return;
         }

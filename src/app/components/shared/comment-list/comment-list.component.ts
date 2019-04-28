@@ -78,6 +78,7 @@ export class CommentListComponent implements OnInit {
         this.comments = this.comments.concat(c);
         break;
       case 'CommentPatched':
+        // ToDo: Use a map for comments w/ key = commentId
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
@@ -98,6 +99,15 @@ export class CommentListComponent implements OnInit {
             }
           }
         }
+        break;
+      case 'CommentHighlighted':
+      // ToDo: Use a map for comments w/ key = commentId
+        for (let i = 0; i < this.comments.length; i++) {
+          if (payload.id === this.comments[i].id) {
+            this.comments[i].highlighted = <boolean>payload.light;
+          }
+        }
+        break;
     }
   }
 

@@ -1,4 +1,4 @@
-<mat-card id="comment-card" [@slide]>
+<mat-card id="comment-card" [ngClass]="{true : 'highlighted', false: ''}[comment.highlighted]" [@slide]>
     <div fxLayout="column">
       <div fxLayout="row">
         <span class="fill-remaining-space"></span>
@@ -21,7 +21,7 @@
         </button>
       </div>
       <div fxLayout="row">
-        <div class="body" (click)="openPresentDialog(comment.body)">{{comment.body}}</div>
+        <div class="body" (click)="openPresentDialog(comment)">{{comment.body}}</div>
         <span class="fill-remaining-space"></span>
         <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState" (@rubberBand.done)="resetAnimationState()">
           <button mat-icon-button [disabled]="!isStudent" (click)="voteUp(comment)" >
