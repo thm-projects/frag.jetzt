@@ -7,7 +7,7 @@
   <button mat-button *ngIf="searchBox.value || isIconHide" (click)="hideCommentsList=false; searchBox.value=''; isIconHide=false">
     <mat-icon>close</mat-icon>
   </button>
-  <button mat-button *ngIf="!searchBox.value && userRole === '1' && comments.length > 0"
+  <button mat-button *ngIf="!searchBox.value && userRole === 1 && comments.length > 0"
     [matTooltip]="'Export comments'" (click)="export(true)">
     <mat-icon class="add-icon" id="export-icon">cloud_download</mat-icon>
   </button>
