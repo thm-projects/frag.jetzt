@@ -104,7 +104,9 @@ export class CommentListComponent implements OnInit {
       // ToDo: Use a map for comments w/ key = commentId
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
-            this.comments[i].highlighted = <boolean>payload.light;
+            this.comments[i].highlighted = <boolean>payload.lights;
+            console.log(<boolean>payload.lights);
+            console.log(this.comments[i]);
           }
         }
         break;

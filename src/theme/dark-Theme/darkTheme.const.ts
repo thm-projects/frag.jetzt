@@ -48,5 +48,6 @@ export const dark = {
   '--text-2': '#004d40', // could be used for all texts
   '--text-3': '#78909c', // could be used for all texts
   '--dialog-bg': '#78909c',
-  'stats-ok': '#FFB74D'
+  'stats-ok': '#FFB74D',
+  '--highlighted' : '#005F63'
 };

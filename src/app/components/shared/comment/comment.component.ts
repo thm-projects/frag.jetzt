@@ -66,6 +66,7 @@ export class CommentComponent implements OnInit {
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
+    console.log(this.comment);
   }
 
   startAnimation(state_: any): void {
@@ -111,7 +112,9 @@ export class CommentComponent implements OnInit {
   }
 
   openPresentDialog(comment: Comment): void {
-    this.wsCommentService.highlight(comment);
+    if (this.isStudent === false) {
+      this.wsCommentService.highlight(comment);
+    }
     const dialogRef = this.dialog.open(PresentCommentComponent, {
       position: {
         left: '10px',
