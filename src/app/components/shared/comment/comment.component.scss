@@ -5,6 +5,7 @@
   padding-bottom: 10px;
   padding-top: 10px;
   padding-right: 5px;
+  transition: background-color 1s linear;
 }
 
 mat-card-content > :first-child {
@@ -90,6 +91,7 @@ h2 {
 }
 
 .highlighted {
-  // ToDo: Use theme
-  background-color: var(--highlighted)!important;
+  background-color: var(--highlighted-comment)!important;
+  transition: background-color 1s linear;
 }
+
