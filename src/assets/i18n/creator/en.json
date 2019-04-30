@@ -89,7 +89,7 @@
     "export": "Export"
   },
   "comment-list-page": {
-    "search-box-placeholder-text": "Search in comments",
+    "search": "Search",
     "cancel": "Cancel"
   }
 }
