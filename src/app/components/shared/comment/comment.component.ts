@@ -66,7 +66,6 @@ export class CommentComponent implements OnInit {
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
-    console.log(this.comment);
   }
 
   startAnimation(state_: any): void {

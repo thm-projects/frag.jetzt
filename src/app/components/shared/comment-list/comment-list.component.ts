@@ -24,7 +24,7 @@ export class CommentListComponent implements OnInit {
   room: Room;
   comments: Comment[];
   isLoading = true;
-  hideCommentsList: boolean;
+  hideCommentsList = false;
   isIconHide: boolean;
   filteredComments: Comment[];
   userRole: UserRole;
@@ -33,7 +33,6 @@ export class CommentListComponent implements OnInit {
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService,
     private authenticationService: AuthenticationService,
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService
@@ -52,7 +51,6 @@ export class CommentListComponent implements OnInit {
     this.getComments();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.userRole = this.authenticationService.getRole();
-
   }
 
   getComments(): void {
@@ -73,23 +71,25 @@ export class CommentListComponent implements OnInit {
   }
 
   getCommentsCreator(): Comment[] {
-    // ToDo: get a default comment threshold from config settings file
     let commentThreshold = -10;
-    if (
-      (this.room.extensions.get('comments') != null) &&
-      (this.room.extensions.get('comments').get('commentThreshold'))
-    ) {
-      commentThreshold = this.room.extensions.get('comments').get('commentThreshold');
-    }
-    if (this.hideCommentsList) {
-      return this.filteredComments.filter( x => x.score >= commentThreshold );
+    if (this.room.extensions) {
+      commentThreshold = this.room.extensions['comments'].commentThreshold;
+      if (this.hideCommentsList) {
+        return this.filteredComments.filter( x => x.score >= commentThreshold );
+      } else {
+        return this.comments.filter( x => x.score >= commentThreshold );
+      }
     } else {
-      return  this.comments.filter( x => x.score >= commentThreshold );
+      if (this.hideCommentsList) {
+        return this.filteredComments;
+      } else {
+        return this.comments;
+      }
     }
   }
 
   getCommentsParticipant(): Comment[] {
-    if ( this.hideCommentsList) {
+    if (this.hideCommentsList) {
       return this.filteredComments;
     } else {
       return this.comments;
@@ -105,7 +105,7 @@ export class CommentListComponent implements OnInit {
         c.roomId = this.roomId;
         c.body = payload.body;
         c.id = payload.id;
-        c.creationTimestamp = payload.timestamp;
+        c.timestamp = payload.timestamp;
         this.comments = this.comments.concat(c);
         break;
       case 'CommentPatched':
@@ -136,8 +136,6 @@ export class CommentListComponent implements OnInit {
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             this.comments[i].highlighted = <boolean>payload.lights;
-            console.log(<boolean>payload.lights);
-            console.log(this.comments[i]);
           }
         }
         break;

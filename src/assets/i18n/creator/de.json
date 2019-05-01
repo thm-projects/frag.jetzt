@@ -15,12 +15,16 @@
     "reallySession": "Wollen Sie die Session ",
     "reallyContent": "Wollen Sie die Frage ",
     "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "deleted": " erfolgreich gelöscht.",
     "abort": "Abbrechen",
     "update": "Update",
+    "changes-successful": "Änderungen erfolgreich.",
     "default-content-group": "Standard",
     "description": "Beschreibung",
     "present": "Präsentieren",
-    "session-settings": "Session Einstellungen"
+    "session-settings": "Session Einstellungen",
+    "general": "Allgemein",
+    "threshold": "Schwellenwert für sichtbare Kommentare: "
   },
   "content": {
     "content": "Frage",
@@ -80,7 +84,7 @@
     "enter-comment": "Kommentar",
     "send": "Senden",
     "abort": "Abbrechen",
-    "error-comment": "Bitte geben Sie ein Kommentar ein.",
+    "error-comment": "Bitte geben Sie einen Kommentar ein.",
     "error-title": "Bitte geben Sie einen Titel ein.",
     "error-both-fields": "Bitte füllen Sie alle Felder aus.",
     "delimiter": "Bitte wählen Sie ein Trennzeichen:",

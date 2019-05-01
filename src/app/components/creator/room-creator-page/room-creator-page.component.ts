@@ -6,7 +6,6 @@ import { Room } from '../../../models/room';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
-import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -43,51 +42,20 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
-  /* TODO: i18n */
-
-  updateRoom(): void {
-    if ((this.updRoom.name === this.room.name) &&
-      (this.updRoom.description === this.room.description) &&
-      (this.commentThreshold === this.updCommentThreshold)
-    ) {
-      this.notification.show('There were no changes');
-      return;
-    } else {
-      this.room.name = this.updRoom.name;
-      this.room.description = this.updRoom.description;
-      if (this.room.extensions === null) {
-        this.room.extensions = new TSMap();
-      }
+  updateRoom(threshold: number): void {
+    this.room.name = this.updRoom.name;
+    this.room.description = this.updRoom.description;
+    if (threshold > -50) {
       const commentExtension: TSMap<string, any> = new TSMap();
-      commentExtension.set('threshold', this.updCommentThreshold);
+      commentExtension.set('commentThreshold', threshold);
+      this.room.extensions = new TSMap();
       this.room.extensions.set('comments', commentExtension);
-      this.roomService.updateRoom(this.room)
-        .subscribe(() => {
-          this.notification.show('Changes are made');
+    }
+    this.roomService.updateRoom(this.room)
+      .subscribe(() => {
+        this.translateService.get('room-page.changes-successful').subscribe(msg => {
+          this.notification.show(msg);
         });
-    }
-  }
-
-  deleteRoom(room: Room): void {
-    const msg = room.name + ' deleted';
-    this.notification.show(msg);
-    this.delete(room);
-  }
-
-  confirmDeletion(dialogAnswer: string): void {
-    if (dialogAnswer === 'delete') {
-      this.deleteRoom(this.room);
-    }
-  }
-
-  openDeletionRoomDialog(): void {
-    const dialogRef = this.dialog.open(RoomDeleteComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.room = this.room;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        this.confirmDeletion(result);
       });
   }
 
@@ -102,11 +70,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       .subscribe(result => {
         if (result === 'abort') {
           return;
-        }
-        if (result === 'edit') {
-          this.updateRoom();
+        } else {
+          this.updateRoom(+result);
         }
       });
+    dialogRef.backdropClick().subscribe( res => {
+        dialogRef.close('abort');
+    });
   }
 }
 

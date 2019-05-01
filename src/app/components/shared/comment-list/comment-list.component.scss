@@ -1,4 +1,4 @@
-#outer-card {
+.outer-card {
   margin-bottom: 10px;
   background-color: var(--comment-list-bg);
 }
@@ -11,7 +11,7 @@ app-comment {
 input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
-  width: 90%;
+  width: 50%;
   background-color: var(--input-search-cl);
   border: none;
   outline: none;
@@ -24,6 +24,10 @@ input {
   border-radius: 5px;
   background-color: var(--input-search-cl);
   margin-bottom: 10px;
+}
+
+.search-icon {
+  padding: 10px;
 }
 
 .add-button {
@@ -39,15 +43,16 @@ input {
   line-height: 100% !important;
 }
 
-.search-icon {
-  padding: 10px;
+.mat-icon-button {
+  min-width: 50px;
+  margin: 10px 2% 0px 0px;
 }
 
 #export-icon {
   color: rgba(30,136,229,0.7)
 }
 
-.add-filterIcon {
+.filterIcon {
   font-size: 45px;
   height: 50px;
   width: 50px;

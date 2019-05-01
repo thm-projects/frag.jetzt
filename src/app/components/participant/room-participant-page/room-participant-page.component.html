@@ -23,21 +23,18 @@
       </mat-card-content>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-comment' | translate}}"
-                  routerLink="/participant/room/{{ room.shortId }}/comments">
-            <mat-icon>question_answer</mat-icon>
+          <button mat-icon-button color="primary" routerLink="/participant/room/{{ room.shortId }}/comments">
+            <mat-icon matTooltip="{{ 'room-page.create-comment' | translate}}">question_answer</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.give-feedback' | translate}}"
-                  routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
-            <mat-icon>thumbs_up_down</mat-icon>
+          <button mat-icon-button color="primary" routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
+            <mat-icon matTooltip="{{ 'room-page.give-feedback' | translate}}">thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="Lernstand"
-                  routerLink="/participant/room/{{ room.shortId }}/statistics">
-            <mat-icon>insert_chart</mat-icon>
+          <button mat-icon-button color="primary" routerLink="/participant/room/{{ room.shortId }}/statistics">
+            <mat-icon matTooltip="{{ 'statistic.answer-statistic' | translate}}">insert_chart</mat-icon>
           </button>
         </mat-grid-tile>
       </mat-grid-list>

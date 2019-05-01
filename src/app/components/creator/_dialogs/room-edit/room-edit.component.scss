@@ -1,8 +1,7 @@
 @import '../../../../../styles';
 
 .header {
-  color: black;
-  background-color: mat-color($arsnova-primary,500);
+  background-color: mat-color($arsnova-primary,200);
   margin: 0 0 10px 0;
 }
 
@@ -13,3 +12,15 @@
 #commentSlider {
   width: 100%;
 }
+
+.delete {
+  margin-bottom: 20px;
+  min-width: 170px;
+  width: 60%;
+  background-color: mat-color($arsnova-warn,300);
+}
+
+mat-icon {
+  margin-right: 10px;
+}
+

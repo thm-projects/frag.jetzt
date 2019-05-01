@@ -17,10 +17,25 @@ button {
   }
 }
 
+#description {
+  margin-bottom: 0px;
+}
+
 .mat-icon-button {
   width: 75%;
   height: 75%;
   margin-bottom: 20px;
+}
+
+#settings {
+  width: 10%;
+  max-width: 40px;
+}
+
+#settings-icon {
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
 }
 
 mat-icon {

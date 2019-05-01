@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
+import { TSMap } from 'typescript-map';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -58,6 +59,7 @@ export class RoomService extends BaseHttpService {
   getRoom(id: string): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
+      map(room => this.parseExtensions(room)),
       map(room => this.parseDefaultContentGroup(room)),
       tap(room => this.setRoomId(room)),
       catchError(this.handleError<Room>(`getRoom keyword=${ id }`))
@@ -101,6 +103,15 @@ export class RoomService extends BaseHttpService {
           cg.name = 'Default';
         }
       }
+    }
+    return room;
+  }
+
+  parseExtensions(room: Room): Room {
+    if (room.extensions) {
+      let extensions: TSMap<string, TSMap<string, any>> = new TSMap();
+      extensions = room.extensions;
+      room.extensions = extensions;
     }
     return room;
   }
