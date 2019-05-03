@@ -57,7 +57,7 @@ export class CommentListComponent implements OnInit {
   }
 
   searchComments(term: string): void {
-    if (term) {
+    if (term && term.length > 2) {
       this.hideCommentsList = true;
       this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(term.toLowerCase()));
     } else {
@@ -78,6 +78,7 @@ export class CommentListComponent implements OnInit {
         this.comments = this.comments.concat(c);
         break;
       case 'CommentPatched':
+        // ToDo: Use a map for comments w/ key = commentId
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
@@ -98,6 +99,17 @@ export class CommentListComponent implements OnInit {
             }
           }
         }
+        break;
+      case 'CommentHighlighted':
+      // ToDo: Use a map for comments w/ key = commentId
+        for (let i = 0; i < this.comments.length; i++) {
+          if (payload.id === this.comments[i].id) {
+            this.comments[i].highlighted = <boolean>payload.lights;
+            console.log(<boolean>payload.lights);
+            console.log(this.comments[i]);
+          }
+        }
+        break;
     }
   }
 
