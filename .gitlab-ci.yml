@@ -20,13 +20,7 @@ tslint:
   allow_failure: false
   dependencies: []
   script:
-    - echo "{}" > package.json
-    - npm install tslint-angular
-    - npm install tslint-eslint-rules
-    - npm install @angular/compiler
-    - npm install @angular/core
-    - npm install typescript
-    - npm install rxjs
+    - npm install
     - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
 
 unit_tests:
