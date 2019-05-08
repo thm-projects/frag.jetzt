@@ -1,11 +1,11 @@
 <form>
 <mat-form-field class="input-block">
   <input matInput #subject [(ngModel)]="content.subject" placeholder="{{'content.subject' | translate}}" name="subject"
-  maxlength="20">
+  maxlength="40">
 </mat-form-field>
 <mat-form-field class="input-block">
     <textarea matInput #body [(ngModel)]="content.body" placeholder="{{'content.body' | translate}}" name="body"
-              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" maxlength="100"></textarea>
+              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" maxlength="255"></textarea>
 </mat-form-field>
 <mat-form-field>
   <input matInput #group [formControl]="myControl" [matAutocomplete]="auto"

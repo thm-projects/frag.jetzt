@@ -4,19 +4,20 @@
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list-page.search' | translate }}"
     (input)="searchComments(searchBox.value)">
-  <button mat-button *ngIf="searchBox.value || isIconHide" (click)="hideCommentsList=false; searchBox.value=''; isIconHide=false">
+  <button mat-icon-button *ngIf="searchBox.value || isIconHide" (click)="hideCommentsList=false; searchBox.value=''; isIconHide=false">
     <mat-icon>close</mat-icon>
   </button>
-  <button mat-button *ngIf="!searchBox.value && userRole === 1 && comments.length > 0"
+  <span class="fill-remaining-space"></span>
+  <button mat-icon-button *ngIf="!searchBox.value && userRole === 1 && comments.length > 0"
     [matTooltip]="'Export comments'" (click)="export(true)">
     <mat-icon class="add-icon" id="export-icon">cloud_download</mat-icon>
   </button>
 
-  <button mat-button *ngIf="!searchBox.value && !isIconHide" color="accent" (click)="openSubmitDialog()">
+  <button mat-icon-button *ngIf="!searchBox.value && !isIconHide" color="accent" (click)="openSubmitDialog()">
     <mat-icon class="add-icon">add_circle</mat-icon>
   </button>
 
-  <mat-icon mat-icon-button *ngIf="!searchBox.value" class="add-filterIcon" color="accent" [matMenuTriggerFor]="filterMenu">
+  <mat-icon mat-icon-button *ngIf="!searchBox.value" class="filterIcon" color="accent" [matMenuTriggerFor]="filterMenu">
     sort
   </mat-icon>
 
@@ -49,9 +50,10 @@
   </mat-menu>
 </div>
 
-<mat-card id="outer-card" *ngIf="hideCommentsList">
-  <app-comment *ngFor="let current of filteredComments" [comment]="current"></app-comment>
+<mat-card class="outer-card" *ngIf="user.role === 0">
+  <app-comment *ngFor="let current of getCommentsParticipant()" [comment]="current"></app-comment>
 </mat-card>
-<mat-card *ngIf="!hideCommentsList">
-  <app-comment *ngFor="let current of comments | orderBy: 'timestamp'" [comment]="current"></app-comment>
+<mat-card class="outer-card" *ngIf="user.role === 1">
+  <app-comment *ngFor="let current of getCommentsCreator()" [comment]="current"></app-comment>
 </mat-card>
+

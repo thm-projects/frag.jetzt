@@ -10,17 +10,21 @@
     "create-content": "Create content",
     "live-feedback": "Live feedback",
     "answer-statistics": "Statistics",
-    "edit-room": "Edit session",
     "delete-room": "Delete session",
     "sure": "Are you sure?",
     "reallySession": "Do you really want to delete session ",
     "reallyContent": "Do you really want to delete content ",
     "really2": "? This action can not be undone.",
+    "deleted": " successfully deleted.",
     "abort": "Abort",
     "update": "Update",
+    "changes-successful": "Successfully updated.",
     "default-content-group": "Default",
     "description": "Description",
-    "present": "Present"
+    "present": "Present",
+    "session-settings": "Session settings",
+    "general": "General",
+    "threshold": "Threshold for visible comments: "
   },
   "content": {
     "content": "Content",

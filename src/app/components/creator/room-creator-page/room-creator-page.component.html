@@ -2,18 +2,25 @@
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
-      <mat-card-header fxLayoutAlign="center">
-        <mat-card-title fxLayoutAlign="center">
-          <h2>{{ room.name }}</h2>
-        </mat-card-title>
-        <mat-card-subtitle fxLayoutAlign="center">
-          <h3>
-            {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
-          </h3>
-        </mat-card-subtitle>
-      </mat-card-header>
+      <div fxLayout="row">
+        <span class="fill-remaining-space"></span>
+        <mat-card-header fxLayoutAlign="center" fxLayout="row">
+          <mat-card-title fxLayoutAlign="center">
+            <h2>{{ room.name }}</h2>
+          </mat-card-title>
+          <mat-card-subtitle fxLayoutAlign="center">
+            <h3>
+              {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
+            </h3>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <span class="fill-remaining-space"></span>
+        <button mat-icon-button id="settings" *ngIf="!modify" (click)="showEditDialog()" color="primary">
+          <mat-icon id="settings-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
+        </button>
+      </div>
       <mat-divider></mat-divider>
-      <mat-card-content fxLayoutAlign="center">
+      <mat-card-content id="description" fxLayoutAlign="center">
         <mat-expansion-panel *ngIf="!(room.description == '')" class="mat-elevation-z0">
           <mat-expansion-panel-header>
             <h4>{{ 'room-page.description' | translate }}</h4>
@@ -23,44 +30,35 @@
           </p>
         </mat-expansion-panel>
       </mat-card-content>
-      <mat-grid-list cols="3" rowHeight="2:1">
+      <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile colspan="1" rowspan="1">
-        <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-content' | translate}}"
-                routerLink="/creator/room/{{ room.shortId }}/create-content">
-          <mat-icon>note_add</mat-icon>
-        </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.comments' | translate}}"
-                  routerLink="/creator/room/{{ room.shortId }}/comments">
-            <mat-icon>question_answer</mat-icon>
+          <button mat-icon-button color="primary"
+                  routerLink="/creator/room/{{ room.shortId }}/create-content">
+            <mat-icon matTooltip="{{ 'room-page.create-content' | translate}}">note_add</mat-icon>
+            <h3>{{ 'room-page.create-content' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button *ngIf="!modify" (click)="showEditDialog()" color="accent"
-                  matTooltip="{{ 'room-page.edit-room' | translate}}">
-            <mat-icon>create</mat-icon>
+          <button mat-icon-button color="primary"
+                  routerLink="/creator/room/{{ room.shortId }}/comments">
+            <mat-icon matTooltip="{{ 'room-page.comments' | translate}}">question_answer</mat-icon>
+            <h3>{{ 'room-page.comments' | translate}}</h3>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
-      <mat-grid-list cols="3" rowHeight="2:1">
+      <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
-         <button mat-icon-button color="primary" matTooltip="{{ 'room-page.answer-statistics' | translate}}"
-                 routerLink="/creator/room/{{ room.shortId }}/statistics">
-           <mat-icon>insert_chart</mat-icon>
-         </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.live-feedback' | translate}}"
-                  routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
-            <mat-icon class="smallerIcon">thumbs_up_down</mat-icon>
+          <button mat-icon-button color="primary" routerLink="/creator/room/{{ room.shortId }}/statistics">
+            <mat-icon matTooltip="{{ 'room-page.answer-statistics' | translate}}">insert_chart</mat-icon>
+           <h3>{{ 'room-page.answer-statistics' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-        <button mat-icon-button color="warn" (click)="openDeletionRoomDialog()"
-                matTooltip="{{ 'room-page.delete-room' | translate}}">
-          <mat-icon>delete_forever</mat-icon>
-        </button>
+          <button mat-icon-button color="primary" routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
+            <mat-icon class="smallerIcon" matTooltip="{{ 'room-page.live-feedback' | translate}}">thumbs_up_down
+            </mat-icon>
+            <h3>{{ 'room-page.live-feedback' | translate}}</h3>
+          </button>
         </mat-grid-tile>
       </mat-grid-list>
       <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
