@@ -81,7 +81,7 @@ export class RoomService extends BaseHttpService {
   }
 
   updateRoom(updatedRoom: Room): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ updatedRoom.shortId }`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ updatedRoom.shortId }`;
     return this.http.put(connectionUrl, updatedRoom , httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<any>('updateRoom'))
