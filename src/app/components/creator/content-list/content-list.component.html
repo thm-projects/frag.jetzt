@@ -15,22 +15,22 @@
       <mat-grid-tile>
         <button class="actionButton" mat-icon-button
                 routerLink="/creator/room/{{ roomId }}/create-content">
-          <mat-icon class="actionIcon" matTooltip="{{ 'room-page.create-content' | translate}}">note_add</mat-icon>
-          <h3>{{ 'room-page.create-content' | translate}}</h3>
+          <mat-icon class="actionIcon">note_add</mat-icon>
+          <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h3>
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
         <button class="actionButton" mat-icon-button
                 routerLink="/creator/room/{{ roomId }}/{{ contentGroup.name }}/presentation">
-          <mat-icon class="actionIcon" matTooltip="{{ 'room-page.present' | translate}}">school</mat-icon>
-          <h3>{{ 'room-page.present' | translate}}</h3>
+          <mat-icon class="actionIcon">school</mat-icon>
+          <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.present' | translate}}</h3>
         </button>
       </mat-grid-tile>
       <mat-grid-tile>
         <button class="actionButton" mat-icon-button
                 routerLink="/creator/room/{{ roomId }}/statistics">
-          <mat-icon class="actionIcon" matTooltip="{{ 'room-page.answer-statistics' | translate}}">insert_chart</mat-icon>
-          <h3>{{ 'room-page.answer-statistics' | translate}}</h3>
+          <mat-icon class="actionIcon">insert_chart</mat-icon>
+          <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h3>
         </button>
       </mat-grid-tile>
     </mat-grid-list>

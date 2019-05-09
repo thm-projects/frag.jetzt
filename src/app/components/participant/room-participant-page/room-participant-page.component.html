@@ -24,17 +24,20 @@
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
-            <mat-icon matTooltip="{{ 'room-page.create-comment' | translate}}">question_answer</mat-icon>
+            <mat-icon>question_answer</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-comment' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
-            <mat-icon matTooltip="{{ 'room-page.give-feedback' | translate}}">thumbs_up_down</mat-icon>
+            <mat-icon>thumbs_up_down</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/statistics">
-            <mat-icon matTooltip="{{ 'statistic.answer-statistic' | translate}}">insert_chart</mat-icon>
+            <mat-icon>insert_chart</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'statistic.answer-statistic' | translate}}</h3>
           </button>
         </mat-grid-tile>
       </mat-grid-list>

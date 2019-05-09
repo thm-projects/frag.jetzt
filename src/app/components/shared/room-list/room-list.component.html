@@ -7,7 +7,7 @@
   </mat-expansion-panel>
   <mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
     <mat-expansion-panel-header class="matPanelListHeader">
-      <button mat-button color="primary" routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
+      <button mat-button routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
         <mat-icon>input</mat-icon>
       </button>
       <mat-panel-title class="panelTitle">

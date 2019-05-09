@@ -15,8 +15,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ContentDeleteComponent } from '../_dialogs/content-delete/content-delete.component';
 import { ContentEditComponent } from '../_dialogs/content-edit/content-edit.component';
-import { InnerSubscriber } from 'rxjs/internal/InnerSubscriber';
-
 
 @Component({
   selector: 'app-content-list',
@@ -28,24 +26,16 @@ import { InnerSubscriber } from 'rxjs/internal/InnerSubscriber';
 export class ContentListComponent implements OnInit {
 
   contents: Content[];
-
   contentBackup: Content;
-
   contentCBackup: ContentChoice;
-
   roomId: string;
-
   contentGroup: ContentGroup;
-
   room: Room;
-
   isLoading = true;
-
   collectionName: string;
-
   labelMaxLength: number;
-
   labels: string[] = [];
+  deviceType = localStorage.getItem('deviceType');
 
   constructor(private contentService: ContentService,
               private roomService: RoomService,

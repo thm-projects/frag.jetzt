@@ -15,6 +15,7 @@
 		"creator": "Dozent/in",
 		"participant": "Student/in",
 		"password-reset": "Passwort vergessen?",
+    "not-registered": "Noch keinen Account?",
 		"register": "Registrieren",
 		"welcome": "Willkommen bei"
 	},

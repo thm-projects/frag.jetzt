@@ -15,7 +15,8 @@ export class RoomParticipantPageComponent implements OnInit {
 
   room: Room;
   isLoading = true;
-  themeClass = localStorage.getItem('classNameOfTheme');
+  deviceType = localStorage.getItem('deviceType');
+
 
   constructor(private location: Location,
               private roomService: RoomService,
