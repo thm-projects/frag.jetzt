@@ -2,7 +2,7 @@
 
 mat-card {
   width: 800px;
-  background-color: var(--content-mat-card)!important;
+  background-color: var(--card)!important;
 }
 
 mat-card-content > :first-child {
@@ -93,6 +93,6 @@ mat-grid-tile {
 }
 
 mat-expansion-panel {
-  background-color: var(--content-mat-card)!important;
+  background-color: var(--card)!important;
   min-width: 200px;
 }

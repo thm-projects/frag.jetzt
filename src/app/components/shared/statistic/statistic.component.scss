@@ -1,12 +1,12 @@
 mat-card {
   width: 800px;
   max-width: 90%;
-  background-color: var(--statistic-bg-color) !important;
+  background-color: var(--card)!important;
 }
 
 mat-toolbar {
   height: 15px;
-  background-color: var(--statistic-bg-color);
+  background-color: var(--card)!important;
 }
 
 .mat-icon-button {
@@ -20,4 +20,12 @@ mat-icon {
   height: 40px;
   width: 40px;
   line-height: 100%!important;
+}
+
+h4 {
+  color: var(--text-1);
+}
+
+mat-list-item {
+  color: var(--text-1)!important;
 }

@@ -3,7 +3,7 @@
 mat-card {
   width: 100%;
   max-width: 800px;
-  background-color: var(--content-mat-card)!important;
+  background-color: var(--card)!important;
 }
 
 mat-card-content>:first-child {
@@ -67,7 +67,7 @@ mat-card-subtitle {
 }
 
 mat-expansion-panel {
-  background-color: var(--content-mat-card)!important;
+  background-color: var(--card)!important;
   min-width: 200px;
 }
 
