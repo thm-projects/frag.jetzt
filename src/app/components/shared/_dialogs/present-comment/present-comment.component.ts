@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class PresentCommentComponent implements OnInit {
   public body: string;
-  sliderValue = 0;
 
   constructor(
     public dialogRef: MatDialogRef<PresentCommentComponent>,
@@ -25,8 +24,7 @@ export class PresentCommentComponent implements OnInit {
     this.dialogRef.close('close');
   }
 
-  private updateFontSize(): void {
-     console.log(this.sliderValue);
-     document.getElementById('comment').style.fontSize = this.sliderValue + 'em';
+  private updateFontSize(event: any): void {
+     document.getElementById('comment').style.fontSize = (event.value * 2.5) + 'em';
   }
 }
