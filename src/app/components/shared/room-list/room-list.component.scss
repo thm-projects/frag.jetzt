@@ -15,7 +15,7 @@ button {
 }
 
 #matPanelHeader {
-  background-color: var(--room-list-mPHeader);
+  background-color: var(--background-2);
   margin-bottom: 5px;
   color: white;
 }
@@ -31,13 +31,13 @@ mat-panel-title {
 }
 
 .headerTitle {
-  width: 8% !important;
-  color: var(--room-list-card-color)!important;
+  width: 8%;
+  color: var(--primary)!important;
 }
 
 .panelTitle {
-  width: 8% !important;
-  color: black !important;
+  width: 8%;
+  color: black!important;
 }
 
 

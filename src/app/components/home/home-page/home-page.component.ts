@@ -7,13 +7,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomePageComponent implements OnInit {
 
-  mobile = true;
+  deviceType: string;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
-    if (window.innerWidth > 500) {
-      this.mobile = false;
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      localStorage.setItem('deviceType', 'mobile');
+      this.deviceType = 'mobile';
+    } else {
+      localStorage.setItem('deviceType', 'desktop');
+      this.deviceType = 'desktop';
     }
   }
 

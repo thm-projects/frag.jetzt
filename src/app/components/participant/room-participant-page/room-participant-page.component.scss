@@ -14,6 +14,7 @@ mat-card-content>:first-child {
   width: 75%;
   height: 75%;
   margin-bottom: 20px;
+  color: var(--primary)!important;
 }
 
 mat-icon {
@@ -25,6 +26,8 @@ mat-icon {
 
 button {
   width: 30%;
+  transition: all 0.5s;
+
   &:hover {
     transform: scale(1.25)
   }

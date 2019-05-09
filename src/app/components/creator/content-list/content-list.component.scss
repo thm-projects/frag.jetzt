@@ -9,7 +9,7 @@ mat-card-content > :first-child {
 }
 
 mat-expansion-panel {
-  background-color: var(--content-mat-expansion-panel);
+  background-color: var(--background-2);
   margin-bottom: 5px;
 }
 
@@ -21,14 +21,14 @@ mat-panel-title {
 }
 
 mat-expansion-panel-header {
-  background-color: var(--content-group-card) !important;
+  background-color: var(--background-2) !important;
   padding-left: 3%;
   padding-right: 3%;
   word-break: break-all;
 }
 
 .matPanel {
-  background-color: var(--content-group-card);
+  background-color: var(--background-2);
   margin-bottom: 5px;
   color: black!important;
 }
@@ -47,6 +47,8 @@ h2 {
   width: 75%;
   height: 75%;
   margin: 5px;
+  transition: all 0.5s;
+  color: var(--primary)!important;
 
   &:hover {
     transform: scale(1.25)

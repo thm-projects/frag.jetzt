@@ -12,6 +12,7 @@ mat-card-content > :first-child {
 
 button {
   width: 30%;
+  transition: all 0.5s;
   &:hover {
     transform: scale(1.25)
   }
@@ -25,6 +26,7 @@ button {
   width: 75%;
   height: 75%;
   margin-bottom: 20px;
+  color: var(--primary)!important;
 }
 
 #settings {

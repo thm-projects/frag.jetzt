@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill [ngClass]="themeClass">
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
@@ -23,17 +23,17 @@
       </mat-card-content>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button color="primary" routerLink="/participant/room/{{ room.shortId }}/comments">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
             <mat-icon matTooltip="{{ 'room-page.create-comment' | translate}}">question_answer</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon matTooltip="{{ 'room-page.give-feedback' | translate}}">thumbs_up_down</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" routerLink="/participant/room/{{ room.shortId }}/statistics">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/statistics">
             <mat-icon matTooltip="{{ 'statistic.answer-statistic' | translate}}">insert_chart</mat-icon>
           </button>
         </mat-grid-tile>
