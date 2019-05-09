@@ -8,6 +8,11 @@ app-comment {
   overflow-wrap: break-word;
 }
 
+.mat-form-field {
+  float: left;
+  padding-left: 10px;
+}
+
 input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
@@ -30,38 +35,21 @@ input {
   padding: 10px;
 }
 
-.add-button {
-  width: 44px !important;
-  height: 44px !important;
+.searchBarButton {
+  width: 45px !important;
+  height: 45px !important;
   text-align: center;
+  min-width: 50px;
+  margin: 10px 2% 0 0;
 }
 
-.add-icon {
+.close {
+  margin: 5px 0 5px 0;
+}
+
+.searchBarIcon {
   font-size: 45px;
   height: 45px;
   width: 45px;
   line-height: 100% !important;
-}
-
-.mat-icon-button {
-  min-width: 50px;
-  margin: 10px 2% 0px 0px;
-}
-
-#export-icon {
-  color: rgba(30,136,229,0.7)
-}
-
-.filterIcon {
-  font-size: 45px;
-  height: 50px;
-  width: 50px;
-  line-height: 100%!important;
-  padding-right: 15px;
-  padding-top: 8px;
-}
-
-.mat-form-field {
-  float: left;
-  padding-left: 10px;
 }
