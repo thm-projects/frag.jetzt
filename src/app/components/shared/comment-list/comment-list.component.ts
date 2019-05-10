@@ -140,6 +140,13 @@ export class CommentListComponent implements OnInit {
           }
         }
         break;
+      case 'CommentDeleted':
+        for (let i = 0; i < this.comments.length; i++) {
+          this.comments = this.comments.filter(function (el) {
+            return el.id !== payload.id;
+          });
+        }
+        break;
     }
   }
 
@@ -199,5 +206,9 @@ export class CommentListComponent implements OnInit {
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
       return +dateB - +dateA;
     });
+  }
+
+  deleteComments(): void {
+    this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 }
