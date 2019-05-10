@@ -140,6 +140,13 @@ export class CommentListComponent implements OnInit {
           }
         }
         break;
+      case 'CommentDeleted':
+        for (let i = 0; i < this.comments.length; i++) {
+          this.comments = this.comments.filter(function (el) {
+            return el.id !== payload.id;
+          });
+        }
+        break;
     }
   }
 
