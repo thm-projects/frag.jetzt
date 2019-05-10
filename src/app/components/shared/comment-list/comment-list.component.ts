@@ -12,6 +12,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
+import { CommentExportComponent } from '../../creator/_dialogs/comment-export/comment-export.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -162,8 +163,11 @@ export class CommentListComponent implements OnInit {
     this.wsCommentService.add(comment);
   }
 
-  export(clicked: boolean): void {
-    this.commentService.exportButtonClicked(clicked);
+  openExportDialog(): void {
+    const dialogRef = this.dialog.open(CommentExportComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.comments = this.comments;
   }
 
   filterFavorite(): void {

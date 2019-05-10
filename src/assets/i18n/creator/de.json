@@ -87,9 +87,9 @@
     "error-comment": "Bitte geben Sie einen Kommentar ein.",
     "error-title": "Bitte geben Sie einen Titel ein.",
     "error-both-fields": "Bitte füllen Sie alle Felder aus.",
-    "delimiter": "Bitte wählen Sie ein Trennzeichen:",
-    "comma": "Komma",
-    "semicolon": "Semikolon",
+    "delimiter": "Bitte wählen Sie ein Format!",
+    "comma": "Microsoft Excel",
+    "semicolon": "Standard CSV",
     "export": "Exportieren"
   },
   "comment-list-page": {
