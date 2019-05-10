@@ -49,6 +49,9 @@
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortTimeStamp()">
         <mat-icon color="primary">remove</mat-icon>
       </button>
+      <button mat-icon-button *ngIf="userRole === 1" (focus)="hideCommentsList=false" (click)="deleteComments()">
+        <mat-icon color="primary">delete</mat-icon>
+      </button>
     </div>
   </mat-menu>
 </div>

@@ -66,4 +66,12 @@ export class CommentService extends BaseHttpService {
       catchError(this.handleError<any>('updateComment'))
     );
   }
+
+  deleteCommentsByRoomId(roomId: string): Observable<Comment> {
+    const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment}/byRoom?roomId=${roomId}`;
+    return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Comment>('deleteComment'))
+    );
+  }
 }

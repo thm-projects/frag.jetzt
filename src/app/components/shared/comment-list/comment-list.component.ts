@@ -200,4 +200,8 @@ export class CommentListComponent implements OnInit {
       return +dateB - +dateA;
     });
   }
+
+  deleteComments(): void {
+    this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
+  }
 }
