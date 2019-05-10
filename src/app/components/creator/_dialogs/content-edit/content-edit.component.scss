@@ -9,17 +9,17 @@ textarea {
 }
 
 mat-row {
-  background-color: var(--dialog-bg);
-  border-color: var(--dialog-bg);
+  background-color: var(--dialog);
+  border-color: var(--dialog);
 }
 
 h4 {
-  margin: 0px !important;
+  margin: 0 !important;
   padding-bottom: 10px;
-  color: var(--heading-4);
+  color: var(--primary);
 }
 
 mat-cell {
-  padding-left: 0px!important;
+  padding-left: 0!important;
   padding-right: 10px!important;
 }

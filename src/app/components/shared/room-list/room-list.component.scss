@@ -1,5 +1,6 @@
 button {
   margin-right: 10px;
+  color: var(--primary);
 }
 
 .mat-expansion-panel-header-description {
@@ -9,19 +10,19 @@ button {
 
 
 .matPanel {
-  background-color: var(--room-list-mPanel);
+  background-color: var(--grey);
   margin-bottom: 5px;
   color: black!important;
 }
 
 #matPanelHeader {
-  background-color: var(--room-list-mPHeader);
+  background-color: var(--grey-light);
   margin-bottom: 5px;
   color: white;
 }
 
 .matPanelListHeader {
-  background-color: var(--room-list-mPLHeader) !important;
+  background-color: var(--grey) !important;
 }
 
 mat-panel-title {
@@ -31,13 +32,13 @@ mat-panel-title {
 }
 
 .headerTitle {
-  width: 8% !important;
-  color: var(--room-list-card-color)!important;
+  width: 8%;
+  color: var(--primary)!important;
 }
 
 .panelTitle {
-  width: 8% !important;
-  color: black !important;
+  width: 8%;
+  color: black!important;
 }
 
 
@@ -46,6 +47,6 @@ mat-card-title {
 }
 
 #no-sessions-card {
-  background-color: var(--room-list-card-bg);
-  color: var(--room-list-card-color);
+  background-color: var(--grey);
+  color: var(--primary);
 }

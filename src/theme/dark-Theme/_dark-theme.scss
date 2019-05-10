@@ -32,7 +32,7 @@ mat-form-field.input-block {
 
 
 $dark-primary: mat-palette($mat-blue-gray, 800);
-$dark-accent: mat-palette($mat-blue-gray, 500);
+$dark-accent: mat-palette($mat-orange, 200);
 $dark-warn: mat-palette($mat-red, A200);
 
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);

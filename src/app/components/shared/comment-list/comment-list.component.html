@@ -4,47 +4,50 @@
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list-page.search' | translate }}"
     (input)="searchComments(searchBox.value)">
-  <button mat-icon-button *ngIf="searchBox.value || isIconHide" (click)="hideCommentsList=false; searchBox.value=''; isIconHide=false">
+  <button mat-icon-button class="searchBarButton close" *ngIf="searchBox.value || isIconHide"
+          (click)="hideCommentsList=false; searchBox.value=''; isIconHide=false">
     <mat-icon>close</mat-icon>
   </button>
   <span class="fill-remaining-space"></span>
-  <button mat-icon-button *ngIf="!searchBox.value && userRole === 1 && comments.length > 0"
-    [matTooltip]="'Export comments'" (click)="export(true)">
-    <mat-icon class="add-icon" id="export-icon">cloud_download</mat-icon>
+  <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && userRole === 1 && comments.length > 0 && !isIconHide"
+    [matTooltip]="'Export comments'" (click)="openExportDialog()">
+    <mat-icon class="searchBarIcon" color="accent">cloud_download</mat-icon>
   </button>
 
-  <button mat-icon-button *ngIf="!searchBox.value && !isIconHide" color="accent" (click)="openSubmitDialog()">
-    <mat-icon class="add-icon">add_circle</mat-icon>
+  <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && !isIconHide"
+          color="accent" (click)="openSubmitDialog()">
+    <mat-icon class="searchBarIcon">add_circle</mat-icon>
   </button>
 
-  <mat-icon mat-icon-button *ngIf="!searchBox.value" class="filterIcon" color="accent" [matMenuTriggerFor]="filterMenu">
-    sort
-  </mat-icon>
+  <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && !isIconHide"
+          color="accent" [matMenuTriggerFor]="filterMenu">
+    <mat-icon class="searchBarIcon">sort</mat-icon>
+  </button>
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div id="filterIcon">
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterMarkAsCorrect(); isIconHide=true">
-        <mat-icon>check_circle</mat-icon>
+        <mat-icon color="primary">check_circle</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterFavorite(); isIconHide=true">
-        <mat-icon>star</mat-icon>
+        <mat-icon color="primary">star</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterMarkAsRead(); isIconHide=true">
-        <mat-icon>visibility</mat-icon>
+        <mat-icon color="primary">visibility</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortVoteDesc()">
-        <mat-icon>keyboard_arrow_up</mat-icon>
+        <mat-icon color="primary">keyboard_arrow_up</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortVote()">
-        <mat-icon>keyboard_arrow_down</mat-icon>
+        <mat-icon color="primary">keyboard_arrow_down</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortTimeStamp()">
-        <mat-icon>remove</mat-icon>
+        <mat-icon color="primary">remove</mat-icon>
       </button>
     </div>
   </mat-menu>

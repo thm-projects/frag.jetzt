@@ -110,7 +110,20 @@ export class CommentComponent implements OnInit {
     });
   }
 
+  goToFullScreen(element: Element): void {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    }
+  }
+
+  exitFullScreen(): void {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+
   openPresentDialog(comment: Comment): void {
+    this.goToFullScreen(document.documentElement);
     if (this.isStudent === false) {
       this.wsCommentService.highlight(comment);
     }
@@ -128,9 +141,8 @@ export class CommentComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(result => {
         this.wsCommentService.lowlight(comment);
-        if (result === 'close') {
-          return;
-        }
+        this.exitFullScreen();
+
       });
   }
 }

@@ -15,6 +15,7 @@
 		"creator": "Lecturer",
 		"participant": "Student",
 		"password-reset": "Forgot your password?",
+		"not-registered": "Don't have an account yet?",
 		"register": "Register",
 		"welcome": "Welcome to"
 	},

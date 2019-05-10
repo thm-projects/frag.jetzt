@@ -87,9 +87,9 @@
     "error-title": "Please enter a title.",
     "error-comment": "Please enter a comment.",
     "error-both-fields": "Please fill in all fields.",
-    "delimiter": "Please select a delimiter:",
-    "comma": "Comma",
-    "semicolon": "Semicolon",
+    "delimiter": "Please choose a format!",
+    "comma": "Microsoft Excel",
+    "semicolon": "Standard CSV",
     "export": "Export"
   },
   "comment-list-page": {

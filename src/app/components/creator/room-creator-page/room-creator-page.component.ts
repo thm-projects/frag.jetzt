@@ -19,9 +19,9 @@ import { TSMap } from 'typescript-map';
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit {
   room: Room;
   updRoom: Room;
-  themeClass = localStorage.getItem('classNameOfTheme');
   commentThreshold: number;
   updCommentThreshold: number;
+  deviceType = localStorage.getItem('deviceType');
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,

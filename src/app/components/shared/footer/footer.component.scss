@@ -3,22 +3,22 @@ footer {
 }
 
 #footer-toolbar {
-  background-color: var(--footer-bg-color);
+  background-color: var(--grey-light);
   height: auto;
 
   &:first-child {
-    padding-left: 0px;
+    padding-left: 0;
   }
 
   &:last-child {
-    padding-right: 0px;
+    padding-right: 0;
   }
 }
 
-button {
+.mat-button {
   min-height: 28px;
   font-size: 12px;
-  color: var(--footer-button);
+  color: var(--text-1);
 }
 
 mat-icon {

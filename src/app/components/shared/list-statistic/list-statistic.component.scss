@@ -25,50 +25,50 @@ table {
 
 mat-header-cell {
   color: black!important;
-  background-color: var(--list-st-hCell-bg);
+  background-color: var(--grey);
 }
 
 mat-cell {
   color: black!important;
-  background-color: var(--list-st-mCell-bg);
+  background-color: var(--grey-light);
 }
 
 mat-toolbar {
   height: 20px;
-  background-color: var(--statistic-bg-color)!important;
+  background-color: var(--card)!important;
 }
 
 .positiveC {
-  background-color: var(--positiveC);
+  background-color: var(--green);
 }
 
 .negativeC {
-  background-color: var(--negativeC);
+  background-color: var(--red);
 }
 
 .okayC {
-  background-color: var(--okayC);
+  background-color: var(--red);
 }
 
 .positiveP {
-  background-color: var(--positiveP) !important;
+  background-color: var(--green)!important;
 }
 
 .negativeP {
-  background-color: var(--negativeP) !important;
+  background-color: var(--red)!important;
 }
 
 .okayP {
-  background-color: var(--okayP) !important;
+  background-color: var(--yellow)!important;
 }
 
 .emptyC {
-  color: var(--emptyC-color);
-  background: var(--emptyC-color);
+  color: var(--grey)!important;
+  background: var(--grey);
   pointer-events: none;
 }
 
 .emptyCC {
-  background: var(--emptyCC) ;
+  background: var(--grey) ;
   pointer-events: none;
 }

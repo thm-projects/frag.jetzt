@@ -1,4 +1,4 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill [ngClass]="themeClass">
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-progress-spinner *ngIf="isLoading" color="accent" mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
@@ -15,7 +15,7 @@
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <button mat-icon-button id="settings" *ngIf="!modify" (click)="showEditDialog()" color="primary">
+        <button mat-icon-button id="settings" (click)="showEditDialog()">
           <mat-icon id="settings-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
         </button>
       </div>
@@ -32,32 +32,32 @@
       </mat-card-content>
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile colspan="1" rowspan="1">
-          <button mat-icon-button color="primary"
+          <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/create-content">
-            <mat-icon matTooltip="{{ 'room-page.create-content' | translate}}">note_add</mat-icon>
-            <h3>{{ 'room-page.create-content' | translate}}</h3>
+            <mat-icon>note_add</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary"
+          <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
-            <mat-icon matTooltip="{{ 'room-page.comments' | translate}}">question_answer</mat-icon>
-            <h3>{{ 'room-page.comments' | translate}}</h3>
+            <mat-icon>question_answer</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.comments' | translate}}</h3>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button color="primary" routerLink="/creator/room/{{ room.shortId }}/statistics">
-            <mat-icon matTooltip="{{ 'room-page.answer-statistics' | translate}}">insert_chart</mat-icon>
-           <h3>{{ 'room-page.answer-statistics' | translate}}</h3>
+          <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/statistics">
+            <mat-icon>insert_chart</mat-icon>
+           <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
-            <mat-icon class="smallerIcon" matTooltip="{{ 'room-page.live-feedback' | translate}}">thumbs_up_down
+          <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
+            <mat-icon class="smallerIcon">thumbs_up_down
             </mat-icon>
-            <h3>{{ 'room-page.live-feedback' | translate}}</h3>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.live-feedback' | translate}}</h3>
           </button>
         </mat-grid-tile>
       </mat-grid-list>

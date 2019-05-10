@@ -2,7 +2,7 @@
 
 mat-card {
   width: 800px;
-  background-color: var(--content-mat-card)!important;
+  background-color: var(--card)!important;
 }
 
 mat-card-content > :first-child {
@@ -12,19 +12,21 @@ mat-card-content > :first-child {
 
 button {
   width: 30%;
+  transition: all 0.3s;
   &:hover {
     transform: scale(1.25)
   }
 }
 
 #description {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .mat-icon-button {
   width: 75%;
   height: 75%;
   margin-bottom: 20px;
+  color: var(--primary)!important;
 }
 
 #settings {
@@ -91,6 +93,6 @@ mat-grid-tile {
 }
 
 mat-expansion-panel {
-  background-color: var(--content-mat-card)!important;
+  background-color: var(--card)!important;
   min-width: 200px;
 }

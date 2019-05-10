@@ -1,6 +1,6 @@
 #comment-card {
   margin-bottom: 20px;
-  background-color: var(--comment-mat-card);
+  background-color: var(--background-2);
   cursor: pointer;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -12,12 +12,6 @@ mat-card-content > :first-child {
   margin-top: 20px;
 }
 
-mat-toolbar {
-  border-radius: 10px;
-  margin-bottom: 20px;
-  background-color: var(--comment-mat-toolbar);
-}
-
 .voting-icon {
   width: 35px;
   height: 35px;
@@ -25,36 +19,28 @@ mat-toolbar {
   line-height: 100% !important;
 }
 
-.upvoted {
-  color: var(--upvoted);
+.upVoted {
+  color: var(--green);
 }
 
-.downvoted {
-  color: var(--downvoted);
+.downVoted {
+  color: var(--red);
 }
 
-.incorrect-icon {
-  color: var(--incorrect-icon);
+.not-marked {
+  color: var(--grey);
 }
 
 .correct-icon {
-  color: var(--correct-icon);
+  color: var(--green);
 }
 
 .read-icon {
-  color: var(--read-icon);
-}
-
-.unread-icon {
-  color: var(--unread-icon);
+  color: var(--blue);
 }
 
 .favorite-icon {
-  color: var(--favorite-icon);
-}
-
-.not-favorite-icon {
-  color: var(--not-favorite-icon);
+  color: var(--yellow);
 }
 
 h2 {
@@ -91,7 +77,7 @@ h2 {
 }
 
 .highlighted {
-  background-color: var(--highlighted-comment)!important;
+  background-color: var(--highlighted)!important;
   transition: background-color 1s linear;
 }
 

@@ -4,7 +4,7 @@
                 matAutosizeMinRows=2 matAutosizeMaxRows=5  maxlength="255" [formControl]="bodyForm"></textarea>
     <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
   </mat-form-field>
-  <div fxLayout="row" fxLayoutAlign="center">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <button mat-raised-button color="warn"
             (click)="onNoClick()">{{ 'comment-page.abort' | translate}}</button>
     <button mat-raised-button color="accent"

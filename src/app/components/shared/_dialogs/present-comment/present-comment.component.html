@@ -1,5 +1,5 @@
-<mat-slider min="2.1" max="6" step="0.2" value="1.2" thumbLabel tickInterval="auto"
-            [(ngModel)]="sliderValue" (change)="updateFontSize()" id="slider"></mat-slider>
+<mat-slider min="1" max="2" step="0.1" thumbLabel tickInterval="auto"
+            (input)="updateFontSize($event)" id="slider"></mat-slider>
 <button id="exitButton" mat-raised-button color="warn" (click)="onCloseClick()">
   <mat-icon >exit_to_app</mat-icon>
 </button>
