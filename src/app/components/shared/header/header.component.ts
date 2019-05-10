@@ -75,11 +75,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  login(isDozent: boolean) {
+  login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '350px'
     });
-    dialogRef.componentInstance.role = (isDozent === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
+    dialogRef.componentInstance.role = (isLecturer === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
     dialogRef.componentInstance.isStandard = true;
   }
 
