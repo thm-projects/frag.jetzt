@@ -48,13 +48,13 @@ export class WsCommentServiceService {
     return comment;
   }
 
-  voteUp(comment: Comment): void {
-    const message = new UpVote(comment.userId, comment.id);
+  voteUp(comment: Comment, userId: string): void {
+    const message = new UpVote(userId, comment.id);
     this.wsConnector.send(`/queue/vote.command.upvote`, JSON.stringify(message));
   }
 
-  voteDown(comment: Comment): void {
-    const message = new DownVote(comment.userId, comment.id);
+  voteDown(comment: Comment, userId: string): void {
+    const message = new DownVote(userId, comment.id);
     this.wsConnector.send(`/queue/vote.command.downvote`, JSON.stringify(message));
   }
 

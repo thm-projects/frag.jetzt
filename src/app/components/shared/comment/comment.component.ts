@@ -91,15 +91,17 @@ export class CommentComponent implements OnInit {
   }
 
   voteUp(comment: Comment): void {
+    const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== 1) {
-      this.wsCommentService.voteUp(comment);
+      this.wsCommentService.voteUp(comment, userId);
       this.hasVoted = 1;
     }
   }
 
   voteDown(comment: Comment): void {
+    const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== -1) {
-      this.wsCommentService.voteDown(comment);
+      this.wsCommentService.voteDown(comment, userId);
       this.hasVoted = -1;
     }
   }
