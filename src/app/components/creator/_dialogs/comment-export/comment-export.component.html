@@ -1,0 +1,14 @@
+<div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="35px">
+    <h3>{{'comment-page.delimiter' | translate}}</h3>
+    <mat-radio-group [(ngModel)]="exportType">
+      <div fxLayout="column">
+        <mat-radio-button value="comma" checked><h4>{{'comment-page.comma' | translate}}</h4></mat-radio-button>
+        <mat-radio-button value="semicolon"><h4>{{'comment-page.semicolon' | translate}}</h4></mat-radio-button>
+      </div>
+    </mat-radio-group>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+  <button mat-raised-button color="warn" (click)="onNoClick()">{{'comment-page.abort' | translate}}</button>
+    <button mat-raised-button color="primary"
+            (click)="onExport(exportType)">{{'comment-page.export' | translate}}</button>
+  </div>
+</div>

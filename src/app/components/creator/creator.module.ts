@@ -21,6 +21,8 @@ import { ContentCreatorComponent } from './content-creator/content-creator.compo
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
+import { CommentCreatorPageComponent } from './comment-creator-page/comment-creator-page.component';
+import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
 
 @NgModule({
   imports: [
@@ -50,7 +52,9 @@ import { ContentPresentationComponent } from './content-presentation/content-pre
     ContentCreatorComponent,
     ContentListComponent,
     ContentEditComponent,
-    ContentPresentationComponent
+    ContentPresentationComponent,
+    CommentCreatorPageComponent,
+    CommentExportComponent
   ],
   entryComponents: [
     RoomDeleteComponent,
@@ -61,7 +65,8 @@ import { ContentPresentationComponent } from './content-presentation/content-pre
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
-    ContentEditComponent
+    ContentEditComponent,
+    CommentExportComponent
   ]
 })
 export class CreatorModule {

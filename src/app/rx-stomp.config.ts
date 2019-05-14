@@ -1,8 +1,13 @@
-import { InjectableRxStompConfig } from '@stomp/ng2-stompjs';
+import { RxStompConfig } from '@stomp/rx-stomp';
 
-export const myRxStompConfig: InjectableRxStompConfig = {
+export const ARSRxStompConfig: RxStompConfig = {
   // Which server?
   brokerURL: `ws://${window.location.hostname}:8080/ws/websocket`,
+
+  connectHeaders: {
+    login: 'guest',
+    password: 'guest'
+  },
 
   // How often to heartbeat?
   // Interval in milliseconds, set to 0 to disable
@@ -18,6 +23,6 @@ export const myRxStompConfig: InjectableRxStompConfig = {
   // It can be quite verbose, not recommended in production
   // Skip this key to stop logging to console
   debug: (msg: string): void => {
-    // console.log(new Date(), 'STOMP debug: ' + msg);
+    console.log(new Date(), 'STOMP debug: ' + msg);
   }
 };

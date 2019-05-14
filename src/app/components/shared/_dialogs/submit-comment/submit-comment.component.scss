@@ -1,3 +1,7 @@
+button {
+  min-width: 80px;
+}
+
 form {
   display: block;
   width: 100%;
@@ -10,7 +14,6 @@ app-comment-list {
   max-width: 800px;
 }
 
-button {
-  margin-right: 20px;
-  min-width: 80px;
+textarea {
+  line-height: 120%;
 }

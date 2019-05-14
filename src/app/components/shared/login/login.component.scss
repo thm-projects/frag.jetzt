@@ -1,16 +1,21 @@
 .pwReset {
-  padding-left: 0px;
+  padding-left: 0;
 }
 
 .regButton {
   margin-top: 20px;
-  padding: 0px;
+  padding: 0;
 }
 
 p {
   font-size: small;
-  margin-bottom: 0px;
-  margin-top: 30px;
-  margin-left: 30px;
-  margin-right: 5px;
+  margin: 30px 5px 0 30px;
 }
+
+input:-webkit-autofill {
+  background-color: var(--dialog);
+  -webkit-box-shadow: 0 0 0 1000px var(--dialog) inset;
+}
+
+
+

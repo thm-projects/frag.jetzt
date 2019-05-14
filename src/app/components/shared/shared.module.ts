@@ -11,7 +11,7 @@ import { RoomPageComponent } from './room-page/room-page.component';
 import { StatisticsPageComponent } from './statistics-page/statistics-page.component';
 import { AnswerEditComponent } from '../creator/_dialogs/answer-edit/answer-edit.component';
 import { ContentDeleteComponent } from '../creator/_dialogs/content-delete/content-delete.component';
-import { CommentCreatePageComponent } from '../participant/comment-create-page/comment-create-page.component';
+import { CommentPageComponent } from './comment-page/comment-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { SharedRoutingModule } from './shared-routing.module';
 import { ListStatisticComponent } from './list-statistic/list-statistic.component';
@@ -21,6 +21,9 @@ import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
+import { CommentComponent } from './comment/comment.component';
+import { SubmitCommentComponent } from './_dialogs/submit-comment/submit-comment.component';
+import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 
 @NgModule({
   imports: [
@@ -41,14 +44,17 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
     FeedbackBarometerPageComponent,
     FooterComponent,
     FeedbackBarometerPageComponent,
-    CommentCreatePageComponent,
+    CommentPageComponent,
     CommentListComponent,
     StatisticsPageComponent,
     ListStatisticComponent,
     StatisticComponent,
     RoomCreateComponent,
     LoginComponent,
-    StatisticHelpComponent
+    StatisticHelpComponent,
+    CommentComponent,
+    SubmitCommentComponent,
+    PresentCommentComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -62,14 +68,18 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
     FeedbackBarometerPageComponent,
     FooterComponent,
     FeedbackBarometerPageComponent,
-    CommentCreatePageComponent,
+    CommentPageComponent,
     CommentListComponent,
-    StatisticsPageComponent
+    StatisticsPageComponent,
+    SubmitCommentComponent,
+    PresentCommentComponent
   ],
   entryComponents: [
     RoomCreateComponent,
     LoginComponent,
-    StatisticHelpComponent
+    StatisticHelpComponent,
+    SubmitCommentComponent,
+    PresentCommentComponent
   ]
 })
 export class SharedModule {

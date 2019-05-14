@@ -1,4 +1,12 @@
 {
+  "/api/comment": {
+    "target": "http://localhost:8088",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+		"logLevel": "debug"
+  },
   "/api": {
     "target": "http://localhost:8080",
     "secure": false,

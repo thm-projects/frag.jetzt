@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
+import { ThemeService } from '../../../../theme/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +18,7 @@ import { LoginComponent } from '../login/login.component';
 })
 export class HeaderComponent implements OnInit {
   user: User;
+  themeClass = localStorage.getItem('classNameOfTheme');
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -24,7 +26,9 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService,
               private langService: LanguageService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private themeService: ThemeService
+  ) {
   }
 
   ngOnInit() {
@@ -61,12 +65,21 @@ export class HeaderComponent implements OnInit {
     this.langService.langEmitter.emit(language);
   }
 
-  login(isDozent: boolean) {
+  changeTheme(theme) {
+    this.themeClass = theme;
+    localStorage.setItem('classNameOfTheme', theme);
+    if (theme === '') {
+      this.themeService.setActiveThem('arsnovaTheme');
+    } else {
+      this.themeService.setActiveThem(theme);
+    }
+  }
+
+  login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '350px'
     });
-    const role = (isDozent === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
-    dialogRef.componentInstance.role = role;
+    dialogRef.componentInstance.role = (isLecturer === true) ? UserRole.CREATOR : UserRole.PARTICIPANT;
     dialogRef.componentInstance.isStandard = true;
   }
 

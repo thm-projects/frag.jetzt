@@ -14,6 +14,7 @@ import { CommentService } from './services/http/comment.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { ContentService } from './services/http/content.service';
 import { ContentAnswerService } from './services/http/content-answer.service';
+import { WsConnectorService } from './services/websockets/ws-connector.service';
 import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { EssentialsModule } from './components/essentials/essentials.module';
@@ -24,9 +25,8 @@ import { LanguageService } from './services/util/language.service';
 import { MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
-import { InjectableRxStompConfig, RxStompService, rxStompServiceFactory } from '@stomp/ng2-stompjs';
-import { myRxStompConfig } from './rx-stomp.config';
 import { AppConfig } from './app.config';
+import { ThemeModule } from '../theme/theme.module';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -54,7 +54,8 @@ export function initializeApp(appConfig: AppConfig) {
     BrowserModule,
     BrowserAnimationsModule,
     EssentialsModule,
-    SharedModule
+    SharedModule,
+    ThemeModule
   ],
   providers: [
     AppConfig,
@@ -67,15 +68,7 @@ export function initializeApp(appConfig: AppConfig) {
       useClass: AuthenticationInterceptor,
       multi: true
     },
-    {
-      provide: InjectableRxStompConfig,
-      useValue: myRxStompConfig
-    },
-    {
-      provide: RxStompService,
-      useFactory: rxStompServiceFactory,
-      deps: [InjectableRxStompConfig]
-    },
+    WsConnectorService,
     NotificationService,
     AuthenticationService,
     AuthenticationGuard,
@@ -88,6 +81,7 @@ export function initializeApp(appConfig: AppConfig) {
     MarkdownService,
     MarkedOptions,
     UserService,
+    WsConnectorService,
     {
       provide: MatDialogRef,
       useValue: {

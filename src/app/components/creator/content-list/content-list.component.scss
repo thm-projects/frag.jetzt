@@ -1,7 +1,7 @@
 mat-card {
   width: 800px;
   max-width: 90%;
-  background-color: #fff8e1;
+  background-color: var(--card)!important;
 }
 
 mat-card-content > :first-child {
@@ -9,7 +9,7 @@ mat-card-content > :first-child {
 }
 
 mat-expansion-panel {
-  background-color: #bbdefb;
+  background-color: var(--background-2);
   margin-bottom: 5px;
 }
 
@@ -21,23 +21,34 @@ mat-panel-title {
 }
 
 mat-expansion-panel-header {
-  background-color: #bbdefb !important;
+  background-color: var(--background-2) !important;
   padding-left: 3%;
   padding-right: 3%;
+  word-break: break-all;
 }
 
-.mat-expansion-panel-header-title {
-  word-break: break-all;
+.matPanel {
+  background-color: var(--background-2);
+  margin-bottom: 5px;
+  color: black!important;
+}
+
+.panelTitle {
+  width: 8% !important;
+  color: black !important;
 }
 
 h2 {
   font-size: larger;
+  color: black !important;
 }
 
 .actionButton {
   width: 75%;
   height: 75%;
   margin: 5px;
+  transition: all 0.5s;
+  color: var(--primary)!important;
 
   &:hover {
     transform: scale(1.25)

@@ -1,20 +1,20 @@
 /* import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommentCreatePageComponent } from './comment-create-page.component';
+import { CommentCreatorPageComponent } from './comment-creator-page.component';
 
-describe('CommentCreatePageComponent', () => {
-  let component: CommentCreatePageComponent;
-  let fixture: ComponentFixture<CommentCreatePageComponent>;
+describe('CommentCreatorPageComponent', () => {
+  let component: CommentCreatorPageComponent;
+  let fixture: ComponentFixture<CommentCreatorPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommentCreatePageComponent ]
+      declarations: [ CommentCreatorPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommentCreatePageComponent);
+    fixture = TestBed.createComponent(CommentCreatorPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -23,4 +23,4 @@ describe('CommentCreatePageComponent', () => {
     expect(component).toBeTruthy();
   });
 });
- */
+*/

@@ -3,11 +3,15 @@ form > button {
 }
 
 mat-header-cell {
-  background-color: #ffe0b2;
+  background-color: var(--background-2);
 }
 
 mat-row {
-  background-color: #ffecb3;
+  background-color: var(--primary);
+}
+
+.mat-checkbox {
+  color: var(--text-3) !important;
 }
 
 .addIcon {

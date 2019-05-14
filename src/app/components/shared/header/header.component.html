@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar>
   <mat-toolbar-row>
     <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
       <mat-icon aria-label="Go back">keyboard_arrow_left</mat-icon>
@@ -6,6 +6,15 @@
     <span class="fill-remaining-space"></span>
     <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
+
+    <mat-menu #themeMenu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item (click)="changeTheme('')">{{ 'header.default' | translate }}</button>
+      <button mat-menu-item (click)="changeTheme('dark')">{{ 'header.dark' | translate }}</button>
+    </mat-menu>
+
+    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+      <mat-icon>palette</mat-icon>
+    </button>
 
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)="useLanguage('de')">{{ 'header.german' | translate }}</button>
@@ -46,8 +55,7 @@
       <mat-icon>account_box</mat-icon>
     </button>
     <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
-      <mat-icon *ngIf="user.role === 1" aria-label="Example icon-button with a heart icon" color="accent">record_voice_over</mat-icon>
-      <mat-icon *ngIf="user.role === 0" aria-label="Example icon-button with a heart icon" color="accent">supervisor_account</mat-icon>
+      <mat-icon>account_box</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

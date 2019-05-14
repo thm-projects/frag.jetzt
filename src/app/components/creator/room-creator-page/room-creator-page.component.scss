@@ -2,7 +2,7 @@
 
 mat-card {
   width: 800px;
-  background-color: #fff8e1 !important;
+  background-color: var(--card)!important;
 }
 
 mat-card-content > :first-child {
@@ -12,15 +12,32 @@ mat-card-content > :first-child {
 
 button {
   width: 30%;
+  transition: all 0.3s;
   &:hover {
     transform: scale(1.25)
   }
+}
+
+#description {
+  margin-bottom: 0;
 }
 
 .mat-icon-button {
   width: 75%;
   height: 75%;
   margin-bottom: 20px;
+  color: var(--primary)!important;
+}
+
+#settings {
+  width: 10%;
+  max-width: 40px;
+}
+
+#settings-icon {
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
 }
 
 mat-icon {
@@ -40,19 +57,22 @@ mat-tooltip-component {
 
 p {
   font-size: medium;
+  color: var(--text-2)!important;
 }
+
+h2 {
+   font-size: large;
+   color: var(--text-1)!important;
+ }
 
 h3 {
   font-size: larger;
+  color: var(--text-3)!important;
 }
 
 h4 {
   font-size: medium;
-  color: mat-color($arsnova-primary, 300);
-}
-
-h2 {
-  font-size: large;
+  color: var(--text-1)!important;
 }
 
 mat-card-header {
@@ -73,6 +93,6 @@ mat-grid-tile {
 }
 
 mat-expansion-panel {
-  background-color: #fff8e1!important;
+  background-color: var(--card)!important;
   min-width: 200px;
 }

@@ -1,4 +1,4 @@
-<mat-card *ngFor="let contentGroup of contentGroups" (click)="viewContents(contentGroup)">
+<mat-card id="contentGroup" *ngFor="let contentGroup of contentGroups" (click)="viewContents(contentGroup)">
   <mat-card-header>
     <mat-card-title *ngIf="contentGroup.name === 'Default'">
       {{'room-page.default-content-group' | translate}}

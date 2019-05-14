@@ -1,26 +1,29 @@
-<mat-expansion-panel [disabled]="true" class="matPanelHeader">
-  <mat-expansion-panel-header>
-    <mat-panel-title class="headerTitle">Name</mat-panel-title>
-    <mat-panel-description>Session-Id</mat-panel-description>
-  </mat-expansion-panel-header>
-</mat-expansion-panel>
-<mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
-  <mat-expansion-panel-header class="matPanelListHeader">
-    <button mat-button color="primary" routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
-      <mat-icon>input</mat-icon>
-    </button>
-    <mat-panel-title>
-      {{ room.name }}
-    </mat-panel-title>
-    <mat-panel-description>
-      {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
-    </mat-panel-description>
-  </mat-expansion-panel-header>
-  <p>
-    {{ room.description }}
-  </p>
-</mat-expansion-panel>
-<mat-card *ngIf="rooms && rooms.length === 0">
+<div *ngIf="rooms && rooms.length != 0">
+  <mat-expansion-panel [disabled]="true" id="matPanelHeader">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="headerTitle">Name</mat-panel-title>
+      <mat-panel-description class="headerTitle">Session-Id</mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+  <mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
+    <mat-expansion-panel-header class="matPanelListHeader">
+      <button mat-button routerLink="/{{ baseUrl }}/room/{{ room.shortId }}">
+        <mat-icon>input</mat-icon>
+      </button>
+      <mat-panel-title class="panelTitle">
+        {{ room.name }}
+      </mat-panel-title>
+      <mat-panel-description class="panelTitle">
+        {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    <p>
+      {{ room.description }}
+    </p>
+  </mat-expansion-panel>
+</div>
+
+<mat-card id="no-sessions-card" *ngIf="rooms && rooms.length === 0">
   <mat-card-header>
     <mat-card-title *ngIf="baseUrl === 'creator'">Sie haben noch keine Sessions erstellt!</mat-card-title>
     <mat-card-title *ngIf="baseUrl === 'participant'">Sie sind noch keiner Session beigetreten!</mat-card-title>

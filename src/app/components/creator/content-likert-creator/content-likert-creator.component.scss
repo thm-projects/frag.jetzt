@@ -3,9 +3,9 @@ form > button {
 }
 
 mat-header-cell {
-  background-color: #ffe0b2;
+  background-color: var(--background-2);
 }
 
 mat-cell {
-  background-color: #ffecb3;
+  background-color: var(--primary);
 }

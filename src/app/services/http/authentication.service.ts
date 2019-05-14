@@ -130,4 +130,8 @@ export class AuthenticationService {
   get watchUser() {
     return this.user.asObservable();
   }
+
+  getUserAsSubject(): BehaviorSubject<User> {
+    return this.user;
+  }
 }

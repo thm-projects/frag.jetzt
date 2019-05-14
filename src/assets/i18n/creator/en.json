@@ -10,17 +10,21 @@
     "create-content": "Create content",
     "live-feedback": "Live feedback",
     "answer-statistics": "Statistics",
-    "edit-room": "Edit session",
     "delete-room": "Delete session",
     "sure": "Are you sure?",
     "reallySession": "Do you really want to delete session ",
     "reallyContent": "Do you really want to delete content ",
     "really2": "? This action can not be undone.",
+    "deleted": " successfully deleted.",
     "abort": "Abort",
     "update": "Update",
+    "changes-successful": "Successfully updated.",
     "default-content-group": "Default",
     "description": "Description",
-    "present": "Present"
+    "present": "Present",
+    "session-settings": "Session settings",
+    "general": "General",
+    "threshold": "Threshold for visible comments: "
   },
   "content": {
     "content": "Content",
@@ -74,5 +78,22 @@
     "good": "Good",
     "improvable": "Improvable",
     "no-answers": "No answers"
+  },
+  "comment-page": {
+    "enter-title": "Title",
+    "enter-comment": "Comment",
+    "send": "Send",
+    "abort": "Cancel",
+    "error-title": "Please enter a title.",
+    "error-comment": "Please enter a comment.",
+    "error-both-fields": "Please fill in all fields.",
+    "delimiter": "Please choose a format!",
+    "comma": "Microsoft Excel",
+    "semicolon": "Standard CSV",
+    "export": "Export"
+  },
+  "comment-list-page": {
+    "search": "Search",
+    "cancel": "Cancel"
   }
 }

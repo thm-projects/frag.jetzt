@@ -1,4 +1,4 @@
-table{
+table {
   width: 100%;
 }
 
@@ -24,50 +24,51 @@ table{
 }
 
 mat-header-cell {
-  color: #4db6ac;
-  background-color: #e0e0e0;
+  color: black!important;
+  background-color: var(--grey);
 }
 
 mat-cell {
-  background-color: #E0E0E0;
+  color: black!important;
+  background-color: var(--grey-light);
 }
 
 mat-toolbar {
   height: 20px;
-  background-color: #fff8e1;
+  background-color: var(--card)!important;
 }
 
 .positiveC {
-  background-color: #AED581;
+  background-color: var(--green);
 }
 
 .negativeC {
-  background-color: #FF8A65;
+  background-color: var(--red);
 }
 
 .okayC {
-  background-color: #FFD54F;
+  background-color: var(--red);
 }
 
 .positiveP {
-  background-color: #AED581 !important;
+  background-color: var(--green)!important;
 }
 
 .negativeP {
-  background-color: #FF8A65 !important;
+  background-color: var(--red)!important;
 }
 
 .okayP {
-  background-color: #FFB74D !important;
+  background-color: var(--yellow)!important;
 }
 
 .emptyC {
-  color: #E0E0E0;
-  background: #E0E0E0;
+  color: var(--grey)!important;
+  background: var(--grey);
   pointer-events: none;
 }
 
 .emptyCC {
-  background: #E0E0E0;
+  background: var(--grey) ;
   pointer-events: none;
 }

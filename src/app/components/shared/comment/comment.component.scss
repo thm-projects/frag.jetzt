@@ -1,0 +1,83 @@
+#comment-card {
+  margin-bottom: 20px;
+  background-color: var(--background-2);
+  cursor: pointer;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  padding-right: 5px;
+  transition: background-color 1s linear;
+}
+
+mat-card-content > :first-child {
+  margin-top: 20px;
+}
+
+.voting-icon {
+  width: 35px;
+  height: 35px;
+  font-size: 35px;
+  line-height: 100% !important;
+}
+
+.upVoted {
+  color: var(--green);
+}
+
+.downVoted {
+  color: var(--red);
+}
+
+.not-marked {
+  color: var(--grey);
+}
+
+.correct-icon {
+  color: var(--green);
+}
+
+.read-icon {
+  color: var(--blue);
+}
+
+.favorite-icon {
+  color: var(--yellow);
+}
+
+h2 {
+  text-align: center;
+  margin: 0;
+}
+
+.body {
+  min-width: 200px;
+  min-height: 100px;
+  text-align: start;
+  font-size: 140%;
+  max-height: 120px;
+  overflow: auto;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.mat-icon {
+  transform: scale(1.2);
+}
+
+#date {
+  padding-top: 10px;
+  margin-left: 2%;
+  opacity: 0.4;
+  position: absolute;
+}
+
+.date {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+}
+
+.highlighted {
+  background-color: var(--highlighted)!important;
+  transition: background-color 1s linear;
+}
+

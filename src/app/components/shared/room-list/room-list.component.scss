@@ -1,5 +1,6 @@
 button {
   margin-right: 10px;
+  color: var(--primary);
 }
 
 .mat-expansion-panel-header-description {
@@ -7,18 +8,21 @@ button {
   align-items: center;
 }
 
+
 .matPanel {
-  background-color: #cfd8dc;
+  background-color: var(--grey);
   margin-bottom: 5px;
+  color: black!important;
 }
 
-.matPanelHeader {
-  background-color: #bbdefb;
+#matPanelHeader {
+  background-color: var(--grey-light);
   margin-bottom: 5px;
+  color: white;
 }
 
 .matPanelListHeader {
-  background-color: #cfd8dc !important;
+  background-color: var(--grey) !important;
 }
 
 mat-panel-title {
@@ -28,14 +32,21 @@ mat-panel-title {
 }
 
 .headerTitle {
-  width: 8%!important;
+  width: 8%;
+  color: var(--primary)!important;
 }
+
+.panelTitle {
+  width: 8%;
+  color: black!important;
+}
+
 
 mat-card-title {
   text-align: center;
 }
 
-mat-card {
-  background-color: #cfd8dc;
-  color: #4db6ac;
+#no-sessions-card {
+  background-color: var(--grey);
+  color: var(--primary);
 }

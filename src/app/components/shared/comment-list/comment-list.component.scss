@@ -1,7 +1,55 @@
-mat-card {
-  margin-bottom: 20px;
+.outer-card {
+  margin-bottom: 10px;
+  background-color: var(--primary);
 }
 
-mat-card-content>:first-child {
-  margin-top: 20px;
+app-comment {
+  overflow: auto;
+  overflow-wrap: break-word;
+}
+
+.mat-form-field {
+  float: left;
+  padding-left: 10px;
+}
+
+input {
+  box-sizing: border-box;
+  padding: 0 10px 0 5px;
+  width: 50%;
+  background-color: var(--light);
+  border: none;
+  outline: none;
+  min-height: 60px;
+  font-size: large;
+  border-radius: 5px;
+}
+
+#search-container {
+  border-radius: 5px;
+  background-color: var(--light);
+  margin-bottom: 10px;
+}
+
+.search-icon {
+  padding: 10px;
+}
+
+.searchBarButton {
+  width: 45px !important;
+  height: 45px !important;
+  text-align: center;
+  min-width: 50px;
+  margin: 10px 2% 0 0;
+}
+
+.close {
+  margin: 5px 0 5px 0;
+}
+
+.searchBarIcon {
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
+  line-height: 100% !important;
 }

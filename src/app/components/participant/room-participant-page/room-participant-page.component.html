@@ -23,21 +23,21 @@
       </mat-card-content>
       <mat-grid-list cols="3" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.create-comment' | translate}}"
-                  routerLink="/participant/room/{{ room.id }}/create-comment">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
             <mat-icon>question_answer</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-comment' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="{{ 'room-page.give-feedback' | translate}}"
-                  routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon>thumbs_up_down</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
-          <button mat-icon-button color="primary" matTooltip="Lernstand"
-                  routerLink="/participant/room/{{ room.shortId }}/statistics">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/statistics">
             <mat-icon>insert_chart</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'statistic.answer-statistic' | translate}}</h3>
           </button>
         </mat-grid-tile>
       </mat-grid-list>

@@ -1,0 +1,39 @@
+@import '../../../node_modules/@angular/material/theming';
+
+html, body {
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+mat-form-field.input-block {
+  display: block;
+}
+
+.mat-fab .mat-button-wrapper {
+  padding: 0!important;
+}
+
+.mat-dialog-container {
+  background-color: white;
+}
+
+.mat-tab-header {
+  border-bottom-style: none!important;
+}
+
+
+$dark-primary: mat-palette($mat-blue-gray, 800);
+$dark-accent: mat-palette($mat-orange, 200);
+$dark-warn: mat-palette($mat-red, A200);
+
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
