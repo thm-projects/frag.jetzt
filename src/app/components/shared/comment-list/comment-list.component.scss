@@ -40,7 +40,7 @@ input {
   height: 45px !important;
   text-align: center;
   min-width: 50px;
-  margin: 10px 2% 0 0;
+  margin: 0 2% 0 0;
 }
 
 .close {
@@ -60,4 +60,8 @@ input {
 
 h4  {
   color: var(--text-1);
+}
+
+.button-bar {
+  margin-right: 2%;
 }
