@@ -26,7 +26,6 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
   hideCommentsList = false;
-  isIconHide: boolean;
   filteredComments: Comment[];
   userRole: UserRole;
 
@@ -171,7 +170,7 @@ export class CommentListComponent implements OnInit {
   }
 
   exportCsv(delimiter: string, date: string): void {
-    let exportComments = JSON.parse(JSON.stringify(this.comments));
+    const exportComments = JSON.parse(JSON.stringify(this.comments));
     let csv: string;
     let keyFields = '';
     let valueFields = '';

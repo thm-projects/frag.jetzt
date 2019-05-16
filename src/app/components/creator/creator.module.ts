@@ -21,7 +21,6 @@ import { ContentCreatorComponent } from './content-creator/content-creator.compo
 import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
-import { CommentCreatorPageComponent } from './comment-creator-page/comment-creator-page.component';
 import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
 
 @NgModule({
@@ -53,7 +52,6 @@ import { CommentExportComponent } from './_dialogs/comment-export/comment-export
     ContentListComponent,
     ContentEditComponent,
     ContentPresentationComponent,
-    CommentCreatorPageComponent,
     CommentExportComponent
   ],
   entryComponents: [
