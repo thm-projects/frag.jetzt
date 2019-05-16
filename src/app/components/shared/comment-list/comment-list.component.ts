@@ -4,7 +4,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
-import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-comment.component';
+import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { MatDialog } from '@angular/material';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
@@ -70,7 +70,7 @@ export class CommentListComponent implements OnInit {
     }
   }
 
-  getCommentsCreator(): Comment[] {
+  showComments(): Comment[] {
     let commentThreshold = -10;
     if (this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
@@ -85,14 +85,6 @@ export class CommentListComponent implements OnInit {
       } else {
         return this.comments;
       }
-    }
-  }
-
-  getCommentsParticipant(): Comment[] {
-    if (this.hideCommentsList) {
-      return this.filteredComments;
-    } else {
-      return this.comments;
     }
   }
 
@@ -149,8 +141,8 @@ export class CommentListComponent implements OnInit {
     }
   }
 
-  openSubmitDialog(): void {
-    const dialogRef = this.dialog.open(SubmitCommentComponent, {
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.user = this.user;

@@ -15,7 +15,7 @@
   </button>
 
   <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value"
-          color="accent" (click)="openSubmitDialog()">
+          color="accent" (click)="openCreateDialog()">
     <mat-icon class="searchBarIcon">add_circle</mat-icon>
   </button>
 
@@ -56,10 +56,6 @@
   </mat-menu>
 </div>
 
-<mat-card class="outer-card" *ngIf="user.role === 0">
-  <app-comment *ngFor="let current of getCommentsParticipant()" [comment]="current"></app-comment>
+<mat-card class="outer-card">
+  <app-comment *ngFor="let current of showComments()" [comment]="current"></app-comment>
 </mat-card>
-<mat-card class="outer-card" *ngIf="user.role === 1">
-  <app-comment *ngFor="let current of getCommentsCreator()" [comment]="current"></app-comment>
-</mat-card>
-

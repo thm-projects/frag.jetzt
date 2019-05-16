@@ -1,12 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
-import { RoomCreateComponent } from '../../../shared/_dialogs/room-create/room-create.component';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { RoomDeleteComponent } from '../room-delete/room-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
+import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 
 @Component({
   selector: 'app-room-edit',
@@ -17,7 +17,7 @@ export class RoomEditComponent implements OnInit {
   editRoom: Room;
   commentThreshold: number;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreateComponent>,
+  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
               public notificationService: NotificationService,
               public translationService: TranslateService,
@@ -49,7 +49,9 @@ export class RoomEditComponent implements OnInit {
     dialogRef.componentInstance.room = this.editRoom;
     dialogRef.afterClosed()
       .subscribe(result => {
-        this.confirmDeletion(result);
+        if (result === 'delete') {
+          this.deleteRoom(this.editRoom);
+        }
       });
   }
 
@@ -60,11 +62,5 @@ export class RoomEditComponent implements OnInit {
     this.roomService.deleteRoom(room.id).subscribe();
     this.dialogRef.close();
     this.router.navigate([`/creator`]);
-  }
-
-  confirmDeletion(dialogAnswer: string): void {
-    if (dialogAnswer === 'delete') {
-      this.deleteRoom(this.editRoom);
-    }
   }
 }
