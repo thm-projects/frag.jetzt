@@ -13,6 +13,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { CommentExportComponent } from '../../creator/_dialogs/comment-export/comment-export.component';
+import { DeleteCommentComponent } from '../_dialogs/delete-comment/delete-comment.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -153,6 +154,18 @@ export class CommentListComponent implements OnInit {
           this.send(result);
         } else {
           return;
+        }
+      });
+  }
+
+  openDeletionRoomDialog(): void {
+    const dialogRef = this.dialog.open(DeleteCommentComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteComments();
         }
       });
   }

@@ -81,7 +81,8 @@ import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment
     LoginComponent,
     StatisticHelpComponent,
     CreateCommentComponent,
-    PresentCommentComponent
+    PresentCommentComponent,
+    DeleteCommentComponent
   ]
 })
 export class SharedModule {
