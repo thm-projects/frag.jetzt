@@ -24,6 +24,7 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
+import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { PresentCommentComponent } from './_dialogs/present-comment/present-comm
     StatisticHelpComponent,
     CommentComponent,
     CreateCommentComponent,
-    PresentCommentComponent
+    PresentCommentComponent,
+    DeleteCommentComponent
   ],
   exports: [
     RoomJoinComponent,
