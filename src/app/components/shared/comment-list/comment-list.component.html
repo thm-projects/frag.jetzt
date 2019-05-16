@@ -56,6 +56,9 @@
   </mat-menu>
 </div>
 
-<mat-card class="outer-card">
+<mat-card class="outer-card" *ngIf="comments.length > 0">
   <app-comment *ngFor="let current of showComments()" [comment]="current"></app-comment>
 </mat-card>
+<div fxLayout="row" fxLayoutAlign="center center" class="no-comments">
+  <h4 *ngIf="comments.length < 1">{{ 'comment-page.no-comments' | translate }}</h4>
+</div>
