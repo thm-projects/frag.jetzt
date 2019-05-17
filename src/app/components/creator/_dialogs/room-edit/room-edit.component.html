@@ -1,7 +1,6 @@
 <div *ngIf="editRoom">
-  <mat-card class="header" fxLayoutAlign="center">
-    <mat-card-title class="title" fxLayoutAlign="center">{{'room-page.general' | translate}}</mat-card-title>
-  </mat-card>
+  <h2>{{'room-page.general' | translate }}</h2>
+  <mat-divider></mat-divider>
   <div fxLayout="column">
     <mat-form-field class="input-block">
       <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}"
@@ -14,12 +13,12 @@
               </textarea>
     </mat-form-field>
     <div fxLayoutAlign="center center">
-      <button mat-raised-button class="delete" (click)="openDeletionRoomDialog()"><mat-icon>delete</mat-icon>Session löschen</button>
+      <button mat-raised-button class="delete" (click)="openDeletionRoomDialog()">
+        <mat-icon>delete</mat-icon>{{ 'room-page.delete-room' | translate }}</button>
     </div>
   </div>
-  <mat-card class="header" fxLayoutAlign="center">
-    <mat-card-title class="title" fxLayoutAlign="center">{{'room-page.comments' | translate}}</mat-card-title>
-  </mat-card>
+  <h2>{{'room-page.comments' | translate }}</h2>
+  <mat-divider></mat-divider>
   <div  fxLayout="column">
     <div fxLayout="row">
       <h3>{{ 'room-page.threshold' | translate}}</h3>
@@ -29,11 +28,11 @@
                   color="accent" [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <button (click)="dialogRef.close('abort')" mat-button color="primary">
-      {{ 'room-page.abort' | translate}}
+    <button mat-raised-button color="accent" (click)="dialogRef.close('abort')">
+      {{ 'room-page.abort' | translate }}
     </button>
-    <button (click)="dialogRef.close(commentThreshold)" mat-raised-button color="primary">
-      {{ 'room-page.update' | translate}}
+    <button mat-raised-button color="primary" (click)="dialogRef.close(commentThreshold)">
+      {{ 'room-page.update' | translate }}
     </button>
   </div>
 </div>

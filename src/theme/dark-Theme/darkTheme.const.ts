@@ -10,7 +10,7 @@ export const dark = {
   '--card': '#bdbdbd',
 
   '--green': '#AED581',
-  '--red': '#FF8A65',
+  '--red': '#FF8A80',
   '--yellow': '#FFD54F',
   '--blue': '#1E88E5',
   '--grey': '#E0E0E0',
