@@ -16,7 +16,7 @@ app-comment {
 input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
-  width: 50%;
+  width: 100%;
   background-color: var(--light);
   border: none;
   outline: none;
@@ -40,7 +40,7 @@ input {
   height: 45px !important;
   text-align: center;
   min-width: 50px;
-  margin: 10px 2% 0 0;
+  margin: 0 2% 0 0;
 }
 
 .close {
@@ -52,4 +52,16 @@ input {
   height: 45px;
   width: 45px;
   line-height: 100% !important;
+}
+
+.no-comments {
+  margin-top: 30%;
+}
+
+h4  {
+  color: var(--text-1);
+}
+
+.button-bar {
+  margin-right: 2%;
 }

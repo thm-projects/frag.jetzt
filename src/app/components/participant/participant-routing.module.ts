@@ -8,7 +8,7 @@ import { FeedbackBarometerPageComponent } from '../shared/feedback-barometer-pag
 import { ParticipantContentCarouselPageComponent } from './participant-content-carousel-page/participant-content-carousel-page.component';
 import { StatisticsPageComponent } from '../shared/statistics-page/statistics-page.component';
 import { StatisticComponent } from '../shared/statistic/statistic.component';
-import { CommentParticipantPageComponent } from './comment-participant-page/comment-participant-page.component';
+import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 
 const routes: Routes = [
   {
@@ -37,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'room/:roomId/comments',
-    component: CommentParticipantPageComponent,
+    component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },

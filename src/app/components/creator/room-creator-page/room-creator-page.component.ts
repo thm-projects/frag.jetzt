@@ -59,8 +59,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       });
   }
 
-  showEditDialog(): void {
-    this.updRoom = this.room;
+  showSettingsDialog(): void {
+    this.updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(RoomEditComponent, {
       width: '400px'
     });

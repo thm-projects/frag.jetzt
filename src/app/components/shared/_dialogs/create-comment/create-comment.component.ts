@@ -10,10 +10,10 @@ import { CommentListComponent } from '../../comment-list/comment-list.component'
 
 @Component({
   selector: 'app-submit-comment',
-  templateUrl: './submit-comment.component.html',
-  styleUrls: ['./submit-comment.component.scss']
+  templateUrl: './create-comment.component.html',
+  styleUrls: ['./create-comment.component.scss']
 })
-export class SubmitCommentComponent implements OnInit {
+export class CreateCommentComponent implements OnInit {
 
   comment: Comment;
 

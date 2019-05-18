@@ -10,7 +10,7 @@ export const defaultTheme = {
   '--card': '#fff8e1',
 
   '--green': '#AED581',
-  '--red': '#FF8A65',
+  '--red': '#FF8A80',
   '--yellow': '#FFD54F',
   '--blue': '#1E88E5',
   '--grey': '#BDBDBD',

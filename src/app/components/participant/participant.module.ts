@@ -11,7 +11,6 @@ import { ParticipantContentCarouselPageComponent } from './participant-content-c
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { CommentParticipantPageComponent } from './comment-participant-page/comment-participant-page.component';
 
 @NgModule({
   imports: [
@@ -33,8 +32,7 @@ import { CommentParticipantPageComponent } from './comment-participant-page/comm
     ContentTextParticipantComponent,
     HomeParticipantPageComponent,
     RoomParticipantPageComponent,
-    ParticipantContentCarouselPageComponent,
-    CommentParticipantPageComponent
+    ParticipantContentCarouselPageComponent
   ]
 })
 export class ParticipantModule {

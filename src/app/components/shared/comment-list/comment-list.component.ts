@@ -4,7 +4,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
-import { SubmitCommentComponent } from '../_dialogs/submit-comment/submit-comment.component';
+import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { MatDialog } from '@angular/material';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
@@ -13,6 +13,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { CommentExportComponent } from '../../creator/_dialogs/comment-export/comment-export.component';
+import { DeleteCommentComponent } from '../_dialogs/delete-comment/delete-comment.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -26,7 +27,6 @@ export class CommentListComponent implements OnInit {
   comments: Comment[];
   isLoading = true;
   hideCommentsList = false;
-  isIconHide: boolean;
   filteredComments: Comment[];
   userRole: UserRole;
 
@@ -71,7 +71,7 @@ export class CommentListComponent implements OnInit {
     }
   }
 
-  getCommentsCreator(): Comment[] {
+  showComments(): Comment[] {
     let commentThreshold = -10;
     if (this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
@@ -86,14 +86,6 @@ export class CommentListComponent implements OnInit {
       } else {
         return this.comments;
       }
-    }
-  }
-
-  getCommentsParticipant(): Comment[] {
-    if (this.hideCommentsList) {
-      return this.filteredComments;
-    } else {
-      return this.comments;
     }
   }
 
@@ -150,8 +142,8 @@ export class CommentListComponent implements OnInit {
     }
   }
 
-  openSubmitDialog(): void {
-    const dialogRef = this.dialog.open(SubmitCommentComponent, {
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.user = this.user;
@@ -166,15 +158,62 @@ export class CommentListComponent implements OnInit {
       });
   }
 
+  openDeletionRoomDialog(): void {
+    const dialogRef = this.dialog.open(DeleteCommentComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteComments();
+        }
+      });
+  }
+
   send(comment: Comment): void {
     this.wsCommentService.add(comment);
   }
+
+  exportCsv(delimiter: string, date: string): void {
+    const exportComments = JSON.parse(JSON.stringify(this.comments));
+    let csv: string;
+    let keyFields = '';
+    let valueFields = '';
+    keyFields = Object.keys(exportComments[0]).slice(3).join(delimiter) + '\r\n';
+    exportComments.forEach(element => {
+      element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
+      valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
+    });
+    csv = keyFields + valueFields;
+    const myBlob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    const fileName = 'comments_' + date + '.csv';
+    link.setAttribute('download', fileName);
+    link.href = window.URL.createObjectURL(myBlob);
+    link.click();
+  }
+
+  onExport(exportType: string): void {
+    const date = new Date();
+    const dateString = date.getFullYear() + '_' + ('0' + (date.getMonth() + 1)).slice(-2) + '_' + ('0' + date.getDate()).slice(-2);
+    const timeString = ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
+    const timestamp = dateString + '_' + timeString;
+      if (exportType === 'comma') {
+        this.exportCsv(',', timestamp);
+      }
+      if (exportType === 'semicolon') {
+        this.exportCsv(';', timestamp);
+      }
+  }
+
 
   openExportDialog(): void {
     const dialogRef = this.dialog.open(CommentExportComponent, {
       width: '400px'
     });
-    dialogRef.componentInstance.comments = this.comments;
+    dialogRef.afterClosed().subscribe(result => {
+      this.onExport(result);
+    });
   }
 
   filterFavorite(): void {

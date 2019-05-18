@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { RoomCreateComponent } from '../../../shared/_dialogs/room-create/room-create.component';
 import { Room } from '../../../../models/room';
+import { RoomEditComponent } from '../room-edit/room-edit.component';
 
 @Component({
   selector: 'app-room-delete',
@@ -11,7 +11,7 @@ import { Room } from '../../../../models/room';
 export class RoomDeleteComponent implements OnInit {
   room: Room;
 
-  constructor(              public dialogRef: MatDialogRef<RoomCreateComponent>,
+  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 

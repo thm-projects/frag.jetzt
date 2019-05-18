@@ -90,7 +90,9 @@
     "delimiter": "Bitte wählen Sie ein Format!",
     "comma": "Microsoft Excel",
     "semicolon": "Standard CSV",
-    "export": "Exportieren"
+    "export": "Exportieren",
+    "really": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
+    "no-comments": "Es wurden noch keine Kommentare erstellt ..."
   },
   "comment-list-page": {
     "search": "Suchen",
