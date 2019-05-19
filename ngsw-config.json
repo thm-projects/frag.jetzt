@@ -1,5 +1,17 @@
 {
   "index": "/index.html",
+  "dataGroups":
+  [
+    {
+      "name": "api",
+      "urls": ["/**"],
+      "cacheConfig": {
+        "maxSize": 500,
+        "maxAge": "7d",
+        "strategy": "performance"
+      }
+    }
+  ],
   "assetGroups": [
     {
       "name": "app",
@@ -7,9 +19,12 @@
       "resources": {
         "files": [
           "/favicon.ico",
-          "/index.html",
+          "/*.html",
           "/*.css",
           "/*.js"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/**"
         ]
       }
     }, {

@@ -58,7 +58,7 @@ export function initializeApp(appConfig: AppConfig) {
     EssentialsModule,
     SharedModule,
     ThemeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: true }) // environment.production
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     AppConfig,

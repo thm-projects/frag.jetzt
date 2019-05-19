@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
-import { CreatorModule } from './components/creator/creator.module';
-import { ParticipantModule } from './components/participant/participant.module';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 
 const routes: Routes = [
@@ -17,11 +15,11 @@ const routes: Routes = [
   },
   {
     path: 'creator',
-    loadChildren: () => CreatorModule
+    loadChildren: './components/creator/creator.module#CreatorModule'
   },
   {
     path: 'participant',
-    loadChildren: () => ParticipantModule
+    loadChildren: './components/participant/participant.module#ParticipantModule'
   },
   {
     path: '**',
