@@ -1,0 +1,41 @@
+{
+  "index": "/index.html",
+  "dataGroups":
+  [
+    {
+      "name": "api",
+      "urls": ["/**"],
+      "cacheConfig": {
+        "maxSize": 500,
+        "maxAge": "7d",
+        "strategy": "performance"
+      }
+    }
+  ],
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "resources": {
+        "files": [
+          "/favicon.ico",
+          "/*.html",
+          "/*.css",
+          "/*.js"
+        ],
+        "urls": [
+          "https://fonts.googleapis.com/**"
+        ]
+      }
+    }, {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": [
+          "/assets/**"
+        ]
+      }
+    }
+  ]
+}

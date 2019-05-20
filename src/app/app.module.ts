@@ -27,6 +27,8 @@ import { NewLandingComponent } from './components/home/new-landing/new-landing.c
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { AppConfig } from './app.config';
 import { ThemeModule } from '../theme/theme.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -55,7 +57,8 @@ export function initializeApp(appConfig: AppConfig) {
     BrowserAnimationsModule,
     EssentialsModule,
     SharedModule,
-    ThemeModule
+    ThemeModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [
     AppConfig,
