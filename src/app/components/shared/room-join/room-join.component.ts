@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class JoinErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./room-join.component.scss']
 })
 export class RoomJoinComponent implements OnInit {
+  @ViewChild('roomId') roomIdElement: ElementRef;
 
   room: Room;
   demoId = '95680586';
@@ -41,7 +42,12 @@ export class RoomJoinComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.roomIdElement.nativeElement.focus();
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+  }
+
+  onEnter() {
+    this.getRoom(this.roomIdElement.nativeElement.value);
   }
 
   getRoom(id: string): void {
