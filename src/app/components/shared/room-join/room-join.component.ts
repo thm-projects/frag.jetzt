@@ -46,6 +46,10 @@ export class RoomJoinComponent implements OnInit {
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
+  onEnter() {
+    this.getRoom(this.roomIdElement.nativeElement.value);
+  }
+
   getRoom(id: string): void {
     if (id.length - (id.split(' ').length - 1) < 8) {
       this.translateService.get('home-page.exactly-8').subscribe(message => {
