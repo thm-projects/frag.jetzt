@@ -2,7 +2,8 @@ import { RxStompConfig } from '@stomp/rx-stomp';
 
 export const ARSRxStompConfig: RxStompConfig = {
   // Which server?
-  brokerURL: `ws://${window.location.hostname}:8080/ws/websocket`,
+  brokerURL: (window.location.protocol === 'http:' ) ?
+    `ws://${window.location.hostname}:8080/ws/websocket` : `wss://${window.location.hostname}/api/ws/websocket`,
 
   connectHeaders: {
     login: 'guest',
