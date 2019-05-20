@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
-import { RxStompService } from '@stomp/ng2-stompjs';
 import { Message } from '@stomp/stompjs';
 import { WsFeedbackService } from '../../../services/websockets/ws-feedback.service';
 
@@ -27,7 +26,6 @@ export class FeedbackBarometerPageComponent implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private notification: NotificationService,
-    private rxStompService: RxStompService,
     private wsFeedbackService: WsFeedbackService,
     private route: ActivatedRoute, ) {
       this.roomId = localStorage.getItem(`roomId`);
@@ -36,7 +34,7 @@ export class FeedbackBarometerPageComponent implements OnInit {
   ngOnInit() {
     this.userRole = this.authenticationService.getRole();
 
-    this.rxStompService.watch(`/topic/${this.roomId}.feedback.stream`).subscribe((message: Message) => {
+    this.wsFeedbackService.getFeedbackStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
 
