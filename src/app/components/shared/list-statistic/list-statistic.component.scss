@@ -38,37 +38,20 @@ mat-toolbar {
   background-color: var(--secondary-variant)!important;
 }
 
-.positiveC {
+.positive {
   background-color: var(--green);
 }
 
-.negativeC {
+.negative {
   background-color: var(--red);
 }
 
-.okayC {
-  background-color: var(--red);
+.okay {
+  background-color: var(--yellow);
 }
 
-.positiveP {
-  background-color: var(--green)!important;
-}
-
-.negativeP {
-  background-color: var(--red)!important;
-}
-
-.okayP {
-  background-color: var(--yellow)!important;
-}
-
-.emptyC {
+.empty {
   color: var(--grey)!important;
   background: var(--grey);
-  pointer-events: none;
-}
-
-.emptyCC {
-  background: var(--grey) ;
   pointer-events: none;
 }

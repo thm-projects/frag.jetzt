@@ -3,14 +3,16 @@ export const defaultTheme = {
   '--primary' : '#4DB6AC',
   '--primary-variant': '#80cbc4',
 
-  '--secondary': '#FFE0B2',
+  '--secondary': '#FFCC80',
   '--secondary-variant': '#fff8e1',
 
-  '--background': '#B2DFDB',
-  '--surface': '#BBDEFB',
+  '--background': '#b2dfdb',
+  '--surface': '#0288d1',
 
-  '--on-primary': '#37474f',
-  '--on-secondary': '#FFFFFF',
+  '--on-primary': '#212121',
+  '--on-secondary': '#212121',
+  '--on-background': '#212121',
+  '--on-surface': '#212121',
 
   '--green': '#AED581',
   '--red': '#FF8A80',

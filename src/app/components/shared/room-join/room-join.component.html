@@ -10,10 +10,10 @@
       <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>
       <mat-error *ngIf="roomFormControl.hasError('pattern')">{{ 'home-page.only-numbers' | translate}}</mat-error>
     </mat-form-field>
-    <button mat-fab color="accent" type="submit">
+    <button mat-fab type="submit">
       <mat-icon>input</mat-icon>
     </button>
   </div>
 </form>
-<button mat-button class="demo" color="primary" (click)="joinDemo()">Demo Session</button>
+<button mat-button class="demo" (click)="joinDemo()">Demo Session</button>
 </div>

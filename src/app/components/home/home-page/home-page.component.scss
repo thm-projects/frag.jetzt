@@ -1,5 +1,3 @@
-@import '../../../../styles';
-
 .outer {
   width: 90%;
   max-width: 500px;
@@ -12,7 +10,7 @@
   font-weight: bold;
   text-align: center;
   letter-spacing: 10px;
-  color: mat-color($arsnova-primary,500);
+  color: var(--primary);
   animation: moveInLeft 2s ease-out;
   padding-top: 10px;
 }
@@ -23,7 +21,7 @@
   font-size: 60%;
   text-align: center;
   letter-spacing: 10px;
-  color: mat-color($arsnova-accent,500);
+  color: var(--secondary-variant);
   animation: moveInRight 1s ease-out;
 }
 
