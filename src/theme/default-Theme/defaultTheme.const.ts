@@ -4,10 +4,13 @@ export const defaultTheme = {
   '--primary-variant': '#80cbc4',
 
   '--secondary': '#FFE0B2',
+  '--secondary-variant': '#fff8e1',
 
   '--background': '#B2DFDB',
-  '--background-2': '#BBDEFB',
-  '--card': '#fff8e1',
+  '--surface': '#BBDEFB',
+
+  '--on-primary': '#37474f',
+  '--on-secondary': '#FFFFFF',
 
   '--green': '#AED581',
   '--red': '#FF8A80',
@@ -16,9 +19,6 @@ export const defaultTheme = {
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
 
-  '--text-1': '#37474f',
-  '--text-2': '#004d40',
-  '--text-3': '#37474f',
   '--dialog': '#B2DFDB',
   '--highlighted' : '#FFE082'
 };

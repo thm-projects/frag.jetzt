@@ -3,7 +3,7 @@
 mat-card {
   width: 100%;
   max-width: 800px;
-  background-color: var(--card)!important;
+  background-color: var(--secondary-variant)!important;
 }
 
 mat-card-content>:first-child {
@@ -35,7 +35,7 @@ button {
 
 p {
   font-size: medium;
-  color: var(--text-2)!important;
+  color: var(--text-1)!important;
 }
 
 h2 {
@@ -45,7 +45,7 @@ h2 {
 
 h3 {
   font-size: larger;
-  color: var(--text-3)!important;
+  color: var(--text-1)!important;
   margin-top: 10px;
   margin-bottom: 10px;
 }
@@ -69,7 +69,7 @@ mat-card-subtitle {
 }
 
 mat-expansion-panel {
-  background-color: var(--card)!important;
+  background-color: var(--secondary-variant)!important;
   min-width: 200px;
 }
 
