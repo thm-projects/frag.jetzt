@@ -16,9 +16,9 @@ export const defaultTheme = {
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
 
-  '--text-1': '#37474f', // could be used for all texts   !!!!!!!!!!1
-  '--text-2': '#004d40', // could be used for all texts   !!!!!!11111
-  '--text-3': '#37474f', // could be used for all texts   !!!!!!!!!1
+  '--text-1': '#37474f',
+  '--text-2': '#004d40',
+  '--text-3': '#37474f',
   '--dialog': '#B2DFDB',
   '--highlighted' : '#FFE082'
 };
