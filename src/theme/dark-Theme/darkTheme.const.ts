@@ -8,6 +8,7 @@ export const dark = {
 
   '--background': '#424242',
   '--surface': '#212121',
+  '--dialog': '#78909c',
 
   '--on-primary': '#212121',
   '--on-secondary': '#212121',
@@ -19,8 +20,5 @@ export const dark = {
   '--yellow': '#FFD54F',
   '--blue': '#1E88E5',
   '--grey': '#BDBDBD',
-  '--grey-light': '#9E9E9E',
-
-  '--dialog': '#78909c',
-  '--highlighted' : '#005F63'
+  '--grey-light': '#9E9E9E'
 };

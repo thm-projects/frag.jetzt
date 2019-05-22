@@ -75,7 +75,11 @@ h2 {
 }
 
 .highlighted {
-  background-color: var(--highlighted)!important;
+  background-color: var(--secondary)!important;
   transition: background-color 1s linear;
+}
+
+.highlighted * {
+  color: var(--on-secondary)!important;
 }
 

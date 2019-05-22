@@ -8,6 +8,7 @@ export const defaultTheme = {
 
   '--background': '#b2dfdb',
   '--surface': '#0288d1',
+  '--dialog': '#B2DFDB',
 
   '--on-primary': '#212121',
   '--on-secondary': '#212121',
@@ -19,8 +20,5 @@ export const defaultTheme = {
   '--yellow': '#FFD54F',
   '--blue': '#1E88E5',
   '--grey': '#BDBDBD',
-  '--grey-light': '#EEEEEE',
-
-  '--dialog': '#B2DFDB',
-  '--highlighted' : '#FFE082'
+  '--grey-light': '#EEEEEE'
 };
