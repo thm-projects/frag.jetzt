@@ -17,7 +17,7 @@ input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
   width: 100%;
-  background-color: var(--light);
+  background-color: var(--primary-variant);
   border: none;
   outline: none;
   min-height: 60px;
@@ -27,7 +27,7 @@ input {
 
 #search-container {
   border-radius: 5px;
-  background-color: var(--light);
+  background-color: var(--primary-variant);
   margin-bottom: 10px;
 }
 

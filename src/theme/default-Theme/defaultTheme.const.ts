@@ -1,9 +1,9 @@
 export const defaultTheme = {
 
   '--primary' : '#4DB6AC',
-  '--light': '#80cbc4',
+  '--primary-variant': '#80cbc4',
 
-  '--accent': '#FFE0B2',
+  '--secondary': '#FFE0B2',
 
   '--background': '#B2DFDB',
   '--background-2': '#BBDEFB',
