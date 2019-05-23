@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="mat-elevation-z6">
   <mat-toolbar-row>
     <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
@@ -7,9 +7,23 @@
     <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
 
-    <mat-menu #themeMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="changeTheme('')">{{ 'header.default' | translate }}</button>
-      <button mat-menu-item (click)="changeTheme('dark')">{{ 'header.dark' | translate }}</button>
+    <mat-menu #themeMenu="matMenu" [overlapTrigger]="false" xPosition="before">
+      <mat-grid-list cols="2">
+        <mat-grid-tile>
+          <button mat-menu-item (click)="changeTheme('arsnova')">{{ 'header.default' | translate }}</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-menu-item (click)="changeTheme('dark')">{{ 'header.dark' | translate }}</button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-menu-item (click)="changeTheme('purple')">
+            <mat-icon>lens</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-menu-item (click)="changeTheme('yellow')">Yellow</button>
+        </mat-grid-tile>
+      </mat-grid-list>
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">

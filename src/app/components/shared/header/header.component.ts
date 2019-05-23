@@ -67,11 +67,7 @@ export class HeaderComponent implements OnInit {
 
   changeTheme(theme) {
     this.themeClass = theme;
-    if (theme === '') {
-      this.themeService.activate('arsnovaTheme');
-    } else {
-      this.themeService.activate(theme);
-    }
+    this.themeService.activate(theme);
   }
 
   login(isLecturer: boolean) {

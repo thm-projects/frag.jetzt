@@ -1,4 +1,4 @@
-export const defaultTheme = {
+export const arsnova = {
 
   '--primary' : '#4DB6AC',
   '--primary-variant': '#80cbc4',
