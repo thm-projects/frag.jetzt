@@ -1,6 +1,6 @@
 #comment-card {
   margin-bottom: 20px;
-  background-color: var(--background-2);
+  background-color: var(--surface);
   cursor: pointer;
   padding-bottom: 10px;
   padding-top: 10px;
@@ -17,6 +17,7 @@ mat-card-content > :first-child {
   height: 35px;
   font-size: 35px;
   line-height: 100% !important;
+  color: var(--on-surface)
 }
 
 .upVoted {
@@ -46,6 +47,7 @@ mat-card-content > :first-child {
 h2 {
   text-align: center;
   margin: 0;
+  color: var(--on-surface)
 }
 
 .body {
@@ -57,27 +59,27 @@ h2 {
   overflow: auto;
   padding-left: 2%;
   padding-right: 2%;
+  color: var(--on-surface)
 }
 
 .mat-icon {
   transform: scale(1.2);
 }
 
-#date {
+.date {
   padding-top: 10px;
   margin-left: 2%;
   opacity: 0.4;
   position: absolute;
-}
-
-.date {
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  color: var(--on-surface)
 }
 
 .highlighted {
-  background-color: var(--highlighted)!important;
+  background-color: var(--secondary)!important;
   transition: background-color 1s linear;
+}
+
+.highlighted * {
+  color: var(--on-secondary)!important;
 }
 

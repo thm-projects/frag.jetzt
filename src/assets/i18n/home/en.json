@@ -25,7 +25,7 @@
 		"no-room-found": "No session was found with this ID",
 		"please-enter": "Please enter a session-ID",
 		"exactly-8": "A session-ID has exactly 8 digits",
-		"create-session": "Create session",
+		"create-session": "New Session",
 		"no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
 		"created-2": "' successfully created",

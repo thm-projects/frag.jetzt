@@ -1,7 +1,7 @@
 @import '../../../../theme/default-Theme/_variables.scss';
 
 #contentGroup {
-  background-color: var(--background-2);
+  background-color: var(--primary);
   box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   position: relative;
@@ -11,10 +11,12 @@
   margin-top: 10px;
   max-height: 50px;
   padding: 5px;
+  color: var(--on-primary);
 
   &:hover {
     cursor: pointer;
-    background-color: var(--primary);
+    background-color: var(--surface);
+    color: var(--on-surface);
     transform: translateZ(20px);
     transform: translateY(-5px);
     transform: scaleY(1.1);

@@ -1,24 +1,24 @@
 export const dark = {
 
-  '--primary' : '#37474F',
-  '--light': '#455a64',
+  '--primary' : '#009688',
+  '--primary-variant': '#455a64',
 
-  '--accent': '#FFE0B2',
+  '--secondary': '#FFCC80',
+  '--secondary-variant': '#bdbdbd',
 
-  '--background': '#616161',
-  '--background-2': '#757575',
-  '--card': '#bdbdbd',
+  '--background': '#424242',
+  '--surface': '#212121',
+  '--dialog': '#78909c',
+
+  '--on-primary': '#212121',
+  '--on-secondary': '#212121',
+  '--on-background': '#FFFFFF',
+  '--on-surface': '#FFFFFF',
 
   '--green': '#AED581',
   '--red': '#FF8A80',
   '--yellow': '#FFD54F',
   '--blue': '#1E88E5',
-  '--grey': '#E0E0E0',
-  '--grey-light': '#9E9E9E',
-
-  '--text-1': '#37474f',
-  '--text-2': '#004d40',
-  '--text-3': '#78909c',
-  '--dialog': '#78909c',
-  '--highlighted' : '#005F63'
+  '--grey': '#BDBDBD',
+  '--grey-light': '#9E9E9E'
 };

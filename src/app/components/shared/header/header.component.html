@@ -1,7 +1,7 @@
 <mat-toolbar>
   <mat-toolbar-row>
     <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
-      <mat-icon aria-label="Go back">keyboard_arrow_left</mat-icon>
+      <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
     <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
@@ -13,7 +13,7 @@
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
-      <mat-icon>palette</mat-icon>
+      <mat-icon class="header-icons">palette</mat-icon>
     </button>
 
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
@@ -22,10 +22,10 @@
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="langMenu">
-      <mat-icon>language</mat-icon>
+      <mat-icon class="header-icons">language</mat-icon>
     </button>
 
-    <mat-menu #appMenu="matMenu" [overlapTrigger]="false">
+    <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
         <mat-icon color="primary">style</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
@@ -52,10 +52,10 @@
     </mat-menu>
 
     <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu">
-      <mat-icon>account_box</mat-icon>
+      <mat-icon class="header-icons">account_box</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="appMenu">
-      <mat-icon>account_box</mat-icon>
+    <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="loginMenu">
+      <mat-icon class="header-icons">account_box</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

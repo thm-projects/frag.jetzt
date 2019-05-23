@@ -5,16 +5,17 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ThemeService {
-  themeName = localStorage.getItem('classNameOfTheme');
+  themeName = localStorage.getItem('theme');
   private activeThem = new BehaviorSubject(this.themeName);
 
   constructor() { }
 
-  public getActiveTheme() {
+  public getTheme() {
     return this.activeThem.asObservable();
   }
 
-  public setActiveThem(name) {
+  public activate(name) {
     this.activeThem.next(name);
+    localStorage.setItem('theme', name);
   }
 }

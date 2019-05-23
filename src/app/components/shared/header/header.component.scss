@@ -1,8 +1,13 @@
 .app-title {
   cursor: pointer;
   margin: 0 auto;
+  color: var(--on-surface);
 }
 
 mat-toolbar {
-  background-color: var(--primary);
+  background-color: var(--surface);
+}
+
+.header-icons {
+  color: var(--on-surface);
 }

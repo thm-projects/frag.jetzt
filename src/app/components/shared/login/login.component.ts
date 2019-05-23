@@ -106,8 +106,10 @@ export class LoginComponent implements OnInit, OnChanges {
       this.dialog.closeAll();
       if (this.isStandard) {
         if (this.role === UserRole.CREATOR) {
+          const theme = 'dark';
           this.router.navigate(['creator']);
-          this.themeService.setActiveThem('dark');
+          this.themeService.activate(theme);
+          localStorage.setItem('theme', theme);
         } else {
           this.router.navigate(['participant']);
         }

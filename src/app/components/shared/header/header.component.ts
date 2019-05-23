@@ -18,7 +18,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 })
 export class HeaderComponent implements OnInit {
   user: User;
-  themeClass = localStorage.getItem('classNameOfTheme');
+  themeClass = localStorage.getItem('theme');
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -67,11 +67,10 @@ export class HeaderComponent implements OnInit {
 
   changeTheme(theme) {
     this.themeClass = theme;
-    localStorage.setItem('classNameOfTheme', theme);
     if (theme === '') {
-      this.themeService.setActiveThem('arsnovaTheme');
+      this.themeService.activate('arsnovaTheme');
     } else {
-      this.themeService.setActiveThem(theme);
+      this.themeService.activate(theme);
     }
   }
 

@@ -1,7 +1,7 @@
 mat-card {
   width: 800px;
   max-width: 90%;
-  background-color: var(--card)!important;
+  background-color: var(--secondary-variant)!important;
 }
 
 mat-card-content > :first-child {
@@ -9,7 +9,7 @@ mat-card-content > :first-child {
 }
 
 mat-expansion-panel {
-  background-color: var(--background-2);
+  background-color: var(--surface);
   margin-bottom: 5px;
 }
 
@@ -21,14 +21,14 @@ mat-panel-title {
 }
 
 mat-expansion-panel-header {
-  background-color: var(--background-2) !important;
+  background-color: var(--surface) !important;
   padding-left: 3%;
   padding-right: 3%;
   word-break: break-all;
 }
 
 .matPanel {
-  background-color: var(--background-2);
+  background-color: var(--surface);
   margin-bottom: 5px;
   color: black!important;
 }
