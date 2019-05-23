@@ -1,9 +1,9 @@
 export const dark = {
 
-  '--primary' : '#009688',
+  '--primary' : '#00796b',
   '--primary-variant': '#455a64',
 
-  '--secondary': '#FFCC80',
+  '--secondary': '#004d40',
   '--secondary-variant': '#bdbdbd',
 
   '--background': '#424242',
@@ -11,7 +11,7 @@ export const dark = {
   '--dialog': '#78909c',
 
   '--on-primary': '#212121',
-  '--on-secondary': '#212121',
+  '--on-secondary': '#FFFFFF',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
 
