@@ -133,6 +133,8 @@ export class LoginComponent implements OnInit, OnChanges {
     this.dialog.open(RegisterComponent, {
       width: '350px'
     }).afterClosed().subscribe(result => {
+      this.usernameFormControl.setValue(result.username);
+      this.passwordFormControl.setValue(result.password);
       this.username = result.username;
       this.password = result.password;
     });
