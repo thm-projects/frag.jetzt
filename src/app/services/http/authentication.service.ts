@@ -67,7 +67,12 @@ export class AuthenticationService {
   }
 
   resetPassword(email: string): Observable<boolean> {
-    const connectionUrl: string = this.apiUrl.v2 + this.apiUrl.user + email + this.apiUrl.resetPassword;
+    const connectionUrl: string =
+        this.apiUrl.v2 +
+        this.apiUrl.user +
+        '/' +
+        email +
+        this.apiUrl.resetPassword;
 
     return this.http.post(connectionUrl, {
       key: null,
