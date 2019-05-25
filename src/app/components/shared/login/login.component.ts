@@ -28,7 +28,6 @@ export class LoginComponent implements OnInit, OnChanges {
   username: string;
   password: string;
   isStandard = true;
-  guestAllowed = true;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   passwordFormControl = new FormControl('', [Validators.required]);

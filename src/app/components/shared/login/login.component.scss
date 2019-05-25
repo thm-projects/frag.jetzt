@@ -1,10 +1,17 @@
 .pwReset {
   padding-left: 0;
+  color: var(--primary);
 }
 
 .regButton {
   margin-top: 20px;
   padding: 0;
+  color: var(--primary);
+}
+
+.loginButton {
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 
 p {

@@ -8,7 +8,6 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { LoginComponent } from '../../shared/login/login.component';
-import { AppConfig } from '../../../app.config';
 
 @Component({
   selector: 'app-new-landing',
@@ -18,7 +17,6 @@ import { AppConfig } from '../../../app.config';
 export class NewLandingComponent implements OnInit {
 
   user: User;
-  authentication = AppConfig.settings.authentication;
 
   constructor(private router: Router,
               public dialog: MatDialog,
@@ -53,7 +51,6 @@ export class NewLandingComponent implements OnInit {
     });
     dialogRef.componentInstance.role = UserRole.CREATOR;
     dialogRef.componentInstance.isStandard = false;
-    dialogRef.componentInstance.guestAllowed = this.authentication.lecturer.allowGuest;
     dialogRef.afterClosed()
       .subscribe(result => {
           if (this.user) {

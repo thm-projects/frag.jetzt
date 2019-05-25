@@ -28,10 +28,10 @@
                   color="accent" [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <button mat-raised-button color="accent" (click)="dialogRef.close('abort')">
+    <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
       {{ 'room-page.abort' | translate }}
     </button>
-    <button mat-raised-button color="primary" (click)="dialogRef.close(commentThreshold)">
+    <button mat-raised-button class="update" (click)="dialogRef.close(commentThreshold)">
       {{ 'room-page.update' | translate }}
     </button>
   </div>

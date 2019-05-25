@@ -15,11 +15,21 @@ mat-icon {
 
 h2 {
   margin: 10px 0 10px 0;
-  color: var(--text-1);
+  color: var(--on-surface);
 }
 
 mat-divider {
   margin-bottom: 10px;
-  color: var(--text-1) !important;
+  color: var(--on-surface) !important;
+}
+
+.abort {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.update {
+  background-color: var(--primary);
+  color: var(--on-primary);
 }
 

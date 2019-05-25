@@ -2,3 +2,8 @@ app-room-list {
   width: 100%;
   max-width: 800px;
 }
+
+.mat-raised-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}

@@ -3,17 +3,17 @@ export const blue = {
   '--primary' : '#3f51b5',
   '--primary-variant': '#757de8',
 
-  '--secondary': '#3f51b5',
-  '--secondary-variant': '#757de8',
+  '--secondary': '#ffca28',
+  '--secondary-variant': '#fff350',
 
   '--background': '#f5f5f5',
   '--surface': '#bdbdbd',
   '--dialog': '#c2c2c2',
 
   '--on-primary': '#FFFFFF',
-  '--on-secondary': '#FFFFFF',
-  '--on-background': '#212121',
-  '--on-surface': '#212121',
+  '--on-secondary': '#000000',
+  '--on-background': '#000000',
+  '--on-surface': '#000000',
 
   '--green': '#AED581',
   '--red': '#FF8A80',

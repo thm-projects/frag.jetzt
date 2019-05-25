@@ -10,10 +10,10 @@ export const arsnova = {
   '--surface': '#0288d1',
   '--dialog': '#B2DFDB',
 
-  '--on-primary': '#212121',
-  '--on-secondary': '#212121',
-  '--on-background': '#212121',
-  '--on-surface': '#212121',
+  '--on-primary': '#000000',
+  '--on-secondary': '#000000',
+  '--on-background': '#000000',
+  '--on-surface': '#000000',
 
   '--green': '#AED581',
   '--red': '#FF8A80',

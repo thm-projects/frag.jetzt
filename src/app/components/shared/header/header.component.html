@@ -68,11 +68,11 @@
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
         <button mat-menu-item (click)=login(true)>
-          <mat-icon color="primary">record_voice_over</mat-icon>
+          <mat-icon>record_voice_over</mat-icon>
           <span>{{ 'login-page.creator' | translate }}</span>
         </button>
         <button mat-menu-item (click)=login(false)>
-          <mat-icon color="primary">supervisor_account</mat-icon>
+          <mat-icon>supervisor_account</mat-icon>
           <span>{{ 'login-page.participant' | translate }}</span>
         </button>
     </mat-menu>
