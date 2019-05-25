@@ -67,7 +67,8 @@
 		"password-verify": "Verify password",
 		"register": "Register",
 		"register-successful": "Successfully registered. Please check your mail",
-		"register-unsuccessful": "Please check your data"
+		"register-unsuccessful": "Please check your data",
+		"register-request-error": "Something went wrong with the registration. Maybe you already made the account?"
 	},
 	"session": {
 		"session-name": "Session name",

@@ -87,7 +87,7 @@ export class RegisterComponent implements OnInit {
           this.dialogRef.close({ username: username, password: password });
         },
         err => {
-          this.translationService.get('register.register-unsuccessful').subscribe(message => {
+          this.translationService.get('register.register-request-error').subscribe(message => {
             this.notificationService.show(message);
           });
         }
