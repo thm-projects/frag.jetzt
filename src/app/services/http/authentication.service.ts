@@ -77,9 +77,13 @@ export class AuthenticationService {
     return this.http.post(connectionUrl, {
       key: null,
       password: null
-    }, this.httpOptions).pipe(map(() => {
-      return true;
-    }));
+    }, this.httpOptions).pipe(
+      catchError(err => {
+        return of(false);
+      }), map((result) => {
+        return true;
+      })
+    );
   }
 
   logout() {
