@@ -22,5 +22,6 @@ export const arsnova = {
   '--purple': '#9c27b0',
   '--teal': '#4DB6AC',
   '--grey': '#BDBDBD',
-  '--grey-light': '#EEEEEE'
+  '--grey-light': '#EEEEEE',
+  '--black': '#212121'
 };

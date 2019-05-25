@@ -2,7 +2,7 @@
 
 mat-card {
   width: 800px;
-  background-color: var(--secondary-variant)!important;
+  background-color: var(--surface)!important;
 }
 
 mat-card-content > :first-child {
@@ -57,22 +57,22 @@ mat-tooltip-component {
 
 p {
   font-size: medium;
-  color: var(--text-1)!important;
+  color: var(--on-surface)!important;
 }
 
 h2 {
    font-size: large;
-   color: var(--text-1)!important;
+   color: var(--on-surface)!important;
  }
 
 h3 {
   font-size: larger;
-  color: var(--text-1)!important;
+  color: var(--on-surface)!important;
 }
 
 h4 {
   font-size: medium;
-  color: var(--text-1)!important;
+  color: var(--on-surface)!important;
 }
 
 mat-card-header {
@@ -93,6 +93,6 @@ mat-grid-tile {
 }
 
 mat-expansion-panel {
-  background-color: var(--secondary-variant)!important;
+  background-color: var(--surface)!important;
   min-width: 200px;
 }

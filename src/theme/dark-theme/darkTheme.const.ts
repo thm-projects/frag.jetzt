@@ -22,5 +22,6 @@ export const dark = {
   '--purple': '#9c27b0',
   '--teal': '#4DB6AC',
   '--grey': '#BDBDBD',
-  '--grey-light': '#9E9E9E'
+  '--grey-light': '#9E9E9E',
+  '--black': '#212121'
 };

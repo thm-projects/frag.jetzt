@@ -1,4 +1,4 @@
-@import '../../../../theme/default-Theme/_variables.scss';
+@import '../../../../theme/default-theme/_variables.scss';
 
 #contentGroup {
   background-color: var(--primary);
@@ -15,8 +15,8 @@
 
   &:hover {
     cursor: pointer;
-    background-color: var(--surface);
-    color: var(--on-surface);
+    background-color: var(--primary-variant);
+    color: var(--on-primary);
     transform: translateZ(20px);
     transform: translateY(-5px);
     transform: scaleY(1.1);

@@ -1,7 +1,9 @@
-import { dark } from './dark-Theme/darkTheme.const';
-import { arsnova } from './default-Theme/defaultTheme.const';
+import { dark } from './dark-theme/darkTheme.const';
+import { arsnova } from './default-theme/defaultTheme.const';
+import { blue } from './blue-theme/blueTheme.const';
 
 export const themes = {
   arsnova: arsnova,
-  dark: dark
+  dark: dark,
+  blue: blue
 };
