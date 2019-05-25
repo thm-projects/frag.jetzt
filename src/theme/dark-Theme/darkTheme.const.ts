@@ -18,7 +18,9 @@ export const dark = {
   '--green': '#AED581',
   '--red': '#FF8A80',
   '--yellow': '#FFD54F',
-  '--blue': '#1E88E5',
+  '--blue': '#3f51b5',
+  '--purple': '#9c27b0',
+  '--teal': '#4DB6AC',
   '--grey': '#BDBDBD',
   '--grey-light': '#9E9E9E'
 };
