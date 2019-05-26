@@ -23,6 +23,7 @@ input {
   min-height: 60px;
   font-size: large;
   border-radius: 5px;
+  color: var(--on-primary);
 }
 
 #search-container {
@@ -41,6 +42,7 @@ input {
   text-align: center;
   min-width: 50px;
   margin: 0 2% 0 0;
+  color: var(--secondary);
 }
 
 .close {
@@ -52,6 +54,7 @@ input {
   height: 45px;
   width: 45px;
   line-height: 100% !important;
+  color: var(--secondary);
 }
 
 .no-comments {
@@ -59,7 +62,7 @@ input {
 }
 
 h4  {
-  color: var(--text-1);
+  color: var(--on-surface);
 }
 
 .button-bar {

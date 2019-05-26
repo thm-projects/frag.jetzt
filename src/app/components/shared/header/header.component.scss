@@ -1,13 +1,57 @@
 .app-title {
   cursor: pointer;
   margin: 0 auto;
-  color: var(--on-surface);
+  color: var(--on-primary);
 }
 
 mat-toolbar {
-  background-color: var(--surface);
+  background-color: var(--primary);
+  position: relative;
 }
 
 .header-icons {
-  color: var(--on-surface);
+  color: var(--on-primary);
+}
+
+.purple {
+  color: var(--purple);
+}
+
+.blue {
+  color: var(--blue);
+}
+
+.dark {
+  color: var(--black);
+}
+
+.default {
+  color: var(--teal);
+}
+
+.color-button {
+  width: 100%;
+  height: 100%;
+}
+
+.color-icon {
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
+  line-height: 100%!important;
+}
+
+::ng-deep .color-menu {
+  padding: 0 8px 0 8px;
+}
+
+.check {
+  font-size: 25px;
+  height: 25px;
+  width: 25px;
+  line-height: 100%!important;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  color: white;
 }

@@ -23,10 +23,10 @@
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <button (click)="dialogRef.close('abort')" mat-button color="primary">
+    <button (click)="dialogRef.close('abort')" mat-button>
       {{ 'room-page.abort' | translate }}
     </button>
-    <button (click)="updateContent()" mat-raised-button color="primary">
+    <button (click)="updateContent()" mat-raised-button>
       {{ 'room-page.update' | translate }}
     </button>
   </div>

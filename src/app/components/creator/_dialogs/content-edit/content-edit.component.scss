@@ -23,3 +23,8 @@ mat-cell {
   padding-left: 0!important;
   padding-right: 10px!important;
 }
+
+.mat-raised-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}

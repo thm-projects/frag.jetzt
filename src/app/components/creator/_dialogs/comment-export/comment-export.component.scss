@@ -4,9 +4,14 @@ button {
 
 h3 {
   font-size: large;
-  color: var(--text-1);
+  color: var(--on-surface);
 }
 
 h4 {
   margin: 15px 0 15px 0;
+}
+
+.export {
+  background-color: var(--primary);
+  color: var(--on-primary);
 }

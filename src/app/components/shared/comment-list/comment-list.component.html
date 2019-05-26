@@ -14,16 +14,15 @@
   <div class="button-bar" fxLayoutAlign="center center">
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && userRole === 1 && comments.length > 0"
             [matTooltip]="'Export comments'" (click)="openExportDialog()">
-      <mat-icon class="searchBarIcon" color="accent">cloud_download</mat-icon>
+      <mat-icon class="searchBarIcon">cloud_download</mat-icon>
     </button>
 
-    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value"
-            color="accent" (click)="openCreateDialog()">
+    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value" (click)="openCreateDialog()">
       <mat-icon class="searchBarIcon">add_circle</mat-icon>
     </button>
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments.length > 0"
-            color="accent" [matMenuTriggerFor]="filterMenu">
+            [matMenuTriggerFor]="filterMenu">
       <mat-icon class="searchBarIcon">sort</mat-icon>
     </button>
   </div>

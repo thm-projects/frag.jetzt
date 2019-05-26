@@ -1,0 +1,8 @@
+@import './../../../node_modules/@angular/material/theming';
+
+$blue-primary: mat-palette($mat-indigo,500);
+$blue-accent: mat-palette($mat-amber, 200); //$mat-blue-gray, A200, A100, A400);
+
+$blue-warn: mat-palette($mat-red, A100);
+
+$blue-theme: mat-light-theme($blue-primary, $blue-accent, $blue-warn);

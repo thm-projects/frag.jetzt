@@ -25,10 +25,10 @@
       <mat-cell *matCellDef="let answer">
         <button mat-icon-button
                 (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
-                color="primary" matTooltip="{{ 'content.edit-answer' | translate }}">
+                matTooltip="{{ 'content.edit-answer' | translate }}">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="primary" (click)="deleteAnswer($event, answer.answerOption.label)"
+        <button mat-icon-button (click)="deleteAnswer($event, answer.answerOption.label)"
                 matTooltip="{{ 'content.delete-answer' | translate }}">
           <mat-icon>delete</mat-icon>
         </button>
@@ -44,14 +44,14 @@
       <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
     <button *ngIf="singleChoice" mat-icon-button class="addButton" (click)="addAnswer($event); answerLabel.value = '';">
-      <mat-icon class="addIcon" color="primary">add_circle</mat-icon>
+      <mat-icon class="addIcon">add_circle</mat-icon>
     </button>
     <button *ngIf="!singleChoice" mat-icon-button (click)="addAnswer($event); answerLabel.value = '';">
-      <mat-icon class="addIcon" color="primary">add_box</mat-icon>
+      <mat-icon class="addIcon">add_box</mat-icon>
     </button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="25px">
-    <button mat-raised-button type="submit" color="accent">{{ 'content.create' | translate }}</button>
-    <button mat-raised-button (click)="reset($event)" color="primary">{{ 'content.reset' | translate }}</button>
+    <button mat-raised-button class="create" type="submit">{{ 'content.create' | translate }}</button>
+    <button mat-raised-button class="reset" (click)="reset($event)">{{ 'content.reset' | translate }}</button>
   </div>
 </form>

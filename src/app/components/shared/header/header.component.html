@@ -1,4 +1,4 @@
-<mat-toolbar>
+<mat-toolbar class="mat-elevation-z6">
   <mat-toolbar-row>
     <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
@@ -7,9 +7,35 @@
     <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
 
-    <mat-menu #themeMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="changeTheme('')">{{ 'header.default' | translate }}</button>
-      <button mat-menu-item (click)="changeTheme('dark')">{{ 'header.dark' | translate }}</button>
+    <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
+      <mat-grid-list cols="2">
+        <mat-grid-tile>
+          <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
+            <mat-icon class="color-icon">
+              lens
+              <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
+            </mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="dark color-button" (click)="changeTheme('dark')">
+            <mat-icon class="color-icon">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'dark'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="purple color-button" (click)="changeTheme('purple')">
+            <mat-icon class="color-icon">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'purple'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="blue color-button" (click)="changeTheme('blue')">
+            <mat-icon class="color-icon">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
@@ -42,11 +68,11 @@
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
         <button mat-menu-item (click)=login(true)>
-          <mat-icon color="primary">record_voice_over</mat-icon>
+          <mat-icon>record_voice_over</mat-icon>
           <span>{{ 'login-page.creator' | translate }}</span>
         </button>
         <button mat-menu-item (click)=login(false)>
-          <mat-icon color="primary">supervisor_account</mat-icon>
+          <mat-icon>supervisor_account</mat-icon>
           <span>{{ 'login-page.participant' | translate }}</span>
         </button>
     </mat-menu>
