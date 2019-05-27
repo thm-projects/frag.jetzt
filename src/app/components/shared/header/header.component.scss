@@ -26,7 +26,7 @@ mat-toolbar {
 }
 
 .default {
-  color: var(--teal);
+  color: var(--light-green);
 }
 
 .color-button {
@@ -54,4 +54,8 @@ mat-toolbar {
   top: 15px;
   right: 15px;
   color: white;
+}
+
+.sessions {
+  color: var(--primary);
 }

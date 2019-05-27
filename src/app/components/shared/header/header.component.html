@@ -1,4 +1,4 @@
-<mat-toolbar class="mat-elevation-z6">
+<mat-toolbar class="mat-elevation-z4">
   <mat-toolbar-row>
     <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
@@ -53,11 +53,11 @@
 
     <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
-        <mat-icon color="primary">style</mat-icon>
+        <mat-icon class="sessions">style</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
-        <mat-icon color="primary">turned_in</mat-icon>
+        <mat-icon class="sessions">turned_in</mat-icon>
         <span>{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item  (click)="logout()">

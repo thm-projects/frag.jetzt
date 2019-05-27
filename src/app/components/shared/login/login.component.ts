@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
-import { ThemeService } from '../../../../theme/theme.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -40,7 +39,6 @@ export class LoginComponent implements OnInit, OnChanges {
               public router: Router,
               private translationService: TranslateService,
               public notificationService: NotificationService,
-              private themeService: ThemeService,
               public dialog: MatDialog,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -105,10 +103,7 @@ export class LoginComponent implements OnInit, OnChanges {
       this.dialog.closeAll();
       if (this.isStandard) {
         if (this.role === UserRole.CREATOR) {
-          const theme = 'dark';
           this.router.navigate(['creator']);
-          this.themeService.activate(theme);
-          localStorage.setItem('theme', theme);
         } else {
           this.router.navigate(['participant']);
         }

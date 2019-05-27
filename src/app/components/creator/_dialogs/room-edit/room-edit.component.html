@@ -25,7 +25,7 @@
       <h3>{{commentThreshold | number}}</h3>
     </div>
       <mat-slider id="commentSlider" min="-50" max="50" step="1" value="0"
-                  color="accent" [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
+                  [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
