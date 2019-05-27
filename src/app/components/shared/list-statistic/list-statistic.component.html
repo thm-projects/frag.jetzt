@@ -23,16 +23,7 @@
       'positive' : cp.percent >= status.good,
       'okay' : cp.percent >= status.okay && cp.percent < status.good,
       'negative' : cp.percent < status.okay,
-      'empty' : cp.percent < status.zero }" (click)="goToStats(cp.contentId)">{{cp.percent.toFixed() + ' %'}}</mat-cell>
-  </ng-container>
-
-  <ng-container matColumnDef="counts">
-    <mat-header-cell *matHeaderCellDef> {{'statistic.answers' | translate}} </mat-header-cell>
-    <mat-cell *matCellDef="let cp" [ngClass]="{
-      'positive' : cp.percent >= status.good,
-      'okay' : cp.percent >= status.okay && cp.percent < status.good,
-      'negative' : cp.percent < status.okay,
-      'empty' : cp.percent < status.zero }" (click)="goToStats(cp.contentId)">{{cp.counts}}</mat-cell>
+      'empty invisible' : cp.percent < status.zero }" (click)="goToStats(cp.contentId)">{{cp.percent.toFixed() + ' %'}}</mat-cell>
   </ng-container>
 
   <ng-container matColumnDef="abstentions">
@@ -41,7 +32,16 @@
       'positive' : cp.percent >= status.good,
       'okay' : cp.percent >= status.okay && cp.percent < status.good,
       'negative' : cp.percent < status.okay,
-      'empty' : cp.percent < status.zero }" (click)="goToStats(cp.contentId)">{{cp.abstentions}}</mat-cell>
+      'empty invisible' : cp.percent < status.zero }" (click)="goToStats(cp.contentId)">{{cp.abstentions}}</mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="counts">
+    <mat-header-cell *matHeaderCellDef> {{'statistic.answers' | translate}} </mat-header-cell>
+    <mat-cell *matCellDef="let cp" [ngClass]="{
+      'positive' : cp.percent >= status.good,
+      'okay' : cp.percent >= status.okay && cp.percent < status.good,
+      'negative' : cp.percent < status.okay,
+      'empty invisible' : cp.percent < status.zero }" (click)="goToStats(cp.contentId)">{{cp.counts}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

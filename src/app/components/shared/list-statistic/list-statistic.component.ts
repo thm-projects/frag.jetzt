@@ -37,7 +37,7 @@ export class ListStatisticComponent implements OnInit {
 
   @Input() contentGroup: ContentGroup;
   contents: Content[] = [];
-  displayedColumns = ['content', 'counts', 'percentage'];
+  displayedColumns: string[] = [];
   status = {
     good: 85 ,
     okay: 50 ,
@@ -50,6 +50,7 @@ export class ListStatisticComponent implements OnInit {
   contentCounter = 0;
   roomId: number;
   baseUrl: string;
+  deviceType = localStorage.getItem('deviceType');
 
   constructor(private contentService: ContentService,
               private translateService: TranslateService,
@@ -69,6 +70,11 @@ export class ListStatisticComponent implements OnInit {
       this.getData(contents);
     });
     this.getBaseUrl();
+    if (this.deviceType === 'desktop') {
+      this.displayedColumns = ['content', 'counts', 'abstentions', 'percentage'];
+    } else {
+      this.displayedColumns = ['content', 'counts', 'percentage'];
+    }
   }
 
   getBaseUrl() {

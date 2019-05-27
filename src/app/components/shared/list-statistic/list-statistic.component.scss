@@ -20,7 +20,7 @@ table {
 
 .mat-column-abstentions {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 mat-header-cell {
@@ -51,7 +51,10 @@ mat-toolbar {
 }
 
 .empty {
-  color: var(--grey)!important;
   background: var(--grey);
   pointer-events: none;
+}
+
+.invisible {
+  color: var(--grey)!important;
 }
