@@ -6,7 +6,7 @@ export const purple = {
   '--secondary': '#ffca28',
   '--secondary-variant': '#fffd61',
 
-  '--background': '#f5f5f5',
+  '--background': '#eeeeee',
   '--surface': '#bdbdbd',
   '--dialog': '#c2c2c2',
 
@@ -20,7 +20,7 @@ export const purple = {
   '--yellow': '#FFD54F',
   '--blue': '#3f51b5',
   '--purple': '#9c27b0',
-  '--teal': '#4DB6AC',
+  '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
   '--black': '#212121'
