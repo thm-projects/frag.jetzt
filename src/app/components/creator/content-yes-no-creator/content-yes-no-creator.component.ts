@@ -79,8 +79,12 @@ export class ContentYesNoCreatorComponent implements OnInit {
       return;
     }
     if (this.yesno) {
+      this.content.options[0].points = 10;
+      this.content.options[1].points = -10;
       this.content.correctOptionIndexes = [0];
     } else {
+      this.content.options[0].points = -10;
+      this.content.options[1].points = 10;
       this.content.correctOptionIndexes = [1];
     }
     let contentGroup: string;
