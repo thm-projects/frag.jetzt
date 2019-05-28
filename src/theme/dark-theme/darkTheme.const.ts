@@ -15,7 +15,7 @@ export const dark = {
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
 
-  '--green': '#AED581',
+  '--green': '#81c784',
   '--red': '#FF8A80',
   '--yellow': '#FFD54F',
   '--blue': '#3f51b5',

@@ -15,7 +15,7 @@ export const arsnova = {
   '--on-background': '#000000',
   '--on-surface': '#000000',
 
-  '--green': '#AED581',
+  '--green': '#81c784',
   '--red': '#FF8A80',
   '--yellow': '#FFD54F',
   '--blue': '#3f51b5',
