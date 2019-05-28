@@ -67,7 +67,8 @@
 		"password-verify": "Passwort bestätigen",
 		"register": "Registrieren",
 		"register-successful": "Erfolgreich registriert. Bitte prüfen Sie Ihre E-mails",
-		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben"
+		"register-unsuccessful": "Bitte prüfen Sie Ihre Eingaben",
+		"register-request-error": "Etwas ist bei der Registierung fehlgeschlagen. Haben Sie sich vielleicht schon registriert?"
 	},
 	"session": {
 		"session-name": "Name der Session",
