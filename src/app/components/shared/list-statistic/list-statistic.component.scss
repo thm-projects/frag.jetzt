@@ -30,7 +30,7 @@ mat-header-cell {
 
 mat-cell {
   color: black!important;
-  background-color: var(--grey-light);
+  background-color: var(--grey);
 }
 
 mat-toolbar {
@@ -57,4 +57,8 @@ mat-toolbar {
 
 .invisible {
   color: var(--grey)!important;
+}
+
+#okayP {
+  color: var(--yellow);
 }

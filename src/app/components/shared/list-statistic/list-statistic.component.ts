@@ -97,7 +97,7 @@ export class ListStatisticComponent implements OnInit {
     for (let i = 0; i < length; i++) {
       this.dataSource[i] = new ContentStatistic(null, null, 0, 0, 0 );
       this.dataSource[i].content = this.contents[i];
-      if (contents[i].format === ContentType.CHOICE) {
+      if (contents[i].format === ContentType.CHOICE || contents[i].format === ContentType.BINARY) {
         this.contentService.getAnswer(contents[i].id).subscribe(answer => {
           if (contents[i].multiple) {
             percent = this.evaluateMultiple(contents[i].options, answer.roundStatistics[0].combinatedCounts);
