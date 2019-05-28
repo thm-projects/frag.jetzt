@@ -29,7 +29,9 @@
 		"no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
 		"created-2": "' successfully created",
-		"only-numbers": "A session-ID only contains digits"
+		"only-numbers": "A session-ID only contains digits",
+        "update-available": "A newer version is available.",
+        "install": "Install"
 	},
 	"login": {
 		"email": "E-mail",
