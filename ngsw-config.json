@@ -6,9 +6,10 @@
       "name": "api",
       "urls": ["/**"],
       "cacheConfig": {
+        "strategy": "freshness",
         "maxSize": 500,
-        "maxAge": "7d",
-        "strategy": "performance"
+        "timeout": "3s",
+        "maxAge": "7d"
       }
     }
   ],
