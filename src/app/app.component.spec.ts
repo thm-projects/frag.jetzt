@@ -1,4 +1,4 @@
-import { APP_INITIALIZER } from '@angular/core';
+/*import { APP_INITIALIZER } from '@angular/core';
 import { initializeApp } from './app.module';
 import { AppConfig } from './app.config';
 import { TestBed, async } from '@angular/core/testing';
@@ -41,4 +41,4 @@ describe('AppComponent', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('ARSnova');
   }));
-});
+});*/

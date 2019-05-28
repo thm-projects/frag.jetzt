@@ -29,7 +29,9 @@
 		"no-empty-name": "Bitte geben Sie einen Namen ein",
 		"created-1": "Session '",
 		"created-2": "' erfolgreich erstellt",
-		"only-numbers": "Eine Session-ID besteht aus Ziffern"
+		"only-numbers": "Eine Session-ID besteht aus Ziffern",
+        "update-available": "Eine neue Version ist verfügbar.",
+        "install": "Installieren"
 	},
 	"login": {
 		"email": "E-mail",
