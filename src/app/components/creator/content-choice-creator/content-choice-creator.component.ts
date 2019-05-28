@@ -138,6 +138,11 @@ export class ContentChoiceCreatorComponent implements OnInit {
   }
 
   saveChanges(index: number, answer: DisplayAnswer, matDialogOutput: boolean) {
+    if (this.singleChoice) {
+      for (const option of this.content.options) {
+        option.points = -10;
+      }
+    }
     this.content.options[index].label = answer.answerOption.label;
     this.content.options[index].points = (answer.correct) ? 10 : -10;
     const indexInCorrectOptionIndexes = this.content.correctOptionIndexes.indexOf(index);
@@ -238,13 +243,8 @@ export class ContentChoiceCreatorComponent implements OnInit {
       });
       return;
     }
-    if (this.singleChoice) {
-      this.content.multiple = false;
-      this.content.format = ContentType.BINARY;
-    } else {
-      this.content.multiple = true;
-      this.content.format = ContentType.CHOICE;
-    }
+    this.content.multiple = !this.singleChoice;
+    this.content.format = ContentType.BINARY;
     let contentGroup: string;
     if (this.contentCol === 'Default') {
       contentGroup = '';
