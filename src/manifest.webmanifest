@@ -1,8 +1,8 @@
 {
   "name": "ARSnova Lite",
   "short_name": "ARSnova",
-  "theme_color": "#b2dfdb",
-  "background_color": "#b2dfdb",
+  "theme_color": "#fafafa",
+  "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/",
   "start_url": "/home",
