@@ -11,19 +11,15 @@
           {{comment.timestamp | date: 'h:mm:ss a, M/d/yy'}}
         </ng-template>
       </div>
-      <button mat-icon-button *ngIf="comment.correct || !isStudent" [disabled]="isStudent" (click)="setCorrect(comment)"
-              [matTooltip]="comment.correct ? 'Unmark as correct' : 'Mark as correct'">
+      <button mat-icon-button *ngIf="comment.correct || !isStudent" [disabled]="isStudent" (click)="setCorrect(comment)">
         <mat-icon [ngClass]="{true : 'correct-icon', false: 'not-marked'}[comment.correct]">check_circle</mat-icon>
       </button>
       <button mat-icon-button *ngIf="comment.favorite || !isStudent" [disabled]="isStudent"
-              (click)="setFavorite(comment)"
-              [matTooltip]="comment.favorite ? 'Mark as not favorite' : 'Mark as favorite'">
+              (click)="setFavorite(comment)">
         <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-marked'}[comment.favorite]">favorite_border</mat-icon>
       </button>
-      <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)"
-              [matTooltip]="comment.read ? 'Mark  as unread' : 'Mark as read'">
-        <mat-icon class="icon" [ngClass]="{'read-icon': comment.read,
-                                            'not-marked' : !comment.read}">visibility
+      <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)">
+        <mat-icon class="icon" [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}">visibility
         </mat-icon>
       </button>
     </div>

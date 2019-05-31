@@ -31,13 +31,6 @@
         </mat-expansion-panel>
       </mat-card-content>
       <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile colspan="1" rowspan="1">
-          <button mat-icon-button
-                  routerLink="/creator/room/{{ room.shortId }}/create-content">
-            <mat-icon>note_add</mat-icon>
-            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h3>
-          </button>
-        </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
@@ -45,19 +38,26 @@
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.comments' | translate}}</h3>
           </button>
         </mat-grid-tile>
-      </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="2:1">
-        <mat-grid-tile>
-          <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/statistics">
-            <mat-icon>insert_chart</mat-icon>
-           <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h3>
-          </button>
-        </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon class="smallerIcon">thumbs_up_down
             </mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.live-feedback' | translate}}</h3>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile>
+          <button mat-icon-button
+                  routerLink="/creator/room/{{ room.shortId }}/create-content">
+            <mat-icon>note_add</mat-icon>
+            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h3>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/statistics">
+            <mat-icon>insert_chart</mat-icon>
+           <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h3>
           </button>
         </mat-grid-tile>
       </mat-grid-list>

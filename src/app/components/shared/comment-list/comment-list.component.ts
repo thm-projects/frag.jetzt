@@ -29,6 +29,7 @@ export class CommentListComponent implements OnInit {
   hideCommentsList = false;
   filteredComments: Comment[];
   userRole: UserRole;
+  deviceType: string;
 
   constructor(private commentService: CommentService,
     private translateService: TranslateService,
@@ -52,6 +53,7 @@ export class CommentListComponent implements OnInit {
     this.getComments();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.userRole = this.authenticationService.getRole();
+    this.deviceType = localStorage.getItem('deviceType');
   }
 
   getComments(): void {
