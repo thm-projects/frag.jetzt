@@ -23,13 +23,13 @@ import { DeleteCommentComponent } from '../_dialogs/delete-comment/delete-commen
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
+  @Input() comments: Comment[];
   room: Room;
-  comments: Comment[];
-  isLoading = true;
   hideCommentsList = false;
   filteredComments: Comment[];
   userRole: UserRole;
   deviceType: string;
+  isLoading = true;
 
   constructor(private commentService: CommentService,
     private translateService: TranslateService,
@@ -50,18 +50,9 @@ export class CommentListComponent implements OnInit {
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
-    this.getComments();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.userRole = this.authenticationService.getRole();
     this.deviceType = localStorage.getItem('deviceType');
-  }
-
-  getComments(): void {
-    this.commentService.getComments(this.roomId)
-      .subscribe(comments => {
-        this.comments = comments;
-        this.isLoading = false;
-      });
   }
 
   searchComments(term: string): void {
@@ -74,6 +65,7 @@ export class CommentListComponent implements OnInit {
   }
 
   showComments(): Comment[] {
+    this.isLoading = false;
     let commentThreshold = -10;
     if (this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;

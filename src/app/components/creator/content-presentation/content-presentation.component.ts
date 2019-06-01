@@ -13,6 +13,7 @@ export class ContentPresentationComponent implements OnInit {
   contents: ContentChoice[];
   contentGroup: ContentGroup;
   labels = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  isLoading = true;
 
   constructor(private contentService: ContentService) {
   }
@@ -21,6 +22,7 @@ export class ContentPresentationComponent implements OnInit {
       this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
       this.contentService.getContentChoiceByIds(this.contentGroup.contentIds).subscribe( contents => {
         this.contents = contents;
+        this.isLoading = false;
       });
   }
 

@@ -14,6 +14,7 @@ export class ParticipantContentCarouselPageComponent implements OnInit {
 
   contents: Content[];
   contentGroup: ContentGroup;
+  isLoading = true;
 
   constructor(private contentService: ContentService) {
   }
@@ -22,6 +23,7 @@ export class ParticipantContentCarouselPageComponent implements OnInit {
       this.contentGroup = JSON.parse(sessionStorage.getItem('contentGroup'));
       this.contentService.getContentsByIds(this.contentGroup.contentIds).subscribe( contents => {
         this.contents = contents;
+        this.isLoading = false;
       });
   }
 }

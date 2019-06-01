@@ -65,14 +65,13 @@ export class ContentListComponent implements OnInit {
           this.labels[i] = this.contents[i].subject;
         }
       }
-
+      this.isLoading = false;
     });
     this.route.params.subscribe(params => {
       sessionStorage.setItem('collection', params['contentGroup']);
       this.collectionName = params['contentGroup'];
     });
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.isLoading = false;
   }
 
   findIndexOfSubject(subject: string): number {
