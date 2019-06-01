@@ -15,8 +15,11 @@
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <button mat-icon-button id="settings" (click)="showSettingsDialog()">
-          <mat-icon id="settings-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
+        <button mat-icon-button class="corner-icons" id="person" (click)="showModeratorsDialog()">
+          <mat-icon class="corner-icon" id="moderators-icon" matTooltip="{{ 'room-page.moderators' | translate}}">person</mat-icon>
+        </button>
+        <button mat-icon-button class="corner-icons" id="settings" (click)="showSettingsDialog()">
+          <mat-icon class="corner-icon" id="settings-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
         </button>
       </div>
       <mat-divider></mat-divider>

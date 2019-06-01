@@ -62,6 +62,7 @@ export class RoomJoinComponent implements OnInit {
           if (!this.user) {
             this.guestLogin();
           } else {
+            console.log(room);
             if (this.user.role === UserRole.CREATOR) {
               this.authenticationService.logout();
               this.guestLogin();

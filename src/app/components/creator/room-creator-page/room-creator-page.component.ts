@@ -82,5 +82,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         dialogRef.close('abort');
     });
   }
+
+  showModeratorsDialog(): void {
+
+  }
 }
 

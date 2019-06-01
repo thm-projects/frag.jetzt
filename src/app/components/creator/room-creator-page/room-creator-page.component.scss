@@ -36,12 +36,19 @@ button {
   margin-bottom: 5%;
 }
 
-#settings {
-  width: 10%;
-  max-width: 40px;
+
+  .corner-icons {
+    width: 10%;
+    max-width: 40px;
+  }
+
+.corner-icon {
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
 }
 
-#settings-icon {
+#moderators-icon {
   font-size: 35px;
   height: 35px;
   width: 35px;

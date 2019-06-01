@@ -22,6 +22,7 @@
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
     "present": "Präsentieren",
+    "moderators": "Moderatoren",
     "session-settings": "Session-Verwaltung",
     "general": "Allgemein",
     "threshold": "Schwellenwert für sichtbare Kommentare: ",

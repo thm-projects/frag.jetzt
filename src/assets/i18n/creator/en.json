@@ -22,6 +22,7 @@
     "default-content-group": "Default",
     "description": "Description of session",
     "present": "Present",
+    "moderators": "Moderators",
     "session-settings": "Session administration",
     "general": "General",
     "threshold": "Threshold for visible comments: ",
