@@ -10,7 +10,7 @@
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
   </mat-table>
-  <div>
+  <div fxLayout="row" fxLayoutAlign="center">
     <button mat-raised-button type="submit"class="submit">{{ 'content.create' | translate }}</button>
   </div>
 </form>
