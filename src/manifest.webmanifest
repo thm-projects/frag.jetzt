@@ -8,6 +8,11 @@
   "start_url": "/home",
   "icons": [
     {
+      "src": "assets/icons/favicon.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
       "src": "assets/icons/icon-72x72.png",
       "sizes": "72x72",
       "type": "image/png"
