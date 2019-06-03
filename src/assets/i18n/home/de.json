@@ -8,8 +8,10 @@
 		"back": "Zurück",
 		"my-sessions": "Meine Sessions",
 		"visited-sessions": "Besuchte Sessions",
-    "default": "ARSnova",
-    "dark": "Nacht"
+    "change-theme": "Theme ändern",
+    "change-language": "Sprache ändern",
+    "login": "Login",
+    "my-account": "Mein Account"
 	},
 	"login-page": {
 		"creator": "Dozent/in",

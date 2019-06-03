@@ -11,6 +11,11 @@ mat-cell {
 }
 
 .submit {
+  margin-top: 80px;
   background-color: var(--primary);
   color: var(--on-primary);
+}
+
+.mat-raised-button {
+  min-width: 120px;
 }

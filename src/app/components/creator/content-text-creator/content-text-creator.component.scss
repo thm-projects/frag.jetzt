@@ -3,6 +3,11 @@ form > button {
 }
 
 .submit {
+  margin-top: 180px;
   background-color: var(--primary);
   color: var(--on-primary);
+}
+
+.mat-raised-button {
+  min-width: 120px;
 }

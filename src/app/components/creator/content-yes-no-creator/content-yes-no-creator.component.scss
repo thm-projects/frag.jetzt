@@ -5,4 +5,9 @@ form > button {
 .submit {
   background-color: var(--primary);
   color: var(--on-primary);
+  margin-top: 160px;
+}
+
+.mat-raised-button {
+  min-width: 120px;
 }

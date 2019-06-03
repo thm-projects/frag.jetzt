@@ -94,8 +94,10 @@
     "really": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
     "no-comments": "Es wurden noch keine Kommentare erstellt ..."
   },
-  "comment-list-page": {
+  "comment-list": {
     "search": "Suchen",
-    "cancel": "Abbrechen"
+    "export-comments": "Kommentare exportieren",
+    "filter-comments": "Kommentare Sortieren",
+    "add-comment": "Kommentar erstellen"
   }
 }

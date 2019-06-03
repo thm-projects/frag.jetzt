@@ -1,3 +1,9 @@
+<div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-progress-spinner color="primary" mode="indeterminate" diameter="80"></mat-progress-spinner>
+  </div>
+</div>
+
 <div *ngIf="rooms && rooms.length != 0">
   <mat-expansion-panel [disabled]="true" id="matPanelHeader">
     <mat-expansion-panel-header>

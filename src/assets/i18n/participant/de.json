@@ -24,9 +24,10 @@
     "error-both-fields": "Bitte füllen Sie alle Felder aus.",
     "no-comments": "Es wurden noch keine Kommentare erstellt ..."
   },
-  "comment-list-page": {
+  "comment-list": {
     "search": "Suchen",
-    "cancel": "Abbrechen"
+    "filter-comments": "Kommentare Sortieren",
+    "add-comment": "Kommentar erstellen"
   },
   "answer": {
     "submit": "Absenden",

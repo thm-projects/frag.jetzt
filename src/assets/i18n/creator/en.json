@@ -94,8 +94,10 @@
     "really": "Do you really want to delete all comments of this session?",
     "no-comments": "No comments have been created yet ..."
   },
-  "comment-list-page": {
+  "comment-list": {
     "search": "Search",
-    "cancel": "Cancel"
+    "export-comments": "Export comments",
+    "filter-comments": "Sort comments",
+    "add-comment": "Create comment"
   }
 }

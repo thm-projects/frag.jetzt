@@ -1,3 +1,9 @@
+<div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxFill>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-progress-spinner color="primary" mode="indeterminate"></mat-progress-spinner>
+  </div>
+</div>
+
 <div fxLayout="column" fxLayoutAlign="start center">
   <mat-tab-group>
       <mat-tab fxLayoutAlign="center" *ngFor="let content of contents" label="{{content.subject}}">

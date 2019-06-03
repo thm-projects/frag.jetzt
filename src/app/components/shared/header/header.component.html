@@ -1,10 +1,9 @@
 <mat-toolbar class="mat-elevation-z4">
   <mat-toolbar-row>
-    <button *ngIf="router.url !== '/home'" (click)="goBack()" mat-icon-button>
+    <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
+            matTooltip="{{'header.back' | translate}}">
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
-    <span class="fill-remaining-space"></span>
-    <span *ngIf="router.url !== '/home'" class="app-title" (click)="goToHomepage()">ARSnova</span>
     <span class="fill-remaining-space"></span>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
@@ -39,7 +38,7 @@
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="themeMenu">
-      <mat-icon class="header-icons">palette</mat-icon>
+      <mat-icon class="header-icons" matTooltip="{{'header.change-theme' | translate}}">palette</mat-icon>
     </button>
 
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
@@ -48,7 +47,7 @@
     </mat-menu>
 
     <button mat-icon-button [matMenuTriggerFor]="langMenu">
-      <mat-icon class="header-icons">language</mat-icon>
+      <mat-icon class="header-icons" matTooltip="{{'header.change-language' | translate}}">language</mat-icon>
     </button>
 
     <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
@@ -60,27 +59,29 @@
         <mat-icon class="sessions">turned_in</mat-icon>
         <span>{{'header.visited-sessions' | translate}}</span>
       </button>
-      <button mat-menu-item  (click)="logout()">
+      <button mat-menu-item (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-        <button mat-menu-item (click)=login(true)>
-          <mat-icon>record_voice_over</mat-icon>
-          <span>{{ 'login-page.creator' | translate }}</span>
-        </button>
-        <button mat-menu-item (click)=login(false)>
-          <mat-icon>supervisor_account</mat-icon>
-          <span>{{ 'login-page.participant' | translate }}</span>
-        </button>
+      <button mat-menu-item (click)=login(true)>
+        <mat-icon>record_voice_over</mat-icon>
+        <span>{{ 'login-page.creator' | translate }}</span>
+      </button>
+      <button mat-menu-item (click)=login(false)>
+        <mat-icon>supervisor_account</mat-icon>
+        <span>{{ 'login-page.participant' | translate }}</span>
+      </button>
     </mat-menu>
 
-    <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu">
+    <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu"
+            matTooltip="{{'header.login' | translate}}">
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
-    <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="loginMenu">
+    <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="loginMenu"
+            matTooltip="{{'header.my-account' | translate}}">
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
   </mat-toolbar-row>

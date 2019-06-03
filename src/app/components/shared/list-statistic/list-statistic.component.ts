@@ -51,6 +51,7 @@ export class ListStatisticComponent implements OnInit {
   roomId: number;
   baseUrl: string;
   deviceType = localStorage.getItem('deviceType');
+  isLoading = true;
 
   constructor(private contentService: ContentService,
               private translateService: TranslateService,
@@ -120,6 +121,7 @@ export class ListStatisticComponent implements OnInit {
         this.dataSource[i].percent = -1;
       }
     }
+    this.isLoading = false;
   }
 
   getSingleCounts(answers: number[]): number {
