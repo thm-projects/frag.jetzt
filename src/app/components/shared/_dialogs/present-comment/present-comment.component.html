@@ -1,6 +1,14 @@
-<mat-slider min="1" max="2" step="0.1" thumbLabel tickInterval="auto"
-            (input)="updateFontSize($event)" id="slider"></mat-slider>
-<button id="exitButton" mat-raised-button color="warn" (click)="onCloseClick()">
+<div fxLayout="row">
+  <div fxLayout="column" fxLayoutAlign="center">
+    <mat-icon>zoom_out</mat-icon>
+  </div>
+  <mat-slider min="1" max="5" step="0.1" tickInterval="auto"
+              (input)="updateFontSize($event)" id="slider"></mat-slider>
+  <div fxLayout="column" fxLayoutAlign="center">
+    <mat-icon>zoom_in</mat-icon>
+  </div>
+</div>
+<button id="exitButton" mat-raised-button (click)="onCloseClick()">
   <mat-icon >exit_to_app</mat-icon>
 </button>
 <div id="comment">

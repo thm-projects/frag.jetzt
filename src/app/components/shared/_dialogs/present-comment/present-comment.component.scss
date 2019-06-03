@@ -2,22 +2,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  text-align: center;
+  text-align: left;
   min-height: 90vh;
   font-size: 2.1em;
-  margin: 0.5em 0.5em;
-
+  margin: 5%;
+  word-break: break-all;
 }
 
 #exitButton {
+  background-color: var(--red);
+  color: white;
   position:absolute;
   top:2em;
   right:2em;
-}
-
-#slider {
-  position:absolute;
-  top:2em;
-  left:2em;
+  max-height: 100px;
 }
