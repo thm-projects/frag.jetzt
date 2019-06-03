@@ -2,9 +2,7 @@
   margin-bottom: 20px;
   background-color: var(--surface);
   cursor: pointer;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  padding-right: 5px;
+  padding: 1.5% 1.5% 3% 3%;
   transition: background-color 1s linear;
 }
 
@@ -29,7 +27,7 @@ mat-card-content > :first-child {
 }
 
 .not-marked {
-  color: var(--on-surface);
+  color: var(--background);
 }
 
 .correct-icon {
@@ -57,8 +55,6 @@ h2 {
   font-size: 140%;
   max-height: 120px;
   overflow: auto;
-  padding-left: 2%;
-  padding-right: 2%;
   color: var(--on-surface)
 }
 
@@ -68,10 +64,9 @@ h2 {
 
 .date {
   padding-top: 10px;
-  margin-left: 2%;
-  opacity: 0.4;
+  opacity: 0.7;
   position: absolute;
-  color: var(--on-surface)
+  color: var(--on-surface);
 }
 
 .highlighted {
@@ -82,4 +77,3 @@ h2 {
 .highlighted * {
   color: var(--on-secondary)!important;
 }
-
