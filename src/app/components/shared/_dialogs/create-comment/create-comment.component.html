@@ -1,7 +1,8 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
   <mat-form-field class="input-block">
       <textarea matInput #commentBody placeholder="{{ 'comment-page.enter-comment' | translate}}"
-                matAutosizeMinRows=2 matAutosizeMaxRows=5  maxlength="255" [formControl]="bodyForm"></textarea>
+                matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=10  maxlength="255"
+                [formControl]="bodyForm"></textarea>
     <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">

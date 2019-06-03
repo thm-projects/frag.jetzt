@@ -11,16 +11,16 @@ mat-card-content>:first-child {
 }
 
 .mat-icon-button {
-  width: 75%;
-  height: 75%;
+  width: 100%;
+  height: 100%;
   margin-bottom: 10px;
   color: var(--primary)!important;
 }
 
 mat-icon {
-  font-size: 50px;
-  height: 50px;
-  width: 50px;
+  font-size: 70px;
+  height: 70px;
+  width: 70px;
   line-height: 100%!important;
 }
 
@@ -33,26 +33,21 @@ button {
   }
 }
 
-p {
-  font-size: medium;
-  color: var(--on-surface)!important;
-}
-
 h2 {
   font-size: large;
-  color: var(--on-surface)!important;
+  color: var(--on-surface);
 }
 
 h3 {
   font-size: larger;
-  color: var(--on-surface)!important;
-  margin-top: 10px;
+  color: var(--on-surface);
+  margin-top: 15px;
   margin-bottom: 10px;
 }
 
 h4 {
   font-size: medium;
-  color: var(--on-surface)!important;
+  color: var(--on-surface);
 }
 
 mat-card-header {

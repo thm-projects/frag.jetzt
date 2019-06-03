@@ -22,3 +22,7 @@ textarea {
   color: var(--on-primary);
   background-color: var(--primary);
 }
+
+mat-hint {
+  color: var(--on-surface) !important;
+}
