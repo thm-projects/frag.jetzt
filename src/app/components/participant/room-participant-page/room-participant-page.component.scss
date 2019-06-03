@@ -33,26 +33,21 @@ button {
   }
 }
 
-p {
-  font-size: medium;
-  color: var(--on-surface)!important;
-}
-
 h2 {
   font-size: large;
-  color: var(--on-surface)!important;
+  color: var(--on-surface);
 }
 
 h3 {
   font-size: larger;
-  color: var(--on-surface)!important;
-  margin-top: 10px;
+  color: var(--on-surface);
+  margin-top: 15px;
   margin-bottom: 10px;
 }
 
 h4 {
   font-size: medium;
-  color: var(--on-surface)!important;
+  color: var(--on-surface);
 }
 
 mat-card-header {
