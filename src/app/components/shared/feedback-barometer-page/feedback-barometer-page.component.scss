@@ -1,6 +1,7 @@
 mat-card {
   max-width: 800px;
   width: 100%;
+  background-color: var(--surface);
 }
 
 mat-progress-bar {
@@ -12,4 +13,5 @@ mat-icon {
   font-size: 300%;
   height: 50px;
   width: 50px;
+  color: var(--secondary);
 }
