@@ -16,7 +16,7 @@
       </button>
       <button mat-icon-button [disabled]="isStudent"
               (click)="setFavorite(comment)">
-        <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-marked'}[comment.favorite]">favorite_border</mat-icon>
+        <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-marked'}[comment.favorite]">favorite</mat-icon>
       </button>
       <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)">
         <mat-icon class="icon" [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}">visibility
