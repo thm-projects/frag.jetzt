@@ -22,6 +22,7 @@ import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
+import { ModeratorsComponent } from './_dialogs/moderators/moderators';
 
 @NgModule({
   imports: [
@@ -52,7 +53,8 @@ import { CommentExportComponent } from './_dialogs/comment-export/comment-export
     ContentListComponent,
     ContentEditComponent,
     ContentPresentationComponent,
-    CommentExportComponent
+    CommentExportComponent,
+    ModeratorsComponent
   ],
   entryComponents: [
     RoomDeleteComponent,
