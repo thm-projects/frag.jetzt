@@ -7,6 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
+import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
+import { CommentService } from '../../../../services/http/comment.service';
 
 @Component({
   selector: 'app-room-edit',
@@ -23,6 +25,7 @@ export class RoomEditComponent implements OnInit {
               public translationService: TranslateService,
               protected roomService: RoomService,
               public router: Router,
+              public commentService: CommentService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -42,7 +45,7 @@ export class RoomEditComponent implements OnInit {
     }
   }
 
-  openDeletionRoomDialog(): void {
+  openDeleteRoomDialog(): void {
     const dialogRef = this.dialog.open(RoomDeleteComponent, {
       width: '400px'
     });
@@ -62,5 +65,24 @@ export class RoomEditComponent implements OnInit {
     this.roomService.deleteRoom(room.id).subscribe();
     this.dialogRef.close();
     this.router.navigate([`/creator`]);
+  }
+
+  openDeleteCommentDialog(): void {
+    const dialogRef = this.dialog.open(DeleteCommentComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteComments();
+        }
+      });
+  }
+
+  deleteComments(): void {
+    this.translationService.get('room-page.comments-deleted').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
+    this.commentService.deleteCommentsByRoomId(this.editRoom.id).subscribe();
   }
 }

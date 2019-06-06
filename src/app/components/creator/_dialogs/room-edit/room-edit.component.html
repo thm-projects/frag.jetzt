@@ -4,29 +4,36 @@
   <div fxLayout="column">
     <mat-form-field class="input-block">
       <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}"
-             name="room-name"  maxlength="20"/>
+             name="room-name" maxlength="20"/>
     </mat-form-field>
     <mat-form-field class="input-block">
               <textarea [(ngModel)]="editRoom.description" matInput matTextareaAutosize
-                        matAutosizeMinRows="2" matAutosizeMaxRows="5"  maxlength="255"
+                        matAutosizeMinRows="2" matAutosizeMaxRows="5" maxlength="255"
                         placeholder="{{ 'session.description' | translate}}" name="description">
               </textarea>
     </mat-form-field>
     <div fxLayoutAlign="center center">
-      <button mat-raised-button class="delete" (click)="openDeletionRoomDialog()">
-        <mat-icon>delete</mat-icon>{{ 'room-page.delete-room' | translate }}</button>
+      <button mat-raised-button class="delete" (click)="openDeleteRoomDialog()">
+        <mat-icon>delete</mat-icon>
+        {{ 'room-page.delete-room' | translate }}</button>
     </div>
   </div>
   <h2>{{'room-page.comments' | translate }}</h2>
   <mat-divider></mat-divider>
-  <div  fxLayout="column">
+  <div fxLayout="column">
     <div fxLayout="row">
       <h3>{{ 'room-page.threshold' | translate}}</h3>
       <h3>{{commentThreshold | number}}</h3>
     </div>
-      <mat-slider id="commentSlider" min="-50" max="50" step="1" value="0"
-                  [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
+    <mat-slider id="commentSlider" min="-50" max="50" step="1" value="0"
+                [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
   </div>
+  <div fxLayoutAlign="center center">
+  <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()">
+    <mat-icon>delete</mat-icon>
+    {{ 'room-page.delete-all-comments' | translate }}</button>
+  </div>
+  <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
     <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
       {{ 'room-page.abort' | translate }}

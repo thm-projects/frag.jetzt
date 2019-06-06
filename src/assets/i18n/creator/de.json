@@ -24,7 +24,10 @@
     "present": "Präsentieren",
     "session-settings": "Session Einstellungen",
     "general": "Allgemein",
-    "threshold": "Schwellenwert für sichtbare Kommentare: "
+    "threshold": "Schwellenwert für sichtbare Kommentare: ",
+    "delete-all-comments": "Alle Kommentare löschen",
+    "really-delete-comments": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
+    "comments-deleted": "Alle Kommentare wurden gelöscht."
   },
   "content": {
     "content": "Frage",
@@ -91,7 +94,6 @@
     "comma": "Microsoft Excel",
     "semicolon": "Standard CSV",
     "export": "Exportieren",
-    "really": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
     "no-comments": "Es wurden noch keine Kommentare erstellt ...",
     "correct": "Als richtig markieren",
     "favorite": "Als Favoriten markieren",

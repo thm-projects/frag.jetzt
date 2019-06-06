@@ -4,9 +4,13 @@
 
 .delete {
   margin-bottom: 20px;
-  min-width: 170px;
+  min-width: 220px;
   width: 60%;
   background-color: var(--red);
+}
+
+button {
+  min-width: 105px;
 }
 
 mat-icon {

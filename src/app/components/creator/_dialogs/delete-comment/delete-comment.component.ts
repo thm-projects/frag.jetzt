@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { CommentListComponent } from '../../comment-list/comment-list.component';
+import { RoomEditComponent } from '../room-edit/room-edit.component';
 
 @Component({
   selector: 'app-delete-comment',
@@ -9,7 +9,7 @@ import { CommentListComponent } from '../../comment-list/comment-list.component'
 })
 export class DeleteCommentComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<CommentListComponent>,
+  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {

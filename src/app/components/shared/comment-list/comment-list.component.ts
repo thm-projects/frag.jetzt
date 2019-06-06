@@ -13,7 +13,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { CommentExportComponent } from '../../creator/_dialogs/comment-export/comment-export.component';
-import { DeleteCommentComponent } from '../_dialogs/delete-comment/delete-comment.component';
+import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -159,18 +159,6 @@ export class CommentListComponent implements OnInit {
       });
   }
 
-  openDeletionRoomDialog(): void {
-    const dialogRef = this.dialog.open(DeleteCommentComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteComments();
-        }
-      });
-  }
-
   send(comment: Comment): void {
     this.wsCommentService.add(comment);
   }
@@ -261,9 +249,5 @@ export class CommentListComponent implements OnInit {
         return +dateB - +dateA;
       }
     });
-  }
-
-  deleteComments(): void {
-    this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 }

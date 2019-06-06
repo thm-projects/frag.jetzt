@@ -61,12 +61,8 @@
         <mat-icon>visibility</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort === timedesc ? timeasc : timedesc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort)">
         <mat-icon>close</mat-icon>
-      </button>
-
-      <button mat-icon-button *ngIf="userRole === 1" (focus)="hideCommentsList=false" (click)="openDeletionRoomDialog()">
-        <mat-icon color="warn">delete</mat-icon>
       </button>
     </div>
   </mat-menu>
