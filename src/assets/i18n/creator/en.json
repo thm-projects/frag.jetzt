@@ -92,7 +92,10 @@
     "semicolon": "Standard CSV",
     "export": "Export",
     "really": "Do you really want to delete all comments of this session?",
-    "no-comments": "No comments have been created yet ..."
+    "no-comments": "No comments have been created yet ...",
+    "correct": "Mark as correct",
+    "favorite": "Mark as favorite",
+    "read": "Mark as read"
   },
   "comment-list": {
     "search": "Search",
