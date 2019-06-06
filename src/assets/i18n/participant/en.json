@@ -29,7 +29,8 @@
   },
   "comment-list": {
     "search": "Search",
-    "filter-comments": "Sort comments",
+    "filter-comments": "Filter comments",
+    "sort-comments": "Sort comments",
     "add-comment": "Create comment"
   },
   "answer": {

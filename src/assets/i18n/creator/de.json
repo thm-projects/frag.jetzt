@@ -100,7 +100,8 @@
   "comment-list": {
     "search": "Suchen",
     "export-comments": "Kommentare exportieren",
-    "filter-comments": "Kommentare Sortieren",
+    "filter-comments": "Kommentare filtern",
+    "sort-comments": "Kommentare sortieren",
     "add-comment": "Kommentar erstellen"
   }
 }
