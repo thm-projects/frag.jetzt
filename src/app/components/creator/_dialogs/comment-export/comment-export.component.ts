@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { CommentPageComponent } from '../../../shared/comment-page/comment-page.component';
+import { RoomEditComponent } from '../room-edit/room-edit.component';
 
 @Component({
   selector: 'app-comment-export',
@@ -11,7 +11,7 @@ export class CommentExportComponent implements OnInit {
 
   exportType = 'comma';
 
-  constructor(public dialogRef: MatDialogRef<CommentPageComponent>) { }
+  constructor(public dialogRef: MatDialogRef<RoomEditComponent>) { }
 
   ngOnInit() {
   }

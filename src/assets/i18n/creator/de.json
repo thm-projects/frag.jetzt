@@ -27,7 +27,8 @@
     "threshold": "Schwellenwert für sichtbare Kommentare: ",
     "delete-all-comments": "Alle Kommentare löschen",
     "really-delete-comments": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
-    "comments-deleted": "Alle Kommentare wurden gelöscht."
+    "comments-deleted": "Alle Kommentare wurden gelöscht.",
+    "export-comments": "Kommentare exportieren"
   },
   "content": {
     "content": "Frage",
@@ -101,7 +102,6 @@
   },
   "comment-list": {
     "search": "Suchen",
-    "export-comments": "Kommentare exportieren",
     "filter-comments": "Kommentare filtern",
     "sort-comments": "Kommentare sortieren",
     "add-comment": "Kommentar erstellen"

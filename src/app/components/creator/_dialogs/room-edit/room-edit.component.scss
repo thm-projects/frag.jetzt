@@ -5,8 +5,14 @@
 .delete {
   margin-bottom: 20px;
   min-width: 220px;
-  width: 60%;
   background-color: var(--red);
+}
+
+.export {
+  margin-bottom: 20px;
+  min-width: 220px;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }
 
 button {
@@ -39,6 +45,10 @@ mat-divider {
 .update {
   background-color: var(--primary);
   color: var(--on-primary);
+}
+
+.submit {
+  margin-top: 20px;
 }
 
 mat-form-field {

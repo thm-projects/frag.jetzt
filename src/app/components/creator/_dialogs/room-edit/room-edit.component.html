@@ -29,12 +29,17 @@
                 [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
   </div>
   <div fxLayoutAlign="center center">
+    <button mat-raised-button class="export" (click)="openExportDialog()">
+      <mat-icon>cloud_download</mat-icon>
+      {{ 'room-page.export-comments' | translate }}</button>
+  </div>
+  <div fxLayoutAlign="center center">
   <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()">
     <mat-icon>delete</mat-icon>
     {{ 'room-page.delete-all-comments' | translate }}</button>
   </div>
   <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" class="submit">
     <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
       {{ 'room-page.abort' | translate }}
     </button>
