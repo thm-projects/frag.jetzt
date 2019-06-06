@@ -3,7 +3,7 @@
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list.search' | translate }}"
-    (input)="searchComments(searchBox.value)">
+         (input)="searchComments(searchBox.value)">
   <button mat-icon-button class="searchBarButton close" *ngIf="searchBox.value"
           (click)="hideCommentsList=false; searchBox.value=''">
     <mat-icon>close</mat-icon>
@@ -35,23 +35,23 @@
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterFavorite()">
-        <mat-icon>star</mat-icon>
+        <mat-icon>favorite</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterMarkAsRead()">
         <mat-icon>visibility</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortVoteDesc()">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(votedesc)">
         <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortVote()">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(voteasc)">
         <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortTimeStamp()">
-        <mat-icon>remove</mat-icon>
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort === timedesc ? timeasc : timedesc)">
+        <mat-icon>access_time</mat-icon>
       </button>
       <button mat-icon-button *ngIf="userRole === 1" (focus)="hideCommentsList=false" (click)="openDeletionRoomDialog()">
         <mat-icon color="warn">delete</mat-icon>

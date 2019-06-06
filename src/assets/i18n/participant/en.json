@@ -22,7 +22,10 @@
     "error-title": "Please enter a title.",
     "error-comment": "Please enter a comment-text.",
     "error-both-fields": "Please fill in all fields.",
-    "no-comments": "No comments have been created yet ..."
+    "no-comments": "No comments have been created yet ...",
+    "correct": "Correct",
+    "favorite": "Favorite",
+    "read": "Read"
   },
   "comment-list": {
     "search": "Search",

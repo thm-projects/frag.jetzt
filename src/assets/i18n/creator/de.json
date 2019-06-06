@@ -92,7 +92,10 @@
     "semicolon": "Standard CSV",
     "export": "Exportieren",
     "really": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
-    "no-comments": "Es wurden noch keine Kommentare erstellt ..."
+    "no-comments": "Es wurden noch keine Kommentare erstellt ...",
+    "correct": "Als richtig markieren",
+    "favorite": "Als Favoriten markieren",
+    "read": "Als gelesen markieren"
   },
   "comment-list": {
     "search": "Suchen",

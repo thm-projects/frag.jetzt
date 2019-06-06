@@ -30,14 +30,19 @@ export class CommentListComponent implements OnInit {
   userRole: UserRole;
   deviceType: string;
   isLoading = true;
+  voteasc = 'vote_asc';
+  votedesc = 'vote_desc';
+  timeasc = 'time_asc';
+  timedesc = 'time_desc';
+  currentSort = this.votedesc;
 
   constructor(private commentService: CommentService,
-    private translateService: TranslateService,
-    public dialog: MatDialog,
-    protected langService: LanguageService,
-    private authenticationService: AuthenticationService,
-    private wsCommentService: WsCommentServiceService,
-    protected roomService: RoomService
+              private translateService: TranslateService,
+              public dialog: MatDialog,
+              protected langService: LanguageService,
+              private authenticationService: AuthenticationService,
+              private wsCommentService: WsCommentServiceService,
+              protected roomService: RoomService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -72,12 +77,14 @@ export class CommentListComponent implements OnInit {
       if (this.hideCommentsList) {
         return this.filteredComments.filter( x => x.score >= commentThreshold );
       } else {
+        this.sort(this.currentSort);
         return this.comments.filter( x => x.score >= commentThreshold );
       }
     } else {
       if (this.hideCommentsList) {
         return this.filteredComments;
       } else {
+        this.sort(this.currentSort);
         return this.comments;
       }
     }
@@ -119,7 +126,7 @@ export class CommentListComponent implements OnInit {
         }
         break;
       case 'CommentHighlighted':
-      // ToDo: Use a map for comments w/ key = commentId
+        // ToDo: Use a map for comments w/ key = commentId
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             this.comments[i].highlighted = <boolean>payload.lights;
@@ -192,12 +199,12 @@ export class CommentListComponent implements OnInit {
     const dateString = date.getFullYear() + '_' + ('0' + (date.getMonth() + 1)).slice(-2) + '_' + ('0' + date.getDate()).slice(-2);
     const timeString = ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
     const timestamp = dateString + '_' + timeString;
-      if (exportType === 'comma') {
-        this.exportCsv(',', timestamp);
-      }
-      if (exportType === 'semicolon') {
-        this.exportCsv(';', timestamp);
-      }
+    if (exportType === 'comma') {
+      this.exportCsv(',', timestamp);
+    }
+    if (exportType === 'semicolon') {
+      this.exportCsv(';', timestamp);
+    }
   }
 
 
@@ -222,22 +229,37 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => c.correct);
   }
 
+  sort(type: string): void {
+    this.currentSort = type;
+    if (type === this.voteasc) {
+      this.sortVote();
+    } else if (type === this.votedesc) {
+      this.sortVoteDesc();
+    } else if (this.timeasc || this.timedesc) {
+      this.sortTime(type);
+    }
+  }
+
   sortVote(): void {
     this.comments.sort((a, b) => {
-        return a.score - b.score;
+      return a.score - b.score;
     });
   }
 
   sortVoteDesc(): void {
     this.comments.sort((a, b) => {
-        return b.score - a.score;
+      return b.score - a.score;
     });
   }
 
-  sortTimeStamp(): void {
+  sortTime(type: string): void {
     this.comments.sort((a, b) => {
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
-      return +dateB - +dateA;
+      if (type === this.timedesc) {
+        return +dateA - +dateB;
+      } else {
+        return +dateB - +dateA;
+      }
     });
   }
 
