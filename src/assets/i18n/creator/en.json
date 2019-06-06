@@ -24,7 +24,11 @@
     "present": "Present",
     "session-settings": "Session settings",
     "general": "General",
-    "threshold": "Threshold for visible comments: "
+    "threshold": "Threshold for visible comments: ",
+    "delete-all-comments": "Delete all comments",
+    "really-delete-comments": "Do you really want to delete all comments of this session?",
+    "comments-deleted": "All comments have been deleted.",
+    "export-comments": "Export comments"
   },
   "content": {
     "content": "Content",
@@ -91,7 +95,6 @@
     "comma": "Microsoft Excel",
     "semicolon": "Standard CSV",
     "export": "Export",
-    "really": "Do you really want to delete all comments of this session?",
     "no-comments": "No comments have been created yet ...",
     "correct": "Mark as correct",
     "favorite": "Mark as favorite",
@@ -99,8 +102,8 @@
   },
   "comment-list": {
     "search": "Search",
-    "export-comments": "Export comments",
-    "filter-comments": "Sort comments",
+    "filter-comments": "Filter comments",
+    "sort-comments": "Sort comments",
     "add-comment": "Create comment"
   }
 }

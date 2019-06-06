@@ -4,9 +4,19 @@
 
 .delete {
   margin-bottom: 20px;
-  min-width: 170px;
-  width: 60%;
+  min-width: 220px;
   background-color: var(--red);
+}
+
+.export {
+  margin-bottom: 20px;
+  min-width: 220px;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+button {
+  min-width: 105px;
 }
 
 mat-icon {
@@ -35,6 +45,10 @@ mat-divider {
 .update {
   background-color: var(--primary);
   color: var(--on-primary);
+}
+
+.submit {
+  margin-top: 20px;
 }
 
 mat-form-field {

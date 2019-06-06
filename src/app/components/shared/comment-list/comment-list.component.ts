@@ -12,8 +12,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
-import { CommentExportComponent } from '../../creator/_dialogs/comment-export/comment-export.component';
-import { DeleteCommentComponent } from '../_dialogs/delete-comment/delete-comment.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -50,7 +48,6 @@ export class CommentListComponent implements OnInit {
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
     this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
-    this.comments = [];
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
@@ -159,62 +156,8 @@ export class CommentListComponent implements OnInit {
       });
   }
 
-  openDeletionRoomDialog(): void {
-    const dialogRef = this.dialog.open(DeleteCommentComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteComments();
-        }
-      });
-  }
-
   send(comment: Comment): void {
     this.wsCommentService.add(comment);
-  }
-
-  exportCsv(delimiter: string, date: string): void {
-    const exportComments = JSON.parse(JSON.stringify(this.comments));
-    let csv: string;
-    let keyFields = '';
-    let valueFields = '';
-    keyFields = Object.keys(exportComments[0]).slice(3).join(delimiter) + '\r\n';
-    exportComments.forEach(element => {
-      element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
-      valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
-    });
-    csv = keyFields + valueFields;
-    const myBlob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
-    const fileName = 'comments_' + date + '.csv';
-    link.setAttribute('download', fileName);
-    link.href = window.URL.createObjectURL(myBlob);
-    link.click();
-  }
-
-  onExport(exportType: string): void {
-    const date = new Date();
-    const dateString = date.getFullYear() + '_' + ('0' + (date.getMonth() + 1)).slice(-2) + '_' + ('0' + date.getDate()).slice(-2);
-    const timeString = ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
-    const timestamp = dateString + '_' + timeString;
-    if (exportType === 'comma') {
-      this.exportCsv(',', timestamp);
-    }
-    if (exportType === 'semicolon') {
-      this.exportCsv(';', timestamp);
-    }
-  }
-
-
-  openExportDialog(): void {
-    const dialogRef = this.dialog.open(CommentExportComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.onExport(result);
-    });
   }
 
   filterFavorite(): void {
@@ -261,9 +204,5 @@ export class CommentListComponent implements OnInit {
         return +dateB - +dateA;
       }
     });
-  }
-
-  deleteComments(): void {
-    this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 }

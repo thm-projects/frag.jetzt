@@ -24,7 +24,11 @@
     "present": "Präsentieren",
     "session-settings": "Session Einstellungen",
     "general": "Allgemein",
-    "threshold": "Schwellenwert für sichtbare Kommentare: "
+    "threshold": "Schwellenwert für sichtbare Kommentare: ",
+    "delete-all-comments": "Alle Kommentare löschen",
+    "really-delete-comments": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
+    "comments-deleted": "Alle Kommentare wurden gelöscht.",
+    "export-comments": "Kommentare exportieren"
   },
   "content": {
     "content": "Frage",
@@ -91,7 +95,6 @@
     "comma": "Microsoft Excel",
     "semicolon": "Standard CSV",
     "export": "Exportieren",
-    "really": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
     "no-comments": "Es wurden noch keine Kommentare erstellt ...",
     "correct": "Als richtig markieren",
     "favorite": "Als Favoriten markieren",
@@ -99,8 +102,8 @@
   },
   "comment-list": {
     "search": "Suchen",
-    "export-comments": "Kommentare exportieren",
-    "filter-comments": "Kommentare Sortieren",
+    "filter-comments": "Kommentare filtern",
+    "sort-comments": "Kommentare sortieren",
     "add-comment": "Kommentar erstellen"
   }
 }

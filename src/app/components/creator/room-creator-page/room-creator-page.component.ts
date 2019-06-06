@@ -10,6 +10,7 @@ import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { TSMap } from 'typescript-map';
+import { CommentService } from '../../../services/http/comment.service';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -29,7 +30,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               protected location: Location,
               public dialog: MatDialog,
               private translateService: TranslateService,
-              protected langService: LanguageService) {
+              protected langService: LanguageService,
+              public commentService: CommentService) {
     super(roomService, route, location);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -66,6 +68,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
     dialogRef.componentInstance.editRoom = this.updRoom;
     dialogRef.componentInstance.commentThreshold = this.updCommentThreshold;
+    this.commentService.getComments(this.room.id)
+      .subscribe(comments => {
+        dialogRef.componentInstance.comments = comments;
+      });
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'abort') {
