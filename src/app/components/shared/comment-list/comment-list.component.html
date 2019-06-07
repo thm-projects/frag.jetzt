@@ -45,19 +45,19 @@
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(correct)">
-        <mat-icon>check_circle</mat-icon>
+        <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(favorite)">
-        <mat-icon>favorite</mat-icon>
+        <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">favorite</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(read)">
-        <mat-icon>visibility</mat-icon>
+        <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">visibility</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(unread)">
-        <mat-icon>visibility_off</mat-icon>
+        <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort)">
