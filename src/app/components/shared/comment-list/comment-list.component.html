@@ -56,6 +56,10 @@
         <mat-icon>visibility</mat-icon>
       </button>
 
+      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterMarkAsUnread()">
+        <mat-icon>visibility_off</mat-icon>
+      </button>
+
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort)">
         <mat-icon>close</mat-icon>
       </button>

@@ -168,6 +168,10 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => c.read);
   }
 
+  filterMarkAsUnread(): void {
+    this.filteredComments = this.comments.filter(c => !c.read);
+  }
+
   filterMarkAsCorrect(): void {
     this.filteredComments = this.comments.filter(c => c.correct);
   }
