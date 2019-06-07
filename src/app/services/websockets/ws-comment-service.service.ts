@@ -7,6 +7,7 @@ import { HighlightComment } from '../../models/messages/highlight-comment';
 import { TSMap } from 'typescript-map';
 import { UpVote } from '../../models/messages/up-vote';
 import { DownVote } from '../../models/messages/down-vote';
+import { ResetVote } from '../../models/messages/reset-vote';
 import { Observable } from 'rxjs';
 import { IMessage } from '@stomp/stompjs';
 
@@ -56,6 +57,11 @@ export class WsCommentServiceService {
   voteDown(comment: Comment, userId: string): void {
     const message = new DownVote(userId, comment.id);
     this.wsConnector.send(`/queue/vote.command.downvote`, JSON.stringify(message));
+  }
+
+  resetVote(comment: Comment, userId: string): void {
+    const message = new ResetVote(userId, comment.id);
+    this.wsConnector.send(`/queue/vote.command.resetvote`, JSON.stringify(message));
   }
 
   private patchComment(comment: Comment, changes: TSMap<string, any>): void {
