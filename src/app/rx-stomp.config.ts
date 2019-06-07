@@ -1,4 +1,5 @@
 import { RxStompConfig } from '@stomp/rx-stomp';
+import { environment } from './../environments/environment';
 
 export const ARSRxStompConfig: RxStompConfig = {
   // Which server?
@@ -24,6 +25,8 @@ export const ARSRxStompConfig: RxStompConfig = {
   // It can be quite verbose, not recommended in production
   // Skip this key to stop logging to console
   debug: (msg: string): void => {
-    console.log(new Date(), 'STOMP debug: ' + msg);
+    if (environment.stomp_debug) {
+      console.log(new Date(), 'STOMP debug: ' + msg);
+    }
   }
 };
