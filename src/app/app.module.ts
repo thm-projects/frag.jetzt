@@ -14,6 +14,7 @@ import { CommentService } from './services/http/comment.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { ContentService } from './services/http/content.service';
 import { ContentAnswerService } from './services/http/content-answer.service';
+import { VoteService } from './services/http/vote.service';
 import { WsConnectorService } from './services/websockets/ws-connector.service';
 import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
@@ -84,6 +85,7 @@ export function initializeApp(appConfig: AppConfig) {
     MarkdownService,
     MarkedOptions,
     UserService,
+    VoteService,
     WsConnectorService,
     {
       provide: MatDialogRef,

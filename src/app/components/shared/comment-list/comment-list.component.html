@@ -67,7 +67,7 @@
   </mat-menu>
 </div>
 
-<app-comment *ngFor="let current of showComments()" [comment]="current"></app-comment>
+<app-comment *ngFor="let current of showComments()" [comment]="current" [parseVote]="getVote(current)"></app-comment>
 
 <div *ngIf="comments.length < 1" fxLayout="row" fxLayoutAlign="center center" class="no-comments">
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
