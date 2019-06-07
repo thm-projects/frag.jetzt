@@ -1,8 +1,12 @@
 <footer>
   <mat-toolbar id="footer-toolbar">
-    <button mat-button (click)="navToBlog()">
+    <button mat-button *ngIf="router.url !== '/home'" (click)="navToBlog()">
       <mat-icon>notes</mat-icon>
       Blog
+    </button>
+    <button mat-button *ngIf="router.url === '/home'" (click)="navToDemoSession()">
+      <mat-icon>meeting_room</mat-icon>
+      Demo
     </button>
     <span class="fill-remaining-space"></span>
     <button mat-button (click)="navToDSGVO()">

@@ -4,6 +4,11 @@ import { NotificationService } from '../../../services/util/notification.service
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { UserRole } from '../../../models/user-roles.enum';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/user';
+import { RoomService } from '../../../services/http/room.service';
+import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-footer',
@@ -15,6 +20,10 @@ export class FooterComponent implements OnInit {
   blogUrl = 'https://arsnova.thm.de/blog/';
   dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
   imprUrl = 'https://arsnova.thm.de/blog/impressum/';
+  demoId = '33602981';
+
+  room: Room;
+  user: User;
 
   open: string;
 
@@ -22,8 +31,10 @@ export class FooterComponent implements OnInit {
               public router: Router,
               public dialog: MatDialog,
               private translateService: TranslateService,
-              private langService: LanguageService) {
-                langService.langEmitter.subscribe(lang => translateService.use(lang));
+              private langService: LanguageService,
+              public authenticationService: AuthenticationService,
+              private roomService: RoomService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
               }
 
   ngOnInit() {
@@ -73,5 +84,33 @@ export class FooterComponent implements OnInit {
       }
     });
   }
+  navToDemoSession() {
+    this.roomService.getRoomByShortId(this.demoId)
+      .subscribe(room => {
+        this.room = room;
+      });
+    if (!this.user) {
+      this.guestLogin();
+    } else {
+      if (this.user.role === UserRole.CREATOR) {
+        this.authenticationService.logout();
+        this.guestLogin();
+      } else {
+        this.addAndNavigate();
+      }
+    }
+  }
 
+  guestLogin() {
+    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
+      if (loggedIn === 'true') {
+        this.addAndNavigate();
+      }
+    });
+  }
+
+  addAndNavigate() {
+    this.roomService.addToHistory(this.room.id);
+    this.router.navigate([`/participant/room/${this.room.shortId}`]);
+  }
 }
