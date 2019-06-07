@@ -33,6 +33,11 @@ export class CommentListComponent implements OnInit {
   timeasc = 'time_asc';
   timedesc = 'time_desc';
   currentSort = this.votedesc;
+  read = 'read';
+  unread = 'unread';
+  favorite = 'favorite';
+  correct = 'correct';
+  currentFilter = '';
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -105,13 +110,13 @@ export class CommentListComponent implements OnInit {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
               switch (key) {
-                case 'read':
+                case this.read:
                   this.comments[i].read = <boolean>value;
                   break;
-                case 'correct':
+                case this.correct:
                   this.comments[i].correct = <boolean>value;
                   break;
-                case 'favorite':
+                case this.favorite:
                   this.comments[i].favorite = <boolean>value;
                   break;
                 case 'score':
@@ -138,6 +143,7 @@ export class CommentListComponent implements OnInit {
         }
         break;
     }
+    this.filter(this.currentFilter);
   }
 
   openCreateDialog(): void {
@@ -164,16 +170,33 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => c.favorite);
   }
 
-  filterMarkAsRead(): void {
+  filterRead(): void {
     this.filteredComments = this.comments.filter(c => c.read);
   }
 
-  filterMarkAsUnread(): void {
+  filterUnread(): void {
     this.filteredComments = this.comments.filter(c => !c.read);
   }
 
-  filterMarkAsCorrect(): void {
+  filterCorrect(): void {
     this.filteredComments = this.comments.filter(c => c.correct);
+  }
+
+  filter(type: string): void {
+    this.currentFilter = type;
+    switch (type) {
+      case this.correct:
+        this.filterCorrect();
+        break;
+      case this.favorite:
+        this.filterFavorite();
+        break;
+      case this.read:
+        this.filterRead();
+        break;
+      case this.unread:
+        this.filterUnread();
+    }
   }
 
   sort(type: string): void {
@@ -182,7 +205,7 @@ export class CommentListComponent implements OnInit {
       this.sortVote();
     } else if (type === this.votedesc) {
       this.sortVoteDesc();
-    } else if (this.timeasc || this.timedesc) {
+    } else {
       this.sortTime(type);
     }
   }
