@@ -19,7 +19,6 @@ export class RoomJoinComponent implements OnInit {
   @ViewChild('roomId') roomIdElement: ElementRef;
 
   room: Room;
-  demoId = '95680586';
   user: User;
 
   roomFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
@@ -92,9 +91,5 @@ export class RoomJoinComponent implements OnInit {
   addAndNavigate() {
     this.roomService.addToHistory(this.room.id);
     this.router.navigate([`/participant/room/${this.room.shortId}`]);
-  }
-
-  joinDemo(): void {
-    this.getRoom(this.demoId);
   }
 }
