@@ -25,7 +25,7 @@
 		"join-demo-session": "Demo-Session betreten",
 		"session-id": "Session-ID",
 		"no-room-found": "Es wurde keine Session mit dieser ID gefunden",
-		"please-enter": "Bitte geben Sie eine Session-ID ein",
+		"please-enter": "Bitte Session-ID eingeben",
 		"exactly-8": "Eine Session-ID hat genau 8 Ziffern",
 		"create-session": "Neue Session",
 		"no-empty-name": "Bitte geben Sie einen Namen ein",
