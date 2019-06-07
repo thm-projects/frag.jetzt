@@ -5,5 +5,6 @@
 
 export const environment = {
   name: 'dev',
-  production: false
+  production: false,
+  stomp_debug: true
 };

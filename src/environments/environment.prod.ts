@@ -1,4 +1,5 @@
 export const environment = {
   name: 'prod',
-  production: true
+  production: true,
+  stomp_debug: true
 };
