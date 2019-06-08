@@ -89,7 +89,7 @@ export class CommentListComponent implements OnInit {
   getComments(): void {
     this.isLoading = false;
     let commentThreshold = -10;
-    if (this.room.extensions && this.room.extensions['comments']) {
+    if (this.room && this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
