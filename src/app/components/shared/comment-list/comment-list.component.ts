@@ -57,11 +57,6 @@ export class CommentListComponent implements OnInit {
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
     const userId = this.authenticationService.getUser().id;
-    this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
-      for (const v of votes) {
-        this.commentVoteMap.set(v.commentId, v);
-      }
-    });
     this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
@@ -70,6 +65,13 @@ export class CommentListComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.userRole = this.authenticationService.getRole();
     this.deviceType = localStorage.getItem('deviceType');
+    if (this.userRole === 0) {
+      this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
+        for (const v of votes) {
+          this.commentVoteMap.set(v.commentId, v);
+        }
+      });
+    }
     this.getComments();
   }
 
@@ -97,7 +99,9 @@ export class CommentListComponent implements OnInit {
   }
 
   getVote(comment: Comment): Vote {
-    return this.commentVoteMap.get(comment.id);
+    if (this.userRole === 0) {
+      return this.commentVoteMap.get(comment.id);
+    }
   }
 
   parseIncomingMessage(message: Message) {

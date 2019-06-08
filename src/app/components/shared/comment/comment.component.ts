@@ -77,7 +77,9 @@ export class CommentComponent implements OnInit {
 
   @Input()
   set parseVote(vote: Vote) {
-    this.hasVoted = vote.vote;
+    if (this.isStudent) {
+      this.hasVoted = vote.vote;
+    }
   }
 
   resetAnimationState(): void {
