@@ -91,6 +91,10 @@ export class RoomEditComponent implements OnInit {
   }
 
   exportCsv(delimiter: string, date: string): void {
+    this.commentService.getComments(this.editRoom.id)
+      .subscribe(comments => {
+        this.comments = comments;
+      });
     const exportComments = JSON.parse(JSON.stringify(this.comments));
     let csv: string;
     let keyFields = '';
