@@ -10,7 +10,6 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { User } from '../../../models/user';
 import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
@@ -23,7 +22,7 @@ import { VoteService } from '../../../services/http/vote.service';
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
-  @Input() comments: Comment[];
+  comments: Comment[];
   room: Room;
   hideCommentsList = false;
   filteredComments: Comment[];
@@ -46,7 +45,6 @@ export class CommentListComponent implements OnInit {
               private translateService: TranslateService,
               public dialog: MatDialog,
               protected langService: LanguageService,
-              private authenticationService: AuthenticationService,
               private wsCommentService: WsCommentServiceService,
               protected roomService: RoomService,
               protected voteService: VoteService
@@ -56,14 +54,14 @@ export class CommentListComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-    const userId = this.authenticationService.getUser().id;
+    const userId = this.user.id;
+    this.userRole = this.user.role;
     this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.userRole = this.authenticationService.getRole();
     this.deviceType = localStorage.getItem('deviceType');
     if (this.userRole === 0) {
       this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
@@ -72,7 +70,11 @@ export class CommentListComponent implements OnInit {
         }
       });
     }
-    this.getComments();
+    this.commentService.getComments(this.roomId)
+      .subscribe(comments => {
+        this.comments = comments;
+        this.getComments();
+      });
   }
 
   searchComments(term: string): void {
@@ -92,10 +94,10 @@ export class CommentListComponent implements OnInit {
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
       } else {
-        this.sort(this.currentSort);
         this.comments = this.comments.filter( x => x.score >= commentThreshold );
       }
     }
+    this.sortComments(this.currentSort);
   }
 
   getVote(comment: Comment): Vote {
@@ -156,7 +158,7 @@ export class CommentListComponent implements OnInit {
         break;
     }
     this.filterComments(this.currentFilter);
-    this.sort(this.currentSort);
+    this.sortComments(this.currentSort);
   }
 
   openCreateDialog(): void {
@@ -179,64 +181,29 @@ export class CommentListComponent implements OnInit {
     this.wsCommentService.add(comment);
   }
 
-  filterFavorite(): void {
-    this.filteredComments = this.comments.filter(c => c.favorite);
-  }
-
-  filterRead(): void {
-    this.filteredComments = this.comments.filter(c => c.read);
-  }
-
-  filterUnread(): void {
-    this.filteredComments = this.comments.filter(c => !c.read);
-  }
-
-  filterCorrect(): void {
-    this.filteredComments = this.comments.filter(c => c.correct);
-  }
-
   filterComments(type: string): void {
     this.currentFilter = type;
-    switch (type) {
-      case this.correct:
-        this.filterCorrect();
-        break;
-      case this.favorite:
-        this.filterFavorite();
-        break;
-      case this.read:
-        this.filterRead();
-        break;
-      case this.unread:
-        this.filterUnread();
-    }
-  }
-
-  sort(type: string): void {
-    this.currentSort = type;
-    if (type === this.voteasc) {
-      this.sortVote();
-    } else if (type === this.votedesc) {
-      this.sortVoteDesc();
-    } else {
-      this.sortTime(type);
-    }
-  }
-
-  sortVote(): void {
-    this.comments.sort((a, b) => {
-      return a.score - b.score;
+    this.filteredComments = this.comments.filter(c => {
+      switch (type) {
+        case this.correct:
+          return c.correct;
+        case this.favorite:
+          return c.favorite;
+        case this.read:
+          return c.read;
+        case this.unread:
+          return !c.read;
+      }
     });
   }
 
-  sortVoteDesc(): void {
+  sortComments(type: string): void {
     this.comments.sort((a, b) => {
-      return b.score - a.score;
-    });
-  }
-
-  sortTime(type: string): void {
-    this.comments.sort((a, b) => {
+      if (type === this.voteasc) {
+        return a.score - b.score;
+      } else if (type === this.votedesc) {
+        return b.score - a.score;
+      }
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
       if (type === this.timedesc) {
         return +dateA - +dateB;
@@ -244,5 +211,6 @@ export class CommentListComponent implements OnInit {
         return +dateB - +dateA;
       }
     });
+    this.currentSort = type;
   }
 }

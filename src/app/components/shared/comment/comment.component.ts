@@ -41,7 +41,6 @@ export const rubberBand = [
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   isStudent = false;
-  isLoading = true;
   hasVoted = 0;
   language: string;
   animationState: string;

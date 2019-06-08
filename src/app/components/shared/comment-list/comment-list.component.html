@@ -1,4 +1,4 @@
-<div fxLayout="row" id="search-container" *ngIf="!isLoading">
+<div fxLayout="row" id="search-container">
   <mat-label fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
@@ -29,15 +29,15 @@
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(votedesc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(votedesc)">
         <mat-icon>arrow_upwards</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(voteasc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(voteasc)">
         <mat-icon>arrow_downwards</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort === timedesc ? timeasc : timedesc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort === timedesc ? timeasc : timedesc)">
         <mat-icon>access_time</mat-icon>
       </button>
   </mat-menu>
@@ -60,14 +60,16 @@
         <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sort(currentSort)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort)">
         <mat-icon>close</mat-icon>
       </button>
     </div>
   </mat-menu>
 </div>
 
+<div *ngIf="!isLoading">
 <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current" [parseVote]="getVote(current)"></app-comment>
+</div>
 
 <div *ngIf="comments.length < 1" fxLayout="row" fxLayoutAlign="center center" class="no-comments">
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
