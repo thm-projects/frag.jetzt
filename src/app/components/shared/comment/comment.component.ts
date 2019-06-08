@@ -101,6 +101,10 @@ export class CommentComponent implements OnInit {
     if (this.hasVoted !== 1) {
       this.wsCommentService.voteUp(comment, userId);
       this.hasVoted = 1;
+    } else {
+      this.wsCommentService.resetVote(comment, userId);
+      this.hasVoted = 0;
+      this.startAnimation(0);
     }
   }
 
@@ -109,6 +113,10 @@ export class CommentComponent implements OnInit {
     if (this.hasVoted !== -1) {
       this.wsCommentService.voteDown(comment, userId);
       this.hasVoted = -1;
+    } else {
+      this.wsCommentService.resetVote(comment, userId);
+      this.hasVoted = 0;
+      this.startAnimation(0);
     }
   }
 
