@@ -12,12 +12,12 @@
   <span class="fill-remaining-space"></span>
 
   <div class="button-bar" fxLayoutAlign="center center">
-    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments.length > 0"
+    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
             [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
-    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments.length > 0"
+    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
             [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">sort</mat-icon>
     </button>
@@ -71,6 +71,6 @@
 <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current" [parseVote]="getVote(current)"></app-comment>
 </div>
 
-<div *ngIf="comments.length < 1" fxLayout="row" fxLayoutAlign="center center" class="no-comments">
+<div *ngIf="comments && comments.length < 1" fxLayout="row" fxLayoutAlign="center center" class="no-comments">
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
 </div>
