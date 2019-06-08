@@ -1,8 +1,8 @@
 export class Vote {
-  private id: string;
-  private userId: string;
-  private commentId: string;
-  private vote: number;
+  id: string;
+  userId: string;
+  commentId: string;
+  vote: number;
 
   constructor(userId: string ,
               commentId: string,

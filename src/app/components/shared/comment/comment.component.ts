@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
+import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -72,6 +73,11 @@ export class CommentComponent implements OnInit {
     if (!this.animationState) {
       this.animationState = state_;
     }
+  }
+
+  @Input()
+  set parseVote(vote: Vote) {
+    this.hasVoted = vote.vote;
   }
 
   resetAnimationState(): void {

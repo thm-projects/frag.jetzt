@@ -8,10 +8,12 @@ import { CreateCommentComponent } from '../_dialogs/create-comment/create-commen
 import { MatDialog } from '@angular/material';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
+import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
+import { VoteService } from '../../../services/http/vote.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -38,6 +40,7 @@ export class CommentListComponent implements OnInit {
   favorite = 'favorite';
   correct = 'correct';
   currentFilter = '';
+  commentVoteMap = new Map<string, Vote>();
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -45,13 +48,20 @@ export class CommentListComponent implements OnInit {
               protected langService: LanguageService,
               private authenticationService: AuthenticationService,
               private wsCommentService: WsCommentServiceService,
-              protected roomService: RoomService
+              protected roomService: RoomService,
+              protected voteService: VoteService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
+    const userId = this.authenticationService.getUser().id;
+    this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
+      for (const v of votes) {
+        this.commentVoteMap.set(v.commentId, v);
+      }
+    });
     this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
@@ -90,6 +100,10 @@ export class CommentListComponent implements OnInit {
         return this.comments;
       }
     }
+  }
+
+  getVote(comment: Comment): Vote {
+    return this.commentVoteMap.get(comment.id);
   }
 
   parseIncomingMessage(message: Message) {
