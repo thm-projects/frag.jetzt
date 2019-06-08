@@ -13,15 +13,15 @@
       </div>
       <button mat-icon-button [disabled]="isStudent" (click)="setCorrect(comment)"
               matTooltip="{{ 'comment-page.correct' | translate }}">
-        <mat-icon [ngClass]="{true : 'correct-icon', false: 'not-marked'}[comment.correct]">check_circle</mat-icon>
+        <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}">check_circle</mat-icon>
       </button>
       <button mat-icon-button [disabled]="isStudent" (click)="setFavorite(comment)"
               matTooltip="{{ 'comment-page.favorite' | translate }}">
-        <mat-icon [ngClass]="{true: 'favorite-icon', false: 'not-marked'}[comment.favorite]">favorite</mat-icon>
+        <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">favorite</mat-icon>
       </button>
       <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)"
               matTooltip="{{ 'comment-page.read' | translate }}">
-        <mat-icon class="icon" [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}">visibility
+        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}">visibility
         </mat-icon>
       </button>
     </div>
