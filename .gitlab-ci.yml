@@ -1,5 +1,7 @@
 variables:
   BUILD_DIR: dist
+  MIRROR_REPO: git@github.com:thm-projects/arsnova-lite.git
+
 
 stages:
   - codestyle
@@ -93,3 +95,18 @@ deploy:
     - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$SSH_URL"
+
+sync_mirror:
+  stage: deploy
+  tags:
+    - git
+  when: always
+  allow_failure: true
+  dependencies: []
+  script:
+    - eval $(ssh-agent -s)
+    - mkdir ~/.ssh && echo "$SYNC_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - ssh-add <(echo "$SYNC_SSH_PRIVATE_KEY")
+    - git clone --bare "$CI_REPOSITORY_URL" mirror.git
+    - cd mirror.git
+    - git push --mirror "$MIRROR_REPO"
