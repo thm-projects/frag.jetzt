@@ -70,6 +70,7 @@ export class CommentListComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.userRole = this.authenticationService.getRole();
     this.deviceType = localStorage.getItem('deviceType');
+    this.getComments();
   }
 
   searchComments(term: string): void {
@@ -81,23 +82,16 @@ export class CommentListComponent implements OnInit {
     }
   }
 
-  showComments(): Comment[] {
+  getComments(): void {
     this.isLoading = false;
     let commentThreshold = -10;
     if (this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
       if (this.hideCommentsList) {
-        return this.filteredComments.filter( x => x.score >= commentThreshold );
+        this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
       } else {
         this.sort(this.currentSort);
-        return this.comments.filter( x => x.score >= commentThreshold );
-      }
-    } else {
-      if (this.hideCommentsList) {
-        return this.filteredComments;
-      } else {
-        this.sort(this.currentSort);
-        return this.comments;
+        this.comments = this.comments.filter( x => x.score >= commentThreshold );
       }
     }
   }
@@ -157,7 +151,8 @@ export class CommentListComponent implements OnInit {
         }
         break;
     }
-    this.filter(this.currentFilter);
+    this.filterComments(this.currentFilter);
+    this.sort(this.currentSort);
   }
 
   openCreateDialog(): void {
@@ -196,7 +191,7 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => c.correct);
   }
 
-  filter(type: string): void {
+  filterComments(type: string): void {
     this.currentFilter = type;
     switch (type) {
       case this.correct:

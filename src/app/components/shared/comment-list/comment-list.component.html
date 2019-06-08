@@ -44,19 +44,19 @@
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(correct)">
+      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(correct)">
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(favorite)">
+      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(favorite)">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">favorite</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(read)">
+      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(read)">
         <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">visibility</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filter(unread)">
+      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(unread)">
         <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
       </button>
 
@@ -67,7 +67,7 @@
   </mat-menu>
 </div>
 
-<app-comment *ngFor="let current of showComments()" [comment]="current" [parseVote]="getVote(current)"></app-comment>
+<app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current" [parseVote]="getVote(current)"></app-comment>
 
 <div *ngIf="comments.length < 1" fxLayout="row" fxLayoutAlign="center center" class="no-comments">
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
