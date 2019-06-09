@@ -12,6 +12,11 @@
   <span class="fill-remaining-space"></span>
 
   <div class="button-bar" fxLayoutAlign="center center">
+    <div *ngIf="comments && comments.length > 0">
+      <button mat-mini-fab color="primary" class="comment-counter" *ngIf="(!filteredComments) || (comments.length === filteredComments.length)">{{comments.length}}</button>
+      <button mat-mini-fab color="secondary" class="comment-counter" *ngIf="(filteredComments) && (comments.length > filteredComments.length)">{{filteredComments.length}}</button>
+    </div>
+
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
             [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
