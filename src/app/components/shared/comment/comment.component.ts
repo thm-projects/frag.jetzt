@@ -76,7 +76,7 @@ export class CommentComponent implements OnInit {
 
   @Input()
   set parseVote(vote: Vote) {
-    if (this.isStudent) {
+    if (vote) {
       this.hasVoted = vote.vote;
     }
   }
