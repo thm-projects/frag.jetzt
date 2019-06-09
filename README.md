@@ -1,8 +1,8 @@
 # ARSnova lite
 
-This is the new Frontend for the Audience Response System ARSnova and is currently in beta.
+This is the new frontend for the Audience Response System [ARSnova](https://arsnova.eu) and is currently in beta.
 
-The project aims to provide a new experience with ARS systems and breaks with conventions introduced by arsnova-mobile. You can head over to [arsnova-lite](https://arsnova-lite.mni.thm.de/) to see it in action.
+The project aims at creating the best possible user experience with a web-based audience response app. You can head over to [ARSnova lite](https://beta.arsnova.eu) to see it in action.
 
 ## Documentation
 
