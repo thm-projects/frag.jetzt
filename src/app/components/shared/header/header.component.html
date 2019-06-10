@@ -9,17 +9,15 @@
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <mat-grid-list cols="2">
         <mat-grid-tile>
-          <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
-            <mat-icon class="color-icon">
-              lens
-              <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
-            </mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
           <button mat-icon-button class="dark color-button" (click)="changeTheme('dark')">
             <mat-icon class="color-icon">lens</mat-icon>
             <mat-icon *ngIf="themeClass === 'dark'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
+            <mat-icon class="color-icon">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>

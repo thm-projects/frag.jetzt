@@ -20,7 +20,7 @@ export const dark = {
   '--yellow': '#FFD54F',
   '--blue': '#3f51b5',
   '--purple': '#9c27b0',
-  '--mint': '#80ba24',
+  '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#9E9E9E',
   '--black': '#212121'
