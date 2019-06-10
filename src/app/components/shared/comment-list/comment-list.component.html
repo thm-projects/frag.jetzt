@@ -35,15 +35,15 @@
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(votedesc)">
-        <mat-icon>keyboard_arrow_up</mat-icon>
+        <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(voteasc)">
-        <mat-icon>keyboard_arrow_down</mat-icon>
+        <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(time)">
-        <mat-icon>access_time</mat-icon>
+        <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
       </button>
   </mat-menu>
 

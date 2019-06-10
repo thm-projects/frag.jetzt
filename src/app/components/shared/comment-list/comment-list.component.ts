@@ -29,8 +29,8 @@ export class CommentListComponent implements OnInit {
   userRole: UserRole;
   deviceType: string;
   isLoading = true;
-  voteasc = 'vote_asc';
-  votedesc = 'vote_desc';
+  voteasc = 'voteasc';
+  votedesc = 'votedesc';
   time = 'time';
   currentSort = this.votedesc;
   read = 'read';
