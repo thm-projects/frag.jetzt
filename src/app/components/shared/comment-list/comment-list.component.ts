@@ -31,8 +31,7 @@ export class CommentListComponent implements OnInit {
   isLoading = true;
   voteasc = 'vote_asc';
   votedesc = 'vote_desc';
-  timeasc = 'time_asc';
-  timedesc = 'time_desc';
+  time = 'time';
   currentSort = this.votedesc;
   read = 'read';
   unread = 'unread';
@@ -205,9 +204,7 @@ export class CommentListComponent implements OnInit {
         return b.score - a.score;
       }
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
-      if (type === this.timedesc) {
-        return +dateA - +dateB;
-      } else {
+      if (type === this.time) {
         return +dateB - +dateA;
       }
     });

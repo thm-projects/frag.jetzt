@@ -35,14 +35,14 @@
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(votedesc)">
-        <mat-icon>arrow_upwards</mat-icon>
+        <mat-icon>keyboard_arrow_up</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(voteasc)">
-        <mat-icon>arrow_downwards</mat-icon>
+        <mat-icon>keyboard_arrow_down</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort === timedesc ? timeasc : timedesc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(time)">
         <mat-icon>access_time</mat-icon>
       </button>
   </mat-menu>
