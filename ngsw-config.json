@@ -4,26 +4,36 @@
   [
     {
       "name": "api",
-      "urls": ["/**"],
+      "urls": ["/api/**"],
       "cacheConfig": {
         "strategy": "freshness",
         "maxSize": 500,
         "timeout": "3s",
         "maxAge": "7d"
       }
+    },
+    {
+      "name": "source",
+      "urls": ["!/**/*api*"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxSize": 500,
+        "timeout": "3s",
+        "maxAge": "30d"
+      }
     }
   ],
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "prefetch",
-      "updateMode": "prefetch",
+      "installMode": "lazy",
+      "updateMode": "lazy",
       "resources": {
         "files": [
           "/favicon.ico",
           "/*.html",
-          "/*.css",
-          "/*.js"
+          "/*.scss",
+          "/*.ts"
         ],
         "urls": [
           "https://fonts.googleapis.com/**"
