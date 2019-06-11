@@ -33,12 +33,15 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.editRoom.extensions['comments'].commentThreshold != null) {
+    if (
+      this.editRoom.extensions &&
+      this.editRoom.extensions['comments'] &&
+      this.editRoom.extensions['comments'].commentThreshold != null
+    ) {
       this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
     } else {
       this.commentThreshold = -10;
     }
-    console.log(this.editRoom);
   }
 
   onSliderChange(event: any) {
