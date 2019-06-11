@@ -67,7 +67,7 @@ export class RoomEditComponent implements OnInit {
       this.notificationService.show(room.name + msg);
     });
     this.roomService.deleteRoom(room.id).subscribe();
-    this.dialogRef.close();
+    this.dialogRef.close('delete');
     this.router.navigate([`/creator`]);
   }
 

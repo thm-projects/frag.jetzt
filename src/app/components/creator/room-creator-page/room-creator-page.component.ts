@@ -70,7 +70,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       .subscribe(result => {
         if (result === 'abort') {
           return;
-        } else {
+        } else if (result !== 'delete') {
           this.updateRoom(+result);
         }
       });
