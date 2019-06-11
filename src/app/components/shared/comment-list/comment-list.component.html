@@ -13,8 +13,10 @@
 
   <div class="button-bar" fxLayoutAlign="center center">
     <div *ngIf="comments && comments.length > 0">
-      <button mat-mini-fab color="primary" class="comment-counter" *ngIf="(!filteredComments) || (comments.length === filteredComments.length)">{{comments.length}}</button>
-      <button mat-mini-fab color="secondary" class="comment-counter" *ngIf="(filteredComments) && (comments.length > filteredComments.length)">{{filteredComments.length}}</button>
+      <mat-chip-list>
+        <mat-chip class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</mat-chip>
+        <mat-chip class="counter counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</mat-chip>
+      </mat-chip-list>
     </div>
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
@@ -65,7 +67,7 @@
         <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">
         <mat-icon>close</mat-icon>
       </button>
     </div>
