@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
+import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 
@@ -17,12 +18,16 @@ export class RoomListComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
+    public eventService: EventService,
     protected authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
     this.getRooms();
     this.getPath();
+    this.eventService.on<any>('RoomDeleted').subscribe(payload => {
+      this.rooms = this.rooms.filter(r => r.id !== payload.id);
+    });
   }
 
   getPath() {

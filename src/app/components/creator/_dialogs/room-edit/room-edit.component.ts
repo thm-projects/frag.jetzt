@@ -9,8 +9,10 @@ import { Router } from '@angular/router';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
 import { CommentService } from '../../../../services/http/comment.service';
+import { EventService } from '../../../../services/util/event.service';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 import { Comment } from '../../../../models/comment';
+import { RoomDeleted } from '../../../../models/messages/room-deleted';
 
 @Component({
   selector: 'app-room-edit',
@@ -29,6 +31,7 @@ export class RoomEditComponent implements OnInit {
               protected roomService: RoomService,
               public router: Router,
               public commentService: CommentService,
+              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -69,7 +72,10 @@ export class RoomEditComponent implements OnInit {
     this.translationService.get('room-page.deleted').subscribe(msg => {
       this.notificationService.show(room.name + msg);
     });
-    this.roomService.deleteRoom(room.id).subscribe();
+    this.roomService.deleteRoom(room.id).subscribe(result => {
+      const event = new RoomDeleted(room.id);
+      this.eventService.broadcast(event.type, event.payload);
+    });
     this.dialogRef.close('delete');
     this.router.navigate([`/creator`]);
   }
