@@ -14,8 +14,8 @@
   <div class="button-bar" fxLayoutAlign="center center">
     <div *ngIf="comments && comments.length > 0">
       <mat-chip-list>
-        <mat-chip class="comment-counter" *ngIf="(!filteredComments) || (comments.length === filteredComments.length)">{{comments.length}}</mat-chip>
-        <mat-chip class="comment-counter" *ngIf="(filteredComments) && (comments.length > filteredComments.length)">{{filteredComments.length}}</mat-chip>
+        <mat-chip class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</mat-chip>
+        <mat-chip class="counter counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</mat-chip>
       </mat-chip-list>
     </div>
 
@@ -67,7 +67,7 @@
         <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort)">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">
         <mat-icon>close</mat-icon>
       </button>
     </div>

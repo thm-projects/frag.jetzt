@@ -182,6 +182,10 @@ export class CommentListComponent implements OnInit {
 
   filterComments(type: string): void {
     this.currentFilter = type;
+    if (type === '') {
+      this.filteredComments = this.comments;
+      return;
+    }
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
