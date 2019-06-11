@@ -29,9 +29,9 @@
       <mat-icon class="searchBarIcon">sort</mat-icon>
     </button>
 
-    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value" (click)="openCreateDialog()"
+    <button mat-fab class="searchBarButton" *ngIf="!searchBox.value" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
-      <mat-icon class="searchBarIcon">add_circle</mat-icon>
+      <mat-icon class="addCommentIcon">add</mat-icon>
     </button>
   </div>
 

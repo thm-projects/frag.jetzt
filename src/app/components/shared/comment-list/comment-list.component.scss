@@ -40,6 +40,11 @@ input {
   color: var(--secondary);
 }
 
+.addCommentIcon {
+  transform: scale(1.5);
+  color: var(--primary-variant)
+}
+
 .close {
   margin: 5px 0 5px 0;
 }
