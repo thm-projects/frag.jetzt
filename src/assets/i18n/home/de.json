@@ -36,7 +36,7 @@
         "install": "Installieren"
 	},
 	"login": {
-		"email": "E-mail",
+		"email": "E-Mail",
 		"email-invalid": "E-Mail-Adresse ungültig",
 		"email-required": "E-Mail-Adresse erforderlich",
 		"guest-login": "Anmelden als Gast",
