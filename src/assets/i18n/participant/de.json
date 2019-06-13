@@ -1,7 +1,7 @@
 {
   "home-page": {
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
-    "please-enter": "Bitte geben Sie eine Session-ID ein.",
+    "please-enter": "Bitte Session-ID eingeben",
     "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
   },
   "room-page": {
@@ -39,9 +39,9 @@
     "sent": "Antwort gesendet",
     "abstention-sent": "Enthaltung gesendet",
     "your-answer": "Ihre Antwort",
-    "at-least-one": "Bitte wählen sie mindestens eine Antwort.",
-    "please-one": "Bitte wählen sie eine Antwort.",
-    "please-answer": "Bitte geben sie eine Antwort ein."
+    "at-least-one": "Bitte wählen Sie mindestens eine Antwort.",
+    "please-one": "Bitte wählen Sie eine Antwort.",
+    "please-answer": "Bitte geben Sie eine Antwort ein."
   },
   "statistic": {
     "content": "Frage",
