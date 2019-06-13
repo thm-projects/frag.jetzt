@@ -14,8 +14,8 @@
     "my-account": "My account"
 	},
 	"login-page": {
-		"creator": "Lecturer",
-		"participant": "Student",
+		"creator": "Speaker",
+		"participant": "Attendee",
 		"password-reset": "Forgot your password?",
 		"not-registered": "Don't have an account yet?",
 		"register": "Register",
@@ -23,15 +23,15 @@
 	},
 	"home-page": {
 		"join-demo-session": "Join demo-session",
-		"session-id": "Session-ID",
-		"no-room-found": "No session was found with this ID",
-		"please-enter": "Please enter a session-ID",
-		"exactly-8": "A session-ID has exactly 8 digits",
+		"session-id": "Session ID",
+		"no-room-found": "No session was found with this ID.",
+		"please-enter": "Please enter a session ID.",
+		"exactly-8": "A session ID has exactly 8 digits.",
 		"create-session": "New Session",
 		"no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
 		"created-2": "' successfully created",
-		"only-numbers": "A session-ID only contains digits",
+		"only-numbers": "A session ID only contains digits.",
         "update-available": "A newer version is available.",
         "install": "Install"
 	},
@@ -40,7 +40,7 @@
 		"email-invalid": "E-mail is invalid",
 		"email-required": "E-mail required",
 		"guest-login": "Guest login",
-		"input-incorrect": "Please check your data",
+		"input-incorrect": "Please check your data.",
 		"login-successful": "Login successful",
 		"login": "Login",
 		"login-data-incorrect": "Username or password incorrect",
@@ -49,29 +49,29 @@
 		"activate": "Activate",
 		"activation-key": "Activation key",
 		"activation-key-required": "Activation key required",
-		"activation-key-incorrect": "Activation key is incorrect"
+		"activation-key-incorrect": "Activation key is incorrect."
 	},
 	"password-reset": {
 		"email": "E-mail",
-		"email-invalid": "E-mail is invalid",
+		"email-invalid": "E-mail is invalid.",
 		"email-required": "E-mail required",
-		"input-incorrect": "Please check your data",
+		"input-incorrect": "Please check your data.",
 		"reset-password": "Reset password",
-		"reset-successful": "Password was reset. Please check your mail"
+		"reset-successful": "Password was reset. Please check your mail."
 	},
 	"register": {
 		"email": "E-mail",
 		"email-verify": "Verify E-mail",
-		"email-invalid": "E-mail is invalid",
+		"email-invalid": "E-mail is invalid.",
 		"email-required": "E-mail required",
-		"email-unmatch": "E-mails do not match",
+		"email-unmatch": "E-mails do not match.",
 		"password": "Password",
 		"password-required": "Password required",
-		"password-unmatch": "Passwords do not match",
+		"password-unmatch": "Passwords do not match.",
 		"password-verify": "Verify password",
 		"register": "Register",
-		"register-successful": "Successfully registered. Please check your mail",
-		"register-unsuccessful": "Please check your data",
+		"register-successful": "Successfully registered. Please check your mail.",
+		"register-unsuccessful": "Please check your data.",
 		"register-request-error": "Something went wrong with the registration. Maybe you already made the account?"
 	},
 	"session": {
@@ -81,7 +81,7 @@
 		"create-session": "Create session"
 	},
   "footer": {
-    "dsgvo": "GDPR",
+    "dsgvo": "Data Protection",
     "imprint": "Imprint",
     "will-open": " will be opened in a new tab...",
     "open": "Open"
