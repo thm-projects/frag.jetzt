@@ -61,7 +61,7 @@
 	},
 	"register": {
 		"email": "E-Mail",
-		"email-verify": "E-mail bestätigen",
+		"email-verify": "E-Mail bestätigen",
 		"email-invalid": "E-Mail-Adresse ungültig",
 		"email-required": "E-Mail-Adresse erforderlich",
 		"email-unmatch": "E-Mail-Adressen stimmen nicht überein",
