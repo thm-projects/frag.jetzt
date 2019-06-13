@@ -109,3 +109,8 @@ h4  {
 .down {
   color: var(--red);
 }
+
+::placeholder {
+  color: var(--on-primary);
+  opacity: 1;
+}

@@ -25,3 +25,8 @@ input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-i
 mat-hint {
   color: var(--on-surface) !important;
 }
+
+::placeholder {
+  color: var(--on-surface);
+  opacity: 1;
+}
