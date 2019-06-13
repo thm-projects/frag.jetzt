@@ -28,10 +28,3 @@
     </p>
   </mat-expansion-panel>
 </div>
-
-<mat-card id="no-sessions-card" *ngIf="rooms && rooms.length === 0">
-  <mat-card-header>
-    <mat-card-title *ngIf="baseUrl === 'creator'">Sie haben noch keine Sessions erstellt!</mat-card-title>
-    <mat-card-title *ngIf="baseUrl === 'participant'">Sie sind noch keiner Session beigetreten!</mat-card-title>
-  </mat-card-header>
-</mat-card>
