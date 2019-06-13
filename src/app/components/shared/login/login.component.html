@@ -15,7 +15,7 @@
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
   <button mat-raised-button class="loginButton" (click)="login(userEmail.value, userPassword.value)">{{ 'login.login' | translate }}</button>
-  <button mat-raised-button *ngIf="role === 0"(click)="guestLogin()" type="button">
+  <button mat-raised-button (click)="guestLogin()" type="button">
     {{ 'login.guest-login' | translate }}
   </button>
   <div align="start">
