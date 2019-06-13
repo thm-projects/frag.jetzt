@@ -6,7 +6,15 @@
   min-height: 90vh;
   font-size: 2.1em;
   margin: 5%;
-  word-break: break-all;
+}
+
+#comment p {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  hyphens: auto;
 }
 
 #exitButton {
