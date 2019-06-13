@@ -1,7 +1,7 @@
 {
   "home-page": {
     "no-room-found": "No session was found with this ID.",
-    "please-enter": "Please enter a session-ID.",
+    "please-enter": "Please enter a session ID.",
     "exactly-8": "A session-ID has exactly 8 digits."
   },
   "room-page": {
