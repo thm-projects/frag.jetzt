@@ -19,6 +19,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 export class HeaderComponent implements OnInit {
   user: User;
   themeClass = localStorage.getItem('theme');
+  cTime: string;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -41,6 +42,18 @@ export class HeaderComponent implements OnInit {
       this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
     }
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    let time = new Date();
+    this.getTime(time);
+    setInterval(() => {
+      time = new Date();
+      this.getTime(time);
+    }, 1000);
+  }
+
+  getTime(time: Date) {
+    const hh = ('0' + time.getHours()).substr(-2);
+    const mm = ('0' + time.getMinutes()).substr(-2);
+    this.cTime = hh + ':' + mm;
   }
 
   logout() {
