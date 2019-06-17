@@ -40,7 +40,7 @@ mat-expansion-panel-header {
 
 h2 {
   font-size: larger;
-  color: var(--on-surface) !important;
+  color: var(--on-surface);
 }
 
 .actionButton {
@@ -79,4 +79,9 @@ mat-tooltip-component {
 
 mat-progress-spinner {
   margin-top: 10px;
+}
+
+h3 {
+  font-size: larger;
+  color: var(--on-surface);
 }
