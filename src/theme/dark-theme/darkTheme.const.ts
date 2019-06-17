@@ -11,7 +11,7 @@ export const dark = {
   '--dialog': '#757575',
 
   '--on-primary': '#000000',
-  '--on-secondary': '#000000',
+  '--on-secondary': '#FFFFFF',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
 

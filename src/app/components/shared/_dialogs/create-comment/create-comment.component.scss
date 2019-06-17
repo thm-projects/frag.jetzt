@@ -26,3 +26,8 @@ textarea {
 mat-hint {
   color: var(--on-surface) !important;
 }
+
+::placeholder {
+  color: var(--on-primary);
+  opacity: 1;
+}
