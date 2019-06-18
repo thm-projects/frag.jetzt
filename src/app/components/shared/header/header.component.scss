@@ -1,16 +1,16 @@
 .app-title {
   cursor: pointer;
   margin: 0 auto;
-  color: var(--on-primary);
+  color: var(--on-surface);
 }
 
 mat-toolbar {
-  background-color: var(--primary);
+  background-color: var(--surface);
   position: relative;
 }
 
 .header-icons {
-  color: var(--on-primary);
+  color: var(--on-surface);
 }
 
 .purple {

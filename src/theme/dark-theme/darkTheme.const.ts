@@ -1,13 +1,13 @@
 export const dark = {
 
-  '--primary' : '#4db6ac',
-  '--primary-variant': '#80cbc4',
+  '--primary' : '#bb86fc',
+  '--primary-variant': '#3700b3',
 
-  '--secondary': '#3949ab',
+  '--secondary': '#03dac6',
   '--secondary-variant': '#6f74dd',
 
-  '--background': '#424242',
-  '--surface': '#212121',
+  '--background': '#121212',
+  '--surface': '#1e1e1e',
   '--dialog': '#757575',
 
   '--on-primary': '#000000',
