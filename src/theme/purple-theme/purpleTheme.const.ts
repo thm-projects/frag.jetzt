@@ -15,8 +15,8 @@ export const purple = {
   '--on-background': '#000000',
   '--on-surface': '#000000',
 
-  '--green': '#81c784',
-  '--red': '#FF8A80',
+  '--green': '#4caf50',
+  '--red': '#f44336',
   '--yellow': '#FFD54F',
   '--blue': '#3f51b5',
   '--purple': '#9c27b0',

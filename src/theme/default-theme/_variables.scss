@@ -2,7 +2,7 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-$arsnova-primary: mat-palette($mat-green,300);
+$arsnova-primary: mat-palette($mat-grey,900);
 $arsnova-accent: mat-palette($mat-orange, 200); //$mat-blue-gray, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
