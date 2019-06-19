@@ -12,23 +12,24 @@ input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
   width: 100%;
-  background-color: var(--primary-variant);
+  background-color: var(--surface);
   border: none;
   outline: none;
   min-height: 60px;
   font-size: large;
   border-radius: 5px;
-  color: var(--on-primary);
+  color: var(--on-surface);
 }
 
 #search-container {
   border-radius: 5px;
-  background-color: var(--primary-variant);
+  background-color: var(--surface);
   margin-bottom: 2%;
 }
 
 .search-icon {
   padding: 10px;
+  color: var(--on-surface);
 }
 
 .searchBarButton {
@@ -43,12 +44,12 @@ input {
   width: 40px;
   height: 40px;
   margin: 0 5% 0 0;
-  background-color: var(--secondary);
+  background-color: var(--primary);
 }
 
 .addCommentIcon {
   transform: scale(1.5);
-  color: var(--primary-variant)
+  color: var(--surface)
 }
 
 .close {
@@ -60,7 +61,7 @@ input {
   height: 45px;
   width: 45px;
   line-height: 100% !important;
-  color: var(--secondary);
+  color: var(--primary);
 }
 
 .no-comments {
@@ -93,8 +94,8 @@ h4  {
 
 .counter {
   font-size: 18pt;
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }
 
 .counter-filtered {
@@ -111,6 +112,6 @@ h4  {
 }
 
 ::placeholder {
-  color: var(--on-primary);
+  color: var(--on-surface);
   opacity: 1;
 }
