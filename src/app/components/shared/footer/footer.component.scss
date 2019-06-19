@@ -3,7 +3,7 @@ footer {
 }
 
 #footer-toolbar {
-  background-color: var(--primary-variant);
+  background-color: var(--surface);
   height: auto;
 
   &:first-child {
@@ -18,7 +18,7 @@ footer {
 .mat-button {
   min-height: 28px;
   font-size: 12px;
-  color: var(--on-primary);
+  color: var(--on-surface);
 }
 
 mat-icon {

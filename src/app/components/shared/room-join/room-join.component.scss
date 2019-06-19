@@ -26,7 +26,6 @@ mat-hint {
   color: var(--on-surface) !important;
 }
 
-::placeholder {
+.placeholder {
   color: var(--on-surface);
-  opacity: 1;
 }
