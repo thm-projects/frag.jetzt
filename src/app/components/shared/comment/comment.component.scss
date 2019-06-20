@@ -55,7 +55,8 @@ h2 {
   font-size: 140%;
   max-height: 120px;
   overflow: auto;
-  color: var(--on-surface)
+  color: var(--on-surface);
+  white-space: pre;
 }
 
 .mat-icon {
