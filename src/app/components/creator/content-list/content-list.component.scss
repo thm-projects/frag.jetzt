@@ -11,6 +11,7 @@ mat-card-content > :first-child {
 mat-expansion-panel {
   background-color: var(--primary-variant);
   margin-bottom: 5px;
+  hyphens: auto;
 }
 
 mat-panel-title {
