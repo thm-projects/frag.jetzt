@@ -95,4 +95,5 @@ mat-grid-tile {
 mat-expansion-panel {
   background-color: var(--surface)!important;
   min-width: 200px;
+  hyphens: auto;
 }
