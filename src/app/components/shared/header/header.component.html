@@ -7,7 +7,13 @@
     <span class="fill-remaining-space"></span>
     <h3 *ngIf="router.url.includes('comments') && user.role === 1" fxLayoutAlign="center center">
       <mat-icon>access_time</mat-icon>
-      {{cTime}}</h3>
+      {{cTime}}
+    </h3>
+    <span class="fill-remaining-space"
+          *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'"></span>
+    <h3 *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'" fxLayoutAlign="center center">
+      ID: {{roomId}}
+    </h3>
     <span class="fill-remaining-space"></span>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
