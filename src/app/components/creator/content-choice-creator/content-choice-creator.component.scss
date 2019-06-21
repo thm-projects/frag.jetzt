@@ -7,7 +7,7 @@ mat-header-cell {
 }
 
 mat-row {
-  background-color: var(--primary);
+  background-color: var(--surface);
 }
 
 .mat-checkbox {
@@ -46,4 +46,47 @@ mat-form-field {
 .reset {
   background-color: var(--secondary);
   color: var(--on-secondary);
+}
+
+mat-radio-button {
+  color: var(--on-surface);
+}
+
+.mat-header-cell {
+  color: var(--on-surface);
+}
+
+input {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background, .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background-color: var(--secondary);
+}
+
+::ng-deep .mat-checkbox-frame {
+  border-color: var(--on-surface);
+}
+
+.edit {
+  color: var(--secondary);
+}
+
+.delete {
+  color: var(--red);
+}
+
+::ng-deep .mat-radio-outer-circle {
+  .mat-radio-checked & {
+    border-color: var(--secondary)!important;
+  }
+  border-color: var(--on-surface);
+}
+
+::ng-deep .mat-radio-inner-circle {
+  background-color: var(--secondary)!important;
+}
+
+::ng-deep .mat-radio-ripple .mat-ripple-element {
+  background-color: var(--secondary)!important;
 }

@@ -23,12 +23,12 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>{{ 'content.actions' | translate }}</mat-header-cell>
       <mat-cell *matCellDef="let answer">
-        <button mat-icon-button
+        <button mat-icon-button class="edit"
                 (click)="openAnswerModificationDialog($event, answer.answerOption.label, answer.answerOption.points, answer.correct)"
                 matTooltip="{{ 'content.edit-answer' | translate }}">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button (click)="deleteAnswer($event, answer.answerOption.label)"
+        <button mat-icon-button class="delete" (click)="deleteAnswer($event, answer.answerOption.label)"
                 matTooltip="{{ 'content.delete-answer' | translate }}">
           <mat-icon>delete</mat-icon>
         </button>

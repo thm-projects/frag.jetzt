@@ -6,3 +6,15 @@ mat-tab-group {
 .tab-container {
   padding: 5px;
 }
+
+::ng-deep .mat-tab-label {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-tab-label-active {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary) !important;
+}
