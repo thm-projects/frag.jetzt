@@ -24,5 +24,18 @@ input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 1000px var(--dialog) inset;
 }
 
+::ng-deep .mat-form-field-label {
+  color: var(--on-surface)!important;
+}
 
+::ng-deep .mat-form-field-underline {
+  background-color: var(--on-surface)!important;
+}
 
+::ng-deep .mat-form-field-ripple {
+  background-color: var(--on-surface)!important;
+}
+
+mat-form-field {
+  color: var(--on-surface);
+}
