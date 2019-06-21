@@ -12,6 +12,9 @@ mat-tab-group {
 }
 
 ::ng-deep .mat-tab-label-active {
-  color: var(--secondary);
+  color: var(--on-surface);
 }
 
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary) !important;
+}

@@ -4,10 +4,12 @@ form > button {
 
 mat-header-cell {
   background-color: var(--surface);
+  color: var(--on-surface);
 }
 
 mat-cell {
   background-color: var(--primary);
+  color: var(--on-surface);
 }
 
 .submit {
