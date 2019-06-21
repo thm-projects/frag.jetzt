@@ -8,3 +8,19 @@ mat-card {
 h2 {
   color: var(--on-surface);
 }
+
+.mat-icon-button {
+  color: var(--secondary);
+}
+
+::ng-deep .mat-tab-label {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-tab-label-active {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary) !important;
+}
