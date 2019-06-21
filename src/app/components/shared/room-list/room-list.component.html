@@ -8,12 +8,12 @@
   <mat-expansion-panel [disabled]="true" id="matPanelHeader">
     <mat-expansion-panel-header>
       <mat-panel-title class="headerTitle">Name</mat-panel-title>
-      <mat-panel-description class="headerTitle">Session-Id</mat-panel-description>
+      <mat-panel-description class="headerTitle">Session-ID</mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
   <mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
     <mat-expansion-panel-header class="matPanelListHeader">
-      <button mat-button routerLink="/{{ baseUrl }}/room/{{ room.shortId }}" (click)="setCurrentRoom(room.shortId)">
+      <button mat-mini-fab routerLink="/{{ baseUrl }}/room/{{ room.shortId }}" (click)="setCurrentRoom(room.shortId)">
         <mat-icon>input</mat-icon>
       </button>
       <mat-panel-title class="panelTitle">
