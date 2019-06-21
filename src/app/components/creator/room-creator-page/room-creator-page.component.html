@@ -46,6 +46,7 @@
           </button>
         </mat-grid-tile>
       </mat-grid-list>
+<!-- commented out for EDULEARN19
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button
@@ -61,6 +62,7 @@
           </button>
         </mat-grid-tile>
       </mat-grid-list>
+-->
       <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
     <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
