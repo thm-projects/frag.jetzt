@@ -51,4 +51,8 @@ export class RoomListComponent implements OnInit {
     this.closedRooms = this.rooms.filter(room => room.closed);
     this.isLoading = false;
   }
+
+  setCurrentRoom(shortId: string) {
+    localStorage.setItem('shortId', shortId);
+  }
 }

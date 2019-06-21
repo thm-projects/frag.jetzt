@@ -5,6 +5,16 @@
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
+    <h3 *ngIf="router.url.includes('comments') && user.role === 1" fxLayoutAlign="center center">
+      <mat-icon>access_time</mat-icon>
+      {{cTime}}
+    </h3>
+    <span class="fill-remaining-space"
+          *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'"></span>
+    <h3 *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'" fxLayoutAlign="center center">
+      {{'header.id' | translate}}: {{ roomId.slice(0,4) }} {{  roomId.slice(4,8) }}
+    </h3>
+    <span class="fill-remaining-space"></span>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <mat-grid-list cols="2">

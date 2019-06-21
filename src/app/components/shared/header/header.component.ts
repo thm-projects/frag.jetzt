@@ -19,6 +19,9 @@ import { ThemeService } from '../../../../theme/theme.service';
 export class HeaderComponent implements OnInit {
   user: User;
   themeClass = localStorage.getItem('theme');
+  cTime: string;
+  roomId: string;
+  deviceType = localStorage.getItem('deviceType');
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -41,6 +44,24 @@ export class HeaderComponent implements OnInit {
       this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
     }
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.getRoomId();
+    let time = new Date();
+    this.getTime(time);
+    setInterval(() => {
+      time = new Date();
+      this.getTime(time);
+      this.getRoomId();
+    }, 1000);
+  }
+
+  public getRoomId() {
+    this.roomId = localStorage.getItem('shortId');
+  }
+
+  getTime(time: Date) {
+    const hh = ('0' + time.getHours()).substr(-2);
+    const mm = ('0' + time.getMinutes()).substr(-2);
+    this.cTime = hh + ':' + mm;
   }
 
   logout() {
@@ -53,10 +74,6 @@ export class HeaderComponent implements OnInit {
 
   goBack() {
     this.location.back();
-  }
-
-  goToHomepage() {
-    this.router.navigate(['/home']);
   }
 
   useLanguage(language: string) {
