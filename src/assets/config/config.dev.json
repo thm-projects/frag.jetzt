@@ -2,10 +2,10 @@
     "env": {
         "name": "dev"
     },
-    
+
     "authentication": {
         "lecturer": {
-            "allowGuest": false
+            "allowGuest": true
         },
         "student": {
             "allowGuest": true
