@@ -11,7 +11,8 @@
     "change-theme": "Stil ändern",
     "change-language": "Sprache ändern",
     "login": "Login",
-    "my-account": "Mein Account"
+    "my-account": "Mein Account",
+    "id": "ID"
 	},
 	"login-page": {
 		"creator": "Referent/in",

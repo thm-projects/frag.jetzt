@@ -11,7 +11,8 @@
     "change-theme": "Change theme",
     "change-language": "Change language",
     "login": "Login",
-    "my-account": "My account"
+    "my-account": "My account",
+    "id": "ID"
 	},
 	"login-page": {
 		"creator": "Speaker",
