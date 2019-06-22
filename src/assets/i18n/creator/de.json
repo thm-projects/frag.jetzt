@@ -22,11 +22,11 @@
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
     "present": "Präsentieren",
-    "session-settings": "Session Einstellungen",
+    "session-settings": "Session-Einstellungen",
     "general": "Allgemein",
     "threshold": "Schwellenwert für sichtbare Kommentare: ",
     "delete-all-comments": "Alle Kommentare löschen",
-    "really-delete-comments": "Wollen sie wirklich alle Kommentare dieser Session löschen?",
+    "really-delete-comments": "Wollen Sie wirklich alle Kommentare dieser Session löschen?",
     "comments-deleted": "Alle Kommentare wurden gelöscht.",
     "export-comments": "Kommentare exportieren"
   },
