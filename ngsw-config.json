@@ -15,7 +15,7 @@
     {
       "name": "static",
       "urls": [
-        "!/**/*api*"
+        "!/**/*api*/**"
       ],
       "cacheConfig": {
         "strategy": "performance",
