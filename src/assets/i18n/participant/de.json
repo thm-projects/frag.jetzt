@@ -7,7 +7,7 @@
   "room-page": {
     "comments": "Kommentare",
     "learn": "Lernen",
-    "create-comment": "Kommentar abgeben",
+    "create-comment": "Kommentar schreiben",
     "give-feedback": "Feedback geben",
     "live-feedback": "Live Feedback",
     "answer-statistics": "Statistiken",
@@ -31,7 +31,7 @@
     "search": "Suchen",
     "filter-comments": "Kommentare filtern",
     "sort-comments": "Kommentare sortieren",
-    "add-comment": "Kommentar erstellen"
+    "add-comment": "Kommentar schreiben"
   },
   "answer": {
     "submit": "Absenden",

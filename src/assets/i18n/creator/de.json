@@ -20,7 +20,7 @@
     "update": "Update",
     "changes-successful": "Änderungen erfolgreich.",
     "default-content-group": "Standard",
-    "description": "Beschreibung",
+    "description": "Beschreibung der Session",
     "present": "Präsentieren",
     "session-settings": "Session Einstellungen",
     "general": "Allgemein",
@@ -68,7 +68,7 @@
   },
   "session": {
     "session-name": "Name der Session",
-    "description": "Beschreibung",
+    "description": "Beschreibung der Session",
     "max-ls": "Max. Zeichen:",
     "create-session": "Session erstellen"
   },

@@ -6,8 +6,8 @@
 		"guest": "Guest",
 		"logged-out": "Logout successful",
 		"back": "Back",
-		"my-sessions": "My Sessions",
-		"visited-sessions": "Visited Sessions",
+		"my-sessions": "My sessions",
+		"visited-sessions": "Visited sessions",
     "change-theme": "Change theme",
     "change-language": "Change language",
     "login": "Login",
@@ -23,15 +23,15 @@
 		"welcome": "Welcome to"
 	},
 	"home-page": {
-		"join-demo-session": "Join demo-session",
+		"join-demo-session": "Join demo session",
 		"session-id": "Session ID",
-		"no-room-found": "No session was found with this ID.",
-		"please-enter": "Please enter a session ID.",
+		"no-room-found": "No session found with this ID",
+		"please-enter": "Please enter a session ID",
 		"exactly-8": "A session ID has exactly 8 digits.",
-		"create-session": "New Session",
+		"create-session": "New session",
 		"no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
-		"created-2": "' successfully created",
+		"created-2": "' Successfully created",
 		"only-numbers": "A session ID only contains digits.",
         "update-available": "A newer version is available.",
         "install": "Install"
@@ -58,11 +58,11 @@
 		"email-required": "E-mail required",
 		"input-incorrect": "Please check your data.",
 		"reset-password": "Reset password",
-		"reset-successful": "Password was reset. Please check your mail."
+		"reset-successful": "Password was reset. Please check your mails."
 	},
 	"register": {
 		"email": "E-mail",
-		"email-verify": "Verify E-mail",
+		"email-verify": "Verify e-mail",
 		"email-invalid": "E-mail is invalid.",
 		"email-required": "E-mail required",
 		"email-unmatch": "E-mails do not match.",
@@ -71,7 +71,7 @@
 		"password-unmatch": "Passwords do not match.",
 		"password-verify": "Verify password",
 		"register": "Register",
-		"register-successful": "Successfully registered. Please check your mail.",
+		"register-successful": "Successfully registered. Please check your mails.",
 		"register-unsuccessful": "Please check your data.",
 		"register-request-error": "Something went wrong with the registration. Maybe you already made the account?"
 	},
