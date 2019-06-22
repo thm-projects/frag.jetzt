@@ -20,7 +20,7 @@
     "update": "Update",
     "changes-successful": "Successfully updated.",
     "default-content-group": "Default",
-    "description": "Description",
+    "description": "Description of session",
     "present": "Present",
     "session-settings": "Session settings",
     "general": "General",
@@ -68,13 +68,13 @@
   },
   "session": {
     "session-name": "Session name",
-    "description": "Description",
-    "max-ls": "Max. letters / signs:",
+    "description": "Session description",
+    "max-ls": "Max. characters:",
     "create-session": "Create session"
   },
   "statistic": {
     "content": "Content",
-    "answer-statistic": "Answer statistic",
+    "answer-statistic": "Answer statistics",
     "answers": "Answers",
     "percentage": "Percentage",
     "abstentions": "Abstentions",
