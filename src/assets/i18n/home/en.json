@@ -2,9 +2,9 @@
 	"header": {
 		"english": "English",
 		"german": "German",
-		"logout": "Logout",
+		"logout": "Log out",
 		"guest": "Guest",
-		"logged-out": "Logout successful",
+		"logged-out": "Logging out successful",
 		"back": "Back",
 		"my-sessions": "My sessions",
 		"visited-sessions": "Visited sessions",

@@ -77,7 +77,7 @@
 	},
 	"session": {
 		"session-name": "Name der Session",
-		"description": "Beschreibung",
+		"description": "Beschreibung der Session",
 		"max-ls": "Max. Zeichen:",
 		"create-session": "Session erstellen"
   },
