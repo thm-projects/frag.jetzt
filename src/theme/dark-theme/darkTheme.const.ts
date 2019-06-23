@@ -1,7 +1,7 @@
 export const dark = {
 
   '--primary' : '#bb86fc',
-  '--primary-variant': '#3700b3',
+  '--primary-variant': '#616161',
 
   '--secondary': '#03dac6',
   '--secondary-variant': '#6f74dd',
