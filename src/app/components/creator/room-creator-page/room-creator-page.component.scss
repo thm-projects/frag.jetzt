@@ -2,6 +2,7 @@
 
 mat-card {
   width: 800px;
+  min-height: 350px;
   background-color: var(--surface)!important;
 }
 
@@ -25,7 +26,7 @@ button {
 .mat-icon-button {
   width: 75%;
   height: 75%;
-  margin-bottom: 20px;
+  margin-bottom: 10%;
   color: var(--primary)!important;
 }
 
@@ -53,11 +54,6 @@ mat-grid-list {
 
 mat-tooltip-component {
   position: relative;
-}
-
-p {
-  font-size: medium;
-  color: var(--on-surface)!important;
 }
 
 h2 {
@@ -89,7 +85,7 @@ mat-card-subtitle {
 }
 
 mat-grid-tile {
-  height: 20px;
+  height: 100px!important;
 }
 
 mat-expansion-panel {
