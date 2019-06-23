@@ -32,7 +32,7 @@ export class CommentListComponent implements OnInit {
   voteasc = 'voteasc';
   votedesc = 'votedesc';
   time = 'time';
-  currentSort = this.votedesc;
+  currentSort: string;
   read = 'read';
   unread = 'unread';
   favorite = 'favorite';
@@ -68,6 +68,9 @@ export class CommentListComponent implements OnInit {
           this.commentVoteMap.set(v.commentId, v);
         }
       });
+      this.currentSort = this.time;
+    } else {
+      this.currentSort = this.votedesc;
     }
     this.commentService.getComments(this.roomId)
       .subscribe(comments => {
