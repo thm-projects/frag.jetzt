@@ -12,14 +12,6 @@
       </mat-card-header>
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
-        <!-- <mat-expansion-panel *ngIf="!(room.description == '')" class="mat-elevation-z0">
-          <mat-expansion-panel-header>
-            <h4>{{ 'room-page.description' | translate }}</h4>
-          </mat-expansion-panel-header>
-          <p>
-            {{ room.description }}
-          </p>
-        </mat-expansion-panel> -->
         <h4>{{room.description}}</h4>
       </mat-card-content>
       <mat-grid-list cols="2" rowHeight="2:1">
@@ -27,12 +19,14 @@
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
             <mat-icon>question_answer</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-comment' | translate}}</h3>
+            <h4 *ngIf="deviceType === 'mobile'">{{ 'room-page.create-comment' | translate}}</h4>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon>thumbs_up_down</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
+            <h4 *ngIf="deviceType === 'mobile'">{{ 'room-page.give-feedback' | translate}}</h4>
           </button>
         </mat-grid-tile>
        <!-- <mat-grid-tile>
