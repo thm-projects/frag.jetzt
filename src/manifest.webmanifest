@@ -6,6 +6,7 @@
   "display": "standalone",
   "scope": "/",
   "start_url": "/home",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "assets/icons/favicon.png",
