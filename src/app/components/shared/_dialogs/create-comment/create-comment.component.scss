@@ -17,6 +17,7 @@ app-comment-list {
 textarea {
   line-height: 120%;
   color: var(--on-surface);
+  caret-color: var(--on-surface);
 }
 
 .send {
@@ -31,3 +32,16 @@ mat-hint {
 .placeholder {
   color: var(--on-surface);
 }
+
+::ng-deep .mat-form-field-label {
+  color: var(--on-surface)!important;
+}
+
+::ng-deep .mat-form-field-underline {
+  background-color: var(--on-surface)!important;
+}
+
+::ng-deep .mat-form-field-ripple {
+  background-color: var(--on-surface)!important;
+}
+

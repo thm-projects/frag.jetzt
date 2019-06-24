@@ -39,3 +39,7 @@ input:-webkit-autofill {
 mat-form-field {
   color: var(--on-surface);
 }
+
+input {
+  caret-color: var(--on-surface);
+}
