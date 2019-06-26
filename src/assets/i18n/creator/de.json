@@ -22,7 +22,7 @@
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
     "present": "Präsentieren",
-    "session-settings": "Session-Einstellungen",
+    "session-settings": "Session-Verwaltung",
     "general": "Allgemein",
     "threshold": "Schwellenwert für sichtbare Kommentare: ",
     "delete-all-comments": "Alle Kommentare löschen",
