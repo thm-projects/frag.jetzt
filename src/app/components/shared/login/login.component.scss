@@ -1,12 +1,12 @@
 .pwReset {
   padding-left: 0;
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 .regButton {
   margin-top: 20px;
   padding: 0;
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 .loginButton {
@@ -17,6 +17,7 @@
 p {
   font-size: small;
   margin: 30px 5px 0 30px;
+  color: var(--on-surface);
 }
 
 input:-webkit-autofill {

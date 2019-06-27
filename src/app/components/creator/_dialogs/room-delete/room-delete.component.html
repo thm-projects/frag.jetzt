@@ -1,10 +1,10 @@
 <h3>{{ 'room-page.sure' | translate }}</h3>
 <p>{{ 'room-page.reallySession' | translate}}<strong>{{room.name}}</strong>{{ 'room-page.really2' | translate}}</p>
 <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-  <button mat-raised-button color="warn" (click)="dialogRef.close('delete')">
-    {{ 'room-page.delete-room' | translate }}
-  </button>
-  <button mat-raised-button color="primary" (click)="onNoClick()">
+  <button mat-raised-button class="abort" (click)="onNoClick()">
     {{ 'room-page.abort' | translate }}
+  </button>
+  <button mat-raised-button class="delete" (click)="dialogRef.close('delete')">
+    {{ 'room-page.delete-room' | translate }}
   </button>
 </div>
