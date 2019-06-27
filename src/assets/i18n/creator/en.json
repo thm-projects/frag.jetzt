@@ -28,7 +28,8 @@
     "delete-all-comments": "Delete all comments",
     "really-delete-comments": "Do you really want to delete all comments of this session?",
     "comments-deleted": "All comments have been deleted.",
-    "export-comments": "Export comments"
+    "export-comments": "Export comments",
+    "room-not-found": "Session not found :("
   },
   "content": {
     "content": "Content",

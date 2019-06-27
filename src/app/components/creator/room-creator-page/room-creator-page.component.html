@@ -64,7 +64,7 @@
       <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
 -->
     </mat-card>
-    <div *ngIf="!isLoading && !room">Error: room could not be found!</div>
+    <div *ngIf="!isLoading && !room">{{ 'room-page.room-not-found' | translate }}</div>
   </div>
 </div>
 
