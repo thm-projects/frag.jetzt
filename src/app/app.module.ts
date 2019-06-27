@@ -21,6 +21,7 @@ import { UserActivationComponent } from './components/home/_dialogs/user-activat
 import { AuthenticationInterceptor } from './interceptors/authentication.interceptor';
 import { EssentialsModule } from './components/essentials/essentials.module';
 import { SharedModule } from './components/shared/shared.module';
+import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
@@ -31,6 +32,9 @@ import { AppConfig } from './app.config';
 import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -60,7 +64,16 @@ export function initializeApp(appConfig: AppConfig) {
     EssentialsModule,
     SharedModule,
     ThemeModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    CreatorModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    TranslateModule.forChild({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (HttpLoaderFactory),
+        deps: [HttpClient]
+      },
+      isolate: true
+    })
   ],
   providers: [
     AppConfig,
@@ -103,4 +116,8 @@ export function initializeApp(appConfig: AppConfig) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
+}
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 }

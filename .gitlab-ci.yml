@@ -46,7 +46,7 @@ ngbuild:
   script:
     - npm install -g @angular/cli
     - npm install
-    - ng build --prod --aot=false --build-optimizer=false
+    - ng build --prod --aot --build-optimizer=false
   artifacts:
     paths:
       - "$BUILD_DIR"
