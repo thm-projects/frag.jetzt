@@ -20,7 +20,7 @@ export class FooterComponent implements OnInit {
   blogUrl = 'https://arsnova.thm.de/blog/';
   dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
   imprUrl = 'https://arsnova.thm.de/blog/impressum/';
-  demoId = '33602981';
+  demoId = '78844652';
 
   room: Room;
   user: User;

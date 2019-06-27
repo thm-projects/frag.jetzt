@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Component, Input, OnInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
@@ -39,6 +40,7 @@ export class CommentListComponent implements OnInit {
   correct = 'correct';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
+  scroll = false;
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -77,6 +79,14 @@ export class CommentListComponent implements OnInit {
         this.comments = comments;
         this.getComments();
       });
+  }
+
+  checkScroll(): void {
+    if (document.documentElement.scrollTop >= 65) {
+      this.scroll = true;
+    } else {
+      this.scroll = false;
+    }
   }
 
   searchComments(term: string): void {

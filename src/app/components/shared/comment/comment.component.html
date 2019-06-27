@@ -26,7 +26,7 @@
       </button>
     </div>
     <div fxLayout="row">
-      <div class="body" (click)="openPresentDialog(comment)">{{comment.body}}</div>
+      <div class="body" (click)="openPresentDialog(comment)">{{comment.body.trim()}}</div>
       <span class="fill-remaining-space" (click)="openPresentDialog(comment)"></span>
       <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState"
            (@rubberBand.done)="resetAnimationState()">

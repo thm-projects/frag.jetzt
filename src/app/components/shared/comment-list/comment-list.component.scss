@@ -12,19 +12,31 @@ input {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
   width: 100%;
-  background-color: var(--surface);
+  background-color: var(--dialog);
   border: none;
   outline: none;
   min-height: 60px;
   font-size: large;
   border-radius: 5px;
-  color: var(--on-surface);
+  color: var(--on-secondary);
 }
 
-#search-container {
+.search-container {
   border-radius: 5px;
-  background-color: var(--surface);
+  background-color: var(--dialog);
   margin-bottom: 2%;
+}
+
+.search-container-fixed {
+  border-radius: 5px;
+  background-color: var(--dialog);
+  margin-bottom: 2%;
+  position: fixed;
+  top: 10px;
+  right: center;
+  width: 92%;
+  max-width: 800px;
+  z-index: 1;
 }
 
 .search-icon {

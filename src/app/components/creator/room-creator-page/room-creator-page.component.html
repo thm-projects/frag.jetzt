@@ -22,10 +22,10 @@
       <mat-divider></mat-divider>
       <mat-card-content fxLayoutAlign="center">
         <h4>
-          {{ room.description }}
+          {{ room.description.trim() }}
         </h4>
       </mat-card-content>
-      <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
@@ -34,6 +34,8 @@
             <h4 *ngIf="deviceType === 'mobile'">{{ 'room-page.comments' | translate}}</h4>
           </button>
         </mat-grid-tile>
+      </mat-grid-list>
+        <!-- commented out for EDULEARN19
         <mat-grid-tile>
           <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon class="smallerIcon">thumbs_up_down
@@ -43,7 +45,6 @@
           </button>
         </mat-grid-tile>
       </mat-grid-list>
-<!-- commented out for EDULEARN19
       <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button
