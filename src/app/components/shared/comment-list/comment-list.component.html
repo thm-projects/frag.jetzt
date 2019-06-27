@@ -1,4 +1,4 @@
-<div fxLayout="row" id="search-container" *ngIf="comments.length > 2">
+<div fxLayout="row" [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}" *ngIf="comments.length > 2" (window:scroll)="checkScroll()">
   <mat-label fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
@@ -74,8 +74,8 @@
 
 <div fxLayout="row" fxLayoutAlign="center" *ngIf="comments.length < 3">
   <button mat-fab class="fab-extended" (click)="openCreateDialog()">
-    {{'comment-list.add-comment' | translate}}
     <mat-icon class="add">add</mat-icon>
+    {{'comment-list.add-comment' | translate}}
   </button>
 </div>
 
