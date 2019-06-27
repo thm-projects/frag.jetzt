@@ -26,3 +26,7 @@ input {
 mat-form-field {
   color: var(--on-surface);
 }
+
+mat-hint {
+  color: var(--on-surface)!important;
+}
