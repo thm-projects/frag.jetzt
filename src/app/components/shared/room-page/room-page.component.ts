@@ -35,9 +35,9 @@ export class RoomPageComponent implements OnInit {
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
-      this.commentService.getComments(this.room.id)
-        .subscribe(comments => {
-          this.commentCounter = comments.length;
+      this.commentService.countByRoomId(this.room.id)
+        .subscribe(commentCounter => {
+          this.commentCounter = commentCounter;
         });
       this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
         const msg = JSON.parse(message.body);
