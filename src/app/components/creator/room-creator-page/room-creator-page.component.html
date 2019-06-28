@@ -29,7 +29,7 @@
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
-            <mat-icon>question_answer</mat-icon>
+            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary">question_answer</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.comments' | translate}}</h3>
             <h4 *ngIf="deviceType === 'mobile'">{{ 'room-page.comments' | translate}}</h4>
           </button>

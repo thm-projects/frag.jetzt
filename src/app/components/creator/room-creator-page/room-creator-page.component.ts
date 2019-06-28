@@ -10,6 +10,8 @@ import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { TSMap } from 'typescript-map';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { CommentService } from '../../../services/http/comment.service';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -29,8 +31,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               protected location: Location,
               public dialog: MatDialog,
               private translateService: TranslateService,
-              protected langService: LanguageService) {
-    super(roomService, route, location);
+              protected langService: LanguageService,
+              protected wsCommentService: WsCommentServiceService,
+              protected commentService: CommentService) {
+    super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -38,7 +42,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
-      this.getRoom(params['roomId']);
+      this.initializeRoom(params['roomId']);
     });
   }
 

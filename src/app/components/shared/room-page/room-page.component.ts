@@ -3,6 +3,9 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { CommentService } from '../../../services/http/comment.service';
+import { Message } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-room-page',
@@ -12,22 +15,39 @@ import { Location } from '@angular/common';
 export class RoomPageComponent implements OnInit {
   room: Room = null;
   isLoading = true;
+  commentCounter: number;
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
-              protected location: Location) {
+              protected location: Location,
+              protected wsCommentService: WsCommentServiceService,
+              protected commentService: CommentService
+  ) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.getRoom(params['roomId']);
+      this.initializeRoom(params['roomId']);
     });
   }
 
-  getRoom(id: string): void {
+  initializeRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
+      this.commentService.getComments(this.room.id)
+        .subscribe(comments => {
+          this.commentCounter = comments.length;
+        });
+      this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
+        const msg = JSON.parse(message.body);
+        const payload = msg.payload;
+        if (msg.type === 'CommentCreated') {
+          this.commentCounter = this.commentCounter + 1;
+        } else if (msg.type === 'CommentDeleted') {
+          this.commentCounter = this.commentCounter - 1;
+        }
+      });
     });
   }
 
