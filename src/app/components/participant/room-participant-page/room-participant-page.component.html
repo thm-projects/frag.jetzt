@@ -11,7 +11,7 @@
         </mat-card-subtitle>
       </mat-card-header>
       <mat-divider></mat-divider>
-      <mat-card-content fxLayoutAlign="center">
+      <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
         <h4>{{room.description.trim()}}</h4>
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">

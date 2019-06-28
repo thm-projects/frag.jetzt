@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit {
   user: User;
   themeClass = localStorage.getItem('theme');
   cTime: string;
-  roomId: string;
+  shortId: string;
   deviceType = localStorage.getItem('deviceType');
 
   constructor(public location: Location,
@@ -44,18 +44,29 @@ export class HeaderComponent implements OnInit {
       this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
     }
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
-    this.getRoomId();
+
     let time = new Date();
     this.getTime(time);
     setInterval(() => {
       time = new Date();
       this.getTime(time);
-      this.getRoomId();
     }, 1000);
-  }
 
-  public getRoomId() {
-    this.roomId = localStorage.getItem('shortId');
+    this.router.events.subscribe(val => {
+      /* the router will fire multiple events */
+      /* we only want to react if it's the final active route */
+      if (val instanceof NavigationEnd) {
+       /* segments gets all parts of the url */
+       const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
+       const roomIdRegExp = new RegExp('^[0-9]{8}$');
+       segments.forEach(element => {
+         /* searches the url segments for a short id */
+         if (roomIdRegExp.test(element.path)) {
+           this.shortId = element.path;
+         }
+       });
+      }
+    });
   }
 
   getTime(time: Date) {

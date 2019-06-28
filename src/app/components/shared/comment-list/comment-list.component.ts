@@ -23,7 +23,7 @@ import { VoteService } from '../../../services/http/vote.service';
 export class CommentListComponent implements OnInit {
   @Input() user: User;
   @Input() roomId: string;
-  comments: Comment[];
+  comments: Comment[] = [];
   room: Room;
   hideCommentsList = false;
   filteredComments: Comment[];
