@@ -79,7 +79,7 @@
     "answers": "Antworten",
     "percentage": "Prozent",
     "abstentions": "Enthaltungen",
-    "no-questions": "Es sind noch keine Antworten vorhanden.",
+    "no-questions": "Noch keine Antworten",
     "good": "Gut",
     "improvable": "Luft nach oben",
     "no-answers": "Keine Antworten"
@@ -96,7 +96,7 @@
     "comma": "Microsoft Excel",
     "semicolon": "Standard CSV",
     "export": "Exportieren",
-    "no-comments": "Es wurden noch keine Kommentare geschrieben.",
+    "no-comments": "Noch keine Kommentare",
     "correct": "Als richtig markieren",
     "favorite": "Als Favoriten markieren",
     "read": "Als gelesen markieren"
