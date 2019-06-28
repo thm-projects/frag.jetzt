@@ -14,7 +14,8 @@ export class CommentService extends BaseHttpService {
   private apiUrl = {
     base: '/api',
     comment: '/comment',
-    find: '/find'
+    find: '/find',
+    count: '/count'
   };
 
   constructor(private http: HttpClient) {
@@ -72,6 +73,17 @@ export class CommentService extends BaseHttpService {
     return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('deleteComment'))
+    );
+  }
+
+  countByRoomId(roomId: string): Observable<number> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find + this.apiUrl.count;
+    return this.http.post<number>(connectionUrl, {
+      properties: { roomId: roomId },
+      externalFilters: {}
+    }, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<number>('countByRoomId', 0))
     );
   }
 }
