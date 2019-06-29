@@ -103,23 +103,23 @@ export class RoomEditComponent implements OnInit {
     this.commentService.getComments(this.editRoom.id)
       .subscribe(comments => {
         this.comments = comments;
+        const exportComments = JSON.parse(JSON.stringify(this.comments));
+        let csv: string;
+        let keyFields = '';
+        let valueFields = '';
+        keyFields = Object.keys(exportComments[0]).slice(3).join(delimiter) + '\r\n';
+        exportComments.forEach(element => {
+          element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
+          valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
+        });
+        csv = keyFields + valueFields;
+        const myBlob = new Blob([csv], { type: 'text/csv' });
+        const link = document.createElement('a');
+        const fileName = 'comments_' + date + '.csv';
+        link.setAttribute('download', fileName);
+        link.href = window.URL.createObjectURL(myBlob);
+        link.click();
       });
-    const exportComments = JSON.parse(JSON.stringify(this.comments));
-    let csv: string;
-    let keyFields = '';
-    let valueFields = '';
-    keyFields = Object.keys(exportComments[0]).slice(3).join(delimiter) + '\r\n';
-    exportComments.forEach(element => {
-      element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
-      valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
-    });
-    csv = keyFields + valueFields;
-    const myBlob = new Blob([csv], { type: 'text/csv' });
-    const link = document.createElement('a');
-    const fileName = 'comments_' + date + '.csv';
-    link.setAttribute('download', fileName);
-    link.href = window.URL.createObjectURL(myBlob);
-    link.click();
   }
 
   onExport(exportType: string): void {
@@ -129,8 +129,7 @@ export class RoomEditComponent implements OnInit {
     const timestamp = dateString + '_' + timeString;
     if (exportType === 'comma') {
       this.exportCsv(',', timestamp);
-    }
-    if (exportType === 'semicolon') {
+    } else if (exportType === 'semicolon') {
       this.exportCsv(';', timestamp);
     }
   }
