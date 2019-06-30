@@ -89,6 +89,10 @@ export class CommentListComponent implements OnInit {
     }
   }
 
+  scrollToTop(): void {
+    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   searchComments(term: string): void {
     if (term && term.length > 2) {
       this.hideCommentsList = true;
@@ -211,6 +215,7 @@ export class CommentListComponent implements OnInit {
           return !c.read;
       }
     });
+    this.scrollToTop();
   }
 
   sortComments(type: string): void {
@@ -226,5 +231,6 @@ export class CommentListComponent implements OnInit {
       }
     });
     this.currentSort = type;
+    this.scrollToTop();
   }
 }
