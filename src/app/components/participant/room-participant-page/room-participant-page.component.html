@@ -14,7 +14,7 @@
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
         <h4>{{room.description.trim()}}</h4>
       </mat-card-content>
-      <mat-grid-list cols="1" rowHeight="2:1">
+      <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
             <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary">question_answer</mat-icon>
@@ -22,7 +22,6 @@
             <h4 *ngIf="deviceType === 'mobile'">{{ 'room-page.create-comment' | translate}}</h4>
           </button>
         </mat-grid-tile>
-        <!-- commented out for EDULEARN19
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon>thumbs_up_down</mat-icon>
@@ -35,9 +34,9 @@
             <mat-icon>insert_chart</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'statistic.answer-statistic' | translate}}</h3>
           </button>
-        </mat-grid-tile> -->
+        </mat-grid-tile>
       </mat-grid-list>
-      <!-- <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
+      <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
     </mat-card>
   </div>
 </div>
