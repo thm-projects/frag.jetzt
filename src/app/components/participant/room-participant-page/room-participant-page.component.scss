@@ -3,7 +3,7 @@
 mat-card {
   width: 100%;
   max-width: 800px;
-  min-height: 300px;
+  min-height: 350px;
   background-color: var(--surface)!important;
 }
 
@@ -14,15 +14,21 @@ mat-card-content>:first-child {
 .mat-icon-button {
   width: 100%;
   height: 75%;
-  margin-bottom: 10%;
+  margin-bottom: 3%;
   color: var(--primary)!important;
 }
 
 mat-icon {
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  line-height: 100%!important;
+}
+
+.desktop {
   font-size: 70px;
   height: 70px;
   width: 70px;
-  line-height: 100%!important;
 }
 
 button {
@@ -30,7 +36,7 @@ button {
   transition: all 0.3s;
 
   &:hover {
-    transform: scale(1.25)
+    transform: scale(1.2)
   }
 }
 
@@ -49,6 +55,7 @@ h3 {
 h4 {
   font-size: 15px;
   color: var(--on-surface)!important;
+  padding: 0 1% 0 1%;
 }
 
 mat-card-header {
@@ -71,13 +78,21 @@ mat-expansion-panel {
 }
 
 mat-grid-list {
-  margin-bottom: 10px !important;
+  margin-bottom: 20px !important;
 }
 
 mat-grid-tile {
-  height: 100px!important;
+  height: 100%!important;
+  padding: 2%!important;
 }
 
-mat-tooltip-component {
-  position: relative;
+#settings {
+  width: 10%;
+  max-width: 40px;
+}
+
+#settings-icon {
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
 }
