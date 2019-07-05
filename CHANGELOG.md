@@ -1,4 +1,6 @@
 # Changelog
+
+## 1.2.1
 Bug Fixes:
 * Fix icons in room view for both roles
 
