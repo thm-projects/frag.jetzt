@@ -15,7 +15,7 @@ button {
   width: 30%;
   transition: all 0.3s;
   &:hover {
-    transform: scale(1.25)
+    transform: scale(1.2)
   }
 }
 
@@ -24,10 +24,16 @@ button {
 }
 
 .mat-icon-button {
-  width: 75%;
+  width: 100%;
   height: 75%;
-  margin-bottom: 10%;
   color: var(--primary)!important;
+}
+
+.desktop {
+  font-size: 65px;
+  height: 65px;
+  width: 65px;
+  margin-bottom: 5%;
 }
 
 #settings {
@@ -42,18 +48,18 @@ button {
 }
 
 mat-icon {
-  font-size: 50px;
-  height: 50px;
-  width: 50px;
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
   line-height: 100%!important;
 }
 
 mat-grid-list {
-  margin-bottom: 10px !important;
+  margin-bottom: 5px !important;
 }
 
-mat-tooltip-component {
-  position: relative;
+.second {
+  margin-bottom: 20px !important;
 }
 
 h2 {
@@ -69,6 +75,7 @@ h3 {
 h4 {
   font-size: medium;
   color: var(--on-surface)!important;
+  padding: 0 1% 0 1%;
 }
 
 mat-card-header {
@@ -85,7 +92,8 @@ mat-card-subtitle {
 }
 
 mat-grid-tile {
-  height: 100px!important;
+  height: 100%!important;
+  padding: 2%!important;
 }
 
 mat-expansion-panel {
