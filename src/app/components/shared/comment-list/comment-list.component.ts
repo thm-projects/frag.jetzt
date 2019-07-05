@@ -41,6 +41,7 @@ export class CommentListComponent implements OnInit {
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
+  scrollExtended = false;
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -82,11 +83,9 @@ export class CommentListComponent implements OnInit {
   }
 
   checkScroll(): void {
-    if (document.documentElement.scrollTop >= 65) {
-      this.scroll = true;
-    } else {
-      this.scroll = false;
-    }
+    const currentScroll = document.documentElement.scrollTop;
+      this.scroll = currentScroll >= 65;
+      this.scrollExtended = currentScroll >= 300;
   }
 
   scrollToTop(): void {
@@ -215,7 +214,6 @@ export class CommentListComponent implements OnInit {
           return !c.read;
       }
     });
-    this.scrollToTop();
   }
 
   sortComments(type: string): void {
@@ -231,6 +229,5 @@ export class CommentListComponent implements OnInit {
       }
     });
     this.currentSort = type;
-    this.scrollToTop();
   }
 }
