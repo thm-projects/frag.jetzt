@@ -33,7 +33,6 @@ input {
   margin-bottom: 2%;
   position: fixed;
   top: 10px;
-  right: center;
   width: 92%;
   max-width: 800px;
   z-index: 1;
@@ -145,4 +144,19 @@ h4  {
   margin-right: 4%;
   margin-left: 4%;
   color: var(--on-primary);
+}
+
+.scrollTop {
+  position: fixed;
+  bottom: 3%;
+  left: -40px;
+  z-index: 1;
+  background-color: var(--background);
+  transition: 0.5s;
+}
+
+.visible {
+  left: 5%;
+  transition: 0.5s;
+  background-color: var(--secondary);
 }
