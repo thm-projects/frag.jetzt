@@ -1,4 +1,10 @@
 # Changelog
+Bug Fixes:
+* Fix icons in room view for both roles
+
+**This version is brought to you by:**  
+Project management: Klaus Quibeldey-Cirkel  
+Lead programming: Tom "tekay" Käsler, Lukas Mauß  
 
 ## 1.2
 Features:  
