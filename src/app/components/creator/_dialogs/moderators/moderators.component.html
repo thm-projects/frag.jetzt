@@ -12,7 +12,7 @@
     <span class="fill-remaining-space"></span>
   </div>
   <h3 *ngIf="moderators.length === 0">No moderators yet.</h3>
-  <mat-list>
+  <mat-list *ngIf="moderators.length > 0">
     <mat-list-item *ngFor="let moderator of moderators">{{moderator.userId}}</mat-list-item>
   </mat-list>
 </div>

@@ -29,7 +29,6 @@ export class ModeratorsComponent implements OnInit {
 
   ngOnInit() {
     this.getModerators();
-    console.log(this.moderators);
   }
 
   getModerators() {
