@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Moderator } from '../../models/moderator';
 import { catchError, tap } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
+import { User } from '../../models/user';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,6 +16,7 @@ export class ModeratorService extends BaseHttpService {
     base: '/api',
     room: '/room',
     moderator: '/moderator',
+    user: '/user',
     find: '/find'
   };
 
@@ -43,6 +45,17 @@ export class ModeratorService extends BaseHttpService {
     return this.http.delete(url, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('deleteModerator'))
+    );
+  }
+
+  getUserId(loginId: string): Observable<User[]> {
+    const url = `${this.apiUrl.base + this.apiUrl.user}/${this.apiUrl.find}`;
+    return this.http.post<User[]>(url, {
+      properties: { loginId: loginId },
+      externalFilters: {}
+    }).pipe(
+      tap(() => ''),
+      catchError(this.handleError('getUserId', []))
     );
   }
 }
