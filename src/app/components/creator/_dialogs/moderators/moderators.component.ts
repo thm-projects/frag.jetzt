@@ -44,7 +44,10 @@ export class ModeratorsComponent implements OnInit {
         return;
       }
       this.moderatorService.add(this.roomId, list[0].id).subscribe();
-      this.getModerators();
     });
+  }
+
+  removeModerator(userId: string) {
+    this.moderatorService.delete(this.roomId, userId).subscribe();
   }
 }

@@ -27,6 +27,10 @@ mat-form-field {
   line-height: 100% !important;
 }
 
+.close {
+  color: var(--red);
+}
+
 .mat-list-item {
   color: var(--on-surface);
 }
