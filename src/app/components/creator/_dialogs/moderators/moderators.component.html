@@ -1,0 +1,18 @@
+<div mat-dialog-content>
+  <h2>{{'room-page.moderators' | translate }}</h2>
+  <mat-divider></mat-divider>
+  <div fxLayout="row">
+    <mat-form-field class="input-block">
+      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}"/>
+    </mat-form-field>
+    <span class="fill-remaining-space"></span>
+    <button mat-icon-button class="add" (click)="addModerator(loginId.value)">
+      <mat-icon class="add-icon">add_circle</mat-icon>
+    </button>
+    <span class="fill-remaining-space"></span>
+  </div>
+  <h3 *ngIf="moderators.length === 0">No moderators yet.</h3>
+  <mat-list>
+    <mat-list-item *ngFor="let moderator of moderators">{{moderator.userId}}</mat-list-item>
+  </mat-list>
+</div>

@@ -23,6 +23,7 @@
     "description": "Beschreibung der Session",
     "present": "Präsentieren",
     "moderators": "Moderatoren",
+    "moderator-email": "E-Mail des Moderatoren",
     "session-settings": "Session-Verwaltung",
     "general": "Allgemein",
     "threshold": "Schwellenwert für sichtbare Kommentare: ",

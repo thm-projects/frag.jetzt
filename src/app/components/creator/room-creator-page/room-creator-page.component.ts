@@ -88,6 +88,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     const dialogRef = this.dialog.open(ModeratorsComponent, {
       width: '400px'
     });
+    dialogRef.componentInstance.roomId = this.room.id;
   }
 }
 
