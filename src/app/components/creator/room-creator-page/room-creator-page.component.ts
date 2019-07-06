@@ -12,6 +12,7 @@ import { LanguageService } from '../../../services/util/language.service';
 import { TSMap } from 'typescript-map';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -84,7 +85,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   showModeratorsDialog(): void {
-
+    const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px'
+    });
   }
 }
 

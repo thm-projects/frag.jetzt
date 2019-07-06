@@ -22,7 +22,7 @@ import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
-import { ModeratorsComponent } from './_dialogs/moderators/moderators';
+import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
 
 @NgModule({
   imports: [
@@ -66,7 +66,8 @@ import { ModeratorsComponent } from './_dialogs/moderators/moderators';
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
     ContentEditComponent,
-    CommentExportComponent
+    CommentExportComponent,
+    ModeratorsComponent
   ]
 })
 export class CreatorModule {

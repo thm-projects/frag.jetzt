@@ -30,11 +30,11 @@ export class ModeratorService extends BaseHttpService {
     );
   }
 
-  put(roomId: string, userId: string) {
+  add(roomId: string, userId: string) {
     const url = `${this.apiUrl.base + this.apiUrl.room}/${roomId + this.apiUrl.moderator}/${userId}`;
     return this.http.put(url, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<any>('putModerator'))
+      catchError(this.handleError<any>('addModerator'))
     );
   }
 
