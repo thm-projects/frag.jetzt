@@ -29,6 +29,7 @@
     "moderator-added": "Moderator was added.",
     "moderator-removed": "Moderator has been removed.",
     "really-remove-moderator": "Do you really want to remove the following moderator?",
+    "email-error": "E-Mail is invalid.",
     "session-settings": "Session administration",
     "general": "General",
     "threshold": "Threshold for visible comments: ",

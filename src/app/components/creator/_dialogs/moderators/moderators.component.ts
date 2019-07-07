@@ -6,8 +6,8 @@ import { ModeratorService } from '../../../../services/http/moderator.service';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { Moderator } from '../../../../models/moderator';
-import { RoomDeleteComponent } from '../room-delete/room-delete.component';
 import { ModeratorDeleteComponent } from '../moderator-delete/moderator-delete.component';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-moderators',
@@ -19,6 +19,8 @@ export class ModeratorsComponent implements OnInit {
   roomId: string;
   moderators: Moderator[] = [];
   userIds: string[] = [];
+
+  usernameFormControl = new FormControl('', [Validators.email]);
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,

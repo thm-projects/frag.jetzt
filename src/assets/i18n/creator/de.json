@@ -29,6 +29,7 @@
     "moderator-added": "Moderator wurde hinzugefügt.",
     "moderator-removed": "Moderator wurde entfernt.",
     "really-remove-moderator": "Wollen sie folgenden Moderator wirklich entfernen?",
+    "email-error": "E-Mail-Adresse ist ungültig.",
     "session-settings": "Session-Verwaltung",
     "general": "Allgemein",
     "threshold": "Schwellenwert für sichtbare Kommentare: ",

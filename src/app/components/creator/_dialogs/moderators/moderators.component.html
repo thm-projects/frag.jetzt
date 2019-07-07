@@ -3,7 +3,11 @@
   <mat-divider></mat-divider>
   <div fxLayout="row">
     <mat-form-field class="input-block">
-      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}"/>
+      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}"
+             [formControl]="usernameFormControl" name="username"/>
+      <mat-error *ngIf="usernameFormControl.hasError('email')">
+        {{ 'room-page.email-error' | translate }}
+      </mat-error>
     </mat-form-field>
     <span class="fill-remaining-space"></span>
     <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''">
