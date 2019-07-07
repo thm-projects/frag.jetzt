@@ -6,7 +6,7 @@
       <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}"/>
     </mat-form-field>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button class="add" (click)="addModerator(loginId.value)">
+    <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''">
       <mat-icon class="add-icon">add_circle</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
@@ -18,7 +18,7 @@
         {{i+1}}. {{moderator.loginId}}
       </h3>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button class="close" (click)="removeModerator(moderator.userId)">
+      <button mat-icon-button class="close" (click)="removeModerator(moderator.userId, i)">
         <mat-icon class="close-icon">close</mat-icon>
       </button>
     </div>

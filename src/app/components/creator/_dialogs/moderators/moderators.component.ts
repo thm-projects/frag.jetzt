@@ -38,7 +38,6 @@ export class ModeratorsComponent implements OnInit {
       this.moderators.forEach((user, i) => {
         this.userIds[i] = user.userId;
       });
-      console.log(this.userIds);
       this.moderatorService.getUserData(this.userIds).subscribe(users => {
         users.forEach((user, i) => {
           this.moderators[i].loginId = user.loginId;
@@ -56,16 +55,18 @@ export class ModeratorsComponent implements OnInit {
         return;
       }
       this.moderatorService.add(this.roomId, list[0].id).subscribe();
+      this.moderators.push(new Moderator(list[0].id, loginId));
       this.translationService.get('room-page.moderator-added').subscribe(msg => {
         this.notificationService.show(msg);
       });
     });
   }
 
-  removeModerator(userId: string) {
+  removeModerator(userId: string, index: number) {
     this.moderatorService.delete(this.roomId, userId).subscribe();
     this.translationService.get('room-page.moderator-removed').subscribe(msg => {
       this.notificationService.show(msg);
     });
+    this.moderators.splice(index, 1);
   }
 }
