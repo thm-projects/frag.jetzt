@@ -58,4 +58,13 @@ export class ModeratorService extends BaseHttpService {
       catchError(this.handleError('getUserId', []))
     );
   }
+
+  getUserData(userIds: string[]): Observable<User[]> {
+    const url = `${this.apiUrl.base + this.apiUrl.user}/?ids=${userIds}`;
+    console.log(url);
+    return this.http.get<User[]>(url, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError('getUserData', []))
+    );
+  }
 }

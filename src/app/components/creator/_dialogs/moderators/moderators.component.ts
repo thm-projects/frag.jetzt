@@ -16,6 +16,7 @@ export class ModeratorsComponent implements OnInit {
 
   roomId: string;
   moderators: Moderator[] = [];
+  userIds: string[] = [];
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,
@@ -34,6 +35,15 @@ export class ModeratorsComponent implements OnInit {
   getModerators() {
     this.moderatorService.get(this.roomId).subscribe(list => {
       this.moderators = list;
+      this.moderators.forEach((user, i) => {
+        this.userIds[i] = user.userId;
+      });
+      console.log(this.userIds);
+      this.moderatorService.getUserData(this.userIds).subscribe(users => {
+        users.forEach((user, i) => {
+          this.moderators[i].loginId = user.loginId;
+        });
+      });
     });
   }
 

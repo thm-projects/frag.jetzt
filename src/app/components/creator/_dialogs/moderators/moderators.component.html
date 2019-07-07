@@ -14,7 +14,7 @@
   <h3 *ngIf="moderators.length === 0">No moderators yet.</h3>
   <mat-list *ngIf="moderators.length > 0">
     <mat-list-item *ngFor="let moderator of moderators">
-      {{moderator.userId}}
+      {{moderator.loginId}}
       <span class="fill-remaining-space"></span>
       <button mat-icon-button (click)="removeModerator(moderator.userId)">
         <mat-icon class="close">close</mat-icon>
