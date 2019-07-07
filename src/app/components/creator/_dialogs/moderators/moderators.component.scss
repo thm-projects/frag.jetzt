@@ -1,6 +1,12 @@
-h2, h3 {
+h2 {
+  margin-bottom: 10px;
+  color: var(--on-surface);
+}
+
+h3 {
   margin: 10px 0 10px 0;
   color: var(--on-surface);
+  font-size: medium;
 }
 
 mat-divider {
@@ -13,8 +19,8 @@ mat-form-field {
 }
 
 .add {
-  width: 45px !important;
-  height: 45px !important;
+  width: 45px;
+  height: 45px;
   text-align: center;
   margin: 1% 2% 1% 1%;
   color: var(--primary);
@@ -29,8 +35,5 @@ mat-form-field {
 
 .close {
   color: var(--red);
-}
-
-.mat-list-item {
-  color: var(--on-surface);
+  margin-right: 20px;
 }

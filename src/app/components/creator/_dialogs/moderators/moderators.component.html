@@ -11,14 +11,16 @@
     </button>
     <span class="fill-remaining-space"></span>
   </div>
-  <h3 *ngIf="moderators.length === 0">No moderators yet.</h3>
-  <mat-list *ngIf="moderators.length > 0">
-    <mat-list-item *ngFor="let moderator of moderators">
-      {{moderator.loginId}}
+  <h3 *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</h3>
+  <div *ngIf="moderators.length > 0">
+    <div fxLayout="row" *ngFor="let moderator of moderators; index as i">
+      <h3>
+        {{i+1}}. {{moderator.loginId}}
+      </h3>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button (click)="removeModerator(moderator.userId)">
         <mat-icon class="close">close</mat-icon>
       </button>
-    </mat-list-item>
-  </mat-list>
+    </div>
+  </div>
 </div>
