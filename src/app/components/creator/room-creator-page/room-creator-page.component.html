@@ -20,7 +20,7 @@
             <mat-icon>build</mat-icon>
             {{ 'room-page.general' | translate}}
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="showCommentsDialog()">
             <mat-icon>insert_comment</mat-icon>
             {{ 'room-page.comments' | translate}}
           </button>

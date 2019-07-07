@@ -23,6 +23,7 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
 import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
+import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import { ModeratorsComponent } from './_dialogs/moderators/moderators.component'
     ContentEditComponent,
     ContentPresentationComponent,
     CommentExportComponent,
-    ModeratorsComponent
+    ModeratorsComponent,
+    CommentSettingsComponent
   ],
   entryComponents: [
     RoomDeleteComponent,
@@ -67,7 +69,8 @@ import { ModeratorsComponent } from './_dialogs/moderators/moderators.component'
     ContentYesNoCreatorComponent,
     ContentEditComponent,
     CommentExportComponent,
-    ModeratorsComponent
+    ModeratorsComponent,
+    CommentSettingsComponent
   ]
 })
 export class CreatorModule {
