@@ -7,7 +7,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
-import { EventService } from '../../../../services/util/event.service';
 import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 
@@ -29,7 +28,6 @@ export class CommentSettingsComponent implements OnInit {
               protected roomService: RoomService,
               public router: Router,
               public commentService: CommentService,
-              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
