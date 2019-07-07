@@ -50,14 +50,22 @@ export class ModeratorsComponent implements OnInit {
   addModerator(loginId: string) {
     this.moderatorService.getUserId(loginId).subscribe( list => {
       if (list.length === 0) {
-        this.notificationService.show('No User found with this E-Mail :(');
+        this.translationService.get('room-page.moderator-not-found').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
         return;
       }
       this.moderatorService.add(this.roomId, list[0].id).subscribe();
+      this.translationService.get('room-page.moderator-added').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
     });
   }
 
   removeModerator(userId: string) {
     this.moderatorService.delete(this.roomId, userId).subscribe();
+    this.translationService.get('room-page.moderator-removed').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
   }
 }
