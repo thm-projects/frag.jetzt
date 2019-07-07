@@ -15,11 +15,22 @@
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <button mat-icon-button class="corner-icons" (click)="showModeratorsDialog()">
-          <mat-icon class="corner-icon" id="moderators-icon" matTooltip="{{ 'room-page.moderators' | translate}}">person</mat-icon>
-        </button>
-        <button mat-icon-button class="corner-icons" id="settings" (click)="showSettingsDialog()">
-          <mat-icon class="corner-icon" id="settings-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
+        <mat-menu #settingsMenu="matMenu" [overlapTrigger]="false" xPosition="before">
+          <button mat-menu-item (click)="showSettingsDialog()">
+            <mat-icon>build</mat-icon>
+            {{ 'room-page.general' | translate}}
+          </button>
+          <button mat-menu-item>
+            <mat-icon>insert_comment</mat-icon>
+            {{ 'room-page.comments' | translate}}
+          </button>
+          <button mat-menu-item (click)="showModeratorsDialog()">
+            <mat-icon>person</mat-icon>
+            {{ 'room-page.moderators' | translate}}
+          </button>
+        </mat-menu>
+        <button mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu">
+          <mat-icon class="corner-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
         </button>
       </div>
       <mat-divider></mat-divider>
@@ -32,7 +43,7 @@
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
-            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary"
+            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.comments' | translate}}</h3>
           </button>
@@ -49,13 +60,13 @@
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/create-content">
-            <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">note_add</mat-icon>
+            <mat-icon class="main-icon" [ngClass]="{'desktop' : deviceType === 'desktop'}">note_add</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h3>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/statistics">
-            <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">insert_chart</mat-icon>
+            <mat-icon class="main-icon" [ngClass]="{'desktop' : deviceType === 'desktop'}">insert_chart</mat-icon>
            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h3>
           </button>
         </mat-grid-tile>
