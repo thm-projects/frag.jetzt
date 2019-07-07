@@ -28,6 +28,7 @@
     "moderator-not-found": "No user was found with this E-Mail.",
     "moderator-added": "Moderator was added.",
     "moderator-removed": "Moderator has been removed.",
+    "really-remove-moderator": "Do you really want to remove the following moderator?",
     "session-settings": "Session administration",
     "general": "General",
     "threshold": "Threshold for visible comments: ",

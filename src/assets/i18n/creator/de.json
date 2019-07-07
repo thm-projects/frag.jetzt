@@ -28,6 +28,7 @@
     "moderator-not-found": "Kein Benutzer mit dieser E-Mail gefunden.",
     "moderator-added": "Moderator wurde hinzugefügt.",
     "moderator-removed": "Moderator wurde entfernt.",
+    "really-remove-moderator": "Wollen sie folgenden Moderator wirklich entfernen?",
     "session-settings": "Session-Verwaltung",
     "general": "Allgemein",
     "threshold": "Schwellenwert für sichtbare Kommentare: ",

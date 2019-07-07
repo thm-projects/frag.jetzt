@@ -6,6 +6,8 @@ import { ModeratorService } from '../../../../services/http/moderator.service';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { Moderator } from '../../../../models/moderator';
+import { RoomDeleteComponent } from '../room-delete/room-delete.component';
+import { ModeratorDeleteComponent } from '../moderator-delete/moderator-delete.component';
 
 @Component({
   selector: 'app-moderators',
@@ -60,6 +62,19 @@ export class ModeratorsComponent implements OnInit {
         this.notificationService.show(msg);
       });
     });
+  }
+
+  openDeleteRoomDialog(moderator: Moderator): void {
+    const dialogRef = this.dialog.open(ModeratorDeleteComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.loginId = moderator.loginId;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.removeModerator(moderator.userId, this.moderators.indexOf(moderator));
+        }
+      });
   }
 
   removeModerator(userId: string, index: number) {
