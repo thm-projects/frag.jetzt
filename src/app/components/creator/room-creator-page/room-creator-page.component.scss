@@ -11,14 +11,6 @@ mat-card-content > :first-child {
   margin-bottom: 5%;
 }
 
-button {
-  width: 30%;
-  transition: all 0.3s;
-  &:hover {
-    transform: scale(1.2)
-  }
-}
-
 #description {
   margin-bottom: 0;
 }
@@ -27,6 +19,10 @@ button {
   width: 100%;
   height: 75%;
   color: var(--primary)!important;
+  transition: all 0.3s;
+  &:hover {
+    transform: scale(1.2)
+  }
 }
 
 .desktop {
@@ -36,21 +32,28 @@ button {
   margin-bottom: 5%;
 }
 
-#settings {
+.corner-icons {
   width: 10%;
   max-width: 40px;
 }
 
-#settings-icon {
+.corner-icon {
   font-size: 35px;
   height: 35px;
   width: 35px;
 }
 
-mat-icon {
+.main-icon{
   font-size: 60px;
   height: 60px;
   width: 60px;
+  line-height: 100%!important;
+}
+
+.smallerIcon {
+  font-size: 55px;
+  height: 55px;
+  width: 55px;
   line-height: 100%!important;
 }
 

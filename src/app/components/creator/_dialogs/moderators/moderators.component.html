@@ -1,0 +1,30 @@
+<div mat-dialog-content>
+  <h2>{{'room-page.moderators' | translate }}</h2>
+  <mat-divider></mat-divider>
+  <div fxLayout="row">
+    <mat-form-field class="input-block">
+      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}"
+             [formControl]="usernameFormControl" name="username"/>
+      <mat-error *ngIf="usernameFormControl.hasError('email')">
+        {{ 'room-page.email-error' | translate }}
+      </mat-error>
+    </mat-form-field>
+    <span class="fill-remaining-space"></span>
+    <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''">
+      <mat-icon class="add-icon">add_circle</mat-icon>
+    </button>
+    <span class="fill-remaining-space"></span>
+  </div>
+  <h3 *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</h3>
+  <div *ngIf="moderators.length > 0">
+    <div fxLayout="row" *ngFor="let moderator of moderators; index as i">
+      <h3>
+        {{i+1}}. {{moderator.loginId}}
+      </h3>
+      <span class="fill-remaining-space"></span>
+      <button mat-icon-button class="close" (click)="openDeleteRoomDialog(moderator)">
+        <mat-icon class="close-icon">close</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

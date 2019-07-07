@@ -12,6 +12,8 @@ import { LanguageService } from '../../../services/util/language.service';
 import { TSMap } from 'typescript-map';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
+import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
+import { CommentSettingsComponent } from '../_dialogs/comment-settings/comment-settings.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -46,15 +48,23 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
-  updateRoom(threshold: number): void {
+  updateGeneralSettings() {
     this.room.name = this.updRoom.name;
     this.room.description = this.updRoom.description;
+    this.saveChanges();
+  }
+
+  updateCommentSettings(threshold: number) {
     if (threshold > -50) {
       const commentExtension: TSMap<string, any> = new TSMap();
       commentExtension.set('commentThreshold', threshold);
       this.room.extensions = new TSMap();
       this.room.extensions.set('comments', commentExtension);
     }
+    this.saveChanges();
+  }
+
+  saveChanges() {
     this.roomService.updateRoom(this.room)
       .subscribe(() => {
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
@@ -69,18 +79,43 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       width: '400px'
     });
     dialogRef.componentInstance.editRoom = this.updRoom;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'abort') {
+          return;
+        } else if (result !== 'delete') {
+          this.updateGeneralSettings();
+        }
+      });
+    dialogRef.backdropClick().subscribe( res => {
+        dialogRef.close('abort');
+    });
+  }
+
+  showCommentsDialog(): void {
+    const dialogRef = this.dialog.open(CommentSettingsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.commentThreshold = this.updCommentThreshold;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'abort') {
           return;
         } else if (result !== 'delete') {
-          this.updateRoom(+result);
+          this.updateCommentSettings(+result);
         }
       });
     dialogRef.backdropClick().subscribe( res => {
-        dialogRef.close('abort');
+      dialogRef.close('abort');
     });
+  }
+
+  showModeratorsDialog(): void {
+    const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = this.room.id;
   }
 }
 

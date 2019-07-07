@@ -22,6 +22,9 @@ import { ContentListComponent } from './content-list/content-list.component';
 import { ContentEditComponent } from './_dialogs/content-edit/content-edit.component';
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
+import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
+import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
+import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-delete.component';
 
 @NgModule({
   imports: [
@@ -52,7 +55,10 @@ import { CommentExportComponent } from './_dialogs/comment-export/comment-export
     ContentListComponent,
     ContentEditComponent,
     ContentPresentationComponent,
-    CommentExportComponent
+    CommentExportComponent,
+    ModeratorsComponent,
+    CommentSettingsComponent,
+    ModeratorDeleteComponent
   ],
   entryComponents: [
     RoomDeleteComponent,
@@ -64,7 +70,10 @@ import { CommentExportComponent } from './_dialogs/comment-export/comment-export
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
     ContentEditComponent,
-    CommentExportComponent
+    CommentExportComponent,
+    ModeratorsComponent,
+    CommentSettingsComponent,
+    ModeratorDeleteComponent
   ]
 })
 export class CreatorModule {

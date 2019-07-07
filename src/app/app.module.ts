@@ -32,6 +32,7 @@ import { AppConfig } from './app.config';
 import { ThemeModule } from '../theme/theme.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { ModeratorService } from './services/http/moderator.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -101,6 +102,7 @@ export function initializeApp(appConfig: AppConfig) {
     MarkedOptions,
     UserService,
     VoteService,
+    ModeratorService,
     WsConnectorService,
     {
       provide: MatDialogRef,

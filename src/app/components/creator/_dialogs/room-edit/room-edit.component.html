@@ -18,32 +18,12 @@
         {{ 'room-page.delete-room' | translate }}</button>
     </div>
   </div>
-  <h2>{{'room-page.comments' | translate }}</h2>
-  <mat-divider></mat-divider>
-  <div fxLayout="column">
-    <div fxLayout="row">
-      <h3>{{ 'room-page.threshold' | translate}}</h3>
-      <h3>{{commentThreshold | number}}</h3>
-    </div>
-    <mat-slider id="commentSlider" min="-50" max="50" step="1" value="0"
-                [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
-  </div>
-  <div fxLayoutAlign="center center">
-    <button mat-raised-button class="export" (click)="openExportDialog()">
-      <mat-icon>cloud_download</mat-icon>
-      {{ 'room-page.export-comments' | translate }}</button>
-  </div>
-  <div fxLayoutAlign="center center">
-  <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()">
-    <mat-icon>delete</mat-icon>
-    {{ 'room-page.delete-all-comments' | translate }}</button>
-  </div>
   <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" class="submit">
     <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
       {{ 'room-page.abort' | translate }}
     </button>
-    <button mat-raised-button class="update" (click)="dialogRef.close(commentThreshold)">
+    <button mat-raised-button class="update" (click)="dialogRef.close('update')">
       {{ 'room-page.update' | translate }}
     </button>
   </div>
