@@ -45,8 +45,11 @@
       </mat-grid-list>
     </mat-menu>
 
-    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
-      <mat-icon class="header-icons" matTooltip="{{'header.change-theme' | translate}}">palette</mat-icon>
+    <button mat-button [matMenuTriggerFor]="themeMenu">
+      <div class="label-icon">
+        <mat-icon aria-label="Example" class="header-icons">palette</mat-icon>
+        <h3 *ngIf="deviceType === 'desktop'">{{'header.style' | translate}}</h3>
+      </div>
     </button>
 
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
@@ -54,11 +57,14 @@
       <button mat-menu-item (click)="useLanguage('en')">{{ 'header.english' | translate }}</button>
     </mat-menu>
 
-    <button mat-icon-button [matMenuTriggerFor]="langMenu">
-      <mat-icon class="header-icons" matTooltip="{{'header.change-language' | translate}}">language</mat-icon>
+    <button mat-button [matMenuTriggerFor]="langMenu">
+      <div class="label-icon">
+        <mat-icon class="header-icons" matTooltip="{{'header.change-language' | translate}}">language</mat-icon>
+        <h3 *ngIf="deviceType === 'desktop'">{{'header.language' | translate}}</h3>
+      </div>
     </button>
 
-    <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
+    <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
         <mat-icon class="sessions">style</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
@@ -73,7 +79,7 @@
       </button>
     </mat-menu>
 
-    <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+    <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item (click)=login(true)>
         <mat-icon>record_voice_over</mat-icon>
         <span>{{ 'login-page.creator' | translate }}</span>
@@ -84,13 +90,17 @@
       </button>
     </mat-menu>
 
-    <button mat-icon-button *ngIf="!user" [matMenuTriggerFor]="userMenu"
-            matTooltip="{{'header.login' | translate}}">
-      <mat-icon class="header-icons">account_box</mat-icon>
+    <button mat-button *ngIf="user" [matMenuTriggerFor]="userMenu">
+      <div class="label-icon">
+        <mat-icon class="header-icons">account_box</mat-icon>
+        <h3 *ngIf="deviceType === 'desktop'">{{'header.my-account' | translate}}</h3>
+      </div>
     </button>
-    <button mat-icon-button *ngIf="user" [matMenuTriggerFor]="loginMenu"
-            matTooltip="{{'header.my-account' | translate}}">
-      <mat-icon class="header-icons">account_box</mat-icon>
+    <button mat-button *ngIf="!user" [matMenuTriggerFor]="loginMenu">
+      <div class="label-icon">
+        <mat-icon class="header-icons">account_box</mat-icon>
+        <h3 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h3>
+      </div>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

@@ -8,8 +8,8 @@
 		"back": "Zurück",
 		"my-sessions": "Meine Sessions",
 		"visited-sessions": "Besuchte Sessions",
-    "change-theme": "Stil ändern",
-    "change-language": "Sprache ändern",
+    "style": "Stil",
+    "language": "Sprache",
     "login": "Login",
     "my-account": "Mein Account",
     "id": "ID"

@@ -8,9 +8,9 @@
 		"back": "Back",
 		"my-sessions": "My sessions",
 		"visited-sessions": "Visited sessions",
-    "change-theme": "Change theme",
-    "change-language": "Change language",
-    "login": "Log in",
+    "style": "Theme",
+    "language": "Language",
+    "login": "Login",
     "my-account": "My account",
     "id": "ID"
 	},
