@@ -143,6 +143,7 @@ export class CommentComponent implements OnInit {
     this.goToFullScreen(document.documentElement);
     if (this.isStudent === false) {
       this.wsCommentService.highlight(comment);
+      this.setRead(comment);
     }
     const dialogRef = this.dialog.open(PresentCommentComponent, {
       position: {
