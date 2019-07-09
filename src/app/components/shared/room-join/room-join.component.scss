@@ -45,3 +45,8 @@ mat-hint {
 ::ng-deep .mat-form-field-ripple {
   background-color: var(--on-surface)!important;
 }
+
+input:-webkit-autofill {
+  -webkit-box-shadow:0 0 0 50px var(--surface) inset;
+  -webkit-text-fill-color: var(--on-surface);
+}
