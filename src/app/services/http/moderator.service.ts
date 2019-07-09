@@ -49,7 +49,7 @@ export class ModeratorService extends BaseHttpService {
   }
 
   getUserId(loginId: string): Observable<User[]> {
-    const url = `${this.apiUrl.base + this.apiUrl.user}/${this.apiUrl.find}`;
+    const url = `${this.apiUrl.base + this.apiUrl.user + this.apiUrl.find}`;
     return this.http.post<User[]>(url, {
       properties: { loginId: loginId },
       externalFilters: {}
