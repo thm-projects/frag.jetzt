@@ -13,30 +13,30 @@
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <button mat-icon-button id="settings" routerLink="/participant/room/{{ room.shortId }}/statistics">
+       <!-- <button mat-icon-button id="settings" routerLink="/participant/room/{{ room.shortId }}/statistics">
           <mat-icon id="settings-icon" matTooltip="{{ 'statistic.answer-statistic' | translate}}">insert_chart</mat-icon>
-        </button>
+        </button> -->
       </div>
       <mat-divider></mat-divider>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
         <h4>{{room.description.trim()}}</h4>
       </mat-card-content>
-      <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
             <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-comment' | translate}}</h3>
           </button>
         </mat-grid-tile>
-        <mat-grid-tile>
+      <!--  <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down</mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
           </button>
-        </mat-grid-tile>
+        </mat-grid-tile> -->
       </mat-grid-list>
 
-      <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
+      <!-- <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
     </mat-card>
 
   </div>
