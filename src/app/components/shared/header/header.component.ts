@@ -21,7 +21,7 @@ export class HeaderComponent implements OnInit {
   themeClass = localStorage.getItem('theme');
   cTime: string;
   shortId: string;
-  deviceType = localStorage.getItem('deviceType');
+  deviceType: string;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -36,6 +36,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     // Subscribe to user data (update component's user when user data changes: e.g. login, logout)
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      this.deviceType = 'mobile';
+    } else {
+      this.deviceType = 'desktop';
+    }
+    localStorage.setItem('deviceType', this.deviceType);
     if (!localStorage.getItem('currentLang')) {
       const lang = this.translationService.getBrowserLang();
       this.translationService.setDefaultLang(lang);
