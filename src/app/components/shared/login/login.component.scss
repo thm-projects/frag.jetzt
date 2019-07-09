@@ -20,11 +20,6 @@ p {
   color: var(--on-surface);
 }
 
-input:-webkit-autofill {
-  background-color: var(--dialog);
-  -webkit-box-shadow: 0 0 0 1000px var(--dialog) inset;
-}
-
 ::ng-deep .mat-form-field-label {
   color: var(--on-surface)!important;
 }
@@ -43,4 +38,13 @@ mat-form-field {
 
 input {
   caret-color: var(--on-surface);
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow:0 0 0 50px var(--dialog) inset;
+  -webkit-text-fill-color: var(--on-surface);
+}
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 50px var(--dialog) inset;
+  -webkit-text-fill-color: var(--on-surface);
 }
