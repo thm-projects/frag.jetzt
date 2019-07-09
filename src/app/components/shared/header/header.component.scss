@@ -62,4 +62,14 @@ mat-toolbar {
 
 h3 {
   color: var(--on-surface);
+  margin-left: 5px;
+}
+
+.label-icon {
+  display: flex;
+  align-items: center;
+}
+
+.mat-button {
+  padding: 0 0 0 10px;
 }
