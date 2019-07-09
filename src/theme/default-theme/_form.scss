@@ -13,3 +13,8 @@ mat-form-field.input-block {
 .mat-tab-header {
   border-bottom-style: none!important;
 }
+
+.snackbar {
+  background-color: var(--dialog);
+  color: var(--on-surface);
+}

@@ -4,7 +4,8 @@ import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 @Injectable()
 export class NotificationService {
   private defaultConfig = {
-    duration: 2000
+    duration: 4000,
+    panelClass: ['snackbar']
   };
   public snackRef: any;
 
