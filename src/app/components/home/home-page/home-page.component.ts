@@ -13,13 +13,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      localStorage.setItem('deviceType', 'mobile');
-      this.deviceType = 'mobile';
-    } else {
-      localStorage.setItem('deviceType', 'desktop');
-      this.deviceType = 'desktop';
-    }
+    this.deviceType = localStorage.getItem('deviceType');
   }
 
 }
