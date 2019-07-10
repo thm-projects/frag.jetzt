@@ -4,20 +4,22 @@
 }
 
 .regButton {
-  margin-top: 20px;
   padding: 0;
+  margin: 20px 10px 0 0;
   color: var(--secondary);
 }
 
-.loginButton {
+.guest {
   background-color: var(--primary);
   color: var(--on-primary);
+  margin: 20px 0 20px 0!important;
 }
 
 p {
   font-size: small;
-  margin: 30px 5px 0 30px;
+  margin: 30px 5px 0 0;
   color: var(--on-surface);
+  vertical-align: text-bottom;
 }
 
 ::ng-deep .mat-form-field-label {
@@ -47,4 +49,15 @@ input:-webkit-autofill {
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 50px var(--dialog) inset;
   -webkit-text-fill-color: var(--on-surface);
+}
+
+h3 {
+  color: var(--on-surface);
+  margin: 0 0 10px 0!important;
+}
+
+.or {
+  text-align: center;
+  font-size: medium;
+  margin: 10px 0 10px 0;
 }

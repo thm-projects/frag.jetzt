@@ -33,8 +33,8 @@
 		"created-1": "Session '",
 		"created-2": "' Successfully created",
 		"only-numbers": "A session ID only contains digits.",
-        "update-available": "A newer version is available.",
-        "install": "Install"
+		"update-available": "A newer version is available.",
+		"install": "Install"
 	},
 	"login": {
 		"email": "E-mail",
@@ -43,14 +43,15 @@
 		"guest-login": "Log in as guest",
 		"input-incorrect": "Please check your data.",
 		"login-successful": "Login successful",
-		"login": "Log in",
+		"login": "Login",
 		"login-data-incorrect": "Username or password incorrect",
 		"password": "Password",
 		"password-required": "Password required",
 		"activate": "Activate",
 		"activation-key": "Activation key",
 		"activation-key-required": "Activation key required",
-		"activation-key-incorrect": "Activation key is incorrect."
+		"activation-key-incorrect": "Activation key is incorrect.",
+		"or": "or"
 	},
 	"password-reset": {
 		"email": "E-mail",
