@@ -2,24 +2,26 @@
                                         '': !comment.highlighted}" [@slide]>
   <div fxLayout="column">
     <div fxLayout="row">
-      <span class="fill-remaining-space"></span>
-      <div fxLayout="row" class="date">
-        <div *ngIf="language === 'de'; else englishDate">
+      <div class="date-container">
+        <div class="date" *ngIf="language === 'de'; else englishDate">
           {{comment.timestamp | date: ' HH:mm '}}
         </div>
-        <ng-template #englishDate>
+        <ng-template class="date" #englishDate>
           {{comment.timestamp | date: 'h:mm a'}}
         </ng-template>
       </div>
-      <button mat-icon-button [disabled]="isStudent" (click)="setCorrect(comment)"
+      <span class="fill-remaining-space"></span>
+      <button mat-icon-button *ngIf="!isStudent || comment.correct" [disabled]="isStudent" (click)="setCorrect(comment)"
               matTooltip="{{ 'comment-page.correct' | translate }}">
-        <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}">check_circle</mat-icon>
+        <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}">check_circle
+        </mat-icon>
       </button>
-      <button mat-icon-button [disabled]="isStudent" (click)="setFavorite(comment)"
+      <button mat-icon-button *ngIf="!isStudent || comment.favorite" [disabled]="isStudent"
+              (click)="setFavorite(comment)"
               matTooltip="{{ 'comment-page.favorite' | translate }}">
         <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">favorite</mat-icon>
       </button>
-      <button mat-icon-button [disabled]="isStudent" (click)="setRead(comment)"
+      <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="isStudent" (click)="setRead(comment)"
               matTooltip="{{ 'comment-page.read' | translate }}">
         <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}">visibility
         </mat-icon>
