@@ -9,9 +9,10 @@
   color: var(--secondary);
 }
 
-.loginButton {
+.guest {
   background-color: var(--primary);
   color: var(--on-primary);
+  margin: 20px 0 20px 0!important;
 }
 
 p {
@@ -47,4 +48,15 @@ input:-webkit-autofill {
 input:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 50px var(--dialog) inset;
   -webkit-text-fill-color: var(--on-surface);
+}
+
+h3 {
+  color: var(--on-surface);
+  margin: 0 0 10px 0!important;
+}
+
+.or {
+  text-align: center;
+  font-size: medium;
+  margin: 10px 0 10px 0;
 }

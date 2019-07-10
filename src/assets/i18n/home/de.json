@@ -50,7 +50,9 @@
 		"activate": "Aktivieren",
 		"activation-key": "Aktivierungsschlüssel",
 		"activation-key-required": "Aktivierungsschlüssel erforderlich",
-		"activation-key-incorrect": "Aktivierungsschlüssel falsch"
+		"activation-key-incorrect": "Aktivierungsschlüssel falsch",
+    "or": "oder",
+    "login": "Login"
 	},
 	"password-reset": {
 		"email": "E-Mail",
