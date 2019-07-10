@@ -4,8 +4,8 @@
 }
 
 .regButton {
-  margin-top: 20px;
   padding: 0;
+  margin: 20px 10px 0 0;
   color: var(--secondary);
 }
 
@@ -17,8 +17,9 @@
 
 p {
   font-size: small;
-  margin: 30px 5px 0 30px;
+  margin: 30px 5px 0 0;
   color: var(--on-surface);
+  vertical-align: text-bottom;
 }
 
 ::ng-deep .mat-form-field-label {

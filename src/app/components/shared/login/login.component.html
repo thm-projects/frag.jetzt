@@ -21,12 +21,13 @@
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
   <button mat-raised-button (click)="login(userEmail.value, userPassword.value)">{{ 'login.login' | translate }}</button>
-  <div align="start">
+  <div>
       <button mat-button class="pwReset" (click)="openPasswordDialog()">
         {{ 'login-page.password-reset' | translate }}
     </button>
   </div>
   <div fxLayout="row">
+    <span class="fill-remaining-space"></span>
     <p>{{ 'login-page.not-registered' | translate }}</p>
     <button mat-button class="regButton" (click)="openRegisterDialog()">
       {{ 'login-page.register' | translate }}
