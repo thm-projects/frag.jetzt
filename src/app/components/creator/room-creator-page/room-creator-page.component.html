@@ -39,24 +39,24 @@
           {{ room.description.trim() }}
         </h4>
       </mat-card-content>
-      <mat-grid-list cols="2" rowHeight="2:1">
+      <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
             <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
-            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.comments' | translate}}</h3>
+            <h3>{{ 'room-page.comments' | translate}}</h3> <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
-        <mat-grid-tile>
+       <!-- <mat-grid-tile>
           <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon class="smallerIcon" [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down
             </mat-icon>
             <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.live-feedback' | translate}}</h3>
           </button>
-        </mat-grid-tile>
+        </mat-grid-tile> -->
       </mat-grid-list>
-      <mat-grid-list cols="2" rowHeight="2:1" class="second">
+  <!--    <mat-grid-list cols="2" rowHeight="2:1" class="second">
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/create-content">
@@ -72,7 +72,7 @@
         </mat-grid-tile>
       </mat-grid-list>
 
-      <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups>
+      <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
 
     </mat-card>
     <div *ngIf="!isLoading && !room">{{ 'room-page.room-not-found' | translate }}</div>
