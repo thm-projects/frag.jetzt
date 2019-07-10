@@ -18,9 +18,9 @@
 		"creator": "Referent/in",
 		"participant": "Teilnehmer/in",
 		"password-reset": "Passwort vergessen?",
-		"not-registered": "Noch keinen Account?",
+		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
-		"welcome": "Willkommen bei"
+		"welcome": "Schreib Kommentare mit"
 	},
 	"home-page": {
 		"join-demo-session": "Demo-Session betreten",
@@ -37,13 +37,14 @@
 		"install": "Installieren"
 	},
 	"login": {
+    "header": "Login",
 		"email": "E-Mail",
 		"email-invalid": "E-Mail-Adresse ungültig",
 		"email-required": "E-Mail-Adresse erforderlich",
 		"guest-login": "Anmelden als Gast",
 		"input-incorrect": "Bitte prüfen Sie Ihre Eingaben.",
 		"login-successful": "Login erfolgreich",
-		"login": "Login",
+		"login": "Anmelden mit Konto",
 		"login-data-incorrect": "Benutzername oder Passwort nicht korrekt",
 		"password": "Passwort",
 		"password-required": "Passwort erforderlich",

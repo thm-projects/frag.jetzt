@@ -1,13 +1,10 @@
 <form fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="5px">
-  <h3>{{'login.login' | translate}}</h3>
-  <mat-divider></mat-divider>
-  <button mat-raised-button class="guest" (click)="guestLogin()" type="button">
+  <button (click)="guestLogin()" class="guest" mat-raised-button type="button">
     {{ 'login.guest-login' | translate }}
   </button>
-  <p class="or">– {{ 'login.or' | translate }} –</p>
   <mat-form-field class="input-block">
-    <input matInput #userEmail placeholder="{{ 'login.email' | translate }}" [formControl]="usernameFormControl"
-           [errorStateMatcher]="matcher" name="username"/>
+    <input #userEmail [errorStateMatcher]="matcher" [formControl]="usernameFormControl" matInput
+           name="username" placeholder="{{ 'login.email' | translate }}"/>
     <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
       {{ 'login.email-invalid' | translate }}
     </mat-error>
@@ -16,20 +13,20 @@
     </mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input matInput #userPassword type="password" placeholder="{{ 'login.password' | translate }}"
-           [formControl]="passwordFormControl" [errorStateMatcher]="matcher" name="password"/>
+    <input #userPassword [errorStateMatcher]="matcher" [formControl]="passwordFormControl" matInput
+           name="password" placeholder="{{ 'login.password' | translate }}" type="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button mat-raised-button (click)="login(userEmail.value, userPassword.value)">{{ 'login.login' | translate }}</button>
+  <button (click)="login(userEmail.value, userPassword.value)" mat-raised-button>{{ 'login.login' | translate }}</button>
   <div>
-      <button mat-button class="pwReset" (click)="openPasswordDialog()">
+      <button (click)="openPasswordDialog()" class="pwReset" mat-button>
         {{ 'login-page.password-reset' | translate }}
     </button>
   </div>
   <div fxLayout="row">
     <span class="fill-remaining-space"></span>
     <p>{{ 'login-page.not-registered' | translate }}</p>
-    <button mat-button class="regButton" (click)="openRegisterDialog()">
+    <button (click)="openRegisterDialog()" class="regButton" mat-button>
       {{ 'login-page.register' | translate }}
     </button>
   </div>
