@@ -8,7 +8,7 @@
 		"back": "Back",
 		"my-sessions": "My sessions",
 		"visited-sessions": "Visited sessions",
-    "style": "Theme",
+    "style": "Style",
     "language": "Language",
     "login": "Login",
     "my-account": "My account",
@@ -20,7 +20,7 @@
 		"password-reset": "Forgot your password?",
 		"not-registered": "Don't have an account yet?",
 		"register": "Register",
-		"welcome": "Write comments with"
+		"welcome": "Write comments"
 	},
 	"home-page": {
 		"join-demo-session": "Join demo session",
