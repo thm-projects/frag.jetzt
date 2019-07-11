@@ -11,7 +11,7 @@
     "style": "Stil",
     "language": "Sprache",
     "login": "Login",
-    "my-account": "Mein Account",
+    "my-account": "Konto",
     "id": "ID"
 	},
 	"login-page": {
@@ -20,7 +20,7 @@
 		"password-reset": "Passwort vergessen?",
 		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
-		"welcome": "Schreib Kommentare mit"
+		"welcome": "Kommentare schreiben"
 	},
 	"home-page": {
 		"join-demo-session": "Demo-Session betreten",
