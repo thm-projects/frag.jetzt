@@ -31,7 +31,7 @@
     "really-remove-moderator": "Do you really want to remove the following moderator?",
     "email-error": "E-Mail is invalid.",
     "session-settings": "Session administration",
-    "general": "General",
+    "general": "Session",
     "threshold": "Threshold for visible comments: ",
     "delete-all-comments": "Delete all comments",
     "really-delete-comments": "Do you really want to delete all comments of this session?",
