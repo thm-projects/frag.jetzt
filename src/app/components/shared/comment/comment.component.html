@@ -28,8 +28,8 @@
       </button>
     </div>
     <div fxLayout="row">
-      <div class="body" (click)="openPresentDialog(comment)">{{comment.body.trim()}}</div>
-      <span class="fill-remaining-space" (click)="openPresentDialog(comment)"></span>
+      <div class="body click" (click)="openPresentDialog(comment)">{{comment.body.trim()}}</div>
+      <span class="fill-remaining-space click" (click)="openPresentDialog(comment)"></span>
       <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState"
            (@rubberBand.done)="resetAnimationState()">
         <button mat-icon-button (click)="voteUp(comment)">
