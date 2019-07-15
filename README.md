@@ -10,4 +10,4 @@ The project aims at creating the best possible user experience with a web-based 
 
 ## Credits
 
-ASKnova is powered by Technische Hochschule Mittelhessen - University of Applied Sciences.
+frag.jetzt is powered by Technische Hochschule Mittelhessen - University of Applied Sciences.

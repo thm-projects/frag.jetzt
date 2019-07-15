@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
   }
 
-  title = 'ASKnova';
+  title = 'frag.jetzt';
 
   ngOnInit(): void {
     this.update.available.subscribe(update => {
