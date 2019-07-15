@@ -14,7 +14,6 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class RoomCreateComponent implements OnInit {
   longName: string;
-  shortName: string;
   emptyInputs = false;
   room: Room;
   roomId: string;
@@ -28,10 +27,6 @@ export class RoomCreateComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
   }
@@ -40,7 +35,7 @@ export class RoomCreateComponent implements OnInit {
     this.emptyInputs = false;
   }
 
-  addRoom(longRoomName: string, description: string) {
+  addRoom(longRoomName: string) {
     longRoomName = longRoomName.trim();
     if (!longRoomName) {
       this.emptyInputs = true;
@@ -49,7 +44,7 @@ export class RoomCreateComponent implements OnInit {
     const newRoom = new Room();
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
-    newRoom.description = description;
+    newRoom.description = '';
     this.roomService.addRoom(newRoom).subscribe(room => {
       this.room = room;
       let msg1: string;
