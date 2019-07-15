@@ -33,8 +33,7 @@ mat-card-content > :first-child {
 }
 
 .corner-icons {
-  width: 10%;
-  max-width: 40px;
+  width: 40px;
 }
 
 .corner-icon {
@@ -103,7 +102,7 @@ mat-card-subtitle {
 
 mat-grid-tile {
   height: 100%!important;
-  padding: 2%!important;
+  padding-top: 2%!important;
 }
 
 mat-expansion-panel {
