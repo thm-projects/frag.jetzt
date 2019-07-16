@@ -18,13 +18,13 @@
     </div>
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
-            [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
-      <mat-icon class="searchBarIcon">filter_list</mat-icon>
+            [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
+      <mat-icon class="searchBarIcon">sort</mat-icon>
     </button>
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
-            [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
-      <mat-icon class="searchBarIcon">sort</mat-icon>
+            [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
+      <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
     <button mat-fab class="addButton" *ngIf="!searchBox.value" (click)="openCreateDialog()"
