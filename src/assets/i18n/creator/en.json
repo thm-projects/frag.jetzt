@@ -106,14 +106,21 @@
     "semicolon": "Standard CSV",
     "export": "Export",
     "no-comments": "No comments yet",
-    "correct": "Mark as correct",
-    "favorite": "Mark as favorite",
-    "read": "Mark as read"
+    "mark-correct": "Mark as correct",
+    "mark-favorite": "Mark as favorite",
+    "mark-read": "Mark as read"
   },
   "comment-list": {
     "search": "Search",
     "filter-comments": "Filter comments",
     "sort-comments": "Sort comments",
-    "add-comment": "Write a comment"
+    "add-comment": "Write a comment",
+    "correct": "Correct",
+    "favorite": "Favorite",
+    "read": "Read",
+    "unread": "Unread",
+    "vote-desc": "Descending votes",
+    "vote-asc": "Ascending votes",
+    "time": "Time"
   }
 }

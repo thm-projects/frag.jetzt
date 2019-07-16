@@ -24,15 +24,22 @@
     "error-title": "Bitte geben Sie einen Titel ein.",
     "error-both-fields": "Bitte füllen Sie alle Felder aus.",
     "no-comments": "Noch keine Kommentare",
-    "correct": "Richtig",
-    "favorite": "Favorit",
-    "read": "Gelesen"
+    "mark-correct": "Richtig",
+    "mark-favorite": "Favorit",
+    "mark-read": "Gelesen"
   },
   "comment-list": {
     "search": "Suchen",
     "filter-comments": "Kommentare filtern",
     "sort-comments": "Kommentare sortieren",
-    "add-comment": "Kommentar schreiben"
+    "add-comment": "Kommentar schreiben",
+    "correct": "Richtig",
+    "favorite": "Favorit",
+    "read": "Gelesen",
+    "unread": "Ungelesen",
+    "vote-desc": "Absteigende Votes",
+    "vote-asc": "Aufsteigende Votes",
+    "time": "Zeit"
   },
   "answer": {
     "submit": "Absenden",
