@@ -74,7 +74,7 @@
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
-        <mat-icon class="sessions">style</mat-icon>
+        <mat-icon class="sessions">work</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
