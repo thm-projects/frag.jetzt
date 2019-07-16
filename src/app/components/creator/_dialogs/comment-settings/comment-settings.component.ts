@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
 import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
+import { Room } from '../../../../models/room';
 
 @Component({
   selector: 'app-comment-settings',
@@ -20,6 +21,7 @@ export class CommentSettingsComponent implements OnInit {
   roomId: string;
   comments: Comment[];
   commentThreshold: number;
+  editRoom: Room;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -32,6 +34,13 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.editRoom.extensions['comments'].commentThreshold != null) {
+      this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
+    } else {
+      this.commentThreshold = -10;
+    }
+    console.log(this.editRoom);
+
   }
 
   onSliderChange(event: any) {
