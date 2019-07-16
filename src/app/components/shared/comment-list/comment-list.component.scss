@@ -104,14 +104,16 @@ h4  {
 }
 
 .counter {
-  font-size: 18pt;
-  background-color: transparent;
   color: var(--on-background);
 }
 
 .counter-filtered {
-  background-color: transparent;
   color: var(--red);
+}
+
+h3 {
+  font-size: 18pt!important;
+  margin: 10px;
 }
 
 .up {

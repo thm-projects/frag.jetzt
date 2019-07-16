@@ -11,10 +11,8 @@
 
   <div class="button-bar" fxLayoutAlign="center center">
     <div *ngIf="comments && comments.length > 0">
-      <mat-chip-list>
-        <mat-chip class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</mat-chip>
-        <mat-chip class="counter counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</mat-chip>
-      </mat-chip-list>
+        <h3 class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</h3>
+        <h3 class="counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</h3>
     </div>
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
