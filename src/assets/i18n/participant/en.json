@@ -23,15 +23,22 @@
     "error-comment": "Please enter a text.",
     "error-both-fields": "Please fill in all fields.",
     "no-comments": "No comments yet",
-    "correct": "Correct",
-    "favorite": "Favorite",
-    "read": "Read"
+    "mark-correct": "Correct",
+    "mark-favorite": "Favorite",
+    "mark-read": "Read"
   },
   "comment-list": {
     "search": "Search",
     "filter-comments": "Filter comments",
     "sort-comments": "Sort comments",
-    "add-comment": "Write a comment"
+    "add-comment": "Write a comment",
+    "correct": "Correct",
+    "favorite": "Favorite",
+    "read": "Read",
+    "unread": "Unread",
+    "vote-desc": "Descending votes",
+    "vote-asc": "Ascending votes",
+    "time": "Time"
   },
   "answer": {
     "submit": "Submit",

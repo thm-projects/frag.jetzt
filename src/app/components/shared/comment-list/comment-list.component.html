@@ -19,7 +19,7 @@
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
             [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
-      <mat-icon class="searchBarIcon">sort</mat-icon>
+      <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
 
     <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
@@ -34,34 +34,41 @@
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(votedesc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" matTooltip="{{ 'comment-list.vote-desc' | translate }}"
+              (click)="sortComments(votedesc)">
         <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(voteasc)">
+      <button mat-icon-button (focus)="hideCommentsList=false" matTooltip="{{ 'comment-list.vote-asc' | translate }}"
+              (click)="sortComments(voteasc)">
         <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(time)">
+      <button mat-icon-button (focus)="hideCommentsList=false" matTooltip="{{ 'comment-list.time' | translate }}"
+              (click)="sortComments(time)">
         <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
       </button>
   </mat-menu>
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(correct)">
+      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.correct' | translate }}"
+              (click)="filterComments(correct)">
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(favorite)">
+      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
+              (click)="filterComments(favorite)">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">favorite</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(read)">
+      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
+              (click)="filterComments(read)">
         <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">visibility</mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=true" (click)="filterComments(unread)">
+      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.unread' | translate }}"
+              (click)="filterComments(unread)">
         <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
       </button>
 
