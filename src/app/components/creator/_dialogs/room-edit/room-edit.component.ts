@@ -7,9 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
-import { CommentService } from '../../../../services/http/comment.service';
 import { EventService } from '../../../../services/util/event.service';
-import { Comment } from '../../../../models/comment';
 import { RoomDeleted } from '../../../../models/messages/room-deleted';
 
 @Component({

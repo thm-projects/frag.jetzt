@@ -93,11 +93,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   showCommentsDialog(): void {
+    this.updRoom = JSON.parse(JSON.stringify(this.room));
+
     const dialogRef = this.dialog.open(CommentSettingsComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.componentInstance.commentThreshold = this.updCommentThreshold;
+    dialogRef.componentInstance.editRoom = this.updRoom;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'abort') {

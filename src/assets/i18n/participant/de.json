@@ -12,7 +12,8 @@
     "live-feedback": "Live Feedback",
     "answer-statistics": "Statistiken",
     "default-content-group": "Standard",
-    "description": "Beschreibung der Session"
+    "description": "Beschreibung der Session",
+    "session-id": "Session-ID"
   },
   "comment-page": {
     "enter-title": "Titel",
