@@ -1,13 +1,10 @@
-<form (ngSubmit)="addRoom(longRoomName.value)">
+<form (ngSubmit)="addRoom(roomName.value)">
   <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
-      <input (keypress)="resetEmptyInputs()" matInput #longRoomName class="input-block" type="text"
+      <input (keypress)="resetEmptyInputs()" matInput #roomName class="input-block" type="text"
              placeholder="{{ 'session.session-name' | translate}}" maxlength="20" [(ngModel)]="longName" name="roomName"/>
-      <mat-hint align="end" *ngIf="!emptyInputs">{{longRoomName.value.length}} / 20</mat-hint>
-      <mat-hint align="start" *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
-      <button mat-button *ngIf="longName" matSuffix mat-icon-button aria-label="Clear" (click)="longName=''">
-        <mat-icon>close</mat-icon>
-      </button>
+      <mat-hint align="end" class="count" *ngIf="!emptyInputs">{{roomName.value.length}} / 20</mat-hint>
+      <mat-hint align="start" class="error" *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
     </mat-form-field>
     <button mat-raised-button type="submit">{{ 'session.create-session' | translate}}
     </button>

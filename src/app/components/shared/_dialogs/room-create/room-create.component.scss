@@ -11,22 +11,30 @@ input {
   color: var(--on-surface);
 }
 
-::ng-deep .mat-form-field-label {
+.mat-form-field-label {
   color: var(--on-surface)!important;
 }
 
-::ng-deep .mat-form-field-underline {
+.mat-form-field-underline {
   background-color: var(--on-surface)!important;
 }
 
-::ng-deep .mat-form-field-ripple {
+.mat-form-field-ripple {
   background-color: var(--on-surface)!important;
+}
+
+.mat-input-element {
+  caret-color: var(--on-surface);
 }
 
 mat-form-field {
   color: var(--on-surface);
 }
 
-mat-hint {
+.count {
   color: var(--on-surface)!important;
+}
+
+.error {
+  color: var(--red) !important;
 }
