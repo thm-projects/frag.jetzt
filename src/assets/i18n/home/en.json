@@ -12,7 +12,11 @@
     "language": "Language",
     "login": "Login",
     "my-account": "My account",
-    "id": "ID"
+    "id": "ID",
+    "dark": "Dark",
+    "bright": "Bright",
+    "default": "Default",
+    "wai": "WAI"
 	},
 	"login-page": {
 		"creator": "Speaker",

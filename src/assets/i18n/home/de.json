@@ -12,7 +12,11 @@
     "language": "Sprache",
     "login": "Login",
     "my-account": "Konto",
-    "id": "ID"
+    "id": "ID",
+    "dark": "Dunkel",
+    "bright": "Hell",
+    "default": "Standard",
+    "wai": "WAI"
 	},
 	"login-page": {
 		"creator": "Referent/in",
