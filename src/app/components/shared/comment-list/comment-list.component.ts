@@ -95,8 +95,6 @@ export class CommentListComponent implements OnInit {
     if (this.searchInput && this.searchInput.length > 2) {
       this.hideCommentsList = true;
       this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
-    } else {
-      this.hideCommentsList = false;
     }
   }
 
@@ -171,8 +169,8 @@ export class CommentListComponent implements OnInit {
         }
         break;
     }
-    this.sortComments(this.currentSort);
     this.filterComments(this.currentFilter);
+    this.sortComments(this.currentSort);
     this.searchComments();
   }
 
@@ -214,10 +212,11 @@ export class CommentListComponent implements OnInit {
           return !c.read;
       }
     });
+    this.sortComments(this.currentSort);
   }
 
-  sortComments(type: string): void {
-    this.comments.sort((a, b) => {
+  sort(array: any[], type: string): void {
+    array.sort((a, b) => {
       if (type === this.voteasc) {
         return a.score - b.score;
       } else if (type === this.votedesc) {
@@ -228,6 +227,14 @@ export class CommentListComponent implements OnInit {
         return +dateB - +dateA;
       }
     });
+  }
+
+  sortComments(type: string): void {
+    if (this.hideCommentsList === true) {
+      this.sort(this.filteredComments, type);
+    } else {
+      this.sort(this.comments, type);
+    }
     this.currentSort = type;
   }
 }
