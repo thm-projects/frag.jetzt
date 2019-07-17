@@ -15,7 +15,7 @@
     "id": "ID",
     "dark": "Dark",
     "bright": "Bright",
-    "default": "Default",
+    "beamer": "Beamer",
     "wai": "WAI"
 	},
 	"login-page": {
