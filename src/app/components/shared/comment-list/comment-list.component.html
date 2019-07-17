@@ -3,9 +3,9 @@
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
   <input #searchBox placeholder="{{ 'comment-list.search' | translate }}"
-         (input)="searchComments(searchBox.value)">
-  <button mat-icon-button class="searchBarButton close" *ngIf="searchBox.value"
-          (click)="hideCommentsList=false; searchBox.value=''">
+         (input)="searchComments()" [(ngModel)]="searchInput">
+  <button mat-icon-button class="searchBarButton close" *ngIf="searchInput !== ''"
+          (click)="hideCommentsList=false; searchInput = ''">
     <mat-icon>close</mat-icon>
   </button>
 
