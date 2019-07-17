@@ -11,19 +11,19 @@
         </ng-template>
       </div>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button *ngIf="!isStudent || comment.correct" [disabled]="isStudent" (click)="setCorrect(comment)"
-              matTooltip="{{ 'comment-page.mark-correct' | translate }}">
-        <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}">check_circle
-        </mat-icon>
+      <button mat-icon-button *ngIf="!isStudent || comment.correct" [disabled]="isStudent"
+              (click)="setCorrect(comment)">
+        <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}"
+                  matTooltip="{{ 'comment-page.mark-correct' | translate }}">check_circle</mat-icon>
       </button>
       <button mat-icon-button *ngIf="!isStudent || comment.favorite" [disabled]="isStudent"
-              (click)="setFavorite(comment)"
-              matTooltip="{{ 'comment-page.mark-favorite' | translate }}">
-        <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">grade</mat-icon>
+              (click)="setFavorite(comment)">
+        <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                  matTooltip="{{ 'comment-page.mark-favorite' | translate }}">grade</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="isStudent" (click)="setRead(comment)"
-              matTooltip="{{ 'comment-page.mark-read' | translate }}">
-        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}">visibility
+      <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="isStudent" (click)="setRead(comment)">
+        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
+                  matTooltip="{{ 'comment-page.mark-read' | translate }}">visibility
         </mat-icon>
       </button>
     </div>
@@ -32,11 +32,11 @@
       <span class="fill-remaining-space click" (click)="openPresentDialog(comment)"></span>
       <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState"
            (@rubberBand.done)="resetAnimationState()">
-        <button mat-icon-button (click)="voteUp(comment)">
+        <button mat-icon-button (click)="voteUp(comment)" matTooltip="{{ 'comment-page.vote-up' | translate }}">
           <mat-icon class="voting-icon" [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
         </button>
         <h2>{{comment.score}}</h2>
-        <button mat-icon-button (click)="voteDown(comment)">
+        <button mat-icon-button (click)="voteDown(comment)" matTooltip="{{ 'comment-page.vote-down' | translate }}">
           <mat-icon class="voting-icon" [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
         </button>
       </div>
