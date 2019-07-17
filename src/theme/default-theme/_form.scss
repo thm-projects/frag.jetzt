@@ -23,3 +23,7 @@ mat-form-field.input-block {
   background-color: var(--on-secondary);
   color: var(--on-surface);
 }
+
+.mat-input-element {
+  caret-color: var(--on-surface);
+}

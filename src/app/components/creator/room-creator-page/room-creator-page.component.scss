@@ -7,8 +7,7 @@ mat-card {
 }
 
 mat-card-content > :first-child {
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin: 3% 0 3% 0;
 }
 
 #description {
@@ -40,6 +39,7 @@ mat-card-content > :first-child {
   font-size: 35px;
   height: 35px;
   width: 35px;
+  line-height: 100%;
 }
 
 /*.main-icon{
@@ -79,6 +79,7 @@ h2 {
 h3 {
   font-size: larger;
   color: var(--on-surface)!important;
+  margin: 3% 0 3% 0;
 }
 
 h4 {
@@ -89,7 +90,7 @@ h4 {
 
 mat-card-header {
   min-height: 80px;
-  height: 12%!important;
+  height: 10%!important;
 }
 
 mat-card-title {
