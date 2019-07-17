@@ -42,6 +42,7 @@ export class CommentListComponent implements OnInit {
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
+  searchInput = '';
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -90,10 +91,10 @@ export class CommentListComponent implements OnInit {
     document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  searchComments(term: string): void {
-    if (term && term.length > 2) {
+  searchComments(): void {
+    if (this.searchInput && this.searchInput.length > 2) {
       this.hideCommentsList = true;
-      this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(term.toLowerCase()));
+      this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
     } else {
       this.hideCommentsList = false;
     }
@@ -170,8 +171,9 @@ export class CommentListComponent implements OnInit {
         }
         break;
     }
-    this.filterComments(this.currentFilter);
     this.sortComments(this.currentSort);
+    this.filterComments(this.currentFilter);
+    this.searchComments();
   }
 
   openCreateDialog(): void {
