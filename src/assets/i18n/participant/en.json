@@ -26,7 +26,9 @@
     "no-comments": "No comments yet",
     "mark-correct": "Correct",
     "mark-favorite": "Favorite",
-    "mark-read": "Read"
+    "mark-read": "Read",
+    "vote-up": "Vote up",
+    "vote-down": "Vote down"
   },
   "comment-list": {
     "search": "Search",

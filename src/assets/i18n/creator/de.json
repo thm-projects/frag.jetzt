@@ -108,7 +108,9 @@
     "no-comments": "Noch keine Kommentare",
     "mark-correct": "Als richtig markieren",
     "mark-favorite": "Als Favoriten markieren",
-    "mark-read": "Als gelesen markieren"
+    "mark-read": "Als gelesen markieren",
+    "vote-up": "Hochvoten",
+    "vote-down": "Runtervoten"
   },
   "comment-list": {
     "search": "Suchen",

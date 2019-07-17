@@ -32,11 +32,11 @@
       <span class="fill-remaining-space click" (click)="openPresentDialog(comment)"></span>
       <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState"
            (@rubberBand.done)="resetAnimationState()">
-        <button mat-icon-button (click)="voteUp(comment)">
+        <button mat-icon-button (click)="voteUp(comment)" matTooltip="{{ 'comment-page.vote-up' | translate }}">
           <mat-icon class="voting-icon" [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
         </button>
         <h2>{{comment.score}}</h2>
-        <button mat-icon-button (click)="voteDown(comment)">
+        <button mat-icon-button (click)="voteDown(comment)" matTooltip="{{ 'comment-page.vote-down' | translate }}">
           <mat-icon class="voting-icon" [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
         </button>
       </div>

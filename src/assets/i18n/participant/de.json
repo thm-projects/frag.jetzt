@@ -26,7 +26,9 @@
     "no-comments": "Noch keine Kommentare",
     "mark-correct": "Dozent/in hat den Kommentar als richtig markiert.",
     "mark-favorite": "Dozent/in hat den Kommentar als Favorit markiert.",
-    "mark-read": "Dozent/in hat den Kommentar als gelesen markiert."
+    "mark-read": "Dozent/in hat den Kommentar als gelesen markiert.",
+    "vote-up": "Hochvoten",
+    "vote-down": "Runtervoten"
   },
   "comment-list": {
     "search": "Suchen",

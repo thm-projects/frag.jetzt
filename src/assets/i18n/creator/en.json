@@ -108,7 +108,9 @@
     "no-comments": "No comments yet",
     "mark-correct": "Mark as correct",
     "mark-favorite": "Mark as favorite",
-    "mark-read": "Mark as read"
+    "mark-read": "Mark as read",
+    "vote-up": "Vote up",
+    "vote-down": "Vote down"
   },
   "comment-list": {
     "search": "Search",
