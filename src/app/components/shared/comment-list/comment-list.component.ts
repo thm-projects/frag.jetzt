@@ -71,10 +71,8 @@ export class CommentListComponent implements OnInit {
           this.commentVoteMap.set(v.commentId, v);
         }
       });
-      this.currentSort = this.time;
-    } else {
-      this.currentSort = this.votedesc;
     }
+    this.currentSort = this.votedesc;
     this.commentService.getComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
