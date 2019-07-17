@@ -34,6 +34,17 @@ export class NewLandingComponent implements OnInit {
   createSession() {
     if (!this.user) {
       this.openLoginDialog();
+      return;
+    } else if (this.user.role === 0) {
+      if (this.user.isGuest) {
+        this.authenticationService.logout();
+        this.authenticationService.guestLogin(1).subscribe(login => {
+          this.openCreateRoomDialog();
+        });
+      } else {
+        this.authenticationService.logout();
+        this.openLoginDialog();
+      }
     } else {
       this.openCreateRoomDialog();
     }
@@ -53,9 +64,9 @@ export class NewLandingComponent implements OnInit {
     dialogRef.componentInstance.isStandard = false;
     dialogRef.afterClosed()
       .subscribe(result => {
-          if (this.user) {
-            this.openCreateRoomDialog();
-          }
+        if (this.user) {
+          this.openCreateRoomDialog();
+        }
       });
   }
 }
