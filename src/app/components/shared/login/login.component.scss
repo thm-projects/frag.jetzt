@@ -5,19 +5,19 @@
 
 .regButton {
   padding: 0;
-  margin: 20px 10px 0 0;
+  margin: 0 10px 0 0;
   color: var(--secondary);
 }
 
 .guest {
   background-color: var(--primary);
   color: var(--on-primary);
-  margin: 20px 0 20px 0!important;
+  margin: 10px 0 20px 0!important;
 }
 
 p {
   font-size: small;
-  margin: 30px 5px 0 0;
+  margin: 15px 5px 0 0;
   color: var(--on-surface);
   vertical-align: text-bottom;
 }
@@ -54,5 +54,9 @@ input:-webkit-autofill:focus {
 h3 {
   color: var(--on-surface);
   margin: 0 0 10px 0!important;
+}
+
+.register {
+  height: 40px;
 }
 
