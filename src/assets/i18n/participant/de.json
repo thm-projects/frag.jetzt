@@ -24,9 +24,9 @@
     "error-title": "Bitte geben Sie einen Titel ein.",
     "error-both-fields": "Bitte füllen Sie alle Felder aus.",
     "no-comments": "Noch keine Kommentare",
-    "mark-correct": "Richtig",
-    "mark-favorite": "Favorit",
-    "mark-read": "Gelesen"
+    "mark-correct": "Dozent/in hat den Kommentar als richtig markiert.",
+    "mark-favorite": "Dozent/in hat den Kommentar als Favorit markiert.",
+    "mark-read": "Dozent/in hat den Kommentar als gelesen markiert."
   },
   "comment-list": {
     "search": "Suchen",
