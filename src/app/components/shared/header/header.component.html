@@ -78,7 +78,7 @@
         <span>{{'header.my-sessions' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
-        <mat-icon class="sessions">turned_in</mat-icon>
+        <mat-icon class="sessions">attach_file</mat-icon>
         <span>{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item (click)="logout()">

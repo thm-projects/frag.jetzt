@@ -19,8 +19,8 @@
     "wai": "WAI"
 	},
 	"login-page": {
-		"creator": "Referent/in",
-		"participant": "Teilnehmer/in",
+		"creator": "Dozent/in",
+		"participant": "Student/in",
 		"password-reset": "Passwort vergessen?",
 		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
@@ -30,7 +30,7 @@
 		"join-demo-session": "Demo-Session betreten",
 		"session-id": "Session-ID",
 		"no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
-		"please-enter": "Bitte Session-ID eingeben",
+		"please-enter": "… sagt dir dein/e Dozent/in",
 		"exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
 		"create-session": "Neue Session",
 		"no-empty-name": "Bitte geben Sie einen Namen ein.",
