@@ -21,8 +21,8 @@
     "send": "Senden",
     "abort": "Abbrechen",
     "error-comment": "Bitte gib deine Frage ein.",
-    "error-title": "Bitte geben Sie einen Titel ein.",
-    "error-both-fields": "Bitte füllen Sie alle Felder aus.",
+    "error-title": "Bitte gib einen Titel ein.",
+    "error-both-fields": "Bitte fülle alle Felder aus.",
     "no-comments": "Noch keine Fragen",
     "mark-correct": "Dozent/in hat die Frage bejaht.",
     "mark-favorite": "Dozent/in hält die Frage für besonders interessant.",
@@ -49,9 +49,9 @@
     "sent": "Antwort gesendet",
     "abstention-sent": "Enthaltung gesendet",
     "your-answer": "Ihre Antwort",
-    "at-least-one": "Bitte wählen Sie mindestens eine Antwort.",
-    "please-one": "Bitte wählen Sie eine Antwort.",
-    "please-answer": "Bitte geben Sie eine Antwort ein."
+    "at-least-one": "Bitte wähle mindestens eine Antwort.",
+    "please-one": "Bitte wähle eine Antwort.",
+    "please-answer": "Bitte gib eine Antwort ein."
   },
   "statistic": {
     "content": "Frage",
