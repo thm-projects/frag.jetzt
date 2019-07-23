@@ -27,7 +27,7 @@
 		"welcome": "Ask online | vote questions"
 	},
 	"home-page": {
-		"join-demo-session": "Join demo session",
+		"join-demo-session": "Join public session",
 		"session-id": "Session ID",
 		"no-room-found": "No session found with this ID",
 		"please-enter": "Please enter a session ID",
@@ -88,6 +88,7 @@
 		"create-session": "Create session"
 	},
   "footer": {
+    "demo": "Public Session",
     "dsgvo": "Data Protection",
     "imprint": "Imprint",
     "will-open": " will be opened in a new tab...",
