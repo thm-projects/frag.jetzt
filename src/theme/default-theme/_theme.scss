@@ -8,6 +8,12 @@ html, body {
   height: 100%;
 }
 
+/* quick hack, will be refactored in course SWTP ("Semantic HTML) */
+
+h4 {
+  font-weight: normal !important;
+}
+
 @import 'util';
 @import 'form';
 
