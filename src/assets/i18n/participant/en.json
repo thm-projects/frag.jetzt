@@ -2,7 +2,8 @@
   "home-page": {
     "no-room-found": "No session found with this ID",
     "please-enter": "Please enter a session ID",
-    "exactly-8": "A session ID has exactly 8 digits."
+    "only-numbers": "A session ID is composed of digits only.",
+    "exactly-8": "A session ID is composed of exactly eight digits."
   },
   "room-page": {
     "comments": "Comments",

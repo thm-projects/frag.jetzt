@@ -2,6 +2,7 @@
   "home-page": {
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
     "please-enter": "Bitte Session-ID eingeben",
+    "only-numbers": "Eine Session-ID besteht aus Ziffern.",
     "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
   },
   "room-page": {
