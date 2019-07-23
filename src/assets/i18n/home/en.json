@@ -19,8 +19,8 @@
     "wai": "WAI"
 	},
 	"login-page": {
-		"creator": "Speaker",
-		"participant": "Attendee",
+		"creator": "Professor",
+		"participant": "Student",
 		"password-reset": "Forgot your password?",
 		"not-registered": "Don't have an account yet?",
 		"register": "Register",
