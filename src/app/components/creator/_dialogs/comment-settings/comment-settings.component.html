@@ -3,11 +3,14 @@
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <div fxLayout="row">
-      <h3>{{ 'room-page.threshold' | translate}} </h3>
-      <h3>{{commentThreshold | number}}</h3>
+      <h3>{{ 'room-page.threshold' | translate}}&nbsp;</h3>
+      <h3><mat-slide-toggle [(ngModel)]="settingThreshold"></mat-slide-toggle></h3>
     </div>
-    <mat-slider id="commentSlider" min="-50" max="0" step="5" value="0"
+    <div fxLayout="row" *ngIf="settingThreshold">
+      <mat-slider id="commentSlider" min="-50" max="0" step="5" value="0"
                 [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
+      <h3>&nbsp;{{commentThreshold | number}}</h3>
+    </div>
   </div>
   <div fxLayoutAlign="center center">
     <button mat-raised-button class="export" (click)="openExportDialog()">
@@ -24,7 +27,7 @@
     <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
       {{ 'room-page.abort' | translate }}
     </button>
-    <button mat-raised-button class="update" (click)="dialogRef.close(commentThreshold)">
+    <button mat-raised-button class="update" (click)="closeDialog()">
       {{ 'room-page.update' | translate }}
     </button>
   </div>

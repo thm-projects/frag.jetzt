@@ -60,13 +60,21 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       commentExtension.set('commentThreshold', threshold);
       this.room.extensions = new TSMap();
       this.room.extensions.set('comments', commentExtension);
+      this.saveChanges();
     }
-    this.saveChanges();
+  }
+
+  resetThreshold(): void {
+    if (this.room.extensions && this.room.extensions['comments']) {
+      delete this.room.extensions['comments'];
+      this.saveChanges();
+    }
   }
 
   saveChanges() {
     this.roomService.updateRoom(this.room)
-      .subscribe(() => {
+      .subscribe((room) => {
+        this.room = room;
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notification.show(msg);
         });
@@ -104,6 +112,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       .subscribe(result => {
         if (result === 'abort') {
           return;
+        } else if (result === 'reset-threshold') {
+          this.resetThreshold();
         } else if (result !== 'delete') {
           this.updateCommentSettings(+result);
         }

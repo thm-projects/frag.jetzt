@@ -22,6 +22,7 @@ export class CommentSettingsComponent implements OnInit {
   comments: Comment[];
   commentThreshold: number;
   editRoom: Room;
+  settingThreshold: boolean;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -34,13 +35,15 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.editRoom.extensions['comments'].commentThreshold != null) {
+    if (this.editRoom.extensions
+        && this.editRoom.extensions['comments']
+        && this.editRoom.extensions['comments'].commentThreshold != null) {
       this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
+      this.settingThreshold = true;
     } else {
+      this.settingThreshold = false;
       this.commentThreshold = -10;
     }
-    console.log(this.editRoom);
-
   }
 
   onSliderChange(event: any) {
@@ -113,5 +116,13 @@ export class CommentSettingsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.onExport(result);
     });
+  }
+
+  closeDialog(): void {
+    if (this.settingThreshold) {
+      this.dialogRef.close(this.commentThreshold);
+    } else {
+      this.dialogRef.close('reset-threshold');
+    }
   }
 }
