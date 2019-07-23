@@ -26,6 +26,7 @@ export class FooterComponent implements OnInit {
   user: User;
 
   open: string;
+  deviceType: string;
 
   constructor(public notificationService: NotificationService,
               public router: Router,
@@ -38,6 +39,7 @@ export class FooterComponent implements OnInit {
               }
 
   ngOnInit() {
+    this.deviceType = localStorage.getItem('deviceType');
     this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
