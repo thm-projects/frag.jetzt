@@ -69,6 +69,7 @@ export class RoomService extends BaseHttpService {
   getRoomByShortId(shortId: string): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
+      map(room => this.parseExtensions(room)),
       map(room => this.parseDefaultContentGroup(room)),
       tap(room => this.setRoomId(room)),
       catchError(this.handleError<Room>(`getRoom shortId=${ shortId }`))
