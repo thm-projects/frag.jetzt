@@ -1,26 +1,24 @@
 <footer>
   <mat-toolbar id="footer-toolbar">
-    <button mat-button *ngIf="router.url !== '/home'" (click)="navToBlog()">
+    <button (click)="navToBlog()" *ngIf="router.url !== '/home'" mat-button>
       <mat-icon>notes</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.blog' | translate }}
       </span>
     </button>
-    <button mat-button *ngIf="router.url === '/home'" (click)="navToDemoSession()">
+    <button (click)="navToDemoSession()" *ngIf="router.url === '/home'" mat-button>
       <mat-icon>input</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.demo' | translate}}
-      </span>
+      {{ 'footer.demo' | translate}}
     </button>
     <span class="fill-remaining-space"></span>
-    <button mat-button (click)="navToDSGVO()">
+    <button (click)="navToDSGVO()" mat-button>
       <mat-icon>security</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.dsgvo' | translate}}
       </span>
     </button>
     <span class="fill-remaining-space"></span>
-    <button mat-button (click)="navToImprint()">
+    <button (click)="navToImprint()" mat-button>
       <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.imprint' | translate}}
