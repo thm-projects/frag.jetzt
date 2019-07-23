@@ -27,7 +27,7 @@
 		"welcome": "Online fragen | Fragen voten"
 	},
 	"home-page": {
-		"join-demo-session": "Demo-Session betreten",
+		"join-demo-session": "Öffentliche Session betreten",
 		"session-id": "Session-ID",
 		"no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
 		"please-enter": "… sagt dir dein/e Dozent/in",
@@ -88,6 +88,7 @@
 		"create-session": "Session erstellen"
   },
   "footer": {
+    "demo": "Öffentliche Session",
     "dsgvo": "Datenschutz",
     "imprint": "Impressum",
     "will-open": " wird in einem neuen Fenster geöffnet...",

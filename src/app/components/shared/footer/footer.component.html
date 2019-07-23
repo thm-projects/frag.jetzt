@@ -5,8 +5,8 @@
       Blog
     </button>
     <button mat-button *ngIf="router.url === '/home'" (click)="navToDemoSession()">
-      <mat-icon>launch</mat-icon>
-      Demo
+      <mat-icon>input</mat-icon>
+      {{ 'footer.demo' | translate}}
     </button>
     <span class="fill-remaining-space"></span>
     <button mat-button (click)="navToDSGVO()">
