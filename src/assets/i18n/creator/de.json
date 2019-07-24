@@ -108,7 +108,7 @@
     "no-comments": "Noch keine Fragen",
     "mark-correct": "Frage bejahen",
     "mark-favorite": "Als besonders interessante Frage markieren",
-    "mark-read": "Als gelesen markieren",
+    "mark-read": "In Vollansicht am Beamer besprochen",
     "vote-up": "Hochvoten",
     "vote-down": "Runtervoten"
   },
@@ -119,8 +119,8 @@
     "add-comment": "Frage stellen",
     "correct": "Bejaht",
     "favorite": "Hervorgehoben",
-    "read": "Gelesen",
-    "unread": "Ungelesen",
+    "read": "Besprochen",
+    "unread": "Nicht besprochen",
     "vote-desc": "Absteigende Votes",
     "vote-asc": "Aufsteigende Votes",
     "time": "Zeit"

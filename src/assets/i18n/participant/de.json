@@ -27,7 +27,7 @@
     "no-comments": "Noch keine Fragen",
     "mark-correct": "Dozent/in hat die Frage bejaht.",
     "mark-favorite": "Dozent/in hält die Frage für besonders interessant.",
-    "mark-read": "Dozent/in hat die Frage als gelesen markiert.",
+    "mark-read": "Dozent/in hat die Frage beantwortet.",
     "vote-up": "Hochvoten",
     "vote-down": "Runtervoten"
   },
@@ -38,8 +38,8 @@
     "add-comment": "Stell deine Frage!",
     "correct": "Bejaht",
     "favorite": "Hervorgehoben",
-    "read": "Gelesen",
-    "unread": "Ungelesen",
+    "read": "Beantwortet",
+    "unread": "Nicht beantwortet",
     "vote-desc": "Absteigende Votes",
     "vote-asc": "Aufsteigende Votes",
     "time": "Zeit"
