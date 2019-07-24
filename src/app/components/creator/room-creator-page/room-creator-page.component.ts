@@ -55,7 +55,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   updateCommentSettings(threshold: number) {
-    if (threshold > -50) {
+    if (threshold >= -50) {
       const commentExtension: TSMap<string, any> = new TSMap();
       commentExtension.set('commentThreshold', threshold);
       this.room.extensions = new TSMap();
