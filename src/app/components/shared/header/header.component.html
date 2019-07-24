@@ -73,13 +73,9 @@
     </button>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
+      <button mat-menu-item *ngIf="user" routerLink="/user">
         <mat-icon class="sessions">work</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
-      </button>
-      <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
-        <mat-icon class="sessions">attach_file</mat-icon>
-        <span>{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>

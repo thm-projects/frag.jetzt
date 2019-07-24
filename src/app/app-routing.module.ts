@@ -27,6 +27,10 @@ const routes: Routes = [
     loadChildren: './components/participant/participant.module#ParticipantModule'
   },
   {
+    path: 'moderator',
+    loadChildren: './components/moderator/moderator.module#ModeratorModule'
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }

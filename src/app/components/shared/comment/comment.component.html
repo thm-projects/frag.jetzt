@@ -26,6 +26,11 @@
                   matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
         </mat-icon>
       </button>
+      <button mat-icon-button *ngIf="!isStudent" [disabled]="isStudent" (click)="delete(comment)">
+        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
+                  matTooltip="{{ 'comment-page.delete' | translate }}">delete
+        </mat-icon>
+      </button>
     </div>
     <div fxLayout="row">
       <div class="body click" (click)="openPresentDialog(comment)">{{comment.body.trim()}}</div>

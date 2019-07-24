@@ -13,37 +13,31 @@ const routes: Routes = [
   {
     path: 'room/:roomId',
     component: RoomParticipantPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/statistics',
     component: StatisticsPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/statistics/:contentId',
     component: StatisticComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/comments',
     component: CommentPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/:contentGroup',
     component: ParticipantContentCarouselPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   }
 ];

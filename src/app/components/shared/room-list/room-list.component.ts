@@ -54,6 +54,7 @@ export class RoomListComponent implements OnInit {
       if (isOwner) {
         roomWithRole.role = UserRole.CREATOR;
       } else {
+        // TODO: acknowledge the other role option too
         roomWithRole.role = UserRole.PARTICIPANT;
         this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
           for (const m of moderators) {
@@ -69,7 +70,12 @@ export class RoomListComponent implements OnInit {
   }
 
   setCurrentRoom(shortId: string) {
-    localStorage.setItem('shortId', shortId);
+    for (const r of this.roomsWithRole) {
+      if (r.shortId === shortId) {
+        this.authenticationService.assignRole(r.role);
+        localStorage.setItem('shortId', shortId);
+      }
+    }
   }
 
   roleToString(role: UserRole): string {
