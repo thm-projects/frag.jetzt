@@ -4,18 +4,24 @@
   </div>
 </div>
 
-<div *ngIf="rooms && rooms.length != 0">
+<div *ngIf="roomsWithRole && roomsWithRole.length != 0">
   <mat-expansion-panel [disabled]="true" id="matPanelHeader">
     <mat-expansion-panel-header>
+      <mat-panel-title class="headerTitle">Role</mat-panel-title>
       <mat-panel-title class="headerTitle">Session</mat-panel-title>
       <mat-panel-description class="headerTitle">ID</mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngFor="let room of rooms" class="matPanel">
+  <mat-expansion-panel *ngFor="let room of roomsWithRole" class="matPanel">
     <mat-expansion-panel-header class="matPanelListHeader">
-      <button mat-flat-button routerLink="/{{ baseUrl }}/room/{{ room.shortId }}" (click)="setCurrentRoom(room.shortId)">
+      <button mat-flat-button routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}" (click)="setCurrentRoom(room.shortId)">
         <mat-icon>input</mat-icon>
       </button>
+      <mat-panel-title class="panelTitle" [ngSwitch]="room.role">
+        <mat-icon *ngSwitchCase="creatorRole">record_voice_over</mat-icon>
+        <mat-icon *ngSwitchCase="participantRole">face</mat-icon>
+        <mat-icon *ngSwitchCase="executiveModeratorRole">gavel</mat-icon>
+      </mat-panel-title>
       <mat-panel-title class="panelTitle">
         {{ room.name }}
       </mat-panel-title>

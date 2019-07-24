@@ -6,7 +6,6 @@ import { ContentCreatePageComponent } from './content-create-page/content-create
 import { ContentLikertCreatorComponent } from './content-likert-creator/content-likert-creator.component';
 import { ContentTextCreatorComponent } from './content-text-creator/content-text-creator.component';
 import { ContentYesNoCreatorComponent } from './content-yes-no-creator/content-yes-no-creator.component';
-import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
@@ -47,7 +46,6 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
     ContentLikertCreatorComponent,
     ContentTextCreatorComponent,
     ContentYesNoCreatorComponent,
-    HomeCreatorPageComponent,
     RoomCreatorPageComponent,
     RoomDeleteComponent,
     RoomEditComponent,

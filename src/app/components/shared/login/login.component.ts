@@ -102,11 +102,7 @@ export class LoginComponent implements OnInit, OnChanges {
       });
       this.dialog.closeAll();
       if (this.isStandard) {
-        if (this.role === UserRole.CREATOR) {
-          this.router.navigate(['creator']);
-        } else {
-          this.router.navigate(['participant']);
-        }
+        this.router.navigate(['user']);
       }
     } else if (loginSuccessful === 'activation') {
       this.activateUser();

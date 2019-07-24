@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
+import { UserHomeComponent } from './components/home/user-home/user-home.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomePageComponent
+  },
+  {
+    path: 'user',
+    component: UserHomeComponent
   },
   {
     path: 'creator',

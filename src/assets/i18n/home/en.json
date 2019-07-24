@@ -24,7 +24,8 @@
 		"password-reset": "Forgot your password?",
 		"not-registered": "Don't have an account yet?",
 		"register": "Register",
-		"welcome": "Ask online | vote questions"
+		"welcome": "Ask online | vote questions",
+		"login": "Login"
 	},
 	"home-page": {
 		"join-demo-session": "Join public session",

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeParticipantPageComponent } from './home-participant-page/home-participant-page.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
@@ -11,12 +10,6 @@ import { StatisticComponent } from '../shared/statistic/statistic.component';
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: HomeParticipantPageComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.PARTICIPANT] }
-  },
   {
     path: 'room/:roomId',
     component: RoomParticipantPageComponent,

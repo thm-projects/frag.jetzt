@@ -89,7 +89,11 @@ export class RoomJoinComponent implements OnInit {
   }
 
   addAndNavigate() {
-    this.roomService.addToHistory(this.room.id);
-    this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
+    if (this.user.id === this.room.ownerId) {
+      this.router.navigate([`/creator/room/${this.room.shortId}/comments`]);
+    } else {
+      this.roomService.addToHistory(this.room.id);
+      this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
+    }
   }
 }
