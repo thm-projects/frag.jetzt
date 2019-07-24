@@ -13,10 +13,10 @@
     "login": "Login",
     "my-account": "My account",
     "id": "ID",
-    "dark": "Dark",
-    "bright": "Bright",
-    "beamer": "Beamer",
-    "wai": "WAI"
+    "dark": "Dark background",
+    "bright": "Bright background",
+    "beamer": "Optimized for the projector (work in progress)",
+    "wai": "Accessible according to WCAG 2.0 (work in progress)"
 	},
 	"login-page": {
 		"creator": "Professor",
@@ -30,12 +30,12 @@
 		"join-demo-session": "Join public session",
 		"session-id": "Session ID",
 		"no-room-found": "No session found with this ID",
-		"please-enter": "Please enter a session ID",
+		"please-enter": "… your professor tells you",
 		"exactly-8": "A session ID has exactly 8 digits.",
 		"create-session": "New session",
 		"no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
-		"created-2": "' Successfully created",
+		"created-2": "' successfully created",
 		"only-numbers": "A session ID only contains digits.",
 		"update-available": "A newer version is available.",
 		"install": "Install"

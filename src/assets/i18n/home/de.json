@@ -15,8 +15,8 @@
     "id": "ID",
     "dark": "Dunkler Hintergrund",
     "bright": "Heller Hintergrund",
-    "beamer": "Für den Beamer optimiert",
-    "wai": "Barrierefrei nach WCAG 2.0"
+    "beamer": "Für den Beamer optimiert (in Arbeit)",
+    "wai": "Barrierefrei nach WCAG 2.0 (in Arbeit)"
 	},
 	"login-page": {
 		"creator": "Dozent/in",
