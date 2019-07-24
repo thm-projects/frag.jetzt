@@ -23,7 +23,7 @@
       </button>
       <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="isStudent" (click)="setRead(comment)">
         <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
-                  matTooltip="{{ 'comment-page.mark-read' | translate }}">visibility
+                  matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
         </mat-icon>
       </button>
     </div>

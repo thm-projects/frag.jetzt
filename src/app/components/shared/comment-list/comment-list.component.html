@@ -62,12 +62,12 @@
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
               (click)="filterComments(read)">
-        <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">visibility</mat-icon>
+        <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">speaker_notes</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.unread' | translate }}"
               (click)="filterComments(unread)">
-        <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">visibility_off</mat-icon>
+        <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">speaker_notes_off</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">
