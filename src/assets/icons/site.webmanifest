@@ -1,6 +1,7 @@
 {
     "name": "frag.jetzt",
     "short_name": "frag.jetzt",
+    "description": "An innovative question app developed at THM",
     "icons": [
         {
             "src": "/assets/icons/android-chrome-192x192.png?v=00zWdx8zdl",
