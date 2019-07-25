@@ -51,8 +51,8 @@ export class RoomEditComponent implements OnInit {
     this.roomService.deleteRoom(room.id).subscribe(result => {
       const event = new RoomDeleted(room.id);
       this.eventService.broadcast(event.type, event.payload);
+      this.dialogRef.close('delete');
+      this.router.navigate([`/creator`]);
     });
-    this.dialogRef.close('delete');
-    this.router.navigate([`/creator`]);
   }
 }
