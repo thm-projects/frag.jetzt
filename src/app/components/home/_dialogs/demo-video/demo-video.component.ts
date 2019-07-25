@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-demo-video',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DemoVideoComponent implements OnInit {
 
-  constructor() { }
+  deviceType: string;
+
+  constructor(public dialogRef: MatDialogRef<DemoVideoComponent>,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }

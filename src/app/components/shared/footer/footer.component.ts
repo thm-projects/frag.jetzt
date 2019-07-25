@@ -21,7 +21,6 @@ export class FooterComponent implements OnInit {
   blogUrl = 'https://arsnova.thm.de/blog/';
   dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
   imprUrl = 'https://arsnova.thm.de/blog/impressum/';
-  demoUrl = '';
   demoId = '78844652';
 
   room: Room;
@@ -123,7 +122,15 @@ export class FooterComponent implements OnInit {
 
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
-      width: '350px'
+      position: {
+        left: '10px',
+        right: '10px'
+      },
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%'
     });
+    dialogRef.componentInstance.deviceType = this.deviceType;
   }
 }
