@@ -10,8 +10,8 @@
       {{cTime}}
     </h3>
     <span class="fill-remaining-space"
-          *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'"></span>
-    <h3 *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'" fxLayoutAlign="center center">
+          *ngIf="router.url.includes('comments')"></span>
+    <h3 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0,4) }} {{  shortId.slice(4,8) }}
     </h3>
     <span class="fill-remaining-space"></span>
