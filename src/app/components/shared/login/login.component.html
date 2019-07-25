@@ -1,5 +1,6 @@
 <form fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="5px">
-  <button (click)="guestLogin()" class="guest" mat-raised-button type="button">
+  <button (click)="guestLogin()" class="guest" mat-raised-button type="button"
+          matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
   </button>
   <mat-form-field class="input-block">
@@ -17,10 +18,11 @@
            name="password" placeholder="{{ 'login.password' | translate }}" type="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button (click)="login(userEmail.value, userPassword.value)" mat-raised-button>{{ 'login.login' | translate }}</button>
+  <button (click)="login(userEmail.value, userPassword.value)" mat-raised-button
+          matTooltip="{{'login.login-tooltip' | translate}}">{{ 'login.login' | translate }}</button>
   <div>
-      <button (click)="openPasswordDialog()" class="pwReset" mat-button>
-        {{ 'login-page.password-reset' | translate }}
+    <button (click)="openPasswordDialog()" class="pwReset" mat-button>
+      {{ 'login-page.password-reset' | translate }}
     </button>
   </div>
   <div fxLayout="row" class="register">
