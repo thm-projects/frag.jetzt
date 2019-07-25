@@ -12,6 +12,7 @@ import { DataStoreService } from '../../../services/util/data-store.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { RoomService } from '../../../services/http/room.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { UserHomeComponent } from '../user-home/user-home.component';
 
 describe('HomePageComponent', () => {
   let component: HomePageComponent;
@@ -20,7 +21,8 @@ describe('HomePageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HomePageComponent,
-                      NewLandingComponent ],
+                      NewLandingComponent,
+                      UserHomeComponent ],
       imports: [ EssentialsModule,
                  SharedModule,
                  AppRoutingModule,
