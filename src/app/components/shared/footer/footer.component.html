@@ -6,7 +6,7 @@
         {{ 'footer.blog' | translate }}
       </span>
     </button>
-    <button (click)="navToDemoSession()" *ngIf="router.url === '/home'" mat-button>
+    <button (click)="showDemo()" *ngIf="router.url === '/home'" mat-button>
       <mat-icon>input</mat-icon>
       {{ 'footer.demo' | translate}}
     </button>
