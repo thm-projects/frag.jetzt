@@ -1,51 +1,60 @@
-<div fxLayout="row" [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}" *ngIf="comments.length > 2" (window:scroll)="checkScroll()">
-  <mat-label fxLayoutAlign="center center">
+<div fxLayout="row" [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
+     *ngIf="comments.length > 2" (window:scroll)="checkScroll()" fxLayoutAlign="center">
+  <mat-label *ngIf="deviceType === 'desktop'" fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
-  <input #searchBox placeholder="{{ 'comment-list.search' | translate }}"
-         (input)="searchComments()" [(ngModel)]="searchInput">
-  <button mat-icon-button class="searchBarButton close" *ngIf="searchInput !== ''"
-          (click)="hideCommentsList=false; searchInput = ''">
+  <input #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
+   'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
+         [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput">
+  <button mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
+          (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';">
     <mat-icon>close</mat-icon>
   </button>
 
   <div class="button-bar" fxLayoutAlign="center center">
     <div *ngIf="comments && comments.length > 0">
-        <h3 class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</h3>
-        <h3 class="counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</h3>
+      <h3 class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</h3>
+      <h3 class="counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</h3>
     </div>
 
-    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
+    <button mat-icon-button class="searchBarButton" (click)="activateSearch()"
+            *ngIf="deviceType === 'mobile' && !search && comments && comments.length > 0 && !search">
+      <mat-icon class="searchBarIcon">search</mat-icon>
+    </button>
+
+    <button mat-icon-button class="searchBarButton"
+            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
 
-    <button mat-icon-button class="searchBarButton" *ngIf="!searchBox.value && comments && comments.length > 0"
+    <button mat-icon-button class="searchBarButton"
+            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
-    <button mat-fab class="addButton" *ngIf="!searchBox.value" (click)="openCreateDialog()"
+    <button mat-fab class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
       <mat-icon class="addCommentIcon">add</mat-icon>
     </button>
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
-      <button mat-icon-button matTooltip="{{ 'comment-list.vote-desc' | translate }}"
-              (click)="sortComments(votedesc)">
-        <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
-      </button>
+    <button mat-icon-button matTooltip="{{ 'comment-list.vote-desc' | translate }}"
+            (click)="sortComments(votedesc)">
+      <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
+    </button>
 
-      <button mat-icon-button matTooltip="{{ 'comment-list.vote-asc' | translate }}"
-              (click)="sortComments(voteasc)">
-        <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
-      </button>
+    <button mat-icon-button matTooltip="{{ 'comment-list.vote-asc' | translate }}"
+            (click)="sortComments(voteasc)">
+      <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
+    </button>
 
-      <button mat-icon-button matTooltip="{{ 'comment-list.time' | translate }}"
-              (click)="sortComments(time)">
-        <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
-      </button>
+    <button mat-icon-button matTooltip="{{ 'comment-list.time' | translate }}"
+            (click)="sortComments(time)">
+      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
+    </button>
   </mat-menu>
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
@@ -89,9 +98,11 @@
 </div>
 
 <div *ngIf="!isLoading">
-<app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current" [parseVote]="getVote(current)"></app-comment>
+  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current"
+               [parseVote]="getVote(current)"></app-comment>
 </div>
 
-<div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center" class="no-comments">
+<div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"
+     class="no-comments">
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
 </div>

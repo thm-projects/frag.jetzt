@@ -8,10 +8,9 @@ app-comment {
   padding-left: 10px;
 }
 
-input {
+#searchBox {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
-  width: 100%;
   background-color: var(--dialog);
   border: none;
   outline: none;
@@ -19,6 +18,20 @@ input {
   font-size: large;
   border-radius: 5px;
   color: var(--on-surface);
+  transition: width 300ms linear;
+}
+
+.desktop-input {
+  width: 100%;
+}
+
+.mobile-input {
+  width: 0;
+}
+
+.mobile-input-2 {
+  width: 100%;
+  margin-left: 3%;
 }
 
 .search-container {
