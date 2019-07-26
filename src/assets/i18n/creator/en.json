@@ -38,7 +38,9 @@
     "comments-deleted": "All questions have been deleted.",
     "export-comments": "Export questions",
     "room-not-found": "Session not found :(",
-    "session-id": "Session ID"
+    "session-id": "ID",
+    "copy-session-id": "Copy Session-ID",
+    "session-id-copied": "Session-ID was copied to the clipboard."
   },
   "content": {
     "content": "Content",

@@ -129,5 +129,22 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
     dialogRef.componentInstance.roomId = this.room.id;
   }
+
+  copyShortId(): void {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this.room.shortId;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.translateService.get('room-page.session-id-copied').subscribe(msg => {
+      this.notification.show(msg, '', { duration: 2000 });
+    });
+  }
 }
 
