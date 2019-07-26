@@ -121,7 +121,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   copyShortId(): void {
-    let selBox = document.createElement('textarea');
+    const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
     selBox.style.top = '0';
@@ -132,6 +132,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     selBox.select();
     document.execCommand('copy');
     document.body.removeChild(selBox);
+    this.translateService.get('room-page.session-id-copied').subscribe(msg => {
+      this.notification.show(msg, '', { duration: 2000 });
+    });
   }
 }
 
