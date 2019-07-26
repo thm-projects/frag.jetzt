@@ -56,7 +56,9 @@
 		"activation-key": "Activation key",
 		"activation-key-required": "Activation key required",
 		"activation-key-incorrect": "Activation key is incorrect.",
-		"or": "or"
+		"or": "or",
+		"guest-login-tooltip": "Created sessions will be deleted after logout.",
+		"login-tooltip": "Sessions will be stored for 180 days."
 	},
 	"password-reset": {
 		"email": "E-mail",
