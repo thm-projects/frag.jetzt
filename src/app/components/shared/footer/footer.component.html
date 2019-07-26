@@ -6,8 +6,8 @@
         {{ 'footer.blog' | translate }}
       </span>
     </button>
-    <button (click)="navToDemoSession()" *ngIf="router.url === '/home'" mat-button>
-      <mat-icon>input</mat-icon>
+    <button (click)="showDemo()" *ngIf="router.url === '/home'" mat-button>
+      <mat-icon>ondemand_video</mat-icon>
       {{ 'footer.demo' | translate}}
     </button>
     <span class="fill-remaining-space"></span>

@@ -36,6 +36,7 @@ import { ModeratorService } from './services/http/moderator.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -51,12 +52,14 @@ export function initializeApp(appConfig: AppConfig) {
     RegisterComponent,
     UserActivationComponent,
     NewLandingComponent,
-    HomePageComponent
+    HomePageComponent,
+    DemoVideoComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
-    UserActivationComponent
+    UserActivationComponent,
+    DemoVideoComponent
   ],
   imports: [
     AppRoutingModule,

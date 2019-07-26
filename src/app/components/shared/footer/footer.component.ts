@@ -9,6 +9,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { User } from '../../../models/user';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
+import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 
 @Component({
   selector: 'app-footer',
@@ -36,7 +37,7 @@ export class FooterComponent implements OnInit {
               public authenticationService: AuthenticationService,
               private roomService: RoomService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
-              }
+  }
 
   ngOnInit() {
     this.deviceType = localStorage.getItem('deviceType');
@@ -58,6 +59,7 @@ export class FooterComponent implements OnInit {
       }
     });
   }
+
   navToDSGVO() {
     this.translateService.get('footer.will-open').subscribe(message => {
       this.translateService.get('footer.dsgvo').subscribe(what => {
@@ -72,6 +74,7 @@ export class FooterComponent implements OnInit {
       }
     });
   }
+
   navToImprint() {
     this.translateService.get('footer.will-open').subscribe(message => {
       this.translateService.get('footer.imprint').subscribe(what => {
@@ -86,6 +89,7 @@ export class FooterComponent implements OnInit {
       }
     });
   }
+
   navToDemoSession() {
     this.roomService.getRoomByShortId(this.demoId)
       .subscribe(room => {
@@ -114,5 +118,19 @@ export class FooterComponent implements OnInit {
   addAndNavigate() {
     this.roomService.addToHistory(this.room.id);
     this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
+  }
+
+  showDemo() {
+    const dialogRef = this.dialog.open(DemoVideoComponent, {
+      position: {
+        left: '10px',
+        right: '10px'
+      },
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
   }
 }
