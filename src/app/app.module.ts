@@ -56,7 +56,7 @@ export function initializeApp(appConfig: AppConfig) {
     UserActivationComponent,
     NewLandingComponent,
     HomePageComponent,
-    DemoVideoComponent
+    DemoVideoComponent,
     UserHomeComponent,
     HomeCreatorPageComponent,
     HomeParticipantPageComponent
