@@ -1,5 +1,4 @@
-import { element } from 'protractor';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +20,7 @@ import { VoteService } from '../../../services/http/vote.service';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit {
+  @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
   comments: Comment[] = [];
@@ -43,6 +43,8 @@ export class CommentListComponent implements OnInit {
   scroll = false;
   scrollExtended = false;
   searchInput = '';
+  search = false;
+  searchPlaceholder = '';
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -79,6 +81,9 @@ export class CommentListComponent implements OnInit {
         this.comments = comments;
         this.getComments();
       });
+    this.translateService.get('comment-list.search').subscribe(msg => {
+      this.searchPlaceholder = msg;
+    });
   }
 
   checkScroll(): void {
@@ -96,6 +101,14 @@ export class CommentListComponent implements OnInit {
       this.hideCommentsList = true;
       this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
     }
+  }
+
+  activateSearch() {
+    this.translateService.get('comment-list.search').subscribe(msg => {
+      this.searchPlaceholder = msg;
+    });
+    this.search = true;
+    this.searchField.nativeElement.focus();
   }
 
   getComments(): void {
