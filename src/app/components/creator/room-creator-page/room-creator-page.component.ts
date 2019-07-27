@@ -27,6 +27,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   commentThreshold: number;
   updCommentThreshold: number;
   deviceType = localStorage.getItem('deviceType');
+  viewModuleCount = 1;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -49,6 +50,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
+  afterRoomLoadHook() {
+    if (this.moderationEnabled) {
+      this.viewModuleCount = this.viewModuleCount + 1;
+    }
+  }
+
   updateGeneralSettings() {
     this.room.name = this.updRoom.name;
     this.room.description = this.updRoom.description;
@@ -58,13 +65,18 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   updateCommentSettings(settings: CommentSettingsDialog) {
     const commentExtension: TSMap<string, any> = new TSMap();
     this.room.extensions = new TSMap();
+    commentExtension.set('enableThreshold', settings.enableThreshold);
+    commentExtension.set('commentThreshold', settings.threshold);
+    commentExtension.set('enableModeration', settings.enableModeration);
     this.room.extensions.set('comments', commentExtension);
-    if (settings.enableThreshold) {
-      commentExtension.set('commentThreshold', settings.threshold);
+
+    if (this.moderationEnabled && !settings.enableModeration) {
+      this.viewModuleCount = this.viewModuleCount - 1;
+    } else if (!this.moderationEnabled && settings.enableModeration) {
+      this.viewModuleCount = this.viewModuleCount + 1;
     }
-    if (settings.enableModeration) {
-      commentExtension.set('enableModeration', settings.enableModeration);
-    }
+
+    this.moderationEnabled = settings.enableModeration;
   }
 
   resetThreshold(): void {
@@ -116,9 +128,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
           return;
         } else {
           if (result instanceof CommentSettingsDialog) {
-            if (!result.enableThreshold) {
-              this.resetThreshold();
-            }
+            console.log(result);
             this.updateCommentSettings(result);
             this.saveChanges();
           }

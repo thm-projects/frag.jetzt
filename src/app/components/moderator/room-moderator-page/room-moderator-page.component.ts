@@ -21,6 +21,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
   isLoading = true;
   deviceType = localStorage.getItem('deviceType');
   moderatorCommentCounter: number;
+  viewModuleCount = 1;
 
 
   constructor(protected location: Location,
@@ -36,6 +37,12 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
 
   initializeRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
+      if (this.room && this.room.extensions && this.room.extensions['comments']) {
+        if (this.room.extensions['comments'].enableModeration !== null) {
+          this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+          this.viewModuleCount = this.viewModuleCount + 1;
+        }
+      }
       this.room = room;
       this.isLoading = false;
       this.commentService.countByRoomId(this.room.id, true)

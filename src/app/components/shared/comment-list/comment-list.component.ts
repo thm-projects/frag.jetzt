@@ -46,6 +46,8 @@ export class CommentListComponent implements OnInit {
   searchInput = '';
   search = false;
   searchPlaceholder = '';
+  moderationEnabled = false;
+  thresholdEnabled = false;
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -62,7 +64,17 @@ export class CommentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     const userId = this.user.id;
     this.userRole = this.user.role;
-    this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
+    this.roomService.getRoom(this.roomId).subscribe( room => {
+      this.room = room;
+      if (this.room && this.room.extensions && this.room.extensions['comments']) {
+        if (this.room.extensions['comments'].commentThreshold !== null) {
+          this.thresholdEnabled = true;
+        }
+        if (this.room.extensions['comments'].enableModeration !== null) {
+          this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+        }
+      }
+    });
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
@@ -115,7 +127,7 @@ export class CommentListComponent implements OnInit {
   getComments(): void {
     this.isLoading = false;
     let commentThreshold = -10;
-    if (this.room && this.room.extensions && this.room.extensions['comments']) {
+    if (this.thresholdEnabled) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );

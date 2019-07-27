@@ -23,7 +23,7 @@ export class CommentSettingsComponent implements OnInit {
 
   roomId: string;
   comments: Comment[];
-  commentThreshold: number;
+  commentThreshold = -10;
   editRoom: Room;
   settingThreshold = false;
   enableCommentModeration = false;
