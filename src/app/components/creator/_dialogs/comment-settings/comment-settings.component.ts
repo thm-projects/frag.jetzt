@@ -12,6 +12,7 @@ import { DeleteCommentComponent } from '../delete-comment/delete-comment.compone
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 import { Room } from '../../../../models/room';
 import { CommentSettings } from '../../../../models/comment-settings';
+import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
 
 @Component({
   selector: 'app-comment-settings',
@@ -24,7 +25,8 @@ export class CommentSettingsComponent implements OnInit {
   comments: Comment[];
   commentThreshold: number;
   editRoom: Room;
-  settingThreshold: boolean;
+  settingThreshold = false;
+  enableCommentModeration = false;
   directSend: boolean;
 
   constructor(
@@ -41,14 +43,23 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.editRoom.extensions
-        && this.editRoom.extensions['comments']
-        && this.editRoom.extensions['comments'].commentThreshold != null) {
-      this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
-      this.settingThreshold = true;
+    // TODO: refactor...
+    if (
+      this.editRoom.extensions
+      && this.editRoom.extensions['comments']
+      && this.editRoom.extensions['comments'].commentThreshold != null
+    ) {
+      if (this.editRoom.extensions['comments'].commentThreshold != null) {
+        this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
+        this.settingThreshold = true;
+      }
+
+      if (this.editRoom.extensions['comments'].enableModeration != null) {
+        this.enableCommentModeration = this.editRoom.extensions['comments'].enableModeration;
+      }
     } else {
       this.settingThreshold = false;
-      this.commentThreshold = -10;
+      this.enableCommentModeration = false;
     }
     this.commentSettingsService.get(this.roomId).subscribe(settings => {
       this.directSend = settings.directSend;
@@ -132,11 +143,12 @@ export class CommentSettingsComponent implements OnInit {
     commentSettings.roomId = this.roomId;
     commentSettings.directSend = this.directSend;
     this.commentSettingsService.update(commentSettings).subscribe( x => {
-      if (this.settingThreshold) {
-        this.dialogRef.close(this.commentThreshold);
-      } else {
-        this.dialogRef.close('reset-threshold');
-      }
+      const settingsReturn = new CommentSettingsDialog();
+      settingsReturn.enableModeration = this.enableCommentModeration;
+      settingsReturn.directSend = this.directSend;
+      settingsReturn.enableThreshold = this.settingThreshold;
+      settingsReturn.threshold = this.commentThreshold;
+      this.dialogRef.close(settingsReturn);
     });
   }
 }

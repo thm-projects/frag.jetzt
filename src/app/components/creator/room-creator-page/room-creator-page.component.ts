@@ -3,6 +3,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Room } from '../../../models/room';
+import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
@@ -54,20 +55,21 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.saveChanges();
   }
 
-  updateCommentSettings(threshold: number) {
-    if (threshold >= -50) {
-      const commentExtension: TSMap<string, any> = new TSMap();
-      commentExtension.set('commentThreshold', threshold);
-      this.room.extensions = new TSMap();
-      this.room.extensions.set('comments', commentExtension);
-      this.saveChanges();
+  updateCommentSettings(settings: CommentSettingsDialog) {
+    const commentExtension: TSMap<string, any> = new TSMap();
+    this.room.extensions = new TSMap();
+    this.room.extensions.set('comments', commentExtension);
+    if (settings.enableThreshold) {
+      commentExtension.set('commentThreshold', settings.threshold);
+    }
+    if (settings.enableModeration) {
+      commentExtension.set('enableModeration', settings.enableModeration);
     }
   }
 
   resetThreshold(): void {
     if (this.room.extensions && this.room.extensions['comments']) {
       delete this.room.extensions['comments'];
-      this.saveChanges();
     }
   }
 
@@ -112,10 +114,14 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       .subscribe(result => {
         if (result === 'abort') {
           return;
-        } else if (result === 'reset-threshold') {
-          this.resetThreshold();
-        } else if (result !== 'delete') {
-          this.updateCommentSettings(+result);
+        } else {
+          if (result instanceof CommentSettingsDialog) {
+            if (!result.enableThreshold) {
+              this.resetThreshold();
+            }
+            this.updateCommentSettings(result);
+            this.saveChanges();
+          }
         }
       });
     dialogRef.backdropClick().subscribe( res => {

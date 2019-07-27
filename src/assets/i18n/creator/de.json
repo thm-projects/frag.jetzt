@@ -41,7 +41,9 @@
     "session-id": "ID",
     "copy-session-id": "Session-ID kopieren",
     "session-id-copied": "Session-ID wurde in die Zwischenablage kopiert.",
-    "settings-direct-send": "Fragen sofort sichtbar schalten"
+    "settings-comment-moderation": "Fragen moderieren",
+    "settings-direct-send": "Fragen sofort sichtbar schalten",
+    "moderating-stream": "Moderation"
   },
   "content": {
     "content": "Frage",

@@ -41,6 +41,7 @@
     "session-id": "ID",
     "copy-session-id": "Copy Session-ID",
     "session-id-copied": "Session-ID was copied to the clipboard.",
+    "settings-comment-moderation": "Fragen moderieren",
     "settings-direct-send": "Send Questions directly to participants",
     "moderating-stream": "Moderation"
   },
