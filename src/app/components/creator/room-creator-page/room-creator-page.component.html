@@ -42,13 +42,21 @@
           {{ room.description.trim() }}
         </h4>
       </mat-card-content>
-      <mat-grid-list cols="1" rowHeight="2:1">
+      <mat-grid-list cols="2" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
             <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
             <h3>{{ 'room-page.comments' | translate}}</h3> <!-- *ngIf="deviceType === 'desktop'" -->
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
+            <mat-icon matBadge="{{moderatorCommentCounter}}" matBadgeColor="primary"
+                      [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
+            </mat-icon>
+            <h3>{{ 'room-page.moderating-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
        <!-- <mat-grid-tile>
