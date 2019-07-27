@@ -30,8 +30,8 @@
               </button>
             </mat-grid-tile>
             <mat-grid-tile>
-              <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/comments">
-                <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary"
+              <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
+                <mat-icon matBadge="{{moderatorCommentCounter}}" matBadgeColor="primary"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
                 </mat-icon>
                 <h3>{{ 'room-page.moderating-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->

@@ -40,7 +40,8 @@
     "room-not-found": "Session wurde nicht gefunden :(",
     "session-id": "ID",
     "copy-session-id": "Session-ID kopieren",
-    "session-id-copied": "Session-ID wurde in die Zwischenablage kopiert."
+    "session-id-copied": "Session-ID wurde in die Zwischenablage kopiert.",
+    "settings-direct-send": "Fragen sofort sichtbar schalten"
   },
   "content": {
     "content": "Frage",
@@ -112,7 +113,9 @@
     "mark-favorite": "Als besonders interessante Frage markieren",
     "mark-read": "In Vollansicht am Beamer besprochen",
     "vote-up": "Hochvoten",
-    "vote-down": "Runtervoten"
+    "vote-down": "Runtervoten",
+    "acknowledge": "Erlauben",
+    "reject": "Unterbinden"
   },
   "comment-list": {
     "search": "Suchen",

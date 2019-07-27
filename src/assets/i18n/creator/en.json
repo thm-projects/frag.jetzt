@@ -40,7 +40,8 @@
     "room-not-found": "Session not found :(",
     "session-id": "ID",
     "copy-session-id": "Copy Session-ID",
-    "session-id-copied": "Session-ID was copied to the clipboard."
+    "session-id-copied": "Session-ID was copied to the clipboard.",
+    "settings-direct-send": "Send Questions directly to participants"
   },
   "content": {
     "content": "Content",
@@ -112,7 +113,9 @@
     "mark-favorite": "Mark as favorite",
     "mark-read": "Discussed by you in full screen mode on the projector",
     "vote-up": "Vote up",
-    "vote-down": "Vote down"
+    "vote-down": "Vote down",
+    "acknowledge": "Acknowledge",
+    "reject": "Reject"
   },
   "comment-list": {
     "search": "Search",

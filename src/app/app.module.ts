@@ -40,6 +40,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
+import { CommentSettingsService } from './services/http/comment-settings.service';
+import { ModeratorModule } from './components/moderator/moderator.module';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -75,6 +77,7 @@ export function initializeApp(appConfig: AppConfig) {
     SharedModule,
     ThemeModule,
     CreatorModule,
+    ModeratorModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
@@ -112,6 +115,7 @@ export function initializeApp(appConfig: AppConfig) {
     UserService,
     VoteService,
     ModeratorService,
+    CommentSettingsService,
     WsConnectorService,
     {
       provide: MatDialogRef,

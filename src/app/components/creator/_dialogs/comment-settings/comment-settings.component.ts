@@ -7,9 +7,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
+import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
 import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 import { Room } from '../../../../models/room';
+import { CommentSettings } from '../../../../models/comment-settings';
 
 @Component({
   selector: 'app-comment-settings',
@@ -23,15 +25,19 @@ export class CommentSettingsComponent implements OnInit {
   commentThreshold: number;
   editRoom: Room;
   settingThreshold: boolean;
+  directSend: boolean;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public dialog: MatDialog,
-              public notificationService: NotificationService,
-              public translationService: TranslateService,
-              protected roomService: RoomService,
-              public router: Router,
-              public commentService: CommentService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    public dialog: MatDialog,
+    public notificationService: NotificationService,
+    public translationService: TranslateService,
+    protected roomService: RoomService,
+    public router: Router,
+    public commentService: CommentService,
+    public commentSettingsService: CommentSettingsService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
   }
 
   ngOnInit() {
@@ -44,6 +50,9 @@ export class CommentSettingsComponent implements OnInit {
       this.settingThreshold = false;
       this.commentThreshold = -10;
     }
+    this.commentSettingsService.get(this.roomId).subscribe(settings => {
+      this.directSend = settings.directSend;
+    });
   }
 
   onSliderChange(event: any) {
@@ -119,10 +128,15 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   closeDialog(): void {
-    if (this.settingThreshold) {
-      this.dialogRef.close(this.commentThreshold);
-    } else {
-      this.dialogRef.close('reset-threshold');
-    }
+    const commentSettings = new CommentSettings();
+    commentSettings.roomId = this.roomId;
+    commentSettings.directSend = this.directSend;
+    this.commentSettingsService.update(commentSettings).subscribe( x => {
+      if (this.settingThreshold) {
+        this.dialogRef.close(this.commentThreshold);
+      } else {
+        this.dialogRef.close('reset-threshold');
+      }
+    });
   }
 }

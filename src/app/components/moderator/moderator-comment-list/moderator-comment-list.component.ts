@@ -4,7 +4,6 @@ import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
-import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { MatDialog } from '@angular/material';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
@@ -15,11 +14,11 @@ import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
 
 @Component({
-  selector: 'app-comment-list',
-  templateUrl: './comment-list.component.html',
-  styleUrls: ['./comment-list.component.scss']
+  selector: 'app-moderator-comment-list',
+  templateUrl: './moderator-comment-list.component.html',
+  styleUrls: ['./moderator-comment-list.component.scss']
 })
-export class CommentListComponent implements OnInit {
+export class ModeratorCommentListComponent implements OnInit {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
@@ -47,13 +46,14 @@ export class CommentListComponent implements OnInit {
   search = false;
   searchPlaceholder = '';
 
-  constructor(private commentService: CommentService,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              protected langService: LanguageService,
-              private wsCommentService: WsCommentServiceService,
-              protected roomService: RoomService,
-              protected voteService: VoteService
+  constructor(
+    private commentService: CommentService,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    protected langService: LanguageService,
+    private wsCommentService: WsCommentServiceService,
+    protected roomService: RoomService,
+    protected voteService: VoteService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -64,20 +64,16 @@ export class CommentListComponent implements OnInit {
     this.userRole = this.user.role;
     this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
     this.hideCommentsList = false;
+    this.wsCommentService.getModeratorCommentStream(this.roomId).subscribe((message: Message) => {
+      this.parseIncomingModeratorMessage(message);
+    });
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
-    if (this.userRole === 0) {
-      this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
-        for (const v of votes) {
-          this.commentVoteMap.set(v.commentId, v);
-        }
-      });
-    }
     this.currentSort = this.votedesc;
-    this.commentService.getAckComments(this.roomId)
+    this.commentService.getRejectedComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
         this.getComments();
@@ -136,14 +132,6 @@ export class CommentListComponent implements OnInit {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
     switch (msg.type) {
-      case 'CommentCreated':
-        const c = new Comment();
-        c.roomId = this.roomId;
-        c.body = payload.body;
-        c.id = payload.id;
-        c.timestamp = payload.timestamp;
-        this.comments = this.comments.concat(c);
-        break;
       case 'CommentPatched':
         // ToDo: Use a map for comments w/ key = commentId
         for (let i = 0; i < this.comments.length; i++) {
@@ -164,7 +152,7 @@ export class CommentListComponent implements OnInit {
                   break;
                 case this.ack:
                   const isNowAck = <boolean>value;
-                  if (!isNowAck) {
+                  if (isNowAck) {
                     this.comments = this.comments.filter(function (el) {
                       return el.id !== payload.id;
                     });
@@ -174,45 +162,29 @@ export class CommentListComponent implements OnInit {
           }
         }
         break;
-      case 'CommentHighlighted':
-        // ToDo: Use a map for comments w/ key = commentId
-        for (let i = 0; i < this.comments.length; i++) {
-          if (payload.id === this.comments[i].id) {
-            this.comments[i].highlighted = <boolean>payload.lights;
-          }
-        }
-        break;
-      case 'CommentDeleted':
-        for (let i = 0; i < this.comments.length; i++) {
-          this.comments = this.comments.filter(function (el) {
-            return el.id !== payload.id;
-          });
-        }
-        break;
     }
     this.filterComments(this.currentFilter);
     this.sortComments(this.currentSort);
     this.searchComments();
   }
 
-  openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.user = this.user;
-    dialogRef.componentInstance.roomId = this.roomId;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.send(result);
-        } else {
-          return;
-        }
-      });
-  }
-
-  send(comment: Comment): void {
-    this.wsCommentService.add(comment);
+  parseIncomingModeratorMessage(message: Message) {
+    const msg = JSON.parse(message.body);
+    const payload = msg.payload;
+    switch (msg.type) {
+      case 'CommentCreated':
+        const c = new Comment();
+        c.roomId = this.roomId;
+        c.body = payload.body;
+        c.id = payload.id;
+        c.timestamp = payload.timestamp;
+        this.comments = this.comments.concat(c);
+        break;
+    }
+    console.log(msg);
+    this.filterComments(this.currentFilter);
+    this.sortComments(this.currentSort);
+    this.searchComments();
   }
 
   filterComments(type: string): void {

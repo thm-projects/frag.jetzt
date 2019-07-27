@@ -35,7 +35,7 @@ export class RoomPageComponent implements OnInit {
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
-      this.commentService.countByRoomId(this.room.id)
+      this.commentService.countByRoomId(this.room.id, true)
         .subscribe(commentCounter => {
           this.commentCounter = commentCounter;
         });

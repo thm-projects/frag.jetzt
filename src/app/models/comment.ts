@@ -11,6 +11,7 @@ export class Comment {
   score: number;
   createdFromLecturer: boolean;
   highlighted: boolean;
+  ack: boolean;
 
   constructor(roomId: string = '',
               userId: string = '',
@@ -21,7 +22,8 @@ export class Comment {
               creationTimestamp: Date = null,
               score: number = 0,
               createdFromLecturer = false,
-              highlighted: boolean = false) {
+              highlighted: boolean = false,
+              ack: boolean = true) {
     this.id = '';
     this.roomId = roomId;
     this.userId = userId;
@@ -34,5 +36,6 @@ export class Comment {
     this.score = score;
     this.createdFromLecturer = createdFromLecturer;
     this.highlighted = highlighted;
+    this.ack = ack;
   }
 }
