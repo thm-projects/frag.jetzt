@@ -83,13 +83,6 @@
       </button>
     </mat-menu>
 
-    <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)=login(false)>
-        <mat-icon>supervisor_account</mat-icon>
-        <span>{{ 'login-page.login' | translate }}</span>
-      </button>
-    </mat-menu>
-
     <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
@@ -101,14 +94,14 @@
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
 
-    <button mat-button *ngIf="!user && deviceType === 'desktop'" [matMenuTriggerFor]="loginMenu">
+    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
         <h3 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h3>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" [matMenuTriggerFor]="loginMenu">
+    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false)>
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
 
