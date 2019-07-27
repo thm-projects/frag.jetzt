@@ -8,6 +8,7 @@ import { ContentTextCreatorComponent } from './content-text-creator/content-text
 import { ContentYesNoCreatorComponent } from './content-yes-no-creator/content-yes-no-creator.component';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { EssentialsModule } from '../essentials/essentials.module';
+import { ModeratorModule } from '../moderator/moderator.module';
 import { RoomDeleteComponent } from './_dialogs/room-delete/room-delete.component';
 import { RoomEditComponent } from './_dialogs/room-edit/room-edit.component';
 import { AnswerEditComponent } from './_dialogs/answer-edit/answer-edit.component';
@@ -31,6 +32,7 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
     CreatorRoutingModule,
     EssentialsModule,
     SharedModule,
+    ModeratorModule,
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,

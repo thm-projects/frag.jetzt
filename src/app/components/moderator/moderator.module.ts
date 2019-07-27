@@ -35,5 +35,5 @@ export class ModeratorModule {
 }
 
 export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../../assets/i18n/moderator/', '.json');
+  return new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
 }
