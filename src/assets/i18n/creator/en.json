@@ -43,6 +43,7 @@
     "session-id-copied": "Session-ID was copied to the clipboard.",
     "settings-comment-moderation": "Moderate questions",
     "settings-direct-send": "Send Questions directly to participants",
+    "public-stream": "Public Questions",
     "moderating-stream": "Moderation"
   },
   "content": {
