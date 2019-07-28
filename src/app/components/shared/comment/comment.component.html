@@ -21,7 +21,7 @@
         <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                   matTooltip="{{ 'comment-page.mark-favorite' | translate }}">grade</mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="isStudent" (click)="setRead(comment)">
+      <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="true" (click)="setRead(comment)">
         <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
                   matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
         </mat-icon>
