@@ -127,6 +127,10 @@ export class CommentComponent implements OnInit {
     });
   }
 
+  setAck(comment: Comment): void {
+    this.comment = this.wsCommentService.toggleAck(comment);
+  }
+
   goToFullScreen(element: Element): void {
     if (element.requestFullscreen) {
       element.requestFullscreen();

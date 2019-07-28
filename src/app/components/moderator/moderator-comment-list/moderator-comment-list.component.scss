@@ -1,0 +1,178 @@
+app-comment {
+  overflow: auto;
+  overflow-wrap: break-word;
+}
+
+.mat-form-field {
+  float: left;
+  padding-left: 10px;
+}
+
+#searchBox {
+  box-sizing: border-box;
+  padding: 0 10px 0 5px;
+  background-color: var(--dialog);
+  border: none;
+  outline: none;
+  min-height: 60px;
+  font-size: large;
+  border-radius: 5px;
+  color: var(--on-surface);
+  transition: width 300ms linear;
+}
+
+.desktop-input {
+  width: 100%;
+}
+
+.mobile-input {
+  width: 0;
+}
+
+.mobile-input-2 {
+  width: 100%;
+  margin-left: 3%;
+}
+
+.search-container {
+  border-radius: 5px;
+  background-color: var(--dialog);
+  margin-bottom: 2%;
+}
+
+.search-container-fixed {
+  border-radius: 5px;
+  background-color: var(--dialog);
+  margin-bottom: 2%;
+  position: fixed;
+  top: 10px;
+  width: 92%;
+  max-width: 800px;
+  z-index: 1;
+}
+
+.search-icon {
+  padding: 10px;
+  color: var(--on-surface);
+}
+
+.searchBarButton {
+  width: 45px !important;
+  height: 45px !important;
+  text-align: center;
+  margin: 1% 2% 1% 1%;
+  color: var(--secondary);
+}
+
+.addButton {
+  width: 40px;
+  height: 40px;
+  margin: 0 5% 0 5%;
+  background-color: var(--primary);
+}
+
+.addCommentIcon {
+  transform: scale(1.5);
+  color: var(--surface)
+}
+
+.close {
+  margin: 5px 0 5px 0;
+}
+
+.searchBarIcon {
+  font-size: 45px;
+  height: 45px;
+  width: 45px;
+  line-height: 100% !important;
+  color: var(--primary);
+}
+
+.no-comments {
+  margin-top: 10%;
+}
+
+h4  {
+  color: var(--on-surface);
+}
+
+.button-bar {
+  margin-right: 2%;
+}
+
+.correct-icon {
+  color: var(--green);
+}
+
+.read-icon {
+  color: var(--blue);
+}
+
+.favorite-icon {
+  color: var(--yellow);
+}
+
+.unread-icon {
+  color: var(--purple);
+}
+
+.counter {
+  color: var(--on-background);
+}
+
+.counter-filtered {
+  color: var(--red);
+}
+
+h3 {
+  font-size: 18pt!important;
+  margin: 10px;
+}
+
+.up {
+  color: var(--green);
+}
+
+.down {
+  color: var(--red);
+}
+
+::placeholder {
+  color: var(--on-surface);
+  opacity: 1;
+}
+
+.fab-extended {
+  width: 50%;
+  min-width: 270px;
+  max-width: 300px;
+  height: 40px;
+  border-radius: 32px;
+  margin: 10% 0 10% 0;
+  font-size: large;
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.add {
+  transform: scale(1.4);
+  margin-right: 4%;
+  margin-left: 4%;
+  color: var(--on-primary);
+}
+
+.scrollTop {
+  position: fixed;
+  bottom: 3%;
+  left: -40px;
+  z-index: 1;
+  background-color: var(--primary);
+  color: white;
+  transition: 0.5s;
+}
+
+.visible {
+  left: 5%;
+  transition: 0.5s;
+  background-color: var(--primary);
+}

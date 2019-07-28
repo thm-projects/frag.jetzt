@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeParticipantPageComponent } from './home-participant-page/home-participant-page.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
@@ -12,45 +11,33 @@ import { CommentPageComponent } from '../shared/comment-page/comment-page.compon
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeParticipantPageComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.PARTICIPANT] }
-  },
-  {
     path: 'room/:roomId',
     component: RoomParticipantPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/statistics',
     component: StatisticsPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/statistics/:contentId',
     component: StatisticComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/comments',
     component: CommentPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   },
   {
     path: 'room/:roomId/:contentGroup',
     component: ParticipantContentCarouselPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.PARTICIPANT] }
   }
 ];

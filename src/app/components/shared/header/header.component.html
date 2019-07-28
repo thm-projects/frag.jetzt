@@ -73,28 +73,13 @@
     </button>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngIf="user && user.role === 1" routerLink="/creator">
+      <button mat-menu-item *ngIf="user" routerLink="/user">
         <mat-icon class="sessions">work</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
-      </button>
-      <button mat-menu-item *ngIf="user && user.role === 0" routerLink="/participant">
-        <mat-icon class="sessions">attach_file</mat-icon>
-        <span>{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
-      </button>
-    </mat-menu>
-
-    <mat-menu #loginMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)=login(true)>
-        <mat-icon>record_voice_over</mat-icon>
-        <span>{{ 'login-page.creator' | translate }}</span>
-      </button>
-      <button mat-menu-item (click)=login(false)>
-        <mat-icon>supervisor_account</mat-icon>
-        <span>{{ 'login-page.participant' | translate }}</span>
       </button>
     </mat-menu>
 
@@ -109,14 +94,14 @@
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
 
-    <button mat-button *ngIf="!user && deviceType === 'desktop'" [matMenuTriggerFor]="loginMenu">
+    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
         <h3 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h3>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" [matMenuTriggerFor]="loginMenu">
+    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false)>
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
 

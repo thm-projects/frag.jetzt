@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeCreatorPageComponent } from './home-creator-page/home-creator-page.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
@@ -14,57 +13,43 @@ import { CommentPageComponent } from '../shared/comment-page/comment-page.compon
 
 const routes: Routes = [
   {
-    path: '',
-    component: HomeCreatorPageComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
-  },
-  {
     path: 'room/:roomId',
     component: RoomCreatorPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/create-content',
     component: ContentCreatePageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/statistics',
     component: StatisticsPageComponent,
     canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/statistics/:contentId',
     component: StatisticComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/comments',
     component: CommentPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/:contentGroup',
     component: ContentListComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/:contentGroup/presentation',
     component: ContentPresentationComponent,
-    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   }
 ];

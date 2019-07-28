@@ -12,6 +12,16 @@
       <h3>&nbsp;{{commentThreshold | number}}</h3>
     </div>
   </div>
+  <div fxLayout="column">
+    <div fxLayout="row">
+      <h3>{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;</h3>
+      <h3><mat-slide-toggle [(ngModel)]="enableCommentModeration"></mat-slide-toggle></h3>
+    </div>
+    <div fxLayout="row" *ngIf="enableCommentModeration">
+      <h3>{{ 'room-page.settings-direct-send' | translate}}&nbsp;</h3>
+      <h3><mat-slide-toggle [(ngModel)]="directSend"></mat-slide-toggle></h3>
+    </div>
+  </div>
   <div fxLayoutAlign="center center">
     <button mat-raised-button class="export" (click)="openExportDialog()">
       <mat-icon>cloud_download</mat-icon>

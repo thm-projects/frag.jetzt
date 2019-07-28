@@ -3,6 +3,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Room } from '../../../models/room';
+import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material';
@@ -26,6 +27,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   commentThreshold: number;
   updCommentThreshold: number;
   deviceType = localStorage.getItem('deviceType');
+  viewModuleCount = 1;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -48,26 +50,38 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
+  afterRoomLoadHook() {
+    if (this.moderationEnabled) {
+      this.viewModuleCount = this.viewModuleCount + 1;
+    }
+  }
+
   updateGeneralSettings() {
     this.room.name = this.updRoom.name;
     this.room.description = this.updRoom.description;
     this.saveChanges();
   }
 
-  updateCommentSettings(threshold: number) {
-    if (threshold >= -50) {
-      const commentExtension: TSMap<string, any> = new TSMap();
-      commentExtension.set('commentThreshold', threshold);
-      this.room.extensions = new TSMap();
-      this.room.extensions.set('comments', commentExtension);
-      this.saveChanges();
+  updateCommentSettings(settings: CommentSettingsDialog) {
+    const commentExtension: TSMap<string, any> = new TSMap();
+    this.room.extensions = new TSMap();
+    commentExtension.set('enableThreshold', settings.enableThreshold);
+    commentExtension.set('commentThreshold', settings.threshold);
+    commentExtension.set('enableModeration', settings.enableModeration);
+    this.room.extensions.set('comments', commentExtension);
+
+    if (this.moderationEnabled && !settings.enableModeration) {
+      this.viewModuleCount = this.viewModuleCount - 1;
+    } else if (!this.moderationEnabled && settings.enableModeration) {
+      this.viewModuleCount = this.viewModuleCount + 1;
     }
+
+    this.moderationEnabled = settings.enableModeration;
   }
 
   resetThreshold(): void {
     if (this.room.extensions && this.room.extensions['comments']) {
       delete this.room.extensions['comments'];
-      this.saveChanges();
     }
   }
 
@@ -112,10 +126,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       .subscribe(result => {
         if (result === 'abort') {
           return;
-        } else if (result === 'reset-threshold') {
-          this.resetThreshold();
-        } else if (result !== 'delete') {
-          this.updateCommentSettings(+result);
+        } else {
+          if (result instanceof CommentSettingsDialog) {
+            console.log(result);
+            this.updateCommentSettings(result);
+            this.saveChanges();
+          }
         }
       });
     dialogRef.backdropClick().subscribe( res => {

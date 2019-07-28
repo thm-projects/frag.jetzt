@@ -16,6 +16,7 @@ export class RoomPageComponent implements OnInit {
   room: Room = null;
   isLoading = true;
   commentCounter: number;
+  protected moderationEnabled = false;
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -31,11 +32,20 @@ export class RoomPageComponent implements OnInit {
     });
   }
 
+  protected afterRoomLoadHook() {
+
+  }
+
   initializeRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
-      this.commentService.countByRoomId(this.room.id)
+      if (this.room && this.room.extensions && this.room.extensions['comments']) {
+        if (this.room.extensions['comments'].enableModeration !== null) {
+          this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+        }
+      }
+      this.commentService.countByRoomId(this.room.id, true)
         .subscribe(commentCounter => {
           this.commentCounter = commentCounter;
         });
@@ -48,6 +58,7 @@ export class RoomPageComponent implements OnInit {
           this.commentCounter = this.commentCounter - 1;
         }
       });
+      this.afterRoomLoadHook();
     });
   }
 

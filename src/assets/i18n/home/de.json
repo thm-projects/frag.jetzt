@@ -24,7 +24,8 @@
 		"password-reset": "Passwort vergessen?",
 		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
-		"welcome": "Online fragen | Fragen voten"
+		"welcome": "Online fragen | Fragen voten",
+		"login": "Login"
 	},
 	"home-page": {
 		"join-demo-session": "Öffentliche Session betreten",

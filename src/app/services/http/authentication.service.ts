@@ -105,6 +105,12 @@ export class AuthenticationService {
     return this.user.getValue() !== undefined;
   }
 
+  assignRole(role: UserRole): void {
+    const u = this.user.getValue();
+    u.role = role;
+    this.setUser(u);
+  }
+
   getRole(): UserRole {
     return this.isLoggedIn() ? this.user.getValue().role : undefined;
   }

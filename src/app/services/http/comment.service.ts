@@ -49,6 +49,28 @@ export class CommentService extends BaseHttpService {
     );
   }
 
+  getAckComments(roomId: string): Observable<Comment[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    return this.http.post<Comment[]>(connectionUrl, {
+      properties: { roomId: roomId, ack: true },
+      externalFilters: {}
+    }, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Comment[]>('getComments', []))
+    );
+  }
+
+  getRejectedComments(roomId: string): Observable<Comment[]> {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
+    return this.http.post<Comment[]>(connectionUrl, {
+      properties: { roomId: roomId, ack: false },
+      externalFilters: {}
+    }, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Comment[]>('getComments', []))
+    );
+  }
+
   getComments(roomId: string): Observable<Comment[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
     return this.http.post<Comment[]>(connectionUrl, {
@@ -76,10 +98,10 @@ export class CommentService extends BaseHttpService {
     );
   }
 
-  countByRoomId(roomId: string): Observable<number> {
+  countByRoomId(roomId: string, ack: boolean): Observable<number> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find + this.apiUrl.count;
     return this.http.post<number>(connectionUrl, {
-      properties: { roomId: roomId },
+      properties: { roomId: roomId, ack: ack },
       externalFilters: {}
     }, httpOptions).pipe(
       tap(_ => ''),

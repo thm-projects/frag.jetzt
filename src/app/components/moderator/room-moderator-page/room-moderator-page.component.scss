@@ -1,0 +1,105 @@
+@import '../../../../styles';
+
+mat-card {
+  width: 100%;
+  max-width: 800px;
+  min-height: 350px;
+  background-color: var(--surface)!important;
+}
+
+mat-card-content>:first-child {
+  margin-top: 5%;
+}
+
+.mat-icon-button {
+  width: 60%; // 100%
+  height: 75%;
+  margin-bottom: 3%;
+  color: var(--primary)!important;
+}
+
+/*mat-icon {
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  line-height: 100%!important;
+}*/
+
+mat-icon {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+  line-height: 100%!important;
+}
+
+.desktop {
+  font-size: 70px;
+  height: 70px;
+  width: 70px;
+}
+
+button {
+  width: 30%;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: scale(1.2)
+  }
+}
+
+h2 {
+  font-size: large;
+  color: var(--on-surface);
+}
+
+h3 {
+  font-size: larger;
+  color: var(--on-surface)!important;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+h4 {
+  font-size: 15px;
+  color: var(--on-surface)!important;
+  padding: 0 1% 0 1%;
+}
+
+mat-card-header {
+  min-height: 80px!important;
+  height: 12%!important;
+}
+
+mat-card-title {
+  height: 40%;
+}
+
+mat-card-subtitle {
+  height: 20%;
+}
+
+mat-expansion-panel {
+  background-color: var(--surface)!important;
+  min-width: 200px;
+  hyphens: auto;
+}
+
+mat-grid-list {
+  margin-bottom: 20px !important;
+}
+
+mat-grid-tile {
+  height: 100%!important;
+  padding: 2%!important;
+}
+
+#settings {
+  width: 10%;
+  max-width: 40px;
+}
+
+#settings-icon {
+  font-size: 35px;
+  height: 35px;
+  width: 35px;
+}

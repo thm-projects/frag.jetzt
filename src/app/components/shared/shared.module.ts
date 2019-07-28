@@ -74,7 +74,8 @@ import { DeleteCommentComponent } from '../creator/_dialogs/delete-comment/delet
     CommentListComponent,
     StatisticsPageComponent,
     CreateCommentComponent,
-    PresentCommentComponent
+    PresentCommentComponent,
+    CommentComponent
   ],
   entryComponents: [
     RoomCreateComponent,

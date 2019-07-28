@@ -7,9 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
+import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
 import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 import { Room } from '../../../../models/room';
+import { CommentSettings } from '../../../../models/comment-settings';
+import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
 
 @Component({
   selector: 'app-comment-settings',
@@ -20,30 +23,47 @@ export class CommentSettingsComponent implements OnInit {
 
   roomId: string;
   comments: Comment[];
-  commentThreshold: number;
+  commentThreshold = -10;
   editRoom: Room;
-  settingThreshold: boolean;
+  settingThreshold = false;
+  enableCommentModeration = false;
+  directSend: boolean;
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public dialog: MatDialog,
-              public notificationService: NotificationService,
-              public translationService: TranslateService,
-              protected roomService: RoomService,
-              public router: Router,
-              public commentService: CommentService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    public dialog: MatDialog,
+    public notificationService: NotificationService,
+    public translationService: TranslateService,
+    protected roomService: RoomService,
+    public router: Router,
+    public commentService: CommentService,
+    public commentSettingsService: CommentSettingsService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+  ) {
   }
 
   ngOnInit() {
-    if (this.editRoom.extensions
-        && this.editRoom.extensions['comments']
-        && this.editRoom.extensions['comments'].commentThreshold != null) {
-      this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
-      this.settingThreshold = true;
+    // TODO: refactor...
+    if (
+      this.editRoom.extensions
+      && this.editRoom.extensions['comments']
+      && this.editRoom.extensions['comments'].commentThreshold != null
+    ) {
+      if (this.editRoom.extensions['comments'].commentThreshold != null) {
+        this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
+        this.settingThreshold = true;
+      }
+
+      if (this.editRoom.extensions['comments'].enableModeration != null) {
+        this.enableCommentModeration = this.editRoom.extensions['comments'].enableModeration;
+      }
     } else {
       this.settingThreshold = false;
-      this.commentThreshold = -10;
+      this.enableCommentModeration = false;
     }
+    this.commentSettingsService.get(this.roomId).subscribe(settings => {
+      this.directSend = settings.directSend;
+    });
   }
 
   onSliderChange(event: any) {
@@ -119,10 +139,16 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   closeDialog(): void {
-    if (this.settingThreshold) {
-      this.dialogRef.close(this.commentThreshold);
-    } else {
-      this.dialogRef.close('reset-threshold');
-    }
+    const commentSettings = new CommentSettings();
+    commentSettings.roomId = this.roomId;
+    commentSettings.directSend = this.directSend;
+    this.commentSettingsService.update(commentSettings).subscribe( x => {
+      const settingsReturn = new CommentSettingsDialog();
+      settingsReturn.enableModeration = this.enableCommentModeration;
+      settingsReturn.directSend = this.directSend;
+      settingsReturn.enableThreshold = this.settingThreshold;
+      settingsReturn.threshold = this.commentThreshold;
+      this.dialogRef.close(settingsReturn);
+    });
   }
 }

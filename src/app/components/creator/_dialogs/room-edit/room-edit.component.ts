@@ -52,7 +52,7 @@ export class RoomEditComponent implements OnInit {
       const event = new RoomDeleted(room.id);
       this.eventService.broadcast(event.type, event.payload);
       this.dialogRef.close('delete');
-      this.router.navigate([`/creator`]);
+      this.router.navigate([`/user`]);
     });
   }
 }

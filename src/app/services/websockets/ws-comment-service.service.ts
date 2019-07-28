@@ -49,6 +49,14 @@ export class WsCommentServiceService {
     return comment;
   }
 
+  toggleAck(comment: Comment): Comment {
+    comment.ack = !comment.ack;
+    const changes = new TSMap<string, any>();
+    changes.set('ack', comment.ack);
+    this.patchComment(comment, changes);
+    return comment;
+  }
+
   voteUp(comment: Comment, userId: string): void {
     const message = new UpVote(userId, comment.id);
     this.wsConnector.send(`/queue/vote.command.upvote`, JSON.stringify(message));
@@ -81,5 +89,9 @@ export class WsCommentServiceService {
 
   getCommentStream(roomId: string): Observable<IMessage> {
     return this.wsConnector.getWatcher(`/topic/${roomId}.comment.stream`);
+  }
+
+  getModeratorCommentStream(roomId: string): Observable<IMessage> {
+    return this.wsConnector.getWatcher(`/topic/${roomId}.comment.moderator.stream`);
   }
 }
