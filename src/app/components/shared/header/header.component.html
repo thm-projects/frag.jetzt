@@ -11,6 +11,16 @@
     </h3>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments')"></span>
+
+    <span
+      *ngIf="router.url.includes('comments') && moderationEnabled && deviceType === 'desktop'"
+      class="moderation-enabled"
+      fxLayoutAlign="center center"
+    >
+    <mat-icon matTooltip="{{ 'header.moderation-enabled' | translate }}">
+      gavel
+    </mat-icon>
+  </span>
     <h3 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0,4) }} {{  shortId.slice(4,8) }}
     </h3>

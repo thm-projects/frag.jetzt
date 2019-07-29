@@ -16,7 +16,8 @@
     "dark": "Dark background",
     "bright": "Bright background",
     "beamer": "Optimized for the projector (work in progress)",
-    "wai": "Accessible according to WCAG 2.0 (work in progress)"
+    "wai": "Accessible according to WCAG 2.0 (work in progress)",
+		"moderation-enabled": "Moderated"
 	},
 	"login-page": {
 		"creator": "Professor",
