@@ -28,6 +28,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   updCommentThreshold: number;
   deviceType = localStorage.getItem('deviceType');
   viewModuleCount = 1;
+  moderatorCommentCounter: number;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -53,7 +54,11 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   afterRoomLoadHook() {
     if (this.moderationEnabled) {
       this.viewModuleCount = this.viewModuleCount + 1;
+      this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
+        this.moderatorCommentCounter = commentCounter;
+      });
     }
+
   }
 
   updateGeneralSettings() {

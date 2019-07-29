@@ -45,14 +45,14 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
       }
       this.room = room;
       this.isLoading = false;
-      this.commentService.countByRoomId(this.room.id, true)
-        .subscribe(commentCounter => {
+      this.commentService.countByRoomId(this.room.id, true).subscribe(commentCounter => {
           this.commentCounter = commentCounter;
-        });
-
-      this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
-        this.moderatorCommentCounter = commentCounter;
       });
+      if (this.moderationEnabled) {
+        this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
+          this.moderatorCommentCounter = commentCounter;
+        });
+      }
 
       this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
         const msg = JSON.parse(message.body);
