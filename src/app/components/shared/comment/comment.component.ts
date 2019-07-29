@@ -44,6 +44,7 @@ export class CommentComponent implements OnInit {
   hasVoted = 0;
   language: string;
   animationState: string;
+  moderationEnabled: boolean;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -66,6 +67,7 @@ export class CommentComponent implements OnInit {
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
+    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
   }
 
   startAnimation(state_: any): void {
