@@ -82,6 +82,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     }
 
     this.moderationEnabled = settings.enableModeration;
+    localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
   resetThreshold(): void {
