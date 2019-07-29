@@ -63,6 +63,13 @@ mat-card-content > :first-child {
   line-height: 100%!important;
 }
 
+.room-short-id {
+  font-size: larger;
+  font-weight: bold;
+  color: var(--on-surface)!important;
+  margin: 5% 5% 0 0;
+}
+
 mat-grid-list {
   margin-bottom: 5px !important;
 }
@@ -95,6 +102,7 @@ mat-card-header {
 
 mat-card-title {
   height: 40%;
+  min-width: 200px;
 }
 
 mat-card-subtitle {

@@ -10,9 +10,9 @@
             <h2>{{ room.name }}</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
-            <h3>
+            <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
-            </h3>
+            </span>
             <button id="copy" mat-icon-button (click)="copyShortId()">
               <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">cloud_download</mat-icon>
             </button>
