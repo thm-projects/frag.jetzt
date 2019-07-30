@@ -22,6 +22,7 @@ export class HeaderComponent implements OnInit {
   cTime: string;
   shortId: string;
   deviceType: string;
+  moderationEnabled: boolean;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -73,6 +74,7 @@ export class HeaderComponent implements OnInit {
        });
       }
     });
+    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
   }
 
   getTime(time: Date) {

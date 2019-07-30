@@ -31,7 +31,7 @@
                   matTooltip="{{ 'comment-page.delete' | translate }}">delete
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent" [disabled]="isStudent" (click)="setAck(comment)">
+      <button mat-icon-button *ngIf="!isStudent && moderationEnabled" [disabled]="isStudent" (click)="setAck(comment)">
         <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
                   matTooltip="{{ 'comment-page.acknowledge' | translate }}">gavel
         </mat-icon>

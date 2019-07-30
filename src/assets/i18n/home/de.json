@@ -16,7 +16,8 @@
     "dark": "Dunkler Hintergrund",
     "bright": "Heller Hintergrund",
     "beamer": "Für den Beamer optimiert (in Arbeit)",
-    "wai": "Barrierefrei nach WCAG 2.0 (in Arbeit)"
+		"wai": "Barrierefrei nach WCAG 2.0 (in Arbeit)",
+		"moderation-enabled": "Moderiert"
 	},
 	"login-page": {
 		"creator": "Dozent/in",
