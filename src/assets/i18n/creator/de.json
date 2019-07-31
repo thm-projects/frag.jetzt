@@ -113,12 +113,15 @@
     "export": "Exportieren",
     "no-comments": "Noch keine Fragen",
     "mark-correct": "Frage bejahen",
+    "mark-not-correct": "Frage nicht bejahen",
     "mark-favorite": "Als besonders interessante Frage markieren",
+    "mark-not-favorite": "Nicht als besonders interessante Frage markieren",
     "mark-read": "In Vollansicht am Beamer besprochen",
     "vote-up": "Hochvoten",
     "vote-down": "Runtervoten",
     "acknowledge": "Erlauben",
-    "reject": "Unterbinden"
+    "reject": "Unterbinden",
+    "delete": "Frage löschen"
   },
   "comment-list": {
     "search": "Suchen",

@@ -14,12 +14,16 @@
       <button mat-icon-button *ngIf="!isStudent || comment.correct" [disabled]="isStudent"
               (click)="setCorrect(comment)">
         <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}"
-                  matTooltip="{{ 'comment-page.mark-correct' | translate }}">check_circle</mat-icon>
+                  [matTooltip]="!comment.correct ? ('comment-page.mark-correct' | translate)
+                                                 : ('comment-page.mark-not-correct' | translate)">check_circle
+        </mat-icon>
       </button>
       <button mat-icon-button *ngIf="!isStudent || comment.favorite" [disabled]="isStudent"
               (click)="setFavorite(comment)">
         <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
-                  matTooltip="{{ 'comment-page.mark-favorite' | translate }}">grade</mat-icon>
+                  [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                 : ('comment-page.mark-not-favorite' | translate)">grade
+        </mat-icon>
       </button>
       <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="true" (click)="setRead(comment)">
         <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
@@ -33,7 +37,8 @@
       </button>
       <button mat-icon-button *ngIf="!isStudent && moderationEnabled" [disabled]="isStudent" (click)="setAck(comment)">
         <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
-                  matTooltip="{{ 'comment-page.acknowledge' | translate }}">gavel
+                  [matTooltip]="!comment.ack ? ('comment-page.acknowledge' | translate)
+                                                 : ('comment-page.reject' | translate)">gavel
         </mat-icon>
       </button>
     </div>

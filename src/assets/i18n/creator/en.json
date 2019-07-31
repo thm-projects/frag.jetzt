@@ -113,12 +113,15 @@
     "export": "Export",
     "no-comments": "No questions yet",
     "mark-correct": "Mark as correct",
+    "mark-not-correct": "Mark not as correct",
     "mark-favorite": "Mark as favorite",
+    "mark-not-favorite": "Mark not as favorite",
     "mark-read": "Discussed by you in full screen mode on the projector",
     "vote-up": "Vote up",
     "vote-down": "Vote down",
     "acknowledge": "Acknowledge",
-    "reject": "Reject"
+    "reject": "Reject",
+    "delete": "Delete question"
   },
   "comment-list": {
     "search": "Search",
