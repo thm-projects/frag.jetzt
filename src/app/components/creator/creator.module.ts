@@ -25,6 +25,8 @@ import { CommentExportComponent } from './_dialogs/comment-export/comment-export
 import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
 import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
 import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-delete.component';
+import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
+import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
 
 @NgModule({
   imports: [
@@ -58,7 +60,9 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
     CommentExportComponent,
     ModeratorsComponent,
     CommentSettingsComponent,
-    ModeratorDeleteComponent
+    ModeratorDeleteComponent,
+    DeleteCommentsComponent,
+    DeleteCommentComponent
   ],
   entryComponents: [
     RoomDeleteComponent,
@@ -73,7 +77,9 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
     CommentExportComponent,
     ModeratorsComponent,
     CommentSettingsComponent,
-    ModeratorDeleteComponent
+    ModeratorDeleteComponent,
+    DeleteCommentsComponent,
+    DeleteCommentComponent
   ]
 })
 export class CreatorModule {

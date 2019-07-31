@@ -30,7 +30,7 @@
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent" (click)="delete(comment)">
+      <button mat-icon-button *ngIf="!isStudent" (click)="openDeleteCommentDialog()">
         <mat-icon class="not-marked" matTooltip="{{ 'comment-page.delete' | translate }}">delete
         </mat-icon>
       </button>

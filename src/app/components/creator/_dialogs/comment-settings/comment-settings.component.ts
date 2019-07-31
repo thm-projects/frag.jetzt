@@ -8,7 +8,7 @@ import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
 import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
-import { DeleteCommentComponent } from '../delete-comment/delete-comment.component';
+import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 import { Room } from '../../../../models/room';
 import { CommentSettings } from '../../../../models/comment-settings';
@@ -76,7 +76,7 @@ export class CommentSettingsComponent implements OnInit {
 
 
   openDeleteCommentDialog(): void {
-    const dialogRef = this.dialog.open(DeleteCommentComponent, {
+    const dialogRef = this.dialog.open(DeleteCommentsComponent, {
       width: '400px'
     });
     dialogRef.afterClosed()

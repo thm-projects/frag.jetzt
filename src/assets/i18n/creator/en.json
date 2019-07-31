@@ -135,6 +135,7 @@
     "vote-desc": "Descending votes",
     "vote-asc": "Ascending votes",
     "time": "Time",
-    "comment-sent": "The question has been published."
+    "comment-sent": "The question has been published.",
+    "really-delete": "Do you really want to delete this question?"
   }
 }

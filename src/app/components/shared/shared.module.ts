@@ -24,7 +24,6 @@ import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
-import { DeleteCommentComponent } from '../creator/_dialogs/delete-comment/delete-comment.component';
 
 @NgModule({
   imports: [
@@ -55,8 +54,7 @@ import { DeleteCommentComponent } from '../creator/_dialogs/delete-comment/delet
     StatisticHelpComponent,
     CommentComponent,
     CreateCommentComponent,
-    PresentCommentComponent,
-    DeleteCommentComponent
+    PresentCommentComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -82,8 +80,7 @@ import { DeleteCommentComponent } from '../creator/_dialogs/delete-comment/delet
     LoginComponent,
     StatisticHelpComponent,
     CreateCommentComponent,
-    PresentCommentComponent,
-    DeleteCommentComponent
+    PresentCommentComponent
   ]
 })
 export class SharedModule {
