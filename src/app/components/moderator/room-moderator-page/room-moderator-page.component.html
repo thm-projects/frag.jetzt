@@ -20,10 +20,10 @@
         <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
           <h4>{{room.description.trim()}}</h4>
         </mat-card-content>
-        <mat-grid-list cols="{{viewModuleCount}}" rowHeight="2:1">
+        <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
             <mat-grid-tile>
               <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/comments">
-                <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary"
+                <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
                 </mat-icon>
                 <h3>{{ 'room-page.public-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
@@ -31,7 +31,7 @@
             </mat-grid-tile>
             <mat-grid-tile *ngIf="moderationEnabled">
               <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
-                <mat-icon matBadge="{{moderatorCommentCounter}}" matBadgeColor="primary"
+                <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
                 </mat-icon>
                 <h3>{{ 'room-page.moderating-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
@@ -50,4 +50,3 @@
   
     </div>
   </div>
-  

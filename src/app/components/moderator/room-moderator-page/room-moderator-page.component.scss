@@ -18,12 +18,12 @@ mat-card-content>:first-child {
   color: var(--primary)!important;
 }
 
-/*mat-icon {
-  font-size: 60px;
-  height: 60px;
-  width: 60px;
+.main-icon {
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
   line-height: 100%!important;
-}*/
+}
 
 mat-icon {
   font-size: 80px;
@@ -91,15 +91,4 @@ mat-grid-list {
 mat-grid-tile {
   height: 100%!important;
   padding: 2%!important;
-}
-
-#settings {
-  width: 10%;
-  max-width: 40px;
-}
-
-#settings-icon {
-  font-size: 35px;
-  height: 35px;
-  width: 35px;
 }
