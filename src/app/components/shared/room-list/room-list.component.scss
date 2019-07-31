@@ -29,7 +29,7 @@ button {
 mat-panel-title {
   flex-basis: 0;
   align-items: center;
-  min-width: 100px;
+  min-width: 80px;
 }
 
 .headerTitle {
@@ -42,7 +42,6 @@ mat-panel-title {
   color: var(--on-surface)!important;
 }
 
-
 mat-card-title {
   text-align: center;
 }
@@ -54,4 +53,8 @@ mat-progress-spinner {
 .roleTitle {
   width: 4%;
   color: var(--on-surface)!important;
+}
+
+.mat-flat-button {
+  margin: 0;
 }
