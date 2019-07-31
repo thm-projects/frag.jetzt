@@ -10,6 +10,9 @@
             <h2>{{ room.name }}</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
+            <mat-icon *ngIf="moderationEnabled" class="gavel">
+              gavel
+            </mat-icon>
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>

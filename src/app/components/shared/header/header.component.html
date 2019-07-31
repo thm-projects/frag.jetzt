@@ -5,7 +5,8 @@
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
-    <h3 *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'" fxLayoutAlign="center center">
+    <h3 *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'"
+        fxLayoutAlign="center center">
       <mat-icon>access_time</mat-icon>
       {{cTime}}
     </h3>
@@ -13,16 +14,15 @@
           *ngIf="router.url.includes('comments')"></span>
 
     <span
-      *ngIf="router.url.includes('comments') && moderationEnabled && deviceType === 'desktop'"
+      *ngIf="router.url.includes('comments') && moderationEnabled"
       class="moderation-enabled"
-      fxLayoutAlign="center center"
-    >
+      fxLayoutAlign="center center">
     <mat-icon matTooltip="{{ 'header.moderation-enabled' | translate }}">
       gavel
     </mat-icon>
   </span>
     <h3 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
-      {{'header.id' | translate}}: {{ shortId.slice(0,4) }} {{  shortId.slice(4,8) }}
+      {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
     </h3>
     <span class="fill-remaining-space"></span>
 

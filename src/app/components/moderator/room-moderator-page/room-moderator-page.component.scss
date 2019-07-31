@@ -55,8 +55,7 @@ h2 {
 h3 {
   font-size: larger;
   color: var(--on-surface)!important;
-  margin-top: 15px;
-  margin-bottom: 10px;
+  margin: 5% 0 5% 0;
 }
 
 h4 {
@@ -72,6 +71,7 @@ mat-card-header {
 
 mat-card-title {
   height: 40%;
+  min-width: 200px;
 }
 
 mat-card-subtitle {
@@ -91,4 +91,9 @@ mat-grid-list {
 mat-grid-tile {
   height: 100%!important;
   padding: 2%!important;
+}
+
+.gavel {
+  margin: 5% 2% 0 0;
+  color: var(--on-surface);
 }

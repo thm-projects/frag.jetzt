@@ -14,7 +14,7 @@
     "answer-statistics": "Statistiken",
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
-    "session-id": "Session-ID"
+    "session-id": "ID"
   },
   "comment-page": {
     "enter-title": "Titel",
