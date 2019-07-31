@@ -11,6 +11,11 @@
         </ng-template>
       </div>
       <span class="fill-remaining-space"></span>
+      <button mat-icon-button *ngIf="comment.read" [disabled]="true" (click)="setRead(comment)">
+        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
+                  matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
+        </mat-icon>
+      </button>
       <button mat-icon-button *ngIf="!isStudent || comment.correct" [disabled]="isStudent"
               (click)="setCorrect(comment)">
         <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}"
@@ -25,20 +30,13 @@
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent || comment.read" [disabled]="true" (click)="setRead(comment)">
-        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
-                  matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
+      <button mat-icon-button *ngIf="!isStudent" (click)="delete(comment)">
+        <mat-icon class="not-marked" matTooltip="{{ 'comment-page.delete' | translate }}">delete
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent" [disabled]="isStudent" (click)="delete(comment)">
-        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
-                  matTooltip="{{ 'comment-page.delete' | translate }}">delete
-        </mat-icon>
-      </button>
-      <button mat-icon-button *ngIf="!isStudent && moderationEnabled" [disabled]="isStudent" (click)="setAck(comment)">
-        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
-                  [matTooltip]="!comment.ack ? ('comment-page.acknowledge' | translate)
-                                                 : ('comment-page.reject' | translate)">gavel
+      <button mat-icon-button *ngIf="!isStudent && moderationEnabled" (click)="setAck(comment)">
+        <mat-icon class="gavel" [matTooltip]="!comment.ack ? ('comment-page.acknowledge' | translate)
+                                                        : ('comment-page.reject' | translate)">gavel
         </mat-icon>
       </button>
     </div>
