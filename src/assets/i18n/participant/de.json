@@ -42,7 +42,9 @@
     "unread": "Nicht beantwortet",
     "vote-desc": "Absteigende Votes",
     "vote-asc": "Aufsteigende Votes",
-    "time": "Zeit"
+    "time": "Zeit",
+    "comment-sent": "Die Frage wurde veröffentlicht.",
+    "comment-sent-to-moderator": "Die Frage wird nun von einem Moderator überprüft."
   },
   "answer": {
     "submit": "Absenden",

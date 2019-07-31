@@ -42,7 +42,10 @@
     "unread": "Not yet discussed",
     "vote-desc": "Descending votes",
     "vote-asc": "Ascending votes",
-    "time": "Time"
+    "time": "Time",
+    "comment-sent": "The question has been published.",
+    "comment-sent-to-moderator": "The question will be reviewed by a moderator."
+
   },
   "answer": {
     "submit": "Submit",

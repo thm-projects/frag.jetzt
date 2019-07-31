@@ -131,6 +131,7 @@
     "unread": "Nicht besprochen",
     "vote-desc": "Absteigende Votes",
     "vote-asc": "Aufsteigende Votes",
-    "time": "Zeit"
+    "time": "Zeit",
+    "comment-sent": "Die Frage wurde veröffentlicht."
   }
 }
