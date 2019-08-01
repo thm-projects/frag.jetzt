@@ -43,9 +43,14 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
       this.initializeRoom(params['roomId']);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
+  }
+
+  afterRoomLoadHook() {
     this.authenticationService.watchUser.subscribe( user => this.user = user);
     if (!this.user) {
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(guestUser => {});
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(guestUser => {
+        this.roomService.addToHistory(this.room.id);
+      });
     }
   }
 }
