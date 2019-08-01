@@ -9,6 +9,7 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Message } from '@stomp/stompjs';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-room-moderator-page',
@@ -30,21 +31,22 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               private translateService: TranslateService,
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
-              protected commentService: CommentService) {
+              protected commentService: CommentService,
+              protected notification: NotificationService) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   initializeRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
-      if (this.room && this.room.extensions && this.room.extensions['comments']) {
+      this.room = room;
+      this.isLoading = false;
+      if (this.room.extensions && this.room.extensions['comments']) {
         if (this.room.extensions['comments'].enableModeration !== null) {
           this.moderationEnabled = this.room.extensions['comments'].enableModeration;
           this.viewModuleCount = this.viewModuleCount + 1;
         }
       }
-      this.room = room;
-      this.isLoading = false;
       this.commentService.countByRoomId(this.room.id, true).subscribe(commentCounter => {
           this.commentCounter = commentCounter;
       });
@@ -87,5 +89,22 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
       this.initializeRoom(params['roomId']);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
+  }
+
+  copyShortId(): void {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = this.room.shortId;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+    this.translateService.get('room-page.session-id-copied').subscribe(msg => {
+      this.notification.show(msg, '', { duration: 2000 });
+    });
   }
 }

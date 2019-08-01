@@ -1,72 +1,103 @@
 @import '../../../../styles';
 
 mat-card {
-  width: 100%;
-  max-width: 800px;
+  width: 800px;
   min-height: 350px;
   background-color: var(--surface)!important;
 }
 
-mat-card-content>:first-child {
-  margin-top: 5%;
+mat-card-content > :first-child {
+  margin: 3% 0 3% 0;
+}
+
+#description {
+  margin-bottom: 0;
 }
 
 .mat-icon-button {
   width: 60%; // 100%
   height: 75%;
-  margin-bottom: 3%;
   color: var(--primary)!important;
-}
-
-.main-icon {
-  font-size: 80px;
-  height: 80px;
-  width: 80px;
-  line-height: 100%!important;
-}
-
-mat-icon {
-  font-size: 80px;
-  height: 80px;
-  width: 80px;
-  line-height: 100%!important;
-}
-
-.desktop {
-  font-size: 70px;
-  height: 70px;
-  width: 70px;
-}
-
-button {
-  width: 30%;
   transition: all 0.3s;
-
   &:hover {
     transform: scale(1.2)
   }
 }
 
-h2 {
-  font-size: large;
-  color: var(--on-surface);
+.desktop {
+  font-size: 65px;
+  height: 65px;
+  width: 65px;
+  margin-bottom: 5%;
 }
+
+.corner-icons {
+  width: 40px;
+}
+
+.corner-icon {
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+  line-height: 100%;
+}
+
+/*.main-icon{
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  line-height: 100%!important;
+}*/
+
+.main-icon{
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
+  line-height: 100%!important;
+}
+
+.smallerIcon {
+  font-size: 55px;
+  height: 55px;
+  width: 55px;
+  line-height: 100%!important;
+}
+
+.room-short-id {
+  font-size: larger;
+  font-weight: bold;
+  color: var(--on-surface)!important;
+  margin: 5% 5% 0 0;
+}
+
+mat-grid-list {
+  margin-bottom: 5px !important;
+}
+
+.second {
+  margin-bottom: 20px !important;
+}
+
+h2 {
+   font-size: large;
+   color: var(--on-surface)!important;
+ }
 
 h3 {
   font-size: larger;
   color: var(--on-surface)!important;
-  margin: 5% 0 5% 0;
+  margin: 5% 5% 0 0;
 }
 
 h4 {
-  font-size: 15px;
+  font-size: medium;
   color: var(--on-surface)!important;
   padding: 0 1% 0 1%;
 }
 
 mat-card-header {
-  min-height: 80px!important;
-  height: 12%!important;
+  min-height: 80px;
+  height: 10%!important;
 }
 
 mat-card-title {
@@ -75,7 +106,12 @@ mat-card-title {
 }
 
 mat-card-subtitle {
-  height: 20%;
+  height: 30%;
+}
+
+mat-grid-tile {
+  height: 100%!important;
+  padding-top: 2%!important;
 }
 
 mat-expansion-panel {
@@ -84,13 +120,15 @@ mat-expansion-panel {
   hyphens: auto;
 }
 
-mat-grid-list {
-  margin-bottom: 20px !important;
+#copy {
+  width: 24px;
+  height: 24px;
 }
 
-mat-grid-tile {
-  height: 100%!important;
-  padding: 2%!important;
+.copy {
+  font-size: 24px;
+  color: var(--secondary);
+  line-height: 100%;
 }
 
 .gavel {
