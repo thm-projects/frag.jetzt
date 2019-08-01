@@ -45,17 +45,14 @@ export class CommentSettingsComponent implements OnInit {
   ngOnInit() {
     // TODO: refactor...
     if (this.editRoom.extensions && this.editRoom.extensions['comments']) {
-      if (this.editRoom.extensions['comments'].commentThreshold != null) {
+      if (this.editRoom.extensions['comments'].enableThreshold !== null) {
         this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
-        this.settingThreshold = true;
+        this.settingThreshold = this.editRoom.extensions['comments'].enableThreshold;
       }
 
-      if (this.editRoom.extensions['comments'].enableModeration != null) {
+      if (this.editRoom.extensions['comments'].enableModeration !== null) {
         this.enableCommentModeration = this.editRoom.extensions['comments'].enableModeration;
       }
-    } else {
-      this.settingThreshold = false;
-      this.enableCommentModeration = false;
     }
     this.commentSettingsService.get(this.roomId).subscribe(settings => {
       this.directSend = settings.directSend;
