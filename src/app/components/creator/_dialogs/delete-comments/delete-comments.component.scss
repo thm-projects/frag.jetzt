@@ -1,0 +1,18 @@
+h3 {
+  color: var(--on-surface);
+}
+
+p {
+  color: var(--on-surface);
+}
+
+.delete {
+  background-color: var(--red);
+  color: var(--on-secondary);
+}
+
+.abort {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+

@@ -12,6 +12,7 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material';
 import { trigger, transition, style, animate, state, keyframes } from '@angular/animations';
+import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 
 export const rubberBand = [
   style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
@@ -123,9 +124,21 @@ export class CommentComponent implements OnInit {
     }
   }
 
-  delete(comment: Comment): void {
-    this.commentService.deleteComment(comment.id).subscribe(room => {
-      this.notification.show(`Comment '${comment.body}' successfully deleted.`);
+  openDeleteCommentDialog(): void {
+    const dialogRef = this.dialog.open(DeleteCommentComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.delete();
+        }
+      });
+  }
+
+  delete(): void {
+    this.commentService.deleteComment(this.comment.id).subscribe(room => {
+      this.notification.show(`Comment '${this.comment.body}' successfully deleted.`);
     });
   }
 

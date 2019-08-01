@@ -9,6 +9,9 @@
             <h2>{{ room.name }}</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
+            <mat-icon *ngIf="moderationEnabled" class="gavel">
+              gavel
+            </mat-icon>
             <h3>
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </h3>
@@ -26,7 +29,7 @@
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
           <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
-            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary"
+            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
             </mat-icon>
             <h3>{{ 'room-page.create-comment' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->

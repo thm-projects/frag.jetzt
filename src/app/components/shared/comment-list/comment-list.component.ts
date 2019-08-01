@@ -13,6 +13,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
+import { NotificationService } from '../../../services/util/notification.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -55,7 +56,8 @@ export class CommentListComponent implements OnInit {
               protected langService: LanguageService,
               private wsCommentService: WsCommentServiceService,
               protected roomService: RoomService,
-              protected voteService: VoteService
+              protected voteService: VoteService,
+              private notificationService: NotificationService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -224,7 +226,25 @@ export class CommentListComponent implements OnInit {
   }
 
   send(comment: Comment): void {
+    let message;
+    if (this.moderationEnabled) {
+      if (this.userRole === 1 || this.userRole === 3) {
+        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+          message = msg;
+        });
+        comment.ack = true;
+      } else {
+        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe( msg => {
+          message = msg;
+        });
+      }
+    } else {
+      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+        message = msg;
+      });
+    }
     this.wsCommentService.add(comment);
+    this.notificationService.show(message);
   }
 
   filterComments(type: string): void {

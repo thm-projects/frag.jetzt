@@ -19,7 +19,6 @@ export class RoomListComponent implements OnInit {
   rooms: Room[] = [];
   roomsWithRole: RoomRoleMixin[];
   closedRooms: Room[];
-  baseUrl: string;
   isLoading = true;
 
   creatorRole = UserRole.CREATOR;

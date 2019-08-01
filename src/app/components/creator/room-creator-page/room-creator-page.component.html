@@ -10,6 +10,9 @@
             <h2>{{ room.name }}</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
+            <mat-icon *ngIf="moderationEnabled" class="gavel">
+              gavel
+            </mat-icon>
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>
@@ -42,18 +45,18 @@
           {{ room.description.trim() }}
         </h4>
       </mat-card-content>
-      <mat-grid-list cols="{{viewModuleCount}}" rowHeight="2:1">
+      <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
         <mat-grid-tile>
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/comments">
-            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
+            <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
             <h3>{{ 'room-page.comments' | translate}}</h3> <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf="moderationEnabled">
           <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
-            <mat-icon matBadge="{{moderatorCommentCounter}}" matBadgeColor="primary"
+            <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
             </mat-icon>
             <h3>{{ 'room-page.moderating-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->

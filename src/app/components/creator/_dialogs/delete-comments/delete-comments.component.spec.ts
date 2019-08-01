@@ -1,21 +1,21 @@
 /*
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeleteCommentComponent } from './delete-comments.component';
+import { DeleteCommentsComponent } from './delete-comments.component';
 
-describe('DeleteCommentComponent', () => {
-  let component: DeleteCommentComponent;
-  let fixture: ComponentFixture<DeleteCommentComponent>;
+describe('DeleteCommentsComponent', () => {
+  let component: DeleteCommentsComponent;
+  let fixture: ComponentFixture<DeleteCommentsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeleteCommentComponent ]
+      declarations: [ DeleteCommentsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeleteCommentComponent);
+    fixture = TestBed.createComponent(DeleteCommentsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

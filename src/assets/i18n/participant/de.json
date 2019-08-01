@@ -14,7 +14,7 @@
     "answer-statistics": "Statistiken",
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
-    "session-id": "Session-ID"
+    "session-id": "ID"
   },
   "comment-page": {
     "enter-title": "Titel",
@@ -42,7 +42,9 @@
     "unread": "Nicht beantwortet",
     "vote-desc": "Absteigende Votes",
     "vote-asc": "Aufsteigende Votes",
-    "time": "Zeit"
+    "time": "Zeit",
+    "comment-sent": "Die Frage wurde veröffentlicht.",
+    "comment-sent-to-moderator": "Die Frage wird nun von einem Moderator überprüft."
   },
   "answer": {
     "submit": "Absenden",
