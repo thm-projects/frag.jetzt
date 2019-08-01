@@ -6,6 +6,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ContentService } from '../../../../services/http/content.service';
 import { TranslateService } from '@ngx-translate/core';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-room-create',
@@ -42,6 +43,10 @@ export class RoomCreateComponent implements OnInit {
       return;
     }
     const newRoom = new Room();
+    const commentExtension: TSMap<string, any> = new TSMap();
+    newRoom.extensions = new TSMap();
+    commentExtension.set('enableModeration', true);
+    newRoom.extensions.set('comments', commentExtension);
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
