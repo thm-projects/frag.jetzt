@@ -167,7 +167,6 @@ export class AuthenticationService {
 
   hasAccess(roomId: string, role: UserRole): boolean {
     const usersRole = this.roomAccess.get(roomId);
-    console.log(usersRole);
     return (usersRole && (usersRole === role));
   }
 

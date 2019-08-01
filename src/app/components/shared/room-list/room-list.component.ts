@@ -41,8 +41,8 @@ export class RoomListComponent implements OnInit {
   }
 
   getRooms(): void {
-    this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms, true));
     this.roomService.getParticipantRooms().subscribe(rooms => this.updateRoomList(rooms));
+    this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms, true));
   }
 
   updateRoomList(rooms: Room[], isOwner: boolean = false) {
