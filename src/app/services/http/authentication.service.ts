@@ -4,6 +4,7 @@ import { User } from '../../models/user';
 import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
 import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from '../util/data-store.service';
+import { EventService } from '../util/event.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
 
@@ -26,12 +27,26 @@ export class AuthenticationService {
     headers: new HttpHeaders({})
   };
 
-  constructor(private dataStoreService: DataStoreService,
-              private http: HttpClient) {
+  private roomAccess = new Map();
+
+  constructor(
+    private dataStoreService: DataStoreService,
+    public eventService: EventService,
+    private http: HttpClient
+  ) {
     if (dataStoreService.has(this.STORAGE_KEY)) {
       // Load user data from local data store if available
       this.user.next(JSON.parse(dataStoreService.get(this.STORAGE_KEY)));
     }
+    this.eventService.on<any>('RoomJoined').subscribe(payload => {
+      this.roomAccess.set(payload.id, UserRole.PARTICIPANT);
+    });
+    this.eventService.on<any>('RoomDeleted').subscribe(payload => {
+      this.roomAccess.delete(payload.id);
+    });
+    this.eventService.on<any>('RoomCreated').subscribe(payload => {
+      this.roomAccess.set(payload.id, UserRole.CREATOR);
+    });
   }
 
   /*
@@ -148,5 +163,15 @@ export class AuthenticationService {
 
   getUserAsSubject(): BehaviorSubject<User> {
     return this.user;
+  }
+
+  hasAccess(roomId: string, role: UserRole): boolean {
+    const usersRole = this.roomAccess.get(roomId);
+    console.log(usersRole);
+    return (usersRole && (usersRole === role));
+  }
+
+  setAccess(roomId: string, role: UserRole): void {
+    this.roomAccess.set(roomId, role);
   }
 }

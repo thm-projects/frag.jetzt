@@ -15,17 +15,18 @@ export class AuthenticationGuard implements CanActivate {
               private router: Router) {
   }
 
-  canActivate(next: ActivatedRouteSnapshot,
+  canActivate(route: ActivatedRouteSnapshot,
               state: RouterStateSnapshot): boolean {
     // Get active user
     const user: User = this.authenticationService.getUser();
     // Get roles having access to this route
     // undefined if every logged in user should have access regardless of its role
-    const requiredRoles = next.data['roles'] as Array<UserRole>;
+    const requiredRoles = route.data['roles'] as Array<UserRole>;
     // Allow access when user is logged in AND
     // the route doesn't require a specific role OR
     // the user's role is one of the required roles
-    if (user && (!requiredRoles || requiredRoles.includes(user.role))) {
+    console.log(requiredRoles[0]);
+    if (this.authenticationService.hasAccess(route.params.roomId, requiredRoles[0])) {
       return true;
     }
 

@@ -15,41 +15,49 @@ const routes: Routes = [
   {
     path: 'room/:roomId',
     component: RoomCreatorPageComponent,
+    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/create-content',
     component: ContentCreatePageComponent,
     canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/statistics',
     component: StatisticsPageComponent,
     canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/statistics/:contentId',
     component: StatisticComponent,
+    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/comments',
     component: CommentPageComponent,
+    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/feedback-barometer',
     component: FeedbackBarometerPageComponent,
+    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/:contentGroup',
     component: ContentListComponent,
+    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
     path: 'room/:roomId/:contentGroup/presentation',
     component: ContentPresentationComponent,
+    canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   }
 ];
