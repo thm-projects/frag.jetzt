@@ -4,12 +4,11 @@ import { NotificationService } from '../../../services/util/notification.service
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
-import { UserRole } from '../../../models/user-roles.enum';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
-import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
+import { ThemeService } from '../../../../theme/theme.service';
 
 @Component({
   selector: 'app-footer',
@@ -29,13 +28,15 @@ export class FooterComponent implements OnInit {
   open: string;
   deviceType: string;
 
+  themeClass = localStorage.getItem('theme');
+
   constructor(public notificationService: NotificationService,
               public router: Router,
               public dialog: MatDialog,
               private translateService: TranslateService,
               private langService: LanguageService,
               public authenticationService: AuthenticationService,
-              private roomService: RoomService) {
+              private themeService: ThemeService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -90,36 +91,6 @@ export class FooterComponent implements OnInit {
     });
   }
 
-  navToDemoSession() {
-    this.roomService.getRoomByShortId(this.demoId)
-      .subscribe(room => {
-        this.room = room;
-      });
-    if (!this.user) {
-      this.guestLogin();
-    } else {
-      if (this.user.role === UserRole.CREATOR) {
-        this.authenticationService.logout();
-        this.guestLogin();
-      } else {
-        this.addAndNavigate();
-      }
-    }
-  }
-
-  guestLogin() {
-    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(loggedIn => {
-      if (loggedIn === 'true') {
-        this.addAndNavigate();
-      }
-    });
-  }
-
-  addAndNavigate() {
-    this.roomService.addToHistory(this.room.id);
-    this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
-  }
-
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
       position: {
@@ -132,5 +103,16 @@ export class FooterComponent implements OnInit {
       width: '100%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  useLanguage(language: string) {
+    this.translateService.use(language);
+    localStorage.setItem('currentLang', language);
+    this.langService.langEmitter.emit(language);
+  }
+
+  changeTheme(theme) {
+    this.themeClass = theme;
+    this.themeService.activate(theme);
   }
 }

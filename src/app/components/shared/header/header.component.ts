@@ -6,10 +6,8 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../services/util/language.service';
 import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
-import { ThemeService } from '../../../../theme/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -18,7 +16,6 @@ import { ThemeService } from '../../../../theme/theme.service';
 })
 export class HeaderComponent implements OnInit {
   user: User;
-  themeClass = localStorage.getItem('theme');
   cTime: string;
   shortId: string;
   deviceType: string;
@@ -29,9 +26,7 @@ export class HeaderComponent implements OnInit {
               private notificationService: NotificationService,
               public router: Router,
               private translationService: TranslateService,
-              private langService: LanguageService,
-              public dialog: MatDialog,
-              private themeService: ThemeService
+              public dialog: MatDialog
   ) {
   }
 
@@ -93,17 +88,6 @@ export class HeaderComponent implements OnInit {
 
   goBack() {
     this.location.back();
-  }
-
-  useLanguage(language: string) {
-    this.translationService.use(language);
-    localStorage.setItem('currentLang', language);
-    this.langService.langEmitter.emit(language);
-  }
-
-  changeTheme(theme) {
-    this.themeClass = theme;
-    this.themeService.activate(theme);
   }
 
   login(isLecturer: boolean) {
