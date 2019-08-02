@@ -17,7 +17,7 @@
     <button mat-button [matMenuTriggerFor]="themeMenu">
       <mat-icon>palette</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
-          {{'header.style' | translate}}
+          {{'footer.style' | translate}}
         </span>
     </button>
 
@@ -25,7 +25,7 @@
     <button mat-button [matMenuTriggerFor]="langMenu">
       <mat-icon>language</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
-          {{'header.language' | translate}}
+          {{'footer.language' | translate}}
         </span>
     </button>
 
@@ -48,25 +48,25 @@
       <mat-grid-list cols="2">
         <mat-grid-tile>
           <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.bright' | translate }}">lens</mat-icon>
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.bright' | translate }}">lens</mat-icon>
             <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button class="dark color-button" (click)="changeTheme('dark')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.dark' | translate }}">lens</mat-icon>
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.dark' | translate }}">lens</mat-icon>
             <mat-icon *ngIf="themeClass === 'dark'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button class="purple color-button" (click)="changeTheme('purple')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.beamer' | translate }}">lens</mat-icon>
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.beamer' | translate }}">lens</mat-icon>
             <mat-icon *ngIf="themeClass === 'purple'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button class="blue color-button" (click)="changeTheme('blue')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.wai' | translate }}">lens</mat-icon>
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.wai' | translate }}">lens</mat-icon>
             <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
@@ -74,8 +74,8 @@
     </mat-menu>
 
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="useLanguage('de')">{{ 'header.german' | translate }}</button>
-      <button mat-menu-item (click)="useLanguage('en')">{{ 'header.english' | translate }}</button>
+      <button mat-menu-item (click)="useLanguage('de')">{{ 'footer.german' | translate }}</button>
+      <button mat-menu-item (click)="useLanguage('en')">{{ 'footer.english' | translate }}</button>
     </mat-menu>
   </mat-toolbar>
 </footer>

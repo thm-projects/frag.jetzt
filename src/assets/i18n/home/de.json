@@ -1,22 +1,13 @@
 {
 	"header": {
-		"english": "Englisch",
-		"german": "Deutsch",
 		"logout": "Abmelden",
-		"guest": "Gast",
 		"logged-out": "Ausloggen erfolgreich",
 		"back": "Zurück",
 		"my-sessions": "Meine Sessions",
 		"visited-sessions": "Besuchte Sessions",
-    "style": "Stil",
-    "language": "Sprache",
     "login": "Login",
     "my-account": "Konto",
     "id": "ID",
-    "dark": "Dunkler Hintergrund",
-    "bright": "Heller Hintergrund",
-    "beamer": "Für den Beamer optimiert (in Arbeit)",
-		"wai": "Barrierefrei nach WCAG 2.0 (in Arbeit)",
 		"moderation-enabled": "Moderiert"
 	},
 	"login-page": {
@@ -97,6 +88,14 @@
     "imprint": "Impressum",
     "will-open": " wird in einem neuen Fenster geöffnet...",
     "open": "Öffnen",
-    "blog": "Blog"
+    "blog": "Blog",
+    "dark": "Dunkler Hintergrund",
+    "bright": "Heller Hintergrund",
+    "beamer": "Für den Beamer optimiert (in Arbeit)",
+    "wai": "Barrierefrei nach WCAG 2.0 (in Arbeit)",
+    "style": "Stil",
+    "language": "Sprache",
+    "english": "Englisch",
+    "german": "Deutsch"
   }
 }
