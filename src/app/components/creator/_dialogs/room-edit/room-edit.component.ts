@@ -8,7 +8,7 @@ import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { EventService } from '../../../../services/util/event.service';
-import { RoomDeleted } from '../../../../models/messages/room-deleted';
+import { RoomDeleted } from '../../../../models/events/room-deleted';
 
 @Component({
   selector: 'app-room-edit',

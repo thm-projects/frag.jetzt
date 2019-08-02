@@ -41,16 +41,16 @@ export class RoomListComponent implements OnInit {
   }
 
   getRooms(): void {
-    this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms, true));
     this.roomService.getParticipantRooms().subscribe(rooms => this.updateRoomList(rooms));
+    this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms));
   }
 
-  updateRoomList(rooms: Room[], isOwner: boolean = false) {
+  updateRoomList(rooms: Room[]) {
     this.rooms = this.rooms.concat(rooms);
     this.closedRooms = this.rooms.filter(room => room.closed);
     this.roomsWithRole = this.rooms.map(room => {
       const roomWithRole: RoomRoleMixin = <RoomRoleMixin>room;
-      if (isOwner) {
+      if (this.authenticationService.hasAccess(room.shortId, UserRole.CREATOR)) {
         roomWithRole.role = UserRole.CREATOR;
       } else {
         // TODO: acknowledge the other role option too

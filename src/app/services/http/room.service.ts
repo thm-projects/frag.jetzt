@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Room } from '../../models/room';
+import { RoomJoined } from '../../models/events/room-joined';
+import { RoomCreated } from '../../models/events/room-created';
+import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
+import { EventService } from '../util/event.service';
 import { TSMap } from 'typescript-map';
 
 const httpOptions = {
@@ -21,8 +25,11 @@ export class RoomService extends BaseHttpService {
   };
   private joinDate = new Date(Date.now());
 
-  constructor(private http: HttpClient,
-              private authService: AuthenticationService) {
+  constructor(
+    private http: HttpClient,
+    private eventService: EventService,
+    private authService: AuthenticationService
+  ) {
     super();
   }
 
@@ -32,7 +39,11 @@ export class RoomService extends BaseHttpService {
       properties: { ownerId: this.authService.getUser().id },
       externalFilters: {}
     }).pipe(
-      tap(() => ''),
+      tap((rooms) => {
+        for (const r of rooms) {
+          this.authService.setAccess(r.shortId, UserRole.CREATOR);
+        }
+      }),
       catchError(this.handleError('getCreatorRooms', []))
     );
   }
@@ -43,7 +54,11 @@ export class RoomService extends BaseHttpService {
       properties: {},
       externalFilters: { inHistoryOfUserId: this.authService.getUser().id }
     }).pipe(
-      tap(() => ''),
+      tap((rooms) => {
+        for (const r of rooms) {
+          this.authService.setAccess(r.shortId, UserRole.PARTICIPANT);
+        }
+      }),
       catchError(this.handleError('getParticipantRooms', []))
     );
   }
@@ -53,7 +68,12 @@ export class RoomService extends BaseHttpService {
     delete room.revision;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
     room.ownerId = this.authService.getUser().id;
-    return this.http.post<Room>(connectionUrl, room, httpOptions);
+    return this.http.post<Room>(connectionUrl, room, httpOptions).pipe(
+      tap(returnedRoom => {
+        this.authService.setAccess(returnedRoom.shortId, UserRole.PARTICIPANT);
+      }),
+      catchError(this.handleError<Room>(`add Room ${room}`))
+    );
   }
 
   getRoom(id: string): Observable<Room> {
@@ -78,7 +98,7 @@ export class RoomService extends BaseHttpService {
 
   addToHistory(roomId: string): void {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
-    this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe();
+    this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(() => {});
   }
 
   updateRoom(updatedRoom: Room): Observable<Room> {

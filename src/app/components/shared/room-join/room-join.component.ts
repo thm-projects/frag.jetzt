@@ -25,11 +25,13 @@ export class RoomJoinComponent implements OnInit {
 
   matcher = new RegisterErrorStateMatcher();
 
-  constructor(private roomService: RoomService,
-              private router: Router,
-              public notificationService: NotificationService,
-              private translateService: TranslateService,
-              public authenticationService: AuthenticationService) {
+  constructor(
+    private roomService: RoomService,
+    private router: Router,
+    public notificationService: NotificationService,
+    private translateService: TranslateService,
+    public authenticationService: AuthenticationService
+  ) {
   }
 
   ngOnInit() {
@@ -93,6 +95,8 @@ export class RoomJoinComponent implements OnInit {
       this.router.navigate([`/creator/room/${this.room.shortId}/comments`]);
     } else {
       this.roomService.addToHistory(this.room.id);
+      this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
+
       this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
     }
   }

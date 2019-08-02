@@ -4,12 +4,14 @@ import { User } from '../../models/user';
 import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
 import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from '../util/data-store.service';
+import { EventService } from '../util/event.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
 
 @Injectable()
 export class AuthenticationService {
   private readonly STORAGE_KEY: string = 'USER';
+  private readonly ROOM_ACCESS: string = 'ROOM_ACCESS';
   private user = new BehaviorSubject<User>(undefined);
   private apiUrl = {
     base: '/api',
@@ -26,12 +28,42 @@ export class AuthenticationService {
     headers: new HttpHeaders({})
   };
 
-  constructor(private dataStoreService: DataStoreService,
-              private http: HttpClient) {
+  private roomAccess = new Map();
+
+  constructor(
+    private dataStoreService: DataStoreService,
+    public eventService: EventService,
+    private http: HttpClient
+  ) {
     if (dataStoreService.has(this.STORAGE_KEY)) {
       // Load user data from local data store if available
       this.user.next(JSON.parse(dataStoreService.get(this.STORAGE_KEY)));
     }
+    if (localStorage.getItem(this.ROOM_ACCESS)) {
+      // Load user data from local data store if available
+      const creatorAccess = JSON.parse(localStorage.getItem(this.ROOM_ACCESS));
+      for (const cA of creatorAccess) {
+        let role = UserRole.PARTICIPANT;
+        const roleAsNumber: string = cA.substring(0, 1);
+        const roomId: string = cA.substring(2);
+        if (roleAsNumber === '1') {
+          role = UserRole.CREATOR;
+        }
+        this.roomAccess.set(roomId, role);
+      }
+    }
+    this.eventService.on<any>('RoomJoined').subscribe(payload => {
+      this.roomAccess.set(payload.id, UserRole.PARTICIPANT);
+      this.saveAccessToLocalStorage();
+    });
+    this.eventService.on<any>('RoomDeleted').subscribe(payload => {
+      this.roomAccess.delete(payload.id);
+      this.saveAccessToLocalStorage();
+    });
+    this.eventService.on<any>('RoomCreated').subscribe(payload => {
+      this.roomAccess.set(payload.id, UserRole.CREATOR);
+      this.saveAccessToLocalStorage();
+    });
   }
 
   /*
@@ -148,5 +180,23 @@ export class AuthenticationService {
 
   getUserAsSubject(): BehaviorSubject<User> {
     return this.user;
+  }
+
+  hasAccess(roomId: string, role: UserRole): boolean {
+    const usersRole = this.roomAccess.get(roomId);
+    return (usersRole && (usersRole === role));
+  }
+
+  setAccess(roomId: string, role: UserRole): void {
+    this.roomAccess.set(roomId, role);
+    this.saveAccessToLocalStorage();
+  }
+
+  saveAccessToLocalStorage(): void {
+    const arr = new Array();
+    this.roomAccess.forEach(function (key, value) {
+      arr.push(key + '_' + String(value));
+    });
+    localStorage.setItem(this.ROOM_ACCESS, JSON.stringify(arr));
   }
 }
