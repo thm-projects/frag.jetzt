@@ -89,11 +89,11 @@ export function initializeApp(appConfig: AppConfig) {
     })
   ],
   providers: [
-    AppConfig,
+    /*AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
       deps: [AppConfig], multi: true
-    },
+    },*/
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthenticationInterceptor,
