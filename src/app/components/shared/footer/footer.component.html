@@ -1,28 +1,81 @@
 <footer>
   <mat-toolbar id="footer-toolbar">
-    <button (click)="navToBlog()" *ngIf="router.url !== '/home'" mat-button>
-      <mat-icon>notes</mat-icon>
+    <button mat-button (click)="navToBlog()" *ngIf="router.url !== '/home'">
+      <mat-icon>ondemand_video</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.blog' | translate }}
       </span>
     </button>
-    <button (click)="showDemo()" *ngIf="router.url === '/home'" mat-button>
+    <button mat-button (click)="showDemo()" *ngIf="router.url === '/home'">
       <mat-icon>ondemand_video</mat-icon>
-      {{ 'footer.demo' | translate}}
+      <span *ngIf="deviceType === 'desktop'">
+        {{ 'footer.demo' | translate }}
+      </span>
     </button>
+
     <span class="fill-remaining-space"></span>
-    <button (click)="navToDSGVO()" mat-button>
+    <button mat-button [matMenuTriggerFor]="themeMenu">
+      <mat-icon>palette</mat-icon>
+      <span *ngIf="deviceType === 'desktop'">
+          {{'footer.style' | translate}}
+        </span>
+    </button>
+
+    <span class="fill-remaining-space"></span>
+    <button mat-button [matMenuTriggerFor]="langMenu">
+      <mat-icon>language</mat-icon>
+      <span *ngIf="deviceType === 'desktop'">
+          {{'footer.language' | translate}}
+        </span>
+    </button>
+
+    <span class="fill-remaining-space"></span>
+    <button mat-button (click)="navToDSGVO()">
       <mat-icon>security</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.dsgvo' | translate}}
       </span>
     </button>
     <span class="fill-remaining-space"></span>
-    <button (click)="navToImprint()" mat-button>
+    <button mat-button (click)="navToImprint()">
       <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.imprint' | translate}}
       </span>
     </button>
+
+    <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
+      <mat-grid-list cols="2">
+        <mat-grid-tile>
+          <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.bright' | translate }}">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="dark color-button" (click)="changeTheme('dark')">
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.dark' | translate }}">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'dark'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="purple color-button" (click)="changeTheme('purple')">
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.beamer' | translate }}">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'purple'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <mat-grid-tile>
+          <button mat-icon-button class="blue color-button" (click)="changeTheme('blue')">
+            <mat-icon class="color-icon" matTooltip="{{ 'footer.wai' | translate }}">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+      </mat-grid-list>
+    </mat-menu>
+
+    <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
+      <button mat-menu-item (click)="useLanguage('de')">{{ 'footer.german' | translate }}</button>
+      <button mat-menu-item (click)="useLanguage('en')">{{ 'footer.english' | translate }}</button>
+    </mat-menu>
   </mat-toolbar>
 </footer>

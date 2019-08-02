@@ -26,62 +26,6 @@
     </h3>
     <span class="fill-remaining-space"></span>
 
-    <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
-      <mat-grid-list cols="2">
-        <mat-grid-tile>
-          <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.bright' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button class="dark color-button" (click)="changeTheme('dark')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.dark' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'dark'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button class="purple color-button" (click)="changeTheme('purple')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.beamer' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'purple'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button class="blue color-button" (click)="changeTheme('blue')">
-            <mat-icon class="color-icon" matTooltip="{{ 'header.wai' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </mat-menu>
-
-    <button mat-button *ngIf="deviceType === 'desktop'" [matMenuTriggerFor]="themeMenu">
-      <div class="label-icon">
-        <mat-icon aria-label="Example" class="header-icons">palette</mat-icon>
-        <h3>{{'header.style' | translate}}</h3>
-      </div>
-    </button>
-
-    <button mat-icon-button *ngIf="deviceType === 'mobile'" [matMenuTriggerFor]="themeMenu">
-      <mat-icon class="header-icons">palette</mat-icon>
-    </button>
-
-    <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="useLanguage('de')">{{ 'header.german' | translate }}</button>
-      <button mat-menu-item (click)="useLanguage('en')">{{ 'header.english' | translate }}</button>
-    </mat-menu>
-
-    <button mat-button *ngIf="deviceType === 'desktop'" [matMenuTriggerFor]="langMenu">
-      <div class="label-icon">
-        <mat-icon class="header-icons">language</mat-icon>
-        <h3>{{'header.language' | translate}}</h3>
-      </div>
-    </button>
-
-    <button mat-icon-button *ngIf="deviceType === 'mobile'" [matMenuTriggerFor]="langMenu">
-      <mat-icon class="header-icons">language</mat-icon>
-    </button>
-
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user" routerLink="/user">
         <mat-icon class="sessions">work</mat-icon>

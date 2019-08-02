@@ -1,22 +1,13 @@
 {
 	"header": {
-		"english": "English",
-		"german": "German",
 		"logout": "Log out",
-		"guest": "Guest",
 		"logged-out": "Logging out successful",
 		"back": "Back",
 		"my-sessions": "My sessions",
 		"visited-sessions": "Visited sessions",
-    "style": "Style",
-    "language": "Language",
     "login": "Login",
     "my-account": "My account",
     "id": "ID",
-    "dark": "Dark background",
-    "bright": "Bright background",
-    "beamer": "Optimized for the projector (work in progress)",
-    "wai": "Accessible according to WCAG 2.0 (work in progress)",
 		"moderation-enabled": "Moderated"
 	},
 	"login-page": {
@@ -97,6 +88,14 @@
     "imprint": "Imprint",
     "will-open": " will be opened in a new tab...",
     "open": "Open",
-    "blog": "Blog"
+    "blog": "Blog",
+    "dark": "Dark background",
+    "bright": "Bright background",
+    "beamer": "Optimized for the projector (work in progress)",
+    "wai": "Accessible according to WCAG 2.0 (work in progress)",
+    "style": "Style",
+    "language": "Language",
+    "english": "English",
+    "german": "German"
   }
 }
