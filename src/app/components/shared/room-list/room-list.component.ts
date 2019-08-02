@@ -58,6 +58,7 @@ export class RoomListComponent implements OnInit {
         this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
           for (const m of moderators) {
             if (m.userId === this.user.id) {
+              this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
               roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
             }
           }
