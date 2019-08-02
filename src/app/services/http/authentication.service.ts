@@ -48,6 +48,8 @@ export class AuthenticationService {
         const roomId: string = cA.substring(2);
         if (roleAsNumber === '1') {
           role = UserRole.CREATOR;
+        } else if (roleAsNumber === '2') {
+          role = UserRole.EXECUTIVE_MODERATOR;
         }
         this.roomAccess.set(roomId, role);
       }
@@ -184,7 +186,7 @@ export class AuthenticationService {
 
   hasAccess(roomId: string, role: UserRole): boolean {
     const usersRole = this.roomAccess.get(roomId);
-    return (usersRole && (usersRole === role));
+    return (usersRole && (usersRole >= role));
   }
 
   setAccess(roomId: string, role: UserRole): void {

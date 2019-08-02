@@ -27,7 +27,7 @@ export class CommentSettingsComponent implements OnInit {
   editRoom: Room;
   settingThreshold = false;
   enableCommentModeration = false;
-  directSend: boolean;
+  directSend: boolean = true;
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
