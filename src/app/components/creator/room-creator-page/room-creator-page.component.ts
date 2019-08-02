@@ -29,6 +29,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   deviceType = localStorage.getItem('deviceType');
   viewModuleCount = 1;
   moderatorCommentCounter: number;
+  urlToCopy = 'https://frag.jetzt/participant/room/';
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -158,7 +159,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = this.room.shortId;
+    selBox.value = `${this.urlToCopy}${this.room.shortId}`;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
