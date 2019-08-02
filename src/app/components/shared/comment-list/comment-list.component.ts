@@ -256,13 +256,13 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
-          return c.correct;
+          return c.correct ? 1 : 0;
         case this.favorite:
-          return c.favorite;
+          return c.favorite ? 1 : 0;
         case this.read:
-          return c.read;
+          return c.read ? 1 : 0;
         case this.unread:
-          return !c.read;
+          return !c.read ? 1 : 0;
       }
     });
     this.sortComments(this.currentSort);
@@ -271,13 +271,13 @@ export class CommentListComponent implements OnInit {
   sort(array: any[], type: string): void {
     array.sort((a, b) => {
       if (type === this.voteasc) {
-        return a.score - b.score;
+        return (a.score > b.score) ? 1 : (b.score > a.score) ? -1 : 0;
       } else if (type === this.votedesc) {
-        return b.score - a.score;
+        return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
       }
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
       if (type === this.time) {
-        return +dateB - +dateA;
+        return (+dateB > +dateA) ? 1 : 0;
       }
     });
   }
