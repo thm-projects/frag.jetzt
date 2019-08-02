@@ -7,6 +7,7 @@ import { NewLandingComponent } from '../new-landing/new-landing.component';
 import { SharedModule } from '../../shared/shared.module';
 import { AppRoutingModule } from '../../../app-routing.module';
 import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ModeratorService } from '../../../services/http/moderator.service';
 import { DataStoreService } from '../../../services/util/data-store.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { RoomService } from '../../../services/http/room.service';
@@ -23,17 +24,22 @@ describe('HomePageComponent', () => {
       declarations: [ HomePageComponent,
                       NewLandingComponent,
                       UserHomeComponent ],
-      imports: [ EssentialsModule,
-                 SharedModule,
-                 AppRoutingModule,
-                 BrowserAnimationsModule ],
-      providers: [ LanguageService,
-                   AuthenticationService,
-                   DataStoreService,
-                   NotificationService,
-                   LanguageService,
-                   EventService,
-                   RoomService ]
+      imports: [
+        EssentialsModule,
+        SharedModule,
+        AppRoutingModule,
+        BrowserAnimationsModule
+      ],
+      providers: [
+        LanguageService,
+        AuthenticationService,
+        DataStoreService,
+        NotificationService,
+        LanguageService,
+        EventService,
+        ModeratorService,
+        RoomService
+      ]
     })
     .compileComponents();
   }));
