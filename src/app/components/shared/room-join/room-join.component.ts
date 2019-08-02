@@ -9,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
+import { Moderator } from '../../../models/moderator';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 @Component({
   selector: 'app-room-join',
@@ -30,7 +32,8 @@ export class RoomJoinComponent implements OnInit {
     private router: Router,
     public notificationService: NotificationService,
     private translateService: TranslateService,
-    public authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private moderatorService: ModeratorService
   ) {
   }
 
@@ -95,9 +98,20 @@ export class RoomJoinComponent implements OnInit {
       this.router.navigate([`/creator/room/${this.room.shortId}/comments`]);
     } else {
       this.roomService.addToHistory(this.room.id);
-      this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
-
-      this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
+      this.moderatorService.get(this.room.id).subscribe((moderators: Moderator[]) => {
+        let isModerator = false;
+        for (const m of moderators) {
+          if (m.userId === this.user.id) {
+            this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
+            this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
+            isModerator = true;
+          }
+        }
+        if (!isModerator) {
+          this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
+          this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
+        }
+      });
     }
   }
 }
