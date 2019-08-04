@@ -14,7 +14,8 @@ import { NotificationService } from '../services/util/notification.service';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
-const AUTH_HEADER_KEY = 'Arsnova-Auth-Token';
+const AUTH_HEADER_KEY = 'Authorization';
+const AUTH_SCHEME = 'Bearer';
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
@@ -28,7 +29,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
     if (this.authenticationService.isLoggedIn()) {
       const token = this.authenticationService.getToken();
       const cloned = req.clone({
-        headers: req.headers.set(AUTH_HEADER_KEY, token)
+        headers: req.headers.set(AUTH_HEADER_KEY, `${AUTH_SCHEME} ${token}`)
       });
 
       return next.handle(cloned).pipe(tap((event: HttpEvent<any>) => {
