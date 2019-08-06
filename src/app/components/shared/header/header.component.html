@@ -5,12 +5,13 @@
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
-    <h3 *ngIf="router.url.includes('comments') && user.role === 1 && deviceType === 'desktop'"
+    <h3 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       <mat-icon>access_time</mat-icon>
       {{cTime}}
     </h3>
-
+    <span class="fill-remaining-space"
+          *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
     <span
       *ngIf="router.url.includes('comments') && moderationEnabled"
       class="moderation-enabled"
