@@ -1,14 +1,12 @@
 button {
-  margin-right: 10px;
   background-color: var(--secondary);
   color: var(--on-secondary);
+  transform: scale(0.9);
 }
 
 .mat-expansion-panel-header-description {
-  flex-basis: 0;
   align-items: center;
 }
-
 
 .matPanel {
   background-color: var(--primary-variant);
@@ -16,34 +14,28 @@ button {
   color: var(--on-surface)!important;
 }
 
-#matPanelHeader {
-  background-color: var(--primary-variant);
-  margin-bottom: 5px;
-  color: var(--on-surface);
-}
-
-.matPanelListHeader {
+mat-expansion-panel-header {
+  padding: 0 3% 0 3%;
   background-color: var(--primary-variant) !important;
 }
 
 mat-panel-title {
-  flex-basis: 0;
+  flex-grow: 3;
   align-items: center;
   min-width: 80px;
+  margin: 0;
+}
+
+mat-panel-description {
+  flex-grow: 1;
+  align-items: center!important;
+  margin: 0;
 }
 
 .headerTitle {
   width: 8%;
+  min-width: 50px;
   color: var(--on-surface)!important;
-}
-
-.panelTitle {
-  width: 8%;
-  color: var(--on-surface)!important;
-}
-
-mat-card-title {
-  text-align: center;
 }
 
 mat-progress-spinner {
@@ -51,10 +43,10 @@ mat-progress-spinner {
 }
 
 .roleTitle {
-  width: 4%;
   color: var(--on-surface)!important;
+  width: 5%;
 }
 
-.mat-flat-button {
-  margin: 0;
+.buttonTitle {
+  width: 5%;
 }

@@ -5,19 +5,20 @@
 </div>
 
 <div *ngIf="roomsWithRole && roomsWithRole.length != 0">
-  <mat-expansion-panel [disabled]="true" id="matPanelHeader">
+  <mat-expansion-panel [disabled]="true" class="matPanel">
     <mat-expansion-panel-header>
       <mat-panel-title class="headerTitle">Session</mat-panel-title>
       <mat-panel-description class="headerTitle">ID</mat-panel-description>
       <mat-panel-description class="roleTitle">Role</mat-panel-description>
+      <mat-panel-description class="buttonTitle"></mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
-  <mat-expansion-panel *ngFor="let room of roomsWithRole" class="matPanel">
-    <mat-expansion-panel-header class="matPanelListHeader">
-      <mat-panel-title class="panelTitle">
+  <mat-expansion-panel *ngFor="let room of roomsWithRole" class="matPanel" [disabled]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title class="headerTitle">
         {{ room.name }}
       </mat-panel-title>
-      <mat-panel-description class="panelTitle">
+      <mat-panel-description class="headerTitle">
         {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
       </mat-panel-description>
       <mat-panel-description class="roleTitle" [ngSwitch]="room.role">
@@ -25,14 +26,11 @@
         <mat-icon *ngSwitchCase="participantRole">face</mat-icon>
         <mat-icon *ngSwitchCase="executiveModeratorRole">gavel</mat-icon>
       </mat-panel-description>
-      <mat-panel-description class="panelTitle" fxLayoutAlign="end end">
+      <mat-panel-description class="buttonTitle" fxLayoutAlign="end">
         <button mat-flat-button routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}" (click)="setCurrentRoom(room.shortId)">
           <mat-icon>input</mat-icon>
         </button>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>
-      {{ room.description }}
-    </p>
   </mat-expansion-panel>
 </div>
