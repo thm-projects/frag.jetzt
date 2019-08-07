@@ -256,13 +256,13 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
-          return (c.correct) ? true : false;
+          return c.correct;
         case this.favorite:
-          return (c.favorite) ? true : false;
+          return c.favorite;
         case this.read:
-          return (c.read) ? true : false;
+          return c.read;
         case this.unread:
-          return (!c.read) ? true : false;
+          return !c.read;
       }
     });
     this.sortComments(this.currentSort);
