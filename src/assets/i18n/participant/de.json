@@ -24,7 +24,7 @@
     "error-comment": "Bitte gib deine Frage ein.",
     "error-title": "Bitte gib einen Titel ein.",
     "error-both-fields": "Bitte fülle alle Felder aus.",
-    "no-comments": "Noch keine Fragen",
+    "no-comments": "",
     "mark-correct": "Dozent/in hat die Frage bejaht.",
     "mark-favorite": "Dozent/in hält die Frage für besonders interessant.",
     "mark-read": "Dozent/in hat die Frage beantwortet.",
