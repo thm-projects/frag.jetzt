@@ -168,7 +168,7 @@ export class CommentListComponent implements OnInit {
                   this.comments[i].read = <boolean>value;
                   break;
                 case this.correct:
-                  this.comments[i].correct = <boolean>value;
+                  this.comments[i].correct = <number>value;
                   break;
                 case this.favorite:
                   this.comments[i].favorite = <boolean>value;
