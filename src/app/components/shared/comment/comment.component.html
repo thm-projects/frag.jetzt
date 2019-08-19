@@ -16,10 +16,19 @@
                   matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="!isStudent || comment.correct" [disabled]="isStudent"
-              (click)="setCorrect(comment)">
-        <mat-icon [ngClass]="{'correct-icon' : comment.correct, 'not-marked' : !comment.correct}"
-                  [matTooltip]="!comment.correct ? ('comment-page.mark-correct' | translate)
+      <button mat-icon-button *ngIf="!isStudent || comment.correct === 2" [disabled]="isStudent"
+              (click)="markCorrect(comment, 2)">
+        <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
+                              'not-marked' : (comment.correct === 0 || comment.correct === 1)}"
+                  [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
+                                                 : ('comment-page.mark-not-wrong' | translate)">not_interested
+        </mat-icon>
+      </button>
+      <button mat-icon-button *ngIf="!isStudent || comment.correct === 1" [disabled]="isStudent"
+              (click)="markCorrect(comment, 1)">
+        <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
+                              'not-marked' : (comment.correct === 0 || comment.correct === 2)}"
+                  [matTooltip]="comment.correct !== 1 ? ('comment-page.mark-correct' | translate)
                                                  : ('comment-page.mark-not-correct' | translate)">check_circle
         </mat-icon>
       </button>
