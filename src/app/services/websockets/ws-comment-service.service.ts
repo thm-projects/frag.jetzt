@@ -41,8 +41,7 @@ export class WsCommentServiceService {
     return comment;
   }
 
-  toggleCorrect(comment: Comment): Comment {
-    comment.correct = !comment.correct;
+  markCorrect(comment: Comment): Comment {
     const changes = new TSMap<string, any>();
     changes.set('correct', comment.correct);
     this.patchComment(comment, changes);
