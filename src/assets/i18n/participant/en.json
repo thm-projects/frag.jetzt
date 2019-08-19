@@ -25,8 +25,9 @@
     "error-comment": "Please enter a question.",
     "error-both-fields": "Please fill in all fields.",
     "no-comments": "No questions yet",
-    "mark-correct": "Marked as correct by the professor",
-    "mark-favorite": "Professor's favorite",
+    "mark-not-correct": "Marked as correct by the professor",
+    "mark-not-wrong": "Marked as wrong by the professor",
+    "mark-not-favorite": "Professor's favorite",
     "mark-read": "Already discussed by the professor",
     "vote-up": "Vote up",
     "vote-down": "Vote down"

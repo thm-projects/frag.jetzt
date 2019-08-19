@@ -14,6 +14,7 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
 
 @Component({
   selector: 'app-comment-list',
@@ -168,7 +169,7 @@ export class CommentListComponent implements OnInit {
                   this.comments[i].read = <boolean>value;
                   break;
                 case this.correct:
-                  this.comments[i].correct = <number>value;
+                  this.comments[i].correct = <CorrectWrong>value;
                   break;
                 case this.favorite:
                   this.comments[i].favorite = <boolean>value;

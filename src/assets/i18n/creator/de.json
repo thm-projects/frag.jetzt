@@ -114,6 +114,8 @@
     "no-comments": "Keine Fragen vorhanden",
     "mark-correct": "Frage bejahen",
     "mark-not-correct": "Frage nicht bejahen",
+    "mark-wrong": "Frage als falsch markieren",
+    "mark-not-wrong": "Frage nicht als falsch markieren",
     "mark-favorite": "Als besonders interessante Frage markieren",
     "mark-not-favorite": "Nicht als besonders interessante Frage markieren",
     "mark-read": "In Vollansicht am Beamer besprochen",
