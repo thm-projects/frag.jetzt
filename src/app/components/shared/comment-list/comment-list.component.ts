@@ -40,6 +40,7 @@ export class CommentListComponent implements OnInit {
   unread = 'unread';
   favorite = 'favorite';
   correct = 'correct';
+  wrong = 'wrong';
   ack = 'ack';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
@@ -257,7 +258,9 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
-          return c.correct;
+          return c.correct === CorrectWrong.CORRECT ? 1 : 0;
+        case this.wrong:
+          return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
         case this.read:

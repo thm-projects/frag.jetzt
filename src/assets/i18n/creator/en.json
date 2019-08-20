@@ -130,6 +130,7 @@
     "filter-comments": "Filter questions",
     "sort-comments": "Sort questions",
     "add-comment": "Ask a question!",
+    "wrong": "Marked as wrong by you",
     "correct": "Marked as correct by you",
     "favorite": "Your favorites",
     "read": "Discussed",

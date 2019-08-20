@@ -37,6 +37,7 @@
     "filter-comments": "Filter questions",
     "sort-comments": "Sort questions",
     "add-comment": "Ask a question!",
+    "wrong": "Marked as wrong by the professor",
     "correct": "Marked as correct by the professor",
     "favorite": "Professor's favorites",
     "read": "Discussed by the professor",
