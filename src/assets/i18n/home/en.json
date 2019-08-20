@@ -8,7 +8,8 @@
     "login": "Login",
     "my-account": "My account",
     "id": "ID",
-		"moderation-enabled": "Moderated"
+		"moderation-enabled": "Moderated",
+		"delete-account": "Delete account"
 	},
 	"login-page": {
 		"creator": "Professor",

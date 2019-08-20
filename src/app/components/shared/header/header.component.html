@@ -30,6 +30,10 @@
         <mat-icon class="sessions">work</mat-icon>
         <span>{{'header.my-sessions' | translate}}</span>
       </button>
+      <button mat-menu-item *ngIf="user && !user.isGuest" (click)="openDeleteUserDialog()">
+        <mat-icon color="warn">delete_sweep</mat-icon>
+        <span>{{'header.delete-account' | translate}}</span>
+      </button>
       <button mat-menu-item (click)="logout()">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>

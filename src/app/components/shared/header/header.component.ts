@@ -98,4 +98,8 @@ export class HeaderComponent implements OnInit {
     dialogRef.componentInstance.isStandard = true;
   }
 
+  openDeleteUserDialog() {
+    this.notificationService.show('Not implemented yet');
+  }
+
 }
