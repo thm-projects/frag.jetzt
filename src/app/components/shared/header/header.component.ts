@@ -8,6 +8,8 @@ import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
+import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
+import { UserService } from '../../../services/http/user.service';
 
 @Component({
   selector: 'app-header',
@@ -26,7 +28,8 @@ export class HeaderComponent implements OnInit {
               private notificationService: NotificationService,
               public router: Router,
               private translationService: TranslateService,
-              public dialog: MatDialog
+              public dialog: MatDialog,
+              private userService: UserService
   ) {
   }
 
@@ -83,7 +86,7 @@ export class HeaderComponent implements OnInit {
     this.translationService.get('header.logged-out').subscribe(message => {
       this.notificationService.show(message);
     });
-    this.router.navigate(['/']);
+    this.navToHome();
   }
 
   goBack() {
@@ -98,8 +101,30 @@ export class HeaderComponent implements OnInit {
     dialogRef.componentInstance.isStandard = true;
   }
 
+  navToHome() {
+    this.router.navigate(['/']);
+  }
+
+  deleteAccount(id: string) {
+    this.userService.delete(id).subscribe();
+    this.translationService.get('header.account-deleted').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
+    this.navToHome();
+  }
+
   openDeleteUserDialog() {
-    this.notificationService.show('Not implemented yet');
+    const dialogRef = this.dialog.open(DeleteAccountComponent, {
+      width: '600px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'abort') {
+          return;
+        } else if (result === 'delete') {
+          this.deleteAccount(this.user.id);
+        }
+      });
   }
 
 }

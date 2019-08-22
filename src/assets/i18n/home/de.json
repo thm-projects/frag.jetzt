@@ -9,7 +9,12 @@
     "my-account": "Konto",
     "id": "ID",
 		"moderation-enabled": "Moderiert",
-		"delete-account": "Account löschen"
+		"delete-account": "Account löschen",
+		"sure": "Sind Sie sicher?",
+		"really-delete-account": "Wollen Sie ihr Konto wirklich löschen?",
+		"account-deleted": "Ihr Konto wurde erfolgreich gelöscht.",
+		"abort": "Abbrechen",
+		"delete": "Löschen"
 	},
 	"login-page": {
 		"creator": "Dozent/in",

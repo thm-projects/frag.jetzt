@@ -9,7 +9,12 @@
     "my-account": "My account",
     "id": "ID",
 		"moderation-enabled": "Moderated",
-		"delete-account": "Delete account"
+		"delete-account": "Delete account",
+    "sure": "Are you sure?",
+    "really-delete-account": "Do you really want to delete your account?",
+    "account-deleted": "Your account has been deleted successfully.",
+    "abort": "Cancel",
+    "delete": "Delete"
 	},
 	"login-page": {
 		"creator": "Professor",
