@@ -11,7 +11,7 @@
 		"moderation-enabled": "Moderiert",
 		"delete-account": "Account löschen",
 		"sure": "Sind Sie sicher?",
-		"really-delete-account": "Wollen Sie ihr Konto wirklich löschen?",
+		"really-delete-account": "Wollen sie ihr Konto mit den zugehörigen Sessions wirklich unwiderruflich löschen?",
 		"account-deleted": "Ihr Konto wurde erfolgreich gelöscht.",
 		"abort": "Abbrechen",
 		"delete": "Löschen"

@@ -11,7 +11,7 @@
 		"moderation-enabled": "Moderated",
 		"delete-account": "Delete account",
     "sure": "Are you sure?",
-    "really-delete-account": "Do you really want to delete your account?",
+    "really-delete-account": "Do you really want to irrevocably delete your account with the associated sessions?",
     "account-deleted": "Your account has been deleted successfully.",
     "abort": "Cancel",
     "delete": "Delete"
