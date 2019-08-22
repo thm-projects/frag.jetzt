@@ -46,7 +46,7 @@ export class AuthenticationService {
         let role = UserRole.PARTICIPANT;
         const roleAsNumber: string = cA.substring(0, 1);
         const roomId: string = cA.substring(2);
-        if (roleAsNumber === '1') {
+        if (roleAsNumber === '3') {
           role = UserRole.CREATOR;
         } else if (roleAsNumber === '2') {
           role = UserRole.EXECUTIVE_MODERATOR;
