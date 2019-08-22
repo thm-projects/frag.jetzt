@@ -6,9 +6,9 @@ export const blue = {
   '--secondary': '#ffca28',
   '--secondary-variant': '#fff350',
 
-  '--background': '#eeeeee',
-  '--surface': '#bdbdbd',
-  '--dialog': '#c2c2c2',
+  '--background': '#fafafa',
+  '--surface': '#e0e0e0',
+  '--dialog': '#f2f4f5',
 
   '--on-primary': '#FFFFFF',
   '--on-secondary': '#000000',

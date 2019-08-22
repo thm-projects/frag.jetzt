@@ -7,7 +7,7 @@ export const dark = {
   '--secondary-variant': '#6f74dd',
 
   '--background': '#121212',
-  '--surface': '#1e1e1e',
+  '--surface': '#212121',
   '--dialog': '#37474f',
 
   '--on-primary': '#000000',
