@@ -8,7 +8,13 @@
     "login": "Login",
     "my-account": "Konto",
     "id": "ID",
-		"moderation-enabled": "Moderiert"
+		"moderation-enabled": "Moderiert",
+		"delete-account": "Account löschen",
+		"sure": "Sind Sie sicher?",
+		"really-delete-account": "Wollen sie ihr Konto mit den zugehörigen Sessions wirklich unwiderruflich löschen?",
+		"account-deleted": "Ihr Konto wurde erfolgreich gelöscht.",
+		"abort": "Abbrechen",
+		"delete": "Löschen"
 	},
 	"login-page": {
 		"creator": "Dozent/in",

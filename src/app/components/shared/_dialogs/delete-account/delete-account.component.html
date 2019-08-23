@@ -1,0 +1,14 @@
+<h3>{{ 'header.sure' | translate }}</h3>
+<mat-divider></mat-divider>
+<p>{{ 'header.really-delete-account' | translate }}</p>
+<mat-list *ngFor="let room of rooms; let i = index">
+  <mat-list-item><strong>{{ i+1 }}:  {{ room.name }}</strong></mat-list-item>
+</mat-list>
+<div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
+  <button mat-raised-button class="abort" (click)="close('abort')">
+    {{ 'header.abort' | translate }}
+  </button>
+  <button mat-raised-button class="delete" (click)="close('delete')">
+    {{ 'header.delete' | translate }}
+  </button>
+</div>
