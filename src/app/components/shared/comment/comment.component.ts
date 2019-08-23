@@ -11,8 +11,9 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material';
-import { trigger, transition, style, animate, state, keyframes } from '@angular/animations';
+import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
 
 export const rubberBand = [
   style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
@@ -68,7 +69,7 @@ export class CommentComponent implements OnInit {
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
-    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true');
   }
 
   startAnimation(state_: any): void {
@@ -92,8 +93,13 @@ export class CommentComponent implements OnInit {
     this.comment = this.wsCommentService.toggleRead(comment);
   }
 
-  setCorrect(comment: Comment): void {
-    this.comment = this.wsCommentService.toggleCorrect(comment);
+  markCorrect(comment: Comment, type: CorrectWrong): void {
+      if (comment.correct === type) {
+        comment.correct = CorrectWrong.NULL;
+      } else {
+        comment.correct = type;
+      }
+    this.comment = this.wsCommentService.markCorrect(comment);
   }
 
   setFavorite(comment: Comment): void {

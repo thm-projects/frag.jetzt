@@ -12,6 +12,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -142,7 +143,7 @@ export class ModeratorCommentListComponent implements OnInit {
                   this.comments[i].read = <boolean>value;
                   break;
                 case this.correct:
-                  this.comments[i].correct = <boolean>value;
+                  this.comments[i].correct = <CorrectWrong>value;
                   break;
                 case this.favorite:
                   this.comments[i].favorite = <boolean>value;

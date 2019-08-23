@@ -1,3 +1,5 @@
+import { CorrectWrong } from './correct-wrong.enum';
+
 export class Comment {
   id: string;
   roomId: string;
@@ -5,7 +7,7 @@ export class Comment {
   revision: string;
   body: string;
   read: boolean;
-  correct: boolean;
+  correct: CorrectWrong;
   favorite: boolean;
   timestamp: Date;
   score: number;
@@ -17,7 +19,7 @@ export class Comment {
               userId: string = '',
               body: string = '',
               read: boolean = false,
-              correct: boolean = false,
+              correct: CorrectWrong = CorrectWrong.NULL,
               favorite: boolean = false,
               creationTimestamp: Date = null,
               score: number = 0,

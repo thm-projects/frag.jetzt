@@ -14,6 +14,7 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
 
 @Component({
   selector: 'app-comment-list',
@@ -39,6 +40,7 @@ export class CommentListComponent implements OnInit {
   unread = 'unread';
   favorite = 'favorite';
   correct = 'correct';
+  wrong = 'wrong';
   ack = 'ack';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
@@ -168,7 +170,7 @@ export class CommentListComponent implements OnInit {
                   this.comments[i].read = <boolean>value;
                   break;
                 case this.correct:
-                  this.comments[i].correct = <boolean>value;
+                  this.comments[i].correct = <CorrectWrong>value;
                   break;
                 case this.favorite:
                   this.comments[i].favorite = <boolean>value;
@@ -256,7 +258,9 @@ export class CommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
-          return c.correct;
+          return c.correct === CorrectWrong.CORRECT ? 1 : 0;
+        case this.wrong:
+          return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
         case this.read:
