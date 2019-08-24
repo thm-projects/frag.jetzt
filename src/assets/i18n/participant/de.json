@@ -2,7 +2,7 @@
   "home-page": {
     "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
     "please-enter": "Bitte Session-ID eingeben",
-    "only-numbers": "Eine Session-ID besteht aus Ziffern.",
+    "only-numbers": "Eine Session-ID besteht aus einer Kombination aus 8 Ziffern.",
     "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
   },
   "room-page": {
@@ -26,9 +26,9 @@
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "no-comments": "",
     "mark-not-correct": "Dozent/in hat die Frage bejaht.",
-    "mark-not-wrong": "Dozent/in hat die Frage als falsch markiert",
+    "mark-not-wrong": "Dozent/in hat die Frage verneint",
     "mark-not-favorite": "Dozent/in hält die Frage für besonders interessant.",
-    "mark-read": "Dozent/in hat die Frage beantwortet.",
+    "mark-read": "Dozent/in hat die Frage im Hörsaal besprochen.",
     "vote-up": "Hochvoten",
     "vote-down": "Runtervoten"
   },
@@ -37,11 +37,11 @@
     "filter-comments": "Fragen filtern",
     "sort-comments": "Fragen sortieren",
     "add-comment": "Stell deine Frage!",
-    "wrong": "Falsch",
+    "wrong": "Verneint",
     "correct": "Bejaht",
     "favorite": "Hervorgehoben",
-    "read": "Beantwortet",
-    "unread": "Nicht beantwortet",
+    "read": "Im Hörsaal besprochen",
+    "unread": "Nicht im Hörsaal besprochen",
     "vote-desc": "Absteigende Votes",
     "vote-asc": "Aufsteigende Votes",
     "time": "Zeit",
