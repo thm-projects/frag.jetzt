@@ -28,7 +28,7 @@
     "moderator-not-found": "Kein Benutzer mit dieser E-Mail gefunden.",
     "moderator-added": "Moderator wurde hinzugefügt.",
     "moderator-removed": "Moderator wurde entfernt.",
-    "really-remove-moderator": "Wollen sie folgenden Moderator wirklich entfernen?",
+    "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
     "email-error": "E-Mail-Adresse ist ungültig.",
     "session-settings": "Session-Verwaltung",
     "general": "Session",
@@ -61,7 +61,7 @@
     "reset": "Zurücksetzen",
     "contents": "Fragen",
     "submitted": "Frage erstellt. Bereit für die Erstellung neuer Fragen.",
-    "no-empty": "Keine leeren Felder erlaubt. Bitte überprüfen sie Thema und Inhalt.",
+    "no-empty": "Keine leeren Felder erlaubt. Bitte überprüfe Thema und Inhalt.",
     "no-empty2": "Keine leeren Felder erlaubt.",
     "only-one": "Im Single-Choice-Modus ist nur eine Antwort erlaubt.",
     "same-answer": "Zweimal die selbe Antwort ist nicht erlaubt.",
@@ -139,6 +139,6 @@
     "vote-asc": "Aufsteigende Votes",
     "time": "Zeit",
     "comment-sent": "Die Frage wurde veröffentlicht.",
-    "really-delete": "Wollen Sie diese Frage wirklich löschen?"
+    "really-delete": "Willst du diese Frage wirklich löschen?"
   }
 }
