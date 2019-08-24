@@ -56,8 +56,8 @@
 		"activation-key-required": "Aktivierungsschlüssel erforderlich",
 		"activation-key-incorrect": "Aktivierungsschlüssel falsch",
 		"or": "oder",
-		"guest-login-tooltip": "Erstellte Sessions werden nach ausloggen wieder gelöscht.",
-		"login-tooltip": "Sessions werden für 180 Tage gespeichert."
+		"guest-login-tooltip": "Erstellte Sessions werden mit allen Fragen nach dem Ausloggen gelöscht.",
+		"login-tooltip": "Sessions mit allen Fragen werden für 180 Tage gespeichert."
 	},
 	"password-reset": {
 		"email": "E-Mail",
