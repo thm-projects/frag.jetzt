@@ -7,7 +7,7 @@
       <h3><mat-slide-toggle [(ngModel)]="settingThreshold"></mat-slide-toggle></h3>
     </div>
     <div fxLayout="row" *ngIf="settingThreshold">
-      <mat-slider id="commentSlider" min="-50" max="0" step="5" value="0"
+      <mat-slider id="commentSlider" min="-100" max="0" step="10" value="0"
                 [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
       <h3>&nbsp;{{commentThreshold | number}}</h3>
     </div>
