@@ -25,24 +25,24 @@ skinparam usecase {
     ActorBorderColor Green
 }
 
-actor TemporalSessionOwner
-actor PermanentSessionOwner
-actor Participant
-actor BonusParticipant
+actor Lecturer
+actor Student
 actor Moderator
 
+note "If a lecturer is registered and logs in with her account, \nher sessions remain stored for 180 days after the last visit, \notherwise they are deleted when she logs out." as NoteForCreateSession
+note "Registered students can receive a bonus \nfor particularly interesting questions." as NoteForJoinSession
 
 rectangle "frag.jetzt | use-case diagram \n" << Business >> {
 
-    TemporalSessionOwner -- (Create session)
-    PermanentSessionOwner -- (Create session)
+    (Join session) --- NoteForJoinSession
+    (Create session) --- NoteForCreateSession
+
+    Lecturer -- (Create session)
     (Evaluate questions) <.. (Delete question) : << extend >>
-    Participant -- (Join session)
-    BonusParticipant -- (Join session)
-    Moderator -- (Join session)
-    Moderator -- (Moderate questions)
-    (Create session) <.. (Assign moderator to session) : << extend >>
+    Student-- (Join session)
+    Moderator ---- (Moderate questions)
     (Create session) <.. (Export questions) : << extend >>
+    (Create session) <.. (Assign moderator to session) : << extend >>
     (Create session) <.. (Ask question) : << extend >>
     (Create session) <.. (Evaluate questions) : << extend >>
     (Moderate questions) <.. (Ban question) : << extend >>
