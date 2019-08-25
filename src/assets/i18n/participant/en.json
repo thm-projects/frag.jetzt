@@ -27,7 +27,7 @@
     "no-comments": "No questions yet",
     "mark-not-correct": "Marked as correct by the professor",
     "mark-not-wrong": "Marked as wrong by the professor",
-    "mark-not-favorite": "Professor's favorite",
+    "mark-not-favorite": "Bonus question: Your professor intends to give a bonus for that question.",
     "mark-read": "Already discussed by the professor",
     "vote-up": "Vote up",
     "vote-down": "Vote down"
@@ -39,7 +39,7 @@
     "add-comment": "Ask a question!",
     "wrong": "Marked as wrong by the professor",
     "correct": "Marked as correct by the professor",
-    "favorite": "Professor's favorites",
+    "favorite": "Bonus question",
     "read": "Discussed by the professor",
     "unread": "Not yet discussed",
     "vote-desc": "Descending votes",

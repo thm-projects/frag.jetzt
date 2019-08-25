@@ -27,7 +27,7 @@
     "no-comments": "",
     "mark-not-correct": "Dozent/in hat die Frage bejaht.",
     "mark-not-wrong": "Dozent/in hat die Frage verneint",
-    "mark-not-favorite": "Dozent/in hält die Frage für besonders interessant.",
+    "mark-not-favorite": "Bonus-Frage: Dozent/in hält die Frage für besonders interessant.",
     "mark-read": "Dozent/in hat die Frage im Hörsaal besprochen.",
     "vote-up": "Hochvoten",
     "vote-down": "Runtervoten"
@@ -39,7 +39,7 @@
     "add-comment": "Stell deine Frage!",
     "wrong": "Verneint",
     "correct": "Bejaht",
-    "favorite": "Hervorgehoben",
+    "favorite": "Bonus-Frage",
     "read": "Im Hörsaal besprochen",
     "unread": "Nicht im Hörsaal besprochen",
     "vote-desc": "Absteigende Votes",
