@@ -1,0 +1,68 @@
+@startuml
+
+scale 1.0
+
+left to right direction
+
+skinparam backgroundColor Linen
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 20
+skinparam Padding 5
+skinparam defaultFontSize 24
+skinparam Nodesep 100
+skinparam ArrowThickness 2
+skinparam shadowing true
+
+skinparam usecase {
+    BackgroundColor PaleGreen
+    BorderColor Green
+    BackgroundColor<<USP>> Pink
+    BorderColor<<USP>> HotPink
+    BorderThickness 2
+    ArrowThickness 2
+    ArrowColor Green
+    ActorBorderColor Green
+}
+
+actor TemporalSessionOwner
+actor PermanentSessionOwner
+actor Participant
+actor BonusParticipant
+actor Moderator
+
+
+rectangle "frag.jetzt | use-case diagram \n" << Business >> {
+
+    TemporalSessionOwner -- (Create session)
+    PermanentSessionOwner -- (Create session)
+    (Evaluate questions) <.. (Delete question) : << extend >>
+    Participant -- (Join session)
+    BonusParticipant -- (Join session)
+    Moderator -- (Join session)
+    Moderator -- (Moderate questions)
+    (Create session) <.. (Assign moderator to session) : << extend >>
+    (Create session) <.. (Export questions) : << extend >>
+    (Create session) <.. (Ask question) : << extend >>
+    (Create session) <.. (Evaluate questions) : << extend >>
+    (Moderate questions) <.. (Ban question) : << extend >>
+    (Evaluate questions) <.. (Ban question) : << extend >>
+    (Join session) <.. (Ask question) : << extend >>
+    (Ask question) <.. (Vote down question) : << extend >>
+    (Ask question) <.. (Vote up question) : << extend >>
+
+}
+
+legend right
+  |<img:https://git.thm.de/arsnova/arsnova-lite/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML v1.2019.5|
+  | Ersteller| Klaus Quibeldey-Cirkel|
+  | Mail| klaus.quibeldey-cirkel@mni.thm.de |
+  | Letzte Änderung| 26.08.2019 |
+end legend
+
+@enduml
+
