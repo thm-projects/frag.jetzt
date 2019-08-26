@@ -48,8 +48,8 @@ rectangle "frag.jetzt | use-case diagram \n" << Business >> {
     (Moderate questions) <.. (Ban question) : << extend >>
     (Evaluate questions) <.. (Ban question) : << extend >>
     (Join session) <.. (Ask question) : << extend >>
-    (Ask question) <.. (Vote down question) : << extend >>
-    (Ask question) <.. (Vote up question) : << extend >>
+    (Join session) <.. (Vote up question) : << extend >>
+    (Join session) <.. (Vote down question) : << extend >>
 
 }
 
