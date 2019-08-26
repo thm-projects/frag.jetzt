@@ -87,7 +87,7 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   exportCsv(delimiter: string, date: string): void {
-    this.commentService.getComments(this.roomId)
+    this.commentService.getAckComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
         const exportComments = JSON.parse(JSON.stringify(this.comments));
