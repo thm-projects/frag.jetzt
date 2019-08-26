@@ -110,11 +110,6 @@ ModeratorBoard -up-|> Board
 Question -right-o QuestionBoard
 ModeratorBoard o-down- BannedQuestion
 
-class Configuration {
-  theme
-  language
-}
-
 }
 
 legend right
