@@ -28,9 +28,6 @@ hide circle
 
 package "frag.jetzt | domain diagram" <<Frame>> {
 
-class Role {
-}
-
 class GuestUser {
 }
 
@@ -39,17 +36,17 @@ class RegisteredUser {
   password
 }
 
-GuestUser -left-|> Role
-RegisteredUser -up-|> Role
+GuestUser -left-|> User
+RegisteredUser -up-|> User
 
 class SessionParticipant {
 }
 
-class TemporalSessionOwner {
+class TemporalSessionHolder {
 }
 
 SessionParticipant -left-|> GuestUser
-TemporalSessionOwner -up-|> GuestUser
+TemporalSessionHolder -up-|> GuestUser
 
 class Moderator <<USP>> {
 }
@@ -57,10 +54,10 @@ class Moderator <<USP>> {
 class BonusParticipant <<USP>> {
 }
 
-class PermanentSessionOwner {
+class PermanentSessionHolder{
 }
 
-PermanentSessionOwner -left-|> RegisteredUser
+PermanentSessionHolder -left-|> RegisteredUser
 Moderator -up-|> RegisteredUser
 Moderator -down- Session :assigned to >
 BonusParticipant -right-|> RegisteredUser
@@ -69,7 +66,8 @@ class Session {
   id
   name
   description
-  owner
+  holder
+  moderators
   }
 
 class Question {
@@ -86,7 +84,7 @@ class Status {
 Status -up- Question
 
 class Board {
-  help
+  helpPage
 }
 
 class QuestionBoard {
