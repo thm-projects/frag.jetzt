@@ -89,7 +89,7 @@
 		"create-session": "Create session"
 	},
   "footer": {
-    "demo": "Demo video",
+    "demo": "Demo",
     "dsgvo": "Data Protection",
     "imprint": "Imprint",
     "will-open": " will be opened in a new tab...",
@@ -98,7 +98,7 @@
     "dark": "Dark background",
     "bright": "Bright background",
     "beamer": "Optimized for the projector (work in progress)",
-    "wai": "Accessible according to WCAG 2.0 (work in progress)",
+    "wai": "Accessible according to WCAG 2.1 (work in progress)",
     "style": "Style",
     "language": "Language",
     "english": "English",

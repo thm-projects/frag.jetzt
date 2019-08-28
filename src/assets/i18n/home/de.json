@@ -89,7 +89,7 @@
 		"create-session": "Session erstellen"
   },
   "footer": {
-    "demo": "Demo Video",
+    "demo": "Demo",
     "dsgvo": "Datenschutz",
     "imprint": "Impressum",
     "will-open": " wird in einem neuen Fenster geöffnet...",
@@ -98,7 +98,7 @@
     "dark": "Dunkler Hintergrund",
     "bright": "Heller Hintergrund",
     "beamer": "Für den Beamer optimiert (in Arbeit)",
-    "wai": "Barrierefrei nach WCAG 2.0 (in Arbeit)",
+    "wai": "Barrierefrei nach WCAG 2.1 (in Arbeit)",
     "style": "Stil",
     "language": "Sprache",
     "english": "Englisch",
