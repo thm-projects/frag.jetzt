@@ -135,7 +135,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
           return;
         } else {
           if (result instanceof CommentSettingsDialog) {
-            console.log(result);
             this.updateCommentSettings(result);
             this.saveChanges();
           }
