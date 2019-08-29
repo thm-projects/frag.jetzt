@@ -63,6 +63,7 @@ export class RoomCreateComponent implements OnInit {
       this.translateService.get('home-page.created-2').subscribe(msg => { msg2 = msg; });
       this.notification.show(msg1 + longRoomName + msg2);
       this.authService.setAccess(room.shortId, UserRole.CREATOR);
+      this.authService.assignRole(UserRole.CREATOR);
       this.router.navigate([`/creator/room/${this.room.shortId}`]);
       this.dialogRef.close();
     });
