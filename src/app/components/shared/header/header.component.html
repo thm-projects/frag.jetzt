@@ -27,7 +27,8 @@
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user" routerLink="/user">
         <mat-icon class="sessions">work</mat-icon>
-        <span>{{'header.my-sessions' | translate}}</span>
+        <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
+        <span *ngIf="user.isGuest">{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user && !user.isGuest" (click)="openDeleteUserDialog()">
         <mat-icon color="warn">delete_sweep</mat-icon>
@@ -41,13 +42,16 @@
 
     <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
       <div class="label-icon">
-        <mat-icon class="header-icons">account_box</mat-icon>
-        <h3>{{'header.my-account' | translate}}</h3>
+        <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
+        <mat-icon *ngIf="user.isGuest" class="header-icons">folder</mat-icon>
+        <h3 *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h3>
+        <h3 *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h3>
       </div>
     </button>
 
     <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu">
-      <mat-icon class="header-icons">account_box</mat-icon>
+      <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
+      <mat-icon *ngIf="user.isGuest" class="header-icons">folder</mat-icon>
     </button>
 
     <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
@@ -60,6 +64,5 @@
     <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false)>
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
-
   </mat-toolbar-row>
 </mat-toolbar>
