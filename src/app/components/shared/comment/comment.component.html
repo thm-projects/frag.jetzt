@@ -10,15 +10,12 @@
           {{comment.timestamp | date: 'h:mm a'}}
         </ng-template>
       </div>
-      <span class="fill-remaining-space"></span>
-      <button mat-icon-button *ngIf="!isStudent || comment.correct === 2" [disabled]="isStudent"
-              (click)="markCorrect(comment, 2)">
-        <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
-                              'not-marked' : (comment.correct === 0 || comment.correct === 1)}"
-                  [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
-                                                 : ('comment-page.mark-not-wrong' | translate)">not_interested
+      <button mat-icon-button *ngIf="comment.read" [disabled]="true" (click)="setRead(comment)">
+        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
+                  matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
         </mat-icon>
       </button>
+      <span class="fill-remaining-space"></span>
       <button mat-icon-button *ngIf="!isStudent || comment.correct === 1" [disabled]="isStudent"
               (click)="markCorrect(comment, 1)">
         <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
@@ -27,16 +24,19 @@
                                                  : ('comment-page.mark-not-correct' | translate)">check_circle
         </mat-icon>
       </button>
+      <button mat-icon-button *ngIf="!isStudent || comment.correct === 2" [disabled]="isStudent"
+              (click)="markCorrect(comment, 2)">
+        <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
+                              'not-marked' : (comment.correct === 0 || comment.correct === 1)}"
+                  [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
+                                                 : ('comment-page.mark-not-wrong' | translate)">not_interested
+        </mat-icon>
+      </button>
       <button mat-icon-button *ngIf="!isStudent || comment.favorite" [disabled]="isStudent"
               (click)="setFavorite(comment)">
         <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                   [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
-        </mat-icon>
-      </button>
-      <button mat-icon-button *ngIf="comment.read" [disabled]="true" (click)="setRead(comment)">
-        <mat-icon [ngClass]="{'read-icon': comment.read, 'not-marked' : !comment.read}"
-                  matTooltip="{{ 'comment-page.mark-read' | translate }}">speaker_notes
         </mat-icon>
       </button>
       <button mat-icon-button *ngIf="!isStudent" (click)="openDeleteCommentDialog()">
