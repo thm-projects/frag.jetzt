@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
+import { MatIconRegistry } from '@angular/material';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +14,15 @@ export class AppComponent implements OnInit {
 
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
-              public notification: NotificationService) {
+              public notification: NotificationService,
+              private matIconRegistry: MatIconRegistry,
+              private domSanitizer: DomSanitizer) {
     translationService.setDefaultLang(this.translationService.getBrowserLang());
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
+    this.matIconRegistry.addSvgIcon(
+      'beamer',
+      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/beamer-icon.svg')
+    );
   }
 
   title = 'frag.jetzt';
