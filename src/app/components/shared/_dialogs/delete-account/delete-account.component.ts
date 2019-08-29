@@ -20,10 +20,18 @@ export class DeleteAccountComponent implements OnInit {
   ngOnInit() {
     this.roomService.getCreatorRooms().subscribe(rooms => {
       this.rooms = rooms;
+      this.sortRooms();
     });
   }
 
   close(type: string): void {
     this.dialogRef.close(type);
+  }
+
+  sortRooms() {
+    const roomList = this.rooms.sort((a, b) => {
+      return a.name > b.name ? 1 : -1;
+    });
+    this.rooms = roomList;
   }
 }
