@@ -33,11 +33,6 @@
             [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
-
-    <button mat-fab class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
-            matTooltip="{{ 'comment-list.add-comment' | translate }}">
-      <mat-icon class="addCommentIcon">add</mat-icon>
-    </button>
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
@@ -64,6 +59,11 @@
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
       </button>
 
+      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.wrong' | translate }}"
+              (click)="filterComments(wrong)">
+        <mat-icon [ngClass]="{wrong: 'wrong-icon'}[currentFilter]">not_interested</mat-icon>
+      </button>
+
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
               (click)="filterComments(favorite)">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
@@ -71,12 +71,7 @@
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
               (click)="filterComments(read)">
-        <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">speaker_notes</mat-icon>
-      </button>
-
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.unread' | translate }}"
-              (click)="filterComments(unread)">
-        <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">speaker_notes_off</mat-icon>
+        <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">

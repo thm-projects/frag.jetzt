@@ -38,6 +38,7 @@ export class ModeratorCommentListComponent implements OnInit {
   unread = 'unread';
   favorite = 'favorite';
   correct = 'correct';
+  wrong = 'wrong';
   ack = 'ack';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
@@ -197,7 +198,9 @@ export class ModeratorCommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
-          return c.correct;
+          return c.correct === CorrectWrong.CORRECT ? 1 : 0;
+        case this.wrong:
+          return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
         case this.read:
@@ -212,13 +215,13 @@ export class ModeratorCommentListComponent implements OnInit {
   sort(array: any[], type: string): void {
     array.sort((a, b) => {
       if (type === this.voteasc) {
-        return a.score - b.score;
+        return (a.score > b.score) ? 1 : (b.score > a.score) ? -1 : 0;
       } else if (type === this.votedesc) {
-        return b.score - a.score;
+        return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
       }
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
       if (type === this.time) {
-        return +dateB - +dateA;
+        return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
       }
     });
   }

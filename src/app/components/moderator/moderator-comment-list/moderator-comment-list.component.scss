@@ -64,18 +64,6 @@ app-comment {
   color: var(--secondary);
 }
 
-.addButton {
-  width: 40px;
-  height: 40px;
-  margin: 0 5% 0 5%;
-  background-color: var(--primary);
-}
-
-.addCommentIcon {
-  transform: scale(1.5);
-  color: var(--surface)
-}
-
 .close {
   margin: 5px 0 5px 0;
 }
@@ -104,8 +92,12 @@ h4  {
   color: var(--green);
 }
 
-.read-icon {
-  color: var(--grey);
+.wrong-icon {
+  color: var(--red);
+}
+
+.beamer-icon {
+  color: var(--blue);
 }
 
 .favorite-icon {
@@ -140,25 +132,6 @@ h3 {
 ::placeholder {
   color: var(--on-surface);
   opacity: 1;
-}
-
-.fab-extended {
-  width: 50%;
-  min-width: 270px;
-  max-width: 300px;
-  height: 40px;
-  border-radius: 32px;
-  margin: 10% 0 10% 0;
-  font-size: large;
-  background-color: var(--primary);
-  color: var(--on-primary);
-}
-
-.add {
-  transform: scale(1.4);
-  margin-right: 4%;
-  margin-left: 4%;
-  color: var(--on-primary);
 }
 
 .scrollTop {
