@@ -33,16 +33,16 @@ mat-card-content > :first-child {
   color: var(--green);
 }
 
-.read-icon {
-  color: var(--grey);
-}
-
 .favorite-icon {
   color: var(--yellow);
 }
 
 .wrong-icon {
   color: var(--red);
+}
+
+.beamer-icon {
+  color: var(--on-surface);
 }
 
 h2 {
@@ -78,7 +78,7 @@ h2 {
 }
 
 .date {
-  padding-top: 10px;
+  padding-top: 10.5px;
 
 }
 

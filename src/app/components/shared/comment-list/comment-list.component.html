@@ -59,14 +59,14 @@
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.wrong' | translate }}"
-              (click)="filterComments(wrong)">
-        <mat-icon [ngClass]="{correct: 'wrong-icon'}[currentFilter]">not_interested</mat-icon>
-      </button>
-
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.correct' | translate }}"
               (click)="filterComments(correct)">
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
+      </button>
+
+      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.wrong' | translate }}"
+              (click)="filterComments(wrong)">
+        <mat-icon [ngClass]="{wrong: 'wrong-icon'}[currentFilter]">not_interested</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
@@ -76,12 +76,7 @@
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
               (click)="filterComments(read)">
-        <mat-icon [ngClass]="{read: 'read-icon'}[currentFilter]">speaker_notes</mat-icon>
-      </button>
-
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.unread' | translate }}"
-              (click)="filterComments(unread)">
-        <mat-icon [ngClass]="{unread: 'unread-icon'}[currentFilter]">speaker_notes_off</mat-icon>
+        <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">
