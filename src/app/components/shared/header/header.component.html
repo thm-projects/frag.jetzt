@@ -43,7 +43,7 @@
     <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
-        <mat-icon *ngIf="user.isGuest" class="header-icons">folder</mat-icon>
+        <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
         <h3 *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h3>
         <h3 *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h3>
       </div>
@@ -51,7 +51,7 @@
 
     <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu">
       <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
-      <mat-icon *ngIf="user.isGuest" class="header-icons">folder</mat-icon>
+      <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
     </button>
 
     <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
