@@ -114,9 +114,13 @@ export class CommentListComponent implements OnInit {
   }
 
   searchComments(): void {
-    if (this.searchInput && this.searchInput.length > 2) {
-      this.hideCommentsList = true;
-      this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
+    if (this.searchInput) {
+      if (this.searchInput.length > 2) {
+        this.hideCommentsList = true;
+        this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
+      }
+    } else {
+      this.hideCommentsList = false;
     }
   }
 
