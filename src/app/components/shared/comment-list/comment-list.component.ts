@@ -177,6 +177,7 @@ export class CommentListComponent implements OnInit {
                   break;
                 case 'score':
                   this.comments[i].score = <number>value;
+                  this.getComments();
                   break;
                 case this.ack:
                   const isNowAck = <boolean>value;
