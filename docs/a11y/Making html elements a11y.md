@@ -1,8 +1,8 @@
 ### Problems
 
-JAWS and Microsoft Speech cannot play the "title" attributes. Only NVDA plays the "title" attribute.
-Attribute "aria-label" does not work with multi-language titles, voice output reads registered string directly 1 to 1.
-"aria-labelledby" works finde with Microsoft Speech, JAWS and NVDA. If "title" attribute is additionally set, NVDA plays the text twice.
+JAWS and Microsoft Speech cannot play the "title" attributes. Only NVDA plays the "title" attribute.<br>
+Attribute "aria-label" does not work with multi-language titles, voice output reads registered string directly 1 to 1.<br>
+"aria-labelledby" works finde with Microsoft Speech, JAWS and NVDA. If "title" attribute is additionally set, NVDA plays the text twice.<br>
 
 ### Example (meeting_room) for Buttons
 
