@@ -7,10 +7,18 @@
 <div *ngIf="roomsWithRole && roomsWithRole.length != 0">
   <mat-expansion-panel [disabled]="true" class="matPanel">
     <mat-expansion-panel-header>
-      <mat-panel-title class="headerTitle">Session</mat-panel-title>
-      <mat-panel-description class="headerTitle">ID</mat-panel-description>
-      <mat-panel-description class="roleTitle">Role</mat-panel-description>
-      <mat-panel-description class="buttonTitle"></mat-panel-description>
+      <mat-panel-title class="headerTitle">
+        {{ 'room-list.panel-session-name' | translate }}
+      </mat-panel-title>
+      <mat-panel-description class="headerTitle">
+        {{ 'room-list.panel-session-id' | translate }}
+      </mat-panel-description>
+      <mat-panel-description class="roleTitle">
+        {{ 'room-list.panel-user-role' | translate }}
+      </mat-panel-description>
+      <mat-panel-description class="buttonTitle">
+        {{ 'room-list.panel-join-button' | translate }}
+      </mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
   <mat-expansion-panel *ngFor="let room of roomsWithRole" class="matPanel" [disabled]="true">

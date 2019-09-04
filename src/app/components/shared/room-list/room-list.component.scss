@@ -48,5 +48,8 @@ mat-progress-spinner {
 }
 
 .buttonTitle {
+  color: var(--on-surface)!important;
   width: 5%;
+  display: flex;
+  place-content: stretch flex-end;
 }

@@ -104,5 +104,11 @@
     "language": "Sprache",
     "english": "Englisch",
     "german": "Deutsch"
+  },
+  "room-list": {
+    "panel-session-name": "Name",
+    "panel-session-id": "Session ID",
+    "panel-user-role": "Rolle",
+    "panel-join-button": "Session beitreten"
   }
 }
