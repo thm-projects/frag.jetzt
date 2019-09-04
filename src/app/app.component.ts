@@ -12,6 +12,11 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
 
+  icons = [
+    'beamer',
+    'meeting_room'
+  ];
+
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
               public notification: NotificationService,
@@ -19,10 +24,12 @@ export class AppComponent implements OnInit {
               private domSanitizer: DomSanitizer) {
     translationService.setDefaultLang(this.translationService.getBrowserLang());
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
-    this.matIconRegistry.addSvgIcon(
-      'beamer',
-      this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/beamer-icon.svg')
-    );
+    for (const icon of this.icons) {
+      this.matIconRegistry.addSvgIcon(
+        icon,
+        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/' + icon + '.svg')
+      );
+    }
   }
 
   title = 'frag.jetzt';
