@@ -65,7 +65,7 @@ export class RoomListComponent implements OnInit {
         });
       }
       return roomWithRole;
-    });
+    }).sort((a, b) => 0 - (a.name < b.name ? 1 : -1));
     this.isLoading = false;
   }
 
