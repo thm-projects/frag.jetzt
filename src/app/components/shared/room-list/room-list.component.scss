@@ -53,3 +53,8 @@ mat-progress-spinner {
   display: flex;
   place-content: stretch flex-end;
 }
+
+.noRoomHistory {
+  color: var(--on-surface)!important;
+  font-style: italic;
+}

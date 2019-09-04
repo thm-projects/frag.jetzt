@@ -109,6 +109,7 @@
     "panel-session-name": "Name",
     "panel-session-id": "Session ID",
     "panel-user-role": "Rolle",
-    "panel-join-button": "Session beitreten"
+    "panel-join-button": "Session beitreten",
+    "no-room-history": "Du bist bisher keinen Sessions beigetreten."
   }
 }
