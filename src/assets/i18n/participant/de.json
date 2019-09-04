@@ -14,7 +14,8 @@
     "answer-statistics": "Statistiken",
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
-    "session-id": "ID"
+    "session-id": "ID",
+    "a11y-question_answer": "Öffnet die Kommentar-Seite mit allen Fragen und bietet die Möglichkeit Fragen zu stellen."
   },
   "comment-page": {
     "enter-title": "Titel",
