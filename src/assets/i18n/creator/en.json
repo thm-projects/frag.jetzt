@@ -44,7 +44,16 @@
     "settings-comment-moderation": "Moderate questions",
     "settings-direct-send": "Send Questions directly to participants",
     "public-stream": "Public Questions",
-    "moderating-stream": "Moderation"
+    "moderating-stream": "Moderation",
+    "a11y-id-copy-button":"Copy link to session to the clipboard",
+    "a11y-comments-button": "Opens all questions asked about the session",
+    "a11y-moderation-button": "Opens all questions selected by the moderator",
+    "a11y-settings-button": "Opens a window with options to manage sessions, manage questions, and find moderators.",
+    "a11y-settings-session-button": "Opens a window with options, rename session, add description and delete session",
+    "a11y-settings-comments-button": "Opens a window to manage questions",
+    "a11y-settings-moderation-button":"Opens a window to search for moderators"
+
+
   },
   "content": {
     "content": "Content",
