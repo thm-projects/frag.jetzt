@@ -40,7 +40,7 @@
       </button>
     </mat-menu>
 
-    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
+    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu" aria-labelledby="meeting_room">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
         <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
@@ -49,7 +49,7 @@
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu">
+    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu" aria-labelledby="meeting_room">
       <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
       <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
     </button>
@@ -66,3 +66,8 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<!--Hidden Div's for a11y-Descriptions-->
+<div class="visually-hidden">
+  <div id="meeting_room">{{'header.a11y-meeting_room' | translate}}</div>
+</div>

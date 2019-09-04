@@ -15,7 +15,8 @@
 		"really-delete-account": "Willst du dein Konto mit den zugehörigen Sessions wirklich unwiderruflich löschen?",
 		"account-deleted": "Dein Konto wurde erfolgreich gelöscht.",
 		"abort": "Abbrechen",
-		"delete": "Löschen"
+		"delete": "Löschen",
+    "a11y-meeting_room": "Öffnet das Sitzungs-Menu mit Optionen für Benutzer, Pfeiltasten Oben und Unten für die Navigation innerhalb des Menus verwenden."
 	},
 	"login-page": {
 		"creator": "Dozent/in",
