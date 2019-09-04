@@ -58,3 +58,11 @@ mat-progress-spinner {
   color: var(--on-surface)!important;
   font-style: italic;
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}

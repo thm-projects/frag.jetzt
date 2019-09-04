@@ -32,8 +32,9 @@
 		"no-room-found": "No session found with this ID",
 		"please-enter": "… your professor tells you",
 		"exactly-8": "A session ID has exactly 8 digits.",
-		"create-session": "New session",
-		"no-empty-name": "Please enter a name.",
+    "create-session": "New session",
+    "create-session-description": "Create new session",
+    "no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
 		"created-2": "' successfully created",
 		"only-numbers": "A session ID only contains digits.",
@@ -110,6 +111,10 @@
     "panel-session-id": "Session ID",
     "panel-user-role": "Role",
     "panel-join-button": "Join Session",
-    "no-room-history": "You haven't joined any sessions yet."
+    "role-creator": "Room creator",
+    "role-participant": "Participant",
+    "role-moderator": "Moderator",
+    "no-room-history": "You haven't joined any sessions yet.",
+    "join-message-template": "Join Session {{session}} with ID {{id}} and role {{role}}"
   }
 }

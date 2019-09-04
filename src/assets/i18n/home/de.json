@@ -33,6 +33,7 @@
 		"please-enter": "… sagt dir dein/e Dozent/in",
 		"exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
 		"create-session": "Neue Session",
+    "create-session-description": "Neue Session erstellen",
 		"no-empty-name": "Bitte gib einen Namen für die Session ein.",
 		"created-1": "Session '",
 		"created-2": "' erfolgreich erstellt",
@@ -110,6 +111,10 @@
     "panel-session-id": "Session ID",
     "panel-user-role": "Rolle",
     "panel-join-button": "Session beitreten",
-    "no-room-history": "Du bist bisher keinen Sessions beigetreten."
+    "role-creator": "Raumersteller",
+    "role-participant": "Teilnehmer",
+    "role-moderator": "Moderator",
+    "no-room-history": "Du bist bisher keinen Sessions beigetreten.",
+    "join-message-template": "Session {{session}} mit ID {{id}} und Rolle {{role}} beitreten"
   }
 }

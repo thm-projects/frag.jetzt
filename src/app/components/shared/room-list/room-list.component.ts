@@ -8,6 +8,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room-list',
