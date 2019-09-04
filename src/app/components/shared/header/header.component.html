@@ -1,7 +1,7 @@
 <mat-toolbar class="mat-elevation-z4">
   <mat-toolbar-row>
     <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
-            matTooltip="{{'header.back' | translate}}">
+            matTooltip="{{'header.back' | translate}}" aria-labelledby="back">
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
@@ -70,4 +70,5 @@
 <!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
   <div id="meeting_room">{{'header.a11y-meeting_room' | translate}}</div>
+  <div id="back">{{'header.a11Y-back' | translate}}</div>
 </div>

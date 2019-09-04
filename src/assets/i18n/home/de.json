@@ -16,7 +16,8 @@
 		"account-deleted": "Dein Konto wurde erfolgreich gelöscht.",
 		"abort": "Abbrechen",
 		"delete": "Löschen",
-    "a11y-meeting_room": "Öffnet das Sitzungs-Menu mit Optionen für Benutzer, Pfeiltasten Oben und Unten für die Navigation innerhalb des Menus verwenden."
+    "a11y-meeting_room": "Öffnet das Sitzungs-Menu mit Optionen für Benutzer, Pfeiltasten Oben und Unten für die Navigation innerhalb des Menus verwenden.",
+    "a11Y-back": "Dieser Button führt zur vorher besuchten Seite."
 	},
 	"login-page": {
 		"creator": "Dozent/in",
