@@ -45,13 +45,13 @@
     "settings-direct-send": "Fragen sofort sichtbar schalten",
     "public-stream": "Offene Fragen",
     "moderating-stream": "Moderation",
-    "a11y-id-copy-button": "Direktlink zur Session in die Zwischenablage kopieren",
-    "a11y-comments-button": "Öffnet alle gestellten Fragen zur Session",
-    "a11y-moderation-button": "Öffnet alle Fragen die vom Moderator ausgewählt wurden",
-    "a11y-settings-button": "Öffnet ein Fenster mit Optionen, Sessions zu verwalten, Fragen zu verwalten und Moderatoren zu suchen",
-    "a11y-settings-session-button": "Öffnet ein Fenster mit Optionen, Session umbenennen, Beschreibung hinzufügen und Session löschen",
-    "a11y-settings-comments-button": "Öffnet ein Fenster um Fragen zu verwalten",
-    "a11y-settings-moderation-button": "Öffnet ein Fenster um Moderatoren zu suchen."
+    "a11y-cloud_download": "Direktlink zur Session in die Zwischenablage kopieren",
+    "a11y-question_answer": "Öffnet alle gestellten Fragen zur Session",
+    "a11y-gavel": "Öffnet alle Fragen die vom Moderator ausgewählt wurden",
+    "a11y-settings": "Öffnet ein Fenster mit Optionen, Sessions zu verwalten, Fragen zu verwalten und Moderatoren zu suchen",
+    "a11y-edit": "Öffnet ein Fenster mit Optionen, Session umbenennen, Beschreibung hinzufügen und Session löschen",
+    "a11y-insert_comment": "Öffnet ein Fenster um Fragen zu verwalten",
+    "a11y-person": "Öffnet ein Fenster um Moderatoren zu suchen."
   },
   "content": {
     "content": "Frage",

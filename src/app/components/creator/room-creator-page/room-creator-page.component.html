@@ -16,27 +16,27 @@
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>
-            <button id="copy" mat-icon-button (click)="copyShortId()" aria-labelledby= "id-copy-button">
+            <button id="copy" mat-icon-button (click)="copyShortId()" aria-labelledby= "cloud_download">
               <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">cloud_download</mat-icon>
             </button>
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
         <mat-menu #settingsMenu="matMenu" [overlapTrigger]="false" xPosition="before">
-          <button mat-menu-item (click)="showSettingsDialog()" aria-labelledby= "settings-session-button">
+          <button mat-menu-item (click)="showSettingsDialog()" aria-labelledby= "edit">
             <mat-icon>edit</mat-icon>
             {{ 'room-page.general' | translate}}
           </button>
-          <button mat-menu-item (click)="showCommentsDialog()" aria-labelledby= "settings-comments-button">
+          <button mat-menu-item (click)="showCommentsDialog()" aria-labelledby= "insert_comment">
             <mat-icon>insert_comment</mat-icon>
             {{ 'room-page.comments' | translate}}
           </button>
-          <button mat-menu-item (click)="showModeratorsDialog()" aria-labelledby= "settings-moderation-button">
+          <button mat-menu-item (click)="showModeratorsDialog()" aria-labelledby= "person">
             <mat-icon>person</mat-icon>
             {{ 'room-page.moderators' | translate}}
           </button>
         </mat-menu>
-        <button mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings-button">
+        <button mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">
           <mat-icon class="corner-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
         </button>
       </div>
@@ -48,14 +48,14 @@
       <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
         <mat-grid-tile>
           <button mat-icon-button
-                  routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="comments-button">
+                  routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
             <h3>{{ 'room-page.comments' | translate}}</h3> <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf="moderationEnabled">
-          <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="moderation-button">
+          <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="gavel">
             <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
             </mat-icon>
@@ -94,13 +94,13 @@
 </div>
 
 <div class="visually-hidden">
-  <div id ="id-copy-button">{{'room-page.a11y-id-copy-button' | translate}}</div>
-  <div id ="comments-button">{{'room-page.a11y-comments-button' | translate}}</div>
-  <div id ="moderation-button">{{'room-page.a11y-moderation-button' | translate}}</div>
-  <div id ="settings-button">{{'room-page.a11y-settings-button' | translate}}</div>
-  <div id ="settings-session-button">{{'room-page.a11y-settings-session-button' | translate}}</div>
-  <div id ="settings-comments-button">{{'room-page.a11y-settings-comments-button' | translate}}</div>
-  <div id ="settings-moderation-button">{{'room-page.a11y-settings-moderation-button' | translate}}</div>
+  <div id ="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>
+  <div id ="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
+  <div id ="gavel">{{'room-page.a11y-gavel' | translate}}</div>
+  <div id ="settings">{{'room-page.a11y-settings' | translate}}</div>
+  <div id ="edit">{{'room-page.a11y-edit' | translate}}</div>
+  <div id ="insert_comment">{{'room-page.a11y-insert_comment' | translate}}</div>
+  <div id ="person">{{'room-page.a11y-person' | translate}}</div>
 
 
 
