@@ -9,7 +9,8 @@ import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
-import { ImprintComponent } from 'app/components/home/_dialogs/imprint/imprint.component';
+import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
+import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
 
 @Component({
   selector: 'app-footer',
@@ -62,6 +63,7 @@ export class FooterComponent implements OnInit {
     });
   }
 
+  // check if still needed
   navToDSGVO() {
     this.translateService.get('footer.will-open').subscribe(message => {
       this.translateService.get('footer.dsgvo').subscribe(what => {
@@ -77,6 +79,17 @@ export class FooterComponent implements OnInit {
     });
   }
 
+  showDSGVO() {
+    const dialogRef = this.dialog.open(DataProtectionComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '95%',
+      width: '50%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  // check if still needed
   navToImprint() {
     this.translateService.get('footer.will-open').subscribe(message => {
       this.translateService.get('footer.imprint').subscribe(what => {
@@ -92,6 +105,16 @@ export class FooterComponent implements OnInit {
     });
   }
 
+  showImprint() {
+    const dialogRef = this.dialog.open(ImprintComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '95%',
+      width: '50%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
       position: {
@@ -102,16 +125,6 @@ export class FooterComponent implements OnInit {
       maxHeight: '100vh',
       height: '100%',
       width: '100%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
-
-  showImprint() {
-    const dialogRef = this.dialog.open(ImprintComponent, {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '95%',
-      width: '50%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
