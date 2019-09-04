@@ -9,6 +9,7 @@ import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
+import { ImprintComponent } from 'app/components/home/_dialogs/imprint/imprint.component';
 
 @Component({
   selector: 'app-footer',
@@ -101,6 +102,16 @@ export class FooterComponent implements OnInit {
       maxHeight: '100vh',
       height: '100%',
       width: '100%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  showImprint() {
+    const dialogRef = this.dialog.open(ImprintComponent, {
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '95%',
+      width: '50%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
+import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path: 'user',
     component: UserHomeComponent
+  },
+  {
+    path: 'imprint',
+    component: ImprintComponent
   },
   {
     path: 'creator',
