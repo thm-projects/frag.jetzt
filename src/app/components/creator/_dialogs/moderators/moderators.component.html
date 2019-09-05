@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <h2>{{'room-page.moderators' | translate }}</h2>
+  <h1>{{'room-page.moderators' | translate }}</h1>
   <mat-divider></mat-divider>
   <div fxLayout="row">
     <mat-form-field class="input-block">
@@ -15,12 +15,12 @@
     </button>
     <span class="fill-remaining-space"></span>
   </div>
-  <h3 *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</h3>
+  <h2 *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</h2>
   <div *ngIf="moderators.length > 0">
     <div fxLayout="row" *ngFor="let moderator of moderators; index as i">
-      <h3>
+      <h2>
         {{i+1}}. {{moderator.loginId}}
-      </h3>
+      </h2>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button class="close" (click)="openDeleteRoomDialog(moderator)" aria-labelledby="delete-moderator">
         <mat-icon class="close-icon">close</mat-icon>
