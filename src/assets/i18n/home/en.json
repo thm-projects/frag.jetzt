@@ -16,10 +16,8 @@
     "account-deleted": "Your account has been deleted successfully.",
     "abort": "Cancel",
     "delete": "Delete",
-    "a11y-meeting_room-label": "Sessions",
-    "a11y-meeting_room-description": "Opens the session menu with user options, up and down arrow keys for navigation within the menu.",
-    "a11Y-back-label": "keyboard_arrow_left",
-    "a11Y-back-description": "This button leads to the previously visited page."
+    "a11y-meeting_room": "Opens the session menu with user options, up and down arrow keys for navigation within the menu.",
+    "a11Y-back": "This button leads to the previously visited page."
 	},
 	"login-page": {
 		"creator": "Professor",
