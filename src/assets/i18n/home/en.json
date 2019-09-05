@@ -1,94 +1,98 @@
 {
-	"header": {
-		"logout": "Log out",
-		"logged-out": "Logging out successful",
-		"back": "Back",
-		"my-sessions": "My sessions",
-		"visited-sessions": "Visited sessions",
+  "header": {
+    "logout": "Log out",
+    "logged-out": "Logging out successful",
+    "back": "Back",
+    "my-sessions": "My sessions",
+    "visited-sessions": "Visited sessions",
     "login": "Login",
     "my-account": "My account",
     "my-guest-account": "Sessions",
     "id": "ID",
-		"moderation-enabled": "Moderated",
-		"delete-account": "Delete account",
+    "moderation-enabled": "Moderated",
+    "delete-account": "Delete account",
     "sure": "Are you sure?",
     "really-delete-account": "Do you really want to irrevocably delete your account with the associated sessions?",
     "account-deleted": "Your account has been deleted successfully.",
     "abort": "Cancel",
-    "delete": "Delete"
-	},
-	"login-page": {
-		"creator": "Professor",
-		"participant": "Student",
-		"password-reset": "Forgot your password?",
-		"not-registered": "Don't have an account yet?",
-		"register": "Register",
-		"welcome": "Ask online | vote questions",
-		"login": "Login"
-	},
-	"home-page": {
-		"join-demo-session": "Join public session",
-		"session-id": "Session ID",
-		"no-room-found": "No session found with this ID",
-		"please-enter": "… your professor tells you",
-		"exactly-8": "A session ID has exactly 8 digits.",
-		"create-session": "New session",
-		"no-empty-name": "Please enter a name.",
-		"created-1": "Session '",
-		"created-2": "' successfully created",
-		"only-numbers": "A session ID only contains digits.",
-		"update-available": "A newer version is available.",
-		"install": "Install"
-	},
-	"login": {
+    "delete": "Delete",
+    "accessibility-login": "Account-Button. Opens the login window",
+    "accessibility-back": "Back-Button. Go back to the previous page"
+  },
+  "login-page": {
+    "creator": "Professor",
+    "participant": "Student",
+    "password-reset": "Forgot your password?",
+    "not-registered": "Don't have an account yet?",
+    "register": "Register",
+    "welcome": "Ask online | vote questions",
+    "login": "Login"
+  },
+  "home-page": {
+    "join-demo-session": "Join public session",
+    "session-id": "Session ID",
+    "no-room-found": "No session found with this ID",
+    "please-enter": "… your professor tells you",
+    "exactly-8": "A session ID has exactly 8 digits.",
+    "create-session": "New session",
+    "no-empty-name": "Please enter a name.",
+    "created-1": "Session '",
+    "created-2": "' successfully created",
+    "only-numbers": "A session ID only contains digits.",
+    "update-available": "A newer version is available.",
+    "install": "Install",
+    "accessibility-join": "Join button. Enters the room with the specified session ID.",
+    "accessibility-create": "Create button. Creates a new session"
+  },
+  "login": {
     "header": "Log in",
     "email": "E-mail",
-		"email-invalid": "E-mail is invalid",
-		"email-required": "E-mail required",
-		"guest-login": "Log in as a guest",
-		"input-incorrect": "Please check your data.",
-		"login-successful": "Login successful",
-		"login": "Sign in",
-		"login-data-incorrect": "Username or password incorrect",
-		"password": "Password",
-		"password-required": "Password required",
-		"activate": "Activate",
-		"activation-key": "Activation key",
-		"activation-key-required": "Activation key required",
-		"activation-key-incorrect": "Activation key is incorrect.",
-		"or": "or",
-		"guest-login-tooltip": "Created sessions will be deleted after logout.",
-		"login-tooltip": "Sessions will be stored for 180 days."
-	},
-	"password-reset": {
-		"email": "E-mail",
-		"email-invalid": "E-mail is invalid.",
-		"email-required": "E-mail required",
-		"input-incorrect": "Please check your data.",
-		"reset-password": "Reset password",
-		"reset-successful": "Password was reset. Please check your mails."
-	},
-	"register": {
-		"email": "E-mail",
-		"email-verify": "Verify e-mail",
-		"email-invalid": "E-mail is invalid.",
-		"email-required": "E-mail required",
-		"email-unmatch": "E-mails do not match.",
-		"password": "Password",
-		"password-required": "Password required",
-		"password-unmatch": "Passwords do not match.",
-		"password-verify": "Verify password",
-		"register": "Register",
-		"register-successful": "Successfully registered. Please check your mails.",
-		"register-unsuccessful": "Please check your data.",
-		"register-request-error": "Something went wrong with the registration. Maybe you already made the account?"
-	},
-	"session": {
-		"session-name": "Session name",
-		"description": "Description",
-		"max-ls": "Max. characters:",
-		"create-session": "Create session"
-	},
+    "email-invalid": "E-mail is invalid",
+    "email-required": "E-mail required",
+    "guest-login": "Log in as a guest",
+    "input-incorrect": "Please check your data.",
+    "login-successful": "Login successful",
+    "login": "Sign in",
+    "login-data-incorrect": "Username or password incorrect",
+    "password": "Password",
+    "password-required": "Password required",
+    "activate": "Activate",
+    "activation-key": "Activation key",
+    "activation-key-required": "Activation key required",
+    "activation-key-incorrect": "Activation key is incorrect.",
+    "or": "or",
+    "guest-login-tooltip": "Created sessions will be deleted after logout.",
+    "login-tooltip": "Sessions will be stored for 180 days."
+  },
+  "password-reset": {
+    "email": "E-mail",
+    "email-invalid": "E-mail is invalid.",
+    "email-required": "E-mail required",
+    "input-incorrect": "Please check your data.",
+    "reset-password": "Reset password",
+    "reset-successful": "Password was reset. Please check your mails."
+  },
+  "register": {
+    "email": "E-mail",
+    "email-verify": "Verify e-mail",
+    "email-invalid": "E-mail is invalid.",
+    "email-required": "E-mail required",
+    "email-unmatch": "E-mails do not match.",
+    "password": "Password",
+    "password-required": "Password required",
+    "password-unmatch": "Passwords do not match.",
+    "password-verify": "Verify password",
+    "register": "Register",
+    "register-successful": "Successfully registered. Please check your mails.",
+    "register-unsuccessful": "Please check your data.",
+    "register-request-error": "Something went wrong with the registration. Maybe you already made the account?"
+  },
+  "session": {
+    "session-name": "Session name",
+    "description": "Description",
+    "max-ls": "Max. characters:",
+    "create-session": "Create session"
+  },
   "footer": {
     "demo": "Demo",
     "accessibility-demo": "Shows demo version of frag.jetzt",
@@ -109,10 +113,31 @@
     "language": "Language",
     "accessibility-language": "Press button to change language",
     "english": "English",
-    "german": "German"
+    "german": "German",
+    "accessibility-data_protection": "Data-Protection-Button. Opens a page with the frag.jetzt privacy statement"
   },
   "cookies": {
     "accept": "Accept",
-    "accessibilty-accept": "Push button to accept cookies"
+    "accessibilty-accept": "Push button to accept cookies",
+    "accept-label": "Accept-Button. Accepts the use of cookies and proceeds to the app",
+    "decline": "Decline",
+    "decline-label": "Decline-Button. Decline cookie usage and exit the app"
+  },
+  "data-protection": {
+    "title": "Data Protection",
+    "consent": "Accept",
+    "consent-label": "Accept-Button. Accept the app's privacy policy",
+    "deny": "Decline",
+    "deny-label": "Decline-Button. Decline the app's privacy policy"
+  },
+  "imprint": {
+    "title": "Imprint",
+    "close": "Close",
+    "close-label": "Close-Button. Closes the imprint"
+  },
+  "help": {
+    "title": "Help",
+    "close": "Close",
+    "accept-label": "Close-Button. Closes the help page"
   }
 }

@@ -1,6 +1,20 @@
 <div>
 
-  <h1>IMPRINT</h1>
+  <h1 mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
 
-  <div [innerHTML]="imprinttext"></div>
+  <mat-divider></mat-divider>
+
+  <app-data-protection-en *ngIf="currentLang=='en'"></app-data-protection-en>
+  <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
+
+  <mat-divider></mat-divider>
+
+  <div mat-dialog-actions class="action-container">
+    <span class="spacer"></span>
+    <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'imprint.close' | translate }} </button>
+  </div>
+
+  <div class="visually-hidden">
+    <div id="close-label">{{ 'imprint.close-label'| translate }}</div>
+  </div>
 </div>

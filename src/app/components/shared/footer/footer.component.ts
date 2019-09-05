@@ -10,6 +10,9 @@ import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
 import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component';
+import { ImprintComponent } from '../imprint/imprint.component';
+import { HelpPageComponent } from '../help-page/help-page.component';
+import { DataProtectionComponent } from '../data-protection/data-protection.component';
 
 @Component({
   selector: 'app-footer',
@@ -69,6 +72,30 @@ export class FooterComponent implements OnInit {
       width: '60%'
     });
     dialogRef.disableClose = true;
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  showImprint() {
+    const dialogRef = this.dialog.open(ImprintComponent, {
+      height: '95%',
+      width: '75%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  showHelp() {
+    const dialogRef = this.dialog.open(HelpPageComponent, {
+      height: '95%',
+      width: '75%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  showDataProtection() {
+    const dialogRef = this.dialog.open(DataProtectionComponent, {
+      height: '95%',
+      width: '75%'
+    });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 

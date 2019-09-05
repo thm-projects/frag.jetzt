@@ -62,8 +62,9 @@ import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comme
     CommentSettingsComponent,
     ModeratorDeleteComponent,
     DeleteCommentsComponent,
-    DeleteCommentComponent
+    DeleteCommentComponent,
   ],
+  exports: [],
   entryComponents: [
     RoomDeleteComponent,
     RoomEditComponent,

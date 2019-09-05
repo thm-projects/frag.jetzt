@@ -46,6 +46,14 @@ import { ImprintComponent } from './components/shared/imprint/imprint.component'
 import { DataProtectionComponent } from './components/shared/data-protection/data-protection.component';
 import { HelpPageComponent } from './components/shared/help-page/help-page.component';
 import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
+import { DataProtectionEnComponent } from '../assets/i18n/data-protection/data-protection-en';
+import { DataProtectionDeComponent } from 'assets/i18n/data-protection/data-protection-de';
+import { CookiesEnComponent } from '../assets/i18n/cookies/cookies-en';
+import { CookiesDeComponent } from '../assets/i18n/cookies/cookies-de';
+import { ImprintEnComponent } from '../assets/i18n/imprint/imprint-en';
+import { ImprintDeComponent } from '../assets/i18n/imprint/imprint-de';
+import { HelpDeComponent } from '../assets/i18n/help/help-de';
+import { HelpEnComponent } from '../assets/i18n/help/help-en';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -54,6 +62,7 @@ export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
 
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -69,7 +78,15 @@ export function initializeApp(appConfig: AppConfig) {
     ImprintComponent,
     DataProtectionComponent,
     HelpPageComponent,
-    CookiesComponent
+    CookiesComponent,
+    DataProtectionEnComponent,
+    DataProtectionDeComponent,
+    CookiesEnComponent,
+    CookiesDeComponent,
+    ImprintEnComponent,
+    ImprintDeComponent,
+    HelpDeComponent,
+    HelpEnComponent
   ],
   entryComponents: [
     RegisterComponent,

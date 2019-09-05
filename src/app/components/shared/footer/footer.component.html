@@ -1,6 +1,6 @@
 <footer>
   <mat-toolbar id="footer-toolbar">
-    <button mat-button routerLink="/help-page" *ngIf="router.url !== '/home'" aria-labelledby="help-label">
+    <button mat-button  (click)="showHelp()" *ngIf="router.url !== '/home'" aria-labelledby="help-label">
       <mat-icon>help_outline</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.help' | translate }}
@@ -30,14 +30,14 @@
     </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button routerLink="/data-protection" aria-labelledby="data-protection-label">
+    <button (click)="showDataProtection()" mat-button aria-labelledby="data-protection-label">
       <mat-icon>security</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.dsgvo' | translate}}
       </span>
     </button>
     <span class="fill-remaining-space"></span>
-    <button mat-button routerLink="/imprint" aria-labelledby="imprint-label">
+    <button (click)="showImprint()" mat-button aria-labelledby="imprint-label">
       <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.imprint' | translate}}

@@ -8,14 +8,19 @@ import { Component, OnInit } from '@angular/core';
 export class CookiesComponent implements OnInit {
 
   deviceType: string;
+  currentLang: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.currentLang = localStorage.getItem('currentLang');
   }
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
   }
 
+  exitApp() {
+    // TODO somehow exit the app, since the user didn't accept cookie usage
+  }
 }
