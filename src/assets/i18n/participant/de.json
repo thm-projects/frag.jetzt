@@ -15,7 +15,8 @@
     "default-content-group": "Standard",
     "description": "Beschreibung der Session",
     "session-id": "ID",
-    "a11y-question_answer": "Öffnet die Kommentar-Seite mit allen Fragen und bietet die Möglichkeit Fragen zu stellen."
+    "a11y-question_answer": "Öffnet die Kommentar-Seite mit allen Fragen und bietet die Möglichkeit Fragen zu stellen.",
+    "a11y-announcer": "Sie befinden sich nun in der Session mit der von Ihnen eingegebenen ID."
   },
   "comment-page": {
     "enter-title": "Titel",

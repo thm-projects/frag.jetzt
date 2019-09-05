@@ -49,7 +49,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   }
 
   public announce() {
-    this.liveAnnouncer.announce('tmp', 'assertive');
+    this.liveAnnouncer.announce('{{"room-page.a11y-announcer" | translate}}', 'assertive');
   }
 
   afterRoomLoadHook() {
