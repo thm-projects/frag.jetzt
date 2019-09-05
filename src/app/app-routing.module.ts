@@ -5,6 +5,7 @@ import { HomePageComponent } from './components/home/home-page/home-page.compone
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
 import { ImprintComponent } from './components/shared/imprint/imprint.component';
 import { DataProtectionComponent } from './components/shared/data-protection/data-protection.component';
+import { HelpPageComponent } from './components/shared/help-page/help-page.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'data-protection',
     component: DataProtectionComponent
+  },
+  {
+    path: 'help-page',
+    component: HelpPageComponent
   },
   {
     path: 'creator',

@@ -1,6 +1,6 @@
 <footer>
   <mat-toolbar id="footer-toolbar">
-    <button mat-button (click)="navToBlog()" *ngIf="router.url !== '/home'">
+    <button mat-button routerLink="/help-page" *ngIf="router.url !== '/home'">
       <mat-icon>help_outline</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.help' | translate }}
