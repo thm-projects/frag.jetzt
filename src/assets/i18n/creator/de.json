@@ -58,7 +58,10 @@
     "a11y-settings-comment-moderation": "Schieberegler für moderierte Fragen",
     "a11y-settings-direct-send": "Schieberegler um fragen sofort sichtbar zu machen",
     "a11y-export-comments": "Exportiert alle Fragen",
-    "a11y-delete-all-comments": "Löscht alle Fragen"
+    "a11y-delete-all-comments": "Löscht alle Fragen",
+    "a11y-moderator-email": "Geben sie die Email eines Benutzers ein, den sie als Moderator hinzufügen möchten",
+    "a11y-add-moderator": "Fügt den eingegebenen Benutzer als Moderator hinzu",
+    "a11y-delete-moderator": "Löscht disen Moderator"
   },
   "content": {
     "content": "Frage",

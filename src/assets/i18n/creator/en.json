@@ -58,7 +58,10 @@
     "a11y-settings-comment-moderation": "Slider to moderate Questions",
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "a11y-export-comments": "Exports all questions",
-    "a11y-delete-all-comments": "Deletes all questions"
+    "a11y-delete-all-comments": "Deletes all questions",
+    "a11y-moderator-email": "Enter the email of the user you want to add as a moderator",
+    "a11y-add-moderator": "Add the entered User as Moderator",
+    "a11y-delete-moderator": "Delete this Moderator"
   },
   "content": {
     "content": "Content",
