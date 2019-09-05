@@ -27,3 +27,21 @@ Attribute "aria-label" does not work with multi-language titles, voice output re
 }
 
 ```
+
+### Dynamic ARIA labels
+
+Dynamic Aria labels like used in generic components are also possible! 
+
+For usage only the `attr.` tag prefix must be added like in following code example:
+
+```
+<button
+      mat-button
+      attr.aria-labelledby="{{ ariaPrefix + 'cancel' }}"
+...
+...
+<div id="{{ ariaPrefix + 'cancel'}}">{{ buttonsLabelSection + '.cancel-description' | translate }}</div>
+```
+
+
+@see https://blog.prototypr.io/accessible-components-2-dynamic-aria-labels-6bf281f26d17
