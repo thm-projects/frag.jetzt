@@ -53,7 +53,12 @@
     "a11y-insert_comment": "Öffnet ein Fenster um Fragen zu verwalten",
     "a11y-person": "Öffnet ein Fenster um Moderatoren zu suchen.",
     "a11y-delete-room" : "Löscht die eingegebene Session",
-    "a11y-room-name": "Geben Sie die Session ID ein"
+    "a11y-room-name": "Geben Sie die Session ID ein",
+    "a11y-threshold": "Schieberegler zum Einstellen des Schwellenwerts für sichtbare Fragen",
+    "a11y-settings-comment-moderation": "Schieberegler für moderierte Fragen",
+    "a11y-settings-direct-send": "Schieberegler um fragen sofort sichtbar zu machen",
+    "a11y-export-comments": "Exportiert alle Fragen",
+    "a11y-delete-all-comments": "Löscht alle Fragen"
   },
   "content": {
     "content": "Frage",
