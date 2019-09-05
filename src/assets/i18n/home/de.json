@@ -111,10 +111,12 @@
     "panel-session-id": "Session ID",
     "panel-user-role": "Rolle",
     "panel-join-button": "Session beitreten",
-    "role-creator": "Raumersteller",
-    "role-participant": "Teilnehmer",
-    "role-moderator": "Moderator",
+    "creator-role": "Raumersteller",
+    "participant-role": "Teilnehmer",
+    "moderator-role": "Moderator",
+    "room-history-headline": "Deine besuchten Sessions",
     "no-room-history": "Du bist bisher keinen Sessions beigetreten.",
-    "join-message-template": "Session {{session}} mit ID {{id}} und Rolle {{role}} beitreten"
+    "join-message-template": "Session {{session}} mit der ID {{id}} und in der Rolle {{role}} beitreten",
+    "filter-message": "Nach Name oder Session ID filtern"
   }
 }

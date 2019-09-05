@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomRoleMixin } from '../../../models/room-role-mixin';
 import { User } from '../../../models/user';
@@ -8,7 +8,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { TranslateService } from '@ngx-translate/core';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-room-list',
@@ -21,6 +21,9 @@ export class RoomListComponent implements OnInit {
   roomsWithRole: RoomRoleMixin[];
   closedRooms: Room[];
   isLoading = true;
+
+  tableDataSource: MatTableDataSource<Room>;
+  displayedColumns: string[] = ['name', 'shortId', 'role', 'button'];
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
@@ -68,6 +71,8 @@ export class RoomListComponent implements OnInit {
       return roomWithRole;
     });
     this.isLoading = false;
+
+    this.updateTable();
   }
 
   setCurrentRoom(shortId: string) {
@@ -88,5 +93,13 @@ export class RoomListComponent implements OnInit {
       case UserRole.EXECUTIVE_MODERATOR:
         return 'moderator';
     }
+  }
+
+  updateTable(): void {
+    this.tableDataSource = new MatTableDataSource(this.rooms);
+  }
+
+  applyFilter(filterValue: string): void {
+    this.tableDataSource.filter = filterValue.trim().toLowerCase();
   }
 }

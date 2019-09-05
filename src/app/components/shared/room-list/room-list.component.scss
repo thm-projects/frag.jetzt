@@ -8,7 +8,7 @@ button {
   align-items: center;
 }
 
-.matPanel {
+.matGridTile {
   background-color: var(--primary-variant);
   margin-bottom: 5px;
   color: var(--on-surface)!important;
@@ -32,22 +32,45 @@ mat-panel-description {
   margin: 0;
 }
 
-.headerTitle {
+mat-progress-spinner {
+  margin-top: 30px;
+}
+
+.filterWrapper {
+  width: 100%;
+}
+
+.filter {
+  color: var(--on-surface)!important;
+}
+
+h3, h4 {
+  color: var(--on-surface)!important;
+}
+
+.tableOverflow {
+  height: 25rem;
+  overflow: auto;
+}
+
+.sessionName {
   width: 8%;
   min-width: 50px;
   color: var(--on-surface)!important;
 }
 
-mat-progress-spinner {
-  margin-top: 30px;
+.sessionId {
+  width: 8%;
+  min-width: 50px;
+  color: var(--on-surface)!important;
 }
 
-.roleTitle {
+.roleName {
   color: var(--on-surface)!important;
   width: 5%;
 }
 
-.buttonTitle {
+.buttonName {
   color: var(--on-surface)!important;
   width: 5%;
   display: flex;
