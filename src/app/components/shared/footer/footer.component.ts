@@ -9,8 +9,8 @@ import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
-import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
-import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
+import { ImprintComponent } from '../imprint/imprint.component';
+import { DataProtectionComponent } from '../data-protection/data-protection.component';
 
 @Component({
   selector: 'app-footer',

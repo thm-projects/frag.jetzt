@@ -42,8 +42,8 @@ import { HomeCreatorPageComponent } from './components/home/home-creator-page/ho
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
 import { CommentSettingsService } from './services/http/comment-settings.service';
 import { ModeratorModule } from './components/moderator/moderator.module';
-import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
-import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
+import { ImprintComponent } from './components/shared/imprint/imprint.component';
+import { DataProtectionComponent } from './components/shared/data-protection/data-protection.component';
 
 export function dialogClose(dialogResult: any) {
 }
