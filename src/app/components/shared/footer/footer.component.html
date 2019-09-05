@@ -46,6 +46,13 @@
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <mat-grid-list cols="2">
+        <mat-grid-tile *ngFor="let theme of themes">
+          <button mat-icon-button [ngStyle]="{'color':theme.previewColor}" (click)="changeTheme(theme)">
+            <mat-icon class="color-icon" matTooltip="{{theme.name}}">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === theme.name" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <!--
         <mat-grid-tile>
           <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
             <mat-icon class="color-icon" matTooltip="{{ 'footer.bright' | translate }}">lens</mat-icon>
@@ -70,6 +77,7 @@
             <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
+        -->
       </mat-grid-list>
     </mat-menu>
 
