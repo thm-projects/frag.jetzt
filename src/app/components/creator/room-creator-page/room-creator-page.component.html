@@ -16,7 +16,7 @@
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>
-            <button id="copy" mat-icon-button (click)="copyShortId()" aria-labelledby= "cloud_download">
+            <button id="copy"  mat-icon-button (click)="copyShortId()" aria-labelledby= "cloud_download">
               <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">cloud_download</mat-icon>
             </button>
           </mat-card-subtitle>
@@ -101,11 +101,6 @@
   <div id ="edit">{{'room-page.a11y-edit' | translate}}</div>
   <div id ="insert_comment">{{'room-page.a11y-insert_comment' | translate}}</div>
   <div id ="person">{{'room-page.a11y-person' | translate}}</div>
-
-
-
-
-
 </div>
 
 
