@@ -54,7 +54,7 @@
     "a11y-person": "Opens a window to search for moderators",
     "a11y-delete-room": "Deletes the entered session",
     "a11y-room-name": "Type the Session ID",
-    "a11y-threshold": "Schieberegler zum Einstellen des Schwellenwerts für sichtbare Fragen",
+    "a11y-threshold": "Slider for setting the threshold for visible questions",
     "a11y-settings-comment-moderation": "Slider to moderate Questions",
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "a11y-export-comments": "Exports all questions",
