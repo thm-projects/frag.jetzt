@@ -51,7 +51,9 @@
     "a11y-settings": "Öffnet ein Fenster mit Optionen, Sessions zu verwalten, Fragen zu verwalten und Moderatoren zu suchen",
     "a11y-edit": "Öffnet ein Fenster mit Optionen, Session umbenennen, Beschreibung hinzufügen und Session löschen",
     "a11y-insert_comment": "Öffnet ein Fenster um Fragen zu verwalten",
-    "a11y-person": "Öffnet ein Fenster um Moderatoren zu suchen."
+    "a11y-person": "Öffnet ein Fenster um Moderatoren zu suchen.",
+    "a11y-delete-room" : "Löscht die eingegebene Session",
+    "a11y-room-name": "Geben Sie die Session ID ein"
   },
   "content": {
     "content": "Frage",
@@ -93,7 +95,8 @@
     "session-name": "Name der Session",
     "description": "Beschreibung der Session",
     "max-ls": "Max. Zeichen:",
-    "create-session": "Session erstellen"
+    "create-session": "Session erstellen",
+    "a11y-description": "Geben Sie eine Beschreibung für die Session ein"
   },
   "statistic": {
     "content": "Frage",

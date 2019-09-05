@@ -3,19 +3,19 @@
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <mat-form-field class="input-block">
-      <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}"
+      <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" aria-labelledby="room-name"
              name="room-name" maxlength="20"/>
       <mat-hint align="end">{{ editRoom.name.length }} / 20</mat-hint>
     </mat-form-field>
     <mat-form-field class="input-block">
               <textarea [(ngModel)]="editRoom.description" matInput matTextareaAutosize
                         matAutosizeMinRows="2" matAutosizeMaxRows="5" maxlength="255"
-                        placeholder="{{ 'session.description' | translate}}" name="description">
+                        placeholder="{{ 'session.description' | translate}}" name="description" aria-labelledby="description">
               </textarea>
       <mat-hint align="end">{{ editRoom.description ? editRoom.description.length : 0 }} / 255</mat-hint>
     </mat-form-field>
     <div fxLayoutAlign="center center">
-      <button mat-raised-button class="delete" (click)="openDeleteRoomDialog()">
+      <button mat-raised-button class="delete" (click)="openDeleteRoomDialog()" aria-labelledby="delete-room">
         <mat-icon>delete</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
     </div>
@@ -30,3 +30,10 @@
     </button>
   </div>
 </div>
+
+<div class="visually-hidden">
+  <div id = "room-name">{{'room-page.a11y-room-name' | translate}} </div>
+  <div id = "description">{{'session.a11y-description' | translate}} </div>
+  <div id ="delete-room">{{'room-page.a11y-delete' | translate}}</div>
+</div>
+

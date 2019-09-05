@@ -45,15 +45,15 @@
     "settings-direct-send": "Send Questions directly to participants",
     "public-stream": "Public Questions",
     "moderating-stream": "Moderation",
-    "a11y-cloud_download":"Copy link to session to the clipboard",
+    "a11y-cloud_download": "Copy link to session to the clipboard",
     "a11y-question_answer": "Opens all questions asked about the session",
     "a11y-gavel": "Opens all questions selected by the moderator",
     "a11y-settings": "Opens a window with options to manage sessions, manage questions, and find moderators.",
     "a11y-edit": "Opens a window with options, rename session, add description and delete session",
     "a11y-insert_comment": "Opens a window to manage questions",
-    "a11y-person":"Opens a window to search for moderators"
-
-
+    "a11y-person": "Opens a window to search for moderators",
+    "a11y-delete-room": "Deletes the entered session",
+    "a11y-room-name": "Type the Session ID"
   },
   "content": {
     "content": "Content",
@@ -95,7 +95,8 @@
     "session-name": "Session name",
     "description": "Session description",
     "max-ls": "Max. characters:",
-    "create-session": "Create session"
+    "create-session": "Create session",
+    "a11y-description": "Enter a description for the session"
   },
   "statistic": {
     "content": "Content",
