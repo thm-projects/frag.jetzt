@@ -106,6 +106,7 @@
     "german": "Deutsch"
   },
   "cookies": {
-    "accept": "Bestätigen"
+    "accept": "Bestätigen",
+    "accessibility-accept": "lalla"
   }
 }

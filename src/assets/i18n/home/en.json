@@ -106,6 +106,7 @@
     "german": "German"
   },
   "cookies": {
-    "accept": "Accept"
+    "accept": "Accept",
+    "accept-label": "lololo"
   }
 }

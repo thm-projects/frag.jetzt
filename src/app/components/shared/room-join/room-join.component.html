@@ -11,7 +11,7 @@
       <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>
       <mat-error *ngIf="roomFormControl.hasError('pattern')">{{ 'home-page.only-numbers' | translate}}</mat-error>
     </mat-form-field>
-    <button mat-fab type="submit" aria-labeledby="join-label">
+    <button mat-fab type="submit" aria-labelledby="join-label">
       <mat-icon>input</mat-icon>
     </button>
   </div>
