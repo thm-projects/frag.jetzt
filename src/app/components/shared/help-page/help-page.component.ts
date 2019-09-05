@@ -32,14 +32,13 @@ export class HelpPageComponent implements OnInit {
 
   getHelptextByLanguage() {
     if (localStorage.getItem('currentLang') === 'de') {
-      this.helptext = 'Das ist deutsch';
-      console.log('0');
+      this.helptext = 'Hilfetext wird angezeigt';
+      // TODO add helptext in german
     } else if (localStorage.getItem('currentLang') === 'en') {
-      this.helptext = 'This is english';
-      console.log('1');
+      this.helptext = 'Helptext is displayed';
+      // TODO add helptext in english
     } else {
       this.helptext = 'No such language found.';
-      console.log('-1');
     }
   }
 
