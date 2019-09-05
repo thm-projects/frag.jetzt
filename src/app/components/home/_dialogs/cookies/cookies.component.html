@@ -1,0 +1,43 @@
+<h1 mat-dialog-title>Cookies</h1>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-content>
+  <h2> LOREM</h2>
+  <p>Test text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text
+    test textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test texttest textTest text test
+    textTest text test textTest text test texttest textTest text test textTest text test textTest
+    text test texttest textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test text</p>
+
+  <h2> IPSUM</h2>
+  <p>Test text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text
+    test textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test texttest textTest text test
+    textTest text test textTest text test texttest textTest text test textTest text test textTest
+    text test texttest textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test text</p>
+
+  <h2> DOLOR</h2>
+  <p>Test text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text
+    test textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test texttest textTest text test
+    textTest text test textTest text test texttest textTest text test textTest text test textTest
+    text test texttest textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test text</p>
+
+  <h2> IPSUM</h2>
+  <p>Test text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text
+    test textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test texttest textTest text test
+    textTest text test textTest text test texttest textTest text test textTest text test textTest
+    text test texttest textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test text</p>
+
+  <h2> DOLOR</h2>
+  <p>Test text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text test textTest text
+    test textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test texttest textTest text test
+    textTest text test textTest text test texttest textTest text test textTest text test textTest
+    text test texttest textTest text test textTest text test textTest text test texttest textTest text test textTest text test textTest text test text</p>
+</mat-dialog-content>
+
+<mat-divider></mat-divider>
+
+<mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close (click)="acceptCookies()">
+    <span *ngIf="deviceType === 'desktop'"> {{ 'cookies.accept' | translate }}</span>
+  </button>
+</mat-dialog-actions>

@@ -104,5 +104,8 @@
     "language": "Sprache",
     "english": "Englisch",
     "german": "Deutsch"
+  },
+  "cookies": {
+    "accept": "Bestätigen"
   }
 }

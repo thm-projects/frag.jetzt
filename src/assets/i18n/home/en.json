@@ -104,5 +104,8 @@
     "language": "Language",
     "english": "English",
     "german": "German"
+  },
+  "cookies": {
+    "accept": "Accept"
   }
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-data-protection',
@@ -10,13 +9,9 @@ export class DataProtectionComponent implements OnInit {
 
   deviceType: string;
 
-  constructor(private location: Location) { }
+  constructor() { }
 
   ngOnInit() {
-  }
-
-  goBack() {
-    this.location.back();
   }
 
 }

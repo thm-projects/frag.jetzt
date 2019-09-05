@@ -9,8 +9,7 @@ import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
-import { ImprintComponent } from '../imprint/imprint.component';
-import { DataProtectionComponent } from '../data-protection/data-protection.component';
+import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component';
 
 @Component({
   selector: 'app-footer',
@@ -48,6 +47,11 @@ export class FooterComponent implements OnInit {
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
     });
+
+    if (!localStorage.getItem('cookieAccepted')) {
+      this.showCookieModal();
+    }
+
   }
 
   navToBlog() {
@@ -63,58 +67,6 @@ export class FooterComponent implements OnInit {
     });
   }
 
-  // check if still needed
-  navToDSGVO() {
-    this.translateService.get('footer.will-open').subscribe(message => {
-      this.translateService.get('footer.dsgvo').subscribe(what => {
-        this.notificationService.show(what + message, this.open, {
-          duration: 4000
-        });
-      });
-    });
-    this.notificationService.snackRef.afterDismissed().subscribe(info => {
-      if (info.dismissedByAction === true) {
-        window.open(this.dsgvoUrl, '_blank');
-      }
-    });
-  }
-
-  showDSGVO() {
-    const dialogRef = this.dialog.open(DataProtectionComponent, {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '95%',
-      width: '50%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
-
-  // check if still needed
-  navToImprint() {
-    this.translateService.get('footer.will-open').subscribe(message => {
-      this.translateService.get('footer.imprint').subscribe(what => {
-        this.notificationService.show(what + message, this.open, {
-          duration: 4000
-        });
-      });
-    });
-    this.notificationService.snackRef.afterDismissed().subscribe(info => {
-      if (info.dismissedByAction === true) {
-        window.open(this.imprUrl, '_blank');
-      }
-    });
-  }
-
-  showImprint() {
-    const dialogRef = this.dialog.open(ImprintComponent, {
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '95%',
-      width: '50%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
-
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
       position: {
@@ -126,6 +78,15 @@ export class FooterComponent implements OnInit {
       height: '100%',
       width: '100%'
     });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
+
+  showCookieModal() {
+    const dialogRef = this.dialog.open(CookiesComponent, {
+      height: '95%',
+      width: '60%'
+    });
+    dialogRef.disableClose = true;
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 

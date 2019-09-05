@@ -44,7 +44,8 @@ import { CommentSettingsService } from './services/http/comment-settings.service
 import { ModeratorModule } from './components/moderator/moderator.module';
 import { ImprintComponent } from './components/shared/imprint/imprint.component';
 import { DataProtectionComponent } from './components/shared/data-protection/data-protection.component';
-import { HelpPageComponent} from './components/shared/help-page/help-page.component';
+import { HelpPageComponent } from './components/shared/help-page/help-page.component';
+import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -67,15 +68,15 @@ export function initializeApp(appConfig: AppConfig) {
     HomeParticipantPageComponent,
     ImprintComponent,
     DataProtectionComponent,
-    HelpPageComponent
+    HelpPageComponent,
+    CookiesComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
     UserActivationComponent,
     DemoVideoComponent,
-    ImprintComponent,
-    DataProtectionComponent,
+    CookiesComponent
   ],
   imports: [
     AppRoutingModule,
