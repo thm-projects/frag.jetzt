@@ -2,7 +2,7 @@
   <mat-toolbar-row>
     <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
             matTooltip="{{'header.back' | translate}}">
-      <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
+      <mat-icon class="header-icons" aria-labeledby="back-label">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
     <h3 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
@@ -40,7 +40,8 @@
       </button>
     </mat-menu>
 
-    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
+    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu"
+            aria-labeledby="login-label">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
         <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
@@ -49,20 +50,26 @@
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu">
+    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu"
+            aria-labeledby="login-label">
       <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
       <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
     </button>
 
-    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
+    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false) aria-labeledby="login-label">
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
         <h3 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h3>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false)>
+    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false) aria-labeledby="login-label">
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="visually-hidden">
+  <div id="login-label">{{'header.accessibility-login' | translate}}</div>
+  <div id="back-label">{{'header.accessibility-back' | translate}}</div>
+</div>
