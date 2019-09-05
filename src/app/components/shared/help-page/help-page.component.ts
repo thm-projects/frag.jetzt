@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 
@@ -13,8 +12,7 @@ export class HelpPageComponent implements OnInit {
   deviceType: string;
   helptext: string;
 
-  constructor(private location: Location,
-              private translationService: TranslateService,
+  constructor(private translationService: TranslateService,
               private languageService: LanguageService) {
   }
 
@@ -45,8 +43,4 @@ export class HelpPageComponent implements OnInit {
   checkForLanguageChange() {
     this.languageService.langEmitter.subscribe(() => this.getHelptextByLanguage());
   }
-
-  goBack() {
-   this.location.back();
- }
 }
