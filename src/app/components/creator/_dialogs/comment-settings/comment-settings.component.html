@@ -4,7 +4,7 @@
   <div fxLayout="column">
     <div fxLayout="row">
       <h3>{{ 'room-page.threshold' | translate}}&nbsp;</h3>
-      <h3><mat-slide-toggle [(ngModel)]="settingThreshold"></mat-slide-toggle></h3>
+      <h3><mat-slide-toggle [(ngModel)]="settingThreshold" aria-labelledby="threshold" ></mat-slide-toggle></h3>
     </div>
     <div fxLayout="row" *ngIf="settingThreshold">
       <mat-slider id="commentSlider" min="-100" max="0" step="5"
@@ -15,20 +15,20 @@
   <div fxLayout="column">
     <div fxLayout="row">
       <h3>{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;</h3>
-      <h3><mat-slide-toggle [(ngModel)]="enableCommentModeration"></mat-slide-toggle></h3>
+      <h3><mat-slide-toggle [(ngModel)]="enableCommentModeration" aria-labelledby="settings-comment-moderation"></mat-slide-toggle></h3>
     </div>
     <div fxLayout="row" *ngIf="enableCommentModeration">
       <h3>{{ 'room-page.settings-direct-send' | translate}}&nbsp;</h3>
-      <h3><mat-slide-toggle [(ngModel)]="directSend"></mat-slide-toggle></h3>
+      <h3><mat-slide-toggle [(ngModel)]="directSend" aria-labelledby="settings-direct-send"></mat-slide-toggle></h3>
     </div>
   </div>
   <div fxLayoutAlign="center center">
-    <button mat-raised-button class="export" (click)="openExportDialog()">
+    <button mat-raised-button class="export" (click)="openExportDialog()" aria-labelledby="export-comments">
       <mat-icon>cloud_download</mat-icon>
       {{ 'room-page.export-comments' | translate }}</button>
   </div>
   <div fxLayoutAlign="center center">
-    <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()">
+    <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()" aria-labelledby="delete-all-comments">
       <mat-icon>delete</mat-icon>
       {{ 'room-page.delete-all-comments' | translate }}</button>
   </div>
@@ -41,4 +41,12 @@
       {{ 'room-page.update' | translate }}
     </button>
   </div>
+</div>
+
+<div class="visually-hidden">
+  <div id = "threshold">{{'room-page.a11y-threshold' | translate}} </div>
+  <div id = "settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
+  <div id = "settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
+  <div id = "export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
+  <div id = "delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
 </div>
