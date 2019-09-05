@@ -91,22 +91,28 @@
   },
   "footer": {
     "demo": "Demo",
+    "accessibility-demo": "Öffnet eine Demoversion von frag.jetzt",
     "dsgvo": "Datenschutz",
+    "accessibility-data-protection": "Öffnet ein Dokument zur Datenschtzverordnung in einem neuen Dialogfenster",
     "imprint": "Impressum",
+    "accessibility-imprint": "Öffnet das Impressum in einem neuen Dialogfenster",
     "will-open": " wird in einem neuen Fenster geöffnet...",
     "open": "Öffnen",
     "help": "Hilfe",
+    "accessibility-help": "Öffnet einen Hilfetext in einem neuen Dialogfenster",
     "dark": "Dunkler Hintergrund",
     "bright": "Heller Hintergrund",
     "beamer": "Für den Beamer optimiert (in Arbeit)",
     "wai": "Barrierefrei nach WCAG 2.1 (in Arbeit)",
     "style": "Stil",
+    "accessibility-style": "Öffnet eine Auswahl an verschiedenen Farbschemata",
     "language": "Sprache",
+    "accessibility-language": "Sprachauswahl kann verändert werden",
     "english": "Englisch",
     "german": "Deutsch"
   },
   "cookies": {
     "accept": "Bestätigen",
-    "accessibility-accept": "lalla"
+    "accessibility-accept": "Bestätigen um cookies zu akzeptieren."
   }
 }

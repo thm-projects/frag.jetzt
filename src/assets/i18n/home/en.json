@@ -91,22 +91,28 @@
 	},
   "footer": {
     "demo": "Demo",
+    "accessibility-demo": "Shows demo version of frag.jetzt",
     "dsgvo": "Data Protection",
+    "accessibility-data-protection": "Opens data protection document in a new dialog",
     "imprint": "Imprint",
+    "accessibility-imprint": "Opens the imprint in a new dialog",
     "will-open": " will be opened in a new tab...",
     "open": "Open",
     "help": "Help",
+    "accessibility-help": "Opens a help text in a new dialog",
     "dark": "Dark background",
     "bright": "Bright background",
     "beamer": "Optimized for the projector (work in progress)",
     "wai": "Accessible according to WCAG 2.1 (work in progress)",
     "style": "Style",
+    "accessibility-style": "Opens a selection of different color schemes",
     "language": "Language",
+    "accessibility-language": "Press button to change language",
     "english": "English",
     "german": "German"
   },
   "cookies": {
     "accept": "Accept",
-    "accept-label": "lololo"
+    "accessibilty-accept": "Push button to accept cookies"
   }
 }

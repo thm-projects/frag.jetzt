@@ -14,7 +14,7 @@
     </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="themeMenu" aria-labelledby="style-label">
+    <button mat-button aria-labelledby="style-label" [matMenuTriggerFor]="themeMenu">
       <mat-icon>palette</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.style' | translate}}
@@ -22,7 +22,7 @@
     </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="langMenu" aria-labelledby="languange-label">
+    <button mat-button aria-labelledby="language-label" [matMenuTriggerFor]="langMenu">
       <mat-icon>language</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.language' | translate}}
@@ -33,14 +33,14 @@
     <button mat-button routerLink="/data-protection" aria-labelledby="data-protection-label">
       <mat-icon>security</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.dsgvo' | translate}}
+        {{'footer.dsgvo' | translate}}
       </span>
     </button>
     <span class="fill-remaining-space"></span>
     <button mat-button routerLink="/imprint" aria-labelledby="imprint-label">
       <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.imprint' | translate}}
+        {{'footer.imprint' | translate}}
       </span>
     </button>
 
@@ -84,7 +84,7 @@
   <div id="help-label">{{'footer.accessibility-help' | translate}}</div>
   <div id="demo-label">{{'footer.accessibility-demo' | translate}}</div>
   <div id="style-label">{{'footer.accessibility-style' | translate}}</div>
-  <div id="languange-label">{{'footer.accessibility-language' | translate}}</div>
+  <div id="language-label">{{'footer.accessibility-language' | translate}}</div>
   <div id="data-protection-label">{{'footer.accessibility-data-protection' | translate}}</div>
   <div id="imprint-label">{{'footer.accessibility-imprint' | translate}}</div>
 </div>

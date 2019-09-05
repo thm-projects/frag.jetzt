@@ -18,11 +18,6 @@ import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component'
 })
 export class FooterComponent implements OnInit {
 
-  blogUrl = 'https://arsnova.thm.de/blog/';
-  dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
-  imprUrl = 'https://arsnova.thm.de/blog/impressum/';
-  demoId = '78844652';
-
   room: Room;
   user: User;
 
@@ -52,19 +47,6 @@ export class FooterComponent implements OnInit {
       this.showCookieModal();
     }
 
-  }
-
-  navToBlog() {
-    this.translateService.get('footer.will-open').subscribe(message => {
-      this.notificationService.show('Blog' + message, this.open, {
-        duration: 4000
-      });
-    });
-    this.notificationService.snackRef.afterDismissed().subscribe(info => {
-      if (info.dismissedByAction === true) {
-        window.open(this.blogUrl, '_blank');
-      }
-    });
   }
 
   showDemo() {
