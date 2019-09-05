@@ -49,7 +49,8 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   }
 
   public announce() {
-    this.liveAnnouncer.announce(document.getElementById('announcer_text').textContent, 'assertive');
+    // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
+    this.liveAnnouncer.announce('Sie befinden sich nun in der Session mit der von Ihnen eingegebenen ID.', 'assertive');
   }
 
   afterRoomLoadHook() {
