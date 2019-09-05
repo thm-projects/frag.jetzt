@@ -1,7 +1,7 @@
 <mat-toolbar class="mat-elevation-z4">
   <mat-toolbar-row>
     <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
-            matTooltip="{{'header.back' | translate}}" aria-labelledby="back">
+            matTooltip="{{'header.back' | translate}}" aria-labelledby="back-label" aria-describedby="back-description">
       <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
@@ -40,7 +40,7 @@
       </button>
     </mat-menu>
 
-    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu" aria-labelledby="meeting_room">
+    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu" aria-labelledby="meeting_room-label" aria-describedby="meeting_room-description">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
         <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
@@ -67,8 +67,13 @@
   </mat-toolbar-row>
 </mat-toolbar>
 
+<!--Hidden Div's for a11y-Labels-->
+<div class="visually-hidden">
+  <div id="meeting_room-label">{{'header.a11y-meeting_room-label' | translate}}</div>
+  <div id="back-label">{{'header.a11Y-back-label' | translate}}</div>
+</div>
 <!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
-  <div id="meeting_room">{{'header.a11y-meeting_room' | translate}}</div>
-  <div id="back">{{'header.a11Y-back' | translate}}</div>
+  <div id="meeting_room-description">{{'header.a11y-meeting_room-description | translate}}</div>
+  <div id="back-description">{{'header.a11Y-back-description' | translate}}</div>
 </div>
