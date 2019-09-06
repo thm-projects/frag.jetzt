@@ -18,7 +18,8 @@
     "delete": "Delete",
     "accessibility-login": "Opens the login window",
     "accessibility-back": "Go back to the previous page",
-    "accessibility-session": "Opens session menu"
+    "accessibility-session": "Opens session menu",
+    "close-demo": "Close demo video and go back to login page"
   },
   "login-page": {
     "creator": "Professor",
