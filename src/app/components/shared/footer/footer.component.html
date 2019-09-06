@@ -1,48 +1,47 @@
-<footer>
-  <mat-toolbar id="footer-toolbar">
-    <button mat-button (click)="navToBlog()" *ngIf="router.url !== '/home'">
-      <mat-icon>help_outline</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+<mat-toolbar id="footer-toolbar">
+  <button mat-button (click)="navToBlog()" *ngIf="router.url !== '/home'">
+    <mat-icon>help_outline</mat-icon>
+    <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.help' | translate }}
       </span>
-    </button>
-    <button mat-button (click)="showDemo()" *ngIf="router.url === '/home'">
-      <mat-icon>ondemand_video</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+  </button>
+  <button mat-button (click)="showDemo()" *ngIf="router.url === '/home'">
+    <mat-icon>ondemand_video</mat-icon>
+    <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
-    </button>
+  </button>
 
-    <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="themeMenu">
-      <mat-icon>palette</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+  <span class="fill-remaining-space"></span>
+  <button mat-button [matMenuTriggerFor]="themeMenu">
+    <mat-icon>palette</mat-icon>
+    <span *ngIf="deviceType === 'desktop'">
           {{'footer.style' | translate}}
         </span>
-    </button>
+  </button>
 
-    <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="langMenu">
-      <mat-icon>language</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+  <span class="fill-remaining-space"></span>
+  <button mat-button [matMenuTriggerFor]="langMenu">
+    <mat-icon>language</mat-icon>
+    <span *ngIf="deviceType === 'desktop'">
           {{'footer.language' | translate}}
         </span>
-    </button>
+  </button>
 
-    <span class="fill-remaining-space"></span>
-    <button mat-button (click)="navToDSGVO()">
-      <mat-icon>security</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+  <span class="fill-remaining-space"></span>
+  <button mat-button (click)="navToDSGVO()">
+    <mat-icon>security</mat-icon>
+    <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.dsgvo' | translate}}
       </span>
-    </button>
-    <span class="fill-remaining-space"></span>
-    <button mat-button (click)="navToImprint()">
-      <mat-icon>info</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+  </button>
+  <span class="fill-remaining-space"></span>
+  <button mat-button (click)="navToImprint()">
+    <mat-icon>info</mat-icon>
+    <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.imprint' | translate}}
       </span>
-    </button>
+  </button>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <mat-grid-list cols="2">
@@ -81,9 +80,8 @@
       </mat-grid-list>
     </mat-menu>
 
-    <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="useLanguage('de')">{{ 'footer.german' | translate }}</button>
-      <button mat-menu-item (click)="useLanguage('en')">{{ 'footer.english' | translate }}</button>
-    </mat-menu>
-  </mat-toolbar>
-</footer>
+  <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
+    <button mat-menu-item (click)="useLanguage('de')">{{ 'footer.german' | translate }}</button>
+    <button mat-menu-item (click)="useLanguage('en')">{{ 'footer.english' | translate }}</button>
+  </mat-menu>
+</mat-toolbar>

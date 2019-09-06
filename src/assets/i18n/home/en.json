@@ -15,7 +15,9 @@
     "really-delete-account": "Do you really want to irrevocably delete your account with the associated sessions?",
     "account-deleted": "Your account has been deleted successfully.",
     "abort": "Cancel",
-    "delete": "Delete"
+    "delete": "Delete",
+    "a11y-meeting_room": "Opens the session menu with user options, up and down arrow keys for navigation within the menu.",
+    "a11Y-back": "This button leads to the previously visited page."
 	},
 	"login-page": {
 		"creator": "Professor",

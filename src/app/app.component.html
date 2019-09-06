@@ -1,7 +1,13 @@
   <div fxLayout="column" fxFill appTheme>
-    <app-header #header></app-header>
-    <div fxFlex class="app-component">
-      <router-outlet></router-outlet>
-    </div>
-    <app-footer></app-footer>
+    <header>
+      <app-header #header></app-header>
+    </header>
+    <main>
+      <div fxFlex class="app-component">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+    <footer>
+      <app-footer></app-footer>
+    </footer>
   </div>

@@ -11,6 +11,7 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -32,7 +33,8 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private liveAnnouncer: LiveAnnouncer) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -43,6 +45,12 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
       this.initializeRoom(params['roomId']);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.announce();
+  }
+
+  public announce() {
+    // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
+    this.liveAnnouncer.announce('Sie befinden sich nun in der Session mit der von Ihnen eingegebenen ID.', 'assertive');
   }
 
   afterRoomLoadHook() {

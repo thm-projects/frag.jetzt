@@ -1,14 +1,14 @@
 <mat-toolbar class="mat-elevation-z1">
   <mat-toolbar-row>
     <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
-            matTooltip="{{'header.back' | translate}}">
-      <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
+            matTooltip="{{'header.back' | translate}}" aria-labelledby="back">
+      <mat-icon class="header-icons">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
-    <h3 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
+    <h2 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       {{cTime}}
-    </h3>
+    </h2>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
     <span
@@ -19,9 +19,9 @@
       gavel
     </mat-icon>
   </span>
-    <h3 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
+    <h2 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
-    </h3>
+    </h2>
     <span class="fill-remaining-space"></span>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
@@ -40,16 +40,18 @@
       </button>
     </mat-menu>
 
-    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
+    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu"
+            aria-labelledby="meeting_room">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
-        <mat-icon *ngIf="user.isGuest" svgIcon="meeting_room" class="header-icons"></mat-icon>
-        <h3 *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h3>
-        <h3 *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h3>
+        <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
+        <h2 *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h2>
+        <h2 *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h2>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu">
+    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu"
+            aria-labelledby="meeting_room">
       <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
       <mat-icon *ngIf="user.isGuest" svgIcon="meeting_room" class="header-icons"></mat-icon>
     </button>
@@ -57,7 +59,7 @@
     <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
-        <h3 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h3>
+        <h2 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
     </button>
 
@@ -66,3 +68,9 @@
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
+
+<!--Hidden Div's for a11y-Descriptions-->
+<div class="visually-hidden">
+  <div id="meeting_room">{{'header.a11y-meeting_room' | translate}}</div>
+  <div id="back">{{'header.a11Y-back' | translate}}</div>
+</div>
