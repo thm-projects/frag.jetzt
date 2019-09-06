@@ -88,7 +88,8 @@
 		"session-name": "Session name",
 		"description": "Description",
 		"max-ls": "Max. characters:",
-		"create-session": "Create session"
+		"create-session": "Create session",
+    "join": "Session beitreten"
 	},
   "footer": {
     "demo": "Demo",

@@ -1,3 +1,7 @@
+.userHomeContainer {
+  margin-top: -2rem;
+}
+
 app-room-list {
   width: 100%;
   max-width: 800px;
@@ -8,6 +12,6 @@ app-room-list {
   color: var(--on-primary);
 }
 
-app-join-room {
-  max-width: 800px;
+h1 {
+  color: var(--on-surface)!important;
 }

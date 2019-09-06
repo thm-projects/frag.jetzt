@@ -21,8 +21,12 @@ table, th, tr, td {
   color: var(--on-surface)!important;
 }
 
+th {
+  font-size: 1rem;
+}
+
 .tableOverflow {
-  height: 25rem;
+  height: 20rem;
   overflow: auto;
 }
 
