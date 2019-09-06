@@ -45,3 +45,33 @@ For usage only the `attr.` tag prefix must be added like in following code examp
 
 
 @see https://blog.prototypr.io/accessible-components-2-dynamic-aria-labels-6bf281f26d17
+
+
+### Live Announcer
+
+##### To Add Live Announcer you need to import:
+``import { LiveAnnouncer } from '@angular/cdk/a11y';``
+
+##### And add to the constructor:
+```
+constructor(
+    ...
+    private liveAnnouncer: LiveAnnouncer) { 
+    ...
+}
+```
+
+##### You also need to add to the ngOnInit() - Function:
+```
+ngOnInit() {
+    ...
+    this.announce();
+}
+```
+
+##### And this is the function to start the announcement:
+```
+public announce() {
+    this.liveAnnouncer.announce('Willkommenstext', 'assertive');
+}
+```
