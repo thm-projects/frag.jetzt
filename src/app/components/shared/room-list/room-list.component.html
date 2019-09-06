@@ -6,10 +6,10 @@
 
 <div *ngIf="roomsWithRole">
 
-  <h3>{{ 'room-list.room-history-headline' | translate }}</h3>
+  <h2>{{ 'room-list.room-history-headline' | translate }}</h2>
 
   <div *ngIf="tableDataSource.data.length === 0">
-    <h4>{{ 'room-list.no-room-history' | translate }}</h4>
+    <h3>{{ 'room-list.no-room-history' | translate }}</h3>
   </div>
 
   <div *ngIf="tableDataSource.data.length > 0">
