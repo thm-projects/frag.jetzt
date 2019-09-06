@@ -3,9 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
-import { ImprintComponent } from './components/shared/imprint/imprint.component';
-import { DataProtectionComponent } from './components/shared/data-protection/data-protection.component';
-import { HelpPageComponent } from './components/shared/help-page/help-page.component';
+import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
+import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
+import { HelpPageComponent } from './components/shared/_dialogs/help-page/help-page.component';
 
 const routes: Routes = [
   {
