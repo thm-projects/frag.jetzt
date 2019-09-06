@@ -4,38 +4,6 @@ button {
   transform: scale(0.9);
 }
 
-.mat-expansion-panel-header-description {
-  align-items: center;
-}
-
-.matGridTile {
-  background-color: var(--primary-variant);
-  margin-bottom: 5px;
-  color: var(--on-surface)!important;
-}
-
-mat-expansion-panel-header {
-  padding: 0 3% 0 3%;
-  background-color: var(--primary-variant) !important;
-}
-
-mat-panel-title {
-  flex-grow: 3;
-  align-items: center;
-  min-width: 80px;
-  margin: 0;
-}
-
-mat-panel-description {
-  flex-grow: 1;
-  align-items: center!important;
-  margin: 0;
-}
-
-mat-progress-spinner {
-  margin-top: 30px;
-}
-
 .filterWrapper {
   width: 100%;
 }
@@ -45,6 +13,11 @@ mat-progress-spinner {
 }
 
 h3, h4 {
+  color: var(--on-surface)!important;
+}
+
+table, th, tr, td {
+  background-color: var(--primary-variant) !important;
   color: var(--on-surface)!important;
 }
 
