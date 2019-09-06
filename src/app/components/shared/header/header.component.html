@@ -1,8 +1,8 @@
 <mat-toolbar class="mat-elevation-z4">
   <mat-toolbar-row>
-    <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
+    <button mat-icon-button  aria-labelledby="back-label" *ngIf="router.url !== '/home'" (click)="goBack()"
             matTooltip="{{'header.back' | translate}}">
-      <mat-icon class="header-icons" aria-labelledby="back-label">keyboard_arrow_left</mat-icon>
+      <mat-icon class="header-icons">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
     <h3 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"

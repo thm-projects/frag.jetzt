@@ -121,6 +121,7 @@
     "style-blue": "Wähle das blaue Thema aus"
   },
   "cookies": {
+    "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung",
     "accept": "Bestätigen",
     "accept-label": "Bestätigt die Verwendung von Cookies und fährt zur Hauptanwendung fort",
     "decline": "Ablehnen",

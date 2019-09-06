@@ -98,7 +98,6 @@
     "demo": "Demo",
     "accessibility-demo": "Shows demo version of frag.jetzt",
     "dsgvo": "Data Protection",
-    "accessibility-data-protection": "Opens data protection document in a new dialog",
     "imprint": "Imprint",
     "accessibility-imprint": "Opens the imprint in a new dialog",
     "will-open": " will be opened in a new tab...",
@@ -122,6 +121,7 @@
     "style-blue": "Select the blue style theme"
   },
   "cookies": {
+    "info-label": "Opens a dialog with  the frag.jetzt privacy statement",
     "accept": "Accept",
     "accept-label": "Accepts the use of cookies and proceeds to the app",
     "decline": "Decline",

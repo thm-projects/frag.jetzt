@@ -10,9 +10,9 @@ import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
 import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component';
-import { ImprintComponent } from '../imprint/imprint.component';
-import { HelpPageComponent } from '../help-page/help-page.component';
-import { DataProtectionComponent } from '../data-protection/data-protection.component';
+import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
+import { HelpPageComponent } from '../_dialogs/help-page/help-page.component';
+import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
 
 @Component({
   selector: 'app-footer',
@@ -69,7 +69,8 @@ export class FooterComponent implements OnInit {
   showCookieModal() {
     const dialogRef = this.dialog.open(CookiesComponent, {
       height: '95%',
-      width: '60%'
+      width: '60%',
+      autoFocus: false
     });
     dialogRef.disableClose = true;
     dialogRef.componentInstance.deviceType = this.deviceType;
