@@ -1,30 +1,36 @@
 <div mat-dialog-content>
-  <h2>{{'room-page.moderators' | translate }}</h2>
+  <h1>{{'room-page.moderators' | translate }}</h1>
   <mat-divider></mat-divider>
   <div fxLayout="row">
     <mat-form-field class="input-block">
-      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}"
+      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}" aria-labelledby="moderator-email"
              [formControl]="usernameFormControl" name="username"/>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
         {{ 'room-page.email-error' | translate }}
       </mat-error>
     </mat-form-field>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''">
+    <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''" aria-labelledby="add-moderator" >
       <mat-icon class="add-icon">add_circle</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
   </div>
-  <h3 *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</h3>
+  <h2 *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</h2>
   <div *ngIf="moderators.length > 0">
     <div fxLayout="row" *ngFor="let moderator of moderators; index as i">
-      <h3>
+      <h2>
         {{i+1}}. {{moderator.loginId}}
-      </h3>
+      </h2>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button class="close" (click)="openDeleteRoomDialog(moderator)">
+      <button mat-icon-button class="close" (click)="openDeleteRoomDialog(moderator)" aria-labelledby="delete-moderator">
         <mat-icon class="close-icon">close</mat-icon>
       </button>
     </div>
   </div>
+</div>
+
+<div class="visually-hidden">
+  <div id ="moderator-email">{{'room-page.a11y-moderator-email' | translate}}</div>
+  <div id ="add-moderator">{{'room-page.a11y-add-moderator' | translate}}</div>
+  <div id ="delete-moderator">{{'room-page.a11y-delete-moderator' | translate}}</div>
 </div>
