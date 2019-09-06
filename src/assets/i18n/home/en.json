@@ -18,7 +18,7 @@
     "delete": "Delete",
     "accessibility-login": "Opens the login window",
     "accessibility-back": "Go back to the previous page",
-    "accessibility-session": "SESSION PLACEHOLDER"
+    "accessibility-session": "Opens session menu"
   },
   "login-page": {
     "creator": "Professor",

@@ -1,7 +1,7 @@
 {
   "header": {
     "logout": "Abmelden",
-    "logged-out": "Ausloggen erfolgreich",
+    "logged-out": "Abmelden erfolgreich",
     "back": "Zurück",
     "my-sessions": "Meine Sessions",
     "visited-sessions": "Besuchte Sessions",
@@ -18,7 +18,7 @@
     "delete": "Löschen",
     "accessibility-login": "Öffnet Modalfenster in dem man sich einloggen kann",
     "accessibility-back": "Führt zur vorherigen Seite",
-    "accessibility-session": "SESSION PLATZHALTER"
+    "accessibility-session": "Öffnet Session-Menü"
   },
   "login-page": {
     "creator": "Dozent/in",
@@ -52,7 +52,7 @@
     "email-required": "E-Mail-Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
-    "login-successful": "Login erfolgreich",
+    "login-successful": "Anmelden erfolgreich",
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "Benutzername oder Passwort nicht korrekt",
     "password": "Passwort",
