@@ -17,7 +17,8 @@
     "abort": "Abbrechen",
     "delete": "Löschen",
     "accessibility-login": "Öffnet Modalfenster in dem man sich einloggen kann",
-    "accessibility-back": "Führt zur vorherigen Seite"
+    "accessibility-back": "Führt zur vorherigen Seite",
+    "accessibility-session": "SESSION PLATZHALTER"
   },
   "login-page": {
     "creator": "Dozent/in",

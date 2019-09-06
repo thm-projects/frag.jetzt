@@ -41,7 +41,7 @@
     </mat-menu>
 
     <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu"
-            aria-labelledby="login-label">
+            aria-labelledby="session-label">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
         <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
@@ -51,7 +51,7 @@
     </button>
 
     <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu"
-            aria-labelledby="login-label">
+            aria-labelledby="session-label">
       <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
       <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
     </button>
@@ -72,4 +72,5 @@
 <div class="visually-hidden">
   <div id="login-label">{{'header.accessibility-login' | translate}}</div>
   <div id="back-label">{{'header.accessibility-back' | translate}}</div>
+  <div id="session-label">{{'header.accessibility-session' | translate}}</div>
 </div>
