@@ -35,6 +35,7 @@
 		"please-enter": "… sagt dir dein/e Dozent/in",
 		"exactly-8": "Eine Session-ID hat genau 8 Ziffern.",
 		"create-session": "Neue Session",
+    "create-session-description": "Neue Session erstellen",
 		"no-empty-name": "Bitte gib einen Namen für die Session ein.",
 		"created-1": "Session '",
 		"created-2": "' erfolgreich erstellt",
@@ -89,7 +90,8 @@
 		"session-name": "Name der Session",
 		"description": "Beschreibung der Session",
 		"max-ls": "Max. Zeichen:",
-		"create-session": "Session erstellen"
+		"create-session": "Session erstellen",
+    "join": "Session beitreten"
   },
   "footer": {
     "demo": "Demo",
@@ -106,5 +108,21 @@
     "language": "Sprache",
     "english": "Englisch",
     "german": "Deutsch"
+  },
+  "room-list": {
+    "panel-session-name": "Name",
+    "panel-session-id": "Session ID",
+    "panel-user-role": "Rolle",
+    "panel-join-button": "Session beitreten",
+    "creator-role": "Raumersteller",
+    "participant-role": "Teilnehmer",
+    "moderator-role": "Moderator",
+    "room-history-headline": "Deine besuchten Sessions",
+    "no-room-history": "Du bist bisher keinen Sessions beigetreten.",
+    "join-message-template": "Session {{session}} mit der ID {{id}} und in der Rolle {{role}} beitreten",
+    "filter-message": "Nach Name oder Session ID filtern",
+    "table-label": "Nachfolgend findest du eine Liste deiner besuchten Sessions",
+    "entry": "Eintrag ",
+    "filter": "Hier kannst du deine besuchten Sessions filtern"
   }
 }

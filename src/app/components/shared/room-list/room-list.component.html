@@ -4,33 +4,104 @@
   </div>
 </div>
 
-<div *ngIf="roomsWithRole && roomsWithRole.length != 0">
-  <mat-expansion-panel [disabled]="true" class="matPanel">
-    <mat-expansion-panel-header>
-      <mat-panel-title class="headerTitle">Session</mat-panel-title>
-      <mat-panel-description class="headerTitle">ID</mat-panel-description>
-      <mat-panel-description class="roleTitle">Role</mat-panel-description>
-      <mat-panel-description class="buttonTitle"></mat-panel-description>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
-  <mat-expansion-panel *ngFor="let room of roomsWithRole" class="matPanel" [disabled]="true">
-    <mat-expansion-panel-header>
-      <mat-panel-title class="headerTitle">
-        {{ room.name }}
-      </mat-panel-title>
-      <mat-panel-description class="headerTitle">
-        {{ room.shortId.slice(0,4) }} {{  room.shortId.slice(4,8) }}
-      </mat-panel-description>
-      <mat-panel-description class="roleTitle" [ngSwitch]="room.role">
-        <mat-icon *ngSwitchCase="creatorRole">record_voice_over</mat-icon>
-        <mat-icon *ngSwitchCase="participantRole">face</mat-icon>
-        <mat-icon *ngSwitchCase="executiveModeratorRole">gavel</mat-icon>
-      </mat-panel-description>
-      <mat-panel-description class="buttonTitle" fxLayoutAlign="end">
-        <button mat-flat-button routerLink="/{{ roleToString(room.role) }}/room/{{ room.shortId }}" (click)="setCurrentRoom(room.shortId)">
-          <mat-icon>input</mat-icon>
-        </button>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-  </mat-expansion-panel>
+<div *ngIf="roomsWithRole">
+
+  <h2>{{ 'room-list.room-history-headline' | translate }}</h2>
+
+  <div *ngIf="tableDataSource.data.length === 0">
+    <h3>{{ 'room-list.no-room-history' | translate }}</h3>
+  </div>
+
+  <div *ngIf="tableDataSource.data.length > 0">
+
+    <!-- filter input -->
+    <mat-form-field class="filterWrapper">
+      <input matInput (keyup)="applyFilter($event.target.value)"
+             placeholder="{{ 'room-list.filter-message' | translate }}" class="filter">
+    </mat-form-field>
+
+    <div [class.tableOverflow]="this.tableDataSource.data.length > 5">
+      <table #roomTable mat-table [dataSource]="tableDataSource" style="width: 100%"
+             aria-labelledby="tableLabel">
+
+        <!-- Room / Session name column -->
+        <ng-container matColumnDef="name" aria-hidden="true">
+          <th mat-header-cell *matHeaderCellDef style="width: 35%">
+            {{ 'room-list.panel-session-name' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let room">
+            {{ room.name }}
+          </td>
+        </ng-container>
+
+        <!-- Session ID column -->
+        <ng-container matColumnDef="shortId" aria-hidden="true">
+          <th mat-header-cell *matHeaderCellDef style="width: 30%">
+            {{ 'room-list.panel-session-id' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let room">
+            {{ room.shortId.slice(0,4) }} {{ room.shortId.slice(4,8) }}
+          </td>
+        </ng-container>
+
+        <!-- Role column -->
+        <ng-container matColumnDef="role" aria-hidden="true">
+          <th mat-header-cell *matHeaderCellDef style="width: 15%">
+            {{ 'room-list.panel-user-role' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let room" [ngSwitch]="room.role">
+            <mat-icon mat-list-icon *ngSwitchCase="creatorRole"
+                      title="{{ 'room-list.creator-role' | translate }}">
+              record_voice_over
+            </mat-icon>
+            <mat-icon mat-list-icon *ngSwitchCase="participantRole"
+                      title="{{ 'room-list.participant-role' | translate }}">
+              face
+            </mat-icon>
+            <mat-icon mat-list-icon *ngSwitchCase="executiveModeratorRole"
+                      title="{{ 'room-list.executive-moderator-role' | translate }}">
+              gavel
+            </mat-icon>
+          </td>
+        </ng-container>
+
+        <!-- Join button column -->
+        <ng-container matColumnDef="button">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%; text-align: end">
+            {{ 'room-list.panel-join-button' | translate }}
+          </th>
+          <td mat-cell *matCellDef="let room" style="text-align: end"
+              attr.aria-labelledby="empty">
+            <button mat-flat-button type="button"
+                    attr.aria-labelledby="{{ 'joinButtonLabel' + room.shortId | translate }}"
+                    name="{{ 'room-list.panel-join-button' | translate }}"
+                    routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}"
+                    (click)="setCurrentRoom(room.shortId)">
+              <mat-icon>input</mat-icon>
+            </button>
+            <div class="visually-hidden">
+              <div id="{{ 'joinButtonLabel' + room.shortId | translate }}">
+                {{ 'room-list.join-message-template' | translate:{
+                  session: room.name,
+                  id: room.shortId,
+                  role: ( 'room-list.' + roleToString((room.role)) + '-role' | translate )
+              } }}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+
+    </div>
+  </div>
+
+</div>
+
+<div class="visually-hidden">
+  <div id="tableLabel">{{ 'room-list.table-label' | translate }}</div>
+  <div id="empty"></div>
 </div>

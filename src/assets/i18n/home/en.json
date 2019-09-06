@@ -34,8 +34,9 @@
 		"no-room-found": "No session found with this ID",
 		"please-enter": "… your professor tells you",
 		"exactly-8": "A session ID has exactly 8 digits.",
-		"create-session": "New session",
-		"no-empty-name": "Please enter a name.",
+    "create-session": "New session",
+    "create-session-description": "Create new session",
+    "no-empty-name": "Please enter a name.",
 		"created-1": "Session '",
 		"created-2": "' successfully created",
 		"only-numbers": "A session ID only contains digits.",
@@ -89,7 +90,8 @@
 		"session-name": "Session name",
 		"description": "Description",
 		"max-ls": "Max. characters:",
-		"create-session": "Create session"
+		"create-session": "Create session",
+    "join": "Session beitreten"
 	},
   "footer": {
     "demo": "Demo",
@@ -106,5 +108,21 @@
     "language": "Language",
     "english": "English",
     "german": "German"
+  },
+  "room-list": {
+    "panel-session-name": "Name",
+    "panel-session-id": "Session ID",
+    "panel-user-role": "Role",
+    "panel-join-button": "Join Session",
+    "creator-role": "Room creator",
+    "participant-role": "Participant",
+    "moderator-role": "Moderator",
+    "room-history-headline": "Your visited sessions",
+    "no-room-history": "You haven't joined any sessions yet.",
+    "join-message-template": "Join Session {{session}} with ID {{id}} and role {{role}}",
+    "filter-message": "Filter by Name or Session ID",
+    "table-label": "Below you find a list of your visited sessions",
+    "entry": "Entry ",
+    "filter": "Here you can filter your visited sessions"
   }
 }

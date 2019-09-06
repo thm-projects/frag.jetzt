@@ -4,49 +4,65 @@ button {
   transform: scale(0.9);
 }
 
-.mat-expansion-panel-header-description {
-  align-items: center;
+.filterWrapper {
+  width: 100%;
 }
 
-.matPanel {
-  background-color: var(--primary-variant);
-  margin-bottom: 5px;
+.filter {
   color: var(--on-surface)!important;
 }
 
-mat-expansion-panel-header {
-  padding: 0 3% 0 3%;
+h2, h3 {
+  color: var(--on-surface)!important;
+}
+
+table, th, tr, td {
   background-color: var(--primary-variant) !important;
+  color: var(--on-surface)!important;
 }
 
-mat-panel-title {
-  flex-grow: 3;
-  align-items: center;
-  min-width: 80px;
-  margin: 0;
+th {
+  font-size: 1rem;
 }
 
-mat-panel-description {
-  flex-grow: 1;
-  align-items: center!important;
-  margin: 0;
+.tableOverflow {
+  height: 20rem;
+  overflow: auto;
 }
 
-.headerTitle {
+.sessionName {
   width: 8%;
   min-width: 50px;
   color: var(--on-surface)!important;
 }
 
-mat-progress-spinner {
-  margin-top: 30px;
+.sessionId {
+  width: 8%;
+  min-width: 50px;
+  color: var(--on-surface)!important;
 }
 
-.roleTitle {
+.roleName {
   color: var(--on-surface)!important;
   width: 5%;
 }
 
-.buttonTitle {
+.buttonName {
+  color: var(--on-surface)!important;
   width: 5%;
+  display: flex;
+  place-content: stretch flex-end;
+}
+
+.noRoomHistory {
+  color: var(--on-surface)!important;
+  font-style: italic;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
 }
