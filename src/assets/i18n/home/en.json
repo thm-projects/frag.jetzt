@@ -16,8 +16,8 @@
     "account-deleted": "Your account has been deleted successfully.",
     "abort": "Cancel",
     "delete": "Delete",
-    "accessibility-login": "Account-Button. Opens the login window",
-    "accessibility-back": "Back-Button. Go back to the previous page"
+    "accessibility-login": "Opens the login window",
+    "accessibility-back": "Go back to the previous page"
   },
   "login-page": {
     "creator": "Professor",
@@ -41,8 +41,8 @@
     "only-numbers": "A session ID only contains digits.",
     "update-available": "A newer version is available.",
     "install": "Install",
-    "accessibility-join": "Join button. Enters the room with the specified session ID.",
-    "accessibility-create": "Create button. Creates a new session"
+    "accessibility-join": "Enters the room with the specified session ID.",
+    "accessibility-create": "Creates a new session"
   },
   "login": {
     "header": "Log in",
@@ -109,35 +109,34 @@
     "beamer": "Optimized for the projector (work in progress)",
     "wai": "Accessible according to WCAG 2.1 (work in progress)",
     "style": "Style",
-    "accessibility-style": "Opens a selection of different color schemes",
+    "accessibility-style": "Opens a menu to select the color scheme",
     "language": "Language",
-    "accessibility-language": "Press button to change language",
+    "accessibility-language": "Opens the language selection menu",
     "english": "English",
     "german": "German",
-    "accessibility-data_protection": "Data-Protection-Button. Opens a page with the frag.jetzt privacy statement"
+    "accessibility-data_protection": "Opens a page with the frag.jetzt privacy statement"
   },
   "cookies": {
     "accept": "Accept",
-    "accessibilty-accept": "Push button to accept cookies",
-    "accept-label": "Accept-Button. Accepts the use of cookies and proceeds to the app",
+    "accept-label": "Accepts the use of cookies and proceeds to the app",
     "decline": "Decline",
-    "decline-label": "Decline-Button. Decline cookie usage and exit the app"
+    "decline-label": "Declines cookie usage and exits the app"
   },
   "data-protection": {
     "title": "Data Protection",
     "consent": "Accept",
-    "consent-label": "Accept-Button. Accept the app's privacy policy",
+    "consent-label": "Accept the app's privacy policy and close dialog",
     "deny": "Decline",
-    "deny-label": "Decline-Button. Decline the app's privacy policy"
+    "deny-label": "Decline the app's privacy policy and close dialog"
   },
   "imprint": {
     "title": "Imprint",
     "close": "Close",
-    "close-label": "Close-Button. Closes the imprint"
+    "close-label": "Closes the imprint dialog"
   },
   "help": {
     "title": "Help",
     "close": "Close",
-    "accept-label": "Close-Button. Closes the help page"
+    "accept-label": "Closes the help dialog"
   }
 }

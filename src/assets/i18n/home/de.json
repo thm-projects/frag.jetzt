@@ -16,8 +16,8 @@
     "account-deleted": "Dein Konto wurde erfolgreich gelöscht.",
     "abort": "Abbrechen",
     "delete": "Löschen",
-    "accessibility-login": "Konto-Button. Öffnet Modalfenster in dem man sich einloggen kann",
-    "accessibility-back": "Zurück-Button. Führt zur vorherigen Seite"
+    "accessibility-login": "Öffnet Modalfenster in dem man sich einloggen kann",
+    "accessibility-back": "Führt zur vorherigen Seite"
   },
   "login-page": {
     "creator": "Dozent/in",
@@ -41,8 +41,8 @@
     "only-numbers": "Eine Session-ID besteht aus Ziffern.",
     "update-available": "Eine neue Version ist verfügbar.",
     "install": "Installieren",
-    "accessibility-join": "Beitreten-Button. Betritt den Raum, dessen Session-ID im Textfeld angegeben ist",
-    "accessibility-create": "Erstellen-Button. Erstellt einen neuen Raum"
+    "accessibility-join": "Betritt den Raum, dessen Session-ID im Textfeld angegeben ist",
+    "accessibility-create": "Erstellt einen neuen Raum"
   },
   "login": {
     "header": "Login",
@@ -95,9 +95,9 @@
   },
   "footer": {
     "demo": "Demo",
-    "accessibility-demo": "Öffnet eine Demoversion von frag.jetzt",
+    "accessibility-demo": "Öffnet ein Demovideo zu frag.jetzt in einem neuen Dialogfenster",
     "dsgvo": "Datenschutz",
-    "accessibility-data-protection": "Öffnet ein Dokument zur Datenschtzverordnung in einem neuen Dialogfenster",
+    "accessibility-data_protection": "Öffnet ein Dokument zur Datenschutzerklärung von frag.jetzt in einem neuen Dialogfenster",
     "imprint": "Impressum",
     "accessibility-imprint": "Öffnet das Impressum in einem neuen Dialogfenster",
     "will-open": " wird in einem neuen Fenster geöffnet...",
@@ -111,30 +111,31 @@
     "style": "Stil",
     "accessibility-style": "Öffnet eine Auswahl an verschiedenen Farbschemata",
     "language": "Sprache",
+    "accessibility-language": "Öffnet die Sprachauswahl",
     "english": "Englisch",
-    "german": "Deutsch",
-    "accessibility-data_protection": "Datenschutz-Button. Zeigt Link zur frag.jetz-Datenschutzerklärung an"
+    "german": "Deutsch"
   },
   "cookies": {
     "accept": "Bestätigen",
-    "accessibility-accept": "Bestätigen um cookies zu akzeptieren.",
-    "accept-label": "Bestätigen-Button. Bestätigt die Verwendung von Cookies und fährt zur Hauptanwendung fort"
+    "accept-label": "Bestätigt die Verwendung von Cookies und fährt zur Hauptanwendung fort",
+    "decline": "Ablehnen",
+    "decline-label": "Lehnt Verwendung von Cookies ab und verlääst die Anwendung"
   },
   "data-protection": {
     "title": "Datenschutz",
     "consent": "Akzeptieren",
-    "consent-label": "Akzeptieren-Button. Akzeptiert die Datenschutzrichtlinien der App",
+    "consent-label": "Akzeptiert die Datenschutzrichtlinien der App",
     "deny": "Ablehnen",
-    "deny-label": "Ablehnen-Button. Lehnt die Datenschutzrichlinien ab"
+    "deny-label": "Lehnt die Datenschutzrichlinien ab"
   },
   "imprint": {
     "title": "Impressum",
     "close": "Schließen",
-    "close-label": "Schließen-Button. Schließt das Impressum"
+    "close-label": "Schließt das Impressum"
   },
   "help": {
     "title": "Hilfe",
     "close": "Schließen",
-    "accept-label": "Schließen-Button. Schließt die Hilfeseite"
+    "accept-label": "Schließt die Hilfeseite"
   }
 }
