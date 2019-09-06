@@ -143,6 +143,6 @@
   "help": {
     "title": "Help",
     "close": "Close",
-    "accept-label": "Closes the help dialog"
+    "close-label": "Closes the help dialog"
   }
 }
