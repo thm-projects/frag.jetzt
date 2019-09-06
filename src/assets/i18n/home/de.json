@@ -118,6 +118,9 @@
     "room-history-headline": "Deine besuchten Sessions",
     "no-room-history": "Du bist bisher keinen Sessions beigetreten.",
     "join-message-template": "Session {{session}} mit der ID {{id}} und in der Rolle {{role}} beitreten",
-    "filter-message": "Nach Name oder Session ID filtern"
+    "filter-message": "Nach Name oder Session ID filtern",
+    "table-label": "Nachfolgend findest du eine Liste deiner besuchten Sessions",
+    "entry": "Eintrag ",
+    "filter": "Hier kannst du deine besuchten Sessions filtern"
   }
 }
