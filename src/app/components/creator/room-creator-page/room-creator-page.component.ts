@@ -15,6 +15,7 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { CommentSettingsComponent } from '../_dialogs/comment-settings/comment-settings.component';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -39,7 +40,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private translateService: TranslateService,
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
-              protected commentService: CommentService) {
+              protected commentService: CommentService,
+              private liveAnnouncer: LiveAnnouncer) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -50,7 +52,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.route.params.subscribe(params => {
       this.initializeRoom(params['roomId']);
     });
+    this.announce();
   }
+  public announce() {
+    this.liveAnnouncer.announce('Sie befinden sich nun in der Session mit ID.', 'assertive');
+  }
+
+
 
   afterRoomLoadHook() {
     if (this.moderationEnabled) {
