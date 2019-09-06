@@ -75,3 +75,37 @@ public announce() {
     this.liveAnnouncer.announce('Willkommenstext', 'assertive');
 }
 ```
+
+### Keyboard Shortcut
+To enter Keyboard Shortcuts you first need to import Renderer2 form angular/core:
+``import { Component, OnInit, Renderer2 } from '@angular/core';``
+
+After that you also need to add it to the constructor
+```
+constructor(
+    ...
+    private _r: Renderer2){
+        ...
+}
+    }
+```
+
+When this is done you need to add a listener to the ``ngOnInit()`` function.<br>
+Example:
+```
+ngOnInit() {
+    ...
+    this._r.listen(document, 'keyup', (event) => {
+      if (event.keyCode === 49) {
+        document.getElementById('my_element_id').focus(); 
+        //.focus will set the focus to the element searched by the function getElementById('id') with the id of the element
+      }
+    });
+}
+
+//HTML Code:
+<button id="my_element_id">
+    My_Button
+</button>
+
+```
