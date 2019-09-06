@@ -18,7 +18,8 @@
     "delete": "Löschen",
     "accessibility-login": "Öffnet Modalfenster in dem man sich einloggen kann",
     "accessibility-back": "Führt zur vorherigen Seite",
-    "accessibility-session": "Öffnet Session-Menü"
+    "accessibility-session": "Öffnet Session-Menü",
+    "close-demo": "Schließe das Demo Video und gehe zurück zur Anmeldung"
   },
   "login-page": {
     "creator": "Dozent/in",
