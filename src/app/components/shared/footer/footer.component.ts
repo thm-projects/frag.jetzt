@@ -9,6 +9,7 @@ import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
+import { Theme } from '../../../../theme/Theme';
 
 @Component({
   selector: 'app-footer',
@@ -17,18 +18,20 @@ import { ThemeService } from '../../../../theme/theme.service';
 })
 export class FooterComponent implements OnInit {
 
-  blogUrl = 'https://arsnova.thm.de/blog/';
-  dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
-  imprUrl = 'https://arsnova.thm.de/blog/impressum/';
-  demoId = '78844652';
+  public blogUrl = 'https://arsnova.thm.de/blog/';
+  public dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
+  public imprUrl = 'https://arsnova.thm.de/blog/impressum/';
+  public demoId = '78844652';
 
-  room: Room;
-  user: User;
+  public room: Room;
+  public user: User;
 
-  open: string;
-  deviceType: string;
+  public open: string;
+  public deviceType: string;
 
-  themeClass = localStorage.getItem('theme');
+  public themeClass = localStorage.getItem('theme');
+
+  public themes: Theme[];
 
   constructor(public notificationService: NotificationService,
               public router: Router,
@@ -46,6 +49,7 @@ export class FooterComponent implements OnInit {
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
     });
+    this.themes = this.themeService.getThemes();
   }
 
   navToBlog() {
@@ -111,8 +115,8 @@ export class FooterComponent implements OnInit {
     this.langService.langEmitter.emit(language);
   }
 
-  changeTheme(theme) {
-    this.themeClass = theme;
-    this.themeService.activate(theme);
+  changeTheme(theme: Theme) {
+    this.themeClass = theme.name;
+    this.themeService.activate(theme.name);
   }
 }
