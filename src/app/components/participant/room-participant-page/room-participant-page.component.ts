@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -34,7 +34,8 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
               private authenticationService: AuthenticationService,
-              private liveAnnouncer: LiveAnnouncer) {
+              private liveAnnouncer: LiveAnnouncer,
+              private _r: Renderer2) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -46,6 +47,11 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.announce();
+    this._r.listen(document, 'keyup', (event) => {
+      if (event.keyCode === 49) {
+        document.getElementById('question_answer-button').focus();
+      }
+    });
   }
 
   public announce() {
