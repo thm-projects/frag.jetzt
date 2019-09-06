@@ -114,7 +114,11 @@
     "language": "Sprache",
     "accessibility-language": "Öffnet die Sprachauswahl",
     "english": "Englisch",
-    "german": "Deutsch"
+    "german": "Deutsch",
+    "style-default": "Wähle das Standardthema aus",
+    "style-dark": "Wähle das dunkle Thema aus",
+    "style-purple": "Wähle das lila Thema aus",
+    "style-blue": "Wähle das blaue Thema aus"
   },
   "cookies": {
     "accept": "Bestätigen",

@@ -115,7 +115,11 @@
     "accessibility-language": "Opens the language selection menu",
     "english": "English",
     "german": "German",
-    "accessibility-data_protection": "Opens a page with the frag.jetzt privacy statement"
+    "accessibility-data_protection": "Opens a page with the frag.jetzt privacy statement",
+    "style-default": "Select the default style theme",
+    "style-dark": "Select the dark style theme",
+    "style-purple": "Select the purple style theme",
+    "style-blue": "Select the blue style theme"
   },
   "cookies": {
     "accept": "Accept",
