@@ -33,21 +33,20 @@
 		"password-reset": "Passwort vergessen?",
 		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
-		"welcome": "Online fragen | Fragen voten",
+		"welcome": "Online fragen & Fragen voten",
 		"login": "Anmelden"
 	},
 	"home-page": {
-		"join-demo-session": "Öffentliche Sitzungen betreten",
 		"session-id": "Sitzungs-Code",
-		"no-room-found": "Es wurde keine Sitzung mit diesem Sitzungs-Code gefunden.",
-		"please-enter": "… sagt dir dein Dozent",
-		"exactly-8": "Der Sitzungs-Code einer Sitzung hat genau 8 Ziffern.",
+		"no-room-found": "Falsche Eingabe. Eine Sitzung mit diesem Code gibt es nicht.",
+		"please-enter": "Den Sitzungs-Code erhälst du vom Dozenten.",
+		"exactly-8": "Falsche Eingabe. Der Code einer Sitzung hat genau 8 Ziffern.",
 		"create-session": "Neue Sitzung",
     "create-session-description": "Neue Sitzung erstellen",
 		"no-empty-name": "Bitte gib einen Namen für die Sitzung ein.",
 		"created-1": "Sitzung '",
 		"created-2": "' erfolgreich erstellt",
-		"only-numbers": "Der Sitzungs-Code besteht aus Ziffern.",
+		"only-numbers": "Falsche Eingabe. Der Code einer Sitzung besteht nur aus Zahlen.",
 		"update-available": "Eine neue Version ist verfügbar.",
 		"install": "Installieren"
 	},
@@ -110,7 +109,7 @@
     "join": "Sitzung beitreten"
   },
   "footer": {
-    "demo": "Demo",
+    "demo": "Einführung",
     "dsgvo": "Datenschutz",
     "imprint": "Impressum",
     "will-open": " wird in einem neuen Fenster geöffnet...",
@@ -118,9 +117,9 @@
     "help": "Hilfe",
     "dark": "Dunkler Hintergrund",
     "bright": "Heller Hintergrund",
-    "beamer": "Für den Beamer optimiert (in Arbeit)",
-    "wai": "Barrierefrei nach WCAG 2.1 (in Arbeit)",
-    "style": "Stil",
+    "beamer": "Für den Beamer optimiert",
+    "wai": "Hoher Kontrast",
+    "style": "Darstellung",
     "language": "Sprache",
     "english": "Englisch",
     "german": "Deutsch"
