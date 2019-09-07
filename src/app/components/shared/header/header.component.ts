@@ -116,8 +116,7 @@ export class HeaderComponent implements OnInit {
 
   openDeleteUserDialog() {
     const dialogRef = this.dialog.open(DeleteAccountComponent, {
-      width: '600px',
-      autoFocus: false
+      width: '600px'
     });
     dialogRef.afterClosed()
       .subscribe(result => {

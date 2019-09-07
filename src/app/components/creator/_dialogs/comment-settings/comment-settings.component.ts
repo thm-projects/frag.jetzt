@@ -143,4 +143,20 @@ export class CommentSettingsComponent implements OnInit {
       this.dialogRef.close(settingsReturn);
     });
   }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.dialogRef.close('abort');
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildSaveActionCallback(): () => void {
+    return () => this.closeDialog();
+  }
 }

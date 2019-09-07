@@ -10,7 +10,10 @@
     "create-content": "Frage erstellen",
     "live-feedback": "Live Feedback",
     "answer-statistics": "Statistiken",
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
     "delete-room": "Session löschen",
+    "delete-room-description": "Session löschen",
     "sure": "Bist du sicher?",
     "reallySession": "Willst du die Session ",
     "reallyContent": "Willst du die Frage ",
@@ -64,6 +67,8 @@
     "a11y-delete-moderator": "Löscht disen Moderator"
   },
   "content": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
     "content": "Frage",
     "create": "Erstellen",
     "collection": "Sammlung",
@@ -93,6 +98,7 @@
     "undo": "Rückgängig",
     "points": "Punkte",
     "delete": "Löschen",
+    "delete-description": "Löschen",
     "abort": "Abbrechen",
     "delete-answer": "Antwort löschen",
     "edit-answer": "Antwort bearteiten",
@@ -118,6 +124,8 @@
     "no-answers": "Keine Antworten"
   },
   "comment-page": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
     "enter-title": "Titel",
     "enter-comment": "Frage",
     "send": "Senden",
@@ -129,6 +137,7 @@
     "comma": "Microsoft Excel",
     "semicolon": "Standard CSV",
     "export": "Exportieren",
+    "export-description": "Exportieren",
     "no-comments": "Keine Fragen vorhanden",
     "mark-correct": "Frage bejahen",
     "mark-not-correct": "Frage nicht bejahen",

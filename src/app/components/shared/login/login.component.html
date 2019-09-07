@@ -18,8 +18,6 @@
            name="password" placeholder="{{ 'login.password' | translate }}" type="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button (click)="login(userEmail.value, userPassword.value)" mat-raised-button
-          matTooltip="{{'login.login-tooltip' | translate}}">{{ 'login.login' | translate }}</button>
   <div>
     <button (click)="openPasswordDialog()" class="pwReset" mat-button>
       {{ 'login-page.password-reset' | translate }}
@@ -33,3 +31,9 @@
     </button>
   </div>
 </form>
+<app-dialog-action-buttons
+  buttonsLabelSection="login-page"
+  confirmButtonLabel="login"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildLoginActionCallback(userEmail, userPassword)"
+></app-dialog-action-buttons>

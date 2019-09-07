@@ -19,7 +19,15 @@
     "a11y-meeting_room": "Opens the session menu with user options, up and down arrow keys for navigation within the menu.",
     "a11Y-back": "This button leads to the previously visited page."
 	},
+  "delete-account": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel account deletion",
+    "delete": "Delete",
+    "delete-description": "Delete your Account"
+  },
 	"login-page": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
 		"creator": "Professor",
 		"participant": "Student",
 		"password-reset": "Forgot your password?",
@@ -44,6 +52,8 @@
 		"install": "Install"
 	},
 	"login": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
     "header": "Log in",
     "email": "E-mail",
 		"email-invalid": "E-mail is invalid",
@@ -64,14 +74,19 @@
 		"login-tooltip": "Sessions will be stored for 180 days."
 	},
 	"password-reset": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
 		"email": "E-mail",
 		"email-invalid": "E-mail is invalid.",
 		"email-required": "E-mail required",
 		"input-incorrect": "Please check your data.",
 		"reset-password": "Reset password",
+    "reset-password-description": "Reset password",
 		"reset-successful": "Password was reset. Please check your mails."
 	},
 	"register": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
 		"email": "E-mail",
 		"email-verify": "Verify e-mail",
 		"email-invalid": "E-mail is invalid.",
@@ -82,6 +97,7 @@
 		"password-unmatch": "Passwords do not match.",
 		"password-verify": "Verify password",
 		"register": "Register",
+    "register-description": "Register User",
 		"register-successful": "Successfully registered. Please check your mails.",
 		"register-unsuccessful": "Please check your data.",
 		"register-request-error": "Something went wrong with the registration. Maybe you already made the account?"
@@ -108,6 +124,12 @@
     "language": "Language",
     "english": "English",
     "german": "German"
+  },
+  "room-create": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
+    "create-room": "Create Session",
+    "create-room-description": "Create new session"
   },
   "room-list": {
     "panel-session-name": "Name",

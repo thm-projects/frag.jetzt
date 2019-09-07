@@ -51,8 +51,32 @@ export class RoomEditComponent implements OnInit {
     this.roomService.deleteRoom(room.id).subscribe(result => {
       const event = new RoomDeleted(room.id);
       this.eventService.broadcast(event.type, event.payload);
-      this.dialogRef.close('delete');
+      this.closeDialog('delete');
       this.router.navigate([`/user`]);
     });
+  }
+
+
+  /**
+   * Closes the dialog on call.
+   */
+  closeDialog(type: string): void {
+    this.dialogRef.close(type);
+  }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.closeDialog('abort');
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildSaveActionCallback(email: HTMLInputElement): () => void {
+    return () => this.closeDialog('update');
   }
 }

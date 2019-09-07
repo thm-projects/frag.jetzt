@@ -5,5 +5,10 @@
            [formControl]="activationKeyFormControl" name="activation-key"/>
     <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'login.activation-key-required' | translate }}</mat-error>
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">{{ 'login.activate' | translate }}</button>
 </form>
+<app-dialog-action-buttons
+  buttonsLabelSection="login"
+  confirmButtonLabel="activate"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildActivationActionCallback(userActivationKey)"
+></app-dialog-action-buttons>

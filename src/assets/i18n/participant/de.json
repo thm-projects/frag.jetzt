@@ -19,6 +19,8 @@
     "a11y-announcer": "Sie befinden sich nun in der Session mit der von Ihnen eingegebenen ID."
   },
   "comment-page": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
     "enter-title": "Titel",
     "enter-comment": "Deine Frage",
     "send": "Senden",
