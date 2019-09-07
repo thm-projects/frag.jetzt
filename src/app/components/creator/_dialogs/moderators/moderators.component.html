@@ -27,6 +27,10 @@
       </button>
     </div>
   </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="content"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  ></app-dialog-action-buttons>
 </div>
 
 <div class="visually-hidden">

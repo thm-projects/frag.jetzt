@@ -19,14 +19,22 @@
     "a11y-meeting_room": "Öffnet das Sitzungs-Menu mit Optionen für Benutzer, Pfeiltasten Oben und Unten für die Navigation innerhalb des Menus verwenden.",
     "a11Y-back": "Dieser Button führt zur vorher besuchten Seite."
 	},
+  "delete-account": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
+    "delete": "Löschen",
+    "delete-description": "Konto löschen"
+  },
 	"login-page": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
 		"creator": "Dozent/in",
 		"participant": "Student/in",
 		"password-reset": "Passwort vergessen?",
 		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
 		"welcome": "Online fragen | Fragen voten",
-		"login": "Login"
+		"login": "Anmelden"
 	},
 	"home-page": {
 		"join-demo-session": "Öffentliche Session betreten",
@@ -44,6 +52,8 @@
 		"install": "Installieren"
 	},
 	"login": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
     "header": "Login",
 		"email": "E-Mail",
 		"email-invalid": "E-Mail-Adresse ungültig",
@@ -64,14 +74,19 @@
 		"login-tooltip": "Sessions mit allen Fragen werden für 180 Tage gespeichert."
 	},
 	"password-reset": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
 		"email": "E-Mail",
 		"email-invalid": "E-Mail-Adresse ungültig",
 		"email-required": "E-Mail-Adresse erforderlich",
 		"input-incorrect": "Bitte prüfe deine Eingaben.",
 		"reset-password": "Passwort zurücksetzen",
+    "reset-password-description": "Passwort zurücksetzen",
 		"reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfe deine E-Mails."
 	},
 	"register": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
 		"email": "E-Mail",
 		"email-verify": "E-Mail bestätigen",
 		"email-invalid": "E-Mail-Adresse ungültig",
@@ -82,6 +97,7 @@
 		"password-unmatch": "Passwörter stimmen nicht überein",
 		"password-verify": "Passwort bestätigen",
 		"register": "Registrieren",
+    "register-description": "Benutzer registrieren",
 		"register-successful": "Erfolgreich registriert. Bitte prüfe deine E-Mails.",
 		"register-unsuccessful": "Bitte prüfe deine Eingaben.",
 		"register-request-error": "Etwas ist bei der Registierung fehlgeschlagen. Hast du dich vielleicht schon registriert?"
@@ -108,6 +124,12 @@
     "language": "Sprache",
     "english": "Englisch",
     "german": "Deutsch"
+  },
+  "room-create": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
+    "create-room": "Session erstellen",
+    "create-room-description": "Neue Session erstellen"
   },
   "room-list": {
     "panel-session-name": "Name",

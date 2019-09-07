@@ -32,15 +32,12 @@
       <mat-icon>delete</mat-icon>
       {{ 'room-page.delete-all-comments' | translate }}</button>
   </div>
-  <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" class="submit">
-    <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
-      {{ 'room-page.abort' | translate }}
-    </button>
-    <button mat-raised-button class="update" (click)="closeDialog()">
-      {{ 'room-page.update' | translate }}
-    </button>
-  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="room-page"
+    confirmButtonLabel="update"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildSaveActionCallback()"
+  ></app-dialog-action-buttons>
 </div>
 
 <div class="visually-hidden">

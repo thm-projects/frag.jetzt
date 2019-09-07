@@ -16,8 +16,27 @@ export class CommentExportComponent implements OnInit {
   ngOnInit() {
   }
 
-  onNoClick(): void {
+
+  /**
+   * Closes the dialog on call.
+   */
+  closeDialog(): void {
     this.dialogRef.close();
   }
-}
 
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.closeDialog();
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildExportActionCallback(): () => void {
+    return () => this.dialogRef.close(this.exportType);
+  }
+}
