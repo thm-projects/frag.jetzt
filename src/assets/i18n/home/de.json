@@ -10,30 +10,30 @@
     "my-guest-account": "Sitzungen",
     "id": "Code",
     "moderation-enabled": "Moderiert",
-    "delete-account": "Account löschen",
+    "delete-account": "Konto löschen",
     "sure": "Bist du sicher?",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen?",
     "account-deleted": "Dein Konto wurde gelöscht.",
     "abort": "Abbrechen",
     "delete": "Löschen",
-    "accessibility-login": "Öffnet ein Fenster, in dem man sich einloggen kann.",
+    "accessibility-login": "Öffnet das Anmeldungs-Fenster.",
     "accessibility-back": "Führt zur vorherigen Seite",
     "accessibility-session": "Öffnet das Sitzungs-Menü",
-    "close-demo": "Schließe das Einführungs-Video und gehe zurück zur Anmeldung."
+    "close-demo": "Schließe die Einführung und gehe zurück zur Anmeldung."
   },
   "home-page": {
     "session-id": "Sitzungs-Code",
     "no-room-found": "Es wurde keine Sitzung mit diesem Code gefunden.",
     "please-enter": "Den Code sagt dir dein Dozent.",
-    "exactly-8": "Der Sitzungs-Code hat genau 8 Ziffern.",
+    "exactly-8": "Der Sitzungs-Code ist eine Kombination aus genau 8 Ziffern.",
     "create-session": "Neue Sitzung",
     "no-empty-name": "Bitte gib einen Namen für die Sitzung ein.",
     "created-1": "Die Sitzung '",
     "created-2": "' wurde erstellt.",
-    "only-numbers": "Der Sitzungs-Code besteht nur aus Ziffern.",
+    "only-numbers": "Der Sitzungs-Code besteht ausschließlich aus Ziffern.",
     "update-available": "Eine neue Version ist verfügbar.",
     "install": "Installieren",
-    "accessibility-join": "Betritt die Sitzung, deren Code im Textfeld angegeben ist.",
+    "accessibility-join": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-create": "Erstellt eine neue Sitzung."
   },
   "login": {
@@ -45,9 +45,9 @@
     "email-required": "Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
-    "login-successful": "Login erfolgreich",
+    "login-successful": "Anmeldung erfolgreich",
     "login": "Anmelden mit Konto",
-    "login-data-incorrect": "Benutzername oder Passwort nicht korrekt",
+    "login-data-incorrect": "Benutzername oder Passwort falsch",
     "password": "Passwort",
     "password-required": "Passwort erforderlich",
     "activate": "Aktivieren",
@@ -122,22 +122,22 @@
       "language": "Sprache",
       "english": "Englisch",
       "german": "Deutsch",
-      "style-default": "Wähle das Standard-Thema aus.",
+      "style-default": "Wähle das helle Thema aus.",
       "style-dark": "Wähle das dunkle Thema aus.",
       "style-purple": "Wähle das lila Thema aus.",
       "style-blue": "Wähle das blaue Thema aus.",
-      "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt in einem neuen Fenster.",
-      "accessibility-data_protection": "Öffnet Datenschutzerklärung von frag.jetzt in einem neuen Fenster.",
-      "accessibility-imprint": "Öffnet das Impressum in einem neuen Fenster.",
-      "accessibility-help": "Öffnet einen Hilfetext in einem neuen Fenster.",
-      "accessibility-style": "Öffnet eine Auswahl an verschiedenen Farbschemata.",
+      "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt.",
+      "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
+      "accessibility-imprint": "Öffnet das Impressum.",
+      "accessibility-help": "Öffnet die Hilfe.",
+      "accessibility-style": "Öffnet die Farbauswahl.",
       "accessibility-language": "Öffnet die Sprachauswahl"
     },
     "cookies": {
       "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung.",
-      "accept": "Bestätigen",
-      "accept-label": "Bestätigt die Verwendung von Cookies und fährt zur Hauptanwendung fort.",
-      "decline": "Ablehnen",
+      "accept": "Danke, ich hab's verstanden.",
+      "accept-label": "Bestätigt die Verwendung von Cookies und führt zur Startseite zurück.",
+      "decline": "Nein, lösche meine Spuren.",
       "decline-label": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung."
     },
     "data-protection": {
@@ -150,33 +150,33 @@
     "imprint": {
       "title": "Impressum",
       "close": "Schließen",
-      "close-label": "Schließt das Impressum"
+      "close-label": "Schließt das Impressum."
     },
     "help": {
       "title": "Hilfe",
       "close": "Schließen",
-      "close-label": "Schließt die Hilfeseite"
+      "close-label": "Schließt die Hilfe."
     },
     "room-create": {
       "cancel": "Zurück",
       "cancel-description": "Zurück",
       "create-room": "Sitzung erstellen",
-      "create-room-description": "Neue Sitzung erstellen"
+      "create-room-description": "Neue Sitzung erstellen."
     },
     "room-list": {
       "panel-session-name": "Name",
       "panel-session-id": "Sitzung",
       "panel-user-role": "Rolle",
-      "panel-join-button": "Sitzung beitreten",
+      "panel-join-button": "Sitzung beitreten.",
       "creator-role": "Sitzungs-Ersteller",
       "participant-role": "Teilnehmer",
       "moderator-role": "Moderator",
       "room-history-headline": "Deine besuchten Sitzungen",
       "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
-      "join-message-template": "Sitzung {{session}} mit dem Sitzungs-Code {{id}} und in der Rolle {{role}} beitreten.",
+      "join-message-template": "Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} beitreten.",
       "filter-message": "Nach Name oder Sitzungs-Code filtern",
-      "table-label": "Nachfolgend findest du eine Liste deiner besuchten Sitzungen.",
+      "table-label": "Nachfolgend findest du eine Liste der besuchten Sitzungen.",
       "entry": "Eintrag ",
-      "filter": "Hier kannst du deine besuchten Sitzungen filtern."
+      "filter": "Hier kannst du die besuchten Sitzungen filtern."
     }
   }

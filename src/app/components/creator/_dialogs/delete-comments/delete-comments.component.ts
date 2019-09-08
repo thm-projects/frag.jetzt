@@ -28,7 +28,7 @@ export class DeleteCommentsComponent implements OnInit {
 
 
   public announce() {
-    this.liveAnnouncer.announce('Willst du wirklich alle Fragen dieser Session löschen?', 'assertive');
+    this.liveAnnouncer.announce('Willst du wirklich alle Fragen dieser Sitzung löschen?', 'assertive');
   }
 
 

@@ -31,7 +31,7 @@ export class RoomDeleteComponent implements OnInit {
 
 
   public announce() {
-    this.liveAnnouncer.announce('Willst du die Session wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.', 'assertive');
+    this.liveAnnouncer.announce('Willst du die Sitzung wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.', 'assertive');
   }
 
 
