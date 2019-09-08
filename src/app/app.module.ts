@@ -42,6 +42,18 @@ import { HomeCreatorPageComponent } from './components/home/home-creator-page/ho
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
 import { CommentSettingsService } from './services/http/comment-settings.service';
 import { ModeratorModule } from './components/moderator/moderator.module';
+import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
+import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
+import { HelpPageComponent } from './components/shared/_dialogs/help-page/help-page.component';
+import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
+import { DataProtectionEnComponent } from '../assets/i18n/data-protection/data-protection-en';
+import { DataProtectionDeComponent } from 'assets/i18n/data-protection/data-protection-de';
+import { CookiesEnComponent } from '../assets/i18n/cookies/cookies-en';
+import { CookiesDeComponent } from '../assets/i18n/cookies/cookies-de';
+import { ImprintEnComponent } from '../assets/i18n/imprint/imprint-en';
+import { ImprintDeComponent } from '../assets/i18n/imprint/imprint-de';
+import { HelpDeComponent } from '../assets/i18n/help/help-de';
+import { HelpEnComponent } from '../assets/i18n/help/help-en';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -50,6 +62,7 @@ export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
 
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,13 +74,26 @@ export function initializeApp(appConfig: AppConfig) {
     DemoVideoComponent,
     UserHomeComponent,
     HomeCreatorPageComponent,
-    HomeParticipantPageComponent
+    HomeParticipantPageComponent,
+    ImprintComponent,
+    DataProtectionComponent,
+    HelpPageComponent,
+    CookiesComponent,
+    DataProtectionEnComponent,
+    DataProtectionDeComponent,
+    CookiesEnComponent,
+    CookiesDeComponent,
+    ImprintEnComponent,
+    ImprintDeComponent,
+    HelpDeComponent,
+    HelpEnComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
     UserActivationComponent,
-    DemoVideoComponent
+    DemoVideoComponent,
+    CookiesComponent
   ],
   imports: [
     AppRoutingModule,

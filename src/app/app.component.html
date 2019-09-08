@@ -1,13 +1,11 @@
-  <div fxLayout="column" fxFill appTheme>
-    <header>
-      <app-header #header></app-header>
-    </header>
-    <main>
-      <div fxFlex class="app-component">
-        <router-outlet></router-outlet>
-      </div>
-    </main>
-    <footer>
-      <app-footer></app-footer>
-    </footer>
-  </div>
+<div fxLayout="column" fxFill appTheme>
+  <header>
+    <app-header #header></app-header>
+  </header>
+  <main fxFlex class="app-component">
+    <router-outlet></router-outlet>
+  </main>
+  <footer role="contentinfo">
+    <app-footer></app-footer>
+  </footer>
+</div>

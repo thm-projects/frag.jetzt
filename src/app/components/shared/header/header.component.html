@@ -1,7 +1,7 @@
 <mat-toolbar class="mat-elevation-z1">
   <mat-toolbar-row>
-    <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
-            matTooltip="{{'header.back' | translate}}" aria-labelledby="back">
+    <button mat-icon-button  aria-labelledby="back-label" *ngIf="router.url !== '/home'" (click)="goBack()"
+            matTooltip="{{'header.back' | translate}}">
       <mat-icon class="header-icons">keyboard_arrow_left</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
@@ -41,7 +41,7 @@
     </mat-menu>
 
     <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu"
-            aria-labelledby="meeting_room">
+            aria-labelledby="session-label">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
         <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
@@ -51,26 +51,26 @@
     </button>
 
     <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu"
-            aria-labelledby="meeting_room">
+            aria-labelledby="session-label">
       <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
       <mat-icon *ngIf="user.isGuest" svgIcon="meeting_room" class="header-icons"></mat-icon>
     </button>
 
-    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
+    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false) aria-labelledby="login-label">
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
         <h2 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false)>
+    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false) aria-labelledby="login-label">
       <mat-icon class="header-icons">account_box</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
 
-<!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
-  <div id="meeting_room">{{'header.a11y-meeting_room' | translate}}</div>
-  <div id="back">{{'header.a11Y-back' | translate}}</div>
+  <div id="login-label">{{'header.accessibility-login' | translate}}</div>
+  <div id="back-label">{{'header.accessibility-back' | translate}}</div>
+  <div id="session-label">{{'header.accessibility-session' | translate}}</div>
 </div>
