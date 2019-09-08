@@ -55,7 +55,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.announce();
   }
   public announce() {
-    this.liveAnnouncer.announce('Sie befinden sich nun in der Sitzung mit ID.', 'assertive');
+    this.liveAnnouncer.announce('Du befindest dich nun in der Sitzung mit dem Sitzungs-Code.', 'assertive');
   }
 
 
