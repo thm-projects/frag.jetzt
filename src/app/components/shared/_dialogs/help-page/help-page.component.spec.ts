@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/**import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HelpPageComponent } from './help-page.component';
 
@@ -23,3 +23,4 @@ describe('HelpComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+ **/
