@@ -14,9 +14,13 @@
     "answer-statistics": "Statistics",
     "default-content-group": "Default",
     "description": "Description",
-    "session-id": "ID"
+    "session-id": "ID",
+    "a11y-question_answer": "Opens the comment page with all questions and offers the possibility to ask questions.",
+    "a11y-announcer": "You are now in the session with the ID you entered."
   },
   "comment-page": {
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
     "enter-title": "Title",
     "enter-comment": "Your question",
     "send": "Send",

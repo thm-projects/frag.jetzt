@@ -1,16 +1,17 @@
 <div mat-dialog-content>
-  <h3>{{ 'header.sure' | translate }}</h3>
-  <mat-divider></mat-divider>
-  <p>{{ 'header.really-delete-account' | translate }}</p>
-  <ul *ngFor="let room of rooms">
-    <li>{{ room.name }}</li>
-  </ul>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <button mat-raised-button class="abort" (click)="close('abort')">
-      {{ 'header.abort' | translate }}
-    </button>
-    <button mat-raised-button class="delete" (click)="close('delete')">
-      {{ 'header.delete' | translate }}
-    </button>
+  <div style="overflow-y: scroll; max-height: 15rem">
+    <h2>{{ 'header.sure' | translate }}</h2>
+    <mat-divider></mat-divider>
+    <p>{{ 'header.really-delete-account' | translate }}</p>
+    <ul *ngFor="let room of rooms">
+      <li>{{ room.name }}</li>
+    </ul>
   </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="delete-account"
+    confirmButtonLabel="delete"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildDeleteAccountActionCallback()"
+  ></app-dialog-action-buttons>
 </div>

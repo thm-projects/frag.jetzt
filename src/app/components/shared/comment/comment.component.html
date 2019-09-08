@@ -11,7 +11,7 @@
         </ng-template>
       </div>
       <button mat-icon-button *ngIf="comment.read" [disabled]="true" (click)="setRead(comment)">
-        <mat-icon svgIcon="beamer" class="beamer-icon">
+        <mat-icon svgIcon="beamer" class="beamer-icon"
                   matTooltip="{{ 'comment-page.mark-read' | translate }}">
         </mat-icon>
       </button>

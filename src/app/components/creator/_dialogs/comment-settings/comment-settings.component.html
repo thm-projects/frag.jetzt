@@ -1,44 +1,49 @@
 <div mat-dialog-content>
-  <h2>{{'room-page.comments' | translate }}</h2>
+  <h1>{{'room-page.comments' | translate }}</h1>
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <div fxLayout="row">
-      <h3>{{ 'room-page.threshold' | translate}}&nbsp;</h3>
-      <h3><mat-slide-toggle [(ngModel)]="settingThreshold"></mat-slide-toggle></h3>
+      <h2>{{ 'room-page.threshold' | translate}}&nbsp;
+        <mat-slide-toggle [(ngModel)]="settingThreshold" aria-labelledby="threshold" ></mat-slide-toggle></h2>
     </div>
     <div fxLayout="row" *ngIf="settingThreshold">
       <mat-slider id="commentSlider" min="-100" max="0" step="5"
                 [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
-      <h3>&nbsp;{{commentThreshold | number}}</h3>
+      <h2>&nbsp;{{commentThreshold | number}}</h2>
     </div>
   </div>
   <div fxLayout="column">
     <div fxLayout="row">
-      <h3>{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;</h3>
-      <h3><mat-slide-toggle [(ngModel)]="enableCommentModeration"></mat-slide-toggle></h3>
+      <h2>{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
+      <mat-slide-toggle [(ngModel)]="enableCommentModeration" aria-labelledby="settings-comment-moderation"></mat-slide-toggle></h2>
     </div>
     <div fxLayout="row" *ngIf="enableCommentModeration">
-      <h3>{{ 'room-page.settings-direct-send' | translate}}&nbsp;</h3>
-      <h3><mat-slide-toggle [(ngModel)]="directSend"></mat-slide-toggle></h3>
+      <h2>{{ 'room-page.settings-direct-send' | translate}}&nbsp;
+      <mat-slide-toggle [(ngModel)]="directSend" aria-labelledby="settings-direct-send"></mat-slide-toggle></h2>
     </div>
   </div>
   <div fxLayoutAlign="center center">
-    <button mat-raised-button class="export" (click)="openExportDialog()">
+    <button mat-raised-button class="export" (click)="openExportDialog()" aria-labelledby="export-comments">
       <mat-icon>cloud_download</mat-icon>
       {{ 'room-page.export-comments' | translate }}</button>
   </div>
   <div fxLayoutAlign="center center">
-    <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()">
+    <button mat-raised-button class="delete" (click)="openDeleteCommentDialog()" aria-labelledby="delete-all-comments">
       <mat-icon>delete</mat-icon>
       {{ 'room-page.delete-all-comments' | translate }}</button>
   </div>
-  <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" class="submit">
-    <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
-      {{ 'room-page.abort' | translate }}
-    </button>
-    <button mat-raised-button class="update" (click)="closeDialog()">
-      {{ 'room-page.update' | translate }}
-    </button>
-  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="room-page"
+    confirmButtonLabel="update"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildSaveActionCallback()"
+  ></app-dialog-action-buttons>
+</div>
+
+<div class="visually-hidden">
+  <div id = "threshold">{{'room-page.a11y-threshold' | translate}} </div>
+  <div id = "settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
+  <div id = "settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
+  <div id = "export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
+  <div id = "delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
 </div>

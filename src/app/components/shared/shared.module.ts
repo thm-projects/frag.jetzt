@@ -25,6 +25,7 @@ import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account.component';
+import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account
     CommentComponent,
     CreateCommentComponent,
     PresentCommentComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    DialogActionButtonsComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -75,7 +77,8 @@ import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account
     StatisticsPageComponent,
     CreateCommentComponent,
     PresentCommentComponent,
-    CommentComponent
+    CommentComponent,
+    DialogActionButtonsComponent
   ],
   entryComponents: [
     RoomCreateComponent,

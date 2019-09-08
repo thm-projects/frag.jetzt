@@ -11,7 +11,7 @@
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
-    </button>
+  </button>
 
     <span class="fill-remaining-space"></span>
     <button mat-button aria-labelledby="style-label" [matMenuTriggerFor]="themeMenu">
@@ -19,7 +19,7 @@
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.style' | translate}}
         </span>
-    </button>
+  </button>
 
     <span class="fill-remaining-space"></span>
     <button mat-button aria-labelledby="language-label" [matMenuTriggerFor]="langMenu">
@@ -27,7 +27,7 @@
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.language' | translate}}
         </span>
-    </button>
+  </button>
 
     <span class="fill-remaining-space"></span>
     <button (click)="showDataProtection()" mat-button aria-labelledby="data-protection-label">
@@ -42,10 +42,17 @@
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.imprint' | translate}}
       </span>
-    </button>
+  </button>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <mat-grid-list cols="2">
+        <mat-grid-tile *ngFor="let theme of themes">
+          <button mat-icon-button class="color-button" [ngStyle]="{'color':theme.previewColor}" (click)="changeTheme(theme)">
+            <mat-icon class="color-icon" matTooltip="{{theme.name}}">lens</mat-icon>
+            <mat-icon *ngIf="themeClass === theme.name" class="check">check_circle</mat-icon>
+          </button>
+        </mat-grid-tile>
+        <!--
         <mat-grid-tile>
           <button mat-menu-item class="color-button" (click)="changeTheme('arsnova')"
                   aria-labelledby="style-default-label">
@@ -72,6 +79,7 @@
             <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>
+        -->
       </mat-grid-list>
     </mat-menu>
 

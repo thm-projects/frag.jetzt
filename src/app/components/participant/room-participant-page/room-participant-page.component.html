@@ -6,15 +6,15 @@
         <span class="fill-remaining-space"></span>
         <mat-card-header fxLayoutAlign="center">
           <mat-card-title fxLayoutAlign="center">
-            <h2>{{ room.name }}</h2>
+            <h1>{{ room.name }}</h1>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
             <mat-icon *ngIf="moderationEnabled" class="gavel">
               gavel
             </mat-icon>
-            <h3>
+            <h2>
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
-            </h3>
+            </h2>
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
@@ -24,21 +24,21 @@
       </div>
       <mat-divider></mat-divider>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <h4>{{room.description.trim()}}</h4>
+        <h3>{{room.description.trim()}}</h3>
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
+          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
             </mat-icon>
-            <h3>{{ 'room-page.create-comment' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
+            <h2>{{ 'room-page.create-comment' | translate}}</h2>         <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
         <!--  <mat-grid-tile>
             <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
               <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down</mat-icon>
-              <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
+              <h2 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h2>
             </button>
           </mat-grid-tile> -->
       </mat-grid-list>
@@ -47,4 +47,10 @@
     </mat-card>
 
   </div>
+</div>
+
+<!--Hidden Div's for a11y-Descriptions-->
+<div class="visually-hidden">
+  <div id="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
+  <!--<div id="announcer_text">{{'room-page.a11y-announcer' | translate}}</div>-->
 </div>

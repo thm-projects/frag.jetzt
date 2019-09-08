@@ -37,7 +37,11 @@
       {{ 'register.password-unmatch' | translate }}
     </mat-error>
   </mat-form-field>
-
-  <button mat-raised-button color="accent" type="submit">{{ 'register.register' | translate }}</button>
-
+  <app-dialog-action-buttons
+    buttonsLabelSection="register"
+    confirmButtonLabel="register"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildRegisterActionCallback(userName, userPassword1)"
+  ></app-dialog-action-buttons>
 </form>
+

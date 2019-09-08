@@ -13,6 +13,7 @@ import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component'
 import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
 import { HelpPageComponent } from '../_dialogs/help-page/help-page.component';
 import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
+import { Theme } from '../../../../theme/Theme';
 
 @Component({
   selector: 'app-footer',
@@ -21,13 +22,17 @@ import { DataProtectionComponent } from '../../home/_dialogs/data-protection/dat
 })
 export class FooterComponent implements OnInit {
 
-  room: Room;
-  user: User;
+  public demoId = '78844652';
 
-  open: string;
-  deviceType: string;
+  public room: Room;
+  public user: User;
 
-  themeClass = localStorage.getItem('theme');
+  public open: string;
+  public deviceType: string;
+
+  public themeClass = localStorage.getItem('theme');
+
+  public themes: Theme[];
 
   constructor(public notificationService: NotificationService,
               public router: Router,
@@ -45,69 +50,69 @@ export class FooterComponent implements OnInit {
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
     });
+    this.themes = this.themeService.getThemes();
 
     if (!localStorage.getItem('cookieAccepted')) {
       this.showCookieModal();
     }
-
   }
 
-  showDemo() {
-    const dialogRef = this.dialog.open(DemoVideoComponent, {
-      position: {
-        left: '10px',
-        right: '10px'
-      },
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
+showDemo() {
+  const dialogRef = this.dialog.open(DemoVideoComponent, {
+    position: {
+      left: '10px',
+      right: '10px'
+    },
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    height: '100%',
+    width: '100%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  showCookieModal() {
-    const dialogRef = this.dialog.open(CookiesComponent, {
-      height: '95%',
-      width: '60%',
-      autoFocus: false
-    });
-    dialogRef.disableClose = true;
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
+showCookieModal() {
+  const dialogRef = this.dialog.open(CookiesComponent, {
+    height: '95%',
+    width: '60%',
+    autoFocus: false
+  });
+  dialogRef.disableClose = true;
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  showImprint() {
-    const dialogRef = this.dialog.open(ImprintComponent, {
-      height: '95%',
-      width: '75%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
+showImprint() {
+  const dialogRef = this.dialog.open(ImprintComponent, {
+    height: '95%',
+    width: '75%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  showHelp() {
-    const dialogRef = this.dialog.open(HelpPageComponent, {
-      height: '95%',
-      width: '75%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
+showHelp() {
+  const dialogRef = this.dialog.open(HelpPageComponent, {
+    height: '95%',
+    width: '75%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  showDataProtection() {
-    const dialogRef = this.dialog.open(DataProtectionComponent, {
-      height: '95%',
-      width: '75%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
+showDataProtection() {
+  const dialogRef = this.dialog.open(DataProtectionComponent, {
+    height: '95%',
+    width: '75%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  useLanguage(language: string) {
-    this.translateService.use(language);
-    localStorage.setItem('currentLang', language);
-    this.langService.langEmitter.emit(language);
-  }
+useLanguage(language: string) {
+  this.translateService.use(language);
+  localStorage.setItem('currentLang', language);
+  this.langService.langEmitter.emit(language);
+}
 
-  changeTheme(theme) {
-    this.themeClass = theme;
-    this.themeService.activate(theme);
-  }
+changeTheme(theme: Theme) {
+  this.themeClass = theme.name;
+  this.themeService.activate(theme.name);
+}
 }

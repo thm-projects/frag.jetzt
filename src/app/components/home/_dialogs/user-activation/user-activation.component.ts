@@ -40,4 +40,20 @@ export class UserActivationComponent implements OnInit {
       }
     );
   }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.dialogRef.close();
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildActivationActionCallback(activationKey: HTMLInputElement): () => void {
+    return () => this.login(activationKey.value);
+  }
 }

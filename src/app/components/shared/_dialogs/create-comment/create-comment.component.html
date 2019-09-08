@@ -5,10 +5,10 @@
     <mat-placeholder class="placeholder">{{ 'comment-page.enter-comment' | translate}}</mat-placeholder>
     <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
   </mat-form-field>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
-    <button mat-raised-button color="warn"
-            (click)="onNoClick()">{{ 'comment-page.abort' | translate}}</button>
-    <button mat-raised-button class="send"
-            (click)="closeDialog(commentBody.value)">{{ 'comment-page.send' | translate}}</button>
-  </div>
 </div>
+<app-dialog-action-buttons
+  buttonsLabelSection="comment-page"
+  confirmButtonLabel="send"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCreateCommentActionCallback(commentBody)"
+></app-dialog-action-buttons>

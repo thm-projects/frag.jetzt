@@ -1,11 +1,10 @@
 <h3>{{ 'room-page.sure' | translate }}</h3>
 <mat-divider></mat-divider>
 <p>{{ 'comment-list.really-delete' | translate }}</p>
-<div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-  <button mat-raised-button class="abort" (click)="close('abort')">
-    {{ 'content.abort' | translate }}
-  </button>
-  <button mat-raised-button class="delete" (click)="close('delete')">
-    {{ 'content.delete' | translate }}
-  </button>
-</div>
+<app-dialog-action-buttons
+  buttonsLabelSection="content"
+  confirmButtonLabel="delete"
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCommentDeleteActionCallback()"
+></app-dialog-action-buttons>
