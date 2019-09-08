@@ -1,9 +1,9 @@
 {
   "home-page": {
-    "no-room-found": "Es wurde keine Session mit dieser ID gefunden.",
-    "please-enter": "Bitte Session-ID eingeben",
-    "only-numbers": "Eine Session-ID besteht aus einer Kombination aus 8 Ziffern.",
-    "exactly-8": "Eine Session-ID hat genau 8 Ziffern."
+    "no-room-found": "Es wurde keine Sitzung mit diesem Sitzungs-Code gefunden.",
+    "please-enter": "Bitte Sitzungs-Code eingeben.",
+    "only-numbers": "Ein Sitzungs-Code besteht aus einer Kombination aus 8 Ziffern.",
+    "exactly-8": "Ein Sitzungs-Code hat genau 8 Ziffern."
   },
   "room-page": {
     "comments": "Fragen",
@@ -13,10 +13,10 @@
     "live-feedback": "Live Feedback",
     "answer-statistics": "Statistiken",
     "default-content-group": "Standard",
-    "description": "Beschreibung der Session",
-    "session-id": "ID",
-    "a11y-question_answer": "Öffnet die Kommentar-Seite mit allen Fragen und bietet die Möglichkeit Fragen zu stellen.",
-    "a11y-announcer": "Sie befinden sich nun in der Session mit der von Ihnen eingegebenen ID."
+    "description": "Beschreibung der Sitzung",
+    "session-id": "Code",
+    "a11y-question_answer": "Öffnet die Kommentar-Seite mit allen Fragen und bietet die Möglichkeit, Fragen zu stellen.",
+    "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Sitzungs-Code."
   },
   "comment-page": {
     "cancel": "Zurück",
@@ -29,10 +29,10 @@
     "error-title": "Bitte gib einen Titel ein.",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "no-comments": "",
-    "mark-not-correct": "Dozent/in hat die Frage bejaht.",
-    "mark-not-wrong": "Dozent/in hat die Frage verneint",
-    "mark-not-favorite": "Bonus-Frage: Dozent/in hält die Frage für besonders interessant.",
-    "mark-read": "Dozent/in hat die Frage im Hörsaal besprochen.",
+    "mark-not-correct": "Dozent hat die Frage bejaht.",
+    "mark-not-wrong": "Dozent hat die Frage verneint",
+    "mark-not-favorite": "Bonus-Frage: Dozent hält die Frage für besonders interessant.",
+    "mark-read": "Dozent hat die Frage im Hörsaal besprochen.",
     "vote-up": "Hochvoten",
     "vote-down": "Runtervoten"
   },

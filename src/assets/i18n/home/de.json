@@ -13,7 +13,7 @@
 		"delete-account": "Konto löschen",
 		"sure": "Bist du sicher?",
 		"really-delete-account": "Willst du dein Konto mit den zugehörigen Sitzungen wirklich unwiderruflich löschen?",
-		"account-deleted": "Dein Konto wurde erfolgreich gelöscht.",
+		"account-deleted": "Dein Konto wurde gelöscht.",
 		"abort": "Abbrechen",
 		"delete": "Löschen",
     "a11y-meeting_room": "Öffnet das Sitzungs-Menu mit Optionen für Benutzer, Pfeiltasten Oben und Unten für die Navigation innerhalb des Menus verwenden.",
@@ -96,7 +96,7 @@
     "register-description": "Benutzer registrieren",
 		"register-successful": "Erfolgreich registriert. Bitte prüfe dein Postfach.",
 		"register-unsuccessful": "Bitte prüfe deine Eingaben.",
-		"register-request-error": "Etwas ist bei der Registierung fehlgeschlagen. Hast du dich vielleicht schon registriert?"
+		"register-request-error": "Etwas ist bei der Registrierung fehlgeschlagen. Hast du dich vielleicht schon registriert?"
 	},
 	"session": {
 		"session-name": "Name der Sitzung",
@@ -137,10 +137,10 @@
     "moderator-role": "Moderator",
     "room-history-headline": "Deine besuchten Sitzungen",
     "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
-    "join-message-template": "Sitzung {{session}} mit dem Sitzungs-Code {{id}} und in der Rolle {{role}} beitreten",
+    "join-message-template": "Sitzung {{session}} mit dem Sitzungs-Code {{id}} und in der Rolle {{role}} beitreten.",
     "filter-message": "Nach Name oder Sitzungs-Code filtern",
-    "table-label": "Nachfolgend findest du eine Liste deiner besuchten Sitzungen",
+    "table-label": "Nachfolgend findest du eine Liste deiner besuchten Sitzungen.",
     "entry": "Eintrag ",
-    "filter": "Hier kannst du deine besuchten Sitzungen filtern"
+    "filter": "Hier kannst du deine besuchten Sitzungen filtern."
   }
 }
