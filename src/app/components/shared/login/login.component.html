@@ -3,6 +3,7 @@
           matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
   </button>
+  <mat-divider></mat-divider>
   <mat-form-field class="input-block">
     <input #userEmail [errorStateMatcher]="matcher" [formControl]="usernameFormControl" matInput
            name="username" placeholder="{{ 'login.email' | translate }}"/>

@@ -28,13 +28,11 @@
 	"login-page": {
     "cancel": "Zurück",
     "cancel-description": "Zurück",
-		"creator": "Dozent",
-		"participant": "Student",
 		"password-reset": "Passwort vergessen?",
 		"not-registered": "Noch kein Konto?",
 		"register": "Registrieren",
 		"welcome": "Online fragen & Fragen voten",
-		"login": "Anmelden"
+		"login": "Anmelden mit Konto"
 	},
 	"home-page": {
 		"session-id": "Sitzungs-Code",
@@ -54,7 +52,7 @@
     "cancel": "Zurück",
     "cancel-description": "Zurück",
     "header": "Login",
-		"email": "Adresse",
+		"email": "Adresse als Benutzername",
 		"email-invalid": "Adresse ungültig",
 		"email-required": "Adresse erforderlich",
 		"guest-login": "Anmelden als Gast",
@@ -69,8 +67,7 @@
 		"activation-key-required": "Aktivierungs-Schlüssel erforderlich",
 		"activation-key-incorrect": "Aktivierungs-Schlüssel falsch",
 		"or": "oder",
-		"guest-login-tooltip": "Erstellte Sitzungen werden mit allen Fragen nach dem Abmelden gelöscht.",
-		"login-tooltip": "Sitzungen mit allen Fragen werden für 180 Tage gespeichert."
+		"guest-login-tooltip": "Als Gast erstellte Sitzungen werden nach dem Abmelden wieder gelöscht. Mit einem Konto erstellte Sitzungen werden nach dem letzten Besuch für 180 Tage gespeichert."
 	},
 	"password-reset": {
     "cancel": "Zurück",
