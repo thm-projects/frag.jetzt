@@ -50,18 +50,19 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     this._r.listen(document, 'keyup', (event) => {
       if (event.keyCode === 49) {
         document.getElementById('question_answer-button').focus();
+      } else if (event.keyCode === 51) {
+        this.liveAnnouncer.announce('Aktueller Sitzungs-Code:' + this.room.shortId.slice(0, 8));
+      } else if (event.keyCode === 57) {
+        this.announce();
       }
-      /* else if (event.keyCode === 48) {
-        document.getElementById('back-button').focus();
-      } else if (event.keyCode === 50) {
-        document.getElementById('session-button').focus();
-      }*/
     });
   }
 
   public announce() {
     // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
-    this.liveAnnouncer.announce('Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Sitzungs-Code.', 'assertive');
+    this.liveAnnouncer.announce('Sie befinden sich in der Sitzung mit dem von Ihnen eingegebenen Sitzungs-Code. Drücken Sie die Taste 1 ' +
+      'um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, die Taste 3 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelanngen,' +
+      ' oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 
   afterRoomLoadHook() {
