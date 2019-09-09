@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -29,7 +29,8 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService,
               public dialog: MatDialog,
-              private userService: UserService
+              private userService: UserService,
+              private _r: Renderer2
   ) {
   }
 
@@ -73,6 +74,13 @@ export class HeaderComponent implements OnInit {
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+    this._r.listen(document, 'keyup', (event) => {
+      if (event.keyCode === 48) {
+        document.getElementById('back-button').focus();
+      } else if (event.keyCode === 50) {
+        document.getElementById('session-button').focus();
+      }
+    });
   }
 
   getTime(time: Date) {
