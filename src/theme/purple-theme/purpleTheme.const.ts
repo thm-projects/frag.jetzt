@@ -9,11 +9,13 @@ export const purple = {
   '--background': '#d9d5b8',
   '--surface': '#e0dcbf',
   '--dialog': '#e0dcbf',
+  '--cancel': '#9E9E9E',
 
   '--on-primary': '#e0dcbf',
   '--on-secondary': '#e0dcbf',
   '--on-background': '#000000',
   '--on-surface': '#000000',
+  '--on-cancel': '#000000',
 
   '--green': '#4caf50',
   '--red': '#f44336',

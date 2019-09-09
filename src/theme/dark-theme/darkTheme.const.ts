@@ -9,11 +9,13 @@ export const dark = {
   '--background': '#121212',
   '--surface': '#212121',
   '--dialog': '#37474f',
+  '--cancel': '#26343c',
 
   '--on-primary': '#000000',
   '--on-secondary': '#000000',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
+  '--on-cancel': '#FFFFFF',
 
   '--green': '#4caf50',
   '--red': '#f44336',

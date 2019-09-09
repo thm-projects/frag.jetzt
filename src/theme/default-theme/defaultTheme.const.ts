@@ -9,11 +9,13 @@ export const arsnova = {
   '--background': '#fafafa',
   '--surface': '#e0e0e0',
   '--dialog': '#f2f4f5',
+  '--cancel': '#9E9E9E',
 
   '--on-primary': '#000000',
   '--on-secondary': '#ffffff',
   '--on-background': '#000000',
   '--on-surface': '#000000',
+  '--on-cancel': '#000000',
 
   '--green': '#4caf50',
   '--red': '#f44336',
