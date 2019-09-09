@@ -45,7 +45,7 @@
   </button>
 </div>
 <app-dialog-action-buttons
-  spacing=false
+  [spacing]="false"
   buttonsLabelSection="login-page"
   confirmButtonLabel="login"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
