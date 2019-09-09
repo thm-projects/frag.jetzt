@@ -35,7 +35,7 @@ export class RoomJoinComponent implements OnInit {
     private translateService: TranslateService,
     public authenticationService: AuthenticationService,
     private moderatorService: ModeratorService,
-    private eventService: EventService
+    public eventService: EventService
   ) {
   }
 
