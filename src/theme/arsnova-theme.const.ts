@@ -5,11 +5,9 @@ import { purple } from './purple-theme/purpleTheme.const';
 import { highcontrast } from './high-contrast-theme/highContrastTheme.const';
 
 export const themes = {
-  /*
   arsnova: arsnova,
   dark: dark,
   blue: blue,
-   */
-  purple: purple,
+  projector: purple,
   highcontrast: highcontrast
 };
