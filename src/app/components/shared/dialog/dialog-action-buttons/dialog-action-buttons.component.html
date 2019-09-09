@@ -1,4 +1,7 @@
-<div class="dialog-action-buttons">
+<div [ngClass]="{
+  'dialog-action-buttons': true,
+  'no-spacing': (spacing === 'false')
+}">
   <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="buttons">
     <button
