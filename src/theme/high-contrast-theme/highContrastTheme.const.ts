@@ -6,12 +6,12 @@ export const highcontrast = {
   '--secondary': '#fb9a1c',
   '--secondary-variant': '#fb9a1c',
 
-  '--background': '#1e1e1e',
-  '--surface': '#141414',
-  '--dialog': '#141414',
+  '--background': '#141414',
+  '--surface': '#1e1e1e',
+  '--dialog': '#1e1e1e',
 
   '--on-primary': '#141414',
-  '--on-secondary': '#FFFFFF',
+  '--on-secondary': '#141414',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
 
