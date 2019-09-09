@@ -50,6 +50,8 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     this._r.listen(document, 'keyup', (event) => {
       if (event.keyCode === 49) {
         document.getElementById('question_answer-button').focus();
+      } else if (event.keyCode === 3) {
+        document.getElementById('ID').focus();
       }
     });
   }
