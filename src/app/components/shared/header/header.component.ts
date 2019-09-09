@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +31,7 @@ export class HeaderComponent implements OnInit {
               private translationService: TranslateService,
               public dialog: MatDialog,
               private userService: UserService,
+              private eventService: EventService,
               private _r: Renderer2
   ) {
   }
@@ -75,9 +77,9 @@ export class HeaderComponent implements OnInit {
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
     this._r.listen(document, 'keyup', (event) => {
-      if (event.keyCode === 48) {
+      if (event.keyCode === 48 && this.eventService.focusOnInput === false) {
         document.getElementById('back-button').focus();
-      } else if (event.keyCode === 50) {
+      } else if (event.keyCode === 50 && this.eventService.focusOnInput === false) {
         document.getElementById('session-button').focus();
       }
     });

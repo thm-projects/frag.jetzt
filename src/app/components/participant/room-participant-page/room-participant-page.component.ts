@@ -60,9 +60,10 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
 
   public announce() {
     // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
-    this.liveAnnouncer.announce('Sie befinden sich in der Sitzung mit dem von Ihnen eingegebenen Sitzungs-Code. Drücken Sie die Taste 1 ' +
-      'um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, die Taste 3 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelanngen,' +
-      ' oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    this.liveAnnouncer.announce('Sie befinden sich in der Sitzung mit dem von Ihnen eingegebenen Sitzungs-Code. ' +
+      'Drücken Sie die Taste 1 um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, ' +
+      'die Taste 3 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelanngen, ' +
+      'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 
   afterRoomLoadHook() {

@@ -13,6 +13,7 @@ export class EventService {
 
   constructor() {
     this._eventBus = new Subject<BroadcastEvent>();
+    this.focusOnInput = false;
   }
 
   broadcast(key: any, data?: any) {
