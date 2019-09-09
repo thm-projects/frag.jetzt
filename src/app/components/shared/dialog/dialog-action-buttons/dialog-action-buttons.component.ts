@@ -47,6 +47,12 @@ export class DialogActionButtonsComponent implements OnInit {
 
 
   /**
+   * TRUE if some spacing will be rendered above the action buttons.
+   */
+  @Input() spacing = true;
+
+
+  /**
    * The ARIA identifier prefix.
    */
   private ariaPrefix: string = (new Date().getTime().toString());

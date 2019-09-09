@@ -1,9 +1,15 @@
-<form fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="5px">
-  <button (click)="guestLogin()" class="guest" mat-raised-button type="button"
+<div fxLayout="column" fxLayoutAlign="space-around">
+  <button (click)="guestLogin()" class="guest" mat-flat-button type="button"
           matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
   </button>
-  <mat-divider></mat-divider>
+</div>
+<mat-divider></mat-divider>
+<form
+  fxLayout="column"
+  fxLayoutGap="10px"
+  (ngSubmit)="login(userEmail.value, userPassword.value)"
+  >
   <mat-form-field class="input-block">
     <input #userEmail [errorStateMatcher]="matcher" [formControl]="usernameFormControl" matInput
            name="username" placeholder="{{ 'login.email' | translate }}"/>
@@ -19,22 +25,29 @@
            name="password" placeholder="{{ 'login.password' | translate }}" type="password"/>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <div>
-    <button (click)="openPasswordDialog()" class="pwReset" mat-button>
+  <button class="login" mat-flat-button type="submit">
+    {{ 'login-page.login' | translate }}
+  </button>
+  <div class="forgot-password">
+    <a
+      href=""
+      (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
+      role="button"
+    >
       {{ 'login-page.password-reset' | translate }}
-    </button>
-  </div>
-  <div fxLayout="row" class="register">
-    <span class="fill-remaining-space"></span>
-    <p>{{ 'login-page.not-registered' | translate }}</p>
-    <button (click)="openRegisterDialog()" class="regButton" mat-button>
-      {{ 'login-page.register' | translate }}
-    </button>
+    </a>
   </div>
 </form>
+<mat-divider></mat-divider>
+<div fxLayout="row" class="register">
+  <p>{{ 'login-page.not-registered' | translate }}</p>
+  <button (click)="openRegisterDialog()" class="regButton" mat-button>
+    {{ 'login-page.register' | translate }}
+  </button>
+</div>
 <app-dialog-action-buttons
+  [spacing]="false"
   buttonsLabelSection="login-page"
   confirmButtonLabel="login"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildLoginActionCallback(userEmail, userPassword)"
 ></app-dialog-action-buttons>

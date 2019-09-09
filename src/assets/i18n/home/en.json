@@ -180,8 +180,10 @@
   "no-room-history": "You haven't joined any sessions yet.",
   "join-message-template": "Join Session {{session}} with ID {{id}} and role {{role}}",
   "filter-message": "Filter by Name or Session ID",
-  "table-label": "Below you find a list of your visited sessions",
+  "session-history-label": "Below you will find a list of the sessions attended.",
   "entry": "Entry ",
-  "filter": "Here you can filter your visited sessions"
+  "filter": "Here you can filter your visited sessions",
+  "session-history": "Your session history contains {count}} sessions.",
+  "session-history-1": "Your session history contains one session."
   }
 }

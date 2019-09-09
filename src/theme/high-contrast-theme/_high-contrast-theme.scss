@@ -1,0 +1,8 @@
+@import './../../../node_modules/@angular/material/theming';
+
+$purple-primary: mat-palette($mat-purple,500);
+$purple-accent: mat-palette($mat-amber, 200); //$mat-purple-gray, A200, A100, A400);
+
+$purple-warn: mat-palette($mat-red, A100);
+
+$purple-theme: mat-light-theme($purple-primary, $purple-accent, $purple-warn);
