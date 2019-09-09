@@ -3,7 +3,8 @@
 }
 
 .dialog-action-buttons .cancel-button {
-  color: var(--on-surface);
+  background-color: var(--cancel);
+  color: var(--on-cancel);
 }
 
 .primary-confirm-button {
