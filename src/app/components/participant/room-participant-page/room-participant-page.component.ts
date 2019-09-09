@@ -52,7 +52,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         document.getElementById('question_answer-button').focus();
       } else if (event.keyCode === 51) {
         this.liveAnnouncer.announce('Aktueller Sitzungs-Code:' + this.room.shortId.slice(0, 8));
-      } else if (event.keyCode === 57) {
+      } else if (event.keyCode === 57 || event.keyCode === 27) {
         this.announce();
       }
     });

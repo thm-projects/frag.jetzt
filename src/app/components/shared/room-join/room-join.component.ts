@@ -11,6 +11,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { Moderator } from '../../../models/moderator';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-room-join',
@@ -33,7 +34,8 @@ export class RoomJoinComponent implements OnInit {
     public notificationService: NotificationService,
     private translateService: TranslateService,
     public authenticationService: AuthenticationService,
-    private moderatorService: ModeratorService
+    private moderatorService: ModeratorService,
+    private eventService: EventService
   ) {
   }
 

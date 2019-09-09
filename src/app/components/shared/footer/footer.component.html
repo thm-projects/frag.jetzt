@@ -22,7 +22,7 @@
   </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button aria-labelledby="language-label" [matMenuTriggerFor]="langMenu">
+    <button id="language-menu" mat-button aria-labelledby="language-label" [matMenuTriggerFor]="langMenu">
       <mat-icon>language</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.language' | translate}}
