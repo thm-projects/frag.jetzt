@@ -17,6 +17,7 @@ import { LoginComponent } from '../../shared/login/login.component';
 export class NewLandingComponent implements OnInit {
 
   user: User;
+  cookiesDeclined: boolean;
 
   constructor(private router: Router,
               public dialog: MatDialog,
@@ -29,6 +30,7 @@ export class NewLandingComponent implements OnInit {
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.cookiesDeclined = localStorage.getItem('cookieAccepted') === 'false';
   }
 
   createSession() {

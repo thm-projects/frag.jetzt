@@ -27,6 +27,7 @@ export class RoomJoinComponent implements OnInit {
   roomFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
 
   matcher = new RegisterErrorStateMatcher();
+  private cookiesDeclined: boolean;
 
   constructor(
     private roomService: RoomService,
@@ -42,6 +43,7 @@ export class RoomJoinComponent implements OnInit {
   ngOnInit() {
     this.roomIdElement.nativeElement.focus();
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
+    this.cookiesDeclined = localStorage.getItem('cookieAccepted') === 'false';
   }
 
   onEnter() {
