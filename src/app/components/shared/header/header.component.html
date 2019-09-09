@@ -2,7 +2,7 @@
   <mat-toolbar-row>
     <button mat-icon-button  aria-labelledby="back-label" *ngIf="router.url !== '/home'" (click)="goBack()"
             matTooltip="{{'header.back' | translate}}">
-      <mat-icon class="header-icons">keyboard_arrow_left</mat-icon>
+      <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
     <h2 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
