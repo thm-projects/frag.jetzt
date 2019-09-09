@@ -9,6 +9,11 @@ import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
 import { ThemeService } from '../../../../theme/theme.service';
+import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component';
+import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
+import { HelpPageComponent } from '../_dialogs/help-page/help-page.component';
+import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
+import { Theme } from '../../../../theme/Theme';
 
 @Component({
   selector: 'app-footer',
@@ -17,18 +22,17 @@ import { ThemeService } from '../../../../theme/theme.service';
 })
 export class FooterComponent implements OnInit {
 
-  blogUrl = 'https://arsnova.thm.de/blog/';
-  dsgvoUrl = 'https://arsnova.thm.de/blog/datenschutzerklaerung/';
-  imprUrl = 'https://arsnova.thm.de/blog/impressum/';
-  demoId = '78844652';
+  public demoId = '78844652';
 
-  room: Room;
-  user: User;
+  public room: Room;
+  public user: User;
 
-  open: string;
-  deviceType: string;
+  public open: string;
+  public deviceType: string;
 
-  themeClass = localStorage.getItem('theme');
+  public themeClass = localStorage.getItem('theme');
+
+  public themes: Theme[];
 
   constructor(public notificationService: NotificationService,
               public router: Router,
@@ -46,73 +50,69 @@ export class FooterComponent implements OnInit {
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
     });
+    this.themes = this.themeService.getThemes();
+
+    if (!localStorage.getItem('cookieAccepted')) {
+      this.showCookieModal();
+    }
   }
 
-  navToBlog() {
-    this.translateService.get('footer.will-open').subscribe(message => {
-      this.notificationService.show('Blog' + message, this.open, {
-        duration: 4000
-      });
-    });
-    this.notificationService.snackRef.afterDismissed().subscribe(info => {
-      if (info.dismissedByAction === true) {
-        window.open(this.blogUrl, '_blank');
-      }
-    });
-  }
+showDemo() {
+  const dialogRef = this.dialog.open(DemoVideoComponent, {
+    position: {
+      left: '10px',
+      right: '10px'
+    },
+    maxWidth: '100vw',
+    maxHeight: '100vh',
+    height: '100%',
+    width: '100%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  navToDSGVO() {
-    this.translateService.get('footer.will-open').subscribe(message => {
-      this.translateService.get('footer.dsgvo').subscribe(what => {
-        this.notificationService.show(what + message, this.open, {
-          duration: 4000
-        });
-      });
-    });
-    this.notificationService.snackRef.afterDismissed().subscribe(info => {
-      if (info.dismissedByAction === true) {
-        window.open(this.dsgvoUrl, '_blank');
-      }
-    });
-  }
+showCookieModal() {
+  const dialogRef = this.dialog.open(CookiesComponent, {
+    height: '95%',
+    width: '60%',
+    autoFocus: false
+  });
+  dialogRef.disableClose = true;
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  navToImprint() {
-    this.translateService.get('footer.will-open').subscribe(message => {
-      this.translateService.get('footer.imprint').subscribe(what => {
-        this.notificationService.show(what + message, this.open, {
-          duration: 4000
-        });
-      });
-    });
-    this.notificationService.snackRef.afterDismissed().subscribe(info => {
-      if (info.dismissedByAction === true) {
-        window.open(this.imprUrl, '_blank');
-      }
-    });
-  }
+showImprint() {
+  const dialogRef = this.dialog.open(ImprintComponent, {
+    height: '95%',
+    width: '75%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  showDemo() {
-    const dialogRef = this.dialog.open(DemoVideoComponent, {
-      position: {
-        left: '10px',
-        right: '10px'
-      },
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%'
-    });
-    dialogRef.componentInstance.deviceType = this.deviceType;
-  }
+showHelp() {
+  const dialogRef = this.dialog.open(HelpPageComponent, {
+    height: '95%',
+    width: '75%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  useLanguage(language: string) {
-    this.translateService.use(language);
-    localStorage.setItem('currentLang', language);
-    this.langService.langEmitter.emit(language);
-  }
+showDataProtection() {
+  const dialogRef = this.dialog.open(DataProtectionComponent, {
+    height: '95%',
+    width: '75%'
+  });
+  dialogRef.componentInstance.deviceType = this.deviceType;
+}
 
-  changeTheme(theme) {
-    this.themeClass = theme;
-    this.themeService.activate(theme);
-  }
+useLanguage(language: string) {
+  this.translateService.use(language);
+  localStorage.setItem('currentLang', language);
+  this.langService.langEmitter.emit(language);
+}
+
+changeTheme(theme: Theme) {
+  this.themeClass = theme.name;
+  this.themeService.activate(theme.name);
+}
 }

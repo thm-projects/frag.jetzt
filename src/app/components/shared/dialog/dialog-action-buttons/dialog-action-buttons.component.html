@@ -1,0 +1,36 @@
+<div class="dialog-action-buttons">
+  <mat-divider></mat-divider>
+  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="buttons">
+    <button
+      *ngIf="cancelButtonClickAction !== undefined"
+      mat-button
+      type="button"
+      class="cancel-button"
+      attr.aria-labelledby="{{ ariaPrefix + 'cancel' | translate }}"
+      (click)="performCancelButtonClickAction()"
+    >{{ buttonsLabelSection + '.cancel' | translate}}</button>
+    <button
+      *ngIf="confirmButtonClickAction !== undefined"
+      type="button"
+      mat-flat-button
+      class="mat-flat-button {{ confirmButtonType }}-confirm-button"
+      attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
+      (click)="performConfirmButtonClickAction()"
+    >{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
+  </div>
+  <!--Hidden Div's for a11y-Descriptions-->
+  <div class="visually-hidden">
+    <div
+      *ngIf="cancelButtonClickAction !== undefined"
+      id="{{ ariaPrefix + 'cancel' | translate }}"
+    >
+      {{ buttonsLabelSection + '.cancel-description' | translate }}
+    </div>
+    <div
+      *ngIf="confirmButtonClickAction !== undefined"
+      id="{{ ariaPrefix + 'confirm' | translate }}"
+    >
+      {{ buttonsLabelSection + '.' + confirmButtonLabel + '-description' | translate }}
+    </div>
+  </div>
+</div>

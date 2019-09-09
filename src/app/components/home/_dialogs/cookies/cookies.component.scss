@@ -1,0 +1,21 @@
+.mat-raised-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.mat-stroked-button {
+  color: var(--on-surface);
+}
+
+div {
+  color: var(--on-surface);
+}
+
+.info{
+  vertical-align: bottom;
+  margin-left: -5px;
+}
+
+.info-icon{
+  font-size: 19px;
+}

@@ -1,11 +1,15 @@
-<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px" >
+<div class="userHomeContainer" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
+  <h1 fxLayoutAlign="center">{{ 'session.join' | translate }}</h1>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px">
     <app-room-join></app-room-join>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px">
-    <button mat-raised-button (click)="openCreateRoomDialog()">
+    <button mat-raised-button (click)="openCreateRoomDialog()"
+            title="{{ 'home-page.create-session-description' | translate }}"
+    >
       <mat-icon>add</mat-icon>
-      {{ 'home-page.create-session' | translate }}</button>
+      {{ 'home-page.create-session' | translate }}
+    </button>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px">
     <app-room-list [user]="user"></app-room-list>

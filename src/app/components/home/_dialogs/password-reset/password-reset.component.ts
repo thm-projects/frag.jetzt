@@ -35,6 +35,15 @@ export class PasswordResetComponent implements OnInit {
   ngOnInit() {
   }
 
+
+  /**
+   * Closes the room create dialog on call.
+   */
+  closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+
   resetPassword(username: string): void {
     username = username.trim();
 
@@ -43,7 +52,7 @@ export class PasswordResetComponent implements OnInit {
         this.translationService.get('password-reset.reset-successful').subscribe(message => {
           this.notificationService.show(message);
         });
-        this.dialogRef.close();
+        this.closeDialog();
       });
     } else {
       this.translationService.get('password-reset.input-incorrect').subscribe(message => {
@@ -52,4 +61,19 @@ export class PasswordResetComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.closeDialog();
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildPasswordResetActionCallback(email: HTMLInputElement): () => void {
+    return () => this.resetPassword(email.value);
+  }
 }

@@ -7,7 +7,7 @@
         <span class="fill-remaining-space"></span>
         <mat-card-header fxLayoutAlign="center" fxLayout="row">
           <mat-card-title fxLayoutAlign="center">
-            <h2>{{ room.name }}</h2>
+            <h1>{{ room.name }}</h1>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
             <mat-icon *ngIf="moderationEnabled" class="gavel">
@@ -16,57 +16,57 @@
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>
-            <button id="copy" mat-icon-button (click)="copyShortId()">
+            <button id="copy"  mat-icon-button (click)="copyShortId()" aria-labelledby= "cloud_download">
               <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">cloud_download</mat-icon>
             </button>
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
         <mat-menu #settingsMenu="matMenu" [overlapTrigger]="false" xPosition="before">
-          <button mat-menu-item (click)="showSettingsDialog()">
+          <button mat-menu-item (click)="showSettingsDialog()" aria-labelledby= "edit">
             <mat-icon>edit</mat-icon>
             {{ 'room-page.general' | translate}}
           </button>
-          <button mat-menu-item (click)="showCommentsDialog()">
+          <button mat-menu-item (click)="showCommentsDialog()" aria-labelledby= "insert_comment">
             <mat-icon>insert_comment</mat-icon>
             {{ 'room-page.comments' | translate}}
           </button>
-          <button mat-menu-item (click)="showModeratorsDialog()">
+          <button mat-menu-item (click)="showModeratorsDialog()" aria-labelledby= "person">
             <mat-icon>person</mat-icon>
             {{ 'room-page.moderators' | translate}}
           </button>
         </mat-menu>
-        <button mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu">
+        <button mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">
           <mat-icon class="corner-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
         </button>
       </div>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <h4>
+        <h3>
           {{ room.description.trim() }}
-        </h4>
+        </h3>
       </mat-card-content>
       <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
         <mat-grid-tile>
           <button mat-icon-button
-                  routerLink="/creator/room/{{ room.shortId }}/comments">
+                  routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
-            <h3>{{ 'room-page.comments' | translate}}</h3> <!-- *ngIf="deviceType === 'desktop'" -->
+            <h2>{{ 'room-page.comments' | translate}}</h2> <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf="moderationEnabled">
-          <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
+          <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="gavel">
             <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
             </mat-icon>
-            <h3>{{ 'room-page.moderating-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
+            <h2>{{ 'room-page.moderating-stream' | translate}}</h2>         <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
        <!-- <mat-grid-tile>
           <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/feedback-barometer">
             <mat-icon class="smallerIcon" [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down
             </mat-icon>
-            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.live-feedback' | translate}}</h3>
+            <h2 *ngIf="deviceType === 'desktop'">{{ 'room-page.live-feedback' | translate}}</h2>
           </button>
         </mat-grid-tile> -->
       </mat-grid-list>
@@ -75,13 +75,13 @@
           <button mat-icon-button
                   routerLink="/creator/room/{{ room.shortId }}/create-content">
             <mat-icon class="main-icon" [ngClass]="{'desktop' : deviceType === 'desktop'}">note_add</mat-icon>
-            <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h3>
+            <h2 *ngIf="deviceType === 'desktop'">{{ 'room-page.create-content' | translate}}</h2>
           </button>
         </mat-grid-tile>
         <mat-grid-tile>
           <button mat-icon-button routerLink="/creator/room/{{ room.shortId }}/statistics">
             <mat-icon class="main-icon" [ngClass]="{'desktop' : deviceType === 'desktop'}">insert_chart</mat-icon>
-           <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h3>
+           <h2 *ngIf="deviceType === 'desktop'">{{ 'room-page.answer-statistics' | translate}}</h2>
           </button>
         </mat-grid-tile>
       </mat-grid-list>
@@ -92,4 +92,15 @@
     <div *ngIf="!isLoading && !room">{{ 'room-page.room-not-found' | translate }}</div>
   </div>
 </div>
+
+<div class="visually-hidden">
+  <div id ="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>
+  <div id ="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
+  <div id ="gavel">{{'room-page.a11y-gavel' | translate}}</div>
+  <div id ="settings">{{'room-page.a11y-settings' | translate}}</div>
+  <div id ="edit">{{'room-page.a11y-edit' | translate}}</div>
+  <div id ="insert_comment">{{'room-page.a11y-insert_comment' | translate}}</div>
+  <div id ="person">{{'room-page.a11y-person' | translate}}</div>
+</div>
+
 

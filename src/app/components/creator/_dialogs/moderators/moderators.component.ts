@@ -86,4 +86,12 @@ export class ModeratorsComponent implements OnInit {
     });
     this.moderators.splice(index, 1);
   }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.dialogRef.close();
+  }
 }

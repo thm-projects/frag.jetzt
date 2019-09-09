@@ -5,7 +5,11 @@
           src="https://www.youtube.com/embed/RODwmMxLKa0?autoplay=1" frameborder="0"
           allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   <button [ngClass]="{'mobileButton': deviceType === 'mobile', 'desktopButton': deviceType === 'desktop'}"
-          mat-raised-button (click)="closeDialog()">
+          mat-raised-button (click)="closeDialog()" aria-labelledby="close-demo-label">
     <mat-icon>exit_to_app</mat-icon>
   </button>
+</div>
+
+<div class="visually-hidden">
+  <div id="close-demo-label">{{'header.close-demo' | translate}}</div>
 </div>

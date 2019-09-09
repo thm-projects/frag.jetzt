@@ -18,6 +18,5 @@
     "background_color": "#03dac6",
     "scope": "/",
     "start_url": "/home",
-    "orientation": "portrait",
     "display": "standalone"
 }
