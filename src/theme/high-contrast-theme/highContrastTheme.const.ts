@@ -8,7 +8,7 @@ export const highcontrast = {
 
   '--background': '#1e1e1e',
   '--surface': '#141414',
-  '--dialog': '#fb9a1c',
+  '--dialog': '#141414',
 
   '--on-primary': '#141414',
   '--on-secondary': '#FFFFFF',
@@ -24,4 +24,5 @@ export const highcontrast = {
   '--grey': 'grey',
   '--grey-light': 'lightgrey',
   '--black': 'black'
+
 };
