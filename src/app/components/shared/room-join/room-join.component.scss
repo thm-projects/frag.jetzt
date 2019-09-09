@@ -4,7 +4,11 @@ mat-form-field {
 }
 
 input {
-  caret-color: var(--on-surface);
+  caret-color:#000000;
+}
+
+input:focus{
+  caret-color:#000000;
 }
 
 form {
@@ -49,4 +53,8 @@ mat-hint {
 input:-webkit-autofill {
   -webkit-box-shadow:0 0 0 50px var(--surface) inset;
   -webkit-text-fill-color: var(--on-surface);
+}
+
+mat-error{
+  color:var(--on-surface);
 }
