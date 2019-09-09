@@ -167,16 +167,18 @@
       "panel-session-name": "Name",
       "panel-session-id": "Sitzung",
       "panel-user-role": "Rolle",
-      "panel-join-button": "Sitzung beitreten.",
-      "creator-role": "Sitzungs-Ersteller",
+      "panel-join-button": "Sitzung beitreten",
+      "creator-role": "Sitzungsersteller",
       "participant-role": "Teilnehmer",
       "moderator-role": "Moderator",
       "room-history-headline": "Deine besuchten Sitzungen",
       "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
       "join-message-template": "Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} beitreten.",
       "filter-message": "Nach Name oder Sitzungs-Code filtern",
-      "table-label": "Nachfolgend findest du eine Liste der besuchten Sitzungen.",
+      "session-history-label": "Nachfolgend findest du eine Liste der besuchten Sitzungen.",
       "entry": "Eintrag ",
-      "filter": "Hier kannst du die besuchten Sitzungen filtern."
+      "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach dessen Name oder Sitzungscode filtern.",
+      "session-history": "Dein Sitzungsverlauf enthält {{count}} Sitzungen.",
+      "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung."
     }
   }

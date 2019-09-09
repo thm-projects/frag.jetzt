@@ -8,7 +8,7 @@
 
   <h2>{{ 'room-list.room-history-headline' | translate }}</h2>
 
-  <div *ngIf="tableDataSource.data.length === 0">
+  <div *ngIf="tableDataSource.data.length === 0" aria-labelledby="emptySessionHistoryLabel">
     <h3>{{ 'room-list.no-room-history' | translate }}</h3>
   </div>
 
@@ -17,12 +17,14 @@
     <!-- filter input -->
     <mat-form-field class="filterWrapper">
       <input matInput (keyup)="applyFilter($event.target.value)"
-             placeholder="{{ 'room-list.filter-message' | translate }}" class="filter">
+             placeholder="{{ 'room-list.filter-message' | translate }}" class="filter"
+             attr.aria-labelledby="{{ this.rooms.length === 1
+               ? 'sessionHistoryLabel1'
+               : 'sessionHistoryLabel' }}">
     </mat-form-field>
 
     <div [class.tableOverflow]="this.tableDataSource.data.length > 5">
-      <table #roomTable mat-table [dataSource]="tableDataSource" style="width: 100%"
-             aria-labelledby="tableLabel">
+      <table #roomTable mat-table [dataSource]="tableDataSource" style="width: 100%">
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name" aria-hidden="true">
@@ -102,6 +104,16 @@
 </div>
 
 <div class="visually-hidden">
-  <div id="tableLabel">{{ 'room-list.table-label' | translate }}</div>
+  <div id="emptySessionHistoryLabel">{{ 'room-list.no-room-history' | translate }}</div>
+  <div id="sessionHistoryLabel">
+    {{ 'room-list.session-history-label' | translate }}
+    {{ 'room-list.session-history' | translate:{ count: this.rooms.length } }}
+    {{ 'room-list.filter' | translate }}
+  </div>
+  <div id="sessionHistoryLabel1">
+    {{ 'room-list.session-history-label' | translate }}
+    {{ 'room-list.session-history-1' | translate }}
+    {{ 'room-list.filter' | translate }}
+  </div>
   <div id="empty"></div>
 </div>
