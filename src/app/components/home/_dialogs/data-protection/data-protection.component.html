@@ -28,9 +28,9 @@
 
     <div mat-dialog-actions class="action-container">
       <span class="spacer"></span>
-      <button mat-raised-button [mat-dialog-close] (click)="dataProtectionConsent(true)" aria-labelledby="consent-label">{{ 'data-protection.consent' | translate }} </button>
+      <button mat-raised-button [mat-dialog-close] (click)="accept()" aria-labelledby="consent-label">{{ 'data-protection.consent' | translate }} </button>
       <span class="pad"></span>
-      <button mat-stroked-button [mat-dialog-close] (click)="dataProtectionConsent(false)" aria-labelledby="deny-label"> {{ 'data-protection.deny' | translate }} </button>
+      <button mat-stroked-button [mat-dialog-close] (click)="decline()" aria-labelledby="deny-label"> {{ 'data-protection.deny' | translate }} </button>
     </div>
 
     <div class="visually-hidden">

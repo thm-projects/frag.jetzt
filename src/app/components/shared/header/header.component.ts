@@ -144,6 +144,10 @@ export class HeaderComponent implements OnInit {
       });
   }
 
+  cookiesDisabled(): boolean {
+    return localStorage.getItem('cookieAccepted') === 'false';
+  }
+
   /*Rescale*/
 
   /**

@@ -14,11 +14,12 @@ import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component'
 import { HelpPageComponent } from '../_dialogs/help-page/help-page.component';
 import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
 import { Theme } from '../../../../theme/Theme';
+import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
 
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.scss']
+  styleUrls: ['./footer.component.scss'],
 })
 export class FooterComponent implements OnInit {
 
@@ -29,6 +30,7 @@ export class FooterComponent implements OnInit {
 
   public open: string;
   public deviceType: string;
+  public cookieAccepted: boolean;
 
   public themeClass = localStorage.getItem('theme');
 
@@ -51,68 +53,87 @@ export class FooterComponent implements OnInit {
       this.open = message;
     });
     this.themes = this.themeService.getThemes();
+    this.cookieAccepted = localStorage.getItem('cookieAccepted') === 'true';
 
     if (!localStorage.getItem('cookieAccepted')) {
       this.showCookieModal();
+    } else {
+      if (!this.cookieAccepted) {
+        this.showOverlay();
+      }
     }
   }
 
-showDemo() {
-  const dialogRef = this.dialog.open(DemoVideoComponent, {
-    position: {
-      left: '10px',
-      right: '10px'
-    },
-    maxWidth: '100vw',
-    maxHeight: '100vh',
-    height: '100%',
-    width: '100%'
-  });
-  dialogRef.componentInstance.deviceType = this.deviceType;
-}
+  showDemo() {
+    const dialogRef = this.dialog.open(DemoVideoComponent, {
+      position: {
+        left: '10px',
+        right: '10px'
+      },
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      height: '100%',
+      width: '100%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
 
-showCookieModal() {
-  const dialogRef = this.dialog.open(CookiesComponent, {
-    height: '95%',
-    width: '95%',
-    autoFocus: false
-  });
-  dialogRef.disableClose = true;
-  dialogRef.componentInstance.deviceType = this.deviceType;
-}
+  showCookieModal() {
+    const dialogRef = this.dialog.open(CookiesComponent, {
+      width: '60%',
+      autoFocus: false
 
-showImprint() {
-  const dialogRef = this.dialog.open(ImprintComponent, {
-    height: '95%',
-    width: '95%'
-  });
-  dialogRef.componentInstance.deviceType = this.deviceType;
-}
+    });
+    dialogRef.disableClose = true;
+    dialogRef.componentInstance.deviceType = this.deviceType;
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.showOverlay();
+      }
+    });
+  }
 
-showHelp() {
-  const dialogRef = this.dialog.open(HelpPageComponent, {
-    height: '95%',
-    width: '95%'
-  });
-  dialogRef.componentInstance.deviceType = this.deviceType;
-}
+  showImprint() {
+    const dialogRef = this.dialog.open(ImprintComponent, {
+      width: '75%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
 
-showDataProtection() {
-  const dialogRef = this.dialog.open(DataProtectionComponent, {
-    height: '95%',
-    width: '95%'
-  });
-  dialogRef.componentInstance.deviceType = this.deviceType;
-}
+  showHelp() {
+    const dialogRef = this.dialog.open(HelpPageComponent, {
+      width: '75%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
 
-useLanguage(language: string) {
-  this.translateService.use(language);
-  localStorage.setItem('currentLang', language);
-  this.langService.langEmitter.emit(language);
-}
+  showDataProtection() {
+    const dialogRef = this.dialog.open(DataProtectionComponent, {
+      width: '75%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+  }
 
-changeTheme(theme: Theme) {
-  this.themeClass = theme.name;
-  this.themeService.activate(theme.name);
-}
+  showOverlay() {
+    const dialogRef = this.dialog.open(OverlayComponent, {
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
+    dialogRef.disableClose = true;
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.showCookieModal();
+      }
+    });
+  }
+
+  useLanguage(language: string) {
+    this.translateService.use(language);
+    localStorage.setItem('currentLang', language);
+    this.langService.langEmitter.emit(language);
+  }
+
+  changeTheme(theme: Theme) {
+    this.themeClass = theme.name;
+    this.themeService.activate(theme.name);
+  }
 }

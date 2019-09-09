@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-cookies',
@@ -12,7 +12,9 @@ export class CookiesComponent implements OnInit {
   deviceType: string;
   currentLang: string;
 
-  constructor(private dialog: MatDialog) { }
+
+  constructor(private dialog: MatDialog,
+              private dialogRef: MatDialogRef<CookiesComponent>) { }
 
   ngOnInit() {
     this.currentLang = localStorage.getItem('currentLang');
@@ -20,18 +22,19 @@ export class CookiesComponent implements OnInit {
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
+    localStorage.setItem('dataProtectionConsent', 'true');
   }
 
-  exitApp() {
+  declineCookies() {
     localStorage.setItem('cookieAccepted', 'false');
-    // TODO somehow exit the app, since the user didn't accept cookie usage
+    this.dialogRef.close(true);
   }
 
   openDataProtection() {
   const dialogRef = this.dialog.open(DataProtectionComponent, {
-    height: '95%',
-    width: '75%'
+    height: '95%'
   });
   dialogRef.componentInstance.deviceType = this.deviceType;
-}
+  }
+
 }
