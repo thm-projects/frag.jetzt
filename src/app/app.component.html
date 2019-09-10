@@ -1,11 +1,31 @@
 <div fxLayout="column" fxFill appTheme>
-  <header>
-    <app-header #header></app-header>
-  </header>
-  <main fxFlex class="app-component">
-    <router-outlet></router-outlet>
-  </main>
-  <footer role="contentinfo">
-    <app-footer></app-footer>
-  </footer>
+  <div id="rescale_screen">
+    <header class="header" id="header_rescale">
+      <app-header #header></app-header>
+    </header>
+    <div class="main_container">
+      <div class="inner_main_container">
+        <main fxFlex class="app-component">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
+    </div>
+    <footer role="contentinfo" class="footer" id="footer_rescale">
+      <app-footer></app-footer>
+    </footer>
+  </div>
+  <div class="rescale_overlay" id="overlay_rescale">
+    <button mat-icon-button (click)="getRescale().deactivateScale()">
+      <mat-icon>fullscreen_exit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getRescale().scaleUp()">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getRescale().scaleDown()">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getRescale().scaleUndo()">
+      <mat-icon>undo</mat-icon>
+    </button>
+  </div>
 </div>

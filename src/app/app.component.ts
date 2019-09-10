@@ -4,6 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Rescale } from './models/rescale/Rescale';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,8 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+  public static rescale: Rescale = new Rescale();
 
   icons = [
     'beamer',
@@ -51,5 +54,9 @@ export class AppComponent implements OnInit {
         }
       });
     });
+  }
+
+  public getRescale():Rescale{
+    return AppComponent.rescale;
   }
 }
