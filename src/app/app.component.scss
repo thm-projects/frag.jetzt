@@ -62,7 +62,7 @@ main {
 }
 
 .rescale_overlay mat-icon{
-  color:#FFFFFF;
+  color:var(--on-surface);
 }
 
 .rescale_overlay>button:first-child{

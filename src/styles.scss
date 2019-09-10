@@ -19,6 +19,10 @@
   background-color:var(--on-secondary);
 }
 
+::-webkit-scrollbar:hover{
+  width:10px;
+}
+
 ::-webkit-scrollbar-thumb{
   background-color:var(--secondary);
   border-radius:5px;

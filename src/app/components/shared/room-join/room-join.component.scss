@@ -4,11 +4,11 @@ mat-form-field {
 }
 
 input {
-  caret-color:#000000;
+  caret-color:var(--on-surface);
 }
 
 input:focus{
-  caret-color:#000000;
+  caret-color:var(--on-surface);
 }
 
 form {
