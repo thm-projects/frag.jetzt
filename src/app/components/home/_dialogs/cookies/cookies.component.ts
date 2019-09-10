@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 
@@ -7,14 +7,22 @@ import { MatDialog, MatDialogRef } from '@angular/material';
   templateUrl: './cookies.component.html',
   styleUrls: ['./cookies.component.scss']
 })
-export class CookiesComponent implements OnInit {
+export class CookiesComponent implements OnInit, AfterContentInit {
+
+  @ViewChild('header')
+  dialogTitle: ElementRef;
 
   deviceType: string;
   currentLang: string;
 
 
-  constructor(private dialog: MatDialog,
-              private dialogRef: MatDialogRef<CookiesComponent>) { }
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<CookiesComponent>) {
+  }
+
+  ngAfterContentInit() {
+    const elem: HTMLElement = this.dialogTitle.nativeElement;
+    elem.focus();
+  }
 
   ngOnInit() {
     this.currentLang = localStorage.getItem('currentLang');

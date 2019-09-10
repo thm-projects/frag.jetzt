@@ -14,6 +14,14 @@
     <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'help.close' | translate }} </button>
   </div>
 
+  <app-dialog-action-buttons
+    buttonsLabelSection="cookies"
+    confirmButtonLabel="accept"
+    [confirmButtonType]=confirmButtonType
+    [confirmButtonClickAction]="buildConfirmActionCallback()"
+  ></app-dialog-action-buttons>
+
+
   <div class="visually-hidden">
     <div id="close-label">{{ 'help.close-label'| translate }}</div>
   </div>

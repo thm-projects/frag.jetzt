@@ -10,20 +10,16 @@
     <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
     <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
   </mat-dialog-content>
-  <mat-divider></mat-divider>
 
-<mat-dialog-actions class="action-container">
-  <span class="spacer"></span>
-  <button mat-raised-button mat-dialog-close (click)="acceptCookies()" aria-labelledby="accept-label">
-    <span> {{ 'cookies.accept' | translate }}</span>
-  </button>
-  <span class="pad"></span>
-  <button mat-stroked-button mat-dialog-close (click)="declineCookies()" aria-labelledby="decline-label">
-    <span> {{ 'cookies.decline' | translate }}</span>
-  </button>
-</mat-dialog-actions>
-</div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="cookies"
+    confirmButtonLabel="accept"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildDeclineActionCallback()"
+    [confirmButtonClickAction]="buildConfirmActionCallback()"
+  ></app-dialog-action-buttons>
 
   <div class="visually-hidden">
     <div id="info-label">{{'cookies.info-label' | translate }}</div>
   </div>
+</div>
