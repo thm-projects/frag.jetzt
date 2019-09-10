@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -18,13 +18,14 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
   templateUrl: './room-participant-page.component.html',
   styleUrls: ['./room-participant-page.component.scss']
 })
-export class RoomParticipantPageComponent extends RoomPageComponent implements OnInit {
+export class RoomParticipantPageComponent extends RoomPageComponent implements OnInit, OnDestroy {
 
   room: Room;
   isLoading = true;
   deviceType = localStorage.getItem('deviceType');
   user: User;
 
+  listenerFn: () => void;
 
   constructor(protected location: Location,
               protected roomService: RoomService,
@@ -47,7 +48,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.announce();
-    this._r.listen(document, 'keyup', (event) => {
+    this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (event.keyCode === 49) {
         document.getElementById('question_answer-button').focus();
       } else if (event.keyCode === 51) {
@@ -56,6 +57,10 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         this.announce();
       }
     });
+  }
+
+  ngOnDestroy(){
+    this.listenerFn();
   }
 
   public announce() {

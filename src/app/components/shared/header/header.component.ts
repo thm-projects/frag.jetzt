@@ -77,10 +77,14 @@ export class HeaderComponent implements OnInit {
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
     this._r.listen(document, 'keyup', (event) => {
-      if (event.keyCode === 48 && this.eventService.focusOnInput === false) {
+      if (document.getElementById('back-button') && event.keyCode === 48 && this.eventService.focusOnInput === false) {
         document.getElementById('back-button').focus();
       } else if (event.keyCode === 50 && this.eventService.focusOnInput === false) {
-        document.getElementById('session-button').focus();
+        if (this.user) {
+          document.getElementById('session-button').focus();
+        } else {
+          document.getElementById('login-button').focus();
+        }
       }
     });
   }
