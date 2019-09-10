@@ -4,7 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { MatIconRegistry } from '@angular/material';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Rescale } from './models/rescale/Rescale';
+import { Rescale } from './models/rescale';
 
 @Component({
   selector: 'app-root',
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
     });
   }
 
-  public getRescale():Rescale{
+  public getRescale(): Rescale {
     return AppComponent.rescale;
   }
 }

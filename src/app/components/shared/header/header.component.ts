@@ -10,8 +10,9 @@ import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
+import { EventService } from '../../../services/util/event.service';
 import { AppComponent } from '../../../app.component';
-import { Rescale } from '../../../models/rescale/Rescale';
+import { Rescale } from '../../../models/rescale';
 
 @Component({
   selector: 'app-header',
