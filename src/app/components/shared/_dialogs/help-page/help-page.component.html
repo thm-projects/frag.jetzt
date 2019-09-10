@@ -3,10 +3,10 @@
   <h1 tabindex="0" class="modal" mat-dialog-title>{{ 'help.title' | translate }} </h1>
 
   <mat-divider></mat-divider>
-  <div tabindex="0">
+  <mat-dialog-content tabindex="0">
     <app-help-en *ngIf="currentLang=='en'"></app-help-en>
     <app-help-de *ngIf="currentLang=='de'"></app-help-de>
-  </div>
+  </mat-dialog-content>
   <mat-divider></mat-divider>
 
   <app-dialog-action-buttons
