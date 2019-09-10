@@ -1,77 +1,76 @@
 {
-  "home-page": {
-    "no-room-found": "No session found with this ID",
-    "please-enter": "Please enter a session ID",
-    "only-numbers": "A session ID is a combination of 8 digits.",
-    "exactly-8": "A session ID is a combination of exactly 8 digits."
-  },
-  "room-page": {
-    "comments": "Questions",
-    "learn": "Learn",
-    "create-comment": "Ask a question!",
-    "give-feedback": "Give feedback",
-    "live-feedback": "Live feedback",
-    "answer-statistics": "Statistics",
-    "default-content-group": "Default",
-    "description": "Description",
-    "session-id": "ID",
-    "a11y-question_answer": "Opens the comment page with all questions and offers the possibility to ask questions.",
-    "a11y-announcer": "You are now in the session with the ID you entered."
-  },
-  "comment-page": {
-    "cancel": "Cancel",
-    "cancel-description": "Cancel",
-    "enter-title": "Title",
-    "enter-comment": "Your question",
-    "send": "Send",
-    "abort": "Cancel",
-    "error-title": "Please enter a title.",
-    "error-comment": "Please enter a question.",
-    "error-both-fields": "Please fill in all fields.",
-    "no-comments": "No questions yet",
-    "mark-not-correct": "Marked as correct by the professor",
-    "mark-not-wrong": "Marked as wrong by the professor",
-    "mark-not-favorite": "Bonus question: Your professor intends to give a bonus for that question.",
-    "mark-read": "Already discussed by the professor",
-    "vote-up": "Vote up",
-    "vote-down": "Vote down"
+  "answer": {
+    "abstain": "Abstain",
+    "abstention-sent": "Abstention sent",
+    "at-least-one": "Please select at least one answer.",
+    "please-answer": "Please enter an answer.",
+    "please-one": "Please select an answer.",
+    "sent": "Answer sent",
+    "submit": "Submit",
+    "your-answer": "Your answer"
   },
   "comment-list": {
-    "search": "Search",
-    "filter-comments": "Filter questions",
-    "sort-comments": "Sort questions",
     "add-comment": "Ask a question!",
-    "wrong": "Marked as wrong by the professor",
+    "comment-sent": "The question has been published.",
+    "comment-sent-to-moderator": "The question will be reviewed by a moderator.",
     "correct": "Marked as correct by the professor",
     "favorite": "Bonus question",
+    "filter-comments": "Filter questions",
     "read": "Discussed by the professor",
+    "search": "Search",
+    "sort-comments": "Sort questions",
+    "time": "Time",
     "unread": "Not yet discussed",
     "vote-desc": "Descending votes",
     "vote-asc": "Ascending votes",
-    "time": "Time",
-    "comment-sent": "The question has been published.",
-    "comment-sent-to-moderator": "The question will be reviewed by a moderator."
-
+    "wrong": "Marked as wrong by the professor"
   },
-  "answer": {
-    "submit": "Submit",
-    "abstain": "Abstain",
-    "sent": "Answer sent",
-    "abstention-sent": "Abstention sent",
-    "your-answer": "Your answer",
-    "at-least-one": "Please select at least one answer.",
-    "please-one": "Please select an answer.",
-    "please-answer": "Please enter an answer."
+  "comment-page": {
+    "abort": "Cancel",
+    "cancel": "Cancel",
+    "cancel-description": "Cancel",
+    "enter-comment": "Your question",
+    "enter-title": "Title",
+    "error-both-fields": "Please fill in all fields.",
+    "error-comment": "Please enter a question.",
+    "error-title": "Please enter a title.",
+    "mark-not-correct": "Marked as correct by the professor",
+    "mark-not-favorite": "Bonus question: Your professor intends to give a bonus for that question.",
+    "mark-not-wrong": "Marked as wrong by the professor",
+    "mark-read": "Already discussed by the professor",
+    "no-comments": "No questions yet",
+    "send": "Send",
+    "vote-down": "Vote down",
+    "vote-up": "Vote up"
+  },
+  "home-page": {
+    "exactly-8": "A session ID is a combination of exactly 8 digits.",
+    "no-room-found": "No session found with this ID",
+    "only-numbers": "A session ID is a combination of 8 digits.",
+    "please-enter": "Please enter a session ID"
+  },
+  "room-page": {
+    "a11y-announcer": "You are now in the session with the ID you entered.",
+    "a11y-question_answer": "Opens the comment page with all questions and offers the possibility to ask questions.",
+    "answer-statistics": "Statistics",
+    "comments": "Questions",
+    "create-comment": "Ask a question!",
+    "default-content-group": "Default",
+    "description": "Description",
+    "give-feedback": "Give feedback",
+    "learn": "Learn",
+    "live-feedback": "Live feedback",
+    "session-id": "ID"
   },
   "statistic": {
-    "content": "Content",
+    "abstentions": "Abstentions",
     "answer-statistic": "Answer statistics",
     "answers": "Answers",
-    "percentage": "Percentage",
-    "abstentions": "Abstentions",
-    "no-questions": "There are no answers yet.",
+    "content": "Content",
     "good": "Good",
     "improvable": "Improvable",
-    "no-answers": "No answers"
+    "no-answers": "No answers",
+    "no-questions": "There are no answers yet.",
+    "percentage": "Percentage"
   }
 }
