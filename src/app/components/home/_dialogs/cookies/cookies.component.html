@@ -12,11 +12,11 @@
 <mat-dialog-actions class="action-container">
   <span class="spacer"></span>
   <button mat-raised-button mat-dialog-close (click)="acceptCookies()" aria-labelledby="accept-label">
-    <span *ngIf="deviceType === 'desktop'"> {{ 'cookies.accept' | translate }}</span>
+    <span> {{ 'cookies.accept' | translate }}</span>
   </button>
   <span class="pad"></span>
   <button mat-stroked-button mat-dialog-close (click)="exitApp()" aria-labelledby="decline-label">
-    <span *ngIf="deviceType === 'desktop'"> {{ 'cookies.decline' | translate }}</span>
+    <span> {{ 'cookies.decline' | translate }}</span>
   </button>
 </mat-dialog-actions>
 </div>
