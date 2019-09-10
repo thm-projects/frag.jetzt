@@ -59,7 +59,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.listenerFn();
   }
 

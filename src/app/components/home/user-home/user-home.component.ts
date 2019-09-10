@@ -50,7 +50,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.listenerFn();
   }
 

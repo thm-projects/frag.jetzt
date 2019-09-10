@@ -37,7 +37,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.listenerFn();
   }
 
