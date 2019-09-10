@@ -1,9 +1,10 @@
-.dialog-action-buttons, .dialog-action-buttons .buttons {
+.dialog-action-buttons:not(.no-spacing), .dialog-action-buttons .buttons {
   margin-top: 1rem;
 }
 
 .dialog-action-buttons .cancel-button {
-  color: var(--on-surface);
+  background-color: var(--cancel);
+  color: var(--on-cancel);
 }
 
 .primary-confirm-button {

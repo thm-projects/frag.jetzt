@@ -4,8 +4,6 @@
 }
 
 .regButton {
-  padding: 0;
-  margin: 0 10px 0 0;
   color: var(--secondary);
 }
 
@@ -13,6 +11,21 @@
   background-color: var(--primary);
   color: var(--on-primary);
   margin: 10px 0 20px 0!important;
+}
+
+.login {
+  background-color: var(--secondary);
+  color: var(--on-seconday);
+}
+
+.forgot-password {
+  margin-bottom: 1.6rem;
+}
+
+.forgot-password a {
+  text-decoration: none;
+  color: var(--secondary);
+  font-size: .9rem;
 }
 
 p {
@@ -57,6 +70,7 @@ h3 {
 }
 
 .register {
-  height: 40px;
+  padding: .5rem 0;
+  align-items: baseline;
 }
 

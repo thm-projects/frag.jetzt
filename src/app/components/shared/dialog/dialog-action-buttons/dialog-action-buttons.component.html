@@ -1,22 +1,27 @@
-<div class="dialog-action-buttons">
+<div [ngClass]="{
+  'dialog-action-buttons': true,
+  'no-spacing': (spacing === false)
+}">
   <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayoutAlign="end" fxLayoutGap="10px" class="buttons">
-    <button
-      *ngIf="cancelButtonClickAction !== undefined"
-      mat-button
-      type="button"
-      class="cancel-button"
-      attr.aria-labelledby="{{ ariaPrefix + 'cancel' | translate }}"
-      (click)="performCancelButtonClickAction()"
-    >{{ buttonsLabelSection + '.cancel' | translate}}</button>
-    <button
-      *ngIf="confirmButtonClickAction !== undefined"
-      type="button"
-      mat-flat-button
-      class="mat-flat-button {{ confirmButtonType }}-confirm-button"
-      attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
-      (click)="performConfirmButtonClickAction()"
-    >{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
+  <div fxLayoutAlign="end">
+    <div fxLayout="row-reverse" fxLayoutGap="10px" class="buttons">
+      <button
+        *ngIf="confirmButtonClickAction !== undefined"
+        type="button"
+        mat-flat-button
+        class="mat-flat-button {{ confirmButtonType }}-confirm-button"
+        attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
+        (click)="performConfirmButtonClickAction()"
+      >{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
+      <button
+        *ngIf="cancelButtonClickAction !== undefined"
+        type="button"
+        mat-flat-button
+        class="cancel-button"
+        attr.aria-labelledby="{{ ariaPrefix + 'cancel' | translate }}"
+        (click)="performCancelButtonClickAction()"
+      >{{ buttonsLabelSection + '.cancel' | translate}}</button>
+    </div>
   </div>
   <!--Hidden Div's for a11y-Descriptions-->
   <div class="visually-hidden">

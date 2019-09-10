@@ -1,6 +1,6 @@
 <mat-toolbar class="mat-elevation-z1">
   <mat-toolbar-row>
-    <button mat-icon-button  aria-labelledby="back-label" *ngIf="router.url !== '/home'" (click)="goBack()"
+    <button id="back-button" mat-icon-button aria-labelledby="back-label" *ngIf="router.url !== '/home'" (click)="goBack()"
             matTooltip="{{'header.back' | translate}}">
       <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
@@ -45,7 +45,7 @@
     </mat-menu>
 
     <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu"
-            aria-labelledby="session-label">
+            aria-labelledby="session-label" id="session-button">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest" class="header-icons">account_box</mat-icon>
         <mat-icon *ngIf="user.isGuest" class="header-icons">meeting_room</mat-icon>
@@ -60,7 +60,7 @@
       <mat-icon *ngIf="user.isGuest" svgIcon="meeting_room" class="header-icons"></mat-icon>
     </button>
 
-    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false) aria-labelledby="login-label">
+    <button id="login-button" mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false) aria-labelledby="login-label">
       <div class="label-icon">
         <mat-icon class="header-icons">account_box</mat-icon>
         <h2 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>

@@ -9,11 +9,13 @@ export const blue = {
   '--background': '#fafafa',
   '--surface': '#e0e0e0',
   '--dialog': '#f2f4f5',
+  '--cancel': '#9E9E9E',
 
   '--on-primary': '#FFFFFF',
   '--on-secondary': '#000000',
   '--on-background': '#000000',
   '--on-surface': '#000000',
+  '--on-cancel': '#000000',
 
   '--green': '#4caf50',
   '--red': '#f44336',
