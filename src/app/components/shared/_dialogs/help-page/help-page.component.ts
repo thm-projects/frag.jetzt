@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { MatDialogRef, MatDialogTitle } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-help',
