@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 
 @Component({
   selector: 'app-cookies',
@@ -15,6 +16,7 @@ export class CookiesComponent implements OnInit, AfterContentInit {
   deviceType: string;
   currentLang: string;
 
+  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
 
   constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<CookiesComponent>) {
   }
@@ -30,11 +32,12 @@ export class CookiesComponent implements OnInit, AfterContentInit {
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
-    localStorage.setItem('dataProtectionConsent', 'true');
+    this.dialogRef.close();
   }
 
-  declineCookies() {
+  exitApp() {
     localStorage.setItem('cookieAccepted', 'false');
+    // TODO somehow exit the app, since the user didn't accept cookie usage
     this.dialogRef.close(true);
   }
 
@@ -45,4 +48,17 @@ export class CookiesComponent implements OnInit, AfterContentInit {
   dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildConfirmActionCallback(): () => void {
+    return () => this.acceptCookies();
+  }
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildDeclineActionCallback(): () => void {
+    return () => this.exitApp();
+  }
 }
