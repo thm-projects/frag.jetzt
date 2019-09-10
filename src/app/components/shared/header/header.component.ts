@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-header',
@@ -29,7 +30,9 @@ export class HeaderComponent implements OnInit {
               public router: Router,
               private translationService: TranslateService,
               public dialog: MatDialog,
-              private userService: UserService
+              private userService: UserService,
+              private eventService: EventService,
+              private _r: Renderer2
   ) {
   }
 
@@ -73,6 +76,17 @@ export class HeaderComponent implements OnInit {
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+    this._r.listen(document, 'keyup', (event) => {
+      if (document.getElementById('back-button') && event.keyCode === 48 && this.eventService.focusOnInput === false) {
+        document.getElementById('back-button').focus();
+      } else if (event.keyCode === 50 && this.eventService.focusOnInput === false) {
+        if (this.user) {
+          document.getElementById('session-button').focus();
+        } else {
+          document.getElementById('login-button').focus();
+        }
+      }
+    });
   }
 
   getTime(time: Date) {
