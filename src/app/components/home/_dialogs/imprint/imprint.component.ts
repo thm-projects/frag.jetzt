@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImprintComponent implements OnInit {
   deviceType: string;
-  imprinttext: string;
   currentLang: string;
 
   constructor() {

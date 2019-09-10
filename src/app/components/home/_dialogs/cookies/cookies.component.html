@@ -1,12 +1,12 @@
 <div>
-  <h1 mat-dialog-title>Cookies
+  <h1 tabindex="0" class="modal" mat-dialog-title autofocus>Cookies
     <button mat-icon-button aria-labelledby="info-label" class="info" (click)="openDataProtection()">
       <mat-icon class="info-icon">help</mat-icon>
     </button>
   </h1>
 
   <mat-divider></mat-divider>
-  <mat-dialog-content>
+  <mat-dialog-content tabindex="0">
     <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
     <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
   </mat-dialog-content>
@@ -24,8 +24,6 @@
 </mat-dialog-actions>
 </div>
 
-<div class="visually-hidden">
-  <div id="accept-label">{{'cookies.accept-label' | translate }}</div>
-  <div id="decline-label">{{'cookies.decline-label' | translate }}</div>
-  <div id="info-label">{{'cookies.info-label' | translate }}</div>
-</div>
+  <div class="visually-hidden">
+    <div id="info-label">{{'cookies.info-label' | translate }}</div>
+  </div>
