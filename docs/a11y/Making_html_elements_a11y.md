@@ -77,13 +77,17 @@ public announce() {
 ```
 
 ### Keyboard Shortcut
-To enter Keyboard Shortcuts you first need to import Renderer2 form angular/core:
-``import { Component, OnInit, Renderer2 } from '@angular/core';``
+To enter Keyboard Shortcuts you first need to import Renderer2, InDestroy and the EventService form angular/core:
+```
+import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { EventService } from '../../../services/util/event.service';
+```
 
 After that you also need to add it to the constructor
 ```
 constructor(
     ...
+    private eventService: EventService,
     private _r: Renderer2){
         ...
 }
@@ -95,19 +99,42 @@ Example:
 ```
 ngOnInit() {
     ...
-    this._r.listen(document, 'keyup', (event) => {
-      if (event.keyCode === 49) {
-        document.getElementById('my_element_id').focus(); 
-        //.focus will set the focus to the element searched by the function getElementById('id') with the id of the element
+    // But first you need to add a variable:
+    listenerFn: () => void;
+    // listenerFn is for closing the listener in the ngOnDestroy() function when leaving the page
+    
+    // Example of start-page 
+    this.listenerFn = this._r.listen(document, 'keyup', (event) => {
+      if (event.keyCode === 49 && this.eventService.focusOnInput === false) {
+        document.getElementById('session_id-input').focus();
+      } else if (event.keyCode === 51 && this.eventService.focusOnInput === false) {
+        document.getElementById('new_session-button').focus();
+      } else if (event.keyCode === 52 && this.eventService.focusOnInput === false) {
+        document.getElementById('language-menu').focus();
+      } else if ((event.keyCode === 57 || event.keyCode === 27) && this.eventService.focusOnInput === false) {
+        this.announce();
+      } else if (event.keyCode === 27 && this.eventService.focusOnInput === true) {
+        document.getElementById('session_enter-button').focus();
       }
     });
 }
 
-//HTML Code:
-<button id="my_element_id">
-    My_Button
+// HTML Code:
+
+<button id="session_enter-button" ...>
+    ...
 </button>
 
+// 'focusOnInput' is a boolean variable which should be triggered when an input element is focused and unfocused
+// Example of room-join.component.html
+<input id="session_id-input" matInput #roomId   (focus)="eventService.makeFocusOnInputTrue()" 
+                                                (blur)="eventService.makeFocusOnInputFalse()"
+             .../>
+             
+// ngOnDestroy function for closing the listener when leaving the page
+ngOnDestroy() {
+    this.listenerFn();
+ }
 ```
 
 ## HTML5 Accessibility: aria-hidden and role=”presentation”
