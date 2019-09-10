@@ -93,92 +93,91 @@
     "create-session": "Sitzung erstellen",
     "join": "Sitzung beitreten"
   },
-
   "delete-account": {
-      "cancel": "Zurück",
-      "cancel-description": "Zurück",
-      "delete": "Löschen",
-      "delete-description": "Konto löschen"
-    },
-    "login-page": {
-      "cancel": "Zurück",
-      "cancel-description": "Zurück",
-      "password-reset": "Passwort vergessen?",
-      "not-registered": "Noch kein Konto?",
-      "register": "Registrieren",
-      "welcome": "Online fragen & Fragen voten",
-      "login": "Anmelden mit Konto"
-    },
-    "footer": {
-      "demo": "Einführung",
-      "dsgvo": "Datenschutz",
-      "imprint": "Impressum",
-      "help": "Hilfe",
-      "dark": "Dunkler Hintergrund",
-      "bright": "Heller Hintergrund",
-      "beamer": "Für den Beamer optimiert",
-      "wai": "Hoher Kontrast",
-      "style": "Darstellung",
-      "language": "Sprache",
-      "english": "Englisch",
-      "german": "Deutsch",
-      "style-default": "Wähle das helle Thema aus.",
-      "style-dark": "Wähle das dunkle Thema aus.",
-      "style-purple": "Wähle das lila Thema aus.",
-      "style-blue": "Wähle das blaue Thema aus.",
-      "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt.",
-      "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
-      "accessibility-imprint": "Öffnet das Impressum.",
-      "accessibility-help": "Öffnet die Hilfe.",
-      "accessibility-style": "Öffnet die Farbauswahl.",
-      "accessibility-language": "Öffnet die Sprachauswahl"
-    },
-    "cookies": {
-      "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung.",
-      "accept": "Danke, ich hab's verstanden.",
-      "accept-label": "Bestätigt die Verwendung von Cookies und führt zur Startseite zurück.",
-      "decline": "Nein, lösche meine Spuren.",
-      "decline-label": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung."
-    },
-    "data-protection": {
-      "title": "Datenschutz",
-      "consent": "Akzeptieren",
-      "consent-label": "Akzeptiert die Datenschutzrichtlinien der Anwendung.",
-      "deny": "Ablehnen",
-      "deny-label": "Lehnt die Datenschutzrichtlinien ab."
-    },
-    "imprint": {
-      "title": "Impressum",
-      "close": "Schließen",
-      "close-label": "Schließt das Impressum."
-    },
-    "help": {
-      "title": "Hilfe",
-      "close": "Schließen",
-      "close-label": "Schließt die Hilfe."
-    },
-    "room-create": {
-      "cancel": "Zurück",
-      "cancel-description": "Zurück",
-      "create-room": "Sitzung erstellen",
-      "create-room-description": "Neue Sitzung erstellen."
-    },
-    "room-list": {
-      "panel-session-name": "Name",
-      "panel-session-id": "Sitzung",
-      "panel-user-role": "Rolle",
-      "panel-join-button": "Sitzung beitreten",
-      "creator-role": "Sitzungsersteller",
-      "participant-role": "Teilnehmer",
-      "moderator-role": "Moderator",
-      "room-history-headline": "Deine besuchten Sitzungen",
-      "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
-      "join-message-template": "Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} beitreten.",
-      "filter-message": "Nach Name oder Sitzungs-Code filtern",
-      "session-history-label": "Nachfolgend findest du eine Liste der besuchten Sitzungen.",
-      "entry": "Eintrag ",
-      "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach dessen Name oder Sitzungscode filtern.",
-      "session-history": "Dein Sitzungsverlauf enthält {{count}} Sitzungen.",
-      "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung."
-    }
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
+    "delete": "Löschen",
+    "delete-description": "Konto löschen"
+  },
+  "login-page": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
+    "password-reset": "Passwort vergessen?",
+    "not-registered": "Noch kein Konto?",
+    "register": "Registrieren",
+    "welcome": "Online fragen & Fragen voten",
+    "login": "Anmelden mit Konto"
+  },
+  "footer": {
+    "demo": "Einführung",
+    "dsgvo": "Datenschutz",
+    "imprint": "Impressum",
+    "help": "Hilfe",
+    "dark": "Dunkler Hintergrund",
+    "bright": "Heller Hintergrund",
+    "beamer": "Für den Beamer optimiert",
+    "wai": "Hoher Kontrast",
+    "style": "Darstellung",
+    "language": "Sprache",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "style-default": "Wähle das helle Thema aus.",
+    "style-dark": "Wähle das dunkle Thema aus.",
+    "style-purple": "Wähle das lila Thema aus.",
+    "style-blue": "Wähle das blaue Thema aus.",
+    "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt.",
+    "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
+    "accessibility-imprint": "Öffnet das Impressum.",
+    "accessibility-help": "Öffnet die Hilfe.",
+    "accessibility-style": "Öffnet die Farbauswahl.",
+    "accessibility-language": "Öffnet die Sprachauswahl"
+  },
+  "cookies": {
+    "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung.",
+    "accept": "Danke, ich hab's verstanden.",
+    "accept-label": "Bestätigt die Verwendung von Cookies und führt zur Startseite zurück.",
+    "decline": "Nein, lösche meine Spuren.",
+    "decline-label": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung."
+  },
+  "data-protection": {
+    "title": "Datenschutz",
+    "consent": "Akzeptieren",
+    "consent-label": "Akzeptiert die Datenschutzrichtlinien der Anwendung.",
+    "deny": "Ablehnen",
+    "deny-label": "Lehnt die Datenschutzrichtlinien ab."
+  },
+  "imprint": {
+    "title": "Impressum",
+    "close": "Schließen",
+    "close-label": "Schließt das Impressum."
+  },
+  "help": {
+    "title": "Hilfe",
+    "close": "Schließen",
+    "close-label": "Schließt die Hilfe."
+  },
+  "room-create": {
+    "cancel": "Zurück",
+    "cancel-description": "Zurück",
+    "create-room": "Sitzung erstellen",
+    "create-room-description": "Neue Sitzung erstellen."
+  },
+  "room-list": {
+    "panel-session-name": "Name",
+    "panel-session-id": "Sitzung",
+    "panel-user-role": "Rolle",
+    "panel-join-button": "Sitzung beitreten",
+    "creator-role": "Sitzungsersteller",
+    "participant-role": "Teilnehmer",
+    "moderator-role": "Moderator",
+    "room-history-headline": "Deine besuchten Sitzungen",
+    "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
+    "join-message-template": "Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} beitreten.",
+    "filter-message": "Nach Name oder Sitzungs-Code filtern",
+    "session-history-label": "Nachfolgend findest du eine Liste der besuchten Sitzungen.",
+    "entry": "Eintrag ",
+    "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach dessen Name oder Sitzungscode filtern.",
+    "session-history": "Dein Sitzungsverlauf enthält {{count}} Sitzungen.",
+    "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung."
   }
+}
