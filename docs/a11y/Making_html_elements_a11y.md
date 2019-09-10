@@ -109,3 +109,10 @@ ngOnInit() {
 </button>
 
 ```
+
+## HTML5 Accessibility: aria-hidden and role=”presentation”
+
+A page about aria-hidden and role="presentation" attribute usage tests:
+
+http://john.foliot.ca/aria-hidden/
+
