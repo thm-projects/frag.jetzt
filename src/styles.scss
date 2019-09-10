@@ -15,11 +15,16 @@
 @include angular-material-theme($arsnova-theme);
 
 ::-webkit-scrollbar{
-  background-color:var(--secondary);
+  width:2px;
+  background-color:var(--on-secondary);
+}
+
+::-webkit-scrollbar:hover{
+  width:10px;
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color:var(--on-secondary);
+  background-color:var(--secondary);
   border-radius:5px;
 }
 

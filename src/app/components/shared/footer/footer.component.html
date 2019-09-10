@@ -47,8 +47,8 @@
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <mat-grid-list cols="2">
         <mat-grid-tile *ngFor="let theme of themes">
-          <button mat-menu-item class="color-button"  (click)="changeTheme(theme)">
-            <mat-icon class="color-icon" [ngClass]="theme.name" matTooltip="{{theme.name}}">lens</mat-icon>
+          <button mat-menu-item class="color-button" (click)="changeTheme(theme)">
+            <mat-icon class="color-icon" [ngStyle]="{'color':theme.previewColor}"  matTooltip="{{theme.name}}">lens</mat-icon>
             <mat-icon *ngIf="themeClass === theme.name" class="check">check_circle</mat-icon>
           </button>
         </mat-grid-tile>

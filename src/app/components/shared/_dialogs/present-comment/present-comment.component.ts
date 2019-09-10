@@ -35,6 +35,7 @@ export class PresentCommentComponent implements OnInit {
 
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
+    // ToDo: migrate from deprecated event api
     if (event.keyCode === this.ESCAPE_KEYCODE) {
       this.onCloseClick();
     }

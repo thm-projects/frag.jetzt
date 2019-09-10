@@ -11,6 +11,8 @@ import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
 import { EventService } from '../../../services/util/event.service';
+import { AppComponent } from '../../../app.component';
+import { Rescale } from '../../../models/rescale';
 
 @Component({
   selector: 'app-header',
@@ -140,6 +142,16 @@ export class HeaderComponent implements OnInit {
           this.deleteAccount(this.user.id);
         }
       });
+  }
+
+  /*Rescale*/
+
+  /**
+   * Access to static Rescale from AppComponent
+   * returns Rescale from AppComponent
+   */
+  public getRescale(): Rescale {
+    return AppComponent.rescale;
   }
 
 }
