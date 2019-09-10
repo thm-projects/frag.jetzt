@@ -44,8 +44,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
   public announce() {
     // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
     this.liveAnnouncer.announce('Sie befinden sich auf der Startseite von fragpunktjetzt. ' +
-      'Drücken Sie die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
-      'die Taste 3 um eine neue Sitzung zu erstellen, die Taste 4 um zur Sprachauswahl zu gelangen, ' +
-      'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+      'Drücken Sie die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um in die Benutzer-Anmeldung ' +
+      'oder das Sitzungs-Menü zu gelangen, die Taste 3 um eine neue Sitzung zu erstellen, ' +
+      'die Taste 4 um zur Sprachauswahl zu gelangen, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 }
