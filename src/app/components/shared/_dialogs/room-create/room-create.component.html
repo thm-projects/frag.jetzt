@@ -3,7 +3,7 @@
     <mat-form-field>
       <input (keypress)="resetEmptyInputs()" matInput #roomName class="input-block" type="text"
              placeholder="{{ 'session.session-name' | translate}}" maxlength="20" [(ngModel)]="longName" name="roomName"/>
-      <mat-hint align="end" class="count" *ngIf="!emptyInputs">{{roomName.value.length}} / 20</mat-hint>
+      <mat-hint align="end" class="count" *ngIf="!emptyInputs"><span aria-hidden="true">{{roomName.value.length}} / 20</span></mat-hint>
       <mat-hint align="start" class="error" *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
     </mat-form-field>
   </div>

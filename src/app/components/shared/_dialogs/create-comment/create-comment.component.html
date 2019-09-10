@@ -3,7 +3,7 @@
       <textarea matInput #commentBody matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=10  maxlength="255"
                 [formControl]="bodyForm"></textarea>
     <mat-placeholder class="placeholder">{{ 'comment-page.enter-comment' | translate}}</mat-placeholder>
-    <mat-hint align="end">{{commentBody.value.length}} / 255</mat-hint>
+    <mat-hint align="end"><span aria-hidden="true">{{commentBody.value.length}} / 255</span></mat-hint>
   </mat-form-field>
 </div>
 <app-dialog-action-buttons
