@@ -16,6 +16,7 @@ export class DemoVideoComponent implements OnInit {
 
   ngOnInit() {
     this.currentLang = localStorage.getItem('currentLang');
+    document.getElementById('setFocus').focus();
   }
 
   closeDialog() {
