@@ -1,7 +1,7 @@
 <mat-card id="comment-card" [ngClass]="{'highlighted': comment.highlighted,
                                         '': !comment.highlighted}" [@slide]>
   <div fxLayout="column">
-    <div fxLayout="row">
+    <div fxLayout="row" class="comment-actions">
       <div class="date-container">
         <div class="date" *ngIf="language === 'de'; else englishDate">
           {{comment.timestamp | date: ' HH:mm '}}
