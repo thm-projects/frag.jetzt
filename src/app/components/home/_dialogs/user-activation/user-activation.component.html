@@ -1,7 +1,8 @@
 <form (ngSubmit)="login(userActivationKey.value)" fxLayout="column" fxLayoutAlign="space-around"
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput #userActivationKey type="text" placeholder="{{ 'login.activation-key' | translate }}"
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           matInput #userActivationKey type="text" placeholder="{{ 'login.activation-key' | translate }}"
            [formControl]="activationKeyFormControl" name="activation-key"/>
     <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'login.activation-key-required' | translate }}</mat-error>
   </mat-form-field>
