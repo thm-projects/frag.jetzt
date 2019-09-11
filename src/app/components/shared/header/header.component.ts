@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
               private translationService: TranslateService,
               public dialog: MatDialog,
               private userService: UserService,
-              private eventService: EventService,
+              public eventService: EventService,
               private _r: Renderer2
   ) {
   }

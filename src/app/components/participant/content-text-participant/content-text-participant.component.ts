@@ -22,7 +22,7 @@ export class ContentTextParticipantComponent implements OnInit {
               private notificationService: NotificationService,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              private eventService: EventService) {
+              public eventService: EventService) {
               langService.langEmitter.subscribe(lang => translateService.use(lang));
 }
 

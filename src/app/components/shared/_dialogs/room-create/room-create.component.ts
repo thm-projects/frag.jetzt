@@ -30,7 +30,7 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private authService: AuthenticationService,
-    private eventService: EventService,
+    public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }

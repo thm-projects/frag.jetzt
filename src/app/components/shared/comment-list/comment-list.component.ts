@@ -61,7 +61,7 @@ export class CommentListComponent implements OnInit {
               protected roomService: RoomService,
               protected voteService: VoteService,
               private notificationService: NotificationService,
-              private eventService: EventService
+              public eventService: EventService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }

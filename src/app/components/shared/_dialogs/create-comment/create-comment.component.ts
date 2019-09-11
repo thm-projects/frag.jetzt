@@ -28,7 +28,7 @@ export class CreateCommentComponent implements OnInit {
               private translateService: TranslateService,
               public dialog: MatDialog,
               private translationService: TranslateService,
-              private eventService: EventService,
+              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 

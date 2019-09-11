@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnChanges {
               private translationService: TranslateService,
               public notificationService: NotificationService,
               public dialog: MatDialog,
-              private eventService: EventService,
+              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
