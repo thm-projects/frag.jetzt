@@ -5,10 +5,12 @@
     </button>
   </h1>
 
-        <mat-divider></mat-divider>
-        <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
-        <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
-        <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
+  <mat-dialog-content>
+    <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
+    <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
+  </mat-dialog-content>
+  <mat-divider></mat-divider>
 
 <mat-dialog-actions class="action-container">
   <span class="spacer"></span>
