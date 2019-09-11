@@ -3,7 +3,7 @@
   <mat-label *ngIf="deviceType === 'desktop'" fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
-  <input #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
+  <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
    'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
          [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput">
   <button mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
