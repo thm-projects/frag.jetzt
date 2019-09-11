@@ -27,7 +27,13 @@
     "a11y-swap_vert": "Option to sort questions",
     "a11y-keyboard_arrow_up": "Sorts questions by ascending votes",
     "a11y-keyboard_arrow_down": "Sorts questions by descending votes",
-    "a11y-access_time": "Sorts questions by time"
+    "a11y-access_time": "Sorts questions by time",
+    "a11y-filter_list": "Option to filter questions",
+    "a11y-check_circle": "Filters all questions marked as correct",
+    "a11y-not_interested": "Filters all questions marked as wrong",
+    "a11y-grade": "Filters all bonus questions",
+    "a11y-beamer_icon": "Filters all discussed questions",
+    "a11y-close": "Picks up all filters"
   },
   "comment-page": {
     "abort": "Cancel",

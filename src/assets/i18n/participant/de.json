@@ -27,7 +27,13 @@
     "a11y-swap_vert": "Option Fragen zu sortieren",
     "a11y-keyboard_arrow_up": "Sortiert Fragen nach aufsteigenden Votes",
     "a11y-keyboard_arrow_down": "Sortiert Fragen nach absteigenden Votes",
-    "a11y-access_time": "Sortiert Fragen nach der Uhrzeit"
+    "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
+    "a11y-filter_list": "Option Fragen zu filtern",
+    "a11y-check_circle": "Filtert alle bejahten Fragen",
+    "a11y-not_interested": "Filtert alle verneinten Fragen",
+    "a11y-grade": "Filtert alle Bonus Fragen",
+    "a11y-beamer_icon": "Filtert alle besprochenen Fragen",
+    "a11y-close": "Hebt alle Filter auf"
   },
   "comment-page": {
     "abort": "Abbrechen",

@@ -29,7 +29,7 @@
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
 
-    <button id="filter-button" mat-icon-button class="searchBarButton"
+    <button id="filter-button" mat-icon-button class="searchBarButton" aria-labelledby="filter_list"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
@@ -61,26 +61,27 @@
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.correct' | translate }}"
-              (click)="filterComments(correct)">
+              (click)="filterComments(correct)" aria-labelledby="check_circle">
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.wrong' | translate }}"
-              (click)="filterComments(wrong)">
+              (click)="filterComments(wrong)" aria-labelledby="not_interested">
         <mat-icon [ngClass]="{wrong: 'wrong-icon'}[currentFilter]">not_interested</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
-              (click)="filterComments(favorite)">
+              (click)="filterComments(favorite)" aria-labelledby="grade">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
       </button>
 
       <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
-              (click)="filterComments(read)">
+              (click)="filterComments(read)" aria-labelledby="beamer_icon">
         <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
       </button>
 
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">
+      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')"
+              aria-labelledby="close">
         <mat-icon>close</mat-icon>
       </button>
     </div>
@@ -116,4 +117,10 @@
   <div id="keyboard_arrow_up">{{'comment-list.a11y-keyboard_arrow_up' | translate}}</div>
   <div id="keyboard_arrow_down">{{'comment-list.a11y-keyboard_arrow_down' | translate}}</div>
   <div id="access_time">{{'comment-list.a11y-access_time' | translate}}</div>
+  <div id="filter_list">{{'comment-list.a11y-filter_list' | translate}}</div>
+  <div id="check_circle">{{'comment-list.a11y-check_circle' | translate}}</div>
+  <div id="not_interested">{{'comment-list.a11y-not_interested' | translate}}</div>
+  <div id="grade">{{'comment-list.a11y-grade' | translate}}</div>
+  <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
+  <div id="close">{{'comment-list.a11y-close' | translate}}</div>
 </div>
