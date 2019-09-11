@@ -9,16 +9,10 @@
   </div>
   <mat-divider></mat-divider>
 
-  <div mat-dialog-actions class="action-container">
-    <span class="spacer"></span>
-    <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'help.close' | translate }} </button>
-  </div>
-
   <app-dialog-action-buttons
-    buttonsLabelSection="cookies"
-    confirmButtonLabel="accept"
+    buttonsLabelSection="help"
     [confirmButtonType]=confirmButtonType
-    [confirmButtonClickAction]="buildConfirmActionCallback()"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   ></app-dialog-action-buttons>
 
 

@@ -21,10 +21,12 @@ export class HelpPageComponent implements OnInit {
     this.currentLang = localStorage.getItem('currentLang');
   }
 
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildConfirmActionCallback() {
-    return () => this.dialogRef.close();
+
+  close(type: string): void {
+    this.dialogRef.close(type);
+  }
+
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.close('abort');
   }
 }
