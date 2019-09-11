@@ -74,12 +74,12 @@ mat-card-content > :first-child {
 .date-container {
   opacity: 0.7;
   color: var(--on-surface);
-  height: 40px;
+  padding-top: .3rem;
 }
 
-.date {
-  padding-top: 10.5px;
-
+.comment-actions {
+  align-items: center;
+  height: 3.5rem;
 }
 
 .highlighted {
