@@ -1,20 +1,23 @@
-<h1 mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
+<div>
+  <h1 mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
 
-<mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-<mat-dialog-content>
-  <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
-  <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
-</mat-dialog-content>
+  <mat-dialog-content>
+    <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
+    <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
+  </mat-dialog-content>
 
-<mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-<div mat-dialog-actions class="action-container">
-  <span class="spacer"></span>
-  <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'imprint.close' | translate }} </button>
-</div>
+  <div mat-dialog-actions class="action-container">
+    <span class="spacer"></span>
+    <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'imprint.close' | translate }} </button>
+  </div>
 
 
-<div class="visually-hidden">
-  <div id="close-label">{{ 'imprint.close-label'| translate }}</div>
+  <div class="visually-hidden">
+    <div id="close-label">{{ 'imprint.close-label'| translate }}</div>
+  </div>
+
 </div>

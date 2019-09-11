@@ -4,3 +4,8 @@ p {
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+
+div {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--on-surface);
+}
