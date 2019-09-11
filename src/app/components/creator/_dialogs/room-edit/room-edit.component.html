@@ -3,12 +3,14 @@
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <mat-form-field class="input-block">
-      <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" aria-labelledby="room-name"
+      <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+             [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" aria-labelledby="room-name"
              name="room-name" maxlength="20"/>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
     </mat-form-field>
     <mat-form-field class="input-block">
       <textarea
+        (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
         [(ngModel)]="editRoom.description"
         matInput
         matTextareaAutosize

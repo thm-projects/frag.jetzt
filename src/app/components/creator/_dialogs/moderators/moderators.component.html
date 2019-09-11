@@ -3,7 +3,8 @@
   <mat-divider></mat-divider>
   <div fxLayout="row">
     <mat-form-field class="input-block">
-      <input matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}" aria-labelledby="moderator-email"
+      <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+             matInput type="email" #loginId placeholder="{{ 'room-page.moderator-email' | translate }}" aria-labelledby="moderator-email"
              [formControl]="usernameFormControl" name="username"/>
       <mat-error *ngIf="usernameFormControl.hasError('email')">
         {{ 'room-page.email-error' | translate }}
