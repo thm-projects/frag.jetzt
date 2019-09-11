@@ -80,8 +80,8 @@ export class FooterComponent implements OnInit {
 
   showCookieModal() {
     const dialogRef = this.dialog.open(CookiesComponent, {
-      width: '60%',
-      autoFocus: false
+      width: '70%',
+      autoFocus: true
 
     });
     dialogRef.disableClose = true;
