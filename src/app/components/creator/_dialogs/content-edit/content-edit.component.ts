@@ -23,7 +23,7 @@ export class ContentEditComponent implements OnInit {
               private notificationService: NotificationService,
               public dialogRef: MatDialogRef<ContentListComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private eventService: EventService) {
+              public eventService: EventService) {
   }
 
   ngOnInit() {

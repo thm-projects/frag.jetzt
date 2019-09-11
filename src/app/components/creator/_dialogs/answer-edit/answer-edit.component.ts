@@ -15,7 +15,7 @@ export class AnswerEditComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ContentChoiceCreatorComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private eventService: EventService) {
+              public eventService: EventService) {
   }
 
   ngOnInit() {

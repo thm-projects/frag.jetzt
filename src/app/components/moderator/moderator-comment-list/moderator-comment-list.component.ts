@@ -57,7 +57,7 @@ export class ModeratorCommentListComponent implements OnInit {
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
     protected voteService: VoteService,
-    private eventService: EventService
+    public eventService: EventService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }

@@ -21,7 +21,7 @@ export class UserActivationComponent implements OnInit {
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<UserActivationComponent>,
     private translationService: TranslateService,
-    private eventService: EventService) {
+    public eventService: EventService) {
   }
 
   ngOnInit() {

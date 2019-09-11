@@ -30,7 +30,7 @@ export class ModeratorsComponent implements OnInit {
     protected moderatorService: ModeratorService,
     protected langService: LanguageService,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private eventService: EventService) {
+    public eventService: EventService) {
       langService.langEmitter.subscribe(lang => translationService.use(lang));
   }
 

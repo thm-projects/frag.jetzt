@@ -63,7 +63,7 @@ export class ContentChoiceCreatorComponent implements OnInit {
               private notificationService: NotificationService,
               public dialog: MatDialog,
               private translationService: TranslateService,
-              private eventService: EventService) {
+              public eventService: EventService) {
   }
 
   ngOnInit() {

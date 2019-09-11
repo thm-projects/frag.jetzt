@@ -33,7 +33,7 @@ export class ContentCreatorComponent implements OnInit {
   editDialogMode = false;
 
   constructor(private translateService: TranslateService,
-              private eventService: EventService) {
+              public eventService: EventService) {
   }
 
   ngOnInit() {
