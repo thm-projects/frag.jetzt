@@ -55,7 +55,7 @@ review:
     - rsync -av --delete "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
   environment:
     name: review/$CI_BUILD_REF_NAME
-    url: http://$CI_BUILD_REF_SLUG.$SERVER_URL
+    url: http://$CI_BUILD_REF_SLUG.$REVIEW_SERVER_URL
     on_stop: stop_review
   only:
     - branches
