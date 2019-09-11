@@ -3,6 +3,7 @@ export class Rescale {
 
   public scale = 1;
   public cachedScale = 1;
+  private f;
 
   public scaleUp() {
     this.setScale(this.scale + 0.1);
@@ -31,11 +32,17 @@ export class Rescale {
   }
 
   public activeScale() {
+    window.addEventListener('keydown', this.f = e => {
+      if (e.key === 'Escape') {
+        this.deactivateScale();
+      }
+    });
     this.setScale(this.cachedScale);
     this.setStateScale(true);
   }
 
   public deactivateScale() {
+    window.removeEventListener('keydown', this.f);
     this.cachedScale = this.scale;
     this.scaleUndo();
     this.setStateScale(false);
