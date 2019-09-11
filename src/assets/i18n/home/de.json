@@ -73,7 +73,8 @@
   "help": {
     "close": "Schließen",
     "close-label": "Schließt die Hilfe.",
-    "title": "Hilfe"
+    "title": "Hilfe",
+    "cancel": "Schließen"
   },
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",

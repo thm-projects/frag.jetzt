@@ -73,6 +73,7 @@
     "visited-sessions": "Visited sessions"
   },
   "help": {
+    "cancel": "Close",
     "close": "Close",
     "close-label": "Closes the help dialog",
     "title": "Help"
