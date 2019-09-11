@@ -9,11 +9,13 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 export class DemoVideoComponent implements OnInit {
 
   deviceType: string;
+  currentLang: string;
 
   constructor(public dialogRef: MatDialogRef<DemoVideoComponent>,
               public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.currentLang = localStorage.getItem('currentLang');
   }
 
   closeDialog() {

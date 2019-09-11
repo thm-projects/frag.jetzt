@@ -40,17 +40,23 @@
 .desktopButton {
   background-color: var(--red);
   color: white;
-  position:absolute;
+  position: sticky;
   top: 4%;
-  right: 10%;
+  left: 90%;
   max-height: 100px;
 }
 
 .mobileButton {
   background-color: var(--red);
   color: white;
-  position:absolute;
+  position: sticky;
   top: 4%;
-  right: 0;
+  left: 90%;
   max-height: 100px;
+}
+
+.intro-text {
+  font-size: large;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  color: var(--on-surface);
 }
