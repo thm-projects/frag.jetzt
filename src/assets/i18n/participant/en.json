@@ -33,7 +33,8 @@
     "a11y-not_interested": "Filters all questions marked as wrong",
     "a11y-grade": "Filters all bonus questions",
     "a11y-beamer_icon": "Filters all discussed questions",
-    "a11y-close": "Picks up all filters"
+    "a11y-close": "Picks up all filters",
+    "a11y-add": "Option to ask a question"
   },
   "comment-page": {
     "abort": "Cancel",

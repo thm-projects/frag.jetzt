@@ -33,7 +33,8 @@
     "a11y-not_interested": "Filtert alle verneinten Fragen",
     "a11y-grade": "Filtert alle Bonus Fragen",
     "a11y-beamer_icon": "Filtert alle besprochenen Fragen",
-    "a11y-close": "Hebt alle Filter auf"
+    "a11y-close": "Hebt alle Filter auf",
+    "a11y-add": "Option eine Frage zu stellen"
   },
   "comment-page": {
     "abort": "Abbrechen",

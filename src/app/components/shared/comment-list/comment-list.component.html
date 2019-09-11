@@ -35,7 +35,7 @@
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
-    <button id="add_comment_small-button" mat-fab class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
+    <button id="add_comment_small-button" mat-fab aria-labelledby="add" class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
       <mat-icon class="addCommentIcon">add</mat-icon>
     </button>
@@ -123,4 +123,5 @@
   <div id="grade">{{'comment-list.a11y-grade' | translate}}</div>
   <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
   <div id="close">{{'comment-list.a11y-close' | translate}}</div>
+  <div id="add">{{'comment-list.a11y-add' | translate}}</div>
 </div>
