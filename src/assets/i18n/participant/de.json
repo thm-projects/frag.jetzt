@@ -29,6 +29,7 @@
     "abort": "Abbrechen",
     "cancel": "Zurück",
     "cancel-description": "Zurück",
+    "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }} votes.",
     "enter-comment": "Deine Frage",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",

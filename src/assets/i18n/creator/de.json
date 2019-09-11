@@ -20,6 +20,7 @@
     "acknowledge": "Erlauben",
     "cancel": "Zurück",
     "cancel-description": "Zurück",
+    "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }} votes.",
     "comma": "Microsoft Excel",
     "delete": "Frage löschen",
     "delimiter": "Bitte wähle ein Format!",

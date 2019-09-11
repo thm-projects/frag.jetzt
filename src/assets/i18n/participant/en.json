@@ -29,6 +29,7 @@
     "abort": "Cancel",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
+    "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }} votes.",
     "enter-comment": "Your question",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",

@@ -50,14 +50,22 @@
       </button>
     </div>
     <div fxLayout="row">
-      <div class="body click" (click)="openPresentDialog(comment)">{{comment.body.trim()}}</div>
+      <div class="body click" (click)="openPresentDialog(comment)" tabindex="0" attr.aria-labelledby="comment-{{ comment.id }}">
+        <span aria-hidden="true">{{ comment.body.trim() }}</span>
+        <span id="comment-{{ comment.id }}" class="visually-hidden" aria-hidden="true">{{ 'comment-page.comment' | translate: {
+            time: (language === 'de' ? (comment.timestamp | date: ' HH:mm ') : (comment.timestamp | date: 'h:mm a')),
+            votes: comment.score,
+            comment: comment.body.trim()
+          }
+          }}</span>
+      </div>
       <span class="fill-remaining-space click" (click)="openPresentDialog(comment)"></span>
       <div fxLayout="column" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState"
            (@rubberBand.done)="resetAnimationState()">
         <button mat-icon-button (click)="voteUp(comment)" matTooltip="{{ 'comment-page.vote-up' | translate }}">
           <mat-icon class="voting-icon" [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
         </button>
-        <h2>{{comment.score}}</h2>
+        <span class="score">{{comment.score}}</span>
         <button mat-icon-button (click)="voteDown(comment)" matTooltip="{{ 'comment-page.vote-down' | translate }}">
           <mat-icon class="voting-icon" [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
         </button>

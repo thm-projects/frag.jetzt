@@ -21,6 +21,7 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "comma": "Microsoft Excel",
+    "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }} votes.",
     "delete": "Delete question",
     "delimiter": "Please choose a format!",
     "enter-comment": "Question",
