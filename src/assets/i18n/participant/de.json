@@ -34,7 +34,9 @@
     "a11y-grade": "Filtert alle Bonus Fragen",
     "a11y-beamer_icon": "Filtert alle besprochenen Fragen",
     "a11y-close": "Hebt alle Filter auf",
-    "a11y-add": "Option eine Frage zu stellen"
+    "a11y-add": "Option eine Frage zu stellen",
+    "a11y-close_search": "Schließt den Suchvorgang von Fragen",
+    "a11y-search_box": "Geben sie die gewünschte Frage ein"
   },
   "comment-page": {
     "abort": "Abbrechen",

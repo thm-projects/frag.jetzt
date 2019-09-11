@@ -8,7 +8,7 @@
          [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput"
          aria-labelledby="search-box-input-description">
   <button id="search_close-button" mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
-          (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';">
+          (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';" aria-labelledby="close_search">
     <mat-icon>close</mat-icon>
   </button>
 
@@ -109,6 +109,7 @@
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
 </div>
 
+<!--Hidden Div's for a11y-Descriptions-->
 <div class="visually-hidden">
   <div id="search-box-input-description">
     {{ 'comment-page.search-box-input-description' | translate }}
@@ -124,4 +125,5 @@
   <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
   <div id="close">{{'comment-list.a11y-close' | translate}}</div>
   <div id="add">{{'comment-list.a11y-add' | translate}}</div>
+  <div id="close_search">{{'comment-list.a11y-close_search' | translate}}</div>
 </div>
