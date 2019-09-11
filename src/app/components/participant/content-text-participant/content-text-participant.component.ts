@@ -6,6 +6,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { ContentType } from '../../../models/content-type.enum';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-content-text-participant',
@@ -20,7 +21,8 @@ export class ContentTextParticipantComponent implements OnInit {
   constructor(private answerService: ContentAnswerService,
               private notificationService: NotificationService,
               private translateService: TranslateService,
-              protected langService: LanguageService) {
+              protected langService: LanguageService,
+              public eventService: EventService) {
               langService.langEmitter.subscribe(lang => translateService.use(lang));
 }
 

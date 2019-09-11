@@ -6,7 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
-
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -28,6 +28,7 @@ export class CreateCommentComponent implements OnInit {
               private translateService: TranslateService,
               public dialog: MatDialog,
               private translationService: TranslateService,
+              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 

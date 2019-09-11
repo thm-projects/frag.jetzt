@@ -4,6 +4,7 @@ import { UserService } from '../../../../services/http/user.service';
 import { FormControl, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-user-activation',
@@ -19,8 +20,8 @@ export class UserActivationComponent implements OnInit {
     public userService: UserService,
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<UserActivationComponent>,
-    private translationService: TranslateService
-  ) {
+    private translationService: TranslateService,
+    public eventService: EventService) {
   }
 
   ngOnInit() {

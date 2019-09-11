@@ -5,6 +5,7 @@ import { RegisterComponent } from '../register/register.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { EventService } from '../../../../services/util/event.service';
 
 export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -29,7 +30,8 @@ export class PasswordResetComponent implements OnInit {
               public authenticationService: AuthenticationService,
               public notificationService: NotificationService,
               public dialogRef: MatDialogRef<RegisterComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              public eventService: EventService) {
   }
 
   ngOnInit() {

@@ -13,6 +13,7 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -55,7 +56,8 @@ export class ModeratorCommentListComponent implements OnInit {
     protected langService: LanguageService,
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
-    protected voteService: VoteService
+    protected voteService: VoteService,
+    public eventService: EventService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }

@@ -8,6 +8,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { Moderator } from '../../../../models/moderator';
 import { ModeratorDeleteComponent } from '../moderator-delete/moderator-delete.component';
 import { FormControl, Validators } from '@angular/forms';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-moderators',
@@ -28,7 +29,8 @@ export class ModeratorsComponent implements OnInit {
     public translationService: TranslateService,
     protected moderatorService: ModeratorService,
     protected langService: LanguageService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public eventService: EventService) {
       langService.langEmitter.subscribe(lang => translationService.use(lang));
   }
 

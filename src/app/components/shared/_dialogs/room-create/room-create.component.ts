@@ -9,6 +9,7 @@ import { ContentService } from '../../../../services/http/content.service';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TSMap } from 'typescript-map';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-room-create',
@@ -29,6 +30,7 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private authService: AuthenticationService,
+    public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }

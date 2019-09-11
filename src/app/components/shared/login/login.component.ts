@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
+import { EventService } from '../../../services/util/event.service';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -40,6 +41,7 @@ export class LoginComponent implements OnInit, OnChanges {
               private translationService: TranslateService,
               public notificationService: NotificationService,
               public dialog: MatDialog,
+              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 

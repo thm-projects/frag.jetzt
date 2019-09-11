@@ -1,14 +1,17 @@
 <form>
 <mat-form-field class="input-block">
-  <input matInput #subject [(ngModel)]="content.subject" placeholder="{{'content.subject' | translate}}" name="subject"
+  <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+         matInput #subject [(ngModel)]="content.subject" placeholder="{{'content.subject' | translate}}" name="subject"
   maxlength="40">
 </mat-form-field>
 <mat-form-field class="input-block">
-    <textarea matInput #body [(ngModel)]="content.body" placeholder="{{'content.body' | translate}}" name="body"
+    <textarea (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+              matInput #body [(ngModel)]="content.body" placeholder="{{'content.body' | translate}}" name="body"
               matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" maxlength="255"></textarea>
 </mat-form-field>
 <mat-form-field>
-  <input matInput #group [formControl]="myControl" [matAutocomplete]="auto"
+  <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+         matInput #group [formControl]="myControl" [matAutocomplete]="auto"
          placeholder="{{'content.collection' | translate}}" [(ngModel)]="lastCollection" />
   <mat-autocomplete #auto="matAutocomplete">
     <mat-option *ngFor="let collection of contentGroups" [value]="collection.name">

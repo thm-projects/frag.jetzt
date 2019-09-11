@@ -15,6 +15,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -59,7 +60,8 @@ export class CommentListComponent implements OnInit {
               private wsCommentService: WsCommentServiceService,
               protected roomService: RoomService,
               protected voteService: VoteService,
-              private notificationService: NotificationService
+              private notificationService: NotificationService,
+              public eventService: EventService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }

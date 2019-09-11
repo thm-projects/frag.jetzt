@@ -1,7 +1,8 @@
 <form (ngSubmit)="register(userName.value, userPassword1.value)" fxLayout="column"
       fxLayoutAlign="space-around" fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput type="email" #userName placeholder="{{ 'register.email' | translate }}" [formControl]="usernameFormControl"
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           matInput type="email" #userName placeholder="{{ 'register.email' | translate }}" [formControl]="usernameFormControl"
            [errorStateMatcher]="matcher">
     <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
       {{ 'register.email-invalid' | translate }}
@@ -12,7 +13,8 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input matInput type="email" #userName2 placeholder="{{ 'register.email-verify' | translate }}" [formControl]="username2FormControl"
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           matInput type="email" #userName2 placeholder="{{ 'register.email-verify' | translate }}" [formControl]="username2FormControl"
            [errorStateMatcher]="matcher">
     <mat-error *ngIf="username2FormControl.hasError('emailIsEqual') && !username2FormControl.hasError('required')">
       {{ 'register.email-unmatch' | translate }}
@@ -20,7 +22,8 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input matInput type="password" #userPassword1 placeholder="{{ 'register.password' | translate }}"
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           matInput type="password" #userPassword1 placeholder="{{ 'register.password' | translate }}"
            [formControl]="password1FormControl" [errorStateMatcher]="matcher">
     <mat-error *ngIf="password1FormControl.hasError('required')">
       {{ 'register.password-required' | translate }}
@@ -28,7 +31,8 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input matInput type="password" #userPassword2 placeholder="{{ 'register.password-verify' | translate}}"
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           matInput type="password" #userPassword2 placeholder="{{ 'register.password-verify' | translate}}"
            [formControl]="password2FormControl" [errorStateMatcher]="matcher">
     <mat-error *ngIf="password2FormControl.hasError('required')">
       {{ 'register.password-required' | translate }}

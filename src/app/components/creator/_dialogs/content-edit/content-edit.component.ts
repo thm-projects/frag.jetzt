@@ -6,6 +6,7 @@ import { ContentChoice } from '../../../../models/content-choice';
 import { AnswerOption } from '../../../../models/answer-option';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-content-edit',
@@ -21,7 +22,8 @@ export class ContentEditComponent implements OnInit {
   constructor(private translateService: TranslateService,
               private notificationService: NotificationService,
               public dialogRef: MatDialogRef<ContentListComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              public eventService: EventService) {
   }
 
   ngOnInit() {

@@ -1,10 +1,12 @@
 <div *ngIf="answer">
   <mat-form-field class="input-block">
-    <input [(ngModel)]="answer.answerOption.label" matInput
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           [(ngModel)]="answer.answerOption.label" matInput
            placeholder="{{ 'content.answer' | translate }}" name="answer-label"/>
   </mat-form-field>
   <mat-form-field class="input-block">
-    <input [(ngModel)]="answer.answerOption.points" matInput
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           [(ngModel)]="answer.answerOption.points" matInput
            placeholder="{{ 'content.points' | translate }}" name="points">
   </mat-form-field>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
