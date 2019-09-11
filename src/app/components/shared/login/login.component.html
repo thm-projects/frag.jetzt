@@ -30,7 +30,6 @@
   </button>
   <div class="forgot-password">
     <a
-      style="text-decoration:underline;"
       href=""
       (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
       role="button"
@@ -42,9 +41,7 @@
 <mat-divider></mat-divider>
 <div fxLayout="row" class="register">
   <p>{{ 'login-page.not-registered' | translate }}</p>
-  <button (click)="openRegisterDialog()" class="regButton" mat-button>
-    {{ 'login-page.register' | translate }}
-  </button>
+  <a class="registerBtn" (click)="openRegisterDialog()">{{ 'login-page.register' | translate }}</a>
 </div>
 <app-dialog-action-buttons
   [spacing]="false"

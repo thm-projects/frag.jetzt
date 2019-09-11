@@ -23,7 +23,7 @@
 }
 
 .forgot-password a {
-  text-decoration: none;
+  text-decoration: underline;
   color: var(--secondary);
   font-size: .9rem;
 }
@@ -72,5 +72,12 @@ h3 {
 .register {
   padding: .5rem 0;
   align-items: baseline;
+}
+
+.registerBtn{
+  text-decoration:underline;
+  color:var(--on-surface);
+  cursor:pointer;
+  font-size:small;
 }
 
