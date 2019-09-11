@@ -1,12 +1,16 @@
-### Problems
 
-JAWS and Microsoft Speech cannot play the "title" attributes. Only NVDA plays the "title" attribute.<br>
-Attribute "aria-label" does not work with multi-language titles, voice output reads registered string directly 1 to 1.<br>
-"aria-labelledby" works finde with Microsoft Speech, JAWS and NVDA. If "title" attribute is additionally set, NVDA plays the text twice.<br>
+
+[TOC]
+
+
+
+
+
+# Making HTML elements a11y
 
 ### Example (meeting_room) for Buttons
 
-```
+```html
 <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu" aria-labelledby="meeting_room"></button>
 
 <!--Hidden Div's for a11y-Descriptions-->
@@ -17,7 +21,7 @@ Attribute "aria-label" does not work with multi-language titles, voice output re
 
 ### style.sccs
 
-```
+```scss
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -34,7 +38,7 @@ Dynamic Aria labels like used in generic components are also possible!
 
 For usage only the `attr.` tag prefix must be added like in following code example:
 
-```
+```html
 <button
       mat-button
       attr.aria-labelledby="{{ ariaPrefix + 'cancel' }}"
@@ -44,16 +48,17 @@ For usage only the `attr.` tag prefix must be added like in following code examp
 ```
 
 
-@see https://blog.prototypr.io/accessible-components-2-dynamic-aria-labels-6bf281f26d17
+@see: [Accessible components: #2 dynamic ARIA labels](https://blog.prototypr.io/accessible-components-2-dynamic-aria-labels-6bf281f26d17)
 
 
 ### Live Announcer
 
-##### To Add Live Announcer you need to import:
+#### To Add Live Announcer you need to import:
+
 ``import { LiveAnnouncer } from '@angular/cdk/a11y';``
 
 ##### And add to the constructor:
-```
+```typescript
 constructor(
     ...
     private liveAnnouncer: LiveAnnouncer) { 
@@ -61,30 +66,43 @@ constructor(
 }
 ```
 
-##### You also need to add to the ngOnInit() - Function:
-```
+#### You also need to add to the `ngOnInit()` - Function:
+
+```typescript
 ngOnInit() {
     ...
     this.announce();
 }
 ```
 
-##### And this is the function to start the announcement:
-```
+#### And this is the function to start the announcement:
+
+```typescript
 public announce() {
     this.liveAnnouncer.announce('Willkommenstext', 'assertive');
 }
 ```
 
+
+
+#### Problems with JAWS and Microsoft Speech
+
+JAWS and Microsoft Speech cannot play the "title" attributes. Only NVDA plays the "title" attribute.
+Attribute "aria-label" does not work with multi-language titles, voice output reads registered string directly 1 to 1.
+`aria-labelledby` works finde with Microsoft Speech, JAWS and NVDA. If "title" attribute is additionally set, NVDA plays the text twice.
+
+
+
 ### Keyboard Shortcut
-To enter Keyboard Shortcuts you first need to import Renderer2, InDestroy and the EventService form angular/core:
-```
+
+To enter Keyboard Shortcuts you first need to import `Renderer2`, `InDestroy` and the `EventService` form `angular/core`:
+```typescript
 import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 ```
 
 After that you also need to add it to the constructor
-```
+```typescript
 constructor(
     ...
     private eventService: EventService,
@@ -94,9 +112,11 @@ constructor(
     }
 ```
 
-When this is done you need to add a listener to the ``ngOnInit()`` function.<br>
+When this is done you need to add a listener to the ``ngOnInit()`` function.
+
 Example:
-```
+
+```typescript
 ngOnInit() {
     ...
     // But first you need to add a variable:
@@ -139,7 +159,7 @@ ngOnDestroy() {
 
 ## HTML5 Accessibility: aria-hidden and role=”presentation”
 
-A page about aria-hidden and role="presentation" attribute usage tests:
+A page about `aria-hidden` and `role="presentation"` attribute usage tests:
 
-http://john.foliot.ca/aria-hidden/
+Source: [HTML5 Accessibility: aria-hidden and role=”presentation”](http://john.foliot.ca/aria-hidden/)
 
