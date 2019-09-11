@@ -41,7 +41,8 @@
 
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <mat-form-field class="input-block">
-      <input matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
+      <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+             matInput #answerLabel [(ngModel)]="newAnswerOptionLabel" placeholder="{{ 'content.answer' | translate }}" name="answer">
     </mat-form-field>
     <button *ngIf="singleChoice" mat-icon-button class="addButton" (click)="addAnswer($event); answerLabel.value = '';">
       <mat-icon class="addIcon">add_circle</mat-icon>
