@@ -23,7 +23,7 @@
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
 
-    <button id="sort-button" mat-icon-button class="searchBarButton"
+    <button id="sort-button" mat-icon-button class="searchBarButton" aria-labelledby="swap_vert"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -42,18 +42,18 @@
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
-    <button mat-icon-button matTooltip="{{ 'comment-list.vote-desc' | translate }}"
-            (click)="sortComments(votedesc)">
+    <button mat-icon-button matTooltip="{{ 'comment-list.vote-asc' | translate }}"
+            (click)="sortComments(votedesc)" aria-labelledby="keyboard_arrow_up">
       <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
     </button>
 
-    <button mat-icon-button matTooltip="{{ 'comment-list.vote-asc' | translate }}"
-            (click)="sortComments(voteasc)">
+    <button mat-icon-button matTooltip="{{ 'comment-list.vote-desc' | translate }}"
+            (click)="sortComments(voteasc)" aria-labelledby="keyboard_arrow_down">
       <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
     </button>
 
     <button mat-icon-button matTooltip="{{ 'comment-list.time' | translate }}"
-            (click)="sortComments(time)">
+            (click)="sortComments(time)" aria-labelledby="access_time">
       <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
     </button>
   </mat-menu>
@@ -112,4 +112,8 @@
   <div id="search-box-input-description">
     {{ 'comment-page.search-box-input-description' | translate }}
   </div>
+  <div id="swap_vert">{{'comment-list.a11y-swap_vert' | translate}}</div>
+  <div id="keyboard_arrow_up">{{'comment-list.a11y-keyboard_arrow_up' | translate}}</div>
+  <div id="keyboard_arrow_down">{{'comment-list.a11y-keyboard_arrow_down' | translate}}</div>
+  <div id="access_time">{{'comment-list.a11y-access_time' | translate}}</div>
 </div>

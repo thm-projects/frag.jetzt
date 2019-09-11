@@ -23,7 +23,11 @@
     "unread": "Not yet discussed",
     "vote-desc": "Descending votes",
     "vote-asc": "Ascending votes",
-    "wrong": "Marked as wrong by the professor"
+    "wrong": "Marked as wrong by the professor",
+    "a11y-swap_vert": "Option to sort questions",
+    "a11y-keyboard_arrow_up": "Sorts questions by ascending votes",
+    "a11y-keyboard_arrow_down": "Sorts questions by descending votes",
+    "a11y-access_time": "Sorts questions by time"
   },
   "comment-page": {
     "abort": "Cancel",

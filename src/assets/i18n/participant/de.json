@@ -23,7 +23,11 @@
     "unread": "Nicht im Hörsaal besprochen",
     "vote-asc": "Aufsteigende Votes",
     "vote-desc": "Absteigende Votes",
-    "wrong": "Verneint"
+    "wrong": "Verneint",
+    "a11y-swap_vert": "Option Fragen zu sortieren",
+    "a11y-keyboard_arrow_up": "Sortiert Fragen nach aufsteigenden Votes",
+    "a11y-keyboard_arrow_down": "Sortiert Fragen nach absteigenden Votes",
+    "a11y-access_time": "Sortiert Fragen nach der Uhrzeit"
   },
   "comment-page": {
     "abort": "Abbrechen",
