@@ -54,6 +54,8 @@ import { ImprintEnComponent } from '../assets/i18n/imprint/imprint-en';
 import { ImprintDeComponent } from '../assets/i18n/imprint/imprint-de';
 import { HelpDeComponent } from '../assets/i18n/help/help-de';
 import { HelpEnComponent } from '../assets/i18n/help/help-en';
+import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
+import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -86,7 +88,9 @@ export function initializeApp(appConfig: AppConfig) {
     ImprintEnComponent,
     ImprintDeComponent,
     HelpDeComponent,
-    HelpEnComponent
+    HelpEnComponent,
+    DemoDeComponent,
+    DemoEnComponent
   ],
   entryComponents: [
     RegisterComponent,
