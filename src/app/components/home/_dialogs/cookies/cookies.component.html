@@ -1,28 +1,54 @@
-<div>
-  <h1 mat-dialog-title>Cookies
-    <button mat-icon-button aria-labelledby="info-label" class="info" (click)="openDataProtection()">
-      <mat-icon class="info-icon">help</mat-icon>
-    </button></h1>
 
-  <mat-divider></mat-divider>
-  <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
-  <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
-  <mat-divider></mat-divider>
 
-<mat-dialog-actions class="action-container">
-  <span class="spacer"></span>
-  <button mat-raised-button mat-dialog-close (click)="acceptCookies()" aria-labelledby="accept-label">
-    <span> {{ 'cookies.accept' | translate }}</span>
-  </button>
-  <span class="pad"></span>
-  <button mat-stroked-button mat-dialog-close (click)="exitApp()" aria-labelledby="decline-label">
-    <span> {{ 'cookies.decline' | translate }}</span>
-  </button>
-</mat-dialog-actions>
-</div>
+<div class="container">
+  <div class="content_container">
 
-<div class="visually-hidden">
-  <div id="accept-label">{{'cookies.accept-label' | translate }}</div>
-  <div id="decline-label">{{'cookies.decline-label' | translate }}</div>
-  <div id="info-label">{{'cookies.info-label' | translate }}</div>
+    <mat-divider></mat-divider>
+
+    <div class="scroll_container">
+
+      <div class="inner_scroll_container">
+
+        <h1 mat-dialog-title>Cookies
+          <button mat-icon-button aria-labelledby="info-label" class="info" (click)="openDataProtection()">
+            <mat-icon class="info-icon">help</mat-icon>
+          </button></h1>
+
+        <mat-divider></mat-divider>
+        <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
+        <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
+        <mat-divider></mat-divider>
+
+      </div>
+
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <div class="visually-hidden">
+      <div id="consent-label">{{ 'data-protection.consent-label' | translate }}</div>
+      <div id="deny-label">{{ 'data-protection.deny-label' | translate }}</div>
+    </div>
+  </div>
+  <div class="button_container">
+
+    <mat-dialog-actions class="action-container">
+      <span class="spacer"></span>
+      <button mat-raised-button mat-dialog-close (click)="acceptCookies()" aria-labelledby="accept-label">
+        <span> {{ 'cookies.accept' | translate }}</span>
+      </button>
+      <span class="pad"></span>
+      <button mat-stroked-button mat-dialog-close (click)="exitApp()" aria-labelledby="decline-label">
+        <span> {{ 'cookies.decline' | translate }}</span>
+      </button>
+    </mat-dialog-actions>
+
+
+    <div class="visually-hidden">
+      <div id="accept-label">{{'cookies.accept-label' | translate }}</div>
+      <div id="decline-label">{{'cookies.decline-label' | translate }}</div>
+      <div id="info-label">{{'cookies.info-label' | translate }}</div>
+    </div>
+
+  </div>
 </div>

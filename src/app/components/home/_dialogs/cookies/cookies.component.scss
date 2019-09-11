@@ -19,3 +19,35 @@ div {
 .info-icon{
   font-size: 19px;
 }
+
+.container{
+  width:100%;
+  height:100%;
+  position:relative;
+  left:0px;
+  top:0px;
+}
+
+.content_container{
+  width:100%;
+  height:calc( 100% - 50px );
+  float:left;
+}
+
+.scroll_container{
+  width:100%;
+  height:100%;
+  overflow-y:auto;
+}
+
+.inner_scroll_container{
+  width:100%;
+  margin-top:15px;
+  float:left;
+}
+
+.button_container{
+  width:100%;
+  height:50px;
+  float:left;
+}

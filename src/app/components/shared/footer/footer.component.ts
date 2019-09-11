@@ -74,7 +74,7 @@ showDemo() {
 showCookieModal() {
   const dialogRef = this.dialog.open(CookiesComponent, {
     height: '95%',
-    width: '60%',
+    width: '95%',
     autoFocus: false
   });
   dialogRef.disableClose = true;
@@ -84,7 +84,7 @@ showCookieModal() {
 showImprint() {
   const dialogRef = this.dialog.open(ImprintComponent, {
     height: '95%',
-    width: '75%'
+    width: '95%'
   });
   dialogRef.componentInstance.deviceType = this.deviceType;
 }
@@ -92,7 +92,7 @@ showImprint() {
 showHelp() {
   const dialogRef = this.dialog.open(HelpPageComponent, {
     height: '95%',
-    width: '75%'
+    width: '95%'
   });
   dialogRef.componentInstance.deviceType = this.deviceType;
 }
@@ -100,7 +100,7 @@ showHelp() {
 showDataProtection() {
   const dialogRef = this.dialog.open(DataProtectionComponent, {
     height: '95%',
-    width: '75%'
+    width: '95%'
   });
   dialogRef.componentInstance.deviceType = this.deviceType;
 }
