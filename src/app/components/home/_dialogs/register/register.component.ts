@@ -13,7 +13,7 @@ export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-function validatePassword(password1: FormControl) {
+export function validatePassword(password1: FormControl) {
   return (formControl: FormControl) => {
     const password1Value = password1.value;
     const password2Value = formControl.value;

@@ -142,10 +142,17 @@
     "email-description": "Gib hier deine E-Mail Adresse ein um dein Passwort zurückzusetzen.",
     "email-invalid": "Adresse ungültig",
     "email-required": "Adresse erforderlich",
+    "forgot-password": "Passwort vergessen?",
+    "set-new-password": "Setze ein neues Passwort mit dem Schlüssel",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "reset-password": "Passwort zurücksetzen",
     "reset-password-description": "Passwort zurücksetzen",
-    "reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfe dein Postfach."
+    "reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfe dein Postfach.",
+    "set-new-password-button": "Setze Passwort",
+    "key": "Schlüssel",
+    "new-password": "Neues Passwort",
+    "new-password-successful": "Das neue Passwort wurde gesetzt.",
+    "key-required": "Schlüssel erforderlich"
   },
   "register": {
     "cancel": "Zurück",
@@ -157,6 +164,7 @@
     "email-required": "Adresse erforderlich",
     "email-unmatch": "Adressen stimmen nicht überein",
     "email-verify": "Adresse wiederholen",
+    "forgot-password": "Passwort vergessen?",
     "password": "Passwort",
     "password-description": "Gib hier das Passwort mit dem du dich registrieren möchtest ein.",
     "password-description-repeat": "Gib hier bitte erneut das Passwort mit dem du dich registrieren möchtest ein um sicherzustellen dass du dich nicht vertippt hast.",

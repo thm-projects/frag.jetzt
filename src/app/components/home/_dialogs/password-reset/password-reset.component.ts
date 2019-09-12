@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { RegisterComponent } from '../register/register.component';
+import { RegisterComponent, validatePassword } from '../register/register.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -23,6 +23,10 @@ export class PasswordResetComponent implements OnInit {
 
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
+  usernameFormControl2 = new FormControl('', [Validators.required, Validators.email]);
+  passwordFormControl = new FormControl('', [Validators.required]);
+  passwordFormControl2 = new FormControl('', [Validators.required, validatePassword(this.passwordFormControl)]);
+  keyFormControl = new FormControl('', [Validators.required]);
 
   matcher = new PasswordResetErrorStateMatcher();
 
@@ -56,6 +60,28 @@ export class PasswordResetComponent implements OnInit {
         });
         this.closeDialog();
       });
+    } else {
+      this.translationService.get('password-reset.input-incorrect').subscribe(message => {
+        this.notificationService.show(message);
+      });
+    }
+  }
+
+  setNewPassword(email: string, key: string, password: string) {
+    if (!this.usernameFormControl2.hasError('required') && !this.usernameFormControl2.hasError('email')
+      && !this.passwordFormControl2.hasError('passwordIsEqual')) {
+      if (email !== '' && key !== '' && password !== '') {
+        this.authenticationService.setNewPassword(email, key, password).subscribe(() => {
+          this.translationService.get('password-reset.new-password-successful').subscribe(message => {
+            this.notificationService.show(message);
+          });
+          this.closeDialog();
+        });
+      } else {
+        this.translationService.get('password-reset.input-incorrect').subscribe(message => {
+          this.notificationService.show(message);
+        });
+      }
     } else {
       this.translationService.get('password-reset.input-incorrect').subscribe(message => {
         this.notificationService.show(message);
