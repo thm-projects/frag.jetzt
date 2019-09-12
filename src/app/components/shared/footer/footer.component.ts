@@ -47,6 +47,9 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!this.themeService.getTheme().source['_value']) {
+      this.themeService.activate('dark');
+    }
     this.deviceType = localStorage.getItem('deviceType');
     this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get('footer.open').subscribe(message => {
