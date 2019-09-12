@@ -1,20 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 
 @Component({
   selector: 'app-cookies',
   templateUrl: './cookies.component.html',
   styleUrls: ['./cookies.component.scss']
 })
-export class CookiesComponent implements OnInit {
+export class CookiesComponent implements OnInit, AfterContentInit {
+
+  @ViewChild('header')
+  dialogTitle: ElementRef;
 
   deviceType: string;
   currentLang: string;
 
+  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
 
-  constructor(private dialog: MatDialog,
-              private dialogRef: MatDialogRef<CookiesComponent>) { }
+  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<CookiesComponent>) {
+  }
+
+  ngAfterContentInit() {
+    const elem: HTMLElement = this.dialogTitle.nativeElement;
+    elem.focus();
+  }
 
   ngOnInit() {
     this.currentLang = localStorage.getItem('currentLang');
@@ -25,19 +35,33 @@ export class CookiesComponent implements OnInit {
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
-    localStorage.setItem('dataProtectionConsent', 'true');
+    this.dialogRef.close();
   }
 
-  declineCookies() {
+  exitApp() {
     localStorage.setItem('cookieAccepted', 'false');
+    // TODO somehow exit the app, since the user didn't accept cookie usage
     this.dialogRef.close(true);
   }
 
   openDataProtection() {
   const dialogRef = this.dialog.open(DataProtectionComponent, {
-    height: '95%'
+    width: '60%'
   });
   dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildConfirmActionCallback(): () => void {
+    return () => this.acceptCookies();
+  }
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildDeclineActionCallback(): () => void {
+    return () => this.exitApp();
+  }
 }

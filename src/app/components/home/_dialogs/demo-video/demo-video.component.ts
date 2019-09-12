@@ -19,8 +19,11 @@ export class DemoVideoComponent implements OnInit {
     document.getElementById('setFocus').focus();
   }
 
-  closeDialog() {
-    this.dialogRef.close();
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCancelActionCallback(): () => void {
+    return () => this.dialogRef.close();
   }
 
 }

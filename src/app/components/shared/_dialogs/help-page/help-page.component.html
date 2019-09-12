@@ -1,18 +1,19 @@
 <div>
 
-  <h1 mat-dialog-title>{{ 'help.title' | translate }} </h1>
+  <h1 tabindex="0" class="modal" mat-dialog-title>{{ 'help.title' | translate }} </h1>
 
   <mat-divider></mat-divider>
-
-  <app-help-en *ngIf="currentLang=='en'"></app-help-en>
-  <app-help-de *ngIf="currentLang=='de'"></app-help-de>
-
+  <mat-dialog-content tabindex="0">
+    <app-help-en *ngIf="currentLang=='en'"></app-help-en>
+    <app-help-de *ngIf="currentLang=='de'"></app-help-de>
+  </mat-dialog-content>
   <mat-divider></mat-divider>
 
-  <div mat-dialog-actions class="action-container">
-    <span class="spacer"></span>
-    <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'help.close' | translate }} </button>
-  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="help"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  ></app-dialog-action-buttons>
 
   <div class="visually-hidden">
     <div id="close-label">{{ 'help.close-label'| translate }}</div>

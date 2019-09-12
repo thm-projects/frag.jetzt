@@ -1,22 +1,21 @@
 {
   "cookies": {
-    "accept": "Danke, ich hab's verstanden.",
-    "accept-label": "Bestätigt die Verwendung von Cookies und führt zur Startseite zurück.",
-    "decline": "Nein, lösche meine Spuren.",
-    "decline-label": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung.",
-    "header": "Cookies",
+    "accept": "Ok",
+    "accept-description": "Bestätigt die Verwendung von Cookies und führt zur Startseite zurück.",
+    "cancel": "Nein",
+    "cancel-description": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung."
   },
   "overlay": {
-    "message": "Du hast die benutzung von Cookies für diese Anwendung nicht erlaubt. Solange kannst du diese Seite nicht nutzen.",
-    "change": "Einstellung ändern",
-    "change-label": "Öffnet den Dialog mit den Cookie Einstellungen"
+    "message": "Du hast die Benutzung von Cookies für diese Anwendung nicht erlaubt. Solange kannst du diese Seite nicht nutzen.",
+    "cancel": "Einstellung ändern",
+    "cancel-description": "Öffnet den Dialog mit den Cookie Einstellungen"
   },
   "data-protection": {
+    "cancel": "Ablehnen",
+    "cancel-description": "Lehnt die Datenschutzrichtlinien ab.",
     "consent": "Akzeptieren",
-    "consent-label": "Akzeptiert die Datenschutzrichtlinien der Anwendung.",
-    "deny": "Ablehnen",
-    "deny-label": "Lehnt die Datenschutzrichtlinien ab.",
+    "consent-description": "Akzeptiert die Datenschutzrichtlinien der Anwendung.",
     "title": "Datenschutz"
   },
   "delete-account": {
@@ -24,6 +23,10 @@
     "cancel-description": "Zurück",
     "delete": "Löschen",
     "delete-description": "Konto löschen"
+  },
+  "demo": {
+    "cancel": "Schließen",
+    "cancel-description": "Schließt das Demo Fenster"
   },
   "footer": {
     "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
@@ -74,7 +77,8 @@
   "help": {
     "close": "Schließen",
     "close-label": "Schließt die Hilfe.",
-    "title": "Hilfe"
+    "title": "Hilfe",
+    "cancel": "Schließen"
   },
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",
@@ -94,8 +98,8 @@
     "update-available": "Eine neue Version ist verfügbar."
   },
   "imprint": {
-    "close": "Schließen",
-    "close-label": "Schließt das Impressum.",
+    "cancel": "Schließen",
+    "cancel-description": "Schließt das Impressum.",
     "title": "Impressum"
   },
   "login": {

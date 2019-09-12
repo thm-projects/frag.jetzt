@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-data-protection',
@@ -10,8 +12,11 @@ export class DataProtectionComponent implements OnInit {
 
   deviceType: string;
   currentLang: string;
+  confirmButtonType: DialogConfirmActionButtonType;
 
-  constructor(private router: Router) {
+  constructor(private router: Router,
+              private dialogRef: MatDialogRef<DataProtectionComponent>) {
+              this.confirmButtonType = DialogConfirmActionButtonType.Primary;
   }
 
   ngOnInit() {
@@ -20,6 +25,7 @@ export class DataProtectionComponent implements OnInit {
 
   accept() {
     this.dataProtectionConsent(true);
+    this.dialogRef.close();
   }
 
   decline() {
@@ -34,7 +40,23 @@ export class DataProtectionComponent implements OnInit {
     } else {      // otherwise: go there
       this.router.navigate(['/home']);
     }
+    this.dialogRef.close();
   }
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildDeclineActionCallback(): () => void {
+    return () => this.decline();
+  }
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildConfirmActionCallback(): () => void {
+    return () => this.accept();
+  }
+
 
   dataProtectionConsent(b: boolean) {
     localStorage.setItem('dataProtectionConsent', b.toString());

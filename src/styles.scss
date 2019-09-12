@@ -50,15 +50,7 @@
   left: -10000px;
 }
 
-.action-container{
-  display: flex;
-  padding-top: 5%;
-}
-
-.spacer{
-  flex-grow:1;
-}
-
-.pad{
-  flex-grow:0.05;
+.modal {
+  outline: none;
+  border-color: transparent;
 }
