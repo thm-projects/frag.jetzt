@@ -120,6 +120,26 @@ export class AuthenticationService {
     );
   }
 
+  setNewPassword(email: string, key: string, password: string): Observable<boolean> {
+    const connectionUrl: string =
+        this.apiUrl.v2 +
+        this.apiUrl.user +
+        '/' +
+        email +
+        this.apiUrl.resetPassword;
+
+    return this.http.post(connectionUrl, {
+      key: key,
+      password: password
+    }, this.httpOptions).pipe(
+      catchError(err => {
+        return of(false);
+      }), map((result) => {
+        return true;
+      })
+    );
+  }
+
   logout() {
     // Destroy the persisted user data
     this.dataStoreService.remove(this.STORAGE_KEY);

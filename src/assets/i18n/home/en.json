@@ -148,10 +148,17 @@
     "email-description": "Enter your email address here to reset your password.",
     "email-invalid": "E-mail is invalid.",
     "email-required": "E-mail required",
+    "forgot-password": "Forgot the password?",
     "input-incorrect": "Please check your data.",
     "reset-password": "Reset password",
     "reset-password-description": "Reset password",
-    "reset-successful": "Password was reset. Please check your mails."
+    "reset-successful": "Password was reset. Please check your mails.",
+    "set-new-password": "Set new password with the reset key",
+    "set-new-password-button": "Set password",
+    "key": "Key",
+    "new-password": "New password",
+    "new-password-successful": "The new password has been set.",
+    "key-required": "Key required"
   },
   "register": {
     "cancel": "Cancel",
@@ -163,6 +170,7 @@
     "email-required": "E-mail required",
     "email-unmatch": "E-mails do not match.",
     "email-verify": "Verify e-mail",
+    "forgot-password": "Forgot the password?",
     "password": "Password",
     "password-description": "Enter the password you want to register with here.",
     "password-description-repeat": "Please enter the password you want to register with again to make sure that you have not mistyped it.",
