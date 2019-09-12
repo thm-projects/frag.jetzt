@@ -1,7 +1,8 @@
 @import '../../../../styles';
 
 mat-card {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   min-height: 350px;
   background-color: var(--surface)!important;
 }
