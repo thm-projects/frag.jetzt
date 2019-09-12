@@ -39,6 +39,7 @@
     "wrong": "Verneint"
   },
   "comment-page": {
+    "a11y-comment_input": "Geben sie Ihre Frage ein",
     "a11y-comment_vote_down": "Stimmt dieser Frage ab",
     "a11y-comment_vote_up": "Stimmt dieser Frage zu",
     "a11y-text_correct": "Diese Frage wurde bejaht.",

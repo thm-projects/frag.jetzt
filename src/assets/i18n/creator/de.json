@@ -31,6 +31,7 @@
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
     "a11y-comment_grade": "Markiert diese Frage als Bonus Frage",
+    "a11y-comment_input": "Geben sie Ihre Frage ein",
     "a11y-comment_marked_correct": "Hebt die Bejahung auf",
     "a11y-comment_marked_wrong": "Hebt die Verneinung auf",
     "a11y-comment_moderation": "Lehnt diese Frage ab",

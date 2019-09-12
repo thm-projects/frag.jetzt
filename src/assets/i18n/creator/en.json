@@ -31,6 +31,7 @@
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
     "a11y-comment_grade": "Marks this question as a bonus question",
+    "a11y-comment_input": "Enter your question",
     "a11y-comment_marked_correct": "Cancels the mark as correct",
     "a11y-comment_marked_wrong": "Cancels the mark as incorrect",
     "a11y-comment_moderation": "Rejects this question",
