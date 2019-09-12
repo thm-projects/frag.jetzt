@@ -9,7 +9,7 @@ import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-act
 })
 export class OverlayComponent implements OnInit {
   deviceType: string;
-  private confirmButtonType: DialogConfirmActionButtonType;
+  confirmButtonType: DialogConfirmActionButtonType;
 
   constructor(private dialogRef: MatDialogRef<OverlayComponent>) {
     this.confirmButtonType = DialogConfirmActionButtonType.Primary;
