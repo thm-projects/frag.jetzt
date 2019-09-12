@@ -7,7 +7,6 @@ import { highcontrast } from './high-contrast-theme/highContrastTheme.const';
 export const themes = {
   arsnova: arsnova,
   dark: dark,
-  blue: blue,
   projector: purple,
   highcontrast: highcontrast
 };
