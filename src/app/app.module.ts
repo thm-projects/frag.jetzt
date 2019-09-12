@@ -54,6 +54,7 @@ import { ImprintEnComponent } from '../assets/i18n/imprint/imprint-en';
 import { ImprintDeComponent } from '../assets/i18n/imprint/imprint-de';
 import { HelpDeComponent } from '../assets/i18n/help/help-de';
 import { HelpEnComponent } from '../assets/i18n/help/help-en';
+import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
 import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
 
@@ -90,14 +91,17 @@ export function initializeApp(appConfig: AppConfig) {
     HelpDeComponent,
     HelpEnComponent,
     DemoDeComponent,
-    DemoEnComponent
+    DemoEnComponent,
+    HelpEnComponent,
+    OverlayComponent
   ],
   entryComponents: [
     RegisterComponent,
     PasswordResetComponent,
     UserActivationComponent,
     DemoVideoComponent,
-    CookiesComponent
+    CookiesComponent,
+    OverlayComponent
   ],
   imports: [
     AppRoutingModule,

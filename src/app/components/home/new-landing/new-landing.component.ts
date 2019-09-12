@@ -69,4 +69,8 @@ export class NewLandingComponent implements OnInit {
         }
       });
   }
+
+  cookiesDisabled(): boolean {
+    return localStorage.getItem('cookieAccepted') === 'false';
+  }
 }

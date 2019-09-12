@@ -116,4 +116,8 @@ export class RoomJoinComponent implements OnInit {
       });
     }
   }
+
+  cookiesDisabled(): boolean {
+    return localStorage.getItem('cookieAccepted') === 'false';
+  }
 }

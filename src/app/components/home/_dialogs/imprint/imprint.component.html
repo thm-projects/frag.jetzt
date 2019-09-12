@@ -1,40 +1,23 @@
+<div>
+  <h1 mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
 
+  <mat-divider></mat-divider>
 
-<div class="container">
-  <div class="content_container">
+  <mat-dialog-content>
+    <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
+    <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
+  </mat-dialog-content>
 
-    <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-    <div class="scroll_container">
-
-      <div class="inner_scroll_container">
-
-        <h1 mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
-
-        <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
-        <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
-
-      </div>
-
-    </div>
-
-    <mat-divider></mat-divider>
-
-    <div class="visually-hidden">
-      <div id="consent-label">{{ 'data-protection.consent-label' | translate }}</div>
-      <div id="deny-label">{{ 'data-protection.deny-label' | translate }}</div>
-    </div>
+  <div mat-dialog-actions class="action-container">
+    <span class="spacer"></span>
+    <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'imprint.close' | translate }} </button>
   </div>
-  <div class="button_container">
 
-    <div mat-dialog-actions class="action-container">
-      <span class="spacer"></span>
-      <button mat-raised-button [mat-dialog-close] aria-labelledby="close-label">{{ 'imprint.close' | translate }} </button>
-    </div>
 
-    <div class="visually-hidden">
-      <div id="close-label">{{ 'imprint.close-label'| translate }}</div>
-    </div>
-
+  <div class="visually-hidden">
+    <div id="close-label">{{ 'imprint.close-label'| translate }}</div>
   </div>
+
 </div>

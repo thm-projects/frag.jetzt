@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="20px" fxFill>
     <app-room-join></app-room-join>
-  <button id="new_session-button" mat-fab class="fab-extended" (click)="createSession()" aria-labelledby="create-label">
+  <button [disabled]="cookiesDisabled()"  id="new_session-button" mat-fab class="fab-extended" (click)="createSession()" aria-labelledby="create-label">
       <mat-icon class="add">add</mat-icon>
       {{'home-page.create-session' | translate}}
     </button>

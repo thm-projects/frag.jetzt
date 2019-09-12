@@ -1,42 +1,25 @@
-<!--
+<div>
+  <h1 mat-dialog-title>{{ 'data-protection.title' | translate }} </h1>
 
-    <h1 mat-dialog-title>{{ 'data-protection.title' | translate }} </h1>
--->
+  <mat-divider></mat-divider>
 
-<div class="container">
-  <div class="content_container">
+  <mat-dialog-content>
+    <app-data-protection-en *ngIf="currentLang=='en'"></app-data-protection-en>
+    <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
+  </mat-dialog-content>
 
-    <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
 
-    <div class="scroll_container">
+  <mat-dialog-actions class="action-container">
+    <span class="spacer"></span>
+    <button mat-raised-button [mat-dialog-close] (click)="accept()" aria-labelledby="consent-label">{{ 'data-protection.consent' | translate }} </button>
+    <span class="pad"></span>
+    <button mat-stroked-button [mat-dialog-close] (click)="decline()" aria-labelledby="deny-label"> {{ 'data-protection.deny' | translate }} </button>
+  </mat-dialog-actions>
 
-      <div class="inner_scroll_container">
-
-        <h1 mat-dialog-title>{{ 'data-protection.title' | translate }} </h1>
-
-        <app-data-protection-en *ngIf="currentLang=='en'"></app-data-protection-en>
-        <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
-
-      </div>
-
-    </div>
-
-    <mat-divider></mat-divider>
-
-  </div>
-  <div class="button_container">
-
-    <div mat-dialog-actions class="action-container">
-      <span class="spacer"></span>
-      <button mat-raised-button [mat-dialog-close] (click)="dataProtectionConsent(true)" aria-labelledby="consent-label">{{ 'data-protection.consent' | translate }} </button>
-      <span class="pad"></span>
-      <button mat-stroked-button [mat-dialog-close] (click)="dataProtectionConsent(false)" aria-labelledby="deny-label"> {{ 'data-protection.deny' | translate }} </button>
-    </div>
-
-    <div class="visually-hidden">
-      <div id="consent-label">{{ 'data-protection.consent-label' | translate }}</div>
-      <div id="deny-label">{{ 'data-protection.deny-label' | translate }}</div>
-    </div>
-
+  <div class="visually-hidden">
+    <div id="consent-label">{{ 'data-protection.consent-label' | translate }}</div>
+    <div id="deny-label">{{ 'data-protection.deny-label' | translate }}</div>
   </div>
 </div>
+

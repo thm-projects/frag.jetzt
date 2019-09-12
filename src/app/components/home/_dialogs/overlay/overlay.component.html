@@ -1,0 +1,11 @@
+<mat-dialog-content>
+  {{ 'overlay.message' | translate }}
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button (click)="showCookieModal()" aria-labelledby="change-label"  mat-dialog-close  mat-raised-button>{{ 'overlay.change' | translate }}</button>
+</mat-dialog-actions>
+
+<div class="visually-hidden">
+  <div id="accept-label">{{'overlay.change-label' | translate }}</div>
+</div>
