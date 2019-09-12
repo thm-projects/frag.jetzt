@@ -24,6 +24,10 @@
     "delete": "Delete",
     "delete-description": "Delete your Account"
   },
+  "demo": {
+    "cancel": "Close",
+    "cancel-description": "Closes the demo dialog"
+  },
   "footer": {
     "accessibility-data_protection": "Opens the frag.jetzt privacy statement in a new dialog",
     "accessibility-demo": "Shows demo video of frag.jetzt in a new dialog",

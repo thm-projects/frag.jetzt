@@ -24,6 +24,10 @@
     "delete": "Löschen",
     "delete-description": "Konto löschen"
   },
+  "demo": {
+    "cancel": "Schließen",
+    "cancel-description": "Schließt das Demo Fenster"
+  },
   "footer": {
     "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
     "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt.",

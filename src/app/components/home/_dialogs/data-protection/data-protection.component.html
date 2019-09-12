@@ -8,18 +8,12 @@
     <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
   </mat-dialog-content>
 
-  <mat-divider></mat-divider>
-
-  <mat-dialog-actions class="action-container">
-    <span class="spacer"></span>
-    <button mat-raised-button [mat-dialog-close] (click)="accept()" aria-labelledby="consent-label">{{ 'data-protection.consent' | translate }} </button>
-    <span class="pad"></span>
-    <button mat-stroked-button [mat-dialog-close] (click)="decline()" aria-labelledby="deny-label"> {{ 'data-protection.deny' | translate }} </button>
-  </mat-dialog-actions>
-
-  <div class="visually-hidden">
-    <div id="consent-label">{{ 'data-protection.consent-label' | translate }}</div>
-    <div id="deny-label">{{ 'data-protection.deny-label' | translate }}</div>
-  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="data-protection"
+    confirmButtonLabel="consent"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildDeclineActionCallback()"
+    [confirmButtonClickAction]="buildConfirmActionCallback()"
+  ></app-dialog-action-buttons>
 </div>
 
