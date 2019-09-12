@@ -23,6 +23,8 @@
     "a11y-not_interested": "Filtert alle verneinten Fragen",
     "a11y-search_box": "Geben sie die gewünschte Frage ein",
     "a11y-swap_vert": "Option Fragen zu sortieren",
+    "a11y-comment_vote_down": "Stimmt dieser Frage ab",
+    "a11y-comment_vote_up": "Stimmt dieser Frage zu",
     "add-comment": "Stell deine Frage!",
     "comment-sent": "Die Frage wurde veröffentlicht.",
     "comment-sent-to-moderator": "Die Frage wird nun von einem Moderator überprüft.",

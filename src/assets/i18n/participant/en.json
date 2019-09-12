@@ -23,6 +23,8 @@
     "a11y-not_interested": "Filters all questions marked as wrong",
     "a11y-search_box": "Enter the desired question",
     "a11y-swap_vert": "Option to sort questions",
+    "a11y-comment_vote_down": "Votes down this question",
+    "a11y-comment_vote_up": "Votes up this question",
     "add-comment": "Ask a question!",
     "comment-sent": "The question has been published.",
     "comment-sent-to-moderator": "The question will be reviewed by a moderator.",
