@@ -1,9 +1,9 @@
 {
   "cookies": {
     "accept": "Accept",
-    "accept-label": "Accepts the use of cookies and proceeds to the app",
-    "decline": "Decline",
-    "decline-label": "Declines cookie usage and exits the app",
+    "accept-description": "Accepts the use of cookies and proceeds to the app",
+    "cancel": "Decline",
+    "cancel-description": "Declines cookie usage and exits the app",
     "info-label": "Opens a dialog with  the frag.jetzt privacy statement"
   },
   "overlay": {
@@ -12,10 +12,10 @@
     "change-label": "Open the cookie setting dialog"
   },
   "data-protection": {
+    "cancel": "Decline",
+    "cancel-description": "Decline the app's privacy policy and close dialog",
     "consent": "Accept",
-    "consent-label": "Accept the app's privacy policy and close dialog",
-    "deny": "Decline",
-    "deny-label": "Decline the app's privacy policy and close dialog",
+    "consent-description": "Accept the app's privacy policy and close dialog",
     "title": "Data Protection"
   },
   "delete-account": {
@@ -101,8 +101,8 @@
     "update-available": "A newer version is available."
   },
   "imprint": {
-    "close": "Close",
-    "close-label": "Closes the imprint dialog",
+    "cancel": "Close",
+    "cancel-description": "Closes the imprint dialog",
     "title": "Imprint"
   },
   "login": {
