@@ -76,7 +76,7 @@ export class RoomEditComponent implements OnInit {
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
-  buildSaveActionCallback(email: HTMLInputElement): () => void {
+  buildSaveActionCallback(): () => void {
     return () => this.closeDialog('update');
   }
 }

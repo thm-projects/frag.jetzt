@@ -6,7 +6,8 @@
   <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
          #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
    'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
-         [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput">
+         [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput"
+         aria-labelledby="search-box-input-description">
   <button mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
           (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';">
     <mat-icon>close</mat-icon>
@@ -94,4 +95,10 @@
 <div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"
      class="no-comments">
   <h4>{{ 'comment-page.no-comments' | translate }}</h4>
+</div>
+
+<div class="visually-hidden">
+  <div id="search-box-input-description">
+    {{ 'comment-page.search-box-input-description' | translate }}
+  </div>
 </div>

@@ -18,9 +18,7 @@
     <mat-form-field class="filterWrapper">
       <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" matInput (keyup)="applyFilter($event.target.value)"
              placeholder="{{ 'room-list.filter-message' | translate }}" class="filter"
-             attr.aria-labelledby="{{ this.rooms.length === 1
-               ? 'sessionHistoryLabel1'
-               : 'sessionHistoryLabel' }}">
+             attr.aria-labelledby="sessionHistoryLabel{{ this.rooms.length === 1 ? '1' : '' }}">
     </mat-form-field>
 
     <div [class.tableOverflow]="this.tableDataSource.data.length > 5">

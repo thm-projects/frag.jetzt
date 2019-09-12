@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
   <mat-form-field class="input-block">
       <textarea (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" matInput #commentBody matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=10  maxlength="255"
-                [formControl]="bodyForm"></textarea>
+                [formControl]="bodyForm" aria-labelledby="ask-question-description"></textarea>
     <mat-placeholder class="placeholder">{{ 'comment-page.enter-comment' | translate}}</mat-placeholder>
     <mat-hint align="end"><span aria-hidden="true">{{commentBody.value.length}} / 255</span></mat-hint>
   </mat-form-field>
@@ -12,3 +12,7 @@
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildCreateCommentActionCallback(commentBody)"
 ></app-dialog-action-buttons>
+
+<div class="visually-hidden">
+  <div id="ask-question-description">{{ 'comment-page.ask-question-description' | translate }}</div>
+</div>

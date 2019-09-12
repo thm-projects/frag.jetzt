@@ -3,7 +3,8 @@
   <mat-form-field class="input-block">
     <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
            matInput #userActivationKey type="text" placeholder="{{ 'login.activation-key' | translate }}"
-           [formControl]="activationKeyFormControl" name="activation-key"/>
+           [formControl]="activationKeyFormControl" name="activation-key"
+           aria-labelledby="activation-key-input-description"/>
     <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'login.activation-key-required' | translate }}</mat-error>
   </mat-form-field>
 </form>
@@ -13,3 +14,9 @@
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildActivationActionCallback(userActivationKey)"
 ></app-dialog-action-buttons>
+
+<div class="visually-hidden">
+  <div id="activation-key-input-description">
+    {{ 'login.activation-key-input-description' | translate }}
+  </div>
+</div>
