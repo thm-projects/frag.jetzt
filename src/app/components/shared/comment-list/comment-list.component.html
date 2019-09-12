@@ -6,7 +6,7 @@
   <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
    'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
          [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput">
-  <button mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
+  <button id="search_close-button" mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
           (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';">
     <mat-icon>close</mat-icon>
   </button>
@@ -22,19 +22,19 @@
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
 
-    <button mat-icon-button class="searchBarButton"
+    <button id="sort-button" mat-icon-button class="searchBarButton"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="sortMenu" matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
 
-    <button mat-icon-button class="searchBarButton"
+    <button id="filter-button" mat-icon-button class="searchBarButton"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
-    <button mat-fab class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
+    <button id="add_comment_small-button" mat-fab class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
       <mat-icon class="addCommentIcon">add</mat-icon>
     </button>
@@ -91,7 +91,7 @@
 </button>
 
 <div fxLayout="row" fxLayoutAlign="center" *ngIf="comments.length < 3 && !isLoading">
-  <button mat-fab class="fab-extended" (click)="openCreateDialog()">
+  <button id="add_comment-button" mat-fab class="fab-extended" (click)="openCreateDialog()">
     <mat-icon class="add">add</mat-icon>
     {{'comment-list.add-comment' | translate}}
   </button>

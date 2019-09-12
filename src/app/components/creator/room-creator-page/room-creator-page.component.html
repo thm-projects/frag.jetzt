@@ -36,7 +36,8 @@
             {{ 'room-page.moderators' | translate}}
           </button>
         </mat-menu>
-        <button mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">
+        <button  id="settings-menu"
+                 mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">
           <mat-icon class="corner-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
         </button>
       </div>
@@ -47,15 +48,16 @@
       </mat-card-content>
       <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
         <mat-grid-tile>
-          <button mat-icon-button
-                  routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
+          <button id="question_answer-button"
+                  mat-icon-button routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
             <h2>{{ 'room-page.comments' | translate}}</h2> <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
         <mat-grid-tile *ngIf="moderationEnabled">
-          <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="gavel">
+          <button id="gavel-button"
+                  mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="gavel">
             <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
             </mat-icon>
