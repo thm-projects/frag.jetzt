@@ -51,3 +51,18 @@ div {
   height:50px;
   float:left;
 }
+
+h1 {
+  display:inline;
+  margin: 0; /* material design reset */
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px; /* material h1 style */
+}
+
+.header-container button {
+  margin-left: .3rem;
+}
