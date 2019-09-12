@@ -27,3 +27,11 @@ export const blue = {
   '--grey-light': '#EEEEEE',
   '--black': '#212121'
 };
+
+export const blue_meta = {
+
+  'name': 'NAME',
+  'description': 'DESCRIPTION',
+  'order': 4
+
+};

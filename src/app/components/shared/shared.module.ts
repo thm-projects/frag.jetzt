@@ -26,13 +26,15 @@ import { CreateCommentComponent } from './_dialogs/create-comment/create-comment
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { MatRippleModule } from '@angular/material';
 
 @NgModule({
   imports: [
     CommonModule,
     EssentialsModule,
     ChartsModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    MatRippleModule
   ],
   declarations: [
     RoomJoinComponent,

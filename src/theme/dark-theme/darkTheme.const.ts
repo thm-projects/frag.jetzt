@@ -27,3 +27,11 @@ export const dark = {
   '--grey-light': '#9E9E9E',
   '--black': '#212121'
 };
+
+export const dark_meta = {
+
+  'name': 'Dark ARSnova',
+  'description': 'Dark Default Theme',
+  'order': 3
+
+};

@@ -27,3 +27,11 @@ export const arsnova = {
   '--grey-light': '#EEEEEE',
   '--black': '#212121'
 };
+
+export const arsnova_meta = {
+
+  'name': 'Light ARSnova',
+  'description': 'Bright Theme',
+  'order': 2
+
+};
