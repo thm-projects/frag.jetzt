@@ -33,12 +33,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
         this.announce();
       } else if (event.keyCode === 27 && this.eventService.focusOnInput === true) {
         document.getElementById('session_enter-button').focus();
+        this.eventService.makeFocusOnInputFalse();
       }
     });
   }
 
   ngOnDestroy() {
     this.listenerFn();
+    this.eventService.makeFocusOnInputFalse();
   }
 
   public announce() {

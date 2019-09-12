@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, OnDestroy } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
@@ -16,13 +16,14 @@ import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { CommentSettingsComponent } from '../_dialogs/comment-settings/comment-settings.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-room-creator-page',
   templateUrl: './room-creator-page.component.html',
   styleUrls: ['./room-creator-page.component.scss']
 })
-export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit {
+export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy {
   room: Room;
   updRoom: Room;
   commentThreshold: number;
@@ -31,6 +32,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   viewModuleCount = 1;
   moderatorCommentCounter: number;
   urlToCopy = 'https://frag.jetzt/participant/room/';
+
+  listenerFn: () => void;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -41,7 +44,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              private liveAnnouncer: LiveAnnouncer) {
+              private liveAnnouncer: LiveAnnouncer,
+              private _r: Renderer2,
+              public eventService: EventService) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -53,9 +58,36 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       this.initializeRoom(params['roomId']);
     });
     this.announce();
+    this.listenerFn = this._r.listen(document, 'keyup', (event) => {
+      if (event.keyCode === 49 && this.eventService.focusOnInput === false) {
+        document.getElementById('question_answer-button').focus();
+      } else if (event.keyCode === 51 && this.eventService.focusOnInput === false) {
+        document.getElementById('gavel-button').focus();
+      } else if (event.keyCode === 52 && this.eventService.focusOnInput === false) {
+        document.getElementById('settings-menu').focus();
+      } else if ((event.keyCode === 56) && this.eventService.focusOnInput === false) {
+        this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
+                                    'Aktueller Sitzungs-Code: ' + this.room.shortId.slice(0, 8));
+      } else if ((event.keyCode === 57 || event.keyCode === 27) && this.eventService.focusOnInput === false) {
+        this.announce();
+      } else if (event.keyCode === 27 && this.eventService.focusOnInput === true) {
+        this.eventService.makeFocusOnInputFalse();
+      }
+    });
   }
+
+  ngOnDestroy() {
+    this.listenerFn();
+    this.eventService.makeFocusOnInputFalse();
+  }
+
   public announce() {
-    this.liveAnnouncer.announce('Du befindest dich nun in der Sitzung mit dem Sitzungs-Code.', 'assertive');
+    this.liveAnnouncer.announce('Sie befinden sich in der von Ihnen erstellten Sitzung. ' +
+      'Drücken Sie die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
+      'die Taste 2 um das Sitzungs-Menü zu öffnen, die Taste 3 um in die Moderationsübersicht zu gelangen, ' +
+      'die Taste 4 um Einstellungen an der Sitzung vorzunehmen, ' +
+      'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
+      'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 
 

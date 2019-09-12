@@ -12,6 +12,7 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -36,7 +37,8 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected commentService: CommentService,
               private authenticationService: AuthenticationService,
               private liveAnnouncer: LiveAnnouncer,
-              private _r: Renderer2) {
+              private _r: Renderer2,
+              public eventService: EventService) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -49,25 +51,29 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     this.translateService.use(localStorage.getItem('currentLang'));
     this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
-      if (event.keyCode === 49) {
+      if (event.keyCode === 49 && this.eventService.focusOnInput === false) {
         document.getElementById('question_answer-button').focus();
-      } else if (event.keyCode === 51) {
+      } else if (event.keyCode === 56 && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.announce('Aktueller Sitzungs-Code:' + this.room.shortId.slice(0, 8));
-      } else if (event.keyCode === 57 || event.keyCode === 27) {
+      } else if ((event.keyCode === 57 || event.keyCode === 27) && this.eventService.focusOnInput === false) {
         this.announce();
+      } else if (event.keyCode === 27 && this.eventService.focusOnInput === true) {
+        document.getElementById('question_answer-button').focus();
+        this.eventService.makeFocusOnInputFalse();
       }
     });
   }
 
   ngOnDestroy() {
     this.listenerFn();
+    this.eventService.makeFocusOnInputFalse();
   }
 
   public announce() {
     // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
     this.liveAnnouncer.announce('Sie befinden sich in der Sitzung mit dem von Ihnen eingegebenen Sitzungs-Code. ' +
       'Drücken Sie die Taste 1 um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, ' +
-      'die Taste 3 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelanngen, ' +
+      'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelanngen, ' +
       'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 
