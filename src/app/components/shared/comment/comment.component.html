@@ -61,8 +61,8 @@
             comment: comment.body.trim(),
             correct: comment.correct === 1 ? ('comment-page.a11y-text_correct' | translate) : "",
             wrong: comment.correct === 2 ? ('comment-page.a11y-text_wrong' | translate) : "",
-            bonus: comment.favorite ? ('comment-page.a11y-text_grade' | translate) : ""
-
+            bonus: comment.favorite ? ('comment-page.a11y-text_grade' | translate) : "",
+            beamer: comment.read ? ('comment-page.a11y-text_highlighted' | translate) : ""
           }
           }}</span>
       </div>
