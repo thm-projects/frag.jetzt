@@ -69,6 +69,7 @@
     "mark-not-wrong": "Frage nicht verneinen",
     "mark-read": "In Vollansicht am Beamer besprochen",
     "mark-wrong": "Frage verneinen",
+    "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comments": "Keine Fragen vorhanden.",
     "reject": "Unterbinden",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
