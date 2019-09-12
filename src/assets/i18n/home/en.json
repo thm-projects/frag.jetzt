@@ -4,6 +4,7 @@
     "accept-label": "Accepts the use of cookies and proceeds to the app",
     "decline": "Decline",
     "decline-label": "Declines cookie usage and exits the app",
+    "header": "Cookies",
     "info-label": "Opens a dialog with  the frag.jetzt privacy statement"
   },
   "overlay": {
