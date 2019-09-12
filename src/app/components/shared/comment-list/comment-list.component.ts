@@ -70,6 +70,7 @@ export class CommentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     const userId = this.user.id;
     this.userRole = this.user.role;
+    this.currentSort = this.votedesc;
     this.roomService.getRoom(this.roomId).subscribe( room => {
       this.room = room;
       if (this.room && this.room.extensions && this.room.extensions['comments']) {
@@ -77,6 +78,11 @@ export class CommentListComponent implements OnInit {
           this.moderationEnabled = this.room.extensions['comments'].enableModeration;
         }
       }
+      this.commentService.getAckComments(this.roomId)
+        .subscribe(comments => {
+          this.comments = comments;
+          this.getComments();
+        });
     });
     this.hideCommentsList = false;
     this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
@@ -91,12 +97,6 @@ export class CommentListComponent implements OnInit {
         }
       });
     }
-    this.currentSort = this.votedesc;
-    this.commentService.getAckComments(this.roomId)
-      .subscribe(comments => {
-        this.comments = comments;
-        this.getComments();
-      });
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
