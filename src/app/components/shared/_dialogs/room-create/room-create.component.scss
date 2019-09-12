@@ -29,3 +29,11 @@ mat-form-field {
 .error {
   color: var(--red) !important;
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}

@@ -1,11 +1,11 @@
 <div mat-dialog-content *ngIf="editRoom">
-  <h1>{{'room-page.general' | translate }}</h1>
+  <h1>{{ 'room-page.general' | translate }}</h1>
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <mat-form-field class="input-block">
       <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
-             [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}" aria-labelledby="room-name"
-             name="room-name" maxlength="20"/>
+             [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate }}"
+             name="room-name" maxlength="20" aria-labelledby="room-name"/>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
     </mat-form-field>
     <mat-form-field class="input-block">
@@ -17,7 +17,7 @@
         matAutosizeMinRows="2"
         matAutosizeMaxRows="5"
         maxlength="255"
-        placeholder="{{ 'session.description' | translate}}"
+        placeholder="{{ 'session.description' | translate }}"
         name="description"
         aria-labelledby="description"
       ></textarea>
@@ -38,8 +38,8 @@
 </div>
 
 <div class="visually-hidden">
-  <div id = "room-name">{{'room-page.a11y-room-name' | translate}} </div>
-  <div id = "description">{{'session.a11y-description' | translate}} </div>
-  <div id ="delete-room">{{'room-page.a11y-delete-room' | translate}}</div>
+  <div id="room-name">{{ 'room-page.a11y-room-name' | translate }}</div>
+  <div id="room-edit-description">{{ 'session.a11y-description' | translate }}</div>
+  <div id="delete-room">{{ 'room-page.a11y-delete-room' | translate }}</div>
 </div>
 

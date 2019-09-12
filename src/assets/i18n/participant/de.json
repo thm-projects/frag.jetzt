@@ -27,6 +27,7 @@
   },
   "comment-page": {
     "abort": "Abbrechen",
+    "ask-question-description": "Gib hier deine Frage ein!",
     "cancel": "Zurück",
     "cancel-description": "Zurück",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }} votes.",
@@ -40,6 +41,7 @@
     "mark-not-wrong": "Dozent hat die Frage verneint",
     "mark-read": "Dozent hat die Frage im Hörsaal besprochen.",
     "no-comments": "",
+    "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Senden",
     "vote-down": "Runtervoten",
     "vote-up": "Hochvoten"

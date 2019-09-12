@@ -6,7 +6,8 @@
              type="text" pattern="[0-9 ]*" inputmode="numeric" min="00000000" max="99999999"
              onkeydown="if(this.value.length - (this.value.split(' ').length -1) === 8 && event.keyCode != 8) return false;
                         if(this.value.length === 4 && event.keyCode != 8) this.value = this.value + ' ';"
-                        [formControl]="roomFormControl" [errorStateMatcher]="matcher"/>
+             [formControl]="roomFormControl" [errorStateMatcher]="matcher"
+             aria-labelledby="join-input-label"/>
       <mat-placeholder class="placeholder">{{ 'home-page.session-id' | translate}}</mat-placeholder>
       <mat-hint align="end"><span aria-hidden="true">{{ roomId.value.length - (roomId.value.split(' ').length -1) }} / 8</span></mat-hint>
       <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>
@@ -20,5 +21,6 @@
 </div>
 
 <div class="visually-hidden">
+  <div id="join-input-label">{{ 'home-page.accessibility-join-input' | translate }}</div>
   <div id="join-label">{{'home-page.accessibility-join' | translate}}</div>
 </div>
