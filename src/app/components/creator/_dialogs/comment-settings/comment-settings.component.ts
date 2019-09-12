@@ -45,7 +45,7 @@ export class CommentSettingsComponent implements OnInit {
   ngOnInit() {
     if (this.editRoom.extensions && this.editRoom.extensions['comments']) {
       if (this.editRoom.extensions['comments'].enableThreshold !== null) {
-        if (this.editRoom.extensions['comments'].commentThreshold !== null) {
+        if (this.editRoom.extensions['comments'].commentThreshold) {
           this.commentThreshold = this.editRoom.extensions['comments'].commentThreshold;
         } else {
           this.commentThreshold = -100;
