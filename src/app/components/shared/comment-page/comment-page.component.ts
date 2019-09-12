@@ -7,6 +7,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-comment-page',
@@ -15,7 +16,7 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
 })
 export class CommentPageComponent implements OnInit, OnDestroy {
   roomId: string;
-  shortId: string;
+  room: Room;
   user: User;
 
   listenerFn: () => void;
@@ -29,7 +30,6 @@ export class CommentPageComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.roomId = localStorage.getItem('roomId');
-    this.shortId = localStorage.getItem('shortId');
     this.user = this.authenticationService.getUser();
     this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
@@ -46,6 +46,7 @@ export class CommentPageComponent implements OnInit, OnDestroy {
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit5) === true && this.eventService.focusOnInput === false) {
         document.getElementById('filter-button').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
+        this.liveAnnouncer.clear();
         this.liveAnnouncer.announce('Aktueller Sitzungs-Code:' + this.shortId.slice(0, 8));
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
@@ -76,6 +77,7 @@ export class CommentPageComponent implements OnInit, OnDestroy {
   }
 
   public announce() {
+    this.liveAnnouncer.clear();
     this.liveAnnouncer.announce('Du befindest dich auf der Fragen-Seite deiner Sitzung. ' +
       'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
       'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um zurück zur Benutzer-Seite zu gelangen. ' +

@@ -48,7 +48,7 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   public announce() {
-    // this.liveAnnouncer.announce('Willkommen auf dieser Seite' + document.getElementById('announcer_text').textContent, 'assertive');
+    this.liveAnnouncer.clear();
     this.liveAnnouncer.announce('Du befindest dich auf der Startseite von fragpunktjetzt. ' +
       'Drücke die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um in die Benutzer-Anmeldung ' +
       'oder das Sitzungs-Menü zu gelangen, die Taste 3 um eine neue Sitzung zu erstellen, ' +

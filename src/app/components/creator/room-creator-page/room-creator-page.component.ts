@@ -68,6 +68,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit4) === true && this.eventService.focusOnInput === false) {
         document.getElementById('settings-menu').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
+        this.liveAnnouncer.clear();
         this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
                                     'Aktueller Sitzungs-Code: ' + this.room.shortId.slice(0, 8));
       } else if (
@@ -87,6 +88,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   public announce() {
+    this.liveAnnouncer.clear();
     this.liveAnnouncer.announce('Du befindest dich in der von dir erstellten Sitzung. ' +
       'Drücke die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
       'die Taste 2 um das Sitzungs-Menü zu öffnen, die Taste 3 um in die Moderationsübersicht zu gelangen, ' +
