@@ -8,8 +8,8 @@
   },
   "overlay": {
     "message": "You have declined cookie usage for this app, thus you can not use it for the time being.",
-    "change": "Change settings",
-    "change-label": "Open the cookie setting dialog"
+    "cancel": "Change settings",
+    "cancel-description": "Open the cookie setting dialog"
   },
   "data-protection": {
     "cancel": "Decline",

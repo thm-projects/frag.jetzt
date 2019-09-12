@@ -16,7 +16,7 @@ export class DataProtectionComponent implements OnInit {
 
   constructor(private router: Router,
               private dialogRef: MatDialogRef<DataProtectionComponent>) {
-    this.confirmButtonType = DialogConfirmActionButtonType.Primary;
+              this.confirmButtonType = DialogConfirmActionButtonType.Primary;
   }
 
   ngOnInit() {
