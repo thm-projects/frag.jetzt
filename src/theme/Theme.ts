@@ -57,13 +57,13 @@ export class Theme {
    * name:
    * name of Theme
    */
-  public name: ThemeTranslationList;
+  public name: ThemeTranslationList = null;
 
   /**
    * description:
    * description of Theme
    */
-  public description: ThemeTranslationList;
+  public description: ThemeTranslationList = null;
 
   /**
    * previewColor:
