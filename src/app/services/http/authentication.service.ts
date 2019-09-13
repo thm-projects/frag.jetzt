@@ -126,11 +126,10 @@ export class AuthenticationService {
         this.apiUrl.user +
         '/' +
         email +
-        this.apiUrl.resetPassword;
+        this.apiUrl.resetPassword +
+        `?key=${key}&password=${password}`;
 
     return this.http.post(connectionUrl, {
-      key: key,
-      password: password
     }, this.httpOptions).pipe(
       catchError(err => {
         return of(false);
