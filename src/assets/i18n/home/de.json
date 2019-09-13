@@ -4,7 +4,8 @@
     "accept-description": "Bestätigt die Verwendung von Cookies und schaltet die Anwendung frei.",
     "cancel": "Nein, lösche meine Spuren.",
     "cancel-description": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung.",
-    "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung."
+    "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung.",
+    "title": "Cookies"
   },
   "overlay": {
     "cancel": "Einstellung ändern",

@@ -1,10 +1,11 @@
 <div>
 
-  <h1 #header id="header" tabindex="0" class="modal" mat-dialog-title>Cookies
-    <button class="info" mat-icon-button (click)="openDataProtection()">
-      <mat-icon class="info-icon">help_outline</mat-icon>
-    </button>
-  </h1>
+  <div class="header-container">
+    <h1 mat-dialog-title tabindex="0" id="cookie-header">{{ 'cookies.title' | translate }}</h1>
+    <button mat-icon-button aria-labelledby="info-label" class="info" (click)="openDataProtection()">
+    <mat-icon class="info-icon">help</mat-icon>
+  </button>
+  </div>
 
   <mat-divider></mat-divider>
   <mat-dialog-content tabindex="0">

@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
@@ -8,7 +8,7 @@ import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-act
   templateUrl: './cookies.component.html',
   styleUrls: ['./cookies.component.scss']
 })
-export class CookiesComponent implements OnInit, AfterContentInit {
+export class CookiesComponent implements OnInit {
 
   @ViewChild('header')
   dialogTitle: ElementRef;
@@ -19,11 +19,6 @@ export class CookiesComponent implements OnInit, AfterContentInit {
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
 
   constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<CookiesComponent>) {
-  }
-
-  ngAfterContentInit() {
-    const elem: HTMLElement = this.dialogTitle.nativeElement;
-    elem.focus();
   }
 
   ngOnInit() {

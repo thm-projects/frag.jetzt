@@ -4,7 +4,8 @@
     "accept-description": "Accept the use of cookies and proceed to the app.",
     "cancel": "Decline",
     "cancel-description": "Decline cookie usage and exit the app.",
-    "info-label": "Open a dialog with the frag.jetzt privacy policy."
+    "info-label": "Open a dialog with the frag.jetzt privacy policy.",
+    "title": "Cookies"
   },
   "overlay": {
     "cancel": "Change settings",
