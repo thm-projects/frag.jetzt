@@ -56,8 +56,7 @@
         <span aria-hidden="true">{{ comment.body.trim() }}</span>
         <span id="comment-{{ comment.id }}" class="visually-hidden" aria-hidden="true">{{ 'comment-page.comment' | translate: {
             time: (language === 'de' ? (comment.timestamp | date: ' HH:mm ') : (comment.timestamp | date: 'h:mm a')),
-            votes: comment.score,
-            textForVotes: comment.score === 1 ? ('comment-page.a11y-text_textForOneVote' | translate) : ('comment-page.a11y-text_textForVotes' | translate),
+            votes: comment.score === 1 ? ('comment-page.a11y-text_textForOneVote' | translate) : comment.score + ('comment-page.a11y-text_textForVotes' | translate),
             comment: comment.body.trim(),
             correct: comment.correct === 1 ? ('comment-page.a11y-text_correct' | translate) : "",
             wrong: comment.correct === 2 ? ('comment-page.a11y-text_wrong' | translate) : "",
