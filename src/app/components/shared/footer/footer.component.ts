@@ -15,6 +15,7 @@ import { HelpPageComponent } from '../_dialogs/help-page/help-page.component';
 import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
 import { Theme } from '../../../../theme/Theme';
 import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-footer',
@@ -47,7 +48,7 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.themeService.getTheme().source['_value']) {
+    if (!this.themeService.getTheme()['source']['_value']) {
       this.themeService.activate('dark');
     }
     this.deviceType = localStorage.getItem('deviceType');
@@ -129,7 +130,12 @@ export class FooterComponent implements OnInit {
   }
 
   changeTheme(theme: Theme) {
-    this.themeClass = theme.name;
-    this.themeService.activate(theme.name);
+    this.themeClass = theme.key;
+    this.themeService.activate(theme.key);
+    AppComponent.rescale.setInitialScale(theme.scale);
+  }
+
+  getLanguage(): string {
+    return localStorage.getItem('currentLang');
   }
 }

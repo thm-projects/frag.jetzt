@@ -29,9 +29,19 @@ export const highcontrast = {
 
 export const highcontrast_meta = {
 
-  'name': 'High Contrast',
-  'description': 'Dark High Contrast Theme',
-  'order': 0
+  'translation': {
+    'name': {
+      'en': 'High Contrast',
+      'de': 'Kontrastreich'
+    },
+    'description': {
+      'en': 'Visibility optimized',
+      'de': 'Kontrastreiche Darstellung'
+    }
+  },
+  'order': 0,
+  'scale': 1,
+  'previewColor': 'primary'
 
 };
 

@@ -29,8 +29,18 @@ export const purple = {
 
 export const purple_meta = {
 
-  'name': 'Projector',
-  'description': 'Projector Friendly Theme',
-  'order': 1
+  'translation': {
+    'name': {
+      'en': 'Projector',
+      'de': 'Beamer'
+    },
+    'description': {
+      'en': 'Projector optimized',
+      'de': 'Beamer optimierte Darstellung'
+    }
+  },
+  'order': 1,
+  'scale': 1.5,
+  'previewColor': 'primary'
 
 };
