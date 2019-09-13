@@ -1,26 +1,26 @@
 {
   "cookies": {
-    "accept": "Ok",
-    "accept-description": "Bestätigt die Verwendung von Cookies und führt zur Startseite zurück.",
-    "cancel": "Nein",
+    "accept": "Danke, ich hab's verstanden.",
+    "accept-description": "Bestätigt die Verwendung von Cookies und schaltet die Anwendung frei.",
+    "cancel": "Nein, lösche meine Spuren.",
     "cancel-description": "Lehnt die Verwendung von Cookies ab und verlässt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung."
   },
   "overlay": {
     "message": "Du hast die Benutzung von Cookies für diese Anwendung nicht erlaubt. Solange kannst du diese Seite nicht nutzen.",
     "cancel": "Einstellung ändern",
-    "cancel-description": "Öffnet den Dialog mit den Cookie Einstellungen"
+    "cancel-description": "Öffnet einen Dialog mit den Cookie Einstellungen."
   },
   "data-protection": {
     "cancel": "Ablehnen",
-    "cancel-description": "Lehnt die Datenschutzrichtlinien ab.",
+    "cancel-description": "Lehnt die Datenschutzerklärung ab.",
     "consent": "Akzeptieren",
-    "consent-description": "Akzeptiert die Datenschutzrichtlinien der Anwendung.",
+    "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung.",
     "title": "Datenschutz"
   },
   "delete-account": {
-    "cancel": "Zurück",
-    "cancel-description": "Zurück",
+    "cancel": "Abbrechen",
+    "cancel-description": "Löschung des Kontos abbrechen",
     "delete": "Löschen",
     "delete-description": "Konto löschen"
   },
@@ -33,7 +33,7 @@
     "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt.",
     "accessibility-help": "Öffnet die Hilfe.",
     "accessibility-imprint": "Öffnet das Impressum.",
-    "accessibility-language": "Öffnet die Sprachauswahl",
+    "accessibility-language": "Öffnet die Sprachauswahl.",
     "accessibility-style": "Öffnet die Farbauswahl.",
     "beamer": "Für den Beamer optimiert",
     "bright": "Heller Hintergrund",
@@ -56,7 +56,7 @@
     "abort": "Abbrechen",
     "accessibility-back": "Führt zur vorherigen Seite",
     "accessibility-login": "Öffnet das Anmeldungs-Fenster.",
-    "accessibility-session": "Öffnet das Sitzungs-Menü",
+    "accessibility-session": "Öffnet das Sitzungs-Menü. Hier kannst du deine besuchten Sitzungen einsehen oder dich von deinem Konto abmelden.",
     "account-deleted": "Dein Konto wurde gelöscht.",
     "back": "Zurück",
     "delete": "Löschen",
@@ -74,14 +74,14 @@
     "visited-sessions": "Besuchte Sitzungen"
   },
   "help": {
+    "cancel": "Schließen",
     "close": "Schließen",
     "close-label": "Schließt die Hilfe.",
-    "title": "Hilfe",
-    "cancel": "Schließen"
+    "title": "Hilfe"
   },
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",
-    "accessibility-join": "Betritt die Sitzung, deren Code du eingegeben hast.",
+    "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Code der Sitzung eingeben der du beitreten möchtest.",
     "create-session": "Neue Sitzung",
     "created-1": "Die Sitzung '",
@@ -120,21 +120,17 @@
     "email-required": "E-Mail Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
     "guest-login-tooltip": "Als Gast erstellte Sitzungen werden nach dem Abmelden wieder gelöscht. Mit einem Konto erstellte Sitzungen werden nach dem letzten Besuch für 180 Tage gespeichert.",
-    "header": "Login",
+    "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "Benutzername oder Passwort falsch",
+    "login-description": "Anmelden mit Konto",
     "login-successful": "Anmeldung erfolgreich",
+    "not-registered": "Noch kein Konto?",
     "or": "oder",
     "password": "Passwort",
     "password-description": "Gib hier dein Passwort ein.",
-    "password-required": "Passwort erforderlich"
-  },
-  "login-page": {
-    "cancel": "Zurück",
-    "cancel-description": "Zurück",
-    "login": "Anmelden mit Konto",
-    "not-registered": "Noch kein Konto?",
+    "password-required": "Passwort erforderlich",
     "password-reset": "Passwort vergessen?",
     "register": "Registrieren",
     "welcome": "Online fragen & Fragen voten"
@@ -147,16 +143,16 @@
     "email-invalid": "E-Mail Adresse ungültig",
     "email-required": "E-Mail Adresse erforderlich",
     "forgot-password": "Passwort vergessen?",
-    "set-new-password": "Setze ein neues Passwort mit dem Schlüssel",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
-    "reset-password": "Passwort zurücksetzen",
-    "reset-password-description": "Passwort zurücksetzen",
-    "reset-successful": "Passwort wurde zurückgesetzt. Bitte prüfe dein Postfach.",
-    "set-new-password-button": "Setze Passwort",
-    "key": "Schlüssel",
+    "key": "Passwortrücksetz-Schlüssel",
+    "key-required": "Passwortrücksetz-Schlüssel erforderlich",
     "new-password": "Neues Passwort",
-    "new-password-successful": "Das neue Passwort wurde gesetzt.",
-    "key-required": "Schlüssel erforderlich"
+    "new-password-successful": "Dein neues Passwort wurde erfolgreich gesetzt.",
+    "reset-password": "Passwort zurücksetzen",
+    "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
+    "reset-successful": "Dein Passwort wurde zurückgesetzt. Bitte prüfe dein E-Mail Postfach.",
+    "set-new-password": "Setze ein neues Passwort mit dem Schlüssel",
+    "set-new-password-button": "Setze Passwort"
   },
   "register": {
     "cancel": "Zurück",
@@ -176,9 +172,9 @@
     "password-unmatch": "Passwörter stimmen nicht überein",
     "password-verify": "Passwort wiederholen",
     "register": "Registrieren",
-    "register-description": "Benutzer registrieren",
+    "register-description": "Registrierung abschließen",
     "register-request-error": "Etwas ist bei der Registrierung fehlgeschlagen. Hast du dich vielleicht schon registriert?",
-    "register-successful": "Erfolgreich registriert. Bitte prüfe dein Postfach.",
+    "register-successful": "Erfolgreich registriert. Bitte prüfe dein E-Mail Postfach.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
   "room-create": {
