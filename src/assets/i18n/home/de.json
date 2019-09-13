@@ -7,9 +7,10 @@
     "info-label": "Öffnet ein Dialogfenster mit der frag.jetzt Datenschutzerklärung."
   },
   "overlay": {
-    "message": "Du hast die Benutzung von Cookies für diese Anwendung nicht erlaubt. Solange kannst du diese Seite nicht nutzen.",
     "cancel": "Einstellung ändern",
-    "cancel-description": "Öffnet einen Dialog mit den Cookie Einstellungen."
+    "cancel-description": "Öffnet den Dialog mit den Cookie Einstellungen",
+    "message": "Du hast die Benutzung von Cookies für diese Anwendung nicht erlaubt. Solange kannst du diese Seite nicht nutzen.",
+    "title": "Benutzung der App nicht möglich"
   },
   "data-protection": {
     "cancel": "Ablehnen",
