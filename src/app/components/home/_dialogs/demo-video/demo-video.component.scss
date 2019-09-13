@@ -1,61 +1,18 @@
-.video {
-  position: relative;
-  height: 0;
-  padding-bottom: 56.25%;
-}
-
-.desktopFrame {
-  position: relative;
-  left: 18%;
-  width: 80%;
-  height: 80%;
-}
-
-.mobileFrame {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.desktopText {
-  position: absolute;
-  top: 2%;
-  margin-top: 2%;
-  font-size: xx-large;
+h1 {
   color: var(--on-surface);
+  font-size: 2em;
 }
 
-.mobileText {
-  position: absolute;
-  top: 2%;
-  left: 0;
-  margin-top: 2%;
-  font-size: xx-large;
-  color: var(--on-surface);
-}
-
-.desktopButton {
-  background-color: var(--red);
-  color: white;
-  position: sticky;
-  top: 4%;
-  left: 90%;
-  max-height: 100px;
-}
-
-.mobileButton {
-  background-color: var(--red);
-  color: white;
-  position: sticky;
-  top: 4%;
-  left: 90%;
-  max-height: 100px;
+h2 {
+  font-size: large;
 }
 
 .intro-text {
   font-size: medium;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   color: var(--on-surface);
+}
+
+iframe {
+  width: 100%;
 }
