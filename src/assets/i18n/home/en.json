@@ -61,7 +61,6 @@
     "accessibility-session": "Opens session menu",
     "account-deleted": "Your account has been deleted successfully.",
     "back": "Back",
-    "close-demo": "Close demo video and go back to login page",
     "delete": "Delete",
     "delete-account": "Delete account",
     "id": "ID",
@@ -104,6 +103,11 @@
     "cancel": "Close",
     "cancel-description": "Closes the imprint dialog",
     "title": "Imprint"
+  },
+  "introduction": {
+    "cancel": "Cancel",
+    "cancel-description": "Close demo video and go back to login page.",
+    "title": "Introduction"
   },
   "login": {
     "activate": "Activate",

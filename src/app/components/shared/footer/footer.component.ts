@@ -69,14 +69,7 @@ export class FooterComponent implements OnInit {
 
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
-      position: {
-        left: '10px',
-        right: '10px'
-      },
-      maxWidth: '100vw',
-      maxHeight: '100vh',
-      height: '100%',
-      width: '100%'
+      width: '75%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
