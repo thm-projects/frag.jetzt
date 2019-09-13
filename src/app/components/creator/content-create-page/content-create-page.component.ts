@@ -32,7 +32,6 @@ export class ContentCreatePageComponent implements OnInit {
 
   getGroups(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
-      this.contentGroups = room.contentGroups;
     });
   }
 }
