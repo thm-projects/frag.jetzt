@@ -7,7 +7,7 @@
     "please-one": "Bitte wähle eine Antwort.",
     "sent": "Antwort gesendet",
     "submit": "Absenden",
-    "your-answer": "Ihre Antwort"
+    "your-answer": "Deine Antwort"
   },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
@@ -21,7 +21,7 @@
     "a11y-keyboard_arrow_down": "Sortiert Fragen nach absteigenden Votes",
     "a11y-keyboard_arrow_up": "Sortiert Fragen nach aufsteigenden Votes",
     "a11y-not_interested": "Filtert alle verneinten Fragen",
-    "a11y-search_box": "Geben sie die gewünschte Frage ein",
+    "a11y-search_box": "Gib die gewünschte Frage ein",
     "a11y-swap_vert": "Option Fragen zu sortieren",
     "add-comment": "Stell deine Frage!",
     "comment-sent": "Die Frage wurde veröffentlicht.",
@@ -39,7 +39,7 @@
     "wrong": "Verneint"
   },
   "comment-page": {
-    "a11y-comment_input": "Geben sie Ihre Frage ein",
+    "a11y-comment_input": "Gib deine Frage ein",
     "a11y-comment_vote_down": "Diese Frage runter woten",
     "a11y-comment_vote_up": "Diese Frage hoch woten",
     "a11y-text_correct": "Diese Frage wurde bejaht.",
