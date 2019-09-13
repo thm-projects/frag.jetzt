@@ -29,16 +29,18 @@ export const purple = {
 
 export const purple_meta = {
 
-  'translation':{
-    'name':{
-      'en':'Projector',
-      'de':'Beamer'
+  'translation': {
+    'name': {
+      'en': 'Projector',
+      'de': 'Beamer'
     },
-    'description':{
-      'en':'Projector optimized',
-      'de':'Beamer optimierte Darstellung'
+    'description': {
+      'en': 'Projector optimized',
+      'de': 'Beamer optimierte Darstellung'
     }
   },
-  'order': 1
+  'order': 1,
+  'scale': 1.5,
+  'previewColor': 'primary'
 
 };

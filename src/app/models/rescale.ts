@@ -27,6 +27,10 @@ export class Rescale {
     this.scaleUpdate();
   }
 
+  public setInitialScale(scale: number) {
+    this.cachedScale = scale;
+  }
+
   private scaleUpdate() {
     document.getElementById('rescale_screen').style.zoom = this.scale + '';
   }

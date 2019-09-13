@@ -47,27 +47,63 @@ export class Theme {
    */
   public main: ColorElem[];
 
-  public order:number;
-  public name:ThemeTranslationList;
-  public description:ThemeTranslationList;
-  public previewColor:string;
+  /**
+   * order:
+   * used for Array.sort, for correct display of Themes
+   */
+  public order: number;
+
+  /**
+   * name:
+   * name of Theme
+   */
+  public name: ThemeTranslationList;
+
+  /**
+   * description:
+   * description of Theme
+   */
+  public description: ThemeTranslationList;
+
+  /**
+   * previewColor:
+   * used for Color-Icon in Footer
+   */
+  public previewColor: ColorElem;
+
+  /**
+   * scale:
+   * Used for Initial Rescale value,
+   * when Theme is loaded
+   */
+  public scale: number;
 
   constructor(
     public key: string,
     public palette: Object,
     public meta: Object
   ) {
-    this.order=meta['order'];
-    this.name=new ThemeTranslationList(
-      'name',this.meta['translation']['name']
+
+    /*Init order*/
+    this.order = meta['order'];
+
+    /*Init name*/
+    this.name = new ThemeTranslationList(
+      'name', this.meta['translation']['name']
     );
-    this.description=new ThemeTranslationList(
-      'description',this.meta['translation']['description']
+
+    /*Init description*/
+    this.description = new ThemeTranslationList(
+      'description', this.meta['translation']['description']
     );
-    this.previewColor=this.palette['--primary'];
+
+    /*Init scale*/
+    this.scale = this.meta['scale'];
+
+    /*Init all ColorElem*/
+
     this.colors = [];
     this.main = [];
-
     for (const k in palette) {
       if (palette.hasOwnProperty(k)) {
         if (k !== 'name') {
@@ -88,6 +124,7 @@ export class Theme {
     Theme.variantColors.forEach(e => {
       this.get(e).variant = this.get(e + '-variant');
     });
+    this.previewColor = this.get(this.meta['previewColor']);
   }
 
   public get(name: string): ColorElem {
@@ -97,24 +134,20 @@ export class Theme {
     return null;
   }
 
-  public getName(language:string):string{
+  public getName(language: string): string {
     return this.name.get(language);
   }
 
-  public getDescription(language:string):string{
+  public getDescription(language: string): string {
     return this.description.get(language);
   }
 
-  public getPreviewColor():string{
-    return this.previewColor;
+  public getPreviewColor(): string {
+    return this.previewColor.color;
   }
 
-  public getOnPreviewColor():string{
-    return this.get('primary').on.color;
-  }
-
-  public getSecondaryColor():string{
-    return this.get('secondary').color;
+  public getOnPreviewColor(): string {
+    return this.previewColor.on.color;
   }
 
   public toString(): string {
@@ -122,23 +155,23 @@ export class Theme {
   }
 }
 
-export class ThemeTranslationList{
+export class ThemeTranslationList {
 
-  map:string[][]=[];
+  map: string[][] = [];
 
-  constructor(private name,translation:Object){
-    for(let k in translation){
-      if(translation.hasOwnProperty(k)){
-        this.map.push([k,translation[k]]);
+  constructor(private name, translation: Object) {
+    for (const k in translation) {
+      if (translation.hasOwnProperty(k)) {
+        this.map.push([k, translation[k]]);
       }
     }
   }
 
-  public get(language:string){
-    for(let i=0;i<this.map.length;i++){
-      if(this.map[i][0]===language)return this.map[i][1];
+  public get(language: string) {
+    for (let i = 0; i < this.map.length; i++) {
+      if (this.map[i][0] === language) {return this.map[i][1]; }
     }
-    console.error('ThemeTranslationList: Translation Error, Unknown Language: '+language);
+    console.error('ThemeTranslationList: Translation Error, Unknown Language: ' + language);
     return 'unknown';
   }
 

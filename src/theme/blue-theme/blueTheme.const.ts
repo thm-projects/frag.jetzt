@@ -30,16 +30,18 @@ export const blue = {
 
 export const blue_meta = {
 
-  'translation':{
-    'name':{
-      'en':'ENGLISH_NAME',
-      'de':'GERMAN_NAME'
+  'translation': {
+    'name': {
+      'en': 'ENGLISH_NAME',
+      'de': 'GERMAN_NAME'
     },
-    'description':{
-      'en':'ENGLISH_DESCRIPTION',
-      'de':'GERMAN_DESCRIPTION'
+    'description': {
+      'en': 'ENGLISH_DESCRIPTION',
+      'de': 'GERMAN_DESCRIPTION'
     }
   },
-  'order': 4
+  'order': 4,
+  'scale': 1,
+  'previewColor': 'primary'
 
 };

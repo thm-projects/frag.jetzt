@@ -29,17 +29,19 @@ export const highcontrast = {
 
 export const highcontrast_meta = {
 
-  'translation':{
-    'name':{
-      'en':'High Contrast',
-      'de':'Kontrastreich'
+  'translation': {
+    'name': {
+      'en': 'High Contrast',
+      'de': 'Kontrastreich'
     },
-    'description':{
-      'en':'Visibility optimized',
-      'de':'Kontrastreiche Darstellung'
+    'description': {
+      'en': 'Visibility optimized',
+      'de': 'Kontrastreiche Darstellung'
     }
   },
-  'order': 0
+  'order': 0,
+  'scale': 1,
+  'previewColor': 'primary'
 
 };
 

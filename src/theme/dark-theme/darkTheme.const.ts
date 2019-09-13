@@ -30,16 +30,18 @@ export const dark = {
 
 export const dark_meta = {
 
-  'translation':{
-    'name':{
-      'en':'Dark',
-      'de':'Dunkel'
+  'translation': {
+    'name': {
+      'en': 'Dark',
+      'de': 'Dunkel'
     },
-    'description':{
-      'en':'Battery Friendly',
-      'de':'Akkufreundliche Darstellung'
+    'description': {
+      'en': 'Battery Friendly',
+      'de': 'Akkufreundliche Darstellung'
     }
   },
-  'order': 3
+  'order': 3,
+  'scale': 1,
+  'previewColor': 'primary'
 
 };
