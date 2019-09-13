@@ -82,8 +82,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   public announce() {
-    this.liveAnnouncer.announce('Sie befinden sich in der von Ihnen erstellten Sitzung. ' +
-      'Drücken Sie die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
+    this.liveAnnouncer.announce('Du befindest dich in der von dir erstellten Sitzung. ' +
+      'Drücke die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
       'die Taste 2 um das Sitzungs-Menü zu öffnen, die Taste 3 um in die Moderationsübersicht zu gelangen, ' +
       'die Taste 4 um Einstellungen an der Sitzung vorzunehmen, ' +
       'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +

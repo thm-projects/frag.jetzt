@@ -68,11 +68,11 @@ export class CommentPageComponent implements OnInit, OnDestroy {
   }
 
   public announce() {
-    this.liveAnnouncer.announce('Sie befinden sich auf der Kommentar-Seite Ihrer Sitzung. ' +
-      'Drücken Sie die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
+    this.liveAnnouncer.announce('Du befindest dich auf der Kommentar-Seite deiner Sitzung. ' +
+      'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
       'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um zurück zur Benutzer-Seite zu gelangen. ' +
-      'Sobald mehrere Fragen vorhanden sind, können Sie Fragen suchen und filtern. Mit Taste 3 gelangen Sie in das Suchfeld,' +
-      'durch drücken der Escape-Taste wird die Sucheingabe gelöscht. Drücken Sie die Taste 4 um Fragen zu sortieren, ' +
+      'Sobald mehrere Fragen vorhanden sind, kannst du Fragen suchen und filtern. Mit Taste 3 gelangst du in das Suchfeld,' +
+      'durch drücken der Escape-Taste wird die Sucheingabe gelöscht. Drücke die Taste 4 um Fragen zu sortieren, ' +
       'oder die Taste 5 um Fragen zu filtern, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 
