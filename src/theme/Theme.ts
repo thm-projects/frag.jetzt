@@ -13,6 +13,28 @@ export class ColorElem {
 
 }
 
+export class ThemeTranslationList {
+
+  map: string[][] = [];
+
+  constructor(private name, translation: Object) {
+    for (const k in translation) {
+      if (translation.hasOwnProperty(k)) {
+        this.map.push([k, translation[k]]);
+      }
+    }
+  }
+
+  public get(language: string) {
+    for (let i = 0; i < this.map.length; i++) {
+      if (this.map[i][0] === language) {return this.map[i][1]; }
+    }
+    console.error('ThemeTranslationList: Translation Error, Unknown Language: ' + language);
+    return 'unknown';
+  }
+
+}
+
 export class Theme {
 
   /**
@@ -57,13 +79,13 @@ export class Theme {
    * name:
    * name of Theme
    */
-  public name: ThemeTranslationList = null;
+  public name: ThemeTranslationList;
 
   /**
    * description:
    * description of Theme
    */
-  public description: ThemeTranslationList = null;
+  public description: ThemeTranslationList;
 
   /**
    * previewColor:
@@ -153,28 +175,6 @@ export class Theme {
   public toString(): string {
     return this.name + ' - ' + this.description;
   }
-}
-
-export class ThemeTranslationList {
-
-  map: string[][] = [];
-
-  constructor(private name, translation: Object) {
-    for (const k in translation) {
-      if (translation.hasOwnProperty(k)) {
-        this.map.push([k, translation[k]]);
-      }
-    }
-  }
-
-  public get(language: string) {
-    for (let i = 0; i < this.map.length; i++) {
-      if (this.map[i][0] === language) {return this.map[i][1]; }
-    }
-    console.error('ThemeTranslationList: Translation Error, Unknown Language: ' + language);
-    return 'unknown';
-  }
-
 }
 
 
