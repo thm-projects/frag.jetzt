@@ -30,8 +30,16 @@ export const arsnova = {
 
 export const arsnova_meta = {
 
-  'name': 'Light ARSnova',
-  'description': 'Bright Theme',
+  'translation':{
+    'name':{
+      'en':'Bright',
+      'de':'Hell'
+    },
+    'description':{
+      'en':'Bright Theme',
+      'de':'Helle Darstellung'
+    }
+  },
   'order': 2
 
 };

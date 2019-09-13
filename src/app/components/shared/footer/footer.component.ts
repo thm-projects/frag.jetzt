@@ -136,7 +136,11 @@ export class FooterComponent implements OnInit {
   }
 
   changeTheme(theme: Theme) {
-    this.themeClass = theme.name;
-    this.themeService.activate(theme.name);
+    this.themeClass = theme.key;
+    this.themeService.activate(theme.key);
+  }
+
+  getLanguage():string{
+    return localStorage.getItem('currentLang');
   }
 }
