@@ -27,8 +27,9 @@ export class DeleteAccountComponent implements OnInit {
 
   ngOnInit() {
     this.roomService.getCreatorRooms().subscribe(rooms => {
-      this.rooms = rooms;
-      this.sortRooms();
+      this.rooms = rooms.sort((a, b) => {
+        return a.name > b.name ? 1 : -1;
+      });
     });
   }
 
@@ -50,13 +51,5 @@ export class DeleteAccountComponent implements OnInit {
    */
   buildDeleteAccountActionCallback(): () => void {
     return () => this.close('delete');
-  }
-
-
-  sortRooms() {
-    const roomList = this.rooms.sort((a, b) => {
-      return a.name > b.name ? 1 : -1;
-    });
-    this.rooms = roomList;
   }
 }
