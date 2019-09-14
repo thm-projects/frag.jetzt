@@ -5,9 +5,7 @@
 </div>
 
 <div *ngIf="roomsWithRole">
-
-  <h2>{{ 'room-list.room-history-headline' | translate }}</h2>
-
+  <mat-divider></mat-divider>
   <div *ngIf="tableDataSource.data.length === 0" aria-labelledby="emptySessionHistoryLabel">
     <h3>{{ 'room-list.no-room-history' | translate }}</h3>
   </div>

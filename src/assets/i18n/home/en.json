@@ -192,7 +192,6 @@
     "panel-session-name": "Name",
     "panel-user-role": "Role",
     "participant-role": "Participant",
-    "room-history-headline": "Your visited sessions",
     "session-history": "Your session history contains {count}} sessions.",
     "session-history-1": "Your session history contains one session.",
     "session-history-label": "Below you will find a list of your attended sessions."
