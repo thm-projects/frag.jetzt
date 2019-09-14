@@ -44,7 +44,6 @@ export class StatisticsPageComponent implements OnInit {
 
   getRoom(id: string): void {
     this.roomService.getRoom(id).subscribe(room => {
-      this.contentGroups = room.contentGroups;
       if (this.contentGroups) {
         if (this.currentCG) {
           for (let i = 0; i < this.contentGroups.length; i++) {

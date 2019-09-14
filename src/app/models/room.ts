@@ -1,4 +1,3 @@
-import { ContentGroup } from './content-group';
 import { TSMap } from 'typescript-map';
 
 export class Room {
@@ -10,7 +9,6 @@ export class Room {
   name: string;
   description: string;
   closed: boolean;
-  contentGroups: ContentGroup[];
   extensions: TSMap<string, TSMap<string, any>>;
 
   constructor(
@@ -20,7 +18,6 @@ export class Room {
     name: string = '',
     description: string = '',
     closed: boolean = false,
-    contentGroups: ContentGroup[] = [],
     extensions: TSMap<string, TSMap<string, any>> = new TSMap()
   ) {
     this.id = '',
@@ -30,7 +27,6 @@ export class Room {
     this.name = name,
     this.description = description;
     this.closed = closed;
-    this.contentGroups = contentGroups;
     this.extensions = extensions;
   }
 }
