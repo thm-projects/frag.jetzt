@@ -32,12 +32,12 @@ export const dark_meta = {
 
   'translation': {
     'name': {
-      'en': 'Dark',
-      'de': 'Dunkel'
+      'en': 'Dark Mode',
+      'de': 'Dark Mode'
     },
     'description': {
-      'en': 'Battery Friendly',
-      'de': 'Akkufreundliche Darstellung'
+      'en': 'Dark, battery-saving background',
+      'de': 'Dunkler akkuschonender Hintergrund'
     }
   },
   'order': 3,

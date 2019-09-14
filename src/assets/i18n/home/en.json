@@ -36,11 +36,8 @@
     "accessibility-help": "Open the help text in a new dialog.",
     "accessibility-imprint": "Open the imprint in a new dialog.",
     "accessibility-language": "Open the language selection menu.",
-    "accessibility-style": "Open the color scheme menu.",
-    "beamer": "Optimized for the projector (work in progress)",
-    "bright": "Bright background",
-    "dark": "Dark background",
-    "demo": "Demo",
+    "accessibility-style": "Open the display menu.",
+    "demo": "Introduction",
     "dsgvo": "Privacy",
     "english": "English",
     "german": "German",
@@ -48,13 +45,7 @@
     "imprint": "Imprint",
     "language": "Language",
     "open": "Open",
-    "style": "Style",
-    "style-blue": "Select the blue style theme",
-    "style-dark": "Select the dark style theme",
-    "style-default": "Select the default style theme",
-    "style-purple": "Select the purple style theme",
-    "wai": "Accessible according to WCAG 2.1 (work in progress)",
-    "will-open": " will be opened in a new tab..."
+    "style": "Display"
   },
   "header": {
     "abort": "Cancel",

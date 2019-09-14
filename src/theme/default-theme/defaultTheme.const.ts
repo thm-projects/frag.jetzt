@@ -32,12 +32,12 @@ export const arsnova_meta = {
 
   'translation': {
     'name': {
-      'en': 'Bright',
-      'de': 'Hell'
+      'en': 'Light Mode',
+      'de': 'Light Mode'
     },
     'description': {
-      'en': 'Bright Theme',
-      'de': 'Helle Darstellung'
+      'en': 'Bright background',
+      'de': 'Heller Hintergrund'
     }
   },
   'order': 2,

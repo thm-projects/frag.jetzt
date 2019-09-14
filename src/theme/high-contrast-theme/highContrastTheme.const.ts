@@ -32,11 +32,11 @@ export const highcontrast_meta = {
   'translation': {
     'name': {
       'en': 'High Contrast',
-      'de': 'Kontrastreich'
+      'de': 'Hoher Kontrast'
     },
     'description': {
-      'en': 'Visibility optimized',
-      'de': 'Kontrastreiche Darstellung'
+      'en': 'Contrast compliant with WCAG 2.1 AA',
+      'de': 'Helligkeitskontrast nach WCAG 2.1 AA'
     }
   },
   'order': 0,

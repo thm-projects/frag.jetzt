@@ -68,7 +68,7 @@ export class CommentPageComponent implements OnInit, OnDestroy {
   }
 
   public announce() {
-    this.liveAnnouncer.announce('Du befindest dich auf der Kommentar-Seite deiner Sitzung. ' +
+    this.liveAnnouncer.announce('Du befindest dich auf der Fragen-Seite deiner Sitzung. ' +
       'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
       'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um zurück zur Benutzer-Seite zu gelangen. ' +
       'Sobald mehrere Fragen vorhanden sind, kannst du Fragen suchen und filtern. Mit Taste 3 gelangst du in das Suchfeld,' +

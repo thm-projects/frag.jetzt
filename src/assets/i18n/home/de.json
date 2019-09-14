@@ -28,18 +28,15 @@
   },
   "demo": {
     "cancel": "Schließen",
-    "cancel-description": "Schließt das Demo Fenster"
+    "cancel-description": "Schließt die Einführung"
   },
   "footer": {
     "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
-    "accessibility-demo": "Öffnet ein Einführungs-Video zu frag.jetzt.",
+    "accessibility-demo": "Öffnet die Einführung zu frag.jetzt.",
     "accessibility-help": "Öffnet die Hilfe.",
     "accessibility-imprint": "Öffnet das Impressum.",
     "accessibility-language": "Öffnet die Sprachauswahl.",
-    "accessibility-style": "Öffnet die Farbauswahl.",
-    "beamer": "Für den Beamer optimiert",
-    "bright": "Heller Hintergrund",
-    "dark": "Dunkler Hintergrund",
+    "accessibility-style": "Öffnet die Darstellungsfunktionen.",
     "demo": "Einführung",
     "dsgvo": "Datenschutz",
     "english": "Englisch",
@@ -47,12 +44,7 @@
     "help": "Hilfe",
     "imprint": "Impressum",
     "language": "Sprache",
-    "style": "Darstellung",
-    "style-blue": "Wähle das blaue Thema aus.",
-    "style-dark": "Wähle das dunkle Thema aus.",
-    "style-default": "Wähle das helle Thema aus.",
-    "style-purple": "Wähle das lila Thema aus.",
-    "wai": "Hoher Kontrast"
+    "style": "Darstellung"
   },
   "header": {
     "abort": "Abbrechen",

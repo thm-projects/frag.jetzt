@@ -77,7 +77,7 @@
   },
   "room-page": {
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Sitzungs-Code.",
-    "a11y-question_answer": "Öffnet die Kommentar-Seite mit allen Fragen und bietet die Möglichkeit, Fragen zu stellen.",
+    "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
     "answer-statistics": "Statistiken",
     "comments": "Fragen",
     "create-comment": "Stell deine Frage!",
