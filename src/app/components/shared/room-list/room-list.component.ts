@@ -40,7 +40,7 @@ export class RoomListComponent implements OnInit {
   ngOnInit() {
     this.getRooms();
     this.eventService.on<any>('RoomDeleted').subscribe(payload => {
-      this.rooms = this.rooms.filter(r => r.id !== payload.id);
+      this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
   }
 
@@ -96,7 +96,7 @@ export class RoomListComponent implements OnInit {
   }
 
   updateTable(): void {
-    this.tableDataSource = new MatTableDataSource(this.rooms);
+    this.tableDataSource = new MatTableDataSource(this.roomsWithRole);
   }
 
   applyFilter(filterValue: string): void {
