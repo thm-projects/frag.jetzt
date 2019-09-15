@@ -172,8 +172,9 @@ export class Theme {
     return this.previewColor.on.color;
   }
 
-  public toString(): string {
-    return this.name + ' - ' + this.description;
+  public toString(language: string): string {
+    if (typeof language === 'undefined') {return 'waiting for language (currentLang)'; }
+    return this.name.get(language) + ' - ' + this.description.get(language);
   }
 }
 
