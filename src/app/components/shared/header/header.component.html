@@ -30,7 +30,7 @@
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
       <button mat-menu-item *ngIf="user" routerLink="/user">
-        <mat-icon class="sessions">work</mat-icon>
+        <mat-icon class="sessions">attache_file</mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest" svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>

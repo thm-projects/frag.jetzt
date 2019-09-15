@@ -7,7 +7,7 @@
       </span>
     </button>
     <button mat-button (click)="showDemo()" *ngIf="router.url === '/home'" aria-labelledby="demo-label">
-      <mat-icon>ondemand_video</mat-icon>
+      <mat-icon>flag</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
@@ -15,7 +15,7 @@
 
     <span class="fill-remaining-space"></span>
     <button mat-button aria-labelledby="style-label" [matMenuTriggerFor]="themeMenu">
-      <mat-icon>palette</mat-icon>
+      <mat-icon>accessibility_new</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.style' | translate}}
         </span>

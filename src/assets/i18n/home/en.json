@@ -2,8 +2,8 @@
   "cookies": {
     "accept": "Accept",
     "accept-description": "Accept the use of cookies and proceed to the app.",
-    "cancel": "Decline",
-    "cancel-description": "Decline cookie usage and exit the app.",
+    "cancel": "Reject",
+    "cancel-description": "Reject cookie usage and exit the app.",
     "info-label": "Open a dialog with the frag.jetzt privacy policy.",
     "title": "Cookies"
   },
@@ -14,8 +14,8 @@
     "title": "Cannot use app"
   },
   "data-protection": {
-    "cancel": "Decline",
-    "cancel-description": "Decline the app's privacy policy and close dialog",
+    "cancel": "Reject",
+    "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
     "title": "Privacy"
@@ -28,7 +28,7 @@
   },
   "demo": {
     "cancel": "Close",
-    "cancel-description": "Close the demo dialog"
+    "cancel-description": "Close the introduction dialog"
   },
   "footer": {
     "accessibility-data_protection": "Open the privacy statement in a new dialog.",
@@ -36,7 +36,7 @@
     "accessibility-help": "Open the help text in a new dialog.",
     "accessibility-imprint": "Open the imprint in a new dialog.",
     "accessibility-language": "Open the language selection menu.",
-    "accessibility-style": "Open the display menu.",
+    "accessibility-style": "Open the display menu in a new dialog.",
     "demo": "Introduction",
     "dsgvo": "Privacy",
     "english": "English",
@@ -98,8 +98,8 @@
     "title": "Imprint"
   },
   "introduction": {
-    "cancel": "Cancel",
-    "cancel-description": "Close demo video and go back to login page.",
+    "cancel": "Close",
+    "cancel-description": "Close introduction.",
     "title": "Why »frag.jetzt« (»ask.now«)"
   },
   "login": {

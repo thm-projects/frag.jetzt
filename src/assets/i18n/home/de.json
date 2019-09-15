@@ -36,7 +36,7 @@
     "accessibility-help": "Öffnet die Hilfe.",
     "accessibility-imprint": "Öffnet das Impressum.",
     "accessibility-language": "Öffnet die Sprachauswahl.",
-    "accessibility-style": "Öffnet die Darstellungsfunktionen.",
+    "accessibility-style": "Öffnet die Anzeigeoptionen für hohen Kontrast, Hörsaal-Projektion, heller und dunkler Hintergrund.",
     "demo": "Einführung",
     "dsgvo": "Datenschutz",
     "english": "Englisch",
@@ -44,7 +44,7 @@
     "help": "Hilfe",
     "imprint": "Impressum",
     "language": "Sprache",
-    "style": "Darstellung"
+    "style": "Anzeige"
   },
   "header": {
     "abort": "Abbrechen",
@@ -96,7 +96,7 @@
     "title": "Impressum"
   },
   "introduction": {
-    "cancel": "zurück",
+    "cancel": "Schließen",
     "cancel-description": "Schließe die Einführung und gehe zurück zur Anmeldung.",
     "title": "Warum »frag.jetzt«"
   },
