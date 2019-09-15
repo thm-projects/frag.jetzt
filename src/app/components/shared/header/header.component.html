@@ -35,7 +35,7 @@
         <span *ngIf="user.isGuest" svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user && !user.isGuest" (click)="openDeleteUserDialog()">
-        <mat-icon color="warn">delete_sweep</mat-icon>
+        <mat-icon color="warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
       <button mat-menu-item (click)="logout()">
