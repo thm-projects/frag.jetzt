@@ -289,15 +289,14 @@ export class CommentListComponent implements OnInit {
     this.sortComments(this.currentSort);
   }
 
-  sort(array: any[], type: string): void {
-    array.sort((a, b) => {
+  sort(array: any[], type: string): any[] {
+    return array.sort((a, b) => {
       if (type === this.voteasc) {
         return (a.score > b.score) ? 1 : (b.score > a.score) ? -1 : 0;
       } else if (type === this.votedesc) {
         return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
-      }
-      const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
-      if (type === this.time) {
+      } else if (type === this.time) {
+        const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
         return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
       }
     });
@@ -305,9 +304,9 @@ export class CommentListComponent implements OnInit {
 
   sortComments(type: string): void {
     if (this.hideCommentsList === true) {
-      this.sort(this.filteredComments, type);
+      this.filteredComments = this.sort(this.filteredComments, type);
     } else {
-      this.sort(this.comments, type);
+      this.comments = this.sort(this.comments, type);
     }
     this.currentSort = type;
   }
