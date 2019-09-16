@@ -28,7 +28,8 @@
         </mat-card-content>
         <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
             <mat-grid-tile>
-              <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/comments">
+              <button mat-icon-button [disableRipple]="true"
+                      routerLink="/moderator/room/{{ room.shortId }}/comments">
                 <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
                 </mat-icon>
@@ -36,7 +37,8 @@
               </button>
             </mat-grid-tile>
             <mat-grid-tile *ngIf="moderationEnabled">
-              <button mat-icon-button routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
+              <button mat-icon-button [disableRipple]="true"
+                      routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
                 <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
                 </mat-icon>

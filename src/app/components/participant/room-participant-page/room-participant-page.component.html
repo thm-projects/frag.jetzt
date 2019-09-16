@@ -28,7 +28,8 @@
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
-          <button id="question_answer-button" mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
+          <button id="question_answer-button" mat-icon-button [disableRipple]="true"
+                  routerLink="/participant/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
             </mat-icon>
