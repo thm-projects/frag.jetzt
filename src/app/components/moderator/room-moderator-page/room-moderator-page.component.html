@@ -16,7 +16,7 @@
                 {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
               </span>
               <button id="copy" mat-icon-button (click)="copyShortId()">
-                <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">cloud_download</mat-icon>
+                <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">save</mat-icon>
               </button>
             </mat-card-subtitle>
           </mat-card-header>
@@ -50,9 +50,9 @@
               </button>
             </mat-grid-tile> -->
         </mat-grid-list>
-  
+
         <!-- <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
       </mat-card>
-  
+
     </div>
   </div>
