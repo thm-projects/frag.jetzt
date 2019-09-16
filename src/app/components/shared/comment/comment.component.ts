@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
+import { UserRole } from '../../../models/user-roles.enum';
 
 export const rubberBand = [
   style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
@@ -43,6 +44,7 @@ export const rubberBand = [
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   isStudent = false;
+  isCreator = false;
   hasVoted = 0;
   language: string;
   animationState: string;
@@ -64,8 +66,11 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authenticationService.getRole() === 0) {
+    const currentRole = this.authenticationService.getRole();
+    if (currentRole === UserRole.PARTICIPANT) {
       this.isStudent = true;
+    } else if (currentRole === UserRole.CREATOR) {
+      this.isCreator = true;
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
