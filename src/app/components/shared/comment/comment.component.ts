@@ -171,7 +171,7 @@ export class CommentComponent implements OnInit {
 
   openPresentDialog(comment: Comment): void {
     this.goToFullScreen(document.documentElement);
-    if (this.isStudent === false) {
+    if (this.isCreator === true) {
       this.wsCommentService.highlight(comment);
       if (!comment.read) {
         this.setRead(comment);
