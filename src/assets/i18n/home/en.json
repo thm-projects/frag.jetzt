@@ -180,16 +180,16 @@
     "create-room-description": "Create new session"
   },
   "room-list": {
-    "creator-role": "Room creator",
+    "creator-role": "Session creator",
     "entry": "Entry ",
-    "filter": "Here you can filter your visited sessions",
-    "filter-message": "Filter by Name or Session ID",
-    "join-message-template": "Join Session {{session}} with ID {{id}} and role {{role}}",
+    "filter": "Here you can filter your visited sessions.",
+    "filter-message": "Filter by Name or Code",
+    "join-message-template": "Join the session {{session}} with code {{id}} and in the role {{role}}",
     "moderator-role": "Moderator",
     "no-room-history": "You haven't joined any sessions yet.",
-    "panel-join-button": "Join Session",
-    "panel-session-id": "Session ID",
-    "panel-session-name": "Name",
+    "panel-join-button": "",
+    "panel-session-id": "Code",
+    "panel-session-name": "Session",
     "panel-user-role": "Role",
     "participant-role": "Participant",
     "session-history": "Your session history contains {count}} sessions.",
@@ -199,7 +199,7 @@
   "session": {
     "create-session": "Create session",
     "description": "Session description",
-    "join": "join session",
+    "join": "Join session",
     "max-ls": "Max. characters:",
     "session-name": "Session name"
   }
