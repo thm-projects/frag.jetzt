@@ -1,6 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
   <div fxLayout="row" fxLayoutAlign="center">
     <app-comment-list [user]="user" [roomId]="roomId" comments></app-comment-list>
+    <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'comment-page.live-announcer' | translate }}</button>
   </div>
 </div>
 

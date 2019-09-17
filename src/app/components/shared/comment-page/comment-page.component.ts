@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -14,7 +14,7 @@ import { Room } from '../../../models/room';
   templateUrl: './comment-page.component.html',
   styleUrls: ['./comment-page.component.scss']
 })
-export class CommentPageComponent implements OnInit, OnDestroy {
+export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit {
   roomId: string;
   room: Room;
   user: User;
@@ -28,10 +28,14 @@ export class CommentPageComponent implements OnInit, OnDestroy {
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2) { }
 
+  ngAfterContentInit(): void {
+    setTimeout( () => {
+      document.getElementById('live_announcer-button').focus();
+    }, 500);
+  }
   ngOnInit(): void {
     this.roomId = localStorage.getItem('roomId');
     this.user = this.authenticationService.getUser();
-    this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         if (document.getElementById('add_comment-button')) {

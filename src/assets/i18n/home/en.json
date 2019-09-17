@@ -83,6 +83,7 @@
     "created-2": "' successfully created",
     "exactly-8": "A session ID has exactly 8 digits.",
     "live-announcer": "Welcome to fragpunktjetzt. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
+    "live-announcer-user": "You are now on the user page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "install": "Install",
     "no-empty-name": "Please enter a name.",
     "no-room-found": "No session found with this key",
