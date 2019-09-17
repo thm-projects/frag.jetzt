@@ -13,6 +13,8 @@ import { UserService } from '../../../services/http/user.service';
 import { EventService } from '../../../services/util/event.service';
 import { AppComponent } from '../../../app.component';
 import { Rescale } from '../../../models/rescale';
+import { KeyboardUtils } from '../../../utils/keyboard';
+import { KeyboardKey } from '../../../utils/keyboard/keys';
 
 @Component({
   selector: 'app-header',
@@ -78,10 +80,15 @@ export class HeaderComponent implements OnInit {
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+
     this._r.listen(document, 'keyup', (event) => {
-      if (document.getElementById('back-button') && event.keyCode === 48 && this.eventService.focusOnInput === false) {
+      if (
+        document.getElementById('back-button') &&
+        KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit0) === true &&
+        this.eventService.focusOnInput === false
+      ) {
         document.getElementById('back-button').focus();
-      } else if (event.keyCode === 50 && this.eventService.focusOnInput === false) {
+      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit2) === true && this.eventService.focusOnInput === false) {
         if (this.user) {
           document.getElementById('session-button').focus();
         } else {

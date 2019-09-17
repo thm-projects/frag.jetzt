@@ -2,6 +2,8 @@ import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
+import { KeyboardUtils } from '../../../../utils/keyboard';
+import { KeyboardKey } from '../../../../utils/keyboard/keys';
 
 @Component({
   selector: 'app-present-comment',
@@ -12,7 +14,6 @@ export class PresentCommentComponent implements OnInit {
   public body: string;
   // flag for fullscreen
   private fs = false;
-  private ESCAPE_KEYCODE = 27;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -36,7 +37,7 @@ export class PresentCommentComponent implements OnInit {
   @HostListener('document:keyup', ['$event'])
   onKeyUp(event: KeyboardEvent) {
     // ToDo: migrate from deprecated event api
-    if (event.keyCode === this.ESCAPE_KEYCODE) {
+    if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true) {
       this.onCloseClick();
     }
   }
