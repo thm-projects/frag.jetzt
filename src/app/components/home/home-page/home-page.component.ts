@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -9,7 +9,7 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit, OnDestroy {
+export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
 
   deviceType: string;
   listenerFn: () => void;
@@ -21,9 +21,16 @@ export class HomePageComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  ngAfterContentInit(): void {
+
+    setTimeout( () => {
+      document.getElementById('live_announcer-button').focus();
+    }, 500);
+
+  }
+
   ngOnInit() {
     this.deviceType = localStorage.getItem('deviceType');
-    this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('session_id-input').focus();
