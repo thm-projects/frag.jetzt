@@ -5,8 +5,9 @@
   </mat-label>
   <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
    'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
-         [placeholder]="searchPlaceholder" (input)="searchComments()" [(ngModel)]="searchInput"
+         (input)="searchComments()" [(ngModel)]="searchInput"
          aria-labelledby="search-box-input-description">
+  <mat-placeholder class="placeholder">{{ searchPlaceholder }}</mat-placeholder>
   <button id="search_close-button" mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
           (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';" aria-labelledby="close_search">
     <mat-icon>close</mat-icon>
