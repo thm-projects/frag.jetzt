@@ -23,7 +23,7 @@
       gavel
     </mat-icon>
   </span>
-    <h2 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
+    <h2 id="shortId-header" *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
     </h2>
     <span class="fill-remaining-space"></span>
