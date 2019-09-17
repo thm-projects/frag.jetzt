@@ -185,7 +185,7 @@
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen.",
     "moderator-role": "Moderator",
     "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
-    "panel-join-button": "Teilnehmen",
+    "panel-join-button": "",
     "panel-session-id": "Code",
     "panel-session-name": "Sitzung",
     "panel-user-role": "Rolle",
