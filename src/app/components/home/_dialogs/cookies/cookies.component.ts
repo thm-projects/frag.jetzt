@@ -31,6 +31,9 @@ export class CookiesComponent implements OnInit {
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
     this.dialogRef.close();
+    setTimeout( () => {
+      document.getElementById('live_announcer-button').focus();
+    }, 500);
   }
 
   exitApp() {

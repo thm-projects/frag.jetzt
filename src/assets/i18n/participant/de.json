@@ -58,6 +58,7 @@
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",
     "error-title": "Bitte gib einen Titel ein.",
+    "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-not-correct": "Dozent hat die Frage bejaht.",
     "mark-not-favorite": "Bonus-Frage: Dozent hält die Frage für besonders interessant.",
     "mark-not-wrong": "Dozent hat die Frage verneint",
@@ -85,6 +86,7 @@
     "description": "Beschreibung der Sitzung",
     "give-feedback": "Feedback geben",
     "learn": "Lernen",
+    "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-feedback": "Live Feedback",
     "session-id": "Code"
   },

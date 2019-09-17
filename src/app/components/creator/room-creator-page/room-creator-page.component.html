@@ -93,6 +93,7 @@
     </mat-card>
     <div *ngIf="!isLoading && !room">{{ 'room-page.room-not-found' | translate }}</div>
   </div>
+  <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
 </div>
 
 <div class="visually-hidden">

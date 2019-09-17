@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentInit, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
@@ -10,20 +10,21 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { Message } from '@stomp/stompjs';
 import { NotificationService } from '../../../services/util/notification.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-room-moderator-page',
   templateUrl: './room-moderator-page.component.html',
   styleUrls: ['./room-moderator-page.component.scss']
 })
-export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit {
+export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, AfterContentInit {
 
   room: Room;
   isLoading = true;
   deviceType = localStorage.getItem('deviceType');
   moderatorCommentCounter: number;
   viewModuleCount = 1;
-
 
   constructor(protected location: Location,
               protected roomService: RoomService,
@@ -32,7 +33,10 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              protected notification: NotificationService) {
+              protected notification: NotificationService,
+              private liveAnnouncer: LiveAnnouncer,
+              private _r: Renderer2,
+              public eventService: EventService) {
     super(roomService, route, location, wsCommentService, commentService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -83,6 +87,12 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     });
   }
 
+  ngAfterContentInit(): void {
+    setTimeout( () => {
+      document.getElementById('live_announcer-button').focus();
+    }, 700);
+  }
+
   ngOnInit() {
     window.scroll(0, 0);
     this.route.params.subscribe(params => {
@@ -106,5 +116,10 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     this.translateService.get('room-page.session-id-copied').subscribe(msg => {
       this.notification.show(msg, '', { duration: 2000 });
     });
+  }
+
+  public announce() {
+    this.liveAnnouncer.clear();
+    this.liveAnnouncer.announce('', 'assertive');
   }
 }
