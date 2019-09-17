@@ -4,8 +4,9 @@
   <div fxLayout="column">
     <mat-form-field class="input-block">
       <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
-             [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate }}"
+             [(ngModel)]="editRoom.name" matInput
              name="room-name" maxlength="20" aria-labelledby="room-name"/>
+      <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
     </mat-form-field>
     <mat-form-field class="input-block">
@@ -17,10 +18,10 @@
         matAutosizeMinRows="2"
         matAutosizeMaxRows="5"
         maxlength="255"
-        placeholder="{{ 'session.description' | translate }}"
         name="description"
         aria-labelledby="description"
       ></textarea>
+      <mat-placeholder class="placeholder">{{ 'session.description' | translate }}</mat-placeholder>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.description ? editRoom.description.length : 0 }} / 255</span></mat-hint>
     </mat-form-field>
     <div fxLayoutAlign="center center">

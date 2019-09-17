@@ -2,9 +2,10 @@
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
     <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
-           matInput #userActivationKey type="text" placeholder="{{ 'login.activation-key' | translate }}"
+           matInput #userActivationKey type="text"
            [formControl]="activationKeyFormControl" name="activation-key"
            aria-labelledby="activation-key-input-description"/>
+    <mat-placeholder class="placeholder">{{ 'login.activation-key' | translate }}</mat-placeholder>
     <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'login.activation-key-required' | translate }}</mat-error>
   </mat-form-field>
 </form>
