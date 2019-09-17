@@ -154,7 +154,7 @@
     "delete-all-comments": "Delete all questions",
     "delete-room": "Delete session",
     "delete-room-description": "Delete session",
-    "deleted": " successfully deleted.",
+    "deleted": " deleted.",
     "description": "Description of session",
     "email-error": "E-Mail is invalid.",
     "export-comments": "Export questions",
