@@ -18,7 +18,7 @@
     "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
-    "title": "Privacy"
+    "title": "Data Protection & Privacy"
   },
   "delete-account": {
     "cancel": "Cancel",
@@ -38,7 +38,7 @@
     "accessibility-language": "Open the language selector.",
     "accessibility-style": "Open the display selector.",
     "demo": "Introduction",
-    "dsgvo": "Privacy",
+    "dsgvo": "Data Protection",
     "english": "English",
     "german": "German",
     "help": "Help",
