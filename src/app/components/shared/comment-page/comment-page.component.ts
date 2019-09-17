@@ -7,7 +7,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-comment-page',
@@ -16,7 +15,7 @@ import { Room } from '../../../models/room';
 })
 export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit {
   roomId: string;
-  room: Room;
+  shortId: string;
   user: User;
 
   listenerFn: () => void;
@@ -31,10 +30,11 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
   ngAfterContentInit(): void {
     setTimeout( () => {
       document.getElementById('live_announcer-button').focus();
-    }, 500);
+    }, 800);
   }
   ngOnInit(): void {
     this.roomId = localStorage.getItem('roomId');
+    this.shortId = localStorage.getItem('roomId');
     this.user = this.authenticationService.getUser();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
