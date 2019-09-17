@@ -38,4 +38,11 @@ export class ThemeService {
   public getThemes(): Theme[] {
     return this.themes;
   }
+
+  public getThemeByKey(key: string): Theme {
+    for (let i = 0; i < this.themes.length; i++) {
+      if (this.themes[i].key === key) {return this.themes[i]; }
+    }
+    return null;
+  }
 }

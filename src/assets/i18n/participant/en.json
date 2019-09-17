@@ -58,6 +58,7 @@
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please enter a question.",
     "error-title": "Please enter a title.",
+    "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-not-correct": "Marked as correct by the professor",
     "mark-not-favorite": "Bonus question: Your professor intends to give a bonus for that question.",
     "mark-not-wrong": "Marked as wrong by the professor",
@@ -85,6 +86,7 @@
     "description": "Description",
     "give-feedback": "Give feedback",
     "learn": "Learn",
+    "live-announcer": "You're in the session now. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-feedback": "Live feedback",
     "session-id": "Key"
   },

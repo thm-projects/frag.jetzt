@@ -6,7 +6,7 @@
           <span class="fill-remaining-space"></span>
           <mat-card-header fxLayoutAlign="center">
             <mat-card-title fxLayoutAlign="center">
-              <h2>{{ room.name }}</h2>
+              <h1>{{ room.name }}</h1>
             </mat-card-title>
             <mat-card-subtitle fxLayoutAlign="center">
               <mat-icon *ngIf="moderationEnabled" class="gavel">
@@ -24,25 +24,27 @@
         </div>
         <mat-divider></mat-divider>
         <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-          <h4>{{room.description.trim()}}</h4>
+          <h3>{{room.description.trim()}}</h3>
         </mat-card-content>
         <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
             <mat-grid-tile>
-              <button mat-icon-button [disableRipple]="true"
+              <button id="question_answer-button"
+                      mat-icon-button [disableRipple]="true"
                       routerLink="/moderator/room/{{ room.shortId }}/comments">
                 <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
                 </mat-icon>
-                <h3>{{ 'room-page.public-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
+                <h2>{{ 'room-page.public-stream' | translate}}</h2>         <!-- *ngIf="deviceType === 'desktop'" -->
               </button>
             </mat-grid-tile>
             <mat-grid-tile *ngIf="moderationEnabled">
-              <button mat-icon-button [disableRipple]="true"
+              <button id="gavel-button"
+                      mat-icon-button [disableRipple]="true"
                       routerLink="/moderator/room/{{ room.shortId }}/moderator/comments">
                 <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
                 </mat-icon>
-                <h3>{{ 'room-page.moderating-stream' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
+                <h2>{{ 'room-page.moderating-stream' | translate}}</h2>         <!-- *ngIf="deviceType === 'desktop'" -->
               </button>
             </mat-grid-tile>
           <!--  <mat-grid-tile>
@@ -57,4 +59,5 @@
       </mat-card>
 
     </div>
-  </div>
+  <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
+</div>

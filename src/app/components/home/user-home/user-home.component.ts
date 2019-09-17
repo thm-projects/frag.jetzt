@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -16,7 +16,7 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   templateUrl: './user-home.component.html',
   styleUrls: [ './user-home.component.scss' ]
 })
-export class UserHomeComponent implements OnInit, OnDestroy {
+export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   user: User;
   creatorRole: UserRole = UserRole.CREATOR;
   participantRole: UserRole = UserRole.PARTICIPANT;
@@ -35,10 +35,14 @@ export class UserHomeComponent implements OnInit, OnDestroy {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  ngAfterContentInit(): void {
+    setTimeout( () => {
+      document.getElementById('live_announcer-button').focus();
+    }, 700);
+  }
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
-    this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('session_id-input').focus();
@@ -59,6 +63,7 @@ export class UserHomeComponent implements OnInit, OnDestroy {
   }
 
   public announce() {
+    this.liveAnnouncer.clear();
     this.liveAnnouncer.announce('Du befindest dich auf deiner Benutzer-Seite. ' +
       'Drücke die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
       'die Taste 3 um eine neue Sitzung zu erstellen, die Taste 0 um zurück zur Startseite zu gelangen, ' +

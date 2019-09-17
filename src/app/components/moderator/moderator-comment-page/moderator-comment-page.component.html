@@ -2,6 +2,6 @@
     <div fxLayout="row" fxLayoutAlign="center">
       <app-moderator-comment-list [user]="user" [roomId]="roomId" comments></app-moderator-comment-list>
     </div>
-  </div>
-  
-  
+  <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'comment-page.live-announcer-moderation' | translate }}</button>
+</div>
+
