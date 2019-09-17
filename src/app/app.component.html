@@ -1,8 +1,9 @@
+<script src="models/rescale.ts"></script>
 <div fxLayout="column" fxFill appTheme>
+  <header class="header" id="header_rescale">
+    <app-header #header></app-header>
+  </header>
   <div id="rescale_screen">
-    <header class="header" id="header_rescale">
-      <app-header #header></app-header>
-    </header>
     <div class="main_container">
       <div class="inner_main_container">
         <main fxFlex class="app-component">
@@ -10,22 +11,22 @@
         </main>
       </div>
     </div>
-    <footer role="contentinfo" class="footer" id="footer_rescale">
-      <app-footer></app-footer>
-    </footer>
   </div>
-  <div class="rescale_overlay" id="overlay_rescale" aria-hidden="true;">
-    <button mat-icon-button (click)="getRescale().deactivateScale()">
-      <mat-icon>arrow_back</mat-icon>
+  <footer role="contentinfo" class="footer" id="footer_rescale">
+    <app-footer></app-footer>
+  </footer>
+  <div class="rescale_overlay" id="overlay_rescale" aria-hidden="true">
+    <button mat-icon-button (click)="getRescale().toggleState()" title="toggle">
+      <mat-icon>{{getRescale().getState()==1?'fullscreen':'fullscreen_exit'}}</mat-icon>
     </button>
-    <button mat-icon-button (click)="getRescale().scaleUp()">
+    <button mat-icon-button (click)="getRescale().scaleUp()" title="Zoom +">
       <mat-icon>zoom_in</mat-icon>
     </button>
-    <button mat-icon-button (click)="getRescale().scaleDown()">
+    <button mat-icon-button (click)="getRescale().scaleDown()" title="Zoom -">
       <mat-icon>zoom_out</mat-icon>
     </button>
-    <button mat-icon-button (click)="getRescale().scaleUndo()">
-      <mat-icon>undo</mat-icon>
+    <button mat-icon-button (click)="getRescale().scaleUndo()" title="Reset Zoom">
+      <mat-icon>refresh</mat-icon>
     </button>
   </div>
 </div>
