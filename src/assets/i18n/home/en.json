@@ -8,10 +8,10 @@
     "title": "Cookies"
   },
   "overlay": {
-    "cancel": "Change settings",
-    "cancel-description": "Open the cookie setting dialog",
-    "message": "You have declined cookie usage for this app, thus you can not use it for the time being.",
-    "title": "Cannot use app"
+    "cancel": "Accept cookies after all?",
+    "cancel-description": "Accept cookies after all?",
+    "message": "You have rejected the use of cookies. Without cookies the app will not work.",
+    "title": "Use not possible"
   },
   "data-protection": {
     "cancel": "Reject",
@@ -28,15 +28,15 @@
   },
   "demo": {
     "cancel": "Close",
-    "cancel-description": "Close the introduction dialog"
+    "cancel-description": "Close the introduction"
   },
   "footer": {
-    "accessibility-data_protection": "Open the privacy statement in a new dialog.",
-    "accessibility-demo": "Show the demo video in a new dialog.",
-    "accessibility-help": "Open the help text in a new dialog.",
-    "accessibility-imprint": "Open the imprint in a new dialog.",
-    "accessibility-language": "Open the language selection menu.",
-    "accessibility-style": "Open the display menu in a new dialog.",
+    "accessibility-data_protection": "Open the privacy statement.",
+    "accessibility-demo": "Open the introduction.",
+    "accessibility-help": "Open help.",
+    "accessibility-imprint": "Open the imprint.",
+    "accessibility-language": "Open the language selector.",
+    "accessibility-style": "Open the display selector.",
     "demo": "Introduction",
     "dsgvo": "Privacy",
     "english": "English",
@@ -56,7 +56,7 @@
     "back": "Back",
     "delete": "Delete",
     "delete-account": "Delete account",
-    "id": "ID",
+    "id": "Key",
     "logged-out": "Logging out successful",
     "login": "Login",
     "logout": "Log out",
@@ -76,20 +76,19 @@
   },
   "home-page": {
     "accessibility-create": "Create a new session",
-    "accessibility-join-button": "Enter the room with the specified session ID.",
-    "accessibility-join-input": "Here you can enter the session ID of the room you want to join.",
+    "accessibility-join-button": "Enter the session with the specified session key.",
+    "accessibility-join-input": "Here you can enter the session key of the session you want to join.",
     "create-session": "New session",
     "created-1": "Session '",
     "created-2": "' successfully created",
-    "exactly-8": "A session ID has exactly 8 digits.",
+    "exactly-8": "A session key has exactly 8 digits.",
     "install": "Install",
-    "join-demo-session": "Join public session",
     "no-empty-name": "Please enter a name.",
-    "no-room-found": "No session found with this ID",
-    "only-numbers": "A session ID only contains digits.",
-    "please-enter": "Your lecturer will tell you the session ID.",
+    "no-room-found": "No session found with this key",
+    "only-numbers": "A session key only contains digits.",
+    "please-enter": "Ask the lecturer for the key.",
     "room-name-input": "Enter the name of the session you want to create here.",
-    "session-id": "Session ID",
+    "session-id": "Session key",
     "update-available": "An update is available."
   },
   "imprint": {
@@ -140,8 +139,8 @@
     "email-required": "E-mail required",
     "forgot-password": "Forgot the password?",
     "input-incorrect": "Please check your data.",
-    "key": "Reset key",
-    "key-required": "Reset key required",
+    "key": "Password reset key",
+    "key-required": "Password reset key required",
     "new-password": "New password",
     "new-password-successful": "The new password has been set.",
     "reset-password": "Reset password",

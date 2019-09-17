@@ -70,14 +70,14 @@
     "vote-up": "Vote up"
   },
   "home-page": {
-    "exactly-8": "A session ID is a combination of exactly 8 digits.",
-    "no-room-found": "No session found with this ID",
-    "only-numbers": "A session ID is a combination of 8 digits.",
-    "please-enter": "Please enter a session ID"
+    "exactly-8": "A session key is a combination of exactly 8 digits.",
+    "no-room-found": "No session found with this key",
+    "only-numbers": "A session key is a combination of 8 digits.",
+    "please-enter": "Please enter a session key"
   },
   "room-page": {
-    "a11y-announcer": "You are now in the session with the ID you entered.",
-    "a11y-question_answer": "Opens the comment page with all questions and offers the possibility to ask questions.",
+    "a11y-announcer": "You are now in the session with the key you entered.",
+    "a11y-question_answer": "Opens the page where you can ask questions and vote up or down other questions.",
     "answer-statistics": "Statistics",
     "comments": "Questions",
     "create-comment": "Ask a question!",
@@ -86,7 +86,7 @@
     "give-feedback": "Give feedback",
     "learn": "Learn",
     "live-feedback": "Live feedback",
-    "session-id": "ID"
+    "session-id": "Key"
   },
   "statistic": {
     "abstentions": "Abstentions",

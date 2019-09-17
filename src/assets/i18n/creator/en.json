@@ -175,7 +175,7 @@
     "reallyContent": "Do you really want to delete content ",
     "reallySession": "Do you really want to delete session ",
     "room-not-found": "Session not found :(",
-    "session-id": "ID",
+    "session-id": "Key",
     "session-id-copied": "Session link was copied to the clipboard.",
     "session-settings": "Session administration",
     "settings-comment-moderation": "Moderate questions",
