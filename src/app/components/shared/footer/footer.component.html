@@ -45,39 +45,33 @@
   </button>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
-      <div class="themeMenuWrp">
-        <div id="themeMenu">
-          <div class="scrollWrp">
-            <button
-              *ngFor="let theme of themes"
-              (click)="changeTheme(theme);"
-              matRipple [matRippleColor]="'rgba(0,0,0,0.1)'"
-              title="{{theme.toString(getLanguage())}}"
-              aria-label="test">
-              <div class="btnContent">
-                <div class="btnColorIcon" [ngStyle]="{
+      <button
+        *ngFor="let theme of themes"
+        (click)="changeTheme(theme);"
+        matRipple [matRippleColor]="'rgba(0,0,0,0.1)'"
+        title="{{theme.toString(getLanguage())}}"
+        aria-label="test">
+        <div class="btnContent">
+          <div class="btnColorIcon" [ngStyle]="{
                   'background-color':theme.getPreviewColor()}">
-                  <div class="checked" [ngClass]="{
+            <div class="checked" [ngClass]="{
                         'checked_true':theme.key===themeClass,
                         'checked_false':theme.key!==themeClass}">
-                    <mat-icon [ngStyle]="{'color':theme.getOnPreviewColor()}">
-                      checked
-                    </mat-icon>
-                  </div>
-                </div>
-                <div class="btnAppend">
-                  <div class="title">
-                    <p class="title_bold">{{theme.getName(getLanguage())}}</p>
-                  </div>
-                  <div class="title">
-                    <p>{{theme.getDescription(getLanguage())}}</p>
-                  </div>
-                </div>
-              </div>
-            </button>
+              <mat-icon [ngStyle]="{'color':theme.getOnPreviewColor()}">
+                checked
+              </mat-icon>
+            </div>
+          </div>
+          <div class="btnAppend">
+            <div class="title">
+              <p class="title_bold">{{theme.getName(getLanguage())}}</p>
+            </div>
+            <div class="title">
+              <p>{{theme.getDescription(getLanguage())}}</p>
+            </div>
           </div>
         </div>
-      </div>
+      </button>
     </mat-menu>
 
     <!--
