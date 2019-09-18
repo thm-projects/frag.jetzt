@@ -88,3 +88,13 @@ h3 {
   overflow: hidden;
   left: -10000px;
 }
+
+#focus_button_user:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+#focus_button_guest:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}

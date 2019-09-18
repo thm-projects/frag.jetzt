@@ -14,3 +14,8 @@
   padding-left: 5px;
   color: var(--on-primary);
 }
+
+#new_session-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
