@@ -16,3 +16,13 @@
   background-color: var(--red);
   color: #fff;
 }
+
+.dialog-action-buttons .cancel-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+.dialog-action-buttons .primary-confirm-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}

@@ -197,3 +197,12 @@ mat-icon {
   color:rgba(0,0,0,0.9);
   font-weight:500;
 }
+
+.focus_button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+.focus_item:focus {
+  border: 1px solid var(--on-surface);
+}

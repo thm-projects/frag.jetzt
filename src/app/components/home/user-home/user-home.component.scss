@@ -15,3 +15,8 @@ app-room-list {
 h1 {
   color: var(--on-surface)!important;
 }
+
+.focus_button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}

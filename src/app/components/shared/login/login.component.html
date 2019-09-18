@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="space-around">
-  <button (click)="guestLogin()" class="guest" mat-flat-button type="button"
+  <button id="focus_button_guest" (click)="guestLogin()" class="guest" mat-flat-button type="button"
           matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
   </button>
@@ -29,7 +29,7 @@
     <mat-placeholder class="placeholder">{{ 'login.password' | translate }}</mat-placeholder>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button class="login" mat-flat-button type="submit">
+  <button id="focus_button_user" class="login" mat-flat-button type="submit">
     {{ 'login.login' | translate }}
   </button>
   <div class="forgot-password">

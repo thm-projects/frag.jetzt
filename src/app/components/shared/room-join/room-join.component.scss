@@ -58,3 +58,8 @@ input:-webkit-autofill {
 mat-error{
   color:var(--on-surface);
 }
+
+#session_enter-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
