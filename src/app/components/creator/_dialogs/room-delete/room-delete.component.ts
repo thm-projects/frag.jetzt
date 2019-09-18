@@ -4,6 +4,7 @@ import { Room } from '../../../../models/room';
 import { RoomEditComponent } from '../room-edit/room-edit.component';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room-delete',
@@ -22,7 +23,8 @@ export class RoomDeleteComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              private liveAnnouncer: LiveAnnouncer) { }
+              private liveAnnouncer: LiveAnnouncer,
+              private translationService: TranslateService ) { }
 
 
   ngOnInit() {
@@ -31,7 +33,17 @@ export class RoomDeleteComponent implements OnInit {
 
 
   public announce() {
-    this.liveAnnouncer.announce('Willst du die Sitzung wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.', 'assertive');
+    const lang: string = this.translationService.currentLang;
+
+    // current live announcer content must be cleared before next read
+    this.liveAnnouncer.clear();
+
+    if (lang === 'de') {
+      this.liveAnnouncer.announce('Willst du die Sitzung' + this.room.name + 'wirklich löschen? ' +
+        'Diese Aktion kann nicht rückgängig gemacht werden.');
+    } else {
+      this.liveAnnouncer.announce('Do you really want to delete session' + this.room.name + '? This action can not be undone.');
+    }
   }
 
 
