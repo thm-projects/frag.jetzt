@@ -50,6 +50,16 @@ export class UserActivationComponent implements OnInit {
     return () => this.dialogRef.close();
   }
 
+  resetActivation(): void {
+    this.userService.resetActivation(this.data.name.trim()).subscribe(
+      ret => {
+        this.translationService.get('login.restart-account-activation-correct').subscribe(message => {
+          this.notificationService.show(message);
+        });
+      }
+    );
+  }
+
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.

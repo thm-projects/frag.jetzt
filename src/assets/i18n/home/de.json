@@ -129,6 +129,9 @@
     "password-required": "Passwort erforderlich",
     "password-reset": "Passwort vergessen?",
     "register": "Registrieren",
+    "restart-account-activation-button": "Erneut senden",
+    "restart-account-activation-correct": "Ein neuer Schlüssel wurde gesendet!",
+    "restart-account-activation-tooltop": "Sendet einen neuen Aktivierungsschlüssel an die angegebene Adresse",
     "welcome": "Online fragen & Fragen bewerten"
   },
   "password-reset": {
