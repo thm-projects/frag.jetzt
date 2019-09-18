@@ -45,16 +45,19 @@
     <button mat-menu-item matTooltip="{{ 'comment-list.vote-asc' | translate }}"
             (click)="sortComments(votedesc)" aria-labelledby="keyboard_arrow_up">
       <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
+      <span>{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
     <button mat-menu-item matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="sortComments(voteasc)" aria-labelledby="keyboard_arrow_down">
       <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
+      <span>{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
     <button mat-menu-item matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="sortComments(time)" aria-labelledby="access_time">
       <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
+      <span>{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
   </mat-menu>
 
@@ -63,26 +66,31 @@
       <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.correct' | translate }}"
               (click)="filterComments(correct)" aria-labelledby="check_circle">
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
+        <span>{{ 'comment-list.filter-correct' | translate }}</span>
       </button>
 
       <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.wrong' | translate }}"
               (click)="filterComments(wrong)" aria-labelledby="not_interested">
         <mat-icon [ngClass]="{wrong: 'wrong-icon'}[currentFilter]">not_interested</mat-icon>
+        <span>{{ 'comment-list.filter-wrong' | translate }}</span>
       </button>
 
       <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
               (click)="filterComments(favorite)" aria-labelledby="grade">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
+        <span>{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
       <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
               (click)="filterComments(read)" aria-labelledby="beamer_icon">
         <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
+        <span>{{ 'comment-list.filter-read' | translate }}</span>
       </button>
 
       <button mat-menu-item (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')"
               aria-labelledby="close">
         <mat-icon>close</mat-icon>
+        <span>{{ 'comment-list.filter-reset' | translate }}</span>
       </button>
     </div>
   </mat-menu>
