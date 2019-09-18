@@ -6,6 +6,8 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../../services/util/event.service';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
+
 
 export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -35,12 +37,29 @@ export class PasswordResetComponent implements OnInit {
               public notificationService: NotificationService,
               public dialogRef: MatDialogRef<RegisterComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public eventService: EventService) {
+              public eventService: EventService,
+              private liveAnnouncer: LiveAnnouncer, ) {
   }
 
   ngOnInit() {
+    this.announce();
   }
 
+  public announce() {
+    const lang: string = this.translationService.currentLang;
+
+    // current live announcer content must be cleared before next read
+    this.liveAnnouncer.clear();
+
+    if (lang === 'de') {
+      this.liveAnnouncer.announce('Hier kannst du dein Passwort zurücksetzen, ' +
+        'indem du per E-Mail einen Passwortrücksetz-Schlüssel erhälst und mit diesem ein neues Passwort setzt.', 'assertive');
+    } else {
+      this.liveAnnouncer.announce('Here you can reset your password ' +
+        'by receiving a password reset key via e-mail and setting a new password with it.', 'assertive');
+    }
+
+  }
 
   /**
    * Closes the room create dialog on call.

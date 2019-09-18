@@ -134,6 +134,12 @@
     "welcome": "Ask online & vote questions"
   },
   "password-reset": {
+    "a11y-new_password1": "Enter your new password here",
+    "a11y-new_password2": "Enter your new password here again",
+    "a11y-password_reset_button": "Sends a password reset key to the entered e-mail, with which a new password can be set.",
+    "a11y-password_reset_key": "Enter the password reset key you received by email here",
+    "a11y-password_set_button": "Sets the new password",
+    "a11y-password_set_email": "Enter your email address here to set a new password",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "email": "E-mail",

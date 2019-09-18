@@ -132,6 +132,12 @@
     "welcome": "Online fragen & Fragen bewerten"
   },
   "password-reset": {
+    "a11y-new_password1": "Gib hier dein neues Passwort ein",
+    "a11y-new_password2": "Gib hier erneut dein neues Passwort ein",
+    "a11y-password_reset_button": "Sendet an die eingegebene E-Mail ein Passwortrücksetz-Schlüssel, mit dem ein neues Passwort gesetzt werden kann",
+    "a11y-password_reset_key": "Gib hier den Passwortrücksetz-Schlüssel ein, den du per E-Mail erhalten hast",
+    "a11y-password_set_button": "Setzt das neue Passwort",
+    "a11y-password_set_email": "Gib hier deine E-Mail Adresse ein, um ein neues Passwort zu setzten",
     "cancel": "Zurück",
     "cancel-description": "Zurück",
     "email": "E-Mail Adresse",
