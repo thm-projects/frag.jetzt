@@ -69,7 +69,7 @@ export class RoomListComponent implements OnInit {
         });
       }
       return roomWithRole;
-    }).sort((a, b) => 0 - (a.name < b.name ? 1 : -1));
+    }).sort((a, b) => 0 - (a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1));
     this.isLoading = false;
 
     this.updateTable();
