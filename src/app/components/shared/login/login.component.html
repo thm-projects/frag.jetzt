@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutAlign="space-around">
-  <button id="focus_button_guest" (click)="guestLogin()" class="guest" mat-flat-button type="button"
+  <button id="focus_button_guest" (click)="guestLogin()" class="guest" mat-flat-button type="button" aria-labelledby="guest-login-description"
           matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
   </button>
@@ -29,7 +29,7 @@
     <mat-placeholder class="placeholder">{{ 'login.password' | translate }}</mat-placeholder>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
   </mat-form-field>
-  <button id="focus_button_user" class="login" mat-flat-button type="submit">
+  <button id="focus_button_user" class="login" mat-flat-button type="submit" aria-labelledby="login-description">
     {{ 'login.login' | translate }}
   </button>
   <div class="forgot-password">
@@ -51,11 +51,12 @@
 <app-dialog-action-buttons
   [spacing]="false"
   buttonsLabelSection="login"
-  confirmButtonLabel="login"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
 ></app-dialog-action-buttons>
 
 <div class="visually-hidden">
   <div id="email-description">{{ 'login.email-description' | translate }}</div>
   <div id="password-description">{{ 'login.password-description' | translate }}</div>
+  <div id="login-description">{{ 'login.login-description' | translate }}</div>
+  <div id="guest-login-description">{{ 'login.guest-login-description' | translate }}</div>
 </div>

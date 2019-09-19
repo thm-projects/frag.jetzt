@@ -7,12 +7,6 @@
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
     "title": "Cookies"
   },
-  "overlay": {
-    "cancel": "Cookies doch akzeptieren?",
-    "cancel-description": "Öffnet den Dialog zur Verwendung von Cookies in frag.jetzt",
-    "message": "Du hast die Verwendung von Cookies abgelehnt. Ohne Cookies funktioniert die App leider nicht.",
-    "title": "Benutzung nicht möglich"
-  },
   "data-protection": {
     "cancel": "Nein danke",
     "cancel-description": "Lehnt die Datenschutzerklärung ab.",
@@ -20,15 +14,15 @@
     "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung.",
     "title": "Datenschutz"
   },
+  "demo": {
+    "cancel": "Schließen",
+    "cancel-description": "Schließt die Einführung"
+  },
   "delete-account": {
     "cancel": "Abbrechen",
     "cancel-description": "Löschung des Kontos abbrechen",
     "delete": "Löschen",
     "delete-description": "Konto löschen"
-  },
-  "demo": {
-    "cancel": "Schließen",
-    "cancel-description": "Schließt die Einführung"
   },
   "footer": {
     "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
@@ -69,9 +63,8 @@
   },
   "help": {
     "cancel": "Schließen",
-    "close": "Schließen",
-    "close-label": "Schließt die Hilfe.",
-    "title": "Hilfe"
+    "cancel-description": "Schließt die Hilfe",
+        "title": "Hilfe"
   },
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",
@@ -103,11 +96,6 @@
     "title": "Warum »frag.jetzt«"
   },
   "login": {
-    "activate": "Aktivieren",
-    "activation-key": "Aktivierungs-Schlüssel",
-    "activation-key-incorrect": "Aktivierungs-Schlüssel falsch",
-    "activation-key-required": "Aktivierungs-Schlüssel erforderlich",
-    "activation-key-input-description": "Gib hier den Aktivierungs-Schlüssel ein, den du per E-Mail zugesendet bekommen hast.",
     "cancel": "Zurück",
     "cancel-description": "Zurück",
     "email": "E-Mail Adresse als Benutzername",
@@ -115,12 +103,13 @@
     "email-invalid": "E-Mail Adresse ungültig",
     "email-required": "E-Mail Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
+    "guest-login-description": "Als Gast anmelden",
     "guest-login-tooltip": "Als Gast erstellte Sitzungen werden nach dem Abmelden wieder gelöscht. Mit einem Konto erstellte Sitzungen werden nach dem letzten Besuch für 180 Tage gespeichert.",
     "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
     "login-data-incorrect": "Benutzername oder Passwort falsch",
-    "login-description": "Anmelden mit Konto",
+    "login-description": "Mit den eingegebenen Kontodaten anmelden",
     "login-successful": "Anmeldung erfolgreich",
     "not-registered": "Noch kein Konto?",
     "or": "oder",
@@ -133,6 +122,12 @@
     "restart-account-activation-correct": "Ein neuer Schlüssel wurde gesendet!",
     "restart-account-activation-tooltop": "Sendet einen neuen Aktivierungsschlüssel an die angegebene Adresse",
     "welcome": "Online fragen & Fragen bewerten"
+  },
+  "overlay": {
+    "cancel": "Cookies doch akzeptieren?",
+    "cancel-description": "Öffnet den Dialog zur Verwendung von Cookies in frag.jetzt",
+    "message": "Du hast die Verwendung von Cookies abgelehnt. Ohne Cookies funktioniert die App leider nicht.",
+    "title": "Benutzung nicht möglich"
   },
   "password-reset": {
     "a11y-new_password1": "Gib hier dein neues Passwort ein",
@@ -153,9 +148,11 @@
     "key-required": "Passwortrücksetz-Schlüssel erforderlich",
     "new-password": "Neues Passwort",
     "new-password-successful": "Dein neues Passwort wurde erfolgreich gesetzt.",
+    "reset-button-description": "Setzt das Passwort des Accounts zurück.",
     "reset-password": "Passwort zurücksetzen",
     "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
     "reset-successful": "Dein Passwort wurde zurückgesetzt. Bitte prüfe dein Postfach.",
+    "set-button-description": "Setzt für den Account das neue Passwort",
     "set-new-password": "Setze ein neues Passwort mit dem Schlüssel",
     "set-new-password-button": "Setze Passwort"
   },
@@ -211,5 +208,15 @@
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung"
+  },
+  "user-activation": {
+    "activate": "Aktivieren",
+    "activate-description": "Aktiviert den Account",
+    "activation-key": "Aktivierungs-Schlüssel",
+    "activation-key-incorrect": "Aktivierungs-Schlüssel falsch",
+    "activation-key-required": "Aktivierungs-Schlüssel erforderlich",
+    "activation-key-input-description": "Gib hier den Aktivierungs-Schlüssel ein, den du per E-Mail zugesendet bekommen hast.",
+    "cancel": "Zurück",
+    "cancel-description": "Zurück"
   }
 }

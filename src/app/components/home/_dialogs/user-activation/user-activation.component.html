@@ -15,14 +15,12 @@
   </button>
 </div>
 <app-dialog-action-buttons
-  buttonsLabelSection="login"
+  buttonsLabelSection="user-activation"
   confirmButtonLabel="activate"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildActivationActionCallback(userActivationKey)"
 ></app-dialog-action-buttons>
 
 <div class="visually-hidden">
-  <div id="activation-key-input-description">
-    {{ 'login.activation-key-input-description' | translate }}
-  </div>
+  <div id="activation-key-input-description">{{ 'user-activation.activation-key-input-description' | translate }}</div>
 </div>

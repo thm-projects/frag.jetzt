@@ -68,6 +68,7 @@
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please ask a question.",
     "error-title": "Please enter a title.",
+    "exit-description": "Exit Comment-Presentation Mode",
     "export": "Export",
     "export-description": "Export",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
@@ -85,6 +86,7 @@
     "search-box-input-description": "Here you can search for questions.",
     "semicolon": "Standard CSV",
     "send": "Send",
+    "send-description": "Send question",
     "vote-down": "Vote down",
     "vote-up": "Vote up"
   },
@@ -193,7 +195,8 @@
     "settings-direct-send": "Send Questions directly to participants",
     "sure": "Are you sure?",
     "threshold": "Threshold for visible questions: ",
-    "update": "Update"
+    "update": "Update",
+    "update-description": "Save changes"
   },
   "session": {
     "a11y-description": "Enter a description for the session",

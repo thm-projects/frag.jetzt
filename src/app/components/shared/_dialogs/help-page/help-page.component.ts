@@ -12,8 +12,6 @@ export class HelpPageComponent implements OnInit {
   deviceType: string;
   currentLang: string;
 
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
-
   constructor(private dialogRef: MatDialogRef<HelpPageComponent>) {
   }
 
