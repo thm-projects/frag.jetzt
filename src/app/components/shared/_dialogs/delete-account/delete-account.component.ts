@@ -33,7 +33,7 @@ export class DeleteAccountComponent implements OnInit {
     this.announce();
     this.roomService.getCreatorRooms().subscribe(rooms => {
       this.rooms = rooms.sort((a, b) => {
-        return a.name > b.name ? 1 : -1;
+        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
       });
     });
   }
