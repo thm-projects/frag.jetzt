@@ -26,7 +26,8 @@
         <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
           <h3>{{room.description.trim()}}</h3>
         </mat-card-content>
-        <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1">
+        <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
+          <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1">
             <mat-grid-tile>
               <button id="question_answer-button"
                       mat-icon-button [disableRipple]="true"
@@ -34,7 +35,7 @@
                 <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
                 </mat-icon>
-                <h2>{{ 'room-page.public-stream' | translate}}</h2>         <!-- *ngIf="deviceType === 'desktop'" -->
+                <h2>{{ 'room-page.public-stream' | translate}}</h2>
               </button>
             </mat-grid-tile>
             <mat-grid-tile *ngIf="moderationEnabled">
@@ -44,18 +45,19 @@
                 <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                           [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
                 </mat-icon>
-                <h2>{{ 'room-page.moderating-stream' | translate}}</h2>         <!-- *ngIf="deviceType === 'desktop'" -->
+                <h2>{{ 'room-page.moderating-stream' | translate}}</h2>
               </button>
             </mat-grid-tile>
-          <!--  <mat-grid-tile>
-              <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
-                <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down</mat-icon>
-                <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
-              </button>
-            </mat-grid-tile> -->
         </mat-grid-list>
-
-        <!-- <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
+          <div fxLayout="row" fxLayoutAlign="center" *ngIf="viewModuleCount <= 1" class="question-button-div">
+            <button id="question_answer-button2" mat-icon-button [disableRipple]="true"
+                    routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
+              <mat-icon matBadge="{{commentCounter}}" class="main-icon"
+                        [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
+              <h2>{{ 'room-page.comments' | translate}}</h2>
+            </button>
+          </div>
+        </div>
       </mat-card>
 
     </div>

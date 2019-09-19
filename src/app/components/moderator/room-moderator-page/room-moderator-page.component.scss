@@ -4,6 +4,7 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: 350px;
+  max-height: 600px;
   background-color: var(--surface)!important;
 }
 
@@ -72,7 +73,7 @@ mat-card-content > :first-child {
 }
 
 mat-grid-list {
-  margin-bottom: 5px !important;
+  margin: 8% 0 10% 0;
 }
 
 .second {
@@ -88,10 +89,14 @@ p {
   color: var(--on-surface)!important;
 }
 
-h3 {
-  font-size: medium;
+h1 {
+  font-size: large;
   color: var(--on-surface)!important;
-  padding: 0 1% 0 1%;
+}
+
+h2 {
+  font-size: larger;
+  color: var(--on-surface)!important;
 }
 
 mat-card-header {
@@ -133,4 +138,8 @@ mat-expansion-panel {
 .gavel {
   margin: 5% 2% 0 0;
   color: var(--on-surface);
+}
+
+.question-button-div {
+  margin: 20% 0 20% 0;
 }
