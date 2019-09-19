@@ -7,12 +7,6 @@
     "info-label": "Open a dialog with the frag.jetzt privacy policy.",
     "title": "Cookies"
   },
-  "overlay": {
-    "cancel": "Accept cookies after all?",
-    "cancel-description": "Accept cookies after all?",
-    "message": "You have rejected the use of cookies. Without cookies the app will not work.",
-    "title": "Use not possible"
-  },
   "data-protection": {
     "cancel": "Reject",
     "cancel-description": "Reject the app's privacy policy and close dialog",
@@ -20,15 +14,15 @@
     "consent-description": "Accept the app's privacy policy and close dialog",
     "title": "Data Protection & Privacy"
   },
+  "demo": {
+    "cancel": "Close",
+    "cancel-description": "Close the introduction dialog"
+  },
   "delete-account": {
     "cancel": "Cancel",
     "cancel-description": "Cancel account deletion",
     "delete": "Delete",
     "delete-description": "Delete your Account"
-  },
-  "demo": {
-    "cancel": "Close",
-    "cancel-description": "Close the introduction"
   },
   "footer": {
     "accessibility-data_protection": "Open the privacy statement.",
@@ -70,8 +64,7 @@
   },
   "help": {
     "cancel": "Close",
-    "close": "Close",
-    "close-label": "Closes the help dialog",
+    "cancel-description": "Closes the help dialog",
     "title": "Help"
   },
   "home-page": {
@@ -105,11 +98,6 @@
     "title": "Why »frag.jetzt« (»ask.now«)"
   },
   "login": {
-    "activate": "Activate",
-    "activation-key": "Activation key",
-    "activation-key-incorrect": "Activation key is incorrect.",
-    "activation-key-required": "Activation key required",
-    "activation-key-input-description": "Enter the activation key that you received by e-mail.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "email": "E-mail",
@@ -117,12 +105,13 @@
     "email-invalid": "E-mail is invalid",
     "email-required": "E-mail required",
     "guest-login": "Log in as a guest",
+    "guest-login-description": "Log in as a guest",
     "guest-login-tooltip": "Created sessions will be deleted after logout. Sessions created with an account are saved for 180 days after the last visit.",
     "header": "Log in",
     "input-incorrect": "Please check your data.",
     "login": "Log in with account",
     "login-data-incorrect": "Username or password incorrect",
-    "login-description": "Log in with your account",
+    "login-description": "Log in with the entered account data",
     "login-successful": "Login successful",
     "login-tooltip": "Sessions will be stored for 180 days.",
     "not-registered": "Don't have an account yet?",
@@ -135,6 +124,12 @@
     "restart-account-activation-correct": "New mail got send!",
     "restart-account-activation-tooltop": "Sends a new activation key",
     "welcome": "Ask online & vote questions"
+  },
+  "overlay": {
+    "cancel": "Change settings",
+    "cancel-description": "Open the cookie setting dialog",
+    "message": "You have declined cookie usage for this app, thus you can not use it for the time being.",
+    "title": "Cannot use app"
   },
   "password-reset": {
     "a11y-new_password1": "Enter your new password here",
@@ -155,9 +150,11 @@
     "key-required": "Password reset key required",
     "new-password": "New password",
     "new-password-successful": "The new password has been set.",
+    "reset-button-description": "Resets the password of the account",
     "reset-password": "Reset password",
     "reset-password-description": "Reset password",
     "reset-successful": "Password was reset. Please check your mails.",
+    "set-button-description": "Set the new password for the account",
     "set-new-password": "Set new password with the reset key",
     "set-new-password-button": "Set password"
   },
@@ -213,5 +210,15 @@
     "join": "Join session",
     "max-ls": "Max. characters:",
     "session-name": "Session name"
+  },
+  "user-activation": {
+    "activate": "Activate",
+    "activate-description": "Activates the account",
+    "activation-key": "Activation key",
+    "activation-key-incorrect": "Activation key is incorrect.",
+    "activation-key-required": "Activation key required",
+    "activation-key-input-description": "Enter the activation key that you received by e-mail.",
+    "cancel": "Cancel",
+    "cancel-description": "Cancel"
   }
 }

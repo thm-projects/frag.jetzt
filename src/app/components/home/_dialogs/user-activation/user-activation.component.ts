@@ -35,7 +35,7 @@ export class UserActivationComponent implements OnInit {
         this.dialogRef.close({ success: true });
       },
       err => {
-        this.translationService.get('login.activation-key-incorrect').subscribe(message => {
+        this.translationService.get('user-activation.activation-key-incorrect').subscribe(message => {
           this.notificationService.show(message);
         });
       }

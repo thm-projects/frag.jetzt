@@ -1,6 +1,6 @@
 <div>
 
-  <h1 tabindex="0" class="modal" mat-dialog-title>{{ 'help.title' | translate }} </h1>
+    <h1 tabindex="0" class="modal" mat-dialog-title>{{ 'help.title' | translate }} </h1>
 
   <mat-divider></mat-divider>
   <mat-dialog-content tabindex="0">
@@ -11,12 +11,8 @@
 
   <app-dialog-action-buttons
     buttonsLabelSection="help"
-    [confirmButtonType]=confirmButtonType
     [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   ></app-dialog-action-buttons>
 
-  <div class="visually-hidden">
-    <div id="close-label">{{ 'help.close-label'| translate }}</div>
-  </div>
 </div>
 
