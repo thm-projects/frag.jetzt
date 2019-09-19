@@ -1,5 +1,5 @@
 import { dark, dark_meta } from './dark-theme/darkTheme.const';
-import { arsnova, arsnova_meta } from './default-theme/defaultTheme.const';
+import { arsnova, arsnova_meta } from './light-theme/light-theme';
 import { blue } from './blue-theme/blueTheme.const';
 import { purple, purple_meta } from './purple-theme/purpleTheme.const';
 import { highcontrast, highcontrast_meta } from './high-contrast-theme/highContrastTheme.const';

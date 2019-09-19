@@ -1,4 +1,4 @@
-@import 'theme/default-theme/_variables.scss';
+@import 'theme/light-theme/_variables.scss';
 @import 'theme/dark-theme/dark-theme';
 @import 'theme/blue-theme/blue-theme';
 @import 'theme/purple-theme/purple-theme';
@@ -40,7 +40,7 @@
   @include angular-material-theme($purple-theme);
 }
 
-@import 'theme/default-theme/theme';
+@import 'theme/light-theme/theme';
 
 .visually-hidden {
   position: absolute;
