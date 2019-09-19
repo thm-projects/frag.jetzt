@@ -41,7 +41,7 @@ export const highcontrast_meta = {
   },
   'order': 0,
   'scale': 1,
-  'previewColor': 'primary'
+  'previewColor': 'secondary'
 
 };
 

@@ -41,6 +41,6 @@ export const purple_meta = {
   },
   'order': 1,
   'scale': 1.5,
-  'previewColor': 'primary'
+  'previewColor': 'background'
 
 };

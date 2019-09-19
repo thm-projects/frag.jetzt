@@ -42,6 +42,6 @@ export const blue_meta = {
   },
   'order': 4,
   'scale': 1,
-  'previewColor': 'primary'
+  'previewColor': 'background'
 
 };

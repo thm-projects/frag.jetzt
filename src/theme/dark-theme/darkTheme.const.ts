@@ -42,6 +42,6 @@ export const dark_meta = {
   },
   'order': 3,
   'scale': 1,
-  'previewColor': 'primary'
+  'previewColor': 'background'
 
 };
