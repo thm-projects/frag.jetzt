@@ -5,7 +5,7 @@
     "cancel": "Nein danke",
     "cancel-description": "Lehnt die Verwendung von Cookies ab und sperrt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
-    "title": "Cookies"
+    "title": "Cookies & Datenschutz"
   },
   "data-protection": {
     "cancel": "Nein danke",
@@ -80,7 +80,7 @@
     "no-empty-name": "Bitte gib einen Namen für die Sitzung ein.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Code gefunden.",
     "only-numbers": "Der Sitzungs-Code besteht ausschließlich aus Ziffern.",
-    "please-enter": "Den Code sagt dir dein Dozent.",
+    "please-enter": "Den Code sagt dir dein Dozent",
     "room-name-input": "Gib hier den Namen der Sitzung die du erstellen möchtest ein.",
     "session-id": "Sitzungs-Code",
     "update-available": "Eine neue Version ist verfügbar."

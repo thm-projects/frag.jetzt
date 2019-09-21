@@ -2,17 +2,17 @@
   "cookies": {
     "accept": "I accept",
     "accept-description": "Accept the use of cookies and proceed to the app.",
-    "cancel": "No, thanks.",
+    "cancel": "No, thanks",
     "cancel-description": "Reject cookie usage and exit the app.",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
-    "title": "Cookies"
+    "title": "Cookies & Data Protection"
   },
   "data-protection": {
     "cancel": "Reject",
     "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
-    "title": "Data Protection & Privacy"
+    "title": "Data Protection"
   },
   "demo": {
     "cancel": "Close",
@@ -82,7 +82,7 @@
     "no-empty-name": "Please enter a name.",
     "no-room-found": "No session found with this key",
     "only-numbers": "A session key only contains digits.",
-    "please-enter": "Ask the lecturer for the key.",
+    "please-enter": "Ask the lecturer for the key",
     "room-name-input": "Enter the name of the session you want to create here.",
     "session-id": "Session key",
     "update-available": "An update is available."
@@ -192,7 +192,7 @@
     "creator-role": "Session creator",
     "entry": "Entry ",
     "filter": "Here you can filter your visited sessions.",
-    "filter-message": "Filter by Name or Code",
+    "filter-message": "Filter by name or key",
     "join-message-template": "Join the session {{session}} with code {{id}} and in the role {{role}}",
     "moderator-role": "Moderator",
     "no-room-history": "You haven't joined any sessions yet.",
