@@ -18,14 +18,14 @@ export const arsnova = {
   '--on-cancel': '#000000',
 
   '--green': 'green',
-  '--red': '#f44336',
-  '--yellow': '#f5aa01',
+  '--red': 'red',
+  '--yellow': 'yellow',
   '--blue': '#002878',
   '--purple': '#9c27b0',
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
-  '--black': '#212121'
+  '--black': 'black'
 };
 
 export const arsnova_meta = {
