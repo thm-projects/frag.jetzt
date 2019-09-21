@@ -128,7 +128,7 @@
     "cancel": "Cookies doch akzeptieren?",
     "cancel-description": "Öffnet den Dialog zur Verwendung von Cookies in frag.jetzt",
     "message": "Du hast die Verwendung von Cookies abgelehnt. Ohne Cookies funktioniert die App leider nicht.",
-    "title": "Benutzung nicht möglich"
+    "title": "Nutzung der App nicht möglich"
   },
   "password-reset": {
     "a11y-new_password1": "Gib hier dein neues Passwort ein",

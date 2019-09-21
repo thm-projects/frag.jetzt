@@ -1,10 +1,10 @@
 {
   "cookies": {
-    "accept": "Accept",
+    "accept": "I accept",
     "accept-description": "Accept the use of cookies and proceed to the app.",
-    "cancel": "Reject",
+    "cancel": "No, thanks.",
     "cancel-description": "Reject cookie usage and exit the app.",
-    "info-label": "Open a dialog with the frag.jetzt privacy policy.",
+    "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
     "title": "Cookies"
   },
   "data-protection": {
@@ -127,10 +127,10 @@
     "welcome": "Ask online & vote questions"
   },
   "overlay": {
-    "cancel": "Change settings",
-    "cancel-description": "Open the cookie setting dialog",
-    "message": "You have declined cookie usage for this app, thus you can not use it for the time being.",
-    "title": "Cannot use app"
+    "cancel": "Accept cookies after all?",
+    "cancel-description": "Opens the cookie setting dialog",
+    "message": "You have rejected the use of cookies. Without cookies the app will not work.",
+    "title": "Use not possible"
   },
   "password-reset": {
     "a11y-new_password1": "Enter your new password here",
