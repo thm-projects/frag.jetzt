@@ -24,7 +24,7 @@ import { AppComponent } from '../../../app.component';
 })
 export class FooterComponent implements OnInit {
 
-  public demoId = '78844652';
+  public demoId = '22424050';
 
   public room: Room;
   public user: User;
@@ -72,14 +72,14 @@ export class FooterComponent implements OnInit {
 
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
-      width: '75%'
+      width: '90%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showCookieModal() {
     const dialogRef = this.dialog.open(CookiesComponent, {
-      width: '70%',
+      width: '90%',
       autoFocus: true
 
     });
@@ -94,21 +94,21 @@ export class FooterComponent implements OnInit {
 
   showImprint() {
     const dialogRef = this.dialog.open(ImprintComponent, {
-      width: '75%'
+      width: '90%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showHelp() {
     const dialogRef = this.dialog.open(HelpPageComponent, {
-      width: '75%'
+      width: '90%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showDataProtection() {
     const dialogRef = this.dialog.open(DataProtectionComponent, {
-      width: '75%'
+      width: '90%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
