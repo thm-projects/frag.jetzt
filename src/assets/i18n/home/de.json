@@ -96,6 +96,7 @@
     "title": "»frag.jetzt«"
   },
   "login": {
+    "activation-key": "Aktivierungsschlüssel",
     "cancel": "Zurück",
     "cancel-description": "Zurück",
     "email": "E-Mail Adresse als Benutzername",
@@ -119,8 +120,8 @@
     "password-reset": "Passwort vergessen?",
     "register": "Registrieren",
     "restart-account-activation-button": "Erneut senden",
-    "restart-account-activation-correct": "Ein neuer Schlüssel wurde gesendet!",
-    "restart-account-activation-tooltop": "Sendet einen neuen Aktivierungsschlüssel an die angegebene Adresse",
+    "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
+    "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "Online fragen & Fragen bewerten"
   },
   "overlay": {

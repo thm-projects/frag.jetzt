@@ -98,6 +98,7 @@
     "title": "»frag.jetzt«"
   },
   "login": {
+    "activation-key": "Activation key",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "email": "E-mail",
@@ -120,9 +121,9 @@
     "password-required": "Password required",
     "password-reset": "Forgot your password?",
     "register": "Register",
-    "restart-account-activation-button": "Resend",
-    "restart-account-activation-correct": "New mail got send!",
-    "restart-account-activation-tooltop": "Sends a new activation key",
+    "restart-account-activation-button": "Send again",
+    "restart-account-activation-correct": "Activation key sent again",
+    "restart-account-activation-tooltip": "Sends the activation key again",
     "welcome": "Ask online & vote questions"
   },
   "overlay": {

@@ -38,7 +38,7 @@ export class DeleteCommentComponent implements OnInit {
     this.liveAnnouncer.clear();
 
     if (lang === 'de') {
-      this.liveAnnouncer.announce('Willst du diese Frage wirklich löschen?');
+      this.liveAnnouncer.announce('Willst du die Frage wirklich löschen?');
     } else {
       this.liveAnnouncer.announce('Do you really want to delete this question');
     }
