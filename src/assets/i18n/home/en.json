@@ -1,14 +1,14 @@
 {
   "cookies": {
-    "accept": "I accept",
+    "accept": "Accept",
     "accept-description": "Accept the use of cookies and proceed to the app.",
-    "cancel": "No, thanks",
+    "cancel": "Cancel",
     "cancel-description": "Reject cookie usage and exit the app.",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
     "title": "Cookies & Data Protection"
   },
   "data-protection": {
-    "cancel": "Reject",
+    "cancel": "Cancel",
     "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
