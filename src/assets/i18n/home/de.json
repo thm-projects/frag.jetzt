@@ -5,7 +5,7 @@
     "cancel": "Abbrechen",
     "cancel-description": "Lehnt die Verwendung von Cookies ab und sperrt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
-    "title": "Cookies & Datenschutz"
+    "title": "Datenschutz"
   },
   "data-protection": {
     "cancel": "Abbrechen",
@@ -128,7 +128,7 @@
     "cancel": "Cookies doch akzeptieren?",
     "cancel-description": "Öffnet den Dialog zur Verwendung von Cookies in frag.jetzt",
     "message": "Du hast die Verwendung von Cookies abgelehnt. Ohne Cookies funktioniert die App leider nicht.",
-    "title": "Nutzung der App nicht möglich"
+    "title": "Nutzung nicht möglich"
   },
   "password-reset": {
     "a11y-new_password1": "Gib hier dein neues Passwort ein",
