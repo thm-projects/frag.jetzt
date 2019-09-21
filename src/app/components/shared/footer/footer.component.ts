@@ -72,14 +72,14 @@ export class FooterComponent implements OnInit {
 
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
-      width: '90%'
+      width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showCookieModal() {
     const dialogRef = this.dialog.open(CookiesComponent, {
-      width: '90%',
+      width: '80%',
       autoFocus: true
 
     });
@@ -94,21 +94,21 @@ export class FooterComponent implements OnInit {
 
   showImprint() {
     const dialogRef = this.dialog.open(ImprintComponent, {
-      width: '90%'
+      width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showHelp() {
     const dialogRef = this.dialog.open(HelpPageComponent, {
-      width: '90%'
+      width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showDataProtection() {
     const dialogRef = this.dialog.open(DataProtectionComponent, {
-      width: '90%'
+      width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
