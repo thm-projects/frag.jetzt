@@ -82,7 +82,7 @@
     "mark-wrong": "Mark as wrong",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
     "no-comments": "No questions yet",
-    "reject": "Reject",
+    "reject": "Remove inappropriate question from the list",
     "search-box-input-description": "Here you can search for questions.",
     "semicolon": "Standard CSV",
     "send": "Send",

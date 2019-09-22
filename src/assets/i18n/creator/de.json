@@ -81,7 +81,7 @@
     "mark-wrong": "Frage verneinen",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comments": "Keine Fragen vorhanden.",
-    "reject": "Unterbinden",
+    "reject": "Unangebrachte Frage aus der Liste entfernen",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "semicolon": "Standard-CSV",
     "send": "Senden",

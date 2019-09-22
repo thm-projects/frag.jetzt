@@ -24,7 +24,7 @@
         </div>
         <mat-divider></mat-divider>
         <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-          <h3>{{room.description.trim()}}</h3>
+          <p>{{room.description.trim()}}</p>
         </mat-card-content>
         <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
           <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1">
