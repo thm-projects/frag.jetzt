@@ -40,7 +40,7 @@ export const purple_meta = {
     }
   },
   'order': 1,
-  'scale': 1.5,
+  'scale': 1.3,
   'previewColor': 'background'
 
 };
