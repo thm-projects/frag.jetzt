@@ -26,6 +26,7 @@
     "add-comment": "Ask a question!",
     "comment-sent": "The question has been published.",
     "comment-sent-to-moderator": "The question will be reviewed by a moderator.",
+    "comment-deleted": "The question has been deleted.",
     "correct": "Marked as correct by the professor",
     "favorite": "Bonus question",
     "filter-comments": "Filter questions",
