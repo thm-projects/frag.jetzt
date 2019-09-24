@@ -149,7 +149,9 @@ export class CommentComponent implements OnInit {
 
   delete(): void {
     this.commentService.deleteComment(this.comment.id).subscribe(room => {
-      this.notification.show(`Comment '${this.comment.body}' successfully deleted.`);
+      this.translateService.get('comment-list.comment-deleted').subscribe(msg => {
+        this.notification.show(msg);
+      });
     });
   }
 

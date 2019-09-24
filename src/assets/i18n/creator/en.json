@@ -15,6 +15,7 @@
     "a11y-swap_vert": "Option to sort questions",
     "add-comment": "Ask a question!",
     "comment-sent": "The question has been published.",
+    "comment-deleted": "The question has been deleted.",
     "correct": "Marked as correct by you",
     "favorite": "Bonus question",
     "filter-comments": "Filter questions",
