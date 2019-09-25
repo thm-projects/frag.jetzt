@@ -6,9 +6,9 @@ export const purple = {
   '--secondary': 'black',
   '--secondary-variant': 'green',
 
-  '--background': 'DarkKhaki',
+  '--background': 'beige',
   '--surface': 'white',
-  '--dialog': 'Moccasin',
+  '--dialog': 'white',
 
   '--on-primary': 'white',
   '--on-secondary': 'white',
@@ -16,14 +16,14 @@ export const purple = {
   '--on-surface': 'black',
   '--on-cancel': 'white',
 
-  '--green': 'Maroon',
-  '--red': 'Maroon',
-  '--yellow': 'Maroon',
-  '--blue': 'Maroon',
-  '--purple': 'Maroon',
-  '--light-green': 'Maroon',
+  '--green': 'green',
+  '--red': 'red',
+  '--yellow': 'yellow',
+  '--blue': 'blue',
+  '--purple': 'purple',
+  '--light-green': 'light-green',
   '--grey': 'grey',
-  '--grey-light': 'lightgrey',
+  '--grey-light': 'light-grey',
   '--black': 'black'
 };
 
