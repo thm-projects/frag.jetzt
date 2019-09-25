@@ -80,7 +80,7 @@
     "mark-not-wrong": "Marked as wrong by the professor",
     "mark-read": "Already discussed by the professor",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
-    "no-comments": "No questions yet",
+    "no-comments": "No questions present",
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
     "send-description": "Send question",
