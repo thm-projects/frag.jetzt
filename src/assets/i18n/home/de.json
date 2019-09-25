@@ -2,13 +2,13 @@
   "cookies": {
     "accept": "Akzeptiert",
     "accept-description": "Bestätigt die Verwendung von Cookies und schaltet die Anwendung frei.",
-    "cancel": "Abbrechen",
+    "cancel": "Abgelehnt",
     "cancel-description": "Lehnt die Verwendung von Cookies ab und sperrt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
     "title": "Datenschutz"
   },
   "data-protection": {
-    "cancel": "Abbrechen",
+    "cancel": "Abgelehnt",
     "cancel-description": "Lehnt die Datenschutzerklärung ab.",
     "consent": "Akzeptiert",
     "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung.",
@@ -189,6 +189,7 @@
   "room-list": {
     "creator-role": "Sitzungsersteller",
     "entry": "Eintrag ",
+    "executive-moderator-role": "Moderator",
     "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach Name oder Code filtern.",
     "filter-message": "Nach Name oder Code filtern",
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen.",

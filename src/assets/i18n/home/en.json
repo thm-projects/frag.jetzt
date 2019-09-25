@@ -2,13 +2,13 @@
   "cookies": {
     "accept": "Accept",
     "accept-description": "Accept the use of cookies and proceed to the app.",
-    "cancel": "Cancel",
+    "cancel": "Reject",
     "cancel-description": "Reject cookie usage and exit the app.",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
     "title": "Data Privacy"
   },
   "data-protection": {
-    "cancel": "Cancel",
+    "cancel": "Reject",
     "cancel-description": "Reject the app's privacy policy and close dialog",
     "consent": "Accept",
     "consent-description": "Accept the app's privacy policy and close dialog",
@@ -191,6 +191,7 @@
   "room-list": {
     "creator-role": "Session creator",
     "entry": "Entry ",
+    "executive-moderator-role": "Moderator",
     "filter": "Here you can filter your visited sessions.",
     "filter-message": "Filter by name or key",
     "join-message-template": "Join the session {{session}} with code {{id}} and in the role {{role}}",
