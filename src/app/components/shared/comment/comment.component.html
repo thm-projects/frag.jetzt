@@ -78,7 +78,7 @@
           <mat-icon class="voting-icon" [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
         </button>
       </div>
-    <div *ngIf="isCreator" fxLayout="column" fxLayoutAlign="center">
+    <div *ngIf="!isStudent" fxLayout="column" fxLayoutAlign="center">
       <span class="scoreCreator">{{comment.score}}</span>
     </div>
     </div>
@@ -98,6 +98,6 @@
   </div>
   <div id="comment_delete{{ comment.id }}">{{'comment-page.a11y-comment_delete' | translate}}</div>
   <div id="comment_moderation{{ comment.id }}">{{'comment-page.a11y-comment_moderation' | translate}}</div>
-  <div *ngIf="isCreator" id="comment_vote_up{{ comment.id }}">{{'comment-page.a11y-comment_vote_up' | translate}}</div>
-  <div *ngIf="isCreator" id="comment_vote_down{{ comment.id }}">{{'comment-page.a11y-comment_vote_down' | translate}}</div>
+  <div *ngIf="isStudent" id="comment_vote_up{{ comment.id }}">{{'comment-page.a11y-comment_vote_up' | translate}}</div>
+  <div *ngIf="isStudent" id="comment_vote_down{{ comment.id }}">{{'comment-page.a11y-comment_vote_down' | translate}}</div>
 </div>
