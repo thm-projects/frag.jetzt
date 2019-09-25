@@ -30,7 +30,8 @@ export class CookiesComponent implements OnInit {
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
-    this.dialogRef.close();
+    localStorage.setItem('dataProtectionConsent', 'true');
+    this.dialogRef.close(true);
     setTimeout( () => {
       document.getElementById('live_announcer-button').focus();
     }, 500);
@@ -39,7 +40,7 @@ export class CookiesComponent implements OnInit {
   exitApp() {
     localStorage.setItem('cookieAccepted', 'false');
     // TODO somehow exit the app, since the user didn't accept cookie usage
-    this.dialogRef.close(true);
+    this.dialogRef.close(false);
   }
 
   openDataProtection() {
