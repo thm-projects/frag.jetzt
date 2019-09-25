@@ -64,7 +64,7 @@ app-comment {
   color: var(--secondary);
 }
 
-.addButton {
+.actionButton {
   width: 40px;
   height: 40px;
   margin: 0 5% 0 5%;
@@ -74,6 +74,10 @@ app-comment {
 .addCommentIcon {
   transform: scale(1.5);
   color: var(--surface)
+}
+
+.pauseIcon {
+
 }
 
 .close {

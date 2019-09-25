@@ -35,7 +35,19 @@
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
-    <button id="add_comment_small-button" mat-fab aria-labelledby="add" class="addButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
+    <button id="pause-comments" mat-fab aria-labelledby="pause" class="actionButton"
+            *ngIf="!searchBox.value && !search && !freeze" (click)="freeze = true;"
+            matTooltip="{{ 'comment-list.pause-comments' | translate }}">
+      <mat-icon class="pauseIcon">pause_circle_filled</mat-icon>
+    </button>
+
+    <button id="play-comments" mat-fab aria-labelledby="play" class="actionButton"
+            *ngIf="!searchBox.value && !search && freeze" (click)="freeze = false;"
+            matTooltip="{{ 'comment-list.play-comments' | translate }}">
+      <mat-icon class="playIcon">play_circle_filled</mat-icon>
+    </button>
+
+    <button id="add_comment_small-button" mat-fab aria-labelledby="add" class="actionButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
       <mat-icon class="addCommentIcon">add</mat-icon>
     </button>
@@ -133,6 +145,8 @@
   <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
   <div id="close">{{'comment-list.a11y-close' | translate}}</div>
   <div id="add">{{'comment-list.a11y-add' | translate}}</div>
+  <div id="pause">{{'comment-list.pause' | translate}}</div>
+  <div id="play">{{'comment-list.play' | translate}}</div>
   <div id="close_search">{{'comment-list.a11y-close_search' | translate}}</div>
   <div id="new-comment">{{ 'comment-page.new-comment' | translate:{comment: newestComment} }}</div>
 </div>
