@@ -32,6 +32,7 @@ export class FooterComponent implements OnInit {
   public open: string;
   public deviceType: string;
   public cookieAccepted: boolean;
+  public dataProtectionConsent: boolean;
 
   public themeClass = localStorage.getItem('theme');
 
@@ -60,11 +61,12 @@ export class FooterComponent implements OnInit {
     this.themes = this.themeService.getThemes();
     this.updateScale(this.themeService.getThemeByKey(this.themeClass));
     this.cookieAccepted = localStorage.getItem('cookieAccepted') === 'true';
+    this.dataProtectionConsent = localStorage.getItem('dataProtectionConsent') === 'true';
 
     if (!localStorage.getItem('cookieAccepted')) {
       this.showCookieModal();
     } else {
-      if (!this.cookieAccepted) {
+      if (!this.cookieAccepted || !this.dataProtectionConsent) {
         this.showOverlay();
       }
     }
@@ -86,7 +88,9 @@ export class FooterComponent implements OnInit {
     dialogRef.disableClose = true;
     dialogRef.componentInstance.deviceType = this.deviceType;
     dialogRef.afterClosed().subscribe(res => {
-      if (res) {
+      this.cookieAccepted = res;
+      this.dataProtectionConsent = res;
+      if (!res) {
         this.showOverlay();
       }
     });
@@ -111,6 +115,12 @@ export class FooterComponent implements OnInit {
       width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
+    dialogRef.afterClosed().subscribe(res => {
+      this.dataProtectionConsent = res;
+      if (!res) {
+        this.showOverlay();
+      }
+    });
   }
 
   showOverlay() {
@@ -120,7 +130,11 @@ export class FooterComponent implements OnInit {
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        this.showCookieModal();
+        if (!this.cookieAccepted) {
+          this.showCookieModal();
+        } else if (!this.dataProtectionConsent) {
+          this.showDataProtection();
+        }
       }
     });
   }

@@ -25,7 +25,7 @@ export class DataProtectionComponent implements OnInit {
 
   accept() {
     this.dataProtectionConsent(true);
-    this.dialogRef.close();
+    this.dialogRef.close(true);
   }
 
   decline() {
@@ -40,7 +40,7 @@ export class DataProtectionComponent implements OnInit {
     } else {      // otherwise: go there
       this.router.navigate(['/home']);
     }
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 
   /**
