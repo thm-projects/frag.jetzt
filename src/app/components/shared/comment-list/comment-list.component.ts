@@ -17,6 +17,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-comment-list',
@@ -54,6 +55,8 @@ export class CommentListComponent implements OnInit {
   moderationEnabled = false;
   thresholdEnabled = false;
   newestComment: string;
+  freeze = false;
+  commentStream: Subscription;
 
   constructor(private commentService: CommentService,
               private translateService: TranslateService,
@@ -88,9 +91,7 @@ export class CommentListComponent implements OnInit {
         });
     });
     this.hideCommentsList = false;
-    this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
-      this.parseIncomingMessage(message);
-    });
+    this.subscribeCommentStream();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
     if (this.userRole === 0) {
@@ -311,6 +312,32 @@ export class CommentListComponent implements OnInit {
     this.currentSort = type;
   }
 
+  pauseCommentStream() {
+    this.freeze = true;
+    this.commentStream.unsubscribe();
+    this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
+  }
+
+  playCommentStream() {
+    this.freeze = false;
+    this.commentService.getAckComments(this.roomId)
+      .subscribe(comments => {
+        this.comments = comments;
+        this.getComments();
+      });
+    this.subscribeCommentStream();
+    this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
+  }
+
+  subscribeCommentStream() {
+    this.commentStream = this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
+      this.parseIncomingMessage(message);
+    });
+  }
 
   /**
    * Announces a new comment receive.
