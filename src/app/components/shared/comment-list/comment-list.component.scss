@@ -71,13 +71,14 @@ app-comment {
   background-color: var(--primary);
 }
 
-.addCommentIcon {
+.actionIcon {
   transform: scale(1.5);
   color: var(--surface)
 }
 
-.pauseIcon {
-
+.freezeIcon {
+  transform: scale(1.3);
+  color: var(--surface);
 }
 
 .close {
