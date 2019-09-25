@@ -28,6 +28,8 @@
     "add-comment": "Ask a question!",
     "pause-comments": "Pause comment-stream",
     "play-comments": "Start comment-stream",
+    "comment-stream-stopped": "Comment-stream has been stopped.",
+    "comment-stream-started": "Comment-stream has been started.",
     "comment-sent": "The question has been published.",
     "comment-sent-to-moderator": "The question will be reviewed by a moderator.",
     "comment-deleted": "The question has been deleted.",

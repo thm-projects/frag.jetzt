@@ -315,6 +315,9 @@ export class CommentListComponent implements OnInit {
   pauseCommentStream() {
     this.freeze = true;
     this.commentStream.unsubscribe();
+    this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
   }
 
   playCommentStream() {
@@ -325,6 +328,9 @@ export class CommentListComponent implements OnInit {
         this.getComments();
       });
     this.subscribeCommentStream();
+    this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
   }
 
   subscribeCommentStream() {

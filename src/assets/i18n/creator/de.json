@@ -18,6 +18,8 @@
     "add-comment": "Frage stellen",
     "pause-comments": "Pausiere den Kommentar-Stream",
     "play-comments": "Starte den Kommentar-Stream",
+    "comment-stream-stopped": "Der Kommentar-Stream wurde gestoppt.",
+    "comment-stream-started": "Der Kommentar-Stream wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",
     "comment-deleted": "Die Frage wurde gelöscht.",
     "correct": "Fragen, die vom Dozenten als richtig markiert wurden",

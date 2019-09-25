@@ -28,6 +28,8 @@
     "add-comment": "Stell deine Frage!",
     "pause-comments": "Pausiere den Kommentar-Stream",
     "play-comments": "Starte den Kommentar-Stream",
+    "comment-stream-stopped": "Der Kommentar-Stream wurde gestoppt.",
+    "comment-stream-started": "Der Kommentar-Stream wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",
     "comment-sent-to-moderator": "Die Frage wird nun von einem Moderator überprüft.",
     "comment-deleted": "Die Frage wurde gelöscht.",
