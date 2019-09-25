@@ -18,12 +18,12 @@ export const purple = {
 
   '--green': 'green',
   '--red': 'red',
-  '--yellow': 'yellow',
+  '--yellow': 'gold',
   '--blue': 'blue',
   '--purple': 'purple',
-  '--light-green': 'light-green',
+  '--light-green': 'lightgreen',
   '--grey': 'grey',
-  '--grey-light': 'light-grey',
+  '--grey-light': 'lightgrey',
   '--black': 'black'
 };
 

@@ -6,3 +6,13 @@ $dark-warn: mat-palette($mat-red, A200);
 
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
+a {
+  text-decoration: underline;
+  color: var(--on-surface);
+}
+
+img {
+  padding: 15px;
+  background-color: white;
+}
+
