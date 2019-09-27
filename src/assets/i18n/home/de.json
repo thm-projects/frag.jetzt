@@ -154,7 +154,7 @@
     "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
     "reset-successful": "Dein Passwort wurde zurückgesetzt. Bitte prüfe dein Postfach.",
     "set-button-description": "Setzt für den Account das neue Passwort",
-    "set-new-password": "Setze ein neues Passwort mit dem Schlüssel",
+    "set-new-password": "Setze ein neues Passwort mit dem Schlüssel-Code, der dir zugesandt wurde:",
     "set-new-password-button": "Setze Passwort"
   },
   "register": {
