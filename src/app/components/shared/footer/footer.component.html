@@ -1,52 +1,53 @@
 <div>
 
   <mat-toolbar id="footer-toolbar" class="mat-elevation-z24">
-    <button class="focus_button" mat-button (click)="showHelp()" *ngIf="router.url !== '/home'"
-            aria-labelledby="help-label">
-      <mat-icon>help</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.help' | translate }}
-      </span>
-    </button>
-    <button class="focus_button" mat-button (click)="showDemo()" *ngIf="router.url === '/home'"
+
+    <button class="focus_button" mat-button (click)="showDemo()"
             aria-labelledby="demo-label">
       <mat-icon>flag</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
-  </button>
+    </button>
 
     <span class="fill-remaining-space"></span>
-    <button class="focus_button" mat-button aria-labelledby="style-label" [matMenuTriggerFor]="themeMenu">
+
+    <button class="focus_button" mat-button
+            aria-labelledby="style-label" [matMenuTriggerFor]="themeMenu">
       <mat-icon>accessibility_new</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.style' | translate}}
         </span>
-  </button>
+    </button>
 
     <span class="fill-remaining-space"></span>
-    <button class="focus_button" id="language-menu" mat-button aria-labelledby="language-label"
+    <button class="focus_button" id="language-menu" mat-button
+            aria-labelledby="language-label"
             [matMenuTriggerFor]="langMenu">
       <mat-icon>language</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.language' | translate}}
         </span>
-  </button>
+    </button>
 
     <span class="fill-remaining-space"></span>
-    <button class="focus_button" (click)="showDataProtection()" mat-button aria-labelledby="data-protection-label">
+
+    <button class="focus_button" (click)="showDataProtection()" mat-button
+            aria-labelledby="data-protection-label">
       <mat-icon>security</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.dsgvo' | translate}}
       </span>
     </button>
+
     <span class="fill-remaining-space"></span>
+
     <button class="focus_button" (click)="showImprint()" mat-button aria-labelledby="imprint-label">
       <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.imprint' | translate}}
       </span>
-  </button>
+    </button>
 
     <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
       <button
@@ -78,14 +79,11 @@
       </button>
     </mat-menu>
 
-    <!--
-    <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
-    </mat-menu>
--->
     <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
       <button class="focus_item" mat-menu-item (click)="useLanguage('de')">{{ 'footer.german' | translate }}</button>
       <button class="focus_item" mat-menu-item (click)="useLanguage('en')">{{ 'footer.english' | translate }}</button>
     </mat-menu>
+
   </mat-toolbar>
 </div>
 
