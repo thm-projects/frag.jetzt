@@ -70,12 +70,14 @@ export class Rescale {
     switch (this.state) {
       case 0:
         this.reset();
+        document.exitFullscreen();
         break;
       case 1:
         this.activate();
         break;
       case 2:
         this.activateFull();
+        document.body.requestFullscreen();
         break;
       default: break;
     }
