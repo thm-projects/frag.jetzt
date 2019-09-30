@@ -104,6 +104,9 @@ export class CommentListComponent implements OnInit {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
+    if (this.userRole === UserRole.PARTICIPANT) {
+      this.openCreateDialog();
+    }
   }
 
   checkScroll(): void {
