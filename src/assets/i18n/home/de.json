@@ -46,7 +46,7 @@
     "accessibility-login": "Öffnet das Anmeldungs-Fenster.",
     "accessibility-session": "Öffnet das Sitzungs-Menü. Hier kannst du deine besuchten Sitzungen einsehen oder dich von deinem Konto abmelden.",
     "account-deleted": "Dein Konto wurde gelöscht.",
-    "back": "Zurück",
+    "back": "Abbrechen",
     "delete": "Löschen",
     "delete-account": "Konto löschen",
     "id": "Code",
@@ -97,8 +97,8 @@
   },
   "login": {
     "activation-key": "Aktivierungsschlüssel",
-    "cancel": "Zurück",
-    "cancel-description": "Zurück",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "email": "E-Mail Adresse als Benutzername",
     "email-description": "Gib hier deine E-Mail Adresse ein.",
     "email-invalid": "E-Mail Adresse ungültig",
@@ -137,8 +137,8 @@
     "a11y-password_reset_key": "Gib hier den Passwortrücksetz-Schlüssel ein, den du per E-Mail erhalten hast",
     "a11y-password_set_button": "Setzt das neue Passwort",
     "a11y-password_set_email": "Gib hier deine E-Mail Adresse ein, um ein neues Passwort zu setzten",
-    "cancel": "Zurück",
-    "cancel-description": "Zurück",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "email": "E-Mail Adresse",
     "email-description": "Gib hier deine E-Mail Adresse ein, um dein Passwort zurückzusetzen.",
     "email-invalid": "E-Mail Adresse ungültig",
@@ -158,8 +158,8 @@
     "set-new-password-button": "Setze Passwort"
   },
   "register": {
-    "cancel": "Zurück",
-    "cancel-description": "Zurück",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "email": "E-Mail Adresse",
     "email-description": "Gib hier deine E-Mail-Adresse ein.",
     "email-description-repeat": "Gib hier bitte erneut deine E-Mail-Adresse ein, um sicherzustellen, dass du dich nicht vertippt hast.",
@@ -181,8 +181,8 @@
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
   "room-create": {
-    "cancel": "Zurück",
-    "cancel-description": "Zurück",
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen",
     "create-room": "Sitzung erstellen",
     "create-room-description": "Neue Sitzung erstellen."
   },
@@ -218,7 +218,7 @@
     "activation-key-incorrect": "Aktivierungs-Schlüssel falsch",
     "activation-key-required": "Aktivierungs-Schlüssel erforderlich",
     "activation-key-input-description": "Gib hier den Aktivierungs-Schlüssel ein, den du per E-Mail zugesendet bekommen hast.",
-    "cancel": "Zurück",
-    "cancel-description": "Zurück"
+    "cancel": "Abbrechen",
+    "cancel-description": "Abbrechen"
   }
 }
