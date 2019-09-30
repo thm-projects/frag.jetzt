@@ -1,3 +1,4 @@
+<mat-dialog-content>
 <form (ngSubmit)="register(userName.value, userPassword1.value)" fxLayout="column"
       fxLayoutAlign="space-around" fxLayoutGap="10px">
   <mat-form-field class="input-block">
@@ -54,6 +55,7 @@
     [confirmButtonClickAction]="buildRegisterActionCallback(userName, userPassword1)"
   ></app-dialog-action-buttons>
 </form>
+</mat-dialog-content>
 
 <div class="visually-hidden">
   <div id="register-email-description">{{ 'register.email-description' | translate }}</div>
