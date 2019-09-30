@@ -1,19 +1,20 @@
 <div>
-  <h1 tabindex="0"  mat-dialog-title class="modal">{{ 'data-protection.title' | translate }}</h1>
+  <h1 tabindex="0" mat-dialog-title class="modal">{{ 'data-protection.title' | translate }}</h1>
 
   <mat-divider></mat-divider>
 
   <mat-dialog-content tabindex="0">
     <app-data-protection-en *ngIf="currentLang=='en'"></app-data-protection-en>
     <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
-  </mat-dialog-content>
 
-  <app-dialog-action-buttons
-    buttonsLabelSection="data-protection"
-    confirmButtonLabel="consent"
-    [confirmButtonType]=confirmButtonType
-    [cancelButtonClickAction]="buildDeclineActionCallback()"
-    [confirmButtonClickAction]="buildConfirmActionCallback()"
-  ></app-dialog-action-buttons>
+
+    <app-dialog-action-buttons
+      buttonsLabelSection="data-protection"
+      confirmButtonLabel="consent"
+      [confirmButtonType]=confirmButtonType
+      [cancelButtonClickAction]="buildDeclineActionCallback()"
+      [confirmButtonClickAction]="buildConfirmActionCallback()">
+    </app-dialog-action-buttons>
+  </mat-dialog-content>
 </div>
 
