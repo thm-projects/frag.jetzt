@@ -7,7 +7,6 @@ import { LanguageService } from '../../../services/util/language.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
-import { LoginComponent } from '../../shared/login/login.component';
 
 @Component({
   selector: 'app-new-landing',
@@ -33,18 +32,9 @@ export class NewLandingComponent implements OnInit {
 
   createSession() {
     if (!this.user) {
-      this.openLoginDialog();
-      return;
-    } else if (this.user.role === 0) {
-      if (this.user.isGuest) {
-        this.authenticationService.logout();
-        this.authenticationService.guestLogin(1).subscribe(login => {
-          this.openCreateRoomDialog();
-        });
-      } else {
-        this.authenticationService.logout();
-        this.openLoginDialog();
-      }
+      this.authenticationService.guestLogin(UserRole.CREATOR).subscribe( () => {
+        this.openCreateRoomDialog();
+      });
     } else {
       this.openCreateRoomDialog();
     }
@@ -54,20 +44,6 @@ export class NewLandingComponent implements OnInit {
     this.dialog.open(RoomCreateComponent, {
       width: '350px'
     });
-  }
-
-  openLoginDialog(): void {
-    const dialogRef = this.dialog.open(LoginComponent, {
-      width: '350px'
-    });
-    dialogRef.componentInstance.role = UserRole.CREATOR;
-    dialogRef.componentInstance.isStandard = false;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (this.user) {
-          this.openCreateRoomDialog();
-        }
-      });
   }
 
   cookiesDisabled(): boolean {
