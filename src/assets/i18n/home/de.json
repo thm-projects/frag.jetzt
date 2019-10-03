@@ -1,16 +1,16 @@
 {
   "cookies": {
-    "accept": "Akzeptiert",
-    "accept-description": "Bestätigt die Verwendung von Cookies und schaltet die Anwendung frei.",
-    "cancel": "Abgelehnt",
-    "cancel-description": "Lehnt die Verwendung von Cookies ab und sperrt die Anwendung.",
+    "accept": "Akzeptieren",
+    "accept-description": "Bestätigt die Verwendung der Local-Storage-Technik und schaltet die Anwendung frei.",
+    "cancel": "Ablehnen",
+    "cancel-description": "Lehnt die Verwendung der Local-Storage-Technik ab und sperrt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
     "title": "Datenschutz"
   },
   "data-protection": {
-    "cancel": "Abgelehnt",
+    "cancel": "Ablehnen",
     "cancel-description": "Lehnt die Datenschutzerklärung ab.",
-    "consent": "Akzeptiert",
+    "consent": "Akzeptieren",
     "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung.",
     "title": "Datenschutz"
   },
@@ -125,9 +125,9 @@
     "welcome": "Online fragen & Fragen bewerten"
   },
   "overlay": {
-    "cancel": "Cookies doch akzeptieren?",
-    "cancel-description": "Öffnet den Dialog zur Verwendung von Cookies in frag.jetzt",
-    "message": "Du hast die Verwendung von Cookies abgelehnt. Ohne Cookies funktioniert die App leider nicht.",
+    "cancel": "Doch akzeptieren?",
+    "cancel-description": "Öffnet den Dialog zur Verwendung der Local-Storage-Technik in frag.jetzt",
+    "message": "Du hast die Verwendung der Local-Storage-Technik abgelehnt. Ohne diese funktioniert die App leider nicht.",
     "title": "Nutzung nicht möglich"
   },
   "password-reset": {

@@ -1,9 +1,9 @@
 {
   "cookies": {
     "accept": "Accept",
-    "accept-description": "Accept the use of cookies and proceed to the app.",
+    "accept-description": "Accept the use of a local storage and proceed to the app.",
     "cancel": "Reject",
-    "cancel-description": "Reject cookie usage and exit the app.",
+    "cancel-description": "Reject usage of a local storage and exit the app.",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
     "title": "Data Privacy"
   },
@@ -127,9 +127,9 @@
     "welcome": "Ask online & vote questions"
   },
   "overlay": {
-    "cancel": "Accept cookies after all?",
-    "cancel-description": "Opens the cookie setting dialog",
-    "message": "You have rejected the use of cookies. Without cookies the app will not work.",
+    "cancel": "Accept after all?",
+    "cancel-description": "Opens the local storage setting dialog",
+    "message": "You have rejected the use of a local storage. Without it the app will not work.",
     "title": "Use not possible"
   },
   "password-reset": {
