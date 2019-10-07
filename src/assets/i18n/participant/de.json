@@ -68,7 +68,7 @@
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
-    "enter-comment": "Stell deine Frage an den Prof",
+    "enter-comment": "Deine Frage an den Prof…",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",
