@@ -124,7 +124,7 @@
     "restart-account-activation-button": "Send again",
     "restart-account-activation-correct": "Activation key sent again",
     "restart-account-activation-tooltip": "Sends the activation key again",
-    "welcome": "Ask online & vote questions"
+    "welcome": "ask questions | vote questions"
   },
   "overlay": {
     "cancel": "Accept after all?",
