@@ -1,8 +1,6 @@
-# ARSnova lite
+# frag.jetzt
 
-This is the new frontend for the Audience Response System [ARSnova](https://arsnova.eu) and is currently in beta.
-
-The project aims at creating the best possible user experience with a web-based audience response app. You can head over to [ARSnova lite](https://beta.arsnova.eu) to see it in action.
+Nomen est omen: The app's name says it all: it stands for both the app's main purpose and the web address https://frag.jetzt
 
 ## Documentation
 
@@ -10,4 +8,4 @@ The project aims at creating the best possible user experience with a web-based 
 
 ## Credits
 
-frag.jetzt is powered by Technische Hochschule Mittelhessen - University of Applied Sciences.
+frag.jetzt is powered by Technische Hochschule Mittelhessen | University of Applied Sciences.
