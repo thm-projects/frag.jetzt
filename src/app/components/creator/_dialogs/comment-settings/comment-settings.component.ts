@@ -90,20 +90,20 @@ export class CommentSettingsComponent implements OnInit {
     this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 
-  exportCsv(delimiter: string, date: string): void {
+  export(delimiter: string, date: string): void {
     this.commentService.getAckComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
         const exportComments = JSON.parse(JSON.stringify(this.comments));
         let csv: string;
-        let keyFields = '';
         let valueFields = '';
-        keyFields = Object.keys(exportComments[0]).slice(3).join(delimiter) + '\r\n';
+        const keyFields = ['Frage', 'Zeitstempel', 'Präsentiert', 'Favorit', 'Richtig/Falsch', 'Zugestellt', 'Score', '\r\n'];
         exportComments.forEach(element => {
           element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
           valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
         });
         csv = keyFields + valueFields;
+        console.log(csv);
         const myBlob = new Blob([csv], { type: 'text/csv' });
         const link = document.createElement('a');
         const fileName = 'comments_' + date + '.csv';
@@ -119,9 +119,9 @@ export class CommentSettingsComponent implements OnInit {
     const timeString = ('0' + date.getHours()).slice(-2) + ('0' + date.getMinutes()).slice(-2) + ('0' + date.getSeconds()).slice(-2);
     const timestamp = dateString + '_' + timeString;
     if (exportType === 'comma') {
-      this.exportCsv(',', timestamp);
+      this.export(',', timestamp);
     } else if (exportType === 'semicolon') {
-      this.exportCsv(';', timestamp);
+      this.export(';', timestamp);
     }
   }
 
@@ -135,7 +135,6 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   closeDialog(): void {
-    console.log(this.commentThreshold);
     const commentSettings = new CommentSettings();
     commentSettings.roomId = this.roomId;
     commentSettings.directSend = this.directSend;
