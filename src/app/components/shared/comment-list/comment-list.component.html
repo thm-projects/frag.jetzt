@@ -35,13 +35,13 @@
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
 
-    <button id="pause-comments" mat-fab aria-labelledby="pause" class="actionButton"
+    <button id="pause-comments" mat-fab aria-labelledby="pause" class="freezeButton"
             *ngIf="!searchBox.value && !search && !freeze" (click)="pauseCommentStream()"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
       <mat-icon class="freezeIcon">pause</mat-icon>
     </button>
 
-    <button id="play-comments" mat-fab aria-labelledby="play" class="actionButton"
+    <button id="play-comments" mat-fab aria-labelledby="play" class="freezeButton"
             *ngIf="!searchBox.value && !search && freeze" (click)="playCommentStream()"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
       <mat-icon class="freezeIcon">play_arrow</mat-icon>

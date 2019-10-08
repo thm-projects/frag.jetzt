@@ -71,6 +71,13 @@ app-comment {
   background-color: var(--primary);
 }
 
+.freezeButton {
+  width: 40px;
+  height: 40px;
+  margin: 0 2% 0 5%;
+  background-color: var(--secondary);
+}
+
 .actionIcon {
   transform: scale(1.5);
   color: var(--surface)
