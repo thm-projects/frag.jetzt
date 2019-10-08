@@ -135,7 +135,6 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   closeDialog(): void {
-    console.log(this.commentThreshold);
     const commentSettings = new CommentSettings();
     commentSettings.roomId = this.roomId;
     commentSettings.directSend = this.directSend;

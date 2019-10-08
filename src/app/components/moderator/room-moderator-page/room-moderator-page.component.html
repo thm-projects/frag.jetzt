@@ -27,7 +27,7 @@
           <p>{{room.description.trim()}}</p>
         </mat-card-content>
         <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
-          <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1">
+          <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1 && this.moderationEnabled">
             <mat-grid-tile>
               <button id="question_answer-button"
                       mat-icon-button [disableRipple]="true"
@@ -49,7 +49,7 @@
               </button>
             </mat-grid-tile>
         </mat-grid-list>
-          <div fxLayout="row" fxLayoutAlign="center" *ngIf="viewModuleCount <= 1" class="question-button-div">
+          <div fxLayout="row" fxLayoutAlign="center" *ngIf="!this.moderationEnabled" class="question-button-div">
             <button id="question_answer-button2" mat-icon-button [disableRipple]="true"
                     routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter}}" class="main-icon"
