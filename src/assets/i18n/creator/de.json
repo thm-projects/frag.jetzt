@@ -204,7 +204,13 @@
     "sure": "Bist du sicher?",
     "threshold": "Schwellenwert",
     "update": "Speichern",
-    "update-description": "Speichert die Änderungen"
+    "update-description": "Speichert die Änderungen",
+    "question": "Frage",
+    "favorite": "Favorit",
+    "presented": "Präsentiert",
+    "correct/wrong": "Richtig/Falsch",
+    "score": "Score",
+    "timestamp": "Zeitstempel"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",

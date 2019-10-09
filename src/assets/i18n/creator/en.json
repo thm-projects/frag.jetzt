@@ -205,7 +205,13 @@
     "sure": "Are you sure?",
     "threshold": "Threshold",
     "update": "Update",
-    "update-description": "Save changes"
+    "update-description": "Save changes",
+    "question": "Question",
+    "favorite": "Favorite",
+    "presented": "Presented",
+    "correct/wrong": "Correct/Wrong",
+    "score": "Score",
+    "timestamp": "Timestamp"
   },
   "session": {
     "a11y-description": "Enter a description for the session",

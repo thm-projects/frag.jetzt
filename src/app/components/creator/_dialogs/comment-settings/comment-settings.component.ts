@@ -31,7 +31,6 @@ export class CommentSettingsComponent implements OnInit {
   enableCommentModeration = false;
   directSend = true;
 
-
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,
@@ -143,12 +142,10 @@ export class CommentSettingsComponent implements OnInit {
   onExport(exportType: string): void {
     const date = new Date();
     const dateString = date.toLocaleDateString();
-    const timeString = date.toLocaleTimeString();
-    const timestamp = dateString + '_' + timeString;
     if (exportType === 'comma') {
-      this.export(',', timestamp);
+      this.export(',', dateString);
     } else if (exportType === 'semicolon') {
-      this.export(';', timestamp);
+      this.export(';', dateString);
     }
   }
 
