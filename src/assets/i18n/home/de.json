@@ -59,6 +59,7 @@
     "my-sessions": "Meine Sitzungen",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen?",
     "sure": "Bist du sicher?",
+    "user-bonus-token": "Zu deinen Bonus Tokens",
     "visited-sessions": "Besuchte Sitzungen"
   },
   "help": {
@@ -220,5 +221,8 @@
     "activation-key-input-description": "Gib hier den Aktivierungs-Schlüssel ein, den du per E-Mail zugesendet bekommen hast.",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen"
+  },
+  "user-bonus-token": {
+    "header": "Tokens für Bonuspunkte"
   }
 }

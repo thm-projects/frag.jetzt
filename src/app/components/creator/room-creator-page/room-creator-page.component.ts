@@ -14,6 +14,7 @@ import { TSMap } from 'typescript-map';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
+import { BonusTokenComponent } from '../_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from '../_dialogs/comment-settings/comment-settings.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
@@ -197,6 +198,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   showModeratorsDialog(): void {
     const dialogRef = this.dialog.open(ModeratorsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = this.room.id;
+  }
+
+  showBonusTokenDialog(): void {
+    const dialogRef = this.dialog.open(BonusTokenComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;

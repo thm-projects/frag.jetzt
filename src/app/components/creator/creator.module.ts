@@ -23,6 +23,7 @@ import { ContentEditComponent } from './_dialogs/content-edit/content-edit.compo
 import { ContentPresentationComponent } from './content-presentation/content-presentation.component';
 import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
 import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
+import { BonusTokenComponent } from './_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
 import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-delete.component';
 import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
@@ -59,6 +60,7 @@ import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comme
     ContentPresentationComponent,
     CommentExportComponent,
     ModeratorsComponent,
+    BonusTokenComponent,
     CommentSettingsComponent,
     ModeratorDeleteComponent,
     DeleteCommentsComponent,
@@ -77,6 +79,7 @@ import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comme
     ContentEditComponent,
     CommentExportComponent,
     ModeratorsComponent,
+    BonusTokenComponent,
     CommentSettingsComponent,
     ModeratorDeleteComponent,
     DeleteCommentsComponent,

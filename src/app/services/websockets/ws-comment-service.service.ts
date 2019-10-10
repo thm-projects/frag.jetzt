@@ -20,7 +20,7 @@ export class WsCommentServiceService {
   constructor(private wsConnector: WsConnectorService) { }
 
   add(comment: Comment): void {
-    const message = new CreateComment(comment.roomId, comment.userId, comment.body);
+    const message = new CreateComment(comment.roomId, comment.creatorId, comment.body);
     this.wsConnector.send(`/queue/comment.command.create`, JSON.stringify(message));
   }
 

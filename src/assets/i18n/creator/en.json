@@ -162,6 +162,8 @@
     "a11y-threshold": "Slider for setting the threshold for visible questions",
     "abort": "Abort",
     "answer-statistics": "Statistics",
+    "bonus-token": "Tokens for bonus points",
+    "bonus-token-header": "Tokens for bonus points",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "changes-successful": "Successfully updated.",

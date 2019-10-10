@@ -3,7 +3,7 @@ import { CorrectWrong } from './correct-wrong.enum';
 export class Comment {
   id: string;
   roomId: string;
-  userId: string;
+  creatorId: string;
   revision: string;
   body: string;
   read: boolean;
@@ -16,7 +16,7 @@ export class Comment {
   ack: boolean;
 
   constructor(roomId: string = '',
-              userId: string = '',
+              creatorId: string = '',
               body: string = '',
               read: boolean = false,
               correct: CorrectWrong = CorrectWrong.NULL,
@@ -28,7 +28,7 @@ export class Comment {
               ack: boolean = true) {
     this.id = '';
     this.roomId = roomId;
-    this.userId = userId;
+    this.creatorId = creatorId;
     this.revision = '';
     this.body = body;
     this.read = read;

@@ -35,6 +35,10 @@
             <mat-icon>gavel</mat-icon>
             {{ 'room-page.moderators' | translate}}
           </button>
+          <button mat-menu-item (click)="showBonusTokenDialog()" aria-labelledby= "person">
+            <mat-icon>grade</mat-icon>
+            {{ 'room-page.bonus-token' | translate}}
+          </button>
         </mat-menu>
         <button  id="settings-menu"
                  mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">

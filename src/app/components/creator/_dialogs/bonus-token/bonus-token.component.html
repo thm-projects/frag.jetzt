@@ -1,0 +1,9 @@
+<div mat-dialog-content>
+  <h1>{{'room-page.bonus-token-header' | translate }}</h1>
+  <mat-divider></mat-divider>
+  <div fxLayout="row" *ngFor="let bonusToken of bonusTokens">
+    <h2>
+      {{bonusToken.token}}
+    </h2>
+  </div>
+</div>
