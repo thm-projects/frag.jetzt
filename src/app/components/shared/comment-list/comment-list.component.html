@@ -54,6 +54,13 @@
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
+
+    <button mat-menu-item matTooltip="{{ 'comment-list.time' | translate }}"
+            (click)="sortComments(time)" aria-labelledby="access_time">
+      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
+      <span>{{ 'comment-list.sort-list-time' | translate }}</span>
+    </button>
+
     <button mat-menu-item matTooltip="{{ 'comment-list.vote-asc' | translate }}"
             (click)="sortComments(votedesc)" aria-labelledby="keyboard_arrow_up">
       <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
@@ -66,11 +73,6 @@
       <span>{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
-    <button mat-menu-item matTooltip="{{ 'comment-list.time' | translate }}"
-            (click)="sortComments(time)" aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
-      <span>{{ 'comment-list.sort-list-time' | translate }}</span>
-    </button>
   </mat-menu>
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
