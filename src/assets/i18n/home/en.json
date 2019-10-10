@@ -61,7 +61,9 @@
     "really-delete-account": "Do you really want to irrevocably delete your account with the associated sessions?",
     "sure": "Are you sure?",
     "user-bonus-token": "See your bonus tokens",
-    "visited-sessions": "Visited sessions"
+    "visited-sessions": "Visited sessions",
+    "bonus-token": "Tokens for bonus points",
+    "no-bonus": "No bonus points earned yet."
   },
   "help": {
     "cancel": "Close",
@@ -71,7 +73,6 @@
   "home-page": {
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "accessibility-join-input": "Here you can enter the session key of the session you want to join.",
     "create-session": "New session",
     "created-1": "Session '",
     "created-2": "' successfully created",

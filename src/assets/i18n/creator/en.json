@@ -164,6 +164,7 @@
     "answer-statistics": "Statistics",
     "bonus-token": "Tokens for bonus points",
     "bonus-token-header": "Tokens for bonus points",
+    "no-bonus": "No bonus points have been given yet.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "changes-successful": "Successfully updated.",
@@ -205,7 +206,14 @@
     "sure": "Are you sure?",
     "threshold": "Threshold",
     "update": "Update",
-    "update-description": "Save changes"
+    "update-description": "Save changes",
+    "question": "Question",
+    "favorite": "Favorite",
+    "presented": "Presented",
+    "correct/wrong": "Correct/Wrong",
+    "score": "Score",
+    "timestamp": "Timestamp",
+    "token": "Bonus token"
   },
   "session": {
     "a11y-description": "Enter a description for the session",
