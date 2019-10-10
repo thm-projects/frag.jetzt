@@ -19,6 +19,7 @@ import { ChartsModule } from 'ng2-charts';
 import { StatisticComponent } from './statistic/statistic.component';
 import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
+import { UserBonusTokenComponent } from './_dialogs/user-bonus-token/user-bonus-token.component';
 import { LoginComponent } from './login/login.component';
 import { StatisticHelpComponent } from './_dialogs/statistic-help/statistic-help.component';
 import { CommentComponent } from './comment/comment.component';
@@ -54,6 +55,7 @@ import { MatRippleModule } from '@angular/material';
     ListStatisticComponent,
     StatisticComponent,
     RoomCreateComponent,
+    UserBonusTokenComponent,
     LoginComponent,
     StatisticHelpComponent,
     CommentComponent,
@@ -88,7 +90,8 @@ import { MatRippleModule } from '@angular/material';
     StatisticHelpComponent,
     CreateCommentComponent,
     PresentCommentComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    UserBonusTokenComponent
   ]
 })
 export class SharedModule {

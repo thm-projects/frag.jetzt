@@ -56,7 +56,7 @@ export class CreateCommentComponent implements OnInit {
       const comment = new Comment();
       comment.roomId = localStorage.getItem(`roomId`);
       comment.body = body;
-      comment.userId = this.user.id;
+      comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       this.dialogRef.close(comment);
     }

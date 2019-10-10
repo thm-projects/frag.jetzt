@@ -41,6 +41,7 @@ import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-v
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
 import { CommentSettingsService } from './services/http/comment-settings.service';
+import { BonusTokenService } from './services/http/bonus-token.service';
 import { ModeratorModule } from './components/moderator/moderator.module';
 import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
@@ -150,6 +151,7 @@ export function initializeApp(appConfig: AppConfig) {
     VoteService,
     ModeratorService,
     CommentSettingsService,
+    BonusTokenService,
     WsConnectorService,
     {
       provide: MatDialogRef,

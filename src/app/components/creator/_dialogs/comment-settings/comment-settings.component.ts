@@ -7,10 +7,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
+import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
 import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
 import { CommentExportComponent } from '../comment-export/comment-export.component';
 import { Room } from '../../../../models/room';
+import { CommentBonusTokenMixin } from '../../../../models/comment-bonus-token-mixin';
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
 
@@ -22,12 +24,13 @@ import { CommentSettingsDialog } from '../../../../models/comment-settings-dialo
 export class CommentSettingsComponent implements OnInit {
 
   roomId: string;
-  comments: Comment[];
+  comments: CommentBonusTokenMixin[];
   commentThreshold = -100;
   editRoom: Room;
   settingThreshold = false;
   enableCommentModeration = false;
   directSend = true;
+
 
   constructor(
     public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -38,6 +41,7 @@ export class CommentSettingsComponent implements OnInit {
     public router: Router,
     public commentService: CommentService,
     public commentSettingsService: CommentSettingsService,
+    private bonusTokenService: BonusTokenService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
@@ -93,23 +97,42 @@ export class CommentSettingsComponent implements OnInit {
   export(delimiter: string, date: string): void {
     this.commentService.getAckComments(this.roomId)
       .subscribe(comments => {
-        this.comments = comments;
-        const exportComments = JSON.parse(JSON.stringify(this.comments));
-        let csv: string;
-        let valueFields = '';
-        const keyFields = ['Frage', 'Zeitstempel', 'Präsentiert', 'Favorit', 'Richtig/Falsch', 'Zugestellt', 'Score', '\r\n'];
-        exportComments.forEach(element => {
-          element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
-          valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
+        this.bonusTokenService.getTokensByRoomId(this.roomId).subscribe( list => {
+          this.comments = comments.map(comment => {
+            const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
+            for (const bt of list) {
+              if (commentWithToken.creatorId === bt.userId) {
+                commentWithToken.bonusToken = bt.token;
+              }
+            }
+            return commentWithToken;
+          });
+          const exportComments = JSON.parse(JSON.stringify(this.comments));
+          let csv: string;
+          let valueFields = '';
+          const keyFields = [
+            'Frage',
+            'Zeitstempel',
+            'Präsentiert',
+            'Favorit',
+            'Richtig/Falsch',
+            'Zugestellt',
+            'Score',
+            'Bonus Token',
+            '\r\n'
+          ];
+          exportComments.forEach(element => {
+            element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
+            valueFields += Object.values(element).slice(3).join(delimiter) + '\r\n';
+          });
+          csv = keyFields + valueFields;
+          const myBlob = new Blob([csv], { type: 'text/csv' });
+          const link = document.createElement('a');
+          const fileName = 'comments_' + date + '.csv';
+          link.setAttribute('download', fileName);
+          link.href = window.URL.createObjectURL(myBlob);
+          link.click();
         });
-        csv = keyFields + valueFields;
-        console.log(csv);
-        const myBlob = new Blob([csv], { type: 'text/csv' });
-        const link = document.createElement('a');
-        const fileName = 'comments_' + date + '.csv';
-        link.setAttribute('download', fileName);
-        link.href = window.URL.createObjectURL(myBlob);
-        link.click();
       });
   }
 

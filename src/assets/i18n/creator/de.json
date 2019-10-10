@@ -161,6 +161,8 @@
     "a11y-threshold": "Schieberegler zum Einstellen des Schwellenwerts für sichtbare Fragen",
     "abort": "Abbrechen",
     "answer-statistics": "Statistiken",
+    "bonus-token": "Tokens für Bonuspunkte",
+    "bonus-token-header": "Tokens für Bonuspunkte",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "changes-successful": "Änderungen gespeichert.",

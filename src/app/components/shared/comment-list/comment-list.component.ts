@@ -194,6 +194,12 @@ export class CommentListComponent implements OnInit {
                   break;
                 case this.favorite:
                   this.comments[i].favorite = <boolean>value;
+                  console.log(this.comments[i]);
+                  if (this.user.id === this.comments[i].creatorId && <boolean>value) {
+                    this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
+                      this.notificationService.show(ret);
+                    });
+                  }
                   break;
                 case 'score':
                   this.comments[i].score = <number>value;

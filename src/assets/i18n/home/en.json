@@ -60,6 +60,7 @@
     "my-sessions": "My sessions",
     "really-delete-account": "Do you really want to irrevocably delete your account with the associated sessions?",
     "sure": "Are you sure?",
+    "user-bonus-token": "See your bonus tokens",
     "visited-sessions": "Visited sessions"
   },
   "help": {
@@ -222,5 +223,8 @@
     "activation-key-input-description": "Enter the activation key that you received by e-mail.",
     "cancel": "Cancel",
     "cancel-description": "Cancel"
+  },
+  "user-bonus-token-dialog": {
+    "header": "Tokens for bonus points"
   }
 }

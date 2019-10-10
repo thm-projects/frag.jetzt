@@ -28,6 +28,7 @@
     "add-comment": "Stell deine Frage!",
     "pause-comments": "Pausiere den Fragen-Stream",
     "play-comments": "Starte den Fragen-Stream",
+    "comment-got-favorited": "Eine Frage von dir wurde favorisiert!",
     "comment-stream-stopped": "Der Fragen-Stream wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Stream wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",

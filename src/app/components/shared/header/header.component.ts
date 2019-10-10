@@ -15,6 +15,7 @@ import { AppComponent } from '../../../app.component';
 import { Rescale } from '../../../models/rescale';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { UserBonusTokenComponent } from '../_dialogs/user-bonus-token/user-bonus-token.component';
 
 @Component({
   selector: 'app-header',
@@ -149,6 +150,13 @@ export class HeaderComponent implements OnInit {
           this.deleteAccount(this.user.id);
         }
       });
+  }
+
+  openUserBonusTokenDialog() {
+    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
+      width: '600px'
+    });
+    dialogRef.componentInstance.userId = this.user.id;
   }
 
   cookiesDisabled(): boolean {

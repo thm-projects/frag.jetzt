@@ -28,6 +28,7 @@
     "add-comment": "Ask a question!",
     "pause-comments": "Pause the question stream",
     "play-comments": "Start the question stream",
+    "comment-got-favorited": "A question of yours got favorited!",
     "comment-stream-stopped": "Question stream has been stopped.",
     "comment-stream-started": "Question stream has been started.",
     "comment-sent": "The question has been published.",
