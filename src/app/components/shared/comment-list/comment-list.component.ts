@@ -18,6 +18,7 @@ import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-comment-list',
@@ -116,7 +117,12 @@ export class CommentListComponent implements OnInit {
   }
 
   scrollToTop(): void {
-    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    // document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+    AppComponent.scrollTop();
+  }
+
+  isScrollButtonVisible(): boolean {
+    return !AppComponent.isScrolledTop() && this.comments.length > 5;
   }
 
   searchComments(): void {

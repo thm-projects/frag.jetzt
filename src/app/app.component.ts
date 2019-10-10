@@ -13,12 +13,7 @@ import { Rescale } from './models/rescale';
 })
 export class AppComponent implements OnInit {
 
-  public static rescale: Rescale = new Rescale();
-
-  icons = [
-    'beamer',
-    'meeting_room'
-  ];
+  private static scrollAnimation = true;
 
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
@@ -35,7 +30,32 @@ export class AppComponent implements OnInit {
     }
   }
 
+  public static rescale: Rescale = new Rescale();
+
+  icons = [
+    'beamer',
+    'meeting_room'
+  ];
+
   title = 'frag.jetzt';
+
+  public static scrollTop() {
+    const sc: HTMLElement = document.getElementById('scroll_container');
+    if (AppComponent.scrollAnimation) {
+      const interval = setInterval(() => {
+        if (sc.scrollTop > 0) {sc.scrollTop -= 10; } else {
+          sc.scrollTop = 0;
+          clearInterval(interval);
+        }
+      }, 1);
+    } else {
+      sc.scrollTop = 0;
+    }
+  }
+
+  public static isScrolledTop(): boolean {
+    return document.getElementById('scroll_container').scrollTop === 0;
+  }
 
   ngOnInit(): void {
     this.update.available.subscribe(update => {
