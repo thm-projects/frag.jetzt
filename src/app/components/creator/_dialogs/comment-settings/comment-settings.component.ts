@@ -100,7 +100,7 @@ export class CommentSettingsComponent implements OnInit {
           this.comments = comments.map(comment => {
             const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
             for (const bt of list) {
-              if (commentWithToken.creatorId === bt.userId && comment.favorite) {
+              if (commentWithToken.creatorId === bt.userId && comment.id === bt.commentId) {
                 commentWithToken.bonusToken = bt.token;
               }
             }
