@@ -110,7 +110,7 @@
   </mat-menu>
 </div>
 
-<button mat-icon-button class="scrollTop" [ngClass]="{'visible': scrollExtended}" (click)="scrollToTop()">
+<button mat-icon-button class="scrollTop" [ngClass]="{'visible': isScrollButtonVisible()}" (click)="scrollToTop()">
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
