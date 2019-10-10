@@ -66,7 +66,7 @@ export class ModeratorCommentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     const userId = this.user.id;
     this.userRole = this.user.role;
-    this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
+    this.roomService.getRoom(this.roomId).subscribe(room => this.room = room);
     this.hideCommentsList = false;
     this.wsCommentService.getModeratorCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingModeratorMessage(message);
@@ -89,8 +89,8 @@ export class ModeratorCommentListComponent implements OnInit {
 
   checkScroll(): void {
     const currentScroll = document.documentElement.scrollTop;
-      this.scroll = currentScroll >= 65;
-      this.scrollExtended = currentScroll >= 300;
+    this.scroll = currentScroll >= 65;
+    this.scrollExtended = currentScroll >= 300;
   }
 
   scrollToTop(): void {
@@ -118,9 +118,9 @@ export class ModeratorCommentListComponent implements OnInit {
     if (this.room && this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
       if (this.hideCommentsList) {
-        this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
+        this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
       } else {
-        this.comments = this.comments.filter( x => x.score >= commentThreshold );
+        this.comments = this.comments.filter(x => x.score >= commentThreshold);
       }
     }
     this.sortComments(this.currentSort);
@@ -164,6 +164,13 @@ export class ModeratorCommentListComponent implements OnInit {
               }
             }
           }
+        }
+        break;
+      case 'CommentDeleted':
+        for (let i = 0; i < this.comments.length; i++) {
+          this.comments = this.comments.filter(function (el) {
+            return el.id !== payload.id;
+          });
         }
         break;
     }
