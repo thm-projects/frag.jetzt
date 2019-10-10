@@ -107,7 +107,9 @@
     "learn": "Lernen",
     "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-feedback": "Live Feedback",
-    "session-id": "Code"
+    "session-id": "Code",
+    "bonus-token": "Tokens für Bonuspunkte",
+    "bonus-token-header": "Tokens für Bonuspunkte"
   },
   "statistic": {
     "abstentions": "Enthaltungen",

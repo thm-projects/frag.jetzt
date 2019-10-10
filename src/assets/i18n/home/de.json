@@ -60,7 +60,9 @@
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen?",
     "sure": "Bist du sicher?",
     "user-bonus-token": "Zu deinen Bonus Tokens",
-    "visited-sessions": "Besuchte Sitzungen"
+    "visited-sessions": "Besuchte Sitzungen",
+    "bonus-token": "Tokens für Bonuspunkte",
+    "no-bonus": "Noch keine Bonuspunkte erhalten."
   },
   "help": {
     "cancel": "Schließen",

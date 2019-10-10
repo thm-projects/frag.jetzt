@@ -100,7 +100,7 @@ export class CommentSettingsComponent implements OnInit {
           this.comments = comments.map(comment => {
             const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
             for (const bt of list) {
-              if (commentWithToken.creatorId === bt.userId) {
+              if (commentWithToken.creatorId === bt.userId && comment.favorite) {
                 commentWithToken.bonusToken = bt.token;
               }
             }
@@ -109,32 +109,31 @@ export class CommentSettingsComponent implements OnInit {
           const exportComments = JSON.parse(JSON.stringify(this.comments));
           let csv: string;
           let valueFields = '';
-          const keyFields = [
-            'Frage',
-            'Zeitstempel',
-            'Präsentiert',
-            'Favorit',
-            'Richtig/Falsch',
-            'Zugestellt',
-            'Score',
-            'Bonus Token',
-            '\r\n'
-          ];
-          exportComments.forEach(element => {
-            element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
-            valueFields += Object.values(element).slice(3, 4) + delimiter;
-            let time;
-            time = Object.values(element).slice(4, 5);
-            valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
-            valueFields += Object.values(element).slice(5, 10).join(delimiter) + '\r\n';
+          const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented',
+            'room-page.favorite', 'room-page.correct/wrong', 'room-page.score', 'room-page.token'];
+          let keyFields;
+          this.translationService.get(fieldNames).subscribe(msgs => {
+            keyFields = [msgs[fieldNames[0]], msgs[fieldNames[1]], msgs[fieldNames[2]], msgs[fieldNames[3]],
+              msgs[fieldNames[4]], msgs[fieldNames[5]], msgs[fieldNames[6]], '\r\n'];
+
+            exportComments.forEach(element => {
+              console.log(Object.values(element));
+              element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
+              valueFields += Object.values(element).slice(3, 4) + delimiter;
+              let time;
+              time = Object.values(element).slice(4, 5);
+              valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
+              valueFields += Object.values(element).slice(5, 8) + delimiter;
+              valueFields += Object.values(element).slice(9, 11).join(delimiter) + '\r\n';
+            });
+            csv = keyFields + valueFields;
+            const myBlob = new Blob([csv], { type: 'text/csv' });
+            const link = document.createElement('a');
+            const fileName = 'comments_' + date + '.csv';
+            link.setAttribute('download', fileName);
+            link.href = window.URL.createObjectURL(myBlob);
+            link.click();
           });
-          csv = keyFields + valueFields;
-          const myBlob = new Blob([csv], { type: 'text/csv' });
-          const link = document.createElement('a');
-          const fileName = 'comments_' + date + '.csv';
-          link.setAttribute('download', fileName);
-          link.href = window.URL.createObjectURL(myBlob);
-          link.click();
         });
       });
   }

@@ -1,9 +1,18 @@
 <div mat-dialog-content>
   <h1>{{'room-page.bonus-token-header' | translate }}</h1>
   <mat-divider></mat-divider>
-  <div fxLayout="row" *ngFor="let bonusToken of bonusTokens">
-    <h2>
-      {{bonusToken.token}}
-    </h2>
+  <div *ngIf="bonusTokens.length >= 1">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens">
+      <h2>
+        {{bonusToken.token}}
+      </h2>
+    </div>
   </div>
+  <div *ngIf="bonusTokens.length === 0">
+    <h3>{{'room-page.no-bonus' | translate }}</h3>
+  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="content"
+    [cancelButtonClickAction]="buildDeclineActionCallback()">
+  </app-dialog-action-buttons>
 </div>

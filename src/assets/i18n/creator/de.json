@@ -163,6 +163,7 @@
     "answer-statistics": "Statistiken",
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
+    "no-bonus": "Es wurden noch keine Bonuspunkte vergeben.",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "changes-successful": "Änderungen gespeichert.",
@@ -210,7 +211,8 @@
     "presented": "Präsentiert",
     "correct/wrong": "Richtig/Falsch",
     "score": "Score",
-    "timestamp": "Zeitstempel"
+    "timestamp": "Zeitstempel",
+    "token": "Bonus-Token"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",

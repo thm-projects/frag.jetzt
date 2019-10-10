@@ -82,7 +82,8 @@ import { MatRippleModule } from '@angular/material';
     CreateCommentComponent,
     PresentCommentComponent,
     CommentComponent,
-    DialogActionButtonsComponent
+    DialogActionButtonsComponent,
+    UserBonusTokenComponent
   ],
   entryComponents: [
     RoomCreateComponent,
