@@ -42,6 +42,9 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (localStorage.getItem('loggedin') !== null && localStorage.getItem('loggedin') === 'true') {
+      this.authenticationService.refreshLogin();
+    }
     // Subscribe to user data (update component's user when user data changes: e.g. login, logout)
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
       this.deviceType = 'mobile';
