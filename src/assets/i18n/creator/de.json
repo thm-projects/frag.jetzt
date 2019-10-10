@@ -22,8 +22,8 @@
     "comment-stream-started": "Der Fragen-Stream wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",
     "comment-deleted": "Die Frage wurde gelöscht.",
-    "correct": "Fragen, die vom Dozenten als richtig markiert wurden",
-    "favorite": "Fragen, die vom Dozenten für einen Bonus markiert wurden",
+    "correct": "Fragen, die der Dozent als richtig markiert hat",
+    "favorite": "Fragen, die der Dozent für einen Bonus markiert hat",
     "filter-comments": "Fragen filtern",
     "filter-correct": "Bejahte Fragen",
     "filter-favorite": "Bonus-prämierte Fragen",
@@ -40,7 +40,7 @@
     "time": "Antichronologisch",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Fragen, die vom Dozenten als falsch markiert wurden"
+    "wrong": "Fragen, die der Dozent als falsch markiert hat"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
@@ -84,7 +84,7 @@
     "mark-not-correct": "Frage nicht bejahen",
     "mark-not-favorite": "Nicht als besonders interessante Frage markieren",
     "mark-not-wrong": "Frage nicht verneinen",
-    "mark-read": "In Vollansicht am Beamer besprochen",
+    "mark-read": "Der Dozent hat die Frage am Beamer besprochen",
     "mark-wrong": "Frage verneinen",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comments": "Keine Fragen vorhanden",
