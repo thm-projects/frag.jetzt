@@ -129,7 +129,7 @@ export class CommentSettingsComponent implements OnInit {
             csv = keyFields + valueFields;
             const myBlob = new Blob([csv], { type: 'text/csv' });
             const link = document.createElement('a');
-            const fileName = 'comments_' + date + '.csv';
+            const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + date + '.csv';
             link.setAttribute('download', fileName);
             link.href = window.URL.createObjectURL(myBlob);
             link.click();
