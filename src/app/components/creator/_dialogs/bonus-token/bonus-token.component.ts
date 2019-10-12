@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { MatDialogRef } from '@angular/material';
+import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 
 @Component({
   selector: 'app-bonus-token',
@@ -13,7 +14,7 @@ export class BonusTokenComponent implements OnInit {
   bonusTokens: BonusToken[] = [];
 
   constructor(private bonusTokenService: BonusTokenService,
-              private dialogRef: MatDialogRef<BonusTokenComponent>) {
+              private dialogRef: MatDialogRef<RoomCreatorPageComponent>) {
   }
 
   ngOnInit() {
