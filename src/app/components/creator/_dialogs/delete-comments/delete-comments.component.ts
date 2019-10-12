@@ -17,7 +17,6 @@ export class DeleteCommentsComponent implements OnInit {
    */
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
-
   constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private liveAnnouncer: LiveAnnouncer,
@@ -25,23 +24,10 @@ export class DeleteCommentsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.announce();
+    this.translationService.get('room-page.really-delete-comments').subscribe(msg => {
+      this.liveAnnouncer.announce(msg);
+    });
   }
-
-
-  public announce() {
-    const lang: string = this.translationService.currentLang;
-
-    // current live announcer content must be cleared before next read
-    this.liveAnnouncer.clear();
-
-    if (lang === 'de') {
-      this.liveAnnouncer.announce('Willst du wirklich alle Fragen dieser Sitzung löschen?');
-    } else {
-      this.liveAnnouncer.announce('Do you really want to delete all questions of this session?');
-    }
-  }
-
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -49,7 +35,6 @@ export class DeleteCommentsComponent implements OnInit {
   buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.

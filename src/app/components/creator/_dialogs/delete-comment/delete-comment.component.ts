@@ -17,47 +17,28 @@ export class DeleteCommentComponent implements OnInit {
    */
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
-
   constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private liveAnnouncer: LiveAnnouncer,
               private translationService: TranslateService ) { }
 
   ngOnInit() {
-    this.announce();
+    this.translationService.get('comment-list.really-delete').subscribe(msg => {
+      this.liveAnnouncer.announce(msg);
+    });
   }
-
-  close(type: string): void {
-    this.dialogRef.close(type);
-  }
-
-  public announce() {
-    const lang: string = this.translationService.currentLang;
-
-    // current live announcer content must be cleared before next read
-    this.liveAnnouncer.clear();
-
-    if (lang === 'de') {
-      this.liveAnnouncer.announce('Willst du die Frage wirklich löschen?');
-    } else {
-      this.liveAnnouncer.announce('Do you really want to delete this question');
-    }
-  }
-
-
 
   /**
    * Returns a lambda which closes the dialog on call.
    */
   buildCloseDialogActionCallback(): () => void {
-    return () => this.close('abort');
+    return () => this.dialogRef.close('abort');
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
   buildCommentDeleteActionCallback(): () => void {
-    return () => this.close('delete');
+    return () => this.dialogRef.close('delete');
   }
 }
