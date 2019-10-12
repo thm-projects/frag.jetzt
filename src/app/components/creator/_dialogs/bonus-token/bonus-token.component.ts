@@ -4,6 +4,8 @@ import { BonusToken } from '../../../../models/bonus-token';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
+import { NotificationService } from '../../../../services/util/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-bonus-token',
@@ -16,7 +18,9 @@ export class BonusTokenComponent implements OnInit {
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
-              private dialogRef: MatDialogRef<RoomCreatorPageComponent>) {
+              private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+              private translationService: TranslateService,
+              private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -25,7 +29,7 @@ export class BonusTokenComponent implements OnInit {
     });
   }
 
-  openDeleteSingleBonusDialog(userId: string, commentId: string): void {
+  openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -33,13 +37,38 @@ export class BonusTokenComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.deleteBonus(userId, commentId);
+          this.deleteBonus(userId, commentId, index);
         }
       });
   }
 
-  deleteBonus(userId: string, commentId: string): void {
+  openDeleteAllBonusDialog(): void {
+    const dialogRef = this.dialog.open(BonusDeleteComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.multipleBonuses = true;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteAllBonuses();
+        }
+      });
+  }
+
+  deleteBonus(userId: string, commentId: string, index: number): void {
     // Delete bonus via bonus-token-service
+    this.translationService.get('room-page.token-deleted').subscribe(msg => {
+      this.bonusTokens.splice(index, 1);
+      this.notificationService.show(msg);
+    });
+  }
+
+  deleteAllBonuses(): void {
+    // Delete all bonuses via bonus-token-service with roomId
+    this.translationService.get('room-page.tokens-deleted').subscribe(msg => {
+      this.dialogRef.close();
+      this.notificationService.show(msg);
+    });
   }
 
   /**

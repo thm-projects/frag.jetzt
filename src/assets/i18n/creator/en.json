@@ -218,8 +218,11 @@
     "score": "Score",
     "timestamp": "Timestamp",
     "token": "Bonus token",
-    "really-delete-bonus": "Do you really want to delete this token?",
-    "really-delete-bonuses": "Do you really want to delete all tokens of this session?"
+    "really-delete-token": "Do you really want to delete this token?",
+    "really-delete-tokens": "Do you really want to delete all tokens of this session?",
+    "delete-all-tokens": "Delete all tokens",
+    "token-deleted": "Token has been deleted.",
+    "tokens-deleted": "All tokens of this sessions have been deleted."
   },
   "session": {
     "a11y-description": "Enter a description for the session",

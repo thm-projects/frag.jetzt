@@ -24,11 +24,11 @@ export class BonusDeleteComponent implements OnInit {
 
   ngOnInit() {
     if (!this.multipleBonuses) {
-      this.translationService.get('room-page.really-delete-bonus').subscribe(msg => {
+      this.translationService.get('room-page.really-delete-token').subscribe(msg => {
         this.reallyDeleteText = msg;
       });
     } else {
-      this.translationService.get('room-page.really-delete-bonuses').subscribe(msg => {
+      this.translationService.get('room-page.really-delete-tokens').subscribe(msg => {
         this.reallyDeleteText = msg;
       });
     }

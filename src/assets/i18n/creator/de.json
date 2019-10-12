@@ -217,8 +217,11 @@
     "score": "Score",
     "timestamp": "Zeitstempel",
     "token": "Bonus-Token",
-    "really-delete-bonus": "Willst du diesen Token wirklich löschen?",
-    "really-delete-bonuses": "Willst du wirklich alle Tokens dieser Sitzung löschen?"
+    "really-delete-token": "Willst du diesen Token wirklich löschen?",
+    "really-delete-tokens": "Willst du wirklich alle Tokens dieser Sitzung löschen?",
+    "delete-all-tokens": "Alle Tokens löschen",
+    "token-deleted": "Der Token wurde gelöscht.",
+    "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht."
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
