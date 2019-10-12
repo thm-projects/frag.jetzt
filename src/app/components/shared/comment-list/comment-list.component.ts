@@ -112,8 +112,8 @@ export class CommentListComponent implements OnInit {
 
   checkScroll(): void {
     const currentScroll = document.documentElement.scrollTop;
-      this.scroll = currentScroll >= 65;
-      this.scrollExtended = currentScroll >= 300;
+    this.scroll = currentScroll >= 65;
+    this.scrollExtended = currentScroll >= 300;
   }
 
   scrollToTop(): void {
@@ -131,9 +131,9 @@ export class CommentListComponent implements OnInit {
         this.hideCommentsList = true;
         this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
       }
-    } else {
+    } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
-    }
+     }
   }
 
   activateSearch() {
@@ -200,7 +200,6 @@ export class CommentListComponent implements OnInit {
                   break;
                 case this.favorite:
                   this.comments[i].favorite = <boolean>value;
-                  console.log(this.comments[i]);
                   if (this.user.id === this.comments[i].creatorId && <boolean>value) {
                     this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
                       this.notificationService.show(ret);
@@ -286,6 +285,7 @@ export class CommentListComponent implements OnInit {
     this.currentFilter = type;
     if (type === '') {
       this.filteredComments = this.comments;
+      this.hideCommentsList = false;
       return;
     }
     this.filteredComments = this.comments.filter(c => {
@@ -302,6 +302,7 @@ export class CommentListComponent implements OnInit {
           return !c.read;
       }
     });
+    this.hideCommentsList = true;
     this.sortComments(this.currentSort);
   }
 

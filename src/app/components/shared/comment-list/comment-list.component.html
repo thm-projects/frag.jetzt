@@ -14,11 +14,11 @@
 
   <div class="button-bar" fxLayoutAlign="center center">
     <div *ngIf="comments && comments.length > 0">
-      <h3 class="counter" *ngIf="comments && !hideCommentsList">{{comments.length}}</h3>
+      <h3 class="counter" *ngIf="!hideCommentsList">{{comments.length}}</h3>
       <h3 class="counter-filtered" *ngIf="filteredComments && hideCommentsList">{{filteredComments.length}}</h3>
     </div>
 
-    <button mat-icon-button class="searchBarButton" (click)="activateSearch()"
+    <button mat-icon-button class="searchBarButton" (click)="activateSearch(); filterComments('')"
             *ngIf="deviceType === 'mobile' && !search && comments && comments.length > 0">
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
@@ -77,19 +77,19 @@
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
-      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
+      <button mat-menu-item matTooltip="{{ 'comment-list.read' | translate }}"
               (click)="filterComments(read)" aria-labelledby="beamer_icon">
         <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
         <span>{{ 'comment-list.filter-read' | translate }}</span>
       </button>
 
-      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
+      <button mat-menu-item matTooltip="{{ 'comment-list.favorite' | translate }}"
               (click)="filterComments(favorite)" aria-labelledby="grade">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
         <span>{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
-      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.correct' | translate }}"
+      <button mat-menu-item matTooltip="{{ 'comment-list.correct' | translate }}"
               (click)="filterComments(correct)" aria-labelledby="check_circle">
         <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
         <span>{{ 'comment-list.filter-correct' | translate }}</span>
