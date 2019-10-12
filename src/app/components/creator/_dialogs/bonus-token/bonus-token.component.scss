@@ -1,3 +1,13 @@
 h1,h2,h3,h4,h5,p{
   color: var(--on-surface);
 }
+
+h2 {
+  color: var(--on-surface);
+  margin: 10px 0 10px 0;
+}
+
+.mat-icon-button {
+  margin-top: 5px;
+  color: var(--red);
+}
