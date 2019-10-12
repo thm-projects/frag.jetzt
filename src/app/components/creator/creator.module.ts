@@ -28,6 +28,7 @@ import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-se
 import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-delete.component';
 import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
 import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
+import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.component';
 
 @NgModule({
   imports: [
@@ -65,6 +66,7 @@ import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comme
     ModeratorDeleteComponent,
     DeleteCommentsComponent,
     DeleteCommentComponent,
+    BonusDeleteComponent,
   ],
   exports: [],
   entryComponents: [
