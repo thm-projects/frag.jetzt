@@ -85,7 +85,8 @@ import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.compo
     CommentSettingsComponent,
     ModeratorDeleteComponent,
     DeleteCommentsComponent,
-    DeleteCommentComponent
+    DeleteCommentComponent,
+    BonusDeleteComponent
   ]
 })
 export class CreatorModule {

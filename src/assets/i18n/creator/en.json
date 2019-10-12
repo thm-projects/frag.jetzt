@@ -217,7 +217,9 @@
     "correct/wrong": "Correct/Wrong",
     "score": "Score",
     "timestamp": "Timestamp",
-    "token": "Bonus token"
+    "token": "Bonus token",
+    "really-delete-bonus": "Do you really want to delete this token?",
+    "really-delete-bonuses": "Do you really want to delete all tokens of this session?"
   },
   "session": {
     "a11y-description": "Enter a description for the session",

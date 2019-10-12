@@ -13,7 +13,8 @@ import { BonusTokenComponent } from '../bonus-token/bonus-token.component';
 export class BonusDeleteComponent implements OnInit {
 
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
-
+  multipleBonuses: boolean;
+  reallyDeleteText: string;
 
   constructor(public dialogRef: MatDialogRef<BonusTokenComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -22,9 +23,16 @@ export class BonusDeleteComponent implements OnInit {
 
 
   ngOnInit() {
-    this.translationService.get('room-page.really-delete-bonuses').subscribe(msg => {
-      this.liveAnnouncer.announce(msg);
-    });
+    if (!this.multipleBonuses) {
+      this.translationService.get('room-page.really-delete-bonus').subscribe(msg => {
+        this.reallyDeleteText = msg;
+      });
+    } else {
+      this.translationService.get('room-page.really-delete-bonuses').subscribe(msg => {
+        this.reallyDeleteText = msg;
+      });
+    }
+    this.liveAnnouncer.announce(this.reallyDeleteText);
   }
 
   /**

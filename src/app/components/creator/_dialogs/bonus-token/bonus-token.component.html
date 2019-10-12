@@ -7,7 +7,7 @@
         {{bonusToken.token}}
       </h2>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button>
+      <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId)">
         <mat-icon>close</mat-icon>
       </button>
     </div>
