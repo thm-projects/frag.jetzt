@@ -14,12 +14,10 @@ import { TranslateService } from '@ngx-translate/core';
 export class RoomDeleteComponent implements OnInit {
   room: Room;
 
-
   /**
    * The confirm button type of the dialog.
    */
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
-
 
   constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
@@ -28,24 +26,12 @@ export class RoomDeleteComponent implements OnInit {
 
 
   ngOnInit() {
-    this.announce();
+    this.translationService.get('room-page.reallySession').subscribe(msg1 => {
+      this.translationService.get('room-page.really2').subscribe(msg2 => {
+        this.liveAnnouncer.announce(msg1 + this.room.name + msg2);
+      });
+    });
   }
-
-
-  public announce() {
-    const lang: string = this.translationService.currentLang;
-
-    // current live announcer content must be cleared before next read
-    this.liveAnnouncer.clear();
-
-    if (lang === 'de') {
-      this.liveAnnouncer.announce('Willst du die Sitzung' + this.room.name + 'wirklich löschen? ' +
-        'Diese Aktion kann nicht rückgängig gemacht werden.');
-    } else {
-      this.liveAnnouncer.announce('Do you really want to delete session' + this.room.name + '? This action can not be undone.');
-    }
-  }
-
 
   /**
    * Closes the dialog on call.
@@ -54,14 +40,12 @@ export class RoomDeleteComponent implements OnInit {
     this.dialogRef.close();
   }
 
-
   /**
    * Returns a lambda which closes the dialog on call.
    */
   buildCloseDialogActionCallback(): () => void {
     return () => this.closeDialog();
   }
-
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
