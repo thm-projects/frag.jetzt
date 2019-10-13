@@ -125,7 +125,7 @@
     "restart-account-activation-button": "Erneut senden",
     "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
-    "welcome": "Fragen stellen | Fragen bewerten"
+    "welcome": "»Haben Sie Fragen?«"
   },
   "overlay": {
     "cancel": "Doch akzeptieren?",
