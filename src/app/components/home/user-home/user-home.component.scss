@@ -1,7 +1,3 @@
-.userHomeContainer {
-  margin-top: -2rem;
-}
-
 app-room-list {
   width: 100%;
   max-width: 800px;
@@ -10,10 +6,6 @@ app-room-list {
 .mat-raised-button {
   background-color: var(--primary);
   color: var(--on-primary);
-}
-
-h1 {
-  color: var(--on-surface)!important;
 }
 
 .focus_button:focus {
