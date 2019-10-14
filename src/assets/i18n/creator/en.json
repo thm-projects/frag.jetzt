@@ -194,7 +194,7 @@
     "public-stream": "Questions",
     "really-delete-comments": "Do you really want to delete all questions of this session?",
     "really-remove-moderator": "Do you really want to remove the following moderator?",
-    "really2": "? This action can not be undone.",
+    "really2": "? This action cannot be undone. If you have given bonuses (yellow stars), export all questions so that you can check submitted bonus tokens.  ",
     "reallyContent": "Do you really want to delete content ",
     "reallySession": "Do you really want to delete session ",
     "room-not-found": "Session not found :(",

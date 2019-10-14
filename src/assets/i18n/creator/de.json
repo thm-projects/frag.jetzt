@@ -193,7 +193,7 @@
     "public-stream": "Fragen",
     "really-delete-comments": "Willst du wirklich alle Fragen dieser Sitzung löschen?",
     "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
-    "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "really2": " wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden. Falls du Boni (gelbe Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "reallyContent": "Willst du die Frage ",
     "reallySession": "Willst du die Sitzung ",
     "room-not-found": "Sitzung wurde nicht gefunden (",

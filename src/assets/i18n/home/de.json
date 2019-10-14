@@ -57,7 +57,7 @@
     "my-account": "Konto",
     "my-guest-account": "Gastkonto",
     "my-sessions": "Meine Sitzungen",
-    "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen?",
+    "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (gelbe Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "sure": "Bist du sicher?",
     "user-bonus-token": "Zu deinen Bonus Tokens",
     "visited-sessions": "Besuchte Sitzungen",
