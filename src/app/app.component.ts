@@ -42,12 +42,7 @@ export class AppComponent implements OnInit {
   public static scrollTop() {
     const sc: HTMLElement = document.getElementById('scroll_container');
     if (AppComponent.scrollAnimation) {
-      const interval = setInterval(() => {
-        if (sc.scrollTop > 0) {sc.scrollTop -= 10; } else {
-          sc.scrollTop = 0;
-          clearInterval(interval);
-        }
-      }, 1);
+      sc.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       sc.scrollTop = 0;
     }
