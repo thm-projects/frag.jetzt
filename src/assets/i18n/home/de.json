@@ -1,9 +1,9 @@
 {
   "cookies": {
     "accept": "Akzeptieren",
-    "accept-description": "Bestätigt die Verwendung der Local-Storage-Technik und schaltet die Anwendung frei.",
+    "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei.",
     "cancel": "Ablehnen",
-    "cancel-description": "Lehnt die Verwendung der Local-Storage-Technik ab und sperrt die Anwendung.",
+    "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung.",
     "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
     "title": "Datenschutz"
   },
@@ -129,8 +129,8 @@
   },
   "overlay": {
     "cancel": "Doch akzeptieren?",
-    "cancel-description": "Öffnet den Dialog zur Verwendung der Local-Storage-Technik in frag.jetzt",
-    "message": "Du hast die Verwendung der Local-Storage-Technik abgelehnt. Ohne diese funktioniert die App leider nicht.",
+    "cancel-description": "Öffnet den Dialog zur Verwendung der Web-Storage-Technik in frag.jetzt",
+    "message": "Du hast die Verwendung der Web-Storage-Technik abgelehnt. Ohne diese funktioniert die App leider nicht.",
     "title": "Nutzung nicht möglich"
   },
   "password-reset": {

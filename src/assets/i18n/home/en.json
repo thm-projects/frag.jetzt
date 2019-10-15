@@ -1,9 +1,9 @@
 {
   "cookies": {
     "accept": "Accept",
-    "accept-description": "Accept the use of a local storage and proceed to the app.",
+    "accept-description": "Accept the use of a web storage and proceed to the app.",
     "cancel": "Reject",
-    "cancel-description": "Reject usage of a local storage and exit the app.",
+    "cancel-description": "Reject usage of a web storage and exit the app.",
     "info-label": "Opens a dialog with the frag.jetzt data protection policy.",
     "title": "Data Privacy"
   },
@@ -130,8 +130,8 @@
   },
   "overlay": {
     "cancel": "Accept after all?",
-    "cancel-description": "Opens the local storage setting dialog",
-    "message": "You have rejected the use of a local storage. Without it the app will not work.",
+    "cancel-description": "Opens the web storage setting dialog",
+    "message": "You have rejected the use of a web storage. Without it the app will not work.",
     "title": "Use not possible"
   },
   "password-reset": {
