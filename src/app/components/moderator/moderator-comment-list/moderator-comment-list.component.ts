@@ -11,8 +11,6 @@ import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
-import { VoteService } from '../../../services/http/vote.service';
-import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { EventService } from '../../../services/util/event.service';
 
 @Component({
@@ -35,13 +33,7 @@ export class ModeratorCommentListComponent implements OnInit {
   votedesc = 'votedesc';
   time = 'time';
   currentSort: string;
-  read = 'read';
-  unread = 'unread';
-  favorite = 'favorite';
-  correct = 'correct';
-  wrong = 'wrong';
   ack = 'ack';
-  currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
@@ -56,7 +48,6 @@ export class ModeratorCommentListComponent implements OnInit {
     protected langService: LanguageService,
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
-    protected voteService: VoteService,
     public eventService: EventService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
@@ -64,7 +55,6 @@ export class ModeratorCommentListComponent implements OnInit {
 
   ngOnInit() {
     this.roomId = localStorage.getItem(`roomId`);
-    const userId = this.user.id;
     this.userRole = this.user.role;
     this.roomService.getRoom(this.roomId).subscribe(room => this.room = room);
     this.hideCommentsList = false;
@@ -80,7 +70,8 @@ export class ModeratorCommentListComponent implements OnInit {
     this.commentService.getRejectedComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
-        this.getComments();
+        this.isLoading = false;
+        this.sortComments(this.currentSort);
       });
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
@@ -112,20 +103,6 @@ export class ModeratorCommentListComponent implements OnInit {
     this.searchField.nativeElement.focus();
   }
 
-  getComments(): void {
-    this.isLoading = false;
-    let commentThreshold = -10;
-    if (this.room && this.room.extensions && this.room.extensions['comments']) {
-      commentThreshold = this.room.extensions['comments'].commentThreshold;
-      if (this.hideCommentsList) {
-        this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
-      } else {
-        this.comments = this.comments.filter(x => x.score >= commentThreshold);
-      }
-    }
-    this.sortComments(this.currentSort);
-  }
-
   getVote(comment: Comment): Vote {
     if (this.userRole === 0) {
       return this.commentVoteMap.get(comment.id);
@@ -141,26 +118,13 @@ export class ModeratorCommentListComponent implements OnInit {
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
-              switch (key) {
-                case this.read:
-                  this.comments[i].read = <boolean>value;
-                  break;
-                case this.correct:
-                  this.comments[i].correct = <CorrectWrong>value;
-                  break;
-                case this.favorite:
-                  this.comments[i].favorite = <boolean>value;
-                  break;
-                case 'score':
-                  this.comments[i].score = <number>value;
-                  break;
-                case this.ack:
-                  const isNowAck = <boolean>value;
-                  if (isNowAck) {
-                    this.comments = this.comments.filter(function (el) {
-                      return el.id !== payload.id;
-                    });
-                  }
+              if (key === this.ack) {
+                const isNowAck = <boolean>value;
+                if (isNowAck) {
+                  this.comments = this.comments.filter(function (el) {
+                    return el.id !== payload.id;
+                  });
+                }
               }
             }
           }
@@ -174,7 +138,7 @@ export class ModeratorCommentListComponent implements OnInit {
         }
         break;
     }
-    this.filterComments(this.currentFilter);
+
     this.sortComments(this.currentSort);
     this.searchComments();
   }
@@ -182,43 +146,16 @@ export class ModeratorCommentListComponent implements OnInit {
   parseIncomingModeratorMessage(message: Message) {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
-    switch (msg.type) {
-      case 'CommentCreated':
-        const c = new Comment();
-        c.roomId = this.roomId;
-        c.body = payload.body;
-        c.id = payload.id;
-        c.timestamp = payload.timestamp;
-        this.comments = this.comments.concat(c);
-        break;
+    if (msg.type === 'CommentCreated') {
+      const c = new Comment();
+      c.roomId = this.roomId;
+      c.body = payload.body;
+      c.id = payload.id;
+      c.timestamp = payload.timestamp;
+      this.comments = this.comments.concat(c);
     }
-    console.log(msg);
-    this.filterComments(this.currentFilter);
     this.sortComments(this.currentSort);
     this.searchComments();
-  }
-
-  filterComments(type: string): void {
-    this.currentFilter = type;
-    if (type === '') {
-      this.filteredComments = this.comments;
-      return;
-    }
-    this.filteredComments = this.comments.filter(c => {
-      switch (type) {
-        case this.correct:
-          return c.correct === CorrectWrong.CORRECT ? 1 : 0;
-        case this.wrong:
-          return c.correct === CorrectWrong.WRONG ? 1 : 0;
-        case this.favorite:
-          return c.favorite;
-        case this.read:
-          return c.read;
-        case this.unread:
-          return !c.read;
-      }
-    });
-    this.sortComments(this.currentSort);
   }
 
   sort(array: any[], type: string): void {

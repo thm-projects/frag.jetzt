@@ -123,7 +123,7 @@
 
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current"
-               [parseVote]="getVote(current)"></app-comment>
+               [parseVote]="getVote(current)" [userRole]="userRole" [moderator]="false"></app-comment>
 </div>
 
 <div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"
