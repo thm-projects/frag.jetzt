@@ -74,7 +74,7 @@ mat-card-content > :first-child {
 .click {
   cursor: pointer;
 }
-
+user.role
 .mat-icon {
   transform: scale(1.2);
 }
@@ -101,4 +101,8 @@ mat-card-content > :first-child {
 
 .gavel {
   color: var(--primary);
+}
+
+.moderator {
+  background-color: var(--moderator)!important;
 }

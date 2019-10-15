@@ -23,7 +23,8 @@ export const highcontrast = {
   '--light-green': 'lightgreen',
   '--grey': 'grey',
   '--grey-light': 'lightgrey',
-  '--black': 'black'
+  '--black': 'black',
+  '--moderator': '#37474f'
 
 };
 

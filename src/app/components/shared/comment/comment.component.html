@@ -1,5 +1,6 @@
 <mat-card id="comment-card" [ngClass]="{'highlighted': comment.highlighted,
-                                        '': !comment.highlighted}" [@slide]>
+                                        '': !comment.highlighted,
+                                         'moderator': moderator}" [@slide]>
   <div fxLayout="column">
     <div fxLayout="row" class="comment-actions">
       <div class="date-container">
