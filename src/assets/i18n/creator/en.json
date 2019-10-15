@@ -41,7 +41,9 @@
     "unread": "Not discussed",
     "vote-asc": "Ascending votes",
     "vote-desc": "Descending votes",
-    "wrong": "Marked as wrong by you"
+    "wrong": "Marked as wrong by you",
+    "switch-to-comment-list": "Switch to public question board",
+    "switch-to-moderation-list": "Switch to moderation board"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",

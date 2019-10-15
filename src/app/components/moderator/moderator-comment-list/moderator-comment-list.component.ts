@@ -12,6 +12,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -48,7 +49,8 @@ export class ModeratorCommentListComponent implements OnInit {
     protected langService: LanguageService,
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
-    public eventService: EventService
+    public eventService: EventService,
+    private router: Router
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -179,5 +181,15 @@ export class ModeratorCommentListComponent implements OnInit {
       this.sort(this.comments, type);
     }
     this.currentSort = type;
+  }
+
+  switchToCommentList(): void {
+    let role;
+    if (this.userRole === UserRole.CREATOR.valueOf()) {
+      role = 'creator';
+    } else if (this.userRole === UserRole.EXECUTIVE_MODERATOR) {
+      role = 'moderator';
+    }
+    this.router.navigate([`/${role}/room/${this.room.shortId}/comments`]);
   }
 }
