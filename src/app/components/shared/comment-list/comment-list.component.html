@@ -3,12 +3,14 @@
   <mat-label *ngIf="deviceType === 'desktop'" fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
-  <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" #searchBox id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
+  <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" #searchBox
+         id="searchBox" [ngClass]="{'desktop-input': deviceType === 'desktop',
    'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
          (input)="searchComments()" [(ngModel)]="searchInput" [placeholder]="searchPlaceholder"
          aria-labelledby="search-box-input-description">
   <button id="search_close-button" mat-icon-button class="searchBarButton close" *ngIf="searchInput !== '' || search"
-          (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';" aria-labelledby="close_search">
+          (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';"
+          aria-labelledby="close_search">
     <mat-icon>close</mat-icon>
   </button>
 
@@ -47,7 +49,14 @@
       <mat-icon class="freezeIcon">play_arrow</mat-icon>
     </button>
 
-    <button id="add_comment_small-button" mat-fab aria-labelledby="add" class="actionButton" *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
+    <button mat-fab class="freezeButton"
+            *ngIf="!searchBox.value && !search && userRole === 2 && deviceType === 'desktop'"
+            (click)="switchToModerationList()" matTooltip="{{ 'comment-list.switch-to-moderation-list' | translate }}">
+      <mat-icon class="freezeIcon">thumb_down_alt</mat-icon>
+    </button>
+
+    <button id="add_comment_small-button" mat-fab aria-labelledby="add" class="actionButton"
+            *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
       <mat-icon class="actionIcon">add</mat-icon>
     </button>
@@ -123,7 +132,7 @@
 
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current"
-               [parseVote]="getVote(current)"></app-comment>
+               [parseVote]="getVote(current)" [userRole]="userRole" [moderator]="false"></app-comment>
 </div>
 
 <div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"

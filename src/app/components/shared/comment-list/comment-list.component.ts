@@ -19,6 +19,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-comment-list',
@@ -68,7 +69,8 @@ export class CommentListComponent implements OnInit {
               protected voteService: VoteService,
               private notificationService: NotificationService,
               public eventService: EventService,
-              public liveAnnouncer: LiveAnnouncer
+              public liveAnnouncer: LiveAnnouncer,
+              private router: Router
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -352,6 +354,10 @@ export class CommentListComponent implements OnInit {
     this.commentStream = this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
+  }
+
+  switchToModerationList(): void {
+    this.router.navigate([`/moderator/room/${this.room.shortId}/moderator/comments`]);
   }
 
   /**

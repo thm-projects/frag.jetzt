@@ -40,7 +40,9 @@
     "time": "Antichronologisch",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Fragen, die der Dozent als falsch markiert hat"
+    "wrong": "Fragen, die der Dozent als falsch markiert hat",
+    "switch-to-comment-list": "Zur öffentlichen Fragenliste wechseln",
+    "switch-to-moderation-list": "Zur Moderatorliste wechseln"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",

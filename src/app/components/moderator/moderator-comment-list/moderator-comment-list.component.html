@@ -32,11 +32,10 @@
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
     </button>
 
-    <button id="filter-button"
-            mat-icon-button class="searchBarButton"
+    <button mat-icon-button class="searchBarButton" (click)="switchToCommentList()"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
-            [matMenuTriggerFor]="filterMenu" matTooltip="{{ 'comment-list.filter-comments' | translate }}">
-      <mat-icon class="searchBarIcon">filter_list</mat-icon>
+            matTooltip="{{ 'comment-list.switch-to-comment-list' | translate }}">
+      <mat-icon class="searchBarIcon">playlist_add_check</mat-icon>
     </button>
   </div>
 
@@ -57,33 +56,6 @@
     </button>
   </mat-menu>
 
-  <mat-menu #filterMenu="matMenu" xPosition="before">
-    <div>
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.correct' | translate }}"
-              (click)="filterComments(correct)">
-        <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
-      </button>
-
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.wrong' | translate }}"
-              (click)="filterComments(wrong)">
-        <mat-icon [ngClass]="{wrong: 'wrong-icon'}[currentFilter]">not_interested</mat-icon>
-      </button>
-
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.favorite' | translate }}"
-              (click)="filterComments(favorite)">
-        <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
-      </button>
-
-      <button mat-icon-button (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.read' | translate }}"
-              (click)="filterComments(read)">
-        <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
-      </button>
-
-      <button mat-icon-button (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </mat-menu>
 </div>
 
 <button mat-icon-button class="scrollTop" [ngClass]="{'visible': scrollExtended}" (click)="scrollToTop()" tabIndex="-1">
@@ -91,8 +63,8 @@
 </button>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current"
-               [parseVote]="getVote(current)"></app-comment>
+  <app-comment *ngFor="let current of comments" [comment]="current" [userRole]="user.role"
+               [parseVote]="getVote(current)" [moderator]="true"></app-comment>
 </div>
 
 <div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"

@@ -43,12 +43,14 @@ export const rubberBand = [
 
 export class CommentComponent implements OnInit {
   @Input() comment: Comment;
+  @Input() moderator: boolean;
+  @Input() userRole: UserRole;
   isStudent = false;
   isCreator = false;
+  isModerator = false;
   hasVoted = 0;
   language: string;
   animationState: string;
-  moderationEnabled: boolean;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -66,15 +68,21 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    const currentRole = this.authenticationService.getRole();
-    if (currentRole === UserRole.PARTICIPANT) {
-      this.isStudent = true;
-    } else if (currentRole === UserRole.CREATOR) {
-      this.isCreator = true;
+    switch (this.userRole) {
+      case UserRole.PARTICIPANT.valueOf():
+        this.isStudent = true;
+        break;
+      case UserRole.CREATOR.valueOf():
+        this.isCreator = true;
+        break;
+      case UserRole.EXECUTIVE_MODERATOR.valueOf():
+        this.isModerator = true;
     }
+    console.log('CREATOR: ' + this.isCreator);
+    console.log('STUDENT: ' + this.isStudent);
+    console.log('MODERATOR: ' + this.isModerator);
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
-    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true');
   }
 
   startAnimation(state_: any): void {

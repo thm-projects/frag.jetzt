@@ -24,7 +24,9 @@ export const purple = {
   '--light-green': 'lightgreen',
   '--grey': 'grey',
   '--grey-light': 'lightgrey',
-  '--black': 'black'
+  '--black': 'black',
+  '--moderator': '#e0f2f1'
+
 };
 
 export const purple_meta = {

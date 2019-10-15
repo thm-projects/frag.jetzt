@@ -25,7 +25,9 @@ export const arsnova = {
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
-  '--black': 'black'
+  '--black': 'black',
+  '--moderator': '#fff3e0'
+
 };
 
 export const arsnova_meta = {
