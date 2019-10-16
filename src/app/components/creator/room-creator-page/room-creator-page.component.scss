@@ -3,7 +3,7 @@
 mat-card {
   width: 100%;
   max-width: 800px;
-  min-height: 350px;
+  min-height: 300px;
   max-height: 600px;
   background-color: var(--surface)!important;
   margin-top: 7%;
@@ -70,7 +70,7 @@ mat-card-content > :first-child {
   font-size: larger;
   font-weight: bold;
   color: var(--on-surface)!important;
-  margin: 5% 5% 0 0;
+  margin-top: 7%;
 }
 
 mat-grid-list {
@@ -98,12 +98,13 @@ p {
 
 mat-card-header {
   min-height: 80px;
+  margin: 0;
   height: 10%!important;
 }
 
 mat-card-title {
   height: 40%;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 mat-card-subtitle {
@@ -112,6 +113,7 @@ mat-card-subtitle {
 
 mat-grid-tile {
   height: 100%!important;
+  min-height: 200px;
   padding-top: 2%!important;
 }
 
@@ -122,6 +124,7 @@ mat-expansion-panel {
 }
 
 #copy {
+  margin-left: 10px;
   width: 24px;
   height: 24px;
 }
