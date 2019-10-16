@@ -27,13 +27,6 @@ mat-card-content > :first-child {
   }
 }
 
-.desktop {
-  font-size: 65px;
-  height: 65px;
-  width: 65px;
-  margin-bottom: 5%;
-}
-
 .corner-icons {
   width: 40px;
 }
@@ -45,13 +38,6 @@ mat-card-content > :first-child {
   line-height: 100%;
 }
 
-/*.main-icon{
-  font-size: 60px;
-  height: 60px;
-  width: 60px;
-  line-height: 100%!important;
-}*/
-
 .main-icon{
   font-size: 80px;
   height: 80px;
@@ -60,9 +46,9 @@ mat-card-content > :first-child {
 }
 
 .smallerIcon {
-  font-size: 55px;
-  height: 55px;
-  width: 55px;
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
   line-height: 100%!important;
 }
 
@@ -75,7 +61,7 @@ mat-card-content > :first-child {
 
 mat-grid-list {
   margin-top: 0;
-  max-height: 50%!important;
+  max-height: 45%!important;
 }
 
 .second {
@@ -112,9 +98,12 @@ mat-card-subtitle {
 }
 
 mat-grid-tile {
-  height: 100%!important;
-  min-height: 200px;
-  padding-top: 2%!important;
+  height: 100%;
+  padding: 2% 0 2% 0!important;
+}
+
+.mat-figure {
+  margin-bottom: 20px!important;
 }
 
 mat-expansion-panel {
