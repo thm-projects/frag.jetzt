@@ -57,17 +57,22 @@ export class BonusTokenComponent implements OnInit {
 
   deleteBonus(userId: string, commentId: string, index: number): void {
     // Delete bonus via bonus-token-service
-    this.translationService.get('room-page.token-deleted').subscribe(msg => {
-      this.bonusTokens.splice(index, 1);
-      this.notificationService.show(msg);
+    const toDelete = this.bonusTokens[index];
+    this.bonusTokenService.deleteToken(toDelete.roomId, toDelete.commentId, toDelete.userId).subscribe(_ => {
+      this.translationService.get('room-page.token-deleted').subscribe(msg => {
+        this.bonusTokens.splice(index, 1);
+        this.notificationService.show(msg);
+      });
     });
   }
 
   deleteAllBonuses(): void {
     // Delete all bonuses via bonus-token-service with roomId
-    this.translationService.get('room-page.tokens-deleted').subscribe(msg => {
-      this.dialogRef.close();
-      this.notificationService.show(msg);
+    this.bonusTokenService.deleteTokensByRoomId(this.roomId).subscribe(_ => {
+      this.translationService.get('room-page.tokens-deleted').subscribe(msg => {
+        this.dialogRef.close();
+        this.notificationService.show(msg);
+      });
     });
   }
 
