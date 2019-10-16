@@ -1,0 +1,10 @@
+<h1>{{ 'room-page.sure' | translate }}</h1>
+<mat-divider></mat-divider>
+<p>{{reallyDeleteText}}</p>
+<app-dialog-action-buttons
+  buttonsLabelSection="content"
+  confirmButtonLabel="delete"
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
+></app-dialog-action-buttons>

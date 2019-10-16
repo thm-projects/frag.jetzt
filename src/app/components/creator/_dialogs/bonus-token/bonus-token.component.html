@@ -2,14 +2,24 @@
   <h1>{{'room-page.bonus-token-header' | translate }}</h1>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
-    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i">
       <h2>
         {{bonusToken.token}}
       </h2>
+      <span class="fill-remaining-space"></span>
+      <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, i)">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
     <h3>{{'room-page.no-bonus' | translate }}</h3>
+  </div>
+  <div fxLayoutAlign="center center">
+    <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
+      <mat-icon>delete</mat-icon>
+      {{'room-page.delete-all-tokens' | translate}}
+    </button>
   </div>
   <app-dialog-action-buttons
     buttonsLabelSection="content"
