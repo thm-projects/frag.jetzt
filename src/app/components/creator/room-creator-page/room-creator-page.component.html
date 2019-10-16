@@ -53,7 +53,7 @@
             <button id="question_answer-button" mat-icon-button [disableRipple]="true"
                     routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter}}" class="main-icon"
-                        [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">question_answer</mat-icon>
               <h2>{{ 'room-page.comments' | translate}}</h2>
             </button>
           </mat-grid-tile>
@@ -61,7 +61,7 @@
             <button id="gavel-button" mat-icon-button [disableRipple]="true"
                     routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="gavel">
               <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
-                        [ngClass]="{'desktop' : deviceType === 'desktop'}">gavel
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">gavel
               </mat-icon>
               <h2>{{ 'room-page.moderating-stream' | translate}}</h2>
             </button>
@@ -70,8 +70,7 @@
         <div fxLayout="row" fxLayoutAlign="center" *ngIf="viewModuleCount <= 1" class="question-button-div">
           <button id="question_answer-button2" mat-icon-button [disableRipple]="true"
                   routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
-            <mat-icon matBadge="{{commentCounter}}" class="main-icon"
-                      [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer</mat-icon>
+            <mat-icon matBadge="{{commentCounter}}" class="main-icon">question_answer</mat-icon>
             <h2>{{ 'room-page.comments' | translate}}</h2>
           </button>
         </div>
