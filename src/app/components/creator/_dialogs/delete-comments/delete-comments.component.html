@@ -1,8 +1,8 @@
-<h1 *ngIf="!bonusQuestions">{{ 'room-page.sure' | translate }}</h1>
-<h1 *ngIf="bonusQuestions">{{ 'room-page.delete-comments-alt-header' | translate }}</h1>
+<h2 *ngIf="!bonusQuestions">{{ 'room-page.sure' | translate }}</h2>
+<h2 *ngIf="bonusQuestions">{{ 'room-page.delete-comments-alt-header' | translate }}</h2>
 <mat-divider></mat-divider>
 <p *ngIf="!bonusQuestions">{{ 'room-page.really-delete-comments' | translate }}</p>
-<p *ngIf="bonusQuestions"><i>{{ 'room-page.really-delete-comments-hint' | translate }}</i></p>
+<p *ngIf="bonusQuestions">{{ 'room-page.really-delete-comments-hint' | translate }}</p>
 <app-dialog-action-buttons *ngIf="!bonusQuestions"
   buttonsLabelSection="content"
   confirmButtonLabel="delete"
