@@ -78,6 +78,7 @@ export class CommentSettingsComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteCommentsComponent, {
       width: '400px'
     });
+    dialogRef.componentInstance.roomId = this.roomId;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
