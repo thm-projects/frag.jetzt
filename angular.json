@@ -23,9 +23,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/material-design-icons/iconfont/material-icons.css",
-              "node_modules/prismjs/themes/prism-okaidia.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+              "./node_modules/material-design-icons/iconfont/material-icons.css"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js"

@@ -59,9 +59,6 @@ import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.com
 import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
 
-import 'prismjs/prism';
-import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
-
 export function dialogClose(dialogResult: any) {
 }
 
