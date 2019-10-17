@@ -4,7 +4,7 @@
 
 .delete {
   margin: 20px 0 20px 0;
-  min-width: 220px;
+  min-width: 160px;
   background-color: var(--red);
   color: var(--on-secondary);
 }
@@ -49,5 +49,19 @@ mat-form-field {
 
 mat-hint {
   color: var(--on-surface)!important;
+}
+
+::ng-deep .mat-tab-label-active,
+::ng-deep .mat-tab-label {
+  color: var(--on-surface);
+  opacity: 1!important;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary) !important;
+}
+
+markdown {
+  color: var(--on-surface);
 }
 

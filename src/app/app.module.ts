@@ -25,7 +25,7 @@ import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
-import { MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
@@ -58,6 +58,9 @@ import { HelpEnComponent } from '../assets/i18n/help/help-en';
 import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
 import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
+
+import 'prismjs/prism';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -113,6 +116,7 @@ export function initializeApp(appConfig: AppConfig) {
     ThemeModule,
     CreatorModule,
     ModeratorModule,
+    MarkdownModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
