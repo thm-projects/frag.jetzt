@@ -72,7 +72,7 @@
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Delete question",
     "delimiter": "Please choose a format!",
-    "enter-comment": "Your question to the audience…",
+    "enter-comment": "Question to the audience",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please ask a question.",
