@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <h1>{{'room-page.bonus-token-header' | translate }}</h1>
+  <h2>{{'room-page.bonus-token-header' | translate }}</h2>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
     <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i">
@@ -13,9 +13,9 @@
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-    <h3>{{'room-page.no-bonus' | translate }}</h3>
+    <p>{{'room-page.no-bonus' | translate }}</p>
   </div>
-  <div fxLayoutAlign="center center">
+  <div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
     <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
       <mat-icon>delete</mat-icon>
       {{'room-page.delete-all-tokens' | translate}}
