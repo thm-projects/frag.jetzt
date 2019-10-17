@@ -33,7 +33,6 @@ export class DeleteCommentsComponent implements OnInit {
     });
     this.tokenService.getTokensByRoomId(this.roomId).subscribe(tokens => {
       if (tokens.length > 0) {
-        console.log('LEL EHY HEREWÄ');
         this.bonusQuestions = true;
       }
     });
