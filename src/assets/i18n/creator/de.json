@@ -225,7 +225,7 @@
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
-    "create-session": "Sitzung erstellen",
+    "create-session": "Speichern",
     "description": "Beschreibung der Sitzung",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung"

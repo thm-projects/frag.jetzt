@@ -186,7 +186,7 @@
   "room-create": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "create-room": "Sitzung erstellen",
+    "create-room": "Speichern",
     "create-room-description": "Neue Sitzung erstellen."
   },
   "room-list": {
@@ -208,7 +208,7 @@
     "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen."
   },
   "session": {
-    "create-session": "Sitzung erstellen",
+    "create-session": "Speichern",
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
