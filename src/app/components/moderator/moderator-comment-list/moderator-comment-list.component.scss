@@ -116,16 +116,15 @@ h3 {
 
 .scrollTop {
   position: fixed;
-  bottom: 3%;
-  left: -40px;
+  left: 25px;
+  bottom: 65px;
+  transform: scale(0);
   z-index: 1;
   background-color: var(--primary);
-  color: white;
-  transition: 0.5s;
+  color: var(--on-primary);
+  transition: 0.1s;
 }
 
 .visible {
-  left: 5%;
-  transition: 0.5s;
-  background-color: var(--primary);
+  transform: scale(1);
 }
