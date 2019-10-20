@@ -30,6 +30,7 @@ export class CommentListComponent implements OnInit {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
+  AppComponent = AppComponent;
   comments: Comment[] = [];
   room: Room;
   hideCommentsList = false;
@@ -116,10 +117,6 @@ export class CommentListComponent implements OnInit {
     const currentScroll = document.documentElement.scrollTop;
     this.scroll = currentScroll >= 65;
     this.scrollExtended = currentScroll >= 300;
-  }
-
-  scrollToTop(): void {
-    AppComponent.scrollTop();
   }
 
   isScrollButtonVisible(): boolean {

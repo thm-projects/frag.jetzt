@@ -58,7 +58,7 @@
 
 </div>
 
-<button mat-icon-button class="scrollTop" [ngClass]="{'visible': scrollExtended}" (click)="scrollToTop()" tabIndex="-1">
+<button mat-icon-button class="scrollTop" [ngClass]="{'visible': isScrollButtonVisible()}" (click)="AppComponent.scrollTop()" tabIndex="-1">
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
