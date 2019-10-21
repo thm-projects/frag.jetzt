@@ -1,13 +1,10 @@
-<<<<<<< HEAD
-<div mat-dialog-content>
-=======
+
 <div mat-dialog-content xmlns="http://www.w3.org/1999/html">
->>>>>>> Semantic HTML in Dialogs
   <h2>{{'room-page.bonus-token-header' | translate }}</h2>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
     <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i">
-      <p>
+      <p tabindex="0">
         {{bonusToken.token}}
       </p>
       <span class="fill-remaining-space"></span>
@@ -17,11 +14,7 @@
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-<<<<<<< HEAD
-    <p>{{'room-page.no-bonus' | translate }}</p>
-=======
     <p>{{'room-page.no-bonus' | translate }}<p>
->>>>>>> Semantic HTML in Dialogs
   </div>
   <div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
     <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
