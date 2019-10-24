@@ -1,9 +1,9 @@
 <div mat-dialog-content>
   <div style="overflow-y: scroll; max-height: 15rem">
-    <h2>{{ 'header.sure' | translate }}</h2>
+    <h2 tabindex="0">{{ 'header.sure' | translate }}</h2>
     <mat-divider></mat-divider>
-    <p>{{ 'header.really-delete-account' | translate }}</p>
-    <ul *ngFor="let room of rooms">
+    <p tabindex="0">{{ 'header.really-delete-account' | translate }}</p>
+    <ul *ngFor="let room of rooms" tabindex="0">
       <li>{{ room.name }}</li>
     </ul>
   </div>

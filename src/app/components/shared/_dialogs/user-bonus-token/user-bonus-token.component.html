@@ -1,15 +1,15 @@
 <div mat-dialog-content>
-  <h2>{{'header.bonus-token' | translate }}</h2>
+  <h1 tabindex="0">{{'header.bonus-token' | translate }}</h1>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
     <div fxLayout="row" *ngFor="let bonusToken of bonusTokens">
-      <p>
+      <h2 tabindex="1">
         {{bonusToken.token}}
-      </p>
+      </h2>
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-      <p>{{'header.no-bonus' | translate }}</p>
+      <h3 tabindex="0">{{'header.no-bonus' | translate }}</h3>
   </div>
   <app-dialog-action-buttons
     buttonsLabelSection="introduction"

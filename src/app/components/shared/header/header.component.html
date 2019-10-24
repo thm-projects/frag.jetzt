@@ -29,20 +29,20 @@
     <span class="fill-remaining-space"></span>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngIf="user" routerLink="/user">
+      <button mat-menu-item *ngIf="user" routerLink="/user" tabindex="0">
         <mat-icon class="sessions">people</mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest" svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
-      <button mat-menu-item *ngIf="user" (click)="openUserBonusTokenDialog()">
+      <button mat-menu-item *ngIf="user" (click)="openUserBonusTokenDialog()" tabindex="0">
         <mat-icon color="warn">grade</mat-icon>
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
-      <button mat-menu-item *ngIf="user && !user.isGuest" (click)="openDeleteUserDialog()">
+      <button mat-menu-item *ngIf="user && !user.isGuest" (click)="openDeleteUserDialog()" tabindex="0">
         <mat-icon color="warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
-      <button mat-menu-item (click)="logout()">
+      <button mat-menu-item (click)="logout()" tabindex="0">
         <mat-icon color="warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
