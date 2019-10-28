@@ -1,5 +1,5 @@
 <form (ngSubmit)="submitAnswer()">
-  <h1 class="mat-headline">{{ content.body }}</h1>
+  <h2 class="mat-headline">{{ content.body }}</h2>
   <mat-divider></mat-divider>
   <mat-list *ngIf="content.multiple">
     <mat-list-item *ngFor="let answer of checkedAnswers">

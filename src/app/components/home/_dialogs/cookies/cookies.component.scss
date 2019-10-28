@@ -7,9 +7,7 @@
   color: var(--on-surface);
 }
 
-div {
-  color: var(--on-surface);
-}
+
 
 .info{
   vertical-align: bottom;
@@ -52,11 +50,10 @@ div {
   float:left;
 }
 
-h1 {
+/*h1 {
   display:inline;
-  margin: 0; /* material design reset */
-}
-
+  margin: 0; material design reset
+}*/
 .header-container {
   display: flex;
   align-items: center;
