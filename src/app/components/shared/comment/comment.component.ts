@@ -15,6 +15,7 @@ import { animate, keyframes, state, style, transition, trigger } from '@angular/
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
+import { Rescale } from '../../../models/rescale';
 
 export const rubberBand = [
   style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
@@ -168,15 +169,11 @@ export class CommentComponent implements OnInit {
   }
 
   goToFullScreen(element: Element): void {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    }
+    Rescale.requestFullscreen();
   }
 
   exitFullScreen(): void {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
+    Rescale.exitFullscreen();
   }
 
   openPresentDialog(comment: Comment): void {
