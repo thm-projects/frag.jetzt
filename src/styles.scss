@@ -14,24 +14,24 @@
 // that you are using.
 @include angular-material-theme($arsnova-theme);
 
-body{
-  width:100%;
-  height:100%;
-  overflow:hidden;
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
-::-webkit-scrollbar{
-  width:2px;
-  background-color:var(--on-secondary);
+::-webkit-scrollbar {
+  width: 2px;
+  background-color: var(--on-secondary);
 }
 
-::-webkit-scrollbar:hover{
-  width:10px;
+::-webkit-scrollbar:hover {
+  width: 10px;
 }
 
-::-webkit-scrollbar-thumb{
-  background-color:var(--secondary);
-  border-radius:5px;
+::-webkit-scrollbar-thumb {
+  background-color: var(--secondary);
+  border-radius: 5px;
 }
 
 .dark {
@@ -67,25 +67,30 @@ body{
 
 h2 {
 
-  color: var(--on-surface)!important;
-  font-size: 24px!important;
+  color: var(--on-surface) !important;
+  font-size: 24px !important;
 }
 
 h3 {
-  color: var(--on-surface)!important;
-  font-size: 18px!important;
+  color: var(--on-surface) !important;
+  font-size: 18px !important;
 }
 
 h4 {
   padding-top: 10%;
-  font-size: 17px!important;
+  font-size: 17px !important;
 }
 
 p, div {
-  font-family: Roboto, "Helvetica Neue", sans-serif!important;
+  font-family: Roboto, "Helvetica Neue", sans-serif !important;
   color: var(--on-surface);
 }
 
-address{
+address {
   font-style: normal;
+}
+
+.overflow_hide {
+  height: 0px;
+  overflow: hidden;
 }
