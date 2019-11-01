@@ -113,7 +113,12 @@ export function initializeApp(appConfig: AppConfig) {
     ThemeModule,
     CreatorModule,
     ModeratorModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      provide: MarkedOptions,
+      useValue: {
+        sanitize: true
+      }
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
