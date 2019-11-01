@@ -43,9 +43,7 @@
         </button>
       </div>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <p>
-          {{ room.description.trim() }}
-        </p>
+        <markdown [data]="room.description.trim()"></markdown>
       </mat-card-content>
       <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
         <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1">

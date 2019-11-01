@@ -9,7 +9,9 @@
       <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
     </mat-form-field>
-    <mat-form-field class="input-block">
+    <mat-tab-group>
+      <mat-tab label="{{'room-page.description' | translate}}">
+        <mat-form-field class="input-block">
       <textarea
         (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
         [(ngModel)]="editRoom.description"
@@ -21,9 +23,17 @@
         name="description"
         aria-labelledby="description"
       ></textarea>
-      <mat-placeholder class="placeholder">{{ 'session.description' | translate }}</mat-placeholder>
-      <mat-hint align="end"><span aria-hidden="true">{{ editRoom.description ? editRoom.description.length : 0 }} / 255</span></mat-hint>
-    </mat-form-field>
+          <mat-hint align="end">
+            <span aria-hidden="true">
+              {{ editRoom.description ? editRoom.description.length : 0 }} / 255
+            </span>
+          </mat-hint>
+        </mat-form-field>
+      </mat-tab>
+      <mat-tab label="{{'session.preview' | translate}}" [disabled]="!editRoom.description">
+        <markdown [data]="editRoom.description"></markdown>
+      </mat-tab>
+    </mat-tab-group>
     <div fxLayoutAlign="center center">
       <button mat-raised-button class="delete" (click)="openDeleteRoomDialog()" aria-labelledby="delete-room">
         <mat-icon>delete</mat-icon>

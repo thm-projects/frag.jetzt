@@ -25,7 +25,7 @@ import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
-import { MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
@@ -113,6 +113,12 @@ export function initializeApp(appConfig: AppConfig) {
     ThemeModule,
     CreatorModule,
     ModeratorModule,
+    MarkdownModule.forRoot({
+      provide: MarkedOptions,
+      useValue: {
+        sanitize: true
+      }
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {

@@ -179,7 +179,7 @@
     "delete-room": "Delete session",
     "delete-room-description": "Delete session",
     "deleted": " deleted.",
-    "description": "Description of session",
+    "description": "Description",
     "email-error": "E-Mail is invalid.",
     "export-comments": "Export questions",
     "general": "Session",
@@ -227,9 +227,10 @@
   "session": {
     "a11y-description": "Enter a description for the session",
     "create-session": "Create session",
-    "description": "Session description",
+    "description": "Description",
     "max-ls": "Max. characters:",
-    "session-name": "Session name"
+    "session-name": "Session name",
+    "preview": "Preview"
   },
   "statistic": {
     "abstentions": "Abstentions",

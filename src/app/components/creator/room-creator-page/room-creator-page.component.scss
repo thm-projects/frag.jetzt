@@ -4,9 +4,8 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: 300px;
-  max-height: 600px;
+  max-height: 700px;
   background-color: var(--surface)!important;
-  margin-top: 7%;
 }
 
 mat-card-content > :first-child {
@@ -61,7 +60,7 @@ mat-card-content > :first-child {
 
 mat-grid-list {
   margin-top: 0;
-  max-height: 45%!important;
+  max-height: 250px!important;
 }
 
 .second {
@@ -119,4 +118,8 @@ mat-expansion-panel {
 
 .question-button-div {
   margin: 10% 0 10% 0;
+}
+
+markdown {
+  margin: 0 3% 0 3% !important;
 }
