@@ -7,7 +7,7 @@
 <mat-form-field class="input-block">
     <textarea (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
               matInput #body [(ngModel)]="content.body" placeholder="{{'content.body' | translate}}" name="body"
-              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" maxlength="255"></textarea>
+              matTextareaAutosize matAutosizeMinRows="3" matAutosizeMaxRows="8" maxlength="250"></textarea>
 </mat-form-field>
 <mat-form-field>
   <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
