@@ -22,17 +22,17 @@ body{
 }
 
 ::-webkit-scrollbar{
-  width:2px;
-  background-color:var(--on-secondary);
+  width: 8px;
+  background-color: var(--on-secondary);
 }
 
 ::-webkit-scrollbar:hover{
-  width:10px;
+  width: 20px;
 }
 
 ::-webkit-scrollbar-thumb{
-  background-color:var(--secondary);
-  border-radius:5px;
+  background-color: var(--secondary);
+  border-radius: 10px;
 }
 
 .dark {
