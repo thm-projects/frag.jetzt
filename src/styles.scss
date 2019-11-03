@@ -22,12 +22,8 @@ body{
 }
 
 ::-webkit-scrollbar{
-  width: 8px;
+  width: 12px;
   background-color: var(--on-secondary);
-}
-
-::-webkit-scrollbar:hover{
-  width: 20px;
 }
 
 ::-webkit-scrollbar-thumb{
