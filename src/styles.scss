@@ -31,6 +31,10 @@ body{
   border-radius: 10px;
 }
 
+::-webkit-scrollbar-track-piece {
+  background-color: var(--dialog);
+}
+
 .dark {
   @include angular-material-theme($dark-theme);
 }

@@ -8,7 +8,7 @@
   margin: 5%;
   white-space: pre-line;
   hyphens: auto;
-  word-wrap: break-word;
+  overflow-wrap: anywhere !important;
 }
 
 #comment p {
