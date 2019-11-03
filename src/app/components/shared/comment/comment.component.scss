@@ -69,6 +69,7 @@ mat-card-content > :first-child {
   color: var(--on-surface);
   white-space: pre-line;
   hyphens: auto;
+  word-wrap: break-word;
 }
 
 .click {
