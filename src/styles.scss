@@ -86,8 +86,11 @@ h4 {
 }
 
 p, div {
-  font-family: Roboto, "Helvetica Neue", sans-serif!important;
   color: var(--on-surface);
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
 address{
