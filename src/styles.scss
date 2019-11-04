@@ -72,18 +72,18 @@ markdown {
 
 h2 {
 
-  color: var(--on-surface)!important;
-  font-size: 24px!important;
+  color: var(--on-surface) !important;
+  font-size: 24px !important;
 }
 
 h3 {
-  color: var(--on-surface)!important;
-  font-size: 18px!important;
+  color: var(--on-surface) !important;
+  font-size: 18px !important;
 }
 
 h4 {
   padding-top: 10%;
-  font-size: 17px!important;
+  font-size: 17px !important;
 }
 
 p, div {
@@ -91,6 +91,11 @@ p, div {
   hyphens: auto;
 }
 
-address{
+address {
   font-style: normal;
+}
+
+.overflow_hide {
+  height: 0px;
+  overflow: hidden;
 }

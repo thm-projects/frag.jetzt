@@ -77,6 +77,13 @@ export class FooterComponent implements OnInit {
       width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
+    dialogRef.afterOpened().subscribe(e => {
+      document.getElementById('outer_main_container').style.display = 'none';
+    });
+    dialogRef.afterClosed().subscribe(e => {
+      document.getElementById('outer_main_container').style.display = 'block';
+    });
+
   }
 
   showCookieModal() {
@@ -124,8 +131,7 @@ export class FooterComponent implements OnInit {
   }
 
   showOverlay() {
-    const dialogRef = this.dialog.open(OverlayComponent, {
-    });
+    const dialogRef = this.dialog.open(OverlayComponent, {});
     dialogRef.componentInstance.deviceType = this.deviceType;
     dialogRef.disableClose = true;
     dialogRef.afterClosed().subscribe(res => {

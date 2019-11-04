@@ -1,4 +1,14 @@
 <h2 tabindex="0" class="modal" mat-dialog-title>{{ 'introduction.title' | translate }}</h2>
+<h2 tabindex="0" class="overflow_hide" mat-dialog-title>
+  <ng-container *ngIf="currentLang=='en'">You're on the introduction page. Press 1 to start a demonstration
+    video, 2 for a transcript of the video, or press 3 to get information about the frag.jetzt.
+    project.
+  </ng-container>
+  <ng-container *ngIf="currentLang=='de'">Du befindest dich auf der Einführungsseite. Drücke die 1 um ein
+    Demonstrationsvideo zu starten, die 2 für ein Transskript des Videos oder die 3 um Informationen über das
+    frag.jetzt-Projekt zu erhalten.
+  </ng-container>
+</h2>
 <mat-divider></mat-divider>
 <mat-dialog-content>
   <div id="setFocus" class="intro-text" tabindex="0">
