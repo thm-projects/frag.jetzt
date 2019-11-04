@@ -29,6 +29,7 @@ import { ModeratorDeleteComponent } from './_dialogs/moderator-delete/moderator-
 import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment.component';
 import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
 import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -44,7 +45,8 @@ import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.compo
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    MarkdownModule
   ],
   declarations: [
     ContentChoiceCreatorComponent,

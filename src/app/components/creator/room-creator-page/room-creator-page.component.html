@@ -14,7 +14,7 @@
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>
             <button id="copy" *ngIf="deviceType === 'desktop'" mat-icon-button (click)="copyShortId()" aria-labelledby= "cloud_download">
-              <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">save</mat-icon>
+              <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">save_alt</mat-icon>
             </button>
           </mat-card-subtitle>
         </mat-card-header>
@@ -43,9 +43,7 @@
         </button>
       </div>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <p>
-          {{ room.description.trim() }}
-        </p>
+        <markdown [data]="room.description.trim()"></markdown>
       </mat-card-content>
       <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
         <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1">
@@ -54,7 +52,7 @@
                     routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">question_answer</mat-icon>
-              <h2>{{ 'room-page.comments' | translate}}</h2>
+              <h3>{{ 'room-page.comments' | translate}}</h3>
             </button>
           </mat-grid-tile>
           <mat-grid-tile *ngIf="moderationEnabled">
@@ -63,7 +61,7 @@
               <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">gavel
               </mat-icon>
-              <h2>{{ 'room-page.moderating-stream' | translate}}</h2>
+              <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
         </mat-grid-list>
@@ -71,7 +69,7 @@
           <button id="question_answer-button2" mat-icon-button [disableRipple]="true"
                   routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" class="main-icon">question_answer</mat-icon>
-            <h2>{{ 'room-page.comments' | translate}}</h2>
+            <h3>{{ 'room-page.comments' | translate}}</h3>
           </button>
         </div>
       </div>

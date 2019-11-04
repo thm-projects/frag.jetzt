@@ -175,10 +175,10 @@
     "create-content": "Frage erstellen",
     "default-content-group": "Standard",
     "delete-all-comments": "Alle Fragen löschen",
-    "delete-room": "Löschen",
+    "delete-room": "Sitzung Löschen",
     "delete-room-description": "Sitzung löschen",
     "deleted": " gelöscht.",
-    "description": "Beschreibung der Sitzung",
+    "description": "Beschreibung",
     "email-error": "E-Mail Adresse ist ungültig.",
     "export-comments": "Fragen exportieren",
     "general": "Sitzung",
@@ -226,9 +226,10 @@
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
     "create-session": "Speichern",
-    "description": "Beschreibung der Sitzung",
+    "description": "Beschreibung",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der Sitzung"
+    "session-name": "Name der Sitzung",
+    "preview": "Vorschau"
   },
   "statistic": {
     "abstentions": "Enthaltungen",

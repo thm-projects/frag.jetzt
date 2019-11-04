@@ -14,24 +14,25 @@
 // that you are using.
 @include angular-material-theme($arsnova-theme);
 
-body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+body{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  width:100%;
+  height:100%;
+  overflow:hidden;
 }
 
-::-webkit-scrollbar {
-  width: 2px;
+::-webkit-scrollbar{
+  width: 12px;
   background-color: var(--on-secondary);
 }
 
-::-webkit-scrollbar:hover {
-  width: 10px;
+::-webkit-scrollbar-thumb{
+  background-color: var(--secondary);
+  border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb {
-  background-color: var(--secondary);
-  border-radius: 5px;
+::-webkit-scrollbar-track-piece {
+  background-color: var(--surface);
 }
 
 .dark {
@@ -65,6 +66,10 @@ body {
   color: var(--on-surface);
 }
 
+markdown {
+  color: var(--on-surface);
+}
+
 h2 {
 
   color: var(--on-surface) !important;
@@ -82,8 +87,8 @@ h4 {
 }
 
 p, div {
-  font-family: Roboto, "Helvetica Neue", sans-serif !important;
   color: var(--on-surface);
+  hyphens: auto;
 }
 
 address {
