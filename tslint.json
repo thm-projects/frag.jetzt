@@ -134,7 +134,8 @@
       true,
       "element",
       "app",
-      "kebab-case"
+      "kebab-case",
+      "ars-lib"
     ],
     "no-output-on-prefix": true,
     "use-input-property-decorator": true,
