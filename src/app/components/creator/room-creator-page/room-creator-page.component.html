@@ -52,7 +52,7 @@
                     routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter}}" class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">question_answer</mat-icon>
-              <h2>{{ 'room-page.comments' | translate}}</h2>
+              <h3>{{ 'room-page.comments' | translate}}</h3>
             </button>
           </mat-grid-tile>
           <mat-grid-tile *ngIf="moderationEnabled">
@@ -61,7 +61,7 @@
               <mat-icon matBadge="{{moderatorCommentCounter}}" class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">gavel
               </mat-icon>
-              <h2>{{ 'room-page.moderating-stream' | translate}}</h2>
+              <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
         </mat-grid-list>
@@ -69,7 +69,7 @@
           <button id="question_answer-button2" mat-icon-button [disableRipple]="true"
                   routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter}}" class="main-icon">question_answer</mat-icon>
-            <h2>{{ 'room-page.comments' | translate}}</h2>
+            <h3>{{ 'room-page.comments' | translate}}</h3>
           </button>
         </div>
       </div>
