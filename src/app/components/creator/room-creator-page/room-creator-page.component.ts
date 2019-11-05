@@ -16,6 +16,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from '../_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from '../_dialogs/comment-settings/comment-settings.component';
+import { TagsComponent } from '../_dialogs/tags/tags.component';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
@@ -121,11 +122,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   updateCommentSettings(settings: CommentSettingsDialog) {
     const commentExtension: TSMap<string, any> = new TSMap();
-    this.room.extensions = new TSMap();
     commentExtension.set('enableThreshold', settings.enableThreshold);
     commentExtension.set('commentThreshold', settings.threshold);
     commentExtension.set('enableModeration', settings.enableModeration);
-    this.room.extensions.set('comments', commentExtension);
+    commentExtension.set('enableTags', settings.enableTags);
+    commentExtension.set('tags', settings.tags);
+    this.room.extensions['comments'] = commentExtension;
 
     if (this.moderationEnabled && !settings.enableModeration) {
       this.viewModuleCount = this.viewModuleCount - 1;
@@ -208,6 +210,26 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
+  }
+
+  showTagsDialog(): void {
+    const dialogRef = this.dialog.open(TagsComponent, {
+      width: '400px'
+    });
+    let tagExtension;
+    if (this.room.extensions !== undefined && this.room.extensions['tags'] !== undefined) {
+      tagExtension = this.room.extensions['tags'];
+    }
+    dialogRef.componentInstance.extension = tagExtension;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'abort') {
+          return;
+        } else {
+          this.room.extensions['tags'] = result;
+          this.saveChanges();
+        }
+      });
   }
 
   copyShortId(): void {

@@ -66,7 +66,16 @@ export class RoomCreateComponent implements OnInit {
     const commentExtension: TSMap<string, any> = new TSMap();
     newRoom.extensions = new TSMap();
     commentExtension.set('enableModeration', true);
+
+    const tagsExtension: TSMap<string, any> = new TSMap();
+    let defaultTags = ['Question', 'Comment', 'Hint', 'Orga'];
+    if (localStorage.getItem('currentLang') === 'de') {
+      defaultTags = ['Frage', 'Kommentar', 'Hinweis', 'Orga'];
+    }
+    tagsExtension.set('enableTags', true);
+    tagsExtension.set('tags', defaultTags);
     newRoom.extensions.set('comments', commentExtension);
+    newRoom.extensions.set('tags', tagsExtension);
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
