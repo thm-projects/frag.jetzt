@@ -128,7 +128,8 @@
       true,
       "attribute",
       "app",
-      "camelCase"
+      "camelCase",
+      "allow-snake-case "
     ],
     "component-selector": [
       true,

@@ -3,11 +3,9 @@ import { MatSlider } from '@angular/material';
 
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
   selector: '[ars-slider]'
 })
-// tslint:disable-next-line:directive-class-suffix
-export class ArsSlider implements OnInit, AfterViewInit {
+export class ArsSliderDirective implements OnInit, AfterViewInit {
 
   public static classes: Object = {
     'mat-slider-wrapper': '',
@@ -36,9 +34,8 @@ export class ArsSlider implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     Array.from(this.elem.getElementsByTagName('*')).forEach(e => {
-      console.log(e.className);
-      if (ArsSlider.classes.hasOwnProperty(e.className)) {
-        (<HTMLElement>e).style.background = ArsSlider.classes[e.className];
+      if (ArsSliderDirective.classes.hasOwnProperty(e.className)) {
+        (<HTMLElement>e).style.background = ArsSliderDirective.classes[e.className];
       }
     });
     this.render.setStyle(this.elem, 'height', '48px');
