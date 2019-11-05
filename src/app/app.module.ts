@@ -120,7 +120,7 @@ export function initializeApp(appConfig: AppConfig) {
         sanitize: true
       }
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
