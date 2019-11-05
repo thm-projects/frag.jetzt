@@ -1,0 +1,24 @@
+
+:host{
+  width:100%;
+  height:48px;
+  display:flex;
+  justify-content:space-between;
+  flex-direction:row;
+}
+
+mat-icon{
+  padding:12px 5px;
+  margin:0;
+  display:flex;
+  float:left;
+  flex-shrink:0;
+  cursor:pointer;
+  -webkit-touch-callout:none;
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+}
+
+

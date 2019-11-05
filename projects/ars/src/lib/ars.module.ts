@@ -1,17 +1,23 @@
 import { NgModule } from '@angular/core';
 import { ArsComponent } from './ars.component';
-import { ArsSlider } from './components/io/slider/ArsSlider';
+import { ArsSliderDirective } from './components/io/slider/ars-slider.directive';
+import { ArsSliderCombComponent } from './components/io/slider/ars-slider-comb/ars-slider-comb.component';
+import { MatButtonModule, MatIconModule } from '@angular/material';
 
 @NgModule({
   declarations: [
     ArsComponent,
-    ArsSlider
+    ArsSliderDirective,
+    ArsSliderCombComponent
   ],
   imports: [
+    MatIconModule,
+    MatButtonModule
   ],
   exports: [
     ArsComponent,
-    ArsSlider
+    ArsSliderDirective,
+    ArsSliderCombComponent
   ]
 })
 export class ArsModule { }

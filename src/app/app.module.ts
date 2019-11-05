@@ -58,6 +58,7 @@ import { HelpEnComponent } from '../assets/i18n/help/help-en';
 import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
 import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
+import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -127,7 +128,8 @@ export function initializeApp(appConfig: AppConfig) {
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    ArsModule
   ],
   providers: [
     /*AppConfig,
