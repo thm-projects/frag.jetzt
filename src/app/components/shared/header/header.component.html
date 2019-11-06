@@ -26,6 +26,9 @@
     <h2 id="shortId-header" *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
     </h2>
+    <h2 *ngIf="router.url.includes('home')" fxLayoutAlign="center center">
+      {{ 'header.home-header' | translate }}
+    </h2>
     <span class="fill-remaining-space"></span>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
