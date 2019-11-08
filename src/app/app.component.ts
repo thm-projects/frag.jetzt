@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
-import { MatIconRegistry } from '@angular/material';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Rescale } from './models/rescale';
+import { CustomIconService } from './services/util/custom-icon.service';
 
 @Component({
   selector: 'app-root',
@@ -18,24 +17,13 @@ export class AppComponent implements OnInit {
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
               public notification: NotificationService,
-              private matIconRegistry: MatIconRegistry,
-              private domSanitizer: DomSanitizer) {
+              private customIconService: CustomIconService) {
     translationService.setDefaultLang(this.translationService.getBrowserLang());
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
-    for (const icon of this.icons) {
-      this.matIconRegistry.addSvgIcon(
-        icon,
-        this.domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/' + icon + '.svg')
-      );
-    }
+    customIconService.init();
   }
 
   public static rescale: Rescale = new Rescale();
-
-  icons = [
-    'beamer',
-    'meeting_room'
-  ];
 
   title = 'frag.jetzt';
 
