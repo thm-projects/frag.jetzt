@@ -13,7 +13,7 @@
   <div *ngIf="tableDataSource.data.length > 0">
 
     <!-- filter input -->
-    <mat-form-field class="filterWrapper">
+    <mat-form-field *ngIf="this.rooms && this.rooms.length > 3" class="filterWrapper">
       <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" matInput (keyup)="applyFilter($event.target.value)"
              class="filter"
              attr.aria-labelledby="sessionHistoryLabel{{ this.rooms.length === 1 ? '1' : '' }}"/>
