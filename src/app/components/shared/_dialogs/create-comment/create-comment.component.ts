@@ -19,6 +19,8 @@ export class CreateCommentComponent implements OnInit {
 
   user: User;
   roomId: string;
+  tags: string[];
+  selectedTag: string;
 
   bodyForm = new FormControl('', [Validators.required]);
 
@@ -58,6 +60,9 @@ export class CreateCommentComponent implements OnInit {
       comment.body = body;
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
+      if (this.selectedTag !== null) {
+        comment.tag = this.selectedTag;
+      }
       this.dialogRef.close(comment);
     }
   }

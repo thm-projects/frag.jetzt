@@ -29,6 +29,11 @@ mat-hint {
   color: var(--on-surface) !important;
 }
 
+.mat-select-value-text {
+  color: var(--on-surface);
+  caret-color: var(--on-surface);
+}
+
 .placeholder {
   color: var(--on-surface);
 }

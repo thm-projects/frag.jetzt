@@ -79,9 +79,18 @@
           <mat-icon class="voting-icon" [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down</mat-icon>
         </button>
       </div>
-    <div *ngIf="!isStudent" fxLayout="column" fxLayoutAlign="center">
-      <span class="scoreCreator">{{comment.score}}</span>
+      <div *ngIf="!isStudent" fxLayout="column" fxLayoutAlign="center">
+        <span class="scoreCreator">{{comment.score}}</span>
+      </div>
+
     </div>
+    <div *ngIf="comment.tag !== null && comment.tag !== ''" class="comment-tags">
+      <span class="comment-tag-icon">
+        <mat-icon svgIcon="comment_tag"></mat-icon>
+      </span>
+      <span class="comment-tag">
+        {{comment.tag}}
+      </span>
     </div>
   </div>
 </mat-card>

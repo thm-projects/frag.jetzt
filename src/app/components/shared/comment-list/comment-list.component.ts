@@ -247,6 +247,7 @@ export class CommentListComponent implements OnInit {
     });
     dialogRef.componentInstance.user = this.user;
     dialogRef.componentInstance.roomId = this.roomId;
+    dialogRef.componentInstance.tags = this.room.extensions['tags'].tags;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
