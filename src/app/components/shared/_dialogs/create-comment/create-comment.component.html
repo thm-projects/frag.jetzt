@@ -8,7 +8,7 @@
   </mat-form-field>
   <mat-form-field *ngIf="tags !== null">
 
-    <mat-label>{{ 'comment-page.tag' || translate }}</mat-label>
+    <mat-label>{{ 'comment-page.tag' | translate }}</mat-label>
     <mat-select [(ngModel)]="selectedTag" class="comment-tag">
       <mat-option *ngFor="let tag of tags" value="{{tag}}">{{tag}}</mat-option>
     </mat-select>
