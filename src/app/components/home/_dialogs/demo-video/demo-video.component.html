@@ -1,7 +1,8 @@
-<h2 tabindex="0" class="modal" mat-dialog-title>{{ 'introduction.title' | translate }}</h2>
+
+<h2 tabindex="0" class="modal" mat-dialog-title >{{ 'introduction.title' | translate }}</h2>
 <mat-divider></mat-divider>
 <mat-dialog-content>
-  <h2 tabindex="0" class="overflow_hide" mat-dialog-title>
+  <div class="visually-hidden" tabindex="0" mat-dialog-title>
     <ng-container *ngIf="currentLang=='en'">You're on the introduction page. Press 1 to start a demonstration
       video, 2 for a transcript of the video, or press 3 to get information about the frag.jetzt.
       project.
@@ -10,7 +11,7 @@
       Demonstrationsvideo zu starten, die 2 für ein Transskript des Videos oder die 3 um Informationen über das
       frag.jetzt-Projekt zu erhalten.
     </ng-container>
-  </h2>
+  </div>
   <div id="setFocus" class="intro-text" tabindex="0">
     <app-demo-en *ngIf="currentLang=='en'"></app-demo-en>
     <app-demo-de *ngIf="currentLang=='de'"></app-demo-de>
