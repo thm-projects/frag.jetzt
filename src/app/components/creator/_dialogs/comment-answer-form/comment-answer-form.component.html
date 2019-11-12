@@ -1,0 +1,15 @@
+<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
+    <mat-form-field>
+        <textarea (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" matInput #commentBody matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=10  maxlength="250"
+                [formControl]="bodyForm"></textarea>
+        <mat-placeholder class="placeholder">{{ 'comment-answer-form.answer' | translate }}</mat-placeholder>
+        <mat-hint align="end"><span aria-hidden="true">{{commentBody.value.length}} / 250</span></mat-hint>
+
+    </mat-form-field>
+</div>
+<app-dialog-action-buttons
+buttonsLabelSection="comment-page"
+confirmButtonLabel="send"
+[cancelButtonClickAction]="buildCloseDialogActionCallback()"
+[confirmButtonClickAction]="buildCreateCommentActionCallback(commentBody)"
+></app-dialog-action-buttons>

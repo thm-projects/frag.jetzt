@@ -15,6 +15,7 @@ export class Comment {
   highlighted: boolean;
   ack: boolean;
   tag: string;
+  answer: string;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -27,7 +28,8 @@ export class Comment {
               createdFromLecturer = false,
               highlighted: boolean = false,
               ack: boolean = true,
-              tag: string = '') {
+              tag: string = '',
+              answer: string = '') {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -42,5 +44,6 @@ export class Comment {
     this.highlighted = highlighted;
     this.ack = ack;
     this.tag = tag;
+    this.answer = answer;
   }
 }

@@ -10,9 +10,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
+import { CommentAnswerTextComponent } from '../_dialogs/comment-answer-text/comment-answer-text.component';
 import { MatDialog } from '@angular/material';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
+import { CommentAnswerFormComponent } from '../../creator/_dialogs/comment-answer-form/comment-answer-form.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
@@ -156,6 +158,26 @@ export class CommentComponent implements OnInit {
           this.delete();
         }
       });
+  }
+
+  openAnswerDialog(): void {
+    const dialogRef = this.dialog.open(CommentAnswerFormComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        this.wsCommentService.answer(this.comment, result);
+        this.translateService.get('comment-list.comment-answered').subscribe(msg => {
+          this.notification.show(msg);
+        });
+      });
+  }
+
+  openAnswerTextDialog(): void {
+    const dialogRef = this.dialog.open(CommentAnswerTextComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.answer = this.comment.answer;
   }
 
   delete(): void {

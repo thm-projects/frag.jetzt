@@ -18,6 +18,7 @@
     "add-comment": "Frage stellen",
     "pause-comments": "Pausiere den Fragen-Stream",
     "play-comments": "Starte den Fragen-Stream",
+    "comment-answered": "Antwort abgesendet",
     "comment-stream-stopped": "Der Fragen-Stream wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Stream wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",
@@ -65,6 +66,7 @@
     "abort": "Abbrechen",
     "ask-question-description": "Gib hier deine Frage ans Auditorium ein!",
     "acknowledge": "Lässt die Frage zu und setzt sie zurück auf die öffentliche Liste",
+    "answer": "Antworte auf die Frage",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
@@ -79,6 +81,7 @@
     "exit-description": "Präsentationsmodus verlassen",
     "export": "Exportieren",
     "export-description": "Exportieren",
+    "has-answer": "Diese Frage wurde beantwortet.",
     "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-moderation": "Du befindest dich jetzt auf der Moderations-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-correct": "Frage bejahen",
@@ -226,6 +229,11 @@
     "delete-all-tokens": "Alle Tokens löschen",
     "token-deleted": "Der Token wurde gelöscht.",
     "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht."
+  },
+  "comment-answer-form": {
+    "answer": "Gib eine Antwort.",
+    "send": "Senden",
+    "cancel": "Abbrechen"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",

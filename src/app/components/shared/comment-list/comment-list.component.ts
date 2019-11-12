@@ -217,6 +217,8 @@ export class CommentListComponent implements OnInit {
                       return el.id !== payload.id;
                     });
                   }
+                case this.tag:
+                  this.comments[i].tag = <string>value;
               }
             }
           }

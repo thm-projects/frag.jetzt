@@ -26,6 +26,7 @@ import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account.component';
+import { CommentAnswerTextComponent } from './_dialogs/comment-answer-text/comment-answer-text.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MatRippleModule } from '@angular/material';
 
@@ -62,6 +63,7 @@ import { MatRippleModule } from '@angular/material';
     CreateCommentComponent,
     PresentCommentComponent,
     DeleteAccountComponent,
+    CommentAnswerTextComponent,
     DialogActionButtonsComponent
   ],
   exports: [
@@ -92,7 +94,8 @@ import { MatRippleModule } from '@angular/material';
     CreateCommentComponent,
     PresentCommentComponent,
     DeleteAccountComponent,
-    UserBonusTokenComponent
+    UserBonusTokenComponent,
+    CommentAnswerTextComponent
   ]
 })
 export class SharedModule {
