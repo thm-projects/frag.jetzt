@@ -48,6 +48,7 @@ export class CommentListComponent implements OnInit {
   correct = 'correct';
   wrong = 'wrong';
   ack = 'ack';
+  tag = 'tag';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -179,6 +180,7 @@ export class CommentListComponent implements OnInit {
         c.body = payload.body;
         c.id = payload.id;
         c.timestamp = payload.timestamp;
+        c.tag = payload.tag;
 
         this.announceNewComment(c.body);
 
@@ -280,7 +282,7 @@ export class CommentListComponent implements OnInit {
     this.notificationService.show(message);
   }
 
-  filterComments(type: string): void {
+  filterComments(type: string, tag?: string): void {
     this.currentFilter = type;
     if (type === '') {
       this.filteredComments = this.comments;
@@ -299,6 +301,8 @@ export class CommentListComponent implements OnInit {
           return c.read;
         case this.unread:
           return !c.read;
+        case this.tag:
+          return c.tag === tag;
       }
     });
     this.hideCommentsList = true;
@@ -325,6 +329,10 @@ export class CommentListComponent implements OnInit {
       this.comments = this.sort(this.comments, type);
     }
     this.currentSort = type;
+  }
+
+  clickedOnTag(tag: string): void {
+    this.filterComments(this.tag, tag);
   }
 
   pauseCommentStream() {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -46,6 +46,8 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
+  @Output()
+  clickedOnTag = new EventEmitter<string>();
   isStudent = false;
   isCreator = false;
   isModerator = false;
