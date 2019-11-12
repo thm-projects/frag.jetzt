@@ -93,6 +93,9 @@ export class CommentListComponent implements OnInit {
           this.comments = comments;
           this.getComments();
         });
+      if (this.userRole === UserRole.PARTICIPANT) {
+        this.openCreateDialog();
+      }
     });
     this.hideCommentsList = false;
     this.subscribeCommentStream();
@@ -108,9 +111,6 @@ export class CommentListComponent implements OnInit {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
-    if (this.userRole === UserRole.PARTICIPANT) {
-      this.openCreateDialog();
-    }
   }
 
   checkScroll(): void {
