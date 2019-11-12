@@ -79,9 +79,6 @@ export class CommentComponent implements OnInit {
       case UserRole.EXECUTIVE_MODERATOR.valueOf():
         this.isModerator = true;
     }
-    console.log('CREATOR: ' + this.isCreator);
-    console.log('STUDENT: ' + this.isStudent);
-    console.log('MODERATOR: ' + this.isModerator);
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
   }

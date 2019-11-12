@@ -118,7 +118,6 @@ export class CommentSettingsComponent implements OnInit {
               msgs[fieldNames[4]], msgs[fieldNames[5]], msgs[fieldNames[6]], '\r\n'];
 
             exportComments.forEach(element => {
-              console.log(Object.values(element));
               element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
               valueFields += Object.values(element).slice(3, 4) + delimiter;
               let time;
