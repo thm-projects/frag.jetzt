@@ -35,6 +35,8 @@ export class DemoVideoComponent implements OnInit, OnDestroy {
         this.focusElement(document.getElementById('demoContentTranscript'));
       } else if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit3)) {
         this.focusElement(document.getElementById('demoContent'));
+      } else if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit4)) {
+        this.focusElement((document.getElementById('selection')));
       }
     });
   }

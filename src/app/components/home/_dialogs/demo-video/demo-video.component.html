@@ -2,14 +2,14 @@
 <h2 tabindex="0" class="modal" mat-dialog-title >{{ 'introduction.title' | translate }}</h2>
 <mat-divider></mat-divider>
 <mat-dialog-content>
-  <div class="visually-hidden" tabindex="0" mat-dialog-title>
+  <div class="visually-hidden" tabindex="0" id="selection" mat-dialog-title>
     <ng-container *ngIf="currentLang=='en'">You're on the introduction page. Press 1 to start a demonstration
-      video, 2 for a transcript of the video, or press 3 to get information about the frag.jetzt.
-      project.
+      video, 2 for a transcript of the video, press 3 to get information about the frag.jetzt.
+      project or 4 to repeat this dialog.
     </ng-container>
     <ng-container *ngIf="currentLang=='de'">Du befindest dich auf der Einführungsseite. Drücke die 1 um ein
-      Demonstrationsvideo zu starten, die 2 für ein Transskript des Videos oder die 3 um Informationen über das
-      frag.jetzt-Projekt zu erhalten.
+      Demonstrationsvideo zu starten, die 2 für ein Transskript des Videos, die 3 um Informationen über das
+      frag.jetzt-Projekt zu erhalten oder die 4 um diesen Dialog nocheinmal zu hören.
     </ng-container>
   </div>
   <div id="setFocus" class="intro-text" tabindex="0">
