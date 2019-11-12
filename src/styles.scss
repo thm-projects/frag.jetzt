@@ -109,3 +109,7 @@ address {
   z-index: 1000;
   background-color: var(--surface);
 }
+
+.cdk-overlay-dark-backdrop {
+  background: var(--background);
+}
