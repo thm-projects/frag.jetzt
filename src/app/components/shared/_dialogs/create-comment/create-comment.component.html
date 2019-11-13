@@ -6,7 +6,7 @@
     <mat-hint align="end"><span aria-hidden="true">{{commentBody.value.length}} / 250</span></mat-hint>
 
   </mat-form-field>
-  <mat-form-field *ngIf="tags !== null">
+  <mat-form-field *ngIf="tags !== null && tags !== undefined && tags.length > 0">
 
     <mat-label>{{ 'comment-page.tag' | translate }}</mat-label>
     <mat-select [(ngModel)]="selectedTag" class="comment-tag">
