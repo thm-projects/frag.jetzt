@@ -37,7 +37,7 @@ export class TagsComponent implements OnInit {
       this.extension = {};
       let defaultTags = ['Question', 'Comment', 'Hint', 'Orga'];
       if (localStorage.getItem('currentLang') === 'de') {
-        defaultTags = ['Frage', 'Kommentar', 'Hinweis', 'Orga'];
+        defaultTags = ['Kommentar', 'Hinweis', 'Orga'];
       }
       this.extension['enableTags'] = true;
       this.extension['tags'] = defaultTags;

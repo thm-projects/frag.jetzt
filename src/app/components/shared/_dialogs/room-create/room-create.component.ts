@@ -70,7 +70,7 @@ export class RoomCreateComponent implements OnInit {
     const tagsExtension: TSMap<string, any> = new TSMap();
     let defaultTags = ['Question', 'Comment', 'Hint', 'Orga'];
     if (localStorage.getItem('currentLang') === 'de') {
-      defaultTags = ['Frage', 'Kommentar', 'Hinweis', 'Orga'];
+      defaultTags = ['Kommentar', 'Hinweis', 'Orga'];
     }
     tagsExtension.set('enableTags', true);
     tagsExtension.set('tags', defaultTags);
