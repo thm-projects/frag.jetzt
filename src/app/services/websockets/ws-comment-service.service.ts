@@ -33,7 +33,6 @@ export class WsCommentServiceService {
   }
 
   toggleRead(comment: Comment): Comment {
-    console.log(comment);
     comment.read = !comment.read;
     const changes = new TSMap<string, any>();
     changes.set('read', comment.read);

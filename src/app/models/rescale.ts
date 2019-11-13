@@ -104,7 +104,6 @@ export class Rescale {
       break;
       default: console.error('updateState, this should not happen.'); break;
     }
-    console.log('re');
   }
 
   public getState(): number {
