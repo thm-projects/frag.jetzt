@@ -24,6 +24,14 @@ export class WsCommentServiceService {
     this.wsConnector.send(`/queue/comment.command.create`, JSON.stringify(message));
   }
 
+  answer(comment: Comment, answer: string): Comment {
+    comment.answer = answer;
+    const changes = new TSMap<string, any>();
+    changes.set('answer', comment.answer);
+    this.patchComment(comment, changes);
+    return comment;
+  }
+
   toggleRead(comment: Comment): Comment {
     console.log(comment);
     comment.read = !comment.read;

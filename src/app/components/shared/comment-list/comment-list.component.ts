@@ -217,6 +217,10 @@ export class CommentListComponent implements OnInit {
                       return el.id !== payload.id;
                     });
                   }
+                  break;
+                case this.tag:
+                  this.comments[i].tag = <string>value;
+                  break;
               }
             }
           }

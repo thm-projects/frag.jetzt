@@ -18,6 +18,7 @@
     "add-comment": "Ask a question!",
     "pause-comments": "Pause the question stream",
     "play-comments": "Start the question stream",
+    "comment-answered": "Answer has been sent!",
     "comment-stream-stopped": "The question stream has been stopped.",
     "comment-stream-started": "The question stream has been started.",
     "comment-sent": "The question has been published.",
@@ -65,6 +66,7 @@
     "a11y-text_wrong": "Die Frage wurde verneint.",
     "abort": "Cancel",
     "acknowledge": "Let the question go",
+    "answer": "Answer to this question",
     "ask-question-description": "Enter your question to the audience here!",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
@@ -80,6 +82,7 @@
     "exit-description": "Exit Presentation Mode",
     "export": "Export",
     "export-description": "Export",
+    "has-answer": "This question got answered.",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-announcer-moderation": "You are now on the moderation page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-correct": "Mark as correct",
@@ -227,6 +230,9 @@
     "delete-all-tokens": "Delete all tokens",
     "token-deleted": "Token has been deleted.",
     "tokens-deleted": "All tokens of this sessions have been deleted."
+  },
+  "comment-answer-form": {
+    "answer": "Give an answer."
   },
   "session": {
     "a11y-description": "Enter a description for the session",
