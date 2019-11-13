@@ -291,6 +291,7 @@ export class CommentListComponent implements OnInit {
     if (type === '') {
       this.filteredComments = this.comments;
       this.hideCommentsList = false;
+      this.currentFilter = '';
       return;
     }
     this.filteredComments = this.comments.filter(c => {

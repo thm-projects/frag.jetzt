@@ -1,5 +1,10 @@
 <div fxLayout="row" [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      *ngIf="comments.length > 2" (window:scroll)="checkScroll()" fxLayoutAlign="center">
+  <button id="filter-close-button" mat-icon-button class="searchBarButton" *ngIf="currentFilter !== ''"
+          (click)="filterComments('');"
+          aria-labelledby="close_filter">
+    <mat-icon class="searchBarIcon">close</mat-icon>
+  </button>
   <mat-label *ngIf="deviceType === 'desktop'" fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
