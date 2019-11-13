@@ -107,3 +107,13 @@ user.role
 .moderator {
   background-color: var(--moderator)!important;
 }
+
+.comment-tags {
+  width: 140px;
+  margin-top: 1rem;
+  cursor: pointer;
+}
+
+.comment-tag {
+  vertical-align: 5px;
+}

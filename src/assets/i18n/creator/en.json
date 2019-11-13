@@ -96,6 +96,7 @@
     "semicolon": "CSV format",
     "send": "Send",
     "send-description": "Send question",
+    "tag": "Tag",
     "vote-down": "Vote down",
     "vote-up": "Vote up"
   },
@@ -208,6 +209,9 @@
     "settings-comment-moderation": "Moderate questions",
     "settings-direct-send": "Questions instantly visible",
     "sure": "Are you sure?",
+    "tag-new": "New tag:",
+    "tag-error": "Between 3 and 15 characters",
+    "tags": "Tags",
     "threshold": "Threshold",
     "update": "Save",
     "update-description": "Save changes",

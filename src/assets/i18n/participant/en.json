@@ -48,6 +48,7 @@
     "sort-vote-asc": "Best rating first",
     "sort-vote-desc": "Worst rating first",
     "sort-list-time": "Latest question first",
+    "tag": "Tag",
     "time": "Time",
     "unread": "Not yet discussed",
     "vote-desc": "Descending votes",
@@ -85,6 +86,7 @@
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
     "send-description": "Send question",
+    "tag": "Tag",
     "vote-down": "Vote down",
     "vote-up": "Vote up"
   },

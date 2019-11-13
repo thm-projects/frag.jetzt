@@ -29,6 +29,11 @@ mat-hint {
   color: var(--on-surface) !important;
 }
 
+.mat-select-value-text {
+  color: var(--on-surface);
+  caret-color: var(--on-surface);
+}
+
 .placeholder {
   color: var(--on-surface);
 }
@@ -45,3 +50,14 @@ mat-hint {
   background-color: var(--on-surface)!important;
 }
 
+::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-select-value-text {
+  color: var(--on-surface);
+}
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: var(--primary);
+}

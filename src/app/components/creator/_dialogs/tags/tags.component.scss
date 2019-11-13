@@ -1,0 +1,40 @@
+mat-divider {
+  margin-bottom: 10px;
+  color: var(--on-surface) !important;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+p {
+  font-size: medium;
+}
+
+mat-form-field {
+  width: 90%;
+  color: var(--on-surface);
+}
+
+.add {
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  margin: 1% 2% 1% 1%;
+  color: var(--primary);
+}
+
+.add-icon {
+  width: 45px !important;
+  height: 45px !important;
+  font-size: 45px;
+  line-height: 100% !important;
+}
+
+.close {
+  margin-right: 10px;
+}
+
+.close-icon {
+  color: var(--red);
+}

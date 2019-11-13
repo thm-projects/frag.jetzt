@@ -1,0 +1,45 @@
+<div mat-dialog-content>
+  <h2>{{'room-page.tags' | translate }}</h2>
+  <mat-divider></mat-divider>
+  <div fxLayout="column">
+    <!-- <div fxLayout="row">
+      <p>{{ 'room-page.tags' | translate }}&nbsp;
+        <mat-slide-toggle [(ngModel)]="tagsEnabled" aria-labelledby="tags" ></mat-slide-toggle>
+      </p>
+    </div> -->
+    <div fxLayout="row">
+      <mat-form-field class="input-block">
+        <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+              matInput type="text" #tag aria-labelledby="tag-new"
+              [formControl]="tagFormControl" name="taginput"/>
+        <mat-placeholder class="placeholder">{{ 'room-page.tag-new' | translate }}</mat-placeholder>
+        <mat-error *ngIf="!tagFormControl.valid">
+          {{ 'room-page.tag-error' | translate }}
+        </mat-error>
+      </mat-form-field>
+      <span class="fill-remaining-space"></span>
+      <button mat-icon-button class="add" (click)="addTag(tag.value);" aria-labelledby="add-tag" >
+        <mat-icon class="add-icon">add_circle</mat-icon>
+      </button>
+      <span class="fill-remaining-space"></span>
+    </div>
+    <div *ngIf="tagsEnabled === true && tags !== undefined && tags.length > 0">
+      <div class="ta" fxLayout="row" *ngFor="let tag of tags">
+        <p>
+          {{tag}}
+        </p>
+        <span class="fill-remaining-space"></span>
+        <button mat-icon-button class="close" (click)="deleteTag(tag)" aria-labelledby="delete-tag">
+          <mat-icon class="close-icon">close</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <app-dialog-action-buttons
+    buttonsLabelSection="room-page"
+    confirmButtonLabel="update"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildSaveActionCallback()"
+  ></app-dialog-action-buttons>
+</div>

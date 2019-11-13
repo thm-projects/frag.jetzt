@@ -95,6 +95,7 @@
     "semicolon": "CSV-Format",
     "send": "Senden",
     "send-description": "Frage abschicken",
+    "tag": "Kategorie",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten"
   },
@@ -207,6 +208,9 @@
     "settings-comment-moderation": "Fragen moderieren",
     "settings-direct-send": "Fragen sofort sichtbar",
     "sure": "Bist du sicher?",
+    "tag-new": "Neue Kategorie:",
+    "tag-error": "Muss zwischen 3 und 15 Zeichen liegen",
+    "tags": "Tags",
     "threshold": "Schwellenwert",
     "update": "Speichern",
     "update-description": "Speichert die Änderungen",
