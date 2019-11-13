@@ -36,6 +36,7 @@
     "material-design-icons": "^3.0.1",
     "ng2-charts": "^1.6.0",
     "ngx-markdown": "^1.6.0",
+    "ngx-qrcode2": "0.0.9",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.2.2",
     "tslib": "^1.9.0",

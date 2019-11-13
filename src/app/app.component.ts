@@ -47,7 +47,7 @@ export class AppComponent implements OnInit {
         install = msg;
       });
       this.translationService.get('home-page.update-available').subscribe(msg => {
-       this.notification.show(msg, install, {
+        this.notification.show(msg, install, {
           duration: 10000
         });
       });
@@ -62,4 +62,6 @@ export class AppComponent implements OnInit {
   public getRescale(): Rescale {
     return AppComponent.rescale;
   }
+
+
 }
