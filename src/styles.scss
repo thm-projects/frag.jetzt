@@ -113,3 +113,27 @@ address {
 .cdk-overlay-dark-backdrop {
   background: var(--background);
 }
+
+.filledDialog{
+  width:calc( 100% - 50px);
+  min-width:calc( 100% - 50px);
+  max-width:calc( 100% - 50px);
+  height:calc( 100% - 50px);
+  margin:25px;
+  padding:0;
+}
+
+.screenDialog{
+  width:100%;
+  min-width:100%;
+  max-width:100%;
+  height:100%;
+  margin:0;
+  padding:0;
+}
+
+.imgWrp img{
+  width:calc( 100% - 35px );
+  height:calc( 100% - 35px );
+  image-rendering: crisp-edges;
+}

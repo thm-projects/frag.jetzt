@@ -23,12 +23,18 @@
       gavel
     </mat-icon>
   </span>
-    <h2 id="shortId-header" *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
+    <h2 id="shortId-header" *ngIf="router.url.includes('comments')"
+        fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
     </h2>
     <h2 *ngIf="router.url.includes('home')" fxLayoutAlign="center center">
       {{ 'header.home-header' | translate }}
     </h2>
+    <button *ngIf="router.url.includes('room')" mat-icon-button (click)="showQRDialog();" fxLayoutAlign="center center">
+      <mat-icon svgIcon="qrcode" class="header-icons qrcode">
+      </mat-icon>
+
+    </button>
     <span class="fill-remaining-space"></span>
 
     <mat-menu #userMenu="matMenu" [overlapTrigger]="false">

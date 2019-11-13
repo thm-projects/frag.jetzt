@@ -16,6 +16,7 @@ import { Rescale } from '../../../models/rescale';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { UserBonusTokenComponent } from '../_dialogs/user-bonus-token/user-bonus-token.component';
+import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -72,15 +73,15 @@ export class HeaderComponent implements OnInit {
       /* the router will fire multiple events */
       /* we only want to react if it's the final active route */
       if (val instanceof NavigationEnd) {
-       /* segments gets all parts of the url */
-       const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
-       const roomIdRegExp = new RegExp('^[0-9]{8}$');
-       segments.forEach(element => {
-         /* searches the url segments for a short id */
-         if (roomIdRegExp.test(element.path)) {
-           this.shortId = element.path;
-         }
-       });
+        /* segments gets all parts of the url */
+        const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
+        const roomIdRegExp = new RegExp('^[0-9]{8}$');
+        segments.forEach(element => {
+          /* searches the url segments for a short id */
+          if (roomIdRegExp.test(element.path)) {
+            this.shortId = element.path;
+          }
+        });
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
@@ -174,6 +175,22 @@ export class HeaderComponent implements OnInit {
    */
   public getRescale(): Rescale {
     return AppComponent.rescale;
+  }
+
+  /*QR*/
+
+  public getQRCode(): string {
+    return 'frag.jetzt/participant/room/' + this.shortId;
+  }
+
+  public showQRDialog() {
+    const dialogRef = this.dialog.open(QrCodeDialogComponent, {
+      panelClass: 'screenDialog'
+    });
+    const qrDialog: QrCodeDialogComponent = dialogRef.componentInstance;
+    qrDialog.setQRCode(this.getQRCode());
+    dialogRef.afterClosed().subscribe(res => {
+    });
   }
 
 }

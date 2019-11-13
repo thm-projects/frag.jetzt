@@ -29,6 +29,9 @@ import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account
 import { CommentAnswerTextComponent } from './_dialogs/comment-answer-text/comment-answer-text.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MatRippleModule } from '@angular/material';
+import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 
 @NgModule({
   imports: [
@@ -36,7 +39,9 @@ import { MatRippleModule } from '@angular/material';
     EssentialsModule,
     ChartsModule,
     SharedRoutingModule,
-    MatRippleModule
+    MatRippleModule,
+    NgxQRCodeModule,
+    ArsModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -64,7 +69,8 @@ import { MatRippleModule } from '@angular/material';
     PresentCommentComponent,
     DeleteAccountComponent,
     CommentAnswerTextComponent,
-    DialogActionButtonsComponent
+    DialogActionButtonsComponent,
+    QrCodeDialogComponent
   ],
   exports: [
     RoomJoinComponent,

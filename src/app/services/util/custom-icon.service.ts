@@ -8,7 +8,8 @@ export class CustomIconService {
   icons = [
     'beamer',
     'meeting_room',
-    'comment_tag'
+    'comment_tag',
+    'qrcode'
   ];
 
   constructor(

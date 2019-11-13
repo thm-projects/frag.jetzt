@@ -13,6 +13,11 @@ mat-toolbar {
   color: var(--on-surface);
 }
 
+::ng-deep .qrcode svg > path{
+  fill: var(--on-surface);
+  color: var(--on-surface);
+}
+
 .moderation-enabled {
   color: var(--on-surface);
   margin-left: 5px;
@@ -25,8 +30,8 @@ mat-toolbar {
 }
 
 h2 {
-  margin-left: 5px!important;
-  font-size: medium!important;
+  margin-left: 5px !important;
+  font-size: medium !important;
 }
 
 .label-icon {
@@ -40,4 +45,9 @@ h2 {
 
 button:focus {
   border: 1px solid var(--on-surface);
+}
+
+svg {
+  -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+  filter: invert(100%);
 }
