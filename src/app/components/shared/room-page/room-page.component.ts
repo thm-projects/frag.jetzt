@@ -6,8 +6,8 @@ import { Location } from '@angular/common';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
-import { Message } from '@stomp/stompjs';
-import { Subscription } from 'rxjs';
+import { Message, IMessage } from '@stomp/stompjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room-page',
@@ -20,6 +20,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   commentCounter: number;
   protected moderationEnabled = false;
   protected sub: Subscription;
+  protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;
 
   constructor(protected roomService: RoomService,
@@ -64,7 +65,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         .subscribe(commentCounter => {
           this.commentCounter = commentCounter;
         });
-      this.sub = this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
+      this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
+      this.sub = this.commentWatch.subscribe((message: Message) => {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (msg.type === 'CommentCreated') {

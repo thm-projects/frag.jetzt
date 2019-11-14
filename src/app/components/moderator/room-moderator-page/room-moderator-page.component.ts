@@ -62,7 +62,8 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
         });
       }
 
-      this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
+      this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
+      this.sub = this.commentWatch.subscribe((message: Message) => {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (msg.type === 'CommentCreated') {
