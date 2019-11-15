@@ -115,7 +115,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (!this.freeze) {
+    if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
   }
