@@ -1,28 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
-import { Message } from '@stomp/stompjs';
+import { EventService } from '../../../services/util/event.service';
+import { Message, IMessage } from '@stomp/stompjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room-page',
   templateUrl: './room-page.component.html',
   styleUrls: ['./room-page.component.scss']
 })
-export class RoomPageComponent implements OnInit {
+export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
   isLoading = true;
   commentCounter: number;
   protected moderationEnabled = false;
+  protected sub: Subscription;
+  protected commentWatch: Observable<IMessage>;
+  protected listenerFn: () => void;
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
               protected location: Location,
               protected wsCommentService: WsCommentServiceService,
-              protected commentService: CommentService
+              protected commentService: CommentService,
+              protected eventService: EventService
   ) {
   }
 
@@ -30,6 +36,14 @@ export class RoomPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.initializeRoom(params['roomId']);
     });
+  }
+
+  ngOnDestroy() {
+    this.listenerFn();
+    this.eventService.makeFocusOnInputFalse();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   protected afterRoomLoadHook() {
@@ -51,7 +65,8 @@ export class RoomPageComponent implements OnInit {
         .subscribe(commentCounter => {
           this.commentCounter = commentCounter;
         });
-      this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
+      this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
+      this.sub = this.commentWatch.subscribe((message: Message) => {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (msg.type === 'CommentCreated') {

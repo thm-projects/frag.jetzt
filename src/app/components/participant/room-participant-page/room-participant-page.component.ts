@@ -28,8 +28,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   deviceType = localStorage.getItem('deviceType');
   user: User;
 
-  listenerFn: () => void;
-
   constructor(protected location: Location,
               protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -41,7 +39,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
               public eventService: EventService) {
-    super(roomService, route, location, wsCommentService, commentService);
+    super(roomService, route, location, wsCommentService, commentService, eventService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -72,11 +70,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         this.eventService.makeFocusOnInputFalse();
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.listenerFn();
-    this.eventService.makeFocusOnInputFalse();
   }
 
   public announce() {

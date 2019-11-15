@@ -28,8 +28,6 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
   moderatorCommentCounter: number;
   viewModuleCount = 1;
 
-  listenerFn: () => void;
-
   constructor(protected location: Location,
               protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -41,7 +39,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               public eventService: EventService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2) {
-    super(roomService, route, location, wsCommentService, commentService);
+    super(roomService, route, location, wsCommentService, commentService, eventService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -64,7 +62,8 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
         });
       }
 
-      this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
+      this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
+      this.sub = this.commentWatch.subscribe((message: Message) => {
         const msg = JSON.parse(message.body);
         const payload = msg.payload;
         if (msg.type === 'CommentCreated') {
@@ -121,11 +120,6 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
         document.getElementById('question_answer-button').focus();
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.listenerFn();
-    this.eventService.makeFocusOnInputFalse();
   }
 
   public announce() {

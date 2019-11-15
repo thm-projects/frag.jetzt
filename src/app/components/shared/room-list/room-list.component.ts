@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomRoleMixin } from '../../../models/room-role-mixin';
 import { User } from '../../../models/user';
@@ -9,18 +9,20 @@ import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatTableDataSource } from '@angular/material';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
   styleUrls: ['./room-list.component.scss']
 })
-export class RoomListComponent implements OnInit {
+export class RoomListComponent implements OnInit, OnDestroy {
   @Input() user: User;
   rooms: Room[] = [];
   roomsWithRole: RoomRoleMixin[];
   closedRooms: Room[];
   isLoading = true;
+  sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
   displayedColumns: string[] = ['name', 'shortId', 'role', 'button'];
@@ -39,9 +41,15 @@ export class RoomListComponent implements OnInit {
 
   ngOnInit() {
     this.getRooms();
-    this.eventService.on<any>('RoomDeleted').subscribe(payload => {
+    this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
       this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 
   getRooms(): void {

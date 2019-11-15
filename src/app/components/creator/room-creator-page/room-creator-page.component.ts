@@ -37,8 +37,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   moderatorCommentCounter: number;
   urlToCopy = 'https://frag.jetzt/participant/room/';
 
-  listenerFn: () => void;
-
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
               protected route: ActivatedRoute,
@@ -51,7 +49,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
               public eventService: EventService) {
-    super(roomService, route, location, wsCommentService, commentService);
+    super(roomService, route, location, wsCommentService, commentService, eventService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -87,11 +85,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         this.eventService.makeFocusOnInputFalse();
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.listenerFn();
-    this.eventService.makeFocusOnInputFalse();
   }
 
   public announce() {
