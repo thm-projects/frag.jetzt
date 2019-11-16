@@ -5,7 +5,6 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import { ContentService } from '../../../../services/http/content.service';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { TSMap } from 'typescript-map';
@@ -26,7 +25,6 @@ export class RoomCreateComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    private contentService: ContentService,
     private router: Router,
     private notification: NotificationService,
     public dialogRef: MatDialogRef<RoomCreateComponent>,

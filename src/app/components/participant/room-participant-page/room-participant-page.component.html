@@ -18,9 +18,6 @@
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <!-- <button mat-icon-button id="settings" routerLink="/participant/room/{{ room.shortId }}/statistics">
-           <mat-icon id="settings-icon" matTooltip="{{ 'statistic.answer-statistic' | translate}}">insert_chart</mat-icon>
-         </button> -->
       </div>
       <mat-divider></mat-divider>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
@@ -36,15 +33,8 @@
             <h3>{{ 'room-page.create-comment' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
           </button>
         </mat-grid-tile>
-        <!--  <mat-grid-tile>
-            <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
-              <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down</mat-icon>
-              <h2 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h2>
-            </button>
-          </mat-grid-tile> -->
       </mat-grid-list>
 
-      <!-- <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
     </mat-card>
 
   </div>

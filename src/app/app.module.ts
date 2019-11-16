@@ -13,8 +13,6 @@ import { RoomService } from './services/http/room.service';
 import { CommentService } from './services/http/comment.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { EventService } from './services/util/event.service';
-import { ContentService } from './services/http/content.service';
-import { ContentAnswerService } from './services/http/content-answer.service';
 import { VoteService } from './services/http/vote.service';
 import { WsConnectorService } from './services/websockets/ws-connector.service';
 import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
@@ -157,8 +155,6 @@ export function initializeApp(appConfig: AppConfig) {
     EventService,
     RoomService,
     CommentService,
-    ContentService,
-    ContentAnswerService,
     LanguageService,
     MarkdownService,
     MarkedOptions,
