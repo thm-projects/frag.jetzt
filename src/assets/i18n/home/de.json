@@ -227,5 +227,8 @@
   },
   "user-bonus-token": {
     "header": "Tokens für Bonuspunkte"
+  },
+  "qr-dialog": {
+    "session": "Sitzung"
   }
 }

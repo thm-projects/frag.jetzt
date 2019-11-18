@@ -184,12 +184,14 @@ export class HeaderComponent implements OnInit {
   }
 
   public showQRDialog() {
+    Rescale.requestFullscreen();
     const dialogRef = this.dialog.open(QrCodeDialogComponent, {
       panelClass: 'screenDialog'
     });
     const qrDialog: QrCodeDialogComponent = dialogRef.componentInstance;
     qrDialog.setQRCode(this.getQRCode());
     dialogRef.afterClosed().subscribe(res => {
+      Rescale.exitFullscreen();
     });
   }
 
