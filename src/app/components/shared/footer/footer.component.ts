@@ -122,12 +122,7 @@ export class FooterComponent implements OnInit {
       width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
-    dialogRef.afterClosed().subscribe(res => {
-      this.dataProtectionConsent = res;
-      if (!res) {
-        this.showOverlay();
-      }
-    });
+
   }
 
   showOverlay() {
