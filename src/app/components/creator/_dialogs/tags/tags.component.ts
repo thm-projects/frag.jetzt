@@ -39,7 +39,11 @@ export class TagsComponent implements OnInit {
       this.tags = [];
       this.tagsEnabled = true;
     } else {
-      this.tags = this.extension['tags'];
+      if (this.extension['tags']) {
+        this.tags = this.extension['tags'];
+      } else {
+        this.tags = [];
+      }
       this.tagsEnabled = this.extension['enableTags'];
     }
   }

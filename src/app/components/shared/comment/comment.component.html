@@ -97,7 +97,7 @@
       </div>
 
     </div>
-    <div (click)="this.clickedOnTag.emit(comment.tag)" *ngIf="comment.tag !== null && comment.tag !== ''" class="comment-tags">
+    <div (click)="this.clickedOnTag.emit(comment.tag)" *ngIf="comment.tag && comment.tag !== ''" class="comment-tags">
       <span class="comment-tag-icon">
         <mat-icon svgIcon="comment_tag"></mat-icon>
       </span>
