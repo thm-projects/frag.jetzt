@@ -228,5 +228,8 @@
   },
   "user-bonus-token-dialog": {
     "header": "Tokens for bonus points"
+  },
+  "qr-dialog": {
+    "session": "Session"
   }
 }
