@@ -33,15 +33,10 @@ export class TagsComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.extension === undefined) {
+    if (!this.extension) {
       this.extension = {};
-      let defaultTags = ['Question', 'Comment', 'Hint', 'Orga'];
-      if (localStorage.getItem('currentLang') === 'de') {
-        defaultTags = ['Kommentar', 'Hinweis', 'Orga'];
-      }
       this.extension['enableTags'] = true;
-      this.extension['tags'] = defaultTags;
-      this.tags = defaultTags;
+      this.tags = [];
       this.tagsEnabled = true;
     } else {
       this.tags = this.extension['tags'];
