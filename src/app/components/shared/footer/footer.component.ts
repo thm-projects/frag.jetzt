@@ -49,11 +49,16 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (!this.themeService.getTheme()['source']['_value']) {
-      this.themeService.activate('dark');
-      this.themeClass = 'dark';
-    }
     this.deviceType = localStorage.getItem('deviceType');
+    if (!this.themeService.getTheme()['source']['_value']) {
+      if (this.deviceType === 'mobile') {
+        this.themeService.activate('dark');
+        this.themeClass = 'dark';
+      } else {
+        this.themeService.activate('arsnova');
+        this.themeClass = 'arsnova';
+      }
+    }
     this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
