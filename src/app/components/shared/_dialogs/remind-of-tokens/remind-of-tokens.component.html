@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <div style="overflow-y: scroll; max-height: 15rem">
+    <h2 tabindex="0">{{ 'header.sure' | translate }}</h2>
+    <mat-divider></mat-divider>
+    <p tabindex="0">{{ 'header.user-got-tokens' | translate }}</p>
+  </div>
+  <app-dialog-action-buttons
+    buttonsLabelSection="header"
+    confirmButtonLabel="logout"
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildLogoutActionCallback()"
+  ></app-dialog-action-buttons>
+</div>

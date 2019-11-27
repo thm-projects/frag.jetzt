@@ -16,7 +16,11 @@ import { Rescale } from '../../../models/rescale';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { UserBonusTokenComponent } from '../_dialogs/user-bonus-token/user-bonus-token.component';
+import { RemindOfTokensComponent } from '../_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { BonusToken } from '../../../models/bonus-token';
+import { AuthProvider } from '../../../models/auth-provider';
 
 @Component({
   selector: 'app-header',
@@ -38,6 +42,7 @@ export class HeaderComponent implements OnInit {
               public dialog: MatDialog,
               private userService: UserService,
               public eventService: EventService,
+              private bonusTokenService: BonusTokenService,
               private _r: Renderer2
   ) {
   }
@@ -110,6 +115,31 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
+    // ToDo: Fix this madness.
+    if (this.user.authProvider === 'ARSNOVA_GUEST') {
+      this.bonusTokenService.getTokensByUserId(this.user.id).subscribe( list => {
+        if (list && list.length > 0) {
+          const dialogRef = this.dialog.open(RemindOfTokensComponent, {
+            width: '600px'
+          });
+          dialogRef.afterClosed()
+            .subscribe(result => {
+              if (result === 'abort') {
+                return;
+              } else if (result === 'logout') {
+                this.logoutUser();
+              }
+            });
+        } else {
+          this.logoutUser();
+        }
+      });
+    } else {
+      this.logoutUser();
+    }
+  }
+
+  logoutUser() {
     this.authenticationService.logout();
     this.translationService.get('header.logged-out').subscribe(message => {
       this.notificationService.show(message);

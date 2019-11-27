@@ -13,6 +13,7 @@ import { ChartsModule } from 'ng2-charts';
 import { RoomJoinComponent } from './room-join/room-join.component';
 import { RoomCreateComponent } from './_dialogs/room-create/room-create.component';
 import { UserBonusTokenComponent } from './_dialogs/user-bonus-token/user-bonus-token.component';
+import { RemindOfTokensComponent } from './_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { LoginComponent } from './login/login.component';
 import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
@@ -46,6 +47,7 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
     CommentListComponent,
     RoomCreateComponent,
     UserBonusTokenComponent,
+    RemindOfTokensComponent,
     LoginComponent,
     CommentComponent,
     CreateCommentComponent,
@@ -77,6 +79,7 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
     PresentCommentComponent,
     DeleteAccountComponent,
     UserBonusTokenComponent,
+    RemindOfTokensComponent,
     CommentAnswerTextComponent
   ]
 })

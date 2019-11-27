@@ -48,6 +48,7 @@
     "accessibility-session": "Open the session menu. Here you can view the sessions you have attended or log out of your account.",
     "account-deleted": "Your account has been deleted.",
     "back": "Cancel",
+    "cancel": "Cancel",
     "delete": "Delete",
     "delete-account": "Delete account",
     "home-header": "Feedback in the lecture hall",
@@ -62,6 +63,7 @@
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonuses (yellow stars), export the questions so that you can check submitted bonus tokens.",
     "sure": "Are you sure?",
     "user-bonus-token": "See your bonus tokens",
+    "user-got-tokens": "You have bonus tokens linked to this account that will be lost!",
     "visited-sessions": "Visited sessions",
     "bonus-token": "Tokens for bonus points",
     "no-bonus": "No bonus points earned yet."

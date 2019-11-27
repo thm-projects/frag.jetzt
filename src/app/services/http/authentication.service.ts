@@ -86,7 +86,8 @@ export class AuthenticationService extends BaseHttpService {
     if (this.dataStoreService.has(this.STORAGE_KEY)) {
       // Load user data from local data store if available
       const user: User = JSON.parse(this.dataStoreService.get(this.STORAGE_KEY));
-      const wasGuest = (user.authProvider === AuthProvider.ARSNOVA_GUEST) ? true : false;
+      // ToDo: Fix this madness.
+      const wasGuest = (user.authProvider === 'ARSNOVA_GUEST') ? true : false;
       const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + '?refresh=true';
       this.setUser(new User(
         user.id,
@@ -221,6 +222,8 @@ export class AuthenticationService extends BaseHttpService {
   private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole, isGuest: boolean): Observable<string> {
     return clientAuthentication.pipe(map(result => {
       if (result) {
+        // ToDo: Fix this madness.
+        isGuest = result.authProvider === 'ARSNOVA_GUEST' ? true : false;
         this.setUser(new User(
           result.userId,
           result.loginId,

@@ -47,6 +47,7 @@
     "accessibility-session": "Öffnet das Sitzungs-Menü. Hier kannst du deine besuchten Sitzungen einsehen oder dich von deinem Konto abmelden.",
     "account-deleted": "Dein Konto wurde gelöscht.",
     "back": "Abbrechen",
+    "cancel": "Abbrechen",
     "delete": "Löschen",
     "delete-account": "Konto löschen",
     "home-header": "Feedback im Hörsaal",
@@ -61,6 +62,7 @@
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (gelbe Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "sure": "Bist du sicher?",
     "user-bonus-token": "Zu deinen Bonus Tokens",
+    "user-got-tokens": "Du hast noch Tokens für Bonuspunkte, die verloren gehen!",
     "visited-sessions": "Besuchte Sitzungen",
     "bonus-token": "Tokens für Bonuspunkte",
     "no-bonus": "Noch keine Bonuspunkte erhalten."
