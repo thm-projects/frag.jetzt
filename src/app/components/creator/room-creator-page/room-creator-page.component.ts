@@ -202,7 +202,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     const dialogRef = this.dialog.open(BonusTokenComponent, {
       width: '400px'
     });
-    dialogRef.componentInstance.roomId = this.room.id;
+    dialogRef.componentInstance.room = this.room;
   }
 
   showTagsDialog(): void {
