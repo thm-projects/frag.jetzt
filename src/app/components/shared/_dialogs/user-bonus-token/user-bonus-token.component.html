@@ -1,10 +1,10 @@
 <div mat-dialog-content>
   <h2 tabindex="0">{{'header.bonus-token' | translate }}</h2>
   <mat-divider></mat-divider>
-  <div *ngIf="bonusTokens.length >= 1">
-    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens">
+  <div *ngIf="bonusTokensMixin.length >= 1">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokensMixin">
       <h2 tabindex="1">
-        {{bonusToken.token}}
+        {{bonusToken.token}} ({{bonusToken.roomName}} - {{bonusToken.roomShortId.slice(0, 4)}} {{bonusToken.roomShortId.slice(4, 8)}})
       </h2>
     </div>
   </div>

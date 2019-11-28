@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
+import { Room } from '../../../../models/room';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
@@ -13,7 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./bonus-token.component.scss']
 })
 export class BonusTokenComponent implements OnInit {
-  roomId: string;
+  room: Room;
   bonusTokens: BonusToken[] = [];
 
   constructor(private bonusTokenService: BonusTokenService,
@@ -24,7 +25,7 @@ export class BonusTokenComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bonusTokenService.getTokensByRoomId(this.roomId).subscribe( list => {
+    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe( list => {
       this.bonusTokens = list;
     });
   }
@@ -68,7 +69,7 @@ export class BonusTokenComponent implements OnInit {
 
   deleteAllBonuses(): void {
     // Delete all bonuses via bonus-token-service with roomId
-    this.bonusTokenService.deleteTokensByRoomId(this.roomId).subscribe(_ => {
+    this.bonusTokenService.deleteTokensByRoomId(this.room.id).subscribe(_ => {
       this.translationService.get('room-page.tokens-deleted').subscribe(msg => {
         this.dialogRef.close();
         this.notificationService.show(msg);

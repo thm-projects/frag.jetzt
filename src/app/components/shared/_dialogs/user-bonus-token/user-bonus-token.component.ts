@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
+import { RoomService } from '../../../../services/http/room.service';
 import { BonusToken } from '../../../../models/bonus-token';
+import { BonusTokenRoomMixin } from '../../../../models/bonus-token-room-mixin';
 import { MatDialogRef } from '@angular/material';
 
 @Component({
@@ -11,14 +13,26 @@ import { MatDialogRef } from '@angular/material';
 export class UserBonusTokenComponent implements OnInit {
   userId: string;
   bonusTokens: BonusToken[] = [];
+  bonusTokensMixin: BonusTokenRoomMixin[] = [];
 
-  constructor(private bonusTokenService: BonusTokenService,
-              private dialogRef: MatDialogRef<UserBonusTokenComponent>) {
+  constructor(
+    private bonusTokenService: BonusTokenService,
+    private roomService: RoomService,
+    private dialogRef: MatDialogRef<UserBonusTokenComponent>
+  ) {
   }
 
   ngOnInit() {
     this.bonusTokenService.getTokensByUserId(this.userId).subscribe( list => {
       this.bonusTokens = list;
+      for (const bt of list) {
+        this.roomService.getRoom(bt.roomId).subscribe(room => {
+          const btm = <BonusTokenRoomMixin> bt;
+          btm.roomShortId = room.shortId;
+          btm.roomName = room.name;
+          this.bonusTokensMixin.push(btm);
+        });
+      }
     });
   }
 

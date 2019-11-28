@@ -1,6 +1,7 @@
 
 <div mat-dialog-content xmlns="http://www.w3.org/1999/html">
   <h2>{{'room-page.bonus-token-header' | translate }}</h2>
+  <h3>{{room.name}} - {{room.shortId.slice(0, 4)}} {{room.shortId.slice(4, 8)}}</h3>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
     <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i">
