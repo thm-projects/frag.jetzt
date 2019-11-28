@@ -125,7 +125,7 @@ export class HeaderComponent implements OnInit {
           dialogRef.afterClosed()
             .subscribe(result => {
               if (result === 'abort') {
-                return;
+                this.openUserBonusTokenDialog();
               } else if (result === 'logout') {
                 this.logoutUser();
               }
