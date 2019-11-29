@@ -188,8 +188,8 @@
     "register-unsuccessful": "Please check your data."
   },
   "remind-of-tokens": {
-    "cancel": "To the tokens",
-    "logout": "Logout"
+    "cancel": "To my tokens",
+    "logout": "Log out"
   },
   "room-create": {
     "cancel": "Cancel",

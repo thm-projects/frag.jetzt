@@ -187,8 +187,8 @@
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
   "remind-of-tokens": {
-    "cancel": "Zu den Tokens",
-    "login": "Anmelden"
+    "cancel": "Zu meinen Tokens",
+    "logout": "Abmelden"
   },
   "room-create": {
     "cancel": "Abbrechen",
