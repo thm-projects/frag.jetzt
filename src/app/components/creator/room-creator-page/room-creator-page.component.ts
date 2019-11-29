@@ -35,7 +35,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   deviceType = localStorage.getItem('deviceType');
   viewModuleCount = 1;
   moderatorCommentCounter: number;
-  urlToCopy = 'https://frag.jetzt/participant/room/';
+  urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
