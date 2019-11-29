@@ -187,6 +187,10 @@
     "register-successful": "Successfully registered. Please check your mails.",
     "register-unsuccessful": "Please check your data."
   },
+  "remind-of-tokens": {
+    "cancel": "To the tokens",
+    "logout": "Logout"
+  },
   "room-create": {
     "cancel": "Cancel",
     "cancel-description": "Cancel",

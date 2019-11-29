@@ -186,6 +186,10 @@
     "register-successful": "Erfolgreich registriert. Bitte prüfe dein Postfach.",
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
+  "remind-of-tokens": {
+    "cancel": "Zu den Tokens",
+    "login": "Anmelden"
+  },
   "room-create": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
