@@ -210,7 +210,7 @@ export class HeaderComponent implements OnInit {
   /*QR*/
 
   public getQRCode(): string {
-    return 'https://frag.jetzt/participant/room/' + this.shortId;
+    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.shortId}`;
   }
 
   public showQRDialog() {
