@@ -11,6 +11,7 @@ import { WrapperDirective } from './components/layout/frame/wrp/WrapperDirective
 import { FrameTestComponent } from './components/test/layout/frame/frame-test/frame-test.component';
 import { RespComponent } from './components/layout/base/resp/resp.component';
 import { ScrollDirective } from './components/layout/base/scroll/ScrollDirective';
+import { MaterialTypographyComponent } from './components/style/typography/material-typography/material-typography.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ScrollDirective } from './components/layout/base/scroll/ScrollDirective
     WrapperDirective,
     FrameTestComponent,
     RespComponent,
-    ScrollDirective
+    ScrollDirective,
+    MaterialTypographyComponent
   ],
   imports: [
     MatIconModule,
