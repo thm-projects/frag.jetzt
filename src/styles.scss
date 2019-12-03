@@ -21,20 +21,6 @@ body{
   overflow:hidden;
 }
 
-::-webkit-scrollbar{
-  width: 12px;
-  background-color: var(--on-secondary);
-}
-
-::-webkit-scrollbar-thumb{
-  background-color: var(--secondary);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-track-piece {
-  background-color: var(--surface);
-}
-
 .dark {
   @include angular-material-theme($dark-theme);
 }
