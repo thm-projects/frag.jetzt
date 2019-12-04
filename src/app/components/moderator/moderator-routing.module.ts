@@ -8,19 +8,19 @@ import { ModeratorCommentPageComponent } from './moderator-comment-page/moderato
 
 const routes: Routes = [
   {
-    path: 'room/:roomId',
+    path: 'room/:shortId',
     component: RoomModeratorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
   },
   {
-    path: 'room/:roomId/comments',
+    path: 'room/:shortId/comments',
     component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
   },
   {
-    path: 'room/:roomId/moderator/comments',
+    path: 'room/:shortId/moderator/comments',
     component: ModeratorCommentPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }

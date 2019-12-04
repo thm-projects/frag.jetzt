@@ -63,7 +63,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
-      this.initializeRoom(params['roomId']);
+      this.initializeRoom(params['shortId']);
     });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {

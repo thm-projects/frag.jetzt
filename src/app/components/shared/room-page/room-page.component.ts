@@ -34,7 +34,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.initializeRoom(params['roomId']);
+      this.initializeRoom(params['shortId']);
     });
   }
 

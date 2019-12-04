@@ -80,10 +80,10 @@ export class HeaderComponent implements OnInit {
       if (val instanceof NavigationEnd) {
         /* segments gets all parts of the url */
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
-        const roomIdRegExp = new RegExp('^[0-9]{8}$');
+        const shortIdRegExp = new RegExp('^[0-9]{8}$');
         segments.forEach(element => {
           /* searches the url segments for a short id */
-          if (roomIdRegExp.test(element.path)) {
+          if (shortIdRegExp.test(element.path)) {
             this.shortId = element.path;
           }
         });

@@ -7,13 +7,13 @@ import { CommentPageComponent } from '../shared/comment-page/comment-page.compon
 
 const routes: Routes = [
   {
-    path: 'room/:roomId',
+    path: 'room/:shortId',
     component: RoomCreatorPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
   },
   {
-    path: 'room/:roomId/comments',
+    path: 'room/:shortId/comments',
     component: CommentPageComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR] }
