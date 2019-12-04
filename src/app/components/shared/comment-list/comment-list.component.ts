@@ -57,6 +57,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   search = false;
   searchPlaceholder = '';
   moderationEnabled = false;
+  directSend = true;
   thresholdEnabled = false;
   newestComment: string;
   freeze = false;
@@ -87,6 +88,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       if (this.room && this.room.extensions && this.room.extensions['comments']) {
         if (this.room.extensions['comments'].enableModeration !== null) {
           this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+        }
+        if (this.room.extensions['comments'].directSend !== null) {
+          this.directSend = this.room.extensions['comments'].directSend;
         }
       }
       this.commentService.getAckComments(this.roomId)
@@ -276,7 +280,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   send(comment: Comment): void {
     let message;
-    if (this.moderationEnabled) {
+    if (this.directSend) {
       if (this.userRole === 1 || this.userRole === 3) {
         this.translateService.get('comment-list.comment-sent').subscribe(msg => {
           message = msg;
