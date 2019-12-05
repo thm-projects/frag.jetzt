@@ -52,7 +52,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   ngOnInit() {
     window.scroll(0, 0);
     this.route.params.subscribe(params => {
-      this.initializeRoom(params['roomId']);
+      this.initializeRoom(params['shortId']);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {

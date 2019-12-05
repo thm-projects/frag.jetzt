@@ -44,13 +44,13 @@ export class AuthenticationService extends BaseHttpService {
       for (const cA of creatorAccess) {
         let role = UserRole.PARTICIPANT;
         const roleAsNumber: string = cA.substring(0, 1);
-        const roomId: string = cA.substring(2);
+        const shortId: string = cA.substring(2);
         if (roleAsNumber === '3') {
           role = UserRole.CREATOR;
         } else if (roleAsNumber === '2') {
           role = UserRole.EXECUTIVE_MODERATOR;
         }
-        this.roomAccess.set(roomId, role);
+        this.roomAccess.set(shortId, role);
       }
     }
     this.eventService.on<any>('RoomJoined').subscribe(payload => {
@@ -253,13 +253,13 @@ export class AuthenticationService extends BaseHttpService {
     return this.user;
   }
 
-  hasAccess(roomId: string, role: UserRole): boolean {
-    const usersRole = this.roomAccess.get(roomId);
+  hasAccess(shortId: string, role: UserRole): boolean {
+    const usersRole = this.roomAccess.get(shortId);
     return (usersRole && (usersRole >= role));
   }
 
-  setAccess(roomId: string, role: UserRole): void {
-    this.roomAccess.set(roomId, role);
+  setAccess(shortId: string, role: UserRole): void {
+    this.roomAccess.set(shortId, role);
     this.saveAccessToLocalStorage();
   }
 

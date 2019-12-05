@@ -21,12 +21,12 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   styleUrls: ['./room-join.component.scss']
 })
 export class RoomJoinComponent implements OnInit {
-  @ViewChild('roomId') roomIdElement: ElementRef;
+  @ViewChild('sessionCode') sessionCodeElement: ElementRef;
 
   room: Room;
   user: User;
 
-  roomFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
+  sessionCodeFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
 
   matcher = new RegisterErrorStateMatcher();
 
@@ -42,12 +42,12 @@ export class RoomJoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.roomIdElement.nativeElement.focus();
+    this.sessionCodeElement.nativeElement.focus();
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
   onEnter() {
-    this.getRoom(this.roomIdElement.nativeElement.value);
+    this.getRoom(this.sessionCodeElement.nativeElement.value);
   }
 
   getRoom(id: string): void {
@@ -55,7 +55,7 @@ export class RoomJoinComponent implements OnInit {
       this.translateService.get('home-page.exactly-8').subscribe(message => {
         this.notificationService.show(message);
       });
-    } else if (this.roomFormControl.hasError('pattern')) {
+    } else if (this.sessionCodeFormControl.hasError('pattern')) {
       this.translateService.get('home-page.only-numbers').subscribe(message => {
         this.notificationService.show(message);
       });
@@ -84,7 +84,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   joinRoom(id: string): void {
-    if (!this.roomFormControl.hasError('required') && !this.roomFormControl.hasError('minlength')) {
+    if (!this.sessionCodeFormControl.hasError('required') && !this.sessionCodeFormControl.hasError('minlength')) {
       this.getRoom(id);
     }
   }
@@ -130,7 +130,7 @@ export class RoomJoinComponent implements OnInit {
    * - casts a 'xxxx xxxx' layout to the input field
    */
   prettifySessionCode(keyboardEvent: KeyboardEvent): void {
-    const sessionCode: string = this.roomIdElement.nativeElement.value;
+    const sessionCode: string = this.sessionCodeElement.nativeElement.value;
     const isBackspaceKeyboardEvent: boolean = KeyboardUtils.isKeyEvent(keyboardEvent, KeyboardKey.Backspace);
 
     // allow only backspace key press after all 8 digits were entered by the user
@@ -141,7 +141,7 @@ export class RoomJoinComponent implements OnInit {
       keyboardEvent.preventDefault();
       keyboardEvent.stopPropagation();
     } else if (sessionCode.length === 4 && isBackspaceKeyboardEvent === false) { // add a space between each 4 digit group
-      this.roomIdElement.nativeElement.value += ' ';
+      this.sessionCodeElement.nativeElement.value += ' ';
     }
   }
 }

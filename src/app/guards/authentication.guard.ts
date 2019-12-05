@@ -23,7 +23,7 @@ export class AuthenticationGuard implements CanActivate {
     // Allow access when user is logged in AND
     // the route doesn't require a specific role OR
     // the user's role is one of the required roles
-    if (this.authenticationService.hasAccess(route.params.roomId, requiredRoles[0])) {
+    if (this.authenticationService.hasAccess(route.params.shortId, requiredRoles[0])) {
       return true;
     }
 
