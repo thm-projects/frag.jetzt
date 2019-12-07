@@ -385,8 +385,6 @@ References (Placeholder-Text):
 </ars-style-typography-material>
 ```
 
-__Note:__ `ars-style-typography-material` has no ViewEncapsulation. Multiple use in one component has no effect. Should be used as root component. Might affect child components.
-
 #### Structure
 
 - typo
