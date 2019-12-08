@@ -1,9 +1,9 @@
 export const arsnova = {
 
-  '--primary' : '#263238',
+  '--primary' : '#FF4500', /* Orangered */
   '--primary-variant': '#FFFFFF',
 
-  '--secondary': '#FF6D00',
+  '--secondary': '#A52A2A', /* Brown */
   '--secondary-variant': '#FFFFFF',
 
   '--background': '#FFE4B5', /* Moccasin */
@@ -19,7 +19,7 @@ export const arsnova = {
 
   '--green': 'green',
   '--red': 'red',
-  '--yellow': '#FF6D00',
+  '--yellow': '#FF4500', /* Orangered */
   '--blue': '#002878',
   '--purple': '#9c27b0',
   '--light-green': '#80ba24',
