@@ -115,6 +115,12 @@
         <span>{{ 'comment-list.filter-wrong' | translate }}</span>
       </button>
 
+      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.answered' | translate }}"
+              (click)="filterComments(answered)" aria-labelledby="comment">
+        <mat-icon [ngClass]="{answered: 'answered-icon'}[currentFilter]">comment</mat-icon>
+        <span>{{ 'comment-list.filter-answered' | translate }}</span>
+      </button>
+
       <button mat-menu-item (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')"
               aria-labelledby="close">
         <mat-icon>close</mat-icon>
