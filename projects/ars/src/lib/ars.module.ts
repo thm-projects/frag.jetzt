@@ -39,7 +39,12 @@ import { MaterialTypographyComponent } from './components/style/typography/mater
     FullScreenOverlayComponent,
     WrapperDirective,
     FrameTestComponent,
-    ScrollDirective
+    ScrollDirective,
+    MaterialTypographyComponent,
+    RowComponent,
+    RespComponent,
+    ColComponent,
+    FillComponent
   ]
 })
 export class ArsModule { }
