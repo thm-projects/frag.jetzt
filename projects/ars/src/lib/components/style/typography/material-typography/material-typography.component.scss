@@ -27,7 +27,6 @@ $snap-width-micro:300px;
       &-h{
         font-size:3.75em;
         line-height:1.1em;
-        color:#212121;
         @media screen and (max-width:$snap-width){
           font-size:3.55em;
         }
@@ -43,7 +42,7 @@ $snap-width-micro:300px;
       &-p{
         font-size:1.25em;
         line-height:1.5em;
-        color:#616161;
+        opacity:0.7;
         @media screen and (max-width:$snap-width){
           font-size:1.6em;
         }
@@ -53,7 +52,6 @@ $snap-width-micro:300px;
       &-h{
         font-size:2em;
         line-height:1em;
-        color:#212121;
         &.space{
           &-page-p{
             margin-bottom:0.8em;
@@ -65,7 +63,6 @@ $snap-width-micro:300px;
       &-h{
         font-size:1.25em;
         line-height:1.2em;
-        color:#212121;
         @media screen and (max-width:$snap-width){
           font-size:1.8em;
         }
@@ -81,7 +78,7 @@ $snap-width-micro:300px;
       &-p{
         font-size:1em;
         line-height:1.5em;
-        color:#616161;
+        opacity:0.7;
         @media screen and (max-width:$snap-width){
           font-size:16px;
         }
