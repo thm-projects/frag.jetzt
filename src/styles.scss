@@ -14,11 +14,11 @@
 // that you are using.
 @include angular-material-theme($arsnova-theme);
 
-body{
+body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  width:100%;
-  height:100%;
-  overflow:hidden;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .dark {
@@ -56,23 +56,24 @@ markdown {
   color: var(--on-surface);
 }
 
-h2 {
+.oldtypo {
+  &-h2 {
+   color: var(--on-surface) !important;
+    font-size: 24px !important;
+  }
 
-  color: var(--on-surface) !important;
-  font-size: 24px !important;
+  &-h3 {
+    color: var(--on-surface) !important;
+    font-size: 18px !important;
+  }
 }
 
-h3 {
-  color: var(--on-surface) !important;
-  font-size: 18px !important;
-}
-
-h4 {
+.oldtypo h4 {
   padding-top: 10%;
   font-size: 17px !important;
 }
 
-p, div {
+.oldtypo p, .oldtypo div {
   color: var(--on-surface);
   hyphens: auto;
 }
@@ -86,12 +87,12 @@ address {
   overflow: hidden;
 }
 
-.testBox{
-  width:50%;
-  height:50%;
+.testBox {
+  width: 50%;
+  height: 50%;
   position: fixed;
-  left:0px;
-  top:25%;
+  left: 0px;
+  top: 25%;
   z-index: 1000;
   background-color: var(--surface);
 }
@@ -100,26 +101,26 @@ address {
   background: var(--background);
 }
 
-.filledDialog{
-  width:calc( 100% - 50px);
-  min-width:calc( 100% - 50px);
-  max-width:calc( 100% - 50px);
-  height:calc( 100% - 50px);
-  margin:25px;
-  padding:0;
+.filledDialog {
+  width: calc(100% - 50px);
+  min-width: calc(100% - 50px);
+  max-width: calc(100% - 50px);
+  height: calc(100% - 50px);
+  margin: 25px;
+  padding: 0;
 }
 
-.screenDialog{
-  width:100%;
-  min-width:100%;
-  max-width:100%;
-  height:100%;
-  margin:0;
-  padding:0;
+.screenDialog {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.imgWrp img{
-  width:calc( 100% - 35px );
-  height:calc( 100% - 35px );
+.imgWrp img {
+  width: calc(100% - 35px);
+  height: calc(100% - 35px);
   image-rendering: crisp-edges;
 }
