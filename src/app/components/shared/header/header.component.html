@@ -10,7 +10,7 @@
 
     </button>
     <span class="fill-remaining-space"></span>
-    <h2 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
+    <h2 class="oldtypo-h2" *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       {{cTime}}
     </h2>
@@ -24,7 +24,7 @@
       gavel
     </mat-icon>
   </span>
-    <h2 id="shortId-header" *ngIf="router.url.includes('comments')"
+    <h2 class="oldtypo-h2" id="shortId-header" *ngIf="router.url.includes('comments')"
         fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
     </h2>
@@ -82,7 +82,7 @@
             (click)=login(false) aria-labelledby="login-label">
       <div class="label-icon">
         <mat-icon class="header-icons">account_circle</mat-icon>
-        <h2 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
+        <h2 class="oldtypo-h2" *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
     </button>
 
