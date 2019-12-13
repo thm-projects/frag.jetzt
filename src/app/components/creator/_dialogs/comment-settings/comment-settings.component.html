@@ -1,10 +1,10 @@
 <div mat-dialog-content>
-  <!--Fragen-->
+  <!--questions-->
   <h2 class="oldtypo-h2">{{'room-page.comments' | translate }}</h2>
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <div fxLayout="row">
-      <!--Schwellenwert-->
+      <!--comment threshold-->
       <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
         <mat-slide-toggle [(ngModel)]="settingThreshold" aria-labelledby="threshold"></mat-slide-toggle>
       </p>
@@ -17,14 +17,14 @@
   </div>
   <div fxLayout="column">
     <div fxLayout="row">
-      <!--Fragen moderieren-->
+      <!--moderate questions-->
       <p class="oldtypo-p">{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
         <mat-slide-toggle [(ngModel)]="enableCommentModeration"
                           aria-labelledby="settings-comment-moderation"></mat-slide-toggle>
       </p>
     </div>
     <div fxLayout="row" *ngIf="enableCommentModeration">
-      <!--Fragen sofort sichtbar-->
+      <!--direct send-->
       <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
         <mat-slide-toggle [(ngModel)]="directSend" aria-labelledby="settings-direct-send"></mat-slide-toggle>
       </p>
