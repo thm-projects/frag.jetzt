@@ -1,25 +1,33 @@
 <div mat-dialog-content>
-  <h2>{{'room-page.comments' | translate }}</h2>
+  <!--Fragen-->
+  <h2 class="oldtypo-h2">{{'room-page.comments' | translate }}</h2>
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <div fxLayout="row">
-      <p>{{ 'room-page.threshold' | translate}}&nbsp;
-        <mat-slide-toggle [(ngModel)]="settingThreshold" aria-labelledby="threshold" ></mat-slide-toggle></p>
+      <!--Schwellenwert-->
+      <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
+        <mat-slide-toggle [(ngModel)]="settingThreshold" aria-labelledby="threshold"></mat-slide-toggle>
+      </p>
     </div>
     <div fxLayout="row" *ngIf="settingThreshold">
       <mat-slider id="commentSlider" min="-100" max="0" step="5"
-                [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
-      <h2>&nbsp;{{commentThreshold | number}}</h2>
+                  [(ngModel)]="commentThreshold" (input)="onSliderChange($event)"></mat-slider>
+      <h2 class="oldtypo-h2">&nbsp;{{commentThreshold | number}}</h2>
     </div>
   </div>
   <div fxLayout="column">
     <div fxLayout="row">
-      <p>{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
-      <mat-slide-toggle [(ngModel)]="enableCommentModeration" aria-labelledby="settings-comment-moderation"></mat-slide-toggle></p>
+      <!--Fragen moderieren-->
+      <p class="oldtypo-p">{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
+        <mat-slide-toggle [(ngModel)]="enableCommentModeration"
+                          aria-labelledby="settings-comment-moderation"></mat-slide-toggle>
+      </p>
     </div>
     <div fxLayout="row" *ngIf="enableCommentModeration">
-      <p>{{ 'room-page.settings-direct-send' | translate}}&nbsp;
-      <mat-slide-toggle [(ngModel)]="directSend" aria-labelledby="settings-direct-send"></mat-slide-toggle></p>
+      <!--Fragen sofort sichtbar-->
+      <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
+        <mat-slide-toggle [(ngModel)]="directSend" aria-labelledby="settings-direct-send"></mat-slide-toggle>
+      </p>
     </div>
   </div>
   <div fxLayoutAlign="center center">
@@ -41,9 +49,9 @@
 </div>
 
 <div class="visually-hidden">
-  <div id = "threshold">{{'room-page.a11y-threshold' | translate}} </div>
-  <div id = "settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
-  <div id = "settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
-  <div id = "export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
-  <div id = "delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
+  <div id="threshold">{{'room-page.a11y-threshold' | translate}} </div>
+  <div id="settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
+  <div id="settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
+  <div id="export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
+  <div id="delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
 </div>

@@ -25,7 +25,7 @@ export class BonusTokenComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe( list => {
+    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
       this.bonusTokens = list;
     });
   }
