@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <h2>{{'room-page.moderators' | translate }}</h2>
+  <h2 class="oldtypo-h2">{{'room-page.moderators' | translate }}</h2>
   <mat-divider></mat-divider>
   <div fxLayout="row">
     <mat-form-field class="input-block">
@@ -12,19 +12,22 @@
       </mat-error>
     </mat-form-field>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''" aria-labelledby="add-moderator" >
+    <button mat-icon-button class="add" (click)="addModerator(loginId.value); loginId.value = ''"
+            aria-labelledby="add-moderator">
       <mat-icon class="add-icon">add_circle</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
   </div>
-  <p *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</p>
+  <p class="oldtypo-p" *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</p>
   <div *ngIf="moderators.length > 0">
     <div fxLayout="row" *ngFor="let moderator of moderators; index as i">
-      <p>
-        {{i+1}}. {{moderator.loginId}}
+      <!--List of moderators-->
+      <p class="oldtypo-p">
+        {{i + 1}}. {{moderator.loginId}}
       </p>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button class="close" (click)="openDeleteRoomDialog(moderator)" aria-labelledby="delete-moderator">
+      <button mat-icon-button class="close" (click)="openDeleteRoomDialog(moderator)"
+              aria-labelledby="delete-moderator">
         <mat-icon class="close-icon">close</mat-icon>
       </button>
     </div>
@@ -36,7 +39,7 @@
 </div>
 
 <div class="visually-hidden">
-  <div id ="moderator-email">{{'room-page.a11y-moderator-email' | translate}}</div>
-  <div id ="add-moderator">{{'room-page.a11y-add-moderator' | translate}}</div>
-  <div id ="delete-moderator">{{'room-page.a11y-delete-moderator' | translate}}</div>
+  <div id="moderator-email">{{'room-page.a11y-moderator-email' | translate}}</div>
+  <div id="add-moderator">{{'room-page.a11y-add-moderator' | translate}}</div>
+  <div id="delete-moderator">{{'room-page.a11y-delete-moderator' | translate}}</div>
 </div>
