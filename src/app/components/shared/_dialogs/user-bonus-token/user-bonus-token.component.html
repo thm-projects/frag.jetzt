@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <!--Tokens für Bonuspunkte-->
+  <!--tokens for bonuspoints-->
   <h2 class="oldtypo-h2" tabindex="0">{{'header.bonus-token' | translate }}</h2>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokensMixin.length >= 1">
@@ -11,7 +11,7 @@
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-    <!--Noch keine Bonuspunkte erhalten-->
+    <!--no bonus points yet-->
     <h3 class="oldtypo-h3" tabindex="0">{{'header.no-bonus' | translate }}</h3>
   </div>
   <app-dialog-action-buttons
