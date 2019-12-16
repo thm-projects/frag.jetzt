@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FrameTestComponent } from './frame-test.component';
+import { DialogOverlayComponent } from './dialog-overlay.component';
 
-describe('FrameTestComponent', () => {
-  let component: FrameTestComponent;
-  let fixture: ComponentFixture<FrameTestComponent>;
+describe('DialogOverlayComponent', () => {
+  let component: DialogOverlayComponent;
+  let fixture: ComponentFixture<DialogOverlayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FrameTestComponent ]
+      declarations: [ DialogOverlayComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FrameTestComponent);
+    fixture = TestBed.createComponent(DialogOverlayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
