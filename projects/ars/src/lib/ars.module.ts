@@ -55,7 +55,9 @@ import { DialogFullscreenComponent } from './components/content/dialog/dialog-fu
     RowComponent,
     RespComponent,
     ColComponent,
-    FillComponent
+    FillComponent,
+    DialogFullscreenComponent,
+    MaterialDialogComponent
   ],
   entryComponents: [
     DialogOverlayComponent,
