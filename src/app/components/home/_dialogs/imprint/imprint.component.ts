@@ -1,14 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material';
-import { DialogEvent } from '../../../../../../projects/ars/src/lib/components/content/dialog/DialogEvent';
 
 @Component({
   selector: 'app-imprint',
   templateUrl: './imprint.component.html',
   styleUrls: ['./imprint.component.scss']
 })
-export class ImprintComponent implements OnInit, DialogEvent {
-  @Output() closeEmit: EventEmitter<void> = new EventEmitter<void>();
+export class ImprintComponent implements OnInit {
   deviceType: string;
   currentLang: string;
 
@@ -17,5 +15,12 @@ export class ImprintComponent implements OnInit, DialogEvent {
 
   ngOnInit() {
     this.currentLang = localStorage.getItem('currentLang');
+  }
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildDeclineActionCallback(): () => void {
+    return () => this.dialogRef.close();
   }
 }

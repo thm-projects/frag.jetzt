@@ -16,8 +16,6 @@ import { DataProtectionComponent } from '../../home/_dialogs/data-protection/dat
 import { Theme } from '../../../../theme/Theme';
 import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
 import { AppComponent } from '../../../app.component';
-import { DialogBuilder } from '../../../../../projects/ars/src/lib/models/dialog/DialogBuilder';
-import { DebugBorder } from '../../../../../projects/ars/src/lib/models/debug/DebugBorder';
 
 @Component({
   selector: 'app-footer',
@@ -111,7 +109,10 @@ export class FooterComponent implements OnInit {
   }
 
   showImprint() {
-    DialogBuilder.createDialog(ImprintComponent);
+    const dialogRef = this.dialog.open(ImprintComponent, {
+      width: '80%'
+    });
+    dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   showHelp() {

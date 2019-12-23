@@ -1,10 +1,11 @@
-<!-- imprint -->
-<ars-style-dialog-material>
-  <ars-dialog-fullscreen (closeEmit)="closeEmit.emit();">
-    <h1 header class="dialog-title" tabindex="0">{{ 'imprint.title' | translate }}</h1>
-    <ng-container content>
-      <app-imprint-en *ngIf="currentLang=='en'" tabindex="-1"></app-imprint-en>
-      <app-imprint-de *ngIf="currentLang=='de'" tabindex="-1"></app-imprint-de>
-    </ng-container>
-  </ars-dialog-fullscreen>
-</ars-style-dialog-material>
+<!--Imprint-->
+<h2 tabindex="0" class="modal oldtypo-h2" mat-dialog-title>{{ 'imprint.title' | translate }} </h2>
+<mat-divider></mat-divider>
+<mat-dialog-content tabindex="0">
+  <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
+  <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
+  <app-dialog-action-buttons
+    buttonsLabelSection="imprint"
+    [cancelButtonClickAction]="buildDeclineActionCallback()">
+  </app-dialog-action-buttons>
+</mat-dialog-content>
