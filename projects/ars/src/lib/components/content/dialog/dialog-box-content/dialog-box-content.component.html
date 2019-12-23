@@ -1,0 +1,16 @@
+
+<ars-dialog-box (closeEmit)="closeEmit.emit();">
+  <div class="dialog-limbo">
+    <div tabindex="0">Dialog</div>
+    <ng-content select="[limbo]"></ng-content>
+  </div>
+  <div class="dialog-container-header">
+    <ng-content select="[header]"></ng-content>
+  </div>
+  <div class="dialog-container-content">
+    <ng-content select="[content]"></ng-content>
+  </div>
+  <div class="dialog-container-footer">
+    <ng-content select="[footer]"></ng-content>
+  </div>
+</ars-dialog-box>

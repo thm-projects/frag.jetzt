@@ -8,10 +8,16 @@ import { RowComponent } from './components/layout/frame/row/row.component';
 import { ColComponent } from './components/layout/frame/col/col.component';
 import { FillComponent } from './components/layout/frame/fill/fill.component';
 import { WrapperDirective } from './components/layout/frame/wrp/WrapperDirective';
-import { FrameTestComponent } from './components/test/layout/frame/frame-test/frame-test.component';
 import { RespComponent } from './components/layout/base/resp/resp.component';
 import { ScrollDirective } from './components/layout/base/scroll/ScrollDirective';
 import { MaterialTypographyComponent } from './components/style/typography/material-typography/material-typography.component';
+import { DialogOverlayComponent } from './components/content/dialog/dialog-overlay/dialog-overlay.component';
+import { A11yModule } from '@angular/cdk/a11y';
+import { DialogBoxComponent } from './components/content/dialog/dialog-box/dialog-box.component';
+import { DialogBoxContentComponent } from './components/content/dialog/dialog-box-content/dialog-box-content.component';
+import { MaterialDialogComponent } from './components/style/dialog/material-dialog/material-dialog.component';
+import { CommonModule } from '@angular/common';
+import { DialogFullscreenComponent } from './components/content/dialog/dialog-fullscreen/dialog-fullscreen.component';
 
 @NgModule({
   declarations: [
@@ -23,14 +29,20 @@ import { MaterialTypographyComponent } from './components/style/typography/mater
     ColComponent,
     FillComponent,
     WrapperDirective,
-    FrameTestComponent,
     RespComponent,
     ScrollDirective,
-    MaterialTypographyComponent
+    MaterialTypographyComponent,
+    DialogOverlayComponent,
+    DialogBoxComponent,
+    DialogBoxContentComponent,
+    MaterialDialogComponent,
+    DialogFullscreenComponent
   ],
   imports: [
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    A11yModule,
+    CommonModule
   ],
   exports: [
     ArsComponent,
@@ -38,13 +50,20 @@ import { MaterialTypographyComponent } from './components/style/typography/mater
     ArsSliderCombComponent,
     FullScreenOverlayComponent,
     WrapperDirective,
-    FrameTestComponent,
     ScrollDirective,
     MaterialTypographyComponent,
     RowComponent,
     RespComponent,
     ColComponent,
-    FillComponent
+    FillComponent,
+    DialogFullscreenComponent,
+    MaterialDialogComponent
+  ],
+  entryComponents: [
+    DialogOverlayComponent,
+    DialogBoxComponent,
+    DialogBoxContentComponent,
+    DialogFullscreenComponent
   ]
 })
 export class ArsModule { }

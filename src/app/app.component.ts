@@ -4,6 +4,8 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
+import { Overlay } from '@angular/cdk/overlay';
+import { DialogBuilder } from '../../projects/ars/src/lib/models/dialog/DialogBuilder';
 
 @Component({
   selector: 'app-root',
@@ -17,10 +19,12 @@ export class AppComponent implements OnInit {
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
               public notification: NotificationService,
-              private customIconService: CustomIconService) {
+              private customIconService: CustomIconService,
+              overlay: Overlay) {
     translationService.setDefaultLang(this.translationService.getBrowserLang());
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
     customIconService.init();
+    DialogBuilder.init(overlay);
   }
 
   public static rescale: Rescale = new Rescale();
