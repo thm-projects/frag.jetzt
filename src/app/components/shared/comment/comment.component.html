@@ -26,7 +26,7 @@
 
       <button mat-icon-button *ngIf="comment.answer" (click)="openAnswerTextDialog()"
               tabindex="0">
-        <mat-icon matTooltip="{{ 'comment-page.has-answer' | translate }}">comment
+        <mat-icon class="answered-icon" matTooltip="{{ 'comment-page.has-answer' | translate }}">comment
         </mat-icon>
       </button>
 

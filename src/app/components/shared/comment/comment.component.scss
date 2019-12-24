@@ -30,6 +30,10 @@ mat-card-content > :first-child {
   color: slategray;
 }
 
+.answered-icon {
+  color: var(on-surface);
+}
+
 .correct-icon {
   color: var(--green);
 }
