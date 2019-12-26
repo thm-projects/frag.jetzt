@@ -129,3 +129,7 @@ address {
   height: calc(100% - 35px);
   image-rendering: crisp-edges;
 }
+
+.mat-card {
+  border-radius: 25px !important;
+}
