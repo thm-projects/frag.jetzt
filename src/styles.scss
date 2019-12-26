@@ -102,10 +102,6 @@ address {
   background-color: var(--surface);
 }
 
-.cdk-overlay-dark-backdrop {
-  background: var(--background);
-}
-
 .filledDialog {
   width: calc(100% - 50px);
   min-width: calc(100% - 50px);
