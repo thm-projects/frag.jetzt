@@ -78,10 +78,12 @@ mat-card-header {
 mat-card-title {
   height: 40%;
   min-width: 150px;
+  color: var(--surface)!important;
 }
 
 mat-card-subtitle {
   height: 30%;
+  color: var(--surface)!important;
 }
 
 mat-grid-tile {

@@ -54,10 +54,12 @@ mat-card-header {
 mat-card-title {
   height: 40%;
   min-width: 200px;
+  color: var(--surface)!important;
 }
 
 mat-card-subtitle {
   height: 20%;
+  color: var(--surface)!important;
 }
 
 mat-expansion-panel {
