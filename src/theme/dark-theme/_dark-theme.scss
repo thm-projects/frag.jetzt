@@ -10,3 +10,11 @@ a {
   text-decoration: underline;
   color: var(--on-surface);
 }
+
+.mat-dialog-container {
+  color: var(--on-surface) !important;
+}
+
+.mat-dialog-container h3 {
+  color: var(--on-surface) !important;
+}

@@ -6,3 +6,11 @@ $purple-accent: mat-palette($mat-amber, 200); //$mat-purple-gray, A200, A100, A4
 $purple-warn: mat-palette($mat-red, A100);
 
 $purple-theme: mat-light-theme($purple-primary, $purple-accent, $purple-warn);
+
+.mat-dialog-container {
+  color: var(--on-surface) !important;
+}
+
+.mat-dialog-container h3 {
+  color: var(--on-surface) !important;
+}
