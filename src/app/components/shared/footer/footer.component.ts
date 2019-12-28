@@ -82,13 +82,6 @@ export class FooterComponent implements OnInit {
       width: '80%'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
-    dialogRef.afterOpened().subscribe(e => {
-      document.getElementById('outer_main_container').style.display = 'none';
-    });
-    dialogRef.afterClosed().subscribe(e => {
-      document.getElementById('outer_main_container').style.display = 'block';
-    });
-
   }
 
   showCookieModal() {
