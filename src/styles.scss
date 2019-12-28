@@ -129,3 +129,7 @@ address {
 .mat-card, .mat-dialog-container {
   border-radius: 25px !important;
 }
+
+.cdk-overlay-dark-backdrop {
+  background: var(--background);
+}
