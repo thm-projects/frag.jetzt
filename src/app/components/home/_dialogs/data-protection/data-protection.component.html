@@ -7,11 +7,10 @@
     <app-data-protection-en *ngIf="currentLang=='en'"></app-data-protection-en>
     <app-data-protection-de *ngIf="currentLang=='de'"></app-data-protection-de>
 
-
-    <app-dialog-action-buttons
-      buttonsLabelSection="imprint"
-      [cancelButtonClickAction]="buildConfirmActionCallback()">
-    </app-dialog-action-buttons>
   </mat-dialog-content>
+  <app-dialog-action-buttons
+    buttonsLabelSection="imprint"
+    [cancelButtonClickAction]="buildConfirmActionCallback()">
+  </app-dialog-action-buttons>
 </div>
 

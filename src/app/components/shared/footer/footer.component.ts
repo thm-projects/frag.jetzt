@@ -1,21 +1,21 @@
-import { LanguageService } from './../../../services/util/language.service';
-import { Component, OnInit } from '@angular/core';
-import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { User } from '../../../models/user';
-import { Room } from '../../../models/room';
-import { DemoVideoComponent } from '../../home/_dialogs/demo-video/demo-video.component';
-import { ThemeService } from '../../../../theme/theme.service';
-import { CookiesComponent } from '../../home/_dialogs/cookies/cookies.component';
-import { ImprintComponent } from '../../home/_dialogs/imprint/imprint.component';
-import { HelpPageComponent } from '../_dialogs/help-page/help-page.component';
-import { DataProtectionComponent } from '../../home/_dialogs/data-protection/data-protection.component';
-import { Theme } from '../../../../theme/Theme';
-import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
-import { AppComponent } from '../../../app.component';
+import {LanguageService} from './../../../services/util/language.service';
+import {Component, OnInit} from '@angular/core';
+import {NotificationService} from '../../../services/util/notification.service';
+import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material';
+import {TranslateService} from '@ngx-translate/core';
+import {AuthenticationService} from '../../../services/http/authentication.service';
+import {User} from '../../../models/user';
+import {Room} from '../../../models/room';
+import {DemoVideoComponent} from '../../home/_dialogs/demo-video/demo-video.component';
+import {ThemeService} from '../../../../theme/theme.service';
+import {CookiesComponent} from '../../home/_dialogs/cookies/cookies.component';
+import {ImprintComponent} from '../../home/_dialogs/imprint/imprint.component';
+import {HelpPageComponent} from '../_dialogs/help-page/help-page.component';
+import {DataProtectionComponent} from '../../home/_dialogs/data-protection/data-protection.component';
+import {Theme} from '../../../../theme/Theme';
+import {OverlayComponent} from '../../home/_dialogs/overlay/overlay.component';
+import {AppComponent} from '../../../app.component';
 
 @Component({
   selector: 'app-footer',
