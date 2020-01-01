@@ -75,7 +75,7 @@ markdown {
 
 .oldtypo h4 {
   padding-top: 10%;
-  font-size: 17px !important;
+  font-size: 16px !important;
 }
 
 .oldtypo p, .oldtypo div {
@@ -128,4 +128,8 @@ address {
 
 .mat-card, .mat-dialog-container {
   border-radius: 25px !important;
+}
+
+.mat-dialog-container {
+  padding: 15px !important;
 }
