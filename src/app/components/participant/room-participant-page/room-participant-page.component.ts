@@ -35,11 +35,11 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              private authenticationService: AuthenticationService,
+              protected authenticationService: AuthenticationService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
               public eventService: EventService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService);
+    super(roomService, route, location, wsCommentService, commentService, eventService, authenticationService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 

@@ -270,4 +270,14 @@ export class AuthenticationService extends BaseHttpService {
     });
     localStorage.setItem(this.ROOM_ACCESS, JSON.stringify(arr));
   }
+
+  checkAccess(shortId: string): void {
+    if (this.hasAccess(shortId, UserRole.CREATOR)) {
+      this.assignRole(UserRole.CREATOR);
+    } else if (this.hasAccess(shortId, UserRole.EXECUTIVE_MODERATOR)) {
+      this.assignRole(UserRole.EXECUTIVE_MODERATOR);
+    } else {
+      this.assignRole(UserRole.PARTICIPANT);
+    }
+  }
 }

@@ -8,6 +8,8 @@ import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
 import { Message, IMessage } from '@stomp/stompjs';
 import { Observable, Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-room-page',
@@ -28,7 +30,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               protected location: Location,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              protected eventService: EventService
+              protected eventService: EventService,
+              protected authenticationService: AuthenticationService
   ) {
   }
 
@@ -52,6 +55,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   initializeRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
+      this.authenticationService.checkAccess(id);
       this.room = room;
       this.isLoading = false;
       if (this.room.extensions && this.room.extensions['comments']) {
