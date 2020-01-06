@@ -1,13 +1,12 @@
 import { catchError, map, tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { User } from '../../models/user';
-import { Observable ,  of ,  BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from '../util/data-store.service';
 import { EventService } from '../util/event.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ClientAuthentication } from '../../models/client-authentication';
-import { AuthProvider } from '../../models/auth-provider';
 import { BaseHttpService } from './base-http.service';
 
 @Injectable()
@@ -255,7 +254,10 @@ export class AuthenticationService extends BaseHttpService {
 
   hasAccess(shortId: string, role: UserRole): boolean {
     const usersRole = this.roomAccess.get(shortId);
-    return (usersRole && (usersRole >= role));
+    if (usersRole === undefined) {
+      return false;
+    }
+    return usersRole >= role;
   }
 
   setAccess(shortId: string, role: UserRole): void {
@@ -276,7 +278,7 @@ export class AuthenticationService extends BaseHttpService {
       this.assignRole(UserRole.CREATOR);
     } else if (this.hasAccess(shortId, UserRole.EXECUTIVE_MODERATOR)) {
       this.assignRole(UserRole.EXECUTIVE_MODERATOR);
-    } else {
+    } else if (this.hasAccess(shortId, UserRole.PARTICIPANT)) {
       this.assignRole(UserRole.PARTICIPANT);
     }
   }

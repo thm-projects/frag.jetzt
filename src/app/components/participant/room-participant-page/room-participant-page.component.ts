@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -39,7 +39,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
               public eventService: EventService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService, authenticationService);
+    super(roomService, route, location, wsCommentService, commentService, eventService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -83,9 +83,11 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   afterRoomLoadHook() {
     this.authenticationService.watchUser.subscribe( user => this.user = user);
     if (!this.user) {
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(guestUser => {
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
         this.roomService.addToHistory(this.room.id);
       });
     }
+    this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
+    this.authenticationService.checkAccess(this.room.shortId);
   }
 }

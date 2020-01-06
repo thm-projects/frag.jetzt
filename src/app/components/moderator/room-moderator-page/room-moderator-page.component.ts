@@ -14,7 +14,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 
 @Component({
   selector: 'app-room-moderator-page',
@@ -39,15 +38,13 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               protected notification: NotificationService,
               public eventService: EventService,
               private liveAnnouncer: LiveAnnouncer,
-              private _r: Renderer2,
-              protected authenticationService: AuthenticationService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService, authenticationService);
+              private _r: Renderer2) {
+    super(roomService, route, location, wsCommentService, commentService, eventService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   initializeRoom(id: string): void {
     this.roomService.getRoomByShortId(id).subscribe(room => {
-      this.authenticationService.checkAccess(id);
       this.room = room;
       this.isLoading = false;
       if (this.room.extensions && this.room.extensions['comments']) {
