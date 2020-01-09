@@ -16,6 +16,7 @@ import { DataProtectionComponent } from '../../home/_dialogs/data-protection/dat
 import { Theme } from '../../../../theme/Theme';
 import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
 import { AppComponent } from '../../../app.component';
+import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
 
 @Component({
   selector: 'app-footer',
@@ -44,7 +45,8 @@ export class FooterComponent implements OnInit {
               private translateService: TranslateService,
               private langService: LanguageService,
               public authenticationService: AuthenticationService,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private styleService: StyleService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -59,6 +61,7 @@ export class FooterComponent implements OnInit {
         this.themeClass = 'arsnova';
       }
     }
+    this.styleService.setColor(this.themeService.getThemeByKey(this.themeClass).isDark);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get('footer.open').subscribe(message => {
       this.open = message;
@@ -148,6 +151,7 @@ export class FooterComponent implements OnInit {
     this.themeClass = theme.key;
     this.themeService.activate(theme.key);
     this.updateScale(theme);
+    this.styleService.setColor(theme.isDark);
   }
 
   updateScale(theme: Theme) {

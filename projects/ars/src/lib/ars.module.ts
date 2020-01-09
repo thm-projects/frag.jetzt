@@ -12,6 +12,7 @@ import { FrameTestComponent } from './components/test/layout/frame/frame-test/fr
 import { RespComponent } from './components/layout/base/resp/resp.component';
 import { ScrollDirective } from './components/layout/base/scroll/ScrollDirective';
 import { MaterialTypographyComponent } from './components/style/typography/material-typography/material-typography.component';
+import { ThemeTestComponent } from './components/test/theme-test/theme-test.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { MaterialTypographyComponent } from './components/style/typography/mater
     FrameTestComponent,
     RespComponent,
     ScrollDirective,
-    MaterialTypographyComponent
+    MaterialTypographyComponent,
+    ThemeTestComponent
   ],
   imports: [
     MatIconModule,
@@ -44,7 +46,8 @@ import { MaterialTypographyComponent } from './components/style/typography/mater
     RowComponent,
     RespComponent,
     ColComponent,
-    FillComponent
+    FillComponent,
+    ThemeTestComponent
   ]
 })
 export class ArsModule { }

@@ -40,6 +40,7 @@ export const blue_meta = {
       'de': 'GERMAN_DESCRIPTION'
     }
   },
+  'isDark': false,
   'order': 4,
   'scale': 1,
   'previewColor': 'background'

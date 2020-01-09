@@ -42,6 +42,7 @@ export const arsnova_meta = {
       'de': 'Heller Hintergrund für fokussiertes Arbeiten'
     }
   },
+  'isDark': false,
   'order': 2,
   'scale': 1,
   'previewColor': 'background'
