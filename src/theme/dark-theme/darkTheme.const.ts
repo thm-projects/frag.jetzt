@@ -41,6 +41,7 @@ export const dark_meta = {
       'de': 'Dunkler akkuschonender Hintergrund'
     }
   },
+  'isDark': true,
   'order': 3,
   'scale': 1,
   'previewColor': 'background'

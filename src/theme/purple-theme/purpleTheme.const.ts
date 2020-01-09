@@ -41,6 +41,7 @@ export const purple_meta = {
       'de': 'Für die Präsentation im Hörsaal optimiert'
     }
   },
+  'isDark': false,
   'order': 1,
   'scale': 1.3,
   'previewColor': 'background'

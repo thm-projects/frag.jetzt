@@ -40,6 +40,7 @@ export const highcontrast_meta = {
       'de': 'Helligkeitskontrast nach WCAG 2.1 AA'
     }
   },
+  'isDark': true,
   'order': 0,
   'scale': 1,
   'previewColor': 'secondary'

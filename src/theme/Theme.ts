@@ -100,6 +100,13 @@ export class Theme {
    */
   public scale: number;
 
+  /**
+   * isDark:
+   * used for dark/light switch in ars-lib
+   *
+   */
+  public isDark: boolean;
+
   constructor(
     public key: string,
     public palette: Object,
@@ -121,6 +128,9 @@ export class Theme {
 
     /*Init scale*/
     this.scale = this.meta['scale'];
+
+    /*Init isDark*/
+    this.isDark = this.meta['isDark'];
 
     /*Init all ColorElem*/
 
