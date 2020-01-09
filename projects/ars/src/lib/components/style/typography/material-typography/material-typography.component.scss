@@ -1,6 +1,8 @@
 
 $snap-width:600px;
 $snap-width-micro:300px;
+$header-color:#212121;
+$paragraph-color:#616161;
 
 :host ::ng-deep {
   body{
@@ -20,6 +22,7 @@ $snap-width-micro:300px;
     padding:0;
     margin:0;
     line-height:1em;
+    hyphens:auto;
   }
 
   .typo{
@@ -27,6 +30,7 @@ $snap-width-micro:300px;
       &-h{
         font-size:3.75em;
         line-height:1.1em;
+        color:$header-color;
         @media screen and (max-width:$snap-width){
           font-size:3.55em;
         }
@@ -42,7 +46,7 @@ $snap-width-micro:300px;
       &-p{
         font-size:1.25em;
         line-height:1.5em;
-        opacity:0.7;
+        color:$paragraph-color;
         @media screen and (max-width:$snap-width){
           font-size:1.6em;
         }
@@ -52,6 +56,7 @@ $snap-width-micro:300px;
       &-h{
         font-size:2em;
         line-height:1em;
+        color:$header-color;
         &.space{
           &-page-p{
             margin-bottom:0.8em;
@@ -63,6 +68,7 @@ $snap-width-micro:300px;
       &-h{
         font-size:1.25em;
         line-height:1.2em;
+        color:$header-color;
         @media screen and (max-width:$snap-width){
           font-size:1.8em;
         }
@@ -78,7 +84,7 @@ $snap-width-micro:300px;
       &-p{
         font-size:1em;
         line-height:1.5em;
-        opacity:0.7;
+        color:$paragraph-color;
         @media screen and (max-width:$snap-width){
           font-size:16px;
         }
