@@ -29,7 +29,7 @@
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell *matCellDef="let room">
-            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgeOverlap="false">
+            <span matBadge="{{room.commentCount > 0 && deviceType === 'desktop' ? room.commentCount : null}}" matBadgeOverlap="false">
               {{ room.name }}
             </span>
           </td>

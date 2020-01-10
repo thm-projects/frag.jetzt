@@ -24,6 +24,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   closedRooms: Room[];
   isLoading = true;
   sub: Subscription;
+  deviceType: string;
 
   tableDataSource: MatTableDataSource<Room>;
   displayedColumns: string[] = ['name', 'shortId', 'role', 'button'];
@@ -46,6 +47,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
       this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
+    this.deviceType = localStorage.getItem('deviceType');
   }
 
   ngOnDestroy() {
