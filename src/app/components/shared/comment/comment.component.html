@@ -5,10 +5,12 @@
     <div fxLayout="row" class="comment-actions">
       <div class="date-container">
         <div class="date" *ngIf="language === 'de'; else englishDate">
-          {{comment.timestamp | date: ' HH:mm '}}
+          {{deviceType === 'desktop' ? (comment.timestamp | date: ' dd.MM.yy | HH:mm ')  :
+          (comment.timestamp | date: ' HH:mm ')}}
         </div>
         <ng-template class="date" #englishDate>
-          {{comment.timestamp | date: 'h:mm a'}}
+          {{deviceType === 'desktop' ? (comment.timestamp | date: ' M/d/yy | h:mm a ') :
+          (comment.timestamp | date: ' h:mm a ')}}
         </ng-template>
       </div>
       <button mat-icon-button *ngIf="comment.read" [disabled]="true" (click)="setRead(comment)">
