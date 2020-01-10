@@ -56,6 +56,7 @@ export class CommentComponent implements OnInit {
   hasVoted = 0;
   language: string;
   animationState: string;
+  deviceType: string;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -85,6 +86,7 @@ export class CommentComponent implements OnInit {
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
+    this.deviceType = localStorage.getItem('deviceType');
   }
 
   startAnimation(state_: any): void {
