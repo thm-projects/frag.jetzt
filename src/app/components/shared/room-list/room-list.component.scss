@@ -61,3 +61,8 @@ th {
   overflow: hidden;
   left: -10000px;
 }
+
+.mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
+}

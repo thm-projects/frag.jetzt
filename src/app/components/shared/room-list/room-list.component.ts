@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
+import { CommentService } from '../../../services/http/comment.service';
 
 @Component({
   selector: 'app-room-list',
@@ -35,7 +36,8 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private roomService: RoomService,
     public eventService: EventService,
     protected authenticationService: AuthenticationService,
-    private moderatorService: ModeratorService
+    private moderatorService: ModeratorService,
+    private commentService: CommentService
   ) {
   }
 
@@ -79,7 +81,11 @@ export class RoomListComponent implements OnInit, OnDestroy {
       return roomWithRole;
     }).sort((a, b) => 0 - (a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1));
     this.isLoading = false;
-
+    for (const room of this.roomsWithRole) {
+      this.commentService.countByRoomId(room.id, true).subscribe(count => {
+        room.commentCount = count;
+      });
+    }
     this.updateTable();
   }
 

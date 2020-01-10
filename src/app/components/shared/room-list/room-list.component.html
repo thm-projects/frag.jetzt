@@ -29,7 +29,7 @@
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell *matCellDef="let room">
-            {{ room.name }}
+            <span matBadge="{{room.commentCount}}" matBadgeOverlap="false">{{ room.name }}</span>
           </td>
         </ng-container>
 
