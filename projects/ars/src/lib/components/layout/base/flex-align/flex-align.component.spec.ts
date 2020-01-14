@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RespComponent } from './resp.component';
+import { FlexAlignComponent } from './flex-align.component';
 
-describe('RespComponent', () => {
-  let component: RespComponent;
-  let fixture: ComponentFixture<RespComponent>;
+describe('FlexAlignComponent', () => {
+  let component: FlexAlignComponent;
+  let fixture: ComponentFixture<FlexAlignComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RespComponent ]
+      declarations: [ FlexAlignComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RespComponent);
+    fixture = TestBed.createComponent(FlexAlignComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

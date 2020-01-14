@@ -1,6 +1,6 @@
 /*import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FullScreenOverlayComponent } from './full-screen-overlay.component';
+import { FullScreenOverlayComponent } from './screen.component';
 
 describe('FullScreenOverlayComponent', () => {
   let component: FullScreenOverlayComponent;
