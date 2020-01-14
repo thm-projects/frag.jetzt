@@ -43,7 +43,8 @@ export const purple_meta = {
   },
   'isDark': false,
   'order': 1,
-  'scale': 1.3,
+  'scale_desktop': 1.3,
+  'scale_mobile': 1,
   'previewColor': 'background'
 
 };

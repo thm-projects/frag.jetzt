@@ -67,7 +67,7 @@ export class FooterComponent implements OnInit {
       this.open = message;
     });
     this.themes = this.themeService.getThemes();
-    this.updateScale(this.themeService.getThemeByKey(this.themeClass));
+    this.updateScale(this.themeService.getThemeByKey(this.themeClass).getScale(this.deviceType));
     this.cookieAccepted = localStorage.getItem('cookieAccepted') === 'true';
     this.dataProtectionConsent = localStorage.getItem('dataProtectionConsent') === 'true';
 
@@ -150,13 +150,13 @@ export class FooterComponent implements OnInit {
   changeTheme(theme: Theme) {
     this.themeClass = theme.key;
     this.themeService.activate(theme.key);
-    this.updateScale(theme);
+    this.updateScale(theme.getScale(this.deviceType));
     this.styleService.setColor(theme.isDark);
   }
 
-  updateScale(theme: Theme) {
-    AppComponent.rescale.setInitialScale(theme.scale);
-    AppComponent.rescale.setDefaultScale(theme.scale);
+  updateScale(scale: number) {
+    AppComponent.rescale.setInitialScale(scale);
+    AppComponent.rescale.setDefaultScale(scale);
   }
 
   getLanguage(): string {
