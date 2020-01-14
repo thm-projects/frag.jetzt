@@ -98,7 +98,14 @@ export class Theme {
    * Used for Initial Rescale value,
    * when Theme is loaded
    */
-  public scale: number;
+  public scaleDesktop: number;
+
+  /**
+   * scale:
+   * Used for Initial Rescale value,
+   * when Theme is loaded
+   */
+  public scaleMobile: number;
 
   /**
    * isDark:
@@ -127,7 +134,8 @@ export class Theme {
     );
 
     /*Init scale*/
-    this.scale = this.meta['scale'];
+    this.scaleDesktop = this.meta['scale_desktop'];
+    this.scaleMobile = this.meta['scale_mobile'];
 
     /*Init isDark*/
     this.isDark = this.meta['isDark'];
@@ -180,6 +188,15 @@ export class Theme {
 
   public getOnPreviewColor(): string {
     return this.previewColor.on.color;
+  }
+
+  public getScale(deviceType: string): number {
+    switch (deviceType) {
+      case 'desktop': return this.scaleDesktop;
+      case 'mobile': return this.scaleMobile;
+      default: console.error('unknown device type: ' + deviceType);
+    }
+    return undefined;
   }
 
   public toString(language: string): string {
