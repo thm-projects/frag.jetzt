@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'ars-screen',
-  templateUrl: './full-screen-overlay.component.html',
-  styleUrls: ['./full-screen-overlay.component.scss']
+  templateUrl: './screen.component.html',
+  styleUrls: ['./screen.component.scss']
 })
 export class FullScreenOverlayComponent implements OnInit {
 

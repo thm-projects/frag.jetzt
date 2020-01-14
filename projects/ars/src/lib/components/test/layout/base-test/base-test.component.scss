@@ -1,0 +1,35 @@
+
+
+.testflex{
+  width:100%;
+  height:100%;
+  background-color:orange;
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
+  overflow:scroll;
+}
+
+.col{
+  width:200px;
+  height:0;
+  margin-left:5px;
+  margin-right:5px;
+  background-color:yellow;
+}
+
+.colwrp{
+  width:100%;
+  float:left;
+  background-color:pink;
+  box-sizing:border-box;
+  padding:10px;
+}
+
+.examplescreen{
+  background-color: var(--ars-background-color);
+}
+
+.seperator{
+  background-color:var(--ars-border-color);
+}

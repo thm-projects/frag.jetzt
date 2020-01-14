@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ArsSliderCombComponent } from './ars-slider-comb.component';
+import { BaseTestComponent } from './base-test.component';
 
-describe('ArsSliderCombComponent', () => {
-  let component: ArsSliderCombComponent;
-  let fixture: ComponentFixture<ArsSliderCombComponent>;
+describe('BaseTestComponent', () => {
+  let component: BaseTestComponent;
+  let fixture: ComponentFixture<BaseTestComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ArsSliderCombComponent ]
+      declarations: [ BaseTestComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ArsSliderCombComponent);
+    fixture = TestBed.createComponent(BaseTestComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
