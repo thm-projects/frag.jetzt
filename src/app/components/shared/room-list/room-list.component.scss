@@ -66,3 +66,8 @@ th {
   background: var(--secondary);
   color: var(--on-secondary);
 }
+
+.table-container {
+  height: 45vh;
+  overflow: auto;
+}
