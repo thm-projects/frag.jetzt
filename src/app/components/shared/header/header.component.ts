@@ -19,8 +19,6 @@ import { UserBonusTokenComponent } from '../_dialogs/user-bonus-token/user-bonus
 import { RemindOfTokensComponent } from '../_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { BonusToken } from '../../../models/bonus-token';
-import { AuthProvider } from '../../../models/auth-provider';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +30,7 @@ export class HeaderComponent implements OnInit {
   cTime: string;
   shortId: string;
   deviceType: string;
+  isApple = 'false';
   moderationEnabled: boolean;
 
   constructor(public location: Location,
@@ -53,10 +52,17 @@ export class HeaderComponent implements OnInit {
     }
     // Subscribe to user data (update component's user when user data changes: e.g. login, logout)
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+        this.isApple = 'true';
+      }
       this.deviceType = 'mobile';
     } else {
+      if (/Macintosh|MacIntel|MacPPC|Mac68k/.test(navigator.userAgent)) {
+        this.isApple = 'true';
+      }
       this.deviceType = 'desktop';
     }
+    localStorage.setItem('isApple', this.isApple);
     localStorage.setItem('deviceType', this.deviceType);
     if (!localStorage.getItem('currentLang')) {
       const lang = this.translationService.getBrowserLang();
