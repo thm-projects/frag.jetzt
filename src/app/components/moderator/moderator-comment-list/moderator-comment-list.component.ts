@@ -11,7 +11,6 @@ import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
-import { VoteService } from '../../../services/http/vote.service';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
@@ -33,6 +32,7 @@ export class ModeratorCommentListComponent implements OnInit {
   filteredComments: Comment[];
   userRole: UserRole;
   deviceType: string;
+  isApple: string;
   isLoading = true;
   voteasc = 'voteasc';
   votedesc = 'votedesc';
@@ -79,6 +79,7 @@ export class ModeratorCommentListComponent implements OnInit {
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
+    this.isApple = localStorage.getItem('isApple');
     this.currentSort = this.votedesc;
     this.commentService.getRejectedComments(this.roomId)
       .subscribe(comments => {

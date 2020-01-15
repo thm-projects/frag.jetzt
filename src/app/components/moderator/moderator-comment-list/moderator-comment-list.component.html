@@ -40,7 +40,7 @@
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
-    <button mat-icon-button matTooltip="{{ 'comment-list.vote-desc' | translate }}"
+    <button mat-icon-button *ngIf="isApple === 'false'" matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="sortComments(votedesc)">
       <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
     </button>
