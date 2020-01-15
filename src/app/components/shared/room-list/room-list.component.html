@@ -20,7 +20,7 @@
       <mat-placeholder class="placeholder">{{ 'room-list.filter-message' | translate }}</mat-placeholder>
     </mat-form-field>
 
-    <div [class.tableOverflow]="this.tableDataSource.data.length > 5">
+    <div class="table-container">
       <table #roomTable mat-table [dataSource]="tableDataSource" style="width: 100%">
 
         <!-- Room / Session name column -->
