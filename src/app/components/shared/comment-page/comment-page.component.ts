@@ -7,6 +7,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { Rescale } from '../../../models/rescale';
 
 @Component({
   selector: 'app-comment-page',
@@ -71,11 +72,18 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
         }
       }
     });
+    // Rescale when this.user['role'] === 3
+    if (this.user.role === 3) {
+      Rescale.requestFullscreen();
+    }
   }
 
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
+    if (this.user.role === 3) {
+      Rescale.exitFullscreen();
+    }
   }
 
   public announce() {
