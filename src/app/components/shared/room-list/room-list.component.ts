@@ -11,6 +11,8 @@ import { ModeratorService } from '../../../services/http/moderator.service';
 import { MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CommentService } from '../../../services/http/comment.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-room-list',
@@ -38,7 +40,9 @@ export class RoomListComponent implements OnInit, OnDestroy {
     public eventService: EventService,
     protected authenticationService: AuthenticationService,
     private moderatorService: ModeratorService,
-    private commentService: CommentService
+    private commentService: CommentService,
+    public notificationService: NotificationService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -98,6 +102,18 @@ export class RoomListComponent implements OnInit, OnDestroy {
         localStorage.setItem('shortId', shortId);
       }
     }
+  }
+
+  removeFromHistory(roomId: string) {
+    this.roomService.removeFromHistory(roomId).subscribe( x => {
+      this.rooms = this.rooms.filter(r => r.id !== roomId);
+      this.closedRooms = this.closedRooms.filter(r => r.id !== roomId);
+      this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== roomId);
+      this.updateTable();
+      this.translateService.get('room-list.room-successfully-removed').subscribe(message => {
+        this.notificationService.show(message);
+      });
+    });
   }
 
   roleToString(role: UserRole): string {
