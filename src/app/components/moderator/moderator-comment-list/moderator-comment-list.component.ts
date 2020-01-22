@@ -32,7 +32,7 @@ export class ModeratorCommentListComponent implements OnInit {
   filteredComments: Comment[];
   userRole: UserRole;
   deviceType: string;
-  isApple: string;
+  isSafari: string;
   isLoading = true;
   voteasc = 'voteasc';
   votedesc = 'votedesc';
@@ -79,7 +79,7 @@ export class ModeratorCommentListComponent implements OnInit {
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
-    this.isApple = localStorage.getItem('isApple');
+    this.isSafari = localStorage.getItem('isSafari');
     this.currentSort = this.votedesc;
     this.commentService.getRejectedComments(this.roomId)
       .subscribe(comments => {

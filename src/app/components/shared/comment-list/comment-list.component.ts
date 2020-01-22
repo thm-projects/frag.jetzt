@@ -37,7 +37,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   filteredComments: Comment[];
   userRole: UserRole;
   deviceType: string;
-  isApple: string;
+  isSafari: string;
   isLoading = true;
   voteasc = 'voteasc';
   votedesc = 'votedesc';
@@ -108,7 +108,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.subscribeCommentStream();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
-    this.isApple = localStorage.getItem('isApple');
+    this.isSafari = localStorage.getItem('isSafari');
     if (this.userRole === 0) {
       this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
         for (const v of votes) {
