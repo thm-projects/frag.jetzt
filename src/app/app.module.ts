@@ -61,6 +61,7 @@ import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
+import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -106,7 +107,8 @@ export function initializeApp(appConfig: AppConfig) {
     DemoVideoComponent,
     CookiesComponent,
     OverlayComponent,
-    QrCodeDialogComponent
+    QrCodeDialogComponent,
+    RemoveFromHistoryComponent
   ],
   imports: [
     AppRoutingModule,
