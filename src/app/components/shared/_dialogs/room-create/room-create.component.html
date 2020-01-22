@@ -1,4 +1,4 @@
-<form (ngSubmit)="addRoom(roomName.value)">
+<form (ngSubmit)="checkLogin(roomName.value)">
   <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
     <mat-form-field>
       <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()" (keypress)="resetEmptyInputs()" matInput #roomName class="input-block" type="text"
