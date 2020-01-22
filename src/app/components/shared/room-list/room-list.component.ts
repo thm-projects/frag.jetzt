@@ -8,11 +8,12 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { MatTableDataSource } from '@angular/material';
+import { MatDialog, MatTableDataSource } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
 
 @Component({
   selector: 'app-room-list',
@@ -42,7 +43,8 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private moderatorService: ModeratorService,
     private commentService: CommentService,
     public notificationService: NotificationService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    public dialog: MatDialog
   ) {
   }
 
@@ -104,15 +106,27 @@ export class RoomListComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeFromHistory(roomId: string) {
-    this.roomService.removeFromHistory(roomId).subscribe( x => {
-      this.rooms = this.rooms.filter(r => r.id !== roomId);
-      this.closedRooms = this.closedRooms.filter(r => r.id !== roomId);
-      this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== roomId);
-      this.updateTable();
-      this.translateService.get('room-list.room-successfully-removed').subscribe(message => {
-        this.notificationService.show(message);
-      });
+  removeFromHistory(room: Room) {
+    const dialogRef = this.dialog.open(RemoveFromHistoryComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomName = room.name;
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'remove') {
+        this.roomService.removeFromHistory(room.id).subscribe( x => {
+          this.rooms = this.rooms.filter(r => r.id !== room.id);
+          this.closedRooms = this.closedRooms.filter(r => r.id !== room.id);
+          this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== room.id);
+          this.updateTable();
+          this.translateService.get('room-list.room-successfully-removed').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        });
+      } else {
+        this.translateService.get('room-list.canceled-remove').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
     });
   }
 

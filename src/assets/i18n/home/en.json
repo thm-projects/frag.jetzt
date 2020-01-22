@@ -212,7 +212,10 @@
     "panel-session-name": "Session",
     "panel-user-role": "Role",
     "participant-role": "Participant",
+    "really-remove": "Do you really want to remove the session ",
+    "really-remove-2": " from your history?",
     "room-successfully-removed": "The session was successfully removed from the history.",
+    "canceled-remove": "Process cancelled.",
     "session-history": "Your session history contains {count}} sessions.",
     "session-history-1": "Your session history contains one session.",
     "session-history-label": "Below you will find a list of your attended sessions."

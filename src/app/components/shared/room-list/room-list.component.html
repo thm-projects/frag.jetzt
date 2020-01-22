@@ -75,7 +75,7 @@
               attr.aria-labelledby="empty">
               <button *ngIf="room.role < 3" mat-flat-button type="button"
                       name="{{ 'room-list.panel-remove-button' | translate }}"
-                      (click)="removeFromHistory(room.id)">
+                      (click)="removeFromHistory(room)">
                 <mat-icon>delete_forever</mat-icon>
               </button>
               <button mat-flat-button type="button"

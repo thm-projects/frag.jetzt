@@ -211,7 +211,10 @@
     "panel-session-name": "Sitzung",
     "panel-user-role": "Rolle",
     "participant-role": "Teilnehmer",
+    "really-remove": "Wollen Sie die Sitzung ",
+    "really-remove-2": " wirklich aus ihrem Verlauf löschen?",
     "room-successfully-removed": "Die Sitzung wurde erfolgreich aus dem Verlauf gelöscht.",
+    "canceled-remove": "Vorgang abgebrochen.",
     "session-history": "Dein Sitzungsverlauf enthält {{count}} Sitzungen.",
     "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung.",
     "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen."

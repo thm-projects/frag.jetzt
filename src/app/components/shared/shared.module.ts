@@ -25,6 +25,7 @@ import { MatRippleModule } from '@angular/material';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
+import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remove-from-history.component';
 
 @NgModule({
   imports: [
@@ -55,7 +56,8 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
     DeleteAccountComponent,
     CommentAnswerTextComponent,
     DialogActionButtonsComponent,
-    QrCodeDialogComponent
+    QrCodeDialogComponent,
+    RemoveFromHistoryComponent
   ],
   exports: [
     RoomJoinComponent,
