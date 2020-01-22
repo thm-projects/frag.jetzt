@@ -51,7 +51,7 @@ th {
 }
 
 .noRoomHistory {
-  color: var(--on-surface)!important;
+  color: var(--on-surface);
 }
 
 .visually-hidden {
@@ -70,4 +70,8 @@ th {
 .table-container {
   height: 45vh;
   overflow: auto;
+}
+
+.fill-space {
+  height: 20px;
 }
