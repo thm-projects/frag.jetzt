@@ -10,6 +10,7 @@ export const dark = {
   '--surface': '#212121',
   '--dialog': '#37474f',
   '--cancel': '#26343c',
+  '--alt-dialog': '#455a64',
 
   '--on-primary': '#000000',
   '--on-secondary': '#000000',

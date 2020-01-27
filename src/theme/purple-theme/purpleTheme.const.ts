@@ -9,6 +9,7 @@ export const purple = {
   '--background': 'beige',
   '--surface': 'white',
   '--dialog': 'white',
+  '--alt-dialog': '#eeeeee',
 
   '--on-primary': 'white',
   '--on-secondary': 'white',

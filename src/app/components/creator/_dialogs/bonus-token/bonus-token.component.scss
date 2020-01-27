@@ -4,7 +4,6 @@ p {
 }
 
 .mat-icon-button {
-  margin-top: 5px;
   color: var(--red);
 }
 
@@ -13,4 +12,11 @@ p {
   min-width: 220px;
   background-color: var(--red);
   color: var(--on-secondary);
+}
+
+.token {
+  padding-left: 3%;
+  &:nth-child(even) {
+    background-color: var(--alt-dialog);
+  }
 }
