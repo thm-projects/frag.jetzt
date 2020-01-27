@@ -10,6 +10,7 @@ export const arsnova = {
   '--surface': '#FFFFFF',
   '--dialog': '#FFFFFF',
   '--cancel': '#263238',
+  '--alt-dialog': '#eeeeee',
 
   '--on-primary': '#ffffff',
   '--on-secondary': '#FFFFFF',
