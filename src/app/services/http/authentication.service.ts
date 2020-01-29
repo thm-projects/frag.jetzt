@@ -103,13 +103,17 @@ export class AuthenticationService extends BaseHttpService {
           return of(null);
         })
       ).subscribe(nu => {
-        this.setUser(new User(
-          nu.userId,
-          nu.loginId,
-          nu.authProvider,
-          nu.token,
-          user.role,
-          wasGuest));
+        if (nu) {
+          this.setUser(new User(
+            nu.userId,
+            nu.loginId,
+            nu.authProvider,
+            nu.token,
+            user.role,
+            wasGuest));
+        } else {
+          this.logout();
+        }
       });
     }
   }
