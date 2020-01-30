@@ -16,6 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class BonusTokenComponent implements OnInit {
   room: Room;
   bonusTokens: BonusToken[] = [];
+  lang: string;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
@@ -30,6 +31,7 @@ export class BonusTokenComponent implements OnInit {
         return (a.token > b.token) ? 1 : -1;
       });
     });
+    this.lang = localStorage.getItem('currentLang');
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {

@@ -9,6 +9,10 @@
         {{bonusToken.token}}
       </p>
       <span class="fill-remaining-space"></span>
+      <p>
+        {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
+      </p>
+      <span class="fill-remaining-space"></span>
       <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, i)">
         <mat-icon>close</mat-icon>
       </button>
