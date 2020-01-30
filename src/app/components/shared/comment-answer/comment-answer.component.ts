@@ -24,6 +24,7 @@ export class CommentAnswerComponent implements OnInit {
   isLoading = true;
   user: User;
   isStudent = true;
+  edit = false;
 
   constructor(protected route: ActivatedRoute,
               private notificationService: NotificationService,
@@ -49,6 +50,7 @@ export class CommentAnswerComponent implements OnInit {
   }
 
   saveAnswer() {
+    this.edit = false;
     this.wsCommentService.answer(this.comment, this.answer);
     this.translateService.get('comment-page.comment-answered').subscribe(msg => {
       this.notificationService.show(msg);

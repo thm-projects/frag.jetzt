@@ -4,11 +4,19 @@
   </div>
   <div fxLayout="row" fxLayoutAlign="center">
     <mat-card class="answer">
-      <markdown *ngIf="isStudent && answer" [data]="answer"></markdown>
-      <mat-tab-group *ngIf="!isStudent" [dynamicHeight]="true">
+      <div *ngIf="(isStudent || !edit) && answer">
+        <markdown [data]="answer"></markdown>
+        <div fxLayout="row" fxLayoutAlign="end">
+          <button mat-raised-button *ngIf="!isStudent && !edit" class="save" (click)="edit = true">
+            <mat-icon>edit</mat-icon>
+            {{'comment-page.edit-answer' | translate}}
+          </button>
+        </div>
+      </div>
+      <mat-tab-group *ngIf="!isStudent && (edit || !answer)" [dynamicHeight]="true">
         <mat-tab label="{{'comment-page.your-answer' | translate}}">
           <mat-form-field class="input-block">
-            <textarea [(ngModel)]="answer"
+            <textarea [(ngModel)]="answer" (input)="edit = true"
                       matInput
                       matTextareaAutosize
                       matAutosizeMinRows="3"
@@ -28,9 +36,9 @@
         </mat-tab>
       </mat-tab-group>
       <div fxLayout="row" fxLayoutAlign="end">
-        <button mat-raised-button *ngIf="!isStudent && answer" class="delete" (click)="openDeleteAnswerDialog()">
+        <button mat-raised-button *ngIf="!isStudent && answer && edit" class="delete" (click)="openDeleteAnswerDialog()">
           {{'comment-page.delete-answer' | translate}}</button>
-        <button mat-raised-button *ngIf="!isStudent" class="save" (click)="saveAnswer()">
+        <button mat-raised-button *ngIf="!isStudent && (edit || !answer)" class="save" (click)="saveAnswer()">
           {{'comment-page.save-answer' | translate}}</button>
       </div>
     </mat-card>
