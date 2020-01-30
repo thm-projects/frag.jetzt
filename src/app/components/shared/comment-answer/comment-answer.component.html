@@ -3,7 +3,7 @@
     <app-comment [comment]="comment" [userRole]="user.role"></app-comment>
   </div>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-card class="answer">
+    <mat-card class="answer" *ngIf="!isStudent || answer">
       <div *ngIf="(isStudent || !edit) && answer">
         <markdown [data]="answer"></markdown>
         <div fxLayout="row" fxLayoutAlign="end">

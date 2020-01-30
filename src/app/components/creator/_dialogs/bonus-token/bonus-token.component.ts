@@ -7,6 +7,7 @@ import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-p
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bonus-token',
@@ -20,6 +21,7 @@ export class BonusTokenComponent implements OnInit {
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
+              protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private translationService: TranslateService,
               private notificationService: NotificationService) {
@@ -79,6 +81,12 @@ export class BonusTokenComponent implements OnInit {
         this.notificationService.show(msg);
       });
     });
+  }
+
+  navToComment(commentId: string) {
+    this.dialogRef.close();
+    const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
+    this.router.navigate([commentURL]);
   }
 
   /**

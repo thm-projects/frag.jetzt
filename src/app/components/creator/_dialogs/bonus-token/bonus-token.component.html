@@ -4,7 +4,8 @@
   <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{room.shortId.slice(0, 4)}} {{room.shortId.slice(4, 8)}}</h3>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
-    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="token">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="token"
+         (click)="navToComment(bonusToken.commentId)">
       <p tabindex="0">
         {{bonusToken.token}}
       </p>

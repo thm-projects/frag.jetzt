@@ -1,7 +1,17 @@
 .token {
   margin-bottom: 10px;
+  margin-top: 10px;
 }
 
 .roomName {
-  margin-top: 0;
+  margin: 0;
+}
+
+.tokens {
+  cursor: pointer;
+  margin: 20px 0;
+}
+
+h2 {
+  text-align: center;
 }
