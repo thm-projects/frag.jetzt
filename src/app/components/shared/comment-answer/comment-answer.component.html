@@ -28,6 +28,8 @@
         </mat-tab>
       </mat-tab-group>
       <div fxLayout="row" fxLayoutAlign="end">
+        <button mat-raised-button *ngIf="!isStudent && answer" class="delete" (click)="openDeleteAnswerDialog()">
+          {{'comment-page.delete-answer' | translate}}</button>
         <button mat-raised-button *ngIf="!isStudent" class="save" (click)="saveAnswer()">
           {{'comment-page.save-answer' | translate}}</button>
       </div>

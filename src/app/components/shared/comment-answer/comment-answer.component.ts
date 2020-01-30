@@ -9,6 +9,8 @@ import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
+import { MatDialog } from '@angular/material';
+import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
 
 @Component({
   selector: 'app-comment-answer',
@@ -29,7 +31,8 @@ export class CommentAnswerComponent implements OnInit {
               protected langService: LanguageService,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              private authenticationService: AuthenticationService) { }
+              private authenticationService: AuthenticationService,
+              public dialog: MatDialog) { }
 
   ngOnInit() {
     this.user = this.authenticationService.getUser();
@@ -47,9 +50,28 @@ export class CommentAnswerComponent implements OnInit {
 
   saveAnswer() {
     this.wsCommentService.answer(this.comment, this.answer);
-    this.translateService.get('comment-list.comment-answered').subscribe(msg => {
+    this.translateService.get('comment-page.comment-answered').subscribe(msg => {
       this.notificationService.show(msg);
     });
   }
 
+  openDeleteAnswerDialog(): void {
+    const dialogRef = this.dialog.open(DeleteAnswerComponent, {
+      width: '400px'
+    });
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.deleteAnswer();
+        }
+      });
+  }
+
+  deleteAnswer() {
+    this.answer = null;
+    this.wsCommentService.answer(this.comment, this.answer);
+    this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
+  }
 }

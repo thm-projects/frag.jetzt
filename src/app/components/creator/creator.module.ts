@@ -20,6 +20,7 @@ import { DeleteCommentComponent } from './_dialogs/delete-comment/delete-comment
 import { DeleteCommentsComponent } from './_dialogs/delete-comments/delete-comments.component';
 import { BonusDeleteComponent } from './_dialogs/bonus-delete/bonus-delete.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.component';
 
 @NgModule({
   imports: [
@@ -50,7 +51,8 @@ import { MarkdownModule } from 'ngx-markdown';
     ModeratorDeleteComponent,
     DeleteCommentsComponent,
     DeleteCommentComponent,
-    BonusDeleteComponent
+    BonusDeleteComponent,
+    DeleteAnswerComponent
   ],
   exports: [],
   entryComponents: [
@@ -64,7 +66,8 @@ import { MarkdownModule } from 'ngx-markdown';
     TagsComponent,
     DeleteCommentsComponent,
     DeleteCommentComponent,
-    BonusDeleteComponent
+    BonusDeleteComponent,
+    DeleteAnswerComponent
   ]
 })
 export class CreatorModule {

@@ -10,11 +10,21 @@ app-comment, mat-card {
   box-sizing: border-box
 }
 
+button {
+  min-width: 95px;
+  margin-top: 2%;
+}
+
 .save {
   background-color: var(--primary);
   color: var(--on-primary);
-  margin-top: 2%;
   margin-right: 1%;
+}
+
+.delete {
+  background-color: var(--red);
+  color: var(--white);
+  margin-right: 20px;
 }
 
 mat-form-field {

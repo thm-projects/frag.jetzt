@@ -184,6 +184,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   parseIncomingMessage(message: Message) {
+    console.log(message);
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
     switch (msg.type) {
