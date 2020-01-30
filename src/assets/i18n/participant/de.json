@@ -103,7 +103,6 @@
   "room-page": {
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Sitzungs-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
-    "answer-statistics": "Statistiken",
     "comments": "Fragen",
     "create-comment": "Stell deine Frage!",
     "default-content-group": "Standard",
@@ -115,16 +114,5 @@
     "session-id": "Code",
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte"
-  },
-  "statistic": {
-    "abstentions": "Enthaltungen",
-    "answer-statistic": "Antwortstatistik",
-    "answers": "Antworten",
-    "content": "Frage",
-    "good": "Gut",
-    "improvable": "Luft nach oben",
-    "no-answers": "Keine Antworten",
-    "no-questions": "Es sind noch keine Antworten vorhanden.",
-    "percentage": "Prozent"
   }
 }

@@ -23,10 +23,10 @@ export class CommentService extends BaseHttpService {
   }
 
   getComment(commentId: string): Observable<Comment> {
-    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/~${commentId}`;
+    const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
     return this.http.get<Comment>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
-      catchError(this.handleError<Comment>('addComment'))
+      catchError(this.handleError<Comment>('getComment'))
     );
   }
 

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
 import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
+import { CommentAnswerComponent } from '../shared/comment-answer/comment-answer.component';
 
 const routes: Routes = [
   {
@@ -14,6 +14,11 @@ const routes: Routes = [
   {
     path: 'room/:shortId/comments',
     component: CommentPageComponent,
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'room/:shortId/comment/:commentId',
+    component: CommentAnswerComponent,
     data: { roles: [UserRole.PARTICIPANT] }
   }
 ];

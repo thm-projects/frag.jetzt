@@ -102,7 +102,6 @@
   "room-page": {
     "a11y-announcer": "You are now in the session with the key you entered.",
     "a11y-question_answer": "Opens the page where you can ask questions and vote up or down other questions.",
-    "answer-statistics": "Statistics",
     "comments": "Questions",
     "create-comment": "Ask a question!",
     "default-content-group": "Default",
@@ -114,16 +113,5 @@
     "session-id": "Key",
     "bonus-token": "Tokens for bonus points",
     "bonus-token-header": "Tokens for bonus points"
-  },
-  "statistic": {
-    "abstentions": "Abstentions",
-    "answer-statistic": "Answer statistics",
-    "answers": "Answers",
-    "content": "Content",
-    "good": "Good",
-    "improvable": "Improvable",
-    "no-answers": "No answers",
-    "no-questions": "There are no answers yet.",
-    "percentage": "Percentage"
   }
 }

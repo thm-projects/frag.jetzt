@@ -1,0 +1,36 @@
+<div fxLayout="column" fxLayoutAlign="center" *ngIf="!isLoading">
+  <div fxLayout="row" fxLayoutAlign="center">
+    <app-comment [comment]="comment" [userRole]="user.role"></app-comment>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="answer">
+      <markdown *ngIf="isStudent && answer" [data]="answer"></markdown>
+      <mat-tab-group *ngIf="!isStudent" [dynamicHeight]="true">
+        <mat-tab label="{{'comment-page.your-answer' | translate}}">
+          <mat-form-field class="input-block">
+            <textarea [(ngModel)]="answer"
+                      matInput
+                      matTextareaAutosize
+                      matAutosizeMinRows="3"
+                      matAutosizeMaxRows="8"
+                      maxlength="2000"
+                      name="answer">
+            </textarea>
+            <mat-hint align="end">
+            <span aria-hidden="true">
+              {{ answer ? answer.length : 0 }} / 2000
+            </span>
+            </mat-hint>
+          </mat-form-field>
+        </mat-tab>
+        <mat-tab label="{{'session.preview' | translate}}" [disabled]="!answer">
+          <markdown [data]="answer"></markdown>
+        </mat-tab>
+      </mat-tab-group>
+      <div fxLayout="row" fxLayoutAlign="end">
+        <button mat-raised-button *ngIf="!isStudent" class="save" (click)="saveAnswer()">
+          {{'comment-page.save-answer' | translate}}</button>
+      </div>
+    </mat-card>
+  </div>
+</div>

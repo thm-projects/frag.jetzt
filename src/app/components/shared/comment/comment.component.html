@@ -20,15 +20,10 @@
       </button>
       <span class="fill-remaining-space"></span>
 
-      <button mat-icon-button *ngIf="(isCreator || isModerator) && !comment.answer" (click)="openAnswerDialog()"
-              tabindex="0">
-        <mat-icon class="not-marked" matTooltip="{{ 'comment-page.answer' | translate }}">comment
-        </mat-icon>
-      </button>
-
-      <button mat-icon-button *ngIf="comment.answer" (click)="openAnswerTextDialog()"
-              tabindex="0">
-        <mat-icon class="answered-icon" matTooltip="{{ 'comment-page.has-answer' | translate }}">comment
+      <button mat-icon-button *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
+              (click)="answerComment()" tabindex="0">
+        <mat-icon class="not-marked" [ngClass]="{'answered-icon' : comment.answer}"
+                  matTooltip="{{comment.answer ? ('comment-page.has-answer' | translate) : ('comment-page.answer' | translate) }}">comment
         </mat-icon>
       </button>
 
@@ -55,12 +50,12 @@
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="isCreator && !comment.favorite" (click)="openDeleteCommentDialog()"
+      <button mat-icon-button *ngIf="isCreator && !comment.favorite && !inAnswerView" (click)="openDeleteCommentDialog()"
               tabindex="0" attr.aria-labelledby="comment_delete{{ comment.id }}">
         <mat-icon class="not-marked" matTooltip="{{ 'comment-page.delete' | translate }}">delete
         </mat-icon>
       </button>
-      <button mat-icon-button *ngIf="isCreator || isModerator" (click)="setAck(comment)"
+      <button mat-icon-button *ngIf="(isCreator || isModerator) && !inAnswerView" (click)="setAck(comment)"
               tabindex="0" attr.aria-labelledby="comment_moderation{{ comment.id }}">
         <mat-icon class="gavel" [matTooltip]="!comment.ack ? ('comment-page.acknowledge' | translate)
                                                         : ('comment-page.reject' | translate)">gavel
