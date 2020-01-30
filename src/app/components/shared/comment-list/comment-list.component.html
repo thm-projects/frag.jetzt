@@ -116,7 +116,7 @@
       </button>
 
       <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.answered' | translate }}"
-              (click)="filterComments(answered)" aria-labelledby="comment">
+              (click)="filterComments(answer)" aria-labelledby="comment">
         <mat-icon [ngClass]="{answered: 'answered-icon'}[currentFilter]">comment</mat-icon>
         <span>{{ 'comment-list.filter-answered' | translate }}</span>
       </button>

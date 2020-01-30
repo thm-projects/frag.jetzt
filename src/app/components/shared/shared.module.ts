@@ -19,13 +19,14 @@ import { CommentComponent } from './comment/comment.component';
 import { CreateCommentComponent } from './_dialogs/create-comment/create-comment.component';
 import { PresentCommentComponent } from './_dialogs/present-comment/present-comment.component';
 import { DeleteAccountComponent } from './_dialogs/delete-account/delete-account.component';
-import { CommentAnswerTextComponent } from './_dialogs/comment-answer-text/comment-answer-text.component';
 import { DialogActionButtonsComponent } from './dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MatRippleModule } from '@angular/material';
 import { QrCodeDialogComponent } from './_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remove-from-history.component';
+import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remov
     SharedRoutingModule,
     MatRippleModule,
     NgxQRCodeModule,
-    ArsModule
+    ArsModule,
+    MarkdownModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -54,10 +56,10 @@ import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remov
     CreateCommentComponent,
     PresentCommentComponent,
     DeleteAccountComponent,
-    CommentAnswerTextComponent,
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
-    RemoveFromHistoryComponent
+    RemoveFromHistoryComponent,
+    CommentAnswerComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -81,8 +83,7 @@ import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remov
     PresentCommentComponent,
     DeleteAccountComponent,
     UserBonusTokenComponent,
-    RemindOfTokensComponent,
-    CommentAnswerTextComponent
+    RemindOfTokensComponent
   ]
 })
 export class SharedModule {

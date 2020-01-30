@@ -2,7 +2,7 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -10,11 +10,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
-import { CommentAnswerTextComponent } from '../_dialogs/comment-answer-text/comment-answer-text.component';
 import { MatDialog } from '@angular/material';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
-import { CommentAnswerFormComponent } from '../../creator/_dialogs/comment-answer-form/comment-answer-form.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
@@ -57,10 +55,12 @@ export class CommentComponent implements OnInit {
   language: string;
   animationState: string;
   deviceType: string;
+  inAnswerView = false;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private location: Location,
+    protected router: Router,
     private commentService: CommentService,
     private notification: NotificationService,
     private translateService: TranslateService,
@@ -87,6 +87,7 @@ export class CommentComponent implements OnInit {
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
     this.deviceType = localStorage.getItem('deviceType');
+    this.inAnswerView = !this.router.url.includes('comments');
   }
 
   startAnimation(state_: any): void {
@@ -159,24 +160,9 @@ export class CommentComponent implements OnInit {
       });
   }
 
-  openAnswerDialog(): void {
-    const dialogRef = this.dialog.open(CommentAnswerFormComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        this.wsCommentService.answer(this.comment, result);
-        this.translateService.get('comment-list.comment-answered').subscribe(msg => {
-          this.notification.show(msg);
-        });
-      });
-  }
-
-  openAnswerTextDialog(): void {
-    const dialogRef = this.dialog.open(CommentAnswerTextComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.answer = this.comment.answer;
+  answerComment() {
+    const url = this.location.path().slice(0, -1);
+    this.router.navigate([`${url}/${this.comment.id}`]);
   }
 
   delete(): void {

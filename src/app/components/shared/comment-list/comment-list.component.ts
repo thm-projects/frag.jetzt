@@ -50,7 +50,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   wrong = 'wrong';
   ack = 'ack';
   tag = 'tag';
-  answered = 'answered';
+  answer = 'answer';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -234,6 +234,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 case this.tag:
                   this.comments[i].tag = <string>value;
                   break;
+                case this.answer:
+                  this.comments[i].answer = <string>value;
+                  break;
               }
             }
           }
@@ -325,7 +328,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return !c.read;
         case this.tag:
           return c.tag === tag;
-        case this.answered:
+        case this.answer:
           return c.answer;
       }
     });

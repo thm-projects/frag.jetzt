@@ -1,0 +1,59 @@
+app-comment, mat-card {
+  width: 100%;
+  max-width: 800px;
+}
+
+.answer {
+  background-color: var(--alt-surface);
+  color: var(--on-surface);
+  padding: 3% 3%;
+  box-sizing: border-box
+}
+
+button {
+  min-width: 95px;
+  margin-top: 2%;
+}
+
+.save {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-right: 1%;
+}
+
+.delete {
+  background-color: var(--red);
+  color: var(--white);
+  margin-right: 20px;
+}
+
+mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  margin-right: 5px;
+}
+
+mat-form-field {
+  color: var(--on-surface);
+}
+
+mat-hint {
+  color: var(--on-surface)!important;
+  margin-right: 1%;
+}
+
+markdown {
+  word-break: break-all;
+}
+
+::ng-deep .mat-tab-label-active,
+::ng-deep .mat-tab-label {
+  color: var(--on-surface);
+  opacity: 1!important;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary) !important;
+}
+
