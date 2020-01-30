@@ -1,17 +1,14 @@
 <div mat-dialog-content>
-  <!--tokens for bonuspoints-->
   <h2 class="oldtypo-h2" tabindex="0">{{'header.bonus-token' | translate }}</h2>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokensMixin.length >= 1">
-    <div fxLayout="row" *ngFor="let bonusToken of bonusTokensMixin">
-      <h2 class="oldtypo-h2" tabindex="1">
-        {{bonusToken.token}} ({{bonusToken.roomName}}
-        - {{bonusToken.roomShortId.slice(0, 4)}} {{bonusToken.roomShortId.slice(4, 8)}})
-      </h2>
+    <div fxLayout="column" class="tokens" *ngFor="let bonusToken of bonusTokensMixin; let i = index"
+         (click)="navToComment(i)">
+      <h2 class="token" tabindex="1">{{bonusToken.token}}</h2>
+      <h2 class="roomName">(&raquo;{{bonusToken.roomName}}&laquo;)</h2>
     </div>
   </div>
   <div *ngIf="bonusTokens.length === 0">
-    <!--no bonus points yet-->
     <h3 class="oldtypo-h3" tabindex="0">{{'header.no-bonus' | translate }}</h3>
   </div>
   <app-dialog-action-buttons

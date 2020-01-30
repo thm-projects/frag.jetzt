@@ -7,6 +7,7 @@ import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-p
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-bonus-token',
@@ -16,9 +17,11 @@ import { TranslateService } from '@ngx-translate/core';
 export class BonusTokenComponent implements OnInit {
   room: Room;
   bonusTokens: BonusToken[] = [];
+  lang: string;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
+              protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private translationService: TranslateService,
               private notificationService: NotificationService) {
@@ -30,6 +33,7 @@ export class BonusTokenComponent implements OnInit {
         return (a.token > b.token) ? 1 : -1;
       });
     });
+    this.lang = localStorage.getItem('currentLang');
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
@@ -77,6 +81,12 @@ export class BonusTokenComponent implements OnInit {
         this.notificationService.show(msg);
       });
     });
+  }
+
+  navToComment(commentId: string) {
+    this.dialogRef.close();
+    const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
+    this.router.navigate([commentURL]);
   }
 
   /**

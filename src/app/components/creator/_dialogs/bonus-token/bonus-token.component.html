@@ -1,11 +1,17 @@
 <div mat-dialog-content xmlns="http://www.w3.org/1999/html">
   <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
-  <h3 class="oldtypo-h3">{{room.name}} - {{room.shortId.slice(0, 4)}} {{room.shortId.slice(4, 8)}}</h3>
+  <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
+  <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{room.shortId.slice(0, 4)}} {{room.shortId.slice(4, 8)}}</h3>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
-    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="token">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="token"
+         (click)="navToComment(bonusToken.commentId)">
       <p tabindex="0">
         {{bonusToken.token}}
+      </p>
+      <span class="fill-remaining-space"></span>
+      <p>
+        {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
       </p>
       <span class="fill-remaining-space"></span>
       <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, i)">

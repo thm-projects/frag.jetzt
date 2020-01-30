@@ -4,6 +4,7 @@ import { RoomService } from '../../../../services/http/room.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { BonusTokenRoomMixin } from '../../../../models/bonus-token-room-mixin';
 import { MatDialogRef } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-bonus-token',
@@ -18,14 +19,17 @@ export class UserBonusTokenComponent implements OnInit {
   constructor(
     private bonusTokenService: BonusTokenService,
     private roomService: RoomService,
-    private dialogRef: MatDialogRef<UserBonusTokenComponent>
+    private dialogRef: MatDialogRef<UserBonusTokenComponent>,
+    protected router: Router
   ) {
   }
 
   ngOnInit() {
     this.bonusTokenService.getTokensByUserId(this.userId).subscribe( list => {
-      this.bonusTokens = list;
-      for (const bt of list) {
+      this.bonusTokens = list.sort((a, b) => {
+        return (a.token > b.token) ? 1 : -1;
+      });
+      for (const bt of this.bonusTokens) {
         this.roomService.getRoom(bt.roomId).subscribe(room => {
           const btm = <BonusTokenRoomMixin> bt;
           btm.roomShortId = room.shortId;
@@ -34,6 +38,12 @@ export class UserBonusTokenComponent implements OnInit {
         });
       }
     });
+  }
+
+  navToComment(index: number) {
+    this.dialogRef.close();
+    const commentURL = `participant/room/${this.bonusTokensMixin[index].roomShortId}/comment/${this.bonusTokens[index].commentId}`;
+    this.router.navigate([commentURL]);
   }
 
   /**
