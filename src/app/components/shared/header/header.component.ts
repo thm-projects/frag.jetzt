@@ -15,8 +15,8 @@ import { AppComponent } from '../../../app.component';
 import { Rescale } from '../../../models/rescale';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { UserBonusTokenComponent } from '../_dialogs/user-bonus-token/user-bonus-token.component';
-import { RemindOfTokensComponent } from '../_dialogs/remind-of-tokens/remind-of-tokens.component';
+import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 
