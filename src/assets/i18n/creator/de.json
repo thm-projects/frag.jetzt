@@ -232,6 +232,8 @@
     "score": "Score",
     "timestamp": "Zeitstempel",
     "token": "Bonus-Token",
+    "nav-to-comment": "Gehe zur Frage",
+    "delete-token": "Token löschen",
     "really-delete-token": "Willst du diesen Token wirklich löschen?",
     "really-delete-tokens": "Willst du wirklich alle Tokens dieser Sitzung löschen?",
     "delete-all-tokens": "Alle Tokens löschen",
