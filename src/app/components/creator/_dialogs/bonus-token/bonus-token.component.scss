@@ -3,7 +3,7 @@ p {
   margin: 10px 0 10px 0;
 }
 
-.mat-icon-button {
+.delete-icon {
   color: var(--red);
 }
 
@@ -14,8 +14,7 @@ p {
   color: var(--on-secondary);
 }
 
-.token {
-  cursor: pointer;
+.tokens {
   padding-left: 3%;
   &:nth-child(even) {
     background-color: var(--alt-dialog);

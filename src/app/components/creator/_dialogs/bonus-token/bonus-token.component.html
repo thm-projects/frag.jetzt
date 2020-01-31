@@ -4,8 +4,7 @@
   <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{room.shortId.slice(0, 4)}} {{room.shortId.slice(4, 8)}}</h3>
   <mat-divider></mat-divider>
   <div *ngIf="bonusTokens.length >= 1">
-    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="token"
-         (click)="navToComment(bonusToken.commentId)">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="tokens">
       <p tabindex="0">
         {{bonusToken.token}}
       </p>
@@ -14,8 +13,11 @@
         {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
       </p>
       <span class="fill-remaining-space"></span>
+      <button mat-icon-button (click)="navToComment(bonusToken.commentId)">
+        <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
+      </button>
       <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, i)">
-        <mat-icon>close</mat-icon>
+        <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}" class="delete-icon">close</mat-icon>
       </button>
     </div>
   </div>
