@@ -72,8 +72,8 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
         }
       }
     });
-    // Rescale when this.user['role'] === 3
-    if (this.user.role === 3) {
+    const deviceType = localStorage.getItem('deviceType');
+    if (this.user.role === 3 && deviceType === 'desktop') {
       Rescale.requestFullscreen();
     }
   }
