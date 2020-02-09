@@ -30,7 +30,8 @@
           <th mat-header-cell *matHeaderCellDef style="width: 35%">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
-          <td mat-cell *matCellDef="let room">
+          <td mat-cell class="clickable" *matCellDef="let room"
+              routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <span matBadge="{{room.commentCount > 0 && deviceType === 'desktop' ? room.commentCount : null}}" matBadgeOverlap="false">
               {{ room.name }}
             </span>
@@ -42,7 +43,8 @@
           <th mat-header-cell *matHeaderCellDef style="width: 30%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
-          <td mat-cell *matCellDef="let room">
+          <td mat-cell class="clickable" *matCellDef="let room"
+              routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId.slice(0,4) }} {{ room.shortId.slice(4,8) }}
           </td>
         </ng-container>
@@ -52,7 +54,8 @@
           <th mat-header-cell *matHeaderCellDef style="width: 15%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
-          <td mat-cell *matCellDef="let room" [ngSwitch]="room.role">
+          <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
+              routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <mat-icon mat-list-icon *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
               record_voice_over
@@ -75,18 +78,15 @@
           </th>
           <td mat-cell *matCellDef="let room" style="text-align: end"
               attr.aria-labelledby="empty">
-              <button *ngIf="room.role < 3" mat-flat-button type="button"
-                      name="{{ 'room-list.panel-remove-button' | translate }}"
-                      (click)="removeFromHistory(room)">
-                <mat-icon>delete_forever</mat-icon>
+            <button mat-icon-button *ngIf="room.role < 3" [matMenuTriggerFor]="moreActions">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #moreActions="matMenu" xPosition="before">
+              <button mat-menu-item (click)="removeFromHistory(room)">
+                <mat-icon class="delete">delete_forever</mat-icon>
+                <span class="delete-text"> {{ 'room-list.panel-remove-button' | translate}}</span>
               </button>
-              <button mat-flat-button type="button"
-                      attr.aria-labelledby="{{ 'joinButtonLabel' + room.shortId | translate }}"
-                      name="{{ 'room-list.panel-join-button' | translate }}"
-                      routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}"
-                      (click)="setCurrentRoom(room.shortId)">
-                <mat-icon>input</mat-icon>
-              </button>
+            </mat-menu>
             <div class="visually-hidden">
               <div id="{{ 'joinButtonLabel' + room.shortId | translate }}">
                 {{ 'room-list.join-message-template' | translate:{

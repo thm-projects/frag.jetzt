@@ -63,7 +63,13 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   getRooms(): void {
-    this.roomService.getParticipantRooms().subscribe(rooms => this.updateRoomList(rooms));
+    this.roomService.getParticipantRooms().subscribe(rooms => {
+      if (rooms && rooms.length > 0) {
+        this.updateRoomList(rooms);
+      } else {
+        this.displayedColumns.splice(-1, 1);
+      }
+    });
     this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms));
   }
 

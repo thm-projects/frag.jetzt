@@ -207,7 +207,7 @@
     "moderator-role": "Moderator",
     "no-room-history": "You haven't joined any sessions yet.",
     "panel-join-button": "",
-    "panel-remove-button": "Delete the session from your room history.",
+    "panel-remove-button": "Remove session from list",
     "panel-session-id": "Key",
     "panel-session-name": "Session",
     "panel-user-role": "Role",
