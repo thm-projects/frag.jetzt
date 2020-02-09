@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { Comment } from '../../../../models/comment';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -10,11 +9,12 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
 import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
-import { CommentExportComponent } from '../comment-export/comment-export.component';
+import { ExportFormatComponent } from '../export-format/export-format.component';
 import { Room } from '../../../../models/room';
 import { CommentBonusTokenMixin } from '../../../../models/comment-bonus-token-mixin';
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
+import { del } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-comment-settings',
@@ -111,6 +111,7 @@ export class CommentSettingsComponent implements OnInit {
             for (const bt of list) {
               if (commentWithToken.creatorId === bt.userId && comment.id === bt.commentId) {
                 commentWithToken.bonusToken = bt.token;
+                commentWithToken.bonusTimeStamp = bt.timestamp;
               }
             }
             return commentWithToken;
@@ -118,8 +119,8 @@ export class CommentSettingsComponent implements OnInit {
           const exportComments = JSON.parse(JSON.stringify(this.comments));
           let csv: string;
           let valueFields = '';
-          const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented',
-            'room-page.favorite', 'room-page.correct/wrong', 'room-page.score', 'room-page.token'];
+          const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
+            'room-page.score', 'room-page.token', 'room-page.token-time'];
           let keyFields;
           this.translationService.get(fieldNames).subscribe(msgs => {
             keyFields = [msgs[fieldNames[0]], msgs[fieldNames[1]], msgs[fieldNames[2]], msgs[fieldNames[3]],
@@ -131,8 +132,15 @@ export class CommentSettingsComponent implements OnInit {
               let time;
               time = Object.values(element).slice(4, 5);
               valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
-              valueFields += Object.values(element).slice(5, 8) + delimiter;
-              valueFields += Object.values(element).slice(9, 11).join(delimiter) + '\r\n';
+              valueFields += Object.values(element).slice(5, 6) + delimiter;
+              valueFields += Object.values(element).slice(7, 8) + delimiter;
+              valueFields += Object.values(element).slice(9, 10) + delimiter;
+              if (Object.values(element).length > 12) {
+                valueFields += Object.values(element).slice(12, 13) + delimiter;
+                let btTime;
+                btTime = Object.values(element).slice(13, 14);
+                valueFields += btTime[0].slice(0, 10) + '-' + btTime[0].slice(11, 16) + delimiter + '\r\n';
+              }
             });
             csv = keyFields + valueFields;
             const myBlob = new Blob([csv], { type: 'text/csv' });
@@ -157,7 +165,7 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   openExportDialog(): void {
-    const dialogRef = this.dialog.open(CommentExportComponent, {
+    const dialogRef = this.dialog.open(ExportFormatComponent, {
       width: '400px'
     });
     dialogRef.afterClosed().subscribe(result => {
