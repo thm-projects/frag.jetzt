@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { RoomEditComponent } from '../../../creator/_dialogs/room-edit/room-edit.component';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-remove-from-history',
@@ -13,6 +14,7 @@ export class RemoveFromHistoryComponent implements OnInit {
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
 
   roomName: string;
+  role: UserRole;
 
   constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any) { }

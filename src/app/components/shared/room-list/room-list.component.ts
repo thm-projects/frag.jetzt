@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomRoleMixin } from '../../../models/room-role-mixin';
 import { User } from '../../../models/user';
@@ -63,13 +63,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   getRooms(): void {
-    this.roomService.getParticipantRooms().subscribe(rooms => {
-      if (rooms && rooms.length > 0) {
-        this.updateRoomList(rooms);
-      } else {
-        this.displayedColumns.splice(-1, 1);
-      }
-    });
+    this.roomService.getParticipantRooms().subscribe(rooms => this.updateRoomList(rooms));
     this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms));
   }
 
@@ -112,27 +106,44 @@ export class RoomListComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeFromHistory(room: Room) {
+  removeSession(room: RoomRoleMixin) {
     const dialogRef = this.dialog.open(RemoveFromHistoryComponent, {
       width: '400px'
     });
     dialogRef.componentInstance.roomName = room.name;
+    dialogRef.componentInstance.role = room.role;
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'remove') {
-        this.roomService.removeFromHistory(room.id).subscribe( x => {
-          this.rooms = this.rooms.filter(r => r.id !== room.id);
-          this.closedRooms = this.closedRooms.filter(r => r.id !== room.id);
-          this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== room.id);
-          this.updateTable();
-          this.translateService.get('room-list.room-successfully-removed').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        });
+        if (room.role < 3) {
+          this.removeFromHistory(room);
+        } else {
+          this.deleteRoom(room);
+        }
+        this.rooms = this.rooms.filter(r => r.id !== room.id);
+        this.closedRooms = this.closedRooms.filter(r => r.id !== room.id);
+        this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== room.id);
+        this.updateTable();
       } else {
         this.translateService.get('room-list.canceled-remove').subscribe(msg => {
           this.notificationService.show(msg);
         });
       }
+    });
+  }
+
+  deleteRoom(room: Room) {
+    this.roomService.deleteRoom(room.id).subscribe(() => {
+      this.translateService.get('room-list.room-successfully-deleted').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    });
+  }
+
+  removeFromHistory(room: Room) {
+    this.roomService.removeFromHistory(room.id).subscribe(() => {
+      this.translateService.get('room-list.room-successfully-removed').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
     });
   }
 
