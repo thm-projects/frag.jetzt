@@ -30,7 +30,7 @@
           <th mat-header-cell *matHeaderCellDef style="width: 35%">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
-          <td mat-cell class="clickable" *matCellDef="let room"
+          <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <span matBadge="{{room.commentCount > 0 && deviceType === 'desktop' ? room.commentCount : null}}" matBadgeOverlap="false">
               {{ room.name }}
@@ -43,7 +43,7 @@
           <th mat-header-cell *matHeaderCellDef style="width: 30%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
-          <td mat-cell class="clickable" *matCellDef="let room"
+          <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId.slice(0,4) }} {{ room.shortId.slice(4,8) }}
           </td>
@@ -55,6 +55,7 @@
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
+              (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <mat-icon mat-list-icon *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
