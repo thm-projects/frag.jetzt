@@ -121,6 +121,12 @@
         <span>{{ 'comment-list.filter-answered' | translate }}</span>
       </button>
 
+      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.owner' | translate }}"
+              (click)="filterComments(owner)" aria-labelledby="comment">
+        <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person</mat-icon>
+        <span>{{ 'comment-list.filter-owner' | translate }}</span>
+      </button>
+
       <button mat-menu-item (focus)="hideCommentsList=false" (click)="sortComments(currentSort); filterComments('')"
               aria-labelledby="close">
         <mat-icon>close</mat-icon>
