@@ -10,7 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { CommentExportComponent } from './_dialogs/comment-export/comment-export.component';
+import { ExportFormatComponent } from './_dialogs/export-format/export-format.component';
 import { ModeratorsComponent } from './_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from './_dialogs/bonus-token/bonus-token.component';
 import { CommentSettingsComponent } from './_dialogs/comment-settings/comment-settings.component';
@@ -43,7 +43,7 @@ import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.co
     RoomCreatorPageComponent,
     RoomDeleteComponent,
     RoomEditComponent,
-    CommentExportComponent,
+    ExportFormatComponent,
     ModeratorsComponent,
     BonusTokenComponent,
     CommentSettingsComponent,
@@ -58,7 +58,7 @@ import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.co
   entryComponents: [
     RoomDeleteComponent,
     RoomEditComponent,
-    CommentExportComponent,
+    ExportFormatComponent,
     ModeratorsComponent,
     BonusTokenComponent,
     CommentSettingsComponent,

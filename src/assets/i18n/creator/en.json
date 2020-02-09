@@ -233,6 +233,7 @@
     "score": "Score",
     "timestamp": "Timestamp",
     "token": "Bonus token",
+    "token-time": "Token timestamp",
     "nav-to-comment": "Go to question",
     "delete-token": "Delete token",
     "really-delete-token": "Do you really want to delete this token?",

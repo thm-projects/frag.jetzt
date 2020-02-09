@@ -1,20 +1,20 @@
 /** import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CommentExportComponent } from './comment-export.component';
+import { ExportFormatComponent } from './export-format.component';
 
-describe('CommentExportComponent', () => {
-  let component: CommentExportComponent;
-  let fixture: ComponentFixture<CommentExportComponent>;
+describe('ExportFormatComponent', () => {
+  let component: ExportFormatComponent;
+  let fixture: ComponentFixture<ExportFormatComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CommentExportComponent ]
+      declarations: [ ExportFormatComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommentExportComponent);
+    fixture = TestBed.createComponent(ExportFormatComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
