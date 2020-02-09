@@ -51,6 +51,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   ack = 'ack';
   tag = 'tag';
   answer = 'answer';
+  owner = 'owner';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -330,6 +331,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.tag === tag;
         case this.answer:
           return c.answer;
+        case this.owner:
+          return c.creatorId === this.user.id;
       }
     });
     this.hideCommentsList = true;
