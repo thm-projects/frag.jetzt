@@ -17,8 +17,9 @@ mat-card-content > :first-child {
 }
 
 .mat-icon-button {
-  width: 60%; // 100%
+  width: 100%;
   height: 75%;
+  border-radius: 0;
   color: var(--primary)!important;
   transition: all 0.3s;
   &:hover {
