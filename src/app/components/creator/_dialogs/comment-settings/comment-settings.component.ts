@@ -135,11 +135,15 @@ export class CommentSettingsComponent implements OnInit {
               valueFields += Object.values(element).slice(5, 6) + delimiter;
               valueFields += Object.values(element).slice(7, 8) + delimiter;
               valueFields += Object.values(element).slice(9, 10) + delimiter;
+              console.log(Object.values(element).length);
               if (Object.values(element).length > 12) {
                 valueFields += Object.values(element).slice(12, 13) + delimiter;
                 let btTime;
                 btTime = Object.values(element).slice(13, 14);
                 valueFields += btTime[0].slice(0, 10) + '-' + btTime[0].slice(11, 16) + delimiter + '\r\n';
+              } else {
+                valueFields += '' + delimiter;
+                valueFields += '' + delimiter + '\r\n';
               }
             });
             csv = keyFields + valueFields;
