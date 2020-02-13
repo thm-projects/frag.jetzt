@@ -117,7 +117,6 @@ export class CommentSettingsComponent implements OnInit {
             return commentWithToken;
           });
           const exportComments = JSON.parse(JSON.stringify(this.comments));
-          let csv: string;
           let valueFields = '';
           const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
             'room-page.score', 'room-page.token', 'room-page.token-time'];
@@ -140,12 +139,17 @@ export class CommentSettingsComponent implements OnInit {
                 let btTime;
                 btTime = Object.values(element).slice(13, 14);
                 valueFields += btTime[0].slice(0, 10) + '-' + btTime[0].slice(11, 16) + delimiter + '\r\n';
+              } else {
+                valueFields += '' + delimiter;
+                valueFields += '' + delimiter + '\r\n';
               }
             });
-            csv = keyFields + valueFields;
-            const myBlob = new Blob([csv], { type: 'text/csv' });
+            const format = delimiter === ',' ? 'xslx' : 'csv';
+            let file: string;
+            file = keyFields + valueFields;
+            const myBlob = new Blob([file], { type: `text/${format}` });
             const link = document.createElement('a');
-            const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + date + '.csv';
+            const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + date + '.' + format;
             link.setAttribute('download', fileName);
             link.href = window.URL.createObjectURL(myBlob);
             link.click();
