@@ -145,7 +145,7 @@ export class CommentSettingsComponent implements OnInit {
                 valueFields += '' + delimiter + '\r\n';
               }
             });
-            const format = delimiter === ';' ? 'xlsx' : 'csv';
+            const format = delimiter === ';' ? 'xls' : 'csv';
             let file: string;
             file = keyFields + valueFields;
             const myBlob = new Blob([file], { type: `text/${format}` });
