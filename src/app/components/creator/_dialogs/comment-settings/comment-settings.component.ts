@@ -120,11 +120,12 @@ export class CommentSettingsComponent implements OnInit {
           let valueFields = '';
           const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
             'room-page.score', 'room-page.token', 'room-page.token-time'];
-          let keyFields;
+          let keyFields = '';
           this.translationService.get(fieldNames).subscribe(msgs => {
-            keyFields = [msgs[fieldNames[0]], msgs[fieldNames[1]], msgs[fieldNames[2]], msgs[fieldNames[3]],
-              msgs[fieldNames[4]], msgs[fieldNames[5]], msgs[fieldNames[6]], '\r\n'];
-
+            for (let i = 0; i < fieldNames.length; i++) {
+              keyFields += (msgs[fieldNames[i]] + delimiter);
+            }
+            keyFields += '\r\n';
             exportComments.forEach(element => {
               element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
               valueFields += Object.values(element).slice(3, 4) + delimiter;
@@ -144,7 +145,7 @@ export class CommentSettingsComponent implements OnInit {
                 valueFields += '' + delimiter + '\r\n';
               }
             });
-            const format = delimiter === ',' ? 'xslx' : 'csv';
+            const format = delimiter === ';' ? 'xlsx' : 'csv';
             let file: string;
             file = keyFields + valueFields;
             const myBlob = new Blob([file], { type: `text/${format}` });
