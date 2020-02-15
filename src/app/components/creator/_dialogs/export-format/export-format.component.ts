@@ -8,7 +8,7 @@ import { MatDialogRef } from '@angular/material';
 })
 export class ExportFormatComponent implements OnInit {
 
-  exportType = 'comma';
+  exportType = 'semicolon';
 
   constructor(public dialogRef: MatDialogRef<Component>) { }
 
