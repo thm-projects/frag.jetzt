@@ -9,12 +9,10 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
 import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
-import { ExportFormatComponent } from '../export-format/export-format.component';
 import { Room } from '../../../../models/room';
 import { CommentBonusTokenMixin } from '../../../../models/comment-bonus-token-mixin';
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
-import { del } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-comment-settings',
@@ -102,7 +100,7 @@ export class CommentSettingsComponent implements OnInit {
     this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 
-  export(delimiter: string, date: string): void {
+  export(delimiter: string, format: string): void {
     this.commentService.getAckComments(this.roomId)
       .subscribe(comments => {
         this.bonusTokenService.getTokensByRoomId(this.roomId).subscribe( list => {
@@ -145,12 +143,13 @@ export class CommentSettingsComponent implements OnInit {
                 valueFields += '' + delimiter + '\r\n';
               }
             });
-            const format = delimiter === ';' ? 'xls' : 'csv';
+            const date = new Date();
+            const dateString = date.toLocaleDateString();
             let file: string;
             file = keyFields + valueFields;
             const myBlob = new Blob([file], { type: `text/${format}` });
             const link = document.createElement('a');
-            const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + date + '.' + format;
+            const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + dateString + '.' + format;
             link.setAttribute('download', fileName);
             link.href = window.URL.createObjectURL(myBlob);
             link.click();
@@ -159,23 +158,8 @@ export class CommentSettingsComponent implements OnInit {
       });
   }
 
-  onExport(exportType: string): void {
-    const date = new Date();
-    const dateString = date.toLocaleDateString();
-    if (exportType === 'comma') {
-      this.export(',', dateString);
-    } else if (exportType === 'semicolon') {
-      this.export(';', dateString);
-    }
-  }
-
-  openExportDialog(): void {
-    const dialogRef = this.dialog.open(ExportFormatComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      this.onExport(result);
-    });
+  exportCSV(): void {
+      this.export(',', 'csv');
   }
 
   closeDialog(): void {
