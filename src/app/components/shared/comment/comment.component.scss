@@ -112,14 +112,19 @@ user.role
 }
 
 .comment-tags {
-  width: 140px;
-  margin-top: 1rem;
   cursor: pointer;
   color: var(--primary);
+  margin-right: 10px;
 }
 
-.comment-tag {
-  vertical-align: 5px;
+.user-number {
+  cursor: pointer;
+  color: var(--on-surface);
+}
+
+
+.user-icon {
+  margin-right: 5px;
 }
 
 .voteUp {

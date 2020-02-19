@@ -50,6 +50,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   wrong = 'wrong';
   ack = 'ack';
   tag = 'tag';
+  userNumber = 'userNumber';
   answer = 'answer';
   owner = 'owner';
   currentFilter = '';
@@ -307,7 +308,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.notificationService.show(message);
   }
 
-  filterComments(type: string, tag?: string): void {
+  filterComments(type: string, compare?: any): void {
+    console.log(type);
+    console.log(compare);
     this.currentFilter = type;
     if (type === '') {
       this.filteredComments = this.comments;
@@ -328,7 +331,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
         case this.unread:
           return !c.read;
         case this.tag:
-          return c.tag === tag;
+          return c.tag === compare;
+        case this.userNumber:
+          return c.userNumber === compare;
         case this.answer:
           return c.answer;
         case this.owner:
@@ -363,6 +368,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   clickedOnTag(tag: string): void {
     this.filterComments(this.tag, tag);
+  }
+
+  clickedUserNumber(usrNumber: number): void {
+    this.filterComments(this.userNumber, usrNumber);
   }
 
   pauseCommentStream() {
