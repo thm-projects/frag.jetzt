@@ -195,6 +195,7 @@
     "description": "Beschreibung",
     "email-error": "E-Mail Adresse ist ungültig.",
     "export-comments": "Fragen exportieren",
+    "no-comments": "Es sind noch keine Fragen vorhanden.",
     "general": "Sitzung",
     "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-feedback": "Live Feedback",

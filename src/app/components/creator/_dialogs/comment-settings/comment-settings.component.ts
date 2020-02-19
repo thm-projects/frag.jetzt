@@ -22,7 +22,6 @@ import { CommentSettingsDialog } from '../../../../models/comment-settings-dialo
 export class CommentSettingsComponent implements OnInit {
 
   roomId: string;
-  comments: CommentBonusTokenMixin[];
   commentThreshold = -100;
   editRoom: Room;
   settingThreshold = false;
@@ -102,59 +101,69 @@ export class CommentSettingsComponent implements OnInit {
 
   export(delimiter: string, format: string): void {
     this.commentService.getAckComments(this.roomId)
-      .subscribe(comments => {
-        this.bonusTokenService.getTokensByRoomId(this.roomId).subscribe( list => {
-          this.comments = comments.map(comment => {
-            const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
-            for (const bt of list) {
-              if (commentWithToken.creatorId === bt.userId && comment.id === bt.commentId) {
-                commentWithToken.bonusToken = bt.token;
-                commentWithToken.bonusTimeStamp = bt.timestamp;
+      .subscribe(data => {
+        if (data.length > 0) {
+          let comments: CommentBonusTokenMixin[];
+          this.bonusTokenService.getTokensByRoomId(this.roomId).subscribe( list => {
+            comments = data.map(comment => {
+              let commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
+              for (const bt of list) {
+                if (commentWithToken.creatorId === bt.userId && comment.id === bt.commentId) {
+                  commentWithToken.bonusToken = bt.token;
+                  commentWithToken.bonusTimeStamp = bt.timestamp;
+                }
               }
-            }
-            return commentWithToken;
-          });
-          const exportComments = JSON.parse(JSON.stringify(this.comments));
-          let valueFields = '';
-          const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
-            'room-page.score', 'room-page.token', 'room-page.token-time'];
-          let keyFields = '';
-          this.translationService.get(fieldNames).subscribe(msgs => {
-            for (let i = 0; i < fieldNames.length; i++) {
-              keyFields += (msgs[fieldNames[i]] + delimiter);
-            }
-            keyFields += '\r\n';
-            exportComments.forEach(element => {
-              element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
-              valueFields += Object.values(element).slice(3, 4) + delimiter;
-              let time;
-              time = Object.values(element).slice(4, 5);
-              valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
-              valueFields += Object.values(element).slice(5, 6) + delimiter;
-              valueFields += Object.values(element).slice(7, 8) + delimiter;
-              valueFields += Object.values(element).slice(9, 10) + delimiter;
-              if (Object.values(element).length > 12) {
-                valueFields += Object.values(element).slice(12, 13) + delimiter;
-                let btTime;
-                btTime = Object.values(element).slice(13, 14);
-                valueFields += btTime[0].slice(0, 10) + '-' + btTime[0].slice(11, 16) + delimiter + '\r\n';
-              } else {
-                valueFields += '' + delimiter;
-                valueFields += '' + delimiter + '\r\n';
-              }
+              return commentWithToken;
             });
-            const date = new Date();
-            const dateString = date.toLocaleDateString();
-            let file: string;
-            file = keyFields + valueFields;
-            const myBlob = new Blob([file], { type: `text/${format}` });
-            const link = document.createElement('a');
-            const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + dateString + '.' + format;
-            link.setAttribute('download', fileName);
-            link.href = window.URL.createObjectURL(myBlob);
-            link.click();
+            const sortedComments = comments.sort((a) => {
+              return a.bonusToken ? -1 : 1;
+            });
+            const exportComments = JSON.parse(JSON.stringify(sortedComments));
+            let valueFields = '';
+            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
+              'room-page.score', 'room-page.token', 'room-page.token-time'];
+            let keyFields = '';
+            this.translationService.get(fieldNames).subscribe(msgs => {
+              for (let i = 0; i < fieldNames.length; i++) {
+                keyFields += (msgs[fieldNames[i]] + delimiter);
+              }
+              keyFields += '\r\n';
+              exportComments.forEach(element => {
+                element.body = '"' + element.body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
+                valueFields += Object.values(element).slice(3, 4) + delimiter;
+                let time;
+                time = Object.values(element).slice(4, 5);
+                valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
+                valueFields += Object.values(element).slice(5, 6) + delimiter;
+                valueFields += Object.values(element).slice(7, 8) + delimiter;
+                valueFields += Object.values(element).slice(9, 10) + delimiter;
+                if (Object.values(element).length > 12) {
+                  valueFields += Object.values(element).slice(12, 13) + delimiter;
+                  let btTime;
+                  btTime = Object.values(element).slice(13, 14);
+                  valueFields += btTime[0].slice(0, 10) + '-' + btTime[0].slice(11, 16) + delimiter + '\r\n';
+                } else {
+                  valueFields += '' + delimiter;
+                  valueFields += '' + delimiter + '\r\n';
+                }
+              });
+              const date = new Date();
+              const dateString = date.toLocaleDateString();
+              let file: string;
+              file = keyFields + valueFields;
+              const myBlob = new Blob([file], { type: `text/${format}` });
+              const link = document.createElement('a');
+              const fileName = this.editRoom.name + '_' + this.editRoom.shortId + '_' + dateString + '.' + format;
+              link.setAttribute('download', fileName);
+              link.href = window.URL.createObjectURL(myBlob);
+              link.click();
+            });
           });
-        });
+        } else {
+          this.translationService.get('room-page.no-comments').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        }
       });
   }
 
