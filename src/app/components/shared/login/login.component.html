@@ -25,6 +25,9 @@
   <button id="focus_button_user" class="login" mat-flat-button type="submit" aria-labelledby="login-description">
     {{ 'login.login' | translate }}
   </button>
+  <div class="or" fxLayoutAlign="center center">
+    <span>{{ 'login.or' | translate }}</span>
+  </div>
   <button id="focus_button_guest" (click)="guestLogin()" class="guest" mat-flat-button type="button" aria-labelledby="guest-login-description"
           matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
