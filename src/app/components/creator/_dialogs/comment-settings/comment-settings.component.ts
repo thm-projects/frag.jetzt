@@ -106,7 +106,7 @@ export class CommentSettingsComponent implements OnInit {
           let comments: CommentBonusTokenMixin[];
           this.bonusTokenService.getTokensByRoomId(this.roomId).subscribe( list => {
             comments = data.map(comment => {
-              let commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
+              const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
               for (const bt of list) {
                 if (commentWithToken.creatorId === bt.userId && comment.id === bt.commentId) {
                   commentWithToken.bonusToken = bt.token;
@@ -115,13 +115,24 @@ export class CommentSettingsComponent implements OnInit {
               }
               return commentWithToken;
             });
-            const sortedComments = comments.sort((a) => {
+            let sortedComments = comments.sort((a) => {
               return a.bonusToken ? -1 : 1;
             });
+            if (!sortedComments[0].bonusToken) {
+              sortedComments = comments.sort((a) => {
+                return a.favorite ? -1 : 1;
+              });
+              if (!sortedComments[0].favorite) {
+                sortedComments = comments.sort((a, b) => {
+                  const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
+                  return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
+                });
+              }
+            }
             const exportComments = JSON.parse(JSON.stringify(sortedComments));
             let valueFields = '';
-            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
-              'room-page.score', 'room-page.token', 'room-page.token-time'];
+            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.favorite',
+              'room-page.correct/wrong', 'room-page.score', 'room-page.token', 'room-page.token-time'];
             let keyFields = '';
             this.translationService.get(fieldNames).subscribe(msgs => {
               for (let i = 0; i < fieldNames.length; i++) {
@@ -135,6 +146,7 @@ export class CommentSettingsComponent implements OnInit {
                 time = Object.values(element).slice(4, 5);
                 valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
                 valueFields += Object.values(element).slice(5, 6) + delimiter;
+                valueFields += Object.values(element).slice(6, 7) + delimiter;
                 valueFields += Object.values(element).slice(7, 8) + delimiter;
                 valueFields += Object.values(element).slice(9, 10) + delimiter;
                 if (Object.values(element).length > 12) {
