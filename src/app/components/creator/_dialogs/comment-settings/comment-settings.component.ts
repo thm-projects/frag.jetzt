@@ -119,15 +119,14 @@ export class CommentSettingsComponent implements OnInit {
               return a.bonusToken ? -1 : 1;
             });
             if (!sortedComments[0].bonusToken) {
-              sortedComments = comments.sort((a) => {
-                return a.favorite ? -1 : 1;
+              sortedComments = comments.sort((a, b) => {
+                const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
+                return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
               });
-              if (!sortedComments[0].favorite) {
-                sortedComments = comments.sort((a, b) => {
-                  const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
-                  return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
-                });
-              }
+            } else {
+              sortedComments = sortedComments.sort((a, b) => {
+                return a.bonusToken < b.bonusToken ? -1 : 1;
+              });
             }
             const exportComments = JSON.parse(JSON.stringify(sortedComments));
             let valueFields = '';
