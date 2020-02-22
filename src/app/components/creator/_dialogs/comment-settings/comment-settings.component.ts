@@ -130,7 +130,7 @@ export class CommentSettingsComponent implements OnInit {
             }
             const exportComments = JSON.parse(JSON.stringify(sortedComments));
             let valueFields = '';
-            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.favorite',
+            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented',
               'room-page.correct/wrong', 'room-page.score', 'room-page.token', 'room-page.token-time'];
             let keyFields = '';
             this.translationService.get(fieldNames).subscribe(msgs => {
@@ -145,7 +145,6 @@ export class CommentSettingsComponent implements OnInit {
                 time = Object.values(element).slice(4, 5);
                 valueFields += time[0].slice(0, 10) + '-' + time[0].slice(11, 16) + delimiter;
                 valueFields += Object.values(element).slice(5, 6) + delimiter;
-                valueFields += Object.values(element).slice(6, 7) + delimiter;
                 valueFields += Object.values(element).slice(7, 8) + delimiter;
                 valueFields += Object.values(element).slice(9, 10) + delimiter;
                 if (Object.values(element).length > 12) {
