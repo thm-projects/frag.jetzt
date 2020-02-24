@@ -64,9 +64,7 @@
     "sure": "Are you sure?",
     "user-bonus-token": "See your bonus tokens",
     "user-got-tokens": "You have bonus tokens linked to this account that will be lost!",
-    "visited-sessions": "Visited sessions",
-    "bonus-token": "Tokens for bonus points",
-    "no-bonus": "No bonus points earned yet."
+    "visited-sessions": "Visited sessions"
   },
   "help": {
     "cancel": "Close",
@@ -241,8 +239,16 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel"
   },
-  "user-bonus-token-dialog": {
-    "header": "Tokens for bonus points"
+  "user-bonus-token": {
+    "header": "Tokens for bonus points",
+    "no-bonus": "No bonus points earned yet.",
+    "redeem-tokens": "Redeem tokens",
+    "mail-subject": "Request%20to%20redeem%20my%20tokens%20from%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
+    "mail-body-1": "Hello%2C%0D%0A%0D%0Ai%20have%20received%20the%20following%20tokens%20today%20in%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
+    "mail-body-2": "%C2%AB%20with%20the%20session%20code%20%C2%BB",
+    "mail-body-3": "%C2%AB%3A%0D%0A%0D%0A",
+    "mail-body-4": "%0D%0A%0D%0AI%20ask%20for%20the%20redemption%20in%20bonus%20points.%0D%0A%0D%0AThanks%20for%20%C2%BBfrag.jetzt%C2%AB!%0D%0A%0D%0A---",
+    "choose-session": "Choose a session"
   },
   "qr-dialog": {
     "session": "Session"
