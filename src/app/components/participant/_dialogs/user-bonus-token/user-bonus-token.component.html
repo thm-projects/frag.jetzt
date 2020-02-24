@@ -14,8 +14,9 @@
           <mat-label>{{ 'user-bonus-token.choose-session' | translate }}</mat-label>
           <input type="text" matInput [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let bt of bonusTokensMixin" [value]="bt.roomName" (onSelectionChange)="setCurrentRoom(bt)">
-              {{bt.roomName}}
+            <mat-option *ngFor="let room of rooms" [value]="room.name"
+                        (onSelectionChange)="setCurrentRoom($event, room)">
+              {{room.name}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
