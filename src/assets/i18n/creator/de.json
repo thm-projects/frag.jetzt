@@ -176,6 +176,7 @@
     "a11y-settings-direct-send": "Schieberegler, um Fragen sofort sichtbar zu machen.",
     "a11y-threshold": "Schieberegler zum Einstellen des Schwellenwerts für sichtbare Fragen",
     "abort": "Abbrechen",
+    "answer": "Antwort",
     "answer-statistics": "Statistiken",
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
@@ -244,11 +245,6 @@
     "token-deleted": "Der Token wurde gelöscht.",
     "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht."
   },
-  "comment-answer-form": {
-    "answer": "Gib eine Antwort.",
-    "send": "Senden",
-    "cancel": "Abbrechen"
-  },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
     "create-session": "Speichern",
@@ -256,16 +252,5 @@
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung",
     "preview": "Vorschau"
-  },
-  "statistic": {
-    "abstentions": "Enthaltungen",
-    "answer-statistic": "Antwortstatistik",
-    "answers": "Antworten",
-    "content": "Frage",
-    "good": "Gut",
-    "improvable": "Luft nach oben",
-    "no-answers": "Keine Antworten",
-    "no-questions": "Noch keine Antworten",
-    "percentage": "Prozent"
   }
 }

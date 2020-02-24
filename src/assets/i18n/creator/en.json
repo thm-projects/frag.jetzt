@@ -177,6 +177,7 @@
     "a11y-settings-direct-send": "Slider to send Questions directly to participant",
     "a11y-threshold": "Slider for setting the threshold for visible questions",
     "abort": "Abort",
+    "answer": "Answer",
     "answer-statistics": "Statistics",
     "bonus-token": "Tokens for bonus points",
     "bonus-token-header": "Tokens for bonus points",
@@ -245,9 +246,6 @@
     "token-deleted": "Token has been deleted.",
     "tokens-deleted": "All tokens of this sessions have been deleted."
   },
-  "comment-answer-form": {
-    "answer": "Give an answer."
-  },
   "session": {
     "a11y-description": "Enter a description for the session",
     "create-session": "Create session",
@@ -255,16 +253,5 @@
     "max-ls": "Max. characters:",
     "session-name": "Session name",
     "preview": "Preview"
-  },
-  "statistic": {
-    "abstentions": "Abstentions",
-    "answer-statistic": "Answer statistics",
-    "answers": "Answers",
-    "content": "Content",
-    "good": "Good",
-    "improvable": "Improvable",
-    "no-answers": "No answers",
-    "no-questions": "There are no answers yet.",
-    "percentage": "Percentage"
   }
 }

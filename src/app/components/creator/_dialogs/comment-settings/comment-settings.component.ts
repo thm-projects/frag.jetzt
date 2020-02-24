@@ -130,8 +130,8 @@ export class CommentSettingsComponent implements OnInit {
             }
             const exportComments = JSON.parse(JSON.stringify(sortedComments));
             let valueFields = '';
-            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented',
-              'room-page.correct/wrong', 'room-page.score', 'room-page.token', 'room-page.token-time'];
+            const fieldNames = ['room-page.question', 'room-page.timestamp', 'room-page.presented', 'room-page.correct/wrong',
+              'room-page.score', 'room-page.answer', 'room-page.token', 'room-page.token-time'];
             let keyFields = '';
             this.translationService.get(fieldNames).subscribe(msgs => {
               for (let i = 0; i < fieldNames.length; i++) {
@@ -147,6 +147,8 @@ export class CommentSettingsComponent implements OnInit {
                 valueFields += Object.values(element).slice(5, 6) + delimiter;
                 valueFields += Object.values(element).slice(7, 8) + delimiter;
                 valueFields += Object.values(element).slice(9, 10) + delimiter;
+                const answer = Object.values(element).slice(11, 12) || '';
+                valueFields += answer + delimiter;
                 if (Object.values(element).length > 12) {
                   valueFields += Object.values(element).slice(12, 13) + delimiter;
                   let btTime;
