@@ -3,7 +3,8 @@ import { BonusTokenService } from '../../../../services/http/bonus-token.service
 import { RoomService } from '../../../../services/http/room.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { BonusTokenRoomMixin } from '../../../../models/bonus-token-room-mixin';
-import { MatDialogRef, MatOptionSelectionChange } from '@angular/material';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatOptionSelectionChange } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';

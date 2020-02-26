@@ -6,7 +6,7 @@ import { Room } from '../../../models/room';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';

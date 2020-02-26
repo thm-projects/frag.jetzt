@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { RoomCreateComponent } from '../../shared/_dialogs/room-create/room-create.component';

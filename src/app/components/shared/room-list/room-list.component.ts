@@ -8,12 +8,13 @@ import { RoomService } from '../../../services/http/room.service';
 import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { MatDialog, MatTableDataSource } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-room-list',

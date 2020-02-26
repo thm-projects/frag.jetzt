@@ -4,7 +4,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
 import { Vote } from '../../../models/vote';
@@ -22,7 +22,7 @@ import { AppComponent } from '../../../app.component';
   styleUrls: ['./moderator-comment-list.component.scss']
 })
 export class ModeratorCommentListComponent implements OnInit {
-  @ViewChild('searchBox', { static: false }) searchField: ElementRef;
+  @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
   AppComponent = AppComponent;

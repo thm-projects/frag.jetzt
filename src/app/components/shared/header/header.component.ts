@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';

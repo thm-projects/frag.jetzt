@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
-import { ErrorStateMatcher, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { RegisterComponent, validatePassword } from '../register/register.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 
 export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {

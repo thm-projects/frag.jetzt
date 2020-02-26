@@ -52,20 +52,7 @@ import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.co
     BonusDeleteComponent,
     DeleteAnswerComponent
   ],
-  exports: [],
-  entryComponents: [
-    RoomDeleteComponent,
-    RoomEditComponent,
-    ModeratorsComponent,
-    BonusTokenComponent,
-    CommentSettingsComponent,
-    ModeratorDeleteComponent,
-    TagsComponent,
-    DeleteCommentsComponent,
-    DeleteCommentComponent,
-    BonusDeleteComponent,
-    DeleteAnswerComponent
-  ]
+  exports: []
 })
 export class CreatorModule {
 }

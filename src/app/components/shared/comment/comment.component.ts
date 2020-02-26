@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { animate, keyframes, state, style, transition, trigger } from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';

@@ -2,7 +2,7 @@ import { LanguageService } from './../../../services/util/language.service';
 import { Component, OnInit } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';

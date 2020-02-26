@@ -9,9 +9,8 @@ import {
   ViewChildren,
   ViewEncapsulation
 } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { NgxQRCodeComponent } from 'ngx-qrcode2';
 
 @Component({
   selector: 'app-qr-code-dialog',
@@ -21,7 +20,6 @@ import { NgxQRCodeComponent } from 'ngx-qrcode2';
 })
 export class QrCodeDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(NgxQRCodeComponent) code: NgxQRCodeComponent;
   @ViewChild('imageWrapper') imgWrp: ElementRef;
   @ViewChild('text') text: ElementRef;
 
@@ -65,11 +63,11 @@ export class QrCodeDialogComponent implements OnInit, AfterViewInit {
 
   public setQRCode(url: string) {
     this.qrCode = url;
-    this.code.value = url;
-    this.code.createQRCode();
-    this.code.toDataURL().then((a) => {
-      this.createImage(a.toString());
-    });
+    // this.code.value = url;
+    // this.code.createQRCode();
+    // this.code.toDataURL().then((a) => {
+      // this.createImage(a.toString());
+    // });
   }
 
   private createImage(base: string) {

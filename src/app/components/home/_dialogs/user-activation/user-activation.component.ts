@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { UserService } from '../../../../services/http/user.service';
 import { FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../../services/util/event.service';
 

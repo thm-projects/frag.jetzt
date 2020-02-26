@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
 

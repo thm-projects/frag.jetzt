@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';

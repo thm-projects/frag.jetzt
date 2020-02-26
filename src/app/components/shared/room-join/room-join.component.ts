@@ -21,7 +21,7 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   styleUrls: ['./room-join.component.scss']
 })
 export class RoomJoinComponent implements OnInit {
-  @ViewChild('sessionCode', { static: false }) sessionCodeElement: ElementRef;
+  @ViewChild('sessionCode') sessionCodeElement: ElementRef;
 
   room: Room;
   user: User;
@@ -42,7 +42,6 @@ export class RoomJoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sessionCodeElement.nativeElement.focus();
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
