@@ -22,7 +22,7 @@ import { AppComponent } from '../../../app.component';
   styleUrls: ['./moderator-comment-list.component.scss']
 })
 export class ModeratorCommentListComponent implements OnInit {
-  @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('searchBox', { static: false }) searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
   AppComponent = AppComponent;

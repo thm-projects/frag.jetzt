@@ -20,7 +20,7 @@ export class TagsComponent implements OnInit {
   tagsEnabled: boolean;
 
   tagFormControl = new FormControl('', [Validators.minLength(3), Validators.maxLength(15)]);
-  @ViewChild('tag') redel: ElementRef;
+  @ViewChild('tag', { static: false }) redel: ElementRef;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,

@@ -21,7 +21,7 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   styleUrls: ['./room-join.component.scss']
 })
 export class RoomJoinComponent implements OnInit {
-  @ViewChild('sessionCode') sessionCodeElement: ElementRef;
+  @ViewChild('sessionCode', { static: false }) sessionCodeElement: ElementRef;
 
   room: Room;
   user: User;

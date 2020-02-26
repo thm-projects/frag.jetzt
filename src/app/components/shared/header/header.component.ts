@@ -232,7 +232,7 @@ export class HeaderComponent implements OnInit {
       panelClass: 'screenDialog'
     });
     const qrDialog: QrCodeDialogComponent = dialogRef.componentInstance;
-    qrDialog.setQRCode(this.getQRCode());
+    // qrDialog.setQRCode(this.getQRCode());
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
     });

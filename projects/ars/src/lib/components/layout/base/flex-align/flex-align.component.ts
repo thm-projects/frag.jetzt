@@ -10,7 +10,7 @@ export class FlexAlignComponent implements OnInit, AfterViewInit {
   @Input() align = 'center';
   @Input() width: number;
   @Input() margin: number;
-  @ViewChild('col') col: ElementRef;
+  @ViewChild('col', { static: false }) col: ElementRef;
 
   constructor(private ref: ElementRef, private render: Renderer2) {
   }

@@ -27,7 +27,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./comment-list.component.scss']
 })
 export class CommentListComponent implements OnInit, OnDestroy {
-  @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('searchBox', { static: false }) searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
   AppComponent = AppComponent;
