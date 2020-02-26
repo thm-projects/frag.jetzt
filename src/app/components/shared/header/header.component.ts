@@ -222,7 +222,7 @@ export class HeaderComponent implements OnInit {
 
   /*QR*/
 
-  public getQRCode(): string {
+  public getURL(): string {
     return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.shortId}`;
   }
 
@@ -231,11 +231,11 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(QrCodeDialogComponent, {
       panelClass: 'screenDialog'
     });
-    const qrDialog: QrCodeDialogComponent = dialogRef.componentInstance;
-    // qrDialog.setQRCode(this.getQRCode());
+    const url = this.getURL();
+    dialogRef.componentInstance.data = url;
+    dialogRef.componentInstance.key = url.slice(-8);
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
     });
   }
-
 }

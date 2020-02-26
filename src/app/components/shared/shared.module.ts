@@ -25,6 +25,7 @@ import { RemoveFromHistoryComponent } from './_dialogs/remove-from-history/remov
 import { CommentAnswerComponent } from './comment-answer/comment-answer.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { MatRippleModule } from '@angular/material/core';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { MatRippleModule } from '@angular/material/core';
     SharedRoutingModule,
     MatRippleModule,
     ArsModule,
-    MarkdownModule
+    MarkdownModule,
+    QRCodeModule
   ],
   declarations: [
     RoomJoinComponent,
