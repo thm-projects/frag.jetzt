@@ -38,7 +38,6 @@
     "ngx-markdown": "^1.6.0",
     "ngx-qrcode2": "0.0.9",
     "rxjs": "^6.5.2",
-    "rxjs-compat": "^6.2.2",
     "tslib": "^1.9.0",
     "tslint-eslint-rules": "^5.3.1",
     "typescript-map": "0.0.7",
