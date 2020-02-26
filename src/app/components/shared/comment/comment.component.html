@@ -1,6 +1,6 @@
-<mat-card id="comment-card" [ngClass]="{'highlighted': comment.highlighted,
-                                        '': !comment.highlighted,
-                                         'moderator': moderator}" [@slide]>
+<mat-card id="comment-card" [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
+          'moderator': moderator}"
+          [@slide]="slideAnimationState" (@slide.done)="changeSlideState()">
   <div fxLayout="column">
     <div fxLayout="row" class="comment-actions">
       <div class="date-container">
@@ -79,8 +79,7 @@
           }}</span>
       </div>
       <span class="fill-remaining-space click" (click)="openPresentDialog(comment)"></span>
-      <div fxLayout="column" *ngIf="isStudent" (tap)="startAnimation('rubberBand')" [@rubberBand]="animationState"
-           (@rubberBand.done)="resetAnimationState()">
+      <div fxLayout="column" *ngIf="isStudent" [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
         <button mat-icon-button (click)="voteUp(comment)" matTooltip="{{ 'comment-page.vote-up' | translate }}"
                 tabindex="0" attr.aria-labelledby="comment_vote_up{{ comment.id }}">
           <mat-icon class="voting-icon" [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up</mat-icon>
