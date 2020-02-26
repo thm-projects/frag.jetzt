@@ -122,9 +122,12 @@ export function initializeApp(appConfig: AppConfig) {
     CreatorModule,
     ModeratorModule,
     MarkdownModule.forRoot({
-      provide: MarkedOptions,
-      useValue: {
-        sanitize: true
+      loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          sanitize: true
+        }
       }
     }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
