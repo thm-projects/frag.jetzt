@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
@@ -100,16 +100,6 @@ export function initializeApp(appConfig: AppConfig) {
     HelpEnComponent,
     OverlayComponent
   ],
-  entryComponents: [
-    RegisterComponent,
-    PasswordResetComponent,
-    UserActivationComponent,
-    DemoVideoComponent,
-    CookiesComponent,
-    OverlayComponent,
-    QrCodeDialogComponent,
-    RemoveFromHistoryComponent
-  ],
   imports: [
     AppRoutingModule,
     BrowserModule,
@@ -122,9 +112,12 @@ export function initializeApp(appConfig: AppConfig) {
     CreatorModule,
     ModeratorModule,
     MarkdownModule.forRoot({
-      provide: MarkedOptions,
-      useValue: {
-        sanitize: true
+      loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          sanitize: true
+        }
       }
     }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

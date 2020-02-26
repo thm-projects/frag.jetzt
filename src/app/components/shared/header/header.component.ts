@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -222,7 +222,7 @@ export class HeaderComponent implements OnInit {
 
   /*QR*/
 
-  public getQRCode(): string {
+  public getURL(): string {
     return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.shortId}`;
   }
 
@@ -231,11 +231,11 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(QrCodeDialogComponent, {
       panelClass: 'screenDialog'
     });
-    const qrDialog: QrCodeDialogComponent = dialogRef.componentInstance;
-    qrDialog.setQRCode(this.getQRCode());
+    const url = this.getURL();
+    dialogRef.componentInstance.data = url;
+    dialogRef.componentInstance.key = url.slice(-8);
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
     });
   }
-
 }

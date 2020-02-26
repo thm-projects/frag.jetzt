@@ -1,17 +1,5 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  QueryList,
-  Renderer2,
-  ViewChild,
-  ViewChildren,
-  ViewEncapsulation
-} from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material';
-import { DialogConfirmActionButtonType } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { NgxQRCodeComponent } from 'ngx-qrcode2';
+import { AfterViewInit, Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-qr-code-dialog',
@@ -21,21 +9,13 @@ import { NgxQRCodeComponent } from 'ngx-qrcode2';
 })
 export class QrCodeDialogComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(NgxQRCodeComponent) code: NgxQRCodeComponent;
-  @ViewChild('imageWrapper') imgWrp: ElementRef;
-  @ViewChild('text') text: ElementRef;
-
-  url: string = window.location.hostname;
-  private img: HTMLImageElement;
-  qrCode = '';
-
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
+  data: string;
+  qrWidth: number;
+  key: string;
 
   constructor(
     private dialog: MatDialog,
     private dialogRef: MatDialogRef<QrCodeDialogComponent>,
-    private ref: ElementRef,
-    private render: Renderer2
   ) {
   }
 
@@ -43,40 +23,11 @@ export class QrCodeDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    window.addEventListener('resize', e => {
-      this.onresize();
-    });
-    this.onresize();
+    const minSize = Math.min(document.body.clientWidth, document.body.clientHeight);
+    this.qrWidth = minSize - (minSize / 5);
   }
 
-  private onresize() {
-    const width = this.imgWrp.nativeElement.offsetWidth;
-    const height = this.imgWrp.nativeElement.offsetHeight;
-    if (width > height) {this.setPosition(height); } else { this.setPosition(width); }
-  }
-
-  private setPosition(offset: number) {
-    this.render.setStyle(
-      this.text.nativeElement,
-      'margin-left',
-      (-offset / 2) + (this.text.nativeElement.offsetWidth / 2) + (offset / 10) + 'px'
-    );
-  }
-
-  public setQRCode(url: string) {
-    this.qrCode = url;
-    this.code.value = url;
-    this.code.createQRCode();
-    this.code.toDataURL().then((a) => {
-      this.createImage(a.toString());
-    });
-  }
-
-  private createImage(base: string) {
-    this.render.setStyle(this.imgWrp.nativeElement, 'background-image', 'url(' + base + ')');
-  }
-
-  public close() {
-    this.dialog.closeAll();
+  onCloseClick(): void {
+    this.dialogRef.close();
   }
 }

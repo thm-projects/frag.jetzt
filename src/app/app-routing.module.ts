@@ -35,15 +35,15 @@ const routes: Routes = [
   },
   {
     path: 'creator',
-    loadChildren: './components/creator/creator.module#CreatorModule'
+    loadChildren: () => import('./components/creator/creator.module').then(m => m.CreatorModule)
   },
   {
     path: 'participant',
-    loadChildren: './components/participant/participant.module#ParticipantModule'
+    loadChildren: () => import('./components/participant/participant.module').then(m => m.ParticipantModule)
   },
   {
     path: 'moderator',
-    loadChildren: './components/moderator/moderator.module#ModeratorModule'
+    loadChildren: () => import('./components/moderator/moderator.module').then(m => m.ModeratorModule)
   },
   {
     path: '**',

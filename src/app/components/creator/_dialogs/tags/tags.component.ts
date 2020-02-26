@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';

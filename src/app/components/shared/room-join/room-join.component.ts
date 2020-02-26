@@ -42,7 +42,6 @@ export class RoomJoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.sessionCodeElement.nativeElement.focus();
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 

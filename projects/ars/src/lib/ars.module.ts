@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { ArsComponent } from './ars.component';
-import { MatButtonModule, MatIconModule } from '@angular/material';
 import { FullScreenOverlayComponent } from './components/layout/base/screen/screen.component';
 import { RowComponent } from './components/layout/frame/row/row.component';
 import { ColComponent } from './components/layout/frame/col/col.component';
@@ -16,6 +15,8 @@ import { MenuWrapperDirective } from './components/content/menu/MenuWrapper.dire
 import { ButtonWrapperDirective } from './components/content/menu/ButtonWrapper.directive';
 import { ButtonBaseDirective } from './components/content/menu/ButtonBase.directive';
 import { MaterialBtnComponent } from './components/style/menu/material-btn/material-btn.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [

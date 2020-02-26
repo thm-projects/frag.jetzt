@@ -14,7 +14,6 @@ mat-card-content > :first-child {
   height: 35px;
   font-size: 35px;
   font-weight: bold;
-  line-height: 100% !important;
   color: var(--on-surface)
 }
 
@@ -121,4 +120,85 @@ user.role
 
 .comment-tag {
   vertical-align: 5px;
+}
+
+.voteUp {
+  animation: upVote 1s;
+}
+
+.voteDown {
+  animation: downVote 1s;
+}
+
+.reset {
+  animation: rubber 1s;
+}
+
+@keyframes upVote {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.05, 0.75, 1) translateY(-6px)
+  }
+  40% {
+    transform: scale3d(0.75, 1.05, 1) translateY(-12px)
+  }
+  50% {
+    transform: scale3d(1.05, 0.95, 1) translateY(-10px)
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1) translateY(-7px)
+  }
+  80% {
+    transform: scale3d(1.05, 0.95, 1) translateY(-5px)
+  }
+  100% {
+    transform: scale3d(1, 1, 1) translateY(0)
+  }
+}
+
+@keyframes downVote {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.05, 0.75, 1) translateY(6px)
+  }
+  40% {
+    transform: scale3d(0.75, 1.05, 1) translateY(12px)
+  }
+  50% {
+    transform: scale3d(1.05, 0.95, 1) translateY(10px)
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1) translateY(7px)
+  }
+  80% {
+    transform: scale3d(1.05, 0.95, 1) translateY(5px)
+  }
+  100% {
+    transform: scale3d(1, 1, 1) translateY(0)
+  }
+}
+
+@keyframes rubber {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  30% {
+    transform: scale3d(1.05, 0.75, 1)
+  }
+  40% {
+    transform: scale3d(0.75, 1.05, 1)
+  }
+  50% {
+    transform: scale3d(1.05, 0.95, 1)
+  }
+  65% {
+    transform: scale3d(0.95, 1.05, 1)
+  }
+  100% {
+    transform: scale3d(1, 1, 1)
+  }
 }

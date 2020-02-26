@@ -9,7 +9,7 @@ import { User } from '../../../models/user';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
 
 @Component({
