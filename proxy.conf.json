@@ -31,6 +31,15 @@
     },
 		"logLevel": "debug"
   },
+  "/api/ws": {
+    "target": "ws://localhost:8077",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "ws": true,
+    "logLevel": "debug"
+  },
   "/api": {
     "target": "http://localhost:8080",
     "secure": false,
