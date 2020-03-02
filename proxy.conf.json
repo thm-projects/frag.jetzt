@@ -32,7 +32,7 @@
 		"logLevel": "debug"
   },
   "/api/ws": {
-    "target": "ws://localhost:8077",
+    "target": "ws://localhost:8099",
     "secure": false,
     "pathRewrite": {
       "^/api": ""
