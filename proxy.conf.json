@@ -31,7 +31,7 @@
     },
 		"logLevel": "debug"
   },
-  "/api/ws": {
+  "/api/ws/websocket": {
     "target": "ws://localhost:8099",
     "secure": false,
     "pathRewrite": {

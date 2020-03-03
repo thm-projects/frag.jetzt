@@ -4,7 +4,7 @@ import { environment } from './../environments/environment';
 export const ARSRxStompConfig: RxStompConfig = {
   // Which server?
   brokerURL: (window.location.protocol === 'http:' ) ?
-    `ws://${window.location.hostname}:8080/ws/websocket` : `wss://${window.location.hostname}/api/ws/websocket`,
+    `ws://${window.location.hostname}:/api/ws/websocket` : `wss://${window.location.hostname}/api/ws/websocket`,
 
   connectHeaders: {
     login: 'guest',
