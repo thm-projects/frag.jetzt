@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { Room } from '../../../../models/room';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RoomDeleteComponent } from '../room-delete/room-delete.component';
@@ -17,6 +18,8 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 })
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
+
+  roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]);
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -64,6 +67,14 @@ export class RoomEditComponent implements OnInit {
     this.dialogRef.close(type);
   }
 
+  save(): void {
+    if (!this.roomNameFormControl.hasError('required')
+        && !this.roomNameFormControl.hasError('minlength')
+        && !this.roomNameFormControl.hasError('maxlength')) {
+      this.closeDialog('update');
+    }
+  }
+
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -77,6 +88,6 @@ export class RoomEditComponent implements OnInit {
    * Returns a lambda which executes the dialog dedicated action on call.
    */
   buildSaveActionCallback(): () => void {
-    return () => this.closeDialog('update');
+    return () => this.save();
   }
 }
