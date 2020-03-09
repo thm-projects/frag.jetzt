@@ -6,9 +6,16 @@
     <mat-form-field class="input-block">
       <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
              [(ngModel)]="editRoom.name" matInput
+             [formControl]="roomNameFormControl"
              name="room-name" maxlength="20" aria-labelledby="room-name"/>
       <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
+      <mat-error *ngIf="
+          roomNameFormControl.hasError()
+          || roomNameFormControl.hasError('minlength')
+          || roomNameFormControl.hasError('maxlength')">
+        {{ 'room-page.name-length-error' | translate }}
+      </mat-error>
     </mat-form-field>
     <mat-tab-group>
       <mat-tab label="{{'room-page.description' | translate}}">
