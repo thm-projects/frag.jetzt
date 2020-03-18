@@ -1,0 +1,27 @@
+<ars-screen ars-flex-box class="questionwall-screen">
+  <ars-row [height]="50" class="questionwall-header">
+    <button *ngIf="room" routerLink="/creator/room/{{room.shortId}}">BACK</button>
+  </ars-row>
+  <ars-fill ars-flex-box>
+    <ars-fill style="overflow:hidden;">
+      <ars-row [overflow]="'auto'">
+        <p class="questionwall-present" *ngIf="commentFocus">{{commentFocus.body}}</p>
+        <p class="questionwall-present" *ngIf="!commentFocus">Questionwall. Click on a comment.</p>
+      </ars-row>
+    </ars-fill>
+    <ars-col [width]="450" [overflow]="'auto'" class="questionwall-comment-list">
+      <ars-row *ngFor="let comment of comments">
+        <div class="questionwall-comment">
+          <div class="questionwall-comment-box" (click)="focusComment(comment)"
+               [style.box-shadow]="commentFocus===comment?'inset 0px 0px 0px 1px var(--ars-paragraph-color)':null">
+            <p class="questionwall-comment-box-user">User: {{comment.creatorId.substring(0,4)}}</p>
+            <p class="questionwall-comment-box-time">Time: {{comment.timestamp}}</p>
+            <br>
+            <p class="questionwall-comment-box-body">{{comment.body}}</p>
+          </div>
+        </div>
+      </ars-row>
+    </ars-col>
+  </ars-fill>
+  <ars-row [height]="50" class="questionwall-footer"></ars-row>
+</ars-screen>
