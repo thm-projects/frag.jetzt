@@ -5,23 +5,31 @@
   <ars-fill ars-flex-box>
     <ars-fill style="overflow:hidden;">
       <ars-row [overflow]="'auto'">
-        <p class="questionwall-present" *ngIf="commentFocus">{{commentFocus.body}}</p>
+        <p class="questionwall-present" *ngIf="commentFocus">{{commentFocus.comment.body}}</p>
         <p class="questionwall-present" *ngIf="!commentFocus">Questionwall. Click on a comment.</p>
       </ars-row>
     </ars-fill>
-    <ars-col [width]="450" [overflow]="'auto'" class="questionwall-comment-list">
+    <ars-col [width]="450" [overflow]="'auto'" class="questionwall-comment-list" #colComponent>
       <ars-row *ngFor="let comment of comments">
         <div class="questionwall-comment">
           <div class="questionwall-comment-box" (click)="focusComment(comment)"
                [style.box-shadow]="commentFocus===comment?'inset 0px 0px 0px 1px var(--ars-paragraph-color)':null">
-            <p class="questionwall-comment-box-user">User: {{comment.creatorId.substring(0,4)}}</p>
-            <p class="questionwall-comment-box-time">Time: {{comment.timestamp}}</p>
+            <p class="questionwall-comment-box-user">User: {{comment.comment.creatorId.substring(0,4)}}</p>
+            <p class="questionwall-comment-box-time">Time: {{comment.comment.timestamp}}</p>
+            <p class="questionwall-comment-box-time" [style.color]="comment.old?null:'RED'">{{comment.old?'OLD':'NEW'}}</p>
             <br>
-            <p class="questionwall-comment-box-body">{{comment.body}}</p>
+            <p class="questionwall-comment-box-body">{{comment.comment.body}}</p>
           </div>
         </div>
       </ars-row>
     </ars-col>
   </ars-fill>
-  <ars-row [height]="50" class="questionwall-footer"></ars-row>
+  <ars-row [height]="50" class="questionwall-footer">
+    <button (click)="prevComment()">prev</button>
+    <button (click)="nextComment()">next</button>
+    <p>new Comments: {{unreadComments}}</p>
+    <button (click)="play()">play</button>
+    <button (click)="stop()">stop</button>
+    <p>auto focus: {{focusIncommingComments}}</p>
+  </ars-row>
 </ars-screen>

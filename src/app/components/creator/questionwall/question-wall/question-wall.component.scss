@@ -15,6 +15,10 @@
       background-color:var(--ars-foreground-color);
       box-shadow:0px -2px 4px rgba(0,0,0,0.3);
       z-index:4;
+      >*{
+        height:100%;
+        float:left;
+      }
     }
     &-comment{
       width:100%;
