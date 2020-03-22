@@ -40,10 +40,6 @@
             <mat-icon svgIcon="comment_tag"></mat-icon>
             {{ 'room-page.tags' | translate}}
           </button>
-          <button mat-menu-item routerLink="/creator/room/{{room.shortId}}/questionwall">
-            <mat-icon svgIcon="comment_tag"></mat-icon>
-            Questionwall
-          </button>
         </mat-menu>
         <button  id="settings-menu"
                  mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">

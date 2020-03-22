@@ -7,6 +7,7 @@ import { Room } from '../../../../models/room';
 import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
 import { QuestionWallComment } from '../QuestionWallComment';
 import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question-wall',
@@ -29,6 +30,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   constructor(
+    private router: Router,
     private commentService: CommentService,
     private roomService: RoomService,
     private wsCommentService: WsCommentServiceService
