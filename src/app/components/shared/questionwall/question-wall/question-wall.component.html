@@ -1,6 +1,10 @@
 <ars-screen ars-flex-box class="questionwall-screen">
   <ars-row [height]="50" class="questionwall-header">
-    <button *ngIf="room" routerLink="/participant/room/{{room.shortId}}/comments">BACK</button>
+    <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
+      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+        <button ars-btn routerLink="/participant/room/{{room.shortId}}/comments"><p>BACK</p></button>
+      </ars-col>
+    </ars-style-btn-material>
   </ars-row>
   <ars-fill ars-flex-box>
     <ars-fill style="overflow:hidden;">
@@ -10,7 +14,7 @@
       </ars-row>
     </ars-fill>
     <ars-col [width]="450" [overflow]="'auto'" class="questionwall-comment-list" #colComponent>
-      <ars-row *ngFor="let comment of comments">
+      <ars-row *ngFor="let comment of comments" class="questionwall-comment-anchor">
         <div class="questionwall-comment">
           <div class="questionwall-comment-box" (click)="focusComment(comment)"
                [style.box-shadow]="commentFocus===comment?'inset 0px 0px 0px 1px var(--ars-paragraph-color)':null">
@@ -24,12 +28,20 @@
       </ars-row>
     </ars-col>
   </ars-fill>
-  <ars-row [height]="50" class="questionwall-footer">
-    <button (click)="prevComment()">prev</button>
-    <button (click)="nextComment()">next</button>
-    <p>new Comments: {{unreadComments}}</p>
-    <button (click)="play()">play</button>
-    <button (click)="stop()">stop</button>
-    <p>auto focus: {{focusIncommingComments}}</p>
-  </ars-row>
+    <ars-row [height]="50" class="questionwall-footer">
+      <ars-style-btn-material style="width:100%;" ars-flex-box>
+        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+          <button ars-btn (click)="prevComment()"><p>PREVIOUS</p></button>
+          <button ars-btn (click)="nextComment()"><p>NEXT</p></button>
+        </ars-col>
+        <ars-col>
+          <p style="padding:15px 5px;box-sizing:border-box;" class="questionwall-text-color">new Comments: {{unreadComments}}</p>
+        </ars-col>
+        <ars-fill></ars-fill>
+        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+          <button ars-btn (click)="stop()"><p [style.color]="focusIncommingComments?'RED':null">PAUSE</p></button>
+          <button ars-btn (click)="play()"><p [style.color]="focusIncommingComments?null:'RED'">PLAY</p></button>
+        </ars-col>
+      </ars-style-btn-material>
+    </ars-row>
 </ars-screen>

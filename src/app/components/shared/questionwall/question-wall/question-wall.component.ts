@@ -41,6 +41,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     // StyleDebug.border('c');
     this.commentService.getAckComments(this.roomId).subscribe(e => {
+      e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
       e.forEach(c => {
         this.comments.push(new QuestionWallComment(c, true));
       });
@@ -52,7 +53,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(c => {
         const qwComment = this.pushIncommingComment(c);
         if (this.focusIncommingComments) {
-          this.focusComment(qwComment);
+          setTimeout(() => {
+            this.focusComment(qwComment);
+          }, 2);
         }
       });
     });
@@ -76,13 +79,25 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.moveComment(-1);
   }
 
+  getDOMComments() {
+    return Array.from(document.getElementsByClassName('questionwall-comment-anchor'));
+  }
+
+  getDOMCommentFocus() {
+    return this.getDOMComments()[this.getCommentFocusIndex()];
+  }
+
+  getCommentFocusIndex() {
+    return this.comments.indexOf(this.commentFocus);
+  }
+
   moveComment(fx: number) {
     if (this.comments.length === 0) {
       return;
     } else if (!this.commentFocus) {
       this.focusComment(this.comments[0]);
     } else {
-      const cursor = this.comments.indexOf(this.commentFocus);
+      const cursor = this.getCommentFocusIndex();
       if (cursor + fx >= this.comments.length || cursor + fx < 0) {
         return;
       } else {
@@ -104,9 +119,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       comment.old = true;
       this.unreadComments--;
     }
-    setTimeout(() => {
-      QuestionWallComponent.wrap(this.colComponent.ref.nativeElement, e => e.scrollTop = e.scrollHeight);
-    }, 10);
+    this.getDOMCommentFocus().scrollIntoView({
+      behavior: 'smooth',
+      block: 'center'
+    });
   }
 
   play() {

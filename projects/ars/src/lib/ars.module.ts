@@ -54,7 +54,9 @@ import { MatIconModule } from '@angular/material/icon';
     ThemeTestComponent,
     BaseTestComponent,
     MenuWrapperDirective,
-    ButtonWrapperDirective
+    ButtonWrapperDirective,
+    ButtonBaseDirective,
+    MaterialBtnComponent
   ]
 })
 export class ArsModule { }
