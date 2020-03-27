@@ -8,6 +8,7 @@ import { WsCommentServiceService } from '../../../../services/websockets/ws-comm
 import { QuestionWallComment } from '../QuestionWallComment';
 import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
 
 @Component({
   selector: 'app-question-wall',
@@ -24,39 +25,49 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentFocus: QuestionWallComment;
   unreadComments = 0;
   focusIncommingComments = false;
+  timeUpdateInterval;
 
-  static wrap<E>(e: E, action: (e: E) => void) {
+  public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
   }
 
+  public notUndefined<E>(e: E, action: (e: E) => void, elsePart?: () => void) {
+    if (e) {action(e); } else if (elsePart) {elsePart(); }
+  }
+
   constructor(
+    private authenticationService: AuthenticationService,
     private router: Router,
     private commentService: CommentService,
     private roomService: RoomService,
     private wsCommentService: WsCommentServiceService
   ) {
     this.roomId = localStorage.getItem('roomId');
+    this.timeUpdateInterval = setInterval(() => {
+      this.comments.forEach(e => e.updateTimeAgo());
+    }, 15000);
   }
 
   ngOnInit(): void {
     // StyleDebug.border('c');
     this.commentService.getAckComments(this.roomId).subscribe(e => {
       e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-      e.forEach(c => {
-        this.comments.push(new QuestionWallComment(c, true));
-      });
+      e.forEach(c => this.comments.push(new QuestionWallComment(c, true)));
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
     });
     this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
-      this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(c => {
-        const qwComment = this.pushIncommingComment(c);
-        if (this.focusIncommingComments) {
-          setTimeout(() => {
-            this.focusComment(qwComment);
-          }, 2);
-        }
+      this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
+        this.notUndefined(this.comments.find(f => f.comment.id === comment.id), qwComment => {
+          qwComment.comment = comment;
+        }, () => {
+          this.wrap(this.pushIncommingComment(comment), qwComment => {
+            if (this.focusIncommingComments) {
+              setTimeout(() => this.focusComment(qwComment), 5);
+            }
+          });
+        });
       });
     });
   }
@@ -67,6 +78,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    window.clearInterval(this.timeUpdateInterval);
     document.getElementById('header_rescale').style.display = 'block';
     document.getElementById('footer_rescale').style.display = 'block';
   }
@@ -125,12 +137,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  play() {
-    this.focusIncommingComments = true;
+  toggleFocusIncommingComments() {
+    this.focusIncommingComments = !this.focusIncommingComments;
   }
 
-  stop() {
-    this.focusIncommingComments = false;
+  leave() {
+    document.getElementById('back-button').click();
+  }
+
+  likeComment(comment: QuestionWallComment) {
+    this.wsCommentService.voteUp(comment.comment, this.authenticationService.getUser().id);
+  }
+
+  dislikeComment(comment: QuestionWallComment) {
+    this.wsCommentService.voteDown(comment.comment, this.authenticationService.getUser().id);
   }
 
 }

@@ -1,9 +1,10 @@
 <ars-screen ars-flex-box class="questionwall-screen">
   <ars-row [height]="50" class="questionwall-header">
     <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
-      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-        <button ars-btn routerLink="/participant/room/{{room.shortId}}/comments"><p>BACK</p></button>
+      <ars-col ars-btn-wrp [xp]="16" [yp]="0" [extra]="true">
+        <button ars-btn (click)="leave()"><i>arrow_back</i></button>
       </ars-col>
+      <ars-fill></ars-fill>
     </ars-style-btn-material>
   </ars-row>
   <ars-fill ars-flex-box>
@@ -13,34 +14,61 @@
         <p class="questionwall-present" *ngIf="!commentFocus">Questionwall. Click on a comment.</p>
       </ars-row>
     </ars-fill>
-    <ars-col [width]="450" [overflow]="'auto'" class="questionwall-comment-list" #colComponent>
+    <ars-col [width]="450" [overflow]="'auto'" class="questionwall-list" #colComponent>
       <ars-row *ngFor="let comment of comments" class="questionwall-comment-anchor">
-        <div class="questionwall-comment">
-          <div class="questionwall-comment-box" (click)="focusComment(comment)"
-               [style.box-shadow]="commentFocus===comment?'inset 0px 0px 0px 1px var(--ars-paragraph-color)':null">
-            <p class="questionwall-comment-box-user">User: {{comment.comment.creatorId.substring(0,4)}}</p>
-            <p class="questionwall-comment-box-time">Time: {{comment.comment.timestamp}}</p>
-            <p class="questionwall-comment-box-time" [style.color]="comment.old?null:'RED'">{{comment.old?'OLD':'NEW'}}</p>
-            <br>
-            <p class="questionwall-comment-box-body">{{comment.comment.body}}</p>
-          </div>
-        </div>
+        <ars-row style="box-sizing:border-box;padding:8px;">
+          <ars-row
+            [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
+            style="border-radius:5px">
+            <ars-row ars-flex-box
+                     (click)="focusComment(comment)"
+                     style="box-sizing:border-box;padding:16px;cursor:pointer">
+              <ars-col>
+                <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
+              </ars-col>
+              <ars-fill></ars-fill>
+              <ars-col>
+                <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
+              </ars-col>
+            </ars-row>
+            <ars-row
+              (click)="focusComment(comment)"
+              style="box-sizing:border-box;padding:0 16px;cursor:pointer">
+              <p class="questionwall-comment-body">{{comment.comment.body}}</p>
+            </ars-row>
+            <ars-row [height]="50">
+              <ars-style-btn-material style="width:100%;height:100%;" ars-flex-box>
+                <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+                  <button ars-btn (click)="likeComment(comment)"><i>thumb_up</i><p>{{comment.comment.score}}</p></button>
+                  <button ars-btn (click)="dislikeComment(comment)"><i>thumb_down</i></button>
+                </ars-col>
+                <ars-fill (click)="focusComment(comment)" style="cursor:pointer"></ars-fill>
+              </ars-style-btn-material>
+            </ars-row>
+          </ars-row>
+        </ars-row>
       </ars-row>
     </ars-col>
   </ars-fill>
     <ars-row [height]="50" class="questionwall-footer">
       <ars-style-btn-material style="width:100%;" ars-flex-box>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-          <button ars-btn (click)="prevComment()"><p>PREVIOUS</p></button>
-          <button ars-btn (click)="nextComment()"><p>NEXT</p></button>
-        </ars-col>
-        <ars-col>
-          <p style="padding:15px 5px;box-sizing:border-box;" class="questionwall-text-color">new Comments: {{unreadComments}}</p>
+          <button ars-btn (click)="toggleFocusIncommingComments()">
+            <ng-container *ngIf="focusIncommingComments">
+              <i>pause</i><p>Pause</p>
+            </ng-container>
+            <ng-container *ngIf="!focusIncommingComments">
+              <i>play_arrow</i><p>Autofocus</p>
+            </ng-container>
+          </button>
         </ars-col>
         <ars-fill></ars-fill>
+        <ars-col style="display:flex;flex-direction:column;justify-content:center">
+          <p *ngIf="unreadComments" style="line-height:18px;" class="questionwall-text-color">{{unreadComments}}</p>
+        </ars-col>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-          <button ars-btn (click)="stop()"><p [style.color]="focusIncommingComments?'RED':null">PAUSE</p></button>
-          <button ars-btn (click)="play()"><p [style.color]="focusIncommingComments?null:'RED'">PLAY</p></button>
+          <button ars-btn (click)="prevComment()"><i>skip_previous</i><p>PREVIOUS</p></button>
+          <button ars-btn (click)="nextComment()"><i>skip_next</i><p>NEXT</p></button>
         </ars-col>
       </ars-style-btn-material>
     </ars-row>

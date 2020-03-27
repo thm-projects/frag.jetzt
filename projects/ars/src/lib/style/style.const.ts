@@ -1,6 +1,6 @@
 export const light = {
   'ars-header-color': '#212121',
-  'ars-paragraph-color': '#616161',
+  'ars-paragraph-color': '#3f3f3f',
   'ars-button-color': '#000000',
   'ars-background-color': '#fcfcfc',
   'ars-foreground-color': '#FFFFFF',

@@ -6,7 +6,7 @@ import { UserRole } from '../../models/user-roles.enum';
 
 const routes: Routes = [
   {
-    path: 'room/:shortId/questionwall',
+    path: 'room/:shortId/comments/questionwall',
     component: QuestionWallComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.CREATOR,

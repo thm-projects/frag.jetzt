@@ -21,33 +21,33 @@
       }
     }
     &-comment{
-      width:100%;
-      padding:16px;
+      &-border{
+        &-on{
+          box-shadow:inset 0px 0px 0px 1px var(--ars-paragraph-color);
+        }
+        &-off{
+          box-shadow:inset 0px 0px 0px 0px var(--ars-paragraph-color);
+        }
+      }
+      &-timestamp{
+        color:var(--ars-paragraph-color);
+      }
+      &-body{
+        hyphens:auto;
+        color:var(--ars-paragraph-color);
+      }
+      &-notification{
+        font-size:12px;
+        text-transform:uppercase;
+        letter-spacing:2px;
+        font-weight:600;
+        color: #cc4244;
+      }
+    }
+    &-list{
       box-sizing:border-box;
-      &-box{
-        background-color:var(--ars-foreground-color);
-        border-radius:2px;
-        box-shadow:0px 2px 2px rgba(0,0,0,0.3);
-        box-sizing:border-box;
-        padding:16px;
-        cursor:pointer;
-        &-user{
-          color:var(--ars-header-color);
-        }
-        &-body{
-          color:var(--ars-paragraph-color);
-        }
-        &-time{
-          color:var(--ars-header-color);
-          padding-top:8px;
-          font-size:12px;
-        }
-      }
-      &-list{
-        box-sizing:border-box;
-        padding:16px 0px;
-        border-left:solid 1px var(--ars-border-color);
-      }
+      padding:16px 0px;
+      border-left:solid 1px var(--ars-border-color);
     }
     &-present{
       font-size:45px;
