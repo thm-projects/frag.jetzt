@@ -13,6 +13,10 @@
         fxLayoutAlign="center center">
       {{cTime}}
     </h2>
+    <span class="fill-remaining-space"></span>
+    <button *ngIf="router.url.includes('comments')" mat-button routerLink="participant/room/{{shortId}}/comments/questionwall">
+      <span>Presentation</span>
+    </button>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
     <span

@@ -1,39 +1,57 @@
 
+:host ::ng-deep {
 
-:host ::ng-deep{
-
-  p,h1,h2,h3,h4,h5{
-    padding:0;
-    margin:0;
+  p, h1, h2, h3, h4, h5 {
+    padding: 0;
+    margin: 0;
+    font-family:Roboto, 'sans-serif';
   }
 
   button{
-    padding:0;
-    margin:0;
     background-color:transparent;
     border:none;
     outline:none;
     cursor:pointer;
+    float:left;
   }
 
-  button:focus-visible>*{
-    outline:2px solid red;
-    outline-offset:5px;
+  button > *{
+    float:left;
+    cursor:pointer;
   }
 
-  ars-col>button p{
-    text-transform: uppercase;
+  button:focus-visible > *:first-child{
+    outline:red 2px solid;
+    outline-offset:2px;
   }
 
-  ars-row>button p{
+  ars-col > button > p{
+    text-transform:uppercase;
+    font-weight:500;
+    font-size:14px;
+    line-height:18px;
+    padding-top:1px;
+    padding-bottom:3px;
+    color:var(--ars-button-color);
   }
 
-  button p{
-    font-family: Roboto, 'sans-serif';
-    font-weight: 500;
-    text-decoration: none;
-    color: var(--ars-button-color);
-    text-align: left;
+  ars-row > button > p{
+    font-weight:500;
+    font-size:14px;
+    line-height:14px;
+  }
+
+  button > *:nth-child(2){
+    margin-left:12px;
+  }
+
+  button > i{
+    font-family:'Material Icons', serif;
+    font-weight:normal;
+    font-style:normal;
+    font-size:18px;
+    line-height:18px;
+    color:var(--ars-button-color);
   }
 
 }
