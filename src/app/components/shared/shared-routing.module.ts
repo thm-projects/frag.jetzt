@@ -8,8 +8,8 @@ const routes: Routes = [
   {
     path: 'room/:shortId/comments/questionwall',
     component: QuestionWallComponent,
-    canActivate: [AuthenticationGuard],
-    data: { roles: [UserRole.CREATOR,
+    data: { roles: [
+        UserRole.CREATOR,
         UserRole.EDITING_MODERATOR,
         UserRole.EXECUTIVE_MODERATOR,
         UserRole.PARTICIPANT] }
