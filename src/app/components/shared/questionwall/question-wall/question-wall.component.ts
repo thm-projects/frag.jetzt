@@ -49,7 +49,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    StyleDebug.border('c');
+    // StyleDebug.border('c');
     this.commentService.getAckComments(this.roomId).subscribe(e => {
       e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
       e.forEach(c => this.comments.push(new QuestionWallComment(c, true)));
