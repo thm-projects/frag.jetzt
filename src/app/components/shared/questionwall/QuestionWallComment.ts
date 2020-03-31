@@ -14,7 +14,6 @@ export class QuestionWallComment {
   }
 
   public update() {
-    console.log('update');
   }
 
   public updateTimeAgo() {
