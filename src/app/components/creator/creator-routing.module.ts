@@ -5,7 +5,6 @@ import { UserRole } from '../../models/user-roles.enum';
 import { RoomCreatorPageComponent } from './room-creator-page/room-creator-page.component';
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 import { CommentAnswerComponent } from '../shared/comment-answer/comment-answer.component';
-import { QuestionWallComponent } from '../shared/questionwall/question-wall/question-wall.component';
 
 const routes: Routes = [
   {
@@ -24,6 +23,7 @@ const routes: Routes = [
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
+    data: { roles: [UserRole.CREATOR] }
   }
 ];
 
