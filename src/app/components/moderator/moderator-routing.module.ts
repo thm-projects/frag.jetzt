@@ -27,11 +27,11 @@ const routes: Routes = [
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
   },
   {
-    path: 'room/:shortId/moderator/comment/:commentId',
+    path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
     canActivate: [AuthenticationGuard],
     data: { roles: [UserRole.EXECUTIVE_MODERATOR] }
-  },
+  }
 ];
 
 @NgModule({
