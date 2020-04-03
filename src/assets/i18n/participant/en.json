@@ -115,5 +115,17 @@
     "session-id": "Key",
     "bonus-token": "Tokens for bonus points",
     "bonus-token-header": "Tokens for bonus points"
+  },
+  "question-wall": {
+    "next-comment": "next comment",
+    "next-comment-icon": "keyboard_arrow_right",
+    "prev-comment": "previous comment",
+    "prev-comment-icon": "keyboard_arrow_left",
+    "auto-renew-on": "start automatically focus new comments",
+    "auto-renew-on-icon": "refresh",
+    "auto-renew-off": "stop automatically focus new comments",
+    "auto-renew-off-icon": "cancel",
+    "intro-title": "Questionwall",
+    "intro-desc": "Questionwall-desc"
   }
 }

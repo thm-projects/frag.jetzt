@@ -9,6 +9,9 @@ import { QuestionWallComment } from '../QuestionWallComment';
 import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { LanguageService } from '../../../../services/util/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { Rescale } from '../../../../models/rescale';
 
 @Component({
   selector: 'app-question-wall',
@@ -40,16 +43,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private commentService: CommentService,
     private roomService: RoomService,
-    private wsCommentService: WsCommentServiceService
+    private wsCommentService: WsCommentServiceService,
+    private langService: LanguageService,
+    private translateService: TranslateService
   ) {
     this.roomId = localStorage.getItem('roomId');
     this.timeUpdateInterval = setInterval(() => {
       this.comments.forEach(e => e.updateTimeAgo());
     }, 15000);
+    this.langService.langEmitter.subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit(): void {
     // StyleDebug.border('c');
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.commentService.getAckComments(this.roomId).subscribe(e => {
       e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
       e.forEach(c => this.comments.push(new QuestionWallComment(c, true)));
@@ -73,6 +80,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      Rescale.requestFullscreen();
+    }, 10);
     document.getElementById('header_rescale').style.display = 'none';
     document.getElementById('footer_rescale').style.display = 'none';
   }

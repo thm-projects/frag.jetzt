@@ -116,5 +116,17 @@
     "session-id": "Code",
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte"
+  },
+  "question-wall": {
+    "next-comment": "Nächster Kommentar",
+    "next-comment-icon": "keyboard_arrow_right",
+    "prev-comment": "Vorheriger Kommentar",
+    "prev-comment-icon": "keyboard_arrow_left",
+    "auto-renew-on": "aktiviere automatisches fokussieren neuer Kommentare",
+    "auto-renew-on-icon": "refresh",
+    "auto-renew-off": "stoppe automatisches fokussieren neuer Kommentare",
+    "auto-renew-off-icon": "cancel",
+    "intro-title": "Questionwall",
+    "intro-desc": "Questionwall-desc"
   }
 }
