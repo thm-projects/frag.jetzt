@@ -12,6 +12,7 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
+import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 
 @Component({
   selector: 'app-question-wall',
@@ -29,6 +30,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   unreadComments = 0;
   focusIncommingComments = false;
   timeUpdateInterval;
+  keySupport: QuestionWallKeyEventSupport;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -47,6 +49,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private langService: LanguageService,
     private translateService: TranslateService
   ) {
+    this.keySupport = new QuestionWallKeyEventSupport();
     this.roomId = localStorage.getItem('roomId');
     this.timeUpdateInterval = setInterval(() => {
       this.comments.forEach(e => e.updateTimeAgo());
@@ -77,6 +80,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         });
       });
     });
+    this.initKeySupport();
+  }
+
+  initKeySupport() {
+    this.wrap(this.keySupport, key => {
+      key.addKeyEvent('ArrowRight', () => this.nextComment());
+      key.addKeyEvent('ArrowLeft', () => this.prevComment());
+      key.addKeyEvent(' ', () => this.nextComment());
+    });
   }
 
   ngAfterViewInit(): void {
@@ -88,6 +100,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.keySupport.destroy();
     window.clearInterval(this.timeUpdateInterval);
     document.getElementById('header_rescale').style.display = 'block';
     document.getElementById('footer_rescale').style.display = 'block';
