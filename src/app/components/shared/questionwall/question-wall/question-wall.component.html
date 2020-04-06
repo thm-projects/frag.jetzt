@@ -15,8 +15,10 @@
     </ars-style-btn-material>
   </ars-row>
   <ars-fill ars-flex-box>
-    <ars-fill style="overflow:hidden;">
-      <ars-row [overflow]="'auto'">
+    <ars-fill style="overflow:hidden;" ars-flex-box>
+      <ars-fill>
+      </ars-fill>
+      <ars-row>
         <ng-container *ngIf="commentFocus">
           <h2 class="questionwall-present-timestamp">{{commentFocus.timeAgo}}</h2>
           <p class="questionwall-present">{{commentFocus.comment.body}}</p>
@@ -26,6 +28,8 @@
           <p class="questionwall-present-introduction-desc">{{'question-wall.introduction-desc' | translate}}</p>
         </ng-container>
       </ars-row>
+      <ars-fill>
+      </ars-fill>
     </ars-fill>
     <ars-col [width]="450" [overflow]="'auto'" class="questionwall-list" #colComponent>
       <ars-row *ngFor="let comment of comments" class="questionwall-comment-anchor">
