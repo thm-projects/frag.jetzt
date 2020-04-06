@@ -118,15 +118,15 @@
     "bonus-token-header": "Tokens für Bonuspunkte"
   },
   "question-wall": {
-    "next-comment": "Nächster Kommentar",
+    "next-comment": "Nächste Frage",
     "next-comment-icon": "keyboard_arrow_right",
-    "prev-comment": "Vorheriger Kommentar",
+    "prev-comment": "Vorherige Frage",
     "prev-comment-icon": "keyboard_arrow_left",
-    "auto-renew-on": "aktiviere automatisches fokussieren neuer Kommentare",
+    "auto-renew-on": "Autofokus für neue Fragen",
     "auto-renew-on-icon": "refresh",
-    "auto-renew-off": "stoppe automatisches fokussieren neuer Kommentare",
+    "auto-renew-off": "Autofokus beenden",
     "auto-renew-off-icon": "cancel",
-    "intro-title": "Questionwall",
-    "intro-desc": "Questionwall-desc"
+    "intro-title": "Fragen-Fokus",
+    "intro-desc": "Klicke auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück."
   }
 }
