@@ -196,6 +196,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
         c.id = payload.id;
         c.timestamp = payload.timestamp;
         c.tag = payload.tag;
+        c.creatorId = payload.creatorId;
+        c.userNumber = this.commentService.hashCode(c.creatorId);
 
         this.announceNewComment(c.body);
 
@@ -309,8 +311,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   filterComments(type: string, compare?: any): void {
-    console.log(type);
-    console.log(compare);
     this.currentFilter = type;
     if (type === '') {
       this.filteredComments = this.comments;
