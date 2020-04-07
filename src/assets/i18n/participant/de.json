@@ -127,6 +127,8 @@
     "auto-renew-off": "Autofokus beenden",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Fragen-Fokus",
-    "intro-desc": "Klicke auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück."
+    "intro-desc": "Klicke auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück.",
+    "sort-time": "Zeit",
+    "sort-score": "Bewertung"
   }
 }

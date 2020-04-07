@@ -176,4 +176,27 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wsCommentService.voteDown(comment.comment, this.authenticationService.getUser().id);
   }
 
+  sortScore(reverse?: boolean) {
+    this.sort((a, b) => a.comment.score - b.comment.score, reverse);
+  }
+
+  sortTime(reverse?: boolean) {
+    this.sort((a, b) => new Date(a.comment.timestamp).getTime() - new Date(b.comment.timestamp).getTime(), reverse);
+  }
+
+  sort(fun: (a, b) => number, reverse: boolean) {
+    if (reverse) {
+      this.comments.sort(this.reverse(fun));
+    } else {
+      this.comments.sort(fun);
+    }
+    setTimeout(() => {
+      this.focusComment(this.comments[this.comments.length - 1]);
+    }, 0);
+  }
+
+  reverse(fun: (a, b) => number): (a, b) => number {
+    return (a, b) => fun(b, a);
+  }
+
 }

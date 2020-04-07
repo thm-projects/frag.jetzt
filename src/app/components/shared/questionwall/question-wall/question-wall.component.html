@@ -9,8 +9,14 @@
       <ars-col>
         <!-- centered col -->
       </ars-col>
-      <ars-fill>
-        <!-- right -->
+      <ars-fill ars-flex-box>
+        <ars-fill></ars-fill>
+        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+          <button ars-btn (click)="sortTime()"><p>{{'question-wall.sort-time' | translate}}</p><i>expand_less</i></button>
+          <button ars-btn (click)="sortTime(true)"><i>expand_more</i></button>
+          <button ars-btn (click)="sortScore()"><p>{{'question-wall.sort-score' | translate}}</p><i>expand_less</i></button>
+          <button ars-btn (click)="sortScore(true)"><i>expand_more</i></button>
+        </ars-col>
       </ars-fill>
     </ars-style-btn-material>
   </ars-row>
@@ -18,15 +24,17 @@
     <ars-fill style="overflow:hidden;" ars-flex-box>
       <ars-fill>
       </ars-fill>
-      <ars-row>
-        <ng-container *ngIf="commentFocus">
-          <h2 class="questionwall-present-timestamp">{{commentFocus.timeAgo}}</h2>
-          <p class="questionwall-present">{{commentFocus.comment.body}}</p>
-        </ng-container>
-        <ng-container *ngIf="!commentFocus">
-          <p class="questionwall-present-introduction-title">{{'question-wall.introduction-title' | translate}}</p>
-          <p class="questionwall-present-introduction-desc">{{'question-wall.introduction-desc' | translate}}</p>
-        </ng-container>
+      <ars-row class="questionwall-present-box-outer">
+        <div class="questionwall-present-box-inner">
+          <ng-container *ngIf="commentFocus">
+            <h2 class="questionwall-present-timestamp">{{commentFocus.timeAgo}}</h2>
+            <p class="questionwall-present">{{commentFocus.comment.body}}</p>
+          </ng-container>
+          <ng-container *ngIf="!commentFocus">
+            <p class="questionwall-present-introduction-title">{{'question-wall.intro-title' | translate}}</p>
+            <p class="questionwall-present-introduction-desc">{{'question-wall.intro-desc' | translate}}</p>
+          </ng-container>
+        </div>
       </ars-row>
       <ars-fill>
       </ars-fill>
@@ -46,6 +54,18 @@
               <ars-fill></ars-fill>
               <ars-col>
                 <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
+              </ars-col>
+              <ars-col>
+                <!-- Fav,Mark as wrong/correct -->
+                <!--
+                <ars-style-btn-material>
+                  <ars-col ars-btn-wrp [xp]="16" [extraStart]="true" class="questionwall-comment-btn">
+                    <button ars-btn><i>check_circle</i></button>
+                    <button ars-btn><i>not_interested</i></button>
+                    <button ars-btn><i>{{comment.comment.favorite?'star':'star_border'}}</i></button>
+                  </ars-col>
+                </ars-style-btn-material>
+                -->
               </ars-col>
             </ars-row>
             <ars-row
