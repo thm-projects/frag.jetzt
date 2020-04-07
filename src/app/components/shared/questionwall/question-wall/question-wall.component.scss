@@ -52,6 +52,7 @@
         font-size:12px;
         text-transform:uppercase;
         letter-spacing:2px;
+        line-height:18px;
         font-weight:600;
         color: #cc4244;
       }
@@ -66,6 +67,17 @@
       padding:16px 32px 16px 32px;
       color:var(--ars-header-color);
       word-break:break-word;
+      &-box{
+        &-outer{
+          display:flex;
+          flex-direction:row;
+          justify-content:center;
+        }
+        &-inner{
+          width:1000px;
+          flex-shrink:1;
+        }
+      }
       &-timestamp{
         font-size:18px;
         padding:32px 32px 0 32px;

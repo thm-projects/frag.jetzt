@@ -117,15 +117,17 @@
     "bonus-token-header": "Tokens for bonus points"
   },
   "question-wall": {
-    "next-comment": "next comment",
+    "next-comment": "Next Comment",
     "next-comment-icon": "keyboard_arrow_right",
-    "prev-comment": "previous comment",
+    "prev-comment": "Previous Comment",
     "prev-comment-icon": "keyboard_arrow_left",
-    "auto-renew-on": "start automatically focus new comments",
+    "auto-renew-on": "Start automatically focus new comments",
     "auto-renew-on-icon": "refresh",
-    "auto-renew-off": "stop automatically focus new comments",
+    "auto-renew-off": "Stop automatically focus new comments",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Questionwall",
-    "intro-desc": "Questionwall-desc"
+    "intro-desc": "Click on a question or navigate forwards with the space bar or back and forth with the arrow keys.",
+    "sort-time": "Time",
+    "sort-score": "Score"
   }
 }
