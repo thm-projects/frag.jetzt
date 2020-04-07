@@ -16,7 +16,7 @@
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
     <button *ngIf="router.url.includes('comments') && deviceType === 'desktop'" mat-button routerLink="participant/room/{{shortId}}/comments/questionwall">
-      <span class="oldtypo-h3">Presentation</span>
+      <span class="oldtypo-h3">Question Focus</span>
     </button>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
