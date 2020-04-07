@@ -34,8 +34,8 @@ export class CommentComponent implements OnInit {
   @Input() comment: Comment;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
-  @Output()
-  clickedOnTag = new EventEmitter<string>();
+  @Output() clickedOnTag = new EventEmitter<string>();
+  @Output() clickedUserNumber = new EventEmitter<number>();
   isStudent = false;
   isCreator = false;
   isModerator = false;

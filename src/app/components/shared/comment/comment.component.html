@@ -93,15 +93,21 @@
       <div *ngIf="!isStudent" fxLayout="column" fxLayoutAlign="center">
         <span class="scoreCreator">{{comment.score}}</span>
       </div>
-
     </div>
-    <div (click)="this.clickedOnTag.emit(comment.tag)" *ngIf="comment.tag && comment.tag !== ''" class="comment-tags">
-      <span class="comment-tag-icon">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <div fxLayoutAlign="center center" (click)="this.clickedOnTag.emit(comment.tag)"
+           *ngIf="comment.tag && comment.tag !== ''" class="comment-tags">
         <mat-icon svgIcon="comment_tag"></mat-icon>
-      </span>
-      <span class="comment-tag">
-        {{comment.tag}}
-      </span>
+        <span>
+          {{comment.tag}}
+        </span>
+      </div>
+      <div class="user-number" fxLayoutAlign="center center" (click)="this.clickedUserNumber.emit(comment.userNumber)">
+        <mat-icon class="user-icon">person</mat-icon>
+       <strong>
+          {{comment.userNumber}}
+       </strong>
+      </div>
     </div>
   </div>
 </mat-card>
