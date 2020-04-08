@@ -44,6 +44,7 @@ export class ModeratorCommentListComponent implements OnInit {
   correct = 'correct';
   wrong = 'wrong';
   ack = 'ack';
+  userNumber = 'userNumber';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -204,6 +205,8 @@ export class ModeratorCommentListComponent implements OnInit {
         c.body = payload.body;
         c.id = payload.id;
         c.timestamp = payload.timestamp;
+        c.creatorId = payload.creatorId;
+        c.userNumber = this.commentService.hashCode(c.creatorId);
         this.comments = this.comments.concat(c);
         break;
     }
@@ -212,7 +215,7 @@ export class ModeratorCommentListComponent implements OnInit {
     this.searchComments();
   }
 
-  filterComments(type: string): void {
+  filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
     if (type === '') {
       this.filteredComments = this.comments;
@@ -230,9 +233,16 @@ export class ModeratorCommentListComponent implements OnInit {
           return c.read;
         case this.unread:
           return !c.read;
+        case this.userNumber:
+          return c.userNumber === compare;
       }
     });
+    this.hideCommentsList = true;
     this.sortComments(this.currentSort);
+  }
+
+  clickedUserNumber(usrNumber: number): void {
+    this.filterComments(this.userNumber, usrNumber);
   }
 
   sort(array: any[], type: string): void {
