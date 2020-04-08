@@ -67,8 +67,9 @@
 </button>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of comments" [comment]="current" [userRole]="user.role"
-               [parseVote]="getVote(current)" [moderator]="true"></app-comment>
+  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments" [comment]="current" [userRole]="user.role"
+               [parseVote]="getVote(current)" [moderator]="true" (clickedUserNumber)="clickedUserNumber($event)">
+              </app-comment>
 </div>
 
 <div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"
