@@ -33,6 +33,11 @@
         color:var(--ars-paragraph-color);
         font-size:14px;
       }
+      &-user{
+        color:var(--ars-header-color);
+        font-size:14px;
+        padding-right:8px;
+      }
       &-body{
         hyphens:auto;
         word-break:break-word;
@@ -78,10 +83,21 @@
           flex-shrink:1;
         }
       }
-      &-timestamp{
-        font-size:18px;
-        padding:32px 32px 0 32px;
-        color:var(--ars-paragraph-color);
+      &-meta{
+        padding-top:16px;
+        &-user{
+          font-family:Roboto, 'sans-serif';
+          font-size:18px;
+          padding-left:32px;
+          padding-right:16px;
+          color:var(--ars-header-color);
+        }
+        &-timestamp{
+          font-family:Roboto, 'sans-serif';
+          font-size:18px;
+          font-weight:400;
+          color:var(--ars-paragraph-color);
+        }
       }
       &-introduction{
         &-title{
