@@ -15,8 +15,10 @@
     </h2>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
-    <button *ngIf="router.url.includes('comments') && deviceType === 'desktop'" mat-button routerLink="participant/room/{{shortId}}/comments/questionwall">
-      <span class="oldtypo-h3">Question Focus</span>
+    <button *ngIf="router.url.includes('comments') && deviceType === 'desktop'"
+            mat-raised-button class="question-focus-btn" routerLink="participant/room/{{shortId}}/comments/questionwall">
+      <mat-icon svgIcon="beamer"></mat-icon>
+      <span class="question-focus-btn-txt">Question Focus</span>
     </button>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
