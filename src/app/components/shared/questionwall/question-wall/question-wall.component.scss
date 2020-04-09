@@ -6,6 +6,14 @@
   }
 
   .questionwall{
+    &-icon{
+      font-family:'Material Icons', serif;
+      font-weight:normal;
+      font-style:normal;
+      font-size:18px;
+      line-height:18px;
+      color:var(--ars-header-color);
+    }
     &-header{
       background-color:var(--ars-foreground-color);
       border-bottom:solid 1px var(--ars-border-color);
@@ -37,6 +45,12 @@
         color:var(--ars-header-color);
         font-size:14px;
         padding-right:8px;
+        padding-left:4px;
+        &-icon{
+          position:relative;
+          top:2px;
+          line-height:12px;
+        }
       }
       &-body{
         hyphens:auto;
@@ -88,15 +102,42 @@
         &-user{
           font-family:Roboto, 'sans-serif';
           font-size:18px;
-          padding-left:32px;
+          padding-left:8px;
           padding-right:16px;
           color:var(--ars-header-color);
+          &-icon{
+            padding-left:32px;
+            font-size:24px;
+            line-height:18px;
+            position:relative;
+            top:2px;
+          }
         }
         &-timestamp{
           font-family:Roboto, 'sans-serif';
           font-size:18px;
           font-weight:400;
           color:var(--ars-paragraph-color);
+        }
+      }
+      &-answer{
+        &-title{
+          font-family:Roboto, 'sans-serif';
+          font-size:18px;
+          font-weight:500;
+          padding-left:32px;
+          color:var(--ars-header-color);
+          line-height:24px;
+        }
+        &-text{
+          font-family:Roboto, 'sans-serif';
+          font-size:18px;
+          font-weight:400;
+          padding-left:16px;
+          padding-right:16px;
+          box-sizing:border-box;
+          color:var(--ars-paragraph-color);
+          line-height:24px;
         }
       }
       &-introduction{
