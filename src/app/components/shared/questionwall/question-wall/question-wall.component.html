@@ -1,5 +1,4 @@
 <ars-screen ars-flex-box class="questionwall-screen">
-  <!-- Header -->
   <ars-row [height]="50" class="questionwall-header">
     <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
       <ars-fill ars-flex-box>
@@ -21,22 +20,16 @@
       </ars-fill>
     </ars-style-btn-material>
   </ars-row>
-  <!-- Content -->
   <ars-fill ars-flex-box>
-    <!-- Present -->
     <ars-fill style="overflow:hidden;" ars-flex-box>
       <ars-fill>
       </ars-fill>
       <ars-row class="questionwall-present-box-outer">
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
-            <ars-row [height]="50"></ars-row>
             <ars-row class="questionwall-present-meta">
               <ars-col>
-                <i class="questionwall-icon questionwall-present-meta-user-icon">person</i>
-              </ars-col>
-              <ars-col>
-                <h2 class="questionwall-present-meta-user">{{commentFocus.comment.userNumber}}</h2>
+                <h2 class="questionwall-present-meta-user">#{{commentFocus.comment.userNumber}}</h2>
               </ars-col>
               <ars-col>
                   <h2 class="questionwall-present-meta-timestamp">{{commentFocus.timeAgo}}</h2>
@@ -45,19 +38,6 @@
             <ars-row>
               <p class="questionwall-present">{{commentFocus.comment.body}}</p>
             </ars-row>
-            <ars-row ars-flex-box *ngIf="commentFocus.comment.answer">
-              <ars-col>
-                <p class="questionwall-present-answer-title">
-                  {{'question-wall.present-answer' | translate}}
-                </p>
-              </ars-col>
-              <ars-fill>
-                <p class="questionwall-present-answer-text">
-                  {{commentFocus.comment.answer}}
-                </p>
-              </ars-fill>
-            </ars-row>
-            <ars-row [height]="50"></ars-row>
           </ng-container>
           <ng-container *ngIf="!commentFocus">
             <p class="questionwall-present-introduction-title">{{'question-wall.intro-title' | translate}}</p>
@@ -68,7 +48,6 @@
       <ars-fill>
       </ars-fill>
     </ars-fill>
-    <!-- Comment-List -->
     <ars-col [width]="450" [overflow]="'auto'" class="questionwall-list" #colComponent>
       <ars-row *ngFor="let comment of comments" class="questionwall-comment-anchor">
         <ars-row style="box-sizing:border-box;padding:8px;">
@@ -79,10 +58,7 @@
                      (click)="focusComment(comment)"
                      style="box-sizing:border-box;padding:16px;cursor:pointer">
               <ars-col>
-                <i class="questionwall-icon questionwall-comment-user-icon">person</i>
-              </ars-col>
-              <ars-col>
-                <p class="questionwall-comment-user">{{comment.comment.userNumber}}</p>
+                <p class="questionwall-comment-user">#{{comment.comment.userNumber}}</p>
               </ars-col>
               <ars-col>
                 <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
@@ -123,35 +99,34 @@
       </ars-row>
     </ars-col>
   </ars-fill>
-  <!-- Footer -->
-  <ars-row [height]="50" class="questionwall-footer">
-    <ars-style-btn-material style="width:100%;" ars-flex-box>
-      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-        <button ars-btn (click)="toggleFocusIncommingComments()">
-          <ng-container *ngIf="focusIncommingComments">
-            <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
-            <p>{{'question-wall.auto-renew-off' | translate}}</p>
-          </ng-container>
-          <ng-container *ngIf="!focusIncommingComments">
-            <i>{{'question-wall.auto-renew-on-icon' | translate}}</i>
-            <p>{{'question-wall.auto-renew-on' | translate}}</p>
-          </ng-container>
-        </button>
-      </ars-col>
-      <ars-fill></ars-fill>
-      <ars-col style="display:flex;flex-direction:column;justify-content:center">
-        <p *ngIf="unreadComments" style="line-height:18px;" class="questionwall-text-color">{{unreadComments}}</p>
-      </ars-col>
-      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-        <button ars-btn (click)="prevComment()">
-          <i>{{'question-wall.prev-comment-icon' | translate}}</i>
-          <p>{{'question-wall.prev-comment' | translate}}</p>
-        </button>
-        <button ars-btn (click)="nextComment()">
-          <i>{{'question-wall.next-comment-icon' | translate}}</i>
-          <p>{{'question-wall.next-comment' | translate}}</p>
-        </button>
-      </ars-col>
-    </ars-style-btn-material>
-  </ars-row>
+    <ars-row [height]="50" class="questionwall-footer">
+      <ars-style-btn-material style="width:100%;" ars-flex-box>
+        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+          <button ars-btn (click)="toggleFocusIncommingComments()">
+            <ng-container *ngIf="focusIncommingComments">
+              <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
+              <p>{{'question-wall.auto-renew-off' | translate}}</p>
+            </ng-container>
+            <ng-container *ngIf="!focusIncommingComments">
+              <i>{{'question-wall.auto-renew-on-icon' | translate}}</i>
+              <p>{{'question-wall.auto-renew-on' | translate}}</p>
+            </ng-container>
+          </button>
+        </ars-col>
+        <ars-fill></ars-fill>
+        <ars-col style="display:flex;flex-direction:column;justify-content:center">
+          <p *ngIf="unreadComments" style="line-height:18px;" class="questionwall-text-color">{{unreadComments}}</p>
+        </ars-col>
+        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+          <button ars-btn (click)="prevComment()">
+            <i>{{'question-wall.prev-comment-icon' | translate}}</i>
+            <p>{{'question-wall.prev-comment' | translate}}</p>
+          </button>
+          <button ars-btn (click)="nextComment()">
+            <i>{{'question-wall.next-comment-icon' | translate}}</i>
+            <p>{{'question-wall.next-comment' | translate}}</p>
+          </button>
+        </ars-col>
+      </ars-style-btn-material>
+    </ars-row>
 </ars-screen>
