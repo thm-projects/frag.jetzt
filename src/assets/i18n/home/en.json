@@ -64,7 +64,8 @@
     "sure": "Are you sure?",
     "user-bonus-token": "See your bonus tokens",
     "user-got-tokens": "You have bonus tokens linked to this account that will be lost!",
-    "visited-sessions": "Visited sessions"
+    "visited-sessions": "Visited sessions",
+    "question-wall": "Question Wall"
   },
   "help": {
     "cancel": "Close",
