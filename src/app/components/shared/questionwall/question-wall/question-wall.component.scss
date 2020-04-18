@@ -6,6 +6,16 @@
   }
 
   .questionwall{
+    &-icon{
+      font-family:'Material Icons', serif;
+      font-weight:normal;
+      font-style:normal;
+      font-size:18px;
+      line-height:18px;
+      padding:0;
+      margin:0;
+      color:var(--ars-header-color);
+    }
     &-header{
       background-color:var(--ars-foreground-color);
       border-bottom:solid 1px var(--ars-border-color);
@@ -21,6 +31,11 @@
       }
     }
     &-comment{
+      &-meta{
+        display:flex;
+        justify-content:start;
+        flex-direction:row;
+      }
       &-border{
         &-on{
           box-shadow:inset 0px 0px 0px 1px var(--ars-button-color-light);
@@ -32,11 +47,13 @@
       &-timestamp{
         color:var(--ars-paragraph-color);
         font-size:14px;
+        line-height:18px;
       }
       &-user{
         color:var(--ars-header-color);
         font-size:14px;
         padding-right:8px;
+        line-height:18px;
       }
       &-body{
         hyphens:auto;
@@ -85,10 +102,20 @@
       }
       &-meta{
         padding-top:16px;
+        display:flex;
+        justify-content:start;
+        flex-direction:row;
+        :first-child{
+          padding-left:32px;
+        }
+        &-icon{
+          font-size:20px;
+          line-height:20px;
+        }
         &-user{
           font-family:Roboto, 'sans-serif';
           font-size:18px;
-          padding-left:32px;
+          padding-left:4px;
           padding-right:16px;
           color:var(--ars-header-color);
         }
