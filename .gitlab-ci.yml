@@ -5,7 +5,6 @@ stages:
   - codestyle
   - test
   - build
-  - review
   - deploy
 
 cache:
@@ -48,35 +47,6 @@ ngbuild:
   artifacts:
     paths:
       - "$BUILD_DIR"
-
-review:
-  stage: review
-  script:
-    - rsync -av --delete "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
-  environment:
-    name: review/$CI_BUILD_REF_NAME
-    url: http://$CI_BUILD_REF_SLUG.$REVIEW_SERVER_URL
-    on_stop: stop_review
-  only:
-    - branches
-  except:
-    - master
-  tags:
-    - nginx
-
-stop_review:
-  stage: review
-  script:
-    - rm -rf "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
-  variables:
-    GIT_STRATEGY: none
-  when: manual
-  environment:
-    name: review/$CI_BUILD_REF_NAME
-    action: stop
-  tags:
-    - nginx
-
 
 deploy:
   stage: deploy
