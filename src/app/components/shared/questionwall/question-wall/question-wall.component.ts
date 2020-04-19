@@ -54,11 +54,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.timeUpdateInterval = setInterval(() => {
       this.comments.forEach(e => e.updateTimeAgo());
     }, 15000);
-    this.langService.langEmitter.subscribe(lang => this.translateService.use(lang));
+    this.langService.langEmitter.subscribe(lang => {
+      this.translateService.use(lang);
+      QuestionWallComment.updateTimeFormat(lang);
+    });
   }
 
   ngOnInit(): void {
     // StyleDebug.border('c');
+    QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
     this.commentService.getAckComments(this.roomId).subscribe(e => {
       e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
