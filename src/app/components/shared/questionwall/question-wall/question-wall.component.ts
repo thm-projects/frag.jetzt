@@ -26,11 +26,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
+  commentsFilter: QuestionWallComment[] = [];
   commentFocus: QuestionWallComment;
   unreadComments = 0;
   focusIncommingComments = false;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
+  hasFilter = false;
+  filterTitle = 'Test';
+  filterDesc = 'test';
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -66,7 +70,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.commentService.getAckComments(this.roomId).subscribe(e => {
       e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
-      e.forEach(c => this.comments.push(new QuestionWallComment(c, true)));
+      e.forEach(c => {
+        const comment = new QuestionWallComment(c, true);
+        this.comments.push(comment);
+      });
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
@@ -127,7 +134,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getCommentFocusIndex() {
-    return this.comments.indexOf(this.commentFocus);
+    return this.getCurrentCommentList().indexOf(this.commentFocus);
   }
 
   moveComment(fx: number) {
@@ -189,18 +196,51 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sort(fun: (a, b) => number, reverse: boolean) {
+    const commentList = this.getCurrentCommentList();
     if (reverse) {
-      this.comments.sort(this.reverse(fun));
+      commentList.sort(this.reverse(fun));
     } else {
-      this.comments.sort(fun);
+      commentList.sort(fun);
     }
     setTimeout(() => {
-      this.focusComment(this.comments[this.comments.length - 1]);
+      if (commentList.length > 1) {
+        this.focusComment(commentList[commentList.length - 1]);
+      }
     }, 0);
+  }
+
+  getCurrentCommentList() {
+    if (this.hasFilter) {
+      return this.commentsFilter;
+    } else {
+      return this.comments;
+    }
   }
 
   reverse(fun: (a, b) => number): (a, b) => number {
     return (a, b) => fun(b, a);
+  }
+
+  filterFavorites() {
+    this.filterTitle = 'question-wall.filter-favorite';
+    this.filterDesc = '';
+    this.commentsFilter = this.comments.filter(x => x.comment.favorite);
+    this.hasFilter = true;
+  }
+
+  filterUser(comment: QuestionWallComment) {
+    this.filterTitle = 'question-wall.filter-user';
+    this.filterDesc = comment.comment.userNumber + '';
+    this.commentsFilter = this.comments.filter(x => x.comment.userNumber === comment.comment.userNumber);
+    this.hasFilter = true;
+  }
+
+  deactivateFilter() {
+    this.hasFilter = false;
+  }
+
+  toggleFilter() {
+    this.hasFilter = !this.hasFilter;
   }
 
 }

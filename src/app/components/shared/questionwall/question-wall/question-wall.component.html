@@ -16,6 +16,7 @@
           <button ars-btn (click)="sortTime(true)"><i>expand_more</i></button>
           <button ars-btn (click)="sortScore()"><p>{{'question-wall.sort-score' | translate}}</p><i>expand_less</i></button>
           <button ars-btn (click)="sortScore(true)"><i>expand_more</i></button>
+          <button ars-btn (click)="filterFavorites()"><i>star</i><p>{{'question-wall.filter-favorite' | translate}}</p></button>
         </ars-col>
       </ars-fill>
     </ars-style-btn-material>
@@ -46,7 +47,18 @@
       </ars-fill>
     </ars-fill>
     <ars-col [width]="450" [overflow]="'auto'" class="questionwall-list" #colComponent>
-      <ars-row *ngFor="let comment of comments" class="questionwall-comment-anchor">
+      <ars-row *ngIf="hasFilter" class="questionwall-list-filter" [height]="45">
+        <ars-style-btn-material style="width:100%;height:100%;" ars-flex-box>
+          <ars-col ars-btn-wrp [xp]="48">
+            <button ars-btn><p>{{filterTitle | translate}} {{filterDesc}}</p></button>
+          </ars-col>
+          <ars-fill></ars-fill>
+          <ars-col ars-btn-wrp [xp]="48">
+            <button ars-btn (click)="deactivateFilter()"><i>remove_circle</i><p>remove filter</p></button>
+          </ars-col>
+        </ars-style-btn-material>
+      </ars-row>
+      <ars-row *ngFor="let comment of hasFilter?commentsFilter:comments" class="questionwall-comment-anchor">
         <ars-row style="box-sizing:border-box;padding:8px;">
           <ars-row
             [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
@@ -56,24 +68,18 @@
                      style="box-sizing:border-box;padding:16px;cursor:pointer">
               <ars-col class="questionwall-comment-meta">
                 <i class="questionwall-icon">person</i>
-                <p class="questionwall-comment-user">{{comment.comment.userNumber}}</p>
+                <p (click)="filterUser(comment);" class="questionwall-comment-user">{{comment.comment.userNumber}}</p>
                 <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
               </ars-col>
-              <ars-fill></ars-fill>
               <ars-col>
                 <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
               </ars-col>
               <ars-col>
-                <!-- Fav,Mark as wrong/correct -->
-                <!--
-                <ars-style-btn-material>
-                  <ars-col ars-btn-wrp [xp]="16" [extraStart]="true" class="questionwall-comment-btn">
-                    <button ars-btn><i>check_circle</i></button>
-                    <button ars-btn><i>not_interested</i></button>
-                    <button ars-btn><i>{{comment.comment.favorite?'star':'star_border'}}</i></button>
-                  </ars-col>
-                </ars-style-btn-material>
-                -->
+<!--                <ars-style-btn-material>-->
+<!--                  <ars-col ars-btn-wrp [xp]="16" [extraStart]="true" class="questionwall-comment-btn">-->
+<!--                    <button ars-btn><i>{{comment.comment.favorite?'star':'star_border'}}</i></button>-->
+<!--                  </ars-col>-->
+<!--                </ars-style-btn-material>-->
               </ars-col>
             </ars-row>
             <ars-row

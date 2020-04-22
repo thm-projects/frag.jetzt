@@ -33,7 +33,7 @@
     &-comment{
       &-meta{
         display:flex;
-        justify-content:start;
+        justify-content:flex-start;
         flex-direction:row;
       }
       &-border{
@@ -83,6 +83,10 @@
       box-sizing:border-box;
       padding:16px 0px;
       border-left:solid 1px var(--ars-border-color);
+      &-filter{
+        border-top:solid 1px var(--ars-border-color);
+        border-bottom:solid 1px var(--ars-border-color);
+      }
     }
     &-present{
       font-size:45px;
