@@ -128,6 +128,8 @@
     "intro-title": "Question Focus",
     "intro-desc": "Click on a question or navigate forwards with the space bar or backwards and forwards with the arrow keys.",
     "sort-time": "Time",
-    "sort-score": "Score"
+    "sort-score": "Score",
+    "filter-user": "User",
+    "filter-favorite": "Favorites"
   }
 }
