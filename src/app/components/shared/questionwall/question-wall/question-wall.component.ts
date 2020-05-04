@@ -158,7 +158,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
     const qwComment = new QuestionWallComment(comment, false);
-    this.comments.push(qwComment);
+    this.comments = [qwComment, ...this.comments];
     this.unreadComments++;
     return qwComment;
   }
@@ -199,6 +199,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openUserMap() {
+    this.hasFilter = false;
     this.createUserMap();
     this.userSelection = true;
   }
@@ -268,7 +269,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterApproved() {
-    this.filter('check_circle', 'question-wall.filter-disapproved', '',
+    this.filter('check_circle', 'question-wall.filter-approved', '',
         x => x.comment.correct === CorrectWrong.CORRECT);
   }
 

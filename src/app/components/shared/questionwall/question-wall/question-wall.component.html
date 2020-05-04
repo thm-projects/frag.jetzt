@@ -13,27 +13,27 @@
         <ars-fill></ars-fill>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
           <mat-menu #sortMenu>
-            <button mat-menu-item (click)="sortTime(true)">Newest</button>
-            <button mat-menu-item (click)="sortTime()">Oldest</button>
-            <button mat-menu-item (click)="sortScore(true)">Score</button>
+            <button mat-menu-item (click)="sortTime(true)">{{'question-wall.sort-new' | translate}}</button>
+            <button mat-menu-item (click)="sortTime()">{{'question-wall.sort-old' | translate}}</button>
+            <button mat-menu-item (click)="sortScore(true)">{{'question-wall.sort-score' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
             <button mat-menu-item (click)="filterFavorites()">
               <mat-icon>star</mat-icon>
-              <span>Favorite</span>
+              <span>{{'question-wall.filter-favorite' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="filterFavorites()">
+            <button mat-menu-item (click)="filterApproved()">
               <mat-icon>check_circle</mat-icon>
-              <span>approved</span>
+              <span>{{'question-wall.filter-approved' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="filterFavorites()">
+            <button mat-menu-item (click)="filterDisapproved()">
               <mat-icon>block</mat-icon>
-              <span>disapproved</span>
+              <span>{{'question-wall.filter-disapproved' | translate}}</span>
             </button>
           </mat-menu>
-          <button ars-btn [mat-menu-trigger-for]="sortMenu" matRipple><i>sort</i><p>Sort</p></button>
+          <button ars-btn [mat-menu-trigger-for]="sortMenu" matRipple><i>sort</i><p>{{'question-wall.sort' | translate}}</p></button>
           <button ars-btn [mat-menu-trigger-for]="filterMenu" matRipple><i>filter_list</i><p>Filter</p></button>
-          <button ars-btn (click)="openUserMap()" matRipple><i>person</i><p>user</p></button>
+          <button ars-btn (click)="openUserMap()" matRipple><i>person</i><p>{{'question-wall.filter-user'| translate}}</p></button>
         </ars-col>
       </ars-fill>
     </ars-style-btn-material>
@@ -73,7 +73,7 @@
             </ars-col>
             <ars-fill></ars-fill>
             <ars-col ars-btn-wrp [xp]="48">
-              <button ars-btn (click)="deactivateFilter()" matRipple><i>remove_circle</i><p>remove filter</p></button>
+              <button ars-btn (click)="deactivateFilter()" matRipple><i>remove_circle</i><p>{{'question-wall.filter-remove' | translate}}</p></button>
             </ars-col>
           </ars-style-btn-material>
         </ars-row>

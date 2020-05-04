@@ -127,9 +127,15 @@
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
     "intro-desc": "Click on a question or navigate forwards with the space bar or backwards and forwards with the arrow keys.",
+    "sort": "Sort",
     "sort-time": "Time",
     "sort-score": "Score",
+    "sort-new": "Newest",
+    "sort-old": "Oldest",
     "filter-user": "User",
-    "filter-favorite": "Favorites"
+    "filter-favorite": "Favorites",
+    "filter-approved": "Affirmed",
+    "filter-disapproved": "Negated",
+    "filter-remove": "Remove Filter"
   }
 }
