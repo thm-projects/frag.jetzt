@@ -57,11 +57,15 @@ export class ButtonWrapperDirective implements OnInit, AfterViewInit {
     // init padding for each button
     if (this.ft.isCol()) {
       this.btn.forEach(e => e.setPadding(this.xs / 2, this.xe / 2, 0, 0));
-      if (this.extraStart) {
-        this.btn.first.setPaddingLeft(this.xs);
-      }
-      if (this.extraEnd) {
-        this.btn.last.setPaddingRight(this.xe);
+      if (this.extraStart && this.extraEnd && this.btn.length === 1) {
+        this.btn.first.setPadding(this.xs, this.xe, 0, 0);
+      } else {
+        if (this.extraStart) {
+          this.btn.first.setPaddingLeft(this.xs);
+        }
+        if (this.extraEnd) {
+          this.btn.last.setPaddingRight(this.xe);
+        }
       }
     } else {
       this.btn.forEach(e => e.setPadding(this.xs / 2, this.xe / 2, this.ys / 2, this.ye / 2));

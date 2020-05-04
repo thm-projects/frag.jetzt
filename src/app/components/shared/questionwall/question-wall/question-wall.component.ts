@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { StyleDebug } from '../../../../../../projects/ars/src/lib/models/debug/StyleDebug';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
 import { RoomService } from '../../../../services/http/room.service';
@@ -13,6 +12,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
+import { CorrectWrong } from '../../../../models/correct-wrong.enum';
 
 @Component({
   selector: 'app-question-wall',
@@ -33,8 +33,12 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   hasFilter = false;
-  filterTitle = 'Test';
-  filterDesc = 'test';
+  filterTitle = '';
+  filterDesc = '';
+  filterIcon = '';
+  userMap: Map<number, number> = new Map<number, number>();
+  userList = [];
+  userSelection = false;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -69,7 +73,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
     this.commentService.getAckComments(this.roomId).subscribe(e => {
-      e.sort((a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime());
+      e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       e.forEach(c => {
         const comment = new QuestionWallComment(c, true);
         this.comments.push(comment);
@@ -154,7 +158,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
     const qwComment = new QuestionWallComment(comment, false);
-    this.comments.push(qwComment);
+    this.comments = [qwComment, ...this.comments];
     this.unreadComments++;
     return qwComment;
   }
@@ -173,6 +177,35 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleFocusIncommingComments() {
     this.focusIncommingComments = !this.focusIncommingComments;
+  }
+
+  createUserMap() {
+    this.userMap = new Map();
+    this.comments.forEach(c => {
+      if (!this.userMap.has(c.comment.userNumber)) {
+        this.userMap.set(c.comment.userNumber, 0);
+      }
+      this.userMap.set(c.comment.userNumber, this.userMap.get(c.comment.userNumber) + 1);
+    });
+    this.userList = [];
+    this.userMap.forEach((num, user) => {
+      this.userList.push([num, user]);
+    });
+  }
+
+  applyUserMap(user: number) {
+    this.userSelection = false;
+    this.filterUserByNumber(user);
+  }
+
+  openUserMap() {
+    this.hasFilter = false;
+    this.createUserMap();
+    this.userSelection = true;
+  }
+
+  cancelUserMap() {
+    this.userSelection = false;
   }
 
   leave() {
@@ -204,7 +237,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     setTimeout(() => {
       if (commentList.length > 1) {
-        this.focusComment(commentList[commentList.length - 1]);
+        this.focusComment(commentList[0]);
       }
     }, 0);
   }
@@ -222,17 +255,42 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterFavorites() {
-    this.filterTitle = 'question-wall.filter-favorite';
-    this.filterDesc = '';
-    this.commentsFilter = this.comments.filter(x => x.comment.favorite);
-    this.hasFilter = true;
+    this.filter('star', 'question-wall.filter-favorite', '',
+        x => x.comment.favorite);
   }
 
   filterUser(comment: QuestionWallComment) {
-    this.filterTitle = 'question-wall.filter-user';
-    this.filterDesc = comment.comment.userNumber + '';
-    this.commentsFilter = this.comments.filter(x => x.comment.userNumber === comment.comment.userNumber);
+    this.filterUserByNumber(comment.comment.userNumber);
+  }
+
+  filterUserByNumber(user: number) {
+    this.filter('person', 'question-wall.filter-user', user + '',
+      x => x.comment.userNumber === user);
+  }
+
+  filterApproved() {
+    this.filter('check_circle', 'question-wall.filter-approved', '',
+        x => x.comment.correct === CorrectWrong.CORRECT);
+  }
+
+  filterDisapproved() {
+    this.filter('block', 'question-wall.filter-disapproved', '',
+        x => x.comment.correct === CorrectWrong.WRONG);
+  }
+
+  filter(icon: string, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
+    this.filterIcon = icon;
+    this.filterTitle = title;
+    this.filterDesc = desc;
+    this.commentsFilter = this.comments.filter(filter);
     this.hasFilter = true;
+    setTimeout(() => this.focusFirstComment(), 0);
+  }
+
+  focusFirstComment() {
+    if (this.getCurrentCommentList().length > 0) {
+      this.commentFocus = this.getCurrentCommentList()[0];
+    }
   }
 
   deactivateFilter() {

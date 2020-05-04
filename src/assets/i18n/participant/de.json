@@ -128,9 +128,15 @@
     "auto-renew-off-icon": "cancel",
     "intro-title": "Fragen-Fokus",
     "intro-desc": "Klick auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück.",
+    "sort": "Sortieren",
     "sort-time": "Zeit",
     "sort-score": "Bewertung",
+    "sort-new": "Neuste",
+    "sort-old": "Älteste",
     "filter-user": "Benutzer",
-    "filter-favorite": "Favoriten"
+    "filter-favorite": "Favoriten",
+    "filter-approved": "Bejaht",
+    "filter-disapproved": "Verneint",
+    "filter-remove": "Filter entfernen"
   }
 }
