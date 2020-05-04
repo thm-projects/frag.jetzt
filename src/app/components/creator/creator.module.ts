@@ -22,6 +22,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.component';
 import { QuestionWallComponent } from '../shared/questionwall/question-wall/question-wall.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -39,7 +40,8 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
       isolate: true
     }),
     MarkdownModule,
-    ArsModule
+    ArsModule,
+    MatRippleModule
   ],
   declarations: [
     RoomCreatorPageComponent,
