@@ -4,6 +4,8 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
+import { MatomoInjector } from 'ngx-matomo';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -16,11 +18,13 @@ export class AppComponent implements OnInit {
 
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
+              private matomoInjector: MatomoInjector,
               public notification: NotificationService,
               private customIconService: CustomIconService) {
     translationService.setDefaultLang(this.translationService.getBrowserLang());
     sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
     customIconService.init();
+    if (environment.name === 'prod') { this.matomoInjector.init('https://arsnova.thm.de/stats/', 6); }
   }
 
   public static rescale: Rescale = new Rescale();
