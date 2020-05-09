@@ -34,6 +34,7 @@
     "is-docker": "^1.1.0",
     "material-design-icons": "^3.0.1",
     "ngx-markdown": "^9.0.0",
+    "ngx-matomo": "^0.1.4",
     "rxjs": "^6.5.4",
     "tslib": "^1.10.0",
     "tslint-eslint-rules": "^5.3.1",
