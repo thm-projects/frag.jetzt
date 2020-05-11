@@ -10,6 +10,33 @@ The following software has to be installed on your computer:
 * [NodeJS](https://nodejs.org/)
 * [Angular CLI](https://cli.angular.io/)
 
+### Prerequisite for Windows
+
+Turn of the convertion of line encodings in git:
+* `git config --global core.autocrlf false`
+
+On **Windows 10 Home and older Systems** using the Docker Toolbox you also have to set up port forwarding in your VirtualBox.
+
+Start Docker via the "Docker QuickStart Terminal". In contrast to Docker Desktop, started containers are not accessible via localhost, but via an given IP. In order for frag.jetzt to access the backend in Docker, port forwarding must be set up on the corresponding ports. To do this, the "VirtualBox Manager" must be started. The virtual machine "default" must be configured here.
+
+To set up port forwarding for this VM, proceed as follows:
+* Right click on the VM
+* Change
+* Network
+* Advanced
+* Port Forwarding
+
+Forwarding must be entered here for the following ports. The TCP is used as the protocol, host IP and guest IP should remain empty:
+* 5984
+* 5432
+* 5672
+* 15672
+* 61613
+* 8080
+* 8090
+* 80
+
+
 ## Get the code base
 
 Clone the frag-jetzt repository and the Docker Orchestration repository:
