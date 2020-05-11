@@ -4,7 +4,8 @@ Nomen est omen: The app's name says it all: it stands for both the app's main pu
 
 ## Documentation
 
-* [For developers](development.md)
+* [For developers (native)](development.md)
+* [For developers (docker)](development-docker.md)
 
 ## Credits
 
