@@ -167,8 +167,7 @@ mat-icon {
   width:calc( 100% - 50px );
   float:right;
   position:relative;
-  top:50%;
-  transform:translateY(-50%);
+  top:-10px;
 }
 
 .btnContent>.btnAppend>.title{
