@@ -180,7 +180,7 @@ export class CommentSettingsComponent implements OnInit {
   }
 
   exportCSV(): void {
-      this.export(',', 'csv');
+      this.export(';', 'csv');
   }
 
   closeDialog(): void {
