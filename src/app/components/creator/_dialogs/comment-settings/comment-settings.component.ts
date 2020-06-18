@@ -149,10 +149,10 @@ export class CommentSettingsComponent implements OnInit {
                 valueFields += Object.values(element).slice(9, 10) + delimiter;
                 const answer = Object.values(element).slice(11, 12) || '';
                 valueFields += answer + delimiter;
-                if (Object.values(element).length > 12) {
-                  valueFields += Object.values(element).slice(12, 13) + delimiter;
+                if (Object.values(element).length > 13) {
+                  valueFields += Object.values(element).slice(13, 14) + delimiter;
                   let btTime;
-                  btTime = Object.values(element).slice(13, 14);
+                  btTime = Object.values(element).slice(14, 15);
                   valueFields += btTime[0].slice(0, 10) + '-' + btTime[0].slice(11, 16) + delimiter + '\r\n';
                 } else {
                   valueFields += '' + delimiter;
