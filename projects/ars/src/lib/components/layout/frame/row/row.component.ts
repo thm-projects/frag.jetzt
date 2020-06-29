@@ -58,6 +58,11 @@ export class RowComponent extends FrameType implements OnInit, AfterViewInit {
     return this.getRenderedHeight();
   }
 
+  public setOverflow(overflow: string) {
+    this.overflow = overflow;
+    this.updateOverflow();
+  }
+
   public getRenderedHeight(): number {
     return this.ref.nativeElement.offsetHeight;
   }

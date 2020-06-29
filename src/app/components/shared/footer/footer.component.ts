@@ -51,7 +51,7 @@ export class FooterComponent implements OnInit {
 
   ngOnInit() {
     this.deviceType = localStorage.getItem('deviceType');
-    if (!this.themeService.getTheme()['source']['_value']) {
+    if (!this.themeService.getThemeByKey(this.themeClass) || !this.themeService.getTheme()['source']['_value']) {
       if (this.deviceType === 'mobile') {
         this.themeService.activate('dark');
         this.themeClass = 'dark';

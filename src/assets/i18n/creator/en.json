@@ -111,7 +111,11 @@
     "send-description": "Send question",
     "tag": "Tag",
     "vote-down": "Vote down",
-    "vote-up": "Vote up"
+    "vote-up": "Vote up",
+    "write-comment": "Write",
+    "preview-comment": "Preview",
+    "show-more": "show more",
+    "show-less": "show less"
   },
   "content": {
     "abort": "Abort",
