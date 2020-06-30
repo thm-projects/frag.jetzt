@@ -78,6 +78,7 @@ mat-card-content > :first-child {
 .click {
   cursor: pointer;
 }
+
 user.role
 .mat-icon {
   transform: scale(1.2);
@@ -95,12 +96,12 @@ user.role
 }
 
 .highlighted {
-  background-color: var(--secondary)!important;
+  background-color: var(--secondary) !important;
   transition: background-color 1s linear;
 }
 
 .highlighted * {
-  color: var(--on-secondary)!important;
+  color: var(--on-secondary) !important;
 }
 
 .gavel {
@@ -108,7 +109,7 @@ user.role
 }
 
 .moderator {
-  background-color: var(--moderator)!important;
+  background-color: var(--moderator) !important;
 }
 
 .comment-tags {
@@ -206,4 +207,8 @@ user.role
   100% {
     transform: scale3d(1, 1, 1)
   }
+}
+
+button:focus {
+  border: 1px solid var(--on-surface);
 }
