@@ -65,8 +65,13 @@
       </button>
     </div>
     <div fxLayout="row">
-      <div class="body click" (click)="openPresentDialog(comment)" tabindex="0" attr.aria-labelledby="comment-{{ comment.id }}">
-        <span aria-hidden="true">{{ comment.body.trim() }}</span>
+      <div class="body click" (click)="openPresentDialog(comment)" style="width:100%;"
+           tabindex="0" attr.aria-labelledby="comment-{{ comment.id }}">
+        <ars-row #commentBody>
+          <ars-row #commentBodyInner>
+            <markdown [data]="comment.body"></markdown>
+          </ars-row>
+        </ars-row>
         <span id="comment-{{ comment.id }}" class="visually-hidden" aria-hidden="true">{{ 'comment-page.comment' | translate: {
             time: (language === 'de' ? (comment.timestamp | date: ' HH:mm ') : (comment.timestamp | date: 'h:mm a')),
             votes: comment.score === 1 ? ('comment-page.a11y-text_textForOneVote' | translate) : comment.score + ('comment-page.a11y-text_textForVotes' | translate),
@@ -78,7 +83,6 @@
           }
           }}</span>
       </div>
-      <span class="fill-remaining-space click" (click)="openPresentDialog(comment)"></span>
       <div fxLayout="column" *ngIf="isStudent" [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
         <button mat-icon-button (click)="voteUp(comment)" matTooltip="{{ 'comment-page.vote-up' | translate }}"
                 tabindex="0" attr.aria-labelledby="comment_vote_up{{ comment.id }}">
@@ -94,6 +98,15 @@
         <span class="scoreCreator">{{comment.score}}</span>
       </div>
     </div>
+    <ars-row #commentExpander ars-flex-box [height]="37">
+      <ars-fill></ars-fill>
+      <ars-col>
+        <button mat-button (click)="toggleExpand($event)"><span class="commentExpanderButton">
+          {{ isExpanded ? ( 'comment-page.show-less' | translate ) : ('comment-page.show-more' | translate ) }}
+        </span></button>
+      </ars-col>
+      <ars-fill></ars-fill>
+    </ars-row>
     <div fxLayout="row" fxLayoutAlign="start center">
       <div fxLayoutAlign="center center" (click)="this.clickedOnTag.emit(comment.tag)"
            *ngIf="comment.tag && comment.tag !== ''" class="comment-tags">

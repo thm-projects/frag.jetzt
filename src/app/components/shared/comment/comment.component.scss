@@ -67,7 +67,6 @@ mat-card-content > :first-child {
   min-height: 100px;
   text-align: start;
   font-size: 140%;
-  max-height: 120px;
   overflow: auto;
   color: var(--on-surface);
   white-space: pre-line;
@@ -119,6 +118,10 @@ user.role
 
 .user-number {
   cursor: pointer;
+  color: var(--on-surface);
+}
+
+.commentExpanderButton {
   color: var(--on-surface);
 }
 

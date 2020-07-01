@@ -61,3 +61,13 @@ mat-hint {
 ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: var(--primary);
 }
+
+::ng-deep .mat-tab-label-active,
+::ng-deep .mat-tab-label {
+  color: var(--on-surface);
+  opacity: 1!important;
+}
+
+::ng-deep .mat-ink-bar {
+  background-color: var(--primary) !important;
+}

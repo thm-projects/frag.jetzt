@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -16,6 +16,7 @@ import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/de
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
+import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 
 @Component({
   selector: 'app-comment',
@@ -30,7 +31,10 @@ import { Rescale } from '../../../models/rescale';
   ]
 })
 
-export class CommentComponent implements OnInit {
+export class CommentComponent implements OnInit, AfterViewInit {
+
+  static COMMENT_MAX_HEIGHT = 200;
+
   @Input() comment: Comment;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
@@ -46,6 +50,11 @@ export class CommentComponent implements OnInit {
   currentVote: string;
   slideAnimationState = 'hidden';
   roleString: string;
+  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
+  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
+  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
+  isExpanded = false;
+  isExpandable = false;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -81,6 +90,27 @@ export class CommentComponent implements OnInit {
     this.translateService.use(this.language);
     this.deviceType = localStorage.getItem('deviceType');
     this.inAnswerView = !this.router.url.includes('comments');
+  }
+
+  ngAfterViewInit(): void {
+    this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
+    if (!this.isExpandable) {
+      this.commentExpander.ref.nativeElement.style.display = 'none';
+    } else {
+      this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
+      this.commentBody.setOverflow('hidden');
+    }
+  }
+
+  toggleExpand(evt: MouseEvent) {
+    this.isExpanded = !this.isExpanded;
+    if (this.isExpanded) {
+      this.commentBody.setPx(this.commentBodyInner.getRenderedHeight());
+    this.commentBody.setOverflow('visible');
+    } else {
+      this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
+    this.commentBody.setOverflow('hidden');
+    }
   }
 
   changeSlideState(): void {

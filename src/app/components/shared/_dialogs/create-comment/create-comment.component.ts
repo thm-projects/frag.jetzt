@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -23,6 +23,8 @@ export class CreateCommentComponent implements OnInit {
   selectedTag: string;
 
   bodyForm = new FormControl('', [Validators.required]);
+
+  @ViewChild('commentBody', { static: true })commentBody: HTMLTextAreaElement;
 
   constructor(
               private notification: NotificationService,
@@ -79,7 +81,7 @@ export class CreateCommentComponent implements OnInit {
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
-  buildCreateCommentActionCallback(text: HTMLInputElement): () => void {
+  buildCreateCommentActionCallback(text: HTMLInputElement|HTMLTextAreaElement): () => void {
     return () => this.closeDialog(text.value);
   }
 }

@@ -12,9 +12,7 @@
   <mat-icon >close</mat-icon>
 </button>
 <div id="comment">
-  <p>
-    {{body}}
-  </p>
+  <markdown [data]="body"></markdown>
 </div>
 
 <div class="visually-hidden">

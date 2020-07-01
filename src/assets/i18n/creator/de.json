@@ -110,7 +110,11 @@
     "send-description": "Frage abschicken",
     "tag": "Kategorie",
     "vote-down": "Frage abwerten",
-    "vote-up": "Frage aufwerten"
+    "vote-up": "Frage aufwerten",
+    "write-comment": "Schreiben",
+    "preview-comment": "Vorschau",
+    "show-more": "mehr ansehen",
+    "show-less": "weniger anzeigen"
   },
   "content": {
     "abort": "Abbrechen",
