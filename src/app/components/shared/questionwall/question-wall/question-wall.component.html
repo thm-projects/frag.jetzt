@@ -51,7 +51,9 @@
               <h2 class="questionwall-present-meta-timestamp">{{commentFocus.timeAgo}}</h2>
             </ars-row>
             <ars-row>
-              <p class="questionwall-present">{{commentFocus.comment.body}}</p>
+              <ars-row class="bound" style="padding:16px 32px 16px 32px;">
+                <markdown [data]="commentFocus.comment.body"></markdown>
+              </ars-row>
             </ars-row>
           </ng-container>
           <ng-container *ngIf="!commentFocus">
