@@ -61,6 +61,8 @@
     "a11y-comment_not_marked_wrong": "Marks this question as not correct",
     "a11y-comment_vote_down": "Votes down this question",
     "a11y-comment_vote_up": "Votes up this question",
+    "a11y-comment-answer-not": "Create Answer",
+    "a11y-comment-answer": "View Answer",
     "a11y-text_correct": "This question was marked as correct.",
     "a11y-text_grade": "This question was marked as a bonus question.",
     "a11y-text_read": "This question was discussed in full view on the beamer",
