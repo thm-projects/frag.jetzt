@@ -2,7 +2,7 @@
   'dialog-action-buttons': true,
   'no-spacing': (spacing === false)
 }">
-  <mat-divider></mat-divider>
+  <mat-divider *ngIf="showDivider"></mat-divider>
   <div fxLayoutAlign="end">
     <div fxLayout="row-reverse" fxLayoutGap="10px" class="buttons">
       <button

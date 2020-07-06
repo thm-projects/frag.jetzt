@@ -38,6 +38,15 @@ mat-hint {
   color: var(--on-surface);
 }
 
+.tag-form-field{
+  @media screen and (max-width:500px) {
+    width:40px;
+  }
+}
+
+.tag-select{
+}
+
 ::ng-deep .mat-form-field-label {
   color: var(--on-surface)!important;
 }
