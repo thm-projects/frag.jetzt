@@ -84,7 +84,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
-      this.tags = e.extensions['tags']['tags'];
+      // ToDo: Fix
+      // this.tags = e.extensions['tags']['tags'];
+      this.tags = [];
     });
     this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
       this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
@@ -219,11 +221,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   likeComment(comment: QuestionWallComment) {
-    this.wsCommentService.voteUp(comment.comment, this.authenticationService.getUser().id);
+    this.commentService.voteUp(comment.comment, this.authenticationService.getUser().id).subscribe();
   }
 
   dislikeComment(comment: QuestionWallComment) {
-    this.wsCommentService.voteDown(comment.comment, this.authenticationService.getUser().id);
+    this.commentService.voteDown(comment.comment, this.authenticationService.getUser().id).subscribe();
   }
 
   sortScore(reverse?: boolean) {

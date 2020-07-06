@@ -106,18 +106,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
         }
       });
       this.route.params.subscribe(params => {
+        this.shortId = params['shortId'];
         this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
           this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
             this.room = room;
-            if (this.room && this.room.extensions && this.room.extensions['comments']) {
-              if (this.room.extensions['comments'].enableModeration !== null) {
-                this.moderationEnabled = this.room.extensions['comments'].enableModeration;
-                localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
-              }
-              if (this.room.extensions['comments'].directSend !== null) {
-                this.directSend = this.room.extensions['comments'].directSend;
-              }
-            }
+            this.moderationEnabled = this.room.moderated;
+            this.directSend = this.room.directSend;
+            localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
             if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
               this.roomService.addToHistory(this.room.id);
               this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
@@ -193,17 +188,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   getComments(): void {
-    if (this.room && this.room.extensions && this.room.extensions['comments']) {
-      if (this.room.extensions['comments'].enableThreshold) {
-        this.thresholdEnabled = true;
-      } else {
-        this.thresholdEnabled = false;
-      }
+    if (this.room.threshold) {
+      this.thresholdEnabled = true;
+    } else {
+      this.thresholdEnabled = false;
     }
     this.isLoading = false;
     let commentThreshold;
     if (this.thresholdEnabled) {
-      commentThreshold = this.room.extensions['comments'].commentThreshold;
+      commentThreshold = this.room.threshold;
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
       } else {
@@ -311,9 +304,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.user = this.user;
     dialogRef.componentInstance.roomId = this.roomId;
     let tags;
-    if (this.room.extensions && this.room.extensions['tags'] && this.room.extensions['tags'].tags) {
+    tags = [];
+    // ToDo: FIX
+    /*if (this.room.extensions && this.room.extensions['tags'] && this.room.extensions['tags'].tags) {
       tags = this.room.extensions['tags'].tags;
-    }
+    }*/
     dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed()
       .subscribe(result => {
@@ -345,7 +340,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
       }
     }
-    this.wsCommentService.add(comment);
+    this.commentService.addComment(comment).subscribe();
     this.notificationService.show(message);
   }
 

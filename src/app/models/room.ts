@@ -9,7 +9,9 @@ export class Room {
   name: string;
   description: string;
   closed: boolean;
-  extensions: TSMap<string, TSMap<string, any>>;
+  moderated: boolean;
+  directSend: boolean;
+  threshold: number;
 
   constructor(
     ownerId: string = '',
@@ -18,7 +20,9 @@ export class Room {
     name: string = '',
     description: string = '',
     closed: boolean = false,
-    extensions: TSMap<string, TSMap<string, any>> = new TSMap()
+    moderated: boolean = true,
+    directSend: boolean = true,
+    threshold: number = null,
   ) {
     this.id = '',
     this.ownerId = ownerId;
@@ -27,6 +31,8 @@ export class Room {
     this.name = name,
     this.description = description;
     this.closed = closed;
-    this.extensions = extensions;
+    this.moderated = moderated;
+    this.directSend = directSend;
+    this.threshold = threshold;
   }
 }

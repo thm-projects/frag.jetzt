@@ -41,12 +41,12 @@ export class ModeratorsComponent implements OnInit {
   getModerators() {
     this.moderatorService.get(this.roomId).subscribe(list => {
       this.moderators = list;
-      this.moderators.forEach((user, i) => {
-        this.userIds[i] = user.userId;
+      this.moderators.forEach((user: any, i) => {
+        this.userIds[i] = user.accountId;
       });
       this.moderatorService.getUserData(this.userIds).subscribe(users => {
-        users.forEach((user, i) => {
-          this.moderators[i].loginId = user.loginId;
+        users.forEach((user: any, i) => {
+          this.moderators[i].loginId = user.email;
         });
       });
     });
@@ -61,8 +61,8 @@ export class ModeratorsComponent implements OnInit {
         return;
       }
       this.moderatorService.add(this.roomId, list[0].id).subscribe();
-      this.moderatorService.addToHistory(this.roomId, list[0].id);
-      this.moderators.push(new Moderator(list[0].id, loginId));
+      // this.moderatorService.addToHistory(this.roomId, list[0].id);
+      this.moderators.push(new Moderator(list[0].id, this.roomId, loginId));
       this.translationService.get('room-page.moderator-added').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -77,7 +77,7 @@ export class ModeratorsComponent implements OnInit {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.removeModerator(moderator.userId, this.moderators.indexOf(moderator));
+          this.removeModerator(moderator.accountId, this.moderators.indexOf(moderator));
         }
       });
   }

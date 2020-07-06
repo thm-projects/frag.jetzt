@@ -47,11 +47,9 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
-      if (this.room.extensions && this.room.extensions['comments']) {
-        if (this.room.extensions['comments'].enableModeration !== null) {
-          this.moderationEnabled = this.room.extensions['comments'].enableModeration;
-          this.viewModuleCount = this.viewModuleCount + 1;
-        }
+      this.moderationEnabled = this.room.moderated;
+      if (this.moderationEnabled) {
+        this.viewModuleCount = this.viewModuleCount + 1;
       }
       this.commentService.countByRoomId(this.room.id, true).subscribe(commentCounter => {
           this.commentCounter = commentCounter;

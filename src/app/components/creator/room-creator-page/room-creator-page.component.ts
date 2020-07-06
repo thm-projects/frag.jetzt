@@ -123,7 +123,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   updateCommentSettings(settings: CommentSettingsDialog) {
-    const commentExtension: TSMap<string, any> = new TSMap();
+    // ToDo: FIX
+    /*const commentExtension: TSMap<string, any> = new TSMap();
     commentExtension.set('enableThreshold', settings.enableThreshold);
     commentExtension.set('commentThreshold', settings.threshold);
     commentExtension.set('enableModeration', settings.enableModeration);
@@ -140,13 +141,14 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.moderationEnabled = settings.enableModeration;
     localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
 
-    this.updRoom.extensions['comments'] = commentExtension;
+    this.updRoom.extensions['comments'] = commentExtension;*/
   }
 
   resetThreshold(): void {
-    if (this.room.extensions && this.room.extensions['comments']) {
+    // ToDo: FIX
+    /*if (this.room.extensions && this.room.extensions['comments']) {
       delete this.room.extensions['comments'];
-    }
+    }*/
   }
 
   saveChanges() {
@@ -222,8 +224,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   showTagsDialog(): void {
-    this.updRoom = JSON.parse(JSON.stringify(this.room));
-    const dialogRef = this.dialog.open(TagsComponent, {
+    // ToDo: FIX
+    // this.updRoom = JSON.parse(JSON.stringify(this.room));
+    /*const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'
     });
     let tagExtension;
@@ -239,7 +242,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
           this.updRoom.extensions['tags'] = result;
           this.saveChanges();
         }
-      });
+      });*/
   }
 
   copyShortId(): void {

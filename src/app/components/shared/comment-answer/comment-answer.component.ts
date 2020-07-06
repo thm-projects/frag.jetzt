@@ -51,7 +51,7 @@ export class CommentAnswerComponent implements OnInit {
 
   saveAnswer() {
     this.edit = false;
-    this.wsCommentService.answer(this.comment, this.answer);
+    this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.comment-answered').subscribe(msg => {
       this.notificationService.show(msg);
     });
@@ -71,7 +71,7 @@ export class CommentAnswerComponent implements OnInit {
 
   deleteAnswer() {
     this.answer = null;
-    this.wsCommentService.answer(this.comment, this.answer);
+    this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
       this.notificationService.show(msg);
     });

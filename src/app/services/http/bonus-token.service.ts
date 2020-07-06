@@ -38,7 +38,7 @@ export class BonusTokenService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.find}`;
     return this.http.post<BonusToken[]>(connectionUrl, {
       properties: {
-        userId: userId
+        accountId: userId
       }
     }).pipe(
       tap(() => ''),
@@ -48,7 +48,7 @@ export class BonusTokenService extends BaseHttpService {
 
   deleteToken(roomId: string, commentId: string, userId: string) {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.bonustoken + this.apiUrl.delete}`
-        + `?roomid=${roomId}&commentid=${commentId}&userid=${userId}`;
+        + `?roomid=${roomId}&commentid=${commentId}&accountId=${userId}`;
     return this.http.delete<BonusToken>(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<BonusToken>('deleteToken'))

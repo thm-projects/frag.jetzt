@@ -84,7 +84,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
         roomWithRole.role = UserRole.PARTICIPANT;
         this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
           for (const m of moderators) {
-            if (m.userId === this.user.id) {
+            if (m.accountId === this.user.id) {
               this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
               roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
             }

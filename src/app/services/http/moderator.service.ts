@@ -41,8 +41,8 @@ export class ModeratorService extends BaseHttpService {
     );
   }
 
-  delete(roomId: string, userId: string) {
-    const url = `${this.apiUrl.base + this.apiUrl.room}/${roomId + this.apiUrl.moderator}/${userId}`;
+  delete(roomId: string, accountId: string) {
+    const url = `${this.apiUrl.base + this.apiUrl.room}/${roomId + this.apiUrl.moderator}/${accountId}`;
     return this.http.delete(url, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('deleteModerator'))
@@ -52,7 +52,7 @@ export class ModeratorService extends BaseHttpService {
   getUserId(loginId: string): Observable<User[]> {
     const url = `${this.apiUrl.base + this.apiUrl.user + this.apiUrl.find}`;
     return this.http.post<User[]>(url, {
-      properties: { loginId: loginId },
+      properties: { email: loginId },
       externalFilters: {}
     }).pipe(
       tap(() => ''),

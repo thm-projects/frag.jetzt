@@ -121,8 +121,8 @@ export class ModeratorCommentListComponent implements OnInit {
   getComments(): void {
     this.isLoading = false;
     let commentThreshold = -10;
-    if (this.room && this.room.extensions && this.room.extensions['comments']) {
-      commentThreshold = this.room.extensions['comments'].commentThreshold;
+    if (this.room.threshold !== null) {
+      commentThreshold = this.room.threshold;
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
       } else {

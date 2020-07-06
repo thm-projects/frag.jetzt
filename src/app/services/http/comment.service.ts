@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
+import { TSMap } from 'typescript-map';
+import { Vote } from '../../models/vote';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,12 +17,49 @@ export class CommentService extends BaseHttpService {
     base: '/api',
     comment: '/comment',
     find: '/find',
-    count: '/count'
+    count: '/count',
+    vote: '/vote'
   };
 
   constructor(private http: HttpClient) {
     super();
   }
+
+
+  answer(comment: Comment, answer: string): Observable<Comment> {
+    comment.answer = answer;
+    const changes = new TSMap<string, any>();
+    changes.set('answer', comment.answer);
+    return this.patchComment(comment, changes);
+  }
+
+  toggleRead(comment: Comment): Observable<Comment> {
+    comment.read = !comment.read;
+    const changes = new TSMap<string, any>();
+    changes.set('read', comment.read);
+    return this.patchComment(comment, changes);
+  }
+
+  toggleFavorite(comment: Comment): Observable<Comment> {
+    comment.favorite = !comment.favorite;
+    const changes = new TSMap<string, any>();
+    changes.set('favorite', comment.favorite);
+    return this.patchComment(comment, changes);
+  }
+
+  markCorrect(comment: Comment): Observable<Comment> {
+    const changes = new TSMap<string, any>();
+    changes.set('correct', comment.correct);
+    return this.patchComment(comment, changes);
+  }
+
+  toggleAck(comment: Comment): Observable<Comment> {
+    comment.ack = !comment.ack;
+    const changes = new TSMap<string, any>();
+    changes.set('ack', comment.ack);
+    return this.patchComment(comment, changes);
+  }
+
 
   getComment(commentId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
@@ -101,6 +140,30 @@ export class CommentService extends BaseHttpService {
     );
   }
 
+  patchComment(comment: Comment, changes: TSMap<string, any>) {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
+    return this.http.patch(connectionUrl, changes, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('patchComment'))
+    );
+  }
+
+  highlight(comment: Comment) {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/highlight';
+    return this.http.patch(connectionUrl, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('highlightComment'))
+    );
+  }
+
+  lowlight(comment: Comment) {
+    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/lowlight';
+    return this.http.patch(connectionUrl, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<any>('lowlightComment'))
+    );
+  }
+
   deleteCommentsByRoomId(roomId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.comment}/byRoom?roomId=${roomId}`;
     return this.http.delete<Comment>(connectionUrl, httpOptions).pipe(
@@ -119,6 +182,35 @@ export class CommentService extends BaseHttpService {
       catchError(this.handleError<number>('countByRoomId', 0))
     );
   }
+
+
+  voteUp(comment: Comment, userId: string): Observable<Vote> {
+    const vote = { accountId: userId, commentId: comment.id, vote: 1 };
+    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
+    return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Vote>('voteUp'))
+    );
+  }
+
+  voteDown(comment: Comment, userId: string): Observable<Vote> {
+    const vote = { accountId: userId, commentId: comment.id, vote: -1 };
+    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
+    return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Vote>('voteUp'))
+    );
+  }
+
+  resetVote(comment: Comment, userId: string): Observable<Vote> {
+    const vote = { accountId: userId, commentId: comment.id, vote: 0 };
+    const connectionUrl = this.apiUrl.base + this.apiUrl.vote + '/';
+    return this.http.post<Vote>(connectionUrl, vote, httpOptions).pipe(
+      tap(_ => ''),
+      catchError(this.handleError<Vote>('voteUp'))
+    );
+  }
+
 
   parseUserNumber(comment: Comment): Comment {
     comment.userNumber = this.hashCode(comment.creatorId);

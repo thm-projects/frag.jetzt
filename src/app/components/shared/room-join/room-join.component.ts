@@ -84,7 +84,13 @@ export class RoomJoinComponent implements OnInit {
 
   joinRoom(id: string): void {
     if (!this.sessionCodeFormControl.hasError('required') && !this.sessionCodeFormControl.hasError('minlength')) {
-      this.getRoom(id);
+      if (!this.user) {
+        this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
+          this.getRoom(id);
+        });
+      } else {
+        this.getRoom(id);
+      }
     }
   }
 
@@ -104,7 +110,7 @@ export class RoomJoinComponent implements OnInit {
       this.moderatorService.get(this.room.id).subscribe((moderators: Moderator[]) => {
         let isModerator = false;
         for (const m of moderators) {
-          if (m.userId === this.user.id) {
+          if (m.accountId === this.user.id) {
             this.authenticationService.setAccess(this.room.shortId, UserRole.EXECUTIVE_MODERATOR);
             this.router.navigate([`/moderator/room/${this.room.shortId}/comments`]);
             isModerator = true;

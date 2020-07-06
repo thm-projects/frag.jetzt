@@ -61,10 +61,6 @@ export class RoomCreateComponent implements OnInit {
       return;
     }
     const newRoom = new Room();
-    const commentExtension: TSMap<string, any> = new TSMap();
-    newRoom.extensions = new TSMap();
-    commentExtension.set('enableModeration', true);
-    newRoom.extensions.set('comments', commentExtension);
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
     newRoom.description = '';

@@ -54,12 +54,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
-      if (this.room.extensions && this.room.extensions['comments']) {
-        if (this.room.extensions['comments'].enableModeration !== null) {
-          this.moderationEnabled = this.room.extensions['comments'].enableModeration;
-          // ToDo: make room data cache that's available for components that manages data flow and put that there
-        }
-      }
+      this.moderationEnabled = this.room.moderated;
       localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
       this.commentService.countByRoomId(this.room.id, true)
         .subscribe(commentCounter => {
