@@ -129,3 +129,29 @@ address {
 .mat-card, .mat-dialog-container {
   border-radius: 25px !important;
 }
+
+a.info {
+  position: relative;
+  z-index: 24;
+  text-decoration: underline;
+}
+
+a.info span {
+  position: absolute;
+  left: -9000px;
+  width: 0;
+  overflow: hidden;
+}
+
+
+a.info:hover span, a.info:focus span, a.info:active span {
+  display: block;
+  position: absolute;
+  top: 1.5em;
+  left: 2em;
+  width: 12em;
+  border: 1px solid var(--on-primary);
+  background-color: var(--primary);
+  color: #000;
+  text-align: center;
+}
