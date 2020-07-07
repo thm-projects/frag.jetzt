@@ -32,12 +32,31 @@
       </mat-tab>
     </mat-tab-group>
   </ars-row>
-  <ars-row>
-    <app-dialog-action-buttons
-      buttonsLabelSection="comment-page"
-      confirmButtonLabel="send"
-      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback(commentBody)"
-    ></app-dialog-action-buttons>
+  <ars-row style="margin-top:8px">
+    <mat-divider></mat-divider>
+  </ars-row>
+  <ars-row ars-flex-box>
+    <ars-col>
+      <mat-form-field *ngIf="tags" class="tag-form-field">
+        <mat-label>{{'comment-page.tag' | translate}}</mat-label>
+        <mat-select [(ngModel)]="selectedTag" class="tag-select">
+          <mat-option *ngFor="let tag of tags" value="{{tag}}">
+            {{tag}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ars-col>
+    <ars-fill>
+    </ars-fill>
+    <ars-col>
+      <app-dialog-action-buttons
+        buttonsLabelSection="comment-page"
+        confirmButtonLabel="send"
+        [showDivider]="false"
+        [spacing]="false"
+        [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+        [confirmButtonClickAction]="buildCreateCommentActionCallback(commentBody)"
+      ></app-dialog-action-buttons>
+    </ars-col>
   </ars-row>
 </ars-row>

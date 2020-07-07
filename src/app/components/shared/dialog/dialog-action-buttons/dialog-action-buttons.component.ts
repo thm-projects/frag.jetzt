@@ -16,6 +16,8 @@ export enum DialogConfirmActionButtonType {
 })
 export class DialogActionButtonsComponent implements OnInit {
 
+  @Input() showDivider = true;
+
   /**
    * The button labels section.
    */
