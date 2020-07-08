@@ -207,6 +207,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   showTagsDialog(): void {
+    this.updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'
     });
@@ -220,7 +221,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         if (result === 'abort') {
           return;
         } else {
-          this.room.extensions['tags'] = result;
+          this.updRoom.extensions['tags'] = result;
           this.saveChanges();
         }
       });
