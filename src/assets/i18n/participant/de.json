@@ -143,6 +143,9 @@
     "filter-favorite": "Favoriten",
     "filter-approved": "Bejaht",
     "filter-disapproved": "Verneint",
-    "filter-remove": "Filter entfernen"
+    "filter-remove": "Filter entfernen",
+    "filter-tag": "Kategorie",
+    "no-result": "Keine Ergebnisse",
+    "filter-user-count": "Anzahl der Kommentare"
   }
 }

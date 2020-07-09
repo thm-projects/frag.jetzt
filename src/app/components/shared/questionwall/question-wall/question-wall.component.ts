@@ -36,9 +36,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   filterTitle = '';
   filterDesc = '';
   filterIcon = '';
+  isSvgIcon = false;
   userMap: Map<number, number> = new Map<number, number>();
   userList = [];
   userSelection = false;
+  tags;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -81,6 +83,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
+      this.tags = e.extensions['tags']['tags'];
     });
     this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
       this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
@@ -199,6 +202,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openUserMap() {
+    if (this.userSelection) {return; }
     this.hasFilter = false;
     this.createUserMap();
     this.userSelection = true;
@@ -255,7 +259,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterFavorites() {
-    this.filter('star', 'question-wall.filter-favorite', '',
+    this.filter('star', false, 'question-wall.filter-favorite', '',
         x => x.comment.favorite);
   }
 
@@ -264,22 +268,28 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterUserByNumber(user: number) {
-    this.filter('person', 'question-wall.filter-user', user + '',
+    this.filter('person', false, 'question-wall.filter-user', user + '',
       x => x.comment.userNumber === user);
   }
 
   filterApproved() {
-    this.filter('check_circle', 'question-wall.filter-approved', '',
+    this.filter('check_circle', false, 'question-wall.filter-approved', '',
         x => x.comment.correct === CorrectWrong.CORRECT);
   }
 
   filterDisapproved() {
-    this.filter('block', 'question-wall.filter-disapproved', '',
+    this.filter('block', false, 'question-wall.filter-disapproved', '',
         x => x.comment.correct === CorrectWrong.WRONG);
   }
 
-  filter(icon: string, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
+  filterTag(tag: string) {
+    this.filter('comment_tag', true, '', tag, x => x.comment.tag === tag);
+  }
+
+  filter(icon: string, isSvgIcon: boolean, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
+    this.cancelUserMap();
     this.filterIcon = icon;
+    this.isSvgIcon = isSvgIcon;
     this.filterTitle = title;
     this.filterDesc = desc;
     this.commentsFilter = this.comments.filter(filter);
