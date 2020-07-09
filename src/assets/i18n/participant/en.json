@@ -142,6 +142,9 @@
     "filter-favorite": "Favorites",
     "filter-approved": "Affirmed",
     "filter-disapproved": "Negated",
-    "filter-remove": "Remove Filter"
+    "filter-remove": "Remove Filter",
+    "filter-tag": "Category",
+    "no-result": "No result",
+    "filter-user-count": "Number of comments"
   }
 }
