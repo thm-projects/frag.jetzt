@@ -57,7 +57,12 @@
     "unread": "Nicht im Hörsaal besprochen",
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
-    "wrong": "Verneint"
+    "wrong": "Verneint",
+    "really-delete": "Willst du die Frage wirklich löschen?"
+  },
+  "content": {
+    "cancel": "Abbrechen",
+    "delete": "Löschen"
   },
   "comment-page": {
     "a11y-comment_input": "Gib deine Frage ein",
@@ -99,7 +104,8 @@
     "write-comment": "Schreiben",
     "preview-comment": "Vorschau",
     "show-more": "mehr ansehen",
-    "show-less": "weniger anzeigen"
+    "show-less": "weniger anzeigen",
+    "sure": "Bist du sicher?"
   },
 
   "home-page": {
@@ -121,7 +127,8 @@
     "live-feedback": "Live Feedback",
     "session-id": "Code",
     "bonus-token": "Tokens für Bonuspunkte",
-    "bonus-token-header": "Tokens für Bonuspunkte"
+    "bonus-token-header": "Tokens für Bonuspunkte",
+    "delete": "Frage löschen"
   },
   "question-wall": {
     "next-comment": "Nächste Frage",

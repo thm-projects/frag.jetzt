@@ -57,7 +57,12 @@
     "unread": "Not yet discussed",
     "vote-desc": "Descending votes",
     "vote-asc": "Ascending votes",
-    "wrong": "Marked as wrong by the professor"
+    "wrong": "Marked as wrong by the professor",
+    "really-delete": "Do you really want to delete this question?"
+  },
+  "content": {
+    "cancel": "Cancel",
+    "delete": "Delete"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
@@ -99,7 +104,8 @@
     "write-comment": "Write",
     "preview-comment": "Preview",
     "show-more": "show more",
-    "show-less": "show less"
+    "show-less": "show less",
+    "delete": "Delete question"
   },
   "home-page": {
     "exactly-8": "A session key is a combination of exactly 8 digits.",
@@ -120,7 +126,8 @@
     "live-feedback": "Live feedback",
     "session-id": "Key",
     "bonus-token": "Tokens for bonus points",
-    "bonus-token-header": "Tokens for bonus points"
+    "bonus-token-header": "Tokens for bonus points",
+    "sure": "Are you sure?"
   },
   "question-wall": {
     "next-comment": "Next question",
