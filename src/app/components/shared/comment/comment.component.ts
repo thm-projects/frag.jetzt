@@ -17,6 +17,7 @@ import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-comment',
@@ -38,6 +39,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() comment: Comment;
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
+  @Input() user: User;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
   isStudent = false;
