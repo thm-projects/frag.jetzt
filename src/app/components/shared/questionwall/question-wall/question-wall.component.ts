@@ -110,11 +110,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    document.getElementById('header_rescale').style.display = 'none';
+    document.getElementById('footer_rescale').style.display = 'none';
     setTimeout(() => {
       Rescale.requestFullscreen();
     }, 10);
-    document.getElementById('header_rescale').style.display = 'none';
-    document.getElementById('footer_rescale').style.display = 'none';
   }
 
   ngOnDestroy(): void {
@@ -122,6 +122,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     window.clearInterval(this.timeUpdateInterval);
     document.getElementById('header_rescale').style.display = 'block';
     document.getElementById('footer_rescale').style.display = 'block';
+    Rescale.exitFullscreen();
   }
 
   nextComment() {

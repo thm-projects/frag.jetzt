@@ -72,18 +72,11 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
         }
       }
     });
-    const deviceType = localStorage.getItem('deviceType');
-    if (this.user.role === 3 && deviceType === 'desktop') {
-      Rescale.requestFullscreen();
-    }
   }
 
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
-    if (this.user.role === 3) {
-      Rescale.exitFullscreen();
-    }
   }
 
   public announce() {
