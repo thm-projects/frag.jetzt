@@ -56,8 +56,8 @@ export class FooterComponent implements OnInit {
         this.themeService.activate('dark');
         this.themeClass = 'dark';
       } else {
-        this.themeService.activate('dark');
-        this.themeClass = 'dark';
+        this.themeService.activate('arsnova');
+        this.themeClass = 'arsnova';
       }
     }
     this.styleService.setColor(this.themeService.getThemeByKey(this.themeClass).isDark);
