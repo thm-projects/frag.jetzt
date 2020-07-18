@@ -53,8 +53,8 @@ export class FooterComponent implements OnInit {
     this.deviceType = localStorage.getItem('deviceType');
     if (!this.themeService.getThemeByKey(this.themeClass) || !this.themeService.getTheme()['source']['_value']) {
       if (this.deviceType === 'mobile') {
-        this.themeService.activate('dark');
-        this.themeClass = 'dark';
+        this.themeService.activate('arsnova');
+        this.themeClass = 'arsnova';
       } else {
         this.themeService.activate('arsnova');
         this.themeClass = 'arsnova';
