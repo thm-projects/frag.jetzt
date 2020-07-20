@@ -21,7 +21,7 @@
       <span class="question-focus-btn-txt">{{'header.question-wall' | translate}}</span>
     </button>
     <span class="fill-remaining-space"
-          *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
+          *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
     <span
       *ngIf="router.url.includes('comments') && moderationEnabled"
       class="moderation-enabled"
