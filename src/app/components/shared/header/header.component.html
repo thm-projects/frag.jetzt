@@ -9,7 +9,7 @@
       <mat-icon class="header-icons" (click)="getRescale().toggleState();">fullscreen</mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
-    <h2 class="oldtypo-h2" *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
+    <h2 class="oldtypo-h2" *ngIf="router.url.includes('comments')  && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       {{cTime}}
     </h2>
