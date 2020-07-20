@@ -40,7 +40,7 @@ export const arsnova_meta = {
       'de': 'Light Mode'
     },
     'description': {
-      'en': 'Bright background for focussed working',
+      'en': 'Bright background for focused working',
       'de': 'Heller Hintergrund für fokussiertes Arbeiten'
     }
   },
