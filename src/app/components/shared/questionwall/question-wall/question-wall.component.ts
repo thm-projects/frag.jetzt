@@ -42,7 +42,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList = [];
   userSelection = false;
   tags;
-  fontSize = 100;
+  fontSize = 200;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
