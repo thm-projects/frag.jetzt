@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { CorrectWrong } from '../../../../models/correct-wrong.enum';
+import { MatSliderChange } from '@angular/material/slider';
 
 @Component({
   selector: 'app-question-wall',
@@ -41,6 +42,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList = [];
   userSelection = false;
   tags;
+  fontSize = 100;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -71,7 +73,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // StyleDebug.border('c');
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
     this.commentService.getAckComments(this.roomId).subscribe(e => {
@@ -310,6 +311,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   toggleFilter() {
     this.hasFilter = !this.hasFilter;
+  }
+
+  sliderChange(evt: MatSliderChange) {
+    this.fontSize = evt.value;
   }
 
 }

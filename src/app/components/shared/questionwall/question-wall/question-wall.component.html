@@ -70,7 +70,7 @@
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
-                <markdown style="max-width:100%" class="questionwall-present-markdown" [data]="commentFocus.comment.body"></markdown>
+                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" [data]="commentFocus.comment.body"></markdown>
               </ars-row>
             </ars-row>
             <ars-row [height]="50">
@@ -98,6 +98,11 @@
       <ars-fill>
       </ars-fill>
     </ars-fill>
+    <div class="questionwall-present-options-outer">
+      <div class="questionwall-present-options-inner">
+        <mat-slider class="questionwall-present-options-slider" min="100" max="300" value="200" (input)="sliderChange($event)"></mat-slider>
+      </div>
+    </div>
     <ars-col ars-flex-box [width]="450" class="questionwall-list" #colComponent>
 
       <ars-row>

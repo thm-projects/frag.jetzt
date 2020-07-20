@@ -123,6 +123,23 @@
       padding:16px 32px 16px 32px;
       color:var(--ars-header-color);
       word-break:break-word;
+      &-options{
+        &-outer{
+          width:0;
+          height:0;
+          position:relative;
+        }
+        &-inner{
+          width:150px;
+          height:50px;
+          position:relative;
+          top:16px;
+          left:-182px;
+        }
+        &-slider{
+          width:100%;
+        }
+      }
       &-box{
         &-outer{
           display:flex;
@@ -191,8 +208,20 @@
 
 :host ::ng-deep{
   .questionwall-present-markdown{
+    max-width:100%;
     img{
       width:100%!important;
+    }
+  }
+  .questionwall-present-options-slider{
+    .mat-slider-wrapper{
+      background-color:var(--ars-border-color);
+    }
+    .mat-slider-thumb{
+      background-color:var(--ars-button-color);
+    }
+    .mat-slider-track-fill{
+      background-color:var(--ars-button-color);
     }
   }
 }
