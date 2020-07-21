@@ -7,7 +7,7 @@ export const arsnova = {
   '--secondary-variant': '#FFFFFF',
 
   '--background': '#FFE4B5', /* Moccasin */
-  '--surface': '#FFFFFF',
+  '--surface': '#fffde7',
   '--dialog': '#FFFFFF',
   '--cancel': '#263238',
   '--alt-surface': '#eeeeee',
