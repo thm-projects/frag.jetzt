@@ -4,7 +4,7 @@ export const arsnova = {
   '--primary-variant': '#FFFFFF',
 
   '--secondary': '#A52A2A', /* Brown */
-  '--secondary-variant': '#FFFFFF',
+  '--secondary-variant': '#cfd8dc',
 
   '--background': '#FFE4B5', /* Moccasin */
   '--surface': '#fffde7',

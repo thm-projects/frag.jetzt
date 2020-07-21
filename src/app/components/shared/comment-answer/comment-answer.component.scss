@@ -4,10 +4,11 @@ app-comment, mat-card {
 }
 
 .answer {
-  background-color: var(--alt-surface);
+  background-color: var(--secondary-variant);
   color: var(--on-surface);
   padding: 3% 3%;
-  box-sizing: border-box
+  box-sizing: border-box;
+  font-size: 140%;
 }
 
 button {
