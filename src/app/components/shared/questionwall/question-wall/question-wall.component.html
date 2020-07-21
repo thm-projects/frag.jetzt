@@ -99,8 +99,17 @@
       </ars-fill>
     </ars-fill>
     <div class="questionwall-present-options-outer">
-      <div class="questionwall-present-options-inner">
-        <mat-slider class="questionwall-present-options-slider" min="100" max="400" value="250" (input)="sliderChange($event)"></mat-slider>
+      <div class="questionwall-present-options-inner" ars-flex-box>
+        <ars-col class="flex-column-center">
+          <mat-icon class="icon-color">zoom_out</mat-icon>
+        </ars-col>
+        <mat-slider class="questionwall-present-options-slider"
+                    min="100" max="400" value="250"
+                    (input)="sliderChange($event)">
+        </mat-slider>
+        <ars-col class="flex-column-center">
+          <mat-icon class="icon-color">zoom_in</mat-icon>
+        </ars-col>
       </div>
     </div>
     <ars-col ars-flex-box [width]="450" class="questionwall-list" #colComponent>
