@@ -129,7 +129,8 @@
     "session-id": "Code",
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
-    "delete": "Frage löschen"
+    "delete": "Frage löschen",
+    "sure": "Bist du sicher?"
   },
   "question-wall": {
     "next-comment": "Nächste Frage",
