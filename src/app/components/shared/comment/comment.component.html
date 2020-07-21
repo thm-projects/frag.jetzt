@@ -53,7 +53,8 @@
         </mat-icon>
       </button>
       <button mat-icon-button
-              *ngIf="(isCreator || comment.creatorId === user.id) && !comment.favorite && !inAnswerView" (click)="openDeleteCommentDialog()"
+              *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite && !inAnswerView"
+              (click)="openDeleteCommentDialog()"
               tabindex="0" attr.aria-labelledby="comment_delete{{ comment.id }}">
         <mat-icon class="not-marked" matTooltip="{{ 'comment-page.delete' | translate }}">delete
         </mat-icon>
