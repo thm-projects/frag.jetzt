@@ -1,7 +1,7 @@
 {
     "name": "frag.jetzt",
     "short_name": "frag.jetzt",
-    "description": "An innovative question app developed at THM",
+    "description": "Nomen est omen: Der Name der App steht für ihren Zweck und ihre Adresse.",
     "icons": [
         {
             "src": "/assets/icons/android-chrome-192x192.png?v=00zWdx8zdl",
@@ -15,7 +15,7 @@
         }
     ],
     "theme_color": "#000000",
-    "background_color": "#03dac6",
+    "background_color": "#ffe4b5",
     "scope": "/",
     "start_url": "/home",
     "display": "standalone"

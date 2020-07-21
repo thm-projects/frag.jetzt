@@ -81,6 +81,7 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
+    "delete": "Delete your question",
     "enter-comment": "Enter your question",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
