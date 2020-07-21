@@ -9,6 +9,9 @@ app-comment, mat-card {
   padding: 3% 3%;
   box-sizing: border-box;
   font-size: 140%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 button {
