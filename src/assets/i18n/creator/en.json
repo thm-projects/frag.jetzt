@@ -160,8 +160,8 @@
   },
   "home-page": {
     "create-session": "New Session",
-    "created-1": "Session '",
-    "created-2": "' successfully created.",
+    "created-1": "Session »",
+    "created-2": "« successfully created.",
     "no-empty-name": "Please enter a name."
   },
   "room-page": {

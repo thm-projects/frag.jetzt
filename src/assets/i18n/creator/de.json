@@ -159,8 +159,8 @@
   },
   "home-page": {
     "create-session": "Neue Sitzung",
-    "created-1": "Sitzung '",
-    "created-2": "' erfolgreich erstellt.",
+    "created-1": "Sitzung »",
+    "created-2": "« erfolgreich erstellt.",
     "no-empty-name": "Bitte gib einen Namen ein."
   },
   "room-page": {
@@ -221,7 +221,7 @@
     "really-delete-comments-hint": "Es gibt Fragen in dieser Sitzung, die du für einen Bonus markiert hast. Entferne die Markierungen, um alle Fragen zu löschen.",
     "delete-comments-alt-header": "Bonus-Tokens vergeben",
     "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
-    "really2": " wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (gelbe Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
+    "really2": " wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "reallyContent": "Willst du die Frage ",
     "reallySession": "Willst du die Sitzung ",
     "room-not-found": "Sitzung wurde nicht gefunden (",
