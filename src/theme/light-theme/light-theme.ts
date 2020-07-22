@@ -4,7 +4,7 @@ export const arsnova = {
   '--primary-variant': '#FFFFFF',
 
   '--secondary': '#A52A2A', /* Brown */
-  '--secondary-variant': '#cfd8dc',
+  '--secondary-variant': '#80d8ff',
 
   '--background': '#FFE4B5', /* Moccasin */
   '--surface': '#fffde7',
@@ -19,15 +19,15 @@ export const arsnova = {
   '--on-surface': '#000000',
   '--on-cancel': '#FFFFFF',
 
-  '--green': 'green',
-  '--red': 'red',
+  '--green': '#64dd17',
+  '--red': '#ff8a80',
   '--yellow': '#FF4500', /* Orangered */
   '--blue': '#002878',
   '--purple': '#9c27b0',
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
-  '--black': 'black',
+  '--black': '#000000',
   '--moderator': '#fff3e0'
 
 };

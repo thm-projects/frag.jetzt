@@ -9,9 +9,8 @@ app-comment, mat-card {
   padding: 3% 3%;
   box-sizing: border-box;
   font-size: 140%;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 button {
@@ -45,10 +44,6 @@ mat-form-field {
 mat-hint {
   color: var(--on-surface)!important;
   margin-right: 1%;
-}
-
-markdown {
-  word-break: break-all;
 }
 
 ::ng-deep .mat-tab-label-active,

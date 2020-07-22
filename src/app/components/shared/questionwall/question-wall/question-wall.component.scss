@@ -122,6 +122,7 @@
       font-size:45px;
       padding:16px 32px 16px 32px;
       color:var(--ars-header-color);
+      hyphens: auto;
       word-break:break-word;
       &-options{
         &-outer{
