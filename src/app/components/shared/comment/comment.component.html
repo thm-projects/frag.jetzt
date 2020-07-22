@@ -42,7 +42,7 @@
         <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
                               'not-marked' : (comment.correct === 0 || comment.correct === 1)}"
                   [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
-                                                 : ('comment-page.mark-not-wrong' | translate)">not_interested
+                                                 : ('comment-page.mark-not-wrong' | translate)">cancel
         </mat-icon>
       </button>
       <button mat-icon-button *ngIf="(!isStudent || comment.favorite) && !moderator" [disabled]="isStudent"
