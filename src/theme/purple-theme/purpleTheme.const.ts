@@ -3,8 +3,8 @@ export const purple = {
   '--primary' : 'Maroon',
   '--primary-variant': 'white',
 
-  '--secondary': 'black',
-  '--secondary-variant': 'green',
+  '--secondary': '#ff4500',
+  '--secondary-variant': '#80d8ff',
 
   '--background': 'beige',
   '--surface': 'white',
@@ -19,7 +19,7 @@ export const purple = {
   '--on-cancel': 'white',
 
   '--green': 'green',
-  '--red': 'red',
+  '--red': '#ff8a80',
   '--yellow': 'gold',
   '--blue': 'blue',
   '--purple': 'purple',
