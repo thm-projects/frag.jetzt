@@ -16,7 +16,7 @@
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option *ngFor="let room of rooms" [value]="room.name"
                         (onSelectionChange)="setCurrentRoom($event, room)">
-              {{room.name}}
+              &raquo;{{room.name}}&laquo;
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

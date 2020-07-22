@@ -6,7 +6,7 @@
     <!--remove text-->
     <p class="oldtypo-p" tabindex="0">{{ 'header.really-delete-account' | translate }}</p>
     <ul *ngFor="let room of rooms" tabindex="0">
-      <li>{{ room.name }}</li>
+      <li>&raquo;{{room.name}}&laquo;</li>
     </ul>
   </div>
   <app-dialog-action-buttons

@@ -33,7 +33,7 @@
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <span matBadge="{{room.commentCount > 0 && deviceType === 'desktop' ? room.commentCount : null}}" matBadgeOverlap="false">
-              {{ room.name }}
+              &raquo;{{room.name}}&laquo;
             </span>
           </td>
         </ng-container>
