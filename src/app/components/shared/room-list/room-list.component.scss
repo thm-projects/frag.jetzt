@@ -13,9 +13,8 @@ button {
 table, th, tr, td {
   background-color: var(--primary-variant) !important;
   color: var(--on-surface)!important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
   hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 th {

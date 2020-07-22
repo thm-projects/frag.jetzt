@@ -8,13 +8,12 @@
   margin: 5%;
   white-space: pre-line;
   hyphens: auto;
-  overflow-wrap: anywhere !important;
+  overflow-wrap: break-word !important;
 }
 
 #comment p {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
   hyphens: auto;
+  overflow-wrap: break-word;
   color: var(--on-surface);
 }
 
