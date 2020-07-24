@@ -38,6 +38,9 @@ export class CreateCommentComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
+    setTimeout(() => {
+      document.getElementById('answer-input').focus();
+    }, 0);
   }
 
   onNoClick(): void {

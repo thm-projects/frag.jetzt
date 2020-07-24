@@ -271,7 +271,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
       maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )'
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false
     });
     dialogRef.componentInstance.user = this.user;
     dialogRef.componentInstance.roomId = this.roomId;
