@@ -63,6 +63,13 @@ mat-icon {
 ::ng-deep .mat-menu-panel {
   padding: 0 10px!important;
   width: 100%!important;
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
 }
 
 .check {
@@ -188,7 +195,7 @@ mat-icon {
   padding:0px;
   margin:0px;
   margin-left:15px;
-  color:rgba(0,0,0,0.8);
+  color:var(--on-dialog);
 }
 
 .title_bold{

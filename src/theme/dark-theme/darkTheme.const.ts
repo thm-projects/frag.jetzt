@@ -7,7 +7,7 @@ export const dark = {
   '--secondary-variant': '#6f74dd',
 
   '--background': '#121212',
-  '--surface': '#212121',
+  '--surface': '#37474f',
   '--dialog': '#37474f',
   '--cancel': '#26343c',
   '--alt-surface': '#323232',
@@ -17,6 +17,7 @@ export const dark = {
   '--on-secondary': '#000000',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
+  '--on-dialog': '#FFFFFF',
   '--on-cancel': '#FFFFFF',
 
   '--green': 'lightgreen',

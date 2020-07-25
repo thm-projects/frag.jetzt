@@ -112,7 +112,7 @@
   "home-page": {
     "exactly-8": "Ein Sitzungs-Code hat genau 8 Ziffern.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Sitzungs-Code gefunden.",
-    "only-numbers": "Ein Sitzungs-Code besteht aus einer Kombination aus 8 Ziffern.",
+    "only-numbers": "Ein Sitzungs-Code besteht aus Ziffern.",
     "please-enter": "Bitte Sitzungs-Code eingeben."
   },
   "room-page": {
@@ -141,7 +141,7 @@
     "auto-renew-on-icon": "refresh",
     "auto-renew-off": "Autofokus beenden",
     "auto-renew-off-icon": "cancel",
-    "intro-title": "Fragen-Fokus",
+    "intro-title": "Fragen im Fokus",
     "intro-desc": "Klick auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück.",
     "sort": "Sortieren",
     "sort-time": "Zeit",

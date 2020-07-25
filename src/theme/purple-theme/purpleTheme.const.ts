@@ -16,6 +16,7 @@ export const purple = {
   '--on-secondary': 'white',
   '--on-background': 'black',
   '--on-surface': 'black',
+  '--on-dialog': 'black',
   '--on-cancel': 'white',
 
   '--green': 'green',

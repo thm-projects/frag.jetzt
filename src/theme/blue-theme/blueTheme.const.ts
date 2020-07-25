@@ -14,7 +14,8 @@ export const blue = {
   '--on-primary': '#FFFFFF',
   '--on-secondary': '#000000',
   '--on-background': '#000000',
-  '--on-surface': '#000000',
+  '--on-surface': '#FFFFFF',
+  '--on-dialog': '#FFFFFF',
   '--on-cancel': '#000000',
 
   '--green': '#4caf50',

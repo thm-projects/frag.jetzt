@@ -94,3 +94,8 @@ mat-grid-tile {
   margin: 5% 2% 0 0;
   color: var(--on-surface);
 }
+
+.mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
+}
