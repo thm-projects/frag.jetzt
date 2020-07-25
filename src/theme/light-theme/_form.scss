@@ -21,7 +21,7 @@ mat-form-field.input-block {
 
 .snackbar button {
   background-color: var(--primary);
-  color: white !important;
+  color: var(--on-primary) !important;
 }
 
 .mat-input-element {

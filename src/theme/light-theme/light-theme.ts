@@ -46,7 +46,7 @@ export const arsnova_meta = {
     }
   },
   'isDark': false,
-  'order': 2,
+  'order': 3,
   'scale_desktop': 1,
   'scale_mobile': 1,
   'previewColor': 'background'

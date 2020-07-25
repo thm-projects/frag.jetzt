@@ -88,7 +88,7 @@
     "only-numbers": "A session key only contains digits.",
     "please-enter": "Ask the lecturer for the key",
     "room-name-input": "Enter the name of the session you want to create here.",
-    "session-id": "Session key",
+    "session-id": "Session key …",
     "update-available": "An update is available."
   },
   "imprint": {

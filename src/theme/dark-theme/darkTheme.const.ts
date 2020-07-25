@@ -45,7 +45,7 @@ export const dark_meta = {
     }
   },
   'isDark': true,
-  'order': 3,
+  'order': 2,
   'scale_desktop': 1,
   'scale_mobile': 1,
   'previewColor': 'background'
