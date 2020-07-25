@@ -126,3 +126,18 @@ mat-expansion-panel {
 markdown {
   margin: 0 3% 0 3% !important;
 }
+
+::ng-deep .mat-menu-panel {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+.mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
+}
