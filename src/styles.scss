@@ -152,6 +152,7 @@ a.info:hover span, a.info:focus span, a.info:active span {
   width: 12em;
   border: 1px solid var(--on-primary);
   background-color: var(--primary);
-  color: #000;
+  color: var(--on-primary);
   text-align: center;
+  padding: 5px;
 }
