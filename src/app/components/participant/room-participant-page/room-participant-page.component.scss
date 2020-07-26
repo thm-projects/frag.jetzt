@@ -95,7 +95,7 @@ mat-grid-tile {
   color: var(--on-surface);
 }
 
-.mat-badge-content {
-  background: var(--secondary) !important;
-  color: var(--on-secondary) !important;
+::ng-deep .mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
 }
