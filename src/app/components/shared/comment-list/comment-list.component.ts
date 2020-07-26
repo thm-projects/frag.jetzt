@@ -19,7 +19,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -30,6 +31,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
+  shortId: string;
   AppComponent = AppComponent;
   comments: Comment[] = [];
   room: Room;
@@ -74,50 +76,60 @@ export class CommentListComponent implements OnInit, OnDestroy {
               private wsCommentService: WsCommentServiceService,
               protected roomService: RoomService,
               protected voteService: VoteService,
+              private authenticationService: AuthenticationService,
               private notificationService: NotificationService,
               public eventService: EventService,
               public liveAnnouncer: LiveAnnouncer,
+              private route: ActivatedRoute,
               private router: Router
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
-    this.roomId = localStorage.getItem(`roomId`);
-    const userId = this.user.id;
-    this.userRole = this.user.role;
-    this.currentSort = this.votedesc;
-    this.roomService.getRoom(this.roomId).subscribe( room => {
-      this.room = room;
-      if (this.room && this.room.extensions && this.room.extensions['comments']) {
-        if (this.room.extensions['comments'].enableModeration !== null) {
-          this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+        this.userRole = this.user.role;
+        if (this.userRole === 0) {
+          this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
+            for (const v of votes) {
+              this.commentVoteMap.set(v.commentId, v);
+            }
+          });
         }
-        if (this.room.extensions['comments'].directSend !== null) {
-          this.directSend = this.room.extensions['comments'].directSend;
-        }
-      }
-      this.commentService.getAckComments(this.roomId)
-        .subscribe(comments => {
-          this.comments = comments;
-          this.getComments();
-        });
-      if (this.userRole === UserRole.PARTICIPANT) {
-        this.openCreateDialog();
       }
     });
+    this.route.params.subscribe(params => {
+      this.shortId = params['shortId'];
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
+        this.roomService.getRoomByShortId(this.shortId).subscribe( room => {
+          this.room = room;
+          if (this.room && this.room.extensions && this.room.extensions['comments']) {
+            if (this.room.extensions['comments'].enableModeration !== null) {
+              this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+            }
+            if (this.room.extensions['comments'].directSend !== null) {
+              this.directSend = this.room.extensions['comments'].directSend;
+            }
+          }
+          this.subscribeCommentStream();
+          this.commentService.getAckComments(this.roomId)
+            .subscribe(comments => {
+              this.comments = comments;
+              this.getComments();
+            });
+          if (this.userRole === UserRole.PARTICIPANT) {
+            this.openCreateDialog();
+          }
+        });
+      });
+    });
+    this.currentSort = this.votedesc;
     this.hideCommentsList = false;
-    this.subscribeCommentStream();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
     this.isSafari = localStorage.getItem('isSafari');
-    if (this.userRole === 0) {
-      this.voteService.getByRoomIdAndUserID(this.roomId, userId).subscribe(votes => {
-        for (const v of votes) {
-          this.commentVoteMap.set(v.commentId, v);
-        }
-      });
-    }
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });

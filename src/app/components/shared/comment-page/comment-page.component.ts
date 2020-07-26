@@ -8,6 +8,7 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { Rescale } from '../../../models/rescale';
+import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-comment-page',
@@ -34,7 +35,6 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
   }
   ngOnInit(): void {
     this.roomId = localStorage.getItem('roomId');
-    this.user = this.authenticationService.getUser();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         if (document.getElementById('add_comment-button')) {
