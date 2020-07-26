@@ -19,17 +19,17 @@ a {
   color: var(--on-surface) !important;
 }
 
-::ng-deep .mat-menu-panel {
-  background-color: var(--dialog);
-  color: var(--on-dialog);
+.mat-menu-panel {
+  background-color: var(--dialog) !important;
+  color: var(--on-dialog) !important;
 }
 
-::ng-deep .mat-menu-item {
-  background-color: var(--dialog);
-  color: var(--on-dialog);
+.mat-menu-item {
+  background-color: var(--dialog) !important;
+  color: var(--on-dialog) !important;
 }
 
-::ng-deep .mat-menu-item .mat-icon {
-  background-color: var(--dialog);
-  color: var(--on-dialog);
+.mat-icon {
+  background-color: var(--dialog) !important;
+  color: var(--on-dialog) !important;
 }
