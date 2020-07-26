@@ -18,3 +18,18 @@ a {
 .mat-dialog-container h3 {
   color: var(--on-surface) !important;
 }
+
+::ng-deep .mat-menu-panel {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item .mat-icon {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
