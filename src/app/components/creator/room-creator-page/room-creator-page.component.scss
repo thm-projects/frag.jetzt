@@ -5,7 +5,7 @@ mat-card {
   max-width: 800px;
   min-height: 300px;
   max-height: 700px;
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
 }
 
 mat-card-content > :first-child {
@@ -20,8 +20,9 @@ mat-card-content > :first-child {
   width: 100%;
   height: 75%;
   border-radius: 0;
-  color: var(--primary)!important;
+  color: var(--primary) !important;
   transition: all 0.3s;
+
   &:hover {
     transform: scale(1.2)
   }
@@ -38,30 +39,30 @@ mat-card-content > :first-child {
   line-height: 100%;
 }
 
-.main-icon{
+.main-icon {
   font-size: 80px;
   height: 80px;
   width: 80px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .smallerIcon {
   font-size: 60px;
   height: 60px;
   width: 60px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .room-short-id {
   font-size: larger;
   font-weight: bold;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
   margin-top: 7%;
 }
 
 mat-grid-list {
   margin-top: 0;
-  max-height: 250px!important;
+  max-height: 250px !important;
 }
 
 .second {
@@ -69,35 +70,35 @@ mat-grid-list {
 }
 
 
-
 mat-card-header {
   min-height: 80px;
   margin: 0;
-  height: 10%!important;
+  height: 10% !important;
 }
 
 mat-card-title {
   height: 40%;
   min-width: 150px;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-card-subtitle {
   height: 30%;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-grid-tile {
   height: 100%;
-  padding: 2% 0 2% 0!important;
+  padding: 2% 0 2% 0 !important;
 }
 
 .mat-figure {
-  margin-bottom: 20px!important;
+  margin-bottom: 20px !important;
 }
 
 mat-expansion-panel {
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
+  color: var(--on-surface) !important;
   min-width: 200px;
   hyphens: auto;
 }
@@ -133,6 +134,11 @@ markdown {
 }
 
 ::ng-deep .mat-menu-item {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item .mat-icon {
   background-color: var(--dialog);
   color: var(--on-dialog);
 }
