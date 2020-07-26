@@ -137,7 +137,7 @@ markdown {
   color: var(--on-dialog);
 }
 
-.mat-badge-content {
+::ng-deep .mat-badge-content {
   background: var(--secondary);
   color: var(--on-secondary);
 }

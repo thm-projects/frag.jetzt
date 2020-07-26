@@ -96,6 +96,6 @@ mat-grid-tile {
 }
 
 .mat-badge-content {
-  background: var(--secondary);
-  color: var(--on-secondary);
+  background: var(--secondary) !important;
+  color: var(--on-secondary) !important;
 }

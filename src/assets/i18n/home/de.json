@@ -200,7 +200,7 @@
     "entry": "Eintrag ",
     "executive-moderator-role": "Moderator",
     "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach Name oder Code filtern.",
-    "filter-message": "Nach Name oder Code filtern",
+    "filter-message": "Sitzungsliste durchsuchen …",
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen.",
     "moderator-role": "Moderator",
     "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",

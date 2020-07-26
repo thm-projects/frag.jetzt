@@ -109,9 +109,9 @@
     "delete": "Delete question"
   },
   "home-page": {
-    "exactly-8": "A session key is a combination of exactly 8 digits.",
+    "exactly-8": "A key is a combination of 8 digits.",
     "no-room-found": "No session found with this key",
-    "only-numbers": "A session key is a combination of 8 digits.",
+    "only-numbers": "A key is a combination of digits.",
     "please-enter": "Please enter a session key"
   },
   "room-page": {
