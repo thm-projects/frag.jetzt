@@ -204,7 +204,7 @@
     "filter-message": "Search in session list …",
     "join-message-template": "Join the session {{session}} with code {{id}} and in the role {{role}}",
     "moderator-role": "Moderator",
-    "no-room-history": "You haven't joined any sessions yet.",
+    "no-room-history": "Your session list is empty.",
     "panel-join-button": "",
     "panel-remove-button": "Remove session from list",
     "delete-room": "Delete session",

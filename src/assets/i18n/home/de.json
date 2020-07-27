@@ -203,7 +203,7 @@
     "filter-message": "Sitzungsliste durchsuchen …",
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen.",
     "moderator-role": "Moderator",
-    "no-room-history": "Du hast bisher an keiner Sitzung teilgenommen.",
+    "no-room-history": "Deine Sitzungsliste ist leer.",
     "panel-join-button": "",
     "panel-remove-button": "Sitzung aus der Liste entfernen",
     "delete-room": "Sitzung löschen",
