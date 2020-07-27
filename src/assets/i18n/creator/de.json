@@ -161,7 +161,7 @@
     "create-session": "Neue Sitzung",
     "created-1": "Sitzung »",
     "created-2": "« erfolgreich erstellt.",
-    "no-empty-name": "Bitte gib einen Namen ein."
+    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird automatisch generiert."
   },
   "room-page": {
     "a11y-add-moderator": "Fügt den eingegebenen Benutzer als Moderator hinzu.",
@@ -258,7 +258,7 @@
     "create-session": "Speichern",
     "description": "Beschreibung",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der Sitzung",
+    "session-name": "Name der neuen Sitzung",
     "preview": "Vorschau"
   }
 }
