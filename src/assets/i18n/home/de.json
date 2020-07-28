@@ -58,12 +58,12 @@
     "moderation-enabled": "Moderiert",
     "my-account": "Konto",
     "my-guest-account": "Gastkonto",
-    "my-sessions": "Meine Sitzungen",
+    "my-sessions": "Sitzungen",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "sure": "Bist du sicher?",
-    "user-bonus-token": "Zu deinen Bonus Tokens",
+    "user-bonus-token": "Bonus-Tokens",
     "user-got-tokens": "Du hast noch Tokens für Bonuspunkte, die verloren gehen!",
-    "visited-sessions": "Besuchte Sitzungen",
+    "visited-sessions": "Sitzungen",
     "question-wall": "Fragen live präsentieren …"
   },
   "help": {
