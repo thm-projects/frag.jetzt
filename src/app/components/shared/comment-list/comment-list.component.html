@@ -54,16 +54,16 @@
       <mat-icon class="freezeIcon">play_arrow</mat-icon>
     </button>
 
-    <button mat-fab class="freezeButton"
-            *ngIf="!searchBox.value && !search && userRole === 2 && deviceType === 'desktop'"
-            (click)="switchToModerationList()" matTooltip="{{ 'comment-list.switch-to-moderation-list' | translate }}">
-      <mat-icon class="freezeIcon">thumb_down_alt</mat-icon>
-    </button>
-
     <button id="add_comment_small-button" mat-fab aria-labelledby="add" class="actionButton"
             *ngIf="!searchBox.value && !search" (click)="openCreateDialog()"
             matTooltip="{{ 'comment-list.add-comment' | translate }}">
       <mat-icon class="actionIcon">add</mat-icon>
+    </button>
+
+    <button mat-fab class="freezeButton"
+            *ngIf="!searchBox.value && !search && userRole === 2 && deviceType === 'desktop'"
+            (click)="switchToModerationList()" matTooltip="{{ 'comment-list.switch-to-moderation-list' | translate }}">
+      <mat-icon class="freezeIcon">gavel</mat-icon>
     </button>
   </div>
 
