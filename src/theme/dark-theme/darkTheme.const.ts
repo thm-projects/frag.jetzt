@@ -9,7 +9,7 @@ export const dark = {
   '--background': '#121212',
   '--surface': '#37474f',
   '--dialog': '#37474f',
-  '--cancel': '#26343c',
+  '--cancel': '#e0e0e0',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',
 
@@ -18,7 +18,7 @@ export const dark = {
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
-  '--on-cancel': '#FFFFFF',
+  '--on-cancel': '#000000',
 
   '--green': 'lightgreen',
   '--red': 'red',
@@ -29,7 +29,7 @@ export const dark = {
   '--grey': '#BDBDBD',
   '--grey-light': '#9E9E9E',
   '--black': '#212121',
-  '--moderator': '#37474f'
+  '--moderator': '#FFB6C1'
 };
 
 export const dark_meta = {
