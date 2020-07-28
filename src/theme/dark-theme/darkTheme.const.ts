@@ -29,7 +29,7 @@ export const dark = {
   '--grey': '#BDBDBD',
   '--grey-light': '#9E9E9E',
   '--black': '#212121',
-  '--moderator': '#FFB6C1'
+  '--moderator': '#DC143C'
 };
 
 export const dark_meta = {
