@@ -75,7 +75,7 @@
   "home-page": {
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "create-session": "New session",
+    "create-session": "Create new session",
     "created-1": "Session »",
     "created-2": "« successfully created",
     "exactly-8": "A key has exactly 8 digits.",

@@ -158,7 +158,7 @@
     "yes": "Ja"
   },
   "home-page": {
-    "create-session": "Neue Sitzung",
+    "create-session": "Neue Sitzung erstellen",
     "created-1": "Sitzung »",
     "created-2": "« erfolgreich erstellt.",
     "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird automatisch generiert."
