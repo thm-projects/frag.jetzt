@@ -91,16 +91,23 @@
 
   <mat-menu #filterMenu="matMenu" xPosition="before">
     <div>
-      <button mat-menu-item matTooltip="{{ 'comment-list.read' | translate }}"
-              (click)="filterComments(read)" aria-labelledby="beamer_icon">
-        <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
-        <span>{{ 'comment-list.filter-read' | translate }}</span>
-      </button>
 
       <button mat-menu-item matTooltip="{{ 'comment-list.favorite' | translate }}"
               (click)="filterComments(favorite)" aria-labelledby="grade">
         <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
         <span>{{ 'comment-list.filter-favorite' | translate }}</span>
+      </button>
+
+      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.answered' | translate }}"
+              (click)="filterComments(answer)" aria-labelledby="comment">
+        <mat-icon [ngClass]="{answered: 'answered-icon'}[currentFilter]">comment</mat-icon>
+        <span>{{ 'comment-list.filter-answered' | translate }}</span>
+      </button>
+
+      <button mat-menu-item matTooltip="{{ 'comment-list.read' | translate }}"
+              (click)="filterComments(read)" aria-labelledby="beamer_icon">
+        <mat-icon svgIcon="beamer" [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
+        <span>{{ 'comment-list.filter-read' | translate }}</span>
       </button>
 
       <button mat-menu-item matTooltip="{{ 'comment-list.correct' | translate }}"
@@ -115,12 +122,6 @@
         <span>{{ 'comment-list.filter-wrong' | translate }}</span>
       </button>
 
-      <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.answered' | translate }}"
-              (click)="filterComments(answer)" aria-labelledby="comment">
-        <mat-icon [ngClass]="{answered: 'answered-icon'}[currentFilter]">comment</mat-icon>
-        <span>{{ 'comment-list.filter-answered' | translate }}</span>
-      </button>
-
       <button mat-menu-item (focus)="hideCommentsList=true" matTooltip="{{ 'comment-list.owner' | translate }}"
               (click)="filterComments(owner)" aria-labelledby="comment">
         <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person</mat-icon>
@@ -132,6 +133,7 @@
         <mat-icon>close</mat-icon>
         <span>{{ 'comment-list.filter-reset' | translate }}</span>
       </button>
+
     </div>
   </mat-menu>
 </div>
