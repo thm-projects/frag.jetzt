@@ -144,7 +144,7 @@
     "a11y-password_set_email": "Gib hier deine E-Mail Adresse ein, um ein neues Passwort zu setzten",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "email": "E-Mail Adresse",
+    "email": "E-Mail",
     "email-description": "Gib hier deine E-Mail Adresse ein, um dein Passwort zurückzusetzen.",
     "email-invalid": "E-Mail Adresse ungültig",
     "email-required": "E-Mail Adresse erforderlich",
@@ -165,7 +165,7 @@
   "register": {
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
-    "email": "E-Mail Adresse",
+    "email": "E-Mail",
     "email-description": "Gib hier deine E-Mail-Adresse ein.",
     "email-description-repeat": "Gib hier bitte erneut deine E-Mail-Adresse ein, um sicherzustellen, dass du dich nicht vertippt hast.",
     "email-invalid": "E-Mail-Adresse ungültig",
