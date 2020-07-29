@@ -2,7 +2,6 @@
   width: 90%;
   max-width: 500px;
   background-color: var(--surface);
-  margin-top: 30px;
 }
 
 .main-heading-primary {
@@ -14,6 +13,7 @@
   color: var(--secondary);
   animation: moveInLeft 2s ease-out;
   padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .main-heading-secondary {
@@ -23,7 +23,6 @@
   text-align: center;
   color: var(--on-surface);
   animation: moveInRight 1s ease-out;
-  padding-top: 20px;
 }
 
 .feedback {
@@ -32,10 +31,6 @@
   font-size: 60%;
   text-align: center;
   color: var(--on-surface);
-}
-
-.home {
-  margin-top: 5%;
 }
 
 @keyframes moveInLeft {
