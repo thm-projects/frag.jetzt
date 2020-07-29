@@ -128,7 +128,8 @@
     "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "»Haben Sie Fragen?«",
-    "welcome-subtitle": "anonym | im Browser | kostenlos"
+    "welcome-subtitle": "anonym | im Browser | kostenlos",
+    "welcome-feedback": "Für Lob und Tadel: 11 22 33 44"
   },
   "overlay": {
     "cancel": "Doch akzeptieren?",
