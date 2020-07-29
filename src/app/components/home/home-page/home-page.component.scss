@@ -2,6 +2,7 @@
   width: 90%;
   max-width: 500px;
   background-color: var(--surface);
+  margin-top: 30px;
 }
 
 .main-heading-primary {
@@ -22,10 +23,11 @@
   text-align: center;
   color: var(--on-surface);
   animation: moveInRight 1s ease-out;
+  padding-top: 20px;
 }
 
 .home {
-  margin-top: 10%;
+  margin-top: 5%;
 }
 
 @keyframes moveInLeft {
