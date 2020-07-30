@@ -41,8 +41,8 @@ export const arsnova_meta = {
       'de': 'Light Mode'
     },
     'description': {
-      'en': 'Bright background for focused working',
-      'de': 'Heller Hintergrund für fokussiertes Arbeiten'
+      'en': 'Default for laptop computers',
+      'de': 'Standard für Laptops'
     }
   },
   'isDark': false,

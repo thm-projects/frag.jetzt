@@ -40,8 +40,8 @@ export const dark_meta = {
       'de': 'Dark Mode'
     },
     'description': {
-      'en': 'Dark, battery-saving background',
-      'de': 'Dunkler akkuschonender Hintergrund'
+      'en': 'Default for smartphones',
+      'de': 'Standard für Smartphones'
     }
   },
   'isDark': true,

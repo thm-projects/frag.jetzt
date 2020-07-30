@@ -130,7 +130,7 @@
     "restart-account-activation-tooltip": "Sends the activation key again",
     "welcome": "»Do you have any questions?«",
     "welcome-subtitle": "anonymous | in your browser | for free",
-    "welcome-feedback": "For praise and blame: 11 22 33 44"
+    "welcome-feedback": "Bugs, features, praise and blame: 11 22 33 44"
   },
   "overlay": {
     "cancel": "Accept after all?",
