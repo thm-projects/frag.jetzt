@@ -24,7 +24,7 @@
               (click)="answerComment()" tabindex="0" attr.aria-labelledby="comment_answer{{ comment.id }}">
         <mat-icon class="not-marked" [ngClass]="{'answered-icon' : comment.answer}"
                   [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
-                  ('comment-page.answer' | translate)">
+                  ('comment-page.fullscreen' | translate)">
           comment
         </mat-icon>
       </button>
@@ -69,7 +69,7 @@
     <div fxLayout="row">
       <div class="body click" (click)="answerComment()" role="button" style="width:100%;"
            tabindex="0" attr.aria-labelledby="comment_answer{{ comment.id }}"
-           [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) : ('comment-page.answer' | translate)">
+           [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) : ('comment-page.fullscreen' | translate)">
         <ars-row #commentBody>
           <ars-row #commentBodyInner>
             <markdown [data]="comment.body"></markdown>
