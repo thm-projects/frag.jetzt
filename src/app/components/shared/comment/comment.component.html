@@ -20,6 +20,15 @@
       </button>
       <span class="fill-remaining-space"></span>
 
+      <button mat-icon-button *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
+              (click)="answerComment()" tabindex="0" attr.aria-labelledby="comment_answer{{ comment.id }}">
+        <mat-icon class="not-marked" [ngClass]="{'answered-icon' : comment.answer}"
+                  [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
+                  ('comment-page.answer' | translate)">
+          comment
+        </mat-icon>
+      </button>
+
       <button mat-icon-button *ngIf="(!isStudent || comment.correct === 1) && !moderator" [disabled]="isStudent"
               (click)="markCorrect(comment, 1)" tabindex="0" attr.aria-labelledby="comment_correct{{ comment.id }}">
         <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
