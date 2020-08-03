@@ -3,9 +3,9 @@ export const light = {
   'ars-paragraph-color': '#3f3f3f',
   'ars-button-color': '#000000',
   'ars-button-color-light': '#000000',
-  'ars-background-color': '#f9fbe7',
-  'ars-foreground-color': '#fffde7',
-  'ars-border-color': '#607d8b'
+  'ars-background-color': 'Moccasin',
+  'ars-foreground-color': 'lightgray',
+  'ars-border-color': 'darkgray'
 };
 
 export const dark = {

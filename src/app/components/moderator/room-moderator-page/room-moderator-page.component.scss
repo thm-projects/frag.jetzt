@@ -137,6 +137,11 @@ mat-expansion-panel {
   color: var(--on-surface);
 }
 
+::ng-deep .mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
+}
+
 .question-button-div {
   margin: 10% 0 10% 0;
 }
