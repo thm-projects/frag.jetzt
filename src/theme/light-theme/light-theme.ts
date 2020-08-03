@@ -1,12 +1,12 @@
 export const arsnova = {
 
-  '--primary' : '#FF4500', /* Orangered */
+  '--primary' : 'brown',
   '--primary-variant': '#fffde7',
 
-  '--secondary': '#A52A2A', /* Brown */
-  '--secondary-variant': '#80d8ff',
+  '--secondary': 'darkgreen',
+  '--secondary-variant': 'lightgreen',
 
-  '--background': '#FFE4B5', /* Moccasin */
+  '--background': 'Moccasin',
   '--surface': '#fffde7',
   '--dialog': '#fffde7',
   '--cancel': '#e0e0e0',
@@ -20,16 +20,16 @@ export const arsnova = {
   '--on-dialog': '#000000',
   '--on-cancel': '#000000',
 
-  '--green': '#64dd17',
+  '--green': '#00FF00',
   '--red': '#FF0000',
-  '--yellow': '#FF4500', /* Orangered */
+  '--yellow': 'gold',
   '--blue': '#002878',
   '--purple': '#9c27b0',
-  '--light-green': '#80ba24',
+  '--light-green': 'lightgreen',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
   '--black': '#000000',
-  '--moderator': '#FFB6C1'
+  '--moderator': 'lightgray'
 
 };
 
