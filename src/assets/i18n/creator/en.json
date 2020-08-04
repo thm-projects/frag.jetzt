@@ -212,7 +212,7 @@
     "moderating-stream": "Moderation",
     "moderator-added": "Moderator was added.",
     "moderator-email": "E-Mail",
-    "moderator-not-found": "No user was found with this E-Mail.",
+    "moderator-not-found": "A user with the entered mail address could not be found. Are you sure that the user has registered at »frag.jetzt« with this address?",
     "moderator-removed": "Moderator has been removed.",
     "moderators": "Moderators",
     "name-length-error": "Titel must be between 3 and 20 characters.",
