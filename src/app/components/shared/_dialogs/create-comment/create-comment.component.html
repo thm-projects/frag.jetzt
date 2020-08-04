@@ -26,7 +26,7 @@
                       style="margin-top:15px;width:100%;"
                       (blur)="eventService.makeFocusOnInputFalse()"
                       matInput #commentBody matTextareaAutosize
-                      matAutosizeMinRows=5 matAutosizeMaxRows=10  maxlength="250"
+                      matAutosizeMinRows=5 matAutosizeMaxRows=10  maxlength="1000"
                       [formControl]="bodyForm" aria-labelledby="ask-question-description" autofocus id="answer-input">
             </textarea>
             <mat-placeholder class="placeholder">
@@ -34,7 +34,7 @@
             </mat-placeholder>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{commentBody.value.length}} / 250
+                {{commentBody.value.length}} / 1000
               </span>
             </mat-hint>
           </mat-form-field>
