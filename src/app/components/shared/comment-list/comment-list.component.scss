@@ -67,7 +67,7 @@ app-comment {
 .actionButton {
   width: 40px;
   height: 40px;
-  margin: 0 5% 0 5%;
+  margin: 0 0 0 5%;
   background-color: var(--primary);
 }
 
@@ -79,13 +79,12 @@ app-comment {
 }
 
 .actionIcon {
-  transform: scale(0.9);
-  margin: 0 0 0 5%;
+  transform: scale(1.2);
   color: var(--background)
 }
 
 .freezeIcon {
-  transform: scale(0.9);
+  transform: scale(1.2);
   color: var(--background);
 }
 
