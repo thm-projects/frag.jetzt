@@ -61,7 +61,7 @@
     </button>
 
     <button mat-fab class="freezeButton"
-            *ngIf="!searchBox.value && !search && userRole === 2 && deviceType === 'desktop'"
+            *ngIf="!searchBox.value && !search && userRole === 2"
             (click)="switchToModerationList()" matTooltip="{{ 'comment-list.switch-to-moderation-list' | translate }}">
       <mat-icon class="freezeIcon">gavel</mat-icon>
     </button>
