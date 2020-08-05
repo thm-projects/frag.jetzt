@@ -27,7 +27,7 @@ export const highcontrast = {
   '--grey': 'grey',
   '--grey-light': 'lightgrey',
   '--black': 'black',
-  '--moderator': '#37474f'
+  '--moderator': 'darkred'
 
 };
 

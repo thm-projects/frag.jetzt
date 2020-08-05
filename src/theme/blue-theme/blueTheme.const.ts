@@ -26,7 +26,9 @@ export const blue = {
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
-  '--black': '#212121'
+  '--black': '#212121',
+  '--moderator': 'darkred'
+
 };
 
 export const blue_meta = {
