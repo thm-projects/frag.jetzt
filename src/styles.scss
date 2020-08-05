@@ -59,6 +59,8 @@ markdown {
 .oldtypo {
   &-h2 {
     color: var(--on-surface) !important;
+    font-size: 18px !important;
+    hyphens: auto;
   }
 
   &-h3 {
