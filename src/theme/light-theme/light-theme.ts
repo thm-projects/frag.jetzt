@@ -29,7 +29,7 @@ export const arsnova = {
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
   '--black': '#000000',
-  '--moderator': 'darkred'
+  '--moderator': 'lightsalmon'
 
 };
 

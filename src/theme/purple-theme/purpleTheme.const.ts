@@ -29,7 +29,7 @@ export const purple = {
   '--grey': 'grey',
   '--grey-light': 'lightgrey',
   '--black': 'black',
-  '--moderator': 'darkred'
+  '--moderator': 'lightsalmon'
 
 };
 
