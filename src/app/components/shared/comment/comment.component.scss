@@ -1,5 +1,5 @@
 #comment-card {
-  margin: 5%;
+  margin: 4%;
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear;
@@ -68,7 +68,7 @@ mat-card-content > :first-child {
   min-width: 200px;
   min-height: 100px;
   text-align: start;
-  font-size: 140%;
+  font-size: 16px;
   overflow: auto;
   color: var(--on-surface);
   white-space: pre-line;
