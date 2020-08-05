@@ -41,8 +41,8 @@ export const purple_meta = {
       'de': 'Beamer'
     },
     'description': {
-      'en': 'Optimized for presentation in lecture halls',
-      'de': 'Für die Präsentation im Hörsaal optimiert'
+      'en': 'Optimized for the classroom',
+      'de': 'Optimiert für den Hörsaal'
     }
   },
   'isDark': false,
