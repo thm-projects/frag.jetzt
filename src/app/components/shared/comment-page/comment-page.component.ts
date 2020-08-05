@@ -7,6 +7,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../models/rescale';
 import { UserRole } from '../../../models/user-roles.enum';
 
@@ -21,7 +22,8 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
 
   listenerFn: () => void;
 
-  constructor(private route: ActivatedRoute,
+  constructor(private translateService: TranslateService,
+              private route: ActivatedRoute,
               private notification: NotificationService,
               private authenticationService: AuthenticationService,
               private eventService: EventService,
@@ -50,7 +52,12 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
         document.getElementById('filter-button').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();
-        this.liveAnnouncer.announce('Aktueller Sitzungs-' + document.getElementById('shortId-header').textContent);
+        const lang: string = this.translateService.currentLang;
+        if (lang === 'de') {
+          this.liveAnnouncer.announce('Aktueller Sitzungs-' + document.getElementById('shortId-header').textContent);
+        } else {
+          this.liveAnnouncer.announce('Current Sesson-' + document.getElementById('shortId-header').textContent);
+        }
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false
@@ -80,13 +87,22 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
   }
 
   public announce() {
+    const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
-    this.liveAnnouncer.announce('Du befindest dich auf der Fragen-Seite deiner Sitzung. ' +
-      'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
-      'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um zurück zur Benutzer-Seite zu gelangen. ' +
-      'Sobald mehrere Fragen vorhanden sind kannst du Fragen suchen und filtern. Mit Taste 3 gelangst du in das Suchfeld,' +
-      'durch drücken der Escape-Taste wird die Sucheingabe gelöscht. Drücke die Taste 4 um Fragen zu sortieren, ' +
-      'die Taste 5 um Fragen zu filtern, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    if (lang === 'de') {
+      this.liveAnnouncer.announce('Du befindest dich auf der Fragen-Seite deiner Sitzung. ' +
+        'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
+        'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um zurück zur Benutzer-Seite zu gelangen. ' +
+        'Sobald mehrere Fragen vorhanden sind kannst du Fragen suchen und filtern. Mit Taste 3 gelangst du in das Suchfeld,' +
+        'durch drücken der Escape-Taste wird die Sucheingabe gelöscht. Drücke die Taste 4 um Fragen zu sortieren, ' +
+        'die Taste 5 um Fragen zu filtern, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    } else {
+      this.liveAnnouncer.announce('You are on the question page of your session. ' +
+        'Press key 1 to ask a question, key 2 to enter the session menu, ' +
+        'Press 8 to hear the current session code, press 0 to return to the user page. ' +
+        'As soon as several questions are available you can search and filter questions. With key 3 you get to the search field,' +
+        'Press the escape key to delete the search entry. Press the 4 key to sort questions, ' +
+        'Press the 5 key to filter questions, or the 9 key to repeat this announcement', 'assertive');
+    }
   }
-
 }
