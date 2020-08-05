@@ -53,10 +53,10 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();
         const lang: string = this.translateService.currentLang;
-        if (lang === 'de'){
+        if (lang === 'de') {
           this.liveAnnouncer.announce('Aktueller Sitzungs-' + document.getElementById('shortId-header').textContent);
-        }else {
-          this.liveAnnouncer.announce('Current Sesson-'+ document.getElementById('shortId-header').textContent);
+        } else {
+          this.liveAnnouncer.announce('Current Sesson-' + document.getElementById('shortId-header').textContent);
         }
 
       } else if (
@@ -90,14 +90,14 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
   public announce() {
     const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
-    if(lang === 'de'){
+    if (lang === 'de') {
       this.liveAnnouncer.announce('Du befindest dich auf der Fragen-Seite deiner Sitzung. ' +
         'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
         'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um zurück zur Benutzer-Seite zu gelangen. ' +
         'Sobald mehrere Fragen vorhanden sind kannst du Fragen suchen und filtern. Mit Taste 3 gelangst du in das Suchfeld,' +
         'durch drücken der Escape-Taste wird die Sucheingabe gelöscht. Drücke die Taste 4 um Fragen zu sortieren, ' +
         'die Taste 5 um Fragen zu filtern, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
-    }else {
+    } else {
       this.liveAnnouncer.announce('You are on the question page of your session. ' +
         'Press key 1 to ask a question, key 2 to enter the session menu, ' +
       'Press 8 to hear the current session code, press 0 to return to the user page. ' +
