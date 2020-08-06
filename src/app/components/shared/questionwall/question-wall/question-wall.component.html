@@ -3,7 +3,7 @@
     <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
       <ars-fill ars-flex-box>
         <ars-col ars-btn-wrp [xp]="16" [yp]="0" [extra]="true">
-          <button ars-btn (click)="leave()" matRipple><i>arrow_back</i></button>
+          <button ars-btn (click)="leave()" matRipple aria-labelledby="back-lbl"><i>arrow_back</i></button>
         </ars-col>
       </ars-fill>
       <ars-col>
@@ -13,20 +13,20 @@
         <ars-fill></ars-fill>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
           <mat-menu #sortMenu>
-            <button mat-menu-item (click)="sortTime(true)">{{'question-wall.sort-new' | translate}}</button>
-            <button mat-menu-item (click)="sortTime()">{{'question-wall.sort-old' | translate}}</button>
-            <button mat-menu-item (click)="sortScore(true)">{{'question-wall.sort-score' | translate}}</button>
+            <button mat-menu-item (click)="sortTime(true)" aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
+            <button mat-menu-item (click)="sortTime()" aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
+            <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
-            <button mat-menu-item (click)="filterFavorites()">
+            <button mat-menu-item (click)="filterFavorites()" aria-labelledby="filter-lbl-favorites">
               <mat-icon>star</mat-icon>
               <span>{{'question-wall.filter-favorite' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="filterApproved()">
+            <button mat-menu-item (click)="filterApproved()" aria-labelledby="filter-lbl-approved">
               <mat-icon>check_circle</mat-icon>
               <span>{{'question-wall.filter-approved' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="filterDisapproved()">
+            <button mat-menu-item (click)="filterDisapproved()" aria-labelledby="filter-lbl-disapproved">
               <mat-icon>cancel</mat-icon>
               <span>{{'question-wall.filter-disapproved' | translate}}</span>
             </button>
@@ -36,19 +36,19 @@
               <span>{{tag}}</span>
             </button>
           </mat-menu>
-          <button ars-btn [mat-menu-trigger-for]="sortMenu" matRipple>
+          <button ars-btn [mat-menu-trigger-for]="sortMenu" matRipple aria-labelledby="sort-lbl">
             <i>sort</i>
             <p>{{'question-wall.sort' | translate}}</p>
           </button>
-          <button ars-btn [mat-menu-trigger-for]="filterMenu" matRipple>
+          <button ars-btn [mat-menu-trigger-for]="filterMenu" matRipple aria-labelledby="filter-lbl">
             <i>filter_list</i>
             <p>Filter</p>
           </button>
-          <button ars-btn [mat-menu-trigger-for]="filterTagMenu" matRipple>
+          <button ars-btn [mat-menu-trigger-for]="filterTagMenu" matRipple aria-labelledby="filter-tags-lbl">
             <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
             <p>{{'question-wall.filter-tag' | translate}}</p>
           </button>
-          <button ars-btn (click)="openUserMap()" matRipple>
+          <button ars-btn (click)="openUserMap()" matRipple aria-labelledby="user-lbl">
             <i>person</i>
             <p>{{'question-wall.filter-user'| translate}}</p>
           </button>
@@ -110,7 +110,7 @@
         </ars-col>
         <mat-slider class="questionwall-present-options-slider"
                     min="100" max="400" value="250"
-                    (input)="sliderChange($event)">
+                    (input)="sliderChange($event)" aria-labelledby="slider-lbl">
         </mat-slider>
         <ars-col class="flex-column-center">
           <mat-icon class="icon-color">zoom_in</mat-icon>
@@ -233,7 +233,7 @@
     <ars-row [height]="50" class="questionwall-footer">
       <ars-style-btn-material style="width:100%;" ars-flex-box>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-          <button ars-btn (click)="toggleFocusIncommingComments()" matRipple>
+          <button ars-btn (click)="toggleFocusIncommingComments()" matRipple aria-labelledby="autofocus-on-lbl">
             <ng-container *ngIf="focusIncommingComments">
               <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
               <p>{{'question-wall.auto-renew-off' | translate}}</p>
@@ -249,11 +249,11 @@
           <p *ngIf="unreadComments" style="line-height:18px;" class="questionwall-text-color">{{unreadComments}}</p>
         </ars-col>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-          <button ars-btn (click)="prevComment()" matRipple>
+          <button ars-btn (click)="prevComment()" matRipple aria-labelledby="prev-comment-lbl">
             <i>{{'question-wall.prev-comment-icon' | translate}}</i>
             <p>{{'question-wall.prev-comment' | translate}}</p>
           </button>
-          <button ars-btn (click)="nextComment()" matRipple>
+          <button ars-btn (click)="nextComment()" matRipple aria-labelledby="next-comment-lbl">
             <i>{{'question-wall.next-comment-icon' | translate}}</i>
             <p>{{'question-wall.next-comment' | translate}}</p>
           </button>
@@ -261,3 +261,23 @@
       </ars-style-btn-material>
     </ars-row>
 </ars-screen>
+
+<div class="visually-hidden">
+  <div id="back-lbl">{{'question-wall.back-lbl' | translate}}</div>
+  <div id="sort-lbl">{{'question-wall.sort-lbl' | translate}}</div>
+  <div id="sort-lbl-new">{{'question-wall.sort-lbl-new' | translate}}</div>
+  <div id="sort-lbl-old">{{'question-wall.sort-lbl-old' | translate}}</div>
+  <div id="sort-lbl-rating">{{'question-wall.sort-lbl-rating' | translate}}</div>
+  <div id="filter-lbl">{{'question-wall.filter-lbl' | translate}}</div>
+  <div id="filter-lbl-favorites">{{'question-wall.filter-lbl-favorites' | translate}}</div>
+  <div id="filter-lbl-approved">{{'question-wall.filter-lbl-approved' | translate}}</div>
+  <div id="filter-lbl-disapproved">{{'question-wall.filter-lbl-disapproved' | translate}}</div>
+  <div id="filter-tags-lbl">{{'question-wall.filter-tags-lbl' | translate}}</div>
+  <div id="user-lbl">{{'question-wall.user-lbl' | translate}}</div>
+  <div id="slider-lbl">{{'question-wall.slider-lbl' | translate}}</div>
+  <div id="autofocus-off-lbl">{{'question-wall.autofocus-off-lbl' | translate}}</div>
+  <div id="autofocus-on-lbl">{{'question-wall.autofocus-on-lbl' | translate}}</div>
+  <div id="prev-comment-lbl">{{'question-wall.prev-comment-lbl' | translate}}</div>
+  <div id="next-comment-lbl">{{'question-wall.next-comment-lbl' | translate}}</div>
+  <div id="style-blue-label">{{'footer.style-blue' | translate}}</div>
+</div>
