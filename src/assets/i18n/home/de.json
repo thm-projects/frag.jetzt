@@ -129,7 +129,8 @@
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "»Haben Sie Fragen?«",
     "welcome-subtitle": "anonym | im Browser | kostenlos",
-    "welcome-feedback": "Bugs, Features, Lob und Tadel: 11 22 33 44"
+    "welcome-feedback": "Bugs, Features, Lob und Tadel: ",
+    "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {
     "cancel": "Doch akzeptieren?",
