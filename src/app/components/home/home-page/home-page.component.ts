@@ -3,6 +3,7 @@ import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-home-page',
@@ -15,6 +16,7 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
   listenerFn: () => void;
 
   constructor(
+    private translateService: TranslateService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2
@@ -53,10 +55,18 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public announce() {
+    const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
-    this.liveAnnouncer.announce('Du befindest dich auf der Startseite von fragpunktjetzt. ' +
-      'Drücke die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um in die Benutzer-Anmeldung ' +
-      'oder das Sitzungs-Menü zu gelangen, die Taste 3 um eine neue Sitzung zu erstellen, ' +
-      'die Taste 4 um zur Sprachauswahl zu gelangen, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    if (lang === 'de') {
+      this.liveAnnouncer.announce('Du befindest dich auf der Startseite von fragpunktjetzt. ' +
+        'Drücke die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um in die Benutzer-Anmeldung ' +
+        'oder das Sitzungs-Menü zu gelangen, die Taste 3 um eine neue Sitzung zu erstellen, ' +
+        'die Taste 4 um zur Sprachauswahl zu gelangen, oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    } else {
+      this.liveAnnouncer.announce('You are on the homepage of fragpunktjetzt. ' +
+        'Press key 1 to enter a session code, key 2 to enter the user login ' +
+        'or the session menu, press 3 to create a new session, ' +
+        'Press 4 to go to the language selection menu or 9 to repeat this announcement', 'assertive');
+    }
   }
 }
