@@ -154,6 +154,22 @@
     "filter-remove": "Remove Filter",
     "filter-tag": "Category",
     "no-result": "No result",
-    "filter-user-count": "Number of comments"
+    "filter-user-count": "Number of comments",
+    "back-lbl": "Back to the previous page",
+    "sort-lbl": "Open sort options",
+    "sort-lbl-new": "Sort by new",
+    "sort-lbl-old": "Sort by old",
+    "sort-lbl-rating": "Sort by rating",
+    "filter-lbl": "Open filter menu",
+    "filter-lbl-favorites": "Filter starred questions",
+    "filter-lbl-approved": "Filter approved questions",
+    "filter-lbl-disapproved":"Filter disapproved questions",
+    "filter-tags-lbl": "Filter by tags",
+    "user-lbl": "Open user menu",
+    "slider-lbl": "Set question zoom",
+    "autofocus-off-lbl": "Automatische Fokussierung neuer Fragen beenden",
+    "autofocus-on-lbl": "Turn on question autofocus",
+    "prev-comment-lbl": "Previous question",
+    "next-comment-lbl": "Next question"
   }
 }
