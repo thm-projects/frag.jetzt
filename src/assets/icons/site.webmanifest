@@ -29,5 +29,5 @@
     "scope": "/",
     "start_url": "/home",
     "display": "standalone",
-    "orientation": "portrait-primary"
+    "orientation": "any"
 }
