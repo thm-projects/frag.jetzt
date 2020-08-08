@@ -26,6 +26,7 @@
 }
 
 .feedback {
+  margin-top: -20px;
   display: block;
   font-weight: normal;
   font-size: 60%;
@@ -66,5 +67,10 @@
 }
 
 mat-card-header {
+  justify-content: center;
+}
+
+.background-image {
+  display: flex;
   justify-content: center;
 }
