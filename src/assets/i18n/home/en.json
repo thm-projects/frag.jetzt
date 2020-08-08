@@ -80,7 +80,7 @@
     "created-2": "« successfully created",
     "exactly-8": "A key has exactly 8 digits.",
     "accessibility-join-input": "Here you can enter the  key of the session you want to join. Your lecturer will tell you the session key.",
-    "live-announcer": "Welcome to fragpunktjetzt. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
+    "live-announcer": "Welcome to fragpunktjetzt. This site has been designed to support screenreaders like ChromeVox, Voiceover and many others. Our Audioguide feature can assist you in navigating the site. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-announcer-user": "You are now on the user page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "install": "Install",
     "no-empty-name": "Please enter a name.",
@@ -130,7 +130,8 @@
     "restart-account-activation-tooltip": "Sends the activation key again",
     "welcome": "»Do you have any questions?«",
     "welcome-subtitle": "anonymous | in your browser | for free",
-    "welcome-feedback": "Bugs, features, praise and blame: 11 22 33 44"
+    "welcome-feedback": "Bugs, features, praise and blame: ",
+    "feedback-aria": "Please use the following Link to offer the developers bugs, features, praise and blame"
   },
   "overlay": {
     "cancel": "Accept after all?",

@@ -21,6 +21,8 @@ import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
+import { Title } from '@angular/platform-browser';
+import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -81,7 +83,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
               public eventService: EventService,
               public liveAnnouncer: LiveAnnouncer,
               private route: ActivatedRoute,
-              private router: Router
+              private router: Router,
+              private titleService: TitleService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -139,6 +142,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
+    this.titleService.resetTitle();
   }
 
   checkScroll(): void {
@@ -185,7 +189,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
       } else {
-        this.comments = this.comments.filter( x => x.score >= commentThreshold );
+        this.setComments(this.comments.filter( x => x.score >= commentThreshold ));
       }
     }
     this.sortComments(this.currentSort);
@@ -213,7 +217,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
         this.announceNewComment(c.body);
 
-        this.comments = this.comments.concat(c);
+        this.setComments(this.comments.concat(c));
         break;
       case 'CommentPatched':
         // ToDo: Use a map for comments w/ key = commentId
@@ -242,9 +246,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 case this.ack:
                   const isNowAck = <boolean>value;
                   if (!isNowAck) {
-                    this.comments = this.comments.filter(function (el) {
+                    this.setComments(this.comments.filter(function (el) {
                       return el.id !== payload.id;
-                    });
+                    }));
                   }
                   break;
                 case this.tag:
@@ -376,7 +380,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.hideCommentsList === true) {
       this.filteredComments = this.sort(this.filteredComments, type);
     } else {
-      this.comments = this.sort(this.comments, type);
+      this.setComments(this.sort(this.comments, type));
     }
     this.currentSort = type;
   }
@@ -401,7 +405,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.freeze = false;
     this.commentService.getAckComments(this.roomId)
       .subscribe(comments => {
-        this.comments = comments;
+        this.setComments(comments);
         this.getComments();
       });
     this.subscribeCommentStream();
@@ -418,6 +422,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   switchToModerationList(): void {
     this.router.navigate([`/moderator/room/${this.room.shortId}/moderator/comments`]);
+  }
+
+  setComments(comments: Comment[]) {
+    this.titleService.attachTitle('(' + comments.length + ')');
+    this.comments = comments;
   }
 
   /**

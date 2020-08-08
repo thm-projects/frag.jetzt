@@ -27,12 +27,16 @@
   </div>
 
   <h2>
-    <span class="feedback"
-          aria-hidden="true">{{ 'login.welcome-feedback' | translate }}</span>
+    <span class="feedback">
+      {{ 'login.welcome-feedback' | translate }} <a class="info" href="https://frag.jetzt/participant/room/11223344/comments" target="_blank" aria-labelledby="feedback-aria">11 22 33 44<span>Öffnet neues Fenster</span></a>
+    </span>
   </h2>
 
   <button id="live_announcer-button"
           tabIndex="-1"
           (click)="announce()"
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>
+</div>
+<div class="visually-hidden">
+  <div id="feedback-aria">{{'login.feedback-aria' | translate}}</div>
 </div>

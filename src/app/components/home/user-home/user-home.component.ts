@@ -63,11 +63,19 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   public announce() {
+    const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
-    this.liveAnnouncer.announce('Du befindest dich auf deiner Benutzer-Seite. ' +
-      'Drücke die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
-      'die Taste 3 um eine neue Sitzung zu erstellen, die Taste 0 um zurück zur Startseite zu gelangen, ' +
-      'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    if (lang === 'de') {
+      this.liveAnnouncer.announce('Du befindest dich auf deiner Benutzer-Seite. ' +
+        'Drücke die Taste 1 um einen Sitzungs-Code einzugeben, die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +
+        'die Taste 3 um eine neue Sitzung zu erstellen, die Taste 0 um zurück zur Startseite zu gelangen, ' +
+        'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    } else {
+      this.liveAnnouncer.announce('You are on your user page.' +
+        'Press 1 to enter a session code, key 2 to enter the session menu, ' +
+        'key 3 to create a new session, key 0 to go back to the start page, ' +
+        'or press the 9 key to repeat this announcement.', 'assertive');
+    }
   }
 
   openCreateRoomDialog(): void {
