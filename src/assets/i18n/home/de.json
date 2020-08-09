@@ -75,7 +75,7 @@
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Code der Sitzung eingeben der du beitreten möchtest. Den Code sagt dir dein Dozent.",
-    "create-session": "Neue Sitzung erstellen",
+    "create-session": "Neue Sitzung",
     "created-1": "Die Sitzung »",
     "created-2": "« wurde erstellt.",
     "exactly-8": "Der Code ist eine Kombination aus 8 Ziffern.",
@@ -196,7 +196,7 @@
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "create-room": "Speichern",
-    "create-room-description": "Neue Sitzung erstellen."
+    "create-room-description": "Neue Sitzung."
   },
   "room-list": {
     "creator-role": "Sitzungsersteller",
