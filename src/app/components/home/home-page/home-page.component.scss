@@ -1,6 +1,6 @@
 .outer {
-  width: 90%;
-  max-width: 500px;
+  width: 80%;
+  max-width: 400px;
   background-color: var(--surface);
 }
 
@@ -12,8 +12,6 @@
   letter-spacing: 7px;
   color: var(--secondary);
   animation: moveInLeft 2s ease-out;
-  padding-top: 10px;
-  padding-bottom: 10px;
 }
 
 .main-heading-secondary {

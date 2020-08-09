@@ -9,11 +9,16 @@
       <span class="main-heading-secondary"
             aria-hidden="true">{{ 'login.welcome' | translate }}</span>
       <span class="main-heading-primary">frag.jetzt</span>
-      <span class="main-heading-secondary"
-            aria-hidden="true">{{ 'login.welcome-subtitle' | translate }}</span>
     </h1>
 
   </div>
+
+  <div class="background-image">
+    <img src="/assets/background/auditorium.png"
+         width="90%"
+         alt="Auditorium">
+  </div>
+
   <div fxLayout="row"
        fxLayoutAlign="center">
     <mat-card class="outer">
@@ -28,13 +33,13 @@
 
   <h2>
     <span class="feedback">
-      {{ 'login.welcome-feedback' | translate }} <a class="info" href="https://frag.jetzt/participant/room/11223344/comments" target="_blank" aria-labelledby="feedback-aria">11 22 33 44<span>Öffnet neues Fenster</span></a>
+      {{ 'login.welcome-feedback' | translate }}
+      <a class="info"
+         href="https://frag.jetzt/participant/room/11223344/comments"
+         target="_blank"
+         aria-labelledby="feedback-aria">11 22 33 44<span>Öffnet neues Fenster</span></a>
     </span>
   </h2>
-
-  <div class="background-image">
-    <img src="/assets/background/auditorium.png" width="95%" alt="Auditorium">
-  </div>
 
   <button id="live_announcer-button"
           tabIndex="-1"
