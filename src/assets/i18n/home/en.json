@@ -75,7 +75,7 @@
   "home-page": {
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "create-session": "Create new session",
+    "create-session": "New session",
     "created-1": "Session »",
     "created-2": "« successfully created",
     "exactly-8": "A key has exactly 8 digits.",
@@ -86,7 +86,7 @@
     "no-empty-name": "Please enter a name.",
     "no-room-found": "No session found with this key",
     "only-numbers": "A key only contains digits.",
-    "please-enter": "Ask the lecturer for the key",
+    "please-enter": "Ask the speaker for the key.",
     "room-name-input": "Enter the name of the session you want to create here.",
     "session-id": "Session key …",
     "update-available": "An update is available."
@@ -136,7 +136,7 @@
   "overlay": {
     "cancel": "Accept after all?",
     "cancel-description": "Opens the web storage setting dialog",
-    "message": "You have rejected the use of a web storage. Without it the app will not work.",
+    "message": "You have rejected our data protection declaration.",
     "title": "Use not possible"
   },
   "password-reset": {
@@ -197,7 +197,7 @@
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "create-room": "Create Session",
-    "create-room-description": "Create new session"
+    "create-room-description": "New session"
   },
   "room-list": {
     "creator-role": "Session creator",

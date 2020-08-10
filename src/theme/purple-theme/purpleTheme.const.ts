@@ -42,7 +42,7 @@ export const purple_meta = {
     },
     'description': {
       'en': 'Optimized for the classroom',
-      'de': 'Optimiert für den Hörsaal'
+      'de': 'Optimiert für die Leinwand'
     }
   },
   'isDark': false,

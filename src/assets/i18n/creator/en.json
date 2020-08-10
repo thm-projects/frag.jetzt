@@ -160,7 +160,7 @@
     "yes": "Yes"
   },
   "home-page": {
-    "create-session": "Create new session",
+    "create-session": "New session",
     "created-1": "Session »",
     "created-2": "« successfully created.",
     "no-empty-name": "Please enter a name."

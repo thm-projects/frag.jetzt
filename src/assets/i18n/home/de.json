@@ -74,7 +74,7 @@
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
-    "accessibility-join-input": "Hier kannst du den Code der Sitzung eingeben der du beitreten möchtest. Den Code sagt dir dein Dozent.",
+    "accessibility-join-input": "Hier kannst du den Code der Sitzung eingeben der du beitreten möchtest. Den Code sagt dir die Sitzungsleitung.",
     "create-session": "Neue Sitzung",
     "created-1": "Die Sitzung »",
     "created-2": "« wurde erstellt.",
@@ -85,7 +85,7 @@
     "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird automatisch generiert.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Code gefunden.",
     "only-numbers": "Der Code besteht aus Ziffern.",
-    "please-enter": "Den Code sagt dir dein Dozent",
+    "please-enter": "Den Code erfährst du von der Sitzungsleitung.",
     "room-name-input": "Gib hier den Namen der Sitzung die du erstellen möchtest ein.",
     "session-id": "Sitzungs-Code …",
     "update-available": "Eine neue Version ist verfügbar."
@@ -135,7 +135,7 @@
   "overlay": {
     "cancel": "Doch akzeptieren?",
     "cancel-description": "Öffnet den Dialog zur Verwendung der Web-Storage-Technik in frag.jetzt",
-    "message": "Du hast die Verwendung der Web-Storage-Technik abgelehnt. Ohne diese funktioniert die App leider nicht.",
+    "message": "Du hast unsere Datenschutzerklärung abgelehnt.",
     "title": "Nutzung nicht möglich"
   },
   "password-reset": {
