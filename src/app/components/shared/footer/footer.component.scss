@@ -3,7 +3,8 @@ footer {
 }
 
 #footer-toolbar {
-  background-color: var(--surface);
+  background-color: var(--background);
+  box-shadow: none;
   height: auto;
 
   &:first-child {
