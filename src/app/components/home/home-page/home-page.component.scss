@@ -16,11 +16,11 @@
 
 .main-heading-secondary {
   display: block;
-  font-weight: normal;
+  font-weight: bold;
   font-size: 60%;
   text-align: center;
-  color: var(--on-surface);
-  animation: moveInRight 1s ease-out;
+  color: var(--primary);
+  animation: moveInRight 1.5s ease-out;
 }
 
 .feedback {
@@ -29,7 +29,7 @@
   font-weight: normal;
   font-size: 60%;
   text-align: center;
-  color: var(--on-surface);
+  color: var(--on-background);
 }
 
 @keyframes moveInLeft {

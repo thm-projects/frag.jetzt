@@ -153,7 +153,7 @@
     "filter-disapproved": "Negated",
     "filter-remove": "Remove Filter",
     "filter-tag": "Category",
-    "no-result": "No result",
+    "no-result": "",
     "filter-user-count": "Number of comments",
     "back-lbl": "Back to the previous page",
     "sort-lbl": "Open sort options",
@@ -167,8 +167,8 @@
     "filter-tags-lbl": "Filter by tags",
     "user-lbl": "Open user menu",
     "slider-lbl": "Set question zoom",
-    "autofocus-off-lbl": "Automatische Fokussierung neuer Fragen beenden",
-    "autofocus-on-lbl": "Turn on question autofocus",
+    "autofocus-off-lbl": "Stop automatic focusing of new questions",
+    "autofocus-on-lbl": "Turn on automatic focusing of new questions",
     "prev-comment-lbl": "Previous question",
     "next-comment-lbl": "Next question"
   }

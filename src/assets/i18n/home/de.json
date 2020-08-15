@@ -244,7 +244,7 @@
   },
   "user-bonus-token": {
     "header": "Tokens für Bonuspunkte",
-    "no-bonus": "Noch keine Bonuspunkte erhalten.",
+    "no-bonus": "Du hast für eine gute Frage noch keinen Bonuspunkt (Stern) erhalten.",
     "redeem-tokens": "Tokens einlösen",
     "mail-subject": "Bitte%20um%20Einl%C3%B6sung%20meiner%20Tokens%20aus%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
     "mail-body-1": "Hallo%2C%0D%0A%0D%0Aich%20habe%20heute%20in%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",

@@ -210,7 +210,7 @@
     "live-feedback": "Live Feedback",
     "moderating-stream": "Moderation",
     "moderator-added": "Moderator wurde hinzugefügt.",
-    "moderator-email": "Mail-Adresse des Moderators",
+    "moderator-email": "Mail-Adresse des Moderators (muss bei »frag.jetzt« registriert sein)",
     "moderator-not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
     "moderator-removed": "Moderator wurde entfernt.",
     "moderators": "Moderatoren",
