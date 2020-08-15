@@ -211,7 +211,7 @@
     "live-feedback": "Live feedback",
     "moderating-stream": "Moderation",
     "moderator-added": "Moderator was added.",
-    "moderator-email": "Moderator's mail address (must be registered at »frag.jetzt«)",
+    "moderator-email": "Mail address of a registered user",
     "moderator-not-found": "A user with the entered mail address could not be found. Are you sure that the user has registered at »frag.jetzt« with this address?",
     "moderator-removed": "Moderator has been removed.",
     "moderators": "Moderators",
