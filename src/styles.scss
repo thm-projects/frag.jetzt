@@ -149,12 +149,11 @@ a.info span {
 a.info:hover span, a.info:focus span, a.info:active span {
   display: block;
   position: absolute;
-  top: 1.5em;
-  left: 2em;
-  width: 12em;
-  border: 1px solid var(--on-primary);
+  top: 1.3em;
+  left: 0;
+  width: fit-content;
   background-color: var(--primary);
   color: var(--on-primary);
-  text-align: center;
+  text-align: left;
   padding: 5px;
 }
