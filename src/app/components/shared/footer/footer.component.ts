@@ -82,8 +82,7 @@ export class FooterComponent implements OnInit {
   showDemo() {
     const dialogRef = this.dialog.open(DemoVideoComponent, {
       width: '80%',
-      maxWidth: '600px',
-      height: '80%'
+      maxWidth: '600px'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
@@ -109,8 +108,7 @@ export class FooterComponent implements OnInit {
   showImprint() {
     const dialogRef = this.dialog.open(ImprintComponent, {
       width: '80%',
-      maxWidth: '600px',
-      height: '80%'
+      maxWidth: '600px'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
   }
@@ -118,8 +116,7 @@ export class FooterComponent implements OnInit {
   showDataProtection() {
     const dialogRef = this.dialog.open(DataProtectionComponent, {
       width: '80%',
-      maxWidth: '600px',
-      height: '80%'
+      maxWidth: '600px'
     });
     dialogRef.componentInstance.deviceType = this.deviceType;
 

@@ -9,7 +9,7 @@ export const arsnova = {
   '--background': 'Moccasin',
   '--surface': 'LightGoldenrodYellow',
   '--dialog': 'LightGoldenrodYellow',
-  '--cancel': '#e0e0e0',
+  '--cancel': 'Chocolate',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': '#eeeeee',
 
@@ -18,7 +18,7 @@ export const arsnova = {
   '--on-background': '#000000',
   '--on-surface': '#000000',
   '--on-dialog': '#000000',
-  '--on-cancel': '#000000',
+  '--on-cancel': 'white',
 
   '--green': '#00FF00',
   '--red': '#FF0000',
