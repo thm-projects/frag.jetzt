@@ -116,7 +116,7 @@
     "vote-down": "Vote down",
     "vote-up": "Vote up",
     "write-comment": "Write",
-    "preview-comment": "Preview",
+    "preview-comment": "Markdown preview",
     "show-more": "show more",
     "show-less": "show less"
   },
@@ -261,6 +261,6 @@
     "description": "Description",
     "max-ls": "Max. characters:",
     "session-name": "Session name",
-    "preview": "Preview"
+    "preview": "Markdown preview"
   }
 }

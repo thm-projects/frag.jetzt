@@ -115,8 +115,8 @@
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
     "write-comment": "Eingabe",
-    "preview-comment": "Vorschau",
-    "show-more": "mehr ansehen",
+    "preview-comment": "Markdown-Vorschau",
+    "show-more": "mehr anzeigen",
     "show-less": "weniger anzeigen"
   },
   "content": {
@@ -202,7 +202,7 @@
     "delete-room-description": "Sitzung löschen",
     "deleted": " gelöscht.",
     "description": "Beschreibung",
-    "email-error": "E-Mail Adresse ist ungültig.",
+    "email-error": "E-Mail-Adresse ist ungültig.",
     "export-comments": "Fragen exportieren",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "general": "Sitzung",
@@ -214,7 +214,7 @@
     "moderator-not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
     "moderator-removed": "Moderator wurde entfernt.",
     "moderators": "Moderatoren",
-    "name-length-error": "Titel muss zwischen 3 und 20 Zeichen liegen",
+    "name-length-error": "Titel muss zwischen 3 und 20 Zeichen liegen.",
     "no-moderators": "",
     "present": "Präsentieren",
     "public-stream": "Fragen",
@@ -260,6 +260,6 @@
     "description": "Beschreibung",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der neuen Sitzung",
-    "preview": "Vorschau"
+    "preview": "Markdown-Vorschau"
   }
 }
