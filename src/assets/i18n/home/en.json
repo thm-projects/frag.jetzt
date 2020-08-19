@@ -208,7 +208,7 @@
     "join-message-template": "Join the session {{session}} with code {{id}} and in the role {{role}}",
     "moderator-role": "Moderator",
     "no-room-history": "Your session list is empty.",
-    "panel-join-button": "",
+    "panel-join-button": "Action",
     "panel-remove-button": "Remove session from list",
     "delete-room": "Delete session",
     "panel-session-id": "Key",
