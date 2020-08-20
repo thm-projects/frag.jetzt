@@ -15,6 +15,8 @@ import { NotificationService } from '../../../services/util/notification.service
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { ExportCsv } from '../../../models/export-csv';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
 
 @Component({
   selector: 'app-room-list',
@@ -45,7 +47,8 @@ export class RoomListComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     public notificationService: NotificationService,
     private translateService: TranslateService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private bonusTokenService: BonusTokenService
   ) {
   }
 
@@ -165,5 +168,17 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  exportCsv(room: Room) {
+    new ExportCsv(
+      room.id,
+      this.commentService,
+      this.bonusTokenService,
+      this.translateService,
+      this.notificationService,
+      room,
+      'room-list'
+    ).exportAsCsv(';', 'csv');
   }
 }

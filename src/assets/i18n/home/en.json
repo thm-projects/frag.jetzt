@@ -224,7 +224,17 @@
     "canceled-remove": "Process cancelled.",
     "session-history": "Your session history contains {count}} sessions.",
     "session-history-1": "Your session history contains one session.",
-    "session-history-label": "Below you will find a list of your attended sessions."
+    "session-history-label": "Below you will find a list of your attended sessions.",
+    "question": "Question",
+    "timestamp": "Timestamp",
+    "presented": "Presented",
+    "correct/wrong": "Correct/Wrong",
+    "score": "Score",
+    "answer": "Answer",
+    "token": "Bonus token",
+    "token-time": "Token timestamp",
+    "no-comments": "There are no questions yet.",
+    "export-comments": "Export questions"
   },
   "session": {
     "create-session": "Create session",

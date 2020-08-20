@@ -222,7 +222,17 @@
     "canceled-remove": "Vorgang wurde abgebrochen.",
     "session-history": "Dein Sitzungsverlauf enthält {{count}} Sitzungen.",
     "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung.",
-    "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen."
+    "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen.",
+    "question": "Frage",
+    "timestamp": "Zeitstempel",
+    "presented": "Präsentiert",
+    "correct/wrong": "Richtig/Falsch",
+    "score": "Score",
+    "answer": "Antwort",
+    "token": "Bonus-Token",
+    "token-time": "Token-Zeitstempel",
+    "no-comments": "Es sind noch keine Fragen vorhanden.",
+    "export-comments": "Fragen exportieren"
   },
   "session": {
     "create-session": "Speichern",
