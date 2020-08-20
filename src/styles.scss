@@ -162,3 +162,9 @@ a.info:hover span, a.info:focus span, a.info:active span {
   margin: auto;
   text-align: center;
 }
+
+:focus {
+  outline: solid;
+  border:1px var(--on-surface);
+  outline-offset: 5px;
+}
