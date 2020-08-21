@@ -164,7 +164,6 @@ a.info:hover span, a.info:focus span, a.info:active span {
 }
 
 :focus {
-  outline: solid;
-  border: 1px var(--on-surface);
-  outline-offset: 5px;
+  outline: 1px solid var(--on-surface);
+  outline-offset: 8px;
 }
