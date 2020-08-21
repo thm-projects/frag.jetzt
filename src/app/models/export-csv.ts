@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommentBonusTokenMixin } from './comment-bonus-token-mixin';
 import { NotificationService } from '../services/util/notification.service';
 import { Room } from './room';
+import { User } from './user';
 
 
 export class ExportCsv {
@@ -22,7 +23,8 @@ export class ExportCsv {
     }
   }
 
-  public exportAsCsv(delimiter: string, format: string): void {
+  public exportAsCsv(delimiter: string, format: string, user?: User): void {
+    const bonusTokenMask = !user || user.role >= 2;
     this.commentService.getAckComments(this.roomId)
     .subscribe(data => {
       if (data.length > 0) {
@@ -32,8 +34,10 @@ export class ExportCsv {
             const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
             for (const bt of list) {
               if (commentWithToken.creatorId === bt.userId && comment.id === bt.commentId) {
-                commentWithToken.bonusToken = bt.token;
-                commentWithToken.bonusTimeStamp = bt.timestamp;
+                if (bonusTokenMask || commentWithToken.creatorId === user.id) {
+                  commentWithToken.bonusToken = bt.token;
+                  commentWithToken.bonusTimeStamp = bt.timestamp;
+                }
               }
             }
             return commentWithToken;

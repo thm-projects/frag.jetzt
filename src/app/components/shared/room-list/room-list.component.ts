@@ -179,6 +179,6 @@ export class RoomListComponent implements OnInit, OnDestroy {
       this.notificationService,
       room,
       'room-list'
-    ).exportAsCsv(';', 'csv');
+    ).exportAsCsv(';', 'csv', this.user);
   }
 }
