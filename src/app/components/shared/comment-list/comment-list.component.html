@@ -60,11 +60,6 @@
       <mat-icon class="actionIcon">add</mat-icon>
     </button>
 
-    <button mat-fab class="freezeButton"
-            *ngIf="!searchBox.value && !search && userRole === 2 || userRole === 3"
-            (click)="switchToModerationList()" matTooltip="{{ 'comment-list.switch-to-moderation-list' | translate }}">
-      <mat-icon class="freezeIcon">gavel</mat-icon>
-    </button>
   </div>
 
   <mat-menu #sortMenu="matMenu" xPosition="before">
