@@ -188,6 +188,17 @@ h3 {
   transition: 0.1s;
 }
 
+.fab_add_comment {
+  position: fixed;
+  right: 25px;
+  bottom: 65px;
+  transform: scale(0);
+  z-index: 1;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  transition: 0.1s;
+}
+
 .visible {
   transform: scale(1);
 }
