@@ -206,7 +206,7 @@
     "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen.",
     "moderator-role": "Moderator",
     "no-room-history": "Deine Sitzungsliste ist leer.",
-    "panel-join-button": "Aktion",
+    "panel-join-button": "Optionen",
     "panel-remove-button": "Sitzung aus der Liste streichen",
     "delete-room": "Sitzung löschen",
     "panel-session-id": "Code",
