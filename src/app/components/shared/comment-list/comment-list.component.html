@@ -131,10 +131,10 @@
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
-<button id="add_comment_small-button" mat-fab aria-labelledby="add" class="fab_add_comment"
+<button mat-icon-button aria-labelledby="add" class="fab_add_comment"
         (click)="openCreateDialog()"
         matTooltip="{{ 'comment-list.add-comment' | translate }}">
-  <mat-icon class="actionIcon">add</mat-icon>
+  <mat-icon>add</mat-icon>
 </button>
 
 <div fxLayout="row" fxLayoutAlign="center" *ngIf="comments.length < 3 && !isLoading">
