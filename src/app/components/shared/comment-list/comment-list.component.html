@@ -137,13 +137,6 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<div fxLayout="row" fxLayoutAlign="center" *ngIf="comments.length < 3 && !isLoading">
-  <button id="add_comment-button" mat-fab class="fab-extended" (click)="openCreateDialog()" aria-labelledby="add">
-    <mat-icon class="add">add</mat-icon>
-    {{'comment-list.add-comment' | translate}}
-  </button>
-</div>
-
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : comments"
                [comment]="current"
@@ -154,6 +147,7 @@
                (clickedOnTag)="clickedOnTag($event)"
                (clickedUserNumber)="clickedUserNumber($event)">
   </app-comment>
+
 </div>
 <!-- No Questions Present -->
 <div *ngIf="comments && comments.length < 1 && !isLoading" fxLayout="row" fxLayoutAlign="center center"
