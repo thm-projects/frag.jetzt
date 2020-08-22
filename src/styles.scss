@@ -168,16 +168,6 @@ a.info:hover span, a.info:focus span, a.info:active span {
   outline-offset: 8px;
 }
 
-/* Works on Chrome/Edge/Safari */
-*::-webkit-scrollbar {
-  width: 20px;
-}
-
-*::-webkit-scrollbar-track {
-  background: var(--dialog);
-}
-
-*::-webkit-scrollbar-thumb {
-  background-color: var(--primary);
-  border-radius: 10px;
+a {
+  word-break: break-all;
 }
