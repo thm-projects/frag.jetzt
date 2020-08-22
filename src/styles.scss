@@ -19,7 +19,7 @@ body {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  //cursor: default;
+  cursor: default;
 }
 
 .dark {
@@ -166,4 +166,18 @@ a.info:hover span, a.info:focus span, a.info:active span {
 :focus {
   outline: 1px solid var(--on-surface);
   outline-offset: 8px;
+}
+
+/* Works on Chrome/Edge/Safari */
+*::-webkit-scrollbar {
+  width: 20px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--dialog);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary);
+  border-radius: 10px;
 }
