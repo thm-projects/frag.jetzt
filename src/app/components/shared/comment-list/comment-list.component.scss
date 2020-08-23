@@ -195,14 +195,8 @@ h3 {
   z-index: 1;
   background-color: var(--primary);
   color: var(--on-primary);
-  box-shadow: 0 6px 10px 0 #666;
   transform: scale(1.4);
   transition: all 0.1s ease-in-out;
-}
-
-.fab_add_comment:hover {
-  box-shadow: 0 6px 14px 0 #666;
-  transform: scale(1.05);
 }
 
 .visible {
