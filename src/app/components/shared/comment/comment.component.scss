@@ -3,6 +3,7 @@
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear;
+  touch-action: auto !important;
 }
 
 mat-card-content > :first-child {

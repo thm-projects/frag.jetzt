@@ -100,7 +100,7 @@ export class ModeratorCommentListComponent implements OnInit {
   }
 
   isScrollButtonVisible(): boolean {
-    return !AppComponent.isScrolledTop() && this.comments.length > 5;
+    return !AppComponent.isScrolledTop() && this.comments.length > 10;
   }
 
   searchComments(): void {
