@@ -172,6 +172,19 @@ a {
   height: 60px !important;
 }
 
-:ng-deep .mat-ink-bar {
-  background-color: var(--primary);
+/* label style */
+.mat-tab-label {
+  background: green;
+  color: white;
+}
+
+/* focus style */
+.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
+  background: red;
+}
+
+/* ink bar style */
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background: yellow;
+  height: 10px;
 }
