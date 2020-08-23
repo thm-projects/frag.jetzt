@@ -127,11 +127,11 @@
   </mat-menu>
 </div>
 
-<button mat-icon-button class="scrollTop" [ngClass]="{'visible': isScrollButtonVisible()}" (click)="AppComponent.scrollTop()">
+<button mat-fab mat-icon-button class="scrollTop" [ngClass]="{'visible': isScrollButtonVisible()}" (click)="AppComponent.scrollTop()">
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
-<button mat-icon-button aria-labelledby="add" class="fab_add_comment"
+<button mat-fab mat-icon-button aria-labelledby="add" class="fab_add_comment"
         (click)="openCreateDialog()"
         matTooltip="{{ 'comment-list.add-comment' | translate }}">
   <mat-icon>add</mat-icon>

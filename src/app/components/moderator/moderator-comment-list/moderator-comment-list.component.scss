@@ -116,11 +116,11 @@ h3 {
   bottom: 65px;
   transform: scale(0);
   z-index: 1;
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: var(--secondary);
+  color: var(--on-secondary);
   transition: 0.1s;
 }
 
 .visible {
-  transform: scale(1);
+  transform: scale(1.4);
 }
