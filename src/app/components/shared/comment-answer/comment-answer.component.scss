@@ -47,12 +47,12 @@ mat-hint {
   margin-right: 1%;
 }
 
-mat-tab-label-active,
-mat-tab-label {
-  color: white !important;
+::ng-deep .mat-tab-label-active,
+::ng-deep .mat-tab-label {
+  color: white;
 }
 
-mat-ink-bar {
-  background-color: white !important;
+:ng-deep .mat-ink-bar {
+  background-color: white;
 }
 
