@@ -39,7 +39,7 @@ mat-icon {
 }
 
 mat-form-field {
-  color: white;
+  color: white !important;
 }
 
 mat-hint {
@@ -49,7 +49,7 @@ mat-hint {
 
 mat-tab-label-active,
 mat-tab-label {
-  color: white;
+  color: white !important;
 }
 
 mat-ink-bar {
