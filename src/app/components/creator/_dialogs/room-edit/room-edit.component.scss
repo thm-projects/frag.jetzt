@@ -44,19 +44,19 @@ mat-divider {
 }
 
 mat-form-field {
-  color: var(--on-surface);
+  color: var(--on-surface) !important;
 }
 
 mat-hint {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
+  margin-right: 1%;
 }
 
-.mat-tab-label-active,
-.mat-tab-label {
+::ng-deep .mat-tab-label-active,
+::ng-deep .mat-tab-label {
   color: var(--on-surface);
-  opacity: 1 !important;
 }
 
-.mat-ink-bar {
-  background-color: var(--primary) !important;
+:ng-deep .mat-ink-bar {
+  background-color: var(--primary);
 }
