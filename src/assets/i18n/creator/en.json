@@ -106,7 +106,7 @@
     "mark-read": "Discussed by you in full screen mode on the projector",
     "mark-wrong": "Mark as wrong",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
-    "no-comments": "No questions present",
+    "no-comments": "No questions at present",
     "reject": "Remove inappropriate question from the list",
     "search-box-input-description": "Here you can search for questions.",
     "semicolon": "CSV format (.csv)",

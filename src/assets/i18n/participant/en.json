@@ -96,7 +96,7 @@
     "mark-not-wrong": "Marked as wrong by the professor",
     "mark-read": "Already discussed by the professor",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
-    "no-comments": "No questions present",
+    "no-comments": "No questions at present",
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
     "send-description": "Send question",

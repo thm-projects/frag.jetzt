@@ -32,7 +32,7 @@
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgeOverlap="false">
+            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before" matBadgeSize="small" matBadgeOverlap="false">
               &raquo;{{room.name}}&laquo;
             </span>
           </td>
