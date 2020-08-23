@@ -17,8 +17,8 @@ table, th, tr, td {
   overflow-wrap: break-word;
 }
 
-th {
-  font-size: small;
+th, tr {
+  font-size: small !important;
 }
 
 .tableOverflow {
