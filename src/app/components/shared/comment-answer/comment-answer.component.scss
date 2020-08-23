@@ -38,6 +38,21 @@ mat-icon {
   margin-right: 5px;
 }
 
+mat-form-field {
+  color: white;
+}
+
 mat-hint {
+  color: white !important;
   margin-right: 1%;
 }
+
+mat-tab-label-active,
+mat-tab-label {
+  color: white;
+}
+
+mat-ink-bar {
+  background-color: white !important;
+}
+
