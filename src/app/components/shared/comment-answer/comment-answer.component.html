@@ -24,6 +24,11 @@
                       maxlength="250"
                       name="answer">
             </textarea>
+            <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'comment-page.Markdown-hint' | translate }}
+              </span>
+            </mat-hint>
             <mat-hint align="end">
             <span aria-hidden="true">
               {{ answer ? answer.length : 0 }} / 250

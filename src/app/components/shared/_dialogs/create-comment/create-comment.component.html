@@ -32,6 +32,11 @@
             <mat-placeholder class="placeholder">
               {{ 'comment-page.enter-comment' | translate }}
             </mat-placeholder>
+            <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'comment-page.Markdown-hint' | translate }}
+              </span>
+            </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
                 {{commentBody.value.length}} / 250

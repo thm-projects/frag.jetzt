@@ -9,6 +9,11 @@
              [formControl]="roomNameFormControl"
              name="room-name" maxlength="20" aria-labelledby="room-name"/>
       <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+      <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'room-page.Markdown-hint' | translate }}
+              </span>
+      </mat-hint>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
       <mat-error *ngIf="
           roomNameFormControl.hasError()
