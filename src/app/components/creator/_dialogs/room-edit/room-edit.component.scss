@@ -52,11 +52,20 @@ mat-hint {
   margin-right: 1%;
 }
 
-::ng-deep .mat-tab-label-active,
-::ng-deep .mat-tab-label {
+/* label style */
+.mat-tab-label {
+  background: var(--surface);
   color: var(--on-surface);
 }
 
-:ng-deep .mat-ink-bar {
-  background-color: var(--primary);
+/* focus style */
+.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus, .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
+  background: var(--seconday);
+  color: var(--on-secondary);
+}
+
+/* ink bar style */
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background: var(--secondary);
+  height: 3px;
 }
