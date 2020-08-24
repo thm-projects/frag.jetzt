@@ -174,8 +174,8 @@ a {
 
 /* label style */
 .mat-tab-label {
-  background: var(--surface);
-  color: var(--on-surface);
+  background: var(--dialog);
+  color: var(--on-dialog);
 }
 
 /* focus style */
@@ -183,7 +183,7 @@ a {
 .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
 .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
 .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  background: var(--surface);
+  background: var(--dialog);
 }
 
 /* ink bar style */
