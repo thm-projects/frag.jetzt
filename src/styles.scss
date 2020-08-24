@@ -183,12 +183,12 @@ a {
 .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
 .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
 .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  background: var(--secondary);
+  background: var(--surface);
 }
 
 /* ink bar style */
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
   background: var(--secondary);
-  height: 5px;
+  height: 3px;
 }
