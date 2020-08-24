@@ -1,78 +1,129 @@
-<div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
-  <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading" color="primary" mode="indeterminate"></mat-progress-spinner>
+<div fxLayout="column"
+     fxLayoutAlign="center"
+     fxLayoutGap="20px"
+     fxFill>
+  <div fxLayout="row"
+       fxLayoutAlign="center">
+    <mat-progress-spinner *ngIf="isLoading"
+                          color="primary"
+                          mode="indeterminate"></mat-progress-spinner>
     <mat-card *ngIf="room">
       <div fxLayout="row">
         <span class="corner-icons"></span>
         <span class="fill-remaining-space"></span>
-        <mat-card-header fxLayoutAlign="center" fxLayout="row">
+        <mat-card-header fxLayoutAlign="center"
+                         fxLayout="row">
           <mat-card-title fxLayoutAlign="center">
-            <h2  class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
+            <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId.slice(0, 4) }} {{  room.shortId.slice(4, 8) }}
             </span>
-            <button id="copy" mat-icon-button (click)="copyShortId()" aria-labelledby= "cloud_download">
-              <mat-icon class="copy" matTooltip="{{ 'room-page.copy-session-id' | translate}}">content_paste</mat-icon>
+            <button id="copy"
+                    mat-icon-button
+                    (click)="copyShortId()"
+                    aria-labelledby="cloud_download">
+              <mat-icon class="copy"
+                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">content_paste
+              </mat-icon>
             </button>
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <mat-menu #settingsMenu="matMenu" [overlapTrigger]="false" xPosition="before">
-          <button mat-menu-item (click)="showSettingsDialog()" aria-labelledby= "edit">
+        <mat-menu #settingsMenu="matMenu"
+                  [overlapTrigger]="false"
+                  xPosition="before">
+          <button mat-menu-item
+                  (click)="showSettingsDialog()"
+                  aria-labelledby="edit">
             <mat-icon>edit</mat-icon>
             {{ 'room-page.general' | translate}}
           </button>
-          <button mat-menu-item (click)="showCommentsDialog()" aria-labelledby= "insert_comment">
+          <button mat-menu-item
+                  (click)="showCommentsDialog()"
+                  aria-labelledby="insert_comment">
             <mat-icon>insert_comment</mat-icon>
             {{ 'room-page.comments' | translate}}
           </button>
-          <button mat-menu-item (click)="showModeratorsDialog()" aria-labelledby= "person">
+          <button mat-menu-item
+                  (click)="showModeratorsDialog()"
+                  aria-labelledby="person">
             <mat-icon>gavel</mat-icon>
             {{ 'room-page.moderators' | translate}}
           </button>
-          <button mat-menu-item (click)="showBonusTokenDialog()" aria-labelledby= "person">
+          <button mat-menu-item
+                  (click)="showBonusTokenDialog()"
+                  aria-labelledby="person">
             <mat-icon>grade</mat-icon>
             {{ 'room-page.bonus-token' | translate}}
           </button>
-          <button mat-menu-item (click)="showTagsDialog()" aria-labelledby= "person">
+          <button mat-menu-item
+                  (click)="showTagsDialog()"
+                  aria-labelledby="person">
             <mat-icon svgIcon="comment_tag"></mat-icon>
             {{ 'room-page.tags' | translate}}
           </button>
         </mat-menu>
-        <button  id="settings-menu"
-                 mat-icon-button class="corner-icons" [matMenuTriggerFor]="settingsMenu" aria-labelledby="settings">
-          <mat-icon class="corner-icon" matTooltip="{{ 'room-page.session-settings' | translate}}">settings</mat-icon>
+        <button id="settings-menu"
+                mat-icon-button
+                class="corner-icons"
+                [matMenuTriggerFor]="settingsMenu"
+                aria-labelledby="settings">
+          <mat-icon class="corner-icon"
+                    matTooltip="{{ 'room-page.session-settings' | translate}}">settings
+          </mat-icon>
         </button>
       </div>
-      <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
+      <mat-card-content *ngIf="room.description"
+                        fxLayoutAlign="center">
         <markdown [data]="room.description.trim()"></markdown>
       </mat-card-content>
-      <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
-        <mat-grid-list cols="{{viewModuleCount}}" rowHeight="1:1" *ngIf="viewModuleCount > 1">
+      <div fxLayout="column"
+           fxLayoutAlign="center"
+           fxLayoutGap="20px">
+        <mat-grid-list cols="{{viewModuleCount}}"
+                       rowHeight="1:1"
+                       *ngIf="viewModuleCount > 1">
           <mat-grid-tile>
-            <button id="question_answer-button" mat-icon-button [disableRipple]="true"
-                    routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
-              <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon"
-                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">question_answer</mat-icon>
+            <button id="question_answer-button"
+                    mat-icon-button
+                    [disableRipple]="true"
+                    routerLink="/creator/room/{{ room.shortId }}/comments"
+                    aria-labelledby="question_answer">
+              <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                        class="main-icon"
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">question_answer
+              </mat-icon>
               <h3>{{ 'room-page.comments' | translate}}</h3>
             </button>
           </mat-grid-tile>
           <mat-grid-tile *ngIf="moderationEnabled">
-            <button id="gavel-button" mat-icon-button [disableRipple]="true"
-                    routerLink="/moderator/room/{{ room.shortId }}/moderator/comments" aria-labelledby="gavel">
-              <mat-icon matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}" class="main-icon"
+            <button id="gavel-button"
+                    mat-icon-button
+                    [disableRipple]="true"
+                    routerLink="/moderator/room/{{ room.shortId }}/moderator/comments"
+                    aria-labelledby="gavel">
+              <mat-icon matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
+                        class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">gavel
               </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
         </mat-grid-list>
-        <div fxLayout="row" fxLayoutAlign="center" *ngIf="viewModuleCount <= 1" class="question-button-div">
-          <button id="question_answer-button2" mat-icon-button [disableRipple]="true"
-                  routerLink="/creator/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
-            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon">question_answer</mat-icon>
+        <div fxLayout="row"
+             fxLayoutAlign="center"
+             *ngIf="viewModuleCount <= 1"
+             class="question-button-div">
+          <button id="question_answer-button2"
+                  mat-icon-button
+                  [disableRipple]="true"
+                  routerLink="/creator/room/{{ room.shortId }}/comments"
+                  aria-labelledby="question_answer">
+            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
+                      class="main-icon">question_answer
+            </mat-icon>
             <h3>{{ 'room-page.comments' | translate}}</h3>
           </button>
         </div>
@@ -80,17 +131,20 @@
     </mat-card>
     <div *ngIf="!isLoading && !room">{{ 'room-page.room-not-found' | translate }}</div>
   </div>
-  <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
+  <button id="live_announcer-button"
+          tabIndex="-1"
+          (click)="announce()"
+          class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
 </div>
 
 <div class="visually-hidden">
-  <div id ="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>
-  <div id ="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
-  <div id ="gavel">{{'room-page.a11y-gavel' | translate}}</div>
-  <div id ="settings">{{'room-page.a11y-settings' | translate}}</div>
-  <div id ="edit">{{'room-page.a11y-edit' | translate}}</div>
-  <div id ="insert_comment">{{'room-page.a11y-insert_comment' | translate}}</div>
-  <div id ="person">{{'room-page.a11y-person' | translate}}</div>
+  <div id="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>
+  <div id="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
+  <div id="gavel">{{'room-page.a11y-gavel' | translate}}</div>
+  <div id="settings">{{'room-page.a11y-settings' | translate}}</div>
+  <div id="edit">{{'room-page.a11y-edit' | translate}}</div>
+  <div id="insert_comment">{{'room-page.a11y-insert_comment' | translate}}</div>
+  <div id="person">{{'room-page.a11y-person' | translate}}</div>
 </div>
 
 

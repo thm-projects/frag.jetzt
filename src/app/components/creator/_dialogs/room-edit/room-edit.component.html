@@ -1,19 +1,19 @@
-<div mat-dialog-content *ngIf="editRoom">
+<div mat-dialog-content
+     *ngIf="editRoom">
   <!--Sitzung-->
   <h2 class="oldtypo-h2">{{ 'room-page.general' | translate }}</h2>
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <mat-form-field class="input-block">
-      <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
-             [(ngModel)]="editRoom.name" matInput
+      <input (focus)="eventService.makeFocusOnInputTrue()"
+             (blur)="eventService.makeFocusOnInputFalse()"
+             [(ngModel)]="editRoom.name"
+             matInput
              [formControl]="roomNameFormControl"
-             name="room-name" maxlength="20" aria-labelledby="room-name"/>
+             name="room-name"
+             maxlength="20"
+             aria-labelledby="room-name"/>
       <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
-      <mat-hint align="start">
-              <span aria-hidden="true">
-                {{ 'room-page.Markdown-hint' | translate }}
-              </span>
-      </mat-hint>
       <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
       <mat-error *ngIf="
           roomNameFormControl.hasError()
@@ -26,7 +26,8 @@
       <mat-tab label="{{'room-page.description' | translate}}">
         <mat-form-field class="input-block">
       <textarea
-        (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+        (focus)="eventService.makeFocusOnInputTrue()"
+        (blur)="eventService.makeFocusOnInputFalse()"
         [(ngModel)]="editRoom.description"
         matInput
         matTextareaAutosize
@@ -36,6 +37,11 @@
         name="description"
         aria-labelledby="description"
       ></textarea>
+          <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'room-page.Markdown-hint' | translate }}
+              </span>
+          </mat-hint>
           <mat-hint align="end">
             <span aria-hidden="true">
               {{ editRoom.description ? editRoom.description.length : 0 }} / 250
@@ -43,12 +49,16 @@
           </mat-hint>
         </mat-form-field>
       </mat-tab>
-      <mat-tab label="{{'session.preview' | translate}}" [disabled]="!editRoom.description">
+      <mat-tab label="{{'session.preview' | translate}}"
+               [disabled]="!editRoom.description">
         <markdown [data]="editRoom.description"></markdown>
       </mat-tab>
     </mat-tab-group>
     <div fxLayoutAlign="center center">
-      <button mat-raised-button class="delete" (click)="openDeleteRoomDialog()" aria-labelledby="delete-room">
+      <button mat-raised-button
+              class="delete"
+              (click)="openDeleteRoomDialog()"
+              aria-labelledby="delete-room">
         <mat-icon>delete</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
     </div>
