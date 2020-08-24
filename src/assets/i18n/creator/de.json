@@ -115,7 +115,7 @@
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
     "write-comment": "Eingabe",
-    "preview-comment": "Markdown",
+    "preview-comment": "Ansicht",
     "show-more": "mehr anzeigen",
     "show-less": "weniger anzeigen"
   },
@@ -260,6 +260,6 @@
     "description": "Beschreibung",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der neuen Sitzung",
-    "preview": "Markdown"
+    "preview": "Ansicht"
   }
 }
