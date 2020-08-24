@@ -51,24 +51,3 @@ mat-hint {
   color: var(--on-surface) !important;
   margin-right: 1%;
 }
-
-/* label style */
-.mat-tab-label {
-  background: var(--surface) !important;
-  color: var(--on-surface) !important;
-}
-
-/* focus style */
-.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
-.mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
-.mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
-.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  background: var(--seconday) !important;
-  color: var(--on-secondary) !important;
-}
-
-/* ink bar style */
-.mat-tab-group.mat-primary .mat-ink-bar,
-.mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background: var(--secondary);
-}

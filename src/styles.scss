@@ -174,8 +174,8 @@ a {
 
 /* label style */
 .mat-tab-label {
-  background: green;
-  color: white;
+  background: var(--surface);
+  color: var(--on-surface);
 }
 
 /* focus style */
@@ -183,12 +183,12 @@ a {
 .mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
 .mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
 .mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  background: red;
+  background: var(--secondary);
 }
 
 /* ink bar style */
 .mat-tab-group.mat-primary .mat-ink-bar,
 .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background: yellow;
-  height: 3px;
+  background: var(--secondary);
+  height: 5px;
 }
