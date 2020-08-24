@@ -40,7 +40,7 @@
           </mat-form-field>
         </ars-row>
       </mat-tab>
-      <mat-tab label="{{ 'comment-page.preview-comment' | translate }}">
+      <mat-tab label="{{ 'comment-page.preview-comment' | translate }}" [disabled]="!commentBody.value">
         <ars-row [height]="12"></ars-row>
         <ars-row>
           <mat-divider></mat-divider>
