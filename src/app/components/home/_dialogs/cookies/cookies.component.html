@@ -14,22 +14,24 @@
   </div>
 
   <mat-divider></mat-divider>
+
   <mat-dialog-content tabindex="-1">
 
     <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
     <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
 
-    <app-dialog-action-buttons
-      buttonsLabelSection="cookies"
-      confirmButtonLabel="accept"
-      [confirmButtonType]=confirmButtonType
-      [cancelButtonClickAction]="buildDeclineActionCallback()"
-      [confirmButtonClickAction]="buildConfirmActionCallback()">
-    </app-dialog-action-buttons>
-
   </mat-dialog-content>
+
+  <app-dialog-action-buttons
+    buttonsLabelSection="cookies"
+    confirmButtonLabel="accept"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildDeclineActionCallback()"
+    [confirmButtonClickAction]="buildConfirmActionCallback()">
+  </app-dialog-action-buttons>
 
   <div class="visually-hidden">
     <div id="info-label">{{'cookies.info-label' | translate }}</div>
   </div>
+
 </div>
