@@ -1,14 +1,4 @@
 {
-  "answer": {
-    "abstain": "Enthalten",
-    "abstention-sent": "Enthaltung gesendet",
-    "at-least-one": "Bitte wähle mindestens eine Antwort.",
-    "please-answer": "Bitte gib eine Antwort ein.",
-    "please-one": "Bitte wähle eine Antwort.",
-    "sent": "Antwort gesendet",
-    "submit": "Absenden",
-    "your-answer": "Deine Antwort"
-  },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
     "a11y-add": "Option eine Frage zu stellen",
@@ -40,7 +30,7 @@
     "filter-answered": "Beantwortete Fragen",
     "filter-comments": "Fragen filtern",
     "filter-correct": "Bejahte Fragen",
-    "filter-favorite": "Bonus-prämierte Fragen",
+    "filter-favorite": "Ausgezeichnete Fragen",
     "filter-owner": "Meine Fragen",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -84,7 +74,7 @@
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Deine Frage löschen",
     "enter-comment": "Gib deine Frage ein …",
-    "Markdown-hint": "Markdown für die Textformatierung",
+    "Markdown-hint": "Formatierung mit Markdown",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",

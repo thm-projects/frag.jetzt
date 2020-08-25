@@ -153,23 +153,6 @@
       </button>
 
       <button mat-menu-item
-              matTooltip="{{ 'comment-list.correct' | translate }}"
-              (click)="filterComments(correct)"
-              aria-labelledby="check_circle">
-        <mat-icon [ngClass]="{correct: 'correct-icon'}[currentFilter]">check_circle</mat-icon>
-        <span>{{ 'comment-list.filter-correct' | translate }}</span>
-      </button>
-
-      <button mat-menu-item
-              (focus)="hideCommentsList=true"
-              matTooltip="{{ 'comment-list.wrong' | translate }}"
-              (click)="filterComments(wrong)"
-              aria-labelledby="not_interested">
-        <mat-icon [ngClass]="{wrong: 'wrong-icon'}[currentFilter]">cancel</mat-icon>
-        <span>{{ 'comment-list.filter-wrong' | translate }}</span>
-      </button>
-
-      <button mat-menu-item
               (focus)="hideCommentsList=true"
               matTooltip="{{ 'comment-list.owner' | translate }}"
               (click)="filterComments(owner)"
