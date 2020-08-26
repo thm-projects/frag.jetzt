@@ -3,7 +3,7 @@
     <div class="anchor-wrp">
       <div class="anchor-right">
         <mat-form-field *ngIf="tags" class="tag-form-field">
-          <mat-label>{{'comment-page.tag' | translate}}</mat-label>
+          <mat-label><mat-icon>local_offer</mat-icon>{{'comment-page.tag' | translate}}</mat-label>
           <mat-select [(ngModel)]="selectedTag" class="tag-select">
             <mat-option *ngFor="let tag of tags" value="{{tag}}">
               {{tag}}
