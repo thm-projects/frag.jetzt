@@ -16,7 +16,7 @@
       <mat-tab-group *ngIf="!isStudent && (edit || !answer)" [dynamicHeight]="true">
         <mat-tab label="{{'comment-page.your-answer' | translate}}">
           <mat-form-field class="input-block">
-            <mat-icon matSuffix>chat</mat-icon>
+            <mat-icon matPrefix>chat</mat-icon>
             <textarea [(ngModel)]="answer" (input)="edit = true"
                       matInput
                       matTextareaAutosize

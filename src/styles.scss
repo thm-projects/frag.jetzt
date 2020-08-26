@@ -149,7 +149,7 @@ a.info:hover span, a.info:focus span, a.info:active span {
   position: absolute;
   top: 1.3em;
   left: 0;
-  width: fit-content;
+  width: max-content;
   background-color: var(--primary);
   color: var(--on-primary);
   text-align: left;

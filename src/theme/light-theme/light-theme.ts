@@ -11,7 +11,7 @@ export const arsnova = {
   '--dialog': 'LightGoldenrodYellow',
   '--cancel': 'Chocolate',
   '--alt-surface': '#eeeeee',
-  '--alt-dialog': '#eeeeee',
+  '--alt-dialog': 'Moccasin',
 
   '--on-primary': '#ffffff',
   '--on-secondary': '#FFFFFF',

@@ -161,9 +161,9 @@
   },
   "home-page": {
     "create-session": "Neue Sitzung",
-    "created-1": "Sitzung »",
-    "created-2": "« erfolgreich erstellt.",
-    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird automatisch generiert."
+    "created-1": "Die neue Sitzung »",
+    "created-2": "« wurde erstellt.",
+    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird generiert."
   },
   "room-page": {
     "a11y-add-moderator": "Fügt den eingegebenen Benutzer als Moderator hinzu.",
