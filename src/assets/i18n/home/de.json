@@ -82,7 +82,7 @@
     "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-user": "Du befindest dich jetzt auf der Benutzer-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "install": "Installieren",
-    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird automatisch generiert.",
+    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird generiert.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Code gefunden.",
     "only-numbers": "Der Code besteht aus Ziffern.",
     "please-enter": "Den Code sagt dir die Sitzungsleitung.",
