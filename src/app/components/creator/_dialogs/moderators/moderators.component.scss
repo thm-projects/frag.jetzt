@@ -37,3 +37,10 @@ mat-form-field {
 .close-icon {
   color: var(--red);
 }
+
+.moderators {
+  padding-left: 3%;
+  &:nth-child(even) {
+    background-color: var(--alt-dialog);
+  }
+}

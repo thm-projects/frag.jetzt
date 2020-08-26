@@ -20,7 +20,7 @@
   </div>
   <p class="oldtypo-p" *ngIf="moderators.length === 0">{{ 'room-page.no-moderators' | translate }}</p>
   <div *ngIf="moderators.length > 0">
-    <div fxLayout="row" *ngFor="let moderator of moderators; index as i">
+    <div fxLayout="row" *ngFor="let moderator of moderators; index as i" class="moderators">
       <!--List of moderators-->
       <p class="oldtypo-p">
         {{i + 1}}. {{moderator.loginId}}
