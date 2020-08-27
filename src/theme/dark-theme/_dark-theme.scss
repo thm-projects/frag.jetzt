@@ -28,3 +28,7 @@ a {
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
 }
+
+.mat-menu-panel .mat-icon {
+  color: var(--on-dialog) !important;
+}

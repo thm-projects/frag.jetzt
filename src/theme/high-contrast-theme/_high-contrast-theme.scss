@@ -24,3 +24,7 @@ $purple-theme: mat-light-theme($purple-primary, $purple-accent, $purple-warn);
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
 }
+
+.mat-menu-panel .mat-icon {
+  color: var(--on-dialog) !important;
+}
