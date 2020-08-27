@@ -130,7 +130,7 @@
               matTooltip="{{ 'comment-list.favorite' | translate }}"
               (click)="filterComments(favorite)"
               aria-labelledby="grade">
-        <mat-icon [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
+        <mat-icon class="star" [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
         <span>{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 

@@ -261,7 +261,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterFavorites() {
-    this.filter('star', false, 'question-wall.filter-favorite', '',
+    this.filter('grade', false, 'question-wall.filter-favorite', '',
         x => x.comment.favorite);
   }
 

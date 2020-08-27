@@ -52,7 +52,7 @@
         <span *ngIf="user.isGuest" svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user" (click)="openUserBonusTokenDialog()" tabindex="0">
-        <mat-icon>grade</mat-icon>
+        <mat-icon class="star">grade</mat-icon>
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
       <button mat-menu-item *ngIf="user && !user.isGuest" (click)="openDeleteUserDialog()" tabindex="0">
