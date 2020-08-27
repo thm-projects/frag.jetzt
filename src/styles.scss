@@ -208,6 +208,10 @@ a {
   margin: 0 auto;
 }
 
+.mat-menu-item .mat-icon-no-color {
+  color: var(--on-dialog);
+}
+
 .star {
   color: gold !important;
 }
