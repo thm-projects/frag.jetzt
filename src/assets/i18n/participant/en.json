@@ -84,7 +84,7 @@
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Delete your question",
     "enter-comment": "Enter your question …",
-    "Markdown-hint": "Formatting with Markdown",
+    "Markdown-hint": "Format with Markdown",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please enter a question.",
