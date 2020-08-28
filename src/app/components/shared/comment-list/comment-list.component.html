@@ -97,7 +97,6 @@
 
     <button mat-menu-item
             *ngIf="isSafari === 'false'"
-            matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="sortComments(time)"
             aria-labelledby="access_time">
       <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
@@ -105,7 +104,6 @@
     </button>
 
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.vote-asc' | translate }}"
             (click)="sortComments(votedesc)"
             aria-labelledby="keyboard_arrow_up">
       <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
@@ -113,7 +111,6 @@
     </button>
 
     <button mat-menu-item
-            matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="sortComments(voteasc)"
             aria-labelledby="keyboard_arrow_down">
       <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
@@ -127,7 +124,6 @@
     <div>
 
       <button mat-menu-item
-              matTooltip="{{ 'comment-list.favorite' | translate }}"
               (click)="filterComments(favorite)"
               aria-labelledby="grade">
         <mat-icon class="star" [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade</mat-icon>
@@ -136,7 +132,6 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
-              matTooltip="{{ 'comment-list.answered' | translate }}"
               (click)="filterComments(answer)"
               aria-labelledby="comment">
         <mat-icon [ngClass]="{answered: 'answered-icon'}[currentFilter]">comment</mat-icon>
@@ -144,7 +139,6 @@
       </button>
 
       <button mat-menu-item
-              matTooltip="{{ 'comment-list.read' | translate }}"
               (click)="filterComments(read)"
               aria-labelledby="beamer_icon">
         <mat-icon svgIcon="beamer"
@@ -154,7 +148,6 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
-              matTooltip="{{ 'comment-list.owner' | translate }}"
               (click)="filterComments(owner)"
               aria-labelledby="comment">
         <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person</mat-icon>
