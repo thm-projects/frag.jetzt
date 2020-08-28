@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -57,6 +57,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isExpanded = false;
   isExpandable = false;
+  isMobile = false;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -67,7 +68,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService) {
+    private wsCommentService: WsCommentServiceService,
+    private cd: ChangeDetectorRef) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
@@ -75,6 +77,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.isMobile = localStorage.getItem('deviceType') === 'mobile';
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():
         this.isStudent = true;
@@ -102,6 +105,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
       this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
       this.commentBody.setOverflow('hidden');
     }
+    this.cd.detectChanges();
   }
 
   toggleExpand(evt: MouseEvent) {
