@@ -17,7 +17,7 @@
         </mat-icon>
       </button>
       <span class="fill-remaining-space"></span>
-      <ng-container *ngIf="isMobile">
+      <ng-container *ngIf="user.role>=2&&isMobile">
         <button mat-flat-button class="edit-button" [matMenuTriggerFor]="editMenu" aria-label="Example icon-button with a menu">
           <mat-icon>edit</mat-icon>
           <span>{{'comment-page.edit' | translate}}</span>
@@ -71,7 +71,7 @@
           </button>
         </mat-menu>
       </ng-container>
-      <ng-container *ngIf="!isMobile">
+      <ng-container *ngIf="userRole<2||!isMobile">
         <button mat-icon-button *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
                 (click)="answerComment()" tabindex="0" attr.aria-labelledby="comment_answer{{ comment.id }}">
           <mat-icon class="not-marked" [ngClass]="{'answered-icon' : comment.answer}"
