@@ -19,57 +19,35 @@ mat-card-content > :first-child {
 }
 
 .upVoted {
-  color: var(--green)!important;
+  color: var(--green);
 }
 
 .downVoted {
-  color: var(--red)!important;
+  color: var(--red);
 }
 
 .not-marked {
-  color: slategray!important;
+  color: slategray;
 }
 
 .answered-icon {
-  color: var(--primary)!important;
+  color: var(--primary);
 }
 
 .correct-icon {
-  color: var(--green)!important;
+  color: var(--green);
 }
 
 .favorite-icon {
-  color: var(--yellow)!important;
+  color: var(--yellow);
 }
 
 .wrong-icon {
-  color: var(--red)!important;
+  color: var(--red);
 }
 
 .beamer-icon {
-  color: var(--on-surface)!important;
-}
-
-.edit-button{
-  background-color:var(--primary);
-  *{
-    color:var(--on-primary);
-  }
-  mat-icon{
-    margin-right:8px;
-  }
-}
-
-.expand-shadow{
-  position:relative;
-  top:calc( 100% - 36px );
-  box-shadow: inset 0px -35px 25px -25px var(--surface);
-  border-bottom:1px solid var(--alt-surface);
-}
-
-.expand-button{
-  box-sizing:border-box!important;
-  border:1px solid transparent;
+  color: var(--on-surface);
 }
 
 .score {
