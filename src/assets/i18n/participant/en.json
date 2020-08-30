@@ -108,9 +108,7 @@
     "preview-comment": "Preview",
     "show-more": "show more",
     "show-less": "show less",
-    "delete": "Delete question",
-    "answer": "Comment",
-    "edit": "Edit"
+    "delete": "Delete question"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",

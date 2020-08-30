@@ -119,8 +119,7 @@
     "write-comment": "Write",
     "preview-comment": "Preview",
     "show-more": "show more",
-    "show-less": "show less",
-    "edit": "Edit"
+    "show-less": "show less"
   },
   "content": {
     "abort": "Abort",

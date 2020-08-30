@@ -118,8 +118,7 @@
     "write-comment": "Eingabe",
     "preview-comment": "Ansicht",
     "show-more": "mehr anzeigen",
-    "show-less": "weniger anzeigen",
-    "edit": "Bearbeiten"
+    "show-less": "weniger anzeigen"
   },
   "content": {
     "abort": "Abbrechen",
