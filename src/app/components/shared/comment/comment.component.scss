@@ -81,7 +81,7 @@ mat-card-content > :first-child {
   cursor: pointer;
 }
 
-user.role
+.user-icon,
 .mat-icon {
   transform: scale(1.2);
 }
@@ -218,4 +218,10 @@ user.role
 
 button:focus {
   border: 1px solid var(--on-surface);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  outline: none;
 }
