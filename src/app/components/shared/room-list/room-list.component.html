@@ -59,7 +59,7 @@
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <mat-icon mat-list-icon *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
-              record_voice_over
+              mic
             </mat-icon>
             <mat-icon mat-list-icon *ngSwitchCase="participantRole"
                       title="{{ 'room-list.participant-role' | translate }}">

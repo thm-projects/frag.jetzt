@@ -198,7 +198,7 @@
     "create-room-description": "Neue Sitzung."
   },
   "room-list": {
-    "creator-role": "Sitzungsersteller",
+    "creator-role": "Vortragender",
     "entry": "Eintrag ",
     "executive-moderator-role": "Moderator",
     "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach Name oder Code filtern.",

@@ -200,7 +200,7 @@
     "create-room-description": "New session"
   },
   "room-list": {
-    "creator-role": "Session creator",
+    "creator-role": "Presenter",
     "entry": "Entry ",
     "executive-moderator-role": "Moderator",
     "filter": "Here you can filter your visited sessions.",
