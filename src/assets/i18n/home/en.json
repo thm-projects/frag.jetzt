@@ -56,7 +56,7 @@
     "logged-out": "Logging out successful",
     "login": "Login",
     "logout": "Log out",
-    "moderation-enabled": "Moderated",
+    "moderation-enabled": "The session will be moderated.",
     "my-account": "Account",
     "my-guest-account": "Guest Account",
     "my-sessions": "Sessions",
