@@ -94,7 +94,7 @@
            attr.aria-labelledby="comment_answer{{ comment.id }}">
         <ars-row #commentBody>
           <ars-row #commentBodyInner>
-            <markdown [data]="comment.body"></markdown>
+            <markdown class="images" [data]="comment.body"></markdown>
           </ars-row>
         </ars-row>
         <span id="comment-{{ comment.id }}"
