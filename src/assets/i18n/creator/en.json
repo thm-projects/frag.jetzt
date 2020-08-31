@@ -114,6 +114,8 @@
     "send": "Send",
     "send-description": "Send question",
     "tag": "Tag",
+    "tag-to-filter": "Click on the question category to filter questions in that category.",
+    "user-number": "Click on the number to filter the questions from this anonymous questioner.",
     "vote-down": "Vote down",
     "vote-up": "Vote up",
     "write-comment": "Write",

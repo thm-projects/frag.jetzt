@@ -154,6 +154,7 @@
     <div fxLayout="row"
          fxLayoutAlign="start center">
       <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.tag-to-filter' | translate }}"
            (click)="this.clickedOnTag.emit(comment.tag)"
            *ngIf="comment.tag && comment.tag !== ''"
            class="comment-tags">
@@ -164,6 +165,7 @@
       </div>
       <div class="user-number"
            fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.userNumber)">
         <mat-icon class="user-icon">person</mat-icon>
         <strong>
