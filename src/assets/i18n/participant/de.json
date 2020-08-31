@@ -122,6 +122,7 @@
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
     "delete": "Frage löschen",
+    "moderation-enabled": "Die Sitzung wird moderiert.",
     "sure": "Bist du sicher?"
   },
   "question-wall": {

@@ -130,6 +130,7 @@
     "session-id": "Key",
     "bonus-token": "Tokens for bonus points",
     "bonus-token-header": "Tokens for bonus points",
+    "moderation-enabled": "The Session will be moderated.",
     "sure": "Are you sure?"
   },
   "question-wall": {
