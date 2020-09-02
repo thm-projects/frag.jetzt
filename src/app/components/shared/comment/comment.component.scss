@@ -147,11 +147,9 @@ mat-card-content > :first-child {
   animation: rubber 1s;
 }
 
-.edit-button {
-  mat-icon{
-    margin-right:8px;
-  }
+.edit-button, .moderate-button {
   background-color:var(--secondary);
+  color: var(--on-secondary);
 }
 
 @keyframes upVote {

@@ -85,7 +85,7 @@
         </button>
       </ng-container>
       <ng-container *ngIf="!isStudent">
-        <button mat-flat-button class="edit-button" [mat-menu-trigger-for]="editMenu">
+        <button mat-mini-fab class="edit-button" [mat-menu-trigger-for]="editMenu">
           <mat-icon>edit</mat-icon>
           <span>edit</span>
         </button>
@@ -274,7 +274,7 @@
         </strong>
       </div>
       <span class="fill-remaining-space"></span>
-      <button mat-icon-button
+      <button mat-mini-fab class="moderate-button"
               *ngIf="(isCreator || isModerator) && !inAnswerView"
               (click)="setAck(comment)"
               tabindex="0"
