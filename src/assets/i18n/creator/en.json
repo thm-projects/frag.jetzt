@@ -88,6 +88,7 @@
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Delete question",
     "delimiter": "Please choose a format!",
+    "edit-menu": "Opens menu to answer, mark and delete the question",
     "enter-comment": "Question or message to the audience",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",

@@ -85,8 +85,11 @@
         </button>
       </ng-container>
       <ng-container *ngIf="!isStudent">
-        <button mat-mini-fab class="edit-button" [mat-menu-trigger-for]="editMenu">
+        <button mat-mini-fab
+                class="edit-button"
+                [mat-menu-trigger-for]="editMenu">
           <mat-icon>edit</mat-icon>
+          matTooltip="{{ 'comment-page.edit-menu' | translate }}"
         </button>
         <mat-menu #editMenu>
           <button mat-menu-item
@@ -102,9 +105,9 @@
             </mat-icon>
             <span>
               {{
-                comment.answer ?
-                ( 'comment-page.edit-answer-edit' | translate ) :
-                ( 'comment-page.edit-answer-create' | translate )
+              comment.answer ?
+                ('comment-page.edit-answer-edit' | translate) :
+                ('comment-page.edit-answer-create' | translate)
               }}
             </span>
           </button>
@@ -122,9 +125,9 @@
             </mat-icon>
             <span>
               {{
-                comment.correct !== 1 ?
-                    ( 'comment-page.edit-correct' | translate ) :
-                    ( 'comment-page.edit-correct-reset' | translate )
+              comment.correct !== 1 ?
+                ('comment-page.edit-correct' | translate) :
+                ('comment-page.edit-correct-reset' | translate)
               }}
             </span>
           </button>
@@ -142,9 +145,9 @@
             </mat-icon>
             <span>
               {{
-                comment.correct != 2 ?
-                    ( 'comment-page.edit-wrong' | translate ) :
-                    ( 'comment-page.edit-wrong-reset' | translate )
+              comment.correct != 2 ?
+                ('comment-page.edit-wrong' | translate) :
+                ('comment-page.edit-wrong-reset' | translate)
               }}
             </span>
           </button>
@@ -161,9 +164,9 @@
             </mat-icon>
             <span>
               {{
-                !comment.favorite ?
-                    ( 'comment-page.edit-favorite' | translate ) :
-                    ( 'comment-page.edit-favorite-reset' | translate )
+              !comment.favorite ?
+                ('comment-page.edit-favorite' | translate) :
+                ('comment-page.edit-favorite-reset' | translate)
               }}
             </span>
           </button>
@@ -178,7 +181,7 @@
             </mat-icon>
             <span>
               {{
-                'comment-page.edit-delete' | translate
+              'comment-page.edit-delete' | translate
               }}
             </span>
           </button>
@@ -194,7 +197,8 @@
            attr.aria-labelledby="comment_answer{{ comment.id }}">
         <ars-row #commentBody>
           <ars-row #commentBodyInner>
-            <markdown class="images" [data]="comment.body"></markdown>
+            <markdown class="images"
+                      [data]="comment.body"></markdown>
           </ars-row>
         </ars-row>
         <span id="comment-{{ comment.id }}"
@@ -273,7 +277,8 @@
         </strong>
       </div>
       <span class="fill-remaining-space"></span>
-      <button mat-mini-fab class="moderate-button"
+      <button mat-mini-fab
+              class="moderate-button"
               *ngIf="(isCreator || isModerator) && !inAnswerView"
               (click)="setAck(comment)"
               tabindex="0"

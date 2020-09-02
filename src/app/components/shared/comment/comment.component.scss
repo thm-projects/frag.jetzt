@@ -153,6 +153,10 @@ mat-card-content > :first-child {
   color: var(--on-secondary) !important;
 }
 
+.edit-button .mat-mini-fab.mat-accent, .moderate-button .mat-mini-fab.mat-accent {
+  background-color: var(--secondary) !important;
+}
+
 @keyframes upVote {
   0% {
     transform: scale3d(1, 1, 1);
