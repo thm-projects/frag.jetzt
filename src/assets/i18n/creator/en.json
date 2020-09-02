@@ -121,7 +121,16 @@
     "write-comment": "Write",
     "preview-comment": "Preview",
     "show-more": "show more",
-    "show-less": "show less"
+    "show-less": "show less",
+    "edit-delete": "Delete",
+    "edit-correct": "Correct",
+    "edit-correct-reset": "Reset Correct",
+    "edit-wrong": "Wrong",
+    "edit-wrong-reset": "Reset Wrong",
+    "edit-answer-create": "Create Answer",
+    "edit-answer-edit": "Edit / View Answer",
+    "edit-favorite": "Favorite",
+    "edit-favorite-reset": "Reset favorite"
   },
   "content": {
     "abort": "Abort",

@@ -120,7 +120,16 @@
     "write-comment": "Eingabe",
     "preview-comment": "Ansicht",
     "show-more": "mehr anzeigen",
-    "show-less": "weniger anzeigen"
+    "show-less": "weniger anzeigen",
+    "edit-delete": "Entfernen",
+    "edit-correct": "Bejahen",
+    "edit-correct-reset": "Bejahen zurücksetzen",
+    "edit-wrong": "Verneinen",
+    "edit-wrong-reset": "Verneinen zurücksetzen",
+    "edit-answer-create": "Antwort erstellen",
+    "edit-answer-edit": "Antwort anzeigen / bearbeiten",
+    "edit-favorite": "Stern",
+    "edit-favorite-reset": "Stern zurücksetzen"
   },
   "content": {
     "abort": "Abbrechen",
