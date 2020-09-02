@@ -63,17 +63,17 @@
         {{ 'room-page.delete-room' | translate }}</button>
     </div>
   </div>
-  <app-dialog-action-buttons
-    buttonsLabelSection="room-page"
-    confirmButtonLabel="update"
-    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-    [confirmButtonClickAction]="buildSaveActionCallback()"
-  ></app-dialog-action-buttons>
 </div>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>
 
 <div class="visually-hidden">
   <div id="room-name">{{ 'room-page.a11y-room-name' | translate }}</div>
   <div id="room-edit-description">{{ 'session.a11y-description' | translate }}</div>
   <div id="delete-room">{{ 'room-page.a11y-delete-room' | translate }}</div>
 </div>
-

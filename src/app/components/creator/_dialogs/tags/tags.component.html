@@ -3,11 +3,6 @@
   <h2 class="oldtypo-h2">{{'room-page.tags' | translate }}</h2>
   <mat-divider></mat-divider>
   <div fxLayout="column">
-    <!-- <div fxLayout="row">
-      <p>{{ 'room-page.tags' | translate }}&nbsp;
-        <mat-slide-toggle [(ngModel)]="tagsEnabled" aria-labelledby="tags" ></mat-slide-toggle>
-      </p>
-    </div> -->
     <div fxLayout="row">
       <mat-form-field class="input-block">
         <input (focus)="eventService.makeFocusOnInputTrue()"
@@ -18,9 +13,9 @@
                aria-labelledby="tag-new"
                [formControl]="tagFormControl"
                name="taginput"
-               maxlength="20"/>
+               maxlength="30"/>
         <mat-placeholder class="placeholder">{{ 'room-page.tag-new' | translate }}</mat-placeholder>
-        <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / 20</span></mat-hint>
+        <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / 30</span></mat-hint>
         <mat-error *ngIf="!tagFormControl.valid">
           {{ 'room-page.tag-error' | translate }}
         </mat-error>
@@ -53,11 +48,11 @@
       </div>
     </div>
   </div>
-
-  <app-dialog-action-buttons
-    buttonsLabelSection="room-page"
-    confirmButtonLabel="update"
-    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-    [confirmButtonClickAction]="buildSaveActionCallback()"
-  ></app-dialog-action-buttons>
 </div>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>

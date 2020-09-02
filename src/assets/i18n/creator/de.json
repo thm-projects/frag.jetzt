@@ -237,7 +237,7 @@
     "settings-direct-send": "Fragen sofort sichtbar",
     "sure": "Bist du sicher?",
     "tag-new": "Neue Fragenkategorie:",
-    "tag-error": "Muss zwischen 3 und 50 Zeichen lang sein",
+    "tag-error": "Muss zwischen 3 und 30 Zeichen lang sein",
     "tags": "Tags",
     "threshold": "Schwellenwert",
     "update": "Speichern",
