@@ -238,7 +238,7 @@
     "settings-direct-send": "Questions instantly visible",
     "sure": "Are you sure?",
     "tag-new": "New question tag:",
-    "tag-error": "Must be between 3 and 20 characters long",
+    "tag-error": "Must be between 3 and 50 characters long",
     "tags": "Tags",
     "threshold": "Threshold",
     "update": "Save",

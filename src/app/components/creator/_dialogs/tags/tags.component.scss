@@ -45,3 +45,8 @@ mat-form-field {
     background-color: var(--alt-dialog);
   }
 }
+
+mat-hint {
+  color: var(--on-surface) !important;
+  margin-right: 1%;
+}
