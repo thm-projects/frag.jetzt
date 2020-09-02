@@ -147,8 +147,9 @@ mat-card-content > :first-child {
   animation: rubber 1s;
 }
 
-.edit-button, .moderate-button {
-  background-color:var(--secondary) !important;
+.edit-button .mat-icon, .moderate-button .mat-icon {
+  transform: scale(1.0) !important;
+  background-color: var(--secondary) !important;
   color: var(--on-secondary) !important;
 }
 
