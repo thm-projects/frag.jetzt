@@ -26,64 +26,165 @@
         </mat-icon>
       </button>
       <span class="fill-remaining-space"></span>
-
-      <button mat-icon-button
-              *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
-              (click)="answerComment()"
-              tabindex="0"
-              attr.aria-labelledby="comment_answer{{ comment.id }}">
-        <mat-icon class="not-marked"
-                  [ngClass]="{'answered-icon' : comment.answer}"
-                  [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
+      <ng-container *ngIf="isStudent">
+        <button mat-icon-button
+                *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
+                (click)="answerComment()"
+                tabindex="0"
+                attr.aria-labelledby="comment_answer{{ comment.id }}">
+          <mat-icon class="not-marked"
+                    [ngClass]="{'answered-icon' : comment.answer}"
+                    [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
                   ('comment-page.fullscreen' | translate)">
-          comment
-        </mat-icon>
-      </button>
-
-      <button mat-icon-button
-              *ngIf="(!isStudent || comment.correct === 1) && !moderator"
-              [disabled]="isStudent"
-              (click)="markCorrect(comment, 1)"
-              tabindex="0"
-              attr.aria-labelledby="comment_correct{{ comment.id }}">
-        <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
+            comment
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(!isStudent || comment.correct === 1) && !moderator"
+                [disabled]="isStudent"
+                (click)="markCorrect(comment, 1)"
+                tabindex="0"
+                attr.aria-labelledby="comment_correct{{ comment.id }}">
+          <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
                               'not-marked' : (comment.correct === 0 || comment.correct === 2)}"
-                  [matTooltip]="comment.correct !== 1 ? ('comment-page.mark-correct' | translate)
+                    [matTooltip]="comment.correct !== 1 ? ('comment-page.mark-correct' | translate)
                                                  : ('comment-page.mark-not-correct' | translate)">check_circle
-        </mat-icon>
-      </button>
-      <button mat-icon-button
-              *ngIf="(!isStudent || comment.correct === 2) && !moderator"
-              [disabled]="isStudent"
-              (click)="markCorrect(comment, 2)"
-              tabindex="0"
-              attr.aria-labelledby="comment_not_correct{{ comment.id }}">
-        <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(!isStudent || comment.correct === 2) && !moderator"
+                [disabled]="isStudent"
+                (click)="markCorrect(comment, 2)"
+                tabindex="0"
+                attr.aria-labelledby="comment_not_correct{{ comment.id }}">
+          <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
                               'not-marked' : (comment.correct === 0 || comment.correct === 1)}"
-                  [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
+                    [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
                                                  : ('comment-page.mark-not-wrong' | translate)">cancel
-        </mat-icon>
-      </button>
-      <button mat-icon-button
-              *ngIf="(!isStudent || comment.favorite) && !moderator"
-              [disabled]="isStudent"
-              (click)="setFavorite(comment)"
-              tabindex="0"
-              attr.aria-labelledby="comment_grade{{ comment.id }}">
-        <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
-                  [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(!isStudent || comment.favorite) && !moderator"
+                [disabled]="isStudent"
+                (click)="setFavorite(comment)"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
-        </mat-icon>
-      </button>
-      <button mat-icon-button
-              *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite && !inAnswerView"
-              (click)="openDeleteCommentDialog()"
-              tabindex="0"
-              attr.aria-labelledby="comment_delete{{ comment.id }}">
-        <mat-icon class="not-marked"
-                  matTooltip="{{ 'comment-page.delete' | translate }}">delete
-        </mat-icon>
-      </button>
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite && !inAnswerView"
+                (click)="openDeleteCommentDialog()"
+                tabindex="0"
+                attr.aria-labelledby="comment_delete{{ comment.id }}">
+          <mat-icon class="not-marked"
+                    matTooltip="{{ 'comment-page.delete' | translate }}">delete
+          </mat-icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isStudent">
+        <button mat-flat-button class="edit-button" [mat-menu-trigger-for]="editMenu">
+          <mat-icon>edit</mat-icon>
+          <span>edit</span>
+        </button>
+        <mat-menu #editMenu>
+          <button mat-menu-item
+                  *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
+                  (click)="answerComment()"
+                  tabindex="0"
+                  attr.aria-labelledby="comment_answer{{ comment.id }}"
+                  [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
+                  ('comment-page.answer' | translate)">
+            <mat-icon class="not-marked"
+                      [ngClass]="{'answered-icon' : comment.answer}">
+              comment
+            </mat-icon>
+            <span>
+              {{
+                comment.answer ?
+                ( 'comment-page.edit-answer-edit' | translate ) :
+                ( 'comment-page.edit-answer-create' | translate )
+              }}
+            </span>
+          </button>
+          <button mat-menu-item
+                  *ngIf="(!isStudent || comment.correct === 1) && !moderator"
+                  [disabled]="isStudent"
+                  (click)="markCorrect(comment, 1)"
+                  tabindex="0"
+                  attr.aria-labelledby="comment_correct{{ comment.id }}"
+                  [matTooltip]="comment.correct !== 1 ? ('comment-page.mark-correct' | translate)
+                                                 : ('comment-page.mark-not-correct' | translate)">
+            <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
+                              'not-marked' : (comment.correct === 0 || comment.correct === 2)}">
+              check_circle
+            </mat-icon>
+            <span>
+              {{
+                comment.correct !== 1 ?
+                    ( 'comment-page.edit-correct' | translate ) :
+                    ( 'comment-page.edit-correct-reset' | translate )
+              }}
+            </span>
+          </button>
+          <button mat-menu-item
+                  *ngIf="(!isStudent || comment.correct === 2) && !moderator"
+                  [disabled]="isStudent"
+                  (click)="markCorrect(comment, 2)"
+                  tabindex="0"
+                  attr.aria-labelledby="comment_not_correct{{ comment.id }}"
+                  [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
+                                                 : ('comment-page.mark-not-wrong' | translate)">
+            <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
+                              'not-marked' : (comment.correct === 0 || comment.correct === 1)}">
+              cancel
+            </mat-icon>
+            <span>
+              {{
+                comment.correct != 2 ?
+                    ( 'comment-page.edit-wrong' | translate ) :
+                    ( 'comment-page.edit-wrong-reset' | translate )
+              }}
+            </span>
+          </button>
+          <button mat-menu-item
+                  *ngIf="(!isStudent || comment.favorite) && !moderator"
+                  [disabled]="isStudent"
+                  (click)="setFavorite(comment)"
+                  tabindex="0"
+                  attr.aria-labelledby="comment_grade{{ comment.id }}"
+                  [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                 : ('comment-page.mark-not-favorite' | translate)">
+            <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">
+              grade
+            </mat-icon>
+            <span>
+              {{
+                !comment.favorite ?
+                    ( 'comment-page.edit-favorite' | translate ) :
+                    ( 'comment-page.edit-favorite-reset' | translate )
+              }}
+            </span>
+          </button>
+          <button mat-menu-item
+                  *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite && !inAnswerView"
+                  (click)="openDeleteCommentDialog()"
+                  tabindex="0"
+                  attr.aria-labelledby="comment_delete{{ comment.id }}"
+                  matTooltip="{{ 'comment-page.delete' | translate }}">
+            <mat-icon class="not-marked">
+              delete
+            </mat-icon>
+            <span>
+              {{
+                'comment-page.edit-delete' | translate
+              }}
+            </span>
+          </button>
+        </mat-menu>
+      </ng-container>
     </div>
     <div fxLayout="row">
       <div class="body click"
@@ -183,7 +284,6 @@
                                                         : ('comment-page.reject' | translate)">gavel
         </mat-icon>
       </button>
-
     </div>
   </div>
 </mat-card>

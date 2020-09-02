@@ -147,6 +147,13 @@ mat-card-content > :first-child {
   animation: rubber 1s;
 }
 
+.edit-button {
+  mat-icon{
+    margin-right:8px;
+  }
+  background-color:var(--secondary);
+}
+
 @keyframes upVote {
   0% {
     transform: scale3d(1, 1, 1);
