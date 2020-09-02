@@ -40,13 +40,14 @@
       <mat-icon>delete</mat-icon>
       {{ 'room-page.delete-all-comments' | translate }}</button>
   </div>
+</div>
+
   <app-dialog-action-buttons
     buttonsLabelSection="room-page"
     confirmButtonLabel="update"
     [cancelButtonClickAction]="buildCloseDialogActionCallback()"
     [confirmButtonClickAction]="buildSaveActionCallback()"
   ></app-dialog-action-buttons>
-</div>
 
 <div class="visually-hidden">
   <div id="threshold">{{'room-page.a11y-threshold' | translate}} </div>
