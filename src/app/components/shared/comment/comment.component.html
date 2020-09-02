@@ -88,8 +88,7 @@
         <button mat-mini-fab
                 class="edit-button"
                 [mat-menu-trigger-for]="editMenu">
-          <mat-icon>edit</mat-icon>
-          matTooltip="{{ 'comment-page.edit-menu' | translate }}"
+          <mat-icon matTooltip="{{ 'comment-page.edit-menu' | translate }}">edit</mat-icon>
         </button>
         <mat-menu #editMenu>
           <button mat-menu-item
