@@ -96,8 +96,7 @@
                   (click)="answerComment()"
                   tabindex="0"
                   attr.aria-labelledby="comment_answer{{ comment.id }}"
-                  [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
-                  ('comment-page.answer' | translate)">
+                  >
             <mat-icon class="not-marked"
                       [ngClass]="{'answered-icon' : comment.answer}">
               comment
@@ -116,8 +115,7 @@
                   (click)="markCorrect(comment, 1)"
                   tabindex="0"
                   attr.aria-labelledby="comment_correct{{ comment.id }}"
-                  [matTooltip]="comment.correct !== 1 ? ('comment-page.mark-correct' | translate)
-                                                 : ('comment-page.mark-not-correct' | translate)">
+                  >
             <mat-icon [ngClass]="{'correct-icon' : comment.correct === 1,
                               'not-marked' : (comment.correct === 0 || comment.correct === 2)}">
               check_circle
@@ -136,8 +134,7 @@
                   (click)="markCorrect(comment, 2)"
                   tabindex="0"
                   attr.aria-labelledby="comment_not_correct{{ comment.id }}"
-                  [matTooltip]="comment.correct != 2 ? ('comment-page.mark-wrong' | translate)
-                                                 : ('comment-page.mark-not-wrong' | translate)">
+                  >
             <mat-icon [ngClass]="{'wrong-icon' : comment.correct === 2,
                               'not-marked' : (comment.correct === 0 || comment.correct === 1)}">
               cancel
@@ -156,8 +153,7 @@
                   (click)="setFavorite(comment)"
                   tabindex="0"
                   attr.aria-labelledby="comment_grade{{ comment.id }}"
-                  [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
-                                                 : ('comment-page.mark-not-favorite' | translate)">
+                  >
             <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">
               grade
             </mat-icon>
@@ -174,7 +170,7 @@
                   (click)="openDeleteCommentDialog()"
                   tabindex="0"
                   attr.aria-labelledby="comment_delete{{ comment.id }}"
-                  matTooltip="{{ 'comment-page.delete' | translate }}">
+                  >
             <mat-icon class="not-marked">
               delete
             </mat-icon>
