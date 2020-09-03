@@ -71,7 +71,7 @@
     "a11y-text_wrong": "The question was answered in the negative.",
     "fullscreen": "Click for full view.",
     "abort": "Cancel",
-    "acknowledge": "Let the question go",
+    "acknowledge": "Moves the question back to the public list",
     "your-answer": "Your answer",
     "answer": "Comment this question",
     "save-answer": "Save",
