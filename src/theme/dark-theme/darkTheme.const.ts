@@ -7,17 +7,17 @@ export const dark = {
   '--secondary-variant': '#6f74dd',
 
   '--background': '#121212',
-  '--surface': '#37474f',
-  '--dialog': 'dimgray',
-  '--cancel': 'beige',
+  '--surface': '#052338',
+  '--dialog': '#09394f',
+  '--cancel': '#eadabf',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',
 
   '--on-primary': '#000000',
   '--on-secondary': '#000000',
-  '--on-background': 'beige',
-  '--on-surface': 'beige',
-  '--on-dialog': 'beige',
+  '--on-background': '#eadabf',
+  '--on-surface': '#eadabf',
+  '--on-dialog': '#eadabf',
   '--on-cancel': '#000000',
 
   '--green': 'lightgreen',
