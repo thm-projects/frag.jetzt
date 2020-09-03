@@ -127,7 +127,7 @@
     "edit-correct-reset": "Markierung zurücksetzen",
     "edit-wrong": "Als falsch / kritisch markieren",
     "edit-wrong-reset": "Markierung zurücksetzen",
-    "edit-answer-create": "Beantworten / kommentieren",
+    "edit-answer-create": "Beantworten / Kommentieren",
     "edit-answer-edit": "Antwort anzeigen / bearbeiten",
     "edit-favorite": "Als interessant markieren",
     "edit-favorite-reset": "Markierung zurücksetzen"
@@ -231,7 +231,7 @@
     "name-length-error": "Titel muss zwischen 3 und 20 Zeichen liegen.",
     "no-moderators": "",
     "present": "Präsentieren",
-    "public-stream": "Öffentliche Fragen",
+    "public-stream": "Fragen",
     "really-delete-comments": "Willst du wirklich alle Fragen dieser Sitzung löschen? Die Aktion kann nicht rückgängig gemacht werden.",
     "really-delete-comments-hint": "Es gibt Fragen in dieser Sitzung, die du für einen Bonus markiert hast. Entferne die Markierungen, um alle Fragen zu löschen.",
     "delete-comments-alt-header": "Sterne vergeben",

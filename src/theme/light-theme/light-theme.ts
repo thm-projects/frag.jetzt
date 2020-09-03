@@ -8,7 +8,7 @@ export const arsnova = {
 
   '--background': 'Moccasin',
   '--surface': 'LightGoldenrodYellow',
-  '--dialog': 'LightGoldenrodYellow',
+  '--dialog': 'Papayawhip',
   '--cancel': 'Chocolate',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'Moccasin',
