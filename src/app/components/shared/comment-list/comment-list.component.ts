@@ -111,10 +111,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
           if (this.room && this.room.extensions && this.room.extensions['comments']) {
             if (this.room.extensions['comments'].enableModeration !== null) {
               this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+              localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
             }
             if (this.room.extensions['comments'].directSend !== null) {
               this.directSend = this.room.extensions['comments'].directSend;
             }
+          }
+          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
+            this.roomService.addToHistory(this.room.id);
+            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
           this.subscribeCommentStream();
           this.commentService.getAckComments(this.roomId)
