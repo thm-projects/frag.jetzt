@@ -93,7 +93,8 @@
                     aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
                         class="main-icon"
-                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">question_answer
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
+                        matTooltip="{{ 'room-page.session-question-board' | translate}}">question_answer
               </mat-icon>
               <h3>{{ 'room-page.comments' | translate}}</h3>
             </button>
@@ -106,8 +107,9 @@
                     aria-labelledby="gavel">
               <mat-icon matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon"
-                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}">gavel
-              </mat-icon>
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
+                        matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
+                        </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
