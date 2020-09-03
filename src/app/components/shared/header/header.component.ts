@@ -98,6 +98,7 @@ export class HeaderComponent implements OnInit {
           /* searches the url segments for a short id */
           if (shortIdRegExp.test(element.path)) {
             this.shortId = element.path;
+            localStorage.setItem('shortId', this.shortId);
           }
         });
       }
