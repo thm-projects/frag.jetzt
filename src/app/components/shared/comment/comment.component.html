@@ -85,7 +85,7 @@
         </button>
       </ng-container>
       <ng-container *ngIf="!isStudent">
-        <button mat-mini-fab
+        <button mat-icon-button
                 class="edit-button"
                 [mat-menu-trigger-for]="editMenu">
           <mat-icon matTooltip="{{ 'comment-page.edit-menu' | translate }}">edit</mat-icon>
@@ -272,7 +272,7 @@
         </strong>
       </div>
       <span class="fill-remaining-space"></span>
-      <button mat-mini-fab
+      <button mat-icon-button
               class="moderate-button"
               *ngIf="(isCreator || isModerator) && !inAnswerView"
               (click)="setAck(comment)"

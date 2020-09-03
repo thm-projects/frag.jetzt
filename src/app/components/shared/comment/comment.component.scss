@@ -148,13 +148,9 @@ mat-card-content > :first-child {
 }
 
 .edit-button .mat-icon, .moderate-button .mat-icon {
-  transform: scale(1.0) !important;
-  background-color: var(--secondary) !important;
-  color: var(--on-secondary) !important;
-}
-
-.mat-mini-fab.mat-accent {
-  background-color: var(--secondary) !important;
+  transform: scale(1.2);
+  background-color: var(-surface);
+  color: var(--on-surface);
 }
 
 @keyframes upVote {
