@@ -147,7 +147,13 @@ mat-card-content > :first-child {
   animation: rubber 1s;
 }
 
-.edit-button .mat-icon, .moderate-button .mat-icon {
+.edit-button .mat-icon {
+  transform: scale(2.0);
+  background-color: var(-surface);
+  color: var(--on-surface);
+}
+
+.moderate-button .mat-icon {
   transform: scale(1.2);
   background-color: var(-surface);
   color: var(--on-surface);
