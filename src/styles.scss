@@ -69,6 +69,7 @@ body {
     color: var(--on-surface);
     font-size: 14px !important;
     font-weight: normal !important;
+    line-height: 1.5 !important;
     hyphens: auto;
   }
 }
@@ -130,8 +131,8 @@ address {
   border-radius: 10px !important;
 }
 
-.mat-card {
-  line-height: 150% !important;
+.mat-card-content {
+  line-height: 1.5 !important;
 }
 
 a.info {
