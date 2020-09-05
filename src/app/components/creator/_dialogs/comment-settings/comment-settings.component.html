@@ -24,15 +24,18 @@
     </div>
   </div>
   <div fxLayout="column">
-    <div fxLayout="row">
-      <!--moderate questions-->
-      <p class="oldtypo-p">{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
-        <mat-slide-toggle [(ngModel)]="enableCommentModeration"
-                          aria-labelledby="settings-comment-moderation"
-                          matTooltip="{{ 'room-page.settings-comment-moderation-description' | translate }}">
-        </mat-slide-toggle>
-      </p>
-    </div>
+
+    <!--moderate questions
+  <div fxLayout="row">
+    <p class="oldtypo-p">{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
+      <mat-slide-toggle [(ngModel)]="enableCommentModeration"
+                        aria-labelledby="settings-comment-moderation"
+                        matTooltip="{{ 'room-page.settings-comment-moderation-description' | translate }}">
+      </mat-slide-toggle>
+    </p>
+  </div>
+  -->
+
     <div fxLayout="row"
          *ngIf="enableCommentModeration">
       <!--direct send-->
