@@ -2,27 +2,7 @@
   <!--questions-->
   <h2 class="oldtypo-h2">{{'room-page.comments' | translate }}</h2>
   <mat-divider></mat-divider>
-  <div fxLayout="column">
-    <div fxLayout="row">
-      <!--comment threshold-->
-      <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
-        <mat-slide-toggle [(ngModel)]="settingThreshold"
-                          aria-labelledby="threshold"
-                          matTooltip="{{ 'room-page.threshold-description' | translate }}">
-        </mat-slide-toggle>
-      </p>
-    </div>
-    <div fxLayout="row"
-         *ngIf="settingThreshold">
-      <mat-slider id="commentSlider"
-                  min="-100"
-                  max="0"
-                  step="5"
-                  [(ngModel)]="commentThreshold"
-                  (input)="onSliderChange($event)"></mat-slider>
-      <h2 class="oldtypo-h2">&nbsp;{{commentThreshold | number}}</h2>
-    </div>
-  </div>
+
   <div fxLayout="column">
 
     <!--moderate questions
@@ -47,6 +27,29 @@
       </p>
     </div>
   </div>
+
+  <div fxLayout="column">
+    <div fxLayout="row">
+      <!--comment threshold-->
+      <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
+        <mat-slide-toggle [(ngModel)]="settingThreshold"
+                          aria-labelledby="threshold"
+                          matTooltip="{{ 'room-page.threshold-description' | translate }}">
+        </mat-slide-toggle>
+      </p>
+    </div>
+    <div fxLayout="row"
+         *ngIf="settingThreshold">
+      <mat-slider id="commentSlider"
+                  min="-100"
+                  max="0"
+                  step="5"
+                  [(ngModel)]="commentThreshold"
+                  (input)="onSliderChange($event)"></mat-slider>
+      <h2 class="oldtypo-h2">&nbsp;{{commentThreshold | number}}</h2>
+    </div>
+  </div>
+
   <div fxLayoutAlign="center center">
     <button mat-raised-button
             class="export"

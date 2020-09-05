@@ -248,7 +248,7 @@
     "settings-comment-moderation": "Fragen moderieren",
     "settings-comment-moderation-description": "Du oder einer deiner Moderatoren können Fragen aus der Anzeige verbannen.",
     "settings-direct-send": "Fragen sofort sichtbar",
-    "settings-direct-send-description": "Jede Frage wird unmoderiert sofort veröffentlicht.",
+    "settings-direct-send-description": "Jede Frage wird sofort veröffentlicht. Schalte diese Option ab, wenn du jede Frage einzeln freigeben willst.",
     "sure": "Bist du sicher?",
     "tag-new": "Neue Fragenkategorie:",
     "tag-error": "Muss zwischen 3 und 30 Zeichen lang sein",
