@@ -57,6 +57,7 @@
     "login": "Login",
     "logout": "Log out",
     "moderation-enabled": "The session will be moderated.",
+    "QR": "QR code of the session in full view",
     "my-account": "Account",
     "my-guest-account": "Guest Account",
     "my-sessions": "Sessions",
