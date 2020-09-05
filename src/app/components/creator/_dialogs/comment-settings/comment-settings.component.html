@@ -8,7 +8,7 @@
       <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
         <mat-slide-toggle [(ngModel)]="settingThreshold"
                           aria-labelledby="threshold"
-                          matTooltip="{{ 'room-page.comments' | translate }}">
+                          matTooltip="{{ 'room-page.threshold-description' | translate }}">
         </mat-slide-toggle>
       </p>
     </div>
@@ -28,7 +28,9 @@
       <!--moderate questions-->
       <p class="oldtypo-p">{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
         <mat-slide-toggle [(ngModel)]="enableCommentModeration"
-                          aria-labelledby="settings-comment-moderation"></mat-slide-toggle>
+                          aria-labelledby="settings-comment-moderation">
+          matTooltip="{{ 'room-page.settings-comment-moderation-description' | translate }}">
+        </mat-slide-toggle>
       </p>
     </div>
     <div fxLayout="row"
@@ -36,7 +38,9 @@
       <!--direct send-->
       <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
         <mat-slide-toggle [(ngModel)]="directSend"
-                          aria-labelledby="settings-direct-send"></mat-slide-toggle>
+                          aria-labelledby="settings-direct-send">
+          matTooltip="{{ 'room-page.settings-direct-send-description' | translate }}">
+        </mat-slide-toggle>
       </p>
     </div>
   </div>
