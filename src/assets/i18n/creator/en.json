@@ -208,7 +208,7 @@
     "changes-successful": "Successfully updated.",
     "comments": "Questions",
     "comments-deleted": "All questions have been deleted.",
-    "copy-session-id": "Copy link to session to the clipboard",
+    "copy-session-id": "Copy the link to this session to the clipboard and pass it on to the session participants.",
     "create-content": "Create content",
     "default-content-group": "Default",
     "delete-all-comments": "Delete all questions",
@@ -255,7 +255,7 @@
     "tag-error": "Must be between 3 and 30 characters long",
     "tags": "Tags",
     "threshold": "Threshold value for display",
-    "threshold-description": "Set the threshold value above which a rated question should be displayed.",
+    "threshold-description": "Set the threshold value above which a negatively rated question should be displayed.",
     "update": "Save",
     "update-description": "Save changes",
     "question": "Question",
@@ -275,7 +275,7 @@
     "tokens-deleted": "All tokens of this sessions have been deleted."
   },
   "session": {
-    "a11y-description": "Enter a description for the session",
+    "a11y-description": "Enter a description of the session",
     "create-session": "Create session",
     "description": "Description",
     "max-ls": "Max. characters:",
