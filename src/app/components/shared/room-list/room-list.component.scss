@@ -98,9 +98,5 @@ th, tr {
 }
 
 .list-entries {
-  padding-left: 3%;
   width: 100%;
-  &:nth-child(even) {
-    background-color: var(--alt-dialog);
-  }
 }
