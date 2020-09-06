@@ -7,12 +7,12 @@ button {
 }
 
 .filter {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 table, th, tr, td {
   background-color: var(--primary-variant) !important;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
   hyphens: auto;
   overflow-wrap: break-word;
 }
@@ -29,22 +29,22 @@ th, tr {
 .sessionName {
   width: 8%;
   min-width: 50px;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 .sessionId {
   width: 8%;
   min-width: 50px;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 .roleName {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
   width: 5%;
 }
 
 .buttonName {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
   width: 5%;
   display: flex;
   place-content: stretch flex-end;
@@ -95,4 +95,12 @@ th, tr {
 
 .clickable {
   cursor: pointer;
+}
+
+.mat-row:nth-child(even) {
+  background-color: var(--alt-dialog) !important;
+}
+
+.list-entries {
+  width: 100%;
 }
