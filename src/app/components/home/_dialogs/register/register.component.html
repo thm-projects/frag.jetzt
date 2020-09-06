@@ -48,14 +48,15 @@
       {{ 'register.password-unmatch' | translate }}
     </mat-error>
   </mat-form-field>
-  <app-dialog-action-buttons
-    buttonsLabelSection="register"
-    confirmButtonLabel="register"
-    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-    [confirmButtonClickAction]="buildRegisterActionCallback(userName, userPassword1)"
-  ></app-dialog-action-buttons>
 </form>
 </mat-dialog-content>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="register"
+  confirmButtonLabel="register"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildRegisterActionCallback(userName, userPassword1)"
+></app-dialog-action-buttons>
 
 <div class="visually-hidden">
   <div id="register-email-description">{{ 'register.email-description' | translate }}</div>
