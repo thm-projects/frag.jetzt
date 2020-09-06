@@ -226,6 +226,6 @@ a {
   line-height: normal !important;
 }
 
-.mat-row:nth-child(even) {
+::ng-deep .mat-row:nth-child(even) {
   background-color: var(--alt-dialog) !important;
 }
