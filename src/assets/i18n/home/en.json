@@ -63,8 +63,8 @@
     "my-sessions": "Sessions",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonuses (yellow stars), export the questions so that you can check submitted bonus tokens.",
     "sure": "Are you sure?",
-    "user-bonus-token": "Bonus tokens",
-    "user-got-tokens": "You have bonus tokens linked to this account that will be lost!",
+    "user-bonus-token": "Bonus stars",
+    "user-got-tokens": "You haven't received a bonus star for a good question yet.",
     "visited-sessions": "Sessions",
     "question-wall": "Question Wall …"
   },
@@ -256,7 +256,7 @@
   },
   "user-bonus-token": {
     "header": "Tokens for bonus points",
-    "no-bonus": "You have not yet received a bonus point (star).",
+    "no-bonus": "You haven't received a bonus star for a good question yet.",
     "redeem-tokens": "Redeem tokens",
     "mail-subject": "Request%20to%20redeem%20my%20tokens%20from%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
     "mail-body-1": "Hello%2C%0D%0A%0D%0Ai%20have%20received%20the%20following%20tokens%20today%20in%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
