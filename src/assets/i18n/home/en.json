@@ -53,7 +53,7 @@
     "delete-account": "Delete account",
     "home-header": "Collect and rate questions",
     "id": "Key",
-    "logged-out": "Logging out successful",
+    "logged-out": "You are logged out now.",
     "login": "Login",
     "logout": "Log out",
     "moderation-enabled": "The session will be moderated.",
@@ -66,7 +66,7 @@
     "user-bonus-token": "Your bonus stars",
     "user-got-tokens": "You haven't received a bonus star for a good question yet.",
     "visited-sessions": "Sessions",
-    "question-wall": "Question Wall …"
+    "question-wall": "Present questions live …"
   },
   "help": {
     "cancel": "Close",
@@ -119,7 +119,7 @@
     "login": "Log in with account",
     "login-data-incorrect": "Username or password incorrect",
     "login-description": "Log in with the entered account data",
-    "login-successful": "Login successful",
+    "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",
     "not-registered": "Don't have an account yet?",
     "or": "or",
@@ -256,7 +256,7 @@
     "cancel-description": "Cancel"
   },
   "user-bonus-token": {
-    "header": "Tokens for bonus points",
+    "header": "Tokens for bonus stars",
     "no-bonus": "You haven't received a bonus star for a good question yet.",
     "redeem-tokens": "Redeem tokens",
     "mail-subject": "Request%20to%20redeem%20my%20tokens%20from%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
