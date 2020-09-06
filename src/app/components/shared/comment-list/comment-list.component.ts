@@ -127,9 +127,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
               this.comments = comments;
               this.getComments();
             });
+          /**
           if (this.userRole === UserRole.PARTICIPANT) {
             this.openCreateDialog();
           }
+          */
         });
       });
     });
