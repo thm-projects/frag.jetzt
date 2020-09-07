@@ -22,7 +22,7 @@ export const arsnova = {
 
   '--green': '#00FF00',
   '--red': '#FF0000',
-  '--yellow': 'gold',
+  '--yellow': 'red',
   '--blue': '#002878',
   '--purple': '#9c27b0',
   '--light-green': 'lightgreen',

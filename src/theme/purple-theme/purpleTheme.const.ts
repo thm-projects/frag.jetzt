@@ -22,7 +22,7 @@ export const purple = {
 
   '--green': 'green',
   '--red': '#ff8a80',
-  '--yellow': 'gold',
+  '--yellow': 'red',
   '--blue': 'blue',
   '--purple': 'purple',
   '--light-green': 'lightgreen',
