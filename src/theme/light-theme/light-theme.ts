@@ -13,12 +13,12 @@ export const arsnova = {
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'Moccasin',
 
-  '--on-primary': '#ffffff',
-  '--on-secondary': '#FFFFFF',
+  '--on-primary': '#fafad2',
+  '--on-secondary': '#fafad2',
   '--on-background': '#000000',
   '--on-surface': '#000000',
   '--on-dialog': '#000000',
-  '--on-cancel': 'white',
+  '--on-cancel': '#fafad2',
 
   '--green': '#00FF00',
   '--red': '#FF0000',
