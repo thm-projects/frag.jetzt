@@ -225,7 +225,3 @@ a {
 .mat-icon-button i, .mat-icon-button .mat-icon {
   line-height: normal !important;
 }
-
-::ng-deep .mat-row:nth-child(even) {
-  background-color: var(--alt-dialog) !important;
-}
