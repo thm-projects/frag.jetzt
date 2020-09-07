@@ -1,6 +1,6 @@
 export const arsnova = {
 
-  '--primary' : 'brown',
+  '--primary' : 'Maroon',
   '--primary-variant': 'LightGoldenrodYellow',
 
   '--secondary': 'darkgreen',
@@ -9,7 +9,7 @@ export const arsnova = {
   '--background': 'Moccasin',
   '--surface': 'LightGoldenrodYellow',
   '--dialog': 'Papayawhip',
-  '--cancel': 'Chocolate',
+  '--cancel': 'Firebrick',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': 'Moccasin',
 
