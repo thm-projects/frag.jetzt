@@ -5,7 +5,7 @@
             aria-labelledby="back-label"
             *ngIf="router.url !== '/home'"
             (click)="goBack()">
-    <mat-icon class="header-icons">arrow_back</mat-icon>
+      <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
     <button mat-icon-button
             aria-hidden="true"
@@ -106,7 +106,7 @@
             id="session-button">
       <div class="label-icon">
         <mat-icon *ngIf="!user.isGuest"
-                  class="header-icons">account_circle
+                  class="header-icons">assignment_ind
         </mat-icon>
         <mat-icon *ngIf="user.isGuest"
                   svgIcon="meeting_room"
@@ -125,7 +125,7 @@
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
       <mat-icon *ngIf="!user.isGuest"
-                class="header-icons">account_circle
+                class="header-icons">assignment_ind
       </mat-icon>
       <mat-icon *ngIf="user.isGuest"
                 svgIcon="meeting_room"
@@ -139,7 +139,7 @@
             (click)=login(false)
             aria-labelledby="login-label">
       <div class="label-icon">
-        <mat-icon class="header-icons">account_circle</mat-icon>
+        <mat-icon class="header-icons">person</mat-icon>
         <h2 class="oldtypo-h2"
             *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
@@ -150,7 +150,7 @@
             *ngIf="!user && deviceType === 'mobile'"
             (click)=login(false)
             aria-labelledby="login-label">
-      <mat-icon class="header-icons">account_circle</mat-icon>
+      <mat-icon class="header-icons">person</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
