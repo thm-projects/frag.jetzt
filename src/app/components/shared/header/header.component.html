@@ -71,7 +71,7 @@
               *ngIf="user"
               routerLink="/user"
               tabindex="0">
-        <mat-icon class="sessions">people</mat-icon>
+        <mat-icon class="sessions">group</mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
