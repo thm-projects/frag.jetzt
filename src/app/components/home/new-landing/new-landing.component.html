@@ -1,9 +1,17 @@
-<div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="20px" fxFill>
-    <app-room-join></app-room-join>
-  <button [disabled]="cookiesDisabled()"  id="new_session-button" mat-fab class="fab-extended" (click)="openCreateRoomDialog()" aria-labelledby="create-label">
-      <mat-icon class="add">people</mat-icon>
+<div fxLayout="column"
+     fxLayoutAlign="center center"
+     fxlayoutgap="20px"
+     fxFill>
+  <app-room-join></app-room-join>
+  <button [disabled]="cookiesDisabled()"
+          id="new_session-button"
+          mat-flat-button
+          class="new-session"
+          (click)="openCreateRoomDialog()"
+          aria-labelledby="create-label">
+    <mat-icon class="add">people</mat-icon>
     {{'home-page.create-session' | translate}}
-    </button>
+  </button>
 
   <div class="visually-hidden">
     <div id="create-label">{{ 'home-page.accessibility-create' | translate}}</div>
