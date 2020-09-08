@@ -4,7 +4,7 @@
 
     <button (click)="showDemo()" aria-labelledby="demo-label" class="focus_button"
             mat-button>
-      <mat-icon>flag</mat-icon>
+      <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
@@ -43,7 +43,7 @@
     <span class="fill-remaining-space"></span>
 
     <button (click)="showImprint()" aria-labelledby="imprint-label" class="focus_button" mat-button>
-      <mat-icon>info</mat-icon>
+      <mat-icon>contact_phone</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.imprint' | translate}}
       </span>
