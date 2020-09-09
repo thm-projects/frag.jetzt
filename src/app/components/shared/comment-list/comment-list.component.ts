@@ -17,7 +17,7 @@ import { NotificationService } from '../../../services/util/notification.service
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -90,58 +90,59 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.authenticationService.watchUser.subscribe(newUser => {
-      if (newUser) {
-        this.user = newUser;
-        this.userRole = this.user.role;
-        if (this.userRole === 0) {
-          this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
-            for (const v of votes) {
-              this.commentVoteMap.set(v.commentId, v);
-            }
-          });
+    this.initRoom(() => {
+      this.authenticationService.watchUser.subscribe(newUser => {
+        if (newUser) {
+          this.user = newUser;
+          this.userRole = this.user.role;
+          if (this.userRole === 0) {
+            this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
+              for (const v of votes) {
+                this.commentVoteMap.set(v.commentId, v);
+              }
+            });
+          }
         }
-      }
-    });
-    this.route.params.subscribe(params => {
-      this.shortId = params['shortId'];
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-        this.roomService.getRoomByShortId(this.shortId).subscribe( room => {
-          this.room = room;
-          if (this.room && this.room.extensions && this.room.extensions['comments']) {
-            if (this.room.extensions['comments'].enableModeration !== null) {
-              this.moderationEnabled = this.room.extensions['comments'].enableModeration;
-              localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
+      });
+      this.route.params.subscribe(params => {
+        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
+          this.roomService.getRoomByShortId(this.shortId).subscribe( room => {
+            this.room = room;
+            if (this.room && this.room.extensions && this.room.extensions['comments']) {
+              if (this.room.extensions['comments'].enableModeration !== null) {
+                this.moderationEnabled = this.room.extensions['comments'].enableModeration;
+                localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
+              }
+              if (this.room.extensions['comments'].directSend !== null) {
+                this.directSend = this.room.extensions['comments'].directSend;
+              }
             }
-            if (this.room.extensions['comments'].directSend !== null) {
-              this.directSend = this.room.extensions['comments'].directSend;
+            if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
+              this.roomService.addToHistory(this.room.id);
+              this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
             }
-          }
-          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-            this.roomService.addToHistory(this.room.id);
-            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
-          }
-          this.subscribeCommentStream();
-          this.commentService.getAckComments(this.roomId)
+            this.subscribeCommentStream();
+            this.commentService.getAckComments(this.roomId)
             .subscribe(comments => {
               this.comments = comments;
               this.getComments();
             });
-          /**
-          if (this.userRole === UserRole.PARTICIPANT) {
-            this.openCreateDialog();
-          }
-          */
+            /**
+             if (this.userRole === UserRole.PARTICIPANT) {
+              this.openCreateDialog();
+            }
+             */
+          });
         });
       });
-    });
-    this.currentSort = this.votedesc;
-    this.hideCommentsList = false;
-    this.translateService.use(localStorage.getItem('currentLang'));
-    this.deviceType = localStorage.getItem('deviceType');
-    this.isSafari = localStorage.getItem('isSafari');
-    this.translateService.get('comment-list.search').subscribe(msg => {
-      this.searchPlaceholder = msg;
+      this.currentSort = this.votedesc;
+      this.hideCommentsList = false;
+      this.translateService.use(localStorage.getItem('currentLang'));
+      this.deviceType = localStorage.getItem('deviceType');
+      this.isSafari = localStorage.getItem('isSafari');
+      this.translateService.get('comment-list.search').subscribe(msg => {
+        this.searchPlaceholder = msg;
+      });
     });
   }
 
@@ -150,6 +151,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentStream.unsubscribe();
     }
     this.titleService.resetTitle();
+  }
+
+  initRoom(action: () => void) {
+    const spl = location.pathname.split('/');
+    this.shortId = spl[spl.length - 2];
+    this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+      this.roomId = room.id;
+      action();
+    });
   }
 
   checkScroll(): void {
