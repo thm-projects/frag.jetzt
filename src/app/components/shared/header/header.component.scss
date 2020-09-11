@@ -54,14 +54,14 @@ svg {
 }
 
 .question-focus-btn{
-  background-color:var(--primary);
+  background-color:var(--secondary);
   *{
-    color:var(--on-primary);
+    color:var(--on-secondary);
   }
 }
 
 .question-focus-btn-txt{
-  padding-left:6px;
+  padding-left:10px;
 }
 
 .color-warn {
@@ -69,7 +69,5 @@ svg {
 }
 
 .beamer-icon {
-  transform: scale(1.8);
-  padding-right: 10px;
-  padding-left: 5px;
+  transform: scale(1.5);
 }
