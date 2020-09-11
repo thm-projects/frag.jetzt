@@ -104,7 +104,7 @@
     "mark-not-correct": "Markierung zurücknehmen",
     "mark-not-favorite": "Stern zurücknehmen",
     "mark-not-wrong": "Markierung zurücknehmen",
-    "mark-read": "Die Frage wurde live präsentiert. Du kannst präsentierte Fragen filtern.",
+    "mark-read": "Die Frage wurde präsentiert. Du kannst präsentierte Fragen filtern.",
     "mark-wrong": "Frage verneinen oder als kritisch markieren",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comments": "Keine Fragen vorhanden",
