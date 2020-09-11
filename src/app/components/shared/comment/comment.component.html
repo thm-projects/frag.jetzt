@@ -209,10 +209,11 @@
         }
           }}</span>
       </div>
-      <div fxLayout="column"
-           class="up-down-arrows"
-           *ngIf="isStudent"
-           [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center"
+        *ngIf="isStudent"
+        [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
         <button mat-icon-button
                 (click)="voteUp(comment)"
                 matTooltip="{{ 'comment-page.vote-up' | translate }}"
