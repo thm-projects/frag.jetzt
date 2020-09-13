@@ -333,7 +333,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       comment.ack = true;
     } else {
-      if (this.userRole === 1 || this.userRole === 3) {
+      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
         this.translateService.get('comment-list.comment-sent').subscribe(msg => {
           message = msg;
         });
