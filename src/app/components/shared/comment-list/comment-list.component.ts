@@ -328,19 +328,22 @@ export class CommentListComponent implements OnInit, OnDestroy {
   send(comment: Comment): void {
     let message;
     if (this.directSend) {
+      comment.ack = true;
       this.translateService.get('comment-list.comment-sent').subscribe(msg => {
         message = msg;
       });
-      comment.ack = true;
     } else {
-      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-        message = msg;
-      });
-      if (this.userRole === 1 || this.userRole === 3) {
+      if (this.userRole === 0) {
+        comment.ack = false;
+        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
+          message = msg;
+        });
+      }
+      if (this.userRole === 2 || this.userRole === 3) {
+        comment.ack = true;
         this.translateService.get('comment-list.comment-sent').subscribe(msg => {
           message = msg;
         });
-        comment.ack = true;
       }
     }
 
