@@ -338,7 +338,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
       }
     } else {
-      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
         message = msg;
       });
     }
