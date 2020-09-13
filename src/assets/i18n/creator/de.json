@@ -45,8 +45,8 @@
     "vote-asc": "Aufsteigende Bewertungen",
     "vote-desc": "Absteigende Bewertungen",
     "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
-    "switch-to-comment-list": "Zur öffentlichen Fragenliste wechseln",
-    "switch-to-moderation-list": "Zur Moderationsliste wechseln"
+    "switch-to-comment-list": "Zur öffentlichen Fragenliste",
+    "switch-to-moderation-list": "Zum Index"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",

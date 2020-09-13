@@ -23,7 +23,7 @@
     </h2>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
-    <button *ngIf="router.url.includes('comments') && !router.url.includes('moderator') && deviceType === 'desktop'"
+    <button *ngIf="!router.url.includes('moderator/comments') && deviceType === 'desktop'"
             mat-raised-button
             class="question-focus-btn"
             routerLink="participant/room/{{shortId}}/comments/questionwall">
