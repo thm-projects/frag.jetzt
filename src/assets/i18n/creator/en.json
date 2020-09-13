@@ -47,7 +47,7 @@
     "vote-desc": "Descending votes",
     "wrong": "Marked as wrong or critical",
     "switch-to-comment-list": "Switch to public question board",
-    "switch-to-moderation-list": "Switch to moderation board"
+    "switch-to-moderation-list": "Switch to index"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
