@@ -27,7 +27,7 @@ import { TitleService } from '../../../services/util/title.service';
 @Component({
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
-  styleUrls: ['./comment-list.component.scss']
+  styleUrls: ['./comment-list.component.scss'],
 })
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
@@ -71,20 +71,21 @@ export class CommentListComponent implements OnInit, OnDestroy {
   freeze = false;
   commentStream: Subscription;
 
-  constructor(private commentService: CommentService,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              protected langService: LanguageService,
-              private wsCommentService: WsCommentServiceService,
-              protected roomService: RoomService,
-              protected voteService: VoteService,
-              private authenticationService: AuthenticationService,
-              private notificationService: NotificationService,
-              public eventService: EventService,
-              public liveAnnouncer: LiveAnnouncer,
-              private route: ActivatedRoute,
-              private router: Router,
-              private titleService: TitleService
+  constructor(
+    private commentService: CommentService,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    protected langService: LanguageService,
+    private wsCommentService: WsCommentServiceService,
+    protected roomService: RoomService,
+    protected voteService: VoteService,
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService,
+    public eventService: EventService,
+    public liveAnnouncer: LiveAnnouncer,
+    private route: ActivatedRoute,
+    private router: Router,
+    private titleService: TitleService,
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -106,7 +107,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       this.route.params.subscribe(params => {
         this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-          this.roomService.getRoomByShortId(this.shortId).subscribe( room => {
+          this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
             this.room = room;
             if (this.room && this.room.extensions && this.room.extensions['comments']) {
               if (this.room.extensions['comments'].enableModeration !== null) {
@@ -123,10 +124,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
             }
             this.subscribeCommentStream();
             this.commentService.getAckComments(this.roomId)
-            .subscribe(comments => {
-              this.comments = comments;
-              this.getComments();
-            });
+              .subscribe(comments => {
+                this.comments = comments;
+                this.getComments();
+              });
             /**
              if (this.userRole === UserRole.PARTICIPANT) {
               this.openCreateDialog();
@@ -180,7 +181,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
     } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
-     }
+    }
   }
 
   activateSearch() {
@@ -204,9 +205,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.thresholdEnabled) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
       if (this.hideCommentsList) {
-        this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
+        this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
       } else {
-        this.setComments(this.comments.filter( x => x.score >= commentThreshold ));
+        this.setComments(this.comments.filter(x => x.score >= commentThreshold));
       }
     }
     this.sortComments(this.currentSort);
@@ -305,7 +306,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       width: '900px',
       maxWidth: 'calc( 100% - 50px )',
       maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false
+      autoFocus: false,
     });
     dialogRef.componentInstance.user = this.user;
     dialogRef.componentInstance.roomId = this.roomId;
@@ -327,20 +328,21 @@ export class CommentListComponent implements OnInit, OnDestroy {
   send(comment: Comment): void {
     let message;
     if (this.directSend) {
+      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+        message = msg;
+      });
+      comment.ack = true;
+    } else {
       if (this.userRole === 1 || this.userRole === 3) {
         this.translateService.get('comment-list.comment-sent').subscribe(msg => {
           message = msg;
         });
         comment.ack = true;
       } else {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe( msg => {
+        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
           message = msg;
         });
       }
-    } else {
-      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-        message = msg;
-      });
     }
     this.wsCommentService.add(comment);
     this.notificationService.show(message);

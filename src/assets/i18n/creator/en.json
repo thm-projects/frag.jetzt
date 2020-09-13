@@ -22,6 +22,7 @@
     "comment-stream-stopped": "The question stream has been stopped.",
     "comment-stream-started": "The question stream has been started.",
     "comment-sent": "The question has been published.",
+    "comment-sent-to-moderator": "The question will now be reviewed by a moderator.",
     "comment-deleted": "The question has been deleted.",
     "correct": "Marked as correct or done",
     "favorite": "Bonus question",

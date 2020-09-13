@@ -22,6 +22,7 @@
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Strom wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",
+    "comment-sent-to-moderator": "Die Frage wird nun von einem Moderator überprüft.",
     "comment-deleted": "Die Frage wurde gelöscht.",
     "correct": "Als richtig oder erledigt markierte Fragen",
     "favorite": "Ausgezeichnete Fragen",
