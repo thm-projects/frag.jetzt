@@ -333,17 +333,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       comment.ack = true;
     } else {
+      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
+        message = msg;
+      });
       if (this.userRole === 1 || this.userRole === 3) {
         this.translateService.get('comment-list.comment-sent').subscribe(msg => {
           message = msg;
         });
         comment.ack = true;
-      } else {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-          message = msg;
-        });
       }
     }
+
     this.wsCommentService.add(comment);
     this.notificationService.show(message);
   }
