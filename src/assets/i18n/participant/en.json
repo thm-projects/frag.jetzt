@@ -146,7 +146,7 @@
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
     "intro-desc": "Click on a question or navigate forwards with the space bar or backwards and forwards with the arrow keys.",
-    "intro-autofocus": "Turn on »Auto Focus« in the lower left corner to always show the latest question.",
+    "intro-autofocus": "Tip for live sessions: Turn on »Auto Focus« in the lower left corner to always display the latest question.",
     "sort": "Sort",
     "sort-time": "Time",
     "sort-score": "Score",

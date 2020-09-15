@@ -9,7 +9,7 @@ export class CommentSettingsDialog {
   constructor(
     enableThreshold: boolean = false,
     threshold: number = -100,
-    enableModeration: boolean = false,
+    enableModeration: boolean = true,
     directSend: boolean = true,
     enableTags: boolean = false,
     tags: string[] = []

@@ -18,7 +18,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
   isLoading = true;
   commentCounter: number;
-  protected moderationEnabled = false;
+  protected moderationEnabled = true;
   protected sub: Subscription;
   protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;

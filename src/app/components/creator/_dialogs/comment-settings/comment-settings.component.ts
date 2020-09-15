@@ -26,7 +26,7 @@ export class CommentSettingsComponent implements OnInit {
   commentThreshold = -100;
   editRoom: Room;
   settingThreshold = false;
-  enableCommentModeration = false;
+  enableCommentModeration = true;
   directSend = true;
   tagsEnabled = false;
   tags: string[] = [];
