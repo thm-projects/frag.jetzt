@@ -13,9 +13,8 @@ app-comment, mat-card {
   overflow-wrap: break-word;
 }
 
-.answer a {
-  color: #eadabf !important;
-  overflow-wrap: break-word;
+markdown {
+  color: var(--on-surface);
 }
 
 button {
