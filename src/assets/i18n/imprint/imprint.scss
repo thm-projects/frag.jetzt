@@ -3,25 +3,19 @@ p {
   line-height: 1.5;
 }
 
-div {
-  color: var(--on-surface);
-}
-
 img {
+  margin: 5px 0;
   padding: 10px;
-  margin: 0 10px 10px 0;
   background-color: beige;
-  border: 2px solid gray;
   border-radius: 5px;
 }
 
 h2 {
-  font-size: 19px;
-  line-height: 1.1em;
-  margin-bottom: 8px;
-  text-transform: none;
+  font-size: 18px;
+  margin-top: 30px;
 }
 
 a {
   text-decoration: underline;
+  hyphens: manual;
 }
