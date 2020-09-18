@@ -35,7 +35,7 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
       this.loadListener();
     } else {
       const interval = setInterval(() => {
-        if (localStorage.getItem('cookieAccepted')){
+        if (localStorage.getItem('cookieAccepted')) {
           clearInterval(interval);
           this.loadListener();
         }
