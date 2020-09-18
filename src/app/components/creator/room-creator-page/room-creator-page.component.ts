@@ -223,12 +223,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
     let tagExtension;
     if (this.room.extensions !== undefined && this.room.extensions['tags'] !== undefined) {
-      tagExtension = this.room.extensions['tags'];
+      tagExtension = JSON.parse(JSON.stringify(this.room.extensions['tags']));
     }
     dialogRef.componentInstance.extension = tagExtension;
     dialogRef.afterClosed()
       .subscribe(result => {
-        if (result === 'abort') {
+        if (!result || result === 'abort') {
           return;
         } else {
           this.updRoom.extensions['tags'] = result;
