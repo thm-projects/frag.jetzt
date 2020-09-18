@@ -62,10 +62,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   ngOnInit() {
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
+
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
     });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
+      const lang: string = this.translateService.currentLang;
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('question_answer-button').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false) {
@@ -74,8 +76,11 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         document.getElementById('settings-menu').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();
+        if (lang === 'de') {
         this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
                                     'Aktueller Sitzungs-Code: ' + this.room.shortId.slice(0, 8));
+        } else { this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
+          'Current Session-Code: ' + this.room.shortId.slice(0, 8)); }
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false
