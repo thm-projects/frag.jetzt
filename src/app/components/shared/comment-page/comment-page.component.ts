@@ -56,7 +56,7 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
         if (lang === 'de') {
           this.liveAnnouncer.announce('Aktueller Sitzungs-' + document.getElementById('shortId-header').textContent);
         } else {
-          this.liveAnnouncer.announce('Current Sesson-' + document.getElementById('shortId-header').textContent);
+          this.liveAnnouncer.announce('Current Session-' + document.getElementById('shortId-header').textContent);
         }
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
