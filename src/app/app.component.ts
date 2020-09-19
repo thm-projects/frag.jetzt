@@ -21,8 +21,6 @@ export class AppComponent implements OnInit {
               private matomoInjector: MatomoInjector,
               public notification: NotificationService,
               private customIconService: CustomIconService) {
-    translationService.setDefaultLang(this.translationService.getBrowserLang());
-    localStorage.setItem('currentLang', this.translationService.getBrowserLang());
     customIconService.init();
     if (environment.name === 'prod') { this.matomoInjector.init('https://arsnova.thm.de/stats/', 6); }
   }
