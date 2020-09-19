@@ -31,6 +31,19 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngOnInit() {
     this.deviceType = localStorage.getItem('deviceType');
+    if (localStorage.getItem('cookieAccepted')) {
+      this.loadListener();
+    } else {
+      const interval = setInterval(() => {
+        if (localStorage.getItem('cookieAccepted')) {
+          clearInterval(interval);
+          this.loadListener();
+        }
+      }, 100);
+    }
+  }
+
+  loadListener () {
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('session_id-input').focus();
