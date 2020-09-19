@@ -9,7 +9,7 @@
     </button>
     <button mat-icon-button
             aria-hidden="true"
-            *ngIf="isSafari === 'false'  && !router.url.includes('home')"
+            *ngIf="isSafari === 'true'  && !router.url.includes('home')"
             (click)="getRescale().toggleState();">
       <mat-icon class="header-icons"
                 (click)="getRescale().toggleState();">fullscreen

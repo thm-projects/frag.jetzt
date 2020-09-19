@@ -96,7 +96,7 @@
             xPosition="before">
 
     <button mat-menu-item
-            *ngIf="isSafari === 'false'"
+            *ngIf="isSafari === 'true'"
             (click)="sortComments(time)"
             aria-labelledby="access_time">
       <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
