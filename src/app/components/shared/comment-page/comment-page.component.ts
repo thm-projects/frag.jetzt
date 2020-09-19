@@ -47,9 +47,26 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false) {
         document.getElementById('searchBox').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit4) === true && this.eventService.focusOnInput === false) {
-        document.getElementById('sort-button').focus();
+        if (document.body.contains(document.getElementById('sort-button')) === false) {
+          const lang: string = this.translateService.currentLang;
+          this.liveAnnouncer.clear();
+          if (lang === 'de') {
+            this.liveAnnouncer.announce('Die Sortieroption steht zur Verfügung, sobald 3 oder mehr Fragen gestellt wurden.');
+          } else {
+            this.liveAnnouncer.announce('The sort option is available as soon as 3 or more questions have been asked.');
+          }
+        } else {document.getElementById('sort-button').focus(); }
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit5) === true && this.eventService.focusOnInput === false) {
-        document.getElementById('filter-button').focus();
+        if (document.body.contains(document.getElementById('filter-button')) === false) {
+          const lang: string = this.translateService.currentLang;
+          this.liveAnnouncer.clear();
+          if (lang === 'de') {
+            this.liveAnnouncer.announce('Die Filteroption steht zur Verfügung, sobald 3 oder mehr Fragen gestellt wurden.');
+          } else {
+            this.liveAnnouncer.announce('The filter option is available as soon as 3 or more questions have been asked.');
+          }
+        } else {document.getElementById('filter-button').focus(); }
+
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();
         const lang: string = this.translateService.currentLang;
