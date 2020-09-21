@@ -16,6 +16,8 @@ import { Theme } from '../../../../theme/Theme';
 import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
 import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
+import { PatchService } from '../../../services/http/patch.service';
+import { PatchDialogComponent } from '../_dialogs/patch-dialog/patch-dialog.component';
 
 @Component({
   selector: 'app-footer',
@@ -45,7 +47,8 @@ export class FooterComponent implements OnInit {
               private langService: LanguageService,
               public authenticationService: AuthenticationService,
               private themeService: ThemeService,
-              private styleService: StyleService) {
+              private styleService: StyleService,
+              private patchService: PatchService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -77,6 +80,25 @@ export class FooterComponent implements OnInit {
         this.showOverlay();
       }
     }
+    this.showPatch();
+  }
+
+  showPatch() {
+    this.patchService.getPatch().subscribe(patch => {
+      if (!localStorage.getItem('patchId') || localStorage.getItem('patchId') !== patch.id) {
+        const dialogRef = this.dialog.open(PatchDialogComponent, {
+          width: '80%',
+          maxWidth: '600px',
+          autoFocus: true
+        });
+        dialogRef.componentInstance.patch = patch;
+        dialogRef.afterClosed().subscribe(res => {
+          if (dialogRef.componentInstance.dismiss) {
+            localStorage.setItem('patchId', patch.id);
+          }
+        });
+      }
+    });
   }
 
   showDemo() {
