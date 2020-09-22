@@ -14,7 +14,7 @@ export class PatchService {
       setTimeout(() => {
         sub.next(new Patch(
           '1',
-          '### Neuer Patch \n\n Inhalt Inhalt Inhalt',
+          '### Nostalgie oder Moderne? \n\n ![Da geht noch was](https://mobiles-wuppertal.org/fileadmin/user_upload/Wuppertal_O__PNV.jpg)',
           new Date()
         ));
       }, 100);
