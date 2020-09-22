@@ -87,7 +87,7 @@
     "mark-not-wrong": "Die Frage wurde verneint oder als kritisch markiert.",
     "mark-read": "Die Frage wurde öffentlich besprochen.",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
-    "no-comments": "",
+    "no-comments": "Keine Fragen zurzeit",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Senden",
     "send-description": "Frage abschicken",

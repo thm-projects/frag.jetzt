@@ -108,7 +108,7 @@
     "mark-read": "Die Frage wurde präsentiert. Du kannst präsentierte Fragen filtern.",
     "mark-wrong": "Frage verneinen oder als kritisch markieren",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
-    "no-comments": "Keine Fragen vorhanden",
+    "no-comments": "Keine Fragen zurzeit",
     "reject": "Frage auf den Index setzen",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "semicolon": "CSV-Format (.csv)",
