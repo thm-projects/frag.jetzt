@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Patch } from '../../../../models/patch';
+import { Motd } from '../../../../models/motd';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-patch-dialog',
-  templateUrl: './patch-dialog.component.html',
-  styleUrls: ['./patch-dialog.component.scss']
+  templateUrl: './motd-dialog.component.html',
+  styleUrls: ['./motd-dialog.component.scss']
 })
-export class PatchDialogComponent implements OnInit {
-
-  patch: Patch;
+export class MotdDialogComponent implements OnInit {
+  
+  motd: Motd;
   dismiss = false;
 
   constructor(
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<PatchDialogComponent>
+    private dialogRef: MatDialogRef<MotdDialogComponent>
   ) { }
 
   ngOnInit(): void {

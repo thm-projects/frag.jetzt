@@ -1,4 +1,4 @@
-export class Patch {
+export class Motd {
 
   constructor(
     public id: string,
