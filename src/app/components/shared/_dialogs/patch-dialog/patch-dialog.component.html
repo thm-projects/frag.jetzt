@@ -1,0 +1,12 @@
+<div mat-dialog-content>
+  <h1>Hinweis</h1>
+  <p>{{patch.date}}</p>
+  <p>{{patch.id}}</p>
+  <markdown [data]="patch.content"></markdown>
+  <mat-checkbox (change)="setDismiss($event);">Don't show again</mat-checkbox>
+</div>
+<app-dialog-action-buttons
+  confirmButtonLabel="accept"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCloseDialogActionCallback()">
+</app-dialog-action-buttons>
