@@ -74,7 +74,8 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
 
   public announce() {
     this.liveAnnouncer.clear();
-    this.liveAnnouncer.announce('Du befindest dich in der Sitzung mit dem von dir eingegebenen Sitzungs-Code. ' +
+    this.liveAnnouncer.announce('Du befindest dich in der Sitzung' + this.room.name +  'mit dem von dir eingegebenen Sitzungs-Code'
+      + this.room.id + '. ' +
       'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, ' +
       'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
       'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
