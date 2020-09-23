@@ -13,7 +13,8 @@ export class MotdService {
     const obs: Observable<Motd> = new Observable<Motd>(sub => {
       setTimeout(() => {
         sub.next(new Motd(
-          '11',
+          '111',
+          '### Neuer Motd \n\n New Content',
           '### Neuer Motd \n\n Inhalt Inhalt Inhalt',
           new Date()
         ));

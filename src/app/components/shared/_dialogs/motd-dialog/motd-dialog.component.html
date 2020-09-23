@@ -1,10 +1,27 @@
-<h1>Motd</h1>
-<h2>{{motd.date}}</h2>
-<h2>{{motd.id}}</h2>
-<markdown [data]="motd.content"></markdown>
-<mat-checkbox (change)="setDismiss($event);">Don't show again</mat-checkbox>
-<app-dialog-action-buttons
-  confirmButtonLabel="accept"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCloseDialogActionCallback()">
-</app-dialog-action-buttons>
+<ng-container>
+  <ars-row ars-flex-box>
+    <ars-col>
+      <h2>Message of the Day</h2>
+    </ars-col>
+    <ars-fill></ars-fill>
+    <ars-col>
+      <h3>{{motd.date.getDay() + '.' + motd.date.getMonth() + '.' + motd.date.getFullYear()}}</h3>
+    </ars-col>
+  </ars-row>
+  <ars-row>
+    <mat-divider></mat-divider>
+  </ars-row>
+  <ars-row>
+    <markdown [data]="motd[currentLang]"></markdown>
+  </ars-row>
+  <ars-row>
+    <mat-checkbox (change)="setDismiss($event);">Don't show again</mat-checkbox>
+  </ars-row>
+  <ars-row>
+    <app-dialog-action-buttons
+      [spacing]="false"
+      [buttonsLabelSection]="'imprint'"
+      [cancelButtonClickAction]="buildCloseDialogActionCallback()">
+    </app-dialog-action-buttons>
+  </ars-row>
+</ng-container>
