@@ -74,10 +74,20 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
 
   public announce() {
     this.liveAnnouncer.clear();
-    this.liveAnnouncer.announce('Du befindest dich in der Sitzung mit dem von dir eingegebenen Sitzungs-Code. ' +
-      'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, ' +
-      'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
-      'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    const lang: string = this.translateService.currentLang;
+    if (lang === 'de') {
+      this.liveAnnouncer.announce('Du befindest dich in der Sitzung' + this.room.name +
+        'mit dem Sitzungscode' + this.room.shortId.slice(0, 8) + '.' +
+        'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, ' +
+        'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
+        'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
+    } else {
+      this.liveAnnouncer.announce('You have entered the session' + this.room.name + 'with the session code' + this.room.shortId.slice(0, 8)
+      + '.' + 'Press 0 to go back to the previous page, ' +
+        '1 to ask a question, 2 for the session menu' +
+      '8 to hear the current sesion code or 9 to repeat this announcement.');
+    }
+
   }
 
   afterRoomLoadHook() {
