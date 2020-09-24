@@ -17,7 +17,6 @@
         <mat-tab label="{{'comment-page.your-answer' | translate}}">
           <mat-form-field class="input-block">
             <textarea [(ngModel)]="answer" (input)="edit = true"
-                      (keyup)="$event.cancelBubble=true"
                       matInput
                       matTextareaAutosize
                       matAutosizeMinRows="3"
