@@ -1,0 +1,14 @@
+<div>
+  <h2 class="oldtypo-h2 modal" tabindex="0"  mat-dialog-title>{{ 'overlay.title' | translate }} </h2>
+
+  <mat-dialog-content tabindex="0">
+    <p class="oldtypo-p">{{ 'overlay.message' | translate }}</p>
+  </mat-dialog-content>
+
+  <app-dialog-action-buttons
+    buttonsLabelSection="overlay"
+    confirmButtonLabel="cancel"
+    [confirmButtonType]=confirmButtonType
+    [confirmButtonClickAction]="buildDeclineActionCallback()"
+  ></app-dialog-action-buttons>
+</div>

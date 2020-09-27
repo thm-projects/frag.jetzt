@@ -2,8 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { UserService } from '../../../../services/http/user.service';
 import { FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-user-activation',
@@ -19,8 +20,8 @@ export class UserActivationComponent implements OnInit {
     public userService: UserService,
     public notificationService: NotificationService,
     public dialogRef: MatDialogRef<UserActivationComponent>,
-    private translationService: TranslateService
-  ) {
+    private translationService: TranslateService,
+    public eventService: EventService) {
   }
 
   ngOnInit() {
@@ -34,10 +35,36 @@ export class UserActivationComponent implements OnInit {
         this.dialogRef.close({ success: true });
       },
       err => {
-        this.translationService.get('login.activation-key-incorrect').subscribe(message => {
+        this.translationService.get('user-activation.activation-key-incorrect').subscribe(message => {
           this.notificationService.show(message);
         });
       }
     );
+  }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.dialogRef.close();
+  }
+
+  resetActivation(): void {
+    this.userService.resetActivation(this.data.name.trim()).subscribe(
+      ret => {
+        this.translationService.get('login.restart-account-activation-correct').subscribe(message => {
+          this.notificationService.show(message);
+        });
+      }
+    );
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildActivationActionCallback(activationKey: HTMLInputElement): () => void {
+    return () => this.login(activationKey.value);
   }
 }

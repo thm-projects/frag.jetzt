@@ -4,14 +4,17 @@ import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
 import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
-import { VoteService } from '../../../services/http/vote.service';
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
+import { EventService } from '../../../services/util/event.service';
+import { Router } from '@angular/router';
+import { AppComponent } from '../../../app.component';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -22,12 +25,14 @@ export class ModeratorCommentListComponent implements OnInit {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
+  AppComponent = AppComponent;
   comments: Comment[] = [];
   room: Room;
   hideCommentsList = false;
   filteredComments: Comment[];
   userRole: UserRole;
   deviceType: string;
+  isSafari: string;
   isLoading = true;
   voteasc = 'voteasc';
   votedesc = 'votedesc';
@@ -37,7 +42,9 @@ export class ModeratorCommentListComponent implements OnInit {
   unread = 'unread';
   favorite = 'favorite';
   correct = 'correct';
+  wrong = 'wrong';
   ack = 'ack';
+  userNumber = 'userNumber';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -53,7 +60,8 @@ export class ModeratorCommentListComponent implements OnInit {
     protected langService: LanguageService,
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
-    protected voteService: VoteService
+    public eventService: EventService,
+    private router: Router
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -62,7 +70,7 @@ export class ModeratorCommentListComponent implements OnInit {
     this.roomId = localStorage.getItem(`roomId`);
     const userId = this.user.id;
     this.userRole = this.user.role;
-    this.roomService.getRoom(this.roomId).subscribe( room => this.room = room);
+    this.roomService.getRoom(this.roomId).subscribe(room => this.room = room);
     this.hideCommentsList = false;
     this.wsCommentService.getModeratorCommentStream(this.roomId).subscribe((message: Message) => {
       this.parseIncomingModeratorMessage(message);
@@ -72,11 +80,13 @@ export class ModeratorCommentListComponent implements OnInit {
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
+    this.isSafari = localStorage.getItem('isSafari');
     this.currentSort = this.votedesc;
     this.commentService.getRejectedComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
-        this.getComments();
+        this.isLoading = false;
+        this.sortComments(this.currentSort);
       });
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
@@ -85,12 +95,12 @@ export class ModeratorCommentListComponent implements OnInit {
 
   checkScroll(): void {
     const currentScroll = document.documentElement.scrollTop;
-      this.scroll = currentScroll >= 65;
-      this.scrollExtended = currentScroll >= 300;
+    this.scroll = currentScroll >= 65;
+    this.scrollExtended = currentScroll >= 300;
   }
 
-  scrollToTop(): void {
-    document.documentElement.scrollTo({ top: 0, behavior: 'smooth' });
+  isScrollButtonVisible(): boolean {
+    return !AppComponent.isScrolledTop() && this.comments.length > 10;
   }
 
   searchComments(): void {
@@ -114,9 +124,9 @@ export class ModeratorCommentListComponent implements OnInit {
     if (this.room && this.room.extensions && this.room.extensions['comments']) {
       commentThreshold = this.room.extensions['comments'].commentThreshold;
       if (this.hideCommentsList) {
-        this.filteredComments = this.filteredComments.filter( x => x.score >= commentThreshold );
+        this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
       } else {
-        this.comments = this.comments.filter( x => x.score >= commentThreshold );
+        this.comments = this.comments.filter(x => x.score >= commentThreshold);
       }
     }
     this.sortComments(this.currentSort);
@@ -137,32 +147,49 @@ export class ModeratorCommentListComponent implements OnInit {
         for (let i = 0; i < this.comments.length; i++) {
           if (payload.id === this.comments[i].id) {
             for (const [key, value] of Object.entries(payload.changes)) {
-              switch (key) {
-                case this.read:
-                  this.comments[i].read = <boolean>value;
-                  break;
-                case this.correct:
-                  this.comments[i].correct = <boolean>value;
-                  break;
-                case this.favorite:
-                  this.comments[i].favorite = <boolean>value;
-                  break;
-                case 'score':
-                  this.comments[i].score = <number>value;
-                  break;
-                case this.ack:
-                  const isNowAck = <boolean>value;
-                  if (isNowAck) {
-                    this.comments = this.comments.filter(function (el) {
-                      return el.id !== payload.id;
-                    });
-                  }
+              if (key === this.ack) {
+                const isNowAck = <boolean>value;
+                if (isNowAck) {
+                  this.comments = this.comments.filter(function (el) {
+                    return el.id !== payload.id;
+                  });
+                }
+                switch (key) {
+                  case this.read:
+                    this.comments[i].read = <boolean>value;
+                    break;
+                  case this.correct:
+                    this.comments[i].correct = <CorrectWrong>value;
+                    break;
+                  case this.favorite:
+                    this.comments[i].favorite = <boolean>value;
+                    break;
+                  case 'score':
+                    this.comments[i].score = <number>value;
+                    break;
+                  case this.ack:
+                    // tslint:disable-next-line:no-shadowed-variable
+                    const isNowAck = <boolean>value;
+                    if (isNowAck) {
+                      this.comments = this.comments.filter(function (el) {
+                        return el.id !== payload.id;
+                      });
+                    }
+                }
               }
             }
           }
         }
         break;
+      case 'CommentDeleted':
+        for (let i = 0; i < this.comments.length; i++) {
+          this.comments = this.comments.filter(function (el) {
+            return el.id !== payload.id;
+          });
+        }
+        break;
     }
+
     this.filterComments(this.currentFilter);
     this.sortComments(this.currentSort);
     this.searchComments();
@@ -178,16 +205,17 @@ export class ModeratorCommentListComponent implements OnInit {
         c.body = payload.body;
         c.id = payload.id;
         c.timestamp = payload.timestamp;
+        c.creatorId = payload.creatorId;
+        c.userNumber = this.commentService.hashCode(c.creatorId);
         this.comments = this.comments.concat(c);
         break;
     }
-    console.log(msg);
     this.filterComments(this.currentFilter);
     this.sortComments(this.currentSort);
     this.searchComments();
   }
 
-  filterComments(type: string): void {
+  filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
     if (type === '') {
       this.filteredComments = this.comments;
@@ -196,28 +224,37 @@ export class ModeratorCommentListComponent implements OnInit {
     this.filteredComments = this.comments.filter(c => {
       switch (type) {
         case this.correct:
-          return c.correct;
+          return c.correct === CorrectWrong.CORRECT ? 1 : 0;
+        case this.wrong:
+          return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
         case this.read:
           return c.read;
         case this.unread:
           return !c.read;
+        case this.userNumber:
+          return c.userNumber === compare;
       }
     });
+    this.hideCommentsList = true;
     this.sortComments(this.currentSort);
+  }
+
+  clickedUserNumber(usrNumber: number): void {
+    this.filterComments(this.userNumber, usrNumber);
   }
 
   sort(array: any[], type: string): void {
     array.sort((a, b) => {
       if (type === this.voteasc) {
-        return a.score - b.score;
+        return (a.score > b.score) ? 1 : (b.score > a.score) ? -1 : 0;
       } else if (type === this.votedesc) {
-        return b.score - a.score;
+        return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
       }
       const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
       if (type === this.time) {
-        return +dateB - +dateA;
+        return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
       }
     });
   }
@@ -229,5 +266,15 @@ export class ModeratorCommentListComponent implements OnInit {
       this.sort(this.comments, type);
     }
     this.currentSort = type;
+  }
+
+  switchToCommentList(): void {
+    let role;
+    if (this.userRole === UserRole.CREATOR.valueOf()) {
+      role = 'creator';
+    } else if (this.userRole === UserRole.EXECUTIVE_MODERATOR) {
+      role = 'moderator';
+    }
+    this.router.navigate([`/${role}/room/${this.room.shortId}/comments`]);
   }
 }

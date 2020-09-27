@@ -1,11 +1,16 @@
-<h3>{{ 'room-page.sure' | translate }}</h3>
+<h2 *ngIf="!bonusQuestions">{{ 'room-page.sure' | translate }}</h2>
+<h2 *ngIf="bonusQuestions">{{ 'room-page.delete-comments-alt-header' | translate }}</h2>
 <mat-divider></mat-divider>
-<p>{{ 'room-page.really-delete-comments' | translate }}</p>
-<div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-  <button mat-raised-button class="abort" (click)="close('abort')">
-    {{ 'content.abort' | translate }}
-  </button>
-  <button mat-raised-button class="delete" (click)="close('delete')">
-    {{ 'content.delete' | translate }}
-  </button>
-</div>
+<p *ngIf="!bonusQuestions">{{ 'room-page.really-delete-comments' | translate }}</p>
+<p *ngIf="bonusQuestions">{{ 'room-page.really-delete-comments-hint' | translate }}</p>
+<app-dialog-action-buttons *ngIf="!bonusQuestions"
+  buttonsLabelSection="content"
+  confirmButtonLabel="delete"
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCommentsDeleteActionCallback()"
+></app-dialog-action-buttons>
+<app-dialog-action-buttons *ngIf="bonusQuestions"
+  buttonsLabelSection="content"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+></app-dialog-action-buttons>

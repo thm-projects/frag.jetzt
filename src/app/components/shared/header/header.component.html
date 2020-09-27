@@ -1,17 +1,38 @@
-<mat-toolbar class="mat-elevation-z4">
+<mat-toolbar class="mat-elevation-z2">
   <mat-toolbar-row>
-    <button mat-icon-button *ngIf="router.url !== '/home'" (click)="goBack()"
-            matTooltip="{{'header.back' | translate}}">
-      <mat-icon class="header-icons" aria-label="Go back">keyboard_arrow_left</mat-icon>
+    <button id="back-button"
+            mat-icon-button
+            aria-labelledby="back-label"
+            *ngIf="router.url !== '/home'"
+            (click)="goBack()">
+      <mat-icon class="header-icons">arrow_back</mat-icon>
+    </button>
+    <button mat-icon-button
+            aria-hidden="true"
+            *ngIf="isSafari === 'false'  && !router.url.includes('home')"
+            (click)="getRescale().toggleState();">
+      <mat-icon class="header-icons"
+                (click)="getRescale().toggleState();">fullscreen
+      </mat-icon>
     </button>
     <span class="fill-remaining-space"></span>
-    <h3 *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"
+    <h2 class="oldtypo-h2"
+        *ngIf="router.url.includes('comments')  && deviceType === 'desktop'"
         fxLayoutAlign="center center">
-      <mat-icon>access_time</mat-icon>
       {{cTime}}
-    </h3>
+    </h2>
+    <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
+          class="fill-remaining-space"></span>
+    <button *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
+            mat-raised-button
+            class="question-focus-btn"
+            routerLink="participant/room/{{shortId}}/comments/questionwall">
+      <mat-icon svgIcon="beamer"
+                class="header-icons beamer-icon"></mat-icon>
+      <span class="question-focus-btn-txt">{{'header.question-wall' | translate}}</span>
+    </button>
     <span class="fill-remaining-space"
-          *ngIf="router.url.includes('comments') && user.role === 3 && deviceType === 'desktop'"></span>
+          *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
     <span
       *ngIf="router.url.includes('comments') && moderationEnabled"
       class="moderation-enabled"
@@ -20,43 +41,122 @@
       gavel
     </mat-icon>
   </span>
-    <h3 *ngIf="router.url.includes('comments')" fxLayoutAlign="center center">
+    <h2 class="oldtypo-h2"
+        id="shortId-header"
+        *ngIf="router.url.includes('comments')"
+        fxLayoutAlign="center center">
       {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
-    </h3>
+    </h2>
+    <!--Feedback im Hörsaal-->
+    <h2 class="oldtypo-h2"
+        *ngIf="router.url.includes('home')"
+        fxLayoutAlign="center center">
+      {{ 'header.home-header' | translate }}
+    </h2>
+    <button *ngIf="router.url.includes('room')"
+            mat-icon-button
+            (click)="showQRDialog();"
+            fxLayoutAlign="center center">
+      <mat-icon svgIcon="qrcode"
+                class="header-icons qrcode"
+                matTooltip="{{ 'header.QR' | translate }}">
+      </mat-icon>
+
+    </button>
     <span class="fill-remaining-space"></span>
 
-    <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item *ngIf="user" routerLink="/user">
-        <mat-icon class="sessions">work</mat-icon>
-        <span>{{'header.my-sessions' | translate}}</span>
+    <mat-menu #userMenu="matMenu"
+              [overlapTrigger]="false">
+      <button mat-menu-item
+              *ngIf="user"
+              routerLink="/user"
+              tabindex="0">
+        <mat-icon class="sessions">group</mat-icon>
+        <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
+        <span *ngIf="user.isGuest"
+              svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
-      <button mat-menu-item (click)="logout()">
-        <mat-icon color="warn">exit_to_app</mat-icon>
+      <button mat-menu-item
+              *ngIf="user"
+              (click)="openUserBonusTokenDialog()"
+              tabindex="0">
+        <mat-icon class="star">grade</mat-icon>
+        <span>{{'header.user-bonus-token' | translate}}</span>
+      </button>
+      <button mat-menu-item
+              *ngIf="user && !user.isGuest"
+              (click)="openDeleteUserDialog()"
+              tabindex="0">
+        <mat-icon class="color-warn">delete</mat-icon>
+        <span>{{'header.delete-account' | translate}}</span>
+      </button>
+      <button mat-menu-item
+              (click)="logout()"
+              tabindex="0">
+        <mat-icon class="color-warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
     </mat-menu>
 
-    <button mat-button *ngIf="user && deviceType === 'desktop'" [matMenuTriggerFor]="userMenu">
+    <button [disabled]="cookiesDisabled()"
+            mat-button
+            *ngIf="user && deviceType === 'desktop'"
+            [matMenuTriggerFor]="userMenu"
+            aria-labelledby="session-label"
+            id="session-button">
       <div class="label-icon">
-        <mat-icon class="header-icons">account_box</mat-icon>
-        <h3>{{'header.my-account' | translate}}</h3>
+        <mat-icon *ngIf="!user.isGuest"
+                  class="header-icons">assignment_ind
+        </mat-icon>
+        <mat-icon *ngIf="user.isGuest"
+                  svgIcon="meeting_room"
+                  class="header-icons"></mat-icon>
+        <h2 class="oldtypo-h2"
+            *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h2>
+        <!--Guest Account-->
+        <h2 class="oldtypo-h2"
+            *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h2>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="user && deviceType === 'mobile'" [matMenuTriggerFor]="userMenu">
-      <mat-icon class="header-icons">account_box</mat-icon>
+    <button [disabled]="cookiesDisabled()"
+            mat-icon-button
+            *ngIf="user && deviceType === 'mobile'"
+            [matMenuTriggerFor]="userMenu"
+            aria-labelledby="session-label">
+      <mat-icon *ngIf="!user.isGuest"
+                class="header-icons">assignment_ind
+      </mat-icon>
+      <mat-icon *ngIf="user.isGuest"
+                svgIcon="meeting_room"
+                class="header-icons"></mat-icon>
     </button>
 
-    <button mat-button *ngIf="!user && deviceType === 'desktop'" (click)=login(false)>
+    <button id="login-button"
+            [disabled]="cookiesDisabled()"
+            mat-button
+            *ngIf="!user && deviceType === 'desktop'"
+            (click)=login(false)
+            aria-labelledby="login-label">
       <div class="label-icon">
-        <mat-icon class="header-icons">account_box</mat-icon>
-        <h3 *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h3>
+        <mat-icon class="header-icons">person</mat-icon>
+        <h2 class="oldtypo-h2"
+            *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
     </button>
 
-    <button mat-icon-button *ngIf="!user && deviceType === 'mobile'" (click)=login(false)>
-      <mat-icon class="header-icons">account_box</mat-icon>
+    <button [disabled]="cookiesDisabled()"
+            mat-icon-button
+            *ngIf="!user && deviceType === 'mobile'"
+            (click)=login(false)
+            aria-labelledby="login-label">
+      <mat-icon class="header-icons">person</mat-icon>
     </button>
-
   </mat-toolbar-row>
 </mat-toolbar>
+
+<div class="visually-hidden">
+  <div id="login-label">{{'header.accessibility-login' | translate}}</div>
+  <div id="back-label">{{'header.accessibility-back' | translate}}</div>
+  <div id="session-label">{{'header.accessibility-session' | translate}}</div>
+</div>

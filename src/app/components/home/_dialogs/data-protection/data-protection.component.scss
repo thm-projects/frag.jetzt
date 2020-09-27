@@ -1,0 +1,20 @@
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: large;
+}
+
+div {
+  color: var(--on-surface);
+}
+
+.mat-raised-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.mat-stroked-button {
+  color: var(--on-surface);
+}

@@ -1,4 +1,4 @@
-@import 'theme/default-theme/_variables.scss';
+@import 'theme/light-theme/_variables.scss';
 @import 'theme/dark-theme/dark-theme';
 @import 'theme/blue-theme/blue-theme';
 @import 'theme/purple-theme/purple-theme';
@@ -14,6 +14,13 @@
 // that you are using.
 @include angular-material-theme($arsnova-theme);
 
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: default;
+}
 
 .dark {
   @include angular-material-theme($dark-theme);
@@ -27,4 +34,195 @@
   @include angular-material-theme($purple-theme);
 }
 
-@import 'theme/default-theme/theme';
+@import 'theme/light-theme/theme';
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}
+
+.modal {
+  outline: none;
+  border-color: transparent;
+}
+
+.placeholder {
+  color: var(--on-surface);
+}
+
+.oldtypo {
+  &-h2 {
+    color: var(--on-surface) !important;
+    font-size: 18px !important;
+    hyphens: auto;
+  }
+
+  &-h3 {
+    color: var(--on-surface) !important;
+    font-size: 16px !important;
+  }
+
+  &-p {
+    color: var(--on-surface);
+    font-size: 14px !important;
+    font-weight: normal !important;
+    line-height: 1.5 !important;
+    hyphens: auto;
+  }
+}
+
+.oldtypo h4 {
+  padding-top: 10%;
+  font-size: 16px !important;
+}
+
+.oldtypo p, .oldtypo div {
+  color: var(--on-surface);
+  hyphens: auto;
+}
+
+address {
+  font-style: normal;
+}
+
+.overflow_hide {
+  height: 0px;
+  overflow: hidden;
+}
+
+.testBox {
+  width: 50%;
+  height: 50%;
+  position: fixed;
+  left: 0px;
+  top: 25%;
+  z-index: 1000;
+  background-color: var(--surface);
+}
+
+.filledDialog {
+  width: calc(100% - 50px);
+  min-width: calc(100% - 50px);
+  max-width: calc(100% - 50px);
+  height: calc(100% - 50px);
+  margin: 25px;
+  padding: 0;
+}
+
+.screenDialog {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.imgWrp img {
+  width: calc(100% - 35px);
+  height: calc(100% - 35px);
+  image-rendering: crisp-edges;
+}
+
+.mat-card, .mat-dialog-container {
+  border-radius: 10px !important;
+}
+
+.mat-card {
+  line-height: 1.5 !important;
+}
+
+a.info {
+  position: relative;
+  z-index: 24;
+  text-decoration: none;
+}
+
+a.info span {
+  position: absolute;
+  left: -9000px;
+  width: 0;
+  overflow: hidden;
+}
+
+
+a.info:hover span, a.info:focus span, a.info:active span {
+  display: block;
+  position: absolute;
+  top: 1.3em;
+  left: 0;
+  width: max-content;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  text-align: left;
+  padding: 5px;
+}
+
+.mat-simple-snackbar span {
+  margin: auto;
+  text-align: center;
+}
+
+:focus {
+  outline: 1px solid var(--on-surface);
+  outline-offset: 8px;
+}
+
+a {
+  word-break: break-all;
+}
+
+.mat-row {
+  height: 60px !important;
+}
+
+/* label style */
+.mat-tab-label {
+  background: var(--dialog);
+  color: var(--on-dialog);
+}
+
+/* focus style */
+.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
+.mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
+.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
+  background: var(--dialog);
+}
+
+/* ink bar style */
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background: var(--primary);
+  height: 3px;
+}
+
+.mat-menu-item {
+  outline: none !important;
+}
+
+.mat-dialog-content {
+  max-height: 40vh !important;
+}
+
+.mat-dialog-container {
+  max-width: 600px !important;
+  margin: 0 auto;
+  line-height: 1.5 !important;
+}
+
+.mat-menu-item .mat-icon-no-color {
+  color: var(--on-dialog);
+}
+
+.star {
+  color: var(--yellow) !important;
+}
+
+.mat-icon-button i, .mat-icon-button .mat-icon {
+  line-height: 1 !important;
+}
+

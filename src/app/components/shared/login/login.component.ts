@@ -2,13 +2,15 @@ import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@ang
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
-import { ErrorStateMatcher, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { UserRole } from '../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
+import { EventService } from '../../../services/util/event.service';
+import { ErrorStateMatcher } from '@angular/material/core';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -20,7 +22,7 @@ export class LoginErrorStateMatcher implements ErrorStateMatcher {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnChanges {
   role: UserRole;
@@ -35,12 +37,17 @@ export class LoginComponent implements OnInit, OnChanges {
 
   name = '';
 
-  constructor(public authenticationService: AuthenticationService,
-              public router: Router,
-              private translationService: TranslateService,
-              public notificationService: NotificationService,
-              public dialog: MatDialog,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+  hide = true;
+
+  constructor(
+    public authenticationService: AuthenticationService,
+    public router: Router,
+    private translationService: TranslateService,
+    public notificationService: NotificationService,
+    public dialog: MatDialog,
+    public eventService: EventService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) {
   }
 
   ngOnInit() {
@@ -66,8 +73,8 @@ export class LoginComponent implements OnInit, OnChanges {
     this.dialog.open(UserActivationComponent, {
       width: '350px',
       data: {
-        name: this.username
-      }
+        name: this.username,
+      },
     }).afterClosed().subscribe(result => {
       if (result && result.success) {
         this.login(this.username, this.password);
@@ -80,7 +87,7 @@ export class LoginComponent implements OnInit, OnChanges {
     this.password = password.trim();
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email') &&
-      !this.passwordFormControl.hasError('required')) {
+        !this.passwordFormControl.hasError('required')) {
       this.authenticationService.login(this.username, this.password, this.role).subscribe(loginSuccessful => {
         this.checkLogin(loginSuccessful);
       });
@@ -115,13 +122,13 @@ export class LoginComponent implements OnInit, OnChanges {
 
   openPasswordDialog(): void {
     this.dialog.open(PasswordResetComponent, {
-      width: '350px'
+      width: '350px',
     });
   }
 
   openRegisterDialog(): void {
     this.dialog.open(RegisterComponent, {
-      width: '350px'
+      width: '350px',
     }).afterClosed().subscribe(result => {
       if (result) {
         this.usernameFormControl.setValue(result.username);
@@ -130,5 +137,21 @@ export class LoginComponent implements OnInit, OnChanges {
         this.password = result.password;
       }
     });
+  }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.dialog.closeAll();
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildLoginActionCallback(userEmail: HTMLInputElement, userPassword: HTMLInputElement): () => void {
+    return () => this.login(userEmail.value, userPassword.value);
   }
 }

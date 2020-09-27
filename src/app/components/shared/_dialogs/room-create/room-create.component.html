@@ -1,12 +1,36 @@
-<form (ngSubmit)="addRoom(roomName.value)">
-  <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+<form (ngSubmit)="checkLogin(roomName.value)">
+  <div fxLayout="column"
+       fxLayoutAlign="center"
+       fxLayoutGap="10px">
     <mat-form-field>
-      <input (keypress)="resetEmptyInputs()" matInput #roomName class="input-block" type="text"
-             placeholder="{{ 'session.session-name' | translate}}" maxlength="20" [(ngModel)]="longName" name="roomName"/>
-      <mat-hint align="end" class="count" *ngIf="!emptyInputs">{{roomName.value.length}} / 20</mat-hint>
-      <mat-hint align="start" class="error" *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
+      <input (focus)="eventService.makeFocusOnInputTrue()"
+             (blur)="eventService.makeFocusOnInputFalse()"
+             (keypress)="resetEmptyInputs()"
+             matInput
+             #roomName
+             class="input-block"
+             type="text"
+             maxlength="20"
+             [(ngModel)]="longName"
+             name="roomName"
+             aria-labelledby="room-name-input"/>
+      <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+      <mat-hint align="end"
+                class="count"
+                *ngIf="!emptyInputs"><span aria-hidden="true">{{roomName.value.length}} / 20</span></mat-hint>
+      <mat-hint align="start"
+                class="error"
+                *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
     </mat-form-field>
-    <button mat-raised-button type="submit">{{ 'session.create-session' | translate}}
-    </button>
   </div>
 </form>
+<app-dialog-action-buttons
+  buttonsLabelSection="room-create"
+  confirmButtonLabel="create-room"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildRoomCreateActionCallback(roomName)"
+></app-dialog-action-buttons>
+
+<div class="visually-hidden">
+  <div id="room-name-input">{{ 'home-page.room-name-input' | translate }}</div>
+</div>

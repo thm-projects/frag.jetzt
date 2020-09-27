@@ -1,0 +1,22 @@
+p {
+  color: var(--on-surface);
+  margin: 10px 0 10px 0;
+}
+
+.delete-icon {
+  color: var(--red);
+}
+
+.delete {
+  margin: 20px 0 20px 0;
+  min-width: 220px;
+  background-color: var(--red);
+  color: var(--on-secondary);
+}
+
+.tokens {
+  padding-left: 3%;
+  &:nth-child(even) {
+    background-color: var(--alt-dialog);
+  }
+}

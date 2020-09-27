@@ -6,10 +6,10 @@
         <span class="fill-remaining-space"></span>
         <mat-card-header fxLayoutAlign="center">
           <mat-card-title fxLayoutAlign="center">
-            <h2>{{ room.name }}</h2>
+            <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
-            <mat-icon *ngIf="moderationEnabled" class="gavel">
+            <mat-icon *ngIf="moderationEnabled" class="gavel" matTooltip="{{ 'room-page.moderation-enabled' | translate }}">
               gavel
             </mat-icon>
             <h3>
@@ -18,33 +18,31 @@
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
-        <!-- <button mat-icon-button id="settings" routerLink="/participant/room/{{ room.shortId }}/statistics">
-           <mat-icon id="settings-icon" matTooltip="{{ 'statistic.answer-statistic' | translate}}">insert_chart</mat-icon>
-         </button> -->
       </div>
       <mat-divider></mat-divider>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <h4>{{room.description.trim()}}</h4>
+        <markdown [data]="room.description.trim()"></markdown>
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>
-          <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/comments">
-            <mat-icon matBadge="{{commentCounter}}" matBadgeColor="primary" class="main-icon"
+          <button id="question_answer-button" mat-icon-button [disableRipple]="true"
+                  routerLink="/participant/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
+            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon"
                       [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
             </mat-icon>
-            <h3>{{ 'room-page.create-comment' | translate}}</h3>         <!-- *ngIf="deviceType === 'desktop'" -->
+            <h3>{{ 'room-page.create-comment' | translate}}</h3>
           </button>
         </mat-grid-tile>
-        <!--  <mat-grid-tile>
-            <button mat-icon-button routerLink="/participant/room/{{ room.shortId }}/feedback-barometer">
-              <mat-icon [ngClass]="{'desktop' : deviceType === 'desktop'}">thumbs_up_down</mat-icon>
-              <h3 *ngIf="deviceType === 'desktop'">{{ 'room-page.give-feedback' | translate}}</h3>
-            </button>
-          </mat-grid-tile> -->
       </mat-grid-list>
 
-      <!-- <app-content-groups *ngIf="room && room.contentGroups" [contentGroups]="room.contentGroups"></app-content-groups> -->
     </mat-card>
 
   </div>
+  <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
+</div>
+
+<!--Hidden Div's for a11y-Descriptions-->
+<div class="visually-hidden">
+  <div id="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
+  <!--<div id="announcer_text">{{'room-page.a11y-announcer' | translate}}</div>-->
 </div>

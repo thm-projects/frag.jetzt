@@ -1,0 +1,38 @@
+app-comment, mat-card {
+  width: 100%;
+  max-width: 800px;
+}
+
+.answer {
+  background-color: darkgreen;
+  color: #eadabf;
+  padding: 3% 3%;
+  box-sizing: border-box;
+  font-size: 16px;
+  hyphens: auto;
+  overflow-wrap: break-word;
+}
+
+button {
+  min-width: 95px;
+  margin-top: 2%;
+}
+
+.save {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-right: 1%;
+}
+
+.delete {
+  background-color: var(--red);
+  color: var(--white);
+  margin-right: 20px;
+}
+
+mat-icon {
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  margin-right: 5px;
+}

@@ -1,34 +1,31 @@
 @import '../../../../styles';
 
 mat-card {
-  width: 800px;
+  width: 100%;
+  max-width: 800px;
   min-height: 350px;
-  background-color: var(--surface)!important;
+  max-height: 700px;
+  background-color: var(--surface) !important;
 }
 
 mat-card-content > :first-child {
   margin: 3% 0 3% 0;
 }
 
-#description {
+#room-edit-description {
   margin-bottom: 0;
 }
 
 .mat-icon-button {
-  width: 60%; // 100%
+  width: 100%;
   height: 75%;
-  color: var(--primary)!important;
+  border-radius: 0;
+  color: var(--primary) !important;
   transition: all 0.3s;
+
   &:hover {
     transform: scale(1.2)
   }
-}
-
-.desktop {
-  font-size: 65px;
-  height: 65px;
-  width: 65px;
-  margin-bottom: 5%;
 }
 
 .corner-icons {
@@ -42,91 +39,77 @@ mat-card-content > :first-child {
   line-height: 100%;
 }
 
-/*.main-icon{
-  font-size: 60px;
-  height: 60px;
-  width: 60px;
-  line-height: 100%!important;
-}*/
-
-.main-icon{
+.main-icon {
   font-size: 80px;
   height: 80px;
   width: 80px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .smallerIcon {
-  font-size: 55px;
-  height: 55px;
-  width: 55px;
-  line-height: 100%!important;
+  font-size: 60px;
+  height: 60px;
+  width: 60px;
+  line-height: 100% !important;
 }
 
 .room-short-id {
-  font-size: larger;
+  font-size: 14px;
   font-weight: bold;
-  color: var(--on-surface)!important;
-  margin: 5% 5% 0 0;
+  color: var(--on-surface) !important;
+  margin-top: 10%;
 }
 
 mat-grid-list {
-  margin-bottom: 5px !important;
+  margin: 0;
 }
 
 .second {
   margin-bottom: 20px !important;
 }
 
-h2 {
-   font-size: large;
-   color: var(--on-surface)!important;
- }
-
-h3 {
-  font-size: larger;
-  color: var(--on-surface)!important;
-  margin: 5% 5% 0 0;
-}
-
-h4 {
-  font-size: medium;
-  color: var(--on-surface)!important;
-  padding: 0 1% 0 1%;
-}
 
 mat-card-header {
   min-height: 80px;
-  height: 10%!important;
+  margin: 0;
+  height: 10% !important;
 }
 
 mat-card-title {
   height: 40%;
-  min-width: 200px;
+  min-width: 150px;
+  color: var(--on-surface) !important;
 }
 
 mat-card-subtitle {
   height: 30%;
+  color: var(--on-surface) !important;
 }
 
 mat-grid-tile {
-  height: 100%!important;
-  padding-top: 2%!important;
+  height: 100% !important;
+  padding: 10% 0 !important;
+}
+
+.mat-figure {
+  margin: 20px !important;
 }
 
 mat-expansion-panel {
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
+  color: var(--on-surface) !important;
   min-width: 200px;
   hyphens: auto;
 }
 
 #copy {
-  width: 24px;
-  height: 24px;
+  margin-left: 10px;
+  width: 50px;
+  height: 55px;
 }
 
 .copy {
-  font-size: 24px;
+  font-size: 40px;
   color: var(--secondary);
   line-height: 100%;
 }
@@ -134,4 +117,33 @@ mat-expansion-panel {
 .gavel {
   margin: 5% 2% 0 0;
   color: var(--on-surface);
+}
+
+.question-button-div {
+  margin: 10% 0 10% 0;
+}
+
+markdown {
+  color: var(--on-surface);
+  margin: 0 3% 0 3% !important;
+}
+
+::ng-deep .mat-menu-panel {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-menu-item .mat-icon {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+::ng-deep .mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
 }

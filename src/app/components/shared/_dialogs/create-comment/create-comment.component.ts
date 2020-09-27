@@ -1,12 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
-
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -19,8 +19,12 @@ export class CreateCommentComponent implements OnInit {
 
   user: User;
   roomId: string;
+  tags: string[];
+  selectedTag: string;
 
   bodyForm = new FormControl('', [Validators.required]);
+
+  @ViewChild('commentBody', { static: true })commentBody: HTMLTextAreaElement;
 
   constructor(
               private notification: NotificationService,
@@ -28,11 +32,15 @@ export class CreateCommentComponent implements OnInit {
               private translateService: TranslateService,
               public dialog: MatDialog,
               private translationService: TranslateService,
+              public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
+    setTimeout(() => {
+      document.getElementById('answer-input').focus();
+    }, 0);
   }
 
   onNoClick(): void {
@@ -55,9 +63,28 @@ export class CreateCommentComponent implements OnInit {
       const comment = new Comment();
       comment.roomId = localStorage.getItem(`roomId`);
       comment.body = body;
-      comment.userId = this.user.id;
+      comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
+      if (this.selectedTag !== null) {
+        comment.tag = this.selectedTag;
+      }
       this.dialogRef.close(comment);
     }
+  }
+
+
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+  buildCloseDialogActionCallback(): () => void {
+    return () => this.onNoClick();
+  }
+
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+  buildCreateCommentActionCallback(text: HTMLInputElement|HTMLTextAreaElement): () => void {
+    return () => this.closeDialog(text.value);
   }
 }

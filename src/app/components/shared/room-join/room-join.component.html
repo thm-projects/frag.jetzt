@@ -1,19 +1,46 @@
-<div fxLayout="column" fxLayoutAlign="center center" fxlayoutgap="50px" fxFill>
-<form (ngSubmit)="joinRoom(roomId.value)">
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-    <mat-form-field (keyup.enter)="onEnter()">
-      <input matInput #roomId type="text" pattern="[0-9 ]*" inputmode="numeric" min="00000000" max="99999999"
-             onkeydown="if(this.value.length - (this.value.split(' ').length -1) === 8 && event.keyCode != 8) return false;
-                        if(this.value.length === 4 && event.keyCode != 8) this.value = this.value + ' ';"
-                        [formControl]="roomFormControl" [errorStateMatcher]="matcher"/>
-      <mat-placeholder class="placeholder">Session ID</mat-placeholder>
-      <mat-hint align="end">{{ roomId.value.length - (roomId.value.split(' ').length -1) }} / 8</mat-hint>
-      <mat-error *ngIf="roomFormControl.hasError('required')">{{ 'home-page.please-enter' | translate}}</mat-error>
-      <mat-error *ngIf="roomFormControl.hasError('pattern')">{{ 'home-page.only-numbers' | translate}}</mat-error>
-    </mat-form-field>
-    <button mat-fab type="submit">
-      <mat-icon>input</mat-icon>
-    </button>
-  </div>
-</form>
+<div fxLayout="column"
+     fxLayoutAlign="center center"
+     fxlayoutgap="50px"
+     fxFill>
+  <form (ngSubmit)="joinRoom(sessionCode.value)">
+    <div fxLayout="row"
+         fxLayoutAlign="center"
+         fxLayoutGap="10px">
+      <mat-form-field (keyup.enter)="onEnter()">
+        <input
+          id="session_id-input"
+          matInput
+          #sessionCode
+          (focus)="eventService.makeFocusOnInputTrue()"
+          (blur)="eventService.makeFocusOnInputFalse()"
+          type="text"
+          pattern="[0-9 ]*"
+          inputmode="numeric"
+          min="00000000"
+          max="99999999"
+          (keydown)="prettifySessionCode($event)"
+          [formControl]="sessionCodeFormControl"
+          [errorStateMatcher]="matcher"
+          aria-labelledby="join-input-label"
+        />
+        <mat-placeholder class="placeholder">{{ 'home-page.session-id' | translate}}</mat-placeholder>
+        <mat-hint align="end"><span aria-hidden="true">{{ sessionCode.value.length - (sessionCode.value.split(' ').length - 1) }} / 8</span></mat-hint>
+        <mat-error *ngIf="sessionCodeFormControl.hasError('required')"
+                   aria-hidden="true">{{ 'home-page.please-enter' | translate}}</mat-error>
+        <mat-error *ngIf="sessionCodeFormControl.hasError('pattern')">{{ 'home-page.only-numbers' | translate}}</mat-error>
+      </mat-form-field>
+      <button [disabled]="cookiesDisabled()"
+              id="session_enter-button"
+              mat-fab
+              type="submit"
+              aria-labelledby="join-button-label">
+        <mat-icon svgIcon="meeting_room" class="join-room"></mat-icon>
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="visually-hidden">
+  <div id="join-input-label">{{ 'home-page.accessibility-join-input' | translate }}</div>
+  <div id="join-button-label">{{ 'home-page.accessibility-join-button' | translate }}</div>
 </div>

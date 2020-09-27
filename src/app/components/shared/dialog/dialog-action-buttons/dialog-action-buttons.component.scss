@@ -1,0 +1,28 @@
+.dialog-action-buttons:not(.no-spacing), .dialog-action-buttons .buttons {
+  margin-top: 1rem;
+}
+
+.dialog-action-buttons .cancel-button {
+  background-color: var(--cancel);
+  color: var(--on-cancel);
+}
+
+.primary-confirm-button {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.alert-confirm-button {
+  background-color: var(--red);
+  color: #fff;
+}
+
+.dialog-action-buttons .cancel-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+.dialog-action-buttons .primary-confirm-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}

@@ -1,12 +1,14 @@
-<h2>{{ 'room-page.sure' | translate }}</h2>
+<!--Are you sure-->
+<h2 class="oldtypo-h2">{{ 'room-page.sure' | translate }}</h2>
 <mat-divider></mat-divider>
-<h3>{{ 'room-page.really-remove-moderator' | translate }}</h3>
-<p>{{loginId}}</p>
-<div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px">
-  <button mat-raised-button class="abort" (click)="close('abort')">
-    {{ 'content.abort' | translate }}
-  </button>
-  <button mat-raised-button class="delete" (click)="close('delete')">
-    {{ 'content.delete' | translate }}
-  </button>
-</div>
+<!--remove moderator-->
+<p class="oldtypo-p">{{ 'room-page.really-remove-moderator' | translate }}</p>
+<!--list of moderators-->
+<p class="oldtypo-p">{{loginId}}</p>
+<app-dialog-action-buttons
+  buttonsLabelSection="content"
+  confirmButtonLabel="delete"
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildModeratorDeleteActionCallback()"
+></app-dialog-action-buttons>

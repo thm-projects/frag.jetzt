@@ -8,6 +8,11 @@ app-room-list {
   color: var(--on-primary);
 }
 
-app-join-room {
-  max-width: 800px;
+.focus_button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+.button-container {
+  margin-bottom: 3% !important;
 }

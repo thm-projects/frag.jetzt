@@ -1,0 +1,39 @@
+<div mat-dialog-content xmlns="http://www.w3.org/1999/html">
+  <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
+  <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
+  <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{room.shortId.slice(0, 4)}} {{room.shortId.slice(4, 8)}}</h3>
+  <mat-divider></mat-divider>
+  <div *ngIf="bonusTokens.length >= 1">
+    <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="tokens">
+      <p tabindex="0">
+        {{bonusToken.token}}
+      </p>
+      <span class="fill-remaining-space"></span>
+      <p>
+        {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
+      </p>
+      <span class="fill-remaining-space"></span>
+      <button mat-icon-button (click)="navToComment(bonusToken.commentId)">
+        <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
+      </button>
+      <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, i)">
+        <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}" class="delete-icon">close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="bonusTokens.length === 0">
+    <p>{{'room-page.no-bonus' | translate }}
+    </p>
+  </div>
+  <div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
+    <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
+      <mat-icon>delete</mat-icon>
+      {{'room-page.delete-all-tokens' | translate}}
+    </button>
+  </div>
+</div>
+
+  <app-dialog-action-buttons
+    buttonsLabelSection="content"
+    [cancelButtonClickAction]="buildDeclineActionCallback()">
+  </app-dialog-action-buttons>

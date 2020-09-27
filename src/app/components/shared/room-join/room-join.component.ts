@@ -11,6 +11,9 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { User } from '../../../models/user';
 import { Moderator } from '../../../models/moderator';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { EventService } from '../../../services/util/event.service';
+import { KeyboardUtils } from '../../../utils/keyboard';
+import { KeyboardKey } from '../../../utils/keyboard/keys';
 
 @Component({
   selector: 'app-room-join',
@@ -18,12 +21,12 @@ import { ModeratorService } from '../../../services/http/moderator.service';
   styleUrls: ['./room-join.component.scss']
 })
 export class RoomJoinComponent implements OnInit {
-  @ViewChild('roomId') roomIdElement: ElementRef;
+  @ViewChild('sessionCode') sessionCodeElement: ElementRef;
 
   room: Room;
   user: User;
 
-  roomFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
+  sessionCodeFormControl = new FormControl('', [Validators.required, Validators.pattern('[0-9 ]*')]);
 
   matcher = new RegisterErrorStateMatcher();
 
@@ -33,17 +36,17 @@ export class RoomJoinComponent implements OnInit {
     public notificationService: NotificationService,
     private translateService: TranslateService,
     public authenticationService: AuthenticationService,
-    private moderatorService: ModeratorService
+    private moderatorService: ModeratorService,
+    public eventService: EventService
   ) {
   }
 
   ngOnInit() {
-    this.roomIdElement.nativeElement.focus();
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
   onEnter() {
-    this.getRoom(this.roomIdElement.nativeElement.value);
+    this.getRoom(this.sessionCodeElement.nativeElement.value);
   }
 
   getRoom(id: string): void {
@@ -51,7 +54,7 @@ export class RoomJoinComponent implements OnInit {
       this.translateService.get('home-page.exactly-8').subscribe(message => {
         this.notificationService.show(message);
       });
-    } else if (this.roomFormControl.hasError('pattern')) {
+    } else if (this.sessionCodeFormControl.hasError('pattern')) {
       this.translateService.get('home-page.only-numbers').subscribe(message => {
         this.notificationService.show(message);
       });
@@ -80,7 +83,7 @@ export class RoomJoinComponent implements OnInit {
   }
 
   joinRoom(id: string): void {
-    if (!this.roomFormControl.hasError('required') && !this.roomFormControl.hasError('minlength')) {
+    if (!this.sessionCodeFormControl.hasError('required') && !this.sessionCodeFormControl.hasError('minlength')) {
       this.getRoom(id);
     }
   }
@@ -112,6 +115,32 @@ export class RoomJoinComponent implements OnInit {
           this.router.navigate([`/participant/room/${this.room.shortId}/comments`]);
         }
       });
+    }
+  }
+
+  cookiesDisabled(): boolean {
+    return localStorage.getItem('cookieAccepted') === 'false';
+  }
+
+
+  /**
+   * Prettifies the session code input element which:
+   *
+   * - casts a 'xxxx xxxx' layout to the input field
+   */
+  prettifySessionCode(keyboardEvent: KeyboardEvent): void {
+    const sessionCode: string = this.sessionCodeElement.nativeElement.value;
+    const isBackspaceKeyboardEvent: boolean = KeyboardUtils.isKeyEvent(keyboardEvent, KeyboardKey.Backspace);
+
+    // allow only backspace key press after all 8 digits were entered by the user
+    if (
+      sessionCode.length - (sessionCode.split(' ').length - 1) === 8 &&
+      isBackspaceKeyboardEvent === false
+    ) {
+      keyboardEvent.preventDefault();
+      keyboardEvent.stopPropagation();
+    } else if (sessionCode.length === 4 && isBackspaceKeyboardEvent === false) { // add a space between each 4 digit group
+      this.sessionCodeElement.nativeElement.value += ' ';
     }
   }
 }

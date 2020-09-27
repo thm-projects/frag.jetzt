@@ -1,30 +1,79 @@
-<div mat-dialog-content *ngIf="editRoom">
-  <h2>{{'room-page.general' | translate }}</h2>
+<div mat-dialog-content
+     *ngIf="editRoom">
+  <!--Sitzung-->
+  <h2 class="oldtypo-h2">{{ 'room-page.general' | translate }}</h2>
   <mat-divider></mat-divider>
   <div fxLayout="column">
     <mat-form-field class="input-block">
-      <input [(ngModel)]="editRoom.name" matInput placeholder="{{ 'session.session-name' | translate}}"
-             name="room-name" maxlength="20"/>
+      <input (focus)="eventService.makeFocusOnInputTrue()"
+             (blur)="eventService.makeFocusOnInputFalse()"
+             [(ngModel)]="editRoom.name"
+             matInput
+             [formControl]="roomNameFormControl"
+             name="room-name"
+             maxlength="20"
+             aria-labelledby="room-name"/>
+      <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+      <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
+      <mat-error *ngIf="
+          roomNameFormControl.hasError()
+          || roomNameFormControl.hasError('minlength')
+          || roomNameFormControl.hasError('maxlength')">
+        {{ 'room-page.name-length-error' | translate }}
+      </mat-error>
     </mat-form-field>
-    <mat-form-field class="input-block">
-              <textarea [(ngModel)]="editRoom.description" matInput matTextareaAutosize
-                        matAutosizeMinRows="2" matAutosizeMaxRows="5" maxlength="255"
-                        placeholder="{{ 'session.description' | translate}}" name="description">
-              </textarea>
-    </mat-form-field>
+    <mat-tab-group>
+      <mat-tab label="{{'room-page.description' | translate}}">
+        <mat-form-field class="input-block">
+      <textarea
+        (focus)="eventService.makeFocusOnInputTrue()"
+        (blur)="eventService.makeFocusOnInputFalse()"
+        [(ngModel)]="editRoom.description"
+        matInput
+        matTextareaAutosize
+        matAutosizeMinRows="2"
+        matAutosizeMaxRows="5"
+        maxlength="250"
+        name="description"
+        aria-labelledby="description"
+      ></textarea>
+          <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'room-page.Markdown-hint' | translate }}
+              </span>
+          </mat-hint>
+          <mat-hint align="end">
+            <span aria-hidden="true">
+              {{ editRoom.description ? editRoom.description.length : 0 }} / 250
+            </span>
+          </mat-hint>
+        </mat-form-field>
+      </mat-tab>
+      <mat-tab label="{{'session.preview' | translate}}"
+               [disabled]="!editRoom.description">
+        <markdown [data]="editRoom.description"></markdown>
+      </mat-tab>
+    </mat-tab-group>
     <div fxLayoutAlign="center center">
-      <button mat-raised-button class="delete" (click)="openDeleteRoomDialog()">
+      <button mat-raised-button
+              class="delete"
+              (click)="openDeleteRoomDialog()"
+              aria-labelledby="delete-room">
         <mat-icon>delete</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
     </div>
   </div>
-  <mat-divider></mat-divider>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px" class="submit">
-    <button mat-raised-button class="abort" (click)="dialogRef.close('abort')">
-      {{ 'room-page.abort' | translate }}
-    </button>
-    <button mat-raised-button class="update" (click)="dialogRef.close('update')">
-      {{ 'room-page.update' | translate }}
-    </button>
-  </div>
+</div>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>
+
+<div class="visually-hidden">
+  <div id="room-name">{{ 'room-page.a11y-room-name' | translate }}</div>
+  <div id="room-edit-description">{{ 'session.a11y-description' | translate }}</div>
+  <div id="delete-room">{{ 'room-page.a11y-delete-room' | translate }}</div>
 </div>

@@ -3,8 +3,8 @@
 }
 
 .delete {
-  margin-bottom: 20px;
-  min-width: 220px;
+  margin: 20px 0 20px 0;
+  min-width: 160px;
   background-color: var(--red);
   color: var(--on-secondary);
 }
@@ -22,15 +22,6 @@ button {
 
 mat-icon {
   margin-right: 10px;
-}
-
-h2 {
-  margin: 10px 0 10px 0;
-  color: var(--on-surface);
-}
-
-h3 {
-  color: var(--on-surface);
 }
 
 mat-divider {
@@ -53,6 +44,10 @@ mat-divider {
 }
 
 mat-form-field {
-  color: var(--on-surface);
+  color: var(--on-surface) !important;
 }
 
+mat-hint {
+  color: var(--on-surface) !important;
+  margin-right: 1%;
+}
