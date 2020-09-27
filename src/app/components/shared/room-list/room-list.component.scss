@@ -1,52 +1,102 @@
 button {
-  background-color: var(--secondary);
-  color: var(--on-secondary);
-  transform: scale(0.9);
+  color: var(--secondary);
 }
 
-.mat-expansion-panel-header-description {
-  align-items: center;
+.filterWrapper {
+  width: 100%;
 }
 
-.matPanel {
-  background-color: var(--primary-variant);
-  margin-bottom: 5px;
-  color: var(--on-surface)!important;
+.filter {
+  color: var(--on-surface) !important;
 }
 
-mat-expansion-panel-header {
-  padding: 0 3% 0 3%;
+table, th, tr, td {
   background-color: var(--primary-variant) !important;
+  color: var(--on-surface) !important;
+  hyphens: auto;
+  overflow-wrap: break-word;
 }
 
-mat-panel-title {
-  flex-grow: 3;
-  align-items: center;
-  min-width: 80px;
-  margin: 0;
+th, tr {
+  font-size: small !important;
 }
 
-mat-panel-description {
-  flex-grow: 1;
-  align-items: center!important;
-  margin: 0;
+.tableOverflow {
+  height: 20rem;
+  overflow: auto;
 }
 
-.headerTitle {
+.sessionName {
   width: 8%;
   min-width: 50px;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
-mat-progress-spinner {
-  margin-top: 30px;
+.sessionId {
+  width: 8%;
+  min-width: 50px;
+  color: var(--on-surface) !important;
 }
 
-.roleTitle {
-  color: var(--on-surface)!important;
+.roleName {
+  color: var(--on-surface) !important;
   width: 5%;
 }
 
-.buttonTitle {
+.buttonName {
+  color: var(--on-surface) !important;
   width: 5%;
+  display: flex;
+  place-content: stretch flex-end;
+}
+
+.noRoomHistory {
+  padding-top: 100px;
+  color: var(--on-surface);
+  font-weight: normal;
+  text-align: center;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}
+
+.mat-badge-content {
+  background: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.table-container {
+  height: 45vh;
+  overflow: auto;
+}
+
+.fill-space {
+  height: 20px;
+}
+
+.delete {
+  color: var(--red);
+  margin-right: 10px;
+}
+
+.delete-text {
+  color: var(--on-dialog);
+}
+
+.export {
+  color: var(--green);
+  margin-right: 10px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.list-entries {
+  width: 100%;
 }

@@ -1,0 +1,37 @@
+<div>
+
+  <div class="header-container">
+    <h2 class="oldtypo-h2"
+        mat-dialog-title
+        tabindex="0"
+        id="cookie-header">{{ 'cookies.title' | translate }}</h2>
+    <button mat-icon-button
+            aria-labelledby="info-label"
+            class="info"
+            (click)="openDataProtection()">
+      <mat-icon class="info-icon">security</mat-icon>
+    </button>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <mat-dialog-content tabindex="-1">
+
+    <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
+    <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
+
+  </mat-dialog-content>
+
+  <app-dialog-action-buttons
+    buttonsLabelSection="cookies"
+    confirmButtonLabel="accept"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildDeclineActionCallback()"
+    [confirmButtonClickAction]="buildConfirmActionCallback()">
+  </app-dialog-action-buttons>
+
+  <div class="visually-hidden">
+    <div id="info-label">{{'cookies.info-label' | translate }}</div>
+  </div>
+
+</div>

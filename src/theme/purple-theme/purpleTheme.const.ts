@@ -1,27 +1,54 @@
 export const purple = {
 
-  '--primary' : '#9c27b0',
-  '--primary-variant': '#d05ce3',
+  '--primary' : 'Maroon',
+  '--primary-variant': 'white',
 
-  '--secondary': '#ffca28',
-  '--secondary-variant': '#fffd61',
+  '--secondary': '#ff4500',
+  '--secondary-variant': '#80d8ff',
 
-  '--background': '#eeeeee',
-  '--surface': '#bdbdbd',
-  '--dialog': '#c2c2c2',
+  '--background': 'beige',
+  '--surface': 'white',
+  '--dialog': 'white',
+  '--cancel': '#e0e0e0',
+  '--alt-surface': '#eeeeee',
+  '--alt-dialog': '#eeeeee',
 
-  '--on-primary': '#FFFFFF',
-  '--on-secondary': '#000000',
-  '--on-background': '#000000',
-  '--on-surface': '#000000',
+  '--on-primary': 'white',
+  '--on-secondary': 'white',
+  '--on-background': 'black',
+  '--on-surface': 'black',
+  '--on-dialog': 'black',
+  '--on-cancel': '#000000',
 
-  '--green': '#4caf50',
-  '--red': '#f44336',
-  '--yellow': '#FFD54F',
-  '--blue': '#3f51b5',
-  '--purple': '#9c27b0',
-  '--light-green': '#80ba24',
-  '--grey': '#BDBDBD',
-  '--grey-light': '#EEEEEE',
-  '--black': '#212121'
+  '--green': 'green',
+  '--red': '#ff8a80',
+  '--yellow': 'red',
+  '--blue': 'blue',
+  '--purple': 'purple',
+  '--light-green': 'lightgreen',
+  '--grey': 'grey',
+  '--grey-light': 'lightgrey',
+  '--black': 'black',
+  '--moderator': 'lightsalmon'
+
+};
+
+export const purple_meta = {
+
+  'translation': {
+    'name': {
+      'en': 'Projector',
+      'de': 'Beamer'
+    },
+    'description': {
+      'en': 'Optimized for the classroom',
+      'de': 'Optimiert für die Leinwand'
+    }
+  },
+  'isDark': false,
+  'order': 1,
+  'scale_desktop': 1.3,
+  'scale_mobile': 1,
+  'previewColor': 'background'
+
 };

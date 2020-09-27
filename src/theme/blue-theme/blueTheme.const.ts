@@ -6,14 +6,17 @@ export const blue = {
   '--secondary': '#ffca28',
   '--secondary-variant': '#fff350',
 
-  '--background': '#eeeeee',
-  '--surface': '#bdbdbd',
-  '--dialog': '#c2c2c2',
+  '--background': '#fafafa',
+  '--surface': '#e0e0e0',
+  '--dialog': '#f2f4f5',
+  '--cancel': '#9E9E9E',
 
   '--on-primary': '#FFFFFF',
   '--on-secondary': '#000000',
   '--on-background': '#000000',
-  '--on-surface': '#000000',
+  '--on-surface': '#FFFFFF',
+  '--on-dialog': '#FFFFFF',
+  '--on-cancel': '#000000',
 
   '--green': '#4caf50',
   '--red': '#f44336',
@@ -23,5 +26,27 @@ export const blue = {
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
-  '--black': '#212121'
+  '--black': '#212121',
+  '--moderator': 'darkred'
+
+};
+
+export const blue_meta = {
+
+  'translation': {
+    'name': {
+      'en': 'ENGLISH_NAME',
+      'de': 'GERMAN_NAME'
+    },
+    'description': {
+      'en': 'ENGLISH_DESCRIPTION',
+      'de': 'GERMAN_DESCRIPTION'
+    }
+  },
+  'isDark': false,
+  'order': 4,
+  'scale_desktop': 1,
+  'scale_mobile': 1,
+  'previewColor': 'background'
+
 };

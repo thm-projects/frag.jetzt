@@ -1,20 +1,24 @@
-<footer>
-  <mat-toolbar id="footer-toolbar">
-    <button mat-button (click)="navToBlog()" *ngIf="router.url !== '/home'">
-      <mat-icon>ondemand_video</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.blog' | translate }}
-      </span>
-    </button>
-    <button mat-button (click)="showDemo()" *ngIf="router.url === '/home'">
-      <mat-icon>ondemand_video</mat-icon>
+<div>
+
+  <mat-toolbar class="mat-elevation-z24"
+               id="footer-toolbar">
+
+    <button (click)="showDemo()"
+            aria-labelledby="demo-label"
+            class="focus_button"
+            mat-button>
+      <mat-icon>info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
     </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="themeMenu">
+
+    <button [matMenuTriggerFor]="themeMenu"
+            aria-labelledby="style-label"
+            class="focus_button"
+            mat-button>
       <mat-icon>palette</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.style' | translate}}
@@ -22,7 +26,11 @@
     </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button [matMenuTriggerFor]="langMenu">
+    <button [matMenuTriggerFor]="langMenu"
+            aria-labelledby="language-label"
+            class="focus_button"
+            id="language-menu"
+            mat-button>
       <mat-icon>language</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
           {{'footer.language' | translate}}
@@ -30,52 +38,85 @@
     </button>
 
     <span class="fill-remaining-space"></span>
-    <button mat-button (click)="navToDSGVO()">
+
+    <button (click)="showDataProtection()"
+            aria-labelledby="data-protection-label"
+            class="focus_button"
+            mat-button>
       <mat-icon>security</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.dsgvo' | translate}}
+        {{'footer.dsgvo' | translate}}
       </span>
     </button>
+
     <span class="fill-remaining-space"></span>
-    <button mat-button (click)="navToImprint()">
-      <mat-icon>info</mat-icon>
+
+    <button (click)="showImprint()"
+            aria-labelledby="imprint-label"
+            class="focus_button"
+            mat-button>
+      <mat-icon>contact_mail</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
-        {{ 'footer.imprint' | translate}}
+        {{'footer.imprint' | translate}}
       </span>
     </button>
 
-    <mat-menu class="color-menu" #themeMenu="matMenu" [overlapTrigger]="false">
-      <mat-grid-list cols="2">
-        <mat-grid-tile>
-          <button mat-icon-button class="default color-button" (click)="changeTheme('arsnova')">
-            <mat-icon class="color-icon" matTooltip="{{ 'footer.bright' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'arsnova'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button class="dark color-button" (click)="changeTheme('dark')">
-            <mat-icon class="color-icon" matTooltip="{{ 'footer.dark' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'dark'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button class="purple color-button" (click)="changeTheme('purple')">
-            <mat-icon class="color-icon" matTooltip="{{ 'footer.beamer' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'purple'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-        <mat-grid-tile>
-          <button mat-icon-button class="blue color-button" (click)="changeTheme('blue')">
-            <mat-icon class="color-icon" matTooltip="{{ 'footer.wai' | translate }}">lens</mat-icon>
-            <mat-icon *ngIf="themeClass === 'blue'" class="check">check_circle</mat-icon>
-          </button>
-        </mat-grid-tile>
-      </mat-grid-list>
+
+    <mat-menu #themeMenu="matMenu"
+              [overlapTrigger]="false"
+              cdkTrapFocus
+              class="color-menu">
+      <button (click)="changeTheme(theme)"
+              *ngFor="let theme of themes"
+              mat-menu-item
+              style="height:50px;">
+        <div class="btnContent">
+          <div [ngStyle]="{
+'background-color':theme.getPreviewColor()}"
+               class="btnColorIcon">
+            <div [ngClass]="{
+'checked_true':theme.key===themeClass,
+'checked_false':theme.key!==themeClass}"
+                 class="checked">
+              <mat-icon [ngStyle]="{'color':theme.getOnPreviewColor()}">
+                checked
+              </mat-icon>
+            </div>
+          </div>
+          <div class="btnAppend">
+            <div class="title">
+              <p class="title_bold">{{theme.getName(getLanguage())}}</p>
+            </div>
+            <div class="title">
+              <p>{{theme.getDescription(getLanguage())}}</p>
+            </div>
+          </div>
+        </div>
+      </button>
     </mat-menu>
 
-    <mat-menu #langMenu="matMenu" [overlapTrigger]="false">
-      <button mat-menu-item (click)="useLanguage('de')">{{ 'footer.german' | translate }}</button>
-      <button mat-menu-item (click)="useLanguage('en')">{{ 'footer.english' | translate }}</button>
+    <mat-menu #langMenu="matMenu"
+              [overlapTrigger]="false">
+      <button (click)="useLanguage('de')"
+              class="focus_item"
+              mat-menu-item>{{ 'footer.german' | translate }}</button>
+      <button (click)="useLanguage('en')"
+              class="focus_item"
+              mat-menu-item>{{ 'footer.english' | translate }}</button>
     </mat-menu>
+
   </mat-toolbar>
-</footer>
+</div>
+
+<div class="visually-hidden">
+  <div id="help-label">{{'footer.accessibility-help' | translate}}</div>
+  <div id="demo-label">{{'footer.accessibility-demo' | translate}}</div>
+  <div id="style-label">{{'footer.accessibility-style' | translate}}</div>
+  <div id="language-label">{{'footer.accessibility-language' | translate}}</div>
+  <div id="data-protection-label">{{'footer.accessibility-data_protection' | translate}}</div>
+  <div id="imprint-label">{{'footer.accessibility-imprint' | translate}}</div>
+  <div id="style-default-label">{{'footer.style-default' | translate}}</div>
+  <div id="style-dark-label">{{'footer.style-dark' | translate}}</div>
+  <div id="style-purple-label">{{'footer.style-purple' | translate}}</div>
+  <div id="style-blue-label">{{'footer.style-blue' | translate}}</div>
+</div>

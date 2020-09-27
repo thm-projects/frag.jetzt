@@ -1,7 +1,33 @@
-  <div fxLayout="column" fxFill appTheme>
+<script src="models/rescale.ts"></script>
+<div fxLayout="column" fxFill appTheme id="outer_main_container">
+  <header class="header" id="header_rescale">
     <app-header #header></app-header>
-    <div fxFlex class="app-component">
-      <router-outlet></router-outlet>
+  </header>
+  <div id="rescale_screen">
+    <div class="main_container" id="scroll_container">
+      <div class="inner_main_container">
+        <main fxFlex class="app-component">
+          <router-outlet></router-outlet>
+        </main>
+      </div>
     </div>
-    <app-footer></app-footer>
   </div>
+  <footer role="contentinfo" class="footer" id="footer_rescale">
+    <app-footer></app-footer>
+  </footer>
+  <div class="rescale_overlay" id="overlay_rescale" aria-hidden="true">
+    <button mat-icon-button (click)="getRescale().toggleState()" title="toggle">
+      <mat-icon>fullscreen_exit</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getRescale().scaleUp()" title="Zoom +">
+      <mat-icon>zoom_in</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getRescale().scaleDown()" title="Zoom -">
+      <mat-icon>zoom_out</mat-icon>
+    </button>
+    <button mat-icon-button (click)="getRescale().scaleUndo()" title="Reset Zoom">
+      <mat-icon>undo</mat-icon>
+    </button>
+  </div>
+</div>
+

@@ -20,12 +20,19 @@ export class WsCommentServiceService {
   constructor(private wsConnector: WsConnectorService) { }
 
   add(comment: Comment): void {
-    const message = new CreateComment(comment.roomId, comment.userId, comment.body);
+    const message = new CreateComment(comment.roomId, comment.creatorId, comment.body, comment.tag);
     this.wsConnector.send(`/queue/comment.command.create`, JSON.stringify(message));
   }
 
+  answer(comment: Comment, answer: string): Comment {
+    comment.answer = answer;
+    const changes = new TSMap<string, any>();
+    changes.set('answer', comment.answer);
+    this.patchComment(comment, changes);
+    return comment;
+  }
+
   toggleRead(comment: Comment): Comment {
-    console.log(comment);
     comment.read = !comment.read;
     const changes = new TSMap<string, any>();
     changes.set('read', comment.read);
@@ -41,8 +48,7 @@ export class WsCommentServiceService {
     return comment;
   }
 
-  toggleCorrect(comment: Comment): Comment {
-    comment.correct = !comment.correct;
+  markCorrect(comment: Comment): Comment {
     const changes = new TSMap<string, any>();
     changes.set('correct', comment.correct);
     this.patchComment(comment, changes);

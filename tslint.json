@@ -47,7 +47,7 @@
       }
     ],
     "no-arg": true,
-    "no-bitwise": true,
+    "no-bitwise": false,
     "no-console": [
       true,
       "debug",
@@ -128,21 +128,23 @@
       true,
       "attribute",
       "app",
-      "camelCase"
+      "camelCase",
+      "allow-snake-case "
     ],
     "component-selector": [
       true,
       "element",
       "app",
-      "kebab-case"
+      "kebab-case",
+      "ars-lib"
     ],
     "no-output-on-prefix": true,
-    "use-input-property-decorator": true,
-    "use-output-property-decorator": true,
-    "use-host-property-decorator": true,
+    "no-inputs-metadata-property": true,
+    "no-outputs-metadata-property": true,
+    "no-host-metadata-property": true,
     "no-input-rename": true,
     "no-output-rename": true,
-    "use-life-cycle-interface": true,
+    "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "component-class-suffix": true,
     "directive-class-suffix": true

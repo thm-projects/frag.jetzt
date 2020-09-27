@@ -1,13 +1,10 @@
 variables:
   BUILD_DIR: dist
-  MIRROR_REPO: git@github.com:thm-projects/arsnova-lite.git
-
 
 stages:
   - codestyle
   - test
   - build
-  - review
   - deploy
 
 cache:
@@ -51,35 +48,6 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-#review:
-#  stage: review
-#  script:
-#    - rsync -av --delete "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
-#  environment:
-#    name: review/$CI_BUILD_REF_NAME
-#    url: http://$CI_BUILD_REF_SLUG.$SERVER_URL
-#    on_stop: stop_review
-#  only:
-#    - branches
-#  except:
-#    - master
-#  tags:
-#    - nginx
-
-#stop_review:
-#  stage: review
-#  script:
-#    - rm -rf "$BUILD_DIR" /srv/nginx/pages/$CI_BUILD_REF_SLUG
-#  variables:
-#    GIT_STRATEGY: none
-#  when: manual
-#  environment:
-#    name: review/$CI_BUILD_REF_NAME
-#    action: stop
-#  tags:
-#    - nginx
-
-
 deploy:
   stage: deploy
   only:
@@ -95,18 +63,3 @@ deploy:
     - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$SSH_URL"
-
-sync_mirror:
-  stage: deploy
-  tags:
-    - git
-  when: always
-  allow_failure: true
-  dependencies: []
-  script:
-    - eval $(ssh-agent -s)
-    - mkdir ~/.ssh && echo "$SYNC_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
-    - ssh-add <(echo "$SYNC_SSH_PRIVATE_KEY")
-    - git clone --bare "$CI_REPOSITORY_URL" mirror.git
-    - cd mirror.git
-    - git push --mirror "$MIRROR_REPO"

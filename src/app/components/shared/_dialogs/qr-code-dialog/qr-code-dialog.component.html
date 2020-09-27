@@ -1,0 +1,12 @@
+<ars-screen>
+  <div fxLayout="column" fxLayoutAlign="center center" class="qr-container">
+    <button class="exitButton" mat-raised-button (click)="onCloseClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <div>
+      <h2>frag.jetzt</h2>
+      <h2>{{'qr-dialog.session' | translate}}: {{key.slice(0, 4)}} {{key.slice(4, 8)}}</h2>
+    </div>
+    <qrcode [qrdata]="data" [width]="qrWidth" [errorCorrectionLevel]="'M'"></qrcode>
+  </div>
+</ars-screen>

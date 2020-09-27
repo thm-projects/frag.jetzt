@@ -6,3 +6,25 @@ $dark-warn: mat-palette($mat-red, A200);
 
 $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
+a {
+  text-decoration: underline;
+  color: var(--on-surface);
+}
+
+.mat-dialog-container {
+  color: var(--on-surface) !important;
+}
+
+.mat-dialog-container h3 {
+  color: var(--on-surface) !important;
+}
+
+.mat-menu-panel {
+  background-color: var(--dialog) !important;
+  color: var(--on-dialog) !important;
+}
+
+.mat-menu-panel .mat-menu-item {
+  background-color: var(--dialog) !important;
+  color: var(--on-dialog) !important;
+}

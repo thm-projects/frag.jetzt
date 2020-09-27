@@ -1,27 +1,54 @@
 export const dark = {
 
-  '--primary' : '#bb86fc',
-  '--primary-variant': '#616161',
+  '--primary' : '#6f74dd',
+  '--primary-variant': '#052338',
 
-  '--secondary': '#03dac6',
+  '--secondary': '#eadabf',
   '--secondary-variant': '#6f74dd',
 
   '--background': '#121212',
-  '--surface': '#1e1e1e',
-  '--dialog': '#37474f',
+  '--surface': '#052338',
+  '--dialog': '#09394f',
+  '--cancel': 'slategray',
+  '--alt-surface': '#323232',
+  '--alt-dialog': '#455a64',
 
-  '--on-primary': '#000000',
+  '--on-primary': '#eadabf',
   '--on-secondary': '#000000',
-  '--on-background': '#FFFFFF',
-  '--on-surface': '#FFFFFF',
+  '--on-background': '#eadabf',
+  '--on-surface': '#eadabf',
+  '--on-dialog': '#eadabf',
+  '--on-cancel': '#eadabf',
 
-  '--green': '#4caf50',
-  '--red': '#f44336',
-  '--yellow': '#FFD54F',
+  '--green': 'lightgreen',
+  '--red': 'red',
+  '--yellow': 'yellow',
   '--blue': '#3f51b5',
   '--purple': '#9c27b0',
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#9E9E9E',
-  '--black': '#212121'
+  '--black': '#212121',
+  '--moderator': 'maroon'
+
+};
+
+export const dark_meta = {
+
+  'translation': {
+    'name': {
+      'en': 'Dark Mode',
+      'de': 'Dark Mode'
+    },
+    'description': {
+      'en': 'Default for smartphones',
+      'de': 'Standard für Smartphones'
+    }
+  },
+  'isDark': true,
+  'order': 2,
+  'scale_desktop': 1,
+  'scale_mobile': 1,
+  'previewColor': 'background'
+
 };

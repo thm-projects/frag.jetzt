@@ -80,7 +80,6 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
       map(room => this.parseExtensions(room)),
-      map(room => this.parseDefaultContentGroup(room)),
       tap(room => this.setRoomId(room)),
       catchError(this.handleError<Room>(`getRoom keyword=${ id }`))
     );
@@ -90,7 +89,6 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
       map(room => this.parseExtensions(room)),
-      map(room => this.parseDefaultContentGroup(room)),
       tap(room => this.setRoomId(room)),
       catchError(this.handleError<Room>(`getRoom shortId=${ shortId }`))
     );
@@ -99,6 +97,14 @@ export class RoomService extends BaseHttpService {
   addToHistory(roomId: string): void {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
     this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(() => {});
+  }
+
+  removeFromHistory(roomId: string): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory/${roomId}`;
+    return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<Room>('deleteRoom'))
+    );
   }
 
   updateRoom(updatedRoom: Room): Observable<Room> {
@@ -115,17 +121,6 @@ export class RoomService extends BaseHttpService {
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))
     );
-  }
-
-  parseDefaultContentGroup(room: Room): Room {
-    if (room.contentGroups) {
-      for (const cg of room.contentGroups) {
-        if (!cg.name || cg.name === '') {
-          cg.name = 'Default';
-        }
-      }
-    }
-    return room;
   }
 
   parseExtensions(room: Room): Room {

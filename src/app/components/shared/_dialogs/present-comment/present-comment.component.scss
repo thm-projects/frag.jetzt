@@ -3,34 +3,27 @@
   flex-direction: column;
   justify-content: center;
   text-align: left;
-  min-height: 90vh;
+  max-height: 90vh;
   font-size: 2.1em;
   margin: 5%;
   white-space: pre-line;
   hyphens: auto;
+  overflow-wrap: break-word !important;
 }
 
 #comment p {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -webkit-hyphens: auto;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
   hyphens: auto;
+  overflow-wrap: break-word;
   color: var(--on-surface);
 }
 
 #exitButton {
-  background-color: var(--red);
-  color: white;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
   position:absolute;
   top:2em;
   right:2em;
   max-height: 100px;
-}
-
-mat-icon {
-  color: var(--on-surface);
 }
 
 ::ng-deep .mat-accent .mat-slider-thumb {

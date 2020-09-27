@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -10,19 +10,14 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
-import { MatDialog } from '@angular/material';
-import { trigger, transition, style, animate, state, keyframes } from '@angular/animations';
+import { MatDialog } from '@angular/material/dialog';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DeleteCommentComponent } from '../../creator/_dialogs/delete-comment/delete-comment.component';
-
-export const rubberBand = [
-  style({ transform: 'scale3d(1, 1, 1)', offset: 0 }),
-  style({ transform: 'scale3d(1.05, 0.75, 1)', offset: 0.3 }),
-  style({ transform: 'scale3d(0.75, 1.05, 1)', offset: 0.4 }),
-  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: 0.5 }),
-  style({ transform: 'scale3d(0.95, 1.05, 1)', offset: 0.65 }),
-  style({ transform: 'scale3d(1.05, 0.95, 1)', offset: 0.75 }),
-  style({ transform: 'scale3d(1, 1, 1)', offset: 1 })
-];
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
+import { UserRole } from '../../../models/user-roles.enum';
+import { Rescale } from '../../../models/rescale';
+import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-comment',
@@ -30,26 +25,43 @@ export const rubberBand = [
   styleUrls: ['./comment.component.scss'],
   animations: [
     trigger('slide', [
-      state('void', style({ opacity: 0, transform: 'translateY(-10px)' })),
-      transition('void <=> *', animate(700)),
-    ]),
-    trigger('rubberBand', [
-      transition('* => rubberBand', animate(1000, keyframes(rubberBand))),
+      state('hidden', style({ opacity: 0, transform: 'translateY(-10px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
+      transition('hidden <=> visible', animate(700))
     ])
   ]
 })
 
-export class CommentComponent implements OnInit {
+export class CommentComponent implements OnInit, AfterViewInit {
+
+  static COMMENT_MAX_HEIGHT = 200;
+
   @Input() comment: Comment;
+  @Input() moderator: boolean;
+  @Input() userRole: UserRole;
+  @Input() user: User;
+  @Output() clickedOnTag = new EventEmitter<string>();
+  @Output() clickedUserNumber = new EventEmitter<number>();
   isStudent = false;
+  isCreator = false;
+  isModerator = false;
   hasVoted = 0;
   language: string;
-  animationState: string;
-  moderationEnabled: boolean;
+  deviceType: string;
+  inAnswerView = false;
+  currentVote: string;
+  slideAnimationState = 'hidden';
+  roleString: string;
+  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
+  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
+  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
+  isExpanded = false;
+  isExpandable = false;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
     private location: Location,
+    protected router: Router,
     private commentService: CommentService,
     private notification: NotificationService,
     private translateService: TranslateService,
@@ -63,18 +75,48 @@ export class CommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.authenticationService.getRole() === 0) {
-      this.isStudent = true;
+    switch (this.userRole) {
+      case UserRole.PARTICIPANT.valueOf():
+        this.isStudent = true;
+        this.roleString = 'participant';
+        break;
+      case UserRole.CREATOR.valueOf():
+        this.isCreator = true;
+        this.roleString = 'creator';
+        break;
+      case UserRole.EXECUTIVE_MODERATOR.valueOf():
+        this.isModerator = true;
+        this.roleString = 'moderator';
     }
     this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
-    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+    this.deviceType = localStorage.getItem('deviceType');
+    this.inAnswerView = !this.router.url.includes('comments');
   }
 
-  startAnimation(state_: any): void {
-    if (!this.animationState) {
-      this.animationState = state_;
+  ngAfterViewInit(): void {
+    this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
+    if (!this.isExpandable) {
+      this.commentExpander.ref.nativeElement.style.display = 'none';
+    } else {
+      this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
+      this.commentBody.setOverflow('hidden');
     }
+  }
+
+  toggleExpand(evt: MouseEvent) {
+    this.isExpanded = !this.isExpanded;
+    if (this.isExpanded) {
+      this.commentBody.setPx(this.commentBodyInner.getRenderedHeight());
+    this.commentBody.setOverflow('visible');
+    } else {
+      this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
+    this.commentBody.setOverflow('hidden');
+    }
+  }
+
+  changeSlideState(): void {
+    this.slideAnimationState = 'visible';
   }
 
   @Input()
@@ -84,16 +126,17 @@ export class CommentComponent implements OnInit {
     }
   }
 
-  resetAnimationState(): void {
-    this.animationState = '';
-  }
-
   setRead(comment: Comment): void {
     this.comment = this.wsCommentService.toggleRead(comment);
   }
 
-  setCorrect(comment: Comment): void {
-    this.comment = this.wsCommentService.toggleCorrect(comment);
+  markCorrect(comment: Comment, type: CorrectWrong): void {
+      if (comment.correct === type) {
+        comment.correct = CorrectWrong.NULL;
+      } else {
+        comment.correct = type;
+      }
+    this.comment = this.wsCommentService.markCorrect(comment);
   }
 
   setFavorite(comment: Comment): void {
@@ -105,11 +148,13 @@ export class CommentComponent implements OnInit {
     if (this.hasVoted !== 1) {
       this.wsCommentService.voteUp(comment, userId);
       this.hasVoted = 1;
+      this.currentVote = '1';
     } else {
       this.wsCommentService.resetVote(comment, userId);
       this.hasVoted = 0;
-      this.startAnimation(0);
+      this.currentVote = '0';
     }
+    this.resetVotingAnimation();
   }
 
   voteDown(comment: Comment): void {
@@ -117,11 +162,13 @@ export class CommentComponent implements OnInit {
     if (this.hasVoted !== -1) {
       this.wsCommentService.voteDown(comment, userId);
       this.hasVoted = -1;
+      this.currentVote = '-1';
     } else {
       this.wsCommentService.resetVote(comment, userId);
       this.hasVoted = 0;
-      this.startAnimation(0);
+      this.currentVote = '0';
     }
+    this.resetVotingAnimation();
   }
 
   openDeleteCommentDialog(): void {
@@ -136,9 +183,26 @@ export class CommentComponent implements OnInit {
       });
   }
 
+  resetVotingAnimation() {
+    setTimeout(() => {
+        this.currentVote = '';
+      },
+      1000);
+  }
+
+  answerComment() {
+    let url: string;
+    this.route.params.subscribe(params => {
+      url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
+    });
+    this.router.navigate([url]);
+  }
+
   delete(): void {
     this.commentService.deleteComment(this.comment.id).subscribe(room => {
-      this.notification.show(`Comment '${this.comment.body}' successfully deleted.`);
+      this.translateService.get('comment-list.comment-deleted').subscribe(msg => {
+        this.notification.show(msg);
+      });
     });
   }
 
@@ -147,20 +211,15 @@ export class CommentComponent implements OnInit {
   }
 
   goToFullScreen(element: Element): void {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    }
+    Rescale.requestFullscreen();
   }
 
   exitFullScreen(): void {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
+    Rescale.exitFullscreen();
   }
 
   openPresentDialog(comment: Comment): void {
-    this.goToFullScreen(document.documentElement);
-    if (this.isStudent === false) {
+    if (this.isCreator === true) {
       this.wsCommentService.highlight(comment);
       if (!comment.read) {
         this.setRead(comment);

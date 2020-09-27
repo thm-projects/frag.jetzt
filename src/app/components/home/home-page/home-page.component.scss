@@ -1,6 +1,6 @@
 .outer {
-  width: 90%;
-  max-width: 500px;
+  width: 80%;
+  max-width: 300px;
   background-color: var(--surface);
 }
 
@@ -9,19 +9,27 @@
   font-size: 150%;
   font-weight: bold;
   text-align: center;
-  letter-spacing: 10px;
+  letter-spacing: 7px;
   color: var(--secondary);
   animation: moveInLeft 2s ease-out;
-  padding-top: 10px;
 }
 
 .main-heading-secondary {
   display: block;
+  font-weight: bold;
+  font-size: 60%;
+  text-align: center;
+  color: var(--primary);
+  animation: moveInRight 1.5s ease-out;
+}
+
+.feedback {
+  margin-top: -20px;
+  display: block;
   font-weight: normal;
   font-size: 60%;
   text-align: center;
-  color: var(--on-surface);
-  animation: moveInRight 1s ease-out;
+  color: var(--on-background);
 }
 
 @keyframes moveInLeft {
@@ -58,4 +66,14 @@
 
 mat-card-header {
   justify-content: center;
+}
+
+.screenshot {
+  display: block;
+  margin-top: -30px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 100%;
+  height: auto;
+  outline: none;
 }

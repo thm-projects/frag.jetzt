@@ -1,10 +1,14 @@
 mat-form-field {
-  font-size: x-large;
+  font-size: larger;
   color: var(--on-surface);
 }
 
 input {
-  caret-color: var(--on-surface);
+  caret-color:var(--on-surface);
+}
+
+input:focus{
+  caret-color:var(--on-surface);
 }
 
 form {
@@ -18,8 +22,8 @@ mat-error {
 .mat-fab {
   width: 65px;
   height: 65px;
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }
 
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
@@ -49,4 +53,17 @@ mat-hint {
 input:-webkit-autofill {
   -webkit-box-shadow:0 0 0 50px var(--surface) inset;
   -webkit-text-fill-color: var(--on-surface);
+}
+
+mat-error{
+  color:var(--on-surface);
+}
+
+#session_enter-button:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+.join-room {
+  transform: scale(1.5);
 }

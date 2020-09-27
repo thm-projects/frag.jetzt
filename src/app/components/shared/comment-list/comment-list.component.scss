@@ -11,7 +11,7 @@ app-comment {
 #searchBox {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
-  background-color: var(--dialog);
+  background-color: var(--background);
   border: none;
   outline: none;
   min-height: 60px;
@@ -36,13 +36,13 @@ app-comment {
 
 .search-container {
   border-radius: 5px;
-  background-color: var(--dialog);
+  background-color: var(--background);
   margin-bottom: 2%;
 }
 
 .search-container-fixed {
   border-radius: 5px;
-  background-color: var(--dialog);
+  background-color: var(--background);
   margin-bottom: 2%;
   position: fixed;
   top: 10px;
@@ -64,16 +64,28 @@ app-comment {
   color: var(--secondary);
 }
 
-.addButton {
+.actionButton {
   width: 40px;
   height: 40px;
-  margin: 0 5% 0 5%;
+  margin: 0 0 0 5%;
   background-color: var(--primary);
 }
 
-.addCommentIcon {
-  transform: scale(1.5);
-  color: var(--surface)
+.freezeButton {
+  width: 40px;
+  height: 40px;
+  margin: 0 0 0 5%;
+  background-color: var(--secondary);
+}
+
+.actionIcon {
+  transform: scale(1.2);
+  color: var(--background)
+}
+
+.freezeIcon {
+  transform: scale(1.2);
+  color: var(--background);
 }
 
 .close {
@@ -92,10 +104,6 @@ app-comment {
   margin-top: 10%;
 }
 
-h4  {
-  color: var(--on-surface);
-}
-
 .button-bar {
   margin-right: 2%;
 }
@@ -104,16 +112,24 @@ h4  {
   color: var(--green);
 }
 
-.read-icon {
-  color: var(--blue);
+.wrong-icon {
+  color: var(--red);
+}
+
+.beamer-icon {
+  color: var(--primary);
+}
+
+.answered-icon {
+  color: var(--primary);
 }
 
 .favorite-icon {
   color: var(--yellow);
 }
 
-.unread-icon {
-  color: var(--purple);
+.owner-icon {
+  color: var(--purple)
 }
 
 .counter {
@@ -125,7 +141,7 @@ h4  {
 }
 
 h3 {
-  font-size: 18pt!important;
+  font-size: 18pt !important;
   margin: 10px;
 }
 
@@ -163,16 +179,26 @@ h3 {
 
 .scrollTop {
   position: fixed;
-  bottom: 3%;
-  left: -40px;
+  left: 25px;
+  bottom: 65px;
+  transform: scale(0);
+  z-index: 1;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  transition: 0.1s;
+}
+
+.fab_add_comment {
+  position: fixed;
+  right: 25px;
+  bottom: 65px;
   z-index: 1;
   background-color: var(--primary);
-  color: white;
-  transition: 0.5s;
+  color: var(--on-primary);
+  transform: scale(1.4);
+  transition: all 0.1s ease-in-out;
 }
 
 .visible {
-  left: 5%;
-  transition: 0.5s;
-  background-color: var(--primary);
+  transform: scale(1.4);
 }

@@ -1,9 +1,27 @@
 <form (ngSubmit)="login(userActivationKey.value)" fxLayout="column" fxLayoutAlign="space-around"
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input matInput #userActivationKey type="text" placeholder="{{ 'login.activation-key' | translate }}"
-           [formControl]="activationKeyFormControl" name="activation-key"/>
-    <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'login.activation-key-required' | translate }}</mat-error>
+    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+           matInput #userActivationKey type="text"
+           [formControl]="activationKeyFormControl" name="activation-key"
+           aria-labelledby="activation-key-input-description"/>
+    <mat-placeholder class="placeholder">{{ 'login.activation-key' | translate }}</mat-placeholder>
+    <mat-error *ngIf="activationKeyFormControl.hasError('required')">{{ 'user-activation.activation-key-required' | translate }}</mat-error>
   </mat-form-field>
-  <button mat-raised-button color="primary" type="submit">{{ 'login.activate' | translate }}</button>
-</form>
+</form><div fxLayout="column" fxLayoutAlign="space-around">
+  <button (click)="resetActivation()" mat-flat-button type="button"
+          matTooltip="{{'login.restart-account-activation-tooltip' | translate}}">
+    {{ 'login.restart-account-activation-button' | translate }}
+  </button>
+</div>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="user-activation"
+  confirmButtonLabel="activate"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildActivationActionCallback(userActivationKey)"
+></app-dialog-action-buttons>
+
+<div class="visually-hidden">
+  <div id="activation-key-input-description">{{ 'user-activation.activation-key-input-description' | translate }}</div>
+</div>

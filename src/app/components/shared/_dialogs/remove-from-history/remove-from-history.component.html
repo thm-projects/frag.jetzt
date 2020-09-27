@@ -1,0 +1,13 @@
+<div mat-dialog-content>
+  <h2 class="oldtypo-h2" tabindex="0">{{ 'header.sure' | translate }}</h2>
+  <mat-divider></mat-divider>
+  <p class="oldtypo-p" tabindex="0">{{ (role < 3 ? 'room-list.really-remove' : 'room-list.really-delete') | translate }}
+    <strong>{{roomName}}</strong>{{ (role < 3 ? 'room-list.really-remove-2' : 'room-list.really-delete-2') | translate }}</p>
+  <app-dialog-action-buttons
+    buttonsLabelSection="delete-account"
+    confirmButtonLabel="delete"
+    [confirmButtonType]=confirmButtonType
+    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+    [confirmButtonClickAction]="buildDeleteAccountActionCallback()"
+  ></app-dialog-action-buttons>
+</div>

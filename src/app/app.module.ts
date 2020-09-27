@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
@@ -13,8 +13,6 @@ import { RoomService } from './services/http/room.service';
 import { CommentService } from './services/http/comment.service';
 import { DataStoreService } from './services/util/data-store.service';
 import { EventService } from './services/util/event.service';
-import { ContentService } from './services/http/content.service';
-import { ContentAnswerService } from './services/http/content-answer.service';
 import { VoteService } from './services/http/vote.service';
 import { WsConnectorService } from './services/websockets/ws-connector.service';
 import { UserActivationComponent } from './components/home/_dialogs/user-activation/user-activation.component';
@@ -25,7 +23,7 @@ import { CreatorModule } from './components/creator/creator.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LanguageService } from './services/util/language.service';
-import { MarkdownService, MarkedOptions } from 'ngx-markdown';
+import { MarkdownModule, MarkdownService, MarkedOptions } from 'ngx-markdown';
 import { NewLandingComponent } from './components/home/new-landing/new-landing.component';
 import { HomePageComponent } from './components/home/home-page/home-page.component';
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
@@ -41,7 +39,29 @@ import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-v
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
 import { HomeParticipantPageComponent } from './components/home/home-participant-page/home-participant-page.component';
 import { CommentSettingsService } from './services/http/comment-settings.service';
+import { BonusTokenService } from './services/http/bonus-token.service';
+import { CustomIconService } from './services/util/custom-icon.service';
 import { ModeratorModule } from './components/moderator/moderator.module';
+import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
+import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
+import { CookiesComponent } from './components/home/_dialogs/cookies/cookies.component';
+import { DataProtectionEnComponent } from '../assets/i18n/data-protection/data-protection-en';
+import { DataProtectionDeComponent } from '../assets/i18n/data-protection/data-protection-de';
+import { CookiesEnComponent } from '../assets/i18n/cookies/cookies-en';
+import { CookiesDeComponent } from '../assets/i18n/cookies/cookies-de';
+import { ImprintEnComponent } from '../assets/i18n/imprint/imprint-en';
+import { ImprintDeComponent } from '../assets/i18n/imprint/imprint-de';
+import { HelpDeComponent } from '../assets/i18n/help/help-de';
+import { HelpEnComponent } from '../assets/i18n/help/help-en';
+import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.component';
+import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
+import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
+import { ArsModule } from '../../projects/ars/src/lib/ars.module';
+import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { MatIconModule } from '@angular/material/icon';
+import { HttpClientModule } from '@angular/common/http';
+import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
+import { MatomoModule } from 'ngx-matomo';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -50,6 +70,7 @@ export function initializeApp(appConfig: AppConfig) {
   return () => appConfig.load();
 }
 
+// @ts-ignore
 @NgModule({
   declarations: [
     AppComponent,
@@ -61,23 +82,44 @@ export function initializeApp(appConfig: AppConfig) {
     DemoVideoComponent,
     UserHomeComponent,
     HomeCreatorPageComponent,
-    HomeParticipantPageComponent
-  ],
-  entryComponents: [
-    RegisterComponent,
-    PasswordResetComponent,
-    UserActivationComponent,
-    DemoVideoComponent
+    HomeParticipantPageComponent,
+    ImprintComponent,
+    DataProtectionComponent,
+    CookiesComponent,
+    DataProtectionEnComponent,
+    DataProtectionDeComponent,
+    CookiesEnComponent,
+    CookiesDeComponent,
+    ImprintEnComponent,
+    ImprintDeComponent,
+    HelpDeComponent,
+    HelpEnComponent,
+    DemoDeComponent,
+    DemoEnComponent,
+    HelpEnComponent,
+    OverlayComponent
   ],
   imports: [
+    MatomoModule,
     AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     EssentialsModule,
     SharedModule,
     ThemeModule,
+    MatIconModule,
+    HttpClientModule,
     CreatorModule,
     ModeratorModule,
+    MarkdownModule.forRoot({
+      loader: HttpClient,
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          sanitize: true
+        }
+      }
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
@@ -86,7 +128,8 @@ export function initializeApp(appConfig: AppConfig) {
         deps: [HttpClient]
       },
       isolate: true
-    })
+    }),
+    ArsModule
   ],
   providers: [
     /*AppConfig,
@@ -107,8 +150,6 @@ export function initializeApp(appConfig: AppConfig) {
     EventService,
     RoomService,
     CommentService,
-    ContentService,
-    ContentAnswerService,
     LanguageService,
     MarkdownService,
     MarkedOptions,
@@ -116,6 +157,8 @@ export function initializeApp(appConfig: AppConfig) {
     VoteService,
     ModeratorService,
     CommentSettingsService,
+    BonusTokenService,
+    CustomIconService,
     WsConnectorService,
     {
       provide: MatDialogRef,

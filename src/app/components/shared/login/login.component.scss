@@ -4,20 +4,33 @@
 }
 
 .regButton {
-  padding: 0;
-  margin: 0 10px 0 0;
   color: var(--secondary);
 }
 
 .guest {
   background-color: var(--primary);
   color: var(--on-primary);
-  margin: 10px 0 20px 0!important;
+  margin-bottom: 10px;
+}
+
+.login {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+.forgot-password {
+  margin-bottom: 1.6rem;
+}
+
+.forgot-password a {
+  text-decoration: underline;
+  color: var(--secondary);
+  font-size: .9rem;
 }
 
 p {
   font-size: small;
-  margin: 15px 5px 0 0;
+  margin: 13px 10px 0 0;
   color: var(--on-surface);
   vertical-align: text-bottom;
 }
@@ -52,11 +65,39 @@ input:-webkit-autofill:focus {
 }
 
 h3 {
-  color: var(--on-surface);
   margin: 0 0 10px 0!important;
 }
 
 .register {
-  height: 40px;
+  padding: .5rem 0;
+  align-items: baseline;
 }
 
+.registerBtn{
+  text-decoration:underline;
+  color:var(--on-surface);
+  cursor:pointer;
+  font-size:small;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -10000px;
+}
+
+#focus_button_user:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+#focus_button_guest:focus {
+  background: var(--on-surface);
+  color: var(--background);
+}
+
+.or {
+  height: 30px;
+}

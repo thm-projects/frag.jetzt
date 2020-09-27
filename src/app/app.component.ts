@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
+import { Rescale } from './models/rescale';
+import { CustomIconService } from './services/util/custom-icon.service';
+import { MatomoInjector } from 'ngx-matomo';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -10,14 +14,33 @@ import { NotificationService } from './services/util/notification.service';
 })
 export class AppComponent implements OnInit {
 
+  private static scrollAnimation = true;
+
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
-              public notification: NotificationService) {
-    translationService.setDefaultLang(this.translationService.getBrowserLang());
-    sessionStorage.setItem('currentLang', this.translationService.getBrowserLang());
+              private matomoInjector: MatomoInjector,
+              public notification: NotificationService,
+              private customIconService: CustomIconService) {
+    customIconService.init();
+    if (environment.name === 'prod') { this.matomoInjector.init('https://arsnova.thm.de/stats/', 6); }
   }
 
+  public static rescale: Rescale = new Rescale();
+
   title = 'frag.jetzt';
+
+  public static scrollTop() {
+    const sc: HTMLElement = document.getElementById('scroll_container');
+    if (AppComponent.scrollAnimation) {
+      sc.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      sc.scrollTop = 0;
+    }
+  }
+
+  public static isScrolledTop(): boolean {
+    return document.getElementById('scroll_container').scrollTop === 0;
+  }
 
   ngOnInit(): void {
     this.update.available.subscribe(update => {
@@ -26,7 +49,7 @@ export class AppComponent implements OnInit {
         install = msg;
       });
       this.translationService.get('home-page.update-available').subscribe(msg => {
-       this.notification.show(msg, install, {
+        this.notification.show(msg, install, {
           duration: 10000
         });
       });
@@ -37,4 +60,10 @@ export class AppComponent implements OnInit {
       });
     });
   }
+
+  public getRescale(): Rescale {
+    return AppComponent.rescale;
+  }
+
+
 }
