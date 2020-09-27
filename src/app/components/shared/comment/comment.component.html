@@ -1,6 +1,10 @@
-<mat-card id="comment-card"
+<mat-card id="comment-card" class="border"
           [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
-          'moderator': moderator}"
+          'moderator': moderator,
+          'border-correct': comment.correct === 1,
+          'border-wrong': comment.correct === 2,
+          'border-bonus': comment.favorite
+          }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
   <div fxLayout="column">
