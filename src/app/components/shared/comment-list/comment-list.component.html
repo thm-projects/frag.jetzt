@@ -1,6 +1,6 @@
 <div fxLayout="row"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
-     *ngIf="comments.length > 2"
+     *ngIf="comments.length > 1"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
   <button id="filter-close-button"
