@@ -25,17 +25,17 @@ tslint:
     - npm install
     - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
 
-unit_tests:
-  stage: test
-  tags:
-    - nodejs
-  allow_failure: false
-  dependencies: []
-  variables:
-    CHROME_BIN: /usr/bin/google-chrome
-  script:
-    - npm install
-    - npm test
+#unit_tests:
+#  stage: test
+#  tags:
+#    - nodejs
+#  allow_failure: false
+#  dependencies: []
+#  variables:
+#    CHROME_BIN: /usr/bin/google-chrome
+#  script:
+#    - npm install
+#    - npm test
 
 ngbuild:
   stage: build
