@@ -1,7 +1,8 @@
 <mat-card id="comment-card" class="border"
           [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
           'moderator': moderator,
-          'border-correct': comment.correct === 1
+          'border-correct': comment.correct === 1,
+          'border-wrong': comment.correct === 2
           }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">

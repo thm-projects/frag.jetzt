@@ -1,9 +1,9 @@
-@mixin card-box-shadow($color: transparent){
+@mixin card-box-shadow($color: transparent, $x: -4px){
   box-shadow:
     0px 2px 1px -1px rgba(0, 0, 0, 0.2),
     0px 1px 1px 0px rgba(0, 0, 0, 0.14),
     0px 1px 3px 0px rgba(0, 0, 0, 0.12),
-    -4px 0px 0px 0px $color;
+    $x 0px 0px 0px $color;
 }
 
 #comment-card {
@@ -127,7 +127,7 @@ mat-card-content > :first-child {
 }
 
 .border{
-  @include card-box-shadow();
+  @include card-box-shadow(transparent,0);
   &-correct{
     @include card-box-shadow(var(--green));
   }
