@@ -1,8 +1,17 @@
+@mixin card-box-shadow($color: transparent, $x: -4px){
+  box-shadow:
+    0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.12),
+    $x 0px 0px 0px $color;
+}
+
 #comment-card {
   margin: 0 0 16px 0;
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
-  transition: background-color 0.5s linear;
+  transition: background-color 0.5s linear,
+              box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
 }
 
@@ -117,6 +126,28 @@ mat-card-content > :first-child {
   background-color: var(--moderator) !important;
 }
 
+.border{
+  @include card-box-shadow(transparent,0);
+  &-correct{
+    @include card-box-shadow(var(--green));
+  }
+  &-wrong{
+    @include card-box-shadow(var(--red));
+  }
+  &-bonus{
+    @include card-box-shadow(var(--yellow));
+  }
+  &-merged{
+    @include card-box-shadow(var(--magenta));
+  }
+  &-discussed{
+    @include card-box-shadow(var(--gray));
+  }
+  &-mergeSelect{
+    @include card-box-shadow(var(--cyan));
+  }
+}
+
 .comment-tags {
   cursor: pointer;
   color: var(--primary);
@@ -150,7 +181,7 @@ mat-card-content > :first-child {
 }
 
 .edit-button .mat-icon {
-  transform: scale(2.0);
+  transform: scale(1.5);
   background-color: var(-surface);
   color: var(--on-surface);
 }

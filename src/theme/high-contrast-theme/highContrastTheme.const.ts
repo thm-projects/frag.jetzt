@@ -18,14 +18,14 @@ export const highcontrast = {
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
 
-  '--green': 'lightgreen',
-  '--red': 'red',
-  '--yellow': '#fb9a1c',
-  '--blue': 'blue',
-  '--purple': 'purple',
-  '--light-green': 'lightgreen',
-  '--grey': 'grey',
-  '--grey-light': 'lightgrey',
+  '--green': '#3ce933',
+  '--red': '#e93333',
+  '--yellow': '#e9d533',
+  '--blue': '#3833e9',
+  '--purple': '#e933e2',
+  '--light-green': '#33e98d',
+  '--grey': '#7e7e7e',
+  '--grey-light': '#9c9c9c',
   '--black': 'black',
   '--moderator': 'darkred'
 
