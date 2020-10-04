@@ -14,6 +14,7 @@ import { CommentBonusTokenMixin } from '../../../../models/comment-bonus-token-m
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
 import { ExportCsv } from '../../../../models/export-csv';
+import { Export } from '../../../../models/export';
 
 @Component({
   selector: 'app-comment-settings',
@@ -100,19 +101,15 @@ export class CommentSettingsComponent implements OnInit {
     this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 
-  export(delimiter: string, format: string): void {
-    new ExportCsv(
-      this.roomId,
+  exportCSV(): void {
+    const exp: Export = new Export(
+      this.editRoom,
       this.commentService,
       this.bonusTokenService,
       this.translationService,
-      this.notificationService,
-      this.editRoom
-    ).exportAsCsv(delimiter, format);
-  }
-
-  exportCSV(): void {
-      this.export(';', 'csv');
+      'room-page',
+      this.notificationService);
+    exp.exportAsCsv();
   }
 
   closeDialog(): void {
