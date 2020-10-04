@@ -17,6 +17,7 @@ import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remo
 import { MatTableDataSource } from '@angular/material/table';
 import { ExportCsv } from '../../../models/export-csv';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { Export } from '../../../models/export';
 
 @Component({
   selector: 'app-room-list',
@@ -171,14 +172,14 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   exportCsv(room: Room) {
-    new ExportCsv(
-      room.id,
+    const exp: Export = new Export(
+      room,
       this.commentService,
       this.bonusTokenService,
       this.translateService,
+      'room-list',
       this.notificationService,
-      room,
-      'room-list'
-    ).exportAsCsv(';', 'csv', this.user);
+      this.user);
+    exp.exportAsCsv();
   }
 }
