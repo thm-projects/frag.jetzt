@@ -15,6 +15,8 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -90,14 +92,20 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
 
   }
 
-  afterRoomLoadHook() {
+  preRoomLoadHook(): Observable<any> {
     this.authenticationService.watchUser.subscribe( user => this.user = user);
     if (!this.user) {
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
-        this.roomService.addToHistory(this.room.id);
-      });
+      return this.authenticationService.guestLogin(UserRole.PARTICIPANT).pipe(map((user) => {
+        return user;
+      }));
+    } else {
+      return of(this.user);
     }
+  }
+
+  postRoomLoadHook() {
     this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
     this.authenticationService.checkAccess(this.room.shortId);
+    this.roomService.addToHistory(this.room.id);
   }
 }

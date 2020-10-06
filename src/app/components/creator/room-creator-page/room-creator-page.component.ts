@@ -112,7 +112,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     }
   }
 
-  afterRoomLoadHook() {
+  postRoomLoadHook() {
     if (this.moderationEnabled) {
       this.viewModuleCount = this.viewModuleCount + 1;
       this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {

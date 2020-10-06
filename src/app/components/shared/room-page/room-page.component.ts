@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Room } from '../../../models/room';
+import { User } from '../../../models/user';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -7,7 +8,7 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
 import { Message, IMessage } from '@stomp/stompjs';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 
 @Component({
   selector: 'app-room-page',
@@ -46,31 +47,38 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected afterRoomLoadHook() {
+  protected preRoomLoadHook(): Observable<any> {
+    return of('');
+  }
+
+  protected postRoomLoadHook() {
 
   }
 
   initializeRoom(id: string): void {
-    this.roomService.getRoomByShortId(id).subscribe(room => {
-      this.room = room;
-      this.isLoading = false;
-      this.moderationEnabled = this.room.moderated;
-      localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
-      this.commentService.countByRoomId(this.room.id, true)
-        .subscribe(commentCounter => {
-          this.commentCounter = commentCounter;
+    this.preRoomLoadHook().subscribe(user => {
+      this.roomService.getRoomByShortId(id).subscribe(room => {
+        this.room = room;
+        this.isLoading = false;
+        console.log(this.room.moderated);
+        this.moderationEnabled = this.room.moderated;
+        localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
+        this.commentService.countByRoomId(this.room.id, true)
+          .subscribe(commentCounter => {
+            this.commentCounter = commentCounter;
+          });
+        this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
+        this.sub = this.commentWatch.subscribe((message: Message) => {
+          const msg = JSON.parse(message.body);
+          const payload = msg.payload;
+          if (msg.type === 'CommentCreated') {
+            this.commentCounter = this.commentCounter + 1;
+          } else if (msg.type === 'CommentDeleted') {
+            this.commentCounter = this.commentCounter - 1;
+          }
         });
-      this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
-      this.sub = this.commentWatch.subscribe((message: Message) => {
-        const msg = JSON.parse(message.body);
-        const payload = msg.payload;
-        if (msg.type === 'CommentCreated') {
-          this.commentCounter = this.commentCounter + 1;
-        } else if (msg.type === 'CommentDeleted') {
-          this.commentCounter = this.commentCounter - 1;
-        }
+        this.postRoomLoadHook();
       });
-      this.afterRoomLoadHook();
     });
   }
 

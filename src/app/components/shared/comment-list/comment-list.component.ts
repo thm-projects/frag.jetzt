@@ -91,54 +91,53 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initRoom(() => {
-      this.authenticationService.watchUser.subscribe(newUser => {
-        if (newUser) {
-          this.user = newUser;
-          this.userRole = this.user.role;
-          if (this.userRole === 0) {
-            this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
-              for (const v of votes) {
-                this.commentVoteMap.set(v.commentId, v);
-              }
-            });
-          }
-        }
-      });
-      this.route.params.subscribe(params => {
-        this.shortId = params['shortId'];
-        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-          this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-            this.room = room;
-            this.moderationEnabled = this.room.moderated;
-            this.directSend = this.room.directSend;
-            localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
-            if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-              this.roomService.addToHistory(this.room.id);
-              this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+        this.userRole = this.user.role;
+        if (this.userRole === 0) {
+          this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
+            for (const v of votes) {
+              this.commentVoteMap.set(v.commentId, v);
             }
-            this.subscribeCommentStream();
-            this.commentService.getAckComments(this.roomId)
-              .subscribe(comments => {
-                this.comments = comments;
-                this.getComments();
-              });
-            /**
-             if (this.userRole === UserRole.PARTICIPANT) {
-              this.openCreateDialog();
-            }
-             */
           });
+        }
+      }
+    });
+    this.route.params.subscribe(params => {
+      this.shortId = params['shortId'];
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
+        this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+          this.room = room;
+          this.roomId = room.id;
+          this.moderationEnabled = this.room.moderated;
+          this.directSend = this.room.directSend;
+          localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
+          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
+            this.roomService.addToHistory(this.room.id);
+            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
+          }
+          this.subscribeCommentStream();
+          this.commentService.getAckComments(this.room.id)
+            .subscribe(comments => {
+              this.comments = comments;
+              this.getComments();
+            });
+          /**
+           if (this.userRole === UserRole.PARTICIPANT) {
+            this.openCreateDialog();
+          }
+            */
         });
       });
-      this.currentSort = this.votedesc;
-      this.hideCommentsList = false;
-      this.translateService.use(localStorage.getItem('currentLang'));
-      this.deviceType = localStorage.getItem('deviceType');
-      this.isSafari = localStorage.getItem('isSafari');
-      this.translateService.get('comment-list.search').subscribe(msg => {
-        this.searchPlaceholder = msg;
-      });
+    });
+    this.currentSort = this.votedesc;
+    this.hideCommentsList = false;
+    this.translateService.use(localStorage.getItem('currentLang'));
+    this.deviceType = localStorage.getItem('deviceType');
+    this.isSafari = localStorage.getItem('isSafari');
+    this.translateService.get('comment-list.search').subscribe(msg => {
+      this.searchPlaceholder = msg;
     });
   }
 
@@ -147,15 +146,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentStream.unsubscribe();
     }
     this.titleService.resetTitle();
-  }
-
-  initRoom(action: () => void) {
-    const spl = location.pathname.split('/');
-    this.shortId = spl[spl.length - 2];
-    this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-      this.roomId = room.id;
-      action();
-    });
   }
 
   checkScroll(): void {
@@ -430,7 +420,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   subscribeCommentStream() {
-    this.commentStream = this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
+    this.commentStream = this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
   }
