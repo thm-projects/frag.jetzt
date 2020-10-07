@@ -20,6 +20,7 @@
       {{ 'login.email-required' | translate }}
     </mat-error>
   </mat-form-field>
+
   <mat-form-field>
     <input (focus)="eventService.makeFocusOnInputTrue()"
            (blur)="eventService.makeFocusOnInputFalse()"
@@ -30,16 +31,19 @@
            name="password"
            [type]="hide ? 'password' : 'text'"
            aria-labelledby="password-description"/>
-    <button mat-icon-button
-            matSuffix
-            (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide">
-      <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-    </button>
+
+    <mat-icon matSuffix
+              (click)="hide = !hide"
+              [attr.aria-label]="'Hide password'"
+              [attr.aria-pressed]="hide">
+      {{hide ? 'visibility_off' : 'visibility'}}
+    </mat-icon>
+
     <mat-placeholder class="placeholder">{{ 'login.password' | translate }}</mat-placeholder>
     <mat-error *ngIf="passwordFormControl.hasError('required')">{{ 'login.password-required' | translate }}</mat-error>
+
   </mat-form-field>
+
   <button id="focus_button_user"
           class="login"
           mat-flat-button
