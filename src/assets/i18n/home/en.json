@@ -39,7 +39,12 @@
     "imprint": "Imprint",
     "language": "Language",
     "open": "Open",
-    "style": "Display"
+    "style": "Display",
+    "motd-title-main": "Message of the day",
+    "motd-mark-all-read": "mark all as read",
+    "motd-title-old": "Old messages",
+    "motd-title-new": "Latest messages",
+    "motd-mark-read": "mark as read"
   },
   "header": {
     "abort": "Cancel",

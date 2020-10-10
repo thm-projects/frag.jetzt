@@ -1,0 +1,29 @@
+:host{
+  .align-center-y{
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+  }
+  .container{
+    border-radius:4px;
+    background-color:var(--surface);
+    box-shadow:inset 0px 0px 0px 1px rgba(0,0,0,0.2);
+    box-sizing:border-box;
+    padding:8px 16px;
+  }
+  .timestamp{
+    font-weight:bold;
+  }
+  p{
+    padding:0;
+    margin:0;
+  }
+  ::ng-deep{
+    .images img {
+      max-width: 100% !important;
+    }
+    .mat-checkbox-frame {
+      border-color:var(--on-surface);
+    }
+  }
+}
