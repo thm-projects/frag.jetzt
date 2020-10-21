@@ -295,10 +295,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.roomId = this.roomId;
     let tags;
     tags = [];
-    // ToDo: FIX
-    /*if (this.room.extensions && this.room.extensions['tags'] && this.room.extensions['tags'].tags) {
-      tags = this.room.extensions['tags'].tags;
-    }*/
+    if (this.room.tags) {
+      tags = this.room.tags;
+    }
     dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed()
       .subscribe(result => {

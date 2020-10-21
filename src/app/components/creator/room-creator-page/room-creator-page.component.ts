@@ -123,14 +123,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   updateCommentSettings(settings: CommentSettingsDialog) {
-    // ToDo: FIX
-    /*const commentExtension: TSMap<string, any> = new TSMap();
-    commentExtension.set('enableThreshold', settings.enableThreshold);
-    commentExtension.set('commentThreshold', settings.threshold);
-    commentExtension.set('enableModeration', settings.enableModeration);
-    commentExtension.set('enableTags', settings.enableTags);
-    commentExtension.set('tags', settings.tags);
-    this.room.extensions['comments'] = commentExtension;
+    this.room.tags = settings.tags;
 
     if (this.moderationEnabled && !settings.enableModeration) {
       this.viewModuleCount = this.viewModuleCount - 1;
@@ -140,15 +133,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
     this.moderationEnabled = settings.enableModeration;
     localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
-
-    this.updRoom.extensions['comments'] = commentExtension;*/
   }
 
   resetThreshold(): void {
-    // ToDo: FIX
-    /*if (this.room.extensions && this.room.extensions['comments']) {
-      delete this.room.extensions['comments'];
-    }*/
+    this.room.moderated = undefined;
+    this.room.threshold = undefined;
+    this.room.directSend = undefined;
+    this.room.tags = undefined;
   }
 
   saveChanges() {
@@ -224,25 +215,24 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   showTagsDialog(): void {
-    // ToDo: FIX
-    // this.updRoom = JSON.parse(JSON.stringify(this.room));
-    /*const dialogRef = this.dialog.open(TagsComponent, {
+    this.updRoom = JSON.parse(JSON.stringify(this.room));
+    const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'
     });
-    let tagExtension;
-    if (this.room.extensions !== undefined && this.room.extensions['tags'] !== undefined) {
-      tagExtension = JSON.parse(JSON.stringify(this.room.extensions['tags']));
+    let tags = [];
+    if (this.room.tags !== undefined) {
+      tags = this.room.tags;
     }
-    dialogRef.componentInstance.extension = tagExtension;
+    dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (!result || result === 'abort') {
           return;
         } else {
-          this.updRoom.extensions['tags'] = result;
+          this.updRoom.tags = result;
           this.saveChanges();
         }
-      });*/
+      });
   }
 
   copyShortId(): void {

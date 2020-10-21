@@ -13,7 +13,7 @@
                aria-labelledby="tag-new"
                [formControl]="tagFormControl"
                name="taginput"
-               maxlength="30"/>
+               maxlength="20"/>
         <mat-placeholder class="placeholder">{{ 'room-page.tag-new' | translate }}</mat-placeholder>
         <mat-hint align="end"><span aria-hidden="true">{{tag.value.length}} / 30</span></mat-hint>
         <mat-error *ngIf="!tagFormControl.valid">
@@ -29,7 +29,7 @@
       </button>
       <span class="fill-remaining-space"></span>
     </div>
-    <div *ngIf="tagsEnabled === true && tags !== undefined && tags.length > 0">
+    <div *ngIf="tags.length > 0">
       <div
         fxLayout="row"
         *ngFor="let tag of tags"

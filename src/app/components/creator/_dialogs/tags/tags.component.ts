@@ -12,12 +12,9 @@ import { FormControl, Validators } from '@angular/forms';
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss']
 })
-export class TagsComponent implements OnInit {
-
-  extension: {};
+export class TagsComponent {
 
   tags: string[];
-  tagsEnabled: boolean;
 
   tagFormControl = new FormControl('', [Validators.minLength(3), Validators.maxLength(50)]);
   @ViewChild('tag') redel: ElementRef;
@@ -32,37 +29,19 @@ export class TagsComponent implements OnInit {
       langService.langEmitter.subscribe(lang => translationService.use(lang));
   }
 
-  ngOnInit() {
-    if (!this.extension) {
-      this.extension = {};
-      this.extension['enableTags'] = true;
-      this.tags = [];
-      this.tagsEnabled = true;
-    } else {
-      if (this.extension['tags']) {
-        this.tags = this.extension['tags'];
-      } else {
-        this.tags = [];
-      }
-      this.tagsEnabled = this.extension['enableTags'];
-    }
-  }
-
   addTag(tag: string) {
-    if (this.tagFormControl.valid) {
+    if (this.tagFormControl.valid && tag.length > 0) {
       this.tags.push(tag);
-      this.extension['tags'] = this.tags;
       this.redel.nativeElement.value = '';
     }
   }
 
   deleteTag(tag: string) {
     this.tags = this.tags.filter(o => o !== tag);
-    this.extension['tags'] = this.tags;
   }
 
   closeDialog(): void {
-    this.dialogRef.close(this.extension);
+    this.dialogRef.close(this.tags);
   }
 
 
