@@ -27,21 +27,20 @@ To set up port forwarding for this VM, proceed as follows:
 * Port Forwarding
 
 Forwarding must be entered here for the following ports. The TCP is used as the protocol, host IP and guest IP should remain empty:
-* 5984
 * 5432
 * 5672
 * 15672
 * 61613
+* 8888
 * 8080
-* 8090
-* 80
 
 
 ## Get the code base
 
 Clone the frag-jetzt repository and the Docker Orchestration repository:
 * [frag.jetzt](https://git.thm.de/arsnova/frag.jetzt)
-* [Docker Orchestration](https://git.thm.de/swtp-2020/docker-orchestration)
+* [Docker Orchestration](https://git.thm.de/arsnova/frag.jetzt-docker-orchestration)
+
 
 ## Start the Backend
 
@@ -55,10 +54,6 @@ Follow the steps described in the Docker Orchestration repository:
 * You may stop it and remove the containers with `docker-compose down`
 * You may update your images with `docker-compose pull`
 
-## Add a Database
-
-The first time you start your Backend, you have to add a database. You can add a database to couchdb via http:
-* `curl -X PUT http://arsnova:arsnova@127.0.0.1:5984/_users`
 
 ## Start the Frontend (Webstorm)
 
