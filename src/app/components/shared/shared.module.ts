@@ -26,6 +26,7 @@ import { CommentAnswerComponent } from './comment-answer/comment-answer.componen
 import { MarkdownModule } from 'ngx-markdown';
 import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
+import { MotdTempDialogComponent } from './_dialogs/motd-temp-dialog/motd-temp-dialog.component';
 
 @NgModule({
   imports: [
@@ -57,7 +58,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     DialogActionButtonsComponent,
     QrCodeDialogComponent,
     RemoveFromHistoryComponent,
-    CommentAnswerComponent
+    CommentAnswerComponent,
+    MotdTempDialogComponent
   ],
   exports: [
     RoomJoinComponent,

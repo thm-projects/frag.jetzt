@@ -16,6 +16,7 @@ import { Theme } from '../../../../theme/Theme';
 import { OverlayComponent } from '../../home/_dialogs/overlay/overlay.component';
 import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
+import { MotdTempDialogComponent } from '../_dialogs/motd-temp-dialog/motd-temp-dialog.component';
 
 @Component({
   selector: 'app-footer',
@@ -50,6 +51,12 @@ export class FooterComponent implements OnInit {
   }
 
   ngOnInit() {
+    const motd = this.dialog.open(MotdTempDialogComponent, {
+      width: '80%',
+      maxWidth: '600px',
+      minHeight: '95%',
+      height: '95%',
+    });
     this.deviceType = localStorage.getItem('deviceType');
     if (!this.themeService.getThemeByKey(this.themeClass) || !this.themeService.getTheme()['source']['_value']) {
       if (this.deviceType === 'mobile') {
