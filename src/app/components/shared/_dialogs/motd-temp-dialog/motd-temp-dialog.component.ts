@@ -17,9 +17,9 @@ export class MotdTempDialogComponent implements OnInit {
     'wir freuen uns sehr, dass unser neues Audience-Response-System ' +
     'bei Ihnen so gut ankommt!\n' +
     '\n' +
-    'Es gibt Tage, an denen 2.000 Benutzer unsere App nutzen. ' +
+    'Es gibt Tage, an denen 2.000 User unsere App nutzen. ' +
     'Mehr als 700 Lehrerinnen und Lehrer aus Deutschland, ' +
-    'Österreich und der Schweiz nutzen "frag.jetzt" im ' +
+    'Österreich und der Schweiz nutzen »frag.jetzt« im ' +
     'Online-Unterricht. Das macht uns sehr stolz und hat ' +
     'uns veranlasst, einen leistungsfähigeren Server einzurichten, ' +
     'um dem weiteren Andrang gerecht zu werden.\n' +
@@ -34,13 +34,13 @@ export class MotdTempDialogComponent implements OnInit {
     'Sie auf das Zahnradsymbol oben rechts und dann auf die Option ' +
     '»Fragen«. Die exportierte Datei kann mit Excel, ' +
     'Numbers oder LibreOffice weiterverarbeitet werden. ' +
-    'Alle Markierungen, Bewertungen und Bonusmarken werden mit exportiert.\n' +
+    'Alle Markierungen, Bewertungen und Bonus-Token werden mit exportiert.\n' +
     '\n' +
     'Wenn Sie Fragen zum Serverwechsel haben oder uns ein Feedback zur App geben möchten, besuchen Sie bitte die Sitzung 11 22 33 44.\n' +
     '\n' +
     'Ihr »frag.jetzt«-Team\n';
 
-  public en = '# Server change\n' +
+  public en = '# Server Change\n' +
     '\n' +
     'Dear users of »frag.jetzt«,\n' +
     '\n' +
@@ -49,7 +49,7 @@ export class MotdTempDialogComponent implements OnInit {
     '\n' +
     'There are days when 2,000 users use our app. ' +
     'More than 700 teachers from Germany, Austria ' +
-    'and Switzerland use "frag.jetzt" in online lessons.' +
+    'and Switzerland use »frag.jetzt« in online lessons.' +
     ' This makes us very proud and has prompted us to set ' +
     'up a more powerful server to cope with the continued rush.\n' +
     '\n' +
