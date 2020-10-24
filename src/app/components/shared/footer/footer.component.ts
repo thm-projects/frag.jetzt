@@ -54,8 +54,8 @@ export class FooterComponent implements OnInit {
     const motd = this.dialog.open(MotdTempDialogComponent, {
       width: '80%',
       maxWidth: '600px',
-      minHeight: '95%',
-      height: '95%',
+      minHeight: '20%',
+      height: '60%',
     });
     this.deviceType = localStorage.getItem('deviceType');
     if (!this.themeService.getThemeByKey(this.themeClass) || !this.themeService.getTheme()['source']['_value']) {
