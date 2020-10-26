@@ -65,9 +65,7 @@ export class CreateCommentComponent implements OnInit {
       comment.body = body;
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
-      if (this.selectedTag !== null) {
-        comment.tag = this.selectedTag;
-      }
+      comment.tag = this.selectedTag;
       this.dialogRef.close(comment);
     }
   }

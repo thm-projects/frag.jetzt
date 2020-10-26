@@ -7,7 +7,6 @@ import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
 import { CommentService } from '../../../../services/http/comment.service';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
-import { CommentSettingsService } from '../../../../services/http/comment-settings.service';
 import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
 import { Room } from '../../../../models/room';
 import { CommentBonusTokenMixin } from '../../../../models/comment-bonus-token-mixin';
@@ -40,36 +39,19 @@ export class CommentSettingsComponent implements OnInit {
     protected roomService: RoomService,
     public router: Router,
     public commentService: CommentService,
-    public commentSettingsService: CommentSettingsService,
     private bonusTokenService: BonusTokenService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }
 
   ngOnInit() {
-    if (this.editRoom.extensions && this.editRoom.extensions['comments']) {
-      const commentExtension = this.editRoom.extensions['comments'];
-      if (commentExtension.enableThreshold !== null) {
-        if (commentExtension.commentThreshold) {
-          this.commentThreshold = commentExtension.commentThreshold;
-        } else {
-          this.commentThreshold = -100;
-        }
-        this.settingThreshold = commentExtension.enableThreshold;
-      }
-
-      if (commentExtension.enableTags !== null) {
-        this.tagsEnabled = commentExtension.enableTags;
-        this.tags = commentExtension.tags;
-      }
-
-      if (this.editRoom.extensions['comments'].enableModeration !== null) {
-        this.enableCommentModeration = this.editRoom.extensions['comments'].enableModeration;
-      }
+    if (this.editRoom.threshold !== null) {
+      this.commentThreshold = this.editRoom.threshold;
+      this.settingThreshold = true;
     }
-    this.commentSettingsService.get(this.roomId).subscribe(settings => {
-      this.directSend = settings.directSend;
-    });
+    this.tags = [];
+    this.enableCommentModeration = this.editRoom.moderated;
+    this.directSend = this.editRoom.directSend;
   }
 
   onSliderChange(event: any) {
@@ -117,9 +99,14 @@ export class CommentSettingsComponent implements OnInit {
     commentSettings.roomId = this.roomId;
     commentSettings.directSend = this.directSend;
     const settingsReturn = new CommentSettingsDialog();
+
+    this.editRoom.directSend = this.directSend;
+    this.editRoom.threshold = this.commentThreshold;
+    this.editRoom.moderated = this.enableCommentModeration;
+
     // If moderation isn't enabled, the direct send is of no interest and shouldn't be updated to avoid confusion about missing comments
     if ((this.enableCommentModeration && !this.directSend) || this.directSend) {
-      this.commentSettingsService.update(commentSettings).subscribe( x => {
+      this.roomService.updateRoom(this.editRoom).subscribe(x => {
       });
       settingsReturn.directSend = this.directSend;
     }

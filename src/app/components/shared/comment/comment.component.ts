@@ -127,7 +127,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setRead(comment: Comment): void {
-    this.comment = this.wsCommentService.toggleRead(comment);
+    this.commentService.toggleRead(comment).subscribe(c => this.comment = c);
   }
 
   markCorrect(comment: Comment, type: CorrectWrong): void {
@@ -136,21 +136,21 @@ export class CommentComponent implements OnInit, AfterViewInit {
       } else {
         comment.correct = type;
       }
-    this.comment = this.wsCommentService.markCorrect(comment);
+    this.commentService.markCorrect(comment).subscribe(c => this.comment = c);
   }
 
   setFavorite(comment: Comment): void {
-    this.comment = this.wsCommentService.toggleFavorite(comment);
+    this.commentService.toggleFavorite(comment).subscribe(c => this.comment = c);
   }
 
   voteUp(comment: Comment): void {
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== 1) {
-      this.wsCommentService.voteUp(comment, userId);
+      this.commentService.voteUp(comment, userId).subscribe();
       this.hasVoted = 1;
       this.currentVote = '1';
     } else {
-      this.wsCommentService.resetVote(comment, userId);
+      this.commentService.resetVote(comment, userId).subscribe();
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -160,11 +160,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
   voteDown(comment: Comment): void {
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== -1) {
-      this.wsCommentService.voteDown(comment, userId);
+      this.commentService.voteDown(comment, userId).subscribe();
       this.hasVoted = -1;
       this.currentVote = '-1';
     } else {
-      this.wsCommentService.resetVote(comment, userId);
+      this.commentService.resetVote(comment, userId).subscribe();
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -207,7 +207,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setAck(comment: Comment): void {
-    this.comment = this.wsCommentService.toggleAck(comment);
+    this.commentService.toggleAck(comment).subscribe(c => this.comment = c);
   }
 
   goToFullScreen(element: Element): void {
@@ -220,7 +220,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   openPresentDialog(comment: Comment): void {
     if (this.isCreator === true) {
-      this.wsCommentService.highlight(comment);
+      this.commentService.highlight(comment).subscribe();
       if (!comment.read) {
         this.setRead(comment);
       }
@@ -238,7 +238,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     dialogRef.componentInstance.body = comment.body;
     dialogRef.afterClosed()
       .subscribe(result => {
-        this.wsCommentService.lowlight(comment);
+        this.commentService.lowlight(comment).subscribe();
         this.exitFullScreen();
 
       });

@@ -27,7 +27,7 @@ export class VoteService extends BaseHttpService {
     const connectionUrl = `${this.apiUrl.base + this.apiUrl.vote + this.apiUrl.find}`;
     return this.http.post<Vote[]>(connectionUrl, {
       properties: {
-        userId: userId
+        accountId: userId
       },
       externalFilters: {
         roomId: roomId

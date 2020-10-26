@@ -91,59 +91,53 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.initRoom(() => {
-      this.authenticationService.watchUser.subscribe(newUser => {
-        if (newUser) {
-          this.user = newUser;
-          this.userRole = this.user.role;
-          if (this.userRole === 0) {
-            this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
-              for (const v of votes) {
-                this.commentVoteMap.set(v.commentId, v);
-              }
-            });
-          }
-        }
-      });
-      this.route.params.subscribe(params => {
-        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-          this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-            this.room = room;
-            if (this.room && this.room.extensions && this.room.extensions['comments']) {
-              if (this.room.extensions['comments'].enableModeration !== null) {
-                this.moderationEnabled = this.room.extensions['comments'].enableModeration;
-                localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
-              }
-              if (this.room.extensions['comments'].directSend !== null) {
-                this.directSend = this.room.extensions['comments'].directSend;
-              }
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+        this.userRole = this.user.role;
+        if (this.userRole === 0) {
+          this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
+            for (const v of votes) {
+              this.commentVoteMap.set(v.commentId, v);
             }
-            if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-              this.roomService.addToHistory(this.room.id);
-              this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
-            }
-            this.subscribeCommentStream();
-            this.commentService.getAckComments(this.roomId)
-              .subscribe(comments => {
-                this.comments = comments;
-                this.getComments();
-              });
-            /**
-             if (this.userRole === UserRole.PARTICIPANT) {
-              this.openCreateDialog();
-            }
-             */
           });
+        }
+      }
+    });
+    this.route.params.subscribe(params => {
+      this.shortId = params['shortId'];
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
+        this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+          this.room = room;
+          this.roomId = room.id;
+          this.moderationEnabled = this.room.moderated;
+          this.directSend = this.room.directSend;
+          localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
+          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
+            this.roomService.addToHistory(this.room.id);
+            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
+          }
+          this.subscribeCommentStream();
+          this.commentService.getAckComments(this.room.id)
+            .subscribe(comments => {
+              this.comments = comments;
+              this.getComments();
+            });
+          /**
+           if (this.userRole === UserRole.PARTICIPANT) {
+            this.openCreateDialog();
+          }
+            */
         });
       });
-      this.currentSort = this.votedesc;
-      this.hideCommentsList = false;
-      this.translateService.use(localStorage.getItem('currentLang'));
-      this.deviceType = localStorage.getItem('deviceType');
-      this.isSafari = localStorage.getItem('isSafari');
-      this.translateService.get('comment-list.search').subscribe(msg => {
-        this.searchPlaceholder = msg;
-      });
+    });
+    this.currentSort = this.votedesc;
+    this.hideCommentsList = false;
+    this.translateService.use(localStorage.getItem('currentLang'));
+    this.deviceType = localStorage.getItem('deviceType');
+    this.isSafari = localStorage.getItem('isSafari');
+    this.translateService.get('comment-list.search').subscribe(msg => {
+      this.searchPlaceholder = msg;
     });
   }
 
@@ -152,15 +146,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentStream.unsubscribe();
     }
     this.titleService.resetTitle();
-  }
-
-  initRoom(action: () => void) {
-    const spl = location.pathname.split('/');
-    this.shortId = spl[spl.length - 2];
-    this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-      this.roomId = room.id;
-      action();
-    });
   }
 
   checkScroll(): void {
@@ -193,17 +178,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   getComments(): void {
-    if (this.room && this.room.extensions && this.room.extensions['comments']) {
-      if (this.room.extensions['comments'].enableThreshold) {
-        this.thresholdEnabled = true;
-      } else {
-        this.thresholdEnabled = false;
-      }
+    if (this.room.threshold) {
+      this.thresholdEnabled = true;
+    } else {
+      this.thresholdEnabled = false;
     }
     this.isLoading = false;
     let commentThreshold;
     if (this.thresholdEnabled) {
-      commentThreshold = this.room.extensions['comments'].commentThreshold;
+      commentThreshold = this.room.threshold;
       if (this.hideCommentsList) {
         this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
       } else {
@@ -311,8 +294,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     dialogRef.componentInstance.user = this.user;
     dialogRef.componentInstance.roomId = this.roomId;
     let tags;
-    if (this.room.extensions && this.room.extensions['tags'] && this.room.extensions['tags'].tags) {
-      tags = this.room.extensions['tags'].tags;
+    tags = [];
+    if (this.room.tags) {
+      tags = this.room.tags;
     }
     dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed()
@@ -345,7 +329,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
       }
     }
-    this.wsCommentService.add(comment);
+    this.commentService.addComment(comment).subscribe();
     this.notificationService.show(message);
   }
 
@@ -435,7 +419,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   subscribeCommentStream() {
-    this.commentStream = this.wsCommentService.getCommentStream(this.roomId).subscribe((message: Message) => {
+    this.commentStream = this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
       this.parseIncomingMessage(message);
     });
   }

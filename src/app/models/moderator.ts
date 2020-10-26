@@ -2,17 +2,20 @@ import { ModeratorRole } from './moderator-roles.enum';
 import { UserRole } from './user-roles.enum';
 
 export class Moderator {
-  userId: string;
+  accountId: string;
+  roomId: string;
   loginId: string;
-  roles: UserRole[];
+  role: UserRole;
 
   constructor(
-    userId: string = '',
+    accountId: string = '',
+    roomId: string = '',
     loginId: string = '',
-    roles: UserRole[] = []
+    role: UserRole = UserRole.PARTICIPANT
   ) {
-    this.userId = userId;
+    this.accountId = accountId;
+    this.roomId = roomId;
     this.loginId = loginId;
-    this.roles = roles;
+    this.role = role;
   }
 }

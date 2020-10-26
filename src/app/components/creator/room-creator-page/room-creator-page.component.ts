@@ -112,7 +112,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     }
   }
 
-  afterRoomLoadHook() {
+  postRoomLoadHook() {
     if (this.moderationEnabled) {
       this.viewModuleCount = this.viewModuleCount + 1;
       this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
@@ -123,13 +123,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   updateCommentSettings(settings: CommentSettingsDialog) {
-    const commentExtension: TSMap<string, any> = new TSMap();
-    commentExtension.set('enableThreshold', settings.enableThreshold);
-    commentExtension.set('commentThreshold', settings.threshold);
-    commentExtension.set('enableModeration', settings.enableModeration);
-    commentExtension.set('enableTags', settings.enableTags);
-    commentExtension.set('tags', settings.tags);
-    this.room.extensions['comments'] = commentExtension;
+    this.room.tags = settings.tags;
 
     if (this.moderationEnabled && !settings.enableModeration) {
       this.viewModuleCount = this.viewModuleCount - 1;
@@ -139,14 +133,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
     this.moderationEnabled = settings.enableModeration;
     localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
-
-    this.updRoom.extensions['comments'] = commentExtension;
   }
 
   resetThreshold(): void {
-    if (this.room.extensions && this.room.extensions['comments']) {
-      delete this.room.extensions['comments'];
-    }
+    this.room.moderated = undefined;
+    this.room.threshold = undefined;
+    this.room.directSend = undefined;
+    this.room.tags = undefined;
   }
 
   saveChanges() {
@@ -226,17 +219,17 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'
     });
-    let tagExtension;
-    if (this.room.extensions !== undefined && this.room.extensions['tags'] !== undefined) {
-      tagExtension = JSON.parse(JSON.stringify(this.room.extensions['tags']));
+    let tags = [];
+    if (this.room.tags !== undefined) {
+      tags = this.room.tags;
     }
-    dialogRef.componentInstance.extension = tagExtension;
+    dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed()
       .subscribe(result => {
         if (!result || result === 'abort') {
           return;
         } else {
-          this.updRoom.extensions['tags'] = result;
+          this.updRoom.tags = result;
           this.saveChanges();
         }
       });

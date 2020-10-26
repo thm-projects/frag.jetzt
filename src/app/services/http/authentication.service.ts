@@ -105,10 +105,10 @@ export class AuthenticationService extends BaseHttpService {
       ).subscribe(nu => {
         if (nu) {
           this.setUser(new User(
-            nu.userId,
-            nu.loginId,
+            nu.credentials,
+            nu.name,
             nu.authProvider,
-            nu.token,
+            nu.details,
             user.role,
             wasGuest));
         } else {
@@ -149,7 +149,7 @@ export class AuthenticationService extends BaseHttpService {
 
   resetPassword(email: string): Observable<boolean> {
     const connectionUrl: string =
-        this.apiUrl.v2 +
+        this.apiUrl.base +
         this.apiUrl.user +
         '/' +
         email +
@@ -169,14 +169,15 @@ export class AuthenticationService extends BaseHttpService {
 
   setNewPassword(email: string, key: string, password: string): Observable<boolean> {
     const connectionUrl: string =
-        this.apiUrl.v2 +
+        this.apiUrl.base +
         this.apiUrl.user +
         '/' +
         email +
-        this.apiUrl.resetPassword +
-        `?key=${key}&password=${password}`;
+        this.apiUrl.resetPassword;
 
     return this.http.post(connectionUrl, {
+      key: key,
+      password: password
     }, this.httpOptions).pipe(
       catchError(err => {
         return of(false);
@@ -223,15 +224,15 @@ export class AuthenticationService extends BaseHttpService {
   }
 
   private checkLogin(clientAuthentication: Observable<ClientAuthentication>, userRole: UserRole, isGuest: boolean): Observable<string> {
-    return clientAuthentication.pipe(map(result => {
+    return clientAuthentication.pipe(map((result: any) => {
       if (result) {
         // ToDo: Fix this madness.
         isGuest = result.authProvider === 'ARSNOVA_GUEST' ? true : false;
         this.setUser(new User(
-          result.userId,
-          result.loginId,
+          result.credentials,
+          result.name,
           result.authProvider,
-          result.token,
+          result.details,
           userRole,
           isGuest));
           this.dataStoreService.set('loggedin', 'true');
@@ -241,7 +242,7 @@ export class AuthenticationService extends BaseHttpService {
       }
     }), catchError((e) => {
       // check if user needs activation
-      if (e.error.errorType === 'DisabledException') {
+      if (e.error.status === 403) {
         return of('activation');
       }
       return of('false');

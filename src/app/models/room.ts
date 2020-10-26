@@ -9,7 +9,10 @@ export class Room {
   name: string;
   description: string;
   closed: boolean;
-  extensions: TSMap<string, TSMap<string, any>>;
+  moderated: boolean;
+  directSend: boolean;
+  threshold: number;
+  tags: string[];
 
   constructor(
     ownerId: string = '',
@@ -18,15 +21,21 @@ export class Room {
     name: string = '',
     description: string = '',
     closed: boolean = false,
-    extensions: TSMap<string, TSMap<string, any>> = new TSMap()
+    moderated: boolean = true,
+    directSend: boolean = true,
+    threshold: number = null,
+    tags: string[] = []
   ) {
-    this.id = '',
+    this.id = '';
     this.ownerId = ownerId;
     this.shortId = shortId;
     this.abbreviation = abbreviation;
-    this.name = name,
+    this.name = name;
     this.description = description;
     this.closed = closed;
-    this.extensions = extensions;
+    this.moderated = moderated;
+    this.directSend = directSend;
+    this.threshold = threshold;
+    this.tags = tags;
   }
 }
