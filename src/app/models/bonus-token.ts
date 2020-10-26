@@ -3,6 +3,7 @@ export class BonusToken {
   commentId: string;
   timestamp: Date;
   userId: string;
+  accountId: string;
   token: string;
 
   constructor(
@@ -17,5 +18,6 @@ export class BonusToken {
     this.timestamp = timestamp;
     this.userId = userId;
     this.token = token;
+    this.accountId = this.userId;
   }
 }
