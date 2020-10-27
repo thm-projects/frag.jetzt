@@ -38,7 +38,12 @@
     "help": "Hilfe",
     "imprint": "Impressum",
     "language": "Sprache",
-    "style": "Anzeige"
+    "style": "Anzeige",
+    "motd-title-main": "Nachricht des Tages",
+    "motd-mark-all-read": "markiere alle als gelesen",
+    "motd-title-old": "Alte Nachrichten",
+    "motd-title-new": "Aktuelle Nachrichten",
+    "motd-mark-read": "markiere als gelesen"
   },
   "header": {
     "abort": "Abbrechen",

@@ -19,6 +19,7 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { MotdService } from '../../../services/http/motd.service';
 
 @Component({
   selector: 'app-header',
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
   deviceType: string;
   isSafari = 'false';
   moderationEnabled: boolean;
+  motdState = false;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -42,7 +44,8 @@ export class HeaderComponent implements OnInit {
               private userService: UserService,
               public eventService: EventService,
               private bonusTokenService: BonusTokenService,
-              private _r: Renderer2
+              private _r: Renderer2,
+              private motdService: MotdService
   ) {
   }
 
@@ -120,6 +123,13 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+    this.motdService.onNewMessage().subscribe(state => {
+      this.motdState = state;
+    });
+  }
+
+  showMotdDialog() {
+    this.motdService.requestDialog();
   }
 
   getTime(time: Date) {

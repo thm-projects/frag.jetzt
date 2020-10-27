@@ -64,6 +64,9 @@
 
     </button>
     <span class="fill-remaining-space"></span>
+    <button mat-icon-button *ngIf="user" (click)="showMotdDialog()">
+      <mat-icon class="header-icons">{{ motdState ? 'notifications_active' : 'notifications_none' }}</mat-icon>
+    </button>
 
     <mat-menu #userMenu="matMenu"
               [overlapTrigger]="false">
