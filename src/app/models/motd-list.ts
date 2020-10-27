@@ -10,12 +10,10 @@ export class MotdList {
     messagesNew: any,
     messagesOld: any
   ) {
-    try {
-      this.localRead = JSON.parse(localStorage.getItem('motds'));
-    } catch (e) {
+    if (!localStorage.getItem('motds')) {
       localStorage.setItem('motds', JSON.stringify([]));
-      this.localRead = JSON.parse(localStorage.getItem('motds'));
     }
+    this.localRead = JSON.parse(localStorage.getItem('motds'));
     this.parse(this.messagesNew, messagesNew, true);
     this.parse(this.messagesOld, messagesOld, false);
   }
