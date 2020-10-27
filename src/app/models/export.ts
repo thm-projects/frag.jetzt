@@ -132,7 +132,7 @@ export class Export {
     this.commentService.getAckComments(this.room.id).subscribe(data => {
       this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
         const c = data.map(comment => {
-          const bt: BonusToken = list.find(e => e.userId === comment.creatorId && comment.id === e.commentId);
+          const bt: BonusToken = list.find(e => e.accountId === comment.creatorId && comment.id === e.commentId);
           const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
           if (bt) {
             commentWithToken.bonusToken = bt.token;
