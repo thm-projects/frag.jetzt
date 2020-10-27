@@ -121,6 +121,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.commentService.getAckComments(this.room.id)
             .subscribe(comments => {
               this.comments = comments;
+              console.log(comments);
               this.getComments();
             });
           /**

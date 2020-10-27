@@ -1,4 +1,5 @@
 import { CorrectWrong } from './correct-wrong.enum';
+import { ViewChild } from '@angular/core';
 
 export class Comment {
   id: string;
@@ -17,6 +18,7 @@ export class Comment {
   tag: string;
   answer: string;
   userNumber: number;
+  number: number;
 
   constructor(roomId: string = '',
               creatorId: string = '',

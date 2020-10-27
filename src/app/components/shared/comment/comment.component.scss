@@ -265,6 +265,30 @@ button:focus {
   border: 1px solid var(--on-surface);
 }
 
+:host{
+  .runningnum-outer{
+    width:100%;
+    height:0px;
+    background-color:red;
+    position:absolute;
+    >p{
+      font-size:200px;
+      padding:0;
+      margin:0;
+      font-weight:normal;
+      font-style:normal;
+      font-family:Roboto, 'sans-serif';
+      margin-top:-50px;
+      margin-right:32px;
+      color:var(--on-surface);
+      opacity:0.1;
+      float:right;
+      position:relative;
+      z-index:-2;
+    }
+  }
+}
+
 :host ::ng-deep {
   .images img {
     max-width: 100% !important;
