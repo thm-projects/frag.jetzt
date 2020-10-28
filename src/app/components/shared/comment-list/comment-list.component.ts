@@ -216,6 +216,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
         c.tag = payload.tag;
         c.creatorId = payload.creatorId;
         c.userNumber = this.commentService.hashCode(c.creatorId);
+        this.commentService.getComment(c.id).subscribe(e => {
+          c.number = e.number;
+        });
 
         this.announceNewComment(c.body);
 
