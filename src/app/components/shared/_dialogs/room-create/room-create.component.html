@@ -22,6 +22,30 @@
                 class="error"
                 *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
     </mat-form-field>
+    <mat-checkbox (change)="hasCustomShortId=$event.checked">create custom shortid</mat-checkbox>
+    <mat-form-field *ngIf="hasCustomShortId">
+      <input (focus)="eventService.makeFocusOnInputTrue()"
+             (blur)="eventService.makeFocusOnInputFalse()"
+             (keypress)="resetEmptyInputs()"
+             matInput
+             #customShortId
+             class="input-block"
+             type="text"
+             maxlength="20"
+             [(ngModel)]="customShortIdName"
+             name="customShortId"
+             aria-labelledby="room-name-input"/>
+      <mat-placeholder class="placeholder">custom shortid</mat-placeholder>
+      <mat-hint align="end"
+                class="count"
+                *ngIf="!emptyInputs"><span aria-hidden="true">{{customShortId.value.length}} / 20</span></mat-hint>
+      <mat-hint align="start"
+                class="error"
+                *ngIf="shortIdAlreadyUsed"><strong>shortId already used</strong></mat-hint>
+      <mat-hint align="start"
+                class="error"
+                *ngIf="invalidShortId"><strong>invalid shortId</strong></mat-hint>
+    </mat-form-field>
   </div>
 </form>
 <app-dialog-action-buttons

@@ -18,10 +18,14 @@ import { User } from '../../../../models/user';
 })
 export class RoomCreateComponent implements OnInit {
   longName: string;
+  customShortIdName: string;
   emptyInputs = false;
+  invalidShortId = false;
+  shortIdAlreadyUsed = false;
   room: Room;
   roomId: string;
   user: User;
+  hasCustomShortId = false;
 
   constructor(
     private roomService: RoomService,
@@ -60,6 +64,7 @@ export class RoomCreateComponent implements OnInit {
       this.emptyInputs = true;
       return;
     }
+    // check for custom short id
     const newRoom = new Room();
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
