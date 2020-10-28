@@ -6,6 +6,9 @@
           }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
+  <div class="runningnum-outer">
+    <p>{{comment.number}}</p>
+  </div>
   <div fxLayout="column">
     <div fxLayout="row"
          class="comment-actions">
