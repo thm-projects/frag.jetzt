@@ -39,11 +39,11 @@
     "imprint": "Impressum",
     "language": "Sprache",
     "style": "Anzeige",
-    "motd-title-main": "Nachricht des Tages",
-    "motd-mark-all-read": "markiere alle als gelesen",
-    "motd-title-old": "Alte Nachrichten",
-    "motd-title-new": "Aktuelle Nachrichten",
-    "motd-mark-read": "markiere als gelesen"
+    "motd-title-main": "News",
+    "motd-mark-all-read": "Alles gelesen",
+    "motd-title-old": "Archiv",
+    "motd-title-new": "Aktuell",
+    "motd-mark-read": "Gelesen"
   },
   "header": {
     "abort": "Abbrechen",

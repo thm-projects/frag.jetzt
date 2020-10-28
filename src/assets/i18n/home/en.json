@@ -40,11 +40,11 @@
     "language": "Language",
     "open": "Open",
     "style": "Display",
-    "motd-title-main": "Message of the day",
-    "motd-mark-all-read": "mark all as read",
-    "motd-title-old": "Old messages",
-    "motd-title-new": "Latest messages",
-    "motd-mark-read": "mark as read"
+    "motd-title-main": "News",
+    "motd-mark-all-read": "Mark all as read",
+    "motd-title-old": "News archive",
+    "motd-title-new": "Latest news",
+    "motd-mark-read": "Mark as read"
   },
   "header": {
     "abort": "Cancel",
