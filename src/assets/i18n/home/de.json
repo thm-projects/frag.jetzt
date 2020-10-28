@@ -94,7 +94,7 @@
     "only-numbers": "Der Code besteht aus Ziffern.",
     "please-enter": "Den Code sagt dir die Sitzungsleitung.",
     "room-name-input": "Gib hier den Namen der Sitzung, die du erstellen möchtest, ein.",
-    "session-id": "Sitzungs-Code …",
+    "session-id": "Sitzungs-Name …",
     "update-available": "Eine neue Version ist verfügbar."
   },
   "imprint": {
@@ -246,7 +246,7 @@
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der neuen Sitzung"
+    "session-name": "Name oder Code der neuen Sitzung"
   },
   "user-activation": {
     "activate": "Aktivieren",
