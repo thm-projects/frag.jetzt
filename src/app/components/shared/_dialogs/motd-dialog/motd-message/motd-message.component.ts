@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Motd } from '../../../../../models/motd';
 
 @Component({
@@ -6,10 +6,11 @@ import { Motd } from '../../../../../models/motd';
   templateUrl: './motd-message.component.html',
   styleUrls: ['./motd-message.component.scss']
 })
-export class MotdMessageComponent implements OnInit {
+export class MotdMessageComponent implements OnInit, AfterViewInit {
 
   @Input()message: Motd;
   translatedMessage: string;
+  @ViewChild('markdown', { static : true })markdown: any;
   constructor() { }
 
   ngOnInit(): void {
@@ -22,6 +23,12 @@ export class MotdMessageComponent implements OnInit {
 
   public setIsRead(isRead: boolean) {
     this.message.setIsRead(isRead);
+  }
+
+  ngAfterViewInit(): void {
+    Array.from<HTMLElement>(this.markdown.element.nativeElement.children).forEach(e => {
+      e.tabIndex = 0;
+    });
   }
 
 }
