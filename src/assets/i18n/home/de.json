@@ -138,7 +138,7 @@
     "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "»Haben Sie Fragen?«",
-    "welcome-feedback": "qFeedback: ",
+    "welcome-feedback": "Feedback: ",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {
@@ -249,7 +249,7 @@
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der neuen Sitzung"
+    "session-name": "Name der neuen Sitzung, Raum-Code wird generiert."
   },
   "user-activation": {
     "activate": "Aktivieren",

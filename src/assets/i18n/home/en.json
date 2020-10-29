@@ -251,7 +251,7 @@
     "description": "Session description",
     "join": "Join session",
     "max-ls": "Max. characters:",
-    "session-name": "Name of the new session"
+    "session-name": "Name of the new session; room code will be generated."
   },
   "user-activation": {
     "activate": "Activate",
