@@ -97,9 +97,9 @@
     "room-name-input": "Enter the name of the session you want to create here.",
     "session-id": "Session name …",
     "update-available": "An update is available.",
-    "custom-shortid": "e",
-    "custom-shortid-placeholder": "e",
-    "invalid-shortid": "e"
+    "custom-shortid": "Custom URL",
+    "custom-shortid-placeholder": "e.g.: mysession123",
+    "invalid-shortid": "Custom URL not available"
   },
   "imprint": {
     "cancel": "Close",
