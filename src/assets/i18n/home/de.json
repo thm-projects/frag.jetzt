@@ -80,7 +80,7 @@
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
-    "accessibility-join-input": "Hier kannst du den Code der Sitzung eingeben der du beitreten möchtest. Den Code sagt dir die Sitzungsleitung.",
+    "accessibility-join-input": "Hier kannst du den Namen der Sitzung eingeben der du beitreten möchtest. Den Namen sagt dir die Sitzungsleitung.",
     "create-session": " Raum buchen?",
     "created-1": "Die Sitzung »",
     "created-2": "« wurde erstellt.",
@@ -89,15 +89,15 @@
     "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-user": "Du befindest dich jetzt auf der Benutzer-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "install": "Installieren",
-    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird generiert.",
-    "no-room-found": "Es wurde keine Sitzung mit diesem Code gefunden.",
-    "only-numbers": "Der Code besteht aus Ziffern.",
-    "please-enter": "Den Code sagt dir die Sitzungsleitung.",
+    "no-empty-name": "Gib den Namen der Sitzung ein.",
+    "no-room-found": "Es wurde keine Sitzung mit diesem Namen gefunden.",
+    "only-numbers": "Der Code ist alphanumerisch.",
+    "please-enter": "Den Namen sagt dir die Sitzungsleitung.",
     "room-name-input": "Gib hier den Namen der Sitzung, die du erstellen möchtest, ein.",
     "session-id": "Wohin?",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Benutzerdefinierter Sitzungscode",
-    "custom-shortid-placeholder": "Sitzungscode z.b.: meinesitzung123",
+    "custom-shortid": "Willst du den Code selbst bestimmen?",
+    "custom-shortid-placeholder": "Alphabetisch, Beispiel: »LPIC-1 CS2372«",
     "invalid-shortid": "Der Sitzungscode ist nicht verfügbar"
   },
   "imprint": {
@@ -249,7 +249,7 @@
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name oder Code der neuen Sitzung"
+    "session-name": "Name der neuen Sitzung"
   },
   "user-activation": {
     "activate": "Aktivieren",

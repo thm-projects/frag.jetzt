@@ -19,7 +19,7 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
 
-  roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(20)]);
+  roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
