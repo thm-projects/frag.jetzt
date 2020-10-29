@@ -96,9 +96,9 @@
     "room-name-input": "Gib hier den Namen der Sitzung, die du erstellen möchtest, ein.",
     "session-id": "Wohin?",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Benutzerdefinierte URL",
-    "custom-shortid-placeholder": "z.b.: meinesitzung123",
-    "invalid-shortid": "Die URL ist nicht verfügbar"
+    "custom-shortid": "Benutzerdefinierter Sitzungscode",
+    "custom-shortid-placeholder": "Sitzungscode z.b.: meinesitzung123",
+    "invalid-shortid": "Der Sitzungscode ist nicht verfügbar"
   },
   "imprint": {
     "cancel": "Schließen",
