@@ -81,7 +81,7 @@
     "accessibility-create": "Erstellt eine neue Sitzung.",
     "accessibility-join-button": "Betritt die Sitzung, deren Code du eingegeben hast.",
     "accessibility-join-input": "Hier kannst du den Code der Sitzung eingeben der du beitreten möchtest. Den Code sagt dir die Sitzungsleitung.",
-    "create-session": "Neue Sitzung",
+    "create-session": " Raum buchen?",
     "created-1": "Die Sitzung »",
     "created-2": "« wurde erstellt.",
     "exactly-8": "Der Code ist eine Kombination aus 8 Ziffern.",
@@ -94,11 +94,8 @@
     "only-numbers": "Der Code besteht aus Ziffern.",
     "please-enter": "Den Code sagt dir die Sitzungsleitung.",
     "room-name-input": "Gib hier den Namen der Sitzung, die du erstellen möchtest, ein.",
-    "session-id": "Sitzungs-Name …",
-    "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "e",
-    "custom-shortid-placeholder": "e",
-    "invalid-shortid": "e"
+    "session-id": "Wohin?",
+    "update-available": "Eine neue Version ist verfügbar."
   },
   "imprint": {
     "cancel": "Schließen",

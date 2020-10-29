@@ -46,8 +46,8 @@
         id="shortId-header"
         *ngIf="router.url.includes('comments')"
         fxLayoutAlign="center center">
-      {{'header.id' | translate}}: {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
-    </h2>-->
+      {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
+    </h2>
     <!--Feedback im Hörsaal-->
     <h2 class="oldtypo-h2"
         *ngIf="router.url.includes('home')"
