@@ -18,10 +18,13 @@ import { User } from '../../../../models/user';
 })
 export class RoomCreateComponent implements OnInit {
   longName: string;
+  customShortIdName: string;
   emptyInputs = false;
+  shortIdAlreadyUsed = false;
   room: Room;
   roomId: string;
   user: User;
+  hasCustomShortId = false;
 
   constructor(
     private roomService: RoomService,
@@ -64,7 +67,12 @@ export class RoomCreateComponent implements OnInit {
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
-    this.roomService.addRoom(newRoom).subscribe(room => {
+    if (this.hasCustomShortId) {
+      newRoom.shortId = this.customShortIdName;
+    }
+    this.roomService.addRoom(newRoom, () => {
+      this.shortIdAlreadyUsed = true;
+    }).subscribe(room => {
       this.room = room;
       let msg1: string;
       let msg2: string;
