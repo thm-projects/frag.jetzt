@@ -63,7 +63,7 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  addRoom(room: Room): Observable<Room> {
+  addRoom(room: Room, exc?: () => void ): Observable<Room> {
     delete room.id;
     delete room.revision;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
@@ -72,7 +72,12 @@ export class RoomService extends BaseHttpService {
       tap(returnedRoom => {
         this.authService.setAccess(returnedRoom.shortId, UserRole.PARTICIPANT);
       }),
-      catchError(this.handleError<Room>(`add Room ${room}`))
+      catchError(err => {
+        if (exc) {
+          exc();
+        }
+        return this.handleError<Room>(`add Room ${room}`);
+      })
     );
   }
 

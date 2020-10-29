@@ -20,7 +20,6 @@ export class RoomCreateComponent implements OnInit {
   longName: string;
   customShortIdName: string;
   emptyInputs = false;
-  invalidShortId = false;
   shortIdAlreadyUsed = false;
   room: Room;
   roomId: string;
@@ -64,12 +63,16 @@ export class RoomCreateComponent implements OnInit {
       this.emptyInputs = true;
       return;
     }
-    // check for custom short id
     const newRoom = new Room();
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
-    this.roomService.addRoom(newRoom).subscribe(room => {
+    if (this.hasCustomShortId) {
+      newRoom.shortId = this.customShortIdName;
+    }
+    this.roomService.addRoom(newRoom, () => {
+      this.shortIdAlreadyUsed = true;
+    }).subscribe(room => {
       this.room = room;
       let msg1: string;
       let msg2: string;

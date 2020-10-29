@@ -95,7 +95,10 @@
     "please-enter": "Den Code sagt dir die Sitzungsleitung.",
     "room-name-input": "Gib hier den Namen der Sitzung, die du erstellen möchtest, ein.",
     "session-id": "Sitzungs-Name …",
-    "update-available": "Eine neue Version ist verfügbar."
+    "update-available": "Eine neue Version ist verfügbar.",
+    "custom-shortid": "e",
+    "custom-shortid-placeholder": "e",
+    "invalid-shortid": "e"
   },
   "imprint": {
     "cancel": "Schließen",

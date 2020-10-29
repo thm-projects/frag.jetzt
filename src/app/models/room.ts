@@ -24,7 +24,7 @@ export class Room {
     moderated: boolean = true,
     directSend: boolean = true,
     threshold: number = null,
-    tags: string[] = []
+    tags: string[] = [],
   ) {
     this.id = '';
     this.ownerId = ownerId;
