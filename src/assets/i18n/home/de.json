@@ -92,13 +92,13 @@
     "no-empty-name": "Gib den Namen der Sitzung ein.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Namen gefunden.",
     "only-numbers": "Der Code ist alphanumerisch.",
-    "please-enter": "Den Namen sagt dir die Sitzungsleitung.",
-    "room-name-input": "Gib hier den Namen der Sitzung, die du erstellen möchtest, ein.",
-    "session-id": "Wohin?",
+    "please-enter": "Wie heißt der Raum, wo die Sitzung stattfindet?",
+    "room-name-input": "Gib hier den Namen der Sitzung ein, die du erstellen möchtest.",
+    "session-id": "Wohin geht's?",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Willst du den Code selbst bestimmen?",
-    "custom-shortid-placeholder": "Alphabetisch, Beispiel: »LPIC-1 CS2372«",
-    "invalid-shortid": "Der Sitzungscode ist nicht verfügbar"
+    "custom-shortid": "Raum-Code selbst bestimmen?",
+    "custom-shortid-placeholder": "Code-Beispiel: »A12.1.12a«",
+    "invalid-shortid": "Der Code ist nicht verfügbar"
   },
   "imprint": {
     "cancel": "Schließen",
@@ -138,7 +138,7 @@
     "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "»Haben Sie Fragen?«",
-    "welcome-feedback": "Feedback: ",
+    "welcome-feedback": "qFeedback: ",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {
