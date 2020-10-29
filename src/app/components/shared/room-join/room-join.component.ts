@@ -50,36 +50,26 @@ export class RoomJoinComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    if (id.length - (id.split(' ').length - 1) < 8) {
-      this.translateService.get('home-page.exactly-8').subscribe(message => {
-        this.notificationService.show(message);
-      });
-    } else if (this.sessionCodeFormControl.hasError('pattern')) {
-      this.translateService.get('home-page.only-numbers').subscribe(message => {
-        this.notificationService.show(message);
-      });
-    } else {
-      this.roomService.getRoomByShortId(id.replace(/\s/g, ''))
-      .subscribe(room => {
-        this.room = room;
-        if (!room) {
-          this.translateService.get('home-page.no-room-found').subscribe(message => {
-            this.notificationService.show(message);
-          });
+    this.roomService.getRoomByShortId(id)
+    .subscribe(room => {
+      this.room = room;
+      if (!room) {
+        this.translateService.get('home-page.no-room-found').subscribe(message => {
+          this.notificationService.show(message);
+        });
+      } else {
+        if (!this.user) {
+          this.guestLogin();
         } else {
-          if (!this.user) {
+          if (this.user.role === UserRole.CREATOR) {
+            this.authenticationService.logout();
             this.guestLogin();
           } else {
-            if (this.user.role === UserRole.CREATOR) {
-              this.authenticationService.logout();
-              this.guestLogin();
-            } else {
-              this.addAndNavigate();
-            }
+            this.addAndNavigate();
           }
         }
-      });
-    }
+      }
+    });
   }
 
   joinRoom(id: string): void {
