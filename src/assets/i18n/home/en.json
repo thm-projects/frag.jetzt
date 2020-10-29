@@ -92,14 +92,14 @@
     "install": "Install",
     "no-empty-name": "Please enter a name.",
     "no-room-found": "No session found with this name",
-    "only-numbers": "The code is alphanumeric.",
+    "only-numbers": "The key code is alphanumeric.",
     "please-enter": "What is the name of the room where the session takes place?",
     "room-name-input": "Enter the name of the session you want to create.",
     "session-id": "Where to?",
     "update-available": "An update is available.",
-    "custom-shortid": "Set the room code yourself?",
-    "custom-shortid-placeholder": "Code example: »A12.1.12a«",
-    "invalid-shortid": "This code is not available."
+    "custom-shortid": "Set the key code yourself?",
+    "custom-shortid-placeholder": "Example: A12.1.12a",
+    "invalid-shortid": "This key code is not available."
   },
   "imprint": {
     "cancel": "Close",
@@ -247,11 +247,11 @@
     "export-comments": "Export questions"
   },
   "session": {
-    "create-session": "Create session",
+    "create-session": "Save",
     "description": "Session description",
     "join": "Join session",
     "max-ls": "Max. characters:",
-    "session-name": "Name of the new session; room code will be generated."
+    "session-name": "Name of the  session. Key will be generated."
   },
   "user-activation": {
     "activate": "Activate",
