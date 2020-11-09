@@ -67,7 +67,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.name = longRoomName;
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
-    if (this.hasCustomShortId) {
+    if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       newRoom.shortId = this.customShortIdName;
     }
     this.roomService.addRoom(newRoom, () => {
