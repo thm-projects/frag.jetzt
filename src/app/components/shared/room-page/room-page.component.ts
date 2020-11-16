@@ -60,7 +60,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       this.roomService.getRoomByShortId(id).subscribe(room => {
         this.room = room;
         this.isLoading = false;
-        console.log(this.room.moderated);
         this.moderationEnabled = this.room.moderated;
         localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
         this.commentService.countByRoomId(this.room.id, true)
