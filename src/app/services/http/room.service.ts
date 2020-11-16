@@ -97,6 +97,17 @@ export class RoomService extends BaseHttpService {
     );
   }
 
+  getErrorHandledRoomByShortId(shortId: string, err: () => void ): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
+    return this.http.get<Room>(connectionUrl).pipe(
+      tap(room => this.setRoomId(room)),
+      catchError(() => {
+        err();
+        return this.handleError<Room>(`getRoom shortId=${ shortId }`);
+      })
+    );
+  }
+
   addToHistory(roomId: string): void {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
     this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(() => {});
