@@ -50,7 +50,11 @@ export class RoomJoinComponent implements OnInit {
   }
 
   getRoom(id: string): void {
-    this.roomService.getRoomByShortId(id)
+    this.roomService.getErrorHandledRoomByShortId(id, () => {
+      this.translateService.get('home-page.no-room-found').subscribe(message => {
+        this.notificationService.show(message);
+      });
+    })
     .subscribe(room => {
       this.room = room;
       if (!room) {
