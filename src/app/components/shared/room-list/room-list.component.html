@@ -45,7 +45,7 @@
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            {{ room.shortId.slice(0,4) }} {{ room.shortId.slice(4,8) }}
+            {{ room.shortId }}
           </td>
         </ng-container>
 
