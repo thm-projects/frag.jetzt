@@ -60,6 +60,6 @@ deploy:
   script:
     - eval $(ssh-agent -s)
     - mkdir ~/.ssh
-    - ssh-keyscan "$NEW_SERVER_URL" >> ~/.ssh/known_hosts
+    - ssh-keyscan "$SERVER_URL" >> ~/.ssh/known_hosts
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
-    - scp -r "$BUILD_DIR"* "$NEW_SSH_URL"
+    - scp -r "$BUILD_DIR"* "$SSH_URL"
