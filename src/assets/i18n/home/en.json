@@ -169,6 +169,7 @@
     "new-password": "New password",
     "new-password-successful": "The new password has been set.",
     "reset-button-description": "Resets the password of the account",
+    "reset-failed-because-of-activation-process": "Password reset failed, still in activation process",
     "reset-password": "Reset password",
     "reset-password-description": "Reset password",
     "reset-successful": "Password was reset. Please check your mails.",

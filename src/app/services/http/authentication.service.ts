@@ -147,7 +147,7 @@ export class AuthenticationService extends BaseHttpService {
     }));
   }
 
-  resetPassword(email: string): Observable<boolean> {
+  resetPassword(email: string): Observable<string> {
     const connectionUrl: string =
         this.apiUrl.base +
         this.apiUrl.user +
@@ -160,9 +160,9 @@ export class AuthenticationService extends BaseHttpService {
       password: null
     }, this.httpOptions).pipe(
       catchError(err => {
-        return of(false);
+        return of(err.error.message);
       }), map((result) => {
-        return true;
+        return result;
       })
     );
   }
@@ -243,7 +243,11 @@ export class AuthenticationService extends BaseHttpService {
     }), catchError((e) => {
       // check if user needs activation
       if (e.error.status === 403) {
-        return of('activation');
+        if (e.error.message === 'Activation in process') {
+          return of('activation');
+        } else if (e.error.message === 'Password reset in process') {
+          return of('password-reset');
+        }
       }
       return of('false');
     }), );

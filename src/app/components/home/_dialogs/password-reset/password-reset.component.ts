@@ -24,6 +24,7 @@ export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
 })
 export class PasswordResetComponent implements OnInit {
 
+  initProcess = true;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   usernameFormControl2 = new FormControl('', [Validators.required, Validators.email]);
@@ -62,6 +63,10 @@ export class PasswordResetComponent implements OnInit {
 
   }
 
+  setUsername(username: string) {
+    this.usernameFormControl2.setValue(username);
+  }
+
   /**
    * Closes the room create dialog on call.
    */
@@ -74,10 +79,17 @@ export class PasswordResetComponent implements OnInit {
     username = username.trim();
 
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email')) {
-      this.authenticationService.resetPassword(username).subscribe(() => {
-        this.translationService.get('password-reset.reset-successful').subscribe(message => {
-          this.notificationService.show(message);
-        });
+      this.authenticationService.resetPassword(username).subscribe((ret: string) => {
+        // ret is null when no error happened, otherwise ret has error message
+        if (!ret) {
+          this.translationService.get('password-reset.reset-successful').subscribe(message => {
+            this.notificationService.show(message);
+          });
+        } else if (ret === 'Account has activation key set') {
+          this.translationService.get('password-reset.reset-failed-because-of-activation-process').subscribe(message => {
+            this.notificationService.show(message);
+          });
+        }
         this.closeDialog();
       });
     } else {

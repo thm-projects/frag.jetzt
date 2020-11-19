@@ -167,6 +167,7 @@
     "new-password": "Neues Passwort",
     "new-password-successful": "Dein neues Passwort wurde gesetzt.",
     "reset-button-description": "Setzt das Passwort des Accounts zurück.",
+    "reset-failed-because-of-activation-process": "Zurücksetzen fehlgeschlagen, Aktivierungsprozess ist im Gange",
     "reset-password": "Passwort zurücksetzen",
     "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
     "reset-successful": "Dein Passwort wurde zurückgesetzt. Bitte prüfe dein Postfach.",
