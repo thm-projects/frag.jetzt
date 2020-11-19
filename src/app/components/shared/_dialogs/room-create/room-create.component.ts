@@ -69,6 +69,8 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       newRoom.shortId = this.customShortIdName;
+    } else {
+      newRoom.shortId = undefined;
     }
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
