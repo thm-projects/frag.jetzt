@@ -113,6 +113,8 @@ export class LoginComponent implements OnInit, OnChanges {
       }
     } else if (loginSuccessful === 'activation') {
       this.activateUser();
+    } else if (loginSuccessful === 'password-reset') {
+      this.openPasswordDialog(false);
     } else {
       this.translationService.get('login.login-data-incorrect').subscribe(message => {
         this.notificationService.show(message);
@@ -120,10 +122,12 @@ export class LoginComponent implements OnInit, OnChanges {
     }
   }
 
-  openPasswordDialog(): void {
-    this.dialog.open(PasswordResetComponent, {
+  openPasswordDialog(initProcess = true): void {
+    const ref = this.dialog.open(PasswordResetComponent, {
       width: '350px',
     });
+    ref.componentInstance.initProcess = initProcess;
+    ref.componentInstance.setUsername(this.username);
   }
 
   openRegisterDialog(): void {

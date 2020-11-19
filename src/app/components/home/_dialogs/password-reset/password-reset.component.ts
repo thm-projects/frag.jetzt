@@ -24,6 +24,7 @@ export class PasswordResetErrorStateMatcher implements ErrorStateMatcher {
 })
 export class PasswordResetComponent implements OnInit {
 
+  initProcess = true;
 
   usernameFormControl = new FormControl('', [Validators.required, Validators.email]);
   usernameFormControl2 = new FormControl('', [Validators.required, Validators.email]);
@@ -60,6 +61,10 @@ export class PasswordResetComponent implements OnInit {
         'by receiving a password reset key via e-mail and setting a new password with it.', 'assertive');
     }
 
+  }
+
+  setUsername(username: string) {
+    this.usernameFormControl2.setValue(username);
   }
 
   /**
