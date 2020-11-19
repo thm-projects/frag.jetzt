@@ -147,7 +147,7 @@ export class AuthenticationService extends BaseHttpService {
     }));
   }
 
-  resetPassword(email: string): Observable<boolean> {
+  resetPassword(email: string): Observable<string> {
     const connectionUrl: string =
         this.apiUrl.base +
         this.apiUrl.user +
@@ -160,9 +160,9 @@ export class AuthenticationService extends BaseHttpService {
       password: null
     }, this.httpOptions).pipe(
       catchError(err => {
-        return of(false);
+        return of(err.error.message);
       }), map((result) => {
-        return true;
+        return result;
       })
     );
   }
