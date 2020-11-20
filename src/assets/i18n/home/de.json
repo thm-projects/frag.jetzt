@@ -166,6 +166,8 @@
     "key-required": "Passwortrücksetz-Schlüssel erforderlich",
     "new-password": "Neues Passwort",
     "new-password-successful": "Dein neues Passwort wurde gesetzt.",
+    "new-password-key-expired": "Der Key ist abgelaufen, der Prozess muss neugestartet werden.",
+    "new-password-key-invalid": "Der Key ist ungültig.",
     "reset-button-description": "Setzt das Passwort des Accounts zurück.",
     "reset-failed-because-of-activation-process": "Zurücksetzen fehlgeschlagen, Aktivierungsprozess ist im Gange",
     "reset-password": "Passwort zurücksetzen",
