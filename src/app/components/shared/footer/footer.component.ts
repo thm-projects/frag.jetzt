@@ -26,7 +26,7 @@ import { MotdDialogComponent } from '../_dialogs/motd-dialog/motd-dialog.compone
 })
 export class FooterComponent implements OnInit {
 
-  public demoId = '11223344';
+  public demoId = 'Feedback';
 
   public room: Room;
   public user: User;
