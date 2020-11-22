@@ -86,6 +86,7 @@ mat-card-content > :first-child {
   white-space: pre-line;
   hyphens: auto;
   overflow-wrap: break-word !important;
+  z-index: 100;
 }
 
 .click {
