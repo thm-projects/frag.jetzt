@@ -98,7 +98,8 @@
     "update-available": "Eine neue Version ist verfügbar.",
     "custom-shortid": "Raum-Code selbst bestimmen?",
     "custom-shortid-placeholder": "Code-Beispiel: »A12.1.12a«",
-    "invalid-shortid": "Der Code ist nicht verfügbar"
+    "invalid-shortid": "Der Code ist nicht verfügbar",
+    "invalid-char-shortid": "Der Code enthält verbotene Character"
   },
   "imprint": {
     "cancel": "Schließen",

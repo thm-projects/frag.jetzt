@@ -29,6 +29,7 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
 })
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit {
   room: Room;
+  encodedShortId: string;
   updRoom: Room;
   commentThreshold: number;
   updCommentThreshold: number;
@@ -62,9 +63,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   ngOnInit() {
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
-
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
+      this.encodedShortId = params['shortId'];
     });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       const lang: string = this.translateService.currentLang;
@@ -241,7 +242,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = `${this.urlToCopy}${this.room.shortId}`;
+    selBox.value = `${this.urlToCopy}${this.encodedShortId}`;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
