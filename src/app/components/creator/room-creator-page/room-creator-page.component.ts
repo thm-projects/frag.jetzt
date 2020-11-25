@@ -65,11 +65,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
-      this.encodedShortId = encodeURIComponent(params['shortId'])
-        .replace('\~', '%7E')
-        .replace('\.', '%2E')
-        .replace('\_', '%5F')
-        .replace('\-', '%2D');
+      this.encodedShortId = params['shortId'];
     });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       const lang: string = this.translateService.currentLang;
