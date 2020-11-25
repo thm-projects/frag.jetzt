@@ -42,6 +42,9 @@
       <mat-hint align="start"
                 class="error"
                 *ngIf="shortIdAlreadyUsed"><strong>{{ 'home-page.invalid-shortid' | translate }}</strong></mat-hint>
+      <mat-hint align="start"
+                class="error"
+                *ngIf="shortIdCharInvalid"><strong>invalid</strong></mat-hint>
     </mat-form-field>
   </div>
 </form>

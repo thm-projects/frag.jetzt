@@ -21,6 +21,7 @@ export class RoomCreateComponent implements OnInit {
   customShortIdName: string;
   emptyInputs = false;
   shortIdAlreadyUsed = false;
+  shortIdCharInvalid = false;
   room: Room;
   roomId: string;
   user: User;
@@ -68,6 +69,12 @@ export class RoomCreateComponent implements OnInit {
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
+      if (!new RegExp('[a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)) {
+        this.shortIdCharInvalid = true;
+        return;
+      } else {
+        this.shortIdCharInvalid = false;
+      }
       newRoom.shortId = this.customShortIdName;
     } else {
       newRoom.shortId = undefined;
@@ -81,9 +88,17 @@ export class RoomCreateComponent implements OnInit {
       this.translateService.get('home-page.created-1').subscribe(msg => { msg1 = msg; });
       this.translateService.get('home-page.created-2').subscribe(msg => { msg2 = msg; });
       this.notification.show(msg1 + longRoomName + msg2);
-      this.authenticationService.setAccess(encodeURIComponent(this.room.shortId), UserRole.CREATOR);
+      this.authenticationService.setAccess(encodeURIComponent(this.customShortIdName)
+      .replace('\~', '%7E')
+      .replace('\.', '%2E')
+      .replace('\_', '%5F')
+      .replace('\-', '%2D'), UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
-      this.router.navigate(['/creator/room/' + encodeURIComponent(this.room.shortId) ]);
+      this.router.navigate(['/creator/room/' + encodeURIComponent(this.customShortIdName)
+      .replace('\~', '%7E')
+      .replace('\.', '%2E')
+      .replace('\_', '%5F')
+      .replace('\-', '%2D') ]);
       this.closeDialog();
     });
   }
