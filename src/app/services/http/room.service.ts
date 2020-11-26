@@ -10,6 +10,7 @@ import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
 import { EventService } from '../util/event.service';
 import { TSMap } from 'typescript-map';
+import { GlobalConfig } from '../../models/global-config';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -138,6 +139,7 @@ export class RoomService extends BaseHttpService {
   }
 
   setRoomId(room: Room): void {
+    GlobalConfig.setShortId(room.shortId);
     localStorage.setItem('roomId', room.id);
   }
 }

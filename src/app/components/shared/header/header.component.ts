@@ -20,6 +20,8 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
+import { GlobalConfig } from '../../../models/global-config';
+import { RoomService } from '../../../services/http/room.service';
 
 @Component({
   selector: 'app-header',
@@ -30,6 +32,8 @@ export class HeaderComponent implements OnInit {
   user: User;
   cTime: string;
   shortId: string;
+  globalShortId: string;
+  globalEncodedShortId: string;
   deviceType: string;
   isSafari = 'false';
   moderationEnabled: boolean;
@@ -45,7 +49,8 @@ export class HeaderComponent implements OnInit {
               public eventService: EventService,
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
-              private motdService: MotdService
+              private motdService: MotdService,
+              private roomService: RoomService
   ) {
   }
 
@@ -125,6 +130,10 @@ export class HeaderComponent implements OnInit {
     });
     this.motdService.onNewMessage().subscribe(state => {
       this.motdState = state;
+    });
+    GlobalConfig.subscribeShortId(() => {
+      this.globalShortId = GlobalConfig.shortId;
+      this.globalEncodedShortId = GlobalConfig.encodedShortId;
     });
   }
 
