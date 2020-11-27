@@ -96,14 +96,10 @@ export class HeaderComponent implements OnInit {
       if (val instanceof NavigationEnd) {
         /* segments gets all parts of the url */
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
-        const shortIdRegExp = new RegExp('^[0-9]{8}$');
-        segments.forEach(element => {
-          /* searches the url segments for a short id */
-          if (shortIdRegExp.test(element.path)) {
-            this.shortId = element.path;
-            localStorage.setItem('shortId', this.shortId);
-          }
-        });
+        if (segments && segments.length > 2) {
+          this.shortId = segments[2].toString();
+          localStorage.setItem('shortId', this.shortId);
+        }
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
