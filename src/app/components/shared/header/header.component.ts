@@ -20,6 +20,7 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
+import { RoomService } from '../../../services/http/room.service';
 
 @Component({
   selector: 'app-header',
@@ -97,8 +98,10 @@ export class HeaderComponent implements OnInit {
         /* segments gets all parts of the url */
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
         if (segments && segments.length > 2) {
-          this.shortId = segments[2].toString();
-          localStorage.setItem('shortId', this.shortId);
+          if (!segments[2].path.includes('%')) {
+            this.shortId = segments[2].path;
+            localStorage.setItem('shortId', this.shortId);
+          }
         }
       }
     });
@@ -240,7 +243,7 @@ export class HeaderComponent implements OnInit {
     });
     const url = this.getURL();
     dialogRef.componentInstance.data = url;
-    dialogRef.componentInstance.key = url.slice(-8);
+    dialogRef.componentInstance.key = this.shortId;
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
     });

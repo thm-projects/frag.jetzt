@@ -5,7 +5,7 @@
     </button>
     <div>
       <h2>frag.jetzt</h2>
-      <h2>{{'qr-dialog.session' | translate}}: {{key.slice(0, 4)}} {{key.slice(4, 8)}}</h2>
+      <h2>{{'qr-dialog.session' | translate}}: {{key}}</h2>
     </div>
     <qrcode [qrdata]="data" [width]="qrWidth" [errorCorrectionLevel]="'M'"></qrcode>
   </div>
