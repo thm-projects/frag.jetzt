@@ -81,12 +81,12 @@ export class PasswordResetComponent implements OnInit {
     if (!this.usernameFormControl.hasError('required') && !this.usernameFormControl.hasError('email')) {
       this.authenticationService.resetPassword(username).subscribe((ret: string) => {
         // ret is null when no error happened, otherwise ret has error message
-        if (!ret) {
-          this.translationService.get('password-reset.reset-successful').subscribe(message => {
+        if (ret === 'Account has activation key set') {
+          this.translationService.get('password-reset.reset-failed-because-of-activation-process').subscribe(message => {
             this.notificationService.show(message);
           });
-        } else if (ret === 'Account has activation key set') {
-          this.translationService.get('password-reset.reset-failed-because-of-activation-process').subscribe(message => {
+        } else {
+          this.translationService.get('password-reset.reset-successful').subscribe(message => {
             this.notificationService.show(message);
           });
         }
