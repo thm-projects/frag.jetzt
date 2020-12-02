@@ -65,12 +65,7 @@ export class RoomJoinComponent implements OnInit {
         if (!this.user) {
           this.guestLogin();
         } else {
-          if (this.user.role === UserRole.CREATOR) {
-            this.authenticationService.logout();
-            this.guestLogin();
-          } else {
-            this.addAndNavigate();
-          }
+          this.addAndNavigate();
         }
       }
     });
