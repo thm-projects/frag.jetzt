@@ -97,7 +97,7 @@
     "session-id": "Wohin geht's?",
     "update-available": "Eine neue Version ist verfügbar.",
     "custom-shortid": "Raum-Code selbst bestimmen?",
-    "custom-shortid-placeholder": "Nur: a-z, A-Z, 0-9, - _ . ~ keine Leerzeichen",
+    "custom-shortid-placeholder": "a-z, A-Z, 0-9, - _ . ~ keine Leerzeichen",
     "invalid-shortid": "Der eingegebene Raum-Code ist nicht verfügbar.",
     "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
   },
