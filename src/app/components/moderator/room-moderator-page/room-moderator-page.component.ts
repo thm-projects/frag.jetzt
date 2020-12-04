@@ -108,7 +108,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();
         this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
-          'Aktueller Sitzungs-Code: ' + this.room.shortId.slice(0, 8));
+          'Aktueller Raum-Code: ' + this.room.shortId);
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false) {
@@ -125,7 +125,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
       'Drücke die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
       'die Taste 2 um das Sitzungs-Menü zu öffnen, die Taste 3 um in die Moderationsübersicht zu gelangen, ' +
       'die Taste 4 um Einstellungen an der Sitzung vorzunehmen, ' +
-      'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
+      'die Taste 8 um den aktuellen Raum-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
       'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
   }
 

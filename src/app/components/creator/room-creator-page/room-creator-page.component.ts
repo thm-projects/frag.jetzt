@@ -79,9 +79,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         this.liveAnnouncer.clear();
         if (lang === 'de') {
         this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
-                                    'Aktueller Sitzungs-Code: ' + this.room.shortId.slice(0, 8));
+                                    'Aktueller Raum-Code: ' + this.room.shortId);
         } else { this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
-          'Current Session-Code: ' + this.room.shortId.slice(0, 8)); }
+          'Current Session Code: ' + this.room.shortId); }
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false
@@ -101,14 +101,14 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         'Drücke die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
         'die Taste 2 um das Sitzungs-Menü zu öffnen, die Taste 3 um in die Moderationsübersicht zu gelangen, ' +
         'die Taste 4 um Einstellungen an der Sitzung vorzunehmen, ' +
-        'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
+        'die Taste 8 um den aktuellen Raum-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
         'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
     } else {
       this.liveAnnouncer.announce('You are in the session you created. ' +
         'Press key 1 to go to the question overview, ' +
         'Press key 2 to open the session menu, key 3 to go to the moderation overview, ' +
         'Press key 4 to go to the session settings, ' +
-        'Press the 8 for he current session code,  0 to go back, ' +
+        'Press the 8 for he current room code,  0 to go back, ' +
         'or press 9 to repeat this announcement.', 'assertive');
     }
   }

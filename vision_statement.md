@@ -2,7 +2,7 @@ With our innovative product "frag.jetzt" we want to conquer the market of audien
 
 There are three roles in the app: "lecturer", "moderator" and "student". Each user can take one of the two roles "lecturer" or "student". The role "moderator" is assigned by the lecturer to users who have created an account by self-registration with e-mail confirmation and whose e-mail address is known to the lecturer for acceptance as a moderator. Like students, lecturers and moderators can also ask questions, which are then directed to the audience. 
 
-After entering the session code or by scanning the QR code of the session, students can ask their questions anonymously, read each other's questions and rate them with +1 or -1. The question board can be moderated. The lecturer can set a threshold for the release of a question, i.e. the rating at which a question is displayed on the question board. The threshold value can be set between -100 and 0 rating points.
+After entering the room code or by scanning the QR code of the session, students can ask their questions anonymously, read each other's questions and rate them with +1 or -1. The question board can be moderated. The lecturer can set a threshold for the release of a question, i.e. the rating at which a question is displayed on the question board. The threshold value can be set between -100 and 0 rating points.
 
 The teacher can award bonus points for goal-oriented and lecture-related questions. Awarded questions receive a star icon and the student will find an 8-digit code ("token") for each acquired star on the session account. The tokens can be redeemed for bonus points by emailing the teacher.
 

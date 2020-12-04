@@ -62,7 +62,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         document.getElementById('question_answer-button').focus();
       } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.clear();
-        this.liveAnnouncer.announce('Aktueller Sitzungs-Code:' + this.room.shortId.slice(0, 8));
+        this.liveAnnouncer.announce('Aktueller Raum-Code:' + this.room.shortId);
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape, KeyboardKey.Digit9) === true && this.eventService.focusOnInput === false
       ) {
@@ -79,12 +79,12 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     const lang: string = this.translateService.currentLang;
     if (lang === 'de') {
       this.liveAnnouncer.announce('Du befindest dich in der Sitzung' + this.room.name +
-        'mit dem Sitzungscode' + this.room.shortId.slice(0, 8) + '.' +
+        'mit dem Raum-Code' + this.room.shortId + '.' +
         'Drücke die Taste 1 um eine Frage zu stellen, die Taste 2 für das Sitzungs-Menü, ' +
-        'die Taste 8 um den aktuellen Sitzungs-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
+        'die Taste 8 um den aktuellen Raum-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
         'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
     } else {
-      this.liveAnnouncer.announce('You have entered the session' + this.room.name + 'with the session code' + this.room.shortId.slice(0, 8)
+      this.liveAnnouncer.announce('You have entered the session' + this.room.name + 'with the room code' + this.room.shortId
       + '.' + 'Press 0 to go back to the previous page, ' +
         '1 to ask a question, 2 for the session menu' +
       '8 to hear the current sesion code or 9 to repeat this announcement.');

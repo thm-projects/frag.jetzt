@@ -176,7 +176,7 @@
     "create-session": "Neue Sitzung",
     "created-1": "Die neue Sitzung »",
     "created-2": "« wurde erstellt.",
-    "no-empty-name": "Gib einen Namen ein. Der Sitzungs-Code wird generiert."
+    "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "room-page": {
     "a11y-add-moderator": "Fügt den eingegebenen Benutzer als Moderator hinzu.",

@@ -119,7 +119,7 @@ export class RoomJoinComponent implements OnInit {
 
 
   /**
-   * Prettifies the session code input element which:
+   * Prettifies the room code input element which:
    *
    * - casts a 'xxxx xxxx' layout to the input field
    */

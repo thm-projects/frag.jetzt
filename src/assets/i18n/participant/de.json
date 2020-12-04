@@ -104,13 +104,13 @@
   },
 
   "home-page": {
-    "exactly-8": "Ein Sitzungs-Code hat genau 8 Ziffern.",
-    "no-room-found": "Es wurde keine Sitzung mit diesem Sitzungs-Code gefunden.",
-    "only-numbers": "Ein Sitzungs-Code besteht aus Ziffern.",
-    "please-enter": "Bitte Sitzungs-Code eingeben."
+    "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
+    "no-room-found": "Es wurde keine Sitzung mit diesem Raum-Code gefunden.",
+    "only-numbers": "Ein Raum-Code besteht aus Ziffern.",
+    "please-enter": "Bitte Raum-Code eingeben."
   },
   "room-page": {
-    "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Sitzungs-Code.",
+    "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Raum-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
     "comments": "Fragen",
     "create-comment": "Stell deine Frage!",

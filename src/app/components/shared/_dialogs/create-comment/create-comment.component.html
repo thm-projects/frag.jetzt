@@ -9,6 +9,7 @@
             {{'comment-page.tag' | translate}}</mat-label>
           <mat-select [(ngModel)]="selectedTag"
                       class="tag-select">
+            <mat-option value="">Select a tag …</mat-option>
             <mat-option *ngFor="let tag of tags"
                         value="{{tag}}">
               {{tag}}
