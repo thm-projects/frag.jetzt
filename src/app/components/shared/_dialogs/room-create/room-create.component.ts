@@ -48,6 +48,12 @@ export class RoomCreateComponent implements OnInit {
     this.emptyInputs = false;
   }
 
+  resetInvalidCharacters(): void {
+    if (this.customShortIdName) {
+      this.customShortIdName = this.customShortIdName.replace(/[^a-zA-Z0-9_\-.~]+/gi, '');
+    }
+  }
+
   checkLogin(longRoomName: string) {
     if (!this.user) {
       this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
