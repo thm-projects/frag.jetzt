@@ -97,7 +97,7 @@
     "session-id": "Wohin geht's?",
     "update-available": "Eine neue Version ist verfügbar.",
     "custom-shortid": "Raum-Code selbst bestimmen?",
-    "custom-shortid-placeholder": "Beispiel: »A12.1.12a« (keine Leerzeichen)",
+    "custom-shortid-placeholder": "Nur: a-z, A-Z, 0-9, - _ . ~ keine Leerzeichen",
     "invalid-shortid": "Der eingegebene Raum-Code ist nicht verfügbar.",
     "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
   },
@@ -253,7 +253,7 @@
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der Sitzung. Raum-Code wird generiert."
+    "session-name": "Name der Sitzung (Code wird generiert)"
   },
   "user-activation": {
     "activate": "Aktivieren",
