@@ -91,16 +91,16 @@
     "live-announcer-user": "You are now on the user page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "install": "Install",
     "no-empty-name": "Please enter a name.",
-    "no-room-found": "No session found with this name",
+    "no-room-found": "No session found with this name.",
     "only-numbers": "The key code is alphanumeric.",
-    "please-enter": "What is the name of the room where the session takes place?",
+    "please-enter": "What is the key code of the room where the session takes place?",
     "room-name-input": "Enter the name of the session you want to create.",
     "session-id": "Where to?",
     "update-available": "An update is available.",
     "custom-shortid": "Set the key code yourself?",
-    "custom-shortid-placeholder": "Example: A12.1.12a",
+    "custom-shortid-placeholder": "Example: »A12.1.12a« (no blanks)",
     "invalid-shortid": "This key code is not available.",
-    "invalid-char-shortid": "This key code contains invalid characters"
+    "invalid-char-shortid": "This key code contains invalid characters."
   },
   "imprint": {
     "cancel": "Close",
@@ -255,7 +255,7 @@
     "description": "Session description",
     "join": "Join session",
     "max-ls": "Max. characters:",
-    "session-name": "Name of the  session. Key will be generated."
+    "session-name": "Name of the  session. Key code will be generated."
   },
   "user-activation": {
     "activate": "Activate",
