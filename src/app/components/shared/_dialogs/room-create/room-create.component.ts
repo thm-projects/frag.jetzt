@@ -50,7 +50,7 @@ export class RoomCreateComponent implements OnInit {
 
   resetInvalidCharacters(): void {
     if (this.customShortIdName) {
-      this.customShortIdName = this.customShortIdName.replace(/[^a-zA-Z0-9\_\-\*\~]+/gi, '');
+      this.customShortIdName = this.customShortIdName.replace(/[^a-zA-Z0-9_\-.~]+/gi, '');
     }
   }
 
