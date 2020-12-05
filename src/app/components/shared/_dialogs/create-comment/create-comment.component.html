@@ -9,7 +9,7 @@
             {{'comment-page.tag' | translate}}</mat-label>
           <mat-select [(ngModel)]="selectedTag"
                       class="tag-select">
-            <mat-option value="">Select a tag …</mat-option>
+            <mat-option value=""></mat-option>
             <mat-option *ngFor="let tag of tags"
                         value="{{tag}}">
               {{tag}}
@@ -36,7 +36,7 @@
                       matTextareaAutosize
                       matAutosizeMinRows="5"
                       matAutosizeMaxRows="10"
-                      maxlength="250"
+                      maxlength="500"
                       [formControl]="bodyForm"
                       aria-labelledby="ask-question-description"
                       autofocus
@@ -52,7 +52,7 @@
             </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{commentBody.value.length}} / 250
+                {{commentBody.value.length}} / 500
               </span>
             </mat-hint>
           </mat-form-field>
