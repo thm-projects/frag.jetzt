@@ -115,6 +115,7 @@
     "send": "Senden",
     "send-description": "Frage abschicken",
     "tag": "Tag",
+    "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf die Nummer, um die Fragen dieses anonymen Fragenstellers zu filtern.",
     "vote-down": "Frage abwerten",
