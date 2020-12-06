@@ -37,7 +37,7 @@
                       matTextareaAutosize
                       matAutosizeMinRows="5"
                       matAutosizeMaxRows="10"
-                      maxlength="500"
+                      maxlength="{{user.role === 3 ? 1000 : 500}}"
                       [formControl]="bodyForm"
                       aria-labelledby="ask-question-description"
                       autofocus
@@ -53,7 +53,7 @@
             </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{commentBody.value.length}} / 500
+                {{commentBody.value.length}} / {{user.role === 3 ? 1000 : 500}}
               </span>
             </mat-hint>
           </mat-form-field>
