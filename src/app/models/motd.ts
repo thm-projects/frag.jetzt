@@ -14,7 +14,7 @@ export class Motd {
     public isNew: boolean,
     public isRead: boolean
   ) {
-    this.date = startTimestamp.toLocaleDateString();
+    this.date = startTimestamp.toLocaleDateString("de-DE");
   }
 
   public setIsRead(isRead: boolean) {
