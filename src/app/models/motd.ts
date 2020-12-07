@@ -3,6 +3,7 @@ import { EventEmitter } from '@angular/core';
 export class Motd {
 
   public isReadEmit: EventEmitter<Motd> = new EventEmitter<Motd>();
+  public date: string;
 
   constructor(
     public id: string,
@@ -13,6 +14,7 @@ export class Motd {
     public isNew: boolean,
     public isRead: boolean
   ) {
+    this.date = startTimestamp.toLocaleDateString('de-DE');
   }
 
   public setIsRead(isRead: boolean) {
