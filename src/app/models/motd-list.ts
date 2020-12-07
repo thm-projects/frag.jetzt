@@ -34,6 +34,7 @@ export class MotdList {
       });
       list.push(motd);
     });
+    list.sort((a, b) => a.startTimestamp.getTime() - b.startTimestamp.getTime());
   }
 
   private updateLocaleRead(motd: Motd) {
