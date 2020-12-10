@@ -94,6 +94,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
+        this.userRole = this.user.role;
         if (this.userRole === 0) {
           this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
             for (const v of votes) {
@@ -103,7 +104,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
         }
       }
     });
-    this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
