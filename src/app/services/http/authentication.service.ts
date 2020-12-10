@@ -78,7 +78,13 @@ export class AuthenticationService extends BaseHttpService {
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {
       loginId: email,
       password: password
-    }, this.httpOptions), userRole, false);
+    }, this.httpOptions), userRole, false).pipe(
+      tap(x => {
+        if (x === 'true') {
+          this.eventService.broadcast('userLogin');
+        }
+      })
+    );
   }
 
   refreshLogin(): void {
@@ -111,6 +117,7 @@ export class AuthenticationService extends BaseHttpService {
             nu.details,
             user.role,
             wasGuest));
+          this.eventService.broadcast('userLogin');
         } else {
           this.logout();
         }
@@ -130,7 +137,13 @@ export class AuthenticationService extends BaseHttpService {
     if (!this.isLoggedIn()) {
       const connectionUrl: string = this.apiUrl.base + this.apiUrl.auth + this.apiUrl.login + this.apiUrl.guest;
 
-      return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), userRole, true);
+      return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, null, this.httpOptions), userRole, true).pipe(
+        tap(x => {
+          if (x === 'true') {
+            this.eventService.broadcast('userLogin');
+          }
+        })
+      );
     } else {
       return of('true');
     }

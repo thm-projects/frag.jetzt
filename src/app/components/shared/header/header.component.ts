@@ -51,6 +51,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.eventService.on('userLogin').subscribe(e => {
+      this.motdService.checkNewMessage();
+      this.motdService.requestDialog();
+    });
     if (localStorage.getItem('loggedin') !== null && localStorage.getItem('loggedin') === 'true') {
       this.authenticationService.refreshLogin();
     }
