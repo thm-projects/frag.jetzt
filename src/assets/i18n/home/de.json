@@ -94,7 +94,7 @@
     "only-numbers": "Der Raum-Code ist alphanumerisch.",
     "please-enter": "Wie heißt der Raum, wo die Sitzung stattfindet?",
     "room-name-input": "Gib hier den Namen der Sitzung ein, die du erstellen möchtest.",
-    "session-id": "Wohin geht's?",
+    "session-id": "Welcher Raum?",
     "update-available": "Eine neue Version ist verfügbar.",
     "custom-shortid": "Raum-Code selbst bestimmen?",
     "custom-shortid-placeholder": "a-z, A-Z, 0-9, - _ . ~ keine Leerzeichen",
@@ -139,7 +139,7 @@
     "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "»Haben Sie Fragen?«",
-    "welcome-feedback": "➜ Feedback an die Entwickler",
+    "welcome-feedback": "➜ Feedback für die Entwickler",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {

@@ -95,7 +95,7 @@
     "only-numbers": "The key code is alphanumeric.",
     "please-enter": "What is the key code of the room where the session takes place?",
     "room-name-input": "Enter the name of the session you want to create.",
-    "session-id": "Where to?",
+    "session-id": "Which room?",
     "update-available": "An update is available.",
     "custom-shortid": "Set the key code yourself?",
     "custom-shortid-placeholder": "a-z, A-Z, 0-9, - _ . ~ no blanks",
