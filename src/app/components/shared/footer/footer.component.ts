@@ -67,11 +67,6 @@ export class FooterComponent implements OnInit {
         dialogRef.componentInstance.motdsList = e;
       });
     });
-    this.motdService.getList().subscribe(e => {
-      if (e.containsUnreadMessage()) {
-        this.motdService.requestDialog();
-      }
-    });
     this.deviceType = localStorage.getItem('deviceType');
     if (!this.themeService.getThemeByKey(this.themeClass) || !this.themeService.getTheme()['source']['_value']) {
       if (this.deviceType === 'mobile') {
