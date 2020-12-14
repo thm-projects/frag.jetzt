@@ -29,9 +29,12 @@ export class MotdService extends BaseHttpService {
     }, 30000);
   }
 
-  public checkNewMessage(): void {
+  public checkNewMessage(runnable?: () => void): void {
     this.getList().subscribe(e => {
       this.validateNewMessage(e);
+      if (runnable && this.hasNewMessages) {
+        runnable();
+      }
     });
   }
 
@@ -57,11 +60,14 @@ export class MotdService extends BaseHttpService {
     });
   }
 
-  public onNewMessage(): Observable<boolean> {
+  public onNewMessage(run?: boolean): Observable<boolean> {
     return new Observable<boolean>(e => {
       this.newMessageTrigger.subscribe(b => {
         e.next(b);
       });
+      if (run) {
+        e.next(this.hasNewMessages);
+      }
       this.checkNewMessage();
     });
   }
