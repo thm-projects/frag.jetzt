@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+
+  analysis:
+    image: local-frag-scanner
+    build:
+      context: ..
+      dockerfile: analysis/Dockerfile
+    depends_on:
+      - sonarqube
+    networks:
+      - sonar
+    volumes:
+      - ..:/frag
+
+  sonarqube:
+    image: sonarqube:7.9.1-community
+    environment:
+      - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    ports:
+      - '9000:9000'
+    networks:
+      - sonar
+    volumes:
+      - sonar_data:/opt/sonarqube/data
+
+networks:
+  sonar:
+
+volumes:
+  sonar_data:
