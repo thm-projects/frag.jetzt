@@ -22,6 +22,17 @@ tslint:
     - npm install
     - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
 
+sonar:
+  stage: codestyle
+  # only:
+  #   - staging
+  tags:
+    - gradle-node
+  allow_failure: true
+  dependencies: []
+  script:
+    - gradle sonarqube -Dsonar.host.url=https://scm.thm.de/sonar/
+
 #unit_tests:
 #  stage: test
 #  tags:
