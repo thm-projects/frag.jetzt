@@ -14,7 +14,7 @@ table, th, tr, td {
   background-color: var(--primary-variant) !important;
   color: var(--on-surface) !important;
   hyphens: auto;
-  overflow-wrap: break-word;
+  overflow-wrap: anywhere;
 }
 
 th, tr {
