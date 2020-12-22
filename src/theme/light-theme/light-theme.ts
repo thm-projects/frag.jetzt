@@ -41,8 +41,8 @@ export const arsnova_meta = {
       'de': 'Light Mode'
     },
     'description': {
-      'en': 'Default for laptop computers',
-      'de': 'Standard für Laptops'
+      'en': '',
+      'de': ''
     }
   },
   'isDark': false,

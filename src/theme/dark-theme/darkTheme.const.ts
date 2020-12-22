@@ -41,8 +41,8 @@ export const dark_meta = {
       'de': 'Dark Mode'
     },
     'description': {
-      'en': 'Default for smartphones',
-      'de': 'Standard für Smartphones'
+      'en': '',
+      'de': ''
     }
   },
   'isDark': true,
