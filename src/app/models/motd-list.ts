@@ -4,6 +4,7 @@ export class MotdList {
 
   public messagesNew: Motd[] = [];
   public messagesOld: Motd[] = [];
+  public messages: Motd[] = [];
   private localRead: string[];
 
   constructor(
@@ -16,6 +17,10 @@ export class MotdList {
     this.localRead = JSON.parse(localStorage.getItem('motds'));
     this.parse(this.messagesNew, messagesNew, true);
     this.parse(this.messagesOld, messagesOld, false);
+    this.messages = this.messagesNew.concat(this.messagesOld);
+    this.sortList(this.messagesNew);
+    this.sortList(this.messagesOld);
+    this.sortList(this.messages);
   }
 
   private parse(list: Motd[], messages: any, isNew: boolean): void {
@@ -34,6 +39,9 @@ export class MotdList {
       });
       list.push(motd);
     });
+  }
+
+  private sortList(list: Motd[]) {
     list.sort((a, b) => b.startTimestamp.getTime() - a.startTimestamp.getTime());
   }
 

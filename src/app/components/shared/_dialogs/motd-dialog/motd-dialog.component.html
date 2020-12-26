@@ -19,16 +19,16 @@
     </ars-col>
   </ars-row>
   <ars-row class="message" ars-flex-box>
-    <ng-container *ngFor="let message of motdsList.messagesNew">
-      <app-motd-message [message]="message"></app-motd-message>
+    <ng-container *ngFor="let message of motdsList.messages">
+      <app-motd-message *ngIf="!message.isRead && message.isNew" [message]="message"></app-motd-message>
     </ng-container>
   </ars-row>
   <ars-row>
     <h4 class="container-title">{{ 'footer.motd-title-old' | translate }}</h4>
   </ars-row>
   <ars-row class="message" ars-flex-box>
-    <ng-container *ngFor="let message of motdsList.messagesOld">
-      <app-motd-message [message]="message"></app-motd-message>
+    <ng-container *ngFor="let message of motdsList.messages">
+      <app-motd-message *ngIf="message.isRead || !message.isNew" [message]="message"></app-motd-message>
     </ng-container>
   </ars-row>
   <ars-row [height]="32"></ars-row>
