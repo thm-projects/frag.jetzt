@@ -6,28 +6,28 @@
     "lang": "de",
 
     "icons": [
-        {
-            "src": "android-chrome-192x192.png?v=42",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "android-chrome-512x512.png?v=42",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "maskable_icon.png",
-            "sizes": "1024x1024",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
+                {
+                    "src": "android-chrome-192x192.png?v=2bAj838RBp",
+                    "sizes": "192x192",
+                    "type": "image/png"
+                },
+                {
+                    "src": "android-chrome-512x512.png?v=2bAj838RBp",
+                    "sizes": "512x512",
+                    "type": "image/png"
+                },
+                {
+                    "src": "maskable_icon.png",
+                    "sizes": "1024x1024",
+                    "type": "image/png",
+                    "purpose": "maskable"
+                }
     ],
 
-    "theme_color": "#03dac6",
-    "background_color": "#03dac6",
-    "scope": "/",
-    "start_url": "/home",
-    "display": "standalone",
-    "orientation": "any"
+    "theme_color": "#121212",
+        "background_color": "#121212",
+        "scope": "/",
+        "start_url": "/home",
+        "display": "standalone",
+        "orientation": "any"
 }
