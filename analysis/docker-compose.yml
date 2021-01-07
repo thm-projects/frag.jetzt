@@ -3,10 +3,12 @@ version: '3.7'
 services:
 
   analysis:
-    image: local-frag-scanner
+    image: localhost/sonarscanner-cli
     build:
       context: ..
       dockerfile: analysis/Dockerfile
+    working_dir: /frag
+    entrypoint: /frag/analysis/entrypoint.sh
     depends_on:
       - sonarqube
     networks:

@@ -54,4 +54,6 @@ if [[ $(curl -s -o /dev/null -w "%{http_code}" -u admin:admin -X POST -F 'id=2' 
 
 fi
 
-gradle sonarqube -Dsonar.host.url=http://sonarqube:9000
+npm i
+
+sonar-scanner

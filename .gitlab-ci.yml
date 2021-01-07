@@ -37,8 +37,8 @@ unit_tests:
 
 sonar:
   stage: codestyle
-  # only:
-  #   - master
+  only:
+    - master
   tags:
     - sonar-cli
   allow_failure: true
