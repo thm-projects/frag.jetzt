@@ -2,8 +2,8 @@ variables:
   BUILD_DIR: dist
 
 stages:
-  - codestyle
   - test
+  - codestyle
   - build
   - deploy
 
@@ -22,6 +22,19 @@ tslint:
     - npm install
     - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
 
+unit_tests:
+ stage: test
+ tags:
+   - nodejs
+ allow_failure: false
+ dependencies: []
+ artifacts:
+   paths:
+     - coverage
+ script:
+   - npm i
+   - npm test
+
 sonar:
   stage: codestyle
   # only:
@@ -29,22 +42,11 @@ sonar:
   tags:
     - sonar-cli
   allow_failure: true
-  dependencies: []
+  dependencies:
+    - unit_tests
   script:
     - npm i
     - sonar-scanner -Dsonar.host.url=https://scm.thm.de/sonar/
-
-#unit_tests:
-#  stage: test
-#  tags:
-#    - nodejs
-#  allow_failure: false
-#  dependencies: []
-#  variables:
-#    CHROME_BIN: /usr/bin/google-chrome
-#  script:
-#    - npm install
-#    - npm test
 
 ngbuild:
   stage: build
