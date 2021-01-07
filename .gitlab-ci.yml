@@ -37,13 +37,11 @@ unit_tests:
 
 sonar:
   stage: codestyle
-  # only:
-  #   - master
+  only:
+    - master
   tags:
     - sonar-cli
   allow_failure: true
-  variables:
-    GIT_DEPTH: 0
   dependencies:
     - unit_tests
   script:
