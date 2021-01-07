@@ -6,7 +6,7 @@
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build --prod",
-    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom",
+    "test": "ng test --watch=false --browsers=ChromeHeadlessCustom --source-map=false --code-coverage",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "extract": "ngx-translate-extract -m _ --input ./src --output ./src/assets/i18n/de.json ./src/assets/i18n/en.json --clean --sort --format namespaced-json"
@@ -55,7 +55,7 @@
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^2.0.5",
     "karma-chrome-launcher": "~2.2.0",
-    "karma-coverage-istanbul-reporter": "^1.4.3",
+    "karma-coverage-istanbul-reporter": "^3.0.3",
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.1.2",
