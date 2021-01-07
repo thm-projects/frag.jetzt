@@ -37,16 +37,18 @@ unit_tests:
 
 sonar:
   stage: codestyle
-  only:
-    - master
+  # only:
+  #   - master
   tags:
     - sonar-cli
   allow_failure: true
+  variables:
+    GIT_DEPTH: 0
   dependencies:
     - unit_tests
   script:
     - npm i
-    - sonar-scanner -Dsonar.host.url=https://scm.thm.de/sonar/
+    - sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.host.url=https://scm.thm.de/sonar/
 
 ngbuild:
   stage: build
