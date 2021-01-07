@@ -43,6 +43,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# sonar and gradle stuff
-build
-.gradle
+# code analysis
+.lcov_output
+.scannerwork

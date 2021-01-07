@@ -24,16 +24,15 @@ tslint:
 
 sonar:
   stage: codestyle
-  only:
-    - master
+  # only:
+  #   - master
   tags:
-    - gradle-node
+    - sonar-cli
   allow_failure: true
   dependencies: []
-  variables:
-    GIT_DEPTH: 0
   script:
-    - gradle sonarqube -Dsonar.host.url=https://scm.thm.de/sonar/
+    - npm i
+    - sonar-scanner -Dsonar.host.url=https://scm.thm.de/sonar/
 
 #unit_tests:
 #  stage: test
