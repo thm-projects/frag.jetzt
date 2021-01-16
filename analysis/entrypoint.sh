@@ -56,4 +56,6 @@ fi
 
 npm i
 
+npm test
+
 sonar-scanner
