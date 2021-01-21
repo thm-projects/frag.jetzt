@@ -9,6 +9,7 @@ import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
 import { Message, IMessage } from '@stomp/stompjs';
 import { Observable, Subscription, of } from 'rxjs';
+import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-room-page',
@@ -29,7 +30,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               protected location: Location,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              protected eventService: EventService
+              protected eventService: EventService,
+              public titleService: TitleService
   ) {
   }
 
@@ -64,21 +66,26 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
         this.commentService.countByRoomId(this.room.id, true)
           .subscribe(commentCounter => {
-            this.commentCounter = commentCounter;
+            this.setCommentCounter(commentCounter);
           });
         this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
         this.sub = this.commentWatch.subscribe((message: Message) => {
           const msg = JSON.parse(message.body);
           const payload = msg.payload;
           if (msg.type === 'CommentCreated') {
-            this.commentCounter = this.commentCounter + 1;
+            this.setCommentCounter(this.commentCounter + 1);
           } else if (msg.type === 'CommentDeleted') {
-            this.commentCounter = this.commentCounter - 1;
+            this.setCommentCounter(this.commentCounter - 1);
           }
         });
         this.postRoomLoadHook();
       });
     });
+  }
+
+  setCommentCounter(commentCounter: number) {
+    this.titleService.attachTitle('(' + commentCounter + ')');
+    this.commentCounter = commentCounter;
   }
 
   delete(room: Room): void {

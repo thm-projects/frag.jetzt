@@ -21,6 +21,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -49,8 +50,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               protected commentService: CommentService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
-              public eventService: EventService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService);
+              public eventService: EventService,
+              public titleService: TitleService) {
+    super(roomService, route, location, wsCommentService, commentService, eventService, titleService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
