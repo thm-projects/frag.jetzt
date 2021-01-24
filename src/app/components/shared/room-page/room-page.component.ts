@@ -31,7 +31,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
               protected eventService: EventService,
-              protected titleService: TitleService
+              protected titleService?: TitleService
   ) {
   }
 
