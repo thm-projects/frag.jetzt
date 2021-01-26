@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { RoomService } from '../../../services/http/room.service';
@@ -9,7 +9,6 @@ import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
 import { Message, IMessage } from '@stomp/stompjs';
 import { Observable, Subscription, of } from 'rxjs';
-import { TitleService } from '../../../services/util/title.service';
 
 @Component({
   selector: 'app-room-page',
@@ -24,14 +23,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected sub: Subscription;
   protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;
+  public commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
               protected location: Location,
               protected wsCommentService: WsCommentServiceService,
               protected commentService: CommentService,
-              protected eventService: EventService,
-              protected titleService?: TitleService
+              protected eventService: EventService
   ) {
   }
 
@@ -84,8 +83,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   setCommentCounter(commentCounter: number) {
-    this.titleService.attachTitle('(' + commentCounter + ')');
     this.commentCounter = commentCounter;
+    this.commentCounterEmit.emit(this.commentCounter);
   }
 
   delete(room: Room): void {

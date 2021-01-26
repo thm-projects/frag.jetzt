@@ -52,7 +52,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private _r: Renderer2,
               public eventService: EventService,
               public titleService: TitleService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService, titleService);
+    super(roomService, route, location, wsCommentService, commentService, eventService);
+    this.commentCounterEmit.subscribe(e => this.titleService.attachTitle('(' + e + ')'));
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
