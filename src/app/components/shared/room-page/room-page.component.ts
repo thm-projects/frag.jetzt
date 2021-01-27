@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, EventEmitter } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { RoomService } from '../../../services/http/room.service';
@@ -23,6 +23,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected sub: Subscription;
   protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;
+  public commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -64,21 +65,26 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
         this.commentService.countByRoomId(this.room.id, true)
           .subscribe(commentCounter => {
-            this.commentCounter = commentCounter;
+            this.setCommentCounter(commentCounter);
           });
         this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
         this.sub = this.commentWatch.subscribe((message: Message) => {
           const msg = JSON.parse(message.body);
           const payload = msg.payload;
           if (msg.type === 'CommentCreated') {
-            this.commentCounter = this.commentCounter + 1;
+            this.setCommentCounter(this.commentCounter + 1);
           } else if (msg.type === 'CommentDeleted') {
-            this.commentCounter = this.commentCounter - 1;
+            this.setCommentCounter(this.commentCounter - 1);
           }
         });
         this.postRoomLoadHook();
       });
     });
+  }
+
+  setCommentCounter(commentCounter: number) {
+    this.commentCounter = commentCounter;
+    this.commentCounterEmit.emit(this.commentCounter);
   }
 
   delete(room: Room): void {
