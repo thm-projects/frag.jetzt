@@ -37,6 +37,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   deviceType = localStorage.getItem('deviceType');
   viewModuleCount = 1;
   moderatorCommentCounter: number;
+  commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
 
   constructor(protected roomService: RoomService,
@@ -53,8 +54,16 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               public eventService: EventService,
               public titleService: TitleService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
-    this.commentCounterEmit.subscribe(e => this.titleService.attachTitle('(' + e + ')'));
+    this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
+      this.titleService.attachTitle('(' + e + ')');
+    });
     langService.langEmitter.subscribe(lang => translateService.use(lang));
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.commentCounterEmitSubscription.unsubscribe();
+    this.titleService.resetTitle();
   }
 
   ngAfterContentInit(): void {
