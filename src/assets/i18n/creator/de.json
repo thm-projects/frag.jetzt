@@ -15,6 +15,12 @@
     "a11y-not_interested": "Filtert alle verneinten Fragen",
     "a11y-search_box": "Gib deine Frage ein",
     "a11y-swap_vert": "Option Fragen zu sortieren",
+    "a11y-select-time": "Option den Zeitraum für die anzuzeigenden Kommentare einzustellen",
+    "a11y-select-time-1h": "Zeige alle Kommentare der letzten Stunde an",
+    "a11y-select-time-3h": "Zeige alle Kommentare der letzten 3 Stunden an",
+    "a11y-select-time-1d": "Zeige alle Kommentare der letzten 24 Stunden an",
+    "a11y-select-time-1w": "Zeige alle kommentare der letzten 7 Tage an",
+    "a11y-select-time-all": "Zeige alle Kommentare an",
     "add-comment": "Frage oder Mitteilung ans Publikum schreiben",
     "answered": "Beantwortete Fragen",
     "pause-comments": "Neue Fragen und Bewertungen anhalten, Sortierung stoppen. Hilft dir, Fragen in Ruhe zu lesen oder zu präsentieren.",
@@ -47,7 +53,13 @@
     "vote-desc": "Absteigende Bewertungen",
     "wrong": "Fragen, die der Vortragende oder Moderator als falsch markiert hat",
     "switch-to-comment-list": "Zur öffentlichen Fragenliste",
-    "switch-to-moderation-list": "Zum Index"
+    "switch-to-moderation-list": "Zum Index",
+    "select-time": "Zeitraum auswählen",
+    "select-time-1h": "Letzte Stunde",
+    "select-time-3h": "Letzte 2 Stunden",
+    "select-time-1d": "Letzte 24 Stunden",
+    "select-time-1w": "Letzte 7 Tage",
+    "select-time-all": "Unbegrenzt"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
