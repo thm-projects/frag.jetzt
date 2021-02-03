@@ -15,6 +15,7 @@ import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
+import { Period } from '../../shared/comment-list/comment-list.component';
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -27,6 +28,7 @@ export class ModeratorCommentListComponent implements OnInit {
   @Input() roomId: string;
   AppComponent = AppComponent;
   comments: Comment[] = [];
+  commentsFilteredByTime: Comment[] = [];
   room: Room;
   hideCommentsList = false;
   filteredComments: Comment[];
@@ -52,6 +54,8 @@ export class ModeratorCommentListComponent implements OnInit {
   searchInput = '';
   search = false;
   searchPlaceholder = '';
+  periodsList = Object.values(Period);
+  period: Period = Period.ALL;
 
   constructor(
     private commentService: CommentService,
@@ -85,8 +89,8 @@ export class ModeratorCommentListComponent implements OnInit {
     this.commentService.getRejectedComments(this.roomId)
       .subscribe(comments => {
         this.comments = comments;
+        this.setTimePeriod(this.period);
         this.isLoading = false;
-        this.sortComments(this.currentSort);
       });
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
@@ -100,13 +104,13 @@ export class ModeratorCommentListComponent implements OnInit {
   }
 
   isScrollButtonVisible(): boolean {
-    return !AppComponent.isScrolledTop() && this.comments.length > 10;
+    return !AppComponent.isScrolledTop() && this.commentsFilteredByTime.length > 10;
   }
 
   searchComments(): void {
     if (this.searchInput && this.searchInput.length > 2) {
       this.hideCommentsList = true;
-      this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
+      this.filteredComments = this.commentsFilteredByTime.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
     }
   }
 
@@ -129,7 +133,7 @@ export class ModeratorCommentListComponent implements OnInit {
         this.comments = this.comments.filter(x => x.score >= commentThreshold);
       }
     }
-    this.sortComments(this.currentSort);
+    this.setTimePeriod(this.period);
   }
 
   getVote(comment: Comment): Vote {
@@ -153,6 +157,7 @@ export class ModeratorCommentListComponent implements OnInit {
                   this.comments = this.comments.filter(function (el) {
                     return el.id !== payload.id;
                   });
+                  this.setTimePeriod(this.period);
                 }
                 switch (key) {
                   case this.read:
@@ -189,10 +194,10 @@ export class ModeratorCommentListComponent implements OnInit {
         }
         break;
     }
-
-    this.filterComments(this.currentFilter);
-    this.sortComments(this.currentSort);
-    this.searchComments();
+    this.setTimePeriod(this.period);
+    if (this.hideCommentsList) {
+      this.searchComments();
+    }
   }
 
   parseIncomingModeratorMessage(message: Message) {
@@ -210,18 +215,19 @@ export class ModeratorCommentListComponent implements OnInit {
         this.comments = this.comments.concat(c);
         break;
     }
-    this.filterComments(this.currentFilter);
-    this.sortComments(this.currentSort);
-    this.searchComments();
+    this.setTimePeriod(this.period);
+    if (this.hideCommentsList) {
+      this.searchComments();
+    }
   }
 
   filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
     if (type === '') {
-      this.filteredComments = this.comments;
+      this.filteredComments = this.commentsFilteredByTime;
       return;
     }
-    this.filteredComments = this.comments.filter(c => {
+    this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
           return c.correct === CorrectWrong.CORRECT ? 1 : 0;
@@ -263,7 +269,7 @@ export class ModeratorCommentListComponent implements OnInit {
     if (this.hideCommentsList === true) {
       this.sort(this.filteredComments, type);
     } else {
-      this.sort(this.comments, type);
+      this.sort(this.commentsFilteredByTime, type);
     }
     this.currentSort = type;
   }
@@ -276,5 +282,32 @@ export class ModeratorCommentListComponent implements OnInit {
       role = 'moderator';
     }
     this.router.navigate([`/${role}/room/${this.room.shortId}/comments`]);
+  }
+
+  setTimePeriod(period: Period) {
+    this.period = period;
+    const currentTime = new Date();
+    const hourInSeconds = 3600000;
+    let periodInSeconds;
+    if (period !== Period.ALL) {
+      switch (period) {
+        case Period.ONEHOUR:
+          periodInSeconds = hourInSeconds;
+          break;
+        case Period.THREEHOURS:
+          periodInSeconds = hourInSeconds * 2;
+          break;
+        case Period.ONEDAY:
+          periodInSeconds = hourInSeconds * 24;
+          break;
+        case Period.ONEWEEK:
+          periodInSeconds = hourInSeconds * 168;
+      }
+      this.commentsFilteredByTime = this.comments
+        .filter(c => new Date(c.timestamp).getTime() >= (currentTime.getTime() - periodInSeconds));
+    } else {
+      this.commentsFilteredByTime = this.comments;
+    }
+    this.filterComments(this.currentFilter);
   }
 }
