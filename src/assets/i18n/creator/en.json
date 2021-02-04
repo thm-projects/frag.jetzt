@@ -15,6 +15,12 @@
     "a11y-not_interested": "Filters all questions marked as wrong",
     "a11y-search_box": "Enter your question",
     "a11y-swap_vert": "Option to sort questions",
+    "a11y-select-time": "Option to set the period for the comments to be displayed",
+    "a11y-select-time-1h": "Show all comments of the last hour",
+    "a11y-select-time-3h": "Show all comments of the last 3 hours",
+    "a11y-select-time-1d": "Show all comments of the last day",
+    "a11y-select-time-1w": "Show all comments of the last week",
+    "a11y-select-time-all": "Show all comments",
     "answered": "Answered questions",
     "add-comment": "Ask a question or write a message to the audience.",
     "pause-comments": "Pause the question stream",
@@ -48,7 +54,13 @@
     "vote-desc": "Descending votes",
     "wrong": "Marked as wrong or critical",
     "switch-to-comment-list": "Switch to public question board",
-    "switch-to-moderation-list": "Switch to index"
+    "switch-to-moderation-list": "Switch to index",
+    "select-time": "Select time period",
+    "select-time-1h": "Last hour",
+    "select-time-3h": "Last 2 hours",
+    "select-time-1d": "Last 24 hours",
+    "select-time-1w": "Last 7 days",
+    "select-time-all": "Unlimited"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",

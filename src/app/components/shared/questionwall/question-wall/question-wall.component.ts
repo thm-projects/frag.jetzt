@@ -14,6 +14,7 @@ import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { CorrectWrong } from '../../../../models/correct-wrong.enum';
 import { MatSliderChange } from '@angular/material/slider';
+import { Period } from '../../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-question-wall',
@@ -27,6 +28,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
+  commentsFilteredByTime: QuestionWallComment[] = [];
   commentsFilter: QuestionWallComment[] = [];
   commentFocus: QuestionWallComment;
   unreadComments = 0;
@@ -38,11 +40,14 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   filterDesc = '';
   filterIcon = '';
   isSvgIcon = false;
+  filterFunction: (x: QuestionWallComment) => boolean;
   userMap: Map<number, number> = new Map<number, number>();
   userList = [];
   userSelection = false;
   tags;
   fontSize = 250;
+  periodsList = Object.values(Period);
+  period: Period = Period.ALL;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -80,6 +85,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       e.forEach(c => {
         const comment = new QuestionWallComment(c, true);
         this.comments.push(comment);
+        this.setTimePeriod(this.period);
       });
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
@@ -147,16 +153,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveComment(fx: number) {
-    if (this.comments.length === 0) {
+    if (this.commentsFilteredByTime.length === 0) {
       return;
     } else if (!this.commentFocus) {
-      this.focusComment(this.comments[0]);
+      this.focusComment(this.commentsFilteredByTime[0]);
     } else {
       const cursor = this.getCommentFocusIndex();
-      if (cursor + fx >= this.comments.length || cursor + fx < 0) {
+      if (cursor + fx >= this.commentsFilteredByTime.length || cursor + fx < 0) {
         return;
       } else {
-        this.focusComment(this.comments[cursor + fx]);
+        this.focusComment(this.commentsFilteredByTime[cursor + fx]);
       }
     }
   }
@@ -164,6 +170,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   pushIncommingComment(comment: Comment): QuestionWallComment {
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
+    this.setTimePeriod(this.period);
     this.unreadComments++;
     return qwComment;
   }
@@ -186,7 +193,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createUserMap() {
     this.userMap = new Map();
-    this.comments.forEach(c => {
+    this.commentsFilteredByTime.forEach(c => {
       if (!this.userMap.has(c.comment.userNumber)) {
         this.userMap.set(c.comment.userNumber, 0);
       }
@@ -252,7 +259,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.hasFilter) {
       return this.commentsFilter;
     } else {
-      return this.comments;
+      return this.commentsFilteredByTime;
     }
   }
 
@@ -294,7 +301,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isSvgIcon = isSvgIcon;
     this.filterTitle = title;
     this.filterDesc = desc;
-    this.commentsFilter = this.comments.filter(filter);
+    this.filterFunction = filter;
+    this.commentsFilter = this.commentsFilteredByTime.filter(this.filterFunction);
     this.hasFilter = true;
     setTimeout(() => this.focusFirstComment(), 0);
   }
@@ -307,6 +315,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   deactivateFilter() {
     this.hasFilter = false;
+    this.filterFunction = null;
   }
 
   toggleFilter() {
@@ -315,6 +324,35 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sliderChange(evt: MatSliderChange) {
     this.fontSize = evt.value;
+  }
+
+  setTimePeriod(period: Period) {
+    this.period = period;
+    const currentTime = new Date();
+    const hourInSeconds = 3600000;
+    let periodInSeconds;
+    if (period !== Period.ALL) {
+      switch (period) {
+        case Period.ONEHOUR:
+          periodInSeconds = hourInSeconds;
+          break;
+        case Period.THREEHOURS:
+          periodInSeconds = hourInSeconds * 2;
+          break;
+        case Period.ONEDAY:
+          periodInSeconds = hourInSeconds * 24;
+          break;
+        case Period.ONEWEEK:
+          periodInSeconds = hourInSeconds * 168;
+      }
+      this.commentsFilteredByTime = this.comments
+        .filter(c => new Date(c.date).getTime() >= (currentTime.getTime() - periodInSeconds));
+    } else {
+      this.commentsFilteredByTime = this.comments;
+    }
+    if (this.filterFunction) {
+      this.filter(this.filterIcon, this.isSvgIcon, this.filterTitle, this.filterDesc, this.filterFunction);
+    }
   }
 
 }

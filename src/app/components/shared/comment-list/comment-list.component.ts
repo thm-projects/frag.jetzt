@@ -24,11 +24,20 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
 
+export enum Period {
+  ONEHOUR = 'time-1h',
+  THREEHOURS = 'time-3h',
+  ONEDAY = 'time-1d',
+  ONEWEEK = 'time-1w',
+  ALL = 'time-all'
+}
+
 @Component({
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
 })
+
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
@@ -36,6 +45,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   shortId: string;
   AppComponent = AppComponent;
   comments: Comment[] = [];
+  commentsFilteredByTime: Comment[] = [];
   room: Room;
   hideCommentsList = false;
   filteredComments: Comment[];
@@ -70,6 +80,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   newestComment: string;
   freeze = false;
   commentStream: Subscription;
+  periodsList = Object.values(Period);
+  period: Period = Period.ALL;
 
   constructor(
     private commentService: CommentService,
@@ -162,7 +174,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.searchInput) {
       if (this.searchInput.length > 1) {
         this.hideCommentsList = true;
-        this.filteredComments = this.comments.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
+        this.filteredComments = this.commentsFilteredByTime.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
       }
     } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
@@ -193,7 +205,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.setComments(this.comments.filter(x => x.score >= commentThreshold));
       }
     }
-    this.sortComments(this.currentSort);
+    this.setTimePeriod(this.period);
   }
 
   getVote(comment: Comment): Vote {
@@ -220,8 +232,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
 
         this.announceNewComment(c.body);
-
-        this.setComments(this.comments.concat(c));
+        this.comments = this.comments.concat(c);
+        this.setComments(this.comments);
         break;
       case 'CommentPatched':
         // ToDo: Use a map for comments w/ key = commentId
@@ -250,9 +262,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 case this.ack:
                   const isNowAck = <boolean>value;
                   if (!isNowAck) {
-                    this.setComments(this.comments.filter(function (el) {
+                    this.comments = this.comments.filter(function (el) {
                       return el.id !== payload.id;
-                    }));
+                    });
+                    this.setTimePeriod(this.period);
                   }
                   break;
                 case this.tag:
@@ -282,9 +295,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
         }
         break;
     }
-    this.filterComments(this.currentFilter);
-    this.sortComments(this.currentSort);
-    this.searchComments();
+    this.setTimePeriod(this.period);
+    if (this.hideCommentsList) {
+      this.searchComments();
+    }
   }
 
   openCreateDialog(): void {
@@ -339,12 +353,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
   filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
     if (type === '') {
-      this.filteredComments = this.comments;
+      this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
       this.currentFilter = '';
       return;
     }
-    this.filteredComments = this.comments.filter(c => {
+    this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
           return c.correct === CorrectWrong.CORRECT ? 1 : 0;
@@ -387,7 +401,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.hideCommentsList === true) {
       this.filteredComments = this.sort(this.filteredComments, type);
     } else {
-      this.setComments(this.sort(this.comments, type));
+      this.setComments(this.sort(this.commentsFilteredByTime, type));
     }
     this.currentSort = type;
   }
@@ -432,8 +446,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   setComments(comments: Comment[]) {
-    this.titleService.attachTitle('(' + comments.length + ')');
-    this.comments = comments;
+    this.commentsFilteredByTime = comments;
+    this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
 
   /**
@@ -453,5 +467,33 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
       this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */ });
     }, 450);
+  }
+
+  setTimePeriod(period: Period) {
+    this.period = period;
+    const currentTime = new Date();
+    const hourInSeconds = 3600000;
+    let periodInSeconds;
+    if (period !== Period.ALL) {
+      switch (period) {
+        case Period.ONEHOUR:
+          periodInSeconds = hourInSeconds;
+          break;
+        case Period.THREEHOURS:
+          periodInSeconds = hourInSeconds * 2;
+          break;
+        case Period.ONEDAY:
+          periodInSeconds = hourInSeconds * 24;
+          break;
+        case Period.ONEWEEK:
+          periodInSeconds = hourInSeconds * 168;
+      }
+      this.commentsFilteredByTime = this.comments
+        .filter(c => new Date(c.timestamp).getTime() >= (currentTime.getTime() - periodInSeconds));
+    } else {
+      this.commentsFilteredByTime = this.comments;
+    }
+    this.filterComments(this.currentFilter);
+    this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
 }

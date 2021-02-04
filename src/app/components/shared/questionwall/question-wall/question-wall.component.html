@@ -36,9 +36,22 @@
               <span>{{tag}}</span>
             </button>
           </mat-menu>
+          <mat-menu #timeMenu="matMenu" xPosition="before">
+            <div *ngFor="let periodItem of periodsList">
+              <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period"
+                      [ngClass]="{'selected': periodItem === period}"
+                      aria-labelledby="{{periodItem}}">
+                <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
+              </button>
+            </div>
+          </mat-menu>
           <button ars-btn [mat-menu-trigger-for]="sortMenu" matRipple aria-labelledby="sort-lbl">
             <i>sort</i>
             <p>{{'question-wall.sort' | translate}}</p>
+          </button>
+          <button ars-btn [mat-menu-trigger-for]="timeMenu" matRipple aria-labelledby="filter-time">
+            <i>access_time</i>
+            <p>{{'question-wall.time-period' | translate}}</p>
           </button>
           <button ars-btn [mat-menu-trigger-for]="filterMenu" matRipple aria-labelledby="filter-lbl">
             <i>filter_list</i>
@@ -145,14 +158,14 @@
 
         <ars-row *ngIf="!userSelection">
 
-          <ars-fill *ngIf="(hasFilter?commentsFilter:comments).length==0"
+          <ars-fill *ngIf="(hasFilter?commentsFilter:commentsFilteredByTime).length==0"
                    style="float:left;">
             <p class="questionwall-present-introduction-desc">
               {{'question-wall.no-result' | translate}}
             </p>
           </ars-fill>
 
-          <ars-row *ngFor="let comment of hasFilter?commentsFilter:comments"
+          <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
                    class="questionwall-comment-anchor"
                    style="float:left;">
             <ars-row style="box-sizing:border-box;padding:8px;">
@@ -270,6 +283,7 @@
   <div id="sort-lbl-old">{{'question-wall.sort-lbl-old' | translate}}</div>
   <div id="sort-lbl-rating">{{'question-wall.sort-lbl-rating' | translate}}</div>
   <div id="filter-lbl">{{'question-wall.filter-lbl' | translate}}</div>
+  <div id="filter-time">{{'question-wall.filter-time' | translate}}</div>
   <div id="filter-lbl-favorites">{{'question-wall.filter-lbl-favorites' | translate}}</div>
   <div id="filter-lbl-approved">{{'question-wall.filter-lbl-approved' | translate}}</div>
   <div id="filter-lbl-disapproved">{{'question-wall.filter-lbl-disapproved' | translate}}</div>
