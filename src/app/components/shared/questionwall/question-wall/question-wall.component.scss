@@ -90,6 +90,10 @@
         color: var(--ars-header-color);
         line-height: 22px;
         white-space: normal;
+
+        hr {
+          border: 1px solid var(--ars-header-color);
+        }
       }
 
       &-btn {
@@ -262,6 +266,10 @@
   .questionwall-present-markdown {
     max-width: 100%;
     color: yellow;
+
+    hr {
+      border: 2px solid yellow;
+    }
 
     img {
       width: 100% !important;
