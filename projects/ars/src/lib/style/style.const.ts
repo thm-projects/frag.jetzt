@@ -1,19 +1,19 @@
 export const light = {
-  'ars-header-color': '#212121',
-  'ars-paragraph-color': '#3f3f3f',
-  'ars-button-color': '#000000',
-  'ars-button-color-light': '#000000',
-  'ars-background-color': 'Moccasin',
-  'ars-foreground-color': '#fffde7',
-  'ars-border-color': '#fffde7'
+  'ars-header-color': '#eadabf',
+  'ars-paragraph-color': '#eadabf',
+  'ars-button-color': '#eadabf',
+  'ars-button-color-light': '#eadabf',
+  'ars-background-color': '#09394f',
+  'ars-foreground-color': '#09394f',
+  'ars-border-color': '#09394f'
 };
 
 export const dark = {
-  'ars-header-color': '#212121',
-  'ars-paragraph-color': '#3f3f3f',
-  'ars-button-color': '#000000',
-  'ars-button-color-light': '#000000',
-  'ars-background-color': 'Moccasin',
-  'ars-foreground-color': '#fffde7',
-  'ars-border-color': '#fffde7'
+  'ars-header-color': '#eadabf',
+  'ars-paragraph-color': '#eadabf',
+  'ars-button-color': '#eadabf',
+  'ars-button-color-light': '#eadabf',
+  'ars-background-color': '#09394f',
+  'ars-foreground-color': '#09394f',
+  'ars-border-color': '#09394f'
 };
