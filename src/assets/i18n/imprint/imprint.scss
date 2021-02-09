@@ -20,3 +20,8 @@ a {
   text-decoration: underline;
   hyphens: manual;
 }
+
+a[target="_blank"]:after {
+  font-size: 12px;
+  content: " ↗";
+}
