@@ -49,7 +49,7 @@
     "abort": "Abbrechen",
     "accessibility-back": "Führt zur vorherigen Seite",
     "accessibility-login": "Öffnet das Anmeldungs-Fenster.",
-    "accessibility-session": "Öffnet das Sitzungs-Menü. Hier kannst du deine besuchten Sitzungen einsehen oder dich von deinem Konto abmelden.",
+    "accessibility-session": "Öffnet das Options-Menü. Hier kannst du deine besuchten Sitzungen einsehen oder die aktuelle Sitzung verlassen.",
     "account-deleted": "Dein Konto wurde gelöscht.",
     "back": "Zurück",
     "cancel": "Abbrechen",
@@ -59,7 +59,7 @@
     "id": "Code",
     "logged-out": "Du bist jetzt abgemeldet.",
     "login": "Anmelden",
-    "logout": "Abmelden",
+    "logout": "Sitzung verlassen",
     "moderation-enabled": "Die Sitzung wird moderiert.",
     "QR": "QR-Code der Sitzung in Vollansicht",
     "my-account": "Optionen",
@@ -121,7 +121,7 @@
     "email-required": "E-Mail-Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
     "guest-login-description": "Als Gast anmelden",
-    "guest-login-tooltip": "Als Gast erstellte Sitzungen werden nach dem Abmelden wieder gelöscht. Mit einem Konto erstellte Sitzungen werden nach dem letzten Besuch für 180 Tage gespeichert.",
+    "guest-login-tooltip": "Als Gast erstellte Sitzungen werden nach Verlassen der Sitzung wieder gelöscht. Mit einem Konto erstellte Sitzungen werden nach dem letzten Besuch für 180 Tage gespeichert.",
     "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
@@ -203,7 +203,7 @@
   },
   "remind-of-tokens": {
     "cancel": "Zu meinen Tokens",
-    "logout": "Abmelden"
+    "logout": "Sitzung verlassen"
   },
   "room-create": {
     "cancel": "Abbrechen",
