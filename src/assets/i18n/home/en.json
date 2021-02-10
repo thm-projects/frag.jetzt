@@ -63,7 +63,7 @@
     "logout": "Log out",
     "moderation-enabled": "The session will be moderated.",
     "QR": "QR code of the session in full view",
-    "my-account": "Account",
+    "my-account": "Options",
     "my-guest-account": "Guest Account",
     "my-sessions": "Sessions",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus tokens.",
@@ -81,7 +81,7 @@
   "home-page": {
     "accessibility-create": "Create a new session",
     "accessibility-join-button": "Enter the session with the specified session key.",
-    "create-session": "Book a room?",
+    "create-session": "Create a room",
     "created-1": "Session »",
     "created-2": "« created",
     "exactly-8": "A key has exactly 8 digits.",
@@ -268,9 +268,9 @@
     "cancel-description": "Cancel"
   },
   "user-bonus-token": {
-    "header": "Tokens for bonus stars",
+    "header": "Redeem stars for bonus",
     "no-bonus": "You haven't received a bonus star for a good question yet.",
-    "redeem-tokens": "Redeem tokens",
+    "redeem-tokens": "Redeem stars by mail",
     "mail-subject": "Request%20to%20redeem%20my%20tokens%20from%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
     "mail-body-1": "Hello%2C%0D%0A%0D%0Ai%20have%20received%20the%20following%20tokens%20today%20in%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
     "mail-body-2": "%C2%AB%20with%20the%20session%20code%20%C2%BB",
