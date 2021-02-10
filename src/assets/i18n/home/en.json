@@ -50,7 +50,7 @@
     "abort": "Cancel",
     "accessibility-back": "Go back to the previous page",
     "accessibility-login": "Open the login window",
-    "accessibility-session": "Open the session menu. Here you can view the sessions you have attended or log out of your account.",
+    "accessibility-session": "Open the session menu. Here you can view the sessions you have attended or leave the current session.",
     "account-deleted": "Your account has been deleted.",
     "back": "Back",
     "cancel": "Cancel",
@@ -60,12 +60,12 @@
     "id": "Key",
     "logged-out": "You are logged out now.",
     "login": "Login",
-    "logout": "Log out",
+    "logout": "Leave session",
     "moderation-enabled": "The session will be moderated.",
     "QR": "QR code of the session in full view",
     "my-account": "Options",
     "my-guest-account": "Guest Account",
-    "my-sessions": "Sessions",
+    "my-sessions": "Go to session list",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus tokens.",
     "sure": "Are you sure?",
     "user-bonus-token": "Your stars",
@@ -205,7 +205,7 @@
   },
   "remind-of-tokens": {
     "cancel": "To my tokens",
-    "logout": "Log out"
+    "logout": "Leave session"
   },
   "room-create": {
     "cancel": "Cancel",
