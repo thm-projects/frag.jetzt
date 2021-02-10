@@ -57,7 +57,7 @@
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="timeMenu"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
-      <mat-icon class="searchBarIcon">access_time</mat-icon>
+      <mat-icon class="searchBarIcon">history</mat-icon>
     </button>
 
     <button mat-icon-button
@@ -75,7 +75,7 @@
             matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="sortComments(time)"
             aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">access_time</mat-icon>
+      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">history</mat-icon>
       <span>{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
 
