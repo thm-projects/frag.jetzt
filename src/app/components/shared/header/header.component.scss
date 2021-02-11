@@ -9,6 +9,10 @@ mat-toolbar {
   position: relative;
 }
 
+mat-toolbar-row {
+  padding: 0 5px;
+}
+
 .header-icons {
   color: var(--on-surface);
 }
