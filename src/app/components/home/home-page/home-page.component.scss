@@ -11,16 +11,16 @@
   text-align: center;
   letter-spacing: 7px;
   color: var(--secondary);
-  animation: moveInLeft 2s ease-out;
+  animation: moveInLeft 3s ease;
 }
 
 .main-heading-secondary {
   display: block;
   font-weight: bold;
-  font-size: 60%;
+  font-size: 80%;
   text-align: center;
   color: var(--primary);
-  animation: moveInRight 1.5s ease-out;
+  animation: moveInRight 3.0s ease;
 }
 
 .feedback {
