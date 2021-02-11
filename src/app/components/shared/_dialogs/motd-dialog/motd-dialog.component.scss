@@ -8,7 +8,7 @@
   }
   .container{
     width:100%;
-    height:calc( 100% - 115px ) !important;
+    height:calc( 100% - 200px ) !important;
     .message{
       app-motd-message{
         margin-bottom:25px;
@@ -18,7 +18,7 @@
       }
     }
     &-title{
-      font-weight:lighter;
+      font-weight: normal;
       margin-left:1px;
     }
   }
