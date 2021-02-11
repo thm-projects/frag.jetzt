@@ -12,9 +12,5 @@
   padding-right: 10px;
   padding-left: 10px;
   transform: scale(2);
-}
-
-#new_session-button:focus {
-  background: var(--on-surface);
-  color: var(--surface);
+  color: var(--secondary);
 }
