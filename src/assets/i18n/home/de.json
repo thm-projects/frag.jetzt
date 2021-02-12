@@ -253,7 +253,7 @@
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der Sitzung (Raum-Code wird generiert)"
+    "session-name": "Sitzungsname (Code wird generiert)"
   },
   "user-activation": {
     "activate": "Aktivieren",
