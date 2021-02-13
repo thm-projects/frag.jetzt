@@ -221,10 +221,10 @@ a {
 }
 
 .mat-tab-label-active, .mat-tab-label {
-  color: var(--on-surface);
-  background-color: var(--surface);
+  color: var(--on-dialog) !important;
+  background-color: var(--dialog) !important;
 }
 
 .mat-ink-bar {
-  background-color: var(--primary);
+  background-color: var(--primary) !important;
 }
