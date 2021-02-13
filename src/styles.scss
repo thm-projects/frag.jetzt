@@ -236,3 +236,7 @@ a {
   border-color: var(--on-primary);
   background-color: var(--primary);
 }
+
+.mat-form-field-label, .mat-hint {
+  color: black !important;
+}
