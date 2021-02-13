@@ -42,12 +42,6 @@ mat-icon {
   margin-right: 5px;
 }
 
-.mat-tab-label-active, .mat-tab-label {
-  color: var(--on-primary) !important;
-  background-color: var(--primary) !important;
+.border-answer {
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12), -4px 0 0 0 var(--primary);
 }
-
-.mat-ink-bar {
-  background-color: var(--secondary) !important;
-}
-

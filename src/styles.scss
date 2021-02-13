@@ -217,12 +217,13 @@ a {
 }
 
 .mat-form-field-label, .mat-hint {
-  color: black !important;
+  color: var(--on-dialog) !important;
 }
 
 .mat-tab-label-active, .mat-tab-label {
   color: var(--on-dialog) !important;
   background-color: var(--dialog) !important;
+  opacity: 1.0 !important;
 }
 
 .mat-ink-bar {
