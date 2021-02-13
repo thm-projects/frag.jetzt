@@ -180,26 +180,7 @@ a {
   height: 60px !important;
 }
 
-/* label style */
-.mat-tab-label {
-  background: var(--dialog);
-  color: var(--on-dialog);
-}
 
-/* focus style */
-.mat-tab-group.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
-.mat-tab-group.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus,
-.mat-tab-nav-bar.mat-primary .mat-tab-label:not(.mat-tab-disabled):focus,
-.mat-tab-nav-bar.mat-primary .mat-tab-link:not(.mat-tab-disabled):focus {
-  background: var(--dialog);
-}
-
-/* ink bar style */
-.mat-tab-group.mat-primary .mat-ink-bar,
-.mat-tab-nav-bar.mat-primary .mat-ink-bar {
-  background: var(--primary);
-  height: 3px;
-}
 
 .mat-menu-item {
   outline: none !important;
