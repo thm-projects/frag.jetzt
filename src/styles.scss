@@ -219,3 +219,12 @@ a {
 .mat-form-field-label, .mat-hint {
   color: black !important;
 }
+
+.mat-tab-label-active, .mat-tab-label {
+  color: var(--on-surface);
+  background-color: var(--surface);
+}
+
+.mat-ink-bar {
+  background-color: var(--primary);
+}
