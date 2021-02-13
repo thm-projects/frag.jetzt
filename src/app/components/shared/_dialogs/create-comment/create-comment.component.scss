@@ -93,8 +93,8 @@ mat-hint {
 }
 
 .mat-tab-label-active, .mat-tab-label {
-  color: var(--on-surface);
-  opacity: 1!important;
+  color: var(--on-surface) !important;
+  background-color: var(--surface) !important;
 }
 
 .mat-ink-bar {
