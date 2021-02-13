@@ -92,12 +92,11 @@ mat-hint {
   color: var(--primary);
 }
 
-::ng-deep .mat-tab-label-active,
-::ng-deep .mat-tab-label {
+.mat-tab-label-active, .mat-tab-label {
   color: var(--on-surface);
   opacity: 1!important;
 }
 
-::ng-deep .mat-ink-bar {
+.mat-ink-bar {
   background-color: var(--primary) !important;
 }

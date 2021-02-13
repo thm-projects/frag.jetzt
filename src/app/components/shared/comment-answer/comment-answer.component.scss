@@ -42,7 +42,7 @@ mat-icon {
   margin-right: 5px;
 }
 
-.mat-tab-label {
+.mat-tab-label-active, .mat-tab-label {
   color: var(--on-primary) !important;
   background-color: var(--primary) !important;
 }
