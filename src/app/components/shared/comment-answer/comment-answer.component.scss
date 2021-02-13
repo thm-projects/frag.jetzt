@@ -42,12 +42,12 @@ mat-icon {
   margin-right: 5px;
 }
 
-::ng-deep .mat-tab-label {
+.mat-tab-label {
   color: var(--on-primary) !important;
   background-color: var(--primary) !important;
 }
 
-::ng-deep .mat-ink-bar {
+.mat-ink-bar {
   background-color: var(--secondary) !important;
 }
 
