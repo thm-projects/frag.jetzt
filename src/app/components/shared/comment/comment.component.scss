@@ -64,13 +64,13 @@ mat-card-content > :first-child {
 .score {
   text-align: center;
   margin: 0;
-  color: var(--on-surface);
+  color: var(--primary);
   font-size: 24px;
   font-weight: bold;
 }
 
 .scoreCreator {
-  color: var(--on-surface);
+  color: var(--primary);
   margin: 0 10px 0 10px;
   font-size: 24px;
   font-weight: bold;
@@ -120,7 +120,7 @@ mat-card-content > :first-child {
 }
 
 .gavel {
-  color: var(--primary);
+  color: var(--primary) !important;
 }
 
 .moderator {
