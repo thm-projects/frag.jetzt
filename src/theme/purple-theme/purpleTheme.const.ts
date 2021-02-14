@@ -9,7 +9,7 @@ export const purple = {
   '--background': 'beige',
   '--surface': 'white',
   '--dialog': 'white',
-  '--cancel': '#e0e0e0',
+  '--cancel': 'Firebrick',
   '--alt-surface': '#eeeeee',
   '--alt-dialog': '#eeeeee',
 
@@ -18,10 +18,11 @@ export const purple = {
   '--on-background': 'black',
   '--on-surface': 'black',
   '--on-dialog': 'black',
-  '--on-cancel': '#000000',
+  '--on-cancel': '#ffffff',
 
   '--green': 'green',
-  '--red': '#ff8a80',
+  '--red': 'Firebrick',
+  '--white': '#ffffff',
   '--yellow': 'red',
   '--blue': 'blue',
   '--purple': 'purple',
@@ -41,7 +42,7 @@ export const purple_meta = {
       'de': 'Beamer'
     },
     'description': {
-      'en': 'Optimized for the classroom',
+      'en': 'Optimized for canvas',
       'de': 'Optimiert für die Leinwand'
     }
   },
