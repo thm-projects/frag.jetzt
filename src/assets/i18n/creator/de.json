@@ -292,7 +292,7 @@
     "create-session": "Speichern",
     "description": "Beschreibung",
     "max-ls": "Maximale Anzahl Zeichen:",
-    ": "Name der Sitzung",
+    "session-name": "Name der neuen Sitzung",
     "preview": "Ansicht"
   }
 }
