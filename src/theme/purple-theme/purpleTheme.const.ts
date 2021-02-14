@@ -1,6 +1,6 @@
 export const purple = {
 
-  '--primary' : 'Maroon',
+  '--primary' : '#00324a',
   '--primary-variant': 'white',
 
   '--secondary': '#ff4500',
