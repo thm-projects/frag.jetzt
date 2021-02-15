@@ -23,7 +23,7 @@
     "a11y-select-time-all": "Zeige alle Kommentare an",
     "add-comment": "Frage oder Mitteilung ans Publikum schreiben …",
     "answered": "Beantwortete Fragen",
-    "pause-comments": "Neue Fragen und Bewertungen anhalten, Sortierung stoppen. Hilft dir, Fragen in Ruhe zu lesen oder zu präsentieren.",
+    "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen oder zu präsentieren. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Strom wurde gestartet.",
