@@ -20,6 +20,7 @@
     "a11y-select-time-3h": "Zeige alle Kommentare der letzten 3 Stunden an",
     "a11y-select-time-1d": "Zeige alle Kommentare der letzten 24 Stunden an",
     "a11y-select-time-1w": "Zeige alle kommentare der letzten 7 Tage an",
+    "a11y-select-time-2w": "Zeige alle kommentare der letzten 14 Tage an",
     "a11y-select-time-all": "Zeige alle Kommentare an",
     "answered": "Beantwortete Fragen",
     "add-comment": "Stell deine Frage!",
@@ -60,6 +61,7 @@
     "select-time-3h": "Letzte 2 Stunden",
     "select-time-1d": "Letzte 24 Stunden",
     "select-time-1w": "Letzte 7 Tage",
+    "select-time-2w": "Letzte 14 Tage",
     "select-time-all": "Unbegrenzt"
   },
   "content": {

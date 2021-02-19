@@ -29,7 +29,8 @@
     "a11y-select-time-1h": "Show all comments of the last hour",
     "a11y-select-time-3h": "Show all comments of the last 3 hours",
     "a11y-select-time-1d": "Show all comments of the last day",
-    "a11y-select-time-1w": "Show all comments of the last week",
+    "a11y-select-time-1w": "Show all comments of the last 7 days",
+    "a11y-select-time-2w": "Show all comments of the last 14 days",
     "a11y-select-time-all": "Show all comments",
     "answered": "Answered questions",
     "add-comment": "Ask a question!",
@@ -70,6 +71,7 @@
     "select-time-3h": "Last 2 hours",
     "select-time-1d": "Last 24 hours",
     "select-time-1w": "Last 7 days",
+    "select-time-2w": "Last 14 days",
     "select-time-all": "Unlimited"
   },
   "content": {
