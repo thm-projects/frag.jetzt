@@ -29,6 +29,7 @@ export enum Period {
   THREEHOURS = 'time-3h',
   ONEDAY = 'time-1d',
   ONEWEEK = 'time-1w',
+  TWOWEEKS = 'time-2w',
   ALL = 'time-all'
 }
 
@@ -356,6 +357,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
       this.currentFilter = '';
+      this.sortComments(this.currentSort);
       return;
     }
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
@@ -487,6 +489,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
           break;
         case Period.ONEWEEK:
           periodInSeconds = hourInSeconds * 168;
+          break;
+        case Period.TWOWEEKS:
+          periodInSeconds = hourInSeconds * 336;
+          break;
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >= (currentTime.getTime() - periodInSeconds));

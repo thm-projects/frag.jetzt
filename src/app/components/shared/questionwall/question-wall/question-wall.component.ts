@@ -344,6 +344,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
           break;
         case Period.ONEWEEK:
           periodInSeconds = hourInSeconds * 168;
+          break;
+        case Period.TWOWEEKS:
+          periodInSeconds = hourInSeconds * 336;
+          break;
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.date).getTime() >= (currentTime.getTime() - periodInSeconds));
