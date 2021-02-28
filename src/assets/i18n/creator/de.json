@@ -135,7 +135,7 @@
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
     "write-comment": "Eingabe",
-    "preview-comment": "Ansicht",
+    "preview-comment": "Vorschau",
     "show-more": "Mehr ansehen",
     "show-less": "Weniger anzeigen",
     "edit-delete": "Frage löschen",
@@ -258,7 +258,7 @@
     "room-not-found": "Sitzung wurde nicht gefunden (",
     "session-id": "Raum",
     "session-id-copied": "Direktlink wurde in die Zwischenablage kopiert.",
-    "session-settings": "Sitzungs-Verwaltung",
+    "session-settings": "Sitzungsverwaltung",
     "session-question-board": "Zum öffentlichen Fragenboard",
     "session-moderation-board": "Zum Index der verbannten Fragen",
     "settings-comment-moderation": "Fragen moderieren",
@@ -295,6 +295,6 @@
     "description": "Beschreibung",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung",
-    "preview": "Ansicht"
+    "preview": "Vorschau"
   }
 }
