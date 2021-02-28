@@ -277,7 +277,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterUserByNumber(user: number) {
-    this.filter('person', false, 'question-wall.filter-user', user + '',
+    this.filter('person_pin_circle', false, 'question-wall.filter-user', user + '',
       x => x.comment.userNumber === user);
   }
 

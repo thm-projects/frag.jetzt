@@ -62,7 +62,7 @@
             <p>{{'question-wall.filter-tag' | translate}}</p>
           </button>
           <button ars-btn (click)="openUserMap()" matRipple aria-labelledby="user-lbl">
-            <i>person</i>
+            <i>person_pin_circle</i>
             <p>{{'question-wall.filter-user'| translate}}</p>
           </button>
         </ars-col>
@@ -77,7 +77,7 @@
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
-              <i class="questionwall-icon questionwall-present-meta-icon">person</i>
+              <i class="questionwall-icon questionwall-present-meta-icon">person_pin_circle</i>
               <h2 class="questionwall-present-meta-user">{{commentFocus.comment.userNumber}}</h2>
               <h2 class="questionwall-present-meta-timestamp">{{commentFocus.timeAgo}}</h2>
             </ars-row>
@@ -176,7 +176,7 @@
                          (click)="focusComment(comment)"
                          style="box-sizing:border-box;padding:16px;cursor:pointer">
                   <ars-col class="questionwall-comment-meta">
-                    <i class="questionwall-icon">person</i>
+                    <i class="questionwall-icon">person_pin_circle</i>
                     <p (click)="filterUser(comment);" class="questionwall-comment-user" matRipple>{{comment.comment.userNumber}}</p>
                     <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
                   </ars-col>
@@ -225,7 +225,7 @@
               </ars-col>
               <ars-col ars-btn-wrp [xp]="24" [extra]="true">
                 <button ars-btn class="pseudo-button">
-                  <i>person</i>
+                  <i>person_pin_circle</i>
                   <p>{{'question-wall.filter-user' | translate}}</p>
                 </button>
               </ars-col>
