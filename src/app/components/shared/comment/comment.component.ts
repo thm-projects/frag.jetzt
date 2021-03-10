@@ -210,6 +210,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.commentService.toggleAck(comment).subscribe(c => this.comment = c);
   }
 
+  setBookmark(comment: Comment): void {
+    this.commentService.toggleBookmark(comment).subscribe(c => this.comment = c);
+  }
+
   goToFullScreen(element: Element): void {
     Rescale.requestFullscreen();
   }
