@@ -11,7 +11,7 @@ export class Comment {
   correct: CorrectWrong;
   favorite: boolean;
   timestamp: Date;
-  bookmark: boolean; 
+  bookmark: boolean;
   score: number;
   createdFromLecturer: boolean;
   highlighted: boolean;
@@ -28,7 +28,7 @@ export class Comment {
               correct: CorrectWrong = CorrectWrong.NULL,
               favorite: boolean = false,
               creationTimestamp: Date = null,
-              bookmark: boolean = false, 
+              bookmark: boolean = false,
               score: number = 0,
               createdFromLecturer = false,
               highlighted: boolean = false,
@@ -44,7 +44,7 @@ export class Comment {
     this.read = read;
     this.correct = correct;
     this.favorite = favorite;
-    this.bookmark = bookmark; 
+    this.bookmark = bookmark;
     this.timestamp = creationTimestamp;
     this.score = score;
     this.createdFromLecturer = createdFromLecturer;

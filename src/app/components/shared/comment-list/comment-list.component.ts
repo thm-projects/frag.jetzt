@@ -257,8 +257,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
                     });
                   }
                   break;
-                case this.bookmark: 
-                  this.comments[i].bookmark = <boolean>value; 
+                case this.bookmark:
+                  this.comments[i].bookmark = <boolean>value;
                   break;
                 case 'score':
                   this.comments[i].score = <number>value;
@@ -372,7 +372,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
-        case this.bookmark: 
+        case this.bookmark:
           return c.bookmark;
         case this.read:
           return c.read;
