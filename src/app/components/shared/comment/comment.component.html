@@ -15,11 +15,11 @@
       <div class="date-container">
         <div class="date"
              *ngIf="language === 'de'; else englishDate">
-          {{comment.timestamp | date: ' dd.MM.yy | HH:mm '}}
+          {{comment.timestamp | date: ' dd.MM.yy HH:mm '}}
         </div>
         <ng-template class="date"
                      #englishDate>
-          {{comment.timestamp | date: ' M/d/yy | h:mm a '}}
+          {{comment.timestamp | date: ' M/d/yy h:mm a '}}
         </ng-template>
       </div>
       <button mat-icon-button
