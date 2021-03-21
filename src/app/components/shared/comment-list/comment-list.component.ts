@@ -64,6 +64,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   correct = 'correct';
   wrong = 'wrong';
   ack = 'ack';
+  bookmark = 'bookmark';
   tag = 'tag';
   userNumber = 'userNumber';
   answer = 'answer';
@@ -256,6 +257,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
                     });
                   }
                   break;
+                case this.bookmark:
+                  this.comments[i].bookmark = <boolean>value;
+                  break;
                 case 'score':
                   this.comments[i].score = <number>value;
                   this.getComments();
@@ -368,6 +372,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
+        case this.bookmark:
+          return c.bookmark;
         case this.read:
           return c.read;
         case this.unread:

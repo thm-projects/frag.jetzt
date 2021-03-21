@@ -80,6 +80,17 @@
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
           </mat-icon>
         </button>
+        <button mat-icon-button
+                *ngIf="(!isStudent || comment.bookmark) && !moderator"
+                [disabled]="isStudent"
+                (click)="setBookmark(comment)"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+                <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}"
+                [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
+                                                      : ('comment-page.mark-not-bookmark' | translate)">bookmark
+                </mat-icon>
+        </button>
       </ng-container>
       <ng-container *ngIf="!isStudent">
         <button mat-icon-button
@@ -159,6 +170,24 @@
               !comment.favorite ?
                 ('comment-page.edit-favorite' | translate) :
                 ('comment-page.edit-favorite-reset' | translate)
+              }}
+            </span>
+          </button>
+          <button mat-menu-item
+                  *ngIf="(!isStudent || comment.bookmark) && !moderator"
+                  [disabled]="isStudent"
+                  (click)="setBookmark(comment)"
+                  tabindex="0"
+                  attr.aria-labelledby="comment_grade{{ comment.id }}"
+          >
+            <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}">
+              bookmark
+            </mat-icon>
+            <span>
+              {{
+              !comment.bookmark ?
+                ('comment-page.edit-bookmark' | translate) :
+                ('comment-page.edit-bookmark-reset' | translate)
               }}
             </span>
           </button>

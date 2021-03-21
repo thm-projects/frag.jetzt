@@ -60,6 +60,13 @@ export class CommentService extends BaseHttpService {
     return this.patchComment(comment, changes);
   }
 
+  toggleBookmark(comment: Comment): Observable<Comment> {
+    comment.bookmark = !comment.bookmark;
+    const changes = new TSMap<string, any>();
+    changes.set('bookmark', comment.bookmark);
+    return this.patchComment(comment, changes);
+  }
+
 
   getComment(commentId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;

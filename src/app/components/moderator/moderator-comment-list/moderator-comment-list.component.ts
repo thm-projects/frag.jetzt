@@ -46,6 +46,7 @@ export class ModeratorCommentListComponent implements OnInit {
   correct = 'correct';
   wrong = 'wrong';
   ack = 'ack';
+  bookmark = 'bookmark';
   userNumber = 'userNumber';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
@@ -169,6 +170,9 @@ export class ModeratorCommentListComponent implements OnInit {
                   case this.favorite:
                     this.comments[i].favorite = <boolean>value;
                     break;
+                  case this.bookmark:
+                    this.comments[i].bookmark = <boolean>value;
+                    break;
                   case 'score':
                     this.comments[i].score = <number>value;
                     break;
@@ -235,6 +239,8 @@ export class ModeratorCommentListComponent implements OnInit {
           return c.correct === CorrectWrong.WRONG ? 1 : 0;
         case this.favorite:
           return c.favorite;
+        case this.bookmark:
+          return c.bookmark;
         case this.read:
           return c.read;
         case this.unread:

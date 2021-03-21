@@ -37,6 +37,7 @@
     "filter-comments": "Fragen filtern",
     "filter-correct": "Bejahte Fragen",
     "filter-favorite": "Ausgezeichnete Fragen",
+    "filter-bookmark": "Gemerkte Fragen",
     "filter-owner": "Meine Fragen",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -116,9 +117,11 @@
     "Markdown-hint": "Formatiere mit Markdown",
     "mark-correct": "Frage bejahen oder als erledigt markieren",
     "mark-favorite": "Frage mit einem Stern markieren",
+    "mark-bookmark": "Frage mit einem Lesezeichen markieren",
     "mark-not-correct": "Markierung zurücknehmen",
     "mark-not-favorite": "Stern zurücknehmen",
     "mark-not-wrong": "Markierung zurücknehmen",
+    "mark-not-bookmark": "Markierung zurücknehmen",
     "mark-read": "Die Frage wurde präsentiert.",
     "mark-wrong": "Frage verneinen oder als kritisch markieren",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
@@ -146,7 +149,9 @@
     "edit-answer-create": "Beantworten / Kommentieren",
     "edit-answer-edit": "Antwort anzeigen / bearbeiten",
     "edit-favorite": "Als interessant markieren",
-    "edit-favorite-reset": "Markierung zurücksetzen"
+    "edit-favorite-reset": "Markierung zurücksetzen",
+    "edit-bookmark": "Mit lesezeichen markieren", 
+    "edit-bookmark-reset": "Markierung zurücksetzen"
   },
   "content": {
     "abort": "Abbrechen",
