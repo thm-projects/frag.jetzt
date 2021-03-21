@@ -37,6 +37,7 @@
     "filter-comments": "Filter questions",
     "filter-correct": "Affirmed questions",
     "filter-favorite": "Marked questions",
+    "filter-bookmark": "Bookmarked questions", 
     "filter-owner": "My questions",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
@@ -117,8 +118,10 @@
     "Markdown-hint": "Format with Markdown",
     "mark-correct": "Mark as correct or done",
     "mark-favorite": "Mark as particularly interesting",
+    "mark-bookmark": "Bookmark",
     "mark-not-correct": "Unmark",
     "mark-not-favorite": "Unmark",
+    "mark-not-bookmark": "Unmark",
     "mark-not-wrong": "Unmark",
     "mark-read": "Discussed in full screen mode",
     "mark-wrong": "Mark as wrong or critical",
@@ -147,7 +150,9 @@
     "edit-answer-create": "Answer or comment question",
     "edit-answer-edit": "View or edit answer",
     "edit-favorite": "Mark as particularly interesting",
-    "edit-favorite-reset": "Remove marker"
+    "edit-favorite-reset": "Remove marker",
+    "edit-bookmark": "Bookmark", 
+    "edit-bookmark-reset": "Remove marker"
   },
   "content": {
     "abort": "Abort",
