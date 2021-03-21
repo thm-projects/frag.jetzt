@@ -36,7 +36,7 @@
     "add-comment": "Ask a question!",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
-    "comment-got-favorited": "A question of yours got favorited!",
+    "comment-got-favorited": "A question of yours was noted as very good!",
     "comment-stream-stopped": "Question stream has been stopped.",
     "comment-stream-started": "Question stream has been started.",
     "comment-sent": "The question has been published.",
