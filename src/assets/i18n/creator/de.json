@@ -37,7 +37,7 @@
     "filter-comments": "Fragen filtern",
     "filter-correct": "Bejahte Fragen",
     "filter-favorite": "Ausgezeichnete Fragen",
-    "filter-bookmark": "Gemerkte Fragen",
+    "filter-bookmark": "Fragen mit einem Lesezeichen",
     "filter-owner": "Meine Fragen",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -150,7 +150,7 @@
     "edit-answer-edit": "Antwort anzeigen / bearbeiten",
     "edit-favorite": "Als interessant markieren",
     "edit-favorite-reset": "Markierung zurücksetzen",
-    "edit-bookmark": "Mit lesezeichen markieren", 
+    "edit-bookmark": "Mit einem Lesezeichen markieren",
     "edit-bookmark-reset": "Markierung zurücksetzen"
   },
   "content": {

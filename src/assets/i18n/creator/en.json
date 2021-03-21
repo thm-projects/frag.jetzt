@@ -36,8 +36,8 @@
     "filter-answered": "Answered questions",
     "filter-comments": "Filter questions",
     "filter-correct": "Affirmed questions",
-    "filter-favorite": "Marked questions",
-    "filter-bookmark": "Bookmarked questions", 
+    "filter-favorite": "Excellent questions",
+    "filter-bookmark": "Bookmarked questions",
     "filter-owner": "My questions",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
@@ -151,7 +151,7 @@
     "edit-answer-edit": "View or edit answer",
     "edit-favorite": "Mark as particularly interesting",
     "edit-favorite-reset": "Remove marker",
-    "edit-bookmark": "Bookmark", 
+    "edit-bookmark": "Bookmark",
     "edit-bookmark-reset": "Remove marker"
   },
   "content": {
