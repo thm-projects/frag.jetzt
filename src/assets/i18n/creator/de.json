@@ -117,7 +117,7 @@
     "Markdown-hint": "Formatiere mit Markdown",
     "mark-correct": "Frage bejahen",
     "mark-favorite": "Frage mit einem Stern markieren",
-    "mark-bookmark": "Frage mit einem Lesezeichen markieren",
+    "mark-bookmark": "Lesezeichen setzen",
     "mark-not-correct": "Markierung zurücknehmen",
     "mark-not-favorite": "Stern zurücknehmen",
     "mark-not-wrong": "Markierung zurücknehmen",
@@ -150,7 +150,7 @@
     "edit-answer-edit": "Antwort anzeigen / bearbeiten",
     "edit-favorite": "Als interessant markieren",
     "edit-favorite-reset": "Markierung zurücksetzen",
-    "edit-bookmark": "Mit einem Lesezeichen markieren",
+    "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen"
   },
   "content": {
