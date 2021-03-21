@@ -109,6 +109,7 @@
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-not-correct": "Marked as correct or done",
     "mark-not-favorite": "Marked as particularly interesting",
+    "mark-not-bookmark": "Bookmark",
     "mark-not-wrong": "Marked as wrong or critical",
     "mark-read": "Already discussed by the presenter",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",

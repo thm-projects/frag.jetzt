@@ -282,7 +282,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterApproved() {
-    this.filter('check_circle', false, 'question-wall.filter-approved', '',
+    this.filter('done', false, 'question-wall.filter-approved', '',
         x => x.comment.correct === CorrectWrong.CORRECT);
   }
 
