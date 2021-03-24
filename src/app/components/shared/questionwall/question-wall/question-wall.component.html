@@ -22,13 +22,10 @@
               <mat-icon class="star">grade</mat-icon>
               <span>{{'question-wall.filter-favorite' | translate}}</span>
             </button>
-            <button mat-menu-item (click)="filterApproved()" aria-labelledby="filter-lbl-approved">
-              <mat-icon>done</mat-icon>
-              <span>{{'question-wall.filter-approved' | translate}}</span>
-            </button>
-            <button mat-menu-item (click)="filterDisapproved()" aria-labelledby="filter-lbl-disapproved">
-              <mat-icon>clear</mat-icon>
-              <span>{{'question-wall.filter-disapproved' | translate}}</span>
+            
+            <button mat-menu-item (click)="filterBookmark()" aria-labelledby="filter-lbl-bookmark">
+              <mat-icon>bookmark</mat-icon>
+              <span>{{'question-wall.filter-bookmark' | translate}}</span>
             </button>
           </mat-menu>
           <mat-menu #filterTagMenu>

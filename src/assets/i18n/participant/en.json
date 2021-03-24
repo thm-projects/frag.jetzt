@@ -171,7 +171,7 @@
     "sort-old": "Oldest",
     "filter-user": "User",
     "filter-favorite": "Favorites",
-    "filter-bookmarked": "Bookmarked",
+    "filter-bookmark": "Bookmarked",
     "filter-approved": "Affirmed",
     "filter-disapproved": "Negated",
     "filter-remove": "Remove Filter",

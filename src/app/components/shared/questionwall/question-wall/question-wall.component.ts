@@ -281,14 +281,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       x => x.comment.userNumber === user);
   }
 
-  filterApproved() {
-    this.filter('done', false, 'question-wall.filter-approved', '',
-        x => x.comment.correct === CorrectWrong.CORRECT);
-  }
-
-  filterDisapproved() {
-    this.filter('block', false, 'question-wall.filter-disapproved', '',
-        x => x.comment.correct === CorrectWrong.WRONG);
+  filterBookmark() {
+    this.filter('bookmark', false, 'question-wall.filter-bookmark', '',
+        x => x.comment.bookmark);
   }
 
   filterTag(tag: string) {
