@@ -88,6 +88,26 @@
         <!-- Room -->
         <ng-container *ngIf="router.url.includes('/room/')">
 
+          <!-- Room General Options -->
+          <button mat-menu-item
+                  *ngIf="user"
+                  tabindex="0"
+                  (click)="showQRDialog();">
+            <mat-icon svgIcon="qrcode"
+                      class="header-icons qrcode"
+                      matTooltip="{{ 'header.QR' | translate }}">
+            </mat-icon>
+            <span>Tags</span>
+          </button>
+
+          <button mat-menu-item
+                  *ngIf="user && !router.url.endsWith('/comments')"
+                  (click)="navigateQuestionBoard()"
+                  tabindex="0">
+            <mat-icon>question_answer</mat-icon>
+            <span>Fragenwand</span>
+          </button>
+
           <!-- Questionboard -->
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
@@ -118,6 +138,7 @@
 
               <button mat-menu-item
                       *ngIf="user"
+                      (click)="navigateRoomBonusToken()"
                       tabindex="0">
                 <mat-icon class="star">grade</mat-icon>
                 <span>assigned stars</span>
@@ -125,6 +146,7 @@
 
               <button mat-menu-item
                       *ngIf="user"
+                      (click)="navigateModerator()"
                       tabindex="0">
                 <mat-icon>gavel</mat-icon>
                 <span>add moderator</span>
@@ -132,6 +154,7 @@
 
               <button mat-menu-item
                       *ngIf="user"
+                      (click)="navigateTags()"
                       tabindex="0">
                 <mat-icon svgIcon="comment_tag"></mat-icon>
                 <span>Tags</span>
@@ -139,6 +162,7 @@
 
               <button mat-menu-item
                       *ngIf="user"
+                      (click)="navigateExportQuestions()"
                       tabindex="0">
                 <mat-icon>save</mat-icon>
                 <span>export questions</span>
@@ -146,6 +170,7 @@
 
               <button mat-menu-item
                       *ngIf="user"
+                      (click)="navigateDeleteQuestions()"
                       tabindex="0">
                 <mat-icon class="color-warn">delete</mat-icon>
                 <span>delete questions</span>
@@ -160,6 +185,7 @@
       </div>
 
       <!-- General Options -->
+
       <button mat-menu-item
               *ngIf="user"
               routerLink="/user"
@@ -169,6 +195,7 @@
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
+
       <button mat-menu-item
               *ngIf="user"
               (click)="openUserBonusTokenDialog()"
@@ -186,6 +213,7 @@
         <mat-icon class="color-warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
+
       <button mat-menu-item
               (click)="logout()"
               tabindex="0">

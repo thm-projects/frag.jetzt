@@ -60,6 +60,25 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  initNavigation() {
+    const navigation = {};
+    const nav = (b, c) => navigation[b] = c;
+    nav('questionBoard', () => this.showCommentsDialog());
+    nav('roomBonusToken', () => this.showBonusTokenDialog());
+    nav('moderator', () => this.showModeratorsDialog());
+    nav('tags', () => this.showTagsDialog());
+    nav('exportQuestions', () => {
+    });
+    nav('deleteQuestions', () => this.showCommentsDialog());
+    this.eventService.on<string>('navigate').subscribe(e => {
+      console.log(e);
+      console.log(navigation);
+      if (navigation.hasOwnProperty(e)) {
+        navigation[e]();
+      }
+    });
+  }
+
   ngOnDestroy() {
     super.ngOnDestroy();
     this.commentCounterEmitSubscription.unsubscribe();
@@ -73,6 +92,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   ngOnInit() {
+    this.initNavigation();
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
