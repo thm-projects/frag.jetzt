@@ -83,7 +83,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   freeze = false;
   commentStream: Subscription;
   periodsList = Object.values(Period);
-  period: Period = Period.ALL;
+  period: Period = Period.TWOWEEKS;
 
   constructor(
     private commentService: CommentService,
