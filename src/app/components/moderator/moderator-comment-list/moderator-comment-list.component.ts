@@ -109,6 +109,7 @@ export class ModeratorCommentListComponent implements OnInit {
   }
 
   searchComments(): void {
+    this.search = true;
     if (this.searchInput && this.searchInput.length > 2) {
       this.hideCommentsList = true;
       this.filteredComments = this.commentsFilteredByTime.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));

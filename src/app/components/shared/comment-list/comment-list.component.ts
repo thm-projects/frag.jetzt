@@ -173,6 +173,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   searchComments(): void {
+    this.search = true;
     if (this.searchInput) {
       if (this.searchInput.length > 1) {
         this.hideCommentsList = true;

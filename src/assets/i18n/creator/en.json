@@ -127,6 +127,8 @@
     "mark-wrong": "Mark as wrong",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
     "no-comments": "No questions at present",
+    "no-comments-with-filter": "No questions with selected filter settings",
+    "no-comments-with-search": "No questions with your search",
     "reject": "Put the question on the index",
     "search-box-input-description": "Search for questions",
     "semicolon": "CSV format (.csv)",
