@@ -25,6 +25,7 @@ import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
 
 export enum Period {
+  FROMNOW = 'from-now',
   ONEHOUR = 'time-1h',
   THREEHOURS = 'time-3h',
   ONEDAY = 'time-1d',
@@ -84,6 +85,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentStream: Subscription;
   periodsList = Object.values(Period);
   period: Period = Period.TWOWEEKS;
+  fromNow: number;
 
   constructor(
     private commentService: CommentService,
@@ -208,7 +210,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.setComments(this.comments.filter(x => x.score >= commentThreshold));
       }
     }
-    this.setTimePeriod(this.period);
+    this.setTimePeriod();
   }
 
   getVote(comment: Comment): Vote {
@@ -271,7 +273,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                     this.comments = this.comments.filter(function (el) {
                       return el.id !== payload.id;
                     });
-                    this.setTimePeriod(this.period);
+                    this.setTimePeriod();
                   }
                   break;
                 case this.tag:
@@ -301,7 +303,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         }
         break;
     }
-    this.setTimePeriod(this.period);
+    this.setTimePeriod();
     if (this.hideCommentsList) {
       this.searchComments();
     }
@@ -478,13 +480,21 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }, 450);
   }
 
-  setTimePeriod(period: Period) {
-    this.period = period;
+  public setTimePeriod(period?: Period) {
+    if (period) {
+      this.period = period;
+      this.fromNow = null;
+    }
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (period !== Period.ALL) {
-      switch (period) {
+    if (this.period !== Period.ALL) {
+      switch (this.period) {
+        case Period.FROMNOW:
+          if (!this.fromNow) {
+            this.fromNow = new Date().getTime();
+          }
+          break;
         case Period.ONEHOUR:
           periodInSeconds = hourInSeconds;
           break;
@@ -502,7 +512,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
           break;
       }
       this.commentsFilteredByTime = this.comments
-        .filter(c => new Date(c.timestamp).getTime() >= (currentTime.getTime() - periodInSeconds));
+        .filter(c => new Date(c.timestamp).getTime() >=
+          (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
       this.commentsFilteredByTime = this.comments;
     }

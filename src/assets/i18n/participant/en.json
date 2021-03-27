@@ -68,6 +68,7 @@
     "wrong": "Marked as wrong",
     "really-delete": "Do you really want to delete this question?",
     "select-time": "Select time period",
+    "select-from-now": "From now",
     "select-time-1h": "Last hour",
     "select-time-3h": "Last 2 hours",
     "select-time-1d": "Last 24 hours",
