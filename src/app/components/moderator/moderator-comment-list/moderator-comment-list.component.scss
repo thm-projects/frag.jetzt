@@ -126,7 +126,7 @@ h3 {
 }
 
 .selected {
-  font-weight: bold;
+  color: var(--red) !important;
 }
 
 .active-filter .mat-icon {
