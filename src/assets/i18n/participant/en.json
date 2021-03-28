@@ -114,6 +114,8 @@
     "mark-read": "Already discussed by the presenter",
     "new-comment": "A new question with the content, {{ comment }}, has been asked.",
     "no-comments": "No questions at present",
+    "no-comments-with-filter": "No questions with selected filter settings",
+    "no-comments-with-search": "No questions with your search",
     "search-box-input-description": "Here you can search for questions.",
     "send": "Send",
     "send-description": "Send question",

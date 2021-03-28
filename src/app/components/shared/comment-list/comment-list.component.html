@@ -65,7 +65,7 @@
             class="searchBarButton"
             aria-labelledby="filter_list"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
-            [matMenuTriggerFor]="filterMenu"
+            [matMenuTriggerFor]="filterMenu" [ngClass]="{'active-filter': hideCommentsList}"
             matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
@@ -76,6 +76,7 @@
             aria-labelledby="time_settings"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="timeMenu"
+            [ngClass]="{'active-filter': period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
       <mat-icon class="searchBarIcon">history</mat-icon>
     </button>
@@ -226,11 +227,19 @@
 
 </div>
 <!-- No Questions Present -->
-<div *ngIf="comments && commentsFilteredByTime.length < 1 && !isLoading"
+<div *ngIf="comments && commentsFilteredByTime.length < 1 && period === 'time-all' && !isLoading"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
   <p class="oldtypo-p">{{ 'comment-page.no-comments' | translate }}</p>
+</div>
+
+<div *ngIf="(filteredComments && filteredComments.length === 0 && hideCommentsList)
+            || (comments && commentsFilteredByTime.length === 0 && period !== 'time-all') && !isLoading"
+     fxLayout="row"
+     fxLayoutAlign="center center"
+     class="no-comments">
+  <p class="oldtypo-p">{{ (search ? 'comment-page.no-comments-with-search' : 'comment-page.no-comments-with-filter') | translate }}</p>
 </div>
 
 <!--Hidden Div's for a11y-Descriptions-->

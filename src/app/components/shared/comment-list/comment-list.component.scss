@@ -210,3 +210,7 @@ h3 {
 .selected {
   font-weight: bold;
 }
+
+.active-filter .mat-icon {
+  color: var(--red);
+}
