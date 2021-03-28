@@ -105,7 +105,7 @@
     "mark-read": "Die Frage wurde öffentlich besprochen.",
     "new-comment": "Eine neue Frage mit dem Inhalt, {{ comment }}, wurde soeben gestellt.",
     "no-comments": "Keine Fragen zurzeit",
-    "no-comments-with-filter": "Keine Fragen mit den ausgewählten Filtereinstellungen",
+    "no-comments-with-filter": "Keine Fragen mit dem eingestellten Filter",
     "no-comments-with-search": "Keine Fragen mit deiner Suche",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Senden",
