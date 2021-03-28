@@ -77,12 +77,10 @@
 
         <!-- Home -->
         <ng-container *ngIf="router.url.endsWith('/home')">
-          <p class="mat-menu-inner-title">Home</p>
         </ng-container>
 
         <!-- Sessionlist -->
         <ng-container *ngIf="router.url.endsWith('/user')">
-          <p class="mat-menu-inner-title">Sitzungsliste</p>
         </ng-container>
 
         <!-- Room -->
@@ -97,29 +95,17 @@
                       class="header-icons qrcode"
                       matTooltip="{{ 'header.QR' | translate }}">
             </mat-icon>
-            <span>Tags</span>
-          </button>
-
-          <button mat-menu-item
-                  *ngIf="user && !router.url.endsWith('/comments')"
-                  (click)="navigateQuestionBoard()"
-                  tabindex="0">
-            <mat-icon>question_answer</mat-icon>
-            <span>Fragenwand</span>
+            <span>{{'header.room-qr' | translate}}</span>
           </button>
 
           <!-- Questionboard -->
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
-            <p class="mat-menu-inner-title">Comments</p>
             <ng-container *ngIf="router.url.includes('participant/room/')">
-              <p class="mat-menu-inner-title">participant</p>
             </ng-container>
             <ng-container *ngIf="router.url.includes('moderator/room/')">
-              <p class="mat-menu-inner-title">moderator</p>
             </ng-container>
             <ng-container *ngIf="router.url.includes('/creator/room/')">
-              <p class="mat-menu-inner-title">creator</p>
             </ng-container>
 
           </ng-container>
@@ -141,7 +127,7 @@
                       (click)="navigateRoomBonusToken()"
                       tabindex="0">
                 <mat-icon class="star">grade</mat-icon>
-                <span>assigned stars</span>
+                <span>{{'header.bonustoken' | translate}}</span>
               </button>
 
               <button mat-menu-item
@@ -149,7 +135,7 @@
                       (click)="navigateModerator()"
                       tabindex="0">
                 <mat-icon>gavel</mat-icon>
-                <span>add moderator</span>
+                <span>{{'header.edit-moderator' | translate}}</span>
               </button>
 
               <button mat-menu-item
@@ -157,7 +143,7 @@
                       (click)="navigateTags()"
                       tabindex="0">
                 <mat-icon svgIcon="comment_tag"></mat-icon>
-                <span>Tags</span>
+                <span>{{'header.edit-tags' | translate}}</span>
               </button>
 
               <button mat-menu-item
@@ -165,7 +151,7 @@
                       (click)="navigateExportQuestions()"
                       tabindex="0">
                 <mat-icon>save</mat-icon>
-                <span>export questions</span>
+                <span>{{'header.export-questions' | translate}}</span>
               </button>
 
               <button mat-menu-item
@@ -173,7 +159,7 @@
                       (click)="navigateDeleteQuestions()"
                       tabindex="0">
                 <mat-icon class="color-warn">delete</mat-icon>
-                <span>delete questions</span>
+                <span>{{'header.delete-questions' | translate}}</span>
               </button>
 
             </ng-container>

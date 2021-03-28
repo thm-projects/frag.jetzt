@@ -63,12 +63,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   initNavigation() {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
-    nav('questionBoard', () => this.showCommentsDialog());
     nav('roomBonusToken', () => this.showBonusTokenDialog());
     nav('moderator', () => this.showModeratorsDialog());
     nav('tags', () => this.showTagsDialog());
-    nav('exportQuestions', () => {
-    });
+    nav('exportQuestions', () => this.showCommentsDialog());
     nav('deleteQuestions', () => this.showCommentsDialog());
     this.eventService.on<string>('navigate').subscribe(e => {
       console.log(e);
