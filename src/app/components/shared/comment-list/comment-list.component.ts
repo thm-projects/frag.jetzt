@@ -177,11 +177,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.searchInput) {
       if (this.searchInput.length > 1) {
         this.hideCommentsList = true;
-        this.filteredComments = this.commentsFilteredByTime.filter(c => c.body.toLowerCase().includes(this.searchInput.toLowerCase()));
+        this.filteredComments = this.commentsFilteredByTime
+          .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
+                       || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
       }
     } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
     }
+  }
+
+  checkIfIncludesKeyWord(body: string, keyword: string) {
+    return body.toLowerCase().includes(keyword.toLowerCase());
   }
 
   activateSearch() {
