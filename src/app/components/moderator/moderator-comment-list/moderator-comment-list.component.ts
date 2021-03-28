@@ -56,7 +56,7 @@ export class ModeratorCommentListComponent implements OnInit {
   search = false;
   searchPlaceholder = '';
   periodsList = Object.values(Period);
-  period: Period = Period.ALL;
+  period: Period = Period.TWOWEEKS;
 
   constructor(
     private commentService: CommentService,
