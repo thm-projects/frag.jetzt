@@ -93,7 +93,7 @@ app-comment {
 }
 
 h3 {
-  font-size: 18pt!important;
+  font-size: 18pt !important;
   margin: 10px;
 }
 
@@ -127,8 +127,25 @@ h3 {
 
 .selected {
   color: var(--red) !important;
+  font-weight: bold;
+  animation-name: animation_blink_5s;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  opacity: 1.0 !important;
+}
+
+@keyframes animation_blink_5s {
+  50% {
+    opacity: 0;
+  }
 }
 
 .active-filter .mat-icon {
-  color: var(--red);
+  color: var(--red) !important;
+  animation-name: animation_blink_5s;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+  animation-iteration-count: 3;
+  opacity: 1.0 !important;
 }

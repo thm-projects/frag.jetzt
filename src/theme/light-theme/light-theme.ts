@@ -21,7 +21,7 @@ export const arsnova = {
   '--on-cancel': '#ffffff',
 
   '--green': '#00FF00',
-  '--red': 'Firebrick',
+  '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'red',
   '--blue': '#002878',

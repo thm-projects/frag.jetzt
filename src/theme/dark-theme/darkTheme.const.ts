@@ -21,7 +21,7 @@ export const dark = {
   '--on-cancel': '#ffffff',
 
   '--green': 'lightgreen',
-  '--red': 'Firebrick',
+  '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'yellow',
   '--blue': '#3f51b5',
