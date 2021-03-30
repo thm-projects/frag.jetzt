@@ -65,7 +65,8 @@
             class="searchBarButton"
             aria-labelledby="filter_list"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
-            [matMenuTriggerFor]="filterMenu" [ngClass]="{'active-filter': hideCommentsList}"
+            [matMenuTriggerFor]="filterMenu"
+            [ngClass]="{'active-filter': hideCommentsList}"
             matTooltip="{{ 'comment-list.filter-comments' | translate }}">
       <mat-icon class="searchBarIcon">filter_list</mat-icon>
     </button>
@@ -103,9 +104,12 @@
 
   </div>
 
-  <mat-menu #timeMenu="matMenu" xPosition="before">
+  <mat-menu #timeMenu="matMenu"
+            xPosition="before">
     <div *ngFor="let periodItem of periodsList">
-      <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period"
+      <button mat-menu-item
+              (click)="setTimePeriod(periodItem)"
+              class="period"
               [ngClass]="{'selected': periodItem === period}"
               aria-labelledby="{{periodItem}}">
         <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
@@ -119,22 +123,22 @@
     <button mat-menu-item
             (click)="sortComments(time)"
             aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">update</mat-icon>
-      <span>{{ 'comment-list.sort-list-time' | translate }}</span>
+      <mat-icon [ngClass]="{time: 'timesort'}[currentSort]">update</mat-icon>
+      <span [ngClass]="{time: 'timesort'}[currentSort]">{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
 
     <button mat-menu-item
             (click)="sortComments(votedesc)"
             aria-labelledby="keyboard_arrow_up">
       <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
-      <span>{{ 'comment-list.sort-vote-asc' | translate }}</span>
+      <span [ngClass]="{votedesc: 'up'}[currentSort]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
     <button mat-menu-item
             (click)="sortComments(voteasc)"
             aria-labelledby="keyboard_arrow_down">
       <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
-      <span>{{ 'comment-list.sort-vote-desc' | translate }}</span>
+      <span [ngClass]="{voteasc: 'down'}[currentSort]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
   </mat-menu>
@@ -149,7 +153,7 @@
         <mat-icon class="star"
                   [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade
         </mat-icon>
-        <span>{{ 'comment-list.filter-favorite' | translate }}</span>
+        <span [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -158,23 +162,17 @@
         <mat-icon class="bookmark"
                   [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">bookmark
         </mat-icon>
-        <span>{{ 'comment-list.filter-bookmark' | translate }}</span>
+        <span [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">{{ 'comment-list.filter-bookmark' | translate }}</span>
       </button>
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
               (click)="filterComments(answer)"
               aria-labelledby="comment">
-        <mat-icon [ngClass]="{answered: 'answered-icon'}[currentFilter]">comment</mat-icon>
-        <span>{{ 'comment-list.filter-answered' | translate }}</span>
-      </button>
-
-      <button mat-menu-item
-              (click)="filterComments(read)"
-              aria-labelledby="beamer_icon">
-        <mat-icon svgIcon="beamer"
-                  [ngClass]="{read: 'beamer-icon'}[currentFilter]"></mat-icon>
-        <span>{{ 'comment-list.filter-read' | translate }}</span>
+        <mat-icon class="answer"
+                  [ngClass]="{answer: 'answered-icon'}[currentFilter]">comment
+        </mat-icon>
+        <span [ngClass]="{answer: 'answered-icon'}[currentFilter]">{{ 'comment-list.filter-answered' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -182,7 +180,7 @@
               (click)="filterComments(owner)"
               aria-labelledby="comment">
         <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person_pin_circle</mat-icon>
-        <span>{{ 'comment-list.filter-owner' | translate }}</span>
+        <span [ngClass]="{owner: 'owner-icon'}[currentFilter]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
 
       <button mat-menu-item
