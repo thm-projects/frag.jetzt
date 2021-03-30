@@ -65,25 +65,25 @@ app-comment {
 }
 
 .actionButton {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   background-color: var(--primary);
 }
 
 .freezeButton {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   background-color: var(--background);
 }
 
 .actionIcon {
   transform: scale(1.2);
-  color: var(--background)
+  color: var(--secondary);
 }
 
 .freezeIcon {
-  transform: scale(1.7);
-  color: var(--on-background);
+  transform: scale(1.5);
+  color: var(--secondary);
 }
 
 .playIcon {
