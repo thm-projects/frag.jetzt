@@ -82,7 +82,7 @@
     </button>
 
     <button id="pause-comments"
-            mat-fab
+            mat-icon-button
             aria-labelledby="pause"
             class="freezeButton"
             *ngIf="!searchBox.value && !search && !freeze"
@@ -92,13 +92,13 @@
     </button>
 
     <button id="play-comments"
-            mat-fab
+            mat-icon-button
             aria-labelledby="play"
             class="freezeButton"
             *ngIf="!searchBox.value && !search && freeze"
             (click)="playCommentStream()"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
-      <mat-icon class="freezeIcon">play_arrow</mat-icon>
+      <mat-icon class="playIcon">play_arrow</mat-icon>
     </button>
 
   </div>
