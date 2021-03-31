@@ -151,6 +151,9 @@ mat-card-content > :first-child {
   &-answer{
     @include card-box-shadow(var(--primary));
   }
+  &-ownQuestion{
+    @include card-box-shadow(var(--purple));
+  }
   &-bonus{
     @include card-box-shadow(var(--yellow));
   }
