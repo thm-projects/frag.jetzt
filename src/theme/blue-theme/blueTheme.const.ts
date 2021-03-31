@@ -23,6 +23,7 @@ export const blue = {
   '--yellow': '#FFD54F',
   '--blue': '#3f51b5',
   '--purple': '#9c27b0',
+  '--magenta': '#ea0a8e',
   '--light-green': '#80ba24',
   '--grey': '#BDBDBD',
   '--grey-light': '#EEEEEE',
