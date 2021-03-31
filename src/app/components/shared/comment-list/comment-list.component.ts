@@ -84,6 +84,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentStream: Subscription;
   periodsList = Object.values(Period);
   period: Period = Period.ALL;
+  headerInterface = null;
 
   constructor(
     private commentService: CommentService,
@@ -108,7 +109,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
     nav('createQuestion', () => this.openCreateDialog());
-    this.eventService.on<string>('navigate').subscribe(e => {
+    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
         navigation[e]();
       }
@@ -172,6 +173,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentStream.unsubscribe();
     }
     this.titleService.resetTitle();
+    if (this.headerInterface) {
+      this.headerInterface.unsubscribe();
+    }
   }
 
   checkScroll(): void {

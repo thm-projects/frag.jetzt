@@ -39,6 +39,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   moderatorCommentCounter: number;
   commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
+  headerInterface = null;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -68,7 +69,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     nav('tags', () => this.showTagsDialog());
     nav('exportQuestions', () => this.showCommentsDialog());
     nav('deleteQuestions', () => this.showCommentsDialog());
-    this.eventService.on<string>('navigate').subscribe(e => {
+    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
         navigation[e]();
       }
@@ -79,6 +80,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     super.ngOnDestroy();
     this.commentCounterEmitSubscription.unsubscribe();
     this.titleService.resetTitle();
+    if (this.headerInterface) {
+      this.headerInterface.unsubscribe();
+    }
   }
 
   ngAfterContentInit(): void {
