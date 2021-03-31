@@ -78,7 +78,11 @@
     "edit-moderator": "Moderators",
     "edit-tags": "Tags",
     "export-questions": "Export Questions",
-    "delete-questions": "Delete Questions"
+    "delete-questions": "Delete Questions",
+    "back-to-questionboard": "Back To Questionboard",
+    "create-question": "Create Question",
+    "questionwall": "Questionwall",
+    "fullscreen": "Fullscreen"
   },
   "help": {
     "cancel": "Close",

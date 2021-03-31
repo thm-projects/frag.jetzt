@@ -69,8 +69,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     nav('exportQuestions', () => this.showCommentsDialog());
     nav('deleteQuestions', () => this.showCommentsDialog());
     this.eventService.on<string>('navigate').subscribe(e => {
-      console.log(e);
-      console.log(navigation);
       if (navigation.hasOwnProperty(e)) {
         navigation[e]();
       }

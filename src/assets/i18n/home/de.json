@@ -77,7 +77,11 @@
     "edit-moderator": "Moderatoren",
     "edit-tags": "Tags",
     "export-questions": "Fragen exportieren",
-    "delete-questions": "Fragen löschen"
+    "delete-questions": "Fragen löschen",
+    "back-to-questionboard": "Zum Fragenboard",
+    "create-question": "Frage erstellen",
+    "questionwall": "Fragenwand",
+    "fullscreen": "Fullscreen"
   },
   "help": {
     "cancel": "Schließen",

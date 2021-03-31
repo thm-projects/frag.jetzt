@@ -104,7 +104,19 @@ export class CommentListComponent implements OnInit, OnDestroy {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  initNavigation() {
+    const navigation = {};
+    const nav = (b, c) => navigation[b] = c;
+    nav('createQuestion', () => this.openCreateDialog());
+    this.eventService.on<string>('navigate').subscribe(e => {
+      if (navigation.hasOwnProperty(e)) {
+        navigation[e]();
+      }
+    });
+  }
+
   ngOnInit() {
+    this.initNavigation();
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;

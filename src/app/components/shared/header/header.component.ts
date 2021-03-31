@@ -260,17 +260,14 @@ export class HeaderComponent implements OnInit {
 
   public navigateRoomBonusToken() {
     this.eventService.broadcast('navigate', 'roomBonusToken');
-
   }
 
   public navigateModerator() {
     this.eventService.broadcast('navigate', 'moderator');
-
   }
 
   public navigateTags() {
     this.eventService.broadcast('navigate', 'tags');
-
   }
 
   public navigateExportQuestions() {
@@ -279,6 +276,10 @@ export class HeaderComponent implements OnInit {
 
   public navigateDeleteQuestions() {
     this.eventService.broadcast('navigate', 'deleteQuestions');
+  }
+
+  public navigateCreateQuestion() {
+    this.eventService.broadcast('navigate', 'createQuestion');
   }
 
 }
