@@ -145,6 +145,12 @@ mat-card-content > :first-child {
   &-favorite{
     @include card-box-shadow(var(--yellow));
   }
+  &-notMarked{
+    @include card-box-shadow(var(--grey));
+  }
+  &-answer{
+    @include card-box-shadow(var(--primary));
+  }
   &-bonus{
     @include card-box-shadow(var(--yellow));
   }
