@@ -24,7 +24,7 @@
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>
     <button *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
-            mat-raised-button
+            mat-flat-button
             class="question-focus-btn"
             routerLink="participant/room/{{shortId}}/comments/questionwall">
       <mat-icon svgIcon="beamer"
