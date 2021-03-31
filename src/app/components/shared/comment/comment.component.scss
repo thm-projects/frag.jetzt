@@ -139,6 +139,12 @@ mat-card-content > :first-child {
   &-wrong{
     @include card-box-shadow(var(--red));
   }
+  &-bookmark{
+    @include card-box-shadow(var(--magenta));
+  }
+  &-favorite{
+    @include card-box-shadow(var(--yellow));
+  }
   &-bonus{
     @include card-box-shadow(var(--yellow));
   }

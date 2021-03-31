@@ -2,7 +2,9 @@
           [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
           'moderator': moderator,
           'border-correct': comment.correct === 1,
-          'border-wrong': comment.correct === 2
+          'border-wrong': comment.correct === 2, 
+          'border-bookmark': comment.bookmark === true, 
+          'border-favorite': comment.favorite === true
           }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
