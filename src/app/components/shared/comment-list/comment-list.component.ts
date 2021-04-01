@@ -84,7 +84,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   freeze = false;
   commentStream: Subscription;
   periodsList = Object.values(Period);
-  period: Period = Period.ALL;
   headerInterface = null;
   period: Period = Period.TWOWEEKS;
   fromNow: number;
