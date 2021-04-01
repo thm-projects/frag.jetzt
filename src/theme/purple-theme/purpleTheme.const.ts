@@ -26,9 +26,8 @@ export const purple = {
   '--yellow': 'red',
   '--blue': 'blue',
   '--purple': 'purple',
-  '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
-  '--grey': 'slategrey',
+  '--grey': 'grey',
   '--grey-light': 'lightgrey',
   '--black': 'black',
   '--moderator': 'lightsalmon'

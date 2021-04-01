@@ -1,13 +1,8 @@
 <mat-card id="comment-card" class="border"
           [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
           'moderator': moderator,
-          'border-notMarked': comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer && comment.creatorId !== user.id,
-          'border-ownQuestion': comment.creatorId === user.id && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer,
-          'border-answer': comment.answer && comment.correct === 0 && comment.bookmark === false && comment.favorite === false,
           'border-correct': comment.correct === 1,
-          'border-wrong': comment.correct === 2, 
-          'border-bookmark': comment.bookmark === true, 
-          'border-favorite': comment.favorite === true
+          'border-wrong': comment.correct === 2
           }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
