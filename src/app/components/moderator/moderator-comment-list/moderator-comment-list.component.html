@@ -1,5 +1,5 @@
 <div fxLayout="row"
-     *ngIf="comments.length > 0"
+     *ngIf="comments.length > 1"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
