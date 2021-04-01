@@ -21,7 +21,7 @@ export const purple = {
   '--on-cancel': '#ffffff',
 
   '--green': 'green',
-  '--red': 'Firebrick',
+  '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'red',
   '--blue': 'blue',

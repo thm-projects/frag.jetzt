@@ -21,7 +21,7 @@ export const highcontrast = {
   '--on-cancel': '#ffffff',
 
   '--green': '#3ce933',
-  '--red': 'Firebrick',
+  '--red': 'red',
   '--white': '#ffffff',
   '--yellow': '#e9d533',
   '--blue': '#3833e9',

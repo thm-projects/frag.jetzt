@@ -1,6 +1,6 @@
 <div fxLayout="row"
-     [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      *ngIf="comments.length > 1"
+     [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
   <mat-label *ngIf="deviceType === 'desktop'"
@@ -56,6 +56,7 @@
             aria-labelledby="time_settings"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="timeMenu"
+            [ngClass]="{'active-filter': period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
       <mat-icon class="searchBarIcon">history</mat-icon>
     </button>
@@ -75,7 +76,7 @@
             matTooltip="{{ 'comment-list.time' | translate }}"
             (click)="sortComments(time)"
             aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">history</mat-icon>
+      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">update</mat-icon>
       <span>{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
 
@@ -126,12 +127,20 @@
   </app-comment>
 </div>
 
-<div *ngIf="comments && commentsFilteredByTime.length < 1 && !isLoading"
+<div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
   <!-- no question present-->
   <p class="oldtypo-p">{{ 'comment-page.no-comments' | translate }}</p>
+</div>
+
+<div *ngIf="(filteredComments && filteredComments.length === 0 && hideCommentsList)
+            || (comments && commentsFilteredByTime.length === 0 && period !== 'time-all') && !isLoading && comments.length > 0"
+     fxLayout="row"
+     fxLayoutAlign="center center"
+     class="no-comments">
+  <p class="oldtypo-p">{{ (search ? 'comment-page.no-comments-with-search' : 'comment-page.no-comments-with-filter') | translate }}</p>
 </div>
 
 <div class="visually-hidden">

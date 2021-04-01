@@ -65,27 +65,30 @@ app-comment {
 }
 
 .actionButton {
-  width: 40px;
-  height: 40px;
-  margin: 0 0 0 5%;
+  width: 45px;
+  height: 45px;
   background-color: var(--primary);
 }
 
 .freezeButton {
-  width: 40px;
-  height: 40px;
-  margin: 0 0 0 5%;
-  background-color: var(--secondary);
+  width: 45px;
+  height: 45px;
+  background-color: var(--background);
 }
 
 .actionIcon {
   transform: scale(1.2);
-  color: var(--background)
+  color: var(--secondary);
 }
 
 .freezeIcon {
-  transform: scale(1.2);
-  color: var(--background);
+  transform: scale(1.5);
+  color: var(--secondary);
+}
+
+.playIcon {
+  transform: scale(1.7);
+  color: var(--red);
 }
 
 .close {
@@ -149,6 +152,10 @@ h3 {
   margin: 10px;
 }
 
+.timesort {
+  color: var(--primary);
+}
+
 .up {
   color: var(--green);
 }
@@ -208,5 +215,26 @@ h3 {
 }
 
 .selected {
+  color: var(--red) !important;
   font-weight: bold;
+  animation-name: animation_blink_5s;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+  animation-iteration-count: 1;
+  opacity: 1.0 !important;
+}
+
+@keyframes animation_blink_5s {
+  50% {
+    opacity: 0;
+  }
+}
+
+.active-filter .mat-icon {
+  color: var(--red) !important;
+  animation-name: animation_blink_5s;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  opacity: 1.0 !important;
 }
