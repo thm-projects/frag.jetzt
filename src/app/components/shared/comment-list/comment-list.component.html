@@ -1,4 +1,5 @@
 <div fxLayout="row"
+     *ngIf="comments.length > 0"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -226,7 +227,7 @@
 
 </div>
 <!-- No Questions Present -->
-<div *ngIf="comments && commentsFilteredByTime.length < 1 && period === 'time-all' && !isLoading"
+<div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
@@ -234,7 +235,7 @@
 </div>
 
 <div *ngIf="(filteredComments && filteredComments.length === 0 && hideCommentsList)
-            || (comments && commentsFilteredByTime.length === 0 && period !== 'time-all') && !isLoading"
+            || (comments && commentsFilteredByTime.length === 0 && period !== 'time-all') && !isLoading && comments.length > 0"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
