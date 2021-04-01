@@ -82,7 +82,8 @@
     "back-to-questionboard": "Back To Questionboard",
     "create-question": "Create Question",
     "questionwall": "Questionwall",
-    "fullscreen": "Fullscreen"
+    "fullscreen": "Fullscreen",
+    "motd": "News"
   },
   "help": {
     "cancel": "Close",
