@@ -66,13 +66,15 @@
 
     </button>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button *ngIf="user" (click)="showMotdDialog()">
+    <button mat-icon-button
+            *ngIf="user"
+            (click)="showMotdDialog()">
       <mat-icon class="header-icons">{{ motdState ? 'notifications_active' : 'notifications_none' }}</mat-icon>
     </button>
 
     <mat-menu #userMenu="matMenu"
               [overlapTrigger]="false">
-<!--      <p class="mat-menu-inner-title">Account</p>-->
+      <!--      <p class="mat-menu-inner-title">Account</p>-->
 
       <div class="mat-menu-inner-box">
 
@@ -80,7 +82,7 @@
         <ng-container *ngIf="router.url.endsWith('/home')">
         </ng-container>
 
-        <!-- Sessionlist -->
+        <!-- Session list -->
         <ng-container *ngIf="router.url.endsWith('/user')">
         </ng-container>
 
@@ -99,7 +101,7 @@
             <span>{{'header.room-qr' | translate}}</span>
           </button>
 
-          <!-- Moderatorboard / index -->
+          <!-- Moderator board / index -->
 
           <ng-container *ngIf="router.url.endsWith('/moderator/comments')">
 
@@ -115,7 +117,7 @@
 
           </ng-container>
 
-          <!-- Questionboard -->
+          <!-- Question board -->
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
