@@ -23,6 +23,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
+import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 
 export enum Period {
   FROMNOW = 'from-now',
@@ -103,6 +105,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: TitleService,
+    protected notification: NotificationService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -111,6 +114,43 @@ export class CommentListComponent implements OnInit, OnDestroy {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
     nav('createQuestion', () => this.openCreateDialog());
+    nav('moderator', () => {
+      const dialogRef = this.dialog.open(ModeratorsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.room.id;
+    });
+    nav('tags', () => {
+      const updRoom = JSON.parse(JSON.stringify(this.room));
+      const dialogRef = this.dialog.open(TagsComponent, {
+        width: '400px'
+      });
+      let tags = [];
+      if (this.room.tags !== undefined) {
+        tags = this.room.tags;
+      }
+      dialogRef.componentInstance.tags = tags;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (!result || result === 'abort') {
+          return;
+        } else {
+          updRoom.tags = result;
+          this.roomService.updateRoom(updRoom)
+          .subscribe((room) => {
+              this.room = room;
+              this.translateService.get('room-page.changes-successful').subscribe(msg => {
+                this.notification.show(msg);
+              });
+            },
+            error => {
+              this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+                this.notification.show(msg);
+              });
+            });
+        }
+      });
+    });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
         navigation[e]();
