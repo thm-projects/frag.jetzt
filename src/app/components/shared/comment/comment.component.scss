@@ -52,7 +52,7 @@ mat-card-content > :first-child {
 }
 
 .bookmark-icon {
-  color: var(--red);
+  color: var(--magenta);
 }
 
 .wrong-icon {
@@ -138,6 +138,21 @@ mat-card-content > :first-child {
   }
   &-wrong{
     @include card-box-shadow(var(--red));
+  }
+  &-bookmark{
+    @include card-box-shadow(var(--magenta));
+  }
+  &-favorite{
+    @include card-box-shadow(var(--yellow));
+  }
+  &-notMarked{
+    @include card-box-shadow(var(--grey));
+  }
+  &-answer{
+    @include card-box-shadow(var(--primary));
+  }
+  &-ownQuestion{
+    @include card-box-shadow(var(--purple));
   }
   &-bonus{
     @include card-box-shadow(var(--yellow));
