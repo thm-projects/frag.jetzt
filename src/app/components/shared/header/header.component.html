@@ -23,15 +23,15 @@
     </h2>
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>
-    <button *ngIf="router.url.includes('comments')  &&
-              !router.url.includes('moderator/comments') && deviceType === 'desktop' && user && user.role > 0"
-            mat-flat-button
-            class="question-focus-btn"
-            routerLink="participant/room/{{shortId}}/comments/questionwall">
-      <mat-icon svgIcon="beamer"
-                class="header-icons beamer-icon"></mat-icon>
-      <span class="question-focus-btn-txt">{{'header.question-wall' | translate}}</span>
-    </button>
+<!--    <button *ngIf="router.url.includes('comments')  &&-->
+<!--              !router.url.includes('moderator/comments') && deviceType === 'desktop' && user && user.role > 0"-->
+<!--            mat-flat-button-->
+<!--            class="question-focus-btn"-->
+<!--            routerLink="participant/room/{{shortId}}/comments/questionwall">-->
+<!--      <mat-icon svgIcon="beamer"-->
+<!--                class="header-icons beamer-icon"></mat-icon>-->
+<!--      <span class="question-focus-btn-txt">{{'header.question-wall' | translate}}</span>-->
+<!--    </button>-->
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
     <span
@@ -110,7 +110,7 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
+                      *ngIf="deviceType !== 'mobile' && !router.url.includes('/participant/')"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
                 <mat-icon
                   svgIcon="beamer"
@@ -138,7 +138,7 @@
             </button>
 
             <button mat-menu-item
-                    *ngIf="user && user.role > 0"
+                    *ngIf="user && user.role > 0 && !router.url.includes('/participant/')"
                     (click)="navigateDeleteQuestions()"
                     tabindex="0">
               <mat-icon class="color-warn">delete</mat-icon>
