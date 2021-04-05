@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,13 +16,20 @@ import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
 import { Period } from '../../shared/comment-list/comment-list.component';
+import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
+import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
+import { Export } from '../../../models/export';
+import { CreateCommentComponent } from '../../shared/_dialogs/create-comment/create-comment.component';
+import { NotificationService } from '../../../services/util/notification.service';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
 
 @Component({
   selector: 'app-moderator-comment-list',
   templateUrl: './moderator-comment-list.component.html',
   styleUrls: ['./moderator-comment-list.component.scss']
 })
-export class ModeratorCommentListComponent implements OnInit {
+export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
@@ -58,6 +65,7 @@ export class ModeratorCommentListComponent implements OnInit {
   periodsList = Object.values(Period);
   period: Period = Period.TWOWEEKS;
   fromNow: number;
+  headerInterface = null;
 
   constructor(
     private commentService: CommentService,
@@ -67,12 +75,94 @@ export class ModeratorCommentListComponent implements OnInit {
     private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
     public eventService: EventService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService,
+    private translationService: TranslateService,
+    private bonusTokenService: BonusTokenService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  initNavigation() {
+    const navigation = {};
+    const nav = (b, c) => navigation[b] = c;
+    nav('moderator', () => {
+      const dialogRef = this.dialog.open(ModeratorsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.room.id;
+    });
+    nav('tags', () => {
+      const updRoom = JSON.parse(JSON.stringify(this.room));
+      const dialogRef = this.dialog.open(TagsComponent, {
+        width: '400px'
+      });
+      let tags = [];
+      if (this.room.tags !== undefined) {
+        tags = this.room.tags;
+      }
+      dialogRef.componentInstance.tags = tags;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (!result || result === 'abort') {
+          return;
+        } else {
+          updRoom.tags = result;
+          this.roomService.updateRoom(updRoom)
+          .subscribe((room) => {
+              this.room = room;
+              this.translateService.get('room-page.changes-successful').subscribe(msg => {
+                this.notificationService.show(msg);
+              });
+            },
+            error => {
+              this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+                this.notificationService.show(msg);
+              });
+            });
+        }
+      });
+    });
+    nav('deleteQuestions', () => {
+      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.roomId;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.translationService.get('room-page.comments-deleted').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+          this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
+        }
+      });
+    });
+    nav('exportQuestions', () => {
+      const exp: Export = new Export(
+        this.room,
+        this.commentService,
+        this.bonusTokenService,
+        this.translationService,
+        'comment-list',
+        this.notificationService);
+      exp.exportAsCsv();
+    });
+    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
+      if (navigation.hasOwnProperty(e)) {
+        navigation[e]();
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.headerInterface) {
+      this.headerInterface.unsubscribe();
+    }
+  }
+
   ngOnInit() {
+    this.initNavigation();
     this.roomId = localStorage.getItem(`roomId`);
     const userId = this.user.id;
     this.userRole = this.user.role;

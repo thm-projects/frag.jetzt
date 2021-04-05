@@ -108,7 +108,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: TitleService,
-    protected notification: NotificationService,
     private translationService: TranslateService,
     private bonusTokenService: BonusTokenService
   ) {
@@ -145,12 +144,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
           .subscribe((room) => {
               this.room = room;
               this.translateService.get('room-page.changes-successful').subscribe(msg => {
-                this.notification.show(msg);
+                this.notificationService.show(msg);
               });
             },
             error => {
               this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-                this.notification.show(msg);
+                this.notificationService.show(msg);
               });
             });
         }
