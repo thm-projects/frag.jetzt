@@ -74,7 +74,17 @@
     "select-time-1d": "Last 24 hours",
     "select-time-1w": "Last 7 days",
     "select-time-2w": "Last 14 days",
-    "select-time-all": "Unlimited"
+    "select-time-all": "Unlimited",
+    "question": "Question",
+    "timestamp": "Timestamp",
+    "presented": "Presented",
+    "correct/wrong": "Correct/Wrong",
+    "score": "Score",
+    "answer": "Answer",
+    "token": "Bonus token",
+    "token-time": "Token timestamp",
+    "no-comments": "There are no questions yet.",
+    "export-comments": "Export questions"
   },
   "content": {
     "cancel": "Cancel",

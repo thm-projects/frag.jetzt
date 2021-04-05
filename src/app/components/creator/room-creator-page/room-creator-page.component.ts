@@ -22,6 +22,9 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TitleService } from '../../../services/util/title.service';
+import { DeleteCommentsComponent } from '../_dialogs/delete-comments/delete-comments.component';
+import { Export } from '../../../models/export';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -39,6 +42,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   moderatorCommentCounter: number;
   commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
+  headerInterface = null;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -52,7 +56,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
               public eventService: EventService,
-              public titleService: TitleService) {
+              public titleService: TitleService,
+              private notificationService: NotificationService,
+              private bonusTokenService: BonusTokenService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
@@ -60,10 +66,51 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  initNavigation() {
+    const navigation = {};
+    const nav = (b, c) => navigation[b] = c;
+    nav('roomBonusToken', () => this.showBonusTokenDialog());
+    nav('moderator', () => this.showModeratorsDialog());
+    nav('tags', () => this.showTagsDialog());
+    nav('exportQuestions', () => {
+      const exp: Export = new Export(
+        this.room,
+        this.commentService,
+        this.bonusTokenService,
+        this.translateService,
+        'comment-list',
+        this.notificationService);
+      exp.exportAsCsv();
+    });
+    nav('deleteQuestions', () => {
+      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.room.id;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.translateService.get('room-page.comments-deleted').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+          this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
+        }
+      });
+    });
+    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
+      if (navigation.hasOwnProperty(e)) {
+        navigation[e]();
+      }
+    });
+  }
+
   ngOnDestroy() {
     super.ngOnDestroy();
     this.commentCounterEmitSubscription.unsubscribe();
     this.titleService.resetTitle();
+    if (this.headerInterface) {
+      this.headerInterface.unsubscribe();
+    }
   }
 
   ngAfterContentInit(): void {
@@ -73,6 +120,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   ngOnInit() {
+    this.initNavigation();
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {

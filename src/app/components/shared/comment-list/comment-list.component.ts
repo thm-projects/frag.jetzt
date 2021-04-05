@@ -23,6 +23,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
+import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
+import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
+import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
+import { Export } from '../../../models/export';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
 
 export enum Period {
   FROMNOW = 'from-now',
@@ -84,6 +89,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   freeze = false;
   commentStream: Subscription;
   periodsList = Object.values(Period);
+  headerInterface = null;
   period: Period = Period.TWOWEEKS;
   fromNow: number;
 
@@ -102,11 +108,87 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: TitleService,
+    private translationService: TranslateService,
+    private bonusTokenService: BonusTokenService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  initNavigation() {
+    const navigation = {};
+    const nav = (b, c) => navigation[b] = c;
+    nav('createQuestion', () => this.openCreateDialog());
+    nav('moderator', () => {
+      const dialogRef = this.dialog.open(ModeratorsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.room.id;
+    });
+    nav('tags', () => {
+      const updRoom = JSON.parse(JSON.stringify(this.room));
+      const dialogRef = this.dialog.open(TagsComponent, {
+        width: '400px'
+      });
+      let tags = [];
+      if (this.room.tags !== undefined) {
+        tags = this.room.tags;
+      }
+      dialogRef.componentInstance.tags = tags;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (!result || result === 'abort') {
+          return;
+        } else {
+          updRoom.tags = result;
+          this.roomService.updateRoom(updRoom)
+          .subscribe((room) => {
+              this.room = room;
+              this.translateService.get('room-page.changes-successful').subscribe(msg => {
+                this.notificationService.show(msg);
+              });
+            },
+            error => {
+              this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+                this.notificationService.show(msg);
+              });
+            });
+        }
+      });
+    });
+    nav('deleteQuestions', () => {
+      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.roomId;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.translationService.get('room-page.comments-deleted').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+          this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
+        }
+      });
+    });
+    nav('exportQuestions', () => {
+      const exp: Export = new Export(
+        this.room,
+        this.commentService,
+        this.bonusTokenService,
+        this.translationService,
+        'comment-list',
+        this.notificationService);
+      exp.exportAsCsv();
+    });
+    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
+      if (navigation.hasOwnProperty(e)) {
+        navigation[e]();
+      }
+    });
+  }
+
   ngOnInit() {
+    this.initNavigation();
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -162,6 +244,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentStream.unsubscribe();
     }
     this.titleService.resetTitle();
+    if (this.headerInterface) {
+      this.headerInterface.unsubscribe();
+    }
   }
 
   checkScroll(): void {
