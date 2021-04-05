@@ -129,6 +129,22 @@
             <ng-container *ngIf="router.url.includes('/creator/room/')">
             </ng-container>
 
+            <button mat-menu-item
+                    *ngIf="user"
+                    (click)="navigateExportQuestions()"
+                    tabindex="0">
+              <mat-icon>save</mat-icon>
+              <span>{{'header.export-questions' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    *ngIf="user && user.role > 0"
+                    (click)="navigateDeleteQuestions()"
+                    tabindex="0">
+              <mat-icon class="color-warn">delete</mat-icon>
+              <span>{{'header.delete-questions' | translate}}</span>
+            </button>
+
           </ng-container>
 
           <!-- Session -->
@@ -173,7 +189,7 @@
 
           <!-- Room General Options - bot -->
 
-          <ng-container *ngIf="user && user.role > 0">
+          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant')">
 
             <button mat-menu-item
                     *ngIf="user"

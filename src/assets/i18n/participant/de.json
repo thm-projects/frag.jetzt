@@ -64,7 +64,17 @@
     "select-time-1d": "Letzte 24 Stunden",
     "select-time-1w": "Letzte 7 Tage",
     "select-time-2w": "Letzte 14 Tage",
-    "select-time-all": "Unbegrenzt"
+    "select-time-all": "Unbegrenzt",
+    "question": "Frage",
+    "timestamp": "Zeitstempel",
+    "presented": "Präsentiert",
+    "correct/wrong": "Richtig/Falsch",
+    "score": "Score",
+    "answer": "Antwort",
+    "token": "Bonus-Token",
+    "token-time": "Token-Zeitstempel",
+    "no-comments": "Es sind noch keine Fragen vorhanden.",
+    "export-comments": "Fragen exportieren"
   },
   "content": {
     "cancel": "Abbrechen",

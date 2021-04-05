@@ -25,6 +25,9 @@ import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
+import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
+import { Export } from '../../../models/export';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
 
 export enum Period {
   FROMNOW = 'from-now',
@@ -105,7 +108,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private titleService: TitleService,
-    protected notification: NotificationService
+    protected notification: NotificationService,
+    private translationService: TranslateService,
+    private bonusTokenService: BonusTokenService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -150,6 +155,31 @@ export class CommentListComponent implements OnInit, OnDestroy {
             });
         }
       });
+    });
+    nav('deleteQuestions', () => {
+      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
+        width: '400px'
+      });
+      dialogRef.componentInstance.roomId = this.roomId;
+      dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result === 'delete') {
+          this.translationService.get('room-page.comments-deleted').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+          this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
+        }
+      });
+    });
+    nav('exportQuestions', () => {
+      const exp: Export = new Export(
+        this.room,
+        this.commentService,
+        this.bonusTokenService,
+        this.translationService,
+        'comment-list',
+        this.notificationService);
+      exp.exportAsCsv();
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
