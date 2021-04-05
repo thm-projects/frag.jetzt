@@ -443,6 +443,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.freeze = false;
     this.commentService.getAckComments(this.roomId)
       .subscribe(comments => {
+        this.comments = comments;
         this.setComments(comments);
         this.getComments();
       });
