@@ -23,14 +23,6 @@
     </h2>
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>
-    <button *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
-            mat-flat-button
-            class="question-focus-btn"
-            routerLink="participant/room/{{shortId}}/comments/questionwall">
-      <mat-icon svgIcon="beamer"
-                class="header-icons beamer-icon"></mat-icon>
-      <span class="question-focus-btn-txt">{{'header.question-wall' | translate}}</span>
-    </button>
     <span class="fill-remaining-space"
           *ngIf="router.url.includes('comments') && deviceType === 'desktop'"></span>
     <span
@@ -47,32 +39,186 @@
         *ngIf="router.url.includes('comments')"
         fxLayoutAlign="center center">
       {{ shortId.slice(0, 4) }} {{  shortId.slice(4, 8) }}
-    </h2>
+    </h2>-->
     <!--Feedback im Hörsaal-->
     <h2 class="oldtypo-h2"
         *ngIf="router.url.includes('home')"
         fxLayoutAlign="center center">
       {{ 'header.home-header' | translate }}
     </h2>
-    <button *ngIf="router.url.includes('room')"
-            mat-icon-button
-            (click)="showQRDialog();"
-            fxLayoutAlign="center center">
-      <mat-icon svgIcon="qrcode"
-                class="header-icons qrcode"
-                matTooltip="{{ 'header.QR' | translate }}">
-      </mat-icon>
-
-    </button>
     <span class="fill-remaining-space"></span>
-    <button mat-icon-button *ngIf="user" (click)="showMotdDialog()">
-      <mat-icon class="header-icons">{{ motdState ? 'notifications_active' : 'notifications_none' }}</mat-icon>
-    </button>
 
     <mat-menu #userMenu="matMenu"
               [overlapTrigger]="false">
+      <!--      <p class="mat-menu-inner-title">Account</p>-->
+
+      <div class="mat-menu-inner-box">
+
+        <!-- Home -->
+        <ng-container *ngIf="router.url.endsWith('/home')">
+        </ng-container>
+
+        <!-- Session list -->
+        <ng-container *ngIf="router.url.endsWith('/user')">
+        </ng-container>
+
+        <!-- Room -->
+        <ng-container *ngIf="router.url.includes('/room/')">
+
+          <!-- Room General Options - top -->
+
+          <!-- Moderator board / index -->
+
+          <ng-container *ngIf="router.url.endsWith('/moderator/comments')">
+
+            <button mat-menu-item
+                    tabindex="0"
+                    routerLink="participant/room/{{shortId}}/comments">
+              <mat-icon
+                matTooltip="{{ 'header.back-to-questionboard' | translate }}">
+                forum
+              </mat-icon>
+              <span>{{'header.back-to-questionboard' | translate}}</span>
+            </button>
+
+          </ng-container>
+
+          <!-- Question board -->
+          <ng-container *ngIf="router.url.endsWith('/comments')">
+
+            <button mat-menu-item
+                    *ngIf="user && user.role > 0 && !router.url.endsWith('moderator/comments')"
+                    tabindex="0"
+                    (click)="navigateCreateQuestion();">
+              <mat-icon
+                matTooltip="{{ 'header.create-question' | translate }}">
+                comment
+              </mat-icon>
+              <span>{{'header.create-question' | translate}}</span>
+            </button>
+
+            <ng-container *ngIf="user && user.role > 0">
+
+              <button mat-menu-item
+                      tabindex="0"
+                      *ngIf="deviceType !== 'mobile' && !router.url.includes('/participant/')"
+                      routerLink="participant/room/{{shortId}}/comments/questionwall">
+                <mat-icon
+                  svgIcon="beamer"
+                  matTooltip="{{ 'header.questionwall-title' | translate }}">
+                  comment
+                </mat-icon>
+                <span>{{'header.questionwall' | translate}}</span>
+              </button>
+
+            </ng-container>
+
+            <ng-container *ngIf="router.url.includes('/participant/room/')">
+            </ng-container>
+            <ng-container *ngIf="router.url.includes('/moderator/room/')">
+            </ng-container>
+            <ng-container *ngIf="router.url.includes('/creator/room/')">
+            </ng-container>
+
+            <button mat-menu-item
+                    *ngIf="user"
+                    (click)="navigateExportQuestions()"
+                    tabindex="0">
+              <mat-icon>save</mat-icon>
+              <span>{{'header.export-questions' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    *ngIf="user && user.role > 0 && !router.url.includes('/participant/')"
+                    (click)="navigateDeleteQuestions()"
+                    tabindex="0">
+              <mat-icon class="color-warn">delete</mat-icon>
+              <span>{{'header.delete-questions' | translate}}</span>
+            </button>
+
+          </ng-container>
+
+          <!-- Session -->
+          <ng-container *ngIf="!router.url.endsWith('/comments')">
+
+            <!-- app-room-participant-page -->
+            <ng-container *ngIf="router.url.includes('/participant/room/')">
+            </ng-container>
+            <!-- app-room-creator-page -->
+            <ng-container *ngIf="router.url.includes('/moderator/room/')">
+            </ng-container>
+            <!-- app-room-creator-page -->
+            <ng-container *ngIf="router.url.includes('/creator/room/')">
+
+              <button mat-menu-item
+                      *ngIf="user"
+                      (click)="navigateRoomBonusToken()"
+                      tabindex="0">
+                <mat-icon class="star">grade</mat-icon>
+                <span>{{'header.bonustoken' | translate}}</span>
+              </button>
+
+              <button mat-menu-item
+                      *ngIf="user"
+                      (click)="navigateExportQuestions()"
+                      tabindex="0">
+                <mat-icon>save</mat-icon>
+                <span>{{'header.export-questions' | translate}}</span>
+              </button>
+
+              <button mat-menu-item
+                      *ngIf="user"
+                      (click)="navigateDeleteQuestions()"
+                      tabindex="0">
+                <mat-icon class="color-warn">delete</mat-icon>
+                <span>{{'header.delete-questions' | translate}}</span>
+              </button>
+
+            </ng-container>
+
+          </ng-container>
+
+          <!-- Room General Options - bot -->
+
+          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant')">
+
+            <button mat-menu-item
+                    *ngIf="user"
+                    (click)="navigateModerator()"
+                    tabindex="0">
+              <mat-icon>gavel</mat-icon>
+              <span>{{'header.edit-moderator' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    *ngIf="user"
+                    (click)="navigateTags()"
+                    tabindex="0">
+              <mat-icon svgIcon="comment_tag"></mat-icon>
+              <span>{{'header.edit-tags' | translate}}</span>
+            </button>
+
+          </ng-container>
+
+          <button mat-menu-item
+                  *ngIf="user && user.role > 0"
+                  tabindex="0"
+                  (click)="showQRDialog();">
+            <mat-icon svgIcon="qrcode"
+                      class="header-icons qrcode"
+                      matTooltip="{{ 'header.QR' | translate }}">
+            </mat-icon>
+            <span>{{'header.room-qr' | translate}}</span>
+          </button>
+
+        </ng-container>
+
+      </div>
+
+      <!-- General Options -->
+
       <button mat-menu-item
-              *ngIf="user"
+              *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
         <mat-icon class="sessions">group</mat-icon>
@@ -80,6 +226,7 @@
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
+
       <button mat-menu-item
               *ngIf="user"
               (click)="openUserBonusTokenDialog()"
@@ -87,19 +234,42 @@
         <mat-icon class="star">grade</mat-icon>
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
+
       <button mat-menu-item
-              *ngIf="user && !user.isGuest"
+              *ngIf="user"
+              (click)="showMotdDialog()">
+        <mat-icon>
+          {{ motdState ? 'notifications_active' : 'notifications_none' }}
+        </mat-icon>
+        <span>{{'header.motd' | translate}}</span>
+      </button>
+
+      <button mat-menu-item
+              aria-hidden="true"
+              *ngIf="isSafari === 'false'  && !router.url.includes('home')"
+              (click)="getRescale().toggleState();">
+        <mat-icon (click)="getRescale().toggleState();">fullscreen
+        </mat-icon>
+        <span>{{'header.fullscreen' | translate}}</span>
+      </button>
+
+      <mat-divider></mat-divider>
+
+      <button mat-menu-item
+              *ngIf="user && !user.isGuest && user.loginId"
               (click)="openDeleteUserDialog()"
               tabindex="0">
         <mat-icon class="color-warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
+
       <button mat-menu-item
               (click)="logout()"
               tabindex="0">
         <mat-icon class="color-warn">exit_to_app</mat-icon>
         <span>{{ 'header.logout' | translate }}</span>
       </button>
+
     </mat-menu>
 
     <button [disabled]="cookiesDisabled()"

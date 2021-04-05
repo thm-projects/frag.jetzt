@@ -70,7 +70,19 @@
     "user-bonus-token": "Deine Sterne",
     "user-got-tokens": "Du hast noch Sterne für Bonuspunkte, die verloren gehen!",
     "visited-sessions": "Sitzungen",
-    "question-wall": "Fragen präsentieren"
+    "question-wall": "Fragen präsentieren",
+    "room-qr": "QR-Code",
+    "question-board": "Fragenboard",
+    "bonustoken": "Bonustoken",
+    "edit-moderator": "Moderatoren",
+    "edit-tags": "Tags",
+    "export-questions": "Fragen exportieren",
+    "delete-questions": "Fragen löschen",
+    "back-to-questionboard": "Zum Fragenboard",
+    "create-question": "Frage stellen",
+    "questionwall": "Fragenwand",
+    "fullscreen": "Vollansicht",
+    "motd": "News"
   },
   "help": {
     "cancel": "Schließen",

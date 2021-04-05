@@ -79,3 +79,21 @@ svg {
 .beamer-icon {
   transform: scale(1.5);
 }
+
+.mat-menu-inner-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 15px;
+  color: var(--on-background);
+}
+
+.mat-menu-inner-box {
+  background-color: var(--primary-variant);
+  border-radius: 5px;
+
+  * {
+    background-color: transparent !important;
+  }
+}

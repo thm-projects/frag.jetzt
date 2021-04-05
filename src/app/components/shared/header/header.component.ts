@@ -253,4 +253,33 @@ export class HeaderComponent implements OnInit {
       Rescale.exitFullscreen();
     });
   }
+
+  public navigateQuestionBoard() {
+    this.eventService.broadcast('navigate', 'questionBoard');
+  }
+
+  public navigateRoomBonusToken() {
+    this.eventService.broadcast('navigate', 'roomBonusToken');
+  }
+
+  public navigateModerator() {
+    this.eventService.broadcast('navigate', 'moderator');
+  }
+
+  public navigateTags() {
+    this.eventService.broadcast('navigate', 'tags');
+  }
+
+  public navigateExportQuestions() {
+    this.eventService.broadcast('navigate', 'exportQuestions');
+  }
+
+  public navigateDeleteQuestions() {
+    this.eventService.broadcast('navigate', 'deleteQuestions');
+  }
+
+  public navigateCreateQuestion() {
+    this.eventService.broadcast('navigate', 'createQuestion');
+  }
+
 }
