@@ -26,8 +26,9 @@ export const dark = {
   '--yellow': 'yellow',
   '--blue': '#3f51b5',
   '--purple': '#9c27b0',
+  '--magenta': '#ea0a8e',
   '--light-green': '#80ba24',
-  '--grey': '#BDBDBD',
+  '--grey': 'slategrey',
   '--grey-light': '#9E9E9E',
   '--black': 'black',
   '--moderator': 'maroon'
