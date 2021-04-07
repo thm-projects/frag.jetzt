@@ -481,7 +481,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.answer;
         case this.owner:
           return c.creatorId === this.user.id;
-        case this.userRoleNumber: 
+        case this.userRoleNumber:
           return c.creatorId === this.user.id && this.user.role === compare;
         }
     });
