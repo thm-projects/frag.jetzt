@@ -156,15 +156,7 @@
         <span [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
-      <button mat-menu-item
-              (click)="filterComments(userRoleNumber, 3)"
-              aria-labelledby="lecturer">
-        <mat-icon class="lecturer"
-                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">work
-        </mat-icon>
-        <span [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
-      </button>
-
+      
       <button mat-menu-item
               (click)="filterComments(bookmark)"
               aria-labelledby="bookmark">
@@ -191,6 +183,25 @@
         <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person_pin_circle</mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[currentFilter]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
+
+      <button mat-menu-item
+              (click)="filterComments(userRoleNumber, 3)"
+              aria-labelledby="lecturer">
+        <mat-icon class="lecturer"
+                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">work
+        </mat-icon>
+        <span [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (click)="filterComments(userRoleNumber, 2)"
+              aria-labelledby="moderator">
+        <mat-icon class="moderator"
+                  [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">people
+        </mat-icon>
+        <span [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
+      </button>
+
 
       <button mat-menu-item
               (focus)="hideCommentsList=false"
