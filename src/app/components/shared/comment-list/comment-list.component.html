@@ -188,7 +188,7 @@
               (click)="filterComments(userRoleNumber, 3)"
               aria-labelledby="lecturer">
         <mat-icon class="lecturer"
-                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">work
+                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">school
         </mat-icon>
         <span [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
       </button>
@@ -197,7 +197,7 @@
               (click)="filterComments(userRoleNumber, 2)"
               aria-labelledby="moderator">
         <mat-icon class="moderator"
-                  [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">people
+                  [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">gavel
         </mat-icon>
         <span [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
       </button>
