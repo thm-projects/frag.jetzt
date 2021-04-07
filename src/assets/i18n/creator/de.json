@@ -38,6 +38,8 @@
     "filter-correct": "Bejahte Fragen",
     "filter-favorite": "Ausgezeichnete Fragen",
     "filter-bookmark": "Markierte Fragen",
+    "filter-moderator": "Fragen von Moderatoren", 
+    "filter-lecturer": "Fragen vom Dozent",
     "filter-owner": "Meine Fragen",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",

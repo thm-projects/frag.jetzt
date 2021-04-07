@@ -157,6 +157,15 @@
       </button>
 
       <button mat-menu-item
+              (click)="filterComments(userRoleNumber, 3)"
+              aria-labelledby="lecturer">
+        <mat-icon class="lecturer"
+                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">work
+        </mat-icon>
+        <span [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
               (click)="filterComments(bookmark)"
               aria-labelledby="bookmark">
         <mat-icon class="bookmark"
