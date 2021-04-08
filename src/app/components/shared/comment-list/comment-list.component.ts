@@ -355,7 +355,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                   break;
                 case this.bookmark:
                   this.comments[i].bookmark = <boolean>value;
-                  break; 
+                  break;
                 case 'score':
                   this.comments[i].score = <number>value;
                   this.getComments();
@@ -484,7 +484,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.creatorId === this.user.id;
         case this.moderator:
           return c.creatorId === this.user.id && (this.user.role === 2 || this.user.role === 1);
-        case this.lecturer: 
+        case this.lecturer:
           return c.creatorId === this.user.id && this.user.role === 3;
         }
     });
