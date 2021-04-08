@@ -185,7 +185,7 @@
       </button>
 
       <button mat-menu-item
-              (click)="filterComments(userRoleNumber, 3)"
+              (click)="filterComments(lecturer)"
               aria-labelledby="lecturer">
         <mat-icon class="lecturer"
                   [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">school
@@ -194,7 +194,7 @@
       </button>
 
       <button mat-menu-item
-              (click)="filterComments(userRoleNumber, 2)"
+              (click)="filterComments(moderator)"
               aria-labelledby="moderator">
         <mat-icon class="moderator"
                   [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">gavel
