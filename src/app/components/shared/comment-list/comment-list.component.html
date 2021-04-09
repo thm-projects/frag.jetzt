@@ -156,10 +156,9 @@
         <span [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
-      
       <button mat-menu-item
               (click)="filterComments(bookmark)"
-              aria-labelledby="bookmark">
+              aria-labelledby="comment">
         <mat-icon class="bookmark"
                   [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">bookmark
         </mat-icon>
@@ -186,7 +185,7 @@
 
       <button mat-menu-item
               (click)="filterComments(lecturer)"
-              aria-labelledby="lecturer">
+              aria-labelledby="comment">
         <mat-icon class="lecturer"
                   [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">school
         </mat-icon>
@@ -195,7 +194,7 @@
 
       <button mat-menu-item
               (click)="filterComments(moderator)"
-              aria-labelledby="moderator">
+              aria-labelledby="comment">
         <mat-icon class="moderator"
                   [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">gavel
         </mat-icon>
