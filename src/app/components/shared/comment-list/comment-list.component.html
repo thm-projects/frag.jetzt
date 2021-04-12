@@ -184,6 +184,7 @@
       </button>
 
       <button mat-menu-item
+              *ngIf="userRole !== 3"
               (click)="filterComments(lecturer)"
               aria-labelledby="lecturer">
         <mat-icon class="lecturer"
