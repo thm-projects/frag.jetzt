@@ -184,6 +184,26 @@
       </button>
 
       <button mat-menu-item
+              *ngIf="userRole !== 3"
+              (click)="filterComments(lecturer)"
+              aria-labelledby="lecturer">
+        <mat-icon class="lecturer"
+                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">school
+        </mat-icon>
+        <span [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (click)="filterComments(moderator)"
+              aria-labelledby="moderator">
+        <mat-icon class="moderator"
+                  [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">gavel
+        </mat-icon>
+        <span [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
+      </button>
+
+
+      <button mat-menu-item
               (focus)="hideCommentsList=false"
               (click)="sortComments(currentSort); filterComments('')"
               aria-labelledby="close">
@@ -253,6 +273,9 @@
   <div id="check_circle">{{'comment-list.a11y-check_circle' | translate}}</div>
   <div id="not_interested">{{'comment-list.a11y-not_interested' | translate}}</div>
   <div id="grade">{{'comment-list.a11y-grade' | translate}}</div>
+  <div id="moderator">{{'comment-list.a11y-moderator' | translate}}</div>
+  <div id="lecturer">{{'comment-list.a11y-lecturer' | translate}}</div>
+  <div id="bookmark">{{'comment-list.a11y-bookmark' | translate}}</div>
   <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
   <div id="close">{{'comment-list.a11y-close' | translate}}</div>
   <div id="add">{{'comment-list.a11y-add' | translate}}</div>

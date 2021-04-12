@@ -136,7 +136,15 @@ app-comment {
 }
 
 .owner-icon {
-  color: var(--purple)
+  color: var(--purple);
+}
+
+.lecturer-icon {
+  color: var(--primary);
+}
+
+.moderator-icon {
+  color: var(--primary);
 }
 
 .counter {

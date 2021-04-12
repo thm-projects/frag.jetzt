@@ -71,6 +71,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   wrong = 'wrong';
   ack = 'ack';
   bookmark = 'bookmark';
+  moderator = 'moderator';
+  lecturer = 'lecturer';
   tag = 'tag';
   userNumber = 'userNumber';
   answer = 'answer';
@@ -480,7 +482,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.answer;
         case this.owner:
           return c.creatorId === this.user.id;
-      }
+        case this.moderator:
+          return c.creatorId === this.user.id && (this.user.role === 2 || this.user.role === 1);
+        case this.lecturer:
+          return c.creatorId === this.user.id && this.user.role === 3;
+        }
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
