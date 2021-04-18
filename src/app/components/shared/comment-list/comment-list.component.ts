@@ -28,6 +28,7 @@ import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 export enum Period {
   FROMNOW = 'from-now',
@@ -94,6 +95,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   headerInterface = null;
   period: Period = Period.TWOWEEKS;
   fromNow: number;
+  moderatorIds: string[];
 
   constructor(
     private commentService: CommentService,
@@ -111,7 +113,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private router: Router,
     private titleService: TitleService,
     private translationService: TranslateService,
-    private bonusTokenService: BonusTokenService
+    private bonusTokenService: BonusTokenService,
+    private moderatorService: ModeratorService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -217,6 +220,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
+          this.getModeratorIds();
           this.subscribeCommentStream();
           this.commentService.getAckComments(this.room.id)
             .subscribe(comments => {
@@ -238,6 +242,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.isSafari = localStorage.getItem('isSafari');
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
+    });
+  }
+
+  getModeratorIds() {
+    this.moderatorService.get(this.roomId).subscribe(list => {
+      this.moderatorIds = list.map(m => m.accountId);
+      this.moderatorIds.push(this.room.ownerId);
     });
   }
 
@@ -493,7 +504,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   sort(array: any[], type: string): any[] {
-    return array.sort((a, b) => {
+    const sortedArray = array.sort((a, b) => {
       if (type === this.voteasc) {
         return (a.score > b.score) ? 1 : (b.score > a.score) ? -1 : 0;
       } else if (type === this.votedesc) {
@@ -503,6 +514,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
         return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
       }
     });
+    return sortedArray.sort((a, b) => {
+      return this.isCreatedByModeratorOrCreator(a) ? -1 : this.isCreatedByModeratorOrCreator(b) ? 1 : 0;
+    });
+  }
+
+  isCreatedByModeratorOrCreator(comment: Comment): boolean {
+    return this.moderatorIds.indexOf(comment.creatorId) > -1;
   }
 
   sortComments(type: string): void {
