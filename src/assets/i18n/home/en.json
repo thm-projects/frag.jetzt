@@ -65,7 +65,7 @@
     "QR": "QR code of the session in full view",
     "my-account": "Options",
     "my-guest-account": "Guest Account",
-    "my-sessions": "Go to session list",
+    "my-sessions": "Session list",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus tokens.",
     "sure": "Are you sure?",
     "user-bonus-token": "Your stars",
@@ -77,9 +77,9 @@
     "bonustoken": "Assigned Stars",
     "edit-moderator": "Moderators",
     "edit-tags": "Tags",
-    "export-questions": "Export questions",
+    "export-questions": "Save questions",
     "delete-questions": "Delete questions",
-    "back-to-questionboard": "Back to question board",
+    "back-to-questionboard": "Question board",
     "create-question": "Ask a question",
     "questionwall": "Question wall",
     "fullscreen": "Fullscreen",
@@ -234,7 +234,7 @@
     "join-message-template": "Join the session {{session}} with code {{id}} and in the role {{role}}",
     "moderator-role": "Moderator",
     "no-room-history": "Your session list is empty.",
-    "panel-join-button": "Option",
+    "panel-join-button": "",
     "panel-remove-button": "Remove session from list",
     "delete-room": "Delete session",
     "panel-session-id": "Key code",
@@ -260,7 +260,7 @@
     "token": "Bonus token",
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
-    "export-comments": "Export questions"
+    "export-comments": "Save questions"
   },
   "session": {
     "create-session": "Save",

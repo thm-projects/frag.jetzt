@@ -7,20 +7,16 @@
             (click)="goBack()">
       <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
-    <button mat-icon-button
-            aria-hidden="true"
-            *ngIf="isSafari === 'false'  && !router.url.includes('home')"
-            (click)="getRescale().toggleState();">
-      <mat-icon class="header-icons"
-                (click)="getRescale().toggleState();">fullscreen
-      </mat-icon>
-    </button>
+
     <span class="fill-remaining-space"></span>
+
     <h2 class="oldtypo-h2"
         *ngIf="router.url.includes('comments')  && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       {{cTime}}
     </h2>
+
+    <!--
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>
     <span class="fill-remaining-space"
@@ -33,7 +29,7 @@
       gavel
     </mat-icon>
   </span>
-    <!--
+
     <h2 class="oldtypo-h2"
         id="shortId-header"
         *ngIf="router.url.includes('comments')"
