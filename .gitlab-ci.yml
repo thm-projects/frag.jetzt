@@ -38,7 +38,7 @@ unit_tests:
 sonar:
   stage: codestyle
   only:
-    - master
+    - staging
   tags:
     - sonar-cli
   allow_failure: true
@@ -62,7 +62,23 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-deploy:
+deploy_staging:
+  stage: deploy
+  only:
+    - staging
+  tags:
+    - ssh
+  dependencies:
+    - tslint
+    - ngbuild
+  script:
+    - eval $(ssh-agent -s)
+    - mkdir ~/.ssh
+    - ssh-keyscan "$STAGING_SERVER_URL" >> ~/.ssh/known_hosts
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - scp -r "$BUILD_DIR"* "$STAGING_SSH_URL"
+
+deploy_production:
   stage: deploy
   only:
     - master
