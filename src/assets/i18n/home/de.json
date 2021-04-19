@@ -59,7 +59,7 @@
     "id": "Code",
     "logged-out": "Du bist jetzt abgemeldet.",
     "login": "Anmelden",
-    "logout": "Sitzung verlassen",
+    "logout": "Abmelden",
     "moderation-enabled": "Die Sitzung wird moderiert.",
     "QR": "QR-Code der Sitzung in Vollansicht",
     "my-account": "Optionen",
@@ -215,7 +215,7 @@
   },
   "remind-of-tokens": {
     "cancel": "Zu meinen Tokens",
-    "logout": "Sitzung verlassen"
+    "logout": "Abmelden"
   },
   "room-create": {
     "cancel": "Abbrechen",

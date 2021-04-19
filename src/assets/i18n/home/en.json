@@ -59,8 +59,8 @@
     "home-header": "Collect and rate questions",
     "id": "Key",
     "logged-out": "You are logged out now.",
-    "login": "Login",
-    "logout": "Leave session",
+    "login": "Log in",
+    "logout": "Log out",
     "moderation-enabled": "The session will be moderated.",
     "QR": "QR code of the session in full view",
     "my-account": "Options",
@@ -217,7 +217,7 @@
   },
   "remind-of-tokens": {
     "cancel": "To my tokens",
-    "logout": "Leave session"
+    "logout": "Log out"
   },
   "room-create": {
     "cancel": "Cancel",
