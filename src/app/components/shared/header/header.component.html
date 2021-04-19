@@ -65,13 +65,25 @@
 
           <!-- Moderator board / index -->
 
-          <ng-container *ngIf="router.url.endsWith('/moderator/comments')">
+          <ng-container *ngIf="user && user.role > 0 && (router.url.endsWith('/moderator/comments') || router.url.includes('/comment/'))">
+
+            <button mat-menu-item
+                    tabindex="0"
+                    routerLink="creator/room/{{shortId}}/comments">
+              <mat-icon>
+                forum
+              </mat-icon>
+              <span>{{'header.back-to-questionboard' | translate}}</span>
+            </button>
+
+          </ng-container>
+
+          <ng-container *ngIf="user && user.role == 0 && router.url.includes('/comment/')">
 
             <button mat-menu-item
                     tabindex="0"
                     routerLink="participant/room/{{shortId}}/comments">
-              <mat-icon
-                matTooltip="{{ 'header.back-to-questionboard' | translate }}">
+              <mat-icon>
                 forum
               </mat-icon>
               <span>{{'header.back-to-questionboard' | translate}}</span>
@@ -83,11 +95,10 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && user.role > 0 && !router.url.endsWith('moderator/comments')"
+                    *ngIf="user && !router.url.endsWith('moderator/comments')"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
-              <mat-icon
-                matTooltip="{{ 'header.create-question' | translate }}">
+              <mat-icon>
                 add
               </mat-icon>
               <span>{{'header.create-question' | translate}}</span>
@@ -97,11 +108,20 @@
 
               <button mat-menu-item
                       tabindex="0"
+                      *ngIf="user && user.role > 0 && !router.url.includes('/participant/') && !router.url.endsWith('moderator/comments')"
+                      routerLink="moderator/room/{{shortId}}/moderator/comments">
+                <mat-icon>
+                  visibility_off
+                </mat-icon>
+                <span>{{'header.moderationboard' | translate}}</span>
+              </button>
+
+              <button mat-menu-item
+                      tabindex="0"
                       *ngIf="deviceType !== 'mobile' && !router.url.includes('/participant/')"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
                 <mat-icon
-                  svgIcon="beamer"
-                  matTooltip="{{ 'header.questionwall-title' | translate }}">
+                  svgIcon="beamer">
                   comment
                 </mat-icon>
                 <span>{{'header.questionwall' | translate}}</span>
@@ -135,7 +155,7 @@
           </ng-container>
 
           <!-- Session -->
-          <ng-container *ngIf="!router.url.endsWith('/comments')">
+          <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/')">
 
             <!-- app-room-participant-page -->
             <ng-container *ngIf="router.url.includes('/participant/room/')">
@@ -176,7 +196,7 @@
 
           <!-- Room General Options - bot -->
 
-          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant')">
+          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant') && !router.url.includes('/comment/')" >
 
             <button mat-menu-item
                     *ngIf="user"
@@ -197,12 +217,10 @@
           </ng-container>
 
           <button mat-menu-item
-                  *ngIf="user && user.role > 0"
+                  *ngIf="user && user.role > 0 && !router.url.includes('/comment/')"
                   tabindex="0"
                   (click)="showQRDialog();">
-            <mat-icon svgIcon="qrcode"
-                      class="header-icons qrcode"
-                      matTooltip="{{ 'header.QR' | translate }}">
+            <mat-icon svgIcon="qrcode" class="header-icons qrcode">
             </mat-icon>
             <span>{{'header.room-qr' | translate}}</span>
           </button>
