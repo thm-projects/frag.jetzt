@@ -132,7 +132,7 @@
     "live-announcer-moderation": "Du befindest dich jetzt auf der Moderations-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "Markdown-hint": "Formatiere mit Markdown",
     "mark-correct": "Frage bejahen",
-    "mark-favorite": "Frage mit einem Stern markieren",
+    "mark-favorite": "Frage für einen Bonus markieren",
     "mark-bookmark": "Lesezeichen setzen",
     "mark-not-correct": "Markierung zurücknehmen",
     "mark-not-favorite": "Stern zurücknehmen",
@@ -166,7 +166,7 @@
     "edit-wrong-reset": "Markierung zurücksetzen",
     "edit-answer-create": "Beantworten / Kommentieren",
     "edit-answer-edit": "Antwort anzeigen / bearbeiten",
-    "edit-favorite": "Als interessant markieren",
+    "edit-favorite": "Für einen Bonus markieren",
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen"
