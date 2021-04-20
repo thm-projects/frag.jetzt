@@ -12,6 +12,16 @@
       <ars-fill ars-flex-box>
         <ars-fill></ars-fill>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+
+          <button ars-btn aria-labelledby="header-info-comment-count">
+            <i>comment</i><p>{{comments.length}}</p>
+          </button>
+
+          <button ars-btn aria-labelledby="header-info-user-count">
+            <i>face</i><p>{{ ('question-wall.header-info-user-questioner-' + (userList.length > 1 ? 'plural' : 'singular')) | translate}}
+            {{userList.length}}</p>
+          </button>
+
           <mat-menu #sortMenu>
             <button mat-menu-item (click)="sortTime(true)" aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
             <button mat-menu-item (click)="sortTime()" aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
@@ -22,7 +32,7 @@
               <mat-icon class="star">grade</mat-icon>
               <span>{{'question-wall.filter-favorite' | translate}}</span>
             </button>
-            
+
             <button mat-menu-item (click)="filterBookmark()" aria-labelledby="filter-lbl-bookmark">
               <mat-icon>bookmark</mat-icon>
               <span>{{'question-wall.filter-bookmark' | translate}}</span>
@@ -294,4 +304,8 @@
   <div id="prev-comment-lbl">{{'question-wall.prev-comment-lbl' | translate}}</div>
   <div id="next-comment-lbl">{{'question-wall.next-comment-lbl' | translate}}</div>
   <div id="style-blue-label">{{'footer.style-blue' | translate}}</div>
+
+  <div id="header-info-comment-count">{{'question-wall.header-info-comment-count' | translate}} {{ comments.length }}</div>
+  <div id="header-info-user-count">{{'question-wall.header-info-user-count' | translate}} {{ userList.length }}</div>
+
 </div>

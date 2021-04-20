@@ -11,7 +11,7 @@
     "a11y-filter_list": "Option Fragen zu filtern",
     "a11y-grade": "Filtert alle Bonus Fragen",
     "a11y-moderator": "Filtert alle Fragen von Moderatoren",
-    "a11y-lecturer": "Filtert alle Fragen von Dozenten", 
+    "a11y-lecturer": "Filtert alle Fragen von Dozenten",
     "a11y-bookmark": "Filtert alle Fragen mit Lesezeichen",
     "a11y-keyboard_arrow_down": "Sortiert die Fragen nach absteigenden Bewertungen",
     "a11y-keyboard_arrow_up": "Sortiert die Fragen nach aufsteigenden Bewertungen",
@@ -207,6 +207,10 @@
     "autofocus-off-lbl": "Automatische Fokussierung neuer Fragen beenden",
     "autofocus-on-lbl": "Neue Fragen automatisch fokussieren",
     "prev-comment-lbl": "Vorherige Frage",
-    "next-comment-lbl": "Nächste Frage"
+    "next-comment-lbl": "Nächste Frage",
+    "header-info-user-count": "Anzahl Benutzer",
+    "header-info-comment-count": "Anzahl Kommentare",
+    "header-info-user-questioner-singular": "Fragensteller",
+    "header-info-user-questioner-plural": "Fragensteller"
   }
 }

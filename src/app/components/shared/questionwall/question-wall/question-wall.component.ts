@@ -86,6 +86,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         const comment = new QuestionWallComment(c, true);
         this.comments.push(comment);
         this.setTimePeriod(this.period);
+        this.createUserMap();
       });
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
@@ -94,6 +95,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
       this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
+        this.createUserMap();
         this.notUndefined(this.comments.find(f => f.comment.id === comment.id), qwComment => {
           qwComment.comment = comment;
         }, () => {
