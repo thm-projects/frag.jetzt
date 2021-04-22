@@ -299,7 +299,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterFunction = filter;
     this.commentsFilter = this.commentsFilteredByTime.filter(this.filterFunction);
     this.hasFilter = true;
-    setTimeout(() => this.focusFirstComment(), 0);
+    setTimeout(() => {
+      if (this.commentsFilter.length <= 0) {
+        this.commentFocus = null;
+      } else {
+        this.focusFirstComment();
+      }
+    }, 0);
   }
 
   focusFirstComment() {

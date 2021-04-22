@@ -1,0 +1,164 @@
+@startuml
+title frag.jetzt
+|#CE93D8|Lecturer|
+start
+:open frag.jetzt;
+if(lecturer has an account) then (yes)
+    :login;
+    if(session already exists?) then (yes)
+        :access session as lecturer;
+    else (no)
+        :create session;
+    endif
+else (no)
+    if()
+    :login as guest;
+    :create session;
+    else ()
+    :create session;
+    endif
+endif
+
+fork
+    :wait for questions;
+fork again
+partition "Share session" {
+    :give students and moderators the opportunity to access session;
+}
+|#90CAF9|Student|
+fork
+    :open frag.jetzt;
+    if(participant has an account?) then (yes)
+        :login;
+        :access session as student;
+    else (no)
+        :access session as guest;
+    endif
+    :open question board;
+    partition "Ask a question" {
+    repeat
+        :open "Ask a question!" window;
+        :write question;
+        :post question;
+    repeat while (want to ask more questions?)
+    }
+fork again
+    |#FFAF49|Moderator|
+    :open frag.jetzt;
+    :login;
+    :access session as moderator;
+    |Student|
+end fork
+|Lecturer|
+end fork
+if () then
+    :open question board;
+    partition "Highlight question" {
+    (A)
+    :review question;
+    if(question is particularly interesting?) then (yes)
+        :mark question with star;
+    else (no)
+        if(unreviewed questions exist?) then (yes)
+           (A)
+           detach
+        else (no)
+            stop
+        endif
+    endif
+    }
+    else
+        |Moderator|
+        :open question board;
+        partition "Highlight question" {
+        (B)
+        :review question;
+        if(question is particularly interesting?) then (yes)
+            :mark question with star;
+        else (no)
+            if(unreviewed questions exist?) then (yes)
+               (B)
+               detach
+            else (no)
+                stop
+            endif
+        endif
+        }
+endif
+-[#black,bold]->
+|Student|
+partition "Redeem bonus token" {
+:select "Account";
+note right
+PlantUML doesn't support pins.
+The black arrow only transmits the information
+that a question has been awarded a star.
+end note
+:select "Your stars";
+:choose a session;
+:redeem token;
+:send email with token to lecturer;
+}
+-[#black,dashed]->
+|Lecturer|
+partition "Award bonus points" {
+:receive email with token from student;
+note left
+PlantUML doesn't support pins.
+The dashed black arrow only transmits the email.
+end note
+:navigate to comprehensive view of the session;
+:select "Session administration";
+:select "Tokens for bonus stars";
+if(token from email and token in session is identical?) then (yes)
+    :review question again;
+    if(question is worth bonus points?) then (yes)
+        :award student bonus points;
+    else (no)
+        :send email back with answer;
+        stop
+    endif
+else (no)
+    stop
+endif
+Stop
+}
+
+
+legend right
+  |= \n          |= \n [[https://frag.jetzt/home frag.jetzt]] \n\n Technische Hochschule Mittelhessen – THM \n University of Applied Sciences |
+  | Projekt-Website | [[https://frag.jetzt/home]] |
+  | «USP» | Anonymity, Accessibility, Audience Response System |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Version | v1.3.0 |
+  | Staging Server | [[]] |
+  | RUP-Phase| |
+  | UML-Tool| PlantUML 4.1.1|
+  | Modellversion| 1.0 |
+  | Erstelldatum| 09.01.2021 |
+  | Ersteller| Tim Lennard Debre|
+  | Mail| tim.lennard.debre@mni.thm.de |
+  | Letzte Änderung| 30.01.2021 |
+  | Letzter Bearbeiter| Tim Lennard Debre |
+  | Mail| tim.lennard.debre@mni.thm.de |
+
+  Used use cases:
+        Lecturer:
+            - create session / access session as lecturer
+            - highlight question / mark question with star
+            - login
+            - share session
+            - view questions
+        Student:
+            - login
+            - join session as student / guest
+            - ask question
+            - redeem token
+            - view questions
+        Moderator:
+            - login
+            - join session as moderator
+            - highlight question / mark question with star
+            - view questions
+end legend
+@enduml
