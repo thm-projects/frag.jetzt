@@ -104,7 +104,7 @@
               <span>{{'header.create-question' | translate}}</span>
             </button>
 
-            <ng-container *ngIf="user && user.role > 0">
+            <ng-container>
 
               <button mat-menu-item
                       tabindex="0"
@@ -118,17 +118,15 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="deviceType !== 'mobile' && !router.url.includes('/participant/')"
+                      *ngIf="deviceType !== 'mobile'"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
                 <mat-icon
                   svgIcon="beamer">
-                  comment
                 </mat-icon>
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
 
             </ng-container>
-
             <ng-container *ngIf="router.url.includes('/participant/room/')">
             </ng-container>
             <ng-container *ngIf="router.url.includes('/moderator/room/')">
@@ -196,7 +194,7 @@
 
           <!-- Room General Options - bot -->
 
-          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant') && !router.url.includes('/comment/')" >
+          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
 
             <button mat-menu-item
                     *ngIf="user"
@@ -220,7 +218,8 @@
                   *ngIf="user && user.role > 0 && !router.url.includes('/comment/')"
                   tabindex="0"
                   (click)="showQRDialog();">
-            <mat-icon svgIcon="qrcode" class="header-icons qrcode">
+            <mat-icon svgIcon="qrcode"
+                      class="header-icons qrcode">
             </mat-icon>
             <span>{{'header.room-qr' | translate}}</span>
           </button>
