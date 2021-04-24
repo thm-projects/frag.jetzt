@@ -1,5 +1,5 @@
 <div fxLayout="row"
-     *ngIf="comments.length > 1"
+     *ngIf="comments.length > 0"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -54,7 +54,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="swap_vert"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="!searchBox.value && comments && comments.length > 2 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -64,7 +64,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="filter_list"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="!searchBox.value && comments && comments.length > 2 && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': hideCommentsList}"
             matTooltip="{{ 'comment-list.filter-comments' | translate }}">
@@ -86,7 +86,7 @@
             mat-icon-button
             aria-labelledby="pause"
             class="freezeButton"
-            *ngIf="!searchBox.value && !search && !freeze"
+            *ngIf="!searchBox.value && !search && !freeze && comments.length > 2"
             (click)="pauseCommentStream()"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
       <mat-icon class="freezeIcon">pause</mat-icon>
