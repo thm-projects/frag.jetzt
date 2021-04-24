@@ -34,7 +34,7 @@ fork
     else (no)
         :access session as guest;
     endif
-    :open question board;
+    :open question list;
     partition "Ask a question" {
     repeat
         :open "Ask a question!" window;
@@ -52,7 +52,7 @@ end fork
 |Lecturer|
 end fork
 if () then
-    :open question board;
+    :open question list;
     partition "Highlight question" {
     (A)
     :review question;
@@ -69,7 +69,7 @@ if () then
     }
     else
         |Moderator|
-        :open question board;
+        :open question list;
         partition "Highlight question" {
         (B)
         :review question;
