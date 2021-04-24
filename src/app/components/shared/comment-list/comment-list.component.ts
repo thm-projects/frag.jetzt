@@ -277,7 +277,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.searchInput) {
       if (this.searchInput.length > 1) {
         this.hideCommentsList = true;
-        this.filteredComments = this.commentsFilteredByTime
+        this.filteredComments = this.comments
           .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
                        || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
       }
