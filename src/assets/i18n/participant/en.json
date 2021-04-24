@@ -172,9 +172,9 @@
   },
   "question-wall": {
     "next-comment": "Next question",
-    "next-comment-icon": "keyboard_arrow_right",
+    "next-comment-icon": "navigate_next",
     "prev-comment": "Previous question",
-    "prev-comment-icon": "keyboard_arrow_left",
+    "prev-comment-icon": "navigate_before",
     "auto-renew-on": "Autofocus for new questions",
     "auto-renew-on-icon": "highlight",
     "auto-renew-off": "Switch off autofocus",

@@ -4,9 +4,9 @@
           'border-notMarked': user !== undefined && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer && comment.creatorId !== user.id,
           'border-ownQuestion': user !== undefined && comment.creatorId === user.id && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer,
           'border-correct': comment.correct === 1,
-          'border-wrong': comment.correct === 2, 
+          'border-wrong': comment.correct === 2,
           'border-answer': comment.answer && comment.bookmark === false && comment.favorite === false,
-          'border-bookmark': comment.bookmark === true, 
+          'border-bookmark': comment.bookmark === true,
           'border-favorite': comment.favorite === true
           }"
           [@slide]="slideAnimationState"
