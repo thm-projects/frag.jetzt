@@ -44,7 +44,7 @@
     <button id="sort-button"
             mat-icon-button
             class="searchBarButton"
-            *ngIf="!searchBox.value && comments && comments.length > 2 && !search"
+            *ngIf="!searchBox.value && comments && commentsFilteredByTime.length > 2 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
