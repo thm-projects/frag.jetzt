@@ -1,5 +1,5 @@
 <div fxLayout="row"
-     *ngIf="comments.length > 1"
+     *ngIf="comments.length > 0"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -44,7 +44,7 @@
     <button id="sort-button"
             mat-icon-button
             class="searchBarButton"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="!searchBox.value && comments && comments.length > 2 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -64,7 +64,7 @@
     <button mat-icon-button
             class="searchBarButton"
             (click)="switchToCommentList()"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="!searchBox.value && comments && !search"
             matTooltip="{{ 'comment-list.switch-to-comment-list' | translate }}">
       <mat-icon class="searchBarIcon">question_answer</mat-icon>
     </button>
