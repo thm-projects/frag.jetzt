@@ -177,6 +177,16 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
+              (click)="filterComments(unanswered)"
+              aria-labelledby="comment">
+        <mat-icon class="unanswered"
+                  [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">comment
+        </mat-icon>
+        <span [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">{{ 'comment-list.filter-unanswered' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (focus)="hideCommentsList=true"
               (click)="filterComments(owner)"
               aria-labelledby="comment">
         <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person_pin_circle</mat-icon>

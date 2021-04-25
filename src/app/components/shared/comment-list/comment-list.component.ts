@@ -31,13 +31,13 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 
 export enum Period {
-  FROMNOW = 'from-now',
-  ONEHOUR = 'time-1h',
+  FROMNOW    = 'from-now',
+  ONEHOUR    = 'time-1h',
   THREEHOURS = 'time-3h',
-  ONEDAY = 'time-1d',
-  ONEWEEK = 'time-1w',
-  TWOWEEKS = 'time-2w',
-  ALL = 'time-all'
+  ONEDAY     = 'time-1d',
+  ONEWEEK    = 'time-1w',
+  TWOWEEKS   = 'time-2w',
+  ALL        = 'time-all'
 }
 
 @Component({
@@ -77,6 +77,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   tag = 'tag';
   userNumber = 'userNumber';
   answer = 'answer';
+  unanswered = 'unanswered';
   owner = 'owner';
   currentFilter = '';
   commentVoteMap = new Map<string, Vote>();
@@ -114,7 +115,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private titleService: TitleService,
     private translationService: TranslateService,
     private bonusTokenService: BonusTokenService,
-    private moderatorService: ModeratorService
+    private moderatorService: ModeratorService,
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -125,14 +126,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
     nav('createQuestion', () => this.openCreateDialog());
     nav('moderator', () => {
       const dialogRef = this.dialog.open(ModeratorsComponent, {
-        width: '400px'
+        width: '400px',
       });
       dialogRef.componentInstance.roomId = this.room.id;
     });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
       const dialogRef = this.dialog.open(TagsComponent, {
-        width: '400px'
+        width: '400px',
       });
       let tags = [];
       if (this.room.tags !== undefined) {
@@ -140,40 +141,40 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
       dialogRef.componentInstance.tags = tags;
       dialogRef.afterClosed()
-      .subscribe(result => {
-        if (!result || result === 'abort') {
-          return;
-        } else {
-          updRoom.tags = result;
-          this.roomService.updateRoom(updRoom)
-          .subscribe((room) => {
-              this.room = room;
-              this.translateService.get('room-page.changes-successful').subscribe(msg => {
-                this.notificationService.show(msg);
-              });
-            },
-            error => {
-              this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-                this.notificationService.show(msg);
-              });
-            });
-        }
-      });
+        .subscribe(result => {
+          if (!result || result === 'abort') {
+            return;
+          } else {
+            updRoom.tags = result;
+            this.roomService.updateRoom(updRoom)
+              .subscribe((room) => {
+                  this.room = room;
+                  this.translateService.get('room-page.changes-successful').subscribe(msg => {
+                    this.notificationService.show(msg);
+                  });
+                },
+                error => {
+                  this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+                    this.notificationService.show(msg);
+                  });
+                });
+          }
+        });
     });
     nav('deleteQuestions', () => {
       const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-        width: '400px'
+        width: '400px',
       });
       dialogRef.componentInstance.roomId = this.roomId;
       dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.translationService.get('room-page.comments-deleted').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-          this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
-        }
-      });
+        .subscribe(result => {
+          if (result === 'delete') {
+            this.translationService.get('room-page.comments-deleted').subscribe(msg => {
+              this.notificationService.show(msg);
+            });
+            this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
+          }
+        });
     });
     nav('exportQuestions', () => {
       const exp: Export = new Export(
@@ -231,7 +232,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
            if (this.userRole === UserRole.PARTICIPANT) {
             this.openCreateDialog();
           }
-            */
+           */
         });
       });
     });
@@ -491,13 +492,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.answer:
           return c.answer;
+        case this.unanswered:
+          return !c.answer;
         case this.owner:
           return c.creatorId === this.user.id;
         case this.moderator:
           return c.creatorId === this.user.id && (this.user.role === 2 || this.user.role === 1);
         case this.lecturer:
           return c.creatorId === this.user.id && this.user.role === 3;
-        }
+      }
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
@@ -629,7 +632,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >=
-          (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
+                     (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
       this.commentsFilteredByTime = this.comments;
     }
