@@ -149,7 +149,7 @@
     "password-required": "Password required",
     "password-reset": "Forgot your password?",
     "register": "Register",
-    "restart-account-activation-button": "Send again",
+    "restart-account-activation-button": "If invalid, request a new key",
     "restart-account-activation-correct": "Activation key sent again",
     "restart-account-activation-tooltip": "Sends the activation key again",
     "welcome": "»Any questions?«",
@@ -271,7 +271,7 @@
     "session-name": "Session name (key will be generated)"
   },
   "user-activation": {
-    "activate": "Activate",
+    "activate": "Activate account",
     "activate-description": "Activates the account",
     "activation-key": "Activation key",
     "activation-key-incorrect": "Activation key is incorrect.",
