@@ -19,6 +19,10 @@ mat-card-content > :first-child {
   margin-top: 20px;
 }
 
+.delete-own-comment {
+  color: var(--on-surface) !important;
+}
+
 .voting-icon {
   width: 35px;
   height: 35px;

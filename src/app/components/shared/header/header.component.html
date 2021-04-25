@@ -69,7 +69,18 @@
 
             <button mat-menu-item
                     tabindex="0"
+                    *ngIf="user.role == 3"
                     routerLink="creator/room/{{shortId}}/comments">
+              <mat-icon>
+                forum
+              </mat-icon>
+              <span>{{'header.back-to-questionboard' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    tabindex="0"
+                    *ngIf="user.role > 0 && user.role < 3"
+                    routerLink="moderator/room/{{shortId}}/comments">
               <mat-icon>
                 forum
               </mat-icon>
