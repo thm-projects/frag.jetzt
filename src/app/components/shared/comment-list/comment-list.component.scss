@@ -64,6 +64,10 @@ app-comment {
   color: var(--secondary);
 }
 
+.red {
+  color: var(--red) !important;
+}
+
 .actionButton {
   width: 45px;
   height: 45px;

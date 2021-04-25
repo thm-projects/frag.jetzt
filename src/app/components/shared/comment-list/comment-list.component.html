@@ -9,7 +9,7 @@
           *ngIf="currentFilter !== ''"
           (click)="filterComments('');"
           aria-labelledby="close_filter">
-    <mat-icon class="searchBarIcon">close</mat-icon>
+    <mat-icon class="searchBarIcon red">close</mat-icon>
   </button>
   <mat-label *ngIf="deviceType === 'desktop'"
              fxLayoutAlign="center center">
@@ -27,7 +27,7 @@
          aria-labelledby="search-box-input-description">
   <button id="search_close-button"
           mat-icon-button
-          class="searchBarButton close"
+          class="searchBarButton close red"
           *ngIf="searchInput !== '' || search"
           (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';"
           aria-labelledby="close_search">
