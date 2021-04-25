@@ -19,7 +19,7 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "APP_NAME/src/robots.txt"
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss",
