@@ -1,4 +1,5 @@
-<mat-card id="comment-card" class="border"
+<mat-card id="comment-card"
+          class="border"
           [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
           'moderator': moderator,
           'border-notMarked': user !== undefined && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer && comment.creatorId !== user.id,
@@ -91,12 +92,25 @@
                 (click)="setBookmark(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-                <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}"
-                [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
+          <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}"
+                    [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
                                                       : ('comment-page.mark-not-bookmark' | translate)">bookmark
-                </mat-icon>
+          </mat-icon>
         </button>
       </ng-container>
+
+      <button mat-icon-button
+              class="delete-own-comment"
+              *ngIf="(isStudent && (comment.creatorId && user && comment.creatorId === user.id)) && (!comment.bookmark || !comment.favorite || !comment.correct || !comment.answer)"
+              (click)="openDeleteCommentDialog()"
+              tabindex="0"
+              attr.aria-labelledby="comment_delete{{ comment.id }}"
+      >
+        <mat-icon>
+          delete
+        </mat-icon>
+      </button>
+
       <ng-container *ngIf="!isStudent">
         <button mat-icon-button
                 class="edit-button"
