@@ -1,0 +1,5 @@
+User-agent: *
+Disallow: /frag.jetzt/user/
+Disallow: /frag.jetzt/creator/
+Disallow: /frag.jetzt/participant/
+Disallow: /frag.jetzt/moderator/
