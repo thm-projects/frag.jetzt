@@ -125,7 +125,7 @@
     "title": "Einführung"
   },
   "login": {
-    "activation-key": "Aktivierungsschlüssel",
+    "activation-key": "Aktivierungs-Schlüssel",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "email": "E-Mail",
@@ -148,9 +148,9 @@
     "password-required": "Passwort erforderlich",
     "password-reset": "Passwort vergessen?",
     "register": "Registrieren",
-    "restart-account-activation-button": "Falls ungültig, neuen Schlüssel anfordern",
-    "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
-    "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
+    "restart-account-activation-button": "Falls ungültig, neuen Schlüssel anfordern.",
+    "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde erneut gesendet.",
+    "restart-account-activation-tooltip": "Sendet den Aktivierungs-Schlüssel erneut an die angegebene Adresse.",
     "welcome": "»Haben Sie Fragen?«",
     "welcome-feedback": "➜ Feedback",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
