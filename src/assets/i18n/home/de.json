@@ -148,7 +148,7 @@
     "password-required": "Passwort erforderlich",
     "password-reset": "Passwort vergessen?",
     "register": "Registrieren",
-    "restart-account-activation-button": "Erneut senden",
+    "restart-account-activation-button": "Falls ungültig, neuen Schlüssel anfordern",
     "restart-account-activation-correct": "Der Aktivierungsschlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungsschlüssel erneut an die angegebene Adresse",
     "welcome": "»Haben Sie Fragen?«",
@@ -269,7 +269,7 @@
     "session-name": "Sitzungsname (Code wird generiert)"
   },
   "user-activation": {
-    "activate": "Aktivieren",
+    "activate": "Konto aktivieren",
     "activate-description": "Aktiviert den Account",
     "activation-key": "Aktivierungs-Schlüssel",
     "activation-key-incorrect": "Aktivierungs-Schlüssel falsch",
