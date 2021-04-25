@@ -76,6 +76,10 @@ app-comment {
   color: var(--secondary);
 }
 
+.red {
+  color: var(--red) !important;
+}
+
 .no-comments {
   margin-top: 10%;
 }
