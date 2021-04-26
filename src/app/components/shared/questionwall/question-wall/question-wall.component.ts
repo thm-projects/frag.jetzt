@@ -32,7 +32,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsFilter: QuestionWallComment[] = [];
   commentFocus: QuestionWallComment;
   unreadComments = 0;
-  focusIncommingComments = false;
+  focusIncommingComments = true;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   hasFilter = false;
