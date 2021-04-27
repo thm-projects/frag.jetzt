@@ -205,7 +205,7 @@
 
           <!-- Room General Options - bot -->
 
-          <ng-container *ngIf="user && user.role > 0 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
+          <ng-container *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
 
             <button mat-menu-item
                     *ngIf="user"
@@ -245,7 +245,7 @@
               *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
-        <mat-icon class="sessions">group</mat-icon>
+        <mat-icon class="sessions">view_list</mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
