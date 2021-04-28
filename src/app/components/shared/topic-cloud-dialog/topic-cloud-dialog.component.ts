@@ -6,33 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./topic-cloud-dialog.component.scss']
 })
 export class TopicCloudDialogComponent implements OnInit {
-
-<<<<<<< HEAD
-  public panelOpenState: boolean;
-  
-  keywords = [
-    {
-      keywordID: '0',
-      titel: 'Frage',
-      questions: ['what is your question', 'where are u from']
-    },
-    {
-      keywordID: '1',
-      titel: 'Klausur',
-      questions: ['hast du gelernt', 'ein test']
-    },
-    {
-      keywordID: '2',
-      titel: 'Hobby',
-      questions: ['was ist dein Hobby', 'was ist dein Plan']
-    }
-  ]
-
   public panelOpenState = false;
   public array = [
     {
       "keyword": "Cloud",
-      "correspondingQuestions": [
+      "questions": [
         "Wie genau ist die Cloud aufgebaut?",
         "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
         "Sollen wir die Tag Cloud implementieren?"
@@ -40,13 +18,13 @@ export class TopicCloudDialogComponent implements OnInit {
     },
     {
       "keyword": "SWT",
-      "correspondingQuestions": [
+      "questions": [
         "Muss man fuer das Modul SWT bestanden haben?"
       ]
     },
     {
       "keyword": "Frage",
-      "correspondingQuestions": [
+      "questions": [
         "Das ist eine Lange Frage mit dem Thema 'frage'",
         "Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
         "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
@@ -55,7 +33,7 @@ export class TopicCloudDialogComponent implements OnInit {
     },
     {
       "keyword": "Klausur",
-      "correspondingQuestions": [
+      "questions": [
         "Darf man in der Klausur hilfmittel verwenden?",
         "An welchem Termin findet die Klausur statt?"
       ]

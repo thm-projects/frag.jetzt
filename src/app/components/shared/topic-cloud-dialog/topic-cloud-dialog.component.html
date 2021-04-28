@@ -1,59 +1,33 @@
 <mat-dialog-content>
 
   <mat-accordion>
-<<<<<<< HEAD
-
-    <mat-expansion-panel hideToggle *ngFor="let keyword of keywords">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          {{keyword.titel}}
-        </mat-panel-title>
-
-        <!--<mat-panel-description>
-          This is a summary of the content
-        </mat-panel-description> -->
-
-      </mat-expansion-panel-header>
-
-      <div *ngFor="let question of keyword.questions">
-        <p>{{question}}</p>
-      </div>
-
-      <button mat-icon-button style="align-self:flex-end;" 
-              (click)="deleteKeyWord(keyword.keywordID)">
-        <mat-icon>delete</mat-icon>
-      </button>
-
-      <button mat-icon-button style="align-self:flex-end;"
-              (click)="editKeyWord(keyword.keywordID)">
-        <mat-icon>edit</mat-icon>
-      </button>
-    </mat-expansion-panel>
-=======
       <mat-expansion-panel
                           (opened)="panelOpenState = true"
                           (closed)="panelOpenState = false"
-                          *ngFor="let elem of array">
+                          *ngFor="let keyword of array">
         <mat-expansion-panel-header class="color">
           <mat-panel-title>
-            {{elem.keyword}}
+            {{keyword.keyword}}
           </mat-panel-title>
           <mat-panel-description>
-            {{elem.correspondingQuestions.length}} Questions
+            {{keyword.questions.length}} Questions
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <p *ngFor="let question of elem.correspondingQuestions">{{question}}</p>
-        <!-- TODO: show buttons only to creator and moderators -->
+        <p *ngFor="let question of keyword.questions">{{question}}</p>
+
         <mat-divider></mat-divider>
-        <button mat-icon-button>
-          <mat-icon class="primary">edit</mat-icon></button>
-        <button mat-icon-button>
+
+        <!-- TODO: show buttons only to creator and moderators -->
+        <button mat-icon-button style="align-self:flex-end;"
+                (click)="editKeyWord(keyword.keywordID)">
+          <mat-icon class="primary">edit</mat-icon>
+        </button>
+
+        <button mat-icon-button style="align-self:flex-end;"
+                (click)="deleteKeyWord(keyword.keywordID)">
           <mat-icon class="warn">delete</mat-icon>
         </button>
         <!-- TODO: add automatic translation -->
       </mat-expansion-panel>
->>>>>>> 3025e5d96c7ffef24a770c04bef8ebe9efc5fcc0
   </mat-accordion>
-  
-
 </mat-dialog-content>
