@@ -34,7 +34,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   unreadComments = 0;
-  focusIncommingComments = false;
+  focusIncommingComments = true;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   hasFilter = false;
@@ -319,7 +319,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterFunction = filter;
     this.commentsFilter = this.commentsFilteredByTime.filter(this.filterFunction);
     this.hasFilter = true;
-    setTimeout(() => this.focusFirstComment(), 0);
+    setTimeout(() => {
+      if (this.commentsFilter.length <= 0) {
+        this.commentFocus = null;
+      } else {
+        this.focusFirstComment();
+      }
+    }, 0);
     this.updateCommentsCountOverview();
   }
 
