@@ -137,6 +137,15 @@
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
 
+              <button mat-menu-item
+                      tabindex="0"
+                      *ngIf="deviceType !== 'mobile'"> 
+                <mat-icon>
+                  cloud
+                </mat-icon>
+                <span>{{'header.topic-cloud' | translate}}</span>
+              </button>
+
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
             </ng-container>
