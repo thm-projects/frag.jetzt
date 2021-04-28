@@ -28,6 +28,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
+import { TopicCloudDialogComponent } from './topic-cloud-dialog/topic-cloud-dialog.component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
     RemoveFromHistoryComponent,
     CommentAnswerComponent,
     MotdDialogComponent,
-    MotdMessageComponent
+    MotdMessageComponent,
+    TopicCloudDialogComponent
   ],
   exports: [
     RoomJoinComponent,
