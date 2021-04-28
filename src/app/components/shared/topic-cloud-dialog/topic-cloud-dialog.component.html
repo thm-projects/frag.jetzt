@@ -1,0 +1,34 @@
+<mat-dialog-content>
+
+  <mat-accordion>
+
+    <mat-expansion-panel hideToggle *ngFor="let keyword of keywords">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{keyword.titel}}
+        </mat-panel-title>
+
+        <!--<mat-panel-description>
+          This is a summary of the content
+        </mat-panel-description> -->
+
+      </mat-expansion-panel-header>
+
+      <div *ngFor="let question of keyword.questions">
+        <p>{{question}}</p>
+      </div>
+
+      <button mat-icon-button style="align-self:flex-end;" 
+              (click)="deleteKeyWord(keyword.keywordID)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <button mat-icon-button style="align-self:flex-end;"
+              (click)="editKeyWord(keyword.keywordID)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  
+
+</mat-dialog-content>

@@ -7,13 +7,14 @@
             (click)="goBack()">
       <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
+
     <button id="back-button"
-            mat-icon-button
-            aria-labelledby="back-label"
-            *ngIf="router.url !== '/home'"
-            (click)="goBack()">
-      <mat-icon class="header-icons">show cloud</mat-icon>
-    </button>
+    mat-icon-button
+    aria-labelledby="cloud"
+    *ngIf="router.url !== '/home'"
+    (click)="openCloudDialog()">
+<mat-icon class="header-icons">cloud</mat-icon>
+</button>
 
     <span class="fill-remaining-space"></span>
 

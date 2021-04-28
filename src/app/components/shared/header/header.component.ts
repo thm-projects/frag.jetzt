@@ -21,6 +21,7 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
+import { TopicCloudDialogComponent } from '../topic-cloud-dialog/topic-cloud-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -46,7 +47,8 @@ export class HeaderComponent implements OnInit {
               public eventService: EventService,
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
-              private motdService: MotdService
+              private motdService: MotdService,
+              public cloudDialog: MatDialog
   ) {
   }
 
@@ -129,6 +131,14 @@ export class HeaderComponent implements OnInit {
     });
     this.motdService.onNewMessage().subscribe(state => {
       this.motdState = state;
+    });
+  }
+
+  openCloudDialog() {
+    const cloudDialogRef = this.cloudDialog.open(TopicCloudDialogComponent);
+
+    cloudDialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 

@@ -61,6 +61,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
 import { MatomoModule } from 'ngx-matomo-v9';
+import { MatDialogModule } from '@angular/material/dialog';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -128,7 +129,8 @@ export function initializeApp(appConfig: AppConfig) {
       },
       isolate: true
     }),
-    ArsModule
+    ArsModule,
+    MatDialogModule
   ],
   providers: [
     /*AppConfig,
