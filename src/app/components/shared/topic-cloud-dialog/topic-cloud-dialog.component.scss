@@ -3,3 +3,31 @@
     display: none;  /* Chrome Safari */
 }
 //TODO: hide scrollbar for IE and Firefox
+
+button {
+  margin-right: 16px;
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.warn {
+  color: var(--red);
+}
+
+mat-panel-description, mat-panel-title, p {
+  color: var(--on-background);
+}
+
+mat-icon {
+  fill: currentColor;
+}
+
+mat-expansion-panel-header {
+  background-color: var(--surface);
+}
+
+mat-expansion-panel {
+  background-color: var(--surface);
+}

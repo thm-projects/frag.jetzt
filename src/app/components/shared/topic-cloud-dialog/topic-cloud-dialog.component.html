@@ -5,7 +5,7 @@
                           (opened)="panelOpenState = true"
                           (closed)="panelOpenState = false"
                           *ngFor="let elem of array">
-        <mat-expansion-panel-header>
+        <mat-expansion-panel-header class="color">
           <mat-panel-title>
             {{elem.keyword}}
           </mat-panel-title>
@@ -14,6 +14,14 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <p *ngFor="let question of elem.correspondingQuestions">{{question}}</p>
+        <!-- TODO: show buttons only to creator and moderators -->
+        <mat-divider></mat-divider>
+        <button mat-icon-button>
+          <mat-icon class="primary">edit</mat-icon></button>
+        <button mat-icon-button>
+          <mat-icon class="warn">delete</mat-icon>
+        </button>
+        <!-- TODO: add automatic translation -->
       </mat-expansion-panel>
   </mat-accordion>
 
