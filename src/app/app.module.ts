@@ -60,7 +60,7 @@ import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dial
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
-import { MatomoModule } from 'ngx-matomo';
+import { MatomoModule } from 'ngx-matomo-v9';
 
 export function dialogClose(dialogResult: any) {
 }
