@@ -9,22 +9,25 @@ export class TopicCloudDialogComponent implements OnInit {
   public panelOpenState = false;
   public array = [
     {
-      "keyword": "Cloud",
-      "questions": [
+      keywordID: 1,
+      keyword: "Cloud",
+      questions: [
         "Wie genau ist die Cloud aufgebaut?",
         "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
         "Sollen wir die Tag Cloud implementieren?"
       ]
     },
     {
-      "keyword": "SWT",
-      "questions": [
+      keywordID: 2,
+      keyword: "SWT",
+      questions: [
         "Muss man fuer das Modul SWT bestanden haben?"
       ]
     },
     {
-      "keyword": "Frage",
-      "questions": [
+      keywordID: 3,
+      keyword: "Frage",
+      questions: [
         "Das ist eine Lange Frage mit dem Thema 'frage'",
         "Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
         "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
@@ -32,8 +35,9 @@ export class TopicCloudDialogComponent implements OnInit {
       ]
     },
     {
-      "keyword": "Klausur",
-      "questions": [
+      keywordID: 4,
+      keyword: "Klausur",
+      questions: [
         "Darf man in der Klausur hilfmittel verwenden?",
         "An welchem Termin findet die Klausur statt?"
       ]
@@ -45,11 +49,11 @@ export class TopicCloudDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  editKeyWord(id: number): void{
+  editKeyword(id: number): void{
       console.log("keyword with ID "+id+" has been edited");
   }
 
-  deleteKeyWord(id: number): void{
+  deleteKeyword(id: number): void{
       console.log("keyword with ID "+id+" has been deleted");
   }
 }
