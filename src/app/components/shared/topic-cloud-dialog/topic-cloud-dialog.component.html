@@ -1,6 +1,7 @@
 <mat-dialog-content>
 
   <mat-accordion>
+<<<<<<< HEAD
 
     <mat-expansion-panel hideToggle *ngFor="let keyword of keywords">
       <mat-expansion-panel-header>
@@ -28,6 +29,22 @@
         <mat-icon>edit</mat-icon>
       </button>
     </mat-expansion-panel>
+=======
+      <mat-expansion-panel
+                          (opened)="panelOpenState = true"
+                          (closed)="panelOpenState = false"
+                          *ngFor="let elem of array">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{elem.keyword}}
+          </mat-panel-title>
+          <mat-panel-description>
+            {{elem.correspondingQuestions.length}} Questions
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <p *ngFor="let question of elem.correspondingQuestions">{{question}}</p>
+      </mat-expansion-panel>
+>>>>>>> 3025e5d96c7ffef24a770c04bef8ebe9efc5fcc0
   </mat-accordion>
   
 

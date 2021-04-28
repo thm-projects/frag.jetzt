@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopicCloudDialogComponent implements OnInit {
 
+<<<<<<< HEAD
   public panelOpenState: boolean;
   
   keywords = [
@@ -26,6 +27,40 @@ export class TopicCloudDialogComponent implements OnInit {
       questions: ['was ist dein Hobby', 'was ist dein Plan']
     }
   ]
+
+  public panelOpenState = false;
+  public array = [
+    {
+      "keyword": "Cloud",
+      "correspondingQuestions": [
+        "Wie genau ist die Cloud aufgebaut?",
+        "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
+        "Sollen wir die Tag Cloud implementieren?"
+      ]
+    },
+    {
+      "keyword": "SWT",
+      "correspondingQuestions": [
+        "Muss man fuer das Modul SWT bestanden haben?"
+      ]
+    },
+    {
+      "keyword": "Frage",
+      "correspondingQuestions": [
+        "Das ist eine Lange Frage mit dem Thema 'frage'",
+        "Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
+        "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
+        "Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist"
+      ]
+    },
+    {
+      "keyword": "Klausur",
+      "correspondingQuestions": [
+        "Darf man in der Klausur hilfmittel verwenden?",
+        "An welchem Termin findet die Klausur statt?"
+      ]
+    }
+  ];
 
   constructor() { }
 
