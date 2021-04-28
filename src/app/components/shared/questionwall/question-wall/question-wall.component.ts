@@ -23,7 +23,7 @@ import { Period } from '../../comment-list/comment-list.component';
 })
 export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild(ColComponent)colComponent: ColComponent;
+  @ViewChild(ColComponent) colComponent: ColComponent;
 
   roomId: string;
   room: Room;
@@ -31,8 +31,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   commentsFilteredByTime: QuestionWallComment[] = [];
   commentsFilter: QuestionWallComment[] = [];
   commentFocus: QuestionWallComment;
+  commentsCountQuestions = 0;
+  commentsCountUsers = 0;
   unreadComments = 0;
-  focusIncommingComments = true;
+  focusIncommingComments = false;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
   hasFilter = false;
@@ -54,7 +56,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public notUndefined<E>(e: E, action: (e: E) => void, elsePart?: () => void) {
-    if (e) {action(e); } else if (elsePart) {elsePart(); }
+    if (e) {
+      action(e);
+    } else if (elsePart) {
+      elsePart();
+    }
   }
 
   constructor(
@@ -87,6 +93,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.comments.push(comment);
         this.setTimePeriod(this.period);
       });
+      this.updateCommentsCountOverview();
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
@@ -106,6 +113,14 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
     this.initKeySupport();
+  }
+
+  updateCommentsCountOverview(): void {
+    const tempUserSet = new Set();
+    const comments = this.getCurrentCommentList();
+    comments.forEach((wallComment) => tempUserSet.add(wallComment.comment.userNumber));
+    this.commentsCountQuestions = comments.length;
+    this.commentsCountUsers = tempUserSet.size;
   }
 
   initKeySupport() {
@@ -172,6 +187,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
     this.unreadComments++;
+    this.updateCommentsCountOverview();
     return qwComment;
   }
 
@@ -211,14 +227,18 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openUserMap() {
-    if (this.userSelection) {return; }
+    if (this.userSelection) {
+      return;
+    }
     this.hasFilter = false;
     this.createUserMap();
     this.userSelection = true;
+    this.updateCommentsCountOverview();
   }
 
   cancelUserMap() {
     this.userSelection = false;
+    this.updateCommentsCountOverview();
   }
 
   leave() {
@@ -269,7 +289,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   filterFavorites() {
     this.filter('grade', false, 'question-wall.filter-favorite', '',
-        x => x.comment.favorite);
+      x => x.comment.favorite);
   }
 
   filterUser(comment: QuestionWallComment) {
@@ -283,7 +303,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   filterBookmark() {
     this.filter('bookmark', false, 'question-wall.filter-bookmark', '',
-        x => x.comment.bookmark);
+      x => x.comment.bookmark);
   }
 
   filterTag(tag: string) {
@@ -299,13 +319,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterFunction = filter;
     this.commentsFilter = this.commentsFilteredByTime.filter(this.filterFunction);
     this.hasFilter = true;
-    setTimeout(() => {
-      if (this.commentsFilter.length <= 0) {
-        this.commentFocus = null;
-      } else {
-        this.focusFirstComment();
-      }
-    }, 0);
+    setTimeout(() => this.focusFirstComment(), 0);
+    this.updateCommentsCountOverview();
   }
 
   focusFirstComment() {
@@ -317,10 +332,12 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   deactivateFilter() {
     this.hasFilter = false;
     this.filterFunction = null;
+    this.updateCommentsCountOverview();
   }
 
   toggleFilter() {
     this.hasFilter = !this.hasFilter;
+    this.updateCommentsCountOverview();
   }
 
   sliderChange(evt: MatSliderChange) {
@@ -357,6 +374,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     if (this.filterFunction) {
       this.filter(this.filterIcon, this.isSvgIcon, this.filterTitle, this.filterDesc, this.filterFunction);
+    } else {
+      this.updateCommentsCountOverview();
     }
   }
 
