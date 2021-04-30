@@ -7,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopicCloudDialogComponent implements OnInit {
   public panelOpenState = false;
+  public edit: boolean;
+  public newKeyword = '';
+
   public array = [
     {
       keywordID: 1,
@@ -47,13 +50,31 @@ export class TopicCloudDialogComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.panelOpenState = false;
+    this.edit = false;
   }
 
-  editKeyword(id: number): void{
+  editKeyword(id: number): void {
       console.log("keyword with ID "+id+" has been edited");
+      this.edit = true;
   }
 
-  deleteKeyword(id: number): void{
+  deleteKeyword(id: number): void {
       console.log("keyword with ID "+id+" has been deleted");
+  }
+
+  cancelEdit(): void {
+    console.log("edit canceled");
+    this.edit = false;
+  }
+
+  confirmEdit(): void {
+    console.log("edit confirmed");
+    this.array[0].keyword = this.newKeyword;
+    this.edit = false;
+  }
+
+  openConfirmDialog(): void {
+    console.log("are u sure?");
   }
 }
