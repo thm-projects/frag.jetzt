@@ -1,10 +1,8 @@
 <mat-dialog-content>
 
   <mat-accordion>
-      <mat-expansion-panel
-                          (opened)="panelOpenState = true"
-                          (closed)="panelOpenState = false"
-                          *ngFor="let keyword of array">
+      <mat-expansion-panel 
+                          *ngFor="let keyword of keywords">
         <mat-expansion-panel-header class="color">
           <mat-panel-title>
             {{keyword.keyword}}
