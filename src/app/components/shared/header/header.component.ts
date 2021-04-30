@@ -47,10 +47,8 @@ export class HeaderComponent implements OnInit {
               public eventService: EventService,
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
-              private motdService: MotdService,
-              public cloudDialog: MatDialog
-  ) {
-  }
+              private motdService: MotdService
+  ) {}
 
   ngOnInit() {
     this.eventService.on('userLogin').subscribe(e => {
@@ -135,11 +133,7 @@ export class HeaderComponent implements OnInit {
   }
 
   openCloudDialog() {
-    const cloudDialogRef = this.cloudDialog.open(TopicCloudDialogComponent);
-
-    cloudDialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
-    });
+    this.dialog.open(TopicCloudDialogComponent);
   }
 
   showMotdDialog() {

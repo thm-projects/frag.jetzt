@@ -11,7 +11,7 @@
     <button id="back-button"
     mat-icon-button
     aria-labelledby="cloud"
-    *ngIf="router.url !== '/home'"
+    *ngIf="router.url !== '/user' && router.url !== '/home'"
     (click)="openCloudDialog()">
 <mat-icon class="header-icons">cloud</mat-icon>
 </button>
