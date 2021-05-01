@@ -30,6 +30,9 @@ import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.componen
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { TagCloadComponent } from './tag-cload/tag-cload.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   imports: [
@@ -40,7 +43,8 @@ import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    TagCloudModule
+    TagCloudModule,
+    ColorPickerModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -65,7 +69,8 @@ import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-
     RemoveFromHistoryComponent,
     CommentAnswerComponent,
     MotdDialogComponent,
-    MotdMessageComponent
+    MotdMessageComponent,
+    TagCloadComponent
   ],
   exports: [
     RoomJoinComponent,
