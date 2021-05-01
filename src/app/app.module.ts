@@ -4,7 +4,7 @@ import { RegisterComponent } from './components/home/_dialogs/register/register.
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
@@ -33,7 +33,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ModeratorService } from './services/http/moderator.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
@@ -58,11 +57,11 @@ import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
 import { MatomoModule } from 'ngx-matomo-v9';
 import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.component';
-import {TagCloudModule} from "angular-tag-cloud-module";
+import {TagCloudModule} from 'angular-tag-cloud-module';
+import {SpacyService} from './services/http/spacy.service';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -162,6 +161,7 @@ export function initializeApp(appConfig: AppConfig) {
     BonusTokenService,
     CustomIconService,
     WsConnectorService,
+    SpacyService,
     {
       provide: MatDialogRef,
       useValue: {
