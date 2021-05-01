@@ -1,7 +1,17 @@
-.config span {
-    display: none;
+.config {
+    span {
+        display: none;
+    }
+
+    mat-icon {
+        margin: 0;
+    }
 }
 
-.config:hover span {
-    display: inline;
+.config:hover {
+    background-color:#052338;
+    span {
+        margin-left: 16px;
+        display: inline;
+    }
 }
