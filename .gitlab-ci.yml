@@ -69,7 +69,7 @@ deploy_staging:
   tags:
     - ssh
   dependencies:
-    - tslint
+    - eslint
     - ngbuild
   script:
     - eval $(ssh-agent -s)
