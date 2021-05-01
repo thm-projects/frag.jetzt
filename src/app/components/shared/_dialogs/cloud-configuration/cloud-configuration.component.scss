@@ -1,0 +1,45 @@
+#commentSlider {
+  width: 100%;
+}
+
+.delete {
+  margin-bottom: 20px;
+  min-width: 220px;
+  background-color: var(--red);
+  color: var(--white);
+}
+
+.export {
+  margin-bottom: 20px;
+  min-width: 220px;
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+}
+
+button {
+  min-width: 105px;
+}
+
+mat-icon {
+  margin-right: 10px;
+}
+
+
+mat-divider {
+  margin-bottom: 10px;
+  color: var(--on-surface) !important;
+}
+
+.abort {
+  background-color: var(--cancel);
+  color: var(--on-cancel);
+}
+
+.update {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+
+.submit {
+  margin-top: 20px;
+}
