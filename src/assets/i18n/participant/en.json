@@ -214,6 +214,8 @@
     "autofocus-off-lbl": "Stop automatic focusing of new questions",
     "autofocus-on-lbl": "Turn on automatic focusing of new questions",
     "prev-comment-lbl": "Previous question",
-    "next-comment-lbl": "Next question"
+    "next-comment-lbl": "Next question",
+    "overview-question-tooltip": "Number of questions",
+    "overview-questioners-tooltip": "Number of questioners"
   }
 }
