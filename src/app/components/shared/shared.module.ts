@@ -29,6 +29,8 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 
+import { TagCloudModule } from 'angular-tag-cloud-module';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -37,7 +39,8 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
     MatRippleModule,
     ArsModule,
     MarkdownModule,
-    QRCodeModule
+    QRCodeModule,
+    TagCloudModule
   ],
   declarations: [
     RoomJoinComponent,
