@@ -177,27 +177,6 @@
 
           </ng-container>
 
-          <ng-container *ngIf="router.url.endsWith('/tagcloud')">
-            <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
-                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
-              <mat-icon
-                  svgIcon="settings">
-              </mat-icon>
-              <span>Tag-Cloud-Konfiguration</span>
-            </button>
-            <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
-                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
-              <mat-icon
-                  svgIcon="beamer">
-              </mat-icon>
-              <span>Tag-Cloud-Verwaltung</span>
-            </button>
-          </ng-container>
-
           <!-- Session -->
           <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/')">
 

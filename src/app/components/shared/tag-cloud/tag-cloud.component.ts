@@ -64,17 +64,10 @@ export class TagCloudComponent implements OnInit {
         this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w =>
           new TagComment(COLOR[Math.floor(
             Math.random() * (COLOR.length - 1))],
-<<<<<<< HEAD
             true, null, null, 0, w.text,
-            "todo", Math.floor(Math.random() * 10) + 1)
-        )
-=======
-            true, null, null,
-            Math.floor(Math.random() * 30 - 15), w.text,
             'todo', Math.floor(Math.random() * 10) + 1)
         );
 
->>>>>>> 2e8df70f86a5fc7bb6298fff42029c02edf26188
       }
     );
   }
