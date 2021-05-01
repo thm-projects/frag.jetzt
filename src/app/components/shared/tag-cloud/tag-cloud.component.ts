@@ -48,11 +48,12 @@ export class TagCloudComponent implements OnInit {
     overflow: false,
     font: "Georgia" // not working
   };
+  private color = "red";
   zoomOnHoverOptions: ZoomOnHoverOptions = {
     scale: 1.3, // Elements will become 130 % of current size on hover
     transitionTime: 0.6, // it will take 0.6 seconds until the zoom level defined in scale property has been reached
     delay: 0.4,// Zoom will take affect after 0.4 seconds
-    color: "red"
+    color: this.color
   };
 
   data: CloudData[] = [];
