@@ -74,14 +74,6 @@ export class TagCloudComponent implements OnInit {
 
     this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
 
-<<<<<<< HEAD
-        this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w =>
-          new TagComment(COLOR[Math.floor(
-            Math.random() * (COLOR.length - 1))],
-            true, null, null, 0, w.text,
-            'todo', Math.floor(Math.random() * 10) + 1)
-        );
-=======
       this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w => {
           const weight = 5 + Math.floor(Math.random() * 4 + 1);
           const color = weight2color[weight];
@@ -92,7 +84,6 @@ export class TagCloudComponent implements OnInit {
         }
       )
     })
->>>>>>> 9d4cd8a8e9e4fbaf335be3f8fded5dd7118686d6
 
 
   }
