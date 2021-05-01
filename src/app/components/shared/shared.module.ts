@@ -28,8 +28,8 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
-
 import { TagCloudModule } from 'angular-tag-cloud-module';
+import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
 
 @NgModule({
   imports: [
@@ -55,6 +55,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     UserBonusTokenComponent,
     RemindOfTokensComponent,
     LoginComponent,
+    CloudConfigurationComponent,
     CommentComponent,
     CreateCommentComponent,
     PresentCommentComponent,

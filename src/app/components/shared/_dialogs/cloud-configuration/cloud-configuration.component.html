@@ -1,0 +1,70 @@
+<div mat-dialog-content>
+  <!--questions-->
+  <h2 class="oldtypo-h2">{{'room-page.comments' | translate }}</h2>
+  <mat-divider></mat-divider>
+
+  <div fxLayout="column">
+
+
+    <div fxLayout="row">
+      <!--direct send-->
+      <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
+        <mat-slide-toggle
+                          aria-labelledby="settings-direct-send"
+                          matTooltip="{{ 'room-page.settings-direct-send-description' | translate }}">
+        </mat-slide-toggle>
+      </p>
+    </div>
+  </div>
+
+  <div fxLayout="column">
+    <div fxLayout="row">
+      <!--comment threshold-->
+      <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
+        <mat-slide-toggle>
+                          aria-labelledby="threshold"
+                          matTooltip="{{ 'room-page.threshold-description' | translate }}">
+        </mat-slide-toggle>
+      </p>
+    </div>
+    <div fxLayout="row">
+      <mat-slider id="commentSlider"
+                  min="-100"
+                  max="0"
+                  step="5">
+
+      </mat-slider>
+      <h2 class="oldtypo-h2">&nbsp</h2>
+    </div>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <div fxLayoutAlign="center center">
+    <button mat-raised-button
+            class="export"
+            aria-labelledby="export-comments">
+      <mat-icon>save</mat-icon>
+      {{ 'room-page.export-comments' | translate }}</button>
+  </div>
+  <div fxLayoutAlign="center center">
+    <button mat-raised-button
+            class="delete"
+            aria-labelledby="delete-all-comments">
+      <mat-icon>delete</mat-icon>
+      {{ 'room-page.delete-all-comments' | translate }}</button>
+  </div>
+</div>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+></app-dialog-action-buttons>
+
+<div class="visually-hidden">
+  <div id="threshold">{{'room-page.a11y-threshold' | translate}} </div>
+  <div id="settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
+  <div id="settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
+  <div id="export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
+  <div id="delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
+</div>
