@@ -70,8 +70,7 @@ export class TagCloudComponent implements OnInit {
 
           new TagComment(COLOR[Math.floor(
             Math.random() * (COLOR.length - 1))],
-            true, null, null,
-            Math.floor(Math.random() * 30 - 15), w.text,
+            true, null, null, 0, w.text,
             "todo", Math.floor(Math.random() * 10) + 1)
         )
       }
