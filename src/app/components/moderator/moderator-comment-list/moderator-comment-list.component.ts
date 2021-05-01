@@ -275,7 +275,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
                     this.comments[i].score = <number>value;
                     break;
                   case this.ack:
-                    // tslint:disable-next-line:no-shadowed-variable
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
                     const isNowAck = <boolean>value;
                     if (isNowAck) {
                       this.comments = this.comments.filter(function (el) {
