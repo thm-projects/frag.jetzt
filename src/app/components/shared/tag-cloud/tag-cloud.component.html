@@ -1,0 +1,27 @@
+
+<ars-screen ars-flex-box>
+  <ars-row [height]="100">
+
+  </ars-row>
+
+  <ars-fill ars-flex-box>
+
+      <angular-tag-cloud
+        [data]="data"
+        [width]="options.width"
+        [height]="options.height"
+        [overflow]="options.overflow"
+        [zoomOnHover]="zoomOnHoverOptions"
+        (clicked)="tagClicked($event)"
+        [log]='"debug"'>
+      </angular-tag-cloud>
+
+
+  </ars-fill>
+
+
+
+  <ars-row [height]="100">
+
+  </ars-row>
+</ars-screen>

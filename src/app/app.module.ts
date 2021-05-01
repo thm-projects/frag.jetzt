@@ -60,7 +60,9 @@ import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dial
 import { MatIconModule } from '@angular/material/icon';
 import { HttpClientModule } from '@angular/common/http';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
-import { MatomoModule } from 'ngx-matomo';
+import { MatomoModule } from 'ngx-matomo-v9';
+import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.component';
+import {TagCloudModule} from "angular-tag-cloud-module";
 
 export function dialogClose(dialogResult: any) {
 }
@@ -96,7 +98,8 @@ export function initializeApp(appConfig: AppConfig) {
     DemoDeComponent,
     DemoEnComponent,
     HelpEnComponent,
-    OverlayComponent
+    OverlayComponent,
+    TagCloudComponent
   ],
   imports: [
     MatomoModule,
@@ -119,7 +122,7 @@ export function initializeApp(appConfig: AppConfig) {
         }
       }
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -128,7 +131,8 @@ export function initializeApp(appConfig: AppConfig) {
       },
       isolate: true
     }),
-    ArsModule
+    ArsModule,
+    TagCloudModule
   ],
   providers: [
     /*AppConfig,
