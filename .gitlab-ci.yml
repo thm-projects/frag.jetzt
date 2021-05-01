@@ -16,7 +16,7 @@ eslint:
   stage: codestyle
   tags:
     - nodejs
-  allow_failure: false
+  allow_failure: true
   dependencies: []
   script:
     - npm install
