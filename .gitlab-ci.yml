@@ -20,7 +20,7 @@ eslint:
   dependencies: []
   script:
     - npm install
-    - node_modules/eslint/bin/eslint.js -c .eslintrc.js --ext .ts ./src
+    - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
 
 unit_tests:
  stage: test
