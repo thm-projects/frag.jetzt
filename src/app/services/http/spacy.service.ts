@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {BaseHttpService} from './base-http.service';
+import {catchError} from 'rxjs/operators';
 
 export class Result {
   arcs: Arc[];
-  words: Word[]
-  static Empty() { return new Result(); }
+  words: Word[];
+
   constructor(
     arcs: Arc[] = [],
     words: Word[] = []
@@ -13,27 +15,31 @@ export class Result {
     this.arcs = arcs;
     this.words = words;
   }
+
+  static empty(): Result {
+    return new Result();
+  }
 }
 
 export class Word {
-  tag: string
-  text: string
+  tag: string;
+  text: string;
 
   constructor(
     tag: string,
-    text: string)
-  {
+    text: string
+  ) {
     this.tag = tag;
     this.text = text;
   }
 }
 
 export class Arc {
-  dir: string
-  end: number
-  label: string
-  start: number
-  text: string
+  dir: string;
+  end: number;
+  label: string;
+  start: number;
+  text: string;
 
   constructor(
     dir: string,
@@ -53,20 +59,23 @@ export class Arc {
 
 
 const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
 @Injectable({
   providedIn: 'root'
 })
-export class SpacyService {
+export class SpacyService extends BaseHttpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   analyse(text: string, model: string): Observable<Result> {
-    const url = '/spacy'
-    return this.http.post<Result>(url,
-      { 'text': text, 'model': model },
-      httpOptions)
+    const url = '/spacy';
+    return this.http.post<Result>(url, {text, model}, httpOptions)
+      .pipe(
+        catchError(this.handleError<any>('analyse'))
+      );
   }
 }

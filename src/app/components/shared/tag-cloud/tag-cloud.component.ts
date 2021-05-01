@@ -1,28 +1,23 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 
-
 import {CloudData, CloudOptions, Position, ZoomOnHoverOptions} from 'angular-tag-cloud-module';
-import {CommentService} from "../../../services/http/comment.service";
-import {QuestionWallComment} from "../questionwall/QuestionWallComment";
-import {Observable, of} from "rxjs";
-import {Result, SpacyService} from "../../../services/http/spacy.service";
-import {Comment} from "../../../models/comment";
-import {Rescale} from "../../../models/rescale";
+import {CommentService} from '../../../services/http/comment.service';
+import {Result, SpacyService} from '../../../services/http/spacy.service';
+import {Comment} from '../../../models/comment';
+
+const COLOR: string[] = ['blue', 'red', 'yellow', 'green'];
 
 class TagComment implements CloudData {
-  constructor(
-    public color: string,
-    public external: boolean,
-    public link: string,
-    public position: Position,
-    public rotate: number,
-    public text: string,
-    public tooltip: string,
-    public weight: number) {
+  constructor(public color: string,
+              public external: boolean,
+              public link: string,
+              public position: Position,
+              public rotate: number,
+              public text: string,
+              public tooltip: string,
+              public weight: number) {
   }
 }
-
-const COLOR: string[] = ["red", "green", "blue", "yellow", "orange"];
 
 @Component({
   selector: 'app-tag-cloud',
@@ -46,34 +41,34 @@ export class TagCloudComponent implements OnInit {
     delay: 0.4 // Zoom will take affect after 0.8 seconds
   };
 
-
   data: CloudData[] = [];
 
 
-  constructor(private commentService: CommentService, private spacyService: SpacyService) {
+  constructor(private commentService: CommentService,
+              private spacyService: SpacyService) {
     this.roomId = localStorage.getItem('roomId');
   }
 
   ngOnInit(): void {
     this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
-      this.analyse(comments)
+      this.analyse(comments);
     });
   }
 
 
   analyse(comments: Comment[]) {
-    const commentsConcatenated = comments.map(c => c.body).join(" ");
+    const commentsConcatenated = comments.map(c => c.body).join(' ');
 
-    this.spacyService.analyse(commentsConcatenated, "de").subscribe((res: Result) => {
+    this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
 
-        this.data = res.words.filter(w => w.tag === "NE" || w.tag === "NN" || w.tag === "NMP" || w.tag == "NNE").map(w =>
-
+        this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w =>
           new TagComment(COLOR[Math.floor(
             Math.random() * (COLOR.length - 1))],
             true, null, null,
             Math.floor(Math.random() * 30 - 15), w.text,
-            "todo", Math.floor(Math.random() * 10) + 1)
-        )
+            'todo', Math.floor(Math.random() * 10) + 1)
+        );
+
       }
     );
   }
@@ -81,6 +76,4 @@ export class TagCloudComponent implements OnInit {
   tagClicked(clicked: CloudData) {
     console.log(clicked);
   }
-
-
 }

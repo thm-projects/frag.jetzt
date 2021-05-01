@@ -21,7 +21,11 @@ export class ThemeService {
       );
     }
     this.themes.sort((a, b) => {
-      if (a.order < b.order) {return -1; } else if (a.order > b.order) {return 1; }
+      if (a.order < b.order) {
+        return -1;
+      } else if (a.order > b.order) {
+        return 1;
+      }
       return 0;
     });
   }
@@ -40,8 +44,10 @@ export class ThemeService {
   }
 
   public getThemeByKey(key: string): Theme {
-    for (let i = 0; i < this.themes.length; i++) {
-      if (this.themes[i].key === key) {return this.themes[i]; }
+    for (const theme of this.themes) {
+      if (theme.key === key) {
+        return theme;
+      }
     }
     return null;
   }
