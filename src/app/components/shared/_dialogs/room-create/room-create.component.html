@@ -14,7 +14,8 @@
              [(ngModel)]="longName"
              name="roomName"
              aria-labelledby="room-name-input"/>
-      <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+      <mat-placeholder *ngIf="hasCustomShortId" class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
+      <mat-placeholder *ngIf="!hasCustomShortId" class="placeholder">{{ 'session.session-name-with-key-code-generated' | translate }}</mat-placeholder>
       <mat-hint align="end"
                 class="count"
                 *ngIf="!emptyInputs"><span aria-hidden="true">{{roomName.value.length}} / 30</span></mat-hint>
@@ -39,6 +40,9 @@
       <mat-hint align="end"
                 class="count"
                 *ngIf="!emptyInputs"><span aria-hidden="true">{{customShortId.value.length}} / 30</span></mat-hint>
+      <mat-hint align="start"
+                class="error"
+                *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-key-code' | translate }}</strong></mat-hint>
       <mat-hint align="start"
                 class="error"
                 *ngIf="shortIdAlreadyUsed"><strong>{{ 'home-page.invalid-shortid' | translate }}</strong></mat-hint>

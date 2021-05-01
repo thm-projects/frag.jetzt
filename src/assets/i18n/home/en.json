@@ -105,6 +105,7 @@
     "live-announcer-user": "You are now on the user page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "install": "Install",
     "no-empty-name": "Please enter a name for the session.",
+    "no-empty-key-code": "Please enter a key code for the session.",
     "no-room-found": "No session found with this name.",
     "only-numbers": "The key code is alphanumeric.",
     "please-enter": "What is the key code of the room where the session takes place?",
@@ -269,7 +270,9 @@
     "description": "Session description",
     "join": "Join session",
     "max-ls": "Max. characters:",
-    "session-name": "Session name (key will be generated)"
+    "session-name": "Session name",
+    "session-name-with-key-code-generated": "Session name (code will be generated)"
+
   },
   "user-activation": {
     "activate": "Activate account",
