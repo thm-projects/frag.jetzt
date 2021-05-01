@@ -7,31 +7,29 @@
 
     </ars-col>
     <ars-col class="config">
-    <button mat-menu-item>
-                <mat-icon aria-hidden="false" aria-label="Example home icon">settings</mat-icon>
-        <span>Konfiguration</span>
+      <button mat-menu-item>
+                <mat-icon aria-hidden="false" aria-label="Configuration Icon">settings</mat-icon>
+        <span>{{'tag-cloud.config' | translate}}</span>
       </button>
       <button mat-menu-item>
-                <mat-icon aria-hidden="false" aria-label="Example home icon">reorder</mat-icon>
-        <span>Verwaltung</span>
+                <mat-icon aria-hidden="false" aria-label="Control Icon">reorder</mat-icon>
+        <span>{{'tag-cloud.administration' | translate}}</span>
       </button>
     </ars-col>
   </ars-row>
 
   <ars-fill ars-flex-box style="width:100%;height:100%;">
-
         <angular-tag-cloud
+          class="spacyTagCloud"
           [data]="data"
           [width]="options.width"
           [height]="options.height"
           [overflow]="options.overflow"
           [zoomOnHover]="zoomOnHoverOptions"
+          [realignOnResize]="true"
           [log]='"debug"'>
         </angular-tag-cloud>
-
   </ars-fill>
-
-
 
   <ars-row [height]="100">
 

@@ -211,5 +211,9 @@
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl gestellter Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
+  },
+  "tag-cloud": {
+    "config": "Konfiguration",
+    "administration": "Verwaltung"
   }
 }
