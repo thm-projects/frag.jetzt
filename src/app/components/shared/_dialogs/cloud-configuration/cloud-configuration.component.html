@@ -1,13 +1,11 @@
-<div mat-dialog-content>
-  <!--questions-->
-  <h2 class="oldtypo-h2">{{'room-page.comments' | translate }}</h2>
+<!-- <div mat-dialog-content>
+  <h2 class="oldtypo-h2">{{title | translate }}</h2>
   <mat-divider></mat-divider>
 
   <div fxLayout="column">
 
 
     <div fxLayout="row">
-      <!--direct send-->
       <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
         <mat-slide-toggle
                           aria-labelledby="settings-direct-send"
@@ -19,7 +17,6 @@
 
   <div fxLayout="column">
     <div fxLayout="row">
-      <!--comment threshold-->
       <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
         <mat-slide-toggle>
                           aria-labelledby="threshold"
@@ -67,4 +64,238 @@
   <div id="settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
   <div id="export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
   <div id="delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
+</div> -->
+
+<div
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutGap="15px"
+>
+ 
+      <form [formGroup]="cloudConfigForm" fxLayout="column">
+        <h2>Tag Cloud Configuration</h2>
+    
+        <h3>General options</h3>
+        <div
+        class="input-row"
+        fxLayout="row"
+        fxLayoutGap="20px"
+        fxLayout.xs="column"
+      >
+        <mat-form-field fxFlex fxLayout.xs="column">
+          <input
+            matInput
+            type="number"
+            formControlName="height"
+            placeholder="Height"
+            min="100"
+            max="1000"
+            step="10"
+          />
+        </mat-form-field>
+      </div>
+        <div
+          class="input-row"
+          fxLayout="row"
+          fxLayoutGap="20px"
+          fxLayout.xs="column"
+        >
+          <mat-slide-toggle fxFlex formControlName="overflow"
+            >Overflow</mat-slide-toggle
+          >
+          <mat-slide-toggle fxFlex formControlName="randomizeAngle"
+          >Randomize angle</mat-slide-toggle
+        >
+        </div>
+        <div
+          class="input-row"
+          fxLayout="row"
+          fxLayoutGap="20px"
+          fxLayout.xs="column"
+        >
+          <mat-slide-toggle fxFlex formControlName="realignOnResize"
+            >Realign on resize</mat-slide-toggle
+          >
+   
+        </div>
+        <div
+          class="input-row"
+          fxLayout="row"
+          fxLayoutGap="20px"
+          fxLayout.xs="column"
+          style="padding-top: 20px;"
+        >
+        
+        </div>
+        <div
+        class="input-row"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutGap="20px"
+      >
+        <div fxFlex="48%" fxFlex.xs="100%">
+          <div fxLayout="row" fxLayoutGap="10px">
+            <mat-form-field fxFlex="80%">
+              <mat-label>Background</mat-label>
+              <input
+                matInput
+                [colorPicker]="
+                  cloudConfigForm.get('background').value
+                "
+                (colorPickerChange)="
+                  cloudConfigForm
+                    .get('background')
+                    .setValue($event)
+                "
+                formControlName="background"
+              />
+            </mat-form-field>
+            <div
+              fxFlex="20%"
+              class="color-box"
+              [style.background]="
+                cloudConfigForm.get('background').value
+              "
+            ></div>
+          </div>
+        </div>
+
+        <div fxFlex="50%" fxFlex.xs="100%">
+          <mat-label class="label-text">Delay</mat-label>
+          <mat-slider
+            min="0"
+            max="1000"
+            step="50"
+            formControlName="delay"
+            [thumbLabel]="true"
+          ></mat-slider>
+        </div>
+      </div>
+
+        <h3>Zoom on hover options</h3>
+        <div formGroupName="zoomOnHover">
+          <div
+            class="input-row"
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutGap="20px"
+          >
+            <div fxFlex="48%" fxFlex.xs="100%">
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field fxFlex="80%">
+                  <mat-label>Color</mat-label>
+                  <input
+                    matInput
+                    [colorPicker]="
+                      cloudConfigForm.get('zoomOnHover').get('color').value
+                    "
+                    (colorPickerChange)="
+                      cloudConfigForm
+                        .get('zoomOnHover')
+                        .get('color')
+                        .setValue($event)
+                    "
+                    formControlName="color"
+                  />
+                </mat-form-field>
+                <div
+                  fxFlex="20%"
+                  class="color-box"
+                  [style.background]="
+                    cloudConfigForm.get('zoomOnHover').get('color').value
+                  "
+                ></div>
+              </div>
+            </div>
+
+            <div fxFlex="50%" fxFlex.xs="100%">
+              <mat-label class="label-text">Scale</mat-label>
+              <mat-slider
+                min="1"
+                max="2"
+                step="0.01"
+                formControlName="scale"
+                [thumbLabel]="true"
+              ></mat-slider>
+            </div>
+          </div>
+
+          <div
+            class="input-row"
+            fxLayout="row"
+            fxLayout.xs="column"
+            fxLayoutGap="20px"
+          >
+            <div fxFlex="50%" fxFlex.xs="100%">
+              <mat-label class="label-text">Time</mat-label>
+              <mat-slider
+                min="0"
+                max="2"
+                step="0.1"
+                formControlName="transitionTime"
+                [thumbLabel]="true"
+              ></mat-slider>
+            </div>
+            <div fxFlex="50%" fxFlex.xs="100%">
+              <mat-label class="label-text">Delay</mat-label>
+              <mat-slider
+                min="0"
+                max="2"
+                step="0.1"
+                formControlName="delay"
+                [thumbLabel]="true"
+              ></mat-slider>
+            </div>
+          </div>
+        </div>
+        <div
+        class="input-row"
+        fxLayout="row"
+        fxLayoutGap="20px"
+        fxLayout.xs="column"
+      >
+      </div>
+        <!-- <h2>Style</h2> -->
+        <!-- <div
+          class="input-row"
+          fxLayout="row"
+          fxLayoutGap="20px"
+          fxLayout.xs="column"
+        >
+          <mat-slide-toggle fxFlex formControlName="customStyle"
+            >Use custom Stylesheet</mat-slide-toggle
+          >
+        </div> -->
+        <!-- <div
+          class="input-row"
+          fxLayout="row"
+          fxLayoutGap="20px"
+          fxLayout.xs="column"
+        >
+          <mat-form-field fxFlex>
+            <input matInput formControlName="font" placeholder="Font" />
+          </mat-form-field>
+        </div> -->
+        <!-- <div
+          class="input-row"
+          fxLayout="row"
+          fxLayoutGap="20px"
+          fxLayout.xs="column"
+        >
+          <mat-form-field fxFlex>
+            <input
+              matInput
+              formControlName="background"
+              placeholder="Background"
+            />
+          </mat-form-field>
+        </div> -->
+        <br>
+        <div class="button-row">
+          <button mat-button class="secondary">cancel</button>
+          <button mat-button class="primary">Save</button>
+        </div>
+      </form>
+
 </div>

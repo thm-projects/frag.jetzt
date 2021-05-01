@@ -4,6 +4,7 @@ import { UserRole } from '../../models/user-roles.enum';
 import { RoomParticipantPageComponent } from './room-participant-page/room-participant-page.component';
 import { CommentPageComponent } from '../shared/comment-page/comment-page.component';
 import { CommentAnswerComponent } from '../shared/comment-answer/comment-answer.component';
+import { TagCloadComponent } from '../shared/tag-cload/tag-cload.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: 'room/:shortId/comment/:commentId',
     component: CommentAnswerComponent,
+    data: { roles: [UserRole.PARTICIPANT] }
+  },
+  {
+    path: 'room/:shortId/tag_cloud',
+    component: TagCloadComponent,
     data: { roles: [UserRole.PARTICIPANT] }
   }
 ];
