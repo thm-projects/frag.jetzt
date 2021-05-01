@@ -74,20 +74,17 @@ export class TagCloudComponent implements OnInit {
 
     this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
 
-        this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w => {
-            const weight = 5 + Math.floor(Math.random() * 4 + 1);
-            const color = weight2color[weight];
-            return new TagComment(color,
-              true, null, null,
-              /*Math.floor(Math.random() * 30 - 15)*/0, w.text,
-              'TODO', weight);
-          }
-        )
-      }
-    )
-  }
+      this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w => {
+          const weight = 5 + Math.floor(Math.random() * 4 + 1);
+          const color = weight2color[weight];
+          return new TagComment(color,
+            true, null, null,
+            /*Math.floor(Math.random() * 30 - 15)*/0, w.text,
+            'TODO', weight);
+        }
+      )
+    })
 
-  tagClicked(clicked: CloudData) {
-    console.log(clicked);
+
   }
 }
