@@ -18,7 +18,6 @@ class TagComment implements CloudData {
   }
 }
 
-
 const weight2color = {
   1: "blue",
   2: "green",
@@ -78,15 +77,14 @@ export class TagCloudComponent implements OnInit {
         this.data = res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).map(w => {
             const weight = 5 + Math.floor(Math.random() * 4 + 1);
             const color = weight2color[weight];
-            console.log(weight, color)
             return new TagComment(color,
               true, null, null,
               /*Math.floor(Math.random() * 30 - 15)*/0, w.text,
-              'TODO', weight)
+              'TODO', weight);
           }
-        );
+        )
       }
-    );
+    )
   }
 
   tagClicked(clicked: CloudData) {
