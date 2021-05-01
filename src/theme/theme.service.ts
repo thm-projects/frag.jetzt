@@ -12,7 +12,7 @@ export class ThemeService {
   private themes: Theme[] = [];
 
   constructor() {
-    // tslint:disable-next-line:forin
+    // eslint-disable-next-line guard-for-in
     for (const k in themes) {
       this.themes.push(new Theme(
         k,

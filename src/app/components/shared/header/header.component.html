@@ -137,6 +137,22 @@
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
 
+
+
+
+              <button mat-menu-item
+                      tabindex="0"
+                      *ngIf="deviceType !== 'mobile'"
+                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
+                <mat-icon
+                  svgIcon="beamer">
+                </mat-icon>
+                <span>NEU !!!Fragen Cloud!!!</span>
+              </button>
+
+
+
+
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
             </ng-container>

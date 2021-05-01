@@ -1,4 +1,12 @@
 {
+  "/spacy": {
+    "target": "https://spacy.frag.jetzt/dep",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/spacy": ""
+    }
+  },
   "/api/ws/websocket": {
     "target": "ws://localhost:8080",
     "secure": false,
