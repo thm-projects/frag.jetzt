@@ -12,7 +12,7 @@ cache:
   paths:
     - node_modules/
 
-tslint:
+eslint:
   stage: codestyle
   tags:
     - nodejs
@@ -20,7 +20,7 @@ tslint:
   dependencies: []
   script:
     - npm install
-    - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
+    - node_modules/eslint/bin/eslint.js -c .eslintrc.js --ext .ts ./src
 
 unit_tests:
  stage: test
