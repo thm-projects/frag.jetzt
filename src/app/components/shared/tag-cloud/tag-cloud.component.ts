@@ -11,17 +11,19 @@ import {Rescale} from "../../../models/rescale";
 
 class TagComment implements CloudData {
   constructor(
-              public color: string,
-              public external: boolean,
-              public link: string,
-              public position: Position,
-              public rotate: number,
-              public text: string,
-              public tooltip: string,
-              public weight: number) {
+    public color: string,
+    public external: boolean,
+    public link: string,
+    public position: Position,
+    public rotate: number,
+    public text: string,
+    public tooltip: string,
+    public weight: number) {
   }
- }
+}
+
 const COLOR: string[] = ["red", "green", "blue", "yellow", "orange"];
+
 @Component({
   selector: 'app-tag-cloud',
   templateUrl: './tag-cloud.component.html',
@@ -29,7 +31,7 @@ const COLOR: string[] = ["red", "green", "blue", "yellow", "orange"];
 })
 export class TagCloudComponent implements OnInit {
 
-  @ViewChild(TagCloudComponent, { static: false }) child: TagCloudComponent;
+  @ViewChild(TagCloudComponent, {static: false}) child: TagCloudComponent;
   roomId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
@@ -45,7 +47,7 @@ export class TagCloudComponent implements OnInit {
   };
 
 
-   data: CloudData[] = [];
+  data: CloudData[] = [];
 
 
   constructor(private commentService: CommentService, private spacyService: SpacyService) {
@@ -64,17 +66,18 @@ export class TagCloudComponent implements OnInit {
 
     this.spacyService.analyse(commentsConcatenated, "de").subscribe((res: Result) => {
 
-      this.data = res.words.filter(w => w.tag === "NE" || w.tag === "NN" || w.tag === "NMP" || w.tag == "NNE").map(w =>
+        this.data = res.words.filter(w => w.tag === "NE" || w.tag === "NN" || w.tag === "NMP" || w.tag == "NNE").map(w =>
 
           new TagComment(COLOR[Math.floor(
-            Math.random()*(COLOR.length-1))],
+            Math.random() * (COLOR.length - 1))],
             true, null, null,
-            Math.floor(Math.random()*30-15), w.text,
-            "todo", Math.floor(Math.random()*10)+1)
-      )
+            Math.floor(Math.random() * 30 - 15), w.text,
+            "todo", Math.floor(Math.random() * 10) + 1)
+        )
       }
     );
   }
+
   tagClicked(clicked: CloudData) {
     console.log(clicked);
   }
