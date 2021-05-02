@@ -89,7 +89,7 @@ export class TopicCloudDialogComponent implements OnInit {
   }
 }
 
-export interface Keyword {
+interface Keyword {
   keywordID: number;
   keyword: string;
   questions: string[];
