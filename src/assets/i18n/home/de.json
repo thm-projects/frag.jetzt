@@ -292,5 +292,18 @@
   },
   "qr-dialog": {
     "session": "Raum"
+  },
+  "topic-cloud-dialog":{
+    "edit": "bearbeiten",
+    "delete": "löschen",
+    "question-count-singular": "Frage",
+    "question-count-plural": "Fragen",
+    "editkeyword-tipp": "geben Sie ein neues Keyword ein",
+    "nokeyword-note": "Es gibt keine Themen"
+  },
+  "topic-cloud-confirm-dialog":{
+    "cancel": "abbrechen",
+    "delete": "löschen",
+    "confirm": "Möchten Sie wirklich das Thema löschen"
   }
 }
