@@ -213,7 +213,7 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
   },
   "tag-cloud": {
-    "config": "Konfiguration",
-    "administration": "Verwaltung"
+    "config": "Wolkenansicht ändern",
+    "administration": "Wolkenthemen editieren"
   }
 }
