@@ -74,9 +74,9 @@
 >
  
       <form [formGroup]="cloudConfigForm" fxLayout="column">
-        <h2>Tag Cloud Configuration</h2>
+        <h2>{{'tag-cloud.title' | translate}}</h2>
     
-        <h3>General options</h3>
+        <h3>{{'tag-cloud.general' | translate}}</h3>
         <div
         class="input-row"
         fxLayout="row"
@@ -84,6 +84,7 @@
         fxLayout.xs="column"
       >
         <mat-form-field fxFlex fxLayout.xs="column">
+          <mat-label>{{'tag-cloud.height' | translate}}</mat-label>
           <input
             matInput
             type="number"
@@ -102,10 +103,10 @@
           fxLayout.xs="column"
         >
           <mat-slide-toggle fxFlex formControlName="overflow"
-            >Overflow</mat-slide-toggle
+            >{{'tag-cloud.overflow' | translate}}</mat-slide-toggle
           >
           <mat-slide-toggle fxFlex formControlName="randomizeAngle"
-          >Randomize angle</mat-slide-toggle
+          >{{'tag-cloud.random-angle' | translate}}</mat-slide-toggle
         >
         </div>
         <div
@@ -115,7 +116,7 @@
           fxLayout.xs="column"
         >
           <mat-slide-toggle fxFlex formControlName="realignOnResize"
-            >Realign on resize</mat-slide-toggle
+            >{{'tag-cloud.realign' | translate}}</mat-slide-toggle
           >
    
         </div>
@@ -137,7 +138,7 @@
         <div fxFlex="48%" fxFlex.xs="100%">
           <div fxLayout="row" fxLayoutGap="10px">
             <mat-form-field fxFlex="80%">
-              <mat-label>Background</mat-label>
+              <mat-label>{{'tag-cloud.background' | translate}}</mat-label>
               <input
                 matInput
                 [colorPicker]="
@@ -162,7 +163,7 @@
         </div>
 
         <div fxFlex="50%" fxFlex.xs="100%">
-          <mat-label class="label-text">Delay</mat-label>
+          <mat-label class="label-text">{{'tag-cloud.word-delay' | translate}}</mat-label>
           <mat-slider
             min="0"
             max="1000"
@@ -173,7 +174,7 @@
         </div>
       </div>
 
-        <h3>Zoom on hover options</h3>
+        <h3>{{'tag-cloud.hover-title' | translate}}</h3>
         <div formGroupName="zoomOnHover">
           <div
             class="input-row"
@@ -184,7 +185,7 @@
             <div fxFlex="48%" fxFlex.xs="100%">
               <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field fxFlex="80%">
-                  <mat-label>Color</mat-label>
+                  <mat-label>{{'tag-cloud.hover-color' | translate}}</mat-label>
                   <input
                     matInput
                     [colorPicker]="
@@ -210,7 +211,7 @@
             </div>
 
             <div fxFlex="50%" fxFlex.xs="100%">
-              <mat-label class="label-text">Scale</mat-label>
+              <mat-label class="label-text">{{'tag-cloud.hover-scale' | translate}}</mat-label>
               <mat-slider
                 min="1"
                 max="2"
@@ -228,7 +229,7 @@
             fxLayoutGap="20px"
           >
             <div fxFlex="50%" fxFlex.xs="100%">
-              <mat-label class="label-text">Time</mat-label>
+              <mat-label class="label-text">{{'tag-cloud.hover-time' | translate}}</mat-label>
               <mat-slider
                 min="0"
                 max="2"
@@ -238,7 +239,7 @@
               ></mat-slider>
             </div>
             <div fxFlex="50%" fxFlex.xs="100%">
-              <mat-label class="label-text">Delay</mat-label>
+              <mat-label class="label-text">{{'tag-cloud.hover-delay' | translate}}</mat-label>
               <mat-slider
                 min="0"
                 max="2"
@@ -293,8 +294,8 @@
         </div> -->
         <br>
         <div class="button-row">
-          <button mat-button class="secondary">cancel</button>
-          <button mat-button class="primary">Save</button>
+          <button mat-button class="secondary">{{'tag-cloud.cancel-btn' | translate}}</button>
+          <button mat-button class="primary">{{'tag-cloud.save-btn' | translate}}</button>
         </div>
       </form>
 
