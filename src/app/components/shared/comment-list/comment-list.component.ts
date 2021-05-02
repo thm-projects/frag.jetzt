@@ -29,6 +29,7 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 export enum Period {
   FROMNOW    = 'from-now',

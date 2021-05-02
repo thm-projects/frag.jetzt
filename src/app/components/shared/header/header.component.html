@@ -143,7 +143,7 @@
               <button mat-menu-item
                       tabindex="0"
                       *ngIf="deviceType !== 'mobile'"
-                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
+                      (click)="navigateTopicCloud()">
                 <mat-icon>cloud
                 </mat-icon>
                 <span>{{'header.tag-cloud' | translate}}</span>
