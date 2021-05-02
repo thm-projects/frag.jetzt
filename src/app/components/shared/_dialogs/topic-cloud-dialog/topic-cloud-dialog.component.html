@@ -20,7 +20,7 @@
       <!-- Only visible when not editing -->
       <div *ngIf="!edit && hasAccess">
         <mat-divider></mat-divider>
-        
+
         <button mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
           <mat-icon class="primary">edit</mat-icon>
         </button>
@@ -32,6 +32,7 @@
 
       <!-- Only visible when editing -->
       <div *ngIf="edit">
+        <mat-divider></mat-divider>
         <mat-form-field>
           <mat-label>Enter new Keyword</mat-label>
           <input matInput [(ngModel)]="newKeyword">
