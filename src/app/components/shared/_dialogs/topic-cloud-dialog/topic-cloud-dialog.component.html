@@ -12,13 +12,15 @@
       </mat-expansion-panel-header>
       <p *ngFor="let question of keyword.questions">{{question}}</p>
 
-      <mat-divider></mat-divider>
+      
 
       <!-- TODO: show buttons only to creator and moderators -->
       <!-- TODO: add automatic translation -->
 
       <!-- Only visible when not editing -->
-      <div *ngIf="!edit">
+      <div *ngIf="!edit && hasAccess">
+        <mat-divider></mat-divider>
+        
         <button mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
           <mat-icon class="primary">edit</mat-icon>
         </button>

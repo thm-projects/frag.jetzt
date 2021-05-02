@@ -3,6 +3,9 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HeaderComponent } from '../../header/header.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { UserRole } from '../../../../models/user-roles.enum';
+
 
 @Component({
   selector: 'app-topic-cloud-dialog',
@@ -14,12 +17,23 @@ export class TopicCloudDialogComponent implements OnInit {
   newKeyword: string = '';
   edit: boolean = false;
   keywords: Keyword[] = [];
+  hasAccess: boolean; 
 
   constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
               public confirmDialog: MatDialog,
-              private notificationService: NotificationService) { }
+              private notificationService: NotificationService, 
+              private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
+    
+    if (this.authenticationService.getRole() === UserRole.CREATOR || 
+        this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
+        this.authenticationService.getRole() === UserRole.EDITING_MODERATOR){
+        this.hasAccess = true;
+    } else {
+        this.hasAccess = false;
+    }
+
     if (this.keywords.length > 0){
         this.notificationService.show("there are no keywords");
         this.cloudDialogRef.close();
