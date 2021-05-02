@@ -5,10 +5,10 @@ import { purple, purple_meta } from './purple-theme/purpleTheme.const';
 import { highcontrast, highcontrast_meta } from './high-contrast-theme/highContrastTheme.const';
 
 export const themes = {
-  arsnova: arsnova,
-  dark: dark,
+  arsnova,
+  dark,
   projector: purple,
-  highcontrast: highcontrast
+  highcontrast
 };
 
 export const themes_meta = {
