@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HeaderComponent } from '../../header/header.component';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 
 @Component({
   selector: 'app-topic-cloud-dialog',
@@ -15,6 +16,7 @@ export class TopicCloudDialogComponent implements OnInit {
   keywords: Keyword[] = [];
 
   constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
+              public confirmDialog: MatDialog,
               private notificationService: NotificationService) { }
 
   ngOnInit(): void {
@@ -74,8 +76,18 @@ export class TopicCloudDialogComponent implements OnInit {
     this.newKeyword = '';
   }
 
-  openConfirmDialog(): void {
-    console.log("are u sure?");
+  openConfirmDialog(id: number): void {
+    let keyword = "";
+
+    this.keywords.map(k => {
+      if (k.keywordID == id) {
+        keyword = k.keyword;
+      }
+    });
+
+    const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
+      data: {topic: keyword}
+    });
   }
 }
 

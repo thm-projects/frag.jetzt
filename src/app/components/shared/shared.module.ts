@@ -29,6 +29,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { TopicCloudDialogComponent } from './_dialogs/topic-cloud-dialog/topic-cloud-dialog.component';
+import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 
 @NgModule({
   imports: [
@@ -63,7 +64,8 @@ import { TopicCloudDialogComponent } from './_dialogs/topic-cloud-dialog/topic-c
     CommentAnswerComponent,
     MotdDialogComponent,
     MotdMessageComponent,
-    TopicCloudDialogComponent
+    TopicCloudDialogComponent,
+    TopicCloudConfirmDialogComponent
   ],
   exports: [
     RoomJoinComponent,
