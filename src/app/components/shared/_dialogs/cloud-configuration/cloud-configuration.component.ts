@@ -4,7 +4,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { TranslateService } from '@ngx-translate/core';
 import { CloudData, CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 
 import { Observable, of } from 'rxjs';
@@ -56,9 +56,10 @@ export class CloudConfigurationComponent implements OnInit {
     data: JSON.stringify(this.data, null, 2),
   };
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private translateService: TranslateService) {}
 
   ngOnInit() {
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudDataForm = this.fb.group({
       ...this.exampleDataOptions,
     });

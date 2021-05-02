@@ -295,5 +295,22 @@
   },
   "qr-dialog": {
     "session": "Raum"
+  },
+  "tag-cloud":{
+    "title":"Tag-Cloud Einstellungen",
+    "general":"Allgemeine Einstellungen",
+    "overflow":"Überlauf",
+    "height":"Höhe",
+    "random-angle":"Zufällige Winkel",
+    "realign":"Neu ausrichten",
+    "background":"Hintergrundfarbe",
+    "word-delay":"Verzögerung beim zeichnen",
+    "hover-color":"Schriftfarbe",
+    "hover-scale":"Skalierung fürs Schweben",
+    "hover-time":"Zeit fürs Schweben",
+    "hover-title":"Einstellungen Schweben",
+    "hover-delay":"Verzögerung beim Schweben",
+    "cancel-btn":"Abbruch",
+    "save-btn":"Speichern"
   }
 }
