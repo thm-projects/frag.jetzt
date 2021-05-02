@@ -1,53 +1,48 @@
 <mat-dialog-content>
 
   <mat-accordion>
-      <mat-expansion-panel 
-                          *ngFor="let keyword of keywords">
-        <mat-expansion-panel-header class="color">
-          <mat-panel-title>
-            {{keyword.keyword}}
-          </mat-panel-title>
-          <mat-panel-description>
-            {{keyword.questions.length}} Questions
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-          <p *ngFor="let question of keyword.questions">{{question}}</p>
+    <mat-expansion-panel *ngFor="let keyword of keywords">
+      <mat-expansion-panel-header class="color">
+        <mat-panel-title>
+          {{keyword.keyword}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{keyword.questions.length}} Questions
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <p *ngFor="let question of keyword.questions">{{question}}</p>
 
-          <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
 
-          <!-- TODO: show buttons only to creator and moderators -->
+      <!-- TODO: show buttons only to creator and moderators -->
+      <!-- TODO: add automatic translation -->
 
-              <!-- Only visible when not editing -->
-              <div *ngIf="!edit">
-                <button mat-icon-button style="align-self:flex-end;"
-                        (click)="editKeyword()">
-                  <mat-icon class="primary">edit</mat-icon>
-                </button>
+      <!-- Only visible when not editing -->
+      <div *ngIf="!edit">
+        <button mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
+          <mat-icon class="primary">edit</mat-icon>
+        </button>
+        <button mat-icon-button style="align-self:flex-end;"
+          (click)="deleteKeyword(keyword.keywordID); openConfirmDialog()">
+          <mat-icon class="warn">delete</mat-icon>
+        </button>
+      </div>
+      <!-- Only visible when editing -->
+      <div *ngIf="edit">
+        <mat-form-field>
+          <mat-label>Enter new Keyword</mat-label>
+          <input matInput [(ngModel)]="newKeyword">
+        </mat-form-field>
+        <button mat-icon-button (click)="confirmEdit(keyword.keywordID)">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button (click)="cancelEdit()">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </div>
 
-                <button mat-icon-button style="align-self:flex-end;"
-                        (click)="deleteKeyword(keyword.keywordID); openConfirmDialog()">
-                  <mat-icon class="warn">delete</mat-icon>
-                </button>
-              </div>
-
-              <!-- Only visible when editing -->
-              <div *ngIf="edit">
-                <mat-form-field>
-                  <mat-label>New Keyword</mat-label>
-                  <input matInput [(ngModel)]="newKeyword">
-                </mat-form-field>
-
-                <button mat-icon-button (click)="confirmEdit(keyword.keywordID)">
-                  <mat-icon>check</mat-icon>
-                </button>
-                <button mat-icon-button (click)="cancelEdit()">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </div>
-          <!-- TODO: add automatic translation -->
-
-      </mat-expansion-panel>
+    </mat-expansion-panel>
   </mat-accordion>
-    <!--<h1 *ngIf="keywords.length == 0">there are no keywords</h1> -->
-  
+  <!--<h1 *ngIf="keywords.length == 0">there are no keywords</h1> -->
+
 </mat-dialog-content>
