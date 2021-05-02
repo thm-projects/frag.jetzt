@@ -208,6 +208,12 @@
     "autofocus-off-lbl": "Automatische Fokussierung neuer Fragen beenden",
     "autofocus-on-lbl": "Neue Fragen automatisch fokussieren",
     "prev-comment-lbl": "Vorherige Frage",
-    "next-comment-lbl": "Nächste Frage"
+    "next-comment-lbl": "Nächste Frage",
+    "overview-question-tooltip": "Anzahl gestellter Fragen",
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
+  },
+  "tag-cloud": {
+    "config": "Wolkenansicht ändern",
+    "administration": "Wolkenthemen editieren"
   }
 }

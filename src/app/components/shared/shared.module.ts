@@ -28,7 +28,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
-import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
+import { CloudConfigurationComponent } from "./_dialogs/cloud-configuration/cloud-configuration.component";
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { TagCloadComponent } from './tag-cload/tag-cload.component';
 import { ColorPickerModule } from 'ngx-color-picker';
