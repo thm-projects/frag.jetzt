@@ -45,6 +45,11 @@
     "motd-title-new": "Aktuell",
     "motd-mark-read": "Gelesen"
   },
+  "content": {
+    "topic-cloud-content": "Weiter zur Topic-Cloud mit den aktuellen Filtern?",
+    "cancel": "Abbrechen",
+    "continue": "Weiter"
+  },
   "header": {
     "abort": "Abbrechen",
     "accessibility-back": "Führt zur vorherigen Seite",

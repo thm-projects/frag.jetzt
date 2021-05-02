@@ -7,14 +7,17 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { FormControl, Validators } from '@angular/forms';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { Period } from '../../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-topic-cloud-filter',
   templateUrl: './topic-cloud-filter.component.html',
   styleUrls: ['./topic-cloud-filter.component.scss']
 })
-export class TopicCloudFilterComponent {
-  confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Alert;
+export class TopicCloudFilterComponent implements OnInit{
+
+  periodsList = Object.values(Period);
+  period: Period = Period.ALL;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,
@@ -24,6 +27,10 @@ export class TopicCloudFilterComponent {
     @Inject(MAT_DIALOG_DATA) public data: any,
     public eventService: EventService) {
       langService.langEmitter.subscribe(lang => translationService.use(lang));
+  }
+
+  ngOnInit() {
+    this.translationService.use(localStorage.getItem('currentLang'));
   }
 
   closeDialog(): void {
@@ -45,6 +52,7 @@ export class TopicCloudFilterComponent {
   }
 
   buildCommentDeleteActionCallback(): () => void {
+
     return () => this.dialogRef.close('delete');
   }
 }
