@@ -27,22 +27,23 @@
           <mat-icon class="warn">delete</mat-icon>
         </button>
       </div>
+
       <!-- Only visible when editing -->
       <div *ngIf="edit">
         <mat-form-field>
           <mat-label>Enter new Keyword</mat-label>
           <input matInput [(ngModel)]="newKeyword">
         </mat-form-field>
+        <div>
         <button mat-icon-button (click)="confirmEdit(keyword.keywordID)">
-          <mat-icon>check</mat-icon>
+          <mat-icon class="primary">check</mat-icon>
         </button>
         <button mat-icon-button (click)="cancelEdit()">
-          <mat-icon>cancel</mat-icon>
+          <mat-icon class="warn">cancel</mat-icon>
         </button>
+      </div>
       </div>
 
     </mat-expansion-panel>
   </mat-accordion>
-  <!--<h1 *ngIf="keywords.length == 0">there are no keywords</h1> -->
-
 </mat-dialog-content>

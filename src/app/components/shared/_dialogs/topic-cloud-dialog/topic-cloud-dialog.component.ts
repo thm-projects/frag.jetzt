@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { HeaderComponent } from '../header/header.component';
-import { NotificationService } from '../../../services/util/notification.service';
+import { HeaderComponent } from '../../header/header.component';
+import { NotificationService } from '../../../../services/util/notification.service';
 
 @Component({
   selector: 'app-topic-cloud-dialog',
@@ -14,18 +14,18 @@ export class TopicCloudDialogComponent implements OnInit {
   edit: boolean = false;
   keywords: Keyword[] = [];
 
-  constructor(public matdialogRef: MatDialogRef<HeaderComponent>,
+  constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
               private notificationService: NotificationService) { }
 
   ngOnInit(): void {
     if (this.keywords.length > 0){
         this.notificationService.show("there are no keywords");
-        this.matdialogRef.close();
+        this.cloudDialogRef.close();
     }
     let questions = ["Wie genau ist die Cloud aufgebaut?",
     "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
     "Sollen wir die Tag Cloud implementieren?"];
-    this.pushToArray(1, "cloud", questions);
+    this.pushToArray(1, "Cloud", questions);
 
     questions = ["Muss man fuer das Modul SWT bestanden haben?"];
     this.pushToArray(2, "SWTP", questions);
@@ -56,7 +56,7 @@ export class TopicCloudDialogComponent implements OnInit {
           this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
     });
     if (this.keywords.length == 0)
-      this.matdialogRef.close();
+      this.cloudDialogRef.close();
   }
 
   cancelEdit(): void {

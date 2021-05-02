@@ -21,7 +21,7 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
-import { TopicCloudDialogComponent } from '../topic-cloud-dialog/topic-cloud-dialog.component';
+import { TopicCloudDialogComponent } from '../_dialogs/topic-cloud-dialog/topic-cloud-dialog.component';
 
 @Component({
   selector: 'app-header',

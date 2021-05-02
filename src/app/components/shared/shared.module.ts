@@ -28,7 +28,7 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
-import { TopicCloudDialogComponent } from './topic-cloud-dialog/topic-cloud-dialog.component';
+import { TopicCloudDialogComponent } from './_dialogs/topic-cloud-dialog/topic-cloud-dialog.component';
 
 @NgModule({
   imports: [
