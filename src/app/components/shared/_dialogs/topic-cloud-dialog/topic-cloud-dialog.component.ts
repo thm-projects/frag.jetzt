@@ -62,12 +62,11 @@ export class TopicCloudDialogComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    console.log("edit canceled");
     this.edit = false;
+    this.newKeyword = '';
   }
 
   confirmEdit(id: number): void {
-    console.log("edit confirmed "+id);
     this.keywords.map(keyword => {
       if (keyword.keywordID == id)
           keyword.keyword = this.newKeyword;
@@ -76,18 +75,17 @@ export class TopicCloudDialogComponent implements OnInit {
     this.newKeyword = '';
   }
 
-  openConfirmDialog(id: number): void {
-    let keyword = "";
-
-    this.keywords.map(k => {
-      if (k.keywordID == id) {
-        keyword = k.keyword;
-      }
-    });
-
+  openConfirmDialog(keyword: Keyword): void {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
-      data: {topic: keyword}
+      data: {topic: keyword.keyword}
     });
+
+    confirmDialogRef.afterClosed().subscribe(result => {
+      console.log(`dialog result: ${result}`);
+      if (result == true) {
+        this.deleteKeyword(keyword.keywordID);
+      }
+    })
   }
 }
 
