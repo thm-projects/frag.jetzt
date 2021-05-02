@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {Keyword} from './keyword';
 import { MatDialogRef } from '@angular/material/dialog';
 import { HeaderComponent } from '../header/header.component';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -78,4 +77,10 @@ export class TopicCloudDialogComponent implements OnInit {
   openConfirmDialog(): void {
     console.log("are u sure?");
   }
+}
+
+export interface Keyword {
+  keywordID: number;
+  keyword: string;
+  questions: string[];
 }
