@@ -219,7 +219,7 @@
     "overview-questioners-tooltip": "Number of questioners"
   },
   "tag-cloud": {
-    "config": "Configuration",
-    "administration": "Administration"
+    "config": "Modify cloud view",
+    "administration": "Edit cloud topics"
   }
 }
