@@ -20,6 +20,15 @@ export interface Keyword {
 })
 export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
+  commentlang = [
+    { lang: 'de' },
+    { lang: 'en' },
+    { lang: 'fr' },
+  ];
+  selectedLang = localStorage.getItem('currentLang');
+
+  commentText: string;
+  evalWords: any;
   test;
   keywords: Keyword[] = [];
   selection = new SelectionModel(true);
@@ -37,20 +46,16 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
     console.log(this.dialogRef);
     this.comment = this.data.comment;
+    this.commentText = this.data.comment.body;
   }
 
   ngAfterContentInit(): void {
-    this.addKeywords();
+    this.evalInput(this.selectedLang);
   }
   onSelectionChange(selection: MatSelectionListChange) {
     selection.option.selected
       ? this.selection.select(selection.option.value)
       : this.selection.deselect(selection.option.value);
-  }
-  addKeywords() {
-    this.test = Array.from({ length: 250 }).map((_, i) => `Item #${i}`);
-    this.test.keys();
-    console.log(this.test);
   }
 
   /**
@@ -62,15 +67,15 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.dialogRef.close(this.comment)
-    }
+      this.dialogRef.close(this.comment);
+    };
   }
 
-  evalInput(input: string, model: string): string[] {
+  evalInput( model: string) {
     const filterTag = 'N';
     let spacyData: any = [];
     const words: string[] = [];
-    const body = '{"text": "' + input + '", "model": "' + model + '"}';
+    const body = '{"text": "' + this.commentText + '", "model": "' + model + '"}';
     this.client.post('https://spacy.frag.jetzt/dep', body).subscribe(data => {
       spacyData = data;
       // filter for tags in words (all Nouns)
@@ -81,7 +86,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         }
       }
     });
-    return words;
+    this.evalWords = words;
+    this.evalWords.keys();
+    console.log(this.evalWords);
+    console.log(words);
   }
 
 }
