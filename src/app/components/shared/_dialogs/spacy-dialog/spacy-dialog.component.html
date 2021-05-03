@@ -4,13 +4,14 @@
       <div class="lang-selection">
         <mat-select [(ngModel)]="selectedLang" (selectionChange)="evalInput($event.value)">
           <mat-option *ngFor="let lang of commentlang" [value]="lang.lang">
-            <span *ngIf="lang.lang == 'de'">Deutsch</span>
-            <span *ngIf="lang.lang == 'en'">English</span>
-            <span *ngIf="lang.lang == 'fr'">French</span>
+            <span *ngIf="lang.lang == 'de'">{{ 'spacy-dialog.german' | translate}}</span>
+            <span *ngIf="lang.lang == 'en'">{{ 'spacy-dialog.english' | translate}}</span>
+            <span *ngIf="lang.lang == 'fr'">{{ 'spacy-dialog.french' | translate}}</span>
           </mat-option>
         </mat-select>
       </div>
       <mat-selection-list dense (selectionChange)="onSelectionChange($event)">
+        <span *ngIf="evalWords.length>0">
         <cdk-virtual-scroll-viewport [itemSize]="20" class="keywords-viewport">
           <mat-list-option  *cdkVirtualFor="let keyword of evalWords; let odd = odd"
                             [class.keywords-alternate]="odd"
@@ -20,6 +21,10 @@
             <span class="keyword-span">{{keyword}}</span>
           </mat-list-option>
         </cdk-virtual-scroll-viewport>
+          </span>
+        <span *ngIf="evalWords.length<=0">
+          <p>{{ 'spacy-dialog.empty-nouns' | translate}}</p>
+      </span>
       </mat-selection-list>
     </ars-row>
   </div>

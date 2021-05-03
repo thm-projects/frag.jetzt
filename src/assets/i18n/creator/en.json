@@ -83,8 +83,10 @@
     "export-comments": "Save questions"
   },
   "spacy-dialog": {
-    "send" : "Add to topic-cloud",
-    "cancel" : "Cancel"
+    "german": "German",
+    "english": "English",
+    "french": "French",
+    "empty-nouns": "No nouns included"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",

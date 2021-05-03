@@ -82,8 +82,10 @@
     "export-comments": "Fragen speichern"
   },
   "spacy-dialog":{
-    "send" : "Zur Themencloud schicken",
-    "cancel" : "Abbrechen"
+    "german": "Deutsch",
+    "english": "Englisch",
+    "french": "Französisch",
+    "empty-nouns": "Keine Nomen enthalten"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
