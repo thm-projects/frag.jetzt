@@ -298,8 +298,9 @@
     "delete": "löschen",
     "question-count-singular": "Frage",
     "question-count-plural": "Fragen",
-    "editkeyword-tipp": "geben Sie ein neues Keyword ein",
-    "nokeyword-note": "Es gibt keine Themen"
+    "editkeyword-tipp": "Neues Thema",
+    "nokeyword-note": "Es gibt keine Themen",
+    "considerVotes": "Votes berücksichtigen"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "abbrechen",

@@ -300,8 +300,9 @@
     "delete": "delete",
     "question-count-singular": "question",
     "question-count-plural": "questions",
-    "editkeyword-tipp": "enter new keyword",
-    "nokeyword-note": "there are no topics!"
+    "editkeyword-tipp": "new topic",
+    "nokeyword-note": "there are no topics!",
+    "considerVotes": "Consider Votes"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "cancel",
