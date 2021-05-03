@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ScrollingModule } from '@angular/cdk/scrolling'
 import { CommentListComponent } from './comment-list/comment-list.component';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -41,7 +42,9 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    TagCloudModule
+    TagCloudModule,
+    SpacyDialogComponent,
+    ScrollingModule
   ],
   declarations: [
     RoomJoinComponent,

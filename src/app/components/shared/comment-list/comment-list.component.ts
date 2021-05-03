@@ -29,7 +29,6 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
 
 export enum Period {
   FROMNOW    = 'from-now',
