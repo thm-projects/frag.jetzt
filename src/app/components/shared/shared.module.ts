@@ -28,8 +28,9 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
+
+import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -40,7 +41,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    ScrollingModule
+    TagCloudModule
   ],
   declarations: [
     RoomJoinComponent,
