@@ -14,19 +14,20 @@ import { UserRole } from '../../../../models/user-roles.enum';
 })
 export class TopicCloudDialogComponent implements OnInit {
   public panelOpenState = false;
+  public considerVotes: boolean; // should be in a service
   newKeyword: string = '';
   edit: boolean = false;
   keywords: Keyword[] = [];
-  hasAccess: boolean; 
+  hasAccess: boolean;
 
   constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
               public confirmDialog: MatDialog,
-              private notificationService: NotificationService, 
+              private notificationService: NotificationService,
               private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    
-    if (this.authenticationService.getRole() === UserRole.CREATOR || 
+
+    if (this.authenticationService.getRole() === UserRole.CREATOR ||
         this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
         this.authenticationService.getRole() === UserRole.EDITING_MODERATOR){
         this.hasAccess = true;

@@ -24,10 +24,18 @@ mat-icon {
   fill: currentColor;
 }
 
-mat-expansion-panel-header {
+mat-expansion-panel-header, mat-expansion-panel, mat-card {
   background-color: var(--surface);
 }
 
-mat-expansion-panel {
-  background-color: var(--surface);
+mat-card {
+  margin-bottom: 32px;
+}
+
+label {
+color: var(--on-surface)
+}
+
+mat-slide-toggle {
+  margin-left: 16px;
 }

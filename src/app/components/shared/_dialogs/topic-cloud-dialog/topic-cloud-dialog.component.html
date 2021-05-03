@@ -1,4 +1,8 @@
 <mat-dialog-content>
+  <mat-card>
+    <label>Consider Votes</label>
+    <mat-slide-toggle class="primary" [(ngModel)]="considerVotes"></mat-slide-toggle>
+  </mat-card>
 
   <mat-accordion>
     <mat-expansion-panel *ngFor="let keyword of keywords">
@@ -11,8 +15,6 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <p *ngFor="let question of keyword.questions">{{question}}</p>
-
-      
 
       <!-- TODO: show buttons only to creator and moderators -->
       <!-- TODO: add automatic translation -->
@@ -33,6 +35,7 @@
       <!-- Only visible when editing -->
       <div *ngIf="edit">
         <mat-divider></mat-divider>
+
         <mat-form-field>
           <mat-label>Enter new Keyword</mat-label>
           <input matInput [(ngModel)]="newKeyword">
