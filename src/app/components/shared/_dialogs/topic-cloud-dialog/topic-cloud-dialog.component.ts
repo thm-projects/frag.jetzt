@@ -5,7 +5,8 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { UserRole } from '../../../../models/user-roles.enum';
-
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-topic-cloud-dialog',
@@ -23,10 +24,18 @@ export class TopicCloudDialogComponent implements OnInit {
   constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
               public confirmDialog: MatDialog,
               private notificationService: NotificationService,
-              private authenticationService: AuthenticationService) { }
+              private authenticationService: AuthenticationService,
+              private translateService: TranslateService,
+              private langService: LanguageService) {
+
+                this.langService.langEmitter.subscribe(lang => {
+                  this.translateService.use(lang);
+                });
+              }
 
   ngOnInit(): void {
 
+    this.translateService.use(localStorage.getItem('currentLang'));
     if (this.authenticationService.getRole() === UserRole.CREATOR ||
         this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
         this.authenticationService.getRole() === UserRole.EDITING_MODERATOR){
@@ -35,10 +44,6 @@ export class TopicCloudDialogComponent implements OnInit {
         this.hasAccess = false;
     }
 
-    if (this.keywords.length > 0){
-        this.notificationService.show("there are no keywords");
-        this.cloudDialogRef.close();
-    }
     let questions = ["Wie genau ist die Cloud aufgebaut?",
     "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
     "Sollen wir die Tag Cloud implementieren?"];
@@ -52,12 +57,19 @@ export class TopicCloudDialogComponent implements OnInit {
     "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
     "Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist"];
     this.pushToArray(3, "Frage", questions);
+    
+    if (this.keywords.length == 0){
+        this.translateService.get('topic-cloud-dialog.nokeyword-note').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+        this.cloudDialogRef.close();
+    }
   }
 
   pushToArray(id: number, key: string, questions: string[]){
-      let _keyword = {
-          keywordID: id,
-          keyword: key,
+    let _keyword = {
+      keywordID: id,
+      keyword: key,
           questions: questions
       }
       this.keywords.push(_keyword);
