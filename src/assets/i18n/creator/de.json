@@ -82,8 +82,8 @@
     "export-comments": "Fragen speichern"
   },
   "spacy-dialog":{
-    "spacyQ" : "Möchten Sie Ihren Text an spaCy schicken?",
-    "no-thanks" : "Nein, Danke"
+    "send" : "Zur Themencloud schicken",
+    "cancel" : "Abbrechen"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",

@@ -1,3 +1,4 @@
+/*
 button {
   min-width: 80px;
 }
@@ -90,4 +91,46 @@ mat-hint {
 
 ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: var(--primary);
+}
+*/
+
+/* Keyword checkboxes */
+.keywords-viewport {
+  height: 343px;
+  width: 552px;
+  border: 1px solid black;
+}
+.keywords-alternate {
+  background: rgba(112, 128, 144, 0.5) !important;
+}
+.keyword-span {
+  color: var(--on-surface) !important;
+}
+.mat-list-base[dense] .mat-list-item {
+  font-size: 14px !important;
+}
+.mat-list-option[aria-selected="true"] {
+  background: rgba(0, 139, 139, 0.7) !important;
+  box-sizing:border-box;
+  border-bottom: 1px solid var(--dialog) !important;
+}
+::ng-deep .mat-pseudo-checkbox-checked::after {
+  background: var(--red) !important;
+}
+::ng-deep .mat-warn .mat-pseudo-checkbox-checked {
+  background: var(--red) !important;
+}
+::ng-deep .mat-pseudo-checkbox {
+  color: var(--secondary);
+}
+.buttons {
+  float: right;
+}
+.sendBtn {
+  // color: var(--on-primary);
+  background-color: var(--primary);
+}
+.cancelBtn {
+  // color: var(--on-primary);
+  background-color: var(--cancel);
 }

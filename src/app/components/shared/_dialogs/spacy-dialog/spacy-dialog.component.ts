@@ -1,22 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
+import { MatSelectionListChange } from '@angular/material/list';
+import { SelectionModel } from '@angular/cdk/collections';
 
+export interface Keyword {
+  word: string;
+  completed: boolean;
+}
 @Component({
   selector: 'app-spacy-dialog',
   templateUrl: './spacy-dialog.component.html',
   styleUrls: ['./spacy-dialog.component.scss']
 })
-export class SpacyDialogComponent implements OnInit {
+export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
+  test;
+  keywords: Keyword[] = [];
+  selection = new SelectionModel(true);
   constructor(private translateService: TranslateService, protected langService: LanguageService, private client: HttpClient) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
-
   ngOnInit(): void {
   }
-
+  ngAfterContentInit(): void {
+    this.addKeywords();
+  }
+  onSelectionChange(selection: MatSelectionListChange) {
+    selection.option.selected
+      ? this.selection.select(selection.option.value)
+      : this.selection.deselect(selection.option.value);
+  }
+  addKeywords() {
+    this.test = Array.from({ length: 250 }).map((_, i) => `Item #${i}`);
+    this.test.keys();
+    console.log(this.test);
+  }
   /*
   testInput(): void {
     console.log(this.evalInput('Wieviel Aufgaben gibt es in der Klausur?', 'de'));

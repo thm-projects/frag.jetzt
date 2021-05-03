@@ -1,9 +1,37 @@
+<ars-row style="display: flex">
+  <div class="anchor-wrp">
+    <ars-row class="keywords-container">
+      <mat-selection-list dense (selectionChange)="onSelectionChange($event)">
+        <cdk-virtual-scroll-viewport [itemSize]="20" class="keywords-viewport">
+          <mat-list-option  *cdkVirtualFor="let keyword of test; let odd = odd"
+                            [class.keywords-alternate]="odd"
+                            [value]="keyword"
+                            [selected]="selection.isSelected(keyword)"
+                            color="warn">
+            <span class="keyword-span">{{keyword}}</span>
+          </mat-list-option>
+        </cdk-virtual-scroll-viewport>
+      </mat-selection-list>
+      <ng-container *ngFor="let word of keywords; let i = index">
+        <span *ngIf="i < 3">{{word.word}}</span>
+      </ng-container>
+
+      <div class="buttons">
+        <button class="cancelBtn">{{'spacy-dialog.cancel' | translate}}</button>
+        <button class="sendBtn">{{'spacy-dialog.send' | translate}}</button>
+      </div>
+
+    </ars-row>
+  </div>
+</ars-row>
+
+<!--
 <h1 mat-dialog-title>Spacy</h1>
 <div mat-dialog-content>
   <p>{{ 'spacy-dialog.spacyQ' | translate }}</p>
 </div>
 <div mat-dialog-actions>
-  <!-- <button mat-button (click)="testInput()">{{ 'spacy-dialog.no-thanks' | translate }}</button> -->
   <button mat-button>{{ 'spacy-dialog.no-thanks' | translate }}</button>
   <button mat-button>Ok</button>
 </div>
+-->

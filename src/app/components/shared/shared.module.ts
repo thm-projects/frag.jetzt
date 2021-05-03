@@ -29,6 +29,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     MatRippleModule,
     ArsModule,
     MarkdownModule,
-    QRCodeModule
+    QRCodeModule,
+    ScrollingModule
   ],
   declarations: [
     RoomJoinComponent,

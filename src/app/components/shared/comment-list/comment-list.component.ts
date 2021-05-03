@@ -414,7 +414,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.searchComments();
     }
   }
-
+  closeDialog() {
+    this.dialog.closeAll();
+  }
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
@@ -443,7 +445,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   openSpacyDialog(): void {
     const dialogRef = this.dialog.open(SpacyDialogComponent, {
-      width: '250px',
       data: {}
     });
   }

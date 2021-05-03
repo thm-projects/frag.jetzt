@@ -83,8 +83,8 @@
     "export-comments": "Save questions"
   },
   "spacy-dialog": {
-    "spacyQ" : "Would you like to send your text to spaCy?",
-    "no-thanks" : "no, Thanks"
+    "send" : "Add to topic-cloud",
+    "cancel" : "Cancel"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
