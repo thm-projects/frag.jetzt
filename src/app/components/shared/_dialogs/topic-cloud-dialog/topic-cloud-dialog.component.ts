@@ -19,6 +19,8 @@ export class TopicCloudDialogComponent implements OnInit {
   newKeyword: string = '';
   edit: boolean = false;
   isCreatorOrMod: boolean;
+  sortMode: SortMode = SortMode.ALPHABETIC;
+  sortModeEnum: typeof SortMode = SortMode; // needed for use in template
   keywords: Keyword[] = [
     {
       keywordID: 1,
@@ -100,23 +102,25 @@ export class TopicCloudDialogComponent implements OnInit {
     this.sortQuestions();
   }
 
+  sortQuestions(sortMode?: SortMode) {
+    if (sortMode !== undefined) {
+      this.sortMode = sortMode;
+    }
 
-
-  sortQuestions() {
-    this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
+    switch (this.sortMode) {
+      case SortMode.ALPHABETIC:
+        this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
+        break;
+      case SortMode.QUESTIONSCOUNT:
+        this.keywords.sort((a, b) => b.questions.length - a.questions.length);
+        break;
+    }
   }
 
   checkIfUserIsModOrCreator() {
     this.isCreatorOrMod = this.authenticationService.getRole() === UserRole.CREATOR ||
                           this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
                           this.authenticationService.getRole() === UserRole.EDITING_MODERATOR;
-    // if (this.authenticationService.getRole() === UserRole.CREATOR ||
-    //     this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
-    //     this.authenticationService.getRole() === UserRole.EDITING_MODERATOR){
-    //     this.isCreatorOrMod = true;
-    // } else {
-    //     this.isCreatorOrMod = false;
-    // }
   }
 
   checkIfThereAreQuestions() {
@@ -125,7 +129,7 @@ export class TopicCloudDialogComponent implements OnInit {
         this.notificationService.show(msg);
       });
       this.cloudDialogRef.close();
-  }
+    }
   }
 
   pushToArray(id: number, key: string, questions: string[]){
@@ -134,11 +138,11 @@ export class TopicCloudDialogComponent implements OnInit {
       keyword: key,
           questions: questions
       }
-      this.keywords.push(_keyword);
+    this.keywords.push(_keyword);
   }
 
   editKeyword(): void {
-      this.edit = true;
+    this.edit = true;
   }
 
   deleteKeyword(id: number): void{
@@ -146,8 +150,9 @@ export class TopicCloudDialogComponent implements OnInit {
       if (keyword.keywordID == id)
           this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
     });
-    if (this.keywords.length == 0)
+    if (this.keywords.length == 0) {
       this.cloudDialogRef.close();
+    }
   }
 
   cancelEdit(): void {
@@ -162,6 +167,7 @@ export class TopicCloudDialogComponent implements OnInit {
     });
     this.edit = false;
     this.newKeyword = '';
+    this.sortQuestions();
   }
 
   openConfirmDialog(keyword: Keyword): void {
@@ -176,6 +182,11 @@ export class TopicCloudDialogComponent implements OnInit {
       }
     })
   }
+}
+
+export enum SortMode {
+  ALPHABETIC,
+  QUESTIONSCOUNT
 }
 
 interface Keyword {
