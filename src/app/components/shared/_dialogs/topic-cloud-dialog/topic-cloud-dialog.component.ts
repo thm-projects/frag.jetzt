@@ -176,7 +176,6 @@ export class TopicCloudDialogComponent implements OnInit {
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
-      console.log(`dialog result: ${result}`);
       if (result == true) {
         this.deleteKeyword(keyword.keywordID);
       }
