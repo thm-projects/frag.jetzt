@@ -29,6 +29,7 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
 
 export enum Period {
   FROMNOW    = 'from-now',
@@ -432,11 +433,19 @@ export class CommentListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
+          this.openSpacyDialog();
           this.send(result);
         } else {
           return;
         }
       });
+  }
+
+  openSpacyDialog(): void {
+    const dialogRef = this.dialog.open(SpacyDialogComponent, {
+      width: '250px',
+      data: {}
+    });
   }
 
   send(comment: Comment): void {

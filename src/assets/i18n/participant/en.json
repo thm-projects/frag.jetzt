@@ -96,6 +96,10 @@
     "cancel": "Cancel",
     "delete": "Delete"
   },
+  "spacy-dialog":{
+    "spacyQ" : "Would you like to send your text to spaCy?",
+    "no-thanks" : "no, Thanks"
+  },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
     "a11y-comment_vote_down": "Votes down this question",

@@ -81,6 +81,10 @@
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern"
   },
+  "spacy-dialog":{
+    "spacyQ" : "Möchten Sie Ihren Text an spaCy schicken?",
+    "no-thanks" : "Nein, Danke"
+  },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
     "a11y-comment_grade": "Markiert diese Frage als Bonus-Frage",
