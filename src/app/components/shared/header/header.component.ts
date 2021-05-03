@@ -287,7 +287,7 @@ export class HeaderComponent implements OnInit {
 
   public navigateTopicCloud() {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
-
+      autoFocus: false
     });
   }
 
