@@ -43,6 +43,14 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
    */
 
+  onCancel() {
+
+  }
+
+  onSubmit() {
+
+  }
+
   evalInput(input: string, model: string): string[] {
     const filterTag = 'N';
     let spacyData: any = [];

@@ -16,11 +16,26 @@
         <span *ngIf="i < 3">{{word.word}}</span>
       </ng-container>
 
+      <!--
       <div class="buttons">
         <button class="cancelBtn">{{'spacy-dialog.cancel' | translate}}</button>
         <button class="sendBtn">{{'spacy-dialog.send' | translate}}</button>
-      </div>
+      </div>-->
 
+    </ars-row>
+    <ars-row ars-flex-box>
+      <ars-fill>
+      </ars-fill>
+      <ars-col>
+        <app-dialog-action-buttons
+          buttonsLabelSection="comment-page"
+          confirmButtonLabel="send"
+          [showDivider]="false"
+          [spacing]="false"
+          [cancelButtonClickAction]="this.onCancel"
+          [confirmButtonClickAction]="this.onSubmit"
+        ></app-dialog-action-buttons>
+      </ars-col>
     </ars-row>
   </div>
 </ars-row>
