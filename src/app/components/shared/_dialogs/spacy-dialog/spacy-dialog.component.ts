@@ -85,11 +85,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
           words.push(word.text);
         }
       }
+      this.evalWords = words;
+      this.evalWords.keys();
     });
-    this.evalWords = words;
-    this.evalWords.keys();
-    console.log(this.evalWords);
-    console.log(words);
   }
 
 }
