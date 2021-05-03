@@ -435,7 +435,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
-          this.openSpacyDialog(result);
+          this.send(result);
         } else {
           return;
         }

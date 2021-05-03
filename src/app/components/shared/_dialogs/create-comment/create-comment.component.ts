@@ -67,24 +67,23 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
-      this.openSpacyDialog(comment)
+      this.openSpacyDialog(comment);
     }
   }
 
   openSpacyDialog(comment: Comment): void {
     const dialogRef = this.dialog.open(SpacyDialogComponent, {
       data: {
-        comment,
-        dialogRef: this.dialogRef
+        comment
       }
     });
 
     dialogRef.afterClosed()
       .subscribe(result => {
-        console.log('closed!!!');
         if (result)
-          this.dialogRef.close(comment)
+          this.dialogRef.close(result)
       })
+
   }
 
 

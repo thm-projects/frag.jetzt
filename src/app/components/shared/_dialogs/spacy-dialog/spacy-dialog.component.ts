@@ -32,11 +32,13 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  ngOnInit(): void {
-    console.log(this.dialogRef)
-    console.log(this.data);
+  private comment: Comment;
 
+  ngOnInit(): void {
+    console.log(this.dialogRef);
+    this.comment = this.data.comment;
   }
+
   ngAfterContentInit(): void {
     this.addKeywords();
   }
@@ -50,19 +52,18 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.test.keys();
     console.log(this.test);
   }
-  /*
-  testInput(): void {
-    console.log(this.evalInput('Wieviel Aufgaben gibt es in der Klausur?', 'de'));
-  }
+
+  /**
+   * Returns a lambda which closes the dialog on call.
    */
-
-  onCancel() {
-    console.log('onCancel spacyDialog');
-    this.data.dialogRef.close();
+   buildCloseDialogActionCallback(): () => void {
+    return () => this.dialogRef.close();
   }
 
-  onSubmit() {
-
+  buildCreateCommentActionCallback() {
+    return () => {
+      this.dialogRef.close(this.comment)
+    }
   }
 
   evalInput(input: string, model: string): string[] {
