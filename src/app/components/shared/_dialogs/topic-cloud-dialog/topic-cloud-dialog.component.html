@@ -21,7 +21,7 @@
       <!-- TODO: add automatic translation -->
 
       <!-- Only visible when not editing -->
-      <div *ngIf="!edit && hasAccess">
+      <div *ngIf="!edit && isCreatorOrMod">
         <mat-divider></mat-divider>
 
         <button mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
