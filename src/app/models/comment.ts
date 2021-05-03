@@ -20,6 +20,7 @@ export class Comment {
   answer: string;
   userNumber: number;
   number: number;
+  keywords: string;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -35,7 +36,8 @@ export class Comment {
               ack: boolean = true,
               tag: string = '',
               answer: string = '',
-              userNumber: number = 0) {
+              userNumber: number = 0,
+              keywords: string = '') {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -53,5 +55,6 @@ export class Comment {
     this.tag = tag;
     this.answer = answer;
     this.userNumber = userNumber;
+    this.keywords = keywords;
   }
 }

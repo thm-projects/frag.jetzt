@@ -7,7 +7,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
-
+import { Comment } from 'src/app/models/comment';
 
 export interface Keyword {
   word: string;
@@ -27,11 +27,12 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   ];
   selectedLang = localStorage.getItem('currentLang');
 
-  commentText: string;
-  evalWords: any;
-  test;
+  comment: Comment;
+  evalWords: string[];
   keywords: Keyword[] = [];
+
   selection = new SelectionModel(true);
+
   constructor(
     private translateService: TranslateService,
     protected langService: LanguageService,
@@ -41,17 +42,14 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  private comment: Comment;
-
   ngOnInit(): void {
-    console.log(this.dialogRef);
     this.comment = this.data.comment;
-    this.commentText = this.data.comment.body;
   }
 
   ngAfterContentInit(): void {
     this.evalInput(this.selectedLang);
   }
+
   onSelectionChange(selection: MatSelectionListChange) {
     selection.option.selected
       ? this.selection.select(selection.option.value)
@@ -67,27 +65,28 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
+      this.comment.keywords = this.evalWords.join(',');
       this.dialogRef.close(this.comment);
     };
   }
 
   evalInput( model: string) {
     const filterTag = 'N';
-    let spacyData: any = [];
     const words: string[] = [];
-    const body = '{"text": "' + this.commentText + '", "model": "' + model + '"}';
-    this.client.post('https://spacy.frag.jetzt/dep', body).subscribe(data => {
-      spacyData = data;
+    this.evalWords = [];
+
+    this.client.post(
+        'https://spacy.frag.jetzt/dep',
+        JSON.stringify({text: this.comment.body, model})
+      ).subscribe((data: any) => {
       // filter for tags in words (all Nouns)
-      for ( const word of spacyData.words ) {
+      for (const word of data.words) {
         // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
         if (word.tag.charAt(0).includes(filterTag)) {
           words.push(word.text);
         }
       }
       this.evalWords = words;
-      this.evalWords.keys();
     });
   }
-
 }
