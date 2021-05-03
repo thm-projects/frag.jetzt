@@ -43,7 +43,6 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     MarkdownModule,
     QRCodeModule,
     TagCloudModule,
-    SpacyDialogComponent,
     ScrollingModule
   ],
   declarations: [

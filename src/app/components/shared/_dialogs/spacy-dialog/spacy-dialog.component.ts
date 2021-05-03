@@ -7,7 +7,8 @@ import { SelectionModel } from '@angular/cdk/collections';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
-import { Comment } from 'src/app/models/comment';
+
+import { Comment } from '../../../../models/comment';
 
 export interface Keyword {
   word: string;
