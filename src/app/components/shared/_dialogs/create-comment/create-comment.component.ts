@@ -7,6 +7,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
 import { EventService } from '../../../../services/util/event.service';
+import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 
 @Component({
   selector: 'app-submit-comment',
@@ -66,8 +67,24 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
-      this.dialogRef.close(comment);
+      this.openSpacyDialog(comment)
     }
+  }
+
+  openSpacyDialog(comment: Comment): void {
+    const dialogRef = this.dialog.open(SpacyDialogComponent, {
+      data: {
+        comment,
+        dialogRef: this.dialogRef
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        console.log('closed!!!');
+        if (result)
+          this.dialogRef.close(comment)
+      })
   }
 
 

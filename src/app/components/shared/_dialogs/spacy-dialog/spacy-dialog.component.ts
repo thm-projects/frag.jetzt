@@ -1,9 +1,13 @@
-import { AfterContentInit, Component, OnInit } from '@angular/core';
+import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { HttpClient } from '@angular/common/http';
 import { MatSelectionListChange } from '@angular/material/list';
 import { SelectionModel } from '@angular/cdk/collections';
+
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { CreateCommentComponent } from '../create-comment/create-comment.component';
+
 
 export interface Keyword {
   word: string;
@@ -19,10 +23,19 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   test;
   keywords: Keyword[] = [];
   selection = new SelectionModel(true);
-  constructor(private translateService: TranslateService, protected langService: LanguageService, private client: HttpClient) {
+  constructor(
+    private translateService: TranslateService,
+    protected langService: LanguageService,
+    private client: HttpClient,
+    public dialogRef: MatDialogRef<CreateCommentComponent>,
+    @Inject(MAT_DIALOG_DATA) public data) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
+
   ngOnInit(): void {
+    console.log(this.dialogRef)
+    console.log(this.data);
+
   }
   ngAfterContentInit(): void {
     this.addKeywords();
@@ -44,7 +57,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
    */
 
   onCancel() {
-
+    console.log('onCancel spacyDialog');
+    this.data.dialogRef.close();
   }
 
   onSubmit() {

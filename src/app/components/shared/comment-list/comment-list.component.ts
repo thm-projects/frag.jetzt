@@ -435,19 +435,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
-          this.openSpacyDialog();
-          this.send(result);
+          this.openSpacyDialog(result);
         } else {
           return;
         }
       });
   }
 
-  openSpacyDialog(): void {
-    const dialogRef = this.dialog.open(SpacyDialogComponent, {
-      data: {}
-    });
-  }
 
   send(comment: Comment): void {
     let message;
