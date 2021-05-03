@@ -18,8 +18,68 @@ export class TopicCloudDialogComponent implements OnInit {
   public considerVotes: boolean; // should be in a service
   newKeyword: string = '';
   edit: boolean = false;
-  keywords: Keyword[] = [];
-  hasAccess: boolean;
+  isCreatorOrMod: boolean;
+  keywords: Keyword[] = [
+    {
+      keywordID: 1,
+      keyword: "Cloud",
+      questions: [
+        "Wie genau ist die Cloud aufgebaut?",
+        "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
+        "Sollen wir die Tag Cloud implementieren?"
+      ]
+    },
+    {
+      keywordID: 2,
+      keyword: "SWT",
+      questions: [
+        "Muss man fuer das Modul SWT bestanden haben?"
+      ]
+    },
+    {
+      keywordID: 3,
+      keyword: "Frage",
+      questions: [
+        "Das ist eine Lange Frage mit dem Thema 'frage'",
+        "Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
+        "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
+        "Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist"
+      ]
+    },
+    {
+      keywordID: 4,
+      keyword: "Klausur",
+      questions: [
+        "Darf man in der Klausur hilfmittel verwenden?",
+        "An welchem Termin findet die Klausur statt?"
+      ]
+    },
+    {
+      keywordID: 5,
+      keyword: "AA",
+      questions: [
+        "Darf man in der Klausur hilfmittel verwenden?",
+        "An welchem Termin findet die Klausur statt?"
+      ]
+    },
+    {
+      keywordID: 6,
+      keyword: "ZZ",
+      questions: [
+        "Darf man in der Klausur hilfmittel verwenden?",
+        "An welchem Termin findet die Klausur statt?"
+      ]
+    },
+    {
+      keywordID: 7,
+      keyword: "MM",
+      questions: [
+        "Darf man in der Klausur hilfmittel verwenden?",
+        "An welchem Termin findet die Klausur statt?"
+      ]
+    }
+  ];
+
 
   constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
               public confirmDialog: MatDialog,
@@ -34,36 +94,38 @@ export class TopicCloudDialogComponent implements OnInit {
               }
 
   ngOnInit(): void {
-
     this.translateService.use(localStorage.getItem('currentLang'));
-    if (this.authenticationService.getRole() === UserRole.CREATOR ||
-        this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
-        this.authenticationService.getRole() === UserRole.EDITING_MODERATOR){
-        this.hasAccess = true;
-    } else {
-        this.hasAccess = false;
-    }
+    this.checkIfUserIsModOrCreator();
+    this.checkIfThereAreQuestions();
+    this.sortQuestions();
+  }
 
-    let questions = ["Wie genau ist die Cloud aufgebaut?",
-    "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
-    "Sollen wir die Tag Cloud implementieren?"];
-    this.pushToArray(1, "Cloud", questions);
 
-    questions = ["Muss man fuer das Modul SWT bestanden haben?"];
-    this.pushToArray(2, "SWTP", questions);
 
-    questions = ["Das ist eine Lange Frage mit dem Thema 'frage'",
-    "Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
-    "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
-    "Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist"];
-    this.pushToArray(3, "Frage", questions);
-    
+  sortQuestions() {
+    this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
+  }
+
+  checkIfUserIsModOrCreator() {
+    this.isCreatorOrMod = this.authenticationService.getRole() === UserRole.CREATOR ||
+                          this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
+                          this.authenticationService.getRole() === UserRole.EDITING_MODERATOR;
+    // if (this.authenticationService.getRole() === UserRole.CREATOR ||
+    //     this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
+    //     this.authenticationService.getRole() === UserRole.EDITING_MODERATOR){
+    //     this.isCreatorOrMod = true;
+    // } else {
+    //     this.isCreatorOrMod = false;
+    // }
+  }
+
+  checkIfThereAreQuestions() {
     if (this.keywords.length == 0){
-        this.translateService.get('topic-cloud-dialog.nokeyword-note').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-        this.cloudDialogRef.close();
-    }
+      this.translateService.get('topic-cloud-dialog.nokeyword-note').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+      this.cloudDialogRef.close();
+  }
   }
 
   pushToArray(id: number, key: string, questions: string[]){

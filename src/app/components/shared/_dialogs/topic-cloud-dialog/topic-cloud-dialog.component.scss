@@ -39,3 +39,7 @@ color: var(--on-surface)
 mat-slide-toggle {
   margin-left: 16px;
 }
+
+mat-panel-title, mat-panel-description {
+  flex-basis: 0
+}
