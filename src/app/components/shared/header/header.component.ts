@@ -132,10 +132,6 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  openCloudDialog() {
-    this.dialog.open(TopicCloudDialogComponent);
-  }
-
   showMotdDialog() {
     this.motdService.requestDialog();
   }
