@@ -37,20 +37,20 @@ export const arsnova = {
 
 export const arsnova_meta = {
 
-  'translation': {
-    'name': {
-      'en': 'Light Mode',
-      'de': 'Light Mode'
+  translation: {
+    name: {
+      en: 'Light Mode',
+      de: 'Light Mode'
     },
-    'description': {
-      'en': '',
-      'de': ''
+    description: {
+      en: '',
+      de: ''
     }
   },
-  'isDark': false,
-  'order': 3,
-  'scale_desktop': 1,
-  'scale_mobile': 1,
-  'previewColor': 'background'
+  isDark: false,
+  order: 3,
+  scale_desktop: 1,
+  scale_mobile: 1,
+  previewColor: 'background'
 
 };
