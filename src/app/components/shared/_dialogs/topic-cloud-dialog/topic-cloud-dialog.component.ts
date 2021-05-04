@@ -120,7 +120,7 @@ export class TopicCloudDialogComponent implements OnInit {
   checkIfUserIsModOrCreator() {
     this.isCreatorOrMod = this.authenticationService.getRole() === UserRole.CREATOR ||
                           this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
-                          this.authenticationService.getRole() === UserRole.EDITING_MODERATOR;
+                          this.authenticationService.getRole() === UserRole.EXECUTIVE_MODERATOR;
   }
 
   checkIfThereAreQuestions() {
