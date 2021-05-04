@@ -221,5 +221,20 @@
   "tag-cloud": {
     "config": "Modify cloud view",
     "administration": "Edit cloud topics"
+  },
+  "topic-cloud-dialog":{
+    "edit": "edit",
+    "delete": "delete",
+    "question-count-singular": "question",
+    "question-count-plural": "questions",
+    "editkeyword-tipp": "new topic",
+    "nokeyword-note": "there are no topics!",
+    "considerVotes": "Consider Votes",
+    "alphab": "Sort Alphabetically"
+  },
+  "topic-cloud-confirm-dialog":{
+    "cancel": "cancel",
+    "delete": "delete",
+    "confirm": "Do you really want to delete the topic"
   }
 }

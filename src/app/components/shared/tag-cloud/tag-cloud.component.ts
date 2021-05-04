@@ -13,7 +13,8 @@ import {Comment} from '../../../models/comment';
 import {LanguageService} from "../../../services/util/language.service";
 import {TranslateService} from "@ngx-translate/core";
 import {QuestionWallComment} from "../questionwall/QuestionWallComment";
-
+import { MatDialog } from '@angular/material/dialog';
+import { TopicCloudDialogComponent } from '../_dialogs/topic-cloud-dialog/topic-cloud-dialog.component';
 
 class TagComment implements CloudData {
   constructor(public color: string,
@@ -70,7 +71,8 @@ export class TagCloudComponent implements OnInit {
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
               private langService: LanguageService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              public dialog: MatDialog) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -109,6 +111,9 @@ export class TagCloudComponent implements OnInit {
       );
       this.child.reDraw();
     });
+  }
 
+  openAdministrationDialog(){
+      this.dialog.open(TopicCloudDialogComponent);
   }
 }

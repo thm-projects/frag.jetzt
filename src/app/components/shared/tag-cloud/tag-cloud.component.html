@@ -11,7 +11,7 @@
                 <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
         <span>{{'tag-cloud.config' | translate}}</span>
       </button>
-      <button mat-menu-item>
+      <button mat-menu-item (click)="openAdministrationDialog()">
                 <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
         <span>{{'tag-cloud.administration' | translate}}</span>
       </button>
