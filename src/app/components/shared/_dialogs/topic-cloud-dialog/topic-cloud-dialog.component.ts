@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HeaderComponent } from '../../header/header.component';
 import { NotificationService } from '../../../../services/util/notification.service';
