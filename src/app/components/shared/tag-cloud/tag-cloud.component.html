@@ -1,0 +1,38 @@
+<ars-screen ars-flex-box>
+  <ars-row [height]="100">
+
+  </ars-row>
+  <ars-row ars-flex-box>
+    <ars-col>
+
+    </ars-col>
+    <ars-col class="config">
+      <button mat-menu-item>
+                <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
+        <span>{{'tag-cloud.config' | translate}}</span>
+      </button>
+      <button mat-menu-item>
+                <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
+        <span>{{'tag-cloud.administration' | translate}}</span>
+      </button>
+    </ars-col>
+  </ars-row>
+
+  <ars-fill ars-flex-box style="width:100%;height:100%;">
+        <angular-tag-cloud
+          class="spacyTagCloud"
+          [data]="data"
+          [width]="options.width"
+          [height]="options.height"
+          [overflow]="options.overflow"
+          [zoomOnHover]="zoomOnHoverOptions"
+          [realignOnResize]="true"
+          [log]='"debug"'>
+        </angular-tag-cloud>
+  </ars-fill>
+
+  <ars-row [height]="100">
+
+  </ars-row>
+
+</ars-screen>

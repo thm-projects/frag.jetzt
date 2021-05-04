@@ -12,15 +12,15 @@ cache:
   paths:
     - node_modules/
 
-tslint:
+eslint:
   stage: codestyle
   tags:
     - nodejs
-  allow_failure: false
+  allow_failure: true
   dependencies: []
   script:
     - npm install
-    - node_modules/tslint/bin/tslint -p ./tsconfig.json -c ./tslint.json --project
+    - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
 
 unit_tests:
  stage: test
@@ -69,7 +69,7 @@ deploy_staging:
   tags:
     - ssh
   dependencies:
-    - tslint
+    - eslint
     - ngbuild
   script:
     - eval $(ssh-agent -s)
@@ -78,14 +78,14 @@ deploy_staging:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - scp -r "$BUILD_DIR"* "$STAGING_SSH_URL"
 
-deploy_production:
+.deploy_production:
   stage: deploy
   only:
     - master
   tags:
     - ssh
   dependencies:
-    - tslint
+    - eslint
     - ngbuild
   script:
     - eval $(ssh-agent -s)

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { HeaderComponent } from '../../header/header.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -129,7 +129,7 @@ export class TopicCloudDialogComponent implements OnInit {
   checkIfUserIsModOrCreator() {
     this.isCreatorOrMod = this.authenticationService.getRole() === UserRole.CREATOR ||
                           this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
-                          this.authenticationService.getRole() === UserRole.EDITING_MODERATOR;
+                          this.authenticationService.getRole() === UserRole.EXECUTIVE_MODERATOR;
   }
 
   checkIfThereAreQuestions() {

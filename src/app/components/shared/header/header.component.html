@@ -13,8 +13,9 @@
     aria-labelledby="cloud"
     *ngIf="router.url !== '/user' && router.url !== '/home'"
     (click)="openCloudDialog()">
-<mat-icon class="header-icons">cloud</mat-icon>
-</button>
+      <mat-icon class="header-icons">cloud</mat-icon>
+    </button>
+
 
     <span class="fill-remaining-space"></span>
 
@@ -144,6 +145,19 @@
                 </mat-icon>
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
+
+
+
+
+              <button mat-menu-item
+                      tabindex="0"
+                      *ngIf="deviceType !== 'mobile'"
+                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
+                <mat-icon>cloud
+                </mat-icon>
+                <span>{{'header.tag-cloud' | translate}}</span>
+              </button>
+
 
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
