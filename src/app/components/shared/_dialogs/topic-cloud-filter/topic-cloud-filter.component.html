@@ -1,3 +1,4 @@
+
 <div mat-dialog-content>
   <p>{{'content.topic-cloud-content' | translate}}</p>
 </div>
@@ -7,7 +8,7 @@
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildCommentDeleteActionCallback()"
+  [cancelButtonClickAction]="cancelButtonActionCallback()"
+  [confirmButtonClickAction]="confimrButtonActionCallback()"
 >
 </app-dialog-action-buttons>

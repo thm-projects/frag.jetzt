@@ -5,9 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
-import { FormControl, Validators } from '@angular/forms';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
-import { Period } from '../../comment-list/comment-list.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-topic-cloud-filter',
@@ -16,14 +14,12 @@ import { Period } from '../../comment-list/comment-list.component';
 })
 export class TopicCloudFilterComponent implements OnInit{
 
-  periodsList = Object.values(Period);
-  period: Period = Period.ALL;
-
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,
     public notificationService: NotificationService,
     public translationService: TranslateService,
     protected langService: LanguageService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public eventService: EventService) {
       langService.langEmitter.subscribe(lang => translationService.use(lang));
@@ -39,7 +35,7 @@ export class TopicCloudFilterComponent implements OnInit{
   /**
    * Returns a lambda which closes the dialog on call.
    */
-  buildCloseDialogActionCallback(): () => void {
+   cancelButtonActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
   }
 
@@ -51,8 +47,8 @@ export class TopicCloudFilterComponent implements OnInit{
     return () => this.closeDialog();
   }
 
-  buildCommentDeleteActionCallback(): () => void {
-
-    return () => this.dialogRef.close('delete');
+  confimrButtonActionCallback(): () => void {
+   // 
+    return () => this.dialogRef.close(this.router.navigateByUrl('/participant/room/' +localStorage.getItem('roomId')+ '/comments/tagcloud'));
   }
 }
