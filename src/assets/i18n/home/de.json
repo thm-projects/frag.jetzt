@@ -300,7 +300,9 @@
     "question-count-plural": "Fragen",
     "editkeyword-tipp": "Neues Thema",
     "nokeyword-note": "Es gibt keine Themen",
-    "considerVotes": "Votes berücksichtigen"
+    "considerVotes": "Votes berücksichtigen",
+    "sort": "Alphabetisch sortieren",
+    "fragesortieren": "fragen nach Anzahl sortieren "
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "abbrechen",

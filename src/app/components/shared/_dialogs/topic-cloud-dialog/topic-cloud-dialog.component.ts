@@ -79,7 +79,16 @@ export class TopicCloudDialogComponent implements OnInit {
         "Darf man in der Klausur hilfmittel verwenden?",
         "An welchem Termin findet die Klausur statt?"
       ]
-    }
+    },
+    {
+      keywordID: 8,
+      keyword: "Diskrete Math",
+      questions: [
+        "wann wird die nächste veranstaltung stattfinden?",
+        "gibt es heute übung?"
+      ]
+    },
+
   ];
 
 

@@ -302,7 +302,8 @@
     "question-count-plural": "questions",
     "editkeyword-tipp": "new topic",
     "nokeyword-note": "there are no topics!",
-    "considerVotes": "Consider Votes"
+    "considerVotes": "Consider Votes",
+    "alphab": "Sort Alphabetically"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "cancel",
