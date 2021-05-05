@@ -16,6 +16,10 @@
       {{cTime}}
     </h2>
 
+    <button (click)="openCloudConfiguration()">
+      Cloud-Setup
+    </button>
+
     <!--
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>
@@ -136,19 +140,6 @@
                 </mat-icon>
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
-
-
-
-
-              <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
-                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
-                <mat-icon>cloud
-                </mat-icon>
-                <span>{{'header.tag-cloud' | translate}}</span>
-              </button>
-
 
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
