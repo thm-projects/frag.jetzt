@@ -89,7 +89,7 @@
 
           </ng-container>
 
-          <ng-container *ngIf="user && user.role == 0 && router.url.includes('/comment/')">
+          <ng-container *ngIf="(user && user.role == 0 && router.url.includes('/comment/'))">
 
             <button mat-menu-item
                     tabindex="0"
@@ -237,9 +237,9 @@
             </button>
 
           </ng-container>
-
+          
           <button mat-menu-item
-                  *ngIf="user && user.role > 0 && !router.url.includes('/comment/')"
+                  *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="showQRDialog();">
             <mat-icon svgIcon="qrcode"
@@ -248,6 +248,40 @@
             <span>{{'header.room-qr' | translate}}</span>
           </button>
 
+          <button mat-menu-item
+                  *ngIf="router.url.endsWith('/tagcloud')"
+                  tabindex="0">
+            <mat-icon aria-label="Configuration Icon">cloud</mat-icon>
+            <span>{{'header.tag-cloud-config' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
+                  *ngIf="router.url.endsWith('/tagcloud')"
+                  tabindex="0">
+            <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
+            <span>{{'header.tag-cloud-administration' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
+                    *ngIf="router.url.endsWith('/tagcloud')"
+                    tabindex="0"
+                    (click)="navigateCreateQuestion();">
+              <mat-icon>
+                add
+              </mat-icon>
+              <span>{{'header.create-question' | translate}}</span>
+            </button>
+
+          <button mat-menu-item
+                    tabindex="0"
+                    *ngIf="router.url.endsWith('/tagcloud')"
+                    routerLink="participant/room/{{shortId}}/comments">
+              <mat-icon>
+                forum
+              </mat-icon>
+              <span>{{'header.back-to-questionboard' | translate}}</span>
+            </button>
+          
         </ng-container>
 
       </div>

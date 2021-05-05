@@ -12,6 +12,7 @@ import {Result, SpacyService} from '../../../services/http/spacy.service';
 import {Comment} from '../../../models/comment';
 import {LanguageService} from '../../../services/util/language.service';
 import {TranslateService} from '@ngx-translate/core';
+import { EventService } from '../../../services/util/event.service';
 
 class TagComment implements CloudData {
   constructor(public color: string,
@@ -43,7 +44,7 @@ const weight2color = {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, AfterViewInit {
+export class TagCloudComponent implements OnInit {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   roomId: string;
@@ -80,28 +81,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit {
     this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
     });
-  }
-
-  ngAfterViewInit(): void {
-    const interval = setInterval(() => {
-      if (this.onHoverEnd(null) > 0) {
-        clearInterval(interval);
-      }
-    }, 10);
-  }
-
-  onHoverStart(event: MouseEvent): any {
-    const container: HTMLElement = document.querySelector('.config');
-    container.style.right = '0';
-  }
-
-  onHoverEnd(event: MouseEvent): any {
-    const container: HTMLElement = document.querySelector('.config');
-    let maxSpanWidth = 0;
-    document.querySelectorAll('.config span').forEach(e =>
-      maxSpanWidth = Math.max(e.clientWidth, maxSpanWidth));
-    container.style.right = '-' + (maxSpanWidth + 16) + 'px'; //16 = margin
-    return maxSpanWidth;
   }
 
   analyse(comments: Comment[]) {
