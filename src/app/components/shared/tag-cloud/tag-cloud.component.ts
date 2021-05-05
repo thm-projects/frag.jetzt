@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
 import {
   CloudData,
@@ -43,15 +43,15 @@ const weight2color = {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit {
+export class TagCloudComponent implements OnInit, AfterViewInit {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   roomId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 1,
+    width: 0.99,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 1,
+    height: 0.99,
     overflow: false,
     font: 'Georgia' // not working
   };
@@ -82,6 +82,28 @@ export class TagCloudComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit(): void {
+    const interval = setInterval(() => {
+      if (this.onHoverEnd(null) > 0) {
+        clearInterval(interval);
+      }
+    }, 10);
+  }
+
+  onHoverStart(event: MouseEvent): any {
+    const container: HTMLElement = document.querySelector('.config');
+    container.style.right = '0';
+  }
+
+  onHoverEnd(event: MouseEvent): any {
+    const container: HTMLElement = document.querySelector('.config');
+    let maxSpanWidth = 0;
+    document.querySelectorAll('.config span').forEach(e =>
+      maxSpanWidth = Math.max(e.clientWidth, maxSpanWidth));
+    container.style.right = '-' + (maxSpanWidth + 16) + 'px'; //16 = margin
+    return maxSpanWidth;
+  }
+
   analyse(comments: Comment[]) {
     const commentsConcatenated = comments.map(c => c.body).join(' ');
 
@@ -100,6 +122,5 @@ export class TagCloudComponent implements OnInit {
       );
       this.child.reDraw();
     });
-
   }
 }

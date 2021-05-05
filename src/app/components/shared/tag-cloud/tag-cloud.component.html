@@ -2,11 +2,10 @@
   <ars-row [height]="100">
 
   </ars-row>
-  <ars-row ars-flex-box>
+  <ars-row style="overflow: hidden; display: flex; justify-content: space-between;">
     <ars-col>
-
     </ars-col>
-    <ars-col class="config">
+    <ars-col class="config" (mouseenter)="onHoverStart($event)" (mouseleave)="onHoverEnd($event)">
       <button mat-menu-item>
                 <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
         <span>{{'tag-cloud.config' | translate}}</span>
