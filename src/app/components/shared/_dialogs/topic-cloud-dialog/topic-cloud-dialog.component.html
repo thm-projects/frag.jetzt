@@ -1,4 +1,3 @@
-<p> {{'topic-cloud-dialog.considerVotes' | translate}} </p>
 <mat-dialog-content>
   <mat-card>
     <label>{{'topic-cloud-dialog.considerVotes' | translate}}</label>
@@ -20,7 +19,7 @@
   <mat-accordion>
     <mat-expansion-panel *ngFor="let keyword of keywords">
       <mat-expansion-panel-header class="color">
-        <mat-panel-title>
+        <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
           {{keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
@@ -28,8 +27,11 @@
           {{'topic-cloud-dialog.question-count-'+(keyword.questions.length > 1 ? 'plural' : 'singular') | translate}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <p *ngFor="let question of keyword.questions">{{question}}</p>
-
+      <div *ngFor="let question of keyword.questions">
+        <mat-divider></mat-divider>
+        <p >{{question}}</p>
+      </div>
+      
       <!-- Only visible when not editing -->
       <div *ngIf="!edit && isCreatorOrMod">
         <mat-divider></mat-divider>

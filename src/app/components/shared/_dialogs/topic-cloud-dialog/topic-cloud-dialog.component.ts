@@ -21,6 +21,8 @@ export class TopicCloudDialogComponent implements OnInit {
   isCreatorOrMod: boolean;
   sortMode: SortMode = SortMode.ALPHABETIC;
   sortModeEnum: typeof SortMode = SortMode; // needed for use in template
+  editedKeyword:boolean = false;
+
   keywords: Keyword[] = [
     {
       keywordID: 1,
@@ -175,6 +177,7 @@ export class TopicCloudDialogComponent implements OnInit {
           keyword.keyword = this.newKeyword;
     });
     this.edit = false;
+    this.editedKeyword = true;
     this.newKeyword = '';
     this.sortQuestions();
   }
