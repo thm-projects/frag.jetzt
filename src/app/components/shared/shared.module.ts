@@ -32,6 +32,7 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
 
 @NgModule({
   imports: [
@@ -68,7 +69,8 @@ import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-admini
     MotdDialogComponent,
     MotdMessageComponent,
     TopicCloudConfirmDialogComponent,
-    TopicCloudAdministrationComponent
+    TopicCloudAdministrationComponent,
+    TopicDialogCommentComponent
   ],
   exports: [
     RoomJoinComponent,

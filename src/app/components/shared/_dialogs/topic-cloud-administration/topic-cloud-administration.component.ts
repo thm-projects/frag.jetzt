@@ -23,7 +23,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
   sortMode: SortMode = SortMode.ALPHABETIC;
   sortModeEnum: typeof SortMode = SortMode; // needed for use in template
   editedKeyword:boolean = false;
-  isReadMore: boolean = false;
 
   keywords: Keyword[] = [
     {
@@ -31,7 +30,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
       keyword: "Cloud",
       questions: [
         "Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung",
-        "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
+        "Wieviel speicherplatz steht mir in der Cloud zur verfuegung? Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
         "Sollen wir die Tag Cloud implementieren?"
       ]
     },
@@ -194,10 +193,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
         this.deleteKeyword(keyword.keywordID);
       }
     })
-  }
-
-  showText() {
-     this.isReadMore = !this.isReadMore;
   }
 }
 

@@ -19,7 +19,6 @@
         {{'topic-cloud-dialog.sort-Count' | translate}} </button>
       <!-- <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button> -->
     </mat-menu>
-  
     <mat-accordion>
       <mat-expansion-panel *ngFor="let keyword of keywords">
         <mat-expansion-panel-header class="color">
@@ -33,13 +32,16 @@
         </mat-expansion-panel-header>
         <div *ngFor="let question of keyword.questions">
           <mat-divider></mat-divider>
-              <p [ngClass]="{'hideText': question.length > 80 || isReadMore}">
-                <!--{{question}} -->
-                {{(question.length < 80 || isReadMore) ? question : question | slice:0:50}}
-                <button mat-icon-button  *ngIf="question.length > 80" style="background: none; font-weight: bold;" (click)="showText()">
-                  {{ !isReadMore ? '...more': 'less' }}
-                </button>
-              </p>
+          <app-topic-dialog-comment
+          [question]="question"
+          [maxShowedCharachters] = "70"
+          ></app-topic-dialog-comment>
+          <!--<p [ngClass]="{'hideText': question.length > maxShowedCharachters || isReadMore}">
+            {{(question.length < maxShowedCharachters || isReadMore) ? question : question | slice:0:70}}
+            <button mat-icon-button  *ngIf="question.length > maxShowedCharachters" style="background: none; font-weight: bold;" (click)="showText()">
+              {{ !isReadMore ? '...more': '...less' }}
+            </button>
+          </p>-->
         </div>
         
         <!-- Only visible when not editing -->
