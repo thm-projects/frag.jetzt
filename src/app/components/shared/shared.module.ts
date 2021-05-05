@@ -30,7 +30,6 @@ import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.componen
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
-import { TagCloudModule } from 'angular-tag-cloud-module';
 import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({

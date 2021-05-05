@@ -7,7 +7,7 @@
 
     </ars-col>
     <ars-col class="config">
-      <button mat-menu-item>
+      <button (click)="openCloudConfiguration()" mat-menu-item>
                 <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
         <span>{{'tag-cloud.config' | translate}}</span>
       </button>

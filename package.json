@@ -38,6 +38,7 @@
     "ngx-color-picker": "^11.0.0",
     "ngx-markdown": "^9.0.0",
     "ngx-matomo": "^0.1.4",
+    "ngx-matomo-v9": "^0.3.0",
     "rxjs": "^6.5.4",
     "tslib": "^2.0.0",
     "typescript-map": "0.0.7",

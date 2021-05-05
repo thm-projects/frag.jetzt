@@ -21,7 +21,6 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
-import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 
 @Component({
   selector: 'app-header',
@@ -180,11 +179,6 @@ export class HeaderComponent implements OnInit {
     this.location.back();
   }
 
-  openCloudConfiguration() {
-    const dialogRef = this.dialog.open(CloudConfigurationComponent);
-
-    dialogRef.afterClosed().subscribe(result => {});
-  }
 
   login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {
