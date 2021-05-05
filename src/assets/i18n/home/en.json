@@ -307,7 +307,8 @@
     "editkeyword-tipp": "new topic",
     "nokeyword-note": "there are no topics!",
     "considerVotes": "Consider Votes",
-    "alphab": "Sort Alphabetically"
+    "sort-Alpha": "Alphabetically",
+    "sort-Count": "questions count"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "cancel",
