@@ -86,9 +86,11 @@
     "cancel": "Abbrechen",
     "delete": "Löschen"
   },
-  "spacy-dialog": {
-    "spacyQ" : "Möchten Sie Ihren Text an spaCy schicken?",
-    "no-thanks" : "Nein, Danke"
+  "spacy-dialog":{
+    "german": "Deutsch",
+    "english": "Englisch",
+    "french": "Französisch",
+    "empty-nouns": "Keine Nomen enthalten"
   },
   "comment-page": {
     "a11y-comment_input": "Gib deine Frage ein",

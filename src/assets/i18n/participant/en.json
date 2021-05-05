@@ -96,9 +96,11 @@
     "cancel": "Cancel",
     "delete": "Delete"
   },
-  "spacy-dialog":{
-    "spacyQ" : "Would you like to send your text to spaCy?",
-    "no-thanks" : "no, Thanks"
+  "spacy-dialog": {
+    "german": "German",
+    "english": "English",
+    "french": "French",
+    "empty-nouns": "No nouns included"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
