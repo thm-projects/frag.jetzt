@@ -30,9 +30,6 @@
       </mat-expansion-panel-header>
       <p *ngFor="let question of keyword.questions">{{question}}</p>
 
-      <!-- TODO: show buttons only to creator and moderators -->
-      <!-- TODO: add automatic translation -->
-
       <!-- Only visible when not editing -->
       <div *ngIf="!edit && isCreatorOrMod">
         <mat-divider></mat-divider>
