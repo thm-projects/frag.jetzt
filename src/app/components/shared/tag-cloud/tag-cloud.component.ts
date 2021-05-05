@@ -14,7 +14,7 @@ import {LanguageService} from "../../../services/util/language.service";
 import {TranslateService} from "@ngx-translate/core";
 import {QuestionWallComment} from "../questionwall/QuestionWallComment";
 import { MatDialog } from '@angular/material/dialog';
-import { TopicCloudDialogComponent } from '../_dialogs/topic-cloud-dialog/topic-cloud-dialog.component';
+import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 
 class TagComment implements CloudData {
   constructor(public color: string,
@@ -114,6 +114,6 @@ export class TagCloudComponent implements OnInit {
   }
 
   openAdministrationDialog(){
-      this.dialog.open(TopicCloudDialogComponent);
+      this.dialog.open(TopicCloudAdministrationComponent);
   }
 }

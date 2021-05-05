@@ -9,11 +9,12 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
-  selector: 'app-topic-cloud-dialog',
-  templateUrl: './topic-cloud-dialog.component.html',
-  styleUrls: ['./topic-cloud-dialog.component.scss']
+  selector: 'app-topic-cloud-administration',
+  templateUrl: './topic-cloud-administration.component.html',
+  styleUrls: ['./topic-cloud-administration.component.scss']
 })
-export class TopicCloudDialogComponent implements OnInit {
+export class TopicCloudAdministrationComponent implements OnInit {
+
   public panelOpenState = false;
   public considerVotes: boolean; // should be in a service
   newKeyword: string = '';
@@ -22,13 +23,14 @@ export class TopicCloudDialogComponent implements OnInit {
   sortMode: SortMode = SortMode.ALPHABETIC;
   sortModeEnum: typeof SortMode = SortMode; // needed for use in template
   editedKeyword:boolean = false;
+  isReadMore: boolean = false;
 
   keywords: Keyword[] = [
     {
       keywordID: 1,
       keyword: "Cloud",
       questions: [
-        "Wie genau ist die Cloud aufgebaut?",
+        "Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung",
         "Wieviel speicherplatz steht mir in der Cloud zur verfuegung?",
         "Sollen wir die Tag Cloud implementieren?"
       ]
@@ -192,6 +194,10 @@ export class TopicCloudDialogComponent implements OnInit {
         this.deleteKeyword(keyword.keywordID);
       }
     })
+  }
+
+  showText() {
+     this.isReadMore = !this.isReadMore;
   }
 }
 
