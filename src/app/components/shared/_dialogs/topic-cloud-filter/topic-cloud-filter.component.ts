@@ -47,7 +47,7 @@ export class TopicCloudFilterComponent implements OnInit{
     return () => this.closeDialog();
   }
 
-  confimrButtonActionCallback(): () => void {
+  confirmButtonActionCallback(): () => void {
    // 
     return () => this.dialogRef.close(this.router.navigateByUrl('/participant/room/' +localStorage.getItem('roomId')+ '/comments/tagcloud'));
   }
