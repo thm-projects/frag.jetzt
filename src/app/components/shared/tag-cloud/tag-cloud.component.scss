@@ -1,63 +1,80 @@
 .config {
-    span {
-        display: none;
-    }
+  background-color: var(--surface);
+  position: relative;
+  transition: right 1s ease;
 
-    mat-icon {
-        margin: 0;
-    }
-}
+  button {
+    background-color: var(--surface);
 
-.config:hover {
-    background-color:#052338;
-    span {
-        margin-left: 16px;
-        display: inline;
+    &:hover {
+      background-color: var(--alt-surface);
     }
+  }
+
+  span {
+    margin-left: 16px;
+    display: inline-block;
+    color: var(--on-surface);
+  }
+
+  mat-icon {
+    margin: 0;
+    color: var(--on-surface);
+  }
 }
 
 ::ng-deep .spacyTagCloud > span {
   &.w10 {
-    color: brown !important;
+    color: var(--light-green, brown) !important;
     font-size: 380% !important;
   }
+
   &.w9 {
-    color: white !important;
+    color: var(--magenta, white) !important;
     font-size: 330% !important;
   }
+
   &.w8 {
-    color: tomato !important;
+    color: var(--purple, tomato) !important;
     font-size: 280% !important;
   }
+
   &.w7 {
-    color: lightgreen !important;
+    color: var(--on-background, lightgreen) !important;
     font-size: 240% !important;
   }
+
   &.w6 {
-    color: gray !important;
+    color: var(--yellow, gray) !important;
     font-size: 210% !important;
   }
+
   &.w5 {
-    color: pink !important;
+    color: var(--primary, pink) !important;
     font-size: 180% !important;
   }
+
   &.w4 {
-    color: orange !important;
+    color: var(--red, orange) !important;
     font-size: 160% !important;
   }
+
   &.w3 {
-    color: yellow !important;
+    color: var(--grey, yellow) !important;
     font-size: 140% !important;
   }
+
   &.w2 {
-    color: green !important;
+    color: var(--blue, green) !important;
     font-size: 120% !important;
   }
+
   &.w1 {
-    color: lightblue !important;
+    color: var(--moderator, lightblue) !important;
     font-size: 100% !important;
   }
+
   &:hover {
-    color: greenyellow !important;
+    color: var(--secondary, greenyellow) !important;
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 
 import {
   CloudData,
@@ -10,10 +10,9 @@ import {
 import {CommentService} from '../../../services/http/comment.service';
 import {Result, SpacyService} from '../../../services/http/spacy.service';
 import {Comment} from '../../../models/comment';
-import {LanguageService} from "../../../services/util/language.service";
-import {TranslateService} from "@ngx-translate/core";
-import {QuestionWallComment} from "../questionwall/QuestionWallComment";
-
+import {LanguageService} from '../../../services/util/language.service';
+import {TranslateService} from '@ngx-translate/core';
+import { EventService } from '../../../services/util/event.service';
 
 class TagComment implements CloudData {
   constructor(public color: string,
@@ -51,9 +50,9 @@ export class TagCloudComponent implements OnInit {
   roomId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 1,
+    width: 0.99,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 1,
+    height: 0.99,
     overflow: false,
     font: 'Georgia' // not working
   };
@@ -89,26 +88,18 @@ export class TagCloudComponent implements OnInit {
 
     this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
       const map = new Map<string, number>();
-      let maxCount = 0;
       res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).forEach(elem => {
         const count = (map.get(elem.text) || 0) + 1;
-        if (count > maxCount) {
-          maxCount = count;
-        }
         map.set(elem.text, count);
       });
-      this.data.length = 0; // Clear array
       map.forEach((val, key) => {
-          const weight = 9 * val / maxCount + 1;
-          console.log(weight + ' ' + typeof weight);
           this.data.push(new TagComment(null,
             true, null, null,
             /*Math.floor(Math.random() * 30 - 15)*/0, key,
-            'TODO', weight));
+            'TODO', val));
         }
       );
       this.child.reDraw();
     });
-
   }
 }
