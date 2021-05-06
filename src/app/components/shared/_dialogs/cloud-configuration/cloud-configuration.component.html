@@ -83,7 +83,7 @@
         fxLayoutGap="20px"
         fxLayout.xs="column"
       >
-        <mat-form-field fxFlex fxLayout.xs="column">
+        <!--<mat-form-field fxFlex fxLayout.xs="column">
           <mat-label>{{'tag-cloud.height' | translate}}</mat-label>
           <input
             matInput
@@ -93,8 +93,8 @@
             min="100"
             max="1000"
             step="10"
-          />
-        </mat-form-field>
+          /> 
+        </mat-form-field>-->
       </div>
         <div
           class="input-row"
@@ -102,24 +102,14 @@
           fxLayoutGap="20px"
           fxLayout.xs="column"
         >
-          <mat-slide-toggle fxFlex formControlName="overflow"
-            >{{'tag-cloud.overflow' | translate}}</mat-slide-toggle
-          >
-          <mat-slide-toggle fxFlex formControlName="randomizeAngle"
+          <mat-slide-toggle fxFlex formControlName="realignOnResize"
+          >{{'tag-cloud.realign' | translate}}</mat-slide-toggle
+        >
+          <mat-slide-toggle fxFlex formControlName="randomizeAngle" 
           >{{'tag-cloud.random-angle' | translate}}</mat-slide-toggle
         >
         </div>
-        <div
-          class="input-row"
-          fxLayout="row"
-          fxLayoutGap="20px"
-          fxLayout.xs="column"
-        >
-          <mat-slide-toggle fxFlex formControlName="realignOnResize"
-            >{{'tag-cloud.realign' | translate}}</mat-slide-toggle
-          >
-   
-        </div>
+        
         <div
           class="input-row"
           fxLayout="row"
@@ -173,7 +163,34 @@
           ></mat-slider>
         </div>
       </div>
-
+      <div
+        class="input-row"
+        fxLayout="row"
+        fxLayoutGap="20px"
+        fxLayout.xs="column"
+      >
+      <div
+        class="input-row"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutGap="20px"
+      >
+      <div fxFlex="50%" fxFlex.xs="100%">
+        <mat-form-field fxFlex fxLayout.xs="column">
+          <mat-label>{{'tag-cloud.font-size' | translate}}</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="font-size"
+            placeholder="font-size"
+            min="100"
+            max="150"
+            step="10"
+          /> 
+        </mat-form-field>
+        </div>
+      </div>
+    </div>
         <h3>{{'tag-cloud.hover-title' | translate}}</h3>
         <div formGroupName="zoomOnHover">
           <div
@@ -215,7 +232,7 @@
               <mat-slider
                 min="1"
                 max="2"
-                step="0.01"
+                step="0.2"
                 formControlName="scale"
                 [thumbLabel]="true"
               ></mat-slider>
@@ -233,7 +250,7 @@
               <mat-slider
                 min="0"
                 max="2"
-                step="0.1"
+                step="0.2"
                 formControlName="transitionTime"
                 [thumbLabel]="true"
               ></mat-slider>
@@ -250,13 +267,14 @@
             </div>
           </div>
         </div>
-        <div
+        <!--div
         class="input-row"
         fxLayout="row"
         fxLayoutGap="20px"
         fxLayout.xs="column"
       >
-      </div>
+      </div>-->
+
         <!-- <h2>Style</h2> -->
         <!-- <div
           class="input-row"

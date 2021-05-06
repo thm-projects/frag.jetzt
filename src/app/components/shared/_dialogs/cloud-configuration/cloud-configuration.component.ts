@@ -20,10 +20,10 @@ export class CloudConfigurationComponent implements OnInit {
   cloudConfigForm: FormGroup;
   data: CloudData[] = [];
   title: String = "Cloud Configuration"
-  height: number = 400;
+  //height: number = 400;
   overflow: boolean = false;
   realignonResize: boolean = true;
-  randomizeAngle: boolean = true;
+  randomizeAngle: boolean = false;
   background: string = "#333";
   delay: number = 1;
 
@@ -38,7 +38,7 @@ export class CloudConfigurationComponent implements OnInit {
     overflow: false,
     strict: false,
     realignOnResize: true,
-    randomizeAngle: true,
+    randomizeAngle: false,
     zoomOnHover: {
       scale: 1.2,
       transitionTime: 0.6,
