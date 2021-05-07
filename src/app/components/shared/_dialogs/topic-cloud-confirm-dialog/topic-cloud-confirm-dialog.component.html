@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>{{'topic-cloud-confirm-dialog.confirm' | translate}}  "{{data.topic}}"?</h1>
+<h2 mat-dialog-title>{{'topic-cloud-confirm-dialog.confirm' | translate}}  "{{data.topic}}"?</h2>
 
-<div mat-dialog-actions>
-  <button class="primary" mat-stroked-button [mat-dialog-close]="false">
+<div mat-dialog-actions align="end">
+  <button class="primary" mat-raised-button [mat-dialog-close]="false">
     {{'topic-cloud-confirm-dialog.cancel' | translate}}</button>
-  <button class="warn" mat-stroked-button [mat-dialog-close]="true">
+  <button class="warn" mat-raised-button [mat-dialog-close]="true">
     {{'topic-cloud-confirm-dialog.delete' | translate}}
   </button>
 </div>
