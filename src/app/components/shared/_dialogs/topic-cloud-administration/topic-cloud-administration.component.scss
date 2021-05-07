@@ -34,7 +34,9 @@ color: var(--on-surface)
 }
 
 mat-slide-toggle {
-  margin-left: 16px;
+  margin-bottom: 16px;
+  display: block;
+  color: var(--on-surface);
 }
 
 mat-panel-title, mat-panel-description {

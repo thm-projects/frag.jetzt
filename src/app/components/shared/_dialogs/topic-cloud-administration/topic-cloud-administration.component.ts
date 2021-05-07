@@ -16,7 +16,8 @@ import { LanguageService } from '../../../../services/util/language.service';
 export class TopicCloudAdministrationComponent implements OnInit {
 
   public panelOpenState = false;
-  public considerVotes: boolean; // should be in a service
+  public considerVotes: boolean; // should be sent back to tagCloud component
+  public tagsLowerCase: boolean; // should be sent back to tagCloud component
   newKeyword: string = '';
   edit: boolean = false;
   isCreatorOrMod: boolean;

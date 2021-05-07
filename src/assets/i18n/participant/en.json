@@ -230,6 +230,7 @@
     "editkeyword-tipp": "new topic",
     "nokeyword-note": "there are no topics!",
     "considerVotes": "Consider Votes",
+    "tags-lowercase": "Topics in lowercase",
     "sort-Alpha": "Alphabetically",
     "sort-Count": "questions count"
   },

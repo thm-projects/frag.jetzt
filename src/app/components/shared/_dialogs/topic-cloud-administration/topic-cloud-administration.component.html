@@ -1,15 +1,15 @@
 <mat-dialog-content>
     <mat-card>
-      <label>{{'topic-cloud-dialog.considerVotes' | translate}}</label>
-      <mat-slide-toggle class="primary" [(ngModel)]="considerVotes"></mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.considerVotes' | translate}}</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
     </mat-card>
-  
+
     <div align="end">
       <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>
     </div>
-  
+
     <mat-menu #sortMenu>
       <button mat-menu-item (click)="sortQuestions(sortModeEnum.ALPHABETIC)">
         <mat-icon>sort_by_alpha</mat-icon>
@@ -43,11 +43,11 @@
             </button>
           </p>-->
         </div>
-        
+
         <!-- Only visible when not editing -->
         <div *ngIf="!edit && isCreatorOrMod">
           <mat-divider></mat-divider>
-  
+
           <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
             <mat-icon class="primary">edit</mat-icon>
           </button>
@@ -56,7 +56,7 @@
             <mat-icon class="warn">delete</mat-icon>
           </button>
         </div>
-  
+
         <!-- Only visible when editing -->
           <div *ngIf="edit">
             <mat-divider></mat-divider>
@@ -73,8 +73,7 @@
             </button>
           </div>
         </div>
-  
+
       </mat-expansion-panel>
     </mat-accordion>
   </mat-dialog-content>
-  
