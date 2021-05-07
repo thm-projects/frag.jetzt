@@ -58,14 +58,17 @@
         </div>
 
         <!-- Only visible when editing -->
-        <div layout="row" *ngIf="edit">
+        <div *ngIf="edit">
           <mat-divider></mat-divider>
           <mat-form-field>
             <mat-label>{{'topic-cloud-dialog.editkeyword-tipp' | translate}}</mat-label>
             <input matInput [(ngModel)]="newKeyword" cdkFocusInitial>
           </mat-form-field>
+          <!-- TODO: textinput and buttons in one row -->
+          <div align="end">
             <button mat-raised-button class="margin-right primaryBackground" (click)="confirmEdit(keyword.keywordID)">{{'topic-cloud-dialog.save' | translate}}</button>
             <button mat-raised-button class="redBackground" (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
+          </div>
         </div>
 
       </mat-expansion-panel>
