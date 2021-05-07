@@ -9,10 +9,9 @@ export class TopicDialogCommentComponent implements OnInit {
 
   @Input() question: string;
   @Input() maxShowedCharachters: number;
-  isCollapsed: boolean = false;
+  @Input() isCollapsed: boolean = false;
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }

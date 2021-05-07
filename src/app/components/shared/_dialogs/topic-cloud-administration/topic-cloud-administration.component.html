@@ -20,7 +20,9 @@
       <!-- <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button> -->
     </mat-menu>
     <mat-accordion>
-      <mat-expansion-panel *ngFor="let keyword of keywords">
+      <mat-expansion-panel (opened)="panelOpenState = true"
+                           (closed)="panelOpenState = false"
+                           *ngFor="let keyword of keywords">
         <mat-expansion-panel-header class="color">
           <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
             {{keyword.keyword}}
@@ -35,6 +37,7 @@
           <app-topic-dialog-comment
           [question]="question"
           [maxShowedCharachters] = "140"
+          [isCollapsed] = "!panelOpenState"
           ></app-topic-dialog-comment>
           <!--<p [ngClass]="{'hideText': question.length > maxShowedCharachters || isReadMore}">
             {{(question.length < maxShowedCharachters || isReadMore) ? question : question | slice:0:70}}
