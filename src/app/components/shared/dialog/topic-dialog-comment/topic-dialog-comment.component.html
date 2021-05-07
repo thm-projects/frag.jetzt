@@ -1,7 +1,9 @@
-<p>
-    {{(isCollapsed) ? question : question | slice:0:maxShowedCharachters}}
-    <button mat-icon-button *ngIf = "question.length > maxShowedCharachters" 
-            style="background: none; font-weight: bold;" (click)="isCollapsed = !isCollapsed">
-      {{ !isCollapsed ? '...more': '...less' }}
+<div>
+  <p>
+    {{(isCollapsed) ? question : question | slice:0:maxShowedCharachters}}{{question.length > maxShowedCharachters && !isCollapsed? "..." : ""}}
+    <button  *ngIf = "question.length > maxShowedCharachters" 
+           (click)="isCollapsed = !isCollapsed">
+           {{ !isCollapsed ? 'more': 'less' }}
     </button>
-</p>
+  </p>
+</div>

@@ -6,9 +6,24 @@ mat-icon {
   fill: currentColor;
 }
 
-
 label {
 color: var(--on-surface)
 }
 
+button{
+  color: var(--primary);
+  background: none;
+  font-weight: bold;
+  border: 0px solid;
+  font-size: 14px;
+}
+
+button:focus{
+  outline: none;
+}
+
+button:hover{
+  text-decoration: underline;
+  font-size: 16px;
+}
 
