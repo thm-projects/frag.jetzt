@@ -234,11 +234,11 @@
     "considerVotes": "Consider Votes",
     "tags-lowercase": "Topics in lowercase",
     "sort-Alpha": "Alphabetically",
-    "sort-Count": "questions count"
+    "sort-Count": "Questions count"
   },
   "topic-cloud-confirm-dialog":{
-    "cancel": "cancel",
-    "delete": "delete",
+    "cancel": "Cancel",
+    "delete": "Delete",
     "confirm": "Do you really want to delete the topic"
   }
 }

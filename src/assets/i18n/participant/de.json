@@ -217,8 +217,8 @@
     "administration": "Wolkenthemen editieren"
   },
   "topic-cloud-dialog":{
-    "edit": "bearbeiten",
-    "delete": "löschen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
     "cancel": "Abbrechen",
     "save": "Speichern",
     "question-count-singular": "Frage",
@@ -227,12 +227,12 @@
     "nokeyword-note": "Es gibt keine Themen",
     "considerVotes": "Votes berücksichtigen",
     "tags-lowercase": "Themen klein schreiben",
-    "sort-Alpha": "alphabetisch",
+    "sort-Alpha": "Alphabetisch",
     "sort-Count": "Fragenanzahl"
   },
   "topic-cloud-confirm-dialog":{
-    "cancel": "abbrechen",
-    "delete": "löschen",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
     "confirm": "Möchten Sie wirklich das Thema löschen"
   }
 }
