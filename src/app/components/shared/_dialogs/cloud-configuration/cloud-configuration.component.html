@@ -25,19 +25,16 @@
       <mat-slide-toggle fxFlex formControlName="realignOnResize"
       >{{'tag-cloud-config.realign' | translate}}</mat-slide-toggle
       >
-      <mat-slide-toggle fxFlex formControlName="randomizeAngle"
-      >{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle
-      >
     </div>
-
     <div
       class="input-row"
       fxLayout="row"
       fxLayoutGap="20px"
       fxLayout.xs="column"
-      style="padding-top: 20px;"
     >
-
+      <mat-slide-toggle fxFlex formControlName="randomizeAngle"
+      >{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle
+      >
     </div>
     <div
       class="input-row"
@@ -72,6 +69,13 @@
         </div>
       </div>
 
+    </div>
+    <div
+      class="input-row"
+      fxLayout="row"
+      fxLayout.xs="column"
+      fxLayoutGap="20px"
+    >
       <div fxFlex="50%" fxFlex.xs="100%">
         <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
         <mat-slider
@@ -146,7 +150,14 @@
             ></div>
           </div>
         </div>
+      </div>
 
+      <div
+        class="input-row"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutGap="20px"
+      >
         <div fxFlex="50%" fxFlex.xs="100%">
           <mat-label class="label-text">{{'tag-cloud-config.hover-scale' | translate}}</mat-label>
           <mat-slider
@@ -175,6 +186,13 @@
             [thumbLabel]="true"
           ></mat-slider>
         </div>
+      </div>
+      <div
+        class="input-row"
+        fxLayout="row"
+        fxLayout.xs="column"
+        fxLayoutGap="20px"
+      >
         <div fxFlex="50%" fxFlex.xs="100%">
           <mat-label class="label-text">{{'tag-cloud-config.hover-delay' | translate}}</mat-label>
           <mat-slider
