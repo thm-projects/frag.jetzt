@@ -1,81 +1,13 @@
-<!-- <div mat-dialog-content>
-  <h2 class="oldtypo-h2">{{title | translate }}</h2>
-  <mat-divider></mat-divider>
-
-  <div fxLayout="column">
-
-
-    <div fxLayout="row">
-      <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
-        <mat-slide-toggle
-                          aria-labelledby="settings-direct-send"
-                          matTooltip="{{ 'room-page.settings-direct-send-description' | translate }}">
-        </mat-slide-toggle>
-      </p>
-    </div>
-  </div>
-
-  <div fxLayout="column">
-    <div fxLayout="row">
-      <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
-        <mat-slide-toggle>
-                          aria-labelledby="threshold"
-                          matTooltip="{{ 'room-page.threshold-description' | translate }}">
-        </mat-slide-toggle>
-      </p>
-    </div>
-    <div fxLayout="row">
-      <mat-slider id="commentSlider"
-                  min="-100"
-                  max="0"
-                  step="5">
-
-      </mat-slider>
-      <h2 class="oldtypo-h2">&nbsp</h2>
-    </div>
-  </div>
-
-  <mat-divider></mat-divider>
-
-  <div fxLayoutAlign="center center">
-    <button mat-raised-button
-            class="export"
-            aria-labelledby="export-comments">
-      <mat-icon>save</mat-icon>
-      {{ 'room-page.export-comments' | translate }}</button>
-  </div>
-  <div fxLayoutAlign="center center">
-    <button mat-raised-button
-            class="delete"
-            aria-labelledby="delete-all-comments">
-      <mat-icon>delete</mat-icon>
-      {{ 'room-page.delete-all-comments' | translate }}</button>
-  </div>
-</div>
-
-<app-dialog-action-buttons
-  buttonsLabelSection="room-page"
-  confirmButtonLabel="update"
-></app-dialog-action-buttons>
-
-<div class="visually-hidden">
-  <div id="threshold">{{'room-page.a11y-threshold' | translate}} </div>
-  <div id="settings-comment-moderation">{{'room-page.a11y-settings-comment-moderation' | translate}} </div>
-  <div id="settings-direct-send">{{'room-page.a11y-settings-direct-send' | translate}} </div>
-  <div id="export-comments">{{'room-page.a11y-export-comments' | translate}} </div>
-  <div id="delete-all-comments">{{'room-page.a11y-delete-all-comments' | translate}} </div>
-</div> -->
-
 <div
   fxLayout="row"
   fxLayout.xs="column"
   fxLayout.sm="column"
   fxLayoutGap="15px"
 >
- 
+
       <form [formGroup]="cloudConfigForm" fxLayout="column">
         <h2>{{'tag-cloud-config.title' | translate}}</h2>
-    
+
         <h3>{{'tag-cloud-config.general' | translate}}</h3>
         <div
         class="input-row"
@@ -83,18 +15,6 @@
         fxLayoutGap="20px"
         fxLayout.xs="column"
       >
-        <!--<mat-form-field fxFlex fxLayout.xs="column">
-          <mat-label>{{'tag-cloud-config.height' | translate}}</mat-label>
-          <input
-            matInput
-            type="number"
-            formControlName="height"
-            placeholder="Height"
-            min="100"
-            max="1000"
-            step="10"
-          /> 
-        </mat-form-field>-->
       </div>
         <div
           class="input-row"
@@ -105,11 +25,11 @@
           <mat-slide-toggle fxFlex formControlName="realignOnResize"
           >{{'tag-cloud-config.realign' | translate}}</mat-slide-toggle
         >
-          <mat-slide-toggle fxFlex formControlName="randomizeAngle" 
+          <mat-slide-toggle fxFlex formControlName="randomizeAngle"
           >{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle
         >
         </div>
-        
+
         <div
           class="input-row"
           fxLayout="row"
@@ -117,7 +37,7 @@
           fxLayout.xs="column"
           style="padding-top: 20px;"
         >
-        
+
         </div>
         <div
         class="input-row"
@@ -186,7 +106,7 @@
             min="100"
             max="150"
             step="10"
-          /> 
+          />
         </mat-form-field>
         </div>
       </div>
@@ -267,49 +187,6 @@
             </div>
           </div>
         </div>
-        <!--div
-        class="input-row"
-        fxLayout="row"
-        fxLayoutGap="20px"
-        fxLayout.xs="column"
-      >
-      </div>-->
-
-        <!-- <h2>Style</h2> -->
-        <!-- <div
-          class="input-row"
-          fxLayout="row"
-          fxLayoutGap="20px"
-          fxLayout.xs="column"
-        >
-          <mat-slide-toggle fxFlex formControlName="customStyle"
-            >Use custom Stylesheet</mat-slide-toggle
-          >
-        </div> -->
-        <!-- <div
-          class="input-row"
-          fxLayout="row"
-          fxLayoutGap="20px"
-          fxLayout.xs="column"
-        >
-          <mat-form-field fxFlex>
-            <input matInput formControlName="font" placeholder="Font" />
-          </mat-form-field>
-        </div> -->
-        <!-- <div
-          class="input-row"
-          fxLayout="row"
-          fxLayoutGap="20px"
-          fxLayout.xs="column"
-        >
-          <mat-form-field fxFlex>
-            <input
-              matInput
-              formControlName="background"
-              placeholder="Background"
-            />
-          </mat-form-field>
-        </div> -->
         <br>
         <div class="button-row">
           <button mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
