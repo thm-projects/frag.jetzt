@@ -69,21 +69,22 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MotdDialogComponent,
     MotdMessageComponent
   ],
-  exports: [
-    RoomJoinComponent,
-    PageNotFoundComponent,
-    RoomPageComponent,
-    RoomListComponent,
-    HeaderComponent,
-    FooterComponent,
-    CommentPageComponent,
-    CommentListComponent,
-    CreateCommentComponent,
-    PresentCommentComponent,
-    CommentComponent,
-    DialogActionButtonsComponent,
-    UserBonusTokenComponent
-  ]
+    exports: [
+        RoomJoinComponent,
+        PageNotFoundComponent,
+        RoomPageComponent,
+        RoomListComponent,
+        HeaderComponent,
+        FooterComponent,
+        CommentPageComponent,
+        CommentListComponent,
+        CreateCommentComponent,
+        PresentCommentComponent,
+        CommentComponent,
+        DialogActionButtonsComponent,
+        UserBonusTokenComponent,
+        CloudConfigurationComponent
+    ]
 })
 export class SharedModule {
 }

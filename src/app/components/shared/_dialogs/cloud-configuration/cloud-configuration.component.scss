@@ -2,6 +2,10 @@
   width: 100%;
 }
 
+mat-drawer-container {
+  background-color: var(--background);
+}
+
 .delete {
   margin-bottom: 20px;
   min-width: 220px;

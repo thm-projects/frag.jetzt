@@ -1,6 +1,10 @@
-<mat-sidenav-container>
-  <mat-sidenav-content>
-    <ars-screen ars-flex-box>
+<ars-screen ars-flex-box>
+  <mat-drawer-container id="matDrawContainer">
+    <mat-drawer #matDrawer position="start">
+      <app-cloud-configuration></app-cloud-configuration>
+    </mat-drawer>
+    <mat-drawer-content>
+
       <ars-row [height]="100">
 
       </ars-row>
@@ -9,7 +13,7 @@
 
         </ars-col>
         <ars-col class="config">
-          <button (click)="openCloudConfiguration()" mat-menu-item>
+          <button (click)="matDrawer.open()" mat-menu-item>
             <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
             <span>{{'tag-cloud.config' | translate}}</span>
           </button>
@@ -36,7 +40,6 @@
       <ars-row [height]="100">
 
       </ars-row>
-
-    </ars-screen>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ars-screen>
