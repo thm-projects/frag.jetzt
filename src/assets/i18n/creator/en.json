@@ -321,5 +321,23 @@
     "max-ls": "Max. characters:",
     "session-name": "Session name",
     "preview": "Preview"
+  },
+  "tag-cloud-config":{
+    "title":"Tag-Cloud Options",
+    "general":"General Options",
+    "overflow":"Overflow",
+    "height":"Height",
+    "random-angle":"Randomize angle",
+    "realign":"Realign on resize",
+    "background":"Background-color",
+    "word-delay":"Word delay",
+    "hover-color":"Font-color",
+    "hover-scale":"Scale",
+    "hover-time":"Hover time",
+    "hover-title":"Hover Options",
+    "hover-delay":"Hover Delay",
+    "cancel-btn":"Cancel",
+    "save-btn":"Save",
+    "font-size":"Font size"
   }
 }

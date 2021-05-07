@@ -74,9 +74,9 @@
 >
  
       <form [formGroup]="cloudConfigForm" fxLayout="column">
-        <h2>{{'tag-cloud.title' | translate}}</h2>
+        <h2>{{'tag-cloud-config.title' | translate}}</h2>
     
-        <h3>{{'tag-cloud.general' | translate}}</h3>
+        <h3>{{'tag-cloud-config.general' | translate}}</h3>
         <div
         class="input-row"
         fxLayout="row"
@@ -84,7 +84,7 @@
         fxLayout.xs="column"
       >
         <!--<mat-form-field fxFlex fxLayout.xs="column">
-          <mat-label>{{'tag-cloud.height' | translate}}</mat-label>
+          <mat-label>{{'tag-cloud-config.height' | translate}}</mat-label>
           <input
             matInput
             type="number"
@@ -103,10 +103,10 @@
           fxLayout.xs="column"
         >
           <mat-slide-toggle fxFlex formControlName="realignOnResize"
-          >{{'tag-cloud.realign' | translate}}</mat-slide-toggle
+          >{{'tag-cloud-config.realign' | translate}}</mat-slide-toggle
         >
           <mat-slide-toggle fxFlex formControlName="randomizeAngle" 
-          >{{'tag-cloud.random-angle' | translate}}</mat-slide-toggle
+          >{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle
         >
         </div>
         
@@ -128,7 +128,7 @@
         <div fxFlex="48%" fxFlex.xs="100%">
           <div fxLayout="row" fxLayoutGap="10px">
             <mat-form-field fxFlex="80%">
-              <mat-label>{{'tag-cloud.background' | translate}}</mat-label>
+              <mat-label>{{'tag-cloud-config.background' | translate}}</mat-label>
               <input
                 matInput
                 [colorPicker]="
@@ -153,7 +153,7 @@
         </div>
 
         <div fxFlex="50%" fxFlex.xs="100%">
-          <mat-label class="label-text">{{'tag-cloud.word-delay' | translate}}</mat-label>
+          <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
           <mat-slider
             min="0"
             max="1000"
@@ -177,7 +177,7 @@
       >
       <div fxFlex="50%" fxFlex.xs="100%">
         <mat-form-field fxFlex fxLayout.xs="column">
-          <mat-label>{{'tag-cloud.font-size' | translate}}</mat-label>
+          <mat-label>{{'tag-cloud-config.font-size' | translate}}</mat-label>
           <input
             matInput
             type="number"
@@ -191,7 +191,7 @@
         </div>
       </div>
     </div>
-        <h3>{{'tag-cloud.hover-title' | translate}}</h3>
+        <h3>{{'tag-cloud-config.hover-title' | translate}}</h3>
         <div formGroupName="zoomOnHover">
           <div
             class="input-row"
@@ -202,7 +202,7 @@
             <div fxFlex="48%" fxFlex.xs="100%">
               <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field fxFlex="80%">
-                  <mat-label>{{'tag-cloud.hover-color' | translate}}</mat-label>
+                  <mat-label>{{'tag-cloud-config.hover-color' | translate}}</mat-label>
                   <input
                     matInput
                     [colorPicker]="
@@ -228,7 +228,7 @@
             </div>
 
             <div fxFlex="50%" fxFlex.xs="100%">
-              <mat-label class="label-text">{{'tag-cloud.hover-scale' | translate}}</mat-label>
+              <mat-label class="label-text">{{'tag-cloud-config.hover-scale' | translate}}</mat-label>
               <mat-slider
                 min="1"
                 max="2"
@@ -246,7 +246,7 @@
             fxLayoutGap="20px"
           >
             <div fxFlex="50%" fxFlex.xs="100%">
-              <mat-label class="label-text">{{'tag-cloud.hover-time' | translate}}</mat-label>
+              <mat-label class="label-text">{{'tag-cloud-config.hover-time' | translate}}</mat-label>
               <mat-slider
                 min="0"
                 max="2"
@@ -256,7 +256,7 @@
               ></mat-slider>
             </div>
             <div fxFlex="50%" fxFlex.xs="100%">
-              <mat-label class="label-text">{{'tag-cloud.hover-delay' | translate}}</mat-label>
+              <mat-label class="label-text">{{'tag-cloud-config.hover-delay' | translate}}</mat-label>
               <mat-slider
                 min="0"
                 max="2"
@@ -312,8 +312,8 @@
         </div> -->
         <br>
         <div class="button-row">
-          <button mat-button class="secondary">{{'tag-cloud.cancel-btn' | translate}}</button>
-          <button mat-button class="primary">{{'tag-cloud.save-btn' | translate}}</button>
+          <button mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
+          <button mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
         </div>
       </form>
 

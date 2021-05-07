@@ -311,6 +311,7 @@
     "hover-title":"Einstellungen Schweben",
     "hover-delay":"Verzögerung beim Schweben",
     "cancel-btn":"Abbruch",
-    "save-btn":"Speichern"
+    "save-btn":"Speichern",
+    "font-size":"Schriftgröße"
   }
 }
