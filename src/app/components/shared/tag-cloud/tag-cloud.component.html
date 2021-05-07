@@ -1,6 +1,6 @@
 <ars-screen ars-flex-box>
   <mat-drawer-container id="matDrawContainer">
-    <mat-drawer #matDrawer position="start">
+    <mat-drawer [(opened)]="configurationOpened" position="start">
       <app-cloud-configuration></app-cloud-configuration>
     </mat-drawer>
     <mat-drawer-content>
@@ -13,7 +13,7 @@
 
         </ars-col>
         <ars-col class="config">
-          <button (click)="matDrawer.open()" mat-menu-item>
+          <button (click)="openCloudConfiguration()" mat-menu-item>
             <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
             <span>{{'tag-cloud.config' | translate}}</span>
           </button>

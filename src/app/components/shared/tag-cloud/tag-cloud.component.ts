@@ -67,6 +67,7 @@ export class TagCloudComponent implements OnInit {
   };
 
   data: CloudData[] = [];
+  configurationOpened: boolean = false;
 
 
   constructor(private commentService: CommentService,
@@ -114,11 +115,9 @@ export class TagCloudComponent implements OnInit {
     });
 
   }
-  
-  openCloudConfiguration() {
-    const dialogRef = this.dialog.open(CloudConfigurationComponent);
 
-    dialogRef.afterClosed().subscribe(result => {});
+  openCloudConfiguration() {
+    this.configurationOpened = true;
   }
 
 }
