@@ -240,5 +240,9 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "confirm": "Do you really want to delete the topic"
+  },
+  "dialog-comment":{
+    "read-more": "Read more",
+    "read-less": "Read less"
   }
 }

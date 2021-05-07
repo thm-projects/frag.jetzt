@@ -234,5 +234,9 @@
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "confirm": "Möchten Sie wirklich das Thema löschen"
+  },
+  "dialog-comment":{
+    "read-more": "Mehr lesen",
+    "read-less": "Weniger lesen"
   }
 }
