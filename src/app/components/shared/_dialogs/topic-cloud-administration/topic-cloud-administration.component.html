@@ -63,7 +63,7 @@
 
           <mat-form-field>
             <mat-label>{{'topic-cloud-dialog.editkeyword-tipp' | translate}}</mat-label>
-            <input matInput [(ngModel)]="newKeyword" cdkFocusInitial>
+            <input matInput #keywordInput [(ngModel)]="newKeyword">
           </mat-form-field>
           <!-- TODO: textinput and buttons in one row -->
           <div align="end">

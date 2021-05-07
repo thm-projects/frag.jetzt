@@ -14,7 +14,7 @@ import { LanguageService } from '../../../../services/util/language.service';
   styleUrls: ['./topic-cloud-administration.component.scss']
 })
 export class TopicCloudAdministrationComponent implements OnInit {
-
+  // @ViewChildren("keywordInput") keywordInput: QueryList<ElementRef>;
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
   public tagsLowerCase: boolean; // should be sent back to tagCloud component
@@ -156,6 +156,14 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   editKeyword(): void {
     this.edit = true;
+
+    // focus on input currently trows exception
+
+    // this.keywordInput.changes.subscribe(() => {
+    //   if (this.keywordInput.first.nativeElement && this.edit) {
+    //     this.keywordInput.first.nativeElement.focus();
+    //   }
+    // });
   }
 
   deleteKeyword(id: number): void{
