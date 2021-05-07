@@ -175,7 +175,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   confirmEdit(id: number): void {
     this.keywords.map(keyword => {
       if (keyword.keywordID == id)
-          keyword.keyword = this.newKeyword;
+          keyword.keyword = this.newKeyword.trim();
     });
     this.edit = false;
     this.editedKeyword = true;
