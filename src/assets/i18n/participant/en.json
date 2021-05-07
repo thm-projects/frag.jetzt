@@ -225,9 +225,11 @@
   "topic-cloud-dialog":{
     "edit": "edit",
     "delete": "delete",
+    "cancel": "Cancel",
+    "save": "Save",
     "question-count-singular": "question",
     "question-count-plural": "questions",
-    "editkeyword-tipp": "new topic",
+    "editkeyword-tipp": "New topic",
     "nokeyword-note": "there are no topics!",
     "considerVotes": "Consider Votes",
     "tags-lowercase": "Topics in lowercase",

@@ -219,6 +219,8 @@
   "topic-cloud-dialog":{
     "edit": "bearbeiten",
     "delete": "löschen",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
     "question-count-singular": "Frage",
     "question-count-plural": "Fragen",
     "editkeyword-tipp": "Neues Thema",

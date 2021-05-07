@@ -12,8 +12,16 @@
   color: var(--primary);
 }
 
-.warn {
+.red {
   color: var(--red);
+}
+
+.primaryBackground {
+  background-color: var(--primary);
+}
+
+.redBackground {
+  background-color: var(--red);
 }
 
 mat-panel-description, mat-panel-title, p, input {
@@ -30,7 +38,7 @@ mat-expansion-panel-header, mat-expansion-panel, mat-card {
 
 
 label {
-color: var(--on-surface)
+  color: var(--on-surface)
 }
 
 mat-slide-toggle {
