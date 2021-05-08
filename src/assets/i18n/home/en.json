@@ -120,7 +120,8 @@
   "content": {
     "topic-cloud-content": "Continue to the Topic Cloud with the current filters?",
     "cancel": "Cancel",
-    "continue": "Continue"
+    "continue": "Continue",
+    "reset": "Reset"
   },
   "imprint": {
     "cancel": "Close",

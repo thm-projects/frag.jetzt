@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -13,6 +13,13 @@ import {Router} from '@angular/router';
   styleUrls: ['./topic-cloud-filter.component.scss']
 })
 export class TopicCloudFilterComponent implements OnInit{
+<<<<<<< HEAD
+=======
+  @Input()filteredComments: any;
+  @Input()commentsFilteredByTime: any;
+  periodsList = Object.values(Period);
+  period: Period = Period.ALL;
+>>>>>>> add button on topic-cloud dialog
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,
@@ -50,5 +57,10 @@ export class TopicCloudFilterComponent implements OnInit{
   confirmButtonActionCallback(): () => void {
    // 
     return () => this.dialogRef.close(this.router.navigateByUrl('/participant/room/' +localStorage.getItem('roomId')+ '/comments/tagcloud'));
+  }
+  resetBuildCloseDialogActionCallback():() => void {
+    this.commentsFilteredByTime = [];
+    this.filteredComments = [];
+    return () => this.dialogRef.close('reset');
   }
 }

@@ -8,7 +8,13 @@
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
+<<<<<<< HEAD
   [cancelButtonClickAction]="cancelButtonActionCallback()"
   [confirmButtonClickAction]="confirmButtonActionCallback()"
+=======
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [resetButtonClickAction]="resetBuildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildCommentDeleteActionCallback()"
+>>>>>>> add button on topic-cloud dialog
 >
 </app-dialog-action-buttons>

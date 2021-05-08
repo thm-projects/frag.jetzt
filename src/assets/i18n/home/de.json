@@ -48,7 +48,8 @@
   "content": {
     "topic-cloud-content": "Weiter zur Topic-Cloud mit den aktuellen Filtern?",
     "cancel": "Abbrechen",
-    "continue": "Weiter"
+    "continue": "Weiter",
+    "reset": "Zurücksetzen"
   },
   "header": {
     "abort": "Abbrechen",
