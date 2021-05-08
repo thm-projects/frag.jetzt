@@ -89,7 +89,7 @@
 
           </ng-container>
 
-          <ng-container *ngIf="(user && user.role == 0 && router.url.includes('/comment/'))">
+          <ng-container *ngIf="user && user.role == 0 && router.url.includes('/comment/')">
 
             <button mat-menu-item
                     tabindex="0"
@@ -142,7 +142,6 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
                       routerLink="participant/room/{{shortId}}/comments/tagcloud">
                 <mat-icon>cloud
                 </mat-icon>
