@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, Input} from '@angular/core';
 
 import {
   CloudData,
@@ -12,7 +12,17 @@ import {Result, SpacyService} from '../../../services/http/spacy.service';
 import {Comment} from '../../../models/comment';
 import {LanguageService} from '../../../services/util/language.service';
 import {TranslateService} from '@ngx-translate/core';
+import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
+import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../../models/user';
+import { Room } from '../../../models/room';
+import { NotificationService } from '../../../services/util/notification.service';
 import { EventService } from '../../../services/util/event.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserRole } from '../../../models/user-roles.enum';
+import { RoomService } from '../../../services/http/room.service';
+
 
 class TagComment implements CloudData {
   constructor(public color: string,
@@ -47,12 +57,17 @@ const weight2color = {
 export class TagCloudComponent implements OnInit {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
-  roomId: string;
+  @Input() user: User;
+  @Input() roomId: string;
+  room: Room;
+  headerInterface = null;
+  directSend = true;
+  shortId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 0.99,
+    width: 0.97,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 0.99,
+    height: 0.97,
     overflow: false,
     font: 'Georgia' // not working
   };
@@ -69,7 +84,13 @@ export class TagCloudComponent implements OnInit {
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
               private langService: LanguageService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              public dialog: MatDialog,
+              private notificationService: NotificationService,
+              public eventService: EventService,
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute,
+              protected roomService: RoomService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -77,6 +98,30 @@ export class TagCloudComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
+      if (e === 'createQuestion') {
+        this.openCreateDialog();
+      }
+    });
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
+    this.route.params.subscribe(params => {
+      this.shortId = params['shortId'];
+      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
+        this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+          this.room = room;
+          this.roomId = room.id;
+          this.directSend = this.room.directSend;
+          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
+            this.roomService.addToHistory(this.room.id);
+            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
+          }
+        });
+      });
+    });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
@@ -102,4 +147,39 @@ export class TagCloudComponent implements OnInit {
       this.child.reDraw();
     });
   }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(CreateCommentComponent, {
+      width: '900px',
+      maxWidth: 'calc( 100% - 50px )',
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false,
+    });
+    console.log(this.user, this.roomId, this.room);
+    dialogRef.componentInstance.user = this.user;
+    dialogRef.componentInstance.roomId = this.roomId;
+    let tags;
+    tags = [];
+    if (this.room.tags) {
+      tags = this.room.tags;
+    }
+    dialogRef.componentInstance.tags = tags;
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.send(result);
+        } else {
+          return;
+        }
+      });
+  }
+
+  send(comment: Comment): void {
+    this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+      this.notificationService.show(msg);
+    });
+    comment.ack = true;
+    this.commentService.addComment(comment).subscribe();
+  }
+  
 }
