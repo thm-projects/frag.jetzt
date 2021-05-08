@@ -13,7 +13,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "11.2.12",
+    "@angular/animations": "^11.2.12",
     "@angular/cdk": "11.2.11",
     "@angular/common": "11.2.12",
     "@angular/compiler": "11.2.12",
@@ -34,6 +34,7 @@
     "core-js": "^2.5.7",
     "is-docker": "^1.1.0",
     "is-promise": "^4.0.0",
+    "mat-color-picker": "^1.4.3",
     "material-design-icons": "^3.0.1",
     "ngx-color-picker": "^11.0.0",
     "ngx-markdown": "^9.0.0",

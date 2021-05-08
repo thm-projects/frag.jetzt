@@ -31,6 +31,9 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
 import { ColorPickerModule } from 'ngx-color-picker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatColorPickerModule } from 'mat-color-picker';
 
 @NgModule({
   imports: [
@@ -42,7 +45,10 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MarkdownModule,
     QRCodeModule,
     TagCloudModule,
-    ColorPickerModule
+    ColorPickerModule,
+    MatColorPickerModule,
+    BrowserAnimationsModule,
+    NoopAnimationsModule
   ],
   declarations: [
     RoomJoinComponent,
