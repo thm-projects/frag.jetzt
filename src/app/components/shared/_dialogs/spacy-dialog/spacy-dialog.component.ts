@@ -101,13 +101,16 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   selectAll( selected:boolean): void {
-     if(selected){
-       this.evalWords.forEach( item => {
-         this.selection.select(item);
-       });
-     }else {
-       this.selection.clear();
-     }
+    if (selected) {
+      this.keywords.forEach(item => {
+        this.onEndEditing(item);
+      });
+    } else {
+      this.keywords.forEach(item => {
+        item.editing = false;
+        item.completed = false;
+      });
+    }
   }
 
 }
