@@ -2,12 +2,14 @@
   color: var(--on-dialog);
 }
 
-h3, h2{
-  color: var(--primary);
+h2{
+  color: var(--on-dialog);
+  font-size: 1.7rem;
 }
 
 h3 {
   border-bottom: 1px solid var(--primary);
+  color: var(--primary);
 }
 
 #commentSlider {
@@ -119,7 +121,7 @@ mat-divider {
 }
 
 ::ng-deep .mat-accent .mat-slider-thumb-label-text{
-  color:  var(--on-surface);
+  color:  var(--on-primary);
 }
 
 ::ng-deep .primary{
@@ -143,3 +145,14 @@ mat-divider {
   margin-top: 60px;
 }
 
+.drawer-container{
+  margin: 20px;
+}
+
+.custom-color-picker{
+  opacity: 0;
+}
+.custom-color-picker-text{
+  position: absolute;
+  transform: translateY(-35px);
+}

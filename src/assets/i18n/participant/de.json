@@ -233,6 +233,7 @@
     "cancel-btn":"Abbruch",
     "save-btn":"Speichern",
     "font-size-min":"Schriftgröße",
-    "font-size-max":"Schriftgröße Max"
+    "font-size-max":"Schriftgröße Max",
+    "select-color": "Farbauswahl"
   }
 }

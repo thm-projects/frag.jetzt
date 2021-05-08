@@ -1,7 +1,7 @@
-<div id="wholeDialog"
-     fxLayout="row"
-     fxLayout.xs="column"
-     fxLayout.sm="column"
+<div 
+     id="wholeDialog"
+     class="drawer-container"
+     fxLayout="column"
      fxLayoutGap="5px"
 >
 
@@ -57,7 +57,9 @@
                     .setValue($event)
                 "
               formControlName="background"
+              class="custom-color-picker"
             />
+            <p class="custom-color-picker-text">{{'tag-cloud-config.select-color' | translate}}</p>
           </mat-form-field>
           <div
             fxFlex="35px"
@@ -145,7 +147,9 @@
                         .setValue($event)
                     "
                 formControlName="color"
-              />
+                class="custom-color-picker"
+                />
+                <p class="custom-color-picker-text">{{'tag-cloud-config.select-color' | translate}}</p>
             </mat-form-field>
             <div
               fxFlex="35px"
