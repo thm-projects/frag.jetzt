@@ -22,7 +22,26 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { ActivatedRoute } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
+import {ThemeService} from '../../../../theme/theme.service';
 
+class CustomPosition implements Position {
+  left: number;
+  top: number;
+
+  constructor(public relativeLeft: number,
+              public relativeTop: number) {
+  }
+
+  updatePosition(width: number, height: number, text: string, style: CSSStyleDeclaration) {
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    context.font = style.font;
+    const offsetY = parseInt(style.fontSize, 10) / 2;
+    const offsetX = context.measureText(text).width / 2;
+    this.left = width * this.relativeLeft - offsetX;
+    this.top = height * this.relativeTop - offsetY;
+  }
+}
 
 class TagComment implements CloudData {
   constructor(public color: string,
@@ -36,17 +55,72 @@ class TagComment implements CloudData {
   }
 }
 
-const weight2color = {
-  1: 'blue',
-  2: 'green',
-  3: 'yellow',
-  4: 'orange',
-  5: 'pink',
-  6: 'gray',
-  7: 'lightgreen',
-  8: 'tomato',
-  9: 'white',
-  10: 'brown'
+//CSS styles Array
+type TagCloudStyleData = [
+  string, // hover
+  string, // w1
+  string, // w2
+  string, // w3
+  string, // w4
+  string, // w5
+  string, // w6
+  string, // w7
+  string, // w8
+  string, // w9
+  string // w10
+];
+
+const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
+const defaultColors: string[] = [
+  // variable, fallback
+  'var(--secondary, greenyellow)', // hover
+  'var(--moderator, lightblue)', // w1
+  'var(--blue, green)', // w2
+  'var(--grey, yellow)', // w3
+  'var(--red, orange)', // w4
+  'var(--primary, pink)', // w5
+  'var(--yellow, gray)', // w6
+  'var(--on-background, lightgreen)', // w7
+  'var(--purple, tomato)', // w8
+  'var(--magenta, white)', // w9
+  'var(--light-green, brown)' // w10
+];
+
+const getResolvedDefaultColors = (): string[] => {
+  const elem = document.createElement('p');
+  elem.style.display = 'none';
+  document.body.appendChild(elem);
+  const results = [];
+  for (const color of defaultColors) {
+    elem.style.backgroundColor = 'rgb(0, 0, 0)'; // fallback
+    elem.style.backgroundColor = color;
+    const result = window.getComputedStyle(elem).backgroundColor.match(colorRegex);
+    const r = parseInt(result[1], 10);
+    const g = parseInt(result[2], 10);
+    const b = parseInt(result[3], 10);
+    results.push(`#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`);
+  }
+  elem.remove();
+  return results;
+};
+
+const setGlobalStyles = (styles: TagCloudStyleData): void => {
+  let customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
+  if (!customTagCloudStyles) {
+    customTagCloudStyles = document.createElement('style');
+    customTagCloudStyles.id = 'tagCloudStyles';
+    document.head.appendChild(customTagCloudStyles);
+  }
+  const rules = customTagCloudStyles.sheet.cssRules;
+  for (let i = rules.length - 1; i >= 0; i--) {
+    customTagCloudStyles.sheet.deleteRule(i);
+  }
+  for (let i = 1; i <= 10; i++) {
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ' { ' + styles[i] + ' }', rules.length);
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ' > a { ' + styles[i] + ' }', rules.length);
+  }
+  customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover { ' + styles[0] + ' }', rules.length);
+  customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover > a { ' + styles[0] + ' }', rules.length);
 };
 
 @Component({
@@ -65,9 +139,9 @@ export class TagCloudComponent implements OnInit {
   shortId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 0.97,
+    width: 0.99,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 0.97,
+    height: 0.99,
     overflow: false,
     font: 'Georgia' // not working
   };
@@ -77,8 +151,9 @@ export class TagCloudComponent implements OnInit {
     delay: 0.4,// Zoom will take affect after 0.4 seconds
     color: 'red'
   };
-
+  userRole: UserRole;
   data: CloudData[] = [];
+  sorted = false;
 
 
   constructor(private commentService: CommentService,
@@ -90,7 +165,8 @@ export class TagCloudComponent implements OnInit {
               public eventService: EventService,
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
-              protected roomService: RoomService) {
+              protected roomService: RoomService,
+              private themeService: ThemeService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -108,6 +184,7 @@ export class TagCloudComponent implements OnInit {
         this.user = newUser;
       }
     });
+    this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
@@ -126,6 +203,19 @@ export class TagCloudComponent implements OnInit {
     this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
     });
+    this.resetColorsToTheme();
+    this.themeService.getTheme().subscribe(() => {
+      this.resetColorsToTheme();
+      if (this.child) {
+        setTimeout(() => {
+          this.updateTagCloud();
+        }, 1);
+      }
+    });
+  }
+  resetColorsToTheme() {
+    setGlobalStyles(getResolvedDefaultColors()
+      .map(e => 'color: ' + e + ' !important;') as TagCloudStyleData);
   }
 
   analyse(comments: Comment[]) {
@@ -144,8 +234,54 @@ export class TagCloudComponent implements OnInit {
             'TODO', val));
         }
       );
-      this.child.reDraw();
+      this.sortPositionsAlphabetically(this.sorted);
+      this.updateTagCloud();
     });
+  }
+
+  drawerOpen(): boolean {
+    return true;
+  }
+
+  onResize(event: UIEvent): any {
+    this.updateTagCloud();
+  }
+
+  sortPositionsAlphabetically(sort: boolean): void {
+    if (!sort) {
+      this.sorted = false;
+      this.data.forEach(e => e.position = null);
+      return;
+    }
+    this.sorted = true;
+    if (!this.data.length) {
+      return;
+    }
+    this.data.sort((a, b) => a.text.localeCompare(b.text));
+    const lines = Math.floor(Math.sqrt(this.data.length - 1) + 1);
+    const divided = Math.floor(this.data.length / lines);
+    let remainder = this.data.length - divided * lines;
+    for (let i = 0, line = 0; line < lines; line++) {
+      const size = divided + (--remainder >= 0 ? 1 : 0);
+      for (let k = 0; k < size; k++, i++) {
+        this.data[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
+      }
+    }
+  }
+
+  updateTagCloud() {
+    if (this.sorted && this.data.length) {
+      if (!this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
+        this.child.reDraw();
+      }
+      const width = this.child.calculatedWidth;
+      const height = this.child.calculatedHeight;
+      this.data.forEach((e, i) => {
+        (e.position as CustomPosition).updatePosition(width, height, e.text,
+          window.getComputedStyle(this.child.cloudDataHtmlElements[i]));
+      });
+    }
+    this.child.reDraw();
   }
 
   openCreateDialog(): void {
@@ -175,11 +311,24 @@ export class TagCloudComponent implements OnInit {
   }
 
   send(comment: Comment): void {
-    this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-      this.notificationService.show(msg);
-    });
-    comment.ack = true;
+    if (this.directSend) {
+      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+      comment.ack = true;
+    } else {
+      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
+        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+        comment.ack = true;
+      }
+      if (this.userRole === 0) {
+        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
+    }
     this.commentService.addComment(comment).subscribe();
   }
-  
 }
