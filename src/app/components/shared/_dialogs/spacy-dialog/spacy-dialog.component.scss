@@ -31,3 +31,48 @@
 .lang-selection {
   margin-bottom: 8px;
 }
+.keywords-viewport {
+  height: 343px;
+  width: 552px;
+  border: 1px solid black;
+}
+.keywords-alternate {
+  background: rgba(112, 128, 144, 0.5) !important;
+}
+.keyword-span {
+  color: var(--on-surface) !important;
+}
+.mat-list-base[dense] .mat-list-item {
+  font-size: 14px !important;
+}
+
+.keywords-actions{
+  margin: 0 0 0 auto;
+  color: var(--secondary);
+}
+
+.mat-list-option[aria-selected="true"] {
+  background: rgba(0, 139, 139, 0.7) !important;
+  box-sizing:border-box;
+  border-bottom: 1px solid var(--dialog) !important;
+}
+::ng-deep .mat-pseudo-checkbox-checked::after {
+  background: var(--red) !important;
+}
+::ng-deep .mat-warn .mat-pseudo-checkbox-checked {
+  background: var(--red) !important;
+}
+::ng-deep .mat-pseudo-checkbox {
+  color: var(--secondary);
+}
+
+.lang-selection {
+  margin-bottom: 8px;
+}
+
+.isEditing{
+  background: var(--secondary);
+  padding: 5px;
+  color: var(--on-secondary);
+  border: 1px solid var( --on-secondary);
+}

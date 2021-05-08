@@ -11,22 +11,39 @@
         </mat-select>
       </div>
       <br><mat-label for="checkAll" style="float:left;">{{ 'spacy-dialog.select-all' | translate }}</mat-label><mat-checkbox id="checkAll" style="float:right;" (change)="selectAll($event.checked)"></mat-checkbox><br><br>
-      <mat-selection-list dense (selectionChange)="onSelectionChange($event)">
-        <span *ngIf="evalWords.length>0">
+      <mat-list dense>
+        <span *ngIf="keywords.length>0">
         <cdk-virtual-scroll-viewport [itemSize]="20" class="keywords-viewport">
-          <mat-list-option  *cdkVirtualFor="let keyword of evalWords; let odd = odd"
+          <mat-list-item  *cdkVirtualFor="let keyword of keywords; let odd = odd"
                             [class.keywords-alternate]="odd"
                             [value]="keyword"
-                            [selected]="selection.isSelected(keyword)"
                             color="warn">
-            <span class="keyword-span">{{keyword}}</span>
-          </mat-list-option>
+            <span class="keyword-span" *ngIf="!keyword.editing == true">{{keyword.word}}</span>
+            <input class="keyword-span" *ngIf="keyword.editing == true" [(ngModel)]="keyword.word" class="isEditing"/>
+            
+
+            <div class="keywords-actions">
+              <mat-checkbox
+              [checked]="keyword.completed"
+              >
+              </mat-checkbox>
+              <button *ngIf="!keyword.editing == true"
+              (click)="onEdit(keyword)" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button *ngIf="keyword.editing == true"
+               (click)="onEndEditing(keyword)" mat-icon-button>
+                <mat-icon>check</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
         </cdk-virtual-scroll-viewport>
           </span>
-        <span *ngIf="evalWords.length<=0">
+        <span *ngIf="keywords.length<=0">
           <p>{{ 'spacy-dialog.empty-nouns' | translate}}</p>
       </span>
-      </mat-selection-list>
+      </mat-list>
+
     </ars-row>
   </div>
 </ars-row>
@@ -55,3 +72,4 @@
   <button mat-button>Ok</button>
 </div>
 -->
+

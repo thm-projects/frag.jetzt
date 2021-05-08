@@ -13,6 +13,7 @@ import { Comment } from '../../../../models/comment';
 export interface Keyword {
   word: string;
   completed: boolean;
+  editing: boolean;
 }
 @Component({
   selector: 'app-spacy-dialog',
@@ -88,7 +89,21 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         }
       }
       this.evalWords = words;
+      this.keywords = this.evalWords.map((item) =>{
+        return {
+          word: item,
+          completed: false,
+          editing: false
+        }
+      })
     });
+  }
+  onEdit(keyword){
+    keyword.editing = true;
+  }
+  onEndEditing(keyword){
+    keyword.editing = false;
+    keyword.completed = true;
   }
 
   selectAll( selected:boolean): void {
