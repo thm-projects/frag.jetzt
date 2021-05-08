@@ -1,13 +1,13 @@
 import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from '../../../../services/util/language.service';
-import { HttpClient } from '@angular/common/http';
 import { MatSelectionListChange } from '@angular/material/list';
 import { SelectionModel } from '@angular/cdk/collections';
 
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
 
+import { SpacyService } from '../../../../services/http/spacy.service';
+import { LanguageService } from '../../../../services/util/language.service';
 import { Comment } from '../../../../models/comment';
 
 export interface Keyword {
@@ -38,7 +38,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   constructor(
     private translateService: TranslateService,
     protected langService: LanguageService,
-    private client: HttpClient,
+    private spacyService: SpacyService,
     public dialogRef: MatDialogRef<CreateCommentComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
@@ -67,40 +67,34 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywords = this.evalWords.join(',');
+      this.comment.keywords = this.keywords.map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
 
-  evalInput( model: string) {
-    const filterTag = 'N';
-    const words: string[] = [];
-    this.evalWords = [];
+  evalInput(model: string) {
+    this.keywords = [];
+    const words: Keyword[] = [];
 
-    this.client.post(
-        'https://spacy.frag.jetzt/dep',
-        JSON.stringify({text: this.comment.body, model})
-      ).subscribe((data: any) => {
-      // filter for tags in words (all Nouns)
-      for (const word of data.words) {
-        // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-        if (word.tag.charAt(0).includes(filterTag)) {
-          words.push(word.text);
+    // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
+    this.spacyService.analyse(this.comment.body, model)
+      .subscribe(res => {
+        for(const word of res.words) {
+          if (word.tag.charAt(0) === 'N')
+            words.push({
+              word: word.text,
+              completed: false,
+              editing: false
+            });
         }
-      }
-      this.evalWords = words;
-      this.keywords = this.evalWords.map((item) =>{
-        return {
-          word: item,
-          completed: false,
-          editing: false
-        }
-      })
-    });
+        this.keywords = words;
+      });
   }
+
   onEdit(keyword){
     keyword.editing = true;
   }
+
   onEndEditing(keyword){
     keyword.editing = false;
     keyword.completed = true;
