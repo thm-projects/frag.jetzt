@@ -86,7 +86,8 @@
     "german": "German",
     "english": "English",
     "french": "French",
-    "empty-nouns": "No nouns included"
+    "empty-nouns": "No nouns included",
+    "select-all": "Select all"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",

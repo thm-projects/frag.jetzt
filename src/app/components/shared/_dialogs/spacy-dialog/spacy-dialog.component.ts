@@ -90,4 +90,15 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       this.evalWords = words;
     });
   }
+
+  selectAll( selected:boolean): void {
+     if(selected){
+       this.evalWords.forEach( item => {
+         this.selection.select(item);
+       });
+     }else {
+       this.selection.clear();
+     }
+  }
+
 }

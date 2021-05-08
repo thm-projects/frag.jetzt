@@ -10,6 +10,7 @@
           </mat-option>
         </mat-select>
       </div>
+      <br><mat-label for="checkAll" style="float:left;">{{ 'spacy-dialog.select-all' | translate }}</mat-label><mat-checkbox id="checkAll" style="float:right;" (change)="selectAll($event.checked)"></mat-checkbox><br><br>
       <mat-selection-list dense (selectionChange)="onSelectionChange($event)">
         <span *ngIf="evalWords.length>0">
         <cdk-virtual-scroll-viewport [itemSize]="20" class="keywords-viewport">

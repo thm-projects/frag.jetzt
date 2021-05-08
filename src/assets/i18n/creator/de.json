@@ -85,7 +85,8 @@
     "german": "Deutsch",
     "english": "Englisch",
     "french": "Französisch",
-    "empty-nouns": "Keine Nomen enthalten"
+    "empty-nouns": "Keine Nomen enthalten",
+    "select-all": "Alles auswählen"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
