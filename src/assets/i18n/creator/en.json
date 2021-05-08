@@ -338,6 +338,7 @@
     "hover-delay":"Hover Delay",
     "cancel-btn":"Cancel",
     "save-btn":"Save",
-    "font-size":"Font size"
+    "font-size-min":"Font size",
+    "font-size-max":"Font size max"
   }
 }

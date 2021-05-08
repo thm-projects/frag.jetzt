@@ -92,14 +92,32 @@
       fxLayoutGap="5px"
     >
           <mat-form-field fxFlex fxLayout.xs="column">
-            <mat-label>{{'tag-cloud-config.font-size' | translate}}</mat-label>
+            <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
             <input
               matInput
               type="number"
               formControlName="font-size"
               placeholder="font-size"
-              min="100"
-              max="150"
+              min="10"
+              max="300"
+              step="10"
+            />
+          </mat-form-field>
+    </div>
+    <div
+      class="input-row"
+      fxLayout="column"
+      fxLayoutGap="5px"
+    >
+          <mat-form-field fxFlex fxLayout.xs="column">
+            <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
+            <input
+              matInput
+              type="number"
+              formControlName="font-size"
+              placeholder="font-size"
+              min="10"
+              max="300"
               step="10"
             />
           </mat-form-field>

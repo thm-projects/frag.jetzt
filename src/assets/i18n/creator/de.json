@@ -337,6 +337,7 @@
     "hover-delay":"Verzögerung beim Schweben",
     "cancel-btn":"Abbruch",
     "save-btn":"Speichern",
-    "font-size":"Schriftgröße"
+    "font-size-min":"Schriftgröße",
+    "font-size-max":"Schriftgröße Max"
   }
 }
