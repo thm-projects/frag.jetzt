@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ViewChild, Input} from '@angular/core';
 
 import {
   CloudData,
@@ -12,16 +12,16 @@ import {Result, SpacyService} from '../../../services/http/spacy.service';
 import {Comment} from '../../../models/comment';
 import {LanguageService} from '../../../services/util/language.service';
 import {TranslateService} from '@ngx-translate/core';
-import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
-import { MatDialog } from '@angular/material/dialog';
-import { User } from '../../../models/user';
-import { Room } from '../../../models/room';
-import { NotificationService } from '../../../services/util/notification.service';
-import { EventService } from '../../../services/util/event.service';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ActivatedRoute } from '@angular/router';
-import { UserRole } from '../../../models/user-roles.enum';
-import { RoomService } from '../../../services/http/room.service';
+import {CreateCommentComponent} from '../_dialogs/create-comment/create-comment.component';
+import {MatDialog} from '@angular/material/dialog';
+import {User} from '../../../models/user';
+import {Room} from '../../../models/room';
+import {NotificationService} from '../../../services/util/notification.service';
+import {EventService} from '../../../services/util/event.service';
+import {AuthenticationService} from '../../../services/http/authentication.service';
+import {ActivatedRoute} from '@angular/router';
+import {UserRole} from '../../../models/user-roles.enum';
+import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
 
 class CustomPosition implements Position {
@@ -33,11 +33,8 @@ class CustomPosition implements Position {
   }
 
   updatePosition(width: number, height: number, text: string, style: CSSStyleDeclaration) {
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    context.font = style.font;
-    const offsetY = parseInt(style.fontSize, 10) / 2;
-    const offsetX = context.measureText(text).width / 2;
+    const offsetY = parseFloat(style.height) / 2;
+    const offsetX = parseFloat(style.width) / 2;
     this.left = width * this.relativeLeft - offsetX;
     this.top = height * this.relativeTop - offsetY;
   }
@@ -154,7 +151,8 @@ export class TagCloudComponent implements OnInit {
   userRole: UserRole;
   data: CloudData[] = [];
   sorted = false;
-
+  debounceTimer = 0;
+  lastDebounceTime = 0;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -177,6 +175,10 @@ export class TagCloudComponent implements OnInit {
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
         this.openCreateDialog();
+      } else if (e === 'topicCloudConfig') {
+        // TODO Group 4: OPEN Topic Cloud Config
+      } else if (e === 'topicCloudAdministration') {
+        // TODO Group 5: OPEN Topic Cloud Administration
       }
     });
     this.authenticationService.watchUser.subscribe(newUser => {
@@ -213,6 +215,7 @@ export class TagCloudComponent implements OnInit {
       }
     });
   }
+
   resetColorsToTheme() {
     setGlobalStyles(getResolvedDefaultColors()
       .map(e => 'color: ' + e + ' !important;') as TagCloudStyleData);
@@ -281,7 +284,19 @@ export class TagCloudComponent implements OnInit {
           window.getComputedStyle(this.child.cloudDataHtmlElements[i]));
       });
     }
-    this.child.reDraw();
+    const debounceTime = 1_000;
+    const current = new Date().getTime();
+    const diff = current - this.lastDebounceTime;
+    if (diff >= debounceTime) {
+      this.lastDebounceTime = current;
+      this.child.reDraw();
+    } else {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = setTimeout(() => {
+        this.lastDebounceTime = new Date().getTime();
+        this.child.reDraw();
+      }, debounceTime - diff);
+    }
   }
 
   openCreateDialog(): void {
