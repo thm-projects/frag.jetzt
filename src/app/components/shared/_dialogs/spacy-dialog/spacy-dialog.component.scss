@@ -27,6 +27,10 @@
 ::ng-deep .mat-pseudo-checkbox {
   color: var(--secondary);
 }
+:focus{
+  outline: none;
+  outline-offset: 8px;
+}
 
 .lang-selection {
   margin-bottom: 8px;
@@ -71,8 +75,8 @@
 }
 
 .isEditing{
-  background: var(--secondary);
+  background: var(--primery);
   padding: 5px;
-  color: var(--on-secondary);
-  border: 1px solid var( --on-secondary);
+  color: var(--on-surface);
+  border: 3px solid var( --secondary);
 }
