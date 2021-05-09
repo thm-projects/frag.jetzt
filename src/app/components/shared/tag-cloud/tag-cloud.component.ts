@@ -23,6 +23,7 @@ import {ActivatedRoute} from '@angular/router';
 import {UserRole} from '../../../models/user-roles.enum';
 import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
+import {CloudParameters} from "./tag-cloud.interface";
 
 class CustomPosition implements Position {
   left: number;
@@ -64,7 +65,8 @@ type TagCloudStyleData = [
   string, // w7
   string, // w8
   string, // w9
-  string // w10
+  string, // w10
+  string // background
 ];
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
@@ -80,7 +82,8 @@ const defaultColors: string[] = [
   'var(--on-background, lightgreen)', // w7
   'var(--purple, tomato)', // w8
   'var(--magenta, white)', // w9
-  'var(--light-green, brown)' // w10
+  'var(--light-green, brown)', // w10
+  'var(--background, black)' //background
 ];
 
 const getResolvedDefaultColors = (): string[] => {
@@ -118,6 +121,22 @@ const setGlobalStyles = (styles: TagCloudStyleData): void => {
   }
   customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover { ' + styles[0] + ' }', rules.length);
   customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover > a { ' + styles[0] + ' }', rules.length);
+  customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer {' + styles[11] + '}', rules.length);
+};
+
+const getDefaultCloudParameters = (): CloudParameters => {
+  const resDefaultColors = getResolvedDefaultColors();
+  return {
+    backgroundColor: resDefaultColors[11],
+    fontColor: resDefaultColors[0],
+    fontSizeMin: 100,
+    fontSizeMax: 380,
+    hoverScale: 1.3,
+    hoverTime: 0.6,
+    hoverDelay: 0.4,
+    delayWord: 0,
+    randomAngles: false
+  }
 };
 
 @Component({
@@ -140,19 +159,21 @@ export class TagCloudComponent implements OnInit {
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
     height: 0.99,
     overflow: false,
-    font: 'Georgia' // not working
+    font: 'Georgia', // not working
+    delay: 0,
+    randomizeAngle: false
   };
   zoomOnHoverOptions: ZoomOnHoverOptions = {
     scale: 1.3, // Elements will become 130 % of current size on hover
     transitionTime: 0.6, // it will take 0.6 seconds until the zoom level defined in scale property has been reached
-    delay: 0.4,// Zoom will take affect after 0.4 seconds
-    color: 'red'
+    delay: 0.4 // Zoom will take affect after 0.4 seconds
   };
   userRole: UserRole;
   data: CloudData[] = [];
   sorted = false;
   debounceTimer = 0;
   lastDebounceTime = 0;
+  configurationOpen = false;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -176,7 +197,7 @@ export class TagCloudComponent implements OnInit {
       if (e === 'createQuestion') {
         this.openCreateDialog();
       } else if (e === 'topicCloudConfig') {
-        // TODO Group 4: OPEN Topic Cloud Config
+        this.configurationOpen = !this.configurationOpen;
       } else if (e === 'topicCloudAdministration') {
         // TODO Group 5: OPEN Topic Cloud Administration
       }
@@ -205,20 +226,56 @@ export class TagCloudComponent implements OnInit {
     this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
     });
-    this.resetColorsToTheme();
     this.themeService.getTheme().subscribe(() => {
-      this.resetColorsToTheme();
       if (this.child) {
         setTimeout(() => {
+          this.setCloudParameters(this.getCurrentCloudParameters(), false);
           this.updateTagCloud();
         }, 1);
       }
     });
   }
 
+  initTagCloud() {
+    setTimeout(() => {
+      this.setCloudParameters(this.getCurrentCloudParameters(), false);
+    });
+  }
+
   resetColorsToTheme() {
-    setGlobalStyles(getResolvedDefaultColors()
-      .map(e => 'color: ' + e + ' !important;') as TagCloudStyleData);
+    this.setCloudParameters(getDefaultCloudParameters());
+  }
+
+  getCurrentCloudParameters(): CloudParameters {
+    const jsonData = localStorage.getItem('tagCloudConfiguration');
+    const elem: CloudParameters = jsonData != null ? JSON.parse(jsonData) : null;
+    return elem || getDefaultCloudParameters();
+  }
+
+  setCloudParameters(data: CloudParameters, save = true): void {
+    const arr = getResolvedDefaultColors();
+    arr[0] = data.fontColor;
+    arr[11] = data.backgroundColor;
+    const fontRange = (data.fontSizeMax - data.fontSizeMin) / 10;
+    const styles = arr.map((e, i) => {
+      if (i > 10) {
+        return 'background-color: ' + e + ';';
+      } else if (i > 0) {
+        return 'color: ' + e + '; font-size: ' + (data.fontSizeMin + fontRange * i).toFixed(0) + '%;';
+      } else {
+        return 'color: ' + e + ';';
+      }
+    });
+    setGlobalStyles(styles as TagCloudStyleData);
+    this.zoomOnHoverOptions.delay = data.hoverDelay;
+    this.zoomOnHoverOptions.scale = data.hoverScale;
+    this.zoomOnHoverOptions.transitionTime = data.hoverTime;
+    this.options.delay = data.delayWord;
+    this.options.randomizeAngle = data.randomAngles;
+    this.updateTagCloud();
+    if (save) {
+      localStorage.setItem('tagCloudConfiguration', JSON.stringify(data));
+    }
   }
 
   analyse(comments: Comment[]) {
@@ -240,10 +297,6 @@ export class TagCloudComponent implements OnInit {
       this.sortPositionsAlphabetically(this.sorted);
       this.updateTagCloud();
     });
-  }
-
-  drawerOpen(): boolean {
-    return true;
   }
 
   onResize(event: UIEvent): any {
