@@ -128,6 +128,24 @@ export class CloudConfigurationComponent implements OnInit {
     return Number.parseInt(str, 10);
   }
 
+  changeBackground(event: string): void {
+    this.cloudConfigForm
+      .get('background')
+      .setValue(event);
+    this.background = this.cloudConfigForm.get('background').value;
+    this.parent.setCloudParameters({
+      backgroundColor: this.background,
+      fontColor: this.parent.getCurrentCloudParameters().fontColor,
+      fontSizeMin: this.parent.getCurrentCloudParameters().fontSizeMin,
+      fontSizeMax: this.parent.getCurrentCloudParameters().fontSizeMax,
+      hoverScale: this.parent.getCurrentCloudParameters().hoverScale,
+      hoverTime: this.parent.getCurrentCloudParameters().hoverTime,
+      hoverDelay: this.parent.getCurrentCloudParameters().hoverDelay,
+      delayWord: this.parent.getCurrentCloudParameters().delayWord,
+      randomAngles: this.parent.getCurrentCloudParameters().randomAngles
+    }, false)
+  }
+
   public cancel(){
 
   }

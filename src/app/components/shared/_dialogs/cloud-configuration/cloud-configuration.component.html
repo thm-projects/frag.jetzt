@@ -1,4 +1,4 @@
-<div 
+<div
      id="wholeDialog"
      class="drawer-container"
      fxLayout="column"
@@ -22,17 +22,19 @@
       fxLayoutGap="5px"
       fxLayout.xs="column"
     >
-      <mat-slide-toggle fxFlex formControlName="realignOnResize"
-      >{{'tag-cloud-config.realign' | translate}}</mat-slide-toggle
-      >
-    </div>
-    <div
-      class="input-row"
-      fxLayout="row"
-      fxLayoutGap="5px"
-      fxLayout.xs="column"
-    >
-      <mat-slide-toggle fxFlex formControlName="randomizeAngle"
+      <mat-slide-toggle fxFlex formControlName="randomizeAngle" #randomAng
+                        [checked]="randomizeAngle"
+                        (change)="parent.setCloudParameters({
+    backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+    fontColor: parent.getCurrentCloudParameters().fontColor,
+    fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
+    fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
+    hoverScale: parent.getCurrentCloudParameters().hoverScale,
+    hoverTime: parent.getCurrentCloudParameters().hoverTime,
+    hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
+    delayWord: parent.getCurrentCloudParameters().delayWord,
+    randomAngles: this.randomAng.checked
+                        }, false)"
       >{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle
       >
     </div>
@@ -52,9 +54,7 @@
                   cloudConfigForm.get('background').value
                 "
               (colorPickerChange)="
-                  cloudConfigForm
-                    .get('background')
-                    .setValue($event)
+                  changeBackground($event)
                 "
               formControlName="background"
               class="custom-color-picker"
@@ -79,12 +79,26 @@
     >
 
         <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
-        <mat-slider
+        <mat-slider #delaySlider
           min="0"
           max="1000"
           step="50"
           formControlName="delay"
           [thumbLabel]="true"
+          [value]="delay"
+          (change)="
+          parent.setCloudParameters({
+    backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+    fontColor: parent.getCurrentCloudParameters().fontColor,
+    fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
+    fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
+    hoverScale: parent.getCurrentCloudParameters().hoverScale,
+    hoverTime: parent.getCurrentCloudParameters().hoverTime,
+    hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
+    delayWord: delaySlider.value,
+    randomAngles: parent.getCurrentCloudParameters().randomAngles
+    }, false)
+          "
         ></mat-slider>
 
     </div>
@@ -95,7 +109,19 @@
     >
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
-            <input
+            <input #minFont
+              [value]="fontMinSize"
+              (change)="          parent.setCloudParameters({
+    backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+    fontColor: parent.getCurrentCloudParameters().fontColor,
+    fontSizeMin: getNumber(minFont.value),
+    fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
+    hoverScale: parent.getCurrentCloudParameters().hoverScale,
+    hoverTime: parent.getCurrentCloudParameters().hoverTime,
+    hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
+    delayWord: parent.getCurrentCloudParameters().delayWord,
+    randomAngles: parent.getCurrentCloudParameters().randomAngles
+    }, false)"
               matInput
               type="number"
               formControlName="font-size"
@@ -113,9 +139,22 @@
     >
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
-            <input
+            <input #maxFont
               matInput
-              type="number"
+                   [value]="fontMaxSize"
+                   (change) = "parent.setCloudParameters({
+                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+                   fontColor: parent.getCurrentCloudParameters().fontColor,
+                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
+                   fontSizeMax: getNumber(maxFont.value),
+                   hoverScale: parent.getCurrentCloudParameters().hoverScale,
+                   hoverTime: parent.getCurrentCloudParameters().hoverTime,
+                   hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
+                   delayWord: parent.getCurrentCloudParameters().delayWord,
+                   randomAngles: parent.getCurrentCloudParameters().randomAngles
+                   }, false)"
+
+                   type="number"
               formControlName="font-size"
               placeholder="font-size"
               min="10"
