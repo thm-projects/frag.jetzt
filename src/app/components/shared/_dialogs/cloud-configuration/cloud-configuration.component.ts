@@ -1,13 +1,14 @@
 
 
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TranslateService } from '@ngx-translate/core';
 import { CloudData, CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-module';
 
 import { Observable, of } from 'rxjs';
+import {TagCloudComponent} from "../../tag-cloud/tag-cloud.component";
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -15,7 +16,7 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./cloud-configuration.component.scss'],
 })
 export class CloudConfigurationComponent implements OnInit {
-
+  @Input() parent: TagCloudComponent
   cloudDataForm: FormGroup;
   cloudConfigForm: FormGroup;
   data: CloudData[] = [];
