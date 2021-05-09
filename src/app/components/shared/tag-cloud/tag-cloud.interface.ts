@@ -1,4 +1,4 @@
-export interface CloudParameters{
+export interface CloudParameters {
   /**
    * Background color of the Tag-cloud
    */
@@ -22,7 +22,7 @@ export interface CloudParameters{
   /**
    * Time for hovering in ms
    */
-  hoverTime:number;
+  hoverTime: number;
   /**
    * Time before hover animation starts in ms
    */
