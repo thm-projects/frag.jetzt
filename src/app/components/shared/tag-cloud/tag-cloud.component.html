@@ -1,21 +1,25 @@
 <ars-screen ars-flex-box>
-  <ars-row [height]="100">
-
+  <ars-row [height]="65">
   </ars-row>
-  <ars-fill ars-flex-box style="width:100%;height:100%;">
+  <mat-drawer-container>
+    <mat-drawer [(opened)]="drawerOpen" position="start">
+      Test <!-- TODO: Gruppe 4 -->
+    </mat-drawer>
+    <mat-drawer-content>
+      <ars-fill ars-flex-box>
         <angular-tag-cloud
           class="spacyTagCloud"
+          (window:resize)="onResize($event)"
           [data]="data"
           [width]="options.width"
           [height]="options.height"
           [overflow]="options.overflow"
           [zoomOnHover]="zoomOnHoverOptions"
-          [realignOnResize]="true">
+          [realignOnResize]="false">
         </angular-tag-cloud>
-  </ars-fill>
-
-  <ars-row [height]="100">
-
+      </ars-fill>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  <ars-row [height]="37">
   </ars-row>
-
 </ars-screen>

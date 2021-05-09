@@ -65,7 +65,8 @@
 
           <!-- Moderator board / index -->
 
-          <ng-container *ngIf="user && user.role > 0 && (router.url.endsWith('/moderator/comments') || router.url.includes('/comment/'))">
+          <ng-container
+            *ngIf="user && user.role > 0 && (router.url.endsWith('/moderator/comments') || router.url.includes('/comment/'))">
 
             <button mat-menu-item
                     tabindex="0"
@@ -89,7 +90,7 @@
 
           </ng-container>
 
-          <ng-container *ngIf="(user && user.role == 0 && router.url.includes('/comment/'))">
+          <ng-container *ngIf="user && user.role == 0 && router.url.includes('/comment/')">
 
             <button mat-menu-item
                     tabindex="0"
@@ -138,11 +139,8 @@
               </button>
 
 
-
-
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
                       routerLink="participant/room/{{shortId}}/comments/tagcloud">
                 <mat-icon>cloud
                 </mat-icon>
@@ -218,7 +216,8 @@
 
           <!-- Room General Options - bot -->
 
-          <ng-container *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
+          <ng-container
+            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
 
             <button mat-menu-item
                     *ngIf="user"
@@ -237,7 +236,7 @@
             </button>
 
           </ng-container>
-          
+
           <button mat-menu-item
                   *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud')"
                   tabindex="0"
@@ -250,38 +249,40 @@
 
           <button mat-menu-item
                   *ngIf="router.url.endsWith('/tagcloud')"
-                  tabindex="0">
+                  tabindex="0"
+                  (click)="navigateTopicCloudConfig()">
             <mat-icon aria-label="Configuration Icon">cloud</mat-icon>
             <span>{{'header.tag-cloud-config' | translate}}</span>
           </button>
 
           <button mat-menu-item
                   *ngIf="router.url.endsWith('/tagcloud')"
-                  tabindex="0">
+                  tabindex="0"
+                  (click)="navigateTopicCloudAdministration()">
             <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
             <span>{{'header.tag-cloud-administration' | translate}}</span>
           </button>
 
           <button mat-menu-item
-                    *ngIf="router.url.endsWith('/tagcloud')"
-                    tabindex="0"
-                    (click)="navigateCreateQuestion();">
-              <mat-icon>
-                add
-              </mat-icon>
-              <span>{{'header.create-question' | translate}}</span>
-            </button>
+                  *ngIf="router.url.endsWith('/tagcloud')"
+                  tabindex="0"
+                  (click)="navigateCreateQuestion();">
+            <mat-icon>
+              add
+            </mat-icon>
+            <span>{{'header.create-question' | translate}}</span>
+          </button>
 
           <button mat-menu-item
-                    tabindex="0"
-                    *ngIf="router.url.endsWith('/tagcloud')"
-                    routerLink="participant/room/{{shortId}}/comments">
-              <mat-icon>
-                forum
-              </mat-icon>
-              <span>{{'header.back-to-questionboard' | translate}}</span>
-            </button>
-          
+                  tabindex="0"
+                  *ngIf="router.url.endsWith('/tagcloud')"
+                  routerLink="participant/room/{{shortId}}/comments">
+            <mat-icon>
+              forum
+            </mat-icon>
+            <span>{{'header.back-to-questionboard' | translate}}</span>
+          </button>
+
         </ng-container>
 
       </div>
