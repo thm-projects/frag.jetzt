@@ -27,6 +27,8 @@ export class CloudConfigurationComponent implements OnInit {
   randomizeAngle: boolean = false;
   background: string = "#333";
   delay: number = 1;
+  fontMinSize: string;
+  fontMaxSize: string;
 
   hoverScale: number = 2;
   hoverTransitionTime: number = 1;
@@ -60,6 +62,14 @@ export class CloudConfigurationComponent implements OnInit {
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private translateService: TranslateService) {}
 
   ngOnInit() {
+    this.background = this.parent.getCurrentCloudParameters().backgroundColor;
+    this.hoverColor = this.parent.getCurrentCloudParameters().fontColor;
+    this.fontMinSize = this.parent.getCurrentCloudParameters().fontSizeMin.toString();
+    this.fontMaxSize = this.parent.getCurrentCloudParameters().fontSizeMax.toString();
+    this.hoverScale = this.parent.getCurrentCloudParameters().hoverScale;
+    this.hoverTransitionTime = this.parent.getCurrentCloudParameters().hoverTime;
+    this.hoverDelay = this.parent.getCurrentCloudParameters().hoverDelay;
+    this.randomizeAngle = this.parent.getCurrentCloudParameters().randomAngles;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudDataForm = this.fb.group({
       ...this.exampleDataOptions,
@@ -112,6 +122,10 @@ export class CloudConfigurationComponent implements OnInit {
   private setData(data: CloudData[]) {
     this.data = data;
     this.cloudDataForm.get('data').setValue(JSON.stringify(this.data, null, 2));
+  }
+
+  getNumber(str: string) {
+    return Number.parseInt(str, 10);
   }
 
   public cancel(){
