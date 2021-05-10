@@ -1,4 +1,4 @@
-<ars-row style="display: flex">
+<ars-row>
   <div class="anchor-wrp">
     <ars-row class="content-container">
       <ars-row class="dialog-header">
@@ -21,8 +21,8 @@
       </span>
       <span *ngIf="keywords.length > 0"></span>
       </ars-row>
-      <ars-row class="list-container">
-        <mat-list class="keywords-list">
+      <ars-row ars-flex-box class="list-container">
+        <mat-list dense class="keywords-list">
           <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even"
                           [class.keywords-alternate]="odd"
                           [class.keywords-even]="even"

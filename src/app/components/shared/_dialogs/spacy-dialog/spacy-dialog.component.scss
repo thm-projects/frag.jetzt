@@ -1,5 +1,4 @@
-.mat-list-item {
-  overflow: auto;
+.mat-list-base[dense] .mat-list-item, .list-item {
   font-size: 14px;
   height: 35px !important;
 }
