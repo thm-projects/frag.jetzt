@@ -352,8 +352,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
     // set current filters to local storage for later use
     localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
   }
 
   clickedUserNumber(usrNumber: number): void {
@@ -429,6 +427,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     } else {
       this.commentsFilteredByTime = this.comments;
     }
+
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+
     this.filterComments(this.currentFilter);
   }
 }

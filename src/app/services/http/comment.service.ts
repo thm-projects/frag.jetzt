@@ -100,12 +100,11 @@ export class CommentService extends BaseHttpService {
 
   filter(com : Comment) : boolean {
     /* Get Filter Options */
-    const currentFilters = localStorage.getItem('currentFilters');
-    const period = localStorage.getItem('currentPeriod');
-    const timestamp = localStorage.getItem('currentFromNowTimestamp'); 
+    const currentFilters = JSON.parse(localStorage.getItem('currentFilters'));
+    const period = JSON.parse(localStorage.getItem('currentPeriod'));
+    const timestamp = JSON.parse(localStorage.getItem('currentFromNowTimestamp')); 
 
     /* Filter by Period */
-    /*
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
@@ -148,8 +147,6 @@ export class CommentService extends BaseHttpService {
     if (commentTime < refTime) {
       return false;
     }
-
-    */
 
     /* Other Filters */
     const read = 'read';
