@@ -9,6 +9,7 @@ import { CloudData, CloudOptions, ZoomOnHoverOptions } from 'angular-tag-cloud-m
 
 import { Observable, of } from 'rxjs';
 import {TagCloudComponent} from "../../tag-cloud/tag-cloud.component";
+import {CloudParameters} from "../../tag-cloud/tag-cloud.interface";
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -19,6 +20,7 @@ export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent
   cloudDataForm: FormGroup;
   cloudConfigForm: FormGroup;
+  oldCloudParameters: CloudParameters
   data: CloudData[] = [];
   title: String = "Cloud Configuration"
   //height: number = 400;
@@ -62,6 +64,7 @@ export class CloudConfigurationComponent implements OnInit {
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar,private translateService: TranslateService) {}
 
   ngOnInit() {
+    this.oldCloudParameters = this.parent.getCurrentCloudParameters();
     this.background = this.parent.getCurrentCloudParameters().backgroundColor;
     this.hoverColor = this.parent.getCurrentCloudParameters().fontColor;
     this.fontMinSize = this.parent.getCurrentCloudParameters().fontSizeMin.toString();
@@ -134,7 +137,7 @@ export class CloudConfigurationComponent implements OnInit {
       .setValue(event);
     this.background = this.cloudConfigForm.get('background').value;
     this.parent.setCloudParameters({
-      backgroundColor: this.background,
+      backgroundColor: event,
       fontColor: this.parent.getCurrentCloudParameters().fontColor,
       fontSizeMin: this.parent.getCurrentCloudParameters().fontSizeMin,
       fontSizeMax: this.parent.getCurrentCloudParameters().fontSizeMax,
@@ -154,7 +157,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.hoverColor = this.cloudConfigForm.get('zoomOnHover').get('color').value;
     this.parent.setCloudParameters({
       backgroundColor: this.parent.getCurrentCloudParameters().backgroundColor,
-      fontColor: this.hoverColor,
+      fontColor: event,
       fontSizeMin: this.parent.getCurrentCloudParameters().fontSizeMin,
       fontSizeMax: this.parent.getCurrentCloudParameters().fontSizeMax,
       hoverScale: this.parent.getCurrentCloudParameters().hoverScale,
@@ -166,10 +169,12 @@ export class CloudConfigurationComponent implements OnInit {
   }
 
   public cancel(){
-
+    this.parent.setCloudParameters(this.oldCloudParameters, true);
+    this.parent.configurationOpen = false;
   }
 
-  public save (){
-
+  public save(){
+    this.parent.setCloudParameters(this.parent.getCurrentCloudParameters(), true);
+    this.parent.configurationOpen = false;
   }
 }

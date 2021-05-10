@@ -49,7 +49,7 @@
           <mat-form-field fxFlex="100%">
             <mat-label>{{'tag-cloud-config.background' | translate}}</mat-label>
             <input
-              matInput
+              matInput #backgroundPicker
               [colorPicker]="
                   cloudConfigForm.get('background').value
                 "
@@ -285,8 +285,8 @@
     </div>
     <br>
     <div class="button-row">
-      <button mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
-      <button mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
+      <button mat-button (click)="cancel()" class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
+      <button mat-button (click)="save()" class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
     </div>
   </form>
 </div>
