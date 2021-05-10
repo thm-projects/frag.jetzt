@@ -8,9 +8,16 @@ import { Component, Input, OnInit } from '@angular/core';
 export class TopicDialogCommentComponent implements OnInit {
 
   @Input() question: string;
+  @Input() keyword: string ;
   @Input() maxShowedCharachters: number;
   @Input() isCollapsed: boolean = false;
   constructor() { }
+
+  get partsOfQuestion(){
+
+    return this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters).split(this.keyword) ;
+
+  }
 
   ngOnInit(): void {
   }
