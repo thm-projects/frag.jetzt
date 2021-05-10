@@ -6,14 +6,6 @@
   <div fxLayoutAlign="end">
     <div fxLayout="row-reverse" fxLayoutGap="10px" class="buttons">
       <button
-        *ngIf="resetButtonClickAction !== undefined"
-        type="button"
-        mat-flat-button
-        class="mat-flat-button {{ confirmButtonType }}-confirm-button"
-        attr.aria-labelledby="{{ ariaPrefix + 'reset' | translate }}"
-        (click)="filterzu()">{{ buttonsLabelSection + '.reset' | translate}}</button>
-
-      <button
         *ngIf="confirmButtonClickAction !== undefined"
         type="button"
         mat-flat-button
