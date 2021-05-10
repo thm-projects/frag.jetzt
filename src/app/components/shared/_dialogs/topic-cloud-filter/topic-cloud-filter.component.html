@@ -2,13 +2,33 @@
   <p>{{'content.topic-cloud-content' | translate}}</p>
 </div>
 
+<form>
+  
+  
+  <div class="block">
+    <input type="radio" id="ma" name="wiederherstellung" value="mitallenFragen">
+    <label for="ma" ><div mat-dialog-content>{{'Mit Allen Fragen weiter' | translate}}</div> </label> 
+  </div>
+  <br>
+  <div class="block">
+    <input type="radio" id="fj" name="wiederherstellung" value="Fragenabjetzt ">
+    <label for="fj"> <div mat-dialog-content> {{'Fragen ab jetzt' | translate}} </div></label> 
+  </div>
+  <br>
+  <div class="block">
+    <input type="radio" id="mwe" name="wiederherstellung" value="Reset">
+    <label for="mwe"> <div mat-dialog-content>{{'weiter mit Momentanen Einstellungen' | translate}} </div></label> 
+  </div>
+</form>
 
 
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
+   
 
   [cancelButtonClickAction]="cancelButtonActionCallback()"
   [confirmButtonClickAction]="confirmButtonActionCallback()"
   [resetButtonClickAction]="resetBuildCloseDialogActionCallback()">
 </app-dialog-action-buttons>
+

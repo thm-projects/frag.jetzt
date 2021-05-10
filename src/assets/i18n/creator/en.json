@@ -210,7 +210,11 @@
     "subject": "Subject",
     "submitted": "Content submitted. Ready for creation of new content.",
     "undo": "Undo",
-    "yes": "Yes"
+    "yes": "Yes",
+    "Mit-Allen-Fragen-weiter":"With all questions more",
+    "Fragen ab jetzt":"Question from now",
+    "weiter mit Momentanen Einstellungen":"continue with Current settings"
+
   },
   "home-page": {
     "create-session": "New session",

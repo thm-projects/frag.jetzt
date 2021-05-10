@@ -23,6 +23,11 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() buttonsLabelSection: string;
 
+  /**
+   * Icon for confirm.
+   */
+  @Input() buttonIcon: string;
+
 
   /**
    * The i18n label identifier of the confirm button.
