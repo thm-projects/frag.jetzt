@@ -231,10 +231,10 @@
     "hover-scale":"Scale",
     "hover-time":"Hover time",
     "hover-title":"Hover Options",
-    "hover-delay":"Hover Delay",
+    "hover-delay":"Hover delay",
     "cancel-btn":"Cancel",
     "save-btn":"Save",
-    "font-size-min":"Font size",
+    "font-size-min":"Font size min",
     "font-size-max":"Font size max",
     "select-color": "Selected color"
   }
