@@ -1,6 +1,7 @@
 <ars-row style="display: flex">
   <div class="anchor-wrp">
-    <ars-row class="keywords-container">
+    <ars-row class="content-container">
+      <ars-row class="dialog-header">
       <div class="lang-selection">
         <mat-icon>more_vert</mat-icon>
         <mat-select class="select-list" [(ngModel)]="selectedLang" (selectionChange)="evalInput($event.value)">
@@ -18,37 +19,37 @@
           <mat-checkbox class="select-all-checkbox" id="checkAll" (change)="selectAll($event.checked)"></mat-checkbox>
         </ars-row>
       </span>
-      <mat-list dense>
-        <span *ngIf="keywords.length > 0">
-          <cdk-virtual-scroll-viewport [itemSize]="20" class="keywords-viewport">
-            <mat-list-item  *cdkVirtualFor="let keyword of keywords; let odd = odd; let even = even"
-                            [class.keywords-alternate]="odd"
-                            [class.keywords-even]="even"
-                            [ngClass]="{'keyword-selected': keyword.selected}">
-              <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
-              <input  class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
-              <div class="keywords-actions">
-                <mat-checkbox [checked]="keyword.completed"
-                              (change)="keyword.selected = $event.checked">
-                </mat-checkbox>
-                <button *ngIf="!keyword.editing"
-                        (click)="onEdit(keyword)" mat-icon-button
-                        [ngClass]="{'keywords-actions-selected': keyword.selected}">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button *ngIf="keyword.editing"
-                        (click)="onEndEditing(keyword)" mat-icon-button
-                        class = "edit-accept">
-                  <mat-icon>check</mat-icon>
-                </button>
-              </div>
-            </mat-list-item>
-          </cdk-virtual-scroll-viewport>
-        </span>
-        <span *ngIf="keywords.length<=0">
-          <p>{{ 'spacy-dialog.empty-nouns' | translate}}</p>
-        </span>
-      </mat-list>
+      <span *ngIf="keywords.length > 0"></span>
+      </ars-row>
+      <ars-row class="list-container">
+        <mat-list class="keywords-list">
+          <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even"
+                          [class.keywords-alternate]="odd"
+                          [class.keywords-even]="even"
+                          [ngClass]="{'keyword-selected': keyword.selected}">
+            <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
+            <input  class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
+            <div class="keywords-actions">
+              <mat-checkbox [checked]="keyword.completed"
+                            (change)="keyword.selected = $event.checked">
+              </mat-checkbox>
+              <button *ngIf="!keyword.editing"
+                      (click)="onEdit(keyword)" mat-icon-button
+                      [ngClass]="{'keywords-actions-selected': keyword.selected}">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button *ngIf="keyword.editing"
+                      (click)="onEndEditing(keyword)" mat-icon-button
+                      class = "edit-accept">
+                <mat-icon>check</mat-icon>
+              </button>
+            </div>
+          </mat-list-item>
+        </mat-list>
+      </ars-row>
+      <span *ngIf="keywords.length<=0">
+        <p>{{ 'spacy-dialog.empty-nouns' | translate}}</p>
+      </span>
     </ars-row>
   </div>
 </ars-row>
