@@ -7,6 +7,13 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
+import {FormControl} from "@angular/forms";
+import { SearchFilterPipe } from '../../../../pipe/search-filter.pipe';
+import { EventService } from '../../../../services/util/event.service';
+import {startWith, map, filter} from 'rxjs/operators';
+import {BehaviorSubject, Observable} from "rxjs";
+
+
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -24,6 +31,24 @@ export class TopicCloudAdministrationComponent implements OnInit {
   sortMode: SortMode = SortMode.ALPHABETIC;
   sortModeEnum: typeof SortMode = SortMode; // needed for use in template
   editedKeyword:boolean = false;
+
+  keywordsSubject: BehaviorSubject<Keyword[]> = new BehaviorSubject<Keyword[]>([]);
+
+  // public searchFilter: any = '';
+
+  control=new FormControl();
+  searchInput = '';
+  search = false;
+  hideKeyWordList=true;
+  newkey:Keyword[];
+
+
+  searchPlaceholder = '';
+
+
+
+
+
 
   keywords: Keyword[] = [
     {
@@ -109,11 +134,13 @@ export class TopicCloudAdministrationComponent implements OnInit {
               }
 
   ngOnInit(): void {
+    this.keywordsSubject.next(this.keywords);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
   }
+
 
   sortQuestions(sortMode?: SortMode) {
     if (sortMode !== undefined) {
@@ -167,11 +194,20 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   deleteKeyword(id: number): void{
+
+
     this.keywords.map(keyword => {
-      if (keyword.keywordID == id)
-          this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
+      if (keyword.keywordID == id) {
+        console.log("before" , this.keywords);
+        //console.log( this.keywords.splice(this.keywords.indexOf(keyword, 0), 1));
+        this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
+        console.log("after" , this.keywords);
+
+      }
     });
     if (this.keywords.length == 0) {
+      //console.log(this.cloudDialogRef.close());
+    //  this.keywords=this.newkey;
       this.cloudDialogRef.close();
     }
   }
@@ -202,6 +238,35 @@ export class TopicCloudAdministrationComponent implements OnInit {
         this.deleteKeyword(keyword.keywordID);
       }
     })
+  }
+  searchComments(): void {
+    this.search = true;
+    if (this.searchInput) {
+      if (this.searchInput.length > 1) {
+        for (let keyword of this.keywords) {
+
+         this.keywords= this.keywords
+            .filter(c => this.checkIfIncludesKeyWord(c.keyword, this.searchInput));
+        }
+      } else if (this.searchInput.length === 0 ) {
+        this.hideKeyWordList = false;
+      }
+    }
+  }
+
+  checkIfIncludesKeyWord(body: string, keyword: string) {
+    return body.toLowerCase().includes(keyword.toLowerCase());
+  }
+
+  private _filter(value: string): Keyword[] {
+    const filterValue = this._normalizeValue(value);
+
+    return this.keywords.filter(key => this._normalizeValue(key.keyword).includes(filterValue));
+  }
+
+  private _normalizeValue(value: string): string {
+
+    return value.toLowerCase().replace(/\s/g, '');
   }
 }
 

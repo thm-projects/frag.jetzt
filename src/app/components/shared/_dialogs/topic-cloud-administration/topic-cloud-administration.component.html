@@ -5,6 +5,18 @@
     </mat-card>
 
     <div align="end">
+          <mat-form-field class="example-full-width">
+             <input
+                    [formControl]="control"
+                    [matAutocomplete]="auto"
+                    (input)="searchComments()" [(ngModel)]="searchInput" class="toolbar-search" type="text" matInput>
+             <mat-placeholder>Search</mat-placeholder>
+             <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
+          </mat-form-field>
+        <mat-autocomplete #auto="matAutocomplete">
+        </mat-autocomplete>
+          <!--mat-autocomplete #auto="matAutoComplete"></mat-autocomplete-->
+
       <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>
@@ -12,6 +24,7 @@
 
     <mat-menu #sortMenu>
       <button mat-menu-item (click)="sortQuestions(sortModeEnum.ALPHABETIC)">
+
         <mat-icon>sort_by_alpha</mat-icon>
         {{'topic-cloud-dialog.sort-Alpha' | translate}} </button>
       <button mat-menu-item (click)="sortQuestions(sortModeEnum.QUESTIONSCOUNT)">
@@ -22,10 +35,11 @@
     <mat-accordion>
       <mat-expansion-panel (opened)="panelOpenState = true"
                            (closed)="panelOpenState = false"
-                           *ngFor="let keyword of keywords">
+                           *ngFor="let keyword of keywordsSubject | async | searchFilter: searchInput">
         <mat-expansion-panel-header class="color">
           <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
             {{keyword.keyword}}
+
           </mat-panel-title>
           <mat-panel-description>
             {{keyword.questions.length}}

@@ -63,6 +63,8 @@ import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.compo
 import { MatDialogModule } from '@angular/material/dialog';
 import {TagCloudModule} from 'angular-tag-cloud-module';
 import {SpacyService} from './services/http/spacy.service';
+// import { SearchFilterPipe } from './pipe/search-filter.pipe'; // TODO: delete line
+
 
 export function dialogClose(dialogResult: any) {
 }
@@ -99,7 +101,9 @@ export function initializeApp(appConfig: AppConfig) {
     DemoEnComponent,
     HelpEnComponent,
     OverlayComponent,
-    TagCloudComponent
+    TagCloudComponent,
+//    SearchFilterPipe, //TODO: delete line
+
   ],
   imports: [
     MatomoModule,
@@ -174,6 +178,9 @@ export function initializeApp(appConfig: AppConfig) {
       provide: MAT_DIALOG_DATA,
       useValue: []
     }
+  ],
+  exports: [
+    // SearchFilterPipe // TODO: delete line
   ],
   bootstrap: [AppComponent]
 })
