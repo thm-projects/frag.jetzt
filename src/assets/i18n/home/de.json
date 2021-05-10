@@ -49,7 +49,10 @@
     "topic-cloud-content": "Weiter zur Topic-Cloud mit den aktuellen Filtern?",
     "cancel": "Abbrechen",
     "continue": "Weiter",
-    "reset": "Zurücksetzen"
+    "reset": "Zurücksetzen",
+    "continue-with-all-questions" : "Weiter mit kompletter Fragenliste",
+    "continue-with-current-questions": "Weiter mit aktuellen Filtern",
+    "continue-with-all-questions-from-now": "Weiter mit allen Fragen ab jetzt"
   },
   "header": {
     "abort": "Abbrechen",
