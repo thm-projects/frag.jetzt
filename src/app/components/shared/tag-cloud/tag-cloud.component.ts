@@ -160,8 +160,7 @@ export class TagCloudComponent implements OnInit {
     height: 0.99,
     overflow: false,
     font: 'Georgia', // not working
-    delay: 0,
-    randomizeAngle: false
+    delay: 0
   };
   zoomOnHoverOptions: ZoomOnHoverOptions = {
     scale: 1.3, // Elements will become 130 % of current size on hover
@@ -174,6 +173,7 @@ export class TagCloudComponent implements OnInit {
   debounceTimer = 0;
   lastDebounceTime = 0;
   configurationOpen = false;
+  randomizeAngle = false;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -271,7 +271,12 @@ export class TagCloudComponent implements OnInit {
     this.zoomOnHoverOptions.scale = data.hoverScale;
     this.zoomOnHoverOptions.transitionTime = data.hoverTime;
     this.options.delay = data.delayWord;
-    this.options.randomizeAngle = data.randomAngles;
+    this.randomizeAngle = data.randomAngles;
+    if (this.randomizeAngle) {
+      this.data.forEach(e => e.rotate = Math.floor(Math.random() * 30 - 15));
+    } else {
+      this.data.forEach(e => e.rotate = 0);
+    }
     this.updateTagCloud();
     if (save) {
       localStorage.setItem('tagCloudConfiguration', JSON.stringify(data));
@@ -316,7 +321,7 @@ export class TagCloudComponent implements OnInit {
       map.forEach((val, key) => {
           this.data.push(new TagComment(null,
             true, null, null,
-            /*Math.floor(Math.random() * 30 - 15)*/0, key,
+            this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
             'TODO', val));
         }
       );
