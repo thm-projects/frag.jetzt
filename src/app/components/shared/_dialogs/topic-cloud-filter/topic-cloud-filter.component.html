@@ -2,22 +2,28 @@
   <p>{{'content.topic-cloud-content' | translate}}</p>
 </div>
 
+<form>
+  
+  
+    <input type="radio" id="ma" name="wiederherstellung" value="Reset">
+    <label for="ma" ><div mat-dialog-content>{{'Mit Allen Fragen weiter' | translate}}</div> </label> 
+
+    <input type="radio" id="rs" name="wiederherstellung" value="Reset">
+    <label for="rs"> <div mat-dialog-content> {{'Fragen ab jetzt' | translate}} </div></label> 
+
+    <input type="radio" id="rs" name="wiederherstellung" value="Reset">
+    <label for="rs"> <div mat-dialog-content>{{'weiter mit Momentanen Einstellungen' | translate}} </div></label> 
+  
+</form>
 
 
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
-  buttonIcon="cloud"
+   
 
   [cancelButtonClickAction]="cancelButtonActionCallback()"
   [confirmButtonClickAction]="confirmButtonActionCallback()"
   [resetButtonClickAction]="resetBuildCloseDialogActionCallback()">
 </app-dialog-action-buttons>
 
-<form>
-  <p>Wollen Sie wiederherstellen?</p>
-  <fieldset>
-    <input type="radio" id="rs" name="wiederherstellung" value="Reset">
-    <label for="rs"> Reset</label> 
-  </fieldset>
-</form>

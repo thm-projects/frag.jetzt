@@ -209,7 +209,10 @@
     "subject": "Thema",
     "submitted": "Frage erstellt. Bereit für die Erstellung neuer Fragen.",
     "undo": "Rückgängig",
-    "yes": "Ja"
+    "yes": "Ja",
+    "Mit-Allen-Fragen-weiter": "Mit Allen Fragen weiter",
+    "Fragen ab jetzt":"Fragen ab jetzt",
+    "weiter mit Momentanen Einstellungen":"weiter mit Momentanen Einstellungen"
   },
   "home-page": {
     "create-session": "Neue Sitzung",
