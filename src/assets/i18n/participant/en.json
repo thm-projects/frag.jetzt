@@ -236,6 +236,16 @@
     "save-btn":"Save",
     "font-size-min":"Font size min",
     "font-size-max":"Font size max",
-    "select-color": "Selected color"
+    "select-color": "Selected color",
+    
+    "random-angle-tooltip": "Generate angle randomly",
+    "background-tooltip": "Select background-color",
+    "word-delay-tooltip": "Select word-delay",
+    "font-size-min-tooltip": "Select minimum font-size",
+    "font-size-max-tooltip": "Select maximum font-size",
+    "select-color-tooltip": "Select font-color",
+    "hover-scale-tooltip": "Select hover-scale",
+    "hover-time-tooltip": "Select hover-time",
+    "hover-delay-tooltip": "Select hover-delay"
   }
 }
