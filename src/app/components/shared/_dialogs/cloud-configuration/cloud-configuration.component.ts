@@ -143,7 +143,26 @@ export class CloudConfigurationComponent implements OnInit {
       hoverDelay: this.parent.getCurrentCloudParameters().hoverDelay,
       delayWord: this.parent.getCurrentCloudParameters().delayWord,
       randomAngles: this.parent.getCurrentCloudParameters().randomAngles
-    }, false)
+    }, false);
+  }
+
+  changeHoverColer(event: string) {
+    this.cloudConfigForm
+      .get('zoomOnHover')
+      .get('color')
+      .setValue(event);
+    this.hoverColor = this.cloudConfigForm.get('zoomOnHover').get('color').value;
+    this.parent.setCloudParameters({
+      backgroundColor: this.parent.getCurrentCloudParameters().backgroundColor,
+      fontColor: this.hoverColor,
+      fontSizeMin: this.parent.getCurrentCloudParameters().fontSizeMin,
+      fontSizeMax: this.parent.getCurrentCloudParameters().fontSizeMax,
+      hoverScale: this.parent.getCurrentCloudParameters().hoverScale,
+      hoverTime: this.parent.getCurrentCloudParameters().hoverTime,
+      hoverDelay: this.parent.getCurrentCloudParameters().hoverDelay,
+      delayWord: this.parent.getCurrentCloudParameters().delayWord,
+      randomAngles: this.parent.getCurrentCloudParameters().randomAngles
+    }, false);
   }
 
   public cancel(){

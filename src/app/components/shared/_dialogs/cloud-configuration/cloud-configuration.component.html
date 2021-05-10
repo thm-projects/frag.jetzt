@@ -180,10 +180,7 @@
                       cloudConfigForm.get('zoomOnHover').get('color').value
                     "
                 (colorPickerChange)="
-                      cloudConfigForm
-                        .get('zoomOnHover')
-                        .get('color')
-                        .setValue($event)
+                      changeHoverColer($event)
                     "
                 formControlName="color"
                 class="custom-color-picker"
@@ -208,7 +205,19 @@
       >
 
           <mat-label class="label-text">{{'tag-cloud-config.hover-scale' | translate}}</mat-label>
-          <mat-slider
+          <mat-slider #hoverScaleSlider
+                      [value]="hoverScale"
+                      (change)="parent.setCloudParameters({
+                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+                   fontColor: parent.getCurrentCloudParameters().fontColor,
+                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
+                   fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
+                   hoverScale: hoverScaleSlider.value,
+                   hoverTime: parent.getCurrentCloudParameters().hoverTime,
+                   hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
+                   delayWord: parent.getCurrentCloudParameters().delayWord,
+                   randomAngles: parent.getCurrentCloudParameters().randomAngles
+                   }, false)"
             min="1"
             max="2"
             step="0.2"
@@ -225,7 +234,19 @@
       >
 
           <mat-label class="label-text">{{'tag-cloud-config.hover-time' | translate}}</mat-label>
-          <mat-slider
+          <mat-slider #transitonSlider
+                      [value]="hoverTransitionTime"
+                      (change)="parent.setCloudParameters({
+                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+                   fontColor: parent.getCurrentCloudParameters().fontColor,
+                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
+                   fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
+                   hoverScale: parent.getCurrentCloudParameters().hoverScale,
+                   hoverTime: transitonSlider.value,
+                   hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
+                   delayWord: parent.getCurrentCloudParameters().delayWord,
+                   randomAngles: parent.getCurrentCloudParameters().randomAngles
+                   }, false)"
             min="0"
             max="2"
             step="0.2"
@@ -240,7 +261,19 @@
       >
 
           <mat-label class="label-text">{{'tag-cloud-config.hover-delay' | translate}}</mat-label>
-          <mat-slider
+          <mat-slider #hoverDelaySlider
+                      [value]="hoverDelay"
+                      (change)="parent.setCloudParameters({
+                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
+                   fontColor: parent.getCurrentCloudParameters().fontColor,
+                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
+                   fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
+                   hoverScale: parent.getCurrentCloudParameters().hoverScale,
+                   hoverTime: parent.getCurrentCloudParameters().hoverTime,
+                   hoverDelay: hoverDelaySlider.value,
+                   delayWord: parent.getCurrentCloudParameters().delayWord,
+                   randomAngles: parent.getCurrentCloudParameters().randomAngles
+                   }, false)"
             min="0"
             max="2"
             step="0.1"
