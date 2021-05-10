@@ -2,33 +2,20 @@
   <p>{{'content.topic-cloud-content' | translate}}</p>
 </div>
 
-<form>
-  
-  
-  <div class="block">
-    <input type="radio" id="ma" name="wiederherstellung" value="mitallenFragen">
-    <label for="ma" ><div mat-dialog-content>{{'Mit Allen Fragen weiter' | translate}}</div> </label> 
-  </div>
-  <br>
-  <div class="block">
-    <input type="radio" id="fj" name="wiederherstellung" value="Fragenabjetzt ">
-    <label for="fj"> <div mat-dialog-content> {{'Fragen ab jetzt' | translate}} </div></label> 
-  </div>
-  <br>
-  <div class="block">
-    <input type="radio" id="mwe" name="wiederherstellung" value="Reset">
-    <label for="mwe"> <div mat-dialog-content>{{'weiter mit Momentanen Einstellungen' | translate}} </div></label> 
-  </div>
-</form>
+<mat-divider></mat-divider>
+  <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
+    <mat-radio-button value="continueWithAll">{{'content.continue-with-all-questions' | translate}}</mat-radio-button>
+    <mat-radio-button checked="true" value="continueWithCurr">{{'content.continue-with-current-questions' | translate}}</mat-radio-button>
+    <mat-radio-button value="continueWithAllFromNow">{{'content.continue-with-all-questions-from-now' | translate}}</mat-radio-button>
+  </mat-radio-group>
 
 
 <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
-   
+  buttonIcon="cloud"
 
   [cancelButtonClickAction]="cancelButtonActionCallback()"
-  [confirmButtonClickAction]="confirmButtonActionCallback()"
-  [resetButtonClickAction]="resetBuildCloseDialogActionCallback()">
+  [confirmButtonClickAction]="confirmButtonActionCallback()">
 </app-dialog-action-buttons>
 

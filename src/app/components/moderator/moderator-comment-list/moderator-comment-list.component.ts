@@ -349,6 +349,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
+
+    // set current filters to local storage for later use
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
   }
 
   clickedUserNumber(usrNumber: number): void {

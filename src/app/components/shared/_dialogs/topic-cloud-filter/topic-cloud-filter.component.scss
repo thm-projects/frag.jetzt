@@ -1,6 +1,12 @@
-.block {
-    label {
-        display: inline-block;
-    }
-    
+mat-radio-button{
+    margin: 5px;
+
+}
+
+
+
+mat-radio-group {
+    display: flex;
+  flex-direction: column;
+  margin: 15px 0;
 }

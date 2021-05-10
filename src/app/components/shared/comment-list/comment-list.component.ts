@@ -505,6 +505,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
+
+    // set current filters to local storage for later use
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
   }
 
   sort(array: any[], type: string): any[] {
@@ -637,6 +642,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     } else {
       this.commentsFilteredByTime = this.comments;
     }
+
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }

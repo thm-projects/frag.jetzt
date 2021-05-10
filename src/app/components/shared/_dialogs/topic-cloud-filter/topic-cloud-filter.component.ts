@@ -16,6 +16,10 @@ export class TopicCloudFilterComponent implements OnInit{
   @Input()filteredComments: any;
   @Input()commentsFilteredByTime: any;
 
+  continueFilter: string = 'continueWithCurr';
+  tmpCurFilters: string;
+  tmpPeriod : string;
+
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
     public dialog: MatDialog,
     public notificationService: NotificationService,
@@ -29,33 +33,41 @@ export class TopicCloudFilterComponent implements OnInit{
 
   ngOnInit() {
     this.translationService.use(localStorage.getItem('currentLang'));
+    this.tmpPeriod = localStorage.getItem('currentPeriod');
+    this.tmpCurFilters = localStorage.getItem('currentFilters');
   }
 
   closeDialog(): void {
   }
 
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-   cancelButtonActionCallback(): () => void {
+  
+  cancelButtonActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
   }
 
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildSaveActionCallback(): () => void {
-    return () => this.closeDialog();
-  }
-
   confirmButtonActionCallback(): () => void {
-   //
-    return () => this.dialogRef.close(this.router.navigateByUrl('/participant/room/' +localStorage.getItem('roomId')+ '/comments/tagcloud'));
-  }
-  resetBuildCloseDialogActionCallback():() => void {
-    this.commentsFilteredByTime = [];
-    this.filteredComments = [];
-    return () => this.dialogRef.close('reset');
+    localStorage.setItem('currentFilters', this.tmpCurFilters);
+    localStorage.setItem('currentPeriod', this.tmpPeriod);
+
+    switch (this.continueFilter) {
+      case 'continueWithAll':
+        localStorage.setItem('currentFilters', "");
+        break;
+
+      case 'continueWithCurr':
+        // filter set already
+        break;
+
+      case 'continueWithAllFromNow':
+        localStorage.setItem('currentFilters', "");
+        localStorage.setItem('currentPeriod', JSON.stringify('from-now'));
+        localStorage.setItem('currentFromNowTimestamp', JSON.stringify(new Date().getTime())); 
+        break;
+
+      default:
+        break;
+    }
+
+    return () => this.dialogRef.close(this.router.navigateByUrl('/participant/room/' + localStorage.getItem('roomId') + '/comments/tagcloud'));
   }
 }

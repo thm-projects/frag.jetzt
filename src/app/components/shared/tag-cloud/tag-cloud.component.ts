@@ -13,6 +13,7 @@ import {Comment} from '../../../models/comment';
 import {LanguageService} from "../../../services/util/language.service";
 import {TranslateService} from "@ngx-translate/core";
 import {QuestionWallComment} from "../questionwall/QuestionWallComment";
+import { SELECT_PANEL_INDENT_PADDING_X } from '@angular/material/select';
 
 
 class TagComment implements CloudData {
@@ -79,7 +80,7 @@ export class TagCloudComponent implements OnInit {
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
+    this.commentService.getFilteredComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
     });
   }
