@@ -80,9 +80,10 @@ export class CreateCommentComponent implements OnInit {
 
     dialogRef.afterClosed()
       .subscribe(result => {
-        if (result)
-          this.dialogRef.close(result)
-      })
+        if (result) {
+          this.dialogRef.close(result);
+        }
+      });
 
   }
 

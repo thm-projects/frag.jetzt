@@ -10,9 +10,9 @@ import {
 import {CommentService} from '../../../services/http/comment.service';
 import {Result, SpacyService} from '../../../services/http/spacy.service';
 import {Comment} from '../../../models/comment';
-import {LanguageService} from "../../../services/util/language.service";
-import {TranslateService} from "@ngx-translate/core";
-import {QuestionWallComment} from "../questionwall/QuestionWallComment";
+import {LanguageService} from '../../../services/util/language.service';
+import {TranslateService} from '@ngx-translate/core';
+import {QuestionWallComment} from '../questionwall/QuestionWallComment';
 
 
 class TagComment implements CloudData {

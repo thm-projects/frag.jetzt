@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {BaseHttpService} from './base-http.service';
-import {catchError} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { BaseHttpService } from './base-http.service';
+import { catchError } from 'rxjs/operators';
 
 export class Result {
   arcs: Arc[];
