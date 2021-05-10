@@ -1,302 +1,88 @@
-<div
-     id="wholeDialog"
-     class="drawer-container"
-     fxLayout="column"
-     fxLayoutGap="5px"
->
-
-  <form class="cloud-configuration-form" [formGroup]="cloudConfigForm" fxLayout="column">
+<div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
+  <div class="cloud-configuration-form" fxLayout="column">
     <h2>{{'tag-cloud-config.title' | translate}}</h2>
-
     <h3>{{'tag-cloud-config.general' | translate}}</h3>
-    <div
-      class="input-row"
-      fxLayout="row"
-      fxLayoutGap="5px"
-      fxLayout.xs="column"
-    >
+    <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
     </div>
-    <div
-      class="input-row"
-      fxLayout="row"
-      fxLayoutGap="5px"
-      fxLayout.xs="column"
-    >
-      <mat-slide-toggle fxFlex formControlName="randomizeAngle" #randomAng
-                        [checked]="randomizeAngle"
-                        (change)="parent.setCloudParameters({
-    backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-    fontColor: parent.getCurrentCloudParameters().fontColor,
-    fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
-    fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
-    hoverScale: parent.getCurrentCloudParameters().hoverScale,
-    hoverTime: parent.getCurrentCloudParameters().hoverTime,
-    hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
-    delayWord: parent.getCurrentCloudParameters().delayWord,
-    randomAngles: this.randomAng.checked
-                        }, false)"
-      matTooltip="{{'tag-cloud-config.random-angle-tooltip' | translate}}"
-      >{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle
-      >
+    <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <mat-slide-toggle (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
+        [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
     </div>
     <div style="margin: 10px;"></div>
-    <div
-      class="input-row"
-      fxLayout="column"
-      fxLayoutGap="5px"
-    >
-
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
         <div fxLayout="row" fxLayoutGap="5px">
           <mat-form-field fxFlex="100%">
             <mat-label>{{'tag-cloud-config.background' | translate}}</mat-label>
-            <input
-              matInput #backgroundPicker
-              [colorPicker]="
-                  cloudConfigForm.get('background').value
-                "
-              (colorPickerChange)="
-                  changeBackground($event)
-                "
-              formControlName="background"
-              class="custom-color-picker"
-              matTooltip="{{'tag-cloud-config.background-tooltip' | translate}}"
-            />
-            <p class="custom-color-picker-text">{{'tag-cloud-config.select-color' | translate}}</p>
+            <input matInput [value]="cloudParameters.backgroundColor" [colorPicker]="cloudParameters.backgroundColor"
+              (colorPickerChange)="backgroundColorChanged($event)" class="custom-color-picker" />
+            <p matTooltip="{{'tag-cloud-config.background-tooltip' | translate}}" class="custom-color-picker-text">
+              {{'tag-cloud-config.select-color' | translate}}</p>
           </mat-form-field>
-          <div
-            fxFlex="35px"
-            class="color-box"
-            [style.background]="
-                cloudConfigForm.get('background').value
-              "
-          ></div>
+          <div fxFlex="35px" class="color-box" [style.background]="cloudParameters.backgroundColor"></div>
         </div>
-
-
+      </div>
     </div>
-    <div
-      class="input-row"
-      fxLayout="column"
-      fxLayoutGap="5px"
-    >
-
-        <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
-        <mat-slider #delaySlider
-          min="0"
-          max="1000"
-          step="50"
-          formControlName="delay"
-          [thumbLabel]="true"
-          [value]="delay"
-          (change)="
-          parent.setCloudParameters({
-    backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-    fontColor: parent.getCurrentCloudParameters().fontColor,
-    fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
-    fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
-    hoverScale: parent.getCurrentCloudParameters().hoverScale,
-    hoverTime: parent.getCurrentCloudParameters().hoverTime,
-    hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
-    delayWord: delaySlider.value,
-    randomAngles: parent.getCurrentCloudParameters().randomAngles
-    }, false)
-          "
-        matTooltip="{{'tag-cloud-config.word-delay-tooltip' | translate}}"
-        ></mat-slider>
-
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+      <mat-label class="label-text">{{'tag-cloud-config.word-delay' | translate}}</mat-label>
+      <mat-slider #delaySlider min="0" max="1000" step="50" [(ngModel)]="cloudParameters.delayWord"
+        [ngModelOptions]="{standalone: true}" (change)="valueChanged()" [thumbLabel]="true"
+        [value]="cloudParameters.delayWord" matTooltip="{{'tag-cloud-config.word-delay-tooltip' | translate}}">
+      </mat-slider>
     </div>
-    <div
-      class="input-row"
-      fxLayout="column"
-      fxLayoutGap="5px"
-    >
-          <mat-form-field fxFlex fxLayout.xs="column">
-            <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
-            <input #minFont
-              [value]="fontMinSize"
-              (change)="          parent.setCloudParameters({
-    backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-    fontColor: parent.getCurrentCloudParameters().fontColor,
-    fontSizeMin: getNumber(minFont.value),
-    fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
-    hoverScale: parent.getCurrentCloudParameters().hoverScale,
-    hoverTime: parent.getCurrentCloudParameters().hoverTime,
-    hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
-    delayWord: parent.getCurrentCloudParameters().delayWord,
-    randomAngles: parent.getCurrentCloudParameters().randomAngles
-    }, false)"
-              matInput
-              type="number"
-              formControlName="font-size"
-              placeholder="font-size"
-              min="10"
-              max="300"
-              step="10"
-              matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}"
-            />
-          </mat-form-field>
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+      <mat-form-field fxFlex fxLayout.xs="column">
+        <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
+        <input #minFont [value]="cloudParameters.fontSizeMin" matInput type="number"
+          [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+          min="10" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
+      </mat-form-field>
     </div>
-    <div
-      class="input-row"
-      fxLayout="column"
-      fxLayoutGap="5px"
-    >
-          <mat-form-field fxFlex fxLayout.xs="column">
-            <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
-            <input #maxFont
-              matInput
-                   [value]="fontMaxSize"
-                   (change) = "parent.setCloudParameters({
-                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-                   fontColor: parent.getCurrentCloudParameters().fontColor,
-                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
-                   fontSizeMax: getNumber(maxFont.value),
-                   hoverScale: parent.getCurrentCloudParameters().hoverScale,
-                   hoverTime: parent.getCurrentCloudParameters().hoverTime,
-                   hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
-                   delayWord: parent.getCurrentCloudParameters().delayWord,
-                   randomAngles: parent.getCurrentCloudParameters().randomAngles
-                   }, false)"
-
-                   type="number"
-              formControlName="font-size"
-              placeholder="font-size"
-              min="10"
-              max="300"
-              step="10"
-              matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}"
-            />
-          </mat-form-field>
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+      <mat-form-field fxFlex fxLayout.xs="column">
+        <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
+        <input #maxFont matInput type="number" [(ngModel)]="cloudParameters.fontSizeMax"
+          [ngModelOptions]="{standalone: true}" (change)="valueChanged()" min="10" max="1000" step="10"
+          matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
+      </mat-form-field>
     </div>
     <h3>{{'tag-cloud-config.hover-title' | translate}}</h3>
-    <div formGroupName="zoomOnHover">
-      <div
-        class="input-row"
-        fxLayout="column"
-        fxLayoutGap="5px"
-      >
-
-          <div fxLayout="row" fxLayoutGap="5px">
-            <mat-form-field fxFlex="100%">
-              <mat-label>{{'tag-cloud-config.hover-color' | translate}}</mat-label>
-              <input
-                matInput
-                [colorPicker]="
-                      cloudConfigForm.get('zoomOnHover').get('color').value
-                    "
-                (colorPickerChange)="
-                      changeHoverColer($event)
-                    "
-                formControlName="color"
-                class="custom-color-picker"
-                matTooltip="{{'tag-cloud-config.select-color-tooltip' | translate}}"
-                />
-                <p class="custom-color-picker-text">{{'tag-cloud-config.select-color' | translate}}</p>
-            </mat-form-field>
-            <div
-              fxFlex="35px"
-              class="color-box"
-              [style.background]="
-                    cloudConfigForm.get('zoomOnHover').get('color').value
-                  "
-            ></div>
-          </div>
-
+    <div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <div fxLayout="row" fxLayoutGap="5px">
+          <mat-form-field fxFlex="100%">
+            <mat-label>{{'tag-cloud-config.hover-color' | translate}}</mat-label>
+            <input matInput [value]="cloudParameters.fontColor" [colorPicker]="cloudParameters.fontColor"
+              (colorPickerChange)="fontColorChanged($event)" class="custom-color-picker" />
+            <p class="custom-color-picker-text" matTooltip="{{'tag-cloud-config.select-color-tooltip' | translate}}">
+              {{'tag-cloud-config.select-color' | translate}}</p>
+          </mat-form-field>
+          <div fxFlex="35px" class="color-box" [style.background]="cloudParameters.fontColor"></div>
+        </div>
       </div>
-
-      <div
-        class="input-row"
-        fxLayout="column"
-        fxLayoutGap="5px"
-      >
-
-          <mat-label class="label-text">{{'tag-cloud-config.hover-scale' | translate}}</mat-label>
-          <mat-slider #hoverScaleSlider
-                      [value]="hoverScale"
-                      (change)="parent.setCloudParameters({
-                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-                   fontColor: parent.getCurrentCloudParameters().fontColor,
-                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
-                   fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
-                   hoverScale: hoverScaleSlider.value,
-                   hoverTime: parent.getCurrentCloudParameters().hoverTime,
-                   hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
-                   delayWord: parent.getCurrentCloudParameters().delayWord,
-                   randomAngles: parent.getCurrentCloudParameters().randomAngles
-                   }, false)"
-            min="1"
-            max="2"
-            step="0.2"
-            formControlName="scale"
-            [thumbLabel]="true"
-            matTooltip="{{'tag-cloud-config.hover-scale-tooltip' | translate}}"
-          ></mat-slider>
-
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text">{{'tag-cloud-config.hover-scale' | translate}}</mat-label>
+        <mat-slider #hoverScaleSlider [value]="cloudParameters.hoverScale" min="1" max="10" step="0.2"
+          [(ngModel)]="cloudParameters.hoverScale" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+          [thumbLabel]="true" matTooltip="{{'tag-cloud-config.hover-scale-tooltip' | translate}}"></mat-slider>
       </div>
-
-      <div
-        class="input-row"
-        fxLayout="column"
-        fxLayoutGap="5px"
-      >
-
-          <mat-label class="label-text">{{'tag-cloud-config.hover-time' | translate}}</mat-label>
-          <mat-slider #transitonSlider
-                      [value]="hoverTransitionTime"
-                      (change)="parent.setCloudParameters({
-                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-                   fontColor: parent.getCurrentCloudParameters().fontColor,
-                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
-                   fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
-                   hoverScale: parent.getCurrentCloudParameters().hoverScale,
-                   hoverTime: transitonSlider.value,
-                   hoverDelay: parent.getCurrentCloudParameters().hoverDelay,
-                   delayWord: parent.getCurrentCloudParameters().delayWord,
-                   randomAngles: parent.getCurrentCloudParameters().randomAngles
-                   }, false)"
-            min="0"
-            max="2"
-            step="0.2"
-            formControlName="transitionTime"
-            [thumbLabel]="true"
-            matTooltip="{{'tag-cloud-config.hover-time-tooltip' | translate}}"
-          ></mat-slider>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text">{{'tag-cloud-config.hover-time' | translate}}</mat-label>
+        <mat-slider #transitonSlider [value]="cloudParameters.hoverTime" min="0" max="2" step="0.2"
+          [(ngModel)]="cloudParameters.hoverTime" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+          [thumbLabel]="true" matTooltip="{{'tag-cloud-config.hover-time-tooltip' | translate}}"></mat-slider>
       </div>
-      <div
-        class="input-row"
-        fxLayout="column"
-        fxLayoutGap="5px"
-      >
-
-          <mat-label class="label-text">{{'tag-cloud-config.hover-delay' | translate}}</mat-label>
-          <mat-slider #hoverDelaySlider
-                      [value]="hoverDelay"
-                      (change)="parent.setCloudParameters({
-                   backgroundColor: parent.getCurrentCloudParameters().backgroundColor,
-                   fontColor: parent.getCurrentCloudParameters().fontColor,
-                   fontSizeMin: parent.getCurrentCloudParameters().fontSizeMin,
-                   fontSizeMax: parent.getCurrentCloudParameters().fontSizeMax,
-                   hoverScale: parent.getCurrentCloudParameters().hoverScale,
-                   hoverTime: parent.getCurrentCloudParameters().hoverTime,
-                   hoverDelay: hoverDelaySlider.value,
-                   delayWord: parent.getCurrentCloudParameters().delayWord,
-                   randomAngles: parent.getCurrentCloudParameters().randomAngles
-                   }, false)"
-            min="0"
-            max="2"
-            step="0.1"
-            formControlName="delay"
-            [thumbLabel]="true"
-            matTooltip="{{'tag-cloud-config.hover-delay-tooltip' | translate}}"
-          ></mat-slider>
-
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text">{{'tag-cloud-config.hover-delay' | translate}}</mat-label>
+        <mat-slider #hoverDelaySlider [value]="cloudParameters.hoverDelay" min="0" max="2" step="0.1"
+          [(ngModel)]="cloudParameters.hoverDelay" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+          [thumbLabel]="true" matTooltip="{{'tag-cloud-config.hover-delay-tooltip' | translate}}"></mat-slider>
       </div>
     </div>
     <br>
     <div class="button-row">
-      <button mat-button (click)="cancel()" class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
-      <button mat-button (click)="save()" class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
+      <button (click)="cancel()" mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
+      <button (click)="save()" mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
     </div>
-  </form>
+  </div>
 </div>
-

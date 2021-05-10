@@ -17,7 +17,7 @@ h3 {
 }
 
 div {
-  margin: 4px;
+  margin: 4px 0;
 }
 
 .delete {
@@ -149,10 +149,15 @@ mat-divider {
   margin: 20px;
 }
 
-.custom-color-picker{
+::ng-deep.custom-color-picker{
   opacity: 0;
+  z-index: -1;
 }
 .custom-color-picker-text{
   position: absolute;
   transform: translateY(-35px);
+}
+
+::ng-deep.mat-drawer-backdrop.mat-drawer-shown{
+  display: none;
 }
