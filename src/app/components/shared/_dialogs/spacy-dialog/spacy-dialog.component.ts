@@ -57,7 +57,6 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   evalInput(model: string) {
-    this.keywords = [];
     const words: Keyword[] = [];
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
@@ -74,6 +73,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
           }
         }
         this.keywords = words;
+      }, () => {
+        this.keywords = []
       });
   }
 
