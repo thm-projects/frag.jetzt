@@ -192,7 +192,7 @@ export class CommentService extends BaseHttpService {
     return this.getAckComments(roomId).pipe(map(commentList => commentList.filter(comment => this.filter(comment))));
   }
 
-  getAckComments(roomId: string, filterQuestion : boolean = false): Observable<Comment[]> {
+  getAckComments(roomId: string): Observable<Comment[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
     return this.http.post<Comment[]>(connectionUrl, {
       properties: { roomId: roomId, ack: true },
