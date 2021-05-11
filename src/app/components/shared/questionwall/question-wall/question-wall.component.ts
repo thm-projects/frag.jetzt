@@ -16,7 +16,7 @@ import { CorrectWrong } from '../../../../models/correct-wrong.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { Period } from '../../comment-list/comment-list.component';
 
-@Component({ 
+@Component({
   selector: 'app-question-wall',
   templateUrl: './question-wall.component.html',
   styleUrls: ['./question-wall.component.scss']
