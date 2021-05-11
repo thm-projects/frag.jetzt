@@ -223,19 +223,19 @@
     "administration": "Edit cloud topics"
   },
   "topic-cloud-dialog":{
-    "edit": "edit",
-    "delete": "delete",
+    "edit": "Edit",
+    "delete": "Delete",
     "cancel": "Cancel",
     "save": "Save",
-    "question-count-singular": "question",
-    "question-count-plural": "questions",
+    "question-count-singular": "Qustion",
+    "question-count-plural": "Questions",
     "editkeyword-tipp": "New topic",
-    "no-keyword-note": "there are no topics!",
+    "no-keyword-note": "There are no topics!",
     "considerVotes": "Consider Votes",
     "tags-lowercase": "Topics in lowercase",
     "sort-Alpha": "Alphabetically",
     "sort-Count": "Questions count",
-    "keyword-search": "search keyword"
+    "keyword-search": "Search keyword"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

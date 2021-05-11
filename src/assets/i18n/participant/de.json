@@ -217,21 +217,21 @@
     "administration": "Wolkenthemen editieren"
   },
   "topic-cloud-dialog":{
-    "edit": "bearbeiten",
-    "delete": "löschen",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
     "question-count-singular": "Frage",
     "question-count-plural": "Fragen",
     "edit-keyword-tipp": "Neues Thema",
     "no-keyword-note": "Es gibt keine Themen",
     "consider-Votes": "Votes berücksichtigen",
     "tags-lowercase": "Themen klein schreiben",
-    "sort-Alpha": "alphabetisch",
+    "sort-Alpha": "Alphabetisch",
     "sort-Count": "Fragenanzahl",
     "keyword-search": "Stichwort suchen"
   },
   "topic-cloud-confirm-dialog":{
-    "cancel": "abbrechen",
-    "delete": "löschen",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
     "confirm": "Sind Sie sicher?"
   },
   "dialog-comment":{
