@@ -48,10 +48,10 @@ export class TopicCloudFilterComponent implements OnInit{
   confirmButtonActionCallback(): () => void {
     localStorage.setItem('currentFilters', this.tmpCurFilters);
     localStorage.setItem('currentPeriod', this.tmpPeriod);
-
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(null)); 
     switch (this.continueFilter) {
       case 'continueWithAll':
-        localStorage.setItem('currentFilters', "");
+        localStorage.setItem('currentFilters', JSON.stringify(""));
         break;
 
       case 'continueWithCurr':
@@ -59,7 +59,7 @@ export class TopicCloudFilterComponent implements OnInit{
         break;
 
       case 'continueWithAllFromNow':
-        localStorage.setItem('currentFilters', "");
+        localStorage.setItem('currentFilters', JSON.stringify(""));
         localStorage.setItem('currentPeriod', JSON.stringify('from-now'));
         localStorage.setItem('currentFromNowTimestamp', JSON.stringify(new Date().getTime())); 
         break;
