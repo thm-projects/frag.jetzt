@@ -192,7 +192,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
         this.searchMode = false;
     } else{
       this.filteredKeywords = this.keywords.filter(keyword =>
-        keyword.keyword.toLowerCase().includes(this.searchedKeyword)
+        keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
       );
       this.searchMode = true;
     }
