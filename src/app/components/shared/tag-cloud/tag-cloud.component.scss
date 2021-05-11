@@ -1,0 +1,15 @@
+ars-fill {
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
+  margin: 15px;
+}
+
+mat-drawer-container {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+mat-drawer {
+  background-color: var(--dialog);
+}

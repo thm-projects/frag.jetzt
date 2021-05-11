@@ -1,0 +1,28 @@
+<ars-screen ars-flex-box>
+  <ars-row [height]="65">
+  </ars-row>
+  <mat-drawer-container class="spacyTagCloudContainer">
+    <mat-drawer [(opened)]="configurationOpen" position="start">
+      Test <!-- TODO: Gruppe 4 -->
+    </mat-drawer>
+    <mat-drawer-content>
+      <ars-fill ars-flex-box>
+        <angular-tag-cloud
+          class="spacyTagCloud"
+          (window:resize)="onResize($event)"
+          (afterInit)="initTagCloud()"
+          [data]="data"
+          [width]="options.width"
+          [height]="options.height"
+          [overflow]="options.overflow"
+          [delay]="options.delay"
+          [randomizeAngle]="false"
+          [zoomOnHover]="zoomOnHoverOptions"
+          [realignOnResize]="false">
+        </angular-tag-cloud>
+      </ars-fill>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  <ars-row [height]="37">
+  </ars-row>
+</ars-screen>

@@ -82,8 +82,11 @@
     "moderationboard": "Zum Index",
     "create-question": "Frage stellen",
     "questionwall": "Fragen-Fokus",
+    "tag-cloud": "Themenwolke",
     "fullscreen": "Text skalieren",
-    "motd": "News"
+    "motd": "News",
+    "tag-cloud-config": "Wolkenansicht ändern",
+    "tag-cloud-administration": "Wolkenthemen editieren"
   },
   "help": {
     "cancel": "Schließen",
@@ -102,7 +105,8 @@
     "live-announcer": "Willkommen auf der Seite fragpunktjetzt. Diese Seite wurde für Screenreader wie ChromeVox, Voiceover und viele andere optimiert. Ein Audioguide kann dir bei der Navigation helfen. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-user": "Du befindest dich jetzt auf der Benutzer-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "install": "Installieren",
-    "no-empty-name": "Gib den Namen der Sitzung ein.",
+    "no-empty-name": "Gib einen Namen für die Sitzung ein.",
+    "no-empty-key-code": "Gib einen Raum-Code für die Sitzung ein.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Namen gefunden.",
     "only-numbers": "Der Raum-Code ist alphanumerisch.",
     "please-enter": "Wie heißt der Raum, wo die Sitzung stattfindet?",
@@ -266,7 +270,8 @@
     "description": "Beschreibung der Sitzung",
     "join": "Sitzung beitreten",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Sitzungsname (Code wird generiert)"
+    "session-name": "Sitzungsname",
+    "session-name-with-key-code-generated": "Sitzungsname (Code wird generiert)"
   },
   "user-activation": {
     "activate": "Konto aktivieren",

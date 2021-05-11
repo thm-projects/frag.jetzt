@@ -5,6 +5,10 @@
     margin: 0;
   }
 
+  button.selected > * {
+    color: var(--red);
+  }
+
   .test {
     width: 100%;
     height: 250px;

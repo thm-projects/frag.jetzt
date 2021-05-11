@@ -37,20 +37,20 @@ export const purple = {
 
 export const purple_meta = {
 
-  'translation': {
-    'name': {
-      'en': 'Projector',
-      'de': 'Beamer'
+  translation: {
+    name: {
+      en: 'Projector',
+      de: 'Beamer'
     },
-    'description': {
-      'en': 'Optimized for canvas',
-      'de': 'Optimiert für die Leinwand'
+    description: {
+      en: 'Optimized for canvas',
+      de: 'Optimiert für die Leinwand'
     }
   },
-  'isDark': false,
-  'order': 1,
-  'scale_desktop': 1.3,
-  'scale_mobile': 1,
-  'previewColor': 'background'
+  isDark: false,
+  order: 1,
+  scale_desktop: 1.3,
+  scale_mobile: 1,
+  previewColor: 'background'
 
 };
