@@ -1,6 +1,6 @@
-import { Component, NgModule, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { HeaderComponent } from '../../header/header.component';
+import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
@@ -14,7 +14,6 @@ import { LanguageService } from '../../../../services/util/language.service';
   styleUrls: ['./topic-cloud-administration.component.scss']
 })
 export class TopicCloudAdministrationComponent implements OnInit {
-  // @ViewChildren("keywordInput") keywordInput: QueryList<ElementRef>;
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
   public tagsLowerCase: boolean; // should be sent back to tagCloud component
@@ -75,8 +74,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   ];
 
-
-  constructor(public cloudDialogRef: MatDialogRef<HeaderComponent>,
+  constructor(public cloudDialogRef: MatDialogRef<TagCloudComponent>,
               public confirmDialog: MatDialog,
               private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
