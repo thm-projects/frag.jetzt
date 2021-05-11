@@ -17,13 +17,15 @@ export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
   public tagsLowerCase: boolean; // should be sent back to tagCloud component
-  newKeyword = '';
+  newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
-  sortMode: SortMode = SortMode.alphabetic;
-  sortModeEnum: typeof SortMode = SortMode;
+
+  sortMode = 'alphabetic';
+  // sortMode: SortMode = SortMode.alphabetic;
+  // sortModeEnum: typeof SortMode = SortMode;
   editedKeyword = false;
-  searchedKeyword = '';
+  searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
 
@@ -93,16 +95,16 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.sortQuestions();
   }
 
-  sortQuestions(sortMode?: SortMode) {
+  sortQuestions(sortMode?: string) {
     if (sortMode !== undefined) {
       this.sortMode = sortMode;
     }
 
     switch (this.sortMode) {
-      case SortMode.alphabetic:
+      case 'alphabetic':
         this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
         break;
-      case SortMode.questionsCount:
+      case 'questionsCount':
         this.keywords.sort((a, b) => b.questions.length - a.questions.length);
         break;
     }
@@ -157,7 +159,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   cancelEdit(): void {
     this.edit = false;
-    this.newKeyword = '';
+    this.newKeyword = undefined;
   }
 
   confirmEdit(id: number): void {
@@ -168,7 +170,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     });
     this.edit = false;
     this.editedKeyword = true;
-    this.newKeyword = '';
+    this.newKeyword = undefined;
     this.sortQuestions();
     if (this.searchMode){
       this.searchKeyword();
@@ -188,20 +190,15 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   searchKeyword(): void{
-    if (this.searchedKeyword === ''){
+    if (this.searchedKeyword){
         this.searchMode = false;
-    } else{
+    } else {
       this.filteredKeywords = this.keywords.filter(keyword =>
         keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
       );
       this.searchMode = true;
     }
   }
-}
-
-export enum SortMode {
-  alphabetic,
-  questionsCount
 }
 
 interface Keyword {
