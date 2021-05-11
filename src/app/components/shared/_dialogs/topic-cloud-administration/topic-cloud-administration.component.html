@@ -28,10 +28,10 @@
   </div>
 
   <mat-menu #sortMenu>
-    <button mat-menu-item (click)="sortQuestions(sortModeEnum.alphabetic)">
+    <button mat-menu-item (click)="sortQuestions('alphabetic')">
       <mat-icon>sort_by_alpha</mat-icon>
       {{'topic-cloud-dialog.sort-Alpha' | translate}} </button>
-    <button mat-menu-item (click)="sortQuestions(sortModeEnum.questionsCount)">
+    <button mat-menu-item (click)="sortQuestions('questionsCount')">
       <mat-icon>swap_vert</mat-icon>
       {{'topic-cloud-dialog.sort-Count' | translate}} </button>
   </mat-menu>
