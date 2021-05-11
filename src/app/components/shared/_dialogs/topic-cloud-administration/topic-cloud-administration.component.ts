@@ -18,81 +18,58 @@ export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
   public tagsLowerCase: boolean; // should be sent back to tagCloud component
-  newKeyword: string = '';
-  edit: boolean = false;
+  newKeyword = '';
+  edit = false;
   isCreatorOrMod: boolean;
-  sortMode: SortMode = SortMode.ALPHABETIC;
-  sortModeEnum: typeof SortMode = SortMode; // needed for use in template
-  editedKeyword:boolean = false;
-  searchedKeyword: string = "";
-  searchMode: boolean = false;
+  sortMode: SortMode = SortMode.alphabetic;
+  sortModeEnum: typeof SortMode = SortMode;
+  editedKeyword = false;
+  searchedKeyword = '';
+  searchMode = false;
   filteredKeywords: Keyword[] = [];
 
   keywords: Keyword[] = [
     {
       keywordID: 1,
-      keyword: "Cloud",
+      keyword: 'Cloud',
       questions: [
-        "Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung",
-        "Wieviel speicherplatz steht mir in der Cloud zur verfuegung? Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
-        "Sollen wir die Tag Cloud implementieren?"
+        'Wieviel speicherplatz steht mir in der Cloud zur verfuegung? Ich habe eine Frage, sind Fragen zum thema \'Frage\' auch erlaubt?',
+        'Sollen wir die Tag Cloud implementieren?',
+        // eslint-disable-next-line max-len
+        'Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung',
       ]
     },
     {
       keywordID: 2,
-      keyword: "SWT",
+      keyword: 'SWT',
       questions: [
-        "Muss man fuer das Modul SWT bestanden haben?"
+        'Muss man fuer das Modul SWT bestanden haben?'
       ]
     },
     {
       keywordID: 3,
-      keyword: "Frage",
+      keyword: 'Frage',
       questions: [
-        "Das ist eine Lange Frage mit dem Thema 'frage'",
-        "Ich habe eine Frage, sind Fragen zum thema 'Frage' auch erlaubt?",
-        "Ich wollte Fragen ob sie gerne Sachen gefragt werden",
-        "Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist"
+        'Das ist eine Lange Frage mit dem Thema \'frage\'',
+        'Ich habe eine Frage, sind Fragen zum thema \'Frage\' auch erlaubt?',
+        'Ich wollte Fragen ob sie gerne Sachen gefragt werden',
+        'Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist'
       ]
     },
     {
       keywordID: 4,
-      keyword: "Klausur",
+      keyword: 'Klausur',
       questions: [
-        "Darf man in der Klausur hilfmittel verwenden?",
-        "An welchem Termin findet die Klausur statt?"
+        'Darf man in der Klausur hilfmittel verwenden?',
+        'An welchem Termin findet die Klausur statt?'
       ]
     },
     {
       keywordID: 5,
-      keyword: "AA",
+      keyword: 'Diskrete Math',
       questions: [
-        "Darf man in der Klausur hilfmittel verwenden?",
-        "An welchem Termin findet die Klausur statt?"
-      ]
-    },
-    {
-      keywordID: 6,
-      keyword: "ZZ",
-      questions: [
-        "Darf man in der Klausur hilfmittel verwenden?",
-        "An welchem Termin findet die Klausur statt?"
-      ]
-    },
-    {
-      keywordID: 7,
-      keyword: "MM",
-      questions: [
-        "Darf man in der Klausur hilfmittel verwenden?",
-        "An welchem Termin findet die Klausur statt?"
-      ]
-    },
-    {
-      keywordID: 8,
-      keyword: "Diskrete Math",
-      questions: [
-        "wann wird die nächste veranstaltung stattfinden?",
-        "gibt es heute übung?"
+        'wann wird die nächste veranstaltung stattfinden?',
+        'gibt es heute übung?'
       ]
     },
 
@@ -124,10 +101,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
 
     switch (this.sortMode) {
-      case SortMode.ALPHABETIC:
+      case SortMode.alphabetic:
         this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
         break;
-      case SortMode.QUESTIONSCOUNT:
+      case SortMode.questionsCount:
         this.keywords.sort((a, b) => b.questions.length - a.questions.length);
         break;
     }
@@ -140,7 +117,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   checkIfThereAreQuestions() {
-    if (this.keywords.length == 0){
+    if (this.keywords.length === 0){
       this.translateService.get('topic-cloud-dialog.nokeyword-note').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -149,11 +126,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   pushToArray(id: number, key: string, questions: string[]){
-    let _keyword = {
+    const _keyword = {
       keywordID: id,
       keyword: key,
-          questions: questions
-      }
+          questions
+      };
     this.keywords.push(_keyword);
   }
 
@@ -171,8 +148,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   deleteKeyword(id: number): void{
     this.keywords.map(keyword => {
-      if (keyword.keywordID == id)
+      if (keyword.keywordID === id) {
           this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
+      }
     });
     if (this.keywords.length === 0) {
       this.cloudDialogRef.close();
@@ -190,8 +168,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   confirmEdit(id: number): void {
     this.keywords.map(keyword => {
-      if (keyword.keywordID == id)
+      if (keyword.keywordID === id) {
           keyword.keyword = this.newKeyword.trim();
+      }
     });
     this.edit = false;
     this.editedKeyword = true;
@@ -208,17 +187,17 @@ export class TopicCloudAdministrationComponent implements OnInit {
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
-      if (result == true) {
+      if (result === true) {
         this.deleteKeyword(keyword.keywordID);
       }
-    })
+    });
   }
 
   searchKeyword(): void{
     if (this.searchedKeyword === ''){
         this.searchMode = false;
     } else{
-      this.filteredKeywords = this.keywords.filter(keyword => 
+      this.filteredKeywords = this.keywords.filter(keyword =>
         keyword.keyword.toLowerCase().includes(this.searchedKeyword)
       );
       this.searchMode = true;
@@ -227,8 +206,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
 }
 
 export enum SortMode {
-  ALPHABETIC,
-  QUESTIONSCOUNT
+  alphabetic,
+  questionsCount
 }
 
 interface Keyword {

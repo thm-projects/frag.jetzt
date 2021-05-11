@@ -3,7 +3,7 @@
     <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.considerVotes' | translate}}</mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
   </mat-card>
-  
+
   <div fxLayout="row" style="margin-top: 10px;">
     <mat-label fxLayoutAlign="center center">
       <mat-icon>search</mat-icon>
@@ -11,7 +11,7 @@
     <div style="margin-left: 10px;">
       <mat-form-field class="example-form-field">
         <input #searchBox id="searchBox" (input)="searchKeyword()"
-               [(ngModel)]="searchedKeyword" matInput type="text" 
+               [(ngModel)]="searchedKeyword" matInput type="text"
                placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
         <button *ngIf="searchedKeyword !== ''"
                 (click)="searchedKeyword = ''; searchMode = false;"
@@ -28,10 +28,10 @@
   </div>
 
   <mat-menu #sortMenu>
-    <button mat-menu-item (click)="sortQuestions(sortModeEnum.ALPHABETIC)">
+    <button mat-menu-item (click)="sortQuestions(sortModeEnum.alphabetic)">
       <mat-icon>sort_by_alpha</mat-icon>
       {{'topic-cloud-dialog.sort-Alpha' | translate}} </button>
-    <button mat-menu-item (click)="sortQuestions(sortModeEnum.QUESTIONSCOUNT)">
+    <button mat-menu-item (click)="sortQuestions(sortModeEnum.questionsCount)">
       <mat-icon>swap_vert</mat-icon>
       {{'topic-cloud-dialog.sort-Count' | translate}} </button>
     <!-- <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button> -->
@@ -42,7 +42,7 @@
         <mat-expansion-panel-header>
             <mat-panel-title fxLayoutAlign="center">
               {{'topic-cloud-dialog.noKeywords' | translate}}
-            </mat-panel-title>  
+            </mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
     <mat-expansion-panel (opened)="panelOpenState = true"
