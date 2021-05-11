@@ -1,38 +1,28 @@
 <ars-screen ars-flex-box>
-  <ars-row [height]="100">
-
+  <ars-row [height]="65">
   </ars-row>
-  <ars-row ars-flex-box>
-    <ars-col>
-
-    </ars-col>
-    <ars-col class="config">
-      <button mat-menu-item>
-                <mat-icon aria-hidden="false" aria-label="Configuration Icon">cloud</mat-icon>
-        <span>{{'tag-cloud.config' | translate}}</span>
-      </button>
-      <button mat-menu-item (click)="openAdministrationDialog()">
-                <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
-        <span>{{'tag-cloud.administration' | translate}}</span>
-      </button>
-    </ars-col>
-  </ars-row>
-
-  <ars-fill ars-flex-box style="width:100%;height:100%;">
+  <mat-drawer-container class="spacyTagCloudContainer">
+    <mat-drawer [(opened)]="configurationOpen" position="start">
+      Test <!-- TODO: Gruppe 4 -->
+    </mat-drawer>
+    <mat-drawer-content>
+      <ars-fill ars-flex-box>
         <angular-tag-cloud
           class="spacyTagCloud"
+          (window:resize)="onResize($event)"
+          (afterInit)="initTagCloud()"
           [data]="data"
           [width]="options.width"
           [height]="options.height"
           [overflow]="options.overflow"
+          [delay]="options.delay"
+          [randomizeAngle]="false"
           [zoomOnHover]="zoomOnHoverOptions"
-          [realignOnResize]="true"
-          [log]='"debug"'>
+          [realignOnResize]="false">
         </angular-tag-cloud>
-  </ars-fill>
-
-  <ars-row [height]="100">
-
+      </ars-fill>
+    </mat-drawer-content>
+  </mat-drawer-container>
+  <ars-row [height]="37">
   </ars-row>
-
 </ars-screen>

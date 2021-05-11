@@ -85,7 +85,9 @@
     "questionwall": "Question focus",
     "tag-cloud": "Topic cloud",
     "fullscreen": "Text scaling",
-    "motd": "News"
+    "motd": "News",
+    "tag-cloud-config": "Modify cloud view",
+    "tag-cloud-administration": "Edit cloud topics"
   },
   "help": {
     "cancel": "Close",

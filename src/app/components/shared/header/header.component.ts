@@ -281,4 +281,12 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'createQuestion');
   }
 
+  public navigateTopicCloudConfig() {
+    this.eventService.broadcast('navigate', 'topicCloudConfig');
+  }
+
+  public navigateTopicCloudAdministration() {
+    this.eventService.broadcast('navigate', 'topicCloudAdministration');
+  }
+
 }
