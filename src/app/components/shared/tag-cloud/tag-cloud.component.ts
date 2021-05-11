@@ -403,4 +403,9 @@ export class TagCloudComponent implements OnInit {
     }
     this.commentService.addComment(comment).subscribe();
   }
+
+  openCloudConfiguration() {
+    this.configurationOpen = true;
+  }
+
 }

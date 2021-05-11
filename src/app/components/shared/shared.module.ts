@@ -28,8 +28,9 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
-
 import { TagCloudModule } from 'angular-tag-cloud-module';
+import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
+import { ColorPickerModule } from 'ngx-color-picker';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    TagCloudModule
+    TagCloudModule,
+    ColorPickerModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -55,6 +57,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     UserBonusTokenComponent,
     RemindOfTokensComponent,
     LoginComponent,
+    CloudConfigurationComponent,
     CommentComponent,
     CreateCommentComponent,
     PresentCommentComponent,
@@ -66,21 +69,22 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
     MotdDialogComponent,
     MotdMessageComponent
   ],
-  exports: [
-    RoomJoinComponent,
-    PageNotFoundComponent,
-    RoomPageComponent,
-    RoomListComponent,
-    HeaderComponent,
-    FooterComponent,
-    CommentPageComponent,
-    CommentListComponent,
-    CreateCommentComponent,
-    PresentCommentComponent,
-    CommentComponent,
-    DialogActionButtonsComponent,
-    UserBonusTokenComponent
-  ]
+    exports: [
+        RoomJoinComponent,
+        PageNotFoundComponent,
+        RoomPageComponent,
+        RoomListComponent,
+        HeaderComponent,
+        FooterComponent,
+        CommentPageComponent,
+        CommentListComponent,
+        CreateCommentComponent,
+        PresentCommentComponent,
+        CommentComponent,
+        DialogActionButtonsComponent,
+        UserBonusTokenComponent,
+        CloudConfigurationComponent
+    ]
 })
 export class SharedModule {
 }

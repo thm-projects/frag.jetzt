@@ -320,5 +320,36 @@
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung",
     "preview": "Vorschau"
+  },
+  "tag-cloud-config":{
+    "title":"Tag-Cloud Einstellungen",
+    "general":"Allgemeine Einstellungen",
+    "overflow":"Überlauf",
+    "height":"Höhe",
+    "random-angle":"Zufallswinkel",
+    "realign":"Neu ausrichten",
+    "background":"Hintergrundfarbe",
+    "word-delay":"Wortverzögerung",
+    "hover-color":"Schriftfarbe",
+    "hover-scale":"Hover Skala",
+    "hover-time":"Hover Zeit",
+    "hover-title":"Hover Einstellungen",
+    "hover-delay":"Hover Verzögerung",
+    "cancel-btn":"Abbruch",
+    "save-btn":"Speichern",
+    "font-size-min":"Schriftgröße min",
+    "font-size-max":"Schriftgröße max",
+    "select-color": "Farbauswahl",
+
+    "random-angle-tooltip": "Anordnung der Winkel zufällig generieren",
+    "background-tooltip": "Auswahl der Hintergrundfarbe",
+    "word-delay-tooltip": "Animationsverzögerung der Wörter",
+    "font-size-min-tooltip": "Auswahl der minimalen Schriftgrösse",
+    "font-size-max-tooltip": "Auswahl der maximalen Schriftgrösse",
+    "select-color-tooltip": "Auswahl der Schriftfarbe",
+    "hover-scale-tooltip": "Skallierung der Wörter beim Erscheinen",
+    "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
+    "hover-delay-tooltip": "Verzögerung der Wörter beim Erscheinen"
+    
   }
 }
