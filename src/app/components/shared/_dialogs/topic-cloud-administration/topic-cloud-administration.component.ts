@@ -22,8 +22,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
   isCreatorOrMod: boolean;
 
   sortMode = 'alphabetic';
-  // sortMode: SortMode = SortMode.alphabetic;
-  // sortModeEnum: typeof SortMode = SortMode;
   editedKeyword = false;
   searchedKeyword = undefined;
   searchMode = false;
