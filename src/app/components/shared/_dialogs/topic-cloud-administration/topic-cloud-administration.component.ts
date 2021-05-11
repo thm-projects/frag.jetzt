@@ -125,15 +125,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  pushToArray(id: number, key: string, questions: string[]){
-    const _keyword = {
-      keywordID: id,
-      keyword: key,
-          questions
-      };
-    this.keywords.push(_keyword);
-  }
-
   editKeyword(index: number): void {
     this.edit = true;
 
