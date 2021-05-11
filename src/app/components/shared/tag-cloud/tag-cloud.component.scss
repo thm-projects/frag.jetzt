@@ -1,63 +1,15 @@
-.config {
-    span {
-        display: none;
-    }
-
-    mat-icon {
-        margin: 0;
-    }
+ars-fill {
+  width: calc(100% - 30px);
+  height: calc(100% - 30px);
+  margin: 15px;
 }
 
-.config:hover {
-    background-color:#052338;
-    span {
-        margin-left: 16px;
-        display: inline;
-    }
+mat-drawer-container {
+  height: 100%;
+  width: 100%;
+  position: fixed;
 }
 
-::ng-deep .spacyTagCloud > span {
-  &.w10 {
-    color: brown !important;
-    font-size: 380% !important;
-  }
-  &.w9 {
-    color: white !important;
-    font-size: 330% !important;
-  }
-  &.w8 {
-    color: tomato !important;
-    font-size: 280% !important;
-  }
-  &.w7 {
-    color: lightgreen !important;
-    font-size: 240% !important;
-  }
-  &.w6 {
-    color: gray !important;
-    font-size: 210% !important;
-  }
-  &.w5 {
-    color: pink !important;
-    font-size: 180% !important;
-  }
-  &.w4 {
-    color: orange !important;
-    font-size: 160% !important;
-  }
-  &.w3 {
-    color: yellow !important;
-    font-size: 140% !important;
-  }
-  &.w2 {
-    color: green !important;
-    font-size: 120% !important;
-  }
-  &.w1 {
-    color: lightblue !important;
-    font-size: 100% !important;
-  }
-  &:hover {
-    color: greenyellow !important;
-  }
+mat-drawer {
+  background-color: var(--dialog);
 }
