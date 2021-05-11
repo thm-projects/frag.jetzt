@@ -197,6 +197,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.editedKeyword = true;
     this.newKeyword = '';
     this.sortQuestions();
+    if (this.searchMode){
+      this.searchKeyword();
+    }
   }
 
   openConfirmDialog(keyword: Keyword): void {
