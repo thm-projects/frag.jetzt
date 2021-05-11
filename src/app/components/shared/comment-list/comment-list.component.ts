@@ -245,6 +245,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
+
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
   }
 
   getModeratorIds() {

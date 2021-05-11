@@ -22,7 +22,6 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import { FormArray } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -289,6 +288,14 @@ export class HeaderComponent implements OnInit {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
       autoFocus: false
     });
+  }
+
+  public navigateTopicCloudConfig() {
+    this.eventService.broadcast('navigate', 'topicCloudConfig');
+  }
+
+  public navigateTopicCloudAdministration() {
+    this.eventService.broadcast('navigate', 'topicCloudAdministration');
   }
 
 }

@@ -217,9 +217,5 @@
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners"
-  },
-  "tag-cloud": {
-    "config": "Modify cloud view",
-    "administration": "Edit cloud topics"
   }
 }

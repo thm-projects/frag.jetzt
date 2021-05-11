@@ -93,7 +93,9 @@
     "questionwall": "Fragen-Fokus",
     "tag-cloud": "Themenwolke",
     "fullscreen": "Text skalieren",
-    "motd": "News"
+    "motd": "News",
+    "tag-cloud-config": "Wolkenansicht ändern",
+    "tag-cloud-administration": "Wolkenthemen editieren"
   },
   "help": {
     "cancel": "Schließen",

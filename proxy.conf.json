@@ -5,7 +5,8 @@
     "changeOrigin": true,
     "pathRewrite": {
       "^/spacy": ""
-    }
+    },
+    "logLevel": "debug"
   },
   "/api/ws/websocket": {
     "target": "ws://localhost:8080",
