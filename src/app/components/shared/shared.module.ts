@@ -33,7 +33,6 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
-import { SearchFilterPipe } from '../../pipe/search-filter.pipe';
 
 @NgModule({
   imports: [
@@ -44,7 +43,7 @@ import { SearchFilterPipe } from '../../pipe/search-filter.pipe';
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    TagCloudModule,
+    TagCloudModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -71,8 +70,7 @@ import { SearchFilterPipe } from '../../pipe/search-filter.pipe';
     MotdMessageComponent,
     TopicCloudConfirmDialogComponent,
     TopicCloudAdministrationComponent,
-    TopicDialogCommentComponent,
-    SearchFilterPipe
+    TopicDialogCommentComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -88,7 +86,6 @@ import { SearchFilterPipe } from '../../pipe/search-filter.pipe';
     CommentComponent,
     DialogActionButtonsComponent,
     UserBonusTokenComponent,
-    SearchFilterPipe
   ]
 })
 export class SharedModule {

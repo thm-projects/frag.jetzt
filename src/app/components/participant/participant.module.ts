@@ -25,10 +25,8 @@ import { MarkdownModule } from 'ngx-markdown';
     }),
     MarkdownModule
   ],
-  exports: [
-  ],
   declarations: [
-    RoomParticipantPageComponent,
+    RoomParticipantPageComponent
   ]
 })
 export class ParticipantModule {

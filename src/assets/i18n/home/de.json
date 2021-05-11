@@ -305,7 +305,8 @@
     "nokeyword-note": "Es gibt keine Themen",
     "considerVotes": "Votes berücksichtigen",
     "sort-Alpha": "alphabetisch",
-    "sort-Count": "Fragenanzahl"
+    "sort-Count": "Fragenanzahl",
+    "keyword-search": "Keyword suchen"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "abbrechen",

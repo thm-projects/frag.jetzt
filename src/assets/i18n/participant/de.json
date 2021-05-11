@@ -228,7 +228,8 @@
     "considerVotes": "Votes berücksichtigen",
     "tags-lowercase": "Themen klein schreiben",
     "sort-Alpha": "Alphabetisch",
-    "sort-Count": "Fragenanzahl"
+    "sort-Count": "Fragenanzahl",
+    "keyword-search": "keyword suchen"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Abbrechen",

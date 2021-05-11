@@ -234,7 +234,8 @@
     "considerVotes": "Consider Votes",
     "tags-lowercase": "Topics in lowercase",
     "sort-Alpha": "Alphabetically",
-    "sort-Count": "Questions count"
+    "sort-Count": "Questions count",
+    "keyword-search": "search keyword"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

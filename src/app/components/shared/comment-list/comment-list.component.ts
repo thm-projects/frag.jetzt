@@ -98,7 +98,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
 
-
   constructor(
     private commentService: CommentService,
     private translateService: TranslateService,
@@ -472,7 +471,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.currentFilter = '';
       this.sortComments(this.currentSort);
       return;
-
     }
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {

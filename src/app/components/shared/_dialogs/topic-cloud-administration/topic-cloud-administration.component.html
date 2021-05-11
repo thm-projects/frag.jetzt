@@ -1,95 +1,99 @@
 <mat-dialog-content>
-    <mat-card>
-      <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.considerVotes' | translate}}</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
-    </mat-card>
-
-    <div align="end">
-          <mat-form-field class="example-full-width">
-             <input
-                    [formControl]="control"
-                    [matAutocomplete]="auto"
-                    (input)="searchComments()" [(ngModel)]="searchInput" class="toolbar-search" type="text" matInput>
-             <mat-placeholder>Search</mat-placeholder>
-             <mat-icon matSuffix style="font-size: 1.2em">search</mat-icon>
-          </mat-form-field>
-        <mat-autocomplete #auto="matAutocomplete">
-        </mat-autocomplete>
-          <!--mat-autocomplete #auto="matAutoComplete"></mat-autocomplete-->
-
+  <mat-card>
+    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.considerVotes' | translate}}</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
+  </mat-card>
+  
+  <div fxLayout="row" style="margin-top: 10px;">
+    <mat-label fxLayoutAlign="center center">
+      <mat-icon>search</mat-icon>
+    </mat-label>
+    <div style="margin-left: 10px;">
+      <mat-form-field class="example-form-field">
+        <input #searchBox id="searchBox" (input)="searchKeyword()"
+               [(ngModel)]="searchedKeyword" matInput type="text" 
+               placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
+        <button *ngIf="searchedKeyword !== ''"
+                (click)="searchedKeyword = ''; hideKeywords = false;"
+                mat-button matSuffix mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+    <div fxLayoutAlign="end" style="margin-left: 52%;">
       <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>
     </div>
+  </div>
 
-    <mat-menu #sortMenu>
-      <button mat-menu-item (click)="sortQuestions(sortModeEnum.ALPHABETIC)">
+  <mat-menu #sortMenu>
+    <button mat-menu-item (click)="sortQuestions(sortModeEnum.ALPHABETIC)">
+      <mat-icon>sort_by_alpha</mat-icon>
+      {{'topic-cloud-dialog.sort-Alpha' | translate}} </button>
+    <button mat-menu-item (click)="sortQuestions(sortModeEnum.QUESTIONSCOUNT)">
+      <mat-icon>swap_vert</mat-icon>
+      {{'topic-cloud-dialog.sort-Count' | translate}} </button>
+    <!-- <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button> -->
+  </mat-menu>
 
-        <mat-icon>sort_by_alpha</mat-icon>
-        {{'topic-cloud-dialog.sort-Alpha' | translate}} </button>
-      <button mat-menu-item (click)="sortQuestions(sortModeEnum.QUESTIONSCOUNT)">
-        <mat-icon>swap_vert</mat-icon>
-        {{'topic-cloud-dialog.sort-Count' | translate}} </button>
-      <!-- <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button> -->
-    </mat-menu>
-    <mat-accordion>
-      <mat-expansion-panel (opened)="panelOpenState = true"
-                           (closed)="panelOpenState = false"
-                           *ngFor="let keyword of keywordsSubject | async | searchFilter: searchInput">
-        <mat-expansion-panel-header class="color">
-          <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
-            {{keyword.keyword}}
-
-          </mat-panel-title>
-          <mat-panel-description>
-            {{keyword.questions.length}}
-            {{'topic-cloud-dialog.question-count-'+(keyword.questions.length > 1 ? 'plural' : 'singular') | translate}}
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div *ngFor="let question of keyword.questions">
-          <mat-divider></mat-divider>
-          <app-topic-dialog-comment
-          [question]="question"
-          [keyword] ="keyword.keyword"
-          [maxShowedCharachters] = "140"
-          [isCollapsed] = "!panelOpenState"
-          ></app-topic-dialog-comment>
-          <!--<p [ngClass]="{'hideText': question.length > maxShowedCharachters || isReadMore}">
-            {{(question.length < maxShowedCharachters || isReadMore) ? question : question | slice:0:70}}
-            <button mat-icon-button  *ngIf="question.length > maxShowedCharachters" style="background: none; font-weight: bold;" (click)="showText()">
-              {{ !isReadMore ? '...more': '...less' }}
-            </button>
-          </p>-->
-        </div>
-
-        <!-- Only visible when not editing -->
-        <div *ngIf="!edit && isCreatorOrMod" align="end">
-          <mat-divider></mat-divider>
-
-          <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
-            <mat-icon class="primary">edit</mat-icon>
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false"
+                         *ngFor="let keyword of (hideKeywords ? filteredKeywords : keywords)">
+      <mat-expansion-panel-header class="color">
+        <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
+          {{keyword.keyword}}
+        </mat-panel-title>
+        <mat-panel-description>
+          {{keyword.questions.length}}
+          {{'topic-cloud-dialog.question-count-'+(keyword.questions.length > 1 ? 'plural' : 'singular') | translate}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div *ngFor="let question of keyword.questions">
+        <mat-divider></mat-divider>
+        <app-topic-dialog-comment
+        [question]="question"
+        [keyword]="keyword.keyword"
+        [maxShowedCharachters]="140"
+        [isCollapsed]="!panelOpenState"
+        ></app-topic-dialog-comment>
+        <!--<p [ngClass]="{'hideText': question.length > maxShowedCharachters || isReadMore}">
+          {{(question.length < maxShowedCharachters || isReadMore) ? question : question | slice:0:70}}
+          <button mat-icon-button  *ngIf="question.length > maxShowedCharachters" style="background: none; font-weight: bold;" (click)="showText()">
+            {{ !isReadMore ? '...more': '...less' }}
           </button>
-          <button class="margin-right" mat-icon-button style="align-self:flex-end;"
-            (click)="openConfirmDialog(keyword)">
-            <mat-icon class="red">delete</mat-icon>
-          </button>
+        </p>-->
+      </div>
+
+      <!-- Only visible when not editing -->
+      <div *ngIf="!edit && isCreatorOrMod" align="end">
+        <mat-divider></mat-divider>
+
+        <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword()">
+          <mat-icon class="primary">edit</mat-icon>
+        </button>
+        <button class="margin-right" mat-icon-button style="align-self:flex-end;"
+          (click)="openConfirmDialog(keyword)">
+          <mat-icon class="red">delete</mat-icon>
+        </button>
+      </div>
+
+      <!-- Only visible when editing -->
+      <div *ngIf="edit">
+        <mat-divider></mat-divider>
+
+        <mat-form-field>
+          <mat-label>{{'topic-cloud-dialog.editkeyword-tipp' | translate}}</mat-label>
+          <input matInput #keywordInput [(ngModel)]="newKeyword">
+        </mat-form-field>
+        <!-- TODO: textinput and buttons in one row -->
+        <div align="end">
+          <button mat-raised-button class="redBackground margin-right" (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
+          <button mat-raised-button class="primaryBackground" (click)="confirmEdit(keyword.keywordID)">{{'topic-cloud-dialog.save' | translate}}</button>
         </div>
+      </div>
 
-        <!-- Only visible when editing -->
-        <div *ngIf="edit">
-          <mat-divider></mat-divider>
-
-          <mat-form-field>
-            <mat-label>{{'topic-cloud-dialog.editkeyword-tipp' | translate}}</mat-label>
-            <input matInput #keywordInput [(ngModel)]="newKeyword">
-          </mat-form-field>
-          <!-- TODO: textinput and buttons in one row -->
-          <div align="end">
-            <button mat-raised-button class="redBackground margin-right" (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
-            <button mat-raised-button class="primaryBackground" (click)="confirmEdit(keyword.keywordID)">{{'topic-cloud-dialog.save' | translate}}</button>
-          </div>
-        </div>
-
-      </mat-expansion-panel>
-    </mat-accordion>
-  </mat-dialog-content>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-dialog-content>
