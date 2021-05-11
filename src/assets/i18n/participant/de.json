@@ -216,25 +216,26 @@
     "config": "Wolkenansicht ändern",
     "administration": "Wolkenthemen editieren"
   },
-  "topic-cloud-dialog":{
+  "topic-cloud-dialog": {
     "edit": "Bearbeiten",
     "delete": "Löschen",
     "question-count-singular": "Frage",
     "question-count-plural": "Fragen",
-    "edit-keyword-tipp": "Neues Thema",
-    "no-keyword-note": "Es gibt keine Themen",
-    "consider-Votes": "Votes berücksichtigen",
+    "edit-keyword-tip": "Neues Thema",
+    "no-keywords-note": "Es gibt keine Themen",
+    "consider-votes": "Votes berücksichtigen",
     "tags-lowercase": "Themen klein schreiben",
     "sort-Alpha": "Alphabetisch",
     "sort-Count": "Fragenanzahl",
     "keyword-search": "Stichwort suchen"
   },
-  "topic-cloud-confirm-dialog":{
+  "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
     "delete": "Löschen",
-    "confirm": "Sind Sie sicher?"
+    "confirm": "Sind Sie sicher?",
+    "will-be-deleted": "Thema wird gelöscht"
   },
-  "dialog-comment":{
+  "dialog-comment": {
     "read-more": "Mehr lesen",
     "read-less": "Weniger lesen"
   }

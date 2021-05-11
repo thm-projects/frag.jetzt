@@ -229,9 +229,9 @@
     "save": "Save",
     "question-count-singular": "Qustion",
     "question-count-plural": "Questions",
-    "editkeyword-tipp": "New topic",
-    "no-keyword-note": "There are no topics!",
-    "considerVotes": "Consider Votes",
+    "edit-keyword-tip": "New topic",
+    "no-keywords-note": "There are no topics!",
+    "consider-votes": "Consider Votes",
     "tags-lowercase": "Topics in lowercase",
     "sort-Alpha": "Alphabetically",
     "sort-Count": "Questions count",
@@ -240,7 +240,8 @@
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
     "delete": "Delete",
-    "confirm": "Are you sure?"
+    "confirm": "Are you sure?",
+    "will-be-deleted": "Topic will be deleted"
   },
   "dialog-comment":{
     "read-more": "Read more",
