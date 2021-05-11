@@ -4,18 +4,13 @@
 }
 .keywords-list {
   height: 343px;
-  width: 552px;
   flex-grow: 1;
   flex-shrink: 1;
   overflow: auto;
   padding-top: 0 !important;
 }
-.keywords-even, .keywords-alternate {
-  box-shadow: inset 0 0 0 2px var(--primary-variant);
-  border-top-left-radius: 5px;
-  border-bottom-left-radius: 5px;
-  border-left: 2px solid var(--primary);
-  box-sizing: border-box;
+.keywords-even {
+background-color: var(--alt-dialog);
 }
 .keyword-span {
   color: var(--on-surface) !important;
