@@ -23,7 +23,7 @@ import {ActivatedRoute} from '@angular/router';
 import {UserRole} from '../../../models/user-roles.enum';
 import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
-import {CloudParameters} from "./tag-cloud.interface";
+import {CloudParameters} from './tag-cloud.interface';
 
 class CustomPosition implements Position {
   left: number;
@@ -160,8 +160,7 @@ export class TagCloudComponent implements OnInit {
     height: 0.99,
     overflow: false,
     font: 'Georgia', // not working
-    delay: 0,
-    randomizeAngle: false
+    delay: 0
   };
   zoomOnHoverOptions: ZoomOnHoverOptions = {
     scale: 1.3, // Elements will become 130 % of current size on hover
@@ -174,6 +173,7 @@ export class TagCloudComponent implements OnInit {
   debounceTimer = 0;
   lastDebounceTime = 0;
   configurationOpen = false;
+  randomizeAngle = false;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -271,32 +271,16 @@ export class TagCloudComponent implements OnInit {
     this.zoomOnHoverOptions.scale = data.hoverScale;
     this.zoomOnHoverOptions.transitionTime = data.hoverTime;
     this.options.delay = data.delayWord;
-    this.options.randomizeAngle = data.randomAngles;
+    this.randomizeAngle = data.randomAngles;
+    if (this.randomizeAngle) {
+      this.data.forEach(e => e.rotate = Math.floor(Math.random() * 30 - 15));
+    } else {
+      this.data.forEach(e => e.rotate = 0);
+    }
     this.updateTagCloud();
     if (save) {
       localStorage.setItem('tagCloudConfiguration', JSON.stringify(data));
     }
-  }
-
-  analyse(comments: Comment[]) {
-    const commentsConcatenated = comments.map(c => c.body).join(' ');
-
-    this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
-      const map = new Map<string, number>();
-      res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).forEach(elem => {
-        const count = (map.get(elem.text) || 0) + 1;
-        map.set(elem.text, count);
-      });
-      map.forEach((val, key) => {
-          this.data.push(new TagComment(null,
-            true, null, null,
-            /*Math.floor(Math.random() * 30 - 15)*/0, key,
-            'TODO', val));
-        }
-      );
-      this.sortPositionsAlphabetically(this.sorted);
-      this.updateTagCloud();
-    });
   }
 
   onResize(event: UIEvent): any {
@@ -323,6 +307,27 @@ export class TagCloudComponent implements OnInit {
         this.data[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
       }
     }
+  }
+
+  analyse(comments: Comment[]) {
+    const commentsConcatenated = comments.map(c => c.body).join(' ');
+
+    this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
+      const map = new Map<string, number>();
+      res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).forEach(elem => {
+        const count = (map.get(elem.text) || 0) + 1;
+        map.set(elem.text, count);
+      });
+      map.forEach((val, key) => {
+          this.data.push(new TagComment(null,
+            true, null, null,
+            this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
+            'TODO', val));
+        }
+      );
+      this.sortPositionsAlphabetically(this.sorted);
+      this.updateTagCloud();
+    });
   }
 
   updateTagCloud() {
@@ -359,7 +364,6 @@ export class TagCloudComponent implements OnInit {
       maxHeight: 'calc( 100vh - 50px )',
       autoFocus: false,
     });
-    console.log(this.user, this.roomId, this.room);
     dialogRef.componentInstance.user = this.user;
     dialogRef.componentInstance.roomId = this.roomId;
     let tags;
