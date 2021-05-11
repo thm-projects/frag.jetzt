@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <mat-card>
-    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.consider-Votes' | translate}}</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.consider-votes' | translate}}</mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
   </mat-card>
 
@@ -13,7 +13,7 @@
         <input #searchBox id="searchBox" (input)="searchKeyword()"
                [(ngModel)]="searchedKeyword" matInput type="text"
                placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
-        <button *ngIf="searchedKeyword !== ''"
+        <button *ngIf="searchedKeyword"
                 (click)="searchedKeyword = ''; searchMode = false;"
                 mat-button matSuffix mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
           <mat-icon>close</mat-icon>
@@ -40,7 +40,7 @@
     <mat-expansion-panel hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
         <mat-expansion-panel-header>
             <mat-panel-title fxLayoutAlign="center">
-              {{'topic-cloud-dialog.no-Keywords-note' | translate}}
+              {{'topic-cloud-dialog.no-keywords-note' | translate}}
             </mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
@@ -84,7 +84,7 @@
         <mat-divider></mat-divider>
 
         <mat-form-field>
-          <mat-label>{{'topic-cloud-dialog.edit-keyword-tipp' | translate}}</mat-label>
+          <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
           <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
         </mat-form-field>
         <!-- TODO: textinput and buttons in one row -->

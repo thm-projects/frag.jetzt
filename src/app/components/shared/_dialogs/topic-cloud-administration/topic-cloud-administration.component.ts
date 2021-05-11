@@ -178,8 +178,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
     });
   }
 
-  searchKeyword(): void{
-    if (this.searchedKeyword){
+  searchKeyword(): void {
+    if (!this.searchedKeyword){
         this.searchMode = false;
     } else {
       this.filteredKeywords = this.keywords.filter(keyword =>
