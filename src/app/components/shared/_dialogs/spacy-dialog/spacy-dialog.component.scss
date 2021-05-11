@@ -18,7 +18,7 @@ background-color: var(--alt-dialog);
 }
 .keyword-selected {
   background: var(--primary-variant);
-  box-shadow: inset 0 0 0 2px var(--primary);
+  border-bottom: 1px solid var(--alt-surface);
 }
 ::ng-deep .mat-checkbox-checked .mat-checkbox-background {
   background: var(--cancel) !important;
