@@ -25,3 +25,13 @@ button:hover{
   text-decoration: underline;
 }
 
+span {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+mark {
+  background: none;
+  color: var(--primary);
+}
+

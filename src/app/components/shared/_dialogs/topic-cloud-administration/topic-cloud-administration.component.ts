@@ -53,7 +53,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
         'Das ist eine Lange Frage mit dem Thema \'frage\'',
         'Ich habe eine Frage, sind Fragen zum thema \'Frage\' auch erlaubt?',
         'Ich wollte Fragen ob sie gerne Sachen gefragt werden',
-        'Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist'
+        'Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist Frage'
       ]
     },
     {
@@ -134,16 +134,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.keywords.push(_keyword);
   }
 
-  editKeyword(): void {
+  editKeyword(index: number): void {
     this.edit = true;
 
-    // focus on input currently trows exception
-
-    // this.keywordInput.changes.subscribe(() => {
-    //   if (this.keywordInput.first.nativeElement && this.edit) {
-    //     this.keywordInput.first.nativeElement.focus();
-    //   }
-    // });
+    setTimeout(() => {
+      document.getElementById('edit-input'+ index).focus();
+    }, 0);
   }
 
   deleteKeyword(id: number): void{

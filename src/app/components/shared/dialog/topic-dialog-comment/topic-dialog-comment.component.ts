@@ -10,7 +10,7 @@ export class TopicDialogCommentComponent implements OnInit {
   @Input() question: string;
   @Input() keyword: string ;
   @Input() maxShowedCharachters: number;
-  @Input() isCollapsed: boolean = false;
+  @Input() isCollapsed = false;
   constructor() { }
 
   get partsOfQuestion(){
