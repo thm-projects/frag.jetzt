@@ -47,7 +47,8 @@ export class HeaderComponent implements OnInit {
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
               private motdService: MotdService
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     this.eventService.on('userLogin').subscribe(e => {
