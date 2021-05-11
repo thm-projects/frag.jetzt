@@ -235,7 +235,8 @@
     "tags-lowercase": "Topics in lowercase",
     "sort-Alpha": "Alphabetically",
     "sort-Count": "Questions count",
-    "keyword-search": "search keyword"
+    "keyword-search": "search keyword",
+    "noKeywords": "there are no keywords"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

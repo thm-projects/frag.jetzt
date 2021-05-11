@@ -229,7 +229,8 @@
     "tags-lowercase": "Themen klein schreiben",
     "sort-Alpha": "Alphabetisch",
     "sort-Count": "Fragenanzahl",
-    "keyword-search": "keyword suchen"
+    "keyword-search": "keyword suchen",
+    "noKeywords": "es gibt keine keywords"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Abbrechen",

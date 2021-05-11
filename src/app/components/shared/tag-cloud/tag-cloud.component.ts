@@ -114,6 +114,8 @@ export class TagCloudComponent implements OnInit {
   }
 
   openAdministrationDialog(){
-      this.dialog.open(TopicCloudAdministrationComponent);
+      this.dialog.open(TopicCloudAdministrationComponent, {
+        minWidth: '50%'
+      });
   }
 }

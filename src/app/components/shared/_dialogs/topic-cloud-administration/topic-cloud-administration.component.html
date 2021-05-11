@@ -14,7 +14,7 @@
                [(ngModel)]="searchedKeyword" matInput type="text" 
                placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
         <button *ngIf="searchedKeyword !== ''"
-                (click)="searchedKeyword = ''; hideKeywords = false;"
+                (click)="searchedKeyword = ''; searchMode = false;"
                 mat-button matSuffix mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
           <mat-icon>close</mat-icon>
         </button>
@@ -38,9 +38,16 @@
   </mat-menu>
 
   <mat-accordion>
+    <mat-expansion-panel hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
+        <mat-expansion-panel-header>
+            <mat-panel-title fxLayoutAlign="center">
+              {{'topic-cloud-dialog.noKeywords' | translate}}
+            </mat-panel-title>  
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
     <mat-expansion-panel (opened)="panelOpenState = true"
                          (closed)="panelOpenState = false"
-                         *ngFor="let keyword of (hideKeywords ? filteredKeywords : keywords)">
+                         *ngFor="let keyword of (searchMode ? filteredKeywords : keywords)">
       <mat-expansion-panel-header class="color">
         <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
           {{keyword.keyword}}

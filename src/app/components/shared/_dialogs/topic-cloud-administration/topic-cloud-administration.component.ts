@@ -25,7 +25,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   sortModeEnum: typeof SortMode = SortMode; // needed for use in template
   editedKeyword:boolean = false;
   searchedKeyword: string = "";
-  hideKeywords: boolean = false;
+  searchMode: boolean = false;
   filteredKeywords: Keyword[] = [];
 
   keywords: Keyword[] = [
@@ -174,8 +174,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
       if (keyword.keywordID == id)
           this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
     });
-    if (this.keywords.length == 0) {
+    if (this.keywords.length === 0) {
       this.cloudDialogRef.close();
+    }
+    if (this.searchMode === true){
+      /* update filtered array if it is searchmode */
+      this.searchKeyword();
     }
   }
 
@@ -209,12 +213,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   searchKeyword(): void{
     if (this.searchedKeyword === ''){
-        this.hideKeywords = false;
+        this.searchMode = false;
     } else{
       this.filteredKeywords = this.keywords.filter(keyword => 
         keyword.keyword.toLowerCase().includes(this.searchedKeyword)
       );
-      this.hideKeywords = true;
+      this.searchMode = true;
     }
   }
 }

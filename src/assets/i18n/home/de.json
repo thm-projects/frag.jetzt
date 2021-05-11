@@ -306,7 +306,8 @@
     "considerVotes": "Votes berücksichtigen",
     "sort-Alpha": "alphabetisch",
     "sort-Count": "Fragenanzahl",
-    "keyword-search": "Keyword suchen"
+    "keyword-search": "Keyword suchen",
+    "noKeywords": "Es gibt keine Keywords"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "abbrechen",
