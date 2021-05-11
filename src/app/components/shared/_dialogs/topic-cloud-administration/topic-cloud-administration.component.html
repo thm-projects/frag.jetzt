@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <mat-card>
-    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.considerVotes' | translate}}</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.consider-Votes' | translate}}</mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
   </mat-card>
 
@@ -40,7 +40,7 @@
     <mat-expansion-panel hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
         <mat-expansion-panel-header>
             <mat-panel-title fxLayoutAlign="center">
-              {{'topic-cloud-dialog.noKeywords' | translate}}
+              {{'topic-cloud-dialog.no-Keywords-note' | translate}}
             </mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
@@ -67,7 +67,7 @@
       </div>
 
       <!-- Only visible when not editing -->
-      <div *ngIf="!edit && isCreatorOrMod" align="end">
+      <div *ngIf="!edit" align="end">
         <mat-divider></mat-divider>
 
         <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
@@ -84,7 +84,7 @@
         <mat-divider></mat-divider>
 
         <mat-form-field>
-          <mat-label>{{'topic-cloud-dialog.editkeyword-tipp' | translate}}</mat-label>
+          <mat-label>{{'topic-cloud-dialog.edit-keyword-tipp' | translate}}</mat-label>
           <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
         </mat-form-field>
         <!-- TODO: textinput and buttons in one row -->
@@ -93,7 +93,6 @@
           <button mat-raised-button class="primaryBackground" (click)="confirmEdit(keyword.keywordID)">{{'topic-cloud-dialog.save' | translate}}</button>
         </div>
       </div>
-
     </mat-expansion-panel>
   </mat-accordion>
 </mat-dialog-content>
