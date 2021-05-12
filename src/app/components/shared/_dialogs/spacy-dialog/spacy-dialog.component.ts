@@ -51,7 +51,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywords = this.keywords.map(kw => kw.word);
+      this.comment.keywords = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
