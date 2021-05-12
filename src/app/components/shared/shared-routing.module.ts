@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
-import {TagCloudComponent} from "./tag-cloud/tag-cloud.component";
+import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 
 const routes: Routes = [
   {

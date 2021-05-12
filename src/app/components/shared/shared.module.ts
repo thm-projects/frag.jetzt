@@ -31,6 +31,8 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import {CloudConfigurationComponent} from "./_dialogs/cloud-configuration/cloud-configuration.component";
 import { ColorPickerModule } from 'ngx-color-picker';
+import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 
 @NgModule({
   imports: [
@@ -67,7 +69,9 @@ import { ColorPickerModule } from 'ngx-color-picker';
     RemoveFromHistoryComponent,
     CommentAnswerComponent,
     MotdDialogComponent,
-    MotdMessageComponent
+    MotdMessageComponent,
+    TopicCloudFilterComponent,
+    SpacyDialogComponent
   ],
     exports: [
         RoomJoinComponent,

@@ -1,12 +1,13 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
 import { EventService } from '../../../../services/util/event.service';
+import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 
 @Component({
   selector: 'app-submit-comment',
@@ -66,8 +67,24 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
-      this.dialogRef.close(comment);
+      this.openSpacyDialog(comment);
     }
+  }
+
+  openSpacyDialog(comment: Comment): void {
+    const dialogRef = this.dialog.open(SpacyDialogComponent, {
+      data: {
+        comment
+      }
+    });
+
+    dialogRef.afterClosed()
+      .subscribe(result => {
+        if (result) {
+          this.dialogRef.close(result);
+        }
+      });
+
   }
 
 
