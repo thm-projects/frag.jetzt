@@ -74,12 +74,14 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         }
         this.keywords = words;
       }, () => {
-        this.keywords = []
+        this.keywords = [];
       });
   }
 
   onEdit(keyword){
     keyword.editing = true;
+    keyword.completed = false;
+    keyword.selected = false;
   }
 
   onEndEditing(keyword){
