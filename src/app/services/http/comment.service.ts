@@ -82,7 +82,7 @@ export class CommentService extends BaseHttpService {
     return this.http.post<Comment>(connectionUrl,
       {
         roomId: comment.roomId, body: comment.body,
-        read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag
+        read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag, keywords: comment.keywords
       }, httpOptions).pipe(
         tap(_ => ''),
         catchError(this.handleError<Comment>('addComment'))
