@@ -225,8 +225,9 @@
     "no-keywords-note": "Es gibt keine Themen",
     "consider-votes": "Votes berücksichtigen",
     "tags-lowercase": "Themen klein schreiben",
-    "sort-Alpha": "Alphabetisch",
-    "sort-Count": "Fragenanzahl",
+    "sort-alpha": "Alphabetisch",
+    "sort-count": "Fragenanzahl",
+    "sort-vote": "Votes",
     "keyword-search": "Stichwort suchen"
   },
   "topic-cloud-confirm-dialog": {

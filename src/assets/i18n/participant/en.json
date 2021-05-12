@@ -233,8 +233,9 @@
     "no-keywords-note": "There are no topics!",
     "consider-votes": "Consider Votes",
     "tags-lowercase": "Topics in lowercase",
-    "sort-Alpha": "Alphabetically",
-    "sort-Count": "Questions count",
+    "sort-alpha": "Alphabetically",
+    "sort-count": "Questions count",
+    "sort-vote": "Votes",
     "keyword-search": "Search keyword"
   },
   "topic-cloud-confirm-dialog":{
