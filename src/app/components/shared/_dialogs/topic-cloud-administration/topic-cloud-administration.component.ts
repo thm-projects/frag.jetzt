@@ -105,6 +105,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
       case 'questionsCount':
         this.keywords.sort((a, b) => b.questions.length - a.questions.length);
         break;
+      case 'voteCount':
+        console.log('not implemented!, sorting with question count');
+        this.keywords.sort((a, b) => b.questions.length - a.questions.length);
+        break;
     }
   }
 

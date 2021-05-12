@@ -30,10 +30,13 @@
   <mat-menu #sortMenu>
     <button mat-menu-item (click)="sortQuestions('alphabetic')">
       <mat-icon>sort_by_alpha</mat-icon>
-      {{'topic-cloud-dialog.sort-Alpha' | translate}} </button>
+      {{'topic-cloud-dialog.sort-alpha' | translate}} </button>
     <button mat-menu-item (click)="sortQuestions('questionsCount')">
       <mat-icon>swap_vert</mat-icon>
-      {{'topic-cloud-dialog.sort-Count' | translate}} </button>
+      {{'topic-cloud-dialog.sort-count' | translate}} </button>
+    <button mat-menu-item (click)="sortQuestions('voteCount')">
+      <mat-icon>swap_vert</mat-icon>
+      {{'topic-cloud-dialog.sort-vote' | translate}} </button>
   </mat-menu>
 
   <mat-accordion>
