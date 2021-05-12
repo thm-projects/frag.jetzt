@@ -31,13 +31,20 @@ background-color: var(--alt-dialog);
   outline-offset: 8px;
 }
 .lang-selection {
-  display: inline-flex;
+  border-radius: 0px;
+  display: inline-flexbox;
   vertical-align: middle;
   width:100%;
+}
+.select-list{
+  width: 100%;
 }
 .keywords-actions {
   margin-left: auto;
   color: var(--on-surface);
+}
+.langbtn{
+  width: 100%;
 }
 .keywords-actions-selected {
   color: var(--on-surface);

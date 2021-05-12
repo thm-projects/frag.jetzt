@@ -2,16 +2,19 @@
   <div class="anchor-wrp">
     <ars-row class="content-container">
       <ars-row class="dialog-header">
-      <div class="lang-selection">
-        <mat-icon>more_vert</mat-icon>
-        <mat-select class="select-list" [(ngModel)]="selectedLang" (selectionChange)="evalInput($event.value)">
-          <mat-option *ngFor="let lang of commentLang" [value]="lang.lang">
+        <ars-row class="select-all-section">
+          <button class="langbtn" mat-button (click)="select.open()"
+           matTooltip="Borders">
+            <i class="material-icons">language</i>
+          <mat-select class="select-list" #select [(ngModel)]="selectedLang" (selectionChange)="evalInput($event.value)">
+            <mat-option *ngFor="let lang of commentLang" [value]="lang.lang">
             <span *ngIf="lang.lang == 'de'">{{ 'spacy-dialog.german' | translate}}</span>
             <span *ngIf="lang.lang == 'en'">{{ 'spacy-dialog.english' | translate}}</span>
             <span *ngIf="lang.lang == 'fr'">{{ 'spacy-dialog.french' | translate}}</span>
-          </mat-option>
-        </mat-select>
-      </div>
+           </mat-option>
+          </mat-select>
+          </button>
+        </ars-row>
       <span *ngIf="keywords.length > 0">
         <ars-row class="select-all-section">
           <mat-icon>playlist_add_check</mat-icon>
