@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, AfterViewInit, OnDestroy} from '@angular/core';
 
 import {
   CloudData,
@@ -24,6 +24,7 @@ import {UserRole} from '../../../models/user-roles.enum';
 import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
 import {CloudParameters} from './tag-cloud.interface';
+import {Rescale} from "../../../models/rescale";
 
 class CustomPosition implements Position {
   left: number;
@@ -144,7 +145,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit {
+export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   @Input() user: User;
@@ -236,6 +237,14 @@ export class TagCloudComponent implements OnInit {
         }, 1);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    document.getElementById('footer_rescale').style.display= 'none';
+  }
+
+  ngOnDestroy() {
+    document.getElementById('footer_rescale').style.display= 'block';
   }
 
   initTagCloud() {
