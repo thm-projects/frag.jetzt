@@ -224,5 +224,35 @@
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners"
+  },
+  "tag-cloud": {
+    "config": "Modify cloud view",
+    "administration": "Edit cloud topics"
+  },
+  "topic-cloud-dialog":{
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "save": "Save",
+    "question-count-singular": "Question",
+    "question-count-plural": "Questions",
+    "edit-keyword-tip": "New topic",
+    "no-keywords-note": "There are no topics!",
+    "consider-votes": "Consider Votes",
+    "tags-lowercase": "Topics in lowercase",
+    "sort-alpha": "Alphabetically",
+    "sort-count": "Questions count",
+    "sort-vote": "Votes",
+    "keyword-search": "Search keyword"
+  },
+  "topic-cloud-confirm-dialog":{
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "confirm": "Are you sure?",
+    "will-be-deleted": "Topic will be deleted"
+  },
+  "dialog-comment":{
+    "read-more": "Read more",
+    "read-less": "Read less"
   }
 }
