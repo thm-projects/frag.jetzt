@@ -135,9 +135,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }, 0);
   }
 
-  deleteKeyword(id: number): void{
+  deleteKeyword(key: Keyword): void{
     this.keywords.map(keyword => {
-      if (keyword.keywordID === id) {
+      if (keyword.keywordID === key.keywordID) {
           this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
       }
     });
@@ -155,9 +155,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.newKeyword = undefined;
   }
 
-  confirmEdit(id: number): void {
+  confirmEdit(key: Keyword): void {
     this.keywords.map(keyword => {
-      if (keyword.keywordID === id) {
+      if (keyword.keywordID === key.keywordID) {
+          this.integrateIfKeywordExists(keyword, this.newKeyword.trim().toLowerCase());
           keyword.keyword = this.newKeyword.trim();
       }
     });
@@ -177,7 +178,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
-        this.deleteKeyword(keyword.keywordID);
+        this.deleteKeyword(keyword);
       }
     });
   }
@@ -191,6 +192,28 @@ export class TopicCloudAdministrationComponent implements OnInit {
       );
       this.searchMode = true;
     }
+  }
+
+  integrateIfKeywordExists(keyword: Keyword, keyname: string){
+    const key = this.checkIfKeywordExists(keyname);
+    if (key !== undefined){
+      const integratedKeyword = keyword;
+      key.questions.map(question => {
+        integratedKeyword.questions.push(question);
+      });
+      this.deleteKeyword(key);
+      this.deleteKeyword(keyword);
+      this.keywords.push(integratedKeyword);
+    }
+  }
+
+  checkIfKeywordExists(key: string): Keyword{
+    for(const keyword of this.keywords){
+      if(keyword.keyword.toLowerCase() === key){
+        return keyword;
+      }
+    }
+    return undefined;
   }
 }
 
