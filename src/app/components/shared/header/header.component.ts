@@ -21,6 +21,7 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 @Component({
   selector: 'app-header',
@@ -46,7 +47,8 @@ export class HeaderComponent implements OnInit {
               public eventService: EventService,
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
-              private motdService: MotdService
+              private motdService: MotdService,
+              private confirmDialog: MatDialog
   ) {
   }
 
@@ -280,6 +282,12 @@ export class HeaderComponent implements OnInit {
 
   public navigateCreateQuestion() {
     this.eventService.broadcast('navigate', 'createQuestion');
+  }
+
+  public navigateTopicCloud() {
+    const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
+      autoFocus: false
+    });
   }
 
   public navigateTopicCloudConfig() {

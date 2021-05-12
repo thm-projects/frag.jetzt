@@ -96,6 +96,13 @@
     "cancel": "Cancel",
     "delete": "Delete"
   },
+  "spacy-dialog": {
+    "german": "German",
+    "english": "English",
+    "french": "French",
+    "empty-nouns": "No nouns included",
+    "select-all": "Select all"
+  },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
     "a11y-comment_vote_down": "Votes down this question",

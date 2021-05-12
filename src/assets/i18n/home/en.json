@@ -118,6 +118,16 @@
     "custom-shortid-placeholder": "a-z, A-Z, 0-9, - _ . ~ no blanks",
     "invalid-shortid": "This key code is not available.",
     "invalid-char-shortid": "This key code contains invalid characters."
+  }, 
+  "content": {
+    "topic-cloud-content": "Continue to the Topic Cloud with the current filters?",
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "reset": "Reset",
+    "continue-with-all-questions" : "Continue with complete list of questions",
+    "continue-with-current-questions": "Continue with current filters",
+    "continue-with-all-questions-from-now": "Continue with all questions from now"
+
   },
   "imprint": {
     "cancel": "Close",

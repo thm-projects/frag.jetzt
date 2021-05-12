@@ -33,6 +33,8 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
+import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 
 @NgModule({
   imports: [
@@ -70,7 +72,9 @@ import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic
     MotdMessageComponent,
     TopicCloudConfirmDialogComponent,
     TopicCloudAdministrationComponent,
-    TopicDialogCommentComponent
+    TopicDialogCommentComponent,
+    TopicCloudFilterComponent,
+    SpacyDialogComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -85,7 +89,7 @@ import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic
     PresentCommentComponent,
     CommentComponent,
     DialogActionButtonsComponent,
-    UserBonusTokenComponent,
+    UserBonusTokenComponent
   ]
 })
 export class SharedModule {
