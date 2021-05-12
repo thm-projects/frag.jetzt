@@ -1,11 +1,19 @@
-<h2 mat-dialog-title>{{'topic-cloud-confirm-dialog.confirm' | translate}}</h2>
+<h2 mat-dialog-title>{{'topic-cloud-confirm-dialog.sure' | translate}}</h2>
 <mat-divider></mat-divider>
 <p>{{'topic-cloud-confirm-dialog.will-be-deleted' | translate }} '{{data.topic}}'.</p>
 
-<div mat-dialog-actions align="end">
+<!-- <div mat-dialog-actions align="end">
   <button class="primary" mat-raised-button [mat-dialog-close]="false">
     {{'topic-cloud-confirm-dialog.cancel' | translate}}</button>
   <button class="warn" mat-raised-button [mat-dialog-close]="true">
     {{'topic-cloud-confirm-dialog.delete' | translate}}
   </button>
-</div>
+</div> -->
+
+<app-dialog-action-buttons
+  buttonsLabelSection="topic-cloud-confirm-dialog"
+  confirmButtonLabel="delete"
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildDeleteAccountActionCallback()"
+></app-dialog-action-buttons>

@@ -240,7 +240,7 @@
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
     "delete": "Delete",
-    "confirm": "Are you sure?",
+    "sure": "Are you sure?",
     "will-be-deleted": "Topic will be deleted"
   },
   "dialog-comment":{

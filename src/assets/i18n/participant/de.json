@@ -232,7 +232,7 @@
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
     "delete": "Löschen",
-    "confirm": "Sind Sie sicher?",
+    "sure": "Sind Sie sicher?",
     "will-be-deleted": "Thema wird gelöscht"
   },
   "dialog-comment": {

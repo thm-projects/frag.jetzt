@@ -172,7 +172,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
+      if (result === 'delete') {
         this.deleteKeyword(keyword.keywordID);
       }
     });
