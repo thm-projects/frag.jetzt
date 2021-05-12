@@ -5,11 +5,25 @@ ars-fill {
 }
 
 mat-drawer-container {
-  height: 100%;
+  height: calc(100% - 67px);
   width: 100%;
   position: fixed;
+  margin-top: 67px;
 }
 
 mat-drawer {
   background-color: var(--dialog);
+}
+
+mat-drawer-content {
+  overflow: hidden;
+  height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+::ng-deep mat-progress-spinner circle {
+  stroke: var(--on-background) !important;
 }

@@ -155,9 +155,9 @@ export class TagCloudComponent implements OnInit {
   shortId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 0.99,
+    width: 1,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 0.99,
+    height: 1,
     overflow: false,
     font: 'Georgia', // not working
     delay: 0
@@ -174,6 +174,7 @@ export class TagCloudComponent implements OnInit {
   lastDebounceTime = 0;
   configurationOpen = false;
   randomizeAngle = false;
+  isLoading = true;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -231,6 +232,7 @@ export class TagCloudComponent implements OnInit {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
           this.updateTagCloud();
+          this.isLoading = true;
         }, 1);
       }
     });
@@ -327,6 +329,7 @@ export class TagCloudComponent implements OnInit {
       );
       this.sortPositionsAlphabetically(this.sorted);
       this.updateTagCloud();
+      this.isLoading = false;
     });
   }
 
