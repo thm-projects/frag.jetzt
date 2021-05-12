@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -21,6 +21,7 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
+//import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 @Component({
@@ -180,6 +181,7 @@ export class HeaderComponent implements OnInit {
   goBack() {
     this.location.back();
   }
+
 
   login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {
