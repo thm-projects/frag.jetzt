@@ -30,6 +30,7 @@ import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.componen
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 
 import { TagCloudModule } from 'angular-tag-cloud-module';
+import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 
 @NgModule({
@@ -41,7 +42,7 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     ArsModule,
     MarkdownModule,
     QRCodeModule,
-    TagCloudModule,
+    TagCloudModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -66,6 +67,7 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     CommentAnswerComponent,
     MotdDialogComponent,
     MotdMessageComponent,
+    TopicCloudFilterComponent,
     SpacyDialogComponent
   ],
   exports: [

@@ -187,6 +187,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
+
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
   }
 
   checkScroll(): void {
@@ -349,6 +353,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
+
+    // set current filters to local storage for later use
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
   }
 
   clickedUserNumber(usrNumber: number): void {
@@ -424,6 +431,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     } else {
       this.commentsFilteredByTime = this.comments;
     }
+
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+
     this.filterComments(this.currentFilter);
   }
 }
