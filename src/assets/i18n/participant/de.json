@@ -219,6 +219,36 @@
     "overview-question-tooltip": "Anzahl gestellter Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
   },
+  "tag-cloud": {
+    "config": "Wolkenansicht ändern",
+    "administration": "Wolkenthemen editieren"
+  },
+  "topic-cloud-dialog": {
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "edit": "Bearbeiten",
+    "delete": "Löschen",
+    "question-count-singular": "Frage",
+    "question-count-plural": "Fragen",
+    "edit-keyword-tip": "Neues Thema",
+    "no-keywords-note": "Es gibt keine Themen",
+    "consider-votes": "Votes berücksichtigen",
+    "tags-lowercase": "Themen klein schreiben",
+    "sort-alpha": "Alphabetisch",
+    "sort-count": "Fragenanzahl",
+    "sort-vote": "Votes",
+    "keyword-search": "Stichwort suchen"
+  },
+  "topic-cloud-confirm-dialog": {
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "confirm": "Sind Sie sicher?",
+    "will-be-deleted": "Thema wird gelöscht"
+  },
+  "dialog-comment": {
+    "read-more": "Mehr lesen",
+    "read-less": "Weniger lesen"
+  },
   "tag-cloud-config":{
     "title":"Tag-Cloud Einstellungen",
     "general":"Allgemeine Einstellungen",
@@ -238,7 +268,6 @@
     "font-size-min":"Schriftgröße min",
     "font-size-max":"Schriftgröße max",
     "select-color": "Farbauswahl",
-
     "random-angle-tooltip": "Anordnung der Winkel zufällig generieren",
     "background-tooltip": "Auswahl der Hintergrundfarbe",
     "word-delay-tooltip": "Animationsverzögerung der Wörter",
