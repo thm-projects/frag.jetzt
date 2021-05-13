@@ -29,6 +29,7 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 export enum Period {
   FROMNOW    = 'from-now',
@@ -244,6 +245,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
+
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
   }
 
   getModeratorIds() {
@@ -413,7 +418,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.searchComments();
     }
   }
-
+  closeDialog() {
+    this.dialog.closeAll();
+  }
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
@@ -438,6 +445,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         }
       });
   }
+
 
   send(comment: Comment): void {
     let message;
@@ -504,6 +512,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
+
+    // set current filters to local storage for later use
+    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
   }
 
   sort(array: any[], type: string): any[] {
@@ -636,6 +647,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     } else {
       this.commentsFilteredByTime = this.comments;
     }
+
+    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
+    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+    
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }

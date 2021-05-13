@@ -82,6 +82,13 @@
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions"
   },
+  "spacy-dialog": {
+    "german": "German",
+    "english": "English",
+    "french": "French",
+    "empty-nouns": "No nouns included",
+    "select-all": "Select all"
+  },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
     "a11y-comment_grade": "Marks this question as a bonus question",
@@ -321,5 +328,36 @@
     "max-ls": "Max. characters:",
     "session-name": "Session name",
     "preview": "Preview"
+  },
+  "tag-cloud-config":{
+    "title":"Tag-Cloud Options",
+    "general":"General Options",
+    "overflow":"Overflow",
+    "height":"Height",
+    "random-angle":"Randomize angle",
+    "realign":"Realign on resize",
+    "background":"Background-color",
+    "word-delay":"Word delay",
+    "hover-color":"Font-color",
+    "hover-scale":"Scale",
+    "hover-time":"Hover time",
+    "hover-title":"Hover Options",
+    "hover-delay":"Hover delay",
+    "cancel-btn":"Cancel",
+    "save-btn":"Save",
+    "font-size-min":"Font size min",
+    "font-size-max":"Font size max",
+    "select-color": "Selected color",
+
+    "random-angle-tooltip": "Generate angle randomly",
+    "background-tooltip": "Select background-color",
+    "word-delay-tooltip": "Select word-delay",
+    "font-size-min-tooltip": "Select minimum font-size",
+    "font-size-max-tooltip": "Select maximum font-size",
+    "select-color-tooltip": "Select font-color",
+    "hover-scale-tooltip": "Select hover-scale",
+    "hover-time-tooltip": "Select hover-time",
+    "hover-delay-tooltip": "Select hover-delay"
+    
   }
 }

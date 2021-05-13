@@ -1,0 +1,71 @@
+.mat-list-base[dense] .mat-list-item, .list-item {
+  font-size: 14px;
+  height: 35px !important;
+}
+.keywords-list {
+  height: 343px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
+  padding-top: 0 !important;
+}
+.keywords-even {
+background-color: var(--alt-dialog);
+}
+.keyword-span {
+  color: var(--on-surface) !important;
+  opacity: 1 !important;
+}
+.keyword-selected {
+  background: var(--primary-variant);
+  border-bottom: 1px solid var(--alt-surface);
+}
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background: var(--cancel) !important;
+}
+.mat-checkbox-frame {
+  color: var(--secondary);
+}
+:focus{
+  outline: none;
+  outline-offset: 8px;
+}
+.lang-selection {
+  display: inline-flex;
+  vertical-align: middle;
+  width:100%;
+}
+.keywords-actions {
+  margin-left: auto;
+  color: var(--on-surface);
+}
+.keywords-actions-selected {
+  color: var(--on-surface);
+}
+.isEditing{
+  background: var(--primary);
+  height: 22px;
+  border-radius: 5px;
+  color: var(--on-primary);
+  border: 1px solid var( --on-primary);
+}
+.edit-accept {
+  color: var(--on-surface);
+}
+.select-all-section {
+  display: inline-flex;
+  vertical-align: middle;
+  padding-top: 20px;
+  padding-bottom: 30px;
+  padding-left: 4px;
+}
+.select-all-label {
+  padding-left: 10px;
+}
+.select-all-checkbox {
+  margin-left: auto;
+  padding-right: 5px;
+}
+.mat-select {
+  padding-left: 14px;
+}
