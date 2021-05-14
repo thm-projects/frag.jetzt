@@ -15,7 +15,8 @@ export class CloudConfigurationComponent implements OnInit{
   @Input() parent: TagCloudComponent;
   cloudParameters: CloudParameters;
   defaultCloudParameters: CloudParameters;
-  oldCloudParameters: CloudParameters
+  oldCloudParameters: CloudParameters;
+  extendedView: boolean;
  
   constructor(private translateService: TranslateService) {}
 
@@ -23,6 +24,7 @@ export class CloudConfigurationComponent implements OnInit{
     this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudParameters = this.parent.getCurrentCloudParameters();
     this.defaultCloudParameters = this.parent.getCurrentCloudParameters();
+    this.extendedView = false;
   }
 
   fontColorChanged(value: string){
@@ -47,6 +49,10 @@ export class CloudConfigurationComponent implements OnInit{
   save(){
     this.parent.setCloudParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
+  }
+
+  toggleExtendedView(){
+    this.extendedView = !this.extendedView;
   }
 
 }

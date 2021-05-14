@@ -1,5 +1,8 @@
 <div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
-  <div class="cloud-configuration-form" fxLayout="column">
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView">
+    <div  class="button-row">
+      <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
+    </div>
     <h2>{{'tag-cloud-config.title' | translate}}</h2>
     <h3>{{'tag-cloud-config.general' | translate}}</h3>
     <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
@@ -84,5 +87,43 @@
       <button (click)="cancel()" mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
       <button (click)="save()" mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
     </div>
+  </div>
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="extendedView">
+    <div  class="button-row">
+      <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
+    </div>
+    <h2>Extended View</h2>
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <div fxLayout="row" fxLayoutGap="5px">
+          <mat-form-field fxFlex="100%">
+            <mat-label>{{'tag-cloud-config.weighting1' | translate}}</mat-label>
+            <input matInput [value]="cloudParameters.bweighting1Color" [colorPicker]="cloudParameters.weighting1Color"
+              (colorPickerChange)="weighting1ColorChanged($event)" class="custom-color-picker" />
+            <p matTooltip="{{'tag-cloud-config.weighting1-tooltip' | translate}}" class="custom-color-picker-text">
+              {{'tag-cloud-config.select-color' | translate}}</p>
+          </mat-form-field>
+          <div fxFlex="35px" class="color-box" [style.background]="cloudParameters.weighting1Color"></div>
+        </div>
+    </div>
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+      <!--mat-label class="label-text">{{'tag-cloud-config.weighting1' | translate}}</mat-label-->
+      <mat-slider #delaySlider min="0" max="10" step="1" [(ngModel)]="cloudParameters.weighting1"
+        [ngModelOptions]="{standalone: true}" (change)="valueChanged()" [thumbLabel]="true"
+        [value]="cloudParameters.weighting1" matTooltip="{{'tag-cloud-config.weighting1-tooltip' | translate}}">
+      </mat-slider>
+    </div>
+    <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <div fxLayout="row" fxLayoutGap="5px">
+          <mat-form-field fxFlex="100%">
+            <mat-label>{{'tag-cloud-config.weighting2' | translate}}</mat-label>
+            <input matInput [value]="cloudParameters.weighting2Color" [colorPicker]="cloudParameters.weighting2Color"
+              (colorPickerChange)="weighting1ColorChanged($event)" class="custom-color-picker" />
+            <p matTooltip="{{'tag-cloud-config.weighting2-tooltip' | translate}}" class="custom-color-picker-text">
+              {{'tag-cloud-config.select-color' | translate}}</p>
+          </mat-form-field>
+          <div fxFlex="35px" class="color-box" [style.background]="cloudParameters.weighting2Color"></div>
+        </div>
+      </div>
+    
   </div>
 </div>
