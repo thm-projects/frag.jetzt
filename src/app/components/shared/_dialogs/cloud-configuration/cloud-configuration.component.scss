@@ -167,3 +167,16 @@ mat-divider {
   background-color: var(--primary);
   opacity: 0.2;
 }
+
+.weight-class-setting {
+  border-top: 3px solid var(--primary);
+}
+
+.weight-class-heading {
+  border: none;
+  color: var(--on-dialog);
+}
+
+.weight-class-button {
+  margin-bottom: 0;
+}

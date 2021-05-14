@@ -20,27 +20,27 @@ export class CloudConfigurationComponent implements OnInit{
   extendedView: boolean;
   weightClasses: WeightClass[]=[
     {maxTagNumber: 20,
-    tagColor: "#8800ff"},
+    tagColor: '#8800ff'},
     {maxTagNumber: 20,
-    tagColor: "#ff00ff"},
+    tagColor: '#ff00ff'},
     {maxTagNumber: 17,
-    tagColor: "#ffea00"},
+    tagColor: '#ffea00'},
     {maxTagNumber: 15,
-    tagColor: "#00CC99"},
+    tagColor: '#00CC99'},
     {maxTagNumber: 12,
-    tagColor: "#00CC66"},
+    tagColor: '#00CC66'},
     {maxTagNumber: 10,
-    tagColor: "#0033FF"},
+    tagColor: '#0033FF'},
     {maxTagNumber: 8,
-    tagColor: "#CC0099"},
+    tagColor: '#CC0099'},
     {maxTagNumber: 7,
-    tagColor: "#FF3399"},
+    tagColor: '#FF3399'},
     {maxTagNumber: 6,
-    tagColor: "#FFFF00"},
+    tagColor: '#FFFF00'},
     {maxTagNumber: 5,
-    tagColor: "#FF0000"},
+    tagColor: '#FF0000'},
   ];
- 
+
   constructor(private translateService: TranslateService) {}
 
   ngOnInit() {
@@ -57,7 +57,7 @@ export class CloudConfigurationComponent implements OnInit{
 
   backgroundColorChanged(value: string){
     this.cloudParameters.backgroundColor = value;
-    this.valueChanged()
+    this.valueChanged();
   }
 
   valueChanged(){
