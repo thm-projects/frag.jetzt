@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as BadWordsList from 'badwords-list/lib/index.js';
-
+//import * as BadWordsList from 'badwords-list/lib/index.js';
+import { TopicCloudAdminServiceService } from '../../../../services/util/topic-cloud-admin-service.service'
+import { TopicCloudAdministrationComponent } from '../../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 @Component({
   selector: 'app-topic-dialog-comment',
   templateUrl: './topic-dialog-comment.component.html',
@@ -20,7 +21,7 @@ export class TopicDialogCommentComponent implements OnInit {
 
   public shortQuestion: string;
 
-  constructor() { }
+  constructor(private topicCloudAdminServiceService: TopicCloudAdminServiceService) { }
 
   get partsOfQuestion() {    
     const q = this.profanityFilter ? this.questionWithProfinity.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters) :
@@ -30,33 +31,7 @@ export class TopicDialogCommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.badWords = BadWordsList.array;
-    this.filterProfanityWords();
-  }
-
-  addToBadwordList(){
-    if (this.badWord !== undefined)
-      this.badWords.push(this.badWord);
-  }
-  
-  filterProfanityWords(){
-    this.questionWithProfinity = this.question;
-      this.badWords.map(word =>{
-        this.questionWithProfinity = this.questionWithProfinity.toLowerCase().includes(word) ?
-        this.replaceString(this.questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
-        : this.questionWithProfinity;
-      });
-  }
-
-  replaceString(str: string, search: string, replace: string){
-    return str.split(search).join(replace);
-  }
-
-  generateXWord(count: number){
-    let res = '';
-    for (let i = 0; i < count; i++){
-      res += '*';
-    }
-    return res;
+    //this.badWords = BadWordsList.array;
+    this.questionWithProfinity = this.topicCloudAdminServiceService.filterProfanityWords(this.question);
   }
 }
