@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { HighlightPipe } from './highlight.pipe';
 import * as BadWordsList from 'badwords-list/lib/index.js';
 
 @Component({
@@ -23,9 +22,9 @@ export class TopicDialogCommentComponent implements OnInit {
   get partsOfQuestion() {
     // return this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters).split(new RegExp(this.keyword,'i'));
 
-    let q = this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters);
+    const q = this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters);
     // let q2 = q.split(new RegExp('(' + this.keyword + ')', 'i'));
-    let q2 = q.split(' ');
+    const q2 = q.split(' ');
     return q2;
   }
 
