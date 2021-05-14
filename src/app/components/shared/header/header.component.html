@@ -138,15 +138,13 @@
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
 
-
               <button mat-menu-item
                       tabindex="0"
-                      routerLink="participant/room/{{shortId}}/comments/tagcloud">
+                      (click)="navigateTopicCloud()">
                 <mat-icon>cloud
                 </mat-icon>
                 <span>{{'header.tag-cloud' | translate}}</span>
               </button>
-
 
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">

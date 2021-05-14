@@ -2,8 +2,8 @@
   <ars-row [height]="65">
   </ars-row>
   <mat-drawer-container class="spacyTagCloudContainer">
-    <mat-drawer [(opened)]="configurationOpen" position="start">
-      Test <!-- TODO: Gruppe 4 -->
+    <mat-drawer [(opened)]="configurationOpen" position="end" mode="push">
+      <app-cloud-configuration [parent]="this"></app-cloud-configuration>
     </mat-drawer>
     <mat-drawer-content>
       <ars-fill ars-flex-box>

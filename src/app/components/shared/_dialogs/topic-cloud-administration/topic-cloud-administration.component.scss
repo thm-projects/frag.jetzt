@@ -1,0 +1,68 @@
+// hide scrollbar
+::-webkit-scrollbar {
+    display: none;  /* Chrome Safari */
+}
+//TODO: hide scrollbar for IE and Firefox
+
+.margin-right {
+  margin-right: 16px;
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.red {
+  color: var(--red);
+}
+
+.primaryBackground {
+  background-color: var(--primary);
+}
+
+.redBackground {
+  background-color: var(--red);
+}
+
+mat-panel-description, mat-panel-title, p, input {
+  color: var(--on-background);
+}
+
+mat-icon {
+  fill: currentColor;
+}
+
+mat-expansion-panel-header, mat-expansion-panel, mat-card {
+  background-color: var(--surface);
+}
+
+
+label {
+  color: var(--on-surface)
+}
+
+mat-slide-toggle {
+  margin-bottom: 16px;
+  display: block;
+  color: var(--on-surface);
+}
+
+mat-panel-title, mat-panel-description {
+  flex-basis: 0
+}
+
+@keyframes animation_blink_5s {
+  50% {
+    opacity: 0;
+  }
+}
+
+.edit-keyword .mat-panel-title {
+  color: var(--red) !important;
+  animation-name: animation_blink_5s;
+  animation-timing-function: ease-in;
+  animation-duration: 2s;
+  animation-iteration-count: 2;
+  opacity: 1.0 !important;
+}
+ 
