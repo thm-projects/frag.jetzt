@@ -97,6 +97,101 @@ export class CommentService extends BaseHttpService {
     );
   }
 
+
+  filter(com : Comment) : boolean {
+    /* Get Filter Options */
+    const currentFilters = JSON.parse(localStorage.getItem('currentFilters'));
+    const period = JSON.parse(localStorage.getItem('currentPeriod'));
+    const timestamp = JSON.parse(localStorage.getItem('currentFromNowTimestamp')); 
+
+    /* Filter by Period */
+    const currentTime = new Date();
+    const hourInSeconds = 3600000;
+    let periodInSeconds;
+
+    enum Period {
+      FROMNOW    = 'from-now',
+      ONEHOUR    = 'time-1h',
+      THREEHOURS = 'time-3h',
+      ONEDAY     = 'time-1d',
+      ONEWEEK    = 'time-1w',
+      TWOWEEKS   = 'time-2w',
+      ALL        = 'time-all'
+    }
+
+    if (period !== Period.ALL) {
+      switch (period) {
+        case Period.FROMNOW:
+          break;
+        case Period.ONEHOUR:
+          periodInSeconds = hourInSeconds;
+          break;
+        case Period.THREEHOURS:
+          periodInSeconds = hourInSeconds * 2;
+          break;
+        case Period.ONEDAY:
+          periodInSeconds = hourInSeconds * 24;
+          break;
+        case Period.ONEWEEK:
+          periodInSeconds = hourInSeconds * 168;
+          break;
+        case Period.TWOWEEKS:
+          periodInSeconds = hourInSeconds * 336;
+          break;
+      }
+    }
+
+    const commentTime = new Date(com.timestamp).getTime();
+    const refTime = (period === Period.FROMNOW ? timestamp : (currentTime.getTime() - periodInSeconds));
+    
+    if (commentTime < refTime) {
+      return false;
+    }
+
+    /* Other Filters */
+    const read = 'read';
+    const unread = 'unread';
+    const favorite = 'favorite';
+    const correct = 'correct';
+    const wrong = 'wrong';
+    const bookmark = 'bookmark';
+    const answer = 'answer';
+    const unanswered = 'unanswered';
+
+    enum CorrectWrong {
+      NULL,
+      CORRECT,
+      WRONG
+    }
+    
+    if (currentFilters != '') {  // no filters => return true
+      switch (currentFilters) {
+        case correct:
+          return com.correct === CorrectWrong.CORRECT ? true : false;
+        case wrong:
+          return com.correct === CorrectWrong.WRONG ? true : false;
+        case favorite:
+          return com.favorite;
+        case bookmark:
+          return com.bookmark;
+        case read:
+          return com.read;
+        case unread:
+          return !com.read;
+        case answer:
+          return com.answer != "";
+        case unanswered:
+          return !com.answer;
+      }
+    }
+
+    return true;
+  }
+
+  getFilteredComments(roomId: string) : Observable<Comment[]> {
+    return this.getAckComments(roomId).pipe(map(commentList => commentList.filter(comment => this.filter(comment))));
+  }
+
   getAckComments(roomId: string): Observable<Comment[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + this.apiUrl.find;
     return this.http.post<Comment[]>(connectionUrl, {

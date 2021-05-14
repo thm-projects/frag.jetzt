@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -21,6 +21,8 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
+//import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 @Component({
   selector: 'app-header',
@@ -46,7 +48,8 @@ export class HeaderComponent implements OnInit {
               public eventService: EventService,
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
-              private motdService: MotdService
+              private motdService: MotdService,
+              private confirmDialog: MatDialog
   ) {
   }
 
@@ -179,6 +182,7 @@ export class HeaderComponent implements OnInit {
     this.location.back();
   }
 
+
   login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {
       width: '350px'
@@ -280,6 +284,12 @@ export class HeaderComponent implements OnInit {
 
   public navigateCreateQuestion() {
     this.eventService.broadcast('navigate', 'createQuestion');
+  }
+
+  public navigateTopicCloud() {
+    const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
+      autoFocus: false
+    });
   }
 
   public navigateTopicCloudConfig() {
