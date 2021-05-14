@@ -27,7 +27,7 @@
       <mat-icon>search</mat-icon>
     </mat-label>
     <div style="margin-left: 10px;">
-      <mat-form-field class="example-form-field">
+      <mat-form-field [ngClass]="{'search': searchMode}">
         <input #searchBox id="searchBox" (input)="searchKeyword()"
                [(ngModel)]="searchedKeyword" matInput type="text"
                placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
@@ -36,9 +36,13 @@
                 mat-button matSuffix mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
           <mat-icon>close</mat-icon>
         </button>
+
       </mat-form-field>
     </div>
-    <div fxLayoutAlign="end" style="margin-left: 52%;">
+    <div style="margin-left: 54%;" *ngIf="searchMode" >
+      <p class="resCount">{{filteredKeywords.length}}</p>
+    </div>
+    <div fxLayoutAlign="end" *ngIf="!searchMode" style="margin-left: 52%;">
       <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>

@@ -36,6 +36,14 @@ mat-expansion-panel-header, mat-expansion-panel, mat-card {
   background-color: var(--surface);
 }
 
+.search{
+  width: 240%;
+  color: var(--red) !important;
+}
+
+.resCount{
+  color: var(--red) !important;
+}
 
 label {
   color: var(--on-surface)
