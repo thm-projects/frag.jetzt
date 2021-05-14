@@ -16,6 +16,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
+  public profanityFilter = true;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
@@ -68,6 +69,14 @@ export class TopicCloudAdministrationComponent implements OnInit {
       questions: [
         'wann wird die nächste veranstaltung stattfinden?',
         'gibt es heute übung?'
+      ]
+    },
+    {
+      keywordID: 6,
+      keyword: 'Arschloch Profanity',
+      questions: [
+        'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
+        'Fuck you!'
       ]
     },
 
@@ -192,6 +201,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
       this.searchMode = true;
     }
   }
+
+  //TODO: confirm dialog -> keyword does already exist, do you want to merge the questions with the existing keyword?
 
   integrateIfKeywordExists(keyword: Keyword, keyname: string){
     const key = this.checkIfKeywordExists(keyname);
