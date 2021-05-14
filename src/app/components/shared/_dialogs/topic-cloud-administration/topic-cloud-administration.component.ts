@@ -32,7 +32,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
       keywordID: 1,
       keyword: 'Cloud',
       questions: [
-        'Wieviel speicherplatz steht mir in der Cloud zur verfuegung? Ich habe eine Frage, sind Fragen zum thema \'Frage\' auch erlaubt?',
+        'Wieviel speicherplatz steht mir in der Cloud zur verfuegung?',
+        'Wieviel speicherplatz steht fuck mir in der Cloud zur verfuegung?',
         'Sollen wir die Tag Cloud implementieren?',
         // eslint-disable-next-line max-len
         'Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung',
@@ -76,7 +77,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
       keyword: 'Arschloch Profanity',
       questions: [
         'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
-        'Fuck you!'
+        'Fuck you!',
+        'fuck Fuck ficken cunt',
+        'fuck'
       ]
     },
 
@@ -204,7 +207,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   //TODO: confirm dialog -> keyword does already exist, do you want to merge the questions with the existing keyword?
 
-  integrateIfKeywordExists(keyword: Keyword, keyname: string){
+  integrateIfKeywordExists(keyword: Keyword, keyname: string) {
     const key = this.checkIfKeywordExists(keyname);
     if (key !== undefined){
       const integratedKeyword = keyword;
@@ -217,7 +220,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  checkIfKeywordExists(key: string): Keyword{
+  checkIfKeywordExists(key: string): Keyword {
     for(const keyword of this.keywords){
       if(keyword.keyword.toLowerCase() === key){
         return keyword;
@@ -225,6 +228,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
     return undefined;
   }
+
 }
 
 interface Keyword {
