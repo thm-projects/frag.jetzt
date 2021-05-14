@@ -78,4 +78,11 @@ export class CloudConfigurationComponent implements OnInit{
     this.extendedView = !this.extendedView;
   }
 
+  weightColorChanged(index: number, event: string): void {
+    this.weightClasses[index].tagColor = event;
+  }
+
+  maxNumberOfWordsChanged(): void {
+    //TODO: implement something
+  }
 }
