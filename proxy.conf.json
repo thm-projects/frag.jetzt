@@ -1,4 +1,13 @@
 {
+  "/languagetool": {
+    "target": "https://lt.frag.jetzt/v2/check",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/languagetool": ""
+    },
+    "logLevel": "debug"
+  },
   "/spacy": {
     "target": "https://spacy.frag.jetzt/dep",
     "secure": true,

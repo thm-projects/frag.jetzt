@@ -78,4 +78,11 @@ export class SpacyService extends BaseHttpService {
         catchError(this.handleError<any>('analyse'))
       );
   }
+  checkLanguage(data) {
+    const url = '/languagetool';
+    return this.http.post<Result>(url, data, httpOptions)
+      .pipe(
+        catchError(this.handleError<any>('checkLanguage'))
+      );
+  }
 }

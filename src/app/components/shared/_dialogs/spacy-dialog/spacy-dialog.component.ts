@@ -11,6 +11,7 @@ export interface Keyword {
   editing: boolean;
   selected: boolean;
 }
+
 @Component({
   selector: 'app-spacy-dialog',
   templateUrl: './spacy-dialog.component.html',
@@ -58,7 +59,6 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   evalInput(model: string) {
     const words: Keyword[] = [];
-
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.analyse(this.comment.body, model)
       .subscribe(res => {
@@ -73,11 +73,27 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
           }
         }
         this.keywords = words;
+        // this.checkLanguage(); // Uncomment to test post to languagetool
       }, () => {
         this.keywords = [];
       });
   }
-
+  checkLanguage() {
+     const annotations = [];
+     this.keywords.forEach(keyword =>
+       annotations.push({ text: keyword.word })
+     );
+     const data = {
+       data: { annotation : annotations },
+       language: 'auto',
+       enabledOnly: false
+     };
+     console.log(data);
+     this.spacyService.checkLanguage(data)
+      .subscribe(res => {
+          console.log(res.matches);
+      });
+  }
   onEdit(keyword){
     keyword.editing = true;
     keyword.completed = false;
