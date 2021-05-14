@@ -78,7 +78,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
       questions: [
         'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
         'Fuck you!',
-        'fuck Fuck ficken cunt',
+        'fuck Fuck hiii cunt',
         'fuck'
       ]
     },
@@ -228,7 +228,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
     return undefined;
   }
-
 }
 
 interface Keyword {
