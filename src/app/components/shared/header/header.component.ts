@@ -300,4 +300,8 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'topicCloudAdministration');
   }
 
+  public blockQuestions() {
+    
+  }
+
 }
