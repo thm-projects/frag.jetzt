@@ -2,7 +2,25 @@
   <mat-card>
     <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.consider-votes' | translate}}</mat-slide-toggle>
     <mat-slide-toggle [(ngModel)]="profanityFilter">{{'topic-cloud-dialog.profanity' | translate}}</mat-slide-toggle>
-  </mat-card>
+    <div>
+    <!--mat-icon _ngcontent-oki-c368="" role="img" class="mat-icon
+    notranslate header-icons material-icons mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font">more_vert </mat-icon-->
+      <!--mat-select class="select-list" [(ngModel)]="selectedLang" >
+        <mat-option *ngFor="let lang of commentLang" [value]="lang.lang">
+          <span *ngIf="lang.lang == 'tag'">Tag</span>
+          <span *ngIf="lang.lang == 'spacyfrage'">spacy keyword</span>
+        </mat-option>
+      </mat-select-->
+      <mat-form-field>
+        <mat-label>key wählen</mat-label>
+        <mat-select [(ngModel)]="selectedLang">
+          <mat-option *ngFor="let team of commentLang" [value]="team.lang">
+            {{team.lang}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+   </mat-card>
 
   <div fxLayout="row" style="margin-top: 10px;">
     <mat-label fxLayoutAlign="center center">

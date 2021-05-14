@@ -7,6 +7,7 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
+import {Comment} from "../../../../models/comment";
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -228,6 +229,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
     return undefined;
   }
+  commentLang = [
+    { lang: 'tagkeyword' },
+    { lang: 'spacykeyword' },
+  ];
+  selectedLang = localStorage.getItem('currentLang');
+  comment: Comment;
 }
 
 interface Keyword {
