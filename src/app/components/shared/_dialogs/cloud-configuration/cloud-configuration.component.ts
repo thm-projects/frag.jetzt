@@ -5,6 +5,7 @@ import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { CloudParameters } from '../../tag-cloud/tag-cloud.interface';
+import { WeightClass } from '../../tag-cloud/weight-class.interface';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -17,6 +18,28 @@ export class CloudConfigurationComponent implements OnInit{
   defaultCloudParameters: CloudParameters;
   oldCloudParameters: CloudParameters;
   extendedView: boolean;
+  weightClasses: WeightClass[]=[
+    {maxTagNumber: 20,
+    tagColor: "#8800ff"},
+    {maxTagNumber: 20,
+    tagColor: "#ff00ff"},
+    {maxTagNumber: 17,
+    tagColor: "#ffea00"},
+    {maxTagNumber: 15,
+    tagColor: "#00CC99"},
+    {maxTagNumber: 12,
+    tagColor: "#00CC66"},
+    {maxTagNumber: 10,
+    tagColor: "#0033FF"},
+    {maxTagNumber: 8,
+    tagColor: "#CC0099"},
+    {maxTagNumber: 7,
+    tagColor: "#FF3399"},
+    {maxTagNumber: 6,
+    tagColor: "#FFFF00"},
+    {maxTagNumber: 5,
+    tagColor: "#FF0000"},
+  ];
  
   constructor(private translateService: TranslateService) {}
 
