@@ -1,12 +1,13 @@
 <ars-screen ars-flex-box>
-  <ars-row [height]="65">
-  </ars-row>
   <mat-drawer-container class="spacyTagCloudContainer">
-    <mat-drawer [(opened)]="configurationOpen" position="start">
-      Test <!-- TODO: Gruppe 4 -->
+    <mat-drawer [(opened)]="configurationOpen" position="end" mode="push">
+      <app-cloud-configuration [parent]="this"></app-cloud-configuration>
     </mat-drawer>
     <mat-drawer-content>
       <ars-fill ars-flex-box>
+        <div [ngClass]="{'hidden': !isLoading}" fxLayout="row" fxLayoutAlign="center center" fxFill>
+          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+        </div>
         <angular-tag-cloud
           class="spacyTagCloud"
           (window:resize)="onResize($event)"
@@ -23,6 +24,4 @@
       </ars-fill>
     </mat-drawer-content>
   </mat-drawer-container>
-  <ars-row [height]="37">
-  </ars-row>
 </ars-screen>

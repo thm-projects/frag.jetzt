@@ -12,7 +12,7 @@
         class="mat-flat-button {{ confirmButtonType }}-confirm-button"
         attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
         (click)="performConfirmButtonClickAction()"
-      >{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
+      ><mat-icon *ngIf="buttonIcon" style="margin-right: 5px;">{{buttonIcon}}</mat-icon>{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
       <button
         *ngIf="cancelButtonClickAction !== undefined"
         type="button"
