@@ -1,3 +1,11 @@
+.mat-drawer.mat-drawer-push {
+  background-color: var(--background);
+}
+
+mat-drawer {
+  background-color: var(--dialog);
+}
+
 ars-fill {
   width: calc(100% - 30px);
   height: calc(100% - 30px);
@@ -9,10 +17,6 @@ mat-drawer-container {
   width: 100%;
   position: fixed;
   margin-top: 67px;
-}
-
-mat-drawer {
-  background-color: var(--dialog);
 }
 
 mat-drawer-content {
