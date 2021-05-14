@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { TopicCloudAdminServiceService } from './topic-cloud-admin-service.service';
+import { TopicCloudAdminService } from './topic-cloud-admin.service';
 
 describe('TopicCloudAdminServiceService', () => {
-  let service: TopicCloudAdminServiceService;
+  let service: TopicCloudAdminService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(TopicCloudAdminServiceService);
+    service = TestBed.inject(TopicCloudAdminService);
   });
 
   it('should be created', () => {

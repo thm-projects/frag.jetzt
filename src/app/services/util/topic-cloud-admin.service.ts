@@ -4,7 +4,7 @@ import * as BadWordsList from 'badwords-list/lib/index.js';
 @Injectable({
   providedIn: 'root'
 })
-export class TopicCloudAdminServiceService {
+export class TopicCloudAdminService {
 
   private badWords: string[] = [];
 
@@ -12,7 +12,7 @@ export class TopicCloudAdminServiceService {
     return this.badWords;
   }
 
-  constructor() { 
+  constructor() {
     this.badWords = BadWordsList.array;
   }
 
@@ -23,7 +23,13 @@ export class TopicCloudAdminServiceService {
         this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
         : questionWithProfinity;
       });
-    return questionWithProfinity;
+      return questionWithProfinity;
+    }
+
+  addToBadwordList(word: string){
+    if (word !== undefined) {
+      this.badWords.push(word);
+    }
   }
 
   private replaceString(str: string, search: string, replace: string){
@@ -36,10 +42,5 @@ export class TopicCloudAdminServiceService {
       res += '*';
     }
     return res;
-  }
-
-  addToBadwordList(word: string){
-    if (word !== undefined)
-      this.badWords.push(word);
   }
 }

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-//import * as BadWordsList from 'badwords-list/lib/index.js';
-import { TopicCloudAdminServiceService } from '../../../../services/util/topic-cloud-admin-service.service'
-import { TopicCloudAdministrationComponent } from '../../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+
 @Component({
   selector: 'app-topic-dialog-comment',
   templateUrl: './topic-dialog-comment.component.html',
@@ -21,9 +20,9 @@ export class TopicDialogCommentComponent implements OnInit {
 
   public shortQuestion: string;
 
-  constructor(private topicCloudAdminServiceService: TopicCloudAdminServiceService) { }
+  constructor(private topicCloudAdminService: TopicCloudAdminService) { }
 
-  get partsOfQuestion() {    
+  get partsOfQuestion() {
     const q = this.profanityFilter ? this.questionWithProfinity.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters) :
               this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters);
     const q2 = q.split(' ');
@@ -31,7 +30,6 @@ export class TopicDialogCommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.badWords = BadWordsList.array;
-    this.questionWithProfinity = this.topicCloudAdminServiceService.filterProfanityWords(this.question);
+    this.questionWithProfinity = this.topicCloudAdminService.filterProfanityWords(this.question);
   }
 }
