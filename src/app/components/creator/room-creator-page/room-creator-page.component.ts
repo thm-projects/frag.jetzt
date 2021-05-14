@@ -25,6 +25,7 @@ import { TitleService } from '../../../services/util/title.service';
 import { DeleteCommentsComponent } from '../_dialogs/delete-comments/delete-comments.component';
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { TopicCloudFilterComponent } from '../../shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -72,6 +73,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     nav('roomBonusToken', () => this.showBonusTokenDialog());
     nav('moderator', () => this.showModeratorsDialog());
     nav('tags', () => this.showTagsDialog());
+    nav('topicCloud', () => this.showTagCloud());
     nav('exportQuestions', () => {
       const exp: Export = new Export(
         this.room,
@@ -275,7 +277,15 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     dialogRef.componentInstance.room = this.room;
   }
 
+  showTagCloud(): void {
+    console.log("Showtagcloud called");
+    const dialogRef = this.dialog.open(TopicCloudFilterComponent, {
+      width: '400px'
+    });
+  }
+
   showTagsDialog(): void {
+    console.log("Showtag called");
     this.updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(TagsComponent, {
       width: '400px'

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input} from '@angular/core';
+import {Component, OnInit, ViewChild, Input, AfterViewInit, OnDestroy} from '@angular/core';
 
 import {
   CloudData,
@@ -24,6 +24,7 @@ import {UserRole} from '../../../models/user-roles.enum';
 import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
 import {CloudParameters} from './tag-cloud.interface';
+import {TopicCloudAdministrationComponent} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 
 class CustomPosition implements Position {
   left: number;
@@ -70,6 +71,7 @@ type TagCloudStyleData = [
 ];
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
+const transformationScaleKiller = /scale\([^)]*\)/;
 const defaultColors: string[] = [
   // variable, fallback
   'var(--secondary, greenyellow)', // hover
@@ -136,7 +138,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverDelay: 0.4,
     delayWord: 0,
     randomAngles: false
-  }
+  };
 };
 
 @Component({
@@ -144,7 +146,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit {
+export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   @Input() user: User;
@@ -155,9 +157,9 @@ export class TagCloudComponent implements OnInit {
   shortId: string;
   options: CloudOptions = {
     // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 0.99,
+    width: 1,
     // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 0.99,
+    height: 1,
     overflow: false,
     font: 'Georgia', // not working
     delay: 0
@@ -174,6 +176,7 @@ export class TagCloudComponent implements OnInit {
   lastDebounceTime = 0;
   configurationOpen = false;
   randomizeAngle = false;
+  isLoading = true;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -199,7 +202,9 @@ export class TagCloudComponent implements OnInit {
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
       } else if (e === 'topicCloudAdministration') {
-        // TODO Group 5: OPEN Topic Cloud Administration
+        this.dialog.open(TopicCloudAdministrationComponent, {
+          minWidth: '50%'
+        });
       }
     });
     this.authenticationService.watchUser.subscribe(newUser => {
@@ -223,17 +228,24 @@ export class TagCloudComponent implements OnInit {
       });
     });
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.commentService.getAckComments(this.roomId).subscribe((comments: Comment[]) => {
+    this.commentService.getFilteredComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
     });
     this.themeService.getTheme().subscribe(() => {
       if (this.child) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
-          this.updateTagCloud();
         }, 1);
       }
     });
+  }
+
+  ngAfterViewInit() {
+    document.getElementById('footer_rescale').style.display = 'none';
+  }
+
+  ngOnDestroy() {
+    document.getElementById('footer_rescale').style.display = 'block';
   }
 
   initTagCloud() {
@@ -331,6 +343,7 @@ export class TagCloudComponent implements OnInit {
   }
 
   updateTagCloud() {
+    this.isLoading = true;
     if (this.sorted && this.data.length) {
       if (!this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
         this.child.reDraw();
@@ -346,13 +359,11 @@ export class TagCloudComponent implements OnInit {
     const current = new Date().getTime();
     const diff = current - this.lastDebounceTime;
     if (diff >= debounceTime) {
-      this.lastDebounceTime = current;
-      this.child.reDraw();
+      this.redraw();
     } else {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
-        this.lastDebounceTime = new Date().getTime();
-        this.child.reDraw();
+        this.redraw();
       }, debounceTime - diff);
     }
   }
@@ -406,6 +417,18 @@ export class TagCloudComponent implements OnInit {
 
   openCloudConfiguration() {
     this.configurationOpen = true;
+  }
+
+  private redraw(): void {
+    this.lastDebounceTime = new Date().getTime();
+    this.child.reDraw();
+    this.isLoading = false;
+    // This should fix the hover bug (scale was not turned off sometimes)
+    this.child.cloudDataHtmlElements.forEach(elem => {
+      elem.addEventListener('mouseleave', () => {
+        elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
+      });
+    });
   }
 
 }

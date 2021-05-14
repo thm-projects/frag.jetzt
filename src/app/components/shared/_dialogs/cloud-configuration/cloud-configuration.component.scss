@@ -10,6 +10,7 @@ h2{
 h3 {
   border-bottom: 1px solid var(--primary);
   color: var(--primary);
+  padding-bottom: 6px;
 }
 
 #commentSlider {
@@ -160,4 +161,9 @@ mat-divider {
 
 ::ng-deep.mat-drawer-backdrop.mat-drawer-shown{
   display: none;
+}
+
+::ng-deep.mat-slider-track-background{
+  background-color: var(--primary);
+  opacity: 0.2;
 }
