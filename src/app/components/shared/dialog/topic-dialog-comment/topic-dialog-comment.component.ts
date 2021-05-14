@@ -13,6 +13,8 @@ export class TopicDialogCommentComponent implements OnInit {
   @Input() maxShowedCharachters: number;
   @Input() isCollapsed = false;
   @Input() profanityFilter = true;
+  @Input() badWord: string;
+
   public badWords = [];
   questionWithProfinity: string = undefined;
 
@@ -30,6 +32,11 @@ export class TopicDialogCommentComponent implements OnInit {
   ngOnInit(): void {
     this.badWords = BadWordsList.array;
     this.filterProfanityWords();
+  }
+
+  addToBadwordList(){
+    if (this.badWord !== undefined)
+      this.badWords.push(this.badWord);
   }
   
   filterProfanityWords(){
