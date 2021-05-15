@@ -44,6 +44,10 @@
   vertical-align: middle;
   margin-right: 0;
 }
+.select-all-label{
+  padding-left: 15px;
+  cursor: pointer;
+}
 .select-list{
   width: calc(100% - 24px);
 }
