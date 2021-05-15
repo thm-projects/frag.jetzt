@@ -16,6 +16,19 @@
       {{cTime}}
     </h2>
 
+    <p  class="oldtypo-h2" *ngIf="router.url.includes('tagcloud')  && deviceType === 'desktop'"
+       tabindex="0" fxLayoutAlign="end">
+
+      <mat-icon matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon>
+
+    </p>
+    <p class="oldtypo-h2" *ngIf="router.url.includes('tagcloud')  && deviceType === 'desktop'"
+            tabindex="0" fxLayoutAlign="end">
+
+      <mat-icon matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon>
+    </p>
+
+
     <!--
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>

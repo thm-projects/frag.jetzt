@@ -87,7 +87,9 @@
     "fullscreen": "Text scaling",
     "motd": "News",
     "tag-cloud-config": "Modify cloud view",
-    "tag-cloud-administration": "Edit cloud topics"
+    "tag-cloud-administration": "Edit cloud topics",
+    "overview-question-tooltip": "Number of questions",
+    "overview-questioners-tooltip": "Number of questioners"
   },
   "help": {
     "cancel": "Close",
@@ -118,7 +120,7 @@
     "custom-shortid-placeholder": "a-z, A-Z, 0-9, - _ . ~ no blanks",
     "invalid-shortid": "This key code is not available.",
     "invalid-char-shortid": "This key code contains invalid characters."
-  }, 
+  },
   "content": {
     "topic-cloud-content": "Continue to the Topic Cloud with the current filters?",
     "cancel": "Cancel",
