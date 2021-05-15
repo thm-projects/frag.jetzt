@@ -2,9 +2,11 @@
   <div class="anchor-wrp">
     <span *ngIf="keywords.length > 0">
       <ars-row class="select-all-section">
-        <mat-checkbox class="select-all-checkbox" id="checkAll" (change)="selectAll($event.checked)"></mat-checkbox>
-        <mat-label class="select-all-label" for="checkAll">{{ 'spacy-dialog.select-all' | translate }}</mat-label>
-        <mat-icon class="select-all-icon">playlist_add_check</mat-icon>
+        <mat-checkbox class="select-all-checkbox" id="checkAll" (change)="selectAll(checkall.checked)" #checkall></mat-checkbox>
+        <mat-label class="select-all-label" for="checkAll" (click)="checkall.checked = !checkall.checked; selectAll(checkall.checked)">
+          <mat-icon class="select-all-icon">playlist_add_check</mat-icon>
+          {{ 'spacy-dialog.select-all' | translate }}
+        </mat-label>
       </ars-row>
     </span>
     <span *ngIf="keywords.length > 0"></span>
