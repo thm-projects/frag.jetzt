@@ -95,7 +95,10 @@
     "fullscreen": "Text skalieren",
     "motd": "News",
     "tag-cloud-config": "Wolkenansicht ändern",
-    "tag-cloud-administration": "Wolkenthemen editieren"
+    "tag-cloud-administration": "Wolkenthemen editieren",
+    "overview-question-tooltip": "Anzahl gestellter Fragen",
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
+    "overview-keywords-tooltip": "Anzahl Schlüsselwörter"
   },
   "help": {
     "cancel": "Schließen",
