@@ -17,32 +17,32 @@ export class TopicCloudAdminService {
     this.badWords = BadWords;
   }
 
-  filterProfanityWords(str: string): string{
-    let questionWithProfinity = str;
+  filterProfanityWords(str: string): string {
+    let questionWithProfanity = str;
 
     // German Profanity
     this.badWords['de'].map(word =>{
-      questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
-      : questionWithProfinity;
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfanity;
     });
 
     // English Profanity
     this.badWords['en'].map(word =>{
-      questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
-      : questionWithProfinity;
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfanity;
     });
 
     // French Profanity
     this.badWords['fr'].map(word =>{
-      questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
-      : questionWithProfinity;
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfanity;
     });
 
-    return questionWithProfinity;
-    }
+    return questionWithProfanity;
+  }
 
   addToBadwordList(word: string){
     if (word !== undefined) {
