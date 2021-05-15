@@ -16,7 +16,10 @@
       {{cTime}}
     </h2>
 
-    <ars-style-btn-material  class="noOfQuestions" *ngIf="router.url.includes('tagcloud')"  ars-flex-box>
+    <ars-style-btn-material
+      [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
+      *ngIf="router.url.includes('tagcloud')"
+      ars-flex-box>
       <ars-col ars-btn-wrp [xp]="16" [extra]="true">
       <button ars-btn
               class="pseudo-button"
