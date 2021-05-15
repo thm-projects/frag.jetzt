@@ -1,3 +1,9 @@
+export interface TagCloudHeaderDataOverview {
+  commentCount: number;
+  userCount: number;
+  tagCount: number;
+}
+
 export interface CloudParameters {
   /**
    * Background color of the Tag-cloud

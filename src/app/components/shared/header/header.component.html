@@ -11,7 +11,7 @@
     <span class="fill-remaining-space"></span>
 
     <h2 class="oldtypo-h2"
-        *ngIf="router.url.includes('comments')  && deviceType === 'desktop'"
+        *ngIf="router.url.includes('comments') && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       {{cTime}}
     </h2>
@@ -40,7 +40,8 @@
               class="pseudo-button"
               matRipple
               matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
-        <mat-icon svgIcon="comment_tag"  class="oldtypo-h2 comment_tag-icon"></mat-icon>
+        <mat-icon svgIcon="comment_tag"
+                  class="oldtypo-h2 comment_tag-icon"></mat-icon>
         <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
       </button>
       </ars-col>

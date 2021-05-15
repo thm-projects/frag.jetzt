@@ -23,7 +23,7 @@ import {ActivatedRoute} from '@angular/router';
 import {UserRole} from '../../../models/user-roles.enum';
 import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
-import {CloudParameters} from './tag-cloud.interface';
+import {CloudParameters, TagCloudHeaderDataOverview} from './tag-cloud.interface';
 import {TopicCloudAdministrationComponent} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 
 class CustomPosition implements Position {
@@ -323,6 +323,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   analyse(comments: Comment[]) {
     const commentsConcatenated = comments.map(c => c.body).join(' ');
+    const userSet = new Set<number>();
+    comments.forEach(comment => {
+      userSet.add(comment.userNumber);
+    });
 
     this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
       const map = new Map<string, number>();
@@ -330,6 +334,11 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         const count = (map.get(elem.text) || 0) + 1;
         map.set(elem.text, count);
       });
+      this.eventService.broadcast('tagCloudHeaderDataOverview', {
+        commentCount: comments.length,
+        userCount: userSet.size,
+        tagCount: map.size
+      } as TagCloudHeaderDataOverview);
       map.forEach((val, key) => {
           this.data.push(new TagComment(null,
             true, null, null,

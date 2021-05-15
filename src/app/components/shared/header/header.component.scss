@@ -28,23 +28,25 @@ mat-toolbar-row {
   font-size: medium;
   font-weight: bold;
 }
-.noOfQuestions{
+
+.noOfQuestions {
   position: absolute !important;
   right: 100px !important;
   padding: 10px !important;
-  margin:0px !important;
+  margin: 0 !important;
 }
+
 ars-style-btn-material button {
   &:hover, &:focus {
-    border:none;
+    border: none;
   }
+
   > * {
     color: var(--on-surface);
   }
 }
 
-
-.comment_tag-icon{
+.comment_tag-icon {
   height: 18px !important;
 }
 
