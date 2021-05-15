@@ -29,7 +29,7 @@ export class CreateCommentComponent implements OnInit {
     { lang: 'fr' },
     {lang: 'auto'}
   ];
-  selectedLang = localStorage.getItem('auto');
+  selectedLang = 'auto';
   commentLang: string = this.selectedLang;
 
   bodyForm = new FormControl('', [Validators.required]);
@@ -82,7 +82,7 @@ export class CreateCommentComponent implements OnInit {
   openSpacyDialog(comment: Comment, commentLang: string): void {
     const dialogRef = this.dialog.open(SpacyDialogComponent, {
       data: {
-        comment, 
+        comment,
         commentLang
       }
     });
