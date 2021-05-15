@@ -1,7 +1,8 @@
 import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
-import { SpacyService } from '../../../../services/http/spacy.service';
+import { SpacyService, Model } from '../../../../services/http/spacy.service';
 import { LanguageService } from '../../../../services/util/language.service';
 import { Comment } from '../../../../models/comment';
 
@@ -19,8 +20,8 @@ export interface Keyword {
 })
 export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
-  commentLang: string; 
   comment: Comment;
+  commentLang: Model;
   keywords: Keyword[] = [];
 
   constructor(
@@ -53,7 +54,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     };
   }
 
-  evalInput(model: string) {
+  evalInput(model: Model) {
     const words: Keyword[] = [];
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.analyse(this.comment.body, model)
@@ -69,27 +70,11 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
           }
         }
         this.keywords = words;
-        // this.checkLanguage(); // Uncomment to test post to languagetool
       }, () => {
         this.keywords = [];
       });
   }
-  checkLanguage() {
-     const annotations = [];
-     this.keywords.forEach(keyword =>
-       annotations.push({ text: keyword.word })
-     );
-     const data = {
-       data: { annotation : annotations },
-       language: 'auto',
-       enabledOnly: false
-     };
-     console.log(data);
-     this.spacyService.checkLanguage(data)
-      .subscribe(res => {
-          console.log(res.matches);
-      });
-  }
+
   onEdit(keyword){
     keyword.editing = true;
     keyword.completed = false;

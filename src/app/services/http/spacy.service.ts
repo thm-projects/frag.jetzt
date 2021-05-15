@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError } from 'rxjs/operators';
 
+export type Model = 'de' | 'en' | 'fr';
+
 export class Result {
   arcs: Arc[];
   words: Word[];
@@ -76,13 +78,6 @@ export class SpacyService extends BaseHttpService {
     return this.http.post<Result>(url, {text, model}, httpOptions)
       .pipe(
         catchError(this.handleError<any>('analyse'))
-      );
-  }
-  checkLanguage(data) {
-    const url = '/languagetool';
-    return this.http.post<Result>(url, data, httpOptions)
-      .pipe(
-        catchError(this.handleError<any>('checkLanguage'))
       );
   }
 }

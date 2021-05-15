@@ -82,7 +82,7 @@ export class CommentService extends BaseHttpService {
     return this.http.post<Comment>(connectionUrl,
       {
         roomId: comment.roomId, body: comment.body,
-        read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag, keywords: comment.keywords
+        read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag, keywords: JSON.stringify(comment.keywords)
       }, httpOptions).pipe(
         tap(_ => ''),
         catchError(this.handleError<Comment>('addComment'))
@@ -102,7 +102,7 @@ export class CommentService extends BaseHttpService {
     /* Get Filter Options */
     const currentFilters = JSON.parse(localStorage.getItem('currentFilters'));
     const period = JSON.parse(localStorage.getItem('currentPeriod'));
-    const timestamp = JSON.parse(localStorage.getItem('currentFromNowTimestamp')); 
+    const timestamp = JSON.parse(localStorage.getItem('currentFromNowTimestamp'));
 
     /* Filter by Period */
     const currentTime = new Date();
@@ -143,7 +143,7 @@ export class CommentService extends BaseHttpService {
 
     const commentTime = new Date(com.timestamp).getTime();
     const refTime = (period === Period.FROMNOW ? timestamp : (currentTime.getTime() - periodInSeconds));
-    
+
     if (commentTime < refTime) {
       return false;
     }
@@ -163,7 +163,7 @@ export class CommentService extends BaseHttpService {
       CORRECT,
       WRONG
     }
-    
+
     if (currentFilters != '') {  // no filters => return true
       switch (currentFilters) {
         case correct:

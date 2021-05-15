@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
+import { LanguagetoolService, Language } from '../../../../services/http/languagetool.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -23,14 +24,8 @@ export class CreateCommentComponent implements OnInit {
   tags: string[];
   selectedTag: string;
 
-  commentLangs = [
-    { lang: 'de' },
-    { lang: 'en' },
-    { lang: 'fr' },
-    {lang: 'auto'}
-  ];
-  selectedLang = 'auto';
-  commentLang: string = this.selectedLang;
+  languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
+  selectedLang: Language = 'auto';
 
   bodyForm = new FormControl('', [Validators.required]);
 
@@ -42,6 +37,7 @@ export class CreateCommentComponent implements OnInit {
               private translateService: TranslateService,
               public dialog: MatDialog,
               private translationService: TranslateService,
+              private languagetoolService: LanguagetoolService,
               public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -75,26 +71,28 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
-      this.openSpacyDialog(comment, this.commentLang );
+      this.openSpacyDialog(comment);
     }
   }
 
-  openSpacyDialog(comment: Comment, commentLang: string): void {
-    const dialogRef = this.dialog.open(SpacyDialogComponent, {
-      data: {
-        comment,
-        commentLang
-      }
-    });
-
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.dialogRef.close(result);
+  openSpacyDialog(comment: Comment): void {
+    this.checkSpellings(comment).subscribe((res) => {
+      const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
+      const dialogRef = this.dialog.open(SpacyDialogComponent, {
+        data: {
+          comment,
+          commentLang
         }
       });
 
-  }
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result) {
+            this.dialogRef.close(result);
+          }
+        });
+    });
+  };
 
 
   /**
@@ -110,5 +108,9 @@ export class CreateCommentComponent implements OnInit {
    */
   buildCreateCommentActionCallback(text: HTMLInputElement|HTMLTextAreaElement): () => void {
     return () => this.closeDialog(text.value);
+  }
+
+  checkSpellings(comment: Comment, language: Language = this.selectedLang) {
+    return this.languagetoolService.checkSpellings(comment.body, language)
   }
 }
