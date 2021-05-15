@@ -34,7 +34,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
       keyword: 'Cloud',
       questions: [
         'Wieviel speicherplatz steht mir in der Cloud zur verfuegung?',
-        'Wieviel speicherplatz steht fuck mir in der Cloud zur verfuegung?',
         'Sollen wir die Tag Cloud implementieren?',
         // eslint-disable-next-line max-len
         'Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung',
@@ -75,12 +74,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
     },
     {
       keywordID: 6,
-      keyword: 'Arschloch Profanity',
+      keyword: 'Profanity',
       questions: [
         'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
-        'Fuck you!',
-        'fuck Fuck hiii cunt',
-        'fuck'
+        'Englisch: Fuck you!',
+        'Deutsch: Fick dich!',
+        'Französisch: Gros con!',
       ]
     },
 
