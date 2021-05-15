@@ -23,10 +23,15 @@ export class TopicDialogCommentComponent implements OnInit {
   constructor(private topicCloudAdminService: TopicCloudAdminService) { }
 
   get partsOfQuestion() {
-    const q = this.profanityFilter ? this.questionWithProfinity.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters) :
-              this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters);
-    const q2 = q.split(' ');
-    return q2;
+    if (this.profanityFilter) {
+      return this.questionWithProfinity
+          .slice(0,this.isCollapsed? this.questionWithProfinity.length: this.maxShowedCharachters)
+          .split(new RegExp(this.keyword,'i'));
+    } else {
+      return this.question
+          .slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
+          .split(new RegExp(this.keyword,'i'));
+    }
   }
 
   ngOnInit(): void {
