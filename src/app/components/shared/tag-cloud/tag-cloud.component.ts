@@ -25,6 +25,8 @@ import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
 import {CloudParameters, TagCloudHeaderDataOverview} from './tag-cloud.interface';
 import {TopicCloudAdministrationComponent} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+
 
 class CustomPosition implements Position {
   left: number;
@@ -188,7 +190,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               protected roomService: RoomService,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private wsCommentService: WsCommentServiceService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -238,6 +241,11 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1);
       }
     });
+    this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
+      this.commentService.getFilteredComments(this.roomId).subscribe((oldComments: Comment[]) => {
+        this.analyse(oldComments);
+      });
+  });
   }
 
   ngAfterViewInit() {
@@ -339,6 +347,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         userCount: userSet.size,
         tagCount: map.size
       } as TagCloudHeaderDataOverview);
+      this.data.length = 0;
       map.forEach((val, key) => {
           this.data.push(new TagComment(null,
             true, null, null,
