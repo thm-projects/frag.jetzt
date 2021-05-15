@@ -15,6 +15,7 @@ export class TopicCloudAdminService {
 
   constructor() {
     this.badWords = BadWords;
+    this.badWords['custom'] = ['nieder mit kqc'];
   }
 
   filterProfanityWords(str: string): string {
@@ -36,6 +37,13 @@ export class TopicCloudAdminService {
 
     // French Profanity
     this.badWords['fr'].map(word =>{
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfanity;
+    });
+
+    // Custom Profanity
+    this.badWords['custom'].map(word =>{
       questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
       this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
       : questionWithProfanity;
