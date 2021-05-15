@@ -29,8 +29,10 @@ mat-toolbar-row {
   font-weight: bold;
 }
 .noOfQuestions{
-  padding: 10px;
-  margin:0px;
+  position: absolute !important;
+  right: 100px !important;
+  padding: 10px !important;
+  margin:0px !important;
 }
 
 .comment_tag-icon{

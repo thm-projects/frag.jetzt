@@ -20,9 +20,9 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
-import { RoomService } from '../../../services/http/room.service';
 //import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import {CommentService} from "../../../services/http/comment.service";
 import {QuestionWallKeyEventSupport} from "../questionwall/QuestionWallKeyEventSupport";
 
 
@@ -41,7 +41,7 @@ export class HeaderComponent implements OnInit {
   motdState = false;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
-
+  commentsCountKeywords=0;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -304,6 +304,5 @@ export class HeaderComponent implements OnInit {
   public navigateTopicCloudAdministration() {
     this.eventService.broadcast('navigate', 'topicCloudAdministration');
   }
-
 
 }

@@ -16,14 +16,14 @@
       {{cTime}}
     </h2>
 
-    <ars-style-btn-material   *ngIf="router.url.includes('tagcloud')"  ars-flex-box>
+    <ars-style-btn-material  class="noOfQuestions" *ngIf="router.url.includes('tagcloud')"  ars-flex-box>
       <ars-col ars-btn-wrp [xp]="16" [extra]="true">
       <button ars-btn
               class="pseudo-button"
               matRipple
               matTooltip="{{'header.overview-question-tooltip' | translate}}">
         <i>comment</i>
-        <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+        <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
       </button>
       <button ars-btn
               class="pseudo-button"
@@ -38,7 +38,7 @@
               matRipple
               matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
         <mat-icon svgIcon="comment_tag"  class="oldtypo-h2 comment_tag-icon"></mat-icon>
-        <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+        <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
       </button>
       </ars-col>
     </ars-style-btn-material>
