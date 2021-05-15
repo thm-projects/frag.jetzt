@@ -10,7 +10,7 @@ export class TopicCloudAdminService {
   private badWords = [];
 
   get getBadWordList(): string[]{
-    return this.badWords;
+    return this.badWords['custom'];
   }
 
   constructor() {
@@ -54,7 +54,7 @@ export class TopicCloudAdminService {
 
   addToBadwordList(word: string){
     if (word !== undefined) {
-      this.badWords.push(word);
+      this.badWords['custom'].push(word);
     }
   }
 
