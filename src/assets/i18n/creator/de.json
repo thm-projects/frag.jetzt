@@ -82,6 +82,7 @@
     "export-comments": "Fragen speichern"
   },
   "spacy-dialog":{
+    "auto": "auto",
     "german": "Deutsch",
     "english": "Englisch",
     "french": "Französisch",

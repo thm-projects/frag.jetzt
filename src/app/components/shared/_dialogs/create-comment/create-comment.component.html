@@ -1,5 +1,20 @@
 <ars-row ars-flex-box>
   <ars-row>
+    <div class="lang-selection">
+    <button class="lang-btn" mat-button (click)="select.open()"
+    matTooltip="TODO: translate tip">
+    <i class="material-icons">language</i>
+      {{commentLang}}
+      <mat-select class="select-list" #select [(ngModel)]="commentLang">
+        <mat-option *ngFor="let lang of commentLangs" [value]="lang.lang">
+          <span *ngIf="lang.lang == 'auto'">{{ 'spacy-dialog.auto' | translate}}</span>
+          <span *ngIf="lang.lang == 'de'">{{ 'spacy-dialog.german' | translate}}</span>
+          <span *ngIf="lang.lang == 'en'">{{ 'spacy-dialog.english' | translate}}</span>
+          <span *ngIf="lang.lang == 'fr'">{{ 'spacy-dialog.french' | translate}}</span>
+        </mat-option>
+      </mat-select>
+    </button>
+  </div>
     <div class="anchor-wrp">
       <div class="anchor-right">
         <mat-form-field *ngIf="tags"

@@ -1,20 +1,5 @@
 <ars-row>
   <div class="anchor-wrp">
-
-    <ars-row class="lang-selection">
-      <button class="lang-btn" mat-button (click)="select.open()"
-              matTooltip="TODO: translate tip">
-        <i class="material-icons">language</i>
-        <mat-select class="select-list" #select [(ngModel)]="selectedLang" (selectionChange)="evalInput($event.value)">
-          <mat-option *ngFor="let lang of commentLang" [value]="lang.lang">
-            <span *ngIf="lang.lang == 'de'">{{ 'spacy-dialog.german' | translate}}</span>
-            <span *ngIf="lang.lang == 'en'">{{ 'spacy-dialog.english' | translate}}</span>
-            <span *ngIf="lang.lang == 'fr'">{{ 'spacy-dialog.french' | translate}}</span>
-          </mat-option>
-        </mat-select>
-      </button>
-    </ars-row>
-
     <span *ngIf="keywords.length > 0">
       <ars-row class="select-all-section">
         <mat-checkbox class="select-all-checkbox" id="checkAll" (change)="selectAll($event.checked)"></mat-checkbox>

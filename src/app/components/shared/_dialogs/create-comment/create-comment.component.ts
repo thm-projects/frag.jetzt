@@ -23,6 +23,15 @@ export class CreateCommentComponent implements OnInit {
   tags: string[];
   selectedTag: string;
 
+  commentLangs = [
+    { lang: 'de' },
+    { lang: 'en' },
+    { lang: 'fr' },
+    {lang: 'auto'}
+  ];
+  selectedLang = localStorage.getItem('auto');
+  commentLang: string = this.selectedLang;
+
   bodyForm = new FormControl('', [Validators.required]);
 
   @ViewChild('commentBody', { static: true })commentBody: HTMLTextAreaElement;
@@ -47,7 +56,6 @@ export class CreateCommentComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
   checkInputData(body: string): boolean {
     body = body.trim();
     if (!body) {
@@ -67,14 +75,15 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
-      this.openSpacyDialog(comment);
+      this.openSpacyDialog(comment, this.commentLang );
     }
   }
 
-  openSpacyDialog(comment: Comment): void {
+  openSpacyDialog(comment: Comment, commentLang: string): void {
     const dialogRef = this.dialog.open(SpacyDialogComponent, {
       data: {
-        comment
+        comment, 
+        commentLang
       }
     });
 

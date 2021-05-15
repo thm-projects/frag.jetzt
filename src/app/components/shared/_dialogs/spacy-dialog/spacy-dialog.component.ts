@@ -19,12 +19,7 @@ export interface Keyword {
 })
 export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
-  commentLang = [
-    { lang: 'de' },
-    { lang: 'en' },
-    { lang: 'fr' },
-  ];
-  selectedLang = localStorage.getItem('currentLang');
+  commentLang: string; 
   comment: Comment;
   keywords: Keyword[] = [];
 
@@ -37,10 +32,11 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   ngOnInit(): void {
     this.comment = this.data.comment;
+    this.commentLang = this.data.commentLang;
   }
 
   ngAfterContentInit(): void {
-    this.evalInput(this.selectedLang);
+    this.evalInput(this.commentLang);
   }
 
   /**

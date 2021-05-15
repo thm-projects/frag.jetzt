@@ -87,6 +87,7 @@
     "delete": "Löschen"
   },
   "spacy-dialog":{
+    "auto": "auto",
     "german": "Deutsch",
     "english": "Englisch",
     "french": "Französisch",
