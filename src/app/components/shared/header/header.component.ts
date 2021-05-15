@@ -23,6 +23,8 @@ import { MotdService } from '../../../services/http/motd.service';
 import { RoomService } from '../../../services/http/room.service';
 //import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import {QuestionWallKeyEventSupport} from "../questionwall/QuestionWallKeyEventSupport";
+
 
 @Component({
   selector: 'app-header',
@@ -37,6 +39,9 @@ export class HeaderComponent implements OnInit {
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
+  commentsCountQuestions = 0;
+  commentsCountUsers = 0;
+
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -49,7 +54,7 @@ export class HeaderComponent implements OnInit {
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
               private motdService: MotdService,
-              private confirmDialog: MatDialog
+              private confirmDialog: MatDialog,
   ) {
   }
 
@@ -299,5 +304,6 @@ export class HeaderComponent implements OnInit {
   public navigateTopicCloudAdministration() {
     this.eventService.broadcast('navigate', 'topicCloudAdministration');
   }
+
 
 }
