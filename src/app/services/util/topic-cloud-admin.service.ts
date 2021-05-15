@@ -1,29 +1,47 @@
 import { Injectable } from '@angular/core';
-import * as BadWordsList from 'badwords-list/lib/index.js';
+import * as BadWords from 'naughty-words';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class TopicCloudAdminService {
 
-  private badWords: string[] = [];
+  private badWords = [];
 
   get getBadWordList(): string[]{
     return this.badWords;
   }
 
   constructor() {
-    this.badWords = BadWordsList.array;
+    this.badWords = BadWords;
   }
 
   filterProfanityWords(str: string): string{
     let questionWithProfinity = str;
-      this.badWords.map(word =>{
-        questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
-        this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
-        : questionWithProfinity;
-      });
-      return questionWithProfinity;
+
+    // German Profanity
+    this.badWords['de'].map(word =>{
+      questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfinity;
+    });
+
+    // English Profanity
+    this.badWords['en'].map(word =>{
+      questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfinity;
+    });
+
+    // French Profanity
+    this.badWords['fr'].map(word =>{
+      questionWithProfinity = questionWithProfinity.toLowerCase().includes(word) ?
+      this.replaceString(questionWithProfinity.toLowerCase(), word, this.generateXWord(word.length))
+      : questionWithProfinity;
+    });
+
+    return questionWithProfinity;
     }
 
   addToBadwordList(word: string){
