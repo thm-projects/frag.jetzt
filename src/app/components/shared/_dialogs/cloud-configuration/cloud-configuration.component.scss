@@ -142,8 +142,7 @@ mat-divider {
 }
 
 .cloud-configuration-form{
-  width: 265px;
-  margin-top: 60px;
+  width: 290px;
 }
 
 .drawer-container{
@@ -179,4 +178,10 @@ mat-divider {
 
 .weight-class-button {
   margin-bottom: 0;
+}
+
+.special-settings{
+  border-top: 2px solid var(--primary);
+  border-bottom: 2px solid var(--primary);
+  padding: 10px 0;
 }

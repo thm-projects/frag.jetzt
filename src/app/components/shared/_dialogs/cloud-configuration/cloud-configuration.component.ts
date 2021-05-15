@@ -41,18 +41,21 @@ export class CloudConfigurationComponent implements OnInit{
     tagColor: '#FF0000'},
   ];
 
+  isTestCloud = false;
+
   constructor(private translateService: TranslateService) {}
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudParameters = this.parent.getCurrentCloudParameters();
-    this.defaultCloudParameters = this.parent.getCurrentCloudParameters();
+    this.defaultCloudParameters = this.parent.getCurrentCloudParameters();    
+    this.parseArrayToJsonWeightClasses();
     this.extendedView = false;
   }
 
   fontColorChanged(value: string){
     this.cloudParameters.fontColor = value;
-    this.parent.setCloudParameters(this.cloudParameters, false);
+    this.valueChanged();
   }
 
   backgroundColorChanged(value: string){
@@ -60,8 +63,29 @@ export class CloudConfigurationComponent implements OnInit{
     this.valueChanged();
   }
 
+  parseArrayToJsonWeightClasses(){
+    this.cloudParameters.cloudWeightCount.forEach((element, i) => {
+      this.weightClasses[i].maxTagNumber = element;
+    });
+
+    this.cloudParameters.cloudWeightColor.forEach((element, i) => {
+      this.weightClasses[i].tagColor = element;
+    });
+  }
+  
+  parseJsonToArrayWeightClasses(){
+    this.weightClasses.forEach((element, i) => {
+      this.cloudParameters.cloudWeightCount[i] =  element.maxTagNumber;
+      this.cloudParameters.cloudWeightColor[i] =  element.tagColor;
+    });
+  }
+
+
   valueChanged(){
+    this.parseJsonToArrayWeightClasses();
     this.parent.setCloudParameters(this.cloudParameters, false);
+    console.log(this.cloudParameters);
+    
   }
 
   cancel(){
@@ -80,9 +104,7 @@ export class CloudConfigurationComponent implements OnInit{
 
   weightColorChanged(index: number, event: string): void {
     this.weightClasses[index].tagColor = event;
+    this.valueChanged();
   }
 
-  maxNumberOfWordsChanged(): void {
-    //TODO: implement something
-  }
 }

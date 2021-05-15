@@ -1,12 +1,16 @@
 <div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
   <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView">
-    <div  class="button-row weight-class-button">
-      <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
-    </div>
     <h2>{{'tag-cloud-config.title' | translate}}</h2>
-    <h3>{{'tag-cloud-config.general' | translate}}</h3>
-    <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+    <div class="input-row special-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <mat-slide-toggle fxFlex [(ngModel)]="isTestCloud"
+          [ngModelOptions]="{standalone: true}">Demo Cloud</mat-slide-toggle>
+      </div>
+      <div  class="button-row weight-class-button">
+        <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
+      </div>
     </div>
+    <h3>{{'tag-cloud-config.general' | translate}}</h3>
     <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <mat-slide-toggle (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
         [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
@@ -112,7 +116,7 @@
       <div class="input-row" fxLayout="column" fxLayoutGap="5px">
         <mat-label class="label-text">{{'tag-cloud-config.weight-number' | translate}}</mat-label>
         <mat-slider [value]="weightClass.maxTagNumber" min="0" max="30" step="1"
-                    [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="maxNumberOfWordsChanged()"
+                    [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                     [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
       </div>
     </div>
