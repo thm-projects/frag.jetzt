@@ -233,6 +233,22 @@ export class TopicCloudAdministrationComponent implements OnInit {
     return undefined;
   }
   keywordtoSpacy(text: string,model: string) {
+    //console.log(text,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+    for (const keyword of this.keywords) {
+      if (keyword.keyword===text) {
+        //  console.log(keyword.keyword);
+        for( let i=0;i <keyword.questions.length;i++){
+          // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
+          this.spacyService.analyse(keyword.questions[i], model)
+            .subscribe(res => {
+              console.log(res.words);
+              //  console.log(res.arcs);
+            }, () => {
+              console.log('error');
+            });
+        }
+      }
+    }//console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
   }
 }
 
