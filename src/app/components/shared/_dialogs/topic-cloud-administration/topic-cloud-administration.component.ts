@@ -25,6 +25,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   isCreatorOrMod: boolean;
   enterBadword: boolean = false;
   newBadWord: string = undefined;
+  output: any | undefined;
 
   sortMode = 'alphabetic';
   editedKeyword = false;
@@ -245,6 +246,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
           this.spacyService.analyse(keyword.questions[i], model)
             .subscribe(res => {
               console.log(res.words);
+              this.output = res.words;
               //  console.log(res.arcs);
             }, () => {
               console.log('error');
@@ -253,7 +255,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
       }
     }
   }
-  
+
   commentLang = [
     { lang: 'tagkeyword' },
     { lang: 'spacykeyword' },

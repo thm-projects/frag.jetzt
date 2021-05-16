@@ -8,7 +8,7 @@
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
     </div>
-    
+
 
     <mat-accordion hideToggle class="new-Badword" multi>
       <mat-expansion-panel>
@@ -18,19 +18,19 @@
             <mat-icon>add</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
-    
+
         <mat-form-field>
           <mat-label>Enter word</mat-label>
           <input [(ngModel)]="newBadWord" matInput>
         </mat-form-field>
-        
+
         <button mat-button color="primary" (click)="addBadword()">
           <mat-icon>add_circle</mat-icon>
           send
         </button>
       </mat-expansion-panel>
     </mat-accordion>
-    
+
     <!--mat-icon _ngcontent-oki-c368="" role="img" class="mat-icon
     notranslate header-icons material-icons mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font">more_vert </mat-icon-->
       <!--mat-select class="select-list" [(ngModel)]="selectedLang" >
@@ -62,7 +62,7 @@
         </mat-select>
       </mat-form-field>
 
-    </div>
+
    </mat-card>
 
   <div fxLayout="row" style="margin-top: 10px;">
@@ -167,4 +167,7 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
+  <section>
+    <li *ngFor="let translate of this.output"> ({{this.translate.tag}}      : "   {{translate.text}} ") <br> </li>
+  </section>
 </mat-dialog-content>
