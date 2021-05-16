@@ -8,6 +8,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import {Comment} from "../../../../models/comment";
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -27,6 +28,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
+  model=new FormControl('');
 
   keywords: Keyword[] = [
     {
