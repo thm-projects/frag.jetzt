@@ -1,8 +1,36 @@
 <mat-dialog-content>
   <mat-card>
-    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.consider-votes' | translate}}</mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="profanityFilter">{{'topic-cloud-dialog.profanity' | translate}}</mat-slide-toggle>
     <div>
+      <mat-slide-toggle [(ngModel)]="considerVotes">
+          {{'topic-cloud-dialog.consider-votes' | translate}}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="profanityFilter">
+        {{'topic-cloud-dialog.profanity' | translate}}
+      </mat-slide-toggle>
+    </div>
+    
+
+    <mat-accordion hideToggle class="new-Badword" multi>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-description>
+            add new profanity word
+            <mat-icon>add</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <mat-form-field>
+          <mat-label>Enter word</mat-label>
+          <input [(ngModel)]="newBadWord" matInput>
+        </mat-form-field>
+        
+        <button mat-button color="primary" (click)="addBadword()">
+          <mat-icon>add_circle</mat-icon>
+          send
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+    
     <!--mat-icon _ngcontent-oki-c368="" role="img" class="mat-icon
     notranslate header-icons material-icons mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font">more_vert </mat-icon-->
       <!--mat-select class="select-list" [(ngModel)]="selectedLang" >
@@ -11,7 +39,12 @@
           <span *ngIf="lang.lang == 'spacyfrage'">spacy keyword</span>
         </mat-option>
       </mat-select-->
+<<<<<<< HEAD
       <!-- <mat-form-field>
+=======
+    <div>
+      <mat-form-field>
+>>>>>>> added panel fir adding new bad word to the list
         <mat-label>key wählen</mat-label>
         <mat-select [(ngModel)]="selectedLang">
           <mat-option *ngFor="let team of commentLang" [value]="team.lang">

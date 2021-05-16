@@ -7,9 +7,9 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import {Comment} from "../../../../models/comment";
 import { FormControl } from '@angular/forms';
 import { SpacyService } from '../../../../services/http/spacy.service';
+import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -23,6 +23,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
+  enterBadword: boolean = false;
+  newBadWord: string = undefined;
 
   sortMode = 'alphabetic';
   editedKeyword = false;
@@ -94,7 +96,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private translateService: TranslateService,
               private spacyService: SpacyService,
-              private langService: LanguageService) {
+              private langService: LanguageService,
+              private topicCloudAdminService: TopicCloudAdminService) {
 
                 this.langService.langEmitter.subscribe(lang => {
                   this.translateService.use(lang);
@@ -248,7 +251,18 @@ export class TopicCloudAdministrationComponent implements OnInit {
             });
         }
       }
-    }//console.log('hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
+    }
+  }
+  
+  commentLang = [
+    { lang: 'tagkeyword' },
+    { lang: 'spacykeyword' },
+  ];
+  selectedLang = localStorage.getItem('currentLang');
+  comment: Comment;
+
+  addBadword(){
+    this.topicCloudAdminService.addToBadwordList(this.newBadWord);
   }
 }
 
