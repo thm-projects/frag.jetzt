@@ -26,6 +26,7 @@ import {ThemeService} from '../../../../theme/theme.service';
 import {CloudParameters, CloudWeightColor, CloudWeightCount, TagCloudHeaderDataOverview} from './tag-cloud.interface';
 import {TopicCloudAdministrationComponent} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { demoMap } from './demoData';
 
 class CustomPosition implements Position {
   left: number;
@@ -182,6 +183,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   randomizeAngle = false;
   isLoading = true;
   dataSize: CloudWeightCount;
+  
+  //Demo Toggle
+  isDemo:boolean = false;
+  oldCloudData = [];
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -368,6 +373,18 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateTagCloud() {
+    let oldData = [].concat(this.data);
+
+    if(this.isDemo){
+      this.data = [];
+      demoMap.forEach((val, key) => {
+        this.data.push(new TagComment(null,
+          true, null, null,
+          this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
+          'TODO', val));
+        });
+    }
+
     this.isLoading = true;
     if (this.sorted && this.data.length) {
       if (!this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
@@ -452,4 +469,13 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  public demoToggle(){
+    if(this.isDemo){
+      this.data = [].concat(this.oldCloudData);
+    }else{
+      this.oldCloudData = [].concat(this.data);
+    }
+    this.isDemo  = !this.isDemo;
+    this.updateTagCloud();
+  }
 }

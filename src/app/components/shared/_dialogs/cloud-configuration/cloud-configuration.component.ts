@@ -1,11 +1,8 @@
-
-
-
 import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { CloudParameters } from '../../tag-cloud/tag-cloud.interface';
-import { WeightClass } from '../../tag-cloud/weight-class.interface';
+import { WeightClass } from './weight-class.interface';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -41,6 +38,7 @@ export class CloudConfigurationComponent implements OnInit{
     tagColor: '#FF0000'},
   ];
 
+
   isTestCloud = false;
 
   constructor(private translateService: TranslateService) {}
@@ -64,6 +62,7 @@ export class CloudConfigurationComponent implements OnInit{
   }
 
   parseArrayToJsonWeightClasses(){
+    console.log(this.cloudParameters)
     this.cloudParameters.cloudWeightCount.forEach((element, i) => {
       this.weightClasses[i].maxTagNumber = element;
     });
@@ -89,11 +88,15 @@ export class CloudConfigurationComponent implements OnInit{
   }
 
   cancel(){
+    this.parent.isDemo = true;
+    this.parent.demoToggle();
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
   }
 
   save(){
+    this.parent.isDemo = true;
+    this.parent.demoToggle();
     this.parent.setCloudParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
   }
@@ -101,6 +104,7 @@ export class CloudConfigurationComponent implements OnInit{
   toggleExtendedView(){
     this.extendedView = !this.extendedView;
   }
+
 
   weightColorChanged(index: number, event: string): void {
     this.weightClasses[index].tagColor = event;
