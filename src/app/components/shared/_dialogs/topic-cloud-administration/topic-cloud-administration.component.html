@@ -113,7 +113,8 @@
           (click)="openConfirmDialog(keyword)">
           <mat-icon class="red">delete</mat-icon>
         </button>
-        <button class="margin-right" mat-icon-button style="align-self:flex-end;">send to spacy
+        <button class="margin-right" mat-icon-button style="align-self:flex-end;"
+                (click)="keywordtoSpacy(keyword.keyword,model.value.toString())">send to spacy
         </button>
       </div>
 

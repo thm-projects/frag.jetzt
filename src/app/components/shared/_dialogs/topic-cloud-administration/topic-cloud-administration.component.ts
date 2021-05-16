@@ -93,6 +93,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
               private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
               private translateService: TranslateService,
+              private spacyService: SpacyService,
               private langService: LanguageService) {
 
                 this.langService.langEmitter.subscribe(lang => {
@@ -231,12 +232,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
     return undefined;
   }
-  commentLang = [
-    { lang: 'tagkeyword' },
-    { lang: 'spacykeyword' },
-  ];
-  selectedLang = localStorage.getItem('currentLang');
-  comment: Comment;
+  keywordtoSpacy(text: string,model: string) {
+  }
 }
 
 interface Keyword {
