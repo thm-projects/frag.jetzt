@@ -178,6 +178,27 @@ mat-card-content > :first-child {
   color: var(--primary);
   margin-right: 10px;
 }
+.comment-keywords {
+  cursor: pointer;
+  color: var(--on-surface);
+  margin-left: 10px;
+}
+
+
+.keywords-list {
+  margin-top: 10px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
+  padding-top: 0 !important;
+}
+.keywords-even {
+background-color: var(--alt-dialog);
+}
+.keyword-span {
+  color: var(--on-surface) !important;
+  opacity: 1 !important;
+}
 
 .user-number {
   cursor: pointer;

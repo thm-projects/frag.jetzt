@@ -317,6 +317,28 @@
           {{comment.userNumber}}
         </strong>
       </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
+           [mat-menu-trigger-for]="keywordsMenu"
+           class="comment-keywords">
+        <mat-icon svgIcon="comment_tag"></mat-icon>
+        <span>
+          &nbsp;{{ 'comment-page.keywords' | translate }}
+        </span>
+        <mat-menu #keywordsMenu>
+          <span class="keyword-span">{{ 'comment-page.keywords' | translate }}:</span>
+          <mat-divider></mat-divider>
+          <mat-list dense class="keywords-list">
+            <mat-list-item  *ngFor="let keyword of comment.keywords; let odd = odd; let even = even"
+                            [class.keywords-alternate]="odd"
+                            [class.keywords-even]="even"
+                            [ngClass]="{'keyword-selected': keyword.selected}">
+                            <span class="keyword-span">{{keyword}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-menu>
+      </div>
+
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
               class="moderate-button"
