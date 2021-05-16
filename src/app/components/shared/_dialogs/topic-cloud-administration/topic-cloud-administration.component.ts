@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import {Comment} from "../../../../models/comment";
 import { FormControl } from '@angular/forms';
+import { SpacyService } from '../../../../services/http/spacy.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
