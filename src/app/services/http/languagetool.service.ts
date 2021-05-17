@@ -16,7 +16,7 @@ export class LanguagetoolService extends BaseHttpService {
     super();
   }
 
-  mapLanguageToSpacyModel(language: Language): string {
+  mapLanguageToSpacyModel(language: Language): Model {
     switch (language) {
       case 'de-DE':
         return 'de';
