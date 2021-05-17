@@ -78,6 +78,10 @@ export class CreateCommentComponent implements OnInit {
   openSpacyDialog(comment: Comment): void {
     this.checkSpellings(comment.body).subscribe((res) => {
       const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
+      for(let i = res.matches.length - 1; i >= 0; i--){
+        comment.body = comment.body.substr(0, res.matches[i].offset) +
+          comment.body.substr(res.matches[i].offset + res.matches[i].length, comment.body.length);
+      }
       const dialogRef = this.dialog.open(SpacyDialogComponent, {
         data: {
           comment,
@@ -125,9 +129,9 @@ export class CreateCommentComponent implements OnInit {
 
   grammarCheck(commentBody: HTMLDivElement): void {
     let wrongWords: string[] = [];
-    this.checkSpellings(commentBody.innerText).subscribe((res) => {
-      if(res.matches.length > 0 ) {
-        res.matches.forEach(grammarError => {
+    this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
+      if(wordsCheck.matches.length > 0 ) {
+        wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
           wrongWords.push(wrongWord);
         });
@@ -139,7 +143,7 @@ export class CreateCommentComponent implements OnInit {
             if (wrongWords.includes(wrongWord)) { // Only replace the real Words, excluding the HTML tags
               const msg = res.matches[i].message; // The explanation of the suggestion for improvement
               const suggestions = res.matches[i].replacements; // The suggestions for improvement. Access: suggestions[x].value
-              const replacement = '<span style="color: #cc4244;">'  // set the Styling for all marked words
+              const replacement = '<span style="text-decoration: underline wavy red">'  // set the Styling for all marked words
                 // Select menu with suggestions has to be injected here.
                 + wrongWord +
                 '</span>';

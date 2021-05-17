@@ -45,6 +45,7 @@
           <mat-form-field style="width:100%;">
             <input [disabled]="true" matInput>
             <div [contentEditable]="true"
+                      [spellcheck]="false"
                       (focus)="eventService.makeFocusOnInputTrue()"
                       style="margin-top:15px;width:100%;"
                       (blur)="eventService.makeFocusOnInputFalse()"
