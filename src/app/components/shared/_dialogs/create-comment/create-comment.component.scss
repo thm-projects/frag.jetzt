@@ -19,6 +19,12 @@ app-comment-list {
   color: var(--on-surface);
   caret-color: var(--on-surface);
   -webkit-appearance: textarea;
+  min-height: 50px;
+  cursor: text;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .send {
