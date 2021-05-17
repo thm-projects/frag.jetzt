@@ -16,16 +16,16 @@ export class LanguagetoolService extends BaseHttpService {
     super();
   }
 
-  mapLanguageToSpacyModel(language: Language): Model {
+  mapLanguageToSpacyModel(language: Language): string {
     switch (language) {
       case 'de-DE':
         return 'de';
       case 'en-US':
         return 'en';
       case 'fr':
-        return 'fr'
+        return 'fr';
       default:
-        return 'de'
+        return 'de';
     }
   }
 

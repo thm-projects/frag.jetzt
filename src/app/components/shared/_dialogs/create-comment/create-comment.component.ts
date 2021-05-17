@@ -32,14 +32,14 @@ export class CreateCommentComponent implements OnInit {
   @ViewChild('commentBody', { static: true })commentBody: HTMLDivElement;
 
   constructor(
-              private notification: NotificationService,
-              public dialogRef: MatDialogRef<CommentListComponent>,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              private translationService: TranslateService,
-              private languagetoolService: LanguagetoolService,
-              public eventService: EventService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+    private notification: NotificationService,
+    public dialogRef: MatDialogRef<CommentListComponent>,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    private translationService: TranslateService,
+    public languagetoolService: LanguagetoolService,
+    public eventService: EventService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
   ngOnInit() {
@@ -111,14 +111,14 @@ export class CreateCommentComponent implements OnInit {
   }
 
   checkSpellings(text: string, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(text, language)
+    return this.languagetoolService.checkSpellings(text, language);
   }
 
   maxLength(commentBody: HTMLDivElement): void {
     // Cut the text down to 500 or 1000 chars depending on the user role.
-    if(this.user.role == 3 && commentBody.innerText.length > 1000) {
+    if(this.user.role === 3 && commentBody.innerText.length > 1000) {
       commentBody.innerText = commentBody.innerText.slice(0, 1000);
-    } else if(this.user.role != 3 && commentBody.innerText.length > 500){
+    } else if(this.user.role !== 3 && commentBody.innerText.length > 500){
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
   }
@@ -130,7 +130,7 @@ export class CreateCommentComponent implements OnInit {
         res.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
           wrongWords.push(wrongWord);
-        })
+        });
         this.checkSpellings(commentBody.innerHTML).subscribe((res) => {
           for(let i = res.matches.length - 1; i >= 0; i--){ // Reverse for loop to make sure the offset is right.
             const wrongWord = commentBody.innerHTML

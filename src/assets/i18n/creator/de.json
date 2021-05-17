@@ -83,9 +83,9 @@
   },
   "spacy-dialog":{
     "auto": "auto",
-    "german": "Deutsch",
-    "english": "Englisch",
-    "french": "Französisch",
+    "de": "Deutsch",
+    "en": "Englisch",
+    "fr": "Französisch",
     "empty-nouns": "Keine Nomen enthalten",
     "select-all": "Alles auswählen"
   },

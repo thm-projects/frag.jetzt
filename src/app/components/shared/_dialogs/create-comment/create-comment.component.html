@@ -3,12 +3,12 @@
     <div class="lang-selection">
     <button class="lang-btn" mat-button (click)="select.open()">
     <i class="material-icons">language</i>
-      {{selectedLang}}
+      {{'spacy-dialog.' + (selectedLang === 'auto' ? 'auto' : languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
       <mat-select class="select-list" #select [(ngModel)]="selectedLang">
         <mat-option *ngFor="let lang of languages" [value]="lang">
-          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.german' | translate }}</span>
-          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.english' | translate }}</span>
-          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.french' | translate }}</span>
+          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
           <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
         </mat-option>
       </mat-select>
