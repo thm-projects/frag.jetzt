@@ -147,8 +147,8 @@
           (click)="openConfirmDialog(keyword)">
           <mat-icon class="red">delete</mat-icon>
         </button>
-        <button class="margin-right" mat-icon-button style="align-self:flex-end;"
-                (click)="keywordtoSpacy(keyword.keyword,model.value.toString())">send to spacy
+        <button class="margin-right" id="send_to_spacy"
+                (click)="keywordtoSpacy(keyword.keyword,model.value.toString())">send Keyword to spacy
         </button>
       </div>
 
@@ -167,18 +167,15 @@
         </div>
       </div>
     </mat-expansion-panel>
+    <section>
+      <mat-card>
+        <li *ngFor="let translate of this.output" class="color12"> {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
+      </mat-card>
+    </section>
+
   </mat-accordion>
   <mat-divider></mat-divider>
   <mat-accordion>
-
-
-
-
-  <section>
-    <mat-card>
-      <li *ngFor="let translate of this.output" class="color12"> {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
-    </mat-card>
-  </section>
 
 
   </mat-accordion>

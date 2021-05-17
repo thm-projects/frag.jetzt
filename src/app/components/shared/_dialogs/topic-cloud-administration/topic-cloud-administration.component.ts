@@ -34,6 +34,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   filteredKeywords: Keyword[] = [];
   model=new FormControl('');
   output: any | undefined;
+  newOutput: [];
 
   keywords: Keyword[] = [
     {
@@ -249,7 +250,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
     return undefined;
   }
-  
+
   keywordtoSpacy(text: string,model: string) {
     for (const keyword of this.keywords) {
       if (keyword.keyword===text) {
@@ -289,7 +290,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     for (let i = 0; i < this.keywordsWithProfanity.length; i++){
       // TODO: filter also keywords
       for (let j = 0; j < this.keywordsWithProfanity[i].questions.length; j++){
-        this.keywordsWithProfanity[i].questions[j] = 
+        this.keywordsWithProfanity[i].questions[j] =
         this.topicCloudAdminService.filterProfanityWords(this.keywords[i].questions[j]);
       }
     }

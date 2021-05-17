@@ -31,7 +31,6 @@
 mat-panel-description, mat-panel-title, p, input {
   color: var(--on-background);
 }
-
 mat-icon {
   fill: currentColor;
 }
@@ -48,6 +47,12 @@ mat-expansion-panel-header, mat-expansion-panel, mat-card {
 .resCount{
   color: var(--red) !important;
   font-weight: bold;
+
+}
+#send_to_spacy{
+  color: khaki;
+  background-color: blueviolet;
+  opacity: 0.3;
 }
 
 label {
