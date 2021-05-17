@@ -251,6 +251,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
     localStorage.setItem('currentPeriod', JSON.stringify(this.period));
     localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+    localStorage.setItem('currentTimestamp', JSON.stringify(null)); // can be null
+
   }
 
   getModeratorIds() {
@@ -562,6 +564,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
       this.notificationService.show(msg);
     });
+    localStorage.setItem('currentTimestamp', JSON.stringify(new Date().getTime())); // can be null
+    localStorage.setItem('commentStreamPaused', JSON.stringify(true));
   }
 
   playCommentStream() {
@@ -576,6 +580,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
       this.notificationService.show(msg);
     });
+    localStorage.setItem('commentStreamPaused', JSON.stringify(false));
   }
 
   subscribeCommentStream() {

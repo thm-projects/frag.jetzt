@@ -35,11 +35,19 @@ export class CommentFilterUtils {
                     break;
             }
         }
+        
+        if (JSON.parse(localStorage.getItem('commentStreamPaused')) === true) {
+          const commentTime = new Date(com.timestamp).getTime();
+          const filterTime = JSON.parse(localStorage.getItem('currentTimestamp'));
+          console.log(filterTime);
+        
+          return (commentTime < filterTime);
+        }
 
         const commentTime = new Date(com.timestamp).getTime();
-        const filterTime = (period === Period.FROMNOW ? timestamp : (currentTime.getTime() - periodInSeconds));
-        
-        return (commentTime < filterTime);
+          const filterTime = (period === Period.FROMNOW ? timestamp : (currentTime.getTime() - periodInSeconds));
+          
+          return (commentTime < filterTime);
     }
 
     private static checkFilters(com : Comment) : boolean {
