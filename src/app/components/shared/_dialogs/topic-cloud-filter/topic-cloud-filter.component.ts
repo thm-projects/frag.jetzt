@@ -6,6 +6,7 @@ import {RoomCreatorPageComponent} from '../../../creator/room-creator-page/room-
 import {LanguageService} from '../../../../services/util/language.service';
 import {EventService} from '../../../../services/util/event.service';
 import {ActivatedRoute, Router} from '@angular/router';
+import { CommentFilterOptions } from '../../../../utils/filter-options';
 
 @Component({
   selector: 'app-topic-cloud-filter',
@@ -17,10 +18,10 @@ export class TopicCloudFilterComponent implements OnInit {
   @Input() commentsFilteredByTime: any;
 
   continueFilter = 'continueWithCurr';
-  tmpCurFilters: string;
-  tmpPeriod: string;
-  shortId: string;
 
+  tmpFilter : CommentFilterOptions;
+  shortId: string;
+  
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
               public notificationService: NotificationService,
@@ -35,8 +36,8 @@ export class TopicCloudFilterComponent implements OnInit {
 
   ngOnInit() {
     this.translationService.use(localStorage.getItem('currentLang'));
-    this.tmpPeriod = localStorage.getItem('currentPeriod');
-    this.tmpCurFilters = localStorage.getItem('currentFilters');
+    this.tmpFilter = CommentFilterOptions.readFilter();
+    localStorage.setItem("filtertmp", JSON.stringify(this.tmpFilter));
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
     });
@@ -51,28 +52,26 @@ export class TopicCloudFilterComponent implements OnInit {
   }
 
   confirmButtonActionCallback(): () => void {
-    localStorage.setItem('currentFilters', this.tmpCurFilters);
-    localStorage.setItem('currentPeriod', this.tmpPeriod);
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(null));
+    let filter : CommentFilterOptions;
+
     switch (this.continueFilter) {
       case 'continueWithAll':
-        localStorage.setItem('currentFilters', JSON.stringify(''));
+        filter = new CommentFilterOptions(); // all questions allowed
         break;
-
-      case 'continueWithCurr':
-        // filter set already
-        break;
-
+  
       case 'continueWithAllFromNow':
-        localStorage.setItem('currentFilters', JSON.stringify(''));
-        localStorage.setItem('currentPeriod', JSON.stringify('from-now'));
-        localStorage.setItem('currentFromNowTimestamp', JSON.stringify(new Date().getTime()));
+        filter = CommentFilterOptions.generateFilterNow(this.tmpFilter.filterSelected);
+        break;
+          
+      case 'continueWithCurr':
+        filter = JSON.parse(localStorage.getItem("filtertmp")) as CommentFilterOptions;
         break;
 
       default:
-        break;
+        return;
     }
 
+    CommentFilterOptions.writeFilterStatic(filter);
     return () => this.dialogRef.close(this.router.navigateByUrl('/participant/room/' + this.shortId + '/comments/tagcloud'));
   }
 }

@@ -83,19 +83,12 @@ export class DialogActionButtonsComponent implements OnInit {
     }
   }
 
-
   /**
    * Performs the cancel button click action.
    */
   public performCancelButtonClickAction(): void {
     if (this.cancelButtonClickAction !== undefined) {
       this.cancelButtonClickAction();
-    }
-  }
-  public filterzu(): void{
-    if (this.resetButtonClickAction !== undefined) {
-      this.resetButtonClickAction();
-      
     }
   }
 }
