@@ -237,7 +237,9 @@
     "sort-alpha": "Alphabetisch",
     "sort-count": "Fragenanzahl",
     "sort-vote": "Votes",
-    "keyword-search": "Stichwort suchen"
+    "keyword-search": "Stichwort suchen",
+    "add-profanity-word": "Wort zur Zensurliste hinzufügen",
+    "send": "Abschicken"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",

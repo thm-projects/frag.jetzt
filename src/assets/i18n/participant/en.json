@@ -243,7 +243,9 @@
     "sort-alpha": "Alphabetically",
     "sort-count": "Questions count",
     "sort-vote": "Votes",
-    "keyword-search": "Search keyword"
+    "keyword-search": "Search keyword",
+    "add-profanity-word": "Add word to profanity list",
+    "send": "Send"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

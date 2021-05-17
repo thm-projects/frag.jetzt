@@ -11,11 +11,12 @@
 
 
     <mat-accordion hideToggle class="new-Badword" multi>
-      <mat-expansion-panel class="color-background" (opened)="enterBadword = true"
-                           (closed)="enterBadword = false">
+      <mat-expansion-panel class="color-background"
+                          (opened)="enterBadword = true"
+                          (closed)="enterBadword = false">
       <mat-expansion-panel-header class="color-background">
           <mat-panel-description>
-            add new profanity word
+            {{'topic-cloud-dialog.add-profanity-word' | translate}}
             <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
@@ -27,7 +28,7 @@
 
         <button mat-button color="primary" (click)="addBadword()">
           <mat-icon>add_circle</mat-icon>
-          send
+          {{'topic-cloud-dialog.send' | translate}}
         </button>
       </mat-expansion-panel>
     </mat-accordion>
