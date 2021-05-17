@@ -98,6 +98,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   period: Period = Period.TWOWEEKS;
   fromNow: number;
   moderatorIds: string[];
+  commentsEnabled: boolean;
 
   constructor(
     private commentService: CommentService,
@@ -217,6 +218,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.roomId = room.id;
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
+          this.commentsEnabled = (this.userRole > 0) || !this.room.closed;
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);

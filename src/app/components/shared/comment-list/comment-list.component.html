@@ -233,7 +233,7 @@
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
-<button *ngIf="!room.closed"
+<button *ngIf="commentsEnabled"
         mat-fab
         mat-icon-button
         aria-labelledby="add"
@@ -250,6 +250,7 @@
                [userRole]="userRole"
                [moderator]="false"
                [user]="user"
+               [disabled]="!commentsEnabled"
                (clickedOnTag)="clickedOnTag($event)"
                (clickedUserNumber)="clickedUserNumber($event)">
   </app-comment>

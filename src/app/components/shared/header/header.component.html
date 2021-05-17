@@ -107,7 +107,7 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="(user.role == 0 && !room.closed) && user && !router.url.endsWith('moderator/comments')"
+                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && !room.closed))"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>
@@ -335,7 +335,7 @@
       <ng-container *ngIf="shortId && user && user.role > 0">
         <button mat-menu-item
                 (click)="blockQuestions()"
-                [ngClass]="{'selected': room.closed}"
+                [ngClass]="{'color-warn': room.closed}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
           <span>{{'header.block' | translate}}</span>

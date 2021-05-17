@@ -113,6 +113,9 @@ export class HeaderComponent implements OnInit {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
             this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
+          } else {
+            this.shortId = '';
+            this.room = null;
           }
         }
       }
@@ -307,6 +310,7 @@ export class HeaderComponent implements OnInit {
   public blockQuestions() {
     // flip state if clicked
     this.room.closed = !this.room.closed;
+    this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
   }
 
 }

@@ -256,7 +256,7 @@
       <div
         fxLayout="column"
         fxLayoutAlign="center"
-        *ngIf="isStudent"
+        *ngIf="isStudent && !disabled"
         [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
         <button mat-icon-button
                 (click)="voteUp(comment)"
