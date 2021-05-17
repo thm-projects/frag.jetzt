@@ -80,7 +80,8 @@
     "token": "Bonus token",
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
-    "export-comments": "Save questions"
+    "export-comments": "Save questions",
+    "questions-blocked": "Question are blocked"
   },
   "spacy-dialog": {
     "german": "German",
