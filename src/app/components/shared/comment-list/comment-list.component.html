@@ -233,7 +233,8 @@
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
-<button mat-fab
+<button *ngIf="!room.closed"
+        mat-fab
         mat-icon-button
         aria-labelledby="add"
         class="fab_add_comment"

@@ -20,9 +20,10 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
-import { RoomService } from '../../../services/http/room.service';
 //import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { RoomService } from '../../../services/http/room.service';
+import { Room } from '../../../models/room';
 
 @Component({
   selector: 'app-header',
@@ -37,6 +38,7 @@ export class HeaderComponent implements OnInit {
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
+  room : Room;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -49,7 +51,8 @@ export class HeaderComponent implements OnInit {
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
               private motdService: MotdService,
-              private confirmDialog: MatDialog
+              private confirmDialog: MatDialog,
+              private roomService: RoomService
   ) {
   }
 
@@ -109,6 +112,7 @@ export class HeaderComponent implements OnInit {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
+            this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
           }
         }
       }
@@ -301,7 +305,8 @@ export class HeaderComponent implements OnInit {
   }
 
   public blockQuestions() {
-    
+    // flip state if clicked
+    this.room.closed = !this.room.closed;
   }
 
 }
