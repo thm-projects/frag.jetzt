@@ -20,32 +20,33 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-
+    const questionLowerCase = str.toLowerCase();
+    
     // German Profanity
     this.badWords['de'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
+      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
 
     // English Profanity
     this.badWords['en'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
+      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
 
     // French Profanity
     this.badWords['fr'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
+      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
 
     // Custom Profanity
     this.badWords['custom'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word, this.generateXWord(word.length))
+      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
+      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
 

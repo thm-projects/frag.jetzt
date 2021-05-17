@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 
 @Component({
@@ -6,14 +6,13 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
   templateUrl: './topic-dialog-comment.component.html',
   styleUrls: ['./topic-dialog-comment.component.scss']
 })
-export class TopicDialogCommentComponent implements OnInit {
+export class TopicDialogCommentComponent implements OnInit, OnChanges {
 
   @Input() question: string;
   @Input() keyword: string ;
   @Input() maxShowedCharachters: number;
   @Input() isCollapsed = false;
   @Input() profanityFilter = true;
-  @Input() badWord: string;
 
   public badWords = [];
   questionWithProfinity: string = undefined;
@@ -21,6 +20,9 @@ export class TopicDialogCommentComponent implements OnInit {
   public shortQuestion: string;
 
   constructor(private topicCloudAdminService: TopicCloudAdminService) { }
+
+  ngOnChanges(changes: SimpleChanges){
+  }
 
   get partsOfQuestion() {
     if (this.profanityFilter) {

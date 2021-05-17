@@ -25,7 +25,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   isCreatorOrMod: boolean;
   enterBadword: boolean = false;
   newBadWord: string = undefined;
-  output: any | undefined;
+  keywordsWithProfanity: Keyword[] = [];
 
   sortMode = 'alphabetic';
   editedKeyword = false;
@@ -33,6 +33,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchMode = false;
   filteredKeywords: Keyword[] = [];
   model=new FormControl('');
+  output: any | undefined;
 
   keywords: Keyword[] = [
     {
@@ -109,7 +110,13 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
+    this.refreshProfanityFilter();
     this.sortQuestions();
+    this.cloneKeywords();
+  }
+
+  cloneKeywords(){
+    this.keywordsWithProfanity = JSON.parse(JSON.stringify(this.keywords));
   }
 
   sortQuestions(sortMode?: string) {
@@ -206,9 +213,15 @@ export class TopicCloudAdministrationComponent implements OnInit {
     if (!this.searchedKeyword){
         this.searchMode = false;
     } else {
-      this.filteredKeywords = this.keywords.filter(keyword =>
-        keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
-      );
+      if (this.profanityFilter){
+        this.filteredKeywords = this.keywordsWithProfanity.filter(keyword =>
+          keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
+        );
+      } else {
+        this.filteredKeywords = this.keywords.filter(keyword =>
+          keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
+        );
+      }
       this.searchMode = true;
     }
   }
@@ -236,8 +249,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
     return undefined;
   }
+  
   keywordtoSpacy(text: string,model: string) {
-    //console.log(text,'hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh');
     for (const keyword of this.keywords) {
       if (keyword.keyword===text) {
         //  console.log(keyword.keyword);
@@ -265,6 +278,25 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   addBadword(){
     this.topicCloudAdminService.addToBadwordList(this.newBadWord);
+    this.newBadWord = undefined;
+    this.refreshProfanityFilter();
+    if (this.searchMode){
+      this.searchKeyword();
+    }
+  }
+
+  refreshProfanityFilter(){
+    for (let i = 0; i < this.keywordsWithProfanity.length; i++){
+      // TODO: filter also keywords
+      for (let j = 0; j < this.keywordsWithProfanity[i].questions.length; j++){
+        this.keywordsWithProfanity[i].questions[j] = 
+        this.topicCloudAdminService.filterProfanityWords(this.keywords[i].questions[j]);
+      }
+    }
+  }
+
+  refreshAllLists(){
+    this.searchKeyword();
   }
 }
 

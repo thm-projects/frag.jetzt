@@ -4,7 +4,7 @@
       <mat-slide-toggle [(ngModel)]="considerVotes">
           {{'topic-cloud-dialog.consider-votes' | translate}}
       </mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="profanityFilter">
+      <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
     </div>
@@ -109,9 +109,13 @@
             </mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
+      <!-- *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
+       -->
     <mat-expansion-panel (opened)="panelOpenState = true"
                          (closed)="panelOpenState = edit = false"
-                         *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
+                         *ngFor="let keyword of 
+                         (searchMode ? filteredKeywords : 
+                         (profanityFilter ? keywordsWithProfanity : keywords)); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color">
         <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
           {{keyword.keyword}}
