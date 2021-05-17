@@ -29,7 +29,7 @@ export class CreateCommentComponent implements OnInit {
 
   bodyForm = new FormControl('', [Validators.required]);
 
-  @ViewChild('commentBody', { static: true })commentBody: HTMLTextAreaElement;
+  @ViewChild('commentBody', { static: true })commentBody: HTMLDivElement;
 
   constructor(
               private notification: NotificationService,
@@ -76,7 +76,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   openSpacyDialog(comment: Comment): void {
-    this.checkSpellings(comment).subscribe((res) => {
+    this.checkSpellings(comment.body).subscribe((res) => {
       const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
       const dialogRef = this.dialog.open(SpacyDialogComponent, {
         data: {
@@ -106,11 +106,51 @@ export class CreateCommentComponent implements OnInit {
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
-  buildCreateCommentActionCallback(text: HTMLInputElement|HTMLTextAreaElement): () => void {
-    return () => this.closeDialog(text.value);
+  buildCreateCommentActionCallback(text: HTMLDivElement): () => void {
+    return () => this.closeDialog(text.innerText);
   }
 
-  checkSpellings(comment: Comment, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(comment.body, language)
+  checkSpellings(text: string, language: Language = this.selectedLang) {
+    return this.languagetoolService.checkSpellings(text, language)
+  }
+
+  maxLength(commentBody: HTMLDivElement): void {
+    // Cut the text down to 500 or 1000 chars depending on the user role.
+    if(this.user.role == 3 && commentBody.innerText.length > 1000) {
+      commentBody.innerText = commentBody.innerText.slice(0, 1000);
+    } else if(this.user.role != 3 && commentBody.innerText.length > 500){
+      commentBody.innerText = commentBody.innerText.slice(0, 500);
+    }
+  }
+
+  grammarCheck(commentBody: HTMLDivElement): void {
+    let wrongWords: string[] = [];
+    this.checkSpellings(commentBody.innerText).subscribe((res) => {
+      if(res.matches.length > 0 ) {
+        res.matches.forEach(grammarError => {
+          const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
+          wrongWords.push(wrongWord);
+        })
+        this.checkSpellings(commentBody.innerHTML).subscribe((res) => {
+          for(let i = res.matches.length - 1; i >= 0; i--){ // Reverse for loop to make sure the offset is right.
+            const wrongWord = commentBody.innerHTML
+              .slice(res.matches[i].offset, res.matches[i].offset + res.matches[i].length);
+
+            if (wrongWords.includes(wrongWord)) { // Only replace the real Words, excluding the HTML tags
+              const msg = res.matches[i].message; // The explanation of the suggestion for improvement
+              const suggestions = res.matches[i].replacements; // The suggestions for improvement. Access: suggestions[x].value
+              const replacement = '<span style="color: #cc4244;">'  // set the Styling for all marked words
+                // Select menu with suggestions has to be injected here.
+                + wrongWord +
+                '</span>';
+              commentBody.innerHTML = commentBody.innerHTML.substr(0, res.matches[i].offset) +
+                replacement +
+                commentBody.innerHTML.substr(res.matches[i].offset + wrongWord.length,
+                  commentBody.innerHTML.length);
+            }
+          }
+        });
+      }
+    });
   }
 }

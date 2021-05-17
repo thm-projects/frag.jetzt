@@ -179,7 +179,8 @@
     "edit-favorite": "Mark for bonus",
     "edit-favorite-reset": "Remove marker",
     "edit-bookmark": "Bookmark",
-    "edit-bookmark-reset": "Remove marker"
+    "edit-bookmark-reset": "Remove marker",
+    "grammar-check": "Spell check"
   },
   "content": {
     "abort": "Abort",
@@ -359,6 +360,6 @@
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
     "hover-delay-tooltip": "Select hover-delay"
-    
+
   }
 }

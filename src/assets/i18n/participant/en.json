@@ -153,7 +153,8 @@
     "preview-comment": "Preview",
     "show-more": "Show more",
     "show-less": "Show less",
-    "delete": "Delete question"
+    "delete": "Delete question",
+    "grammar-check": "Spell check"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",

@@ -178,8 +178,9 @@
     "edit-favorite": "Für einen Bonus markieren",
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
-    "edit-bookmark-reset": "Markierung zurücksetzen"
-  },  
+    "edit-bookmark-reset": "Markierung zurücksetzen",
+    "grammar-check": "Rechtschreib Prüfung"
+  },
   "content": {
     "abort": "Abbrechen",
     "actions": "Option",
@@ -358,6 +359,6 @@
     "hover-scale-tooltip": "Skallierung der Wörter beim Erscheinen",
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
     "hover-delay-tooltip": "Verzögerung der Wörter beim Erscheinen"
-    
+
   }
 }

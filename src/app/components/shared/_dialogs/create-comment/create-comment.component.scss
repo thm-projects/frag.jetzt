@@ -14,10 +14,11 @@ app-comment-list {
   max-width: 800px;
 }
 
-textarea {
+#answer-input {
   line-height: 120%;
   color: var(--on-surface);
   caret-color: var(--on-surface);
+  -webkit-appearance: textarea;
 }
 
 .send {
