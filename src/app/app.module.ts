@@ -58,7 +58,7 @@ import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
-import { MatomoModule } from 'ngx-matomo-v9';
+import { MatomoModule } from 'ngx-matomo';
 import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import {TagCloudModule} from 'angular-tag-cloud-module';
