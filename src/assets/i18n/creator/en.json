@@ -81,7 +81,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "questions-blocked": "Question are blocked"
+    "questions-bloqued": "Questions are blocked"
   },
   "spacy-dialog": {
     "german": "German",
