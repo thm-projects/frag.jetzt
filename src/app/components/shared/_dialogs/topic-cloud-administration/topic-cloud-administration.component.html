@@ -7,7 +7,7 @@
       <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
-    </div>
+    <!-- </div> -->
 
 
     <mat-accordion hideToggle class="new-Badword" multi>
@@ -59,7 +59,7 @@
         </mat-select>
       </mat-form-field>
 
-
+    </div>
    </mat-card>
 
   <div fxLayout="row" style="margin-top: 10px;">
@@ -113,8 +113,8 @@
        -->
     <mat-expansion-panel (opened)="panelOpenState = true"
                          (closed)="panelOpenState = edit = false"
-                         *ngFor="let keyword of 
-                         (searchMode ? filteredKeywords : 
+                         *ngFor="let keyword of
+                         (searchMode ? filteredKeywords :
                          (profanityFilter ? keywordsWithProfanity : keywords)); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color">
         <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
