@@ -1,5 +1,5 @@
 <mat-dialog-content>
-  <mat-card>
+  <mat-card class="color-surface">
     <div>
       <mat-slide-toggle [(ngModel)]="considerVotes">
           {{'topic-cloud-dialog.consider-votes' | translate}}
@@ -11,8 +11,8 @@
 
 
     <mat-accordion hideToggle class="new-Badword" multi>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
+      <mat-expansion-panel class="color-background">
+        <mat-expansion-panel-header class="color-background">
           <mat-panel-description>
             add new profanity word
             <mat-icon>add</mat-icon>
@@ -102,8 +102,8 @@
   </mat-menu>
 
   <mat-accordion>
-    <mat-expansion-panel hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
-        <mat-expansion-panel-header>
+    <mat-expansion-panel class="color-surface" hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
+        <mat-expansion-panel-header class="color-surface">
             <mat-panel-title fxLayoutAlign="center">
               {{'topic-cloud-dialog.no-keywords-note' | translate}}
             </mat-panel-title>
@@ -111,11 +111,12 @@
       </mat-expansion-panel>
       <!-- *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
        -->
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = edit = false"
-                         *ngFor="let keyword of
-                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
-      <mat-expansion-panel-header class="color">
+    <mat-expansion-panel class="color-surface"
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = edit = false"
+                        *ngFor="let keyword of
+                        (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
+      <mat-expansion-panel-header class="color-surface">
         <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
           {{keyword.keyword}}
         </mat-panel-title>
