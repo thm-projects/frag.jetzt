@@ -326,13 +326,11 @@
           &nbsp;{{ 'comment-page.keywords' | translate }}
         </span>
         <mat-menu #keywordsMenu>
-          <span class="keyword-span">{{ 'comment-page.keywords' | translate }}:</span>
-          <mat-divider></mat-divider>
+        
           <mat-list dense class="keywords-list">
             <mat-list-item  *ngFor="let keyword of comment.keywords; let odd = odd; let even = even"
                             [class.keywords-alternate]="odd"
-                            [class.keywords-even]="even"
-                            [ngClass]="{'keyword-selected': keyword.selected}">
+                            [class.keywords-even]="even">
                             <span class="keyword-span">{{keyword}}</span>
             </mat-list-item>
           </mat-list>

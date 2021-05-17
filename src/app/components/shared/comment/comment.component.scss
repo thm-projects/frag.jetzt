@@ -186,14 +186,14 @@ mat-card-content > :first-child {
 
 
 .keywords-list {
-  margin-top: 10px;
   flex-grow: 1;
   flex-shrink: 1;
   overflow: auto;
   padding-top: 0 !important;
+  background-color: var(--alt-dialog);
 }
 .keywords-even {
-background-color: var(--alt-dialog);
+  background-color: var(--alt-surface);
 }
 .keyword-span {
   color: var(--on-surface) !important;
