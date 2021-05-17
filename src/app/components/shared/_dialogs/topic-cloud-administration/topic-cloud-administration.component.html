@@ -166,17 +166,11 @@
         </div>
       </div>
     </mat-expansion-panel>
-    <section>
+    <section *ngIf="this.output">
       <mat-card>
         <li *ngFor="let translate of this.output" class="color12"> {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
       </mat-card>
     </section>
 
   </mat-accordion>
-  <mat-divider></mat-divider>
-  <mat-accordion>
-
-
-  </mat-accordion>
-
 </mat-dialog-content>
