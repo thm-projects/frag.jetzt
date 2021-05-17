@@ -12,7 +12,7 @@
 
     <mat-accordion hideToggle class="new-Badword" multi>
       <mat-expansion-panel class="color-background"
-                          (opened)="enterBadword = true"
+                          (opened)="enterBadword = true; focusBadWordInput()"
                           (closed)="enterBadword = false">
       <mat-expansion-panel-header class="color-background">
           <mat-panel-description>
@@ -23,7 +23,7 @@
 
         <mat-form-field>
           <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
-          <input [(ngModel)]="newBadWord" matInput>
+          <input matInput id="bad-word-input" [(ngModel)]="newBadWord">
         </mat-form-field>
 
         <button mat-button color="primary" (click)="addBadword()">
@@ -120,7 +120,7 @@
                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color-surface">
         <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
-          {{keyword.keyword}}
+          {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
           {{keyword.questions.length}}

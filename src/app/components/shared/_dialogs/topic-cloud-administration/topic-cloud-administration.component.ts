@@ -81,7 +81,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     },
     {
       keywordID: 6,
-      keyword: 'Profanity',
+      keyword: 'Arsch',
       questions: [
         'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
         'Englisch: Fuck you!',
@@ -93,6 +93,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
     },
 
   ];
+
+  getKeywordWithoutProfanity(keyword: string): string {
+    return this.topicCloudAdminService.filterProfanityWords(keyword);
+  }
 
   constructor(public cloudDialogRef: MatDialogRef<TagCloudComponent>,
               public confirmDialog: MatDialog,
@@ -238,6 +242,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
       }
     }
     return undefined;
+  }
+
+  focusBadWordInput() {
+    setTimeout(() => {
+      document.getElementById('bad-word-input').focus();
+    }, 100);
   }
 
   keywordtoSpacy(text: string,model: string) {
