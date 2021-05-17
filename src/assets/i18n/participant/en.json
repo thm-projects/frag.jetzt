@@ -245,7 +245,8 @@
     "sort-vote": "Votes",
     "keyword-search": "Search keyword",
     "add-profanity-word": "Add word to profanity list",
-    "send": "Send"
+    "send": "Send",
+    "enter-word": "Enter word"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

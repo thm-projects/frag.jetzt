@@ -239,7 +239,8 @@
     "sort-vote": "Votes",
     "keyword-search": "Stichwort suchen",
     "add-profanity-word": "Wort zur Zensurliste hinzufügen",
-    "send": "Abschicken"
+    "send": "Abschicken",
+    "enter-word": "Wort eingeben"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
