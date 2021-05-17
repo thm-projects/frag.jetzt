@@ -96,7 +96,8 @@
     "fullscreen": "Text skalieren",
     "motd": "News",
     "tag-cloud-config": "Wolkenansicht ändern",
-    "tag-cloud-administration": "Wolkenthemen editieren"
+    "tag-cloud-administration": "Wolkenthemen editieren",
+    "questions-blocked": "Fragen sind deaktiviert!"
   },
   "help": {
     "cancel": "Schließen",

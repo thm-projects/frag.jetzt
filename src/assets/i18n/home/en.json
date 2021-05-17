@@ -88,7 +88,8 @@
     "fullscreen": "Text scaling",
     "motd": "News",
     "tag-cloud-config": "Modify cloud view",
-    "tag-cloud-administration": "Edit cloud topics"
+    "tag-cloud-administration": "Edit cloud topics",
+    "questions-blocked": "Questions are blocked!"
   },
   "help": {
     "cancel": "Close",

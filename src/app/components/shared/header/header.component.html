@@ -16,6 +16,10 @@
       {{cTime}}
     </h2>
 
+    <ng-container *ngIf="room.closed">
+      <h1>{{'header.questions-blocked'|translate}}</h1>
+    </ng-container>
+
     <!--
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
           class="fill-remaining-space"></span>

@@ -1,6 +1,3 @@
-<ng-container *ngIf="room.closed">
-  <h1>{{'comment-list.questions-blocked'|translate}}</h1>
-</ng-container>
 <div fxLayout="row"
      *ngIf="comments.length > 0"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
