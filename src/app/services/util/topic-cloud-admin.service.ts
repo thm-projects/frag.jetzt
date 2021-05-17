@@ -20,36 +20,32 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    const questionLowerCase = str.toLowerCase();
+    const questionLowerCase = questionWithProfanity.toLowerCase();
 
     // German Profanity
     this.badWords['de'].map(word =>{
-      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
-      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
-
     // English Profanity
     this.badWords['en'].map(word =>{
-      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
-      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
-
     // French Profanity
     this.badWords['fr'].map(word =>{
-      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
-      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
-
     // Custom Profanity
     this.badWords['custom'].map(word =>{
-      questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?
-      this.replaceString(questionLowerCase, word.toLowerCase(), this.generateXWord(word.length))
+      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
+      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
     });
-
     return questionWithProfanity;
   }
 
@@ -60,7 +56,7 @@ export class TopicCloudAdminService {
   }
 
   private replaceString(str: string, search: string, replace: string){
-    return str.split(search).join(replace);
+    return str.split(search).join(replace); 
   }
 
   private generateXWord(count: number){
