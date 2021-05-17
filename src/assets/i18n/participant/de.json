@@ -80,7 +80,8 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
-    "export-comments": "Fragen speichern"
+    "export-comments": "Fragen speichern",
+    "questions-blocked": "Fragen sind deaktiviert!"
   },
   "content": {
     "cancel": "Abbrechen",
