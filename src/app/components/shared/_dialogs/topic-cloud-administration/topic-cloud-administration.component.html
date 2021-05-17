@@ -11,11 +11,12 @@
 
 
     <mat-accordion hideToggle class="new-Badword" multi>
-      <mat-expansion-panel class="color-background">
-        <mat-expansion-panel-header class="color-background">
+      <mat-expansion-panel class="color-background" (opened)="enterBadword = true"
+                           (closed)="enterBadword = false">
+      <mat-expansion-panel-header class="color-background">
           <mat-panel-description>
             add new profanity word
-            <mat-icon>add</mat-icon>
+            <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
           </mat-panel-description>
         </mat-expansion-panel-header>
 
