@@ -7,7 +7,7 @@
       <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
-    <!-- </div> -->
+   <!-- </div> -->
 
 
     <mat-accordion hideToggle class="new-Badword" multi>
@@ -168,7 +168,19 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
+  <mat-divider></mat-divider>
+  <mat-accordion>
+
+
+
+
   <section>
-    <li *ngFor="let translate of this.output"> ({{this.translate.tag}}      : "   {{translate.text}} ") <br> </li>
+    <mat-card>
+      <li *ngFor="let translate of this.output" class="color12"> {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
+    </mat-card>
   </section>
+
+
+  </mat-accordion>
+
 </mat-dialog-content>
