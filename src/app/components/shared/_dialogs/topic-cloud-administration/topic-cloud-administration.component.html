@@ -79,10 +79,10 @@
 
       </mat-form-field>
     </div>
-    <div fxLayoutAlign="center center" style="margin-left: 54%;" *ngIf="searchMode" >
-      <p class="resCount">{{filteredKeywords.length}}</p>
+    <div fxLayoutAlign="center center" style="margin-left: 52%;"  >
+      <p [ngClass]="{'resCount': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
     </div>
-    <div fxLayoutAlign="end" *ngIf="!searchMode" style="margin-left: 52%;">
+    <div fxLayoutAlign="end" *ngIf="!searchMode">
       <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>

@@ -225,9 +225,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
       key.questions.map(question => {
         integratedKeyword.questions.push(question);
       });
+      this.keywords.push(integratedKeyword);
       this.deleteKeyword(key);
       this.deleteKeyword(keyword);
-      this.keywords.push(integratedKeyword);
     }
   }
 
