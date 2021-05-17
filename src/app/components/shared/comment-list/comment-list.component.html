@@ -1,8 +1,12 @@
+<ng-container *ngIf="room.closed">
+  <h1>Fragen sind deaktiviert</h1>
+</ng-container>
 <div fxLayout="row"
      *ngIf="comments.length > 0"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
+     
   <button id="filter-close-button"
           mat-icon-button
           class="searchBarButton"
