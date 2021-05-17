@@ -114,8 +114,7 @@
     <mat-expansion-panel (opened)="panelOpenState = true"
                          (closed)="panelOpenState = edit = false"
                          *ngFor="let keyword of
-                         (searchMode ? filteredKeywords :
-                         (profanityFilter ? keywordsWithProfanity : keywords)); let i = index" [attr.data-index]="i">
+                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color">
         <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
           {{keyword.keyword}}

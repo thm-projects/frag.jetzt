@@ -21,13 +21,14 @@ export class TopicDialogCommentComponent implements OnInit, OnChanges {
 
   constructor(private topicCloudAdminService: TopicCloudAdminService) { }
 
-  ngOnChanges(changes: SimpleChanges){
+  ngOnChanges(changes: SimpleChanges) {
   }
 
   get partsOfQuestion() {
     if (this.profanityFilter) {
-      return this.questionWithProfinity
-          .slice(0,this.isCollapsed? this.questionWithProfinity.length: this.maxShowedCharachters)
+      const question = this.topicCloudAdminService.filterProfanityWords(this.question);
+      return question
+          .slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
           .split(new RegExp(this.keyword,'i'));
     } else {
       return this.question

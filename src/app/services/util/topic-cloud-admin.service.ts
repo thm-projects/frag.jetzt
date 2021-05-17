@@ -15,13 +15,13 @@ export class TopicCloudAdminService {
 
   constructor() {
     this.badWords = BadWords;
-    this.badWords['custom'] = ['nieder mit kqc'];
+    this.badWords['custom'] = [];
   }
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
     const questionLowerCase = str.toLowerCase();
-    
+
     // German Profanity
     this.badWords['de'].map(word =>{
       questionWithProfanity = questionLowerCase.includes(word.toLowerCase()) ?

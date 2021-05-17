@@ -23,16 +23,15 @@ export class TopicCloudAdministrationComponent implements OnInit {
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
-  enterBadword: boolean = false;
+  enterBadword = false;
   newBadWord: string = undefined;
-  keywordsWithProfanity: Keyword[] = [];
 
   sortMode = 'alphabetic';
   editedKeyword = false;
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
-  model=new FormControl('');
+  model = new FormControl('');
   output: any | undefined;
   newOutput: [];
 
@@ -88,6 +87,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
         'Englisch: Fuck you!',
         'Deutsch: Fick dich!',
         'Französisch: Gros con!',
+        'Multi language: Ficken, Fuck, con',
+        'Custom: Nieder mit KQC'
       ]
     },
 
@@ -111,13 +112,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
-    this.refreshProfanityFilter();
     this.sortQuestions();
-    this.cloneKeywords();
-  }
-
-  cloneKeywords(){
-    this.keywordsWithProfanity = JSON.parse(JSON.stringify(this.keywords));
   }
 
   sortQuestions(sortMode?: string) {
@@ -214,15 +209,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
     if (!this.searchedKeyword){
         this.searchMode = false;
     } else {
-      if (this.profanityFilter){
-        this.filteredKeywords = this.keywordsWithProfanity.filter(keyword =>
-          keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
-        );
-      } else {
         this.filteredKeywords = this.keywords.filter(keyword =>
           keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
         );
-      }
       this.searchMode = true;
     }
   }
@@ -277,22 +266,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
   selectedLang = localStorage.getItem('currentLang');
   comment: Comment;
 
-  addBadword(){
+  addBadword() {
     this.topicCloudAdminService.addToBadwordList(this.newBadWord);
     this.newBadWord = undefined;
-    this.refreshProfanityFilter();
     if (this.searchMode){
       this.searchKeyword();
-    }
-  }
-
-  refreshProfanityFilter(){
-    for (let i = 0; i < this.keywordsWithProfanity.length; i++){
-      // TODO: filter also keywords
-      for (let j = 0; j < this.keywordsWithProfanity[i].questions.length; j++){
-        this.keywordsWithProfanity[i].questions[j] =
-        this.topicCloudAdminService.filterProfanityWords(this.keywords[i].questions[j]);
-      }
     }
   }
 
