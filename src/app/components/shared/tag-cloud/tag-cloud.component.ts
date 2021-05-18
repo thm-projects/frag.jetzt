@@ -212,6 +212,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         this.openCreateDialog();
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
+        this.demoToggle();
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%'
