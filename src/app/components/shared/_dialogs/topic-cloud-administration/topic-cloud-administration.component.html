@@ -168,10 +168,14 @@
           <button mat-raised-button class="primaryBackground" (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save' | translate}}</button>
         </div>
       </div>
-    </mat-expansion-panel>
-    <section *ngIf="this.output">
-      <mat-card>
-        <li *ngFor="let translate of this.output" class="color12"> {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
+    </mat-expansion-panel><br>
+  </mat-accordion>
+
+  <mat-accordion >
+    <section >
+      <mat-card class="color-surface">
+        <li *ngFor="let translate of this.output" class="color12" > {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
+
       </mat-card>
     </section>
 
