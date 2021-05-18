@@ -20,27 +20,10 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-
-    // German Profanity
-    this.badWords['de'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
-      : questionWithProfanity;
-    });
-    // English Profanity
-    this.badWords['en'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
-      : questionWithProfanity;
-    });
-    // French Profanity
-    this.badWords['fr'].map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
-      : questionWithProfanity;
-    });
-    // Custom Profanity
-    this.badWords['custom'].map(word =>{
+    /* put all arrays of languages together */
+    const profanityWords = this.badWords['en'].concat(this.badWords['de'])
+                           .concat(this.badWords['fr']).concat(this.badWords['custom']);
+    profanityWords.map(word =>{
       questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
       this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
