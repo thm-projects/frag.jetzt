@@ -211,11 +211,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   searchKeyword(): void {
     if (!this.searchedKeyword){
-        this.searchMode = false;
+      this.searchMode = false;
     } else {
-        this.filteredKeywords = this.keywords.filter(keyword =>
-          keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
-        );
+      this.filteredKeywords = this.keywords.filter(keyword =>
+        keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
+      );
       this.searchMode = true;
     }
   }
