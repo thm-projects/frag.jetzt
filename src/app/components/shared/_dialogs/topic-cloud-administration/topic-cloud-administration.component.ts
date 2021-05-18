@@ -225,14 +225,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
   integrateIfKeywordExists(keyword: Keyword, keyname: string) {
     const key = this.checkIfKeywordExists(keyname);
     if (key !== undefined){
-      const integratedKeyword = keyword;
       key.questions.map(question => {
-        integratedKeyword.questions.push(question);
+        keyword.questions.push(question);
       });
-      this.keywords.push(integratedKeyword);
       this.deleteKeyword(key);
-      this.deleteKeyword(keyword);
-    }
+    } 
   }
 
   checkIfKeywordExists(key: string): Keyword {
