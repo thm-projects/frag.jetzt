@@ -40,7 +40,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
       keywordID: 1,
       keyword: 'Cloud',
       questions: [
-        'Wieviel speicherplatz steht mir in der Cloud zur verfuegung?',
+        'Wieviel speicherplatz steht mir in der Cloud zur verfügung?',
         'Sollen wir die Tag Cloud implementieren?',
         // eslint-disable-next-line max-len
         'Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung',
