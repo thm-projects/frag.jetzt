@@ -173,8 +173,8 @@
 
   <mat-accordion >
     <section >
-      <mat-card class="color-surface">
-        <li *ngFor="let translate of this.output" class="color12" > {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
+      <mat-card *ngFor="let line of this.output" class="color-surface">
+        <li *ngFor="let translate of line" class="color12" > {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
 
       </mat-card>
     </section>

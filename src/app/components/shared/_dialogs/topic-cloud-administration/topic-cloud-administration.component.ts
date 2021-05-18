@@ -227,7 +227,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
         keyword.questions.push(question);
       });
       this.deleteKeyword(key);
-    } 
+    }
   }
 
   checkIfKeywordExists(key: string): Keyword {
@@ -248,13 +248,14 @@ export class TopicCloudAdministrationComponent implements OnInit {
   keywordtoSpacy(text: string,model: string) {
     for (const keyword of this.keywords) {
       if (keyword.keyword===text) {
+        this.output = [];
         //  console.log(keyword.keyword);
         for( let i=0;i <keyword.questions.length;i++){
           // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
           this.spacyService.analyse(keyword.questions[i], model)
             .subscribe(res => {
               console.log(res.words);
-              this.output = res.words;
+              this.output.push(res.words);
               //  console.log(res.arcs);
             }, () => {
               console.log('error');
