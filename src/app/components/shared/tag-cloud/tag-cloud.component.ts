@@ -23,8 +23,9 @@ import {ActivatedRoute} from '@angular/router';
 import {UserRole} from '../../../models/user-roles.enum';
 import {RoomService} from '../../../services/http/room.service';
 import {ThemeService} from '../../../../theme/theme.service';
-import {CloudParameters} from './tag-cloud.interface';
+import {CloudParameters, CloudWeightColor, CloudWeightCount, TagCloudHeaderDataOverview} from './tag-cloud.interface';
 import {TopicCloudAdministrationComponent} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 
 class CustomPosition implements Position {
   left: number;
@@ -128,6 +129,7 @@ const setGlobalStyles = (styles: TagCloudStyleData): void => {
 
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
+  const resWeightColors = resDefaultColors.slice(1, 11) as CloudWeightColor;
   return {
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
@@ -137,7 +139,9 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverTime: 0.6,
     hoverDelay: 0.4,
     delayWord: 0,
-    randomAngles: false
+    randomAngles: false,
+    cloudWeightColor: resWeightColors,
+    cloudWeightCount: [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1]
   };
 };
 
@@ -170,13 +174,14 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     delay: 0.4 // Zoom will take affect after 0.4 seconds
   };
   userRole: UserRole;
-  data: CloudData[] = [];
+  data: TagComment[] = [];
   sorted = false;
   debounceTimer = 0;
   lastDebounceTime = 0;
   configurationOpen = false;
   randomizeAngle = false;
   isLoading = true;
+  dataSize: CloudWeightCount;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -188,7 +193,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               protected roomService: RoomService,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private wsCommentService: WsCommentServiceService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -238,6 +244,11 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1);
       }
     });
+    this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
+      this.commentService.getFilteredComments(this.roomId).subscribe((oldComments: Comment[]) => {
+        this.analyse(oldComments);
+      });
+  });
   }
 
   ngAfterViewInit() {
@@ -265,9 +276,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   setCloudParameters(data: CloudParameters, save = true): void {
-    const arr = getResolvedDefaultColors();
-    arr[0] = data.fontColor;
-    arr[11] = data.backgroundColor;
+    const arr = [data.fontColor, ...data.cloudWeightColor, data.backgroundColor];
     const fontRange = (data.fontSizeMax - data.fontSizeMin) / 10;
     const styles = arr.map((e, i) => {
       if (i > 10) {
@@ -284,11 +293,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.zoomOnHoverOptions.transitionTime = data.hoverTime;
     this.options.delay = data.delayWord;
     this.randomizeAngle = data.randomAngles;
-    if (this.randomizeAngle) {
-      this.data.forEach(e => e.rotate = Math.floor(Math.random() * 30 - 15));
-    } else {
-      this.data.forEach(e => e.rotate = 0);
-    }
+    this.dataSize = data.cloudWeightCount;
+    this.rebuildData();
     this.updateTagCloud();
     if (save) {
       localStorage.setItem('tagCloudConfiguration', JSON.stringify(data));
@@ -323,6 +329,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   analyse(comments: Comment[]) {
     const commentsConcatenated = comments.map(c => c.body).join(' ');
+    const userSet = new Set<number>();
+    comments.forEach(comment => {
+      userSet.add(comment.userNumber);
+    });
 
     this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
       const map = new Map<string, number>();
@@ -330,6 +340,12 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         const count = (map.get(elem.text) || 0) + 1;
         map.set(elem.text, count);
       });
+      this.eventService.broadcast('tagCloudHeaderDataOverview', {
+        commentCount: comments.length,
+        userCount: userSet.size,
+        tagCount: map.size
+      } as TagCloudHeaderDataOverview);
+      this.data.length = 0;
       map.forEach((val, key) => {
           this.data.push(new TagComment(null,
             true, null, null,
@@ -340,6 +356,15 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       this.sortPositionsAlphabetically(this.sorted);
       this.updateTagCloud();
     });
+  }
+
+  rebuildData() {
+    if (this.randomizeAngle) {
+      this.data.forEach(e => e.rotate = Math.floor(Math.random() * 30 - 15));
+    } else {
+      this.data.forEach(e => e.rotate = 0);
+    }
+    //TODO Sort using votes and keys
   }
 
   updateTagCloud() {
@@ -413,10 +438,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     this.commentService.addComment(comment).subscribe();
-  }
-
-  openCloudConfiguration() {
-    this.configurationOpen = true;
   }
 
   private redraw(): void {
