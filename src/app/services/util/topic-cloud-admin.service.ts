@@ -20,7 +20,6 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    const questionLowerCase = questionWithProfanity.toLowerCase();
 
     // German Profanity
     this.badWords['de'].map(word =>{

@@ -27,7 +27,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
   newBadWord: string = undefined;
 
   sortMode = 'alphabetic';
-  editedKeyword = false;
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
@@ -189,7 +188,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
       }
     });
     this.edit = false;
-    this.editedKeyword = true;
     this.newKeyword = undefined;
     this.sortQuestions();
     if (this.searchMode){

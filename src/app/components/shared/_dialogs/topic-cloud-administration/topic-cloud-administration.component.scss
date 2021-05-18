@@ -46,15 +46,17 @@ mat-icon {
 }
 
 .search{
-  width: 240%;
-  color: var(--red) !important;
+  box-sizing: border-box;
+  padding: 0 10px 0 5px;
+  border: none;
+  outline: none;
+  min-height: 60px;
+  font-size: large;
+  border-radius: 5px;
+  color: var(--on-surface);
+  transition: width 300ms linear;
 }
 
-.resCount{
-  color: var(--red) !important;
-  font-weight: bold;
-
-}
 #send_to_spacy{
   color: khaki;
   background-color: blueviolet;
@@ -81,7 +83,7 @@ mat-panel-title, mat-panel-description {
   }
 }
 
-.edit-keyword .mat-panel-title {
+.animation-blink{
   color: var(--red) !important;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;

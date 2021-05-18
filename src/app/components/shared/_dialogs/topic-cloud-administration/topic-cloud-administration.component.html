@@ -81,24 +81,24 @@
 
       </mat-form-field>
     </div>
-    <div fxLayoutAlign="center center" style="margin-left: 52%;"  >
-      <p [ngClass]="{'resCount': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
+    <div fxLayoutAlign="center center" style="margin-left: 52%; font-weight: bold;"  >
+      <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
     </div>
     <div fxLayoutAlign="end" *ngIf="!searchMode">
-      <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
+      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>
     </div>
   </div>
 
   <mat-menu #sortMenu>
-    <button mat-menu-item (click)="sortQuestions('alphabetic')">
+    <button [ngClass]="{'animation-blink': sortMode==='alphabetic'}" mat-menu-item (click)="sortQuestions('alphabetic')">
       <mat-icon>sort_by_alpha</mat-icon>
       {{'topic-cloud-dialog.sort-alpha' | translate}} </button>
-    <button mat-menu-item (click)="sortQuestions('questionsCount')">
+    <button [ngClass]="{'animation-blink': sortMode==='questionsCount'}" mat-menu-item (click)="sortQuestions('questionsCount')">
       <mat-icon>swap_vert</mat-icon>
       {{'topic-cloud-dialog.sort-count' | translate}} </button>
-    <button mat-menu-item (click)="sortQuestions('voteCount')">
+    <button [ngClass]="{'animation-blink': sortMode==='voteCount'}" mat-menu-item (click)="sortQuestions('voteCount')">
       <mat-icon>swap_vert</mat-icon>
       {{'topic-cloud-dialog.sort-vote' | translate}} </button>
   </mat-menu>
@@ -119,7 +119,7 @@
                         *ngFor="let keyword of
                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color-surface">
-        <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
+        <mat-panel-title>
           {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
