@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild, Input, AfterViewInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, ViewChild, Input, AfterViewInit, OnDestroy } from '@angular/core';
 
 import {
   CloudData,
@@ -7,24 +7,24 @@ import {
   ZoomOnHoverOptions,
   TagCloudComponent as TCloudComponent
 } from 'angular-tag-cloud-module';
-import {CommentService} from '../../../services/http/comment.service';
-import {Result, SpacyService} from '../../../services/http/spacy.service';
-import {Comment} from '../../../models/comment';
-import {LanguageService} from '../../../services/util/language.service';
-import {TranslateService} from '@ngx-translate/core';
-import {CreateCommentComponent} from '../_dialogs/create-comment/create-comment.component';
-import {MatDialog} from '@angular/material/dialog';
-import {User} from '../../../models/user';
-import {Room} from '../../../models/room';
-import {NotificationService} from '../../../services/util/notification.service';
-import {EventService} from '../../../services/util/event.service';
-import {AuthenticationService} from '../../../services/http/authentication.service';
-import {ActivatedRoute} from '@angular/router';
-import {UserRole} from '../../../models/user-roles.enum';
-import {RoomService} from '../../../services/http/room.service';
-import {ThemeService} from '../../../../theme/theme.service';
-import {CloudParameters, CloudWeightColor, CloudWeightCount, TagCloudHeaderDataOverview} from './tag-cloud.interface';
-import {TopicCloudAdministrationComponent} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { CommentService } from '../../../services/http/comment.service';
+import { Result, SpacyService } from '../../../services/http/spacy.service';
+import { Comment } from '../../../models/comment';
+import { LanguageService } from '../../../services/util/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
+import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../../models/user';
+import { Room } from '../../../models/room';
+import { NotificationService } from '../../../services/util/notification.service';
+import { EventService } from '../../../services/util/event.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ActivatedRoute } from '@angular/router';
+import { UserRole } from '../../../models/user-roles.enum';
+import { RoomService } from '../../../services/http/room.service';
+import { ThemeService } from '../../../../theme/theme.service';
+import { CloudParameters, CloudWeightColor, CloudWeightCount, TagCloudHeaderDataOverview } from './tag-cloud.interface';
+import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 
 class CustomPosition implements Position {
