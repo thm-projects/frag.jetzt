@@ -251,12 +251,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }, 100);
   }
 
-  focusIrrelevantWordInput() {
-    setTimeout(() => {
-      document.getElementById('irrelevant-word-input').focus();
-    }, 100);
-  }
-
   addBadword() {
     this.topicCloudAdminService.addToBadwordList(this.newBadWord);
     this.newBadWord = undefined;
