@@ -29,6 +29,27 @@ mat-toolbar-row {
   font-weight: bold;
 }
 
+.noOfQuestions {
+  position: absolute !important;
+  right: 100px !important;
+  padding: 10px !important;
+  margin: 0 !important;
+}
+
+ars-style-btn-material button {
+  &:hover, &:focus {
+    border: none;
+  }
+
+  > * {
+    color: var(--on-surface);
+  }
+}
+
+.comment_tag-icon {
+  height: 18px !important;
+}
+
 .sessions {
   color: var(--primary);
 }

@@ -11,14 +11,51 @@
     <span class="fill-remaining-space"></span>
 
     <h2 class="oldtypo-h2"
-        *ngIf="router.url.includes('comments')  && deviceType === 'desktop'"
+        *ngIf="router.url.includes('comments') && deviceType === 'desktop'"
         fxLayoutAlign="center center">
       {{cTime}}
     </h2>
 
+
     <ng-container *ngIf="room && room.closed">
       <h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
+
+    <ars-style-btn-material
+      [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
+      *ngIf="router.url.includes('tagcloud')"
+      ars-flex-box>
+      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+      <button ars-btn
+              class="pseudo-button"
+              matRipple
+              matTooltip="{{'header.overview-question-tooltip' | translate}}">
+        <i>comment</i>
+        <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
+      </button>
+      <button ars-btn
+              class="pseudo-button"
+              matRipple
+              matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
+        <i>person</i>
+        <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+      </button>
+
+      <button ars-btn
+              class="pseudo-button"
+              matRipple
+              matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
+        <mat-icon svgIcon="comment_tag"
+                  class="oldtypo-h2 comment_tag-icon"></mat-icon>
+        <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
+      </button>
+      </ars-col>
+    </ars-style-btn-material>
+
+
+
+
+
 
     <!--
     <span *ngIf="router.url.includes('comments')  && !router.url.includes('moderator/comments') && deviceType === 'desktop'"
@@ -111,7 +148,7 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && !room.closed))"
+                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room && !room.closed))"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>

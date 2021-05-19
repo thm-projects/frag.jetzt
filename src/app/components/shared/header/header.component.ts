@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -24,6 +24,7 @@ import { MotdService } from '../../../services/http/motd.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
+import { TagCloudHeaderDataOverview } from '../tag-cloud/tag-cloud.interface';
 
 @Component({
   selector: 'app-header',
@@ -39,6 +40,10 @@ export class HeaderComponent implements OnInit {
   moderationEnabled: boolean;
   motdState = false;
   room : Room;
+  commentsCountQuestions = 0;
+  commentsCountUsers = 0;
+  commentsCountKeywords = 0;
+
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -61,6 +66,11 @@ export class HeaderComponent implements OnInit {
       this.motdService.checkNewMessage(() => {
         this.motdService.requestDialog();
       });
+    });
+    this.eventService.on<TagCloudHeaderDataOverview>('tagCloudHeaderDataOverview').subscribe(data => {
+      this.commentsCountQuestions = data.commentCount;
+      this.commentsCountUsers = data.userCount;
+      this.commentsCountKeywords = data.tagCount;
     });
     if (localStorage.getItem('loggedin') !== null && localStorage.getItem('loggedin') === 'true') {
       this.authenticationService.refreshLogin();
@@ -155,7 +165,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     // ToDo: Fix this madness.
     if (this.user.authProvider === 'ARSNOVA_GUEST') {
-      this.bonusTokenService.getTokensByUserId(this.user.id).subscribe( list => {
+      this.bonusTokenService.getTokensByUserId(this.user.id).subscribe(list => {
         if (list && list.length > 0) {
           const dialogRef = this.dialog.open(RemindOfTokensComponent, {
             width: '600px'
