@@ -34,11 +34,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
-<<<<<<< HEAD
-=======
-  model = new FormControl('');
-  output: any | undefined;
->>>>>>> ask user to merge keywords after editing an existing keyword
 
   keywords: Keyword[] = [
     {
@@ -214,11 +209,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
         this.deleteKeyword(keyword);
-<<<<<<< HEAD
-=======
       } else if (result === 'merge') {
         this.mergeKeywords(keyword);
->>>>>>> ask user to merge keywords after editing an existing keyword
       }
     });
   }
@@ -253,9 +245,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
     return undefined;
   }
 
-  focusBadWordInput() {
+  focusInput(id:string) {
     setTimeout(() => {
-      document.getElementById('bad-word-input').focus();
+      document.getElementById(id).focus();
     }, 100);
   }
 

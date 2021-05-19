@@ -13,7 +13,7 @@
 
       <mat-accordion hideToggle class="new-Badword" multi>
         <mat-expansion-panel class="color-background"
-                            (opened)="enterBadword = true; focusBadWordInput()"
+                            (opened)="enterBadword = true; focusInput('bad-word-input')"
                             (closed)="enterBadword = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
@@ -36,7 +36,7 @@
 
       <mat-accordion hideToggle class="new-Badword" multi> -->
         <mat-expansion-panel class="color-background"
-                            (opened)="enterIrrelevantWord = true; focusIrrelevantWordInput()"
+                            (opened)="enterIrrelevantWord = true; focusInput('irrelevant-word-input')"
                             (closed)="enterIrrelevantWord = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>

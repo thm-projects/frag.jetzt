@@ -245,11 +245,7 @@
     "add-profanity-word": "Wort zur Zensurliste hinzufügen",
     "add-irrelevant-word": "Wort zur Irrelevantliste hinzufügen",
     "send": "Abschicken",
-    "enter-word": "Wort eingeben",
-    "english": "Englisch",
-    "german": "Deutsch",
-    "french": "Französisch",
-    "sendKey": "schickt keyword zu spacy"
+    "enter-word": "Wort eingeben"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",

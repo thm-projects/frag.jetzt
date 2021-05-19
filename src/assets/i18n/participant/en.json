@@ -250,11 +250,7 @@
     "add-profanity-word": "Add word to profanity list",
     "add-irrelevant-word": "Add word to irrelevant list",
     "send": "Send",
-    "enter-word": "Enter word",
-    "english": "English",
-    "german": "German",
-    "french": "French",
-    "sendKey": "send keyword to spacy"
+    "enter-word": "Enter word"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
