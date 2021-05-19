@@ -142,7 +142,7 @@
           <mat-icon class="primary">edit</mat-icon>
         </button>
         <button class="margin-right" mat-icon-button style="align-self:flex-end;"
-          (click)="openConfirmDialog(keyword)">
+          (click)="openConfirmDialog(keyword, 'delete-message', 'delete')">
           <mat-icon class="red">delete</mat-icon>
         </button>
       </div>
@@ -150,7 +150,6 @@
       <!-- Only visible when editing -->
       <div *ngIf="edit">
         <mat-divider></mat-divider>
-
         <mat-form-field>
           <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
           <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">

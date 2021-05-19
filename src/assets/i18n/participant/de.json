@@ -254,8 +254,10 @@
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
     "delete": "Löschen",
-    "confirm": "Sind Sie sicher?",
-    "will-be-deleted": "Thema wird gelöscht"
+    "merge": "zusammenfügen",
+    "delete-message": "Möchten Sie das Thema wirklich löschen",
+    "merge-message": "Stichwort existiert schon, möchten Sie die beiden Stichworte zusammenfügen",
+    "confirm": "Sind Sie sicher?"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",

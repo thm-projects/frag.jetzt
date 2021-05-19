@@ -259,8 +259,10 @@
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
     "delete": "Delete",
-    "confirm": "Are you sure?",
-    "will-be-deleted": "Topic will be deleted"
+    "merge": "Merge",
+    "delete-message": "Do you really want to delete the topic",
+    "merge-message": "Keyword already exists, do you want to merge both keywords",
+    "confirm": "Are you sure?"
   },
   "dialog-comment":{
     "read-more": "Read more",

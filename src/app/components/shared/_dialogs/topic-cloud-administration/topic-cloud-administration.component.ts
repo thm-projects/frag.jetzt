@@ -10,6 +10,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { FormControl } from '@angular/forms';
 import { SpacyService } from '../../../../services/http/spacy.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -33,6 +34,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
+<<<<<<< HEAD
+=======
+  model = new FormControl('');
+  output: any | undefined;
+>>>>>>> ask user to merge keywords after editing an existing keyword
 
   keywords: Keyword[] = [
     {
@@ -180,12 +186,15 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   confirmEdit(key: Keyword): void {
-    this.keywords.map(keyword => {
+    for (let keyword of this.keywords){
       if (keyword.keywordID === key.keywordID) {
-          this.integrateIfKeywordExists(keyword, this.newKeyword.trim().toLowerCase());
-          keyword.keyword = this.newKeyword.trim();
+        if (this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase())){
+          this.openConfirmDialog(keyword, 'merge-message', 'merge');
+        }
+        keyword.keyword = this.newKeyword.trim();
+        break;
       }
-    });
+    }
     this.edit = false;
     this.newKeyword = undefined;
     this.sortQuestions();
@@ -194,14 +203,22 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  openConfirmDialog(keyword: Keyword): void {
+
+
+  openConfirmDialog(keyword: Keyword, msg: string, _confirmLabel: string) {
+    const translationPart = "topic-cloud-confirm-dialog."+msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
-      data: {topic: keyword.keyword}
+      data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
         this.deleteKeyword(keyword);
+<<<<<<< HEAD
+=======
+      } else if (result === 'merge') {
+        this.mergeKeywords(keyword);
+>>>>>>> ask user to merge keywords after editing an existing keyword
       }
     });
   }
@@ -217,15 +234,13 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  //TODO: confirm dialog -> keyword does already exist, do you want to merge the questions with the existing keyword?
-
-  integrateIfKeywordExists(keyword: Keyword, keyname: string) {
-    const key = this.checkIfKeywordExists(keyname);
-    if (key !== undefined){
-      key.questions.map(question => {
-        keyword.questions.push(question);
+  mergeKeywords(key1: Keyword) {
+    const key2 = this.checkIfKeywordExists(key1.keyword.trim().toLowerCase());
+    if (key1 !== undefined && key2 !== undefined){
+      key1.questions.map(question => {
+        key2.questions.push(question);
       });
-      this.deleteKeyword(key);
+      this.deleteKeyword(key1);
     }
   }
 

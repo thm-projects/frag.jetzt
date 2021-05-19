@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BaseHttpService } from '../http/base-http.service';
-import { catchError } from 'rxjs/operators';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
