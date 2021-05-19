@@ -20,7 +20,6 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
-//import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
