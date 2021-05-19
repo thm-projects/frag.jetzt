@@ -298,3 +298,7 @@
 .selected {
   font-weight: bold;
 }
+
+.selection:focus{
+  background-color: black !important;
+}
