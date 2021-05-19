@@ -52,8 +52,7 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() cancelButtonClickAction: (Function | undefined);
 
-  @Input() resetButtonClickAction: (Function | undefined);
-
+  
   /**
    * TRUE if some spacing will be rendered above the action buttons.
    */
@@ -83,19 +82,12 @@ export class DialogActionButtonsComponent implements OnInit {
     }
   }
 
-
   /**
    * Performs the cancel button click action.
    */
   public performCancelButtonClickAction(): void {
     if (this.cancelButtonClickAction !== undefined) {
       this.cancelButtonClickAction();
-    }
-  }
-  public filterzu(): void{
-    if (this.resetButtonClickAction !== undefined) {
-      this.resetButtonClickAction();
-      
     }
   }
 }
