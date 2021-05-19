@@ -276,7 +276,7 @@
     "select-color-tooltip": "Auswahl der Schriftfarbe",
     "hover-scale-tooltip": "Skallierung der Wörter beim Erscheinen",
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
-    "hover-delay-tooltip": "Verzögerung der Wörter beim Erscheinen",
+    "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
     "extended-btn": "Gewichtsklassen",
     "back-btn": "Zurück",
     "weight-class-settings": "Gewichtsklassen Einstellungen",
