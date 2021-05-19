@@ -55,9 +55,9 @@
       <mat-form-field>
         <mat-label>Language</mat-label>
         <mat-select [formControl]="model">
-          <mat-option value="en" >English</mat-option>
-          <mat-option value="de" >German</mat-option>
-          <mat-option value="fr" >French</mat-option>
+          <mat-option value="en" >{{'topic-cloud-dialog.english' | translate}}</mat-option>
+          <mat-option value="de" >{{'topic-cloud-dialog.german' | translate}}</mat-option>
+          <mat-option value="fr" >{{'topic-cloud-dialog.french' | translate}}</mat-option>
         </mat-select>
       </mat-form-field>
 
@@ -150,7 +150,7 @@
           <mat-icon class="red">delete</mat-icon>
         </button>
         <button class="margin-right" id="send_to_spacy"
-                (click)="keywordtoSpacy(keyword.keyword,model.value.toString())">send Keyword to spacy
+                (click)="keywordtoSpacy(keyword.keyword,model.value.toString())">{{'topic-cloud-dialog.sendKey' | translate}}
         </button>
       </div>
 

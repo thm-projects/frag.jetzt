@@ -240,7 +240,11 @@
     "keyword-search": "Stichwort suchen",
     "add-profanity-word": "Wort zur Zensurliste hinzufügen",
     "send": "Abschicken",
-    "enter-word": "Wort eingeben"
+    "enter-word": "Wort eingeben",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "french": "Französisch",
+    "sendKey": "schickt keyword zu spacy"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",

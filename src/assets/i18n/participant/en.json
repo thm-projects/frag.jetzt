@@ -245,7 +245,11 @@
     "keyword-search": "Search keyword",
     "add-profanity-word": "Add word to profanity list",
     "send": "Send",
-    "enter-word": "Enter word"
+    "enter-word": "Enter word",
+    "english": "English",
+    "german": "German",
+    "french": "French",
+    "sendKey": "send keyword to spacy"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
