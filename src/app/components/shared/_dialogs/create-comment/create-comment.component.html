@@ -89,10 +89,10 @@
     <mat-divider></mat-divider>
   </ars-row>
   <ars-row ars-flex-box>
-    <ars-fill>
-    </ars-fill>
     <ars-col>
-      <button (click)="grammarCheck(commentBody)">{{ 'comment-page.grammar-check' | translate}}</button>
+      <button class="mat-flat-button spell-button"  (click)="grammarCheck(commentBody)">{{ 'comment-page.grammar-check' | translate}}</button>
+    </ars-col>
+    <ars-col> 
       <app-dialog-action-buttons
         buttonsLabelSection="comment-page"
         confirmButtonLabel="send"
