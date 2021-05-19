@@ -13,13 +13,14 @@ const httpOptions = {
 })
 export class TopicCloudAdminService extends BaseHttpService{
 
+  private badWords = [];
+  private irrelevantWords = [];
+
   constructor(private http: HttpClient) {
     super();
     this.badWords = BadWords;
     this.badWords['custom'] = [];
   }
-
-  private badWords = [];
 
   get getBadWordList(): string[]{
     return this.badWords['custom'];
@@ -39,14 +40,20 @@ export class TopicCloudAdminService extends BaseHttpService{
     return questionWithProfanity;
   }
 
-  addToBadwordList(word: string){
+  addToBadwordList(word: string) {
     if (word !== undefined) {
       this.badWords['custom'].push(word);
     }
   }
 
+  addToIrrelevantwordList(word: string) {
+    if (word !== undefined) {
+      this.irrelevantWords.push(word);
+    }
+  }
+
   private replaceString(str: string, search: string, replace: string){
-    return str.split(search).join(replace); 
+    return str.split(search).join(replace);
   }
 
   private generateXWord(count: number){

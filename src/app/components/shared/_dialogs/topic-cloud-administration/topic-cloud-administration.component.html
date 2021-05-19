@@ -2,21 +2,24 @@
   <mat-card class="color-surface">
     <div>
       <mat-slide-toggle [(ngModel)]="considerVotes">
-          {{'topic-cloud-dialog.consider-votes' | translate}}
+        {{'topic-cloud-dialog.consider-votes' | translate}}
       </mat-slide-toggle>
       <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="hideIrrelevant">
+        {{'topic-cloud-dialog.hide-irrelevant' | translate}}
       </mat-slide-toggle>
 
       <mat-accordion hideToggle class="new-Badword" multi>
         <mat-expansion-panel class="color-background"
                             (opened)="enterBadword = true; focusBadWordInput()"
                             (closed)="enterBadword = false">
-        <mat-expansion-panel-header class="color-background">
+          <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
               {{'topic-cloud-dialog.add-profanity-word' | translate}}
-              <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
-            </mat-panel-description>
+                <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
+          </mat-panel-description>
           </mat-expansion-panel-header>
 
           <mat-form-field>
@@ -26,10 +29,34 @@
 
           <button mat-button color="primary" (click)="addBadword()">
             <mat-icon>add_circle</mat-icon>
-            {{'topic-cloud-dialog.send' | translate}}
+              {{'topic-cloud-dialog.send' | translate}}
+          </button>
+        </mat-expansion-panel>
+      <!-- </mat-accordion>
+
+      <mat-accordion hideToggle class="new-Badword" multi> -->
+        <mat-expansion-panel class="color-background"
+                            (opened)="enterIrrelevantWord = true; focusIrrelevantWordInput()"
+                            (closed)="enterIrrelevantWord = false">
+          <mat-expansion-panel-header class="color-background">
+            <mat-panel-description>
+              {{'topic-cloud-dialog.add-irrelevant-word' | translate}}
+                <mat-icon>{{!enterIrrelevantWord ? 'add' : 'remove'}}</mat-icon>
+          </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field>
+            <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
+            <input matInput id="irrelevant-word-input" [(ngModel)]="newIrrelevantWord">
+          </mat-form-field>
+
+          <button mat-button color="primary" (click)="addIrrelevantWord()">
+            <mat-icon>add_circle</mat-icon>
+              {{'topic-cloud-dialog.send' | translate}}
           </button>
         </mat-expansion-panel>
       </mat-accordion>
+
     </div>
    </mat-card>
 

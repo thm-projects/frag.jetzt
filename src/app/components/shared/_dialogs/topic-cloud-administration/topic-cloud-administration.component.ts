@@ -19,20 +19,20 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
-  public profanityFilter = true;
+  public profanityFilter = true; // should be sent back to tagCloud component
+  public hideIrrelevant: boolean; // should be sent back to tagCloud component
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
   enterBadword = false;
+  enterIrrelevantWord = false;
   newBadWord: string = undefined;
+  newIrrelevantWord: string = undefined;
 
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
-  model = new FormControl('');
-  output: any | undefined;
-  isenddKeyword= true;
 
   keywords: Keyword[] = [
     {
@@ -93,16 +93,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   ];
 
-  getKeywordWithoutProfanity(keyword: string): string {
-    return this.topicCloudAdminService.filterProfanityWords(keyword);
-  }
-
   constructor(public cloudDialogRef: MatDialogRef<TagCloudComponent>,
               public confirmDialog: MatDialog,
               private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
               private translateService: TranslateService,
-              private spacyService: SpacyService,
               private langService: LanguageService,
               private topicCloudAdminService: TopicCloudAdminService) {
 
@@ -116,6 +111,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
+  }
+
+  getKeywordWithoutProfanity(keyword: string): string {
+    return this.topicCloudAdminService.filterProfanityWords(keyword);
   }
 
   sortQuestions(sortMode?: string) {
@@ -203,7 +202,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
         this.deleteKeyword(keyword);
-        this.isenddKeyword= false;
       }
     });
   }
@@ -245,10 +243,24 @@ export class TopicCloudAdministrationComponent implements OnInit {
       document.getElementById('bad-word-input').focus();
     }, 100);
   }
-  
+
+  focusIrrelevantWordInput() {
+    setTimeout(() => {
+      document.getElementById('irrelevant-word-input').focus();
+    }, 100);
+  }
+
   addBadword() {
     this.topicCloudAdminService.addToBadwordList(this.newBadWord);
     this.newBadWord = undefined;
+    if (this.searchMode){
+      this.searchKeyword();
+    }
+  }
+
+  addIrrelevantWord() {
+    this.topicCloudAdminService.addToIrrelevantwordList(this.newIrrelevantWord);
+    this.newIrrelevantWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
     }
