@@ -361,7 +361,14 @@
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
-    "hover-delay-tooltip": "Select hover-delay"
-    
+    "hover-delay-tooltip": "Select hover-delay",
+
+    "weight-class-settings": "Weight-classes settings",
+    "weight-class": "Weight class",
+    "back-btn": "Back",
+    "weight-color": "Font color",
+    "weight-number": "max. number of keywords",
+    "weight-color-tooltip": "select font-color",
+    "weight-number-tooltip": "select maximal number of keywords"
   }
 }
