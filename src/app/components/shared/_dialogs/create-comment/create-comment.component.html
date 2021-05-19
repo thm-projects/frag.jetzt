@@ -1,5 +1,19 @@
 <ars-row ars-flex-box>
   <ars-row>
+    <div class="lang-selection">
+    <button class="lang-btn" mat-button (click)="select.open()">
+    <i class="material-icons">language</i>
+      {{'spacy-dialog.' + (selectedLang === 'auto' ? 'auto' : languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
+      <mat-select class="select-list" #select [(ngModel)]="selectedLang">
+        <mat-option *ngFor="let lang of languages" [value]="lang">
+          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+          <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+        </mat-option>
+      </mat-select>
+    </button>
+  </div>
     <div class="anchor-wrp">
       <div class="anchor-right">
         <mat-form-field *ngIf="tags"
@@ -29,20 +43,18 @@
         <ars-row [overflow]="'auto'"
                  style="max-height:calc( 100vh - 250px )">
           <mat-form-field style="width:100%;">
-            <textarea (focus)="eventService.makeFocusOnInputTrue()"
+            <input [disabled]="true" matInput>
+            <div [contentEditable]="true"
+                      [spellcheck]="false"
+                      (focus)="eventService.makeFocusOnInputTrue()"
                       style="margin-top:15px;width:100%;"
                       (blur)="eventService.makeFocusOnInputFalse()"
-                      matInput
                       #commentBody
-                      matTextareaAutosize
-                      matAutosizeMinRows="5"
-                      matAutosizeMaxRows="10"
-                      maxlength="{{user.role === 3 ? 1000 : 500}}"
-                      [formControl]="bodyForm"
                       aria-labelledby="ask-question-description"
                       autofocus
+                      (input)="maxLength(commentBody)"
                       id="answer-input">
-            </textarea>
+            </div>
             <mat-placeholder class="placeholder">
               {{ 'comment-page.enter-comment' | translate }}
             </mat-placeholder>
@@ -53,14 +65,14 @@
             </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{commentBody.value.length}} / {{user.role === 3 ? 1000 : 500}}
+                {{commentBody.innerText.length}} / {{user.role === 3 ? 1000 : 500}}
               </span>
             </mat-hint>
           </mat-form-field>
         </ars-row>
       </mat-tab>
       <mat-tab label="{{ 'comment-page.preview-comment' | translate }}"
-               [disabled]="!commentBody.value">
+               [disabled]="!commentBody.innerText">
         <ars-row [height]="12"></ars-row>
         <ars-row>
           <mat-divider></mat-divider>
@@ -68,7 +80,7 @@
         <ars-row [height]="12"></ars-row>
         <ars-row [overflow]="'auto'"
                  style="max-height:calc( 100vh - 250px )">
-          <markdown [data]="commentBody.value"></markdown>
+          <markdown [data]="commentBody.innerText"></markdown>
         </ars-row>
       </mat-tab>
     </mat-tab-group>
@@ -80,6 +92,7 @@
     <ars-fill>
     </ars-fill>
     <ars-col>
+      <button (click)="grammarCheck(commentBody)">{{ 'comment-page.grammar-check' | translate}}</button>
       <app-dialog-action-buttons
         buttonsLabelSection="comment-page"
         confirmButtonLabel="send"
