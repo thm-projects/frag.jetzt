@@ -14,17 +14,38 @@ app-comment-list {
   max-width: 800px;
 }
 
-textarea {
+#answer-input {
   line-height: 120%;
   color: var(--on-surface);
   caret-color: var(--on-surface);
+  -webkit-appearance: textarea;
+  min-height: 50px;
+  cursor: text;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .send {
   color: var(--on-primary);
   background-color: var(--primary);
 }
+::ng-deep .mat-select-value{
+  width: auto!important;
+}
 
+.material-icons{
+  margin-right: 18px;
+}
+
+.select-list{
+  width: calc(100% - 24px);
+}
+.lang-selection {
+  vertical-align: middle;
+  margin-right: 0;
+}
 mat-hint {
   color: var(--on-surface) !important;
 }
@@ -43,9 +64,6 @@ mat-hint {
     width:70px;
   }
   z-index:10000;
-}
-
-.tag-select{
 }
 
 .anchor-right{
@@ -82,6 +100,7 @@ mat-hint {
 
 ::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
   color: var(--on-surface);
+  margin-right: 50px;
 }
 
 ::ng-deep .mat-select-value-text {
@@ -90,4 +109,12 @@ mat-hint {
 
 ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
   color: var(--primary);
+}
+
+::ng-deep .mat-select-panel {
+  background: var(--dialog);
+}
+
+.mat-option {
+  color: var(--on-surface);
 }

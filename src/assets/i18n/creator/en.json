@@ -84,9 +84,10 @@
     "questions-blocked": "Questions are blocked!"
   },
   "spacy-dialog": {
-    "german": "German",
-    "english": "English",
-    "french": "French",
+    "auto": "auto",
+    "de": "German",
+    "en": "English",
+    "fr": "French",
     "empty-nouns": "No nouns included",
     "select-all": "Select all"
   },
@@ -181,8 +182,8 @@
     "edit-favorite": "Mark for bonus",
     "edit-favorite-reset": "Remove marker",
     "edit-bookmark": "Bookmark",
-    "edit-bookmark-reset": "Remove marker"
-
+    "edit-bookmark-reset": "Remove marker",
+    "grammar-check": "Spell check"
   },
   "content": {
     "abort": "Abort",

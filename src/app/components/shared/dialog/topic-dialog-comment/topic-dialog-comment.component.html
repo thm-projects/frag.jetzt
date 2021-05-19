@@ -1,6 +1,5 @@
 <div>
   <p>
-    <!--{{(isCollapsed) ? question : question | slice:0:maxShowedCharachters}}{{question.length > maxShowedCharachters && !isCollapsed? "..." : ""}} -->
     <span *ngFor="let part Of partsOfQuestion; let i = index">{{part}}<mark *ngIf="i < partsOfQuestion.length -1">{{keyword}}</mark></span>
     <button
           *ngIf = "question.length > maxShowedCharachters"
@@ -9,3 +8,5 @@
     </button>
   </p>
 </div>
+
+
