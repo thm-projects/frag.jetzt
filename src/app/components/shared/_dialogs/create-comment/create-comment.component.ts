@@ -52,6 +52,7 @@ export class CreateCommentComponent implements OnInit {
   onNoClick(): void {
     this.dialogRef.close();
   }
+
   checkInputData(body: string): boolean {
     body = body.trim();
     if (!body) {
