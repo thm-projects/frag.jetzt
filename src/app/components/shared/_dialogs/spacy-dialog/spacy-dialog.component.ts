@@ -22,6 +22,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   comment: Comment;
   commentLang: Model;
+  commentBodyChecked: string;
   keywords: Keyword[] = [];
 
   constructor(
@@ -34,6 +35,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   ngOnInit(): void {
     this.comment = this.data.comment;
     this.commentLang = this.data.commentLang;
+    this.commentBodyChecked = this.data.commentBodyChecked;
   }
 
   ngAfterContentInit(): void {
@@ -57,7 +59,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   evalInput(model: Model) {
     const words: Keyword[] = [];
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-    this.spacyService.analyse(this.comment.body, model)
+    this.spacyService.analyse(this.commentBodyChecked, model)
       .subscribe(res => {
         for(const word of res.words) {
           if (word.tag.charAt(0) === 'N') {

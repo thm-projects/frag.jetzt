@@ -77,15 +77,17 @@ export class CreateCommentComponent implements OnInit {
 
   openSpacyDialog(comment: Comment): void {
     this.checkSpellings(comment.body).subscribe((res) => {
+      let commentBodyChecked = comment.body;
       const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
       for(let i = res.matches.length - 1; i >= 0; i--){
-        comment.body = comment.body.substr(0, res.matches[i].offset) +
-          comment.body.substr(res.matches[i].offset + res.matches[i].length, comment.body.length);
+        commentBodyChecked = commentBodyChecked.substr(0, res.matches[i].offset) +
+        commentBodyChecked.substr(res.matches[i].offset + res.matches[i].length, commentBodyChecked.length);
       }
       const dialogRef = this.dialog.open(SpacyDialogComponent, {
         data: {
           comment,
-          commentLang
+          commentLang,
+          commentBodyChecked
         }
       });
 
