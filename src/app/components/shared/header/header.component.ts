@@ -1,27 +1,27 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
-import {AuthenticationService} from '../../../services/http/authentication.service';
-import {NotificationService} from '../../../services/util/notification.service';
-import {Router, NavigationEnd} from '@angular/router';
-import {User} from '../../../models/user';
-import {UserRole} from '../../../models/user-roles.enum';
-import {Location} from '@angular/common';
-import {TranslateService} from '@ngx-translate/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {LoginComponent} from '../login/login.component';
-import {DeleteAccountComponent} from '../_dialogs/delete-account/delete-account.component';
-import {UserService} from '../../../services/http/user.service';
-import {EventService} from '../../../services/util/event.service';
-import {AppComponent} from '../../../app.component';
-import {Rescale} from '../../../models/rescale';
-import {KeyboardUtils} from '../../../utils/keyboard';
-import {KeyboardKey} from '../../../utils/keyboard/keys';
-import {UserBonusTokenComponent} from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import {RemindOfTokensComponent} from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import {QrCodeDialogComponent} from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import {BonusTokenService} from '../../../services/http/bonus-token.service';
-import {MotdService} from '../../../services/http/motd.service';
-import {TopicCloudFilterComponent} from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import {TagCloudHeaderDataOverview} from '../tag-cloud/tag-cloud.interface';
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { User } from '../../../models/user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
+import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
+import { UserService } from '../../../services/http/user.service';
+import { EventService } from '../../../services/util/event.service';
+import { AppComponent } from '../../../app.component';
+import { Rescale } from '../../../models/rescale';
+import { KeyboardUtils } from '../../../utils/keyboard';
+import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
+import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { MotdService } from '../../../services/http/motd.service';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { TagCloudHeaderDataOverview } from '../tag-cloud/tag-cloud.interface';
 
 @Component({
   selector: 'app-header',
@@ -41,17 +41,17 @@ export class HeaderComponent implements OnInit {
   commentsCountKeywords = 0;
 
   constructor(public location: Location,
-              private authenticationService: AuthenticationService,
-              private notificationService: NotificationService,
-              public router: Router,
-              private translationService: TranslateService,
-              public dialog: MatDialog,
-              private userService: UserService,
-              public eventService: EventService,
-              private bonusTokenService: BonusTokenService,
-              private _r: Renderer2,
-              private motdService: MotdService,
-              private confirmDialog: MatDialog,
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService,
+    public router: Router,
+    private translationService: TranslateService,
+    public dialog: MatDialog,
+    private userService: UserService,
+    public eventService: EventService,
+    private bonusTokenService: BonusTokenService,
+    private _r: Renderer2,
+    private motdService: MotdService,
+    private confirmDialog: MatDialog
   ) {
   }
 

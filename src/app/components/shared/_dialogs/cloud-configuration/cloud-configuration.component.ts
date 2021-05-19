@@ -62,7 +62,6 @@ export class CloudConfigurationComponent implements OnInit{
   }
 
   parseArrayToJsonWeightClasses(){
-    console.log(this.cloudParameters)
     this.cloudParameters.cloudWeightCount.forEach((element, i) => {
       this.weightClasses[i].maxTagNumber = element;
     });
@@ -82,9 +81,7 @@ export class CloudConfigurationComponent implements OnInit{
 
   valueChanged(){
     this.parseJsonToArrayWeightClasses();
-    this.parent.setCloudParameters(this.cloudParameters, false);
-    console.log(this.cloudParameters);
-    
+    this.parent.setCloudParameters(this.cloudParameters, false);    
   }
 
   cancel(){
