@@ -90,7 +90,8 @@
     "token": "Bonus token",
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
-    "export-comments": "Save questions"
+    "export-comments": "Save questions",
+    "questions-blocked": "Questions are blocked"
   },
   "content": {
     "cancel": "Cancel",
@@ -147,6 +148,8 @@
     "tag-reset": "Reset",
     "tag-to-filter": "Click on the question category to filter questions in that category.",
     "user-number": "Click on the number to filter the questions from this anonymous questioner.",
+    "keywords-per-question": "Click to display the keywords that have been entered for the question.",
+    "keywords": "Keywords",
     "vote-down": "Vote down",
     "vote-up": "Vote up",
     "write-comment": "Write",
@@ -283,6 +286,14 @@
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
-    "hover-delay-tooltip": "Select hover-delay"
+    "hover-delay-tooltip": "Select hover-delay",
+    "extended-btn": "Weight classes",
+    "weight-class-settings": "Weight-classes settings",
+    "weight-class": "Weight class",
+    "back-btn": "Back",
+    "weight-color": "Font color",
+    "weight-number": "max. number of keywords",
+    "weight-color-tooltip": "select font-color",
+    "wieght-number-tooltip": "select maximal number of keywords"
   }
 }

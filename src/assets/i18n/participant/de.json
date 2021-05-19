@@ -80,7 +80,8 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
-    "export-comments": "Fragen speichern"
+    "export-comments": "Fragen speichern",
+    "questions-blocked": "Fragen sind deaktiviert!"
   },
   "content": {
     "cancel": "Abbrechen",
@@ -138,6 +139,8 @@
     "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragekategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf die Nummer, um die Fragen dieses anonymen Fragenstellers zu filtern.",
+    "keywords-per-question": "Klick auf die Keywords, um die Keywords anzuzeigen die für die Frage hinterlegt wurden.",
+    "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
     "write-comment": "Eingabe",
@@ -278,6 +281,14 @@
     "select-color-tooltip": "Auswahl der Schriftfarbe",
     "hover-scale-tooltip": "Skallierung der Wörter beim Erscheinen",
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
-    "hover-delay-tooltip": "Verzögerung der Wörter beim Erscheinen"
+    "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
+    "extended-btn": "Gewichtsklassen",
+    "back-btn": "Zurück",
+    "weight-class-settings": "Gewichtsklassen Einstellungen",
+    "weight-class": "Gewichtsklasse",
+    "weight-color": "Schriftfarbe",
+    "weight-number": "max. Anzahl Schlüsselwörter",
+    "weight-color-tooltip": "Auswahl der Schriftfarbe",
+    "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen"
   }
 }

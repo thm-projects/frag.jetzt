@@ -3,6 +3,7 @@
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
+     
   <button id="filter-close-button"
           mat-icon-button
           class="searchBarButton"
@@ -233,7 +234,8 @@
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
-<button mat-fab
+<button *ngIf="commentsEnabled"
+        mat-fab
         mat-icon-button
         aria-labelledby="add"
         class="fab_add_comment"
@@ -249,6 +251,7 @@
                [userRole]="userRole"
                [moderator]="false"
                [user]="user"
+               [disabled]="!commentsEnabled"
                (clickedOnTag)="clickedOnTag($event)"
                (clickedUserNumber)="clickedUserNumber($event)">
   </app-comment>
