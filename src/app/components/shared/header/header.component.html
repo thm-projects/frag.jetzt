@@ -16,7 +16,7 @@
       {{cTime}}
     </h2>
 
-    <ng-container *ngIf="room.closed">
+    <ng-container *ngIf="room && room.closed">
       <h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
