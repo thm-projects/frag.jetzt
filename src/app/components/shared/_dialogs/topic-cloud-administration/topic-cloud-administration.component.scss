@@ -10,6 +10,7 @@
 
 .primary {
   color: var(--primary);
+  background: none;
 }
 
 .red {
@@ -32,10 +33,25 @@ mat-icon {
   fill: currentColor;
 }
 
-mat-expansion-panel-header, mat-expansion-panel, mat-card {
+.color-surface {
   background-color: var(--surface);
 }
 
+.color-background {
+  background-color: var(--dialog);
+}
+
+.search{
+  box-sizing: border-box;
+  padding: 0 10px 0 5px;
+  border: none;
+  outline: none;
+  min-height: 60px;
+  font-size: large;
+  border-radius: 5px;
+  color: var(--on-surface);
+  transition: width 300ms linear;
+}
 
 label {
   color: var(--on-surface)
@@ -57,7 +73,7 @@ mat-panel-title, mat-panel-description {
   }
 }
 
-.edit-keyword .mat-panel-title {
+.animation-blink{
   color: var(--red) !important;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
@@ -65,4 +81,18 @@ mat-panel-title, mat-panel-description {
   animation-iteration-count: 2;
   opacity: 1.0 !important;
 }
- 
+
+.new-Badword .mat-expansion-panel-header-title,
+.new-Badword .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.new-Badword .mat-expansion-panel-header-description,
+.new-Badword .button {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.new-Badword .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}

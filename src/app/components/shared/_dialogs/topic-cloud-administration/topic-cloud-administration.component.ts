@@ -7,6 +7,9 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
+import { FormControl } from '@angular/forms';
+import { SpacyService } from '../../../../services/http/spacy.service';
+import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -16,13 +19,17 @@ import { LanguageService } from '../../../../services/util/language.service';
 export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
-  public tagsLowerCase: boolean; // should be sent back to tagCloud component
+  public profanityFilter = true; // should be sent back to tagCloud component
+  public hideIrrelevant: boolean; // should be sent back to tagCloud component
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
+  enterBadword = false;
+  enterIrrelevantWord = false;
+  newBadWord: string = undefined;
+  newIrrelevantWord: string = undefined;
 
   sortMode = 'alphabetic';
-  editedKeyword = false;
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
@@ -32,7 +39,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
       keywordID: 1,
       keyword: 'Cloud',
       questions: [
-        'Wieviel speicherplatz steht mir in der Cloud zur verfuegung? Ich habe eine Frage, sind Fragen zum thema \'Frage\' auch erlaubt?',
+        'Wieviel speicherplatz steht mir in der Cloud zur verfügung?',
         'Sollen wir die Tag Cloud implementieren?',
         // eslint-disable-next-line max-len
         'Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung',
@@ -71,6 +78,18 @@ export class TopicCloudAdministrationComponent implements OnInit {
         'gibt es heute übung?'
       ]
     },
+    {
+      keywordID: 6,
+      keyword: 'Arsch',
+      questions: [
+        'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
+        'Englisch: Fuck you!',
+        'Deutsch: Fick dich!',
+        'Französisch: Gros con!',
+        'Multi language: Ficken, Fuck, con',
+        'Custom: Nieder mit KQC'
+      ]
+    },
 
   ];
 
@@ -79,7 +98,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
               private notificationService: NotificationService,
               private authenticationService: AuthenticationService,
               private translateService: TranslateService,
-              private langService: LanguageService) {
+              private langService: LanguageService,
+              private topicCloudAdminService: TopicCloudAdminService) {
 
                 this.langService.langEmitter.subscribe(lang => {
                   this.translateService.use(lang);
@@ -91,6 +111,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
+  }
+
+  getKeywordWithoutProfanity(keyword: string): string {
+    return this.topicCloudAdminService.filterProfanityWords(keyword);
   }
 
   sortQuestions(sortMode?: string) {
@@ -135,9 +159,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }, 0);
   }
 
-  deleteKeyword(id: number): void{
+  deleteKeyword(key: Keyword): void{
     this.keywords.map(keyword => {
-      if (keyword.keywordID === id) {
+      if (keyword.keywordID === key.keywordID) {
           this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
       }
     });
@@ -155,14 +179,14 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.newKeyword = undefined;
   }
 
-  confirmEdit(id: number): void {
+  confirmEdit(key: Keyword): void {
     this.keywords.map(keyword => {
-      if (keyword.keywordID === id) {
+      if (keyword.keywordID === key.keywordID) {
+          this.integrateIfKeywordExists(keyword, this.newKeyword.trim().toLowerCase());
           keyword.keyword = this.newKeyword.trim();
       }
     });
     this.edit = false;
-    this.editedKeyword = true;
     this.newKeyword = undefined;
     this.sortQuestions();
     if (this.searchMode){
@@ -177,20 +201,73 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
-        this.deleteKeyword(keyword.keywordID);
+        this.deleteKeyword(keyword);
       }
     });
   }
 
   searchKeyword(): void {
     if (!this.searchedKeyword){
-        this.searchMode = false;
+      this.searchMode = false;
     } else {
       this.filteredKeywords = this.keywords.filter(keyword =>
         keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
       );
       this.searchMode = true;
     }
+  }
+
+  //TODO: confirm dialog -> keyword does already exist, do you want to merge the questions with the existing keyword?
+
+  integrateIfKeywordExists(keyword: Keyword, keyname: string) {
+    const key = this.checkIfKeywordExists(keyname);
+    if (key !== undefined){
+      key.questions.map(question => {
+        keyword.questions.push(question);
+      });
+      this.deleteKeyword(key);
+    }
+  }
+
+  checkIfKeywordExists(key: string): Keyword {
+    for(const keyword of this.keywords){
+      if(keyword.keyword.toLowerCase() === key){
+        return keyword;
+      }
+    }
+    return undefined;
+  }
+
+  focusBadWordInput() {
+    setTimeout(() => {
+      document.getElementById('bad-word-input').focus();
+    }, 100);
+  }
+
+  focusIrrelevantWordInput() {
+    setTimeout(() => {
+      document.getElementById('irrelevant-word-input').focus();
+    }, 100);
+  }
+
+  addBadword() {
+    this.topicCloudAdminService.addToBadwordList(this.newBadWord);
+    this.newBadWord = undefined;
+    if (this.searchMode){
+      this.searchKeyword();
+    }
+  }
+
+  addIrrelevantWord() {
+    this.topicCloudAdminService.addToIrrelevantwordList(this.newIrrelevantWord);
+    this.newIrrelevantWord = undefined;
+    if (this.searchMode){
+      this.searchKeyword();
+    }
+  }
+
+  refreshAllLists(){
+    this.searchKeyword();
   }
 }
 
