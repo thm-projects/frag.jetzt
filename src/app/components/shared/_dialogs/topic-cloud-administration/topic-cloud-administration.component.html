@@ -7,39 +7,29 @@
       <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
-   <!-- </div> -->
 
+      <mat-accordion hideToggle class="new-Badword" multi>
+        <mat-expansion-panel class="color-background"
+                            (opened)="enterBadword = true; focusBadWordInput()"
+                            (closed)="enterBadword = false">
+        <mat-expansion-panel-header class="color-background">
+            <mat-panel-description>
+              {{'topic-cloud-dialog.add-profanity-word' | translate}}
+              <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
 
-    <mat-accordion hideToggle class="new-Badword" multi>
-      <mat-expansion-panel class="color-background"
-                          (opened)="enterBadword = true; focusBadWordInput()"
-                          (closed)="enterBadword = false">
-      <mat-expansion-panel-header class="color-background">
-          <mat-panel-description>
-            {{'topic-cloud-dialog.add-profanity-word' | translate}}
-            <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
+          <mat-form-field>
+            <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
+            <input matInput id="bad-word-input" [(ngModel)]="newBadWord">
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
-          <input matInput id="bad-word-input" [(ngModel)]="newBadWord">
-        </mat-form-field>
-
-        <button mat-button color="primary" (click)="addBadword()">
-          <mat-icon>add_circle</mat-icon>
-          {{'topic-cloud-dialog.send' | translate}}
-        </button>
-      </mat-expansion-panel>
-    </mat-accordion>
-      <mat-form-field>
-        <mat-label>Language</mat-label>
-        <mat-select [formControl]="model">
-          <mat-option value="en" >{{'topic-cloud-dialog.english' | translate}}</mat-option>
-          <mat-option value="de" >{{'topic-cloud-dialog.german' | translate}}</mat-option>
-          <mat-option value="fr" >{{'topic-cloud-dialog.french' | translate}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+          <button mat-button color="primary" (click)="addBadword()">
+            <mat-icon>add_circle</mat-icon>
+            {{'topic-cloud-dialog.send' | translate}}
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
    </mat-card>
 
@@ -128,9 +118,6 @@
           (click)="openConfirmDialog(keyword)">
           <mat-icon class="red">delete</mat-icon>
         </button>
-        <button class="margin-right" id="send_to_spacy"
-                (click)="keywordtoSpacy(keyword.keyword,model.value.toString())">{{'topic-cloud-dialog.sendKey' | translate}}
-        </button>
       </div>
 
       <!-- Only visible when editing -->
@@ -148,15 +135,5 @@
         </div>
       </div>
     </mat-expansion-panel><br>
-  </mat-accordion>
-
-  <mat-accordion >
-    <section *ngIf="isenddKeyword">
-      <mat-card *ngFor="let line of this.output" class="color-surface">
-        <li *ngFor="let translate of line" class="color12" > {{this.translate.tag}}      : "   {{translate.text}} " <br> </li>
-
-      </mat-card >
-    </section>
-
   </mat-accordion>
 </mat-dialog-content>

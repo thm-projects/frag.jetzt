@@ -245,24 +245,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
       document.getElementById('bad-word-input').focus();
     }, 100);
   }
-
-  keywordtoSpacy(text: string,model: string) {
-    this.isenddKeyword=true;
-    for (const keyword of this.keywords) {
-      if (keyword.keyword===text) {
-        this.output = [];
-        for( let i=0;i <keyword.questions.length;i++){
-          this.spacyService.analyse(keyword.questions[i], model)
-            .subscribe(res => {
-              console.log(res.words);
-              this.output.push(res.words);
-            }, () => {
-              console.log('error');
-            });
-        }
-      }
-    }
-  }
+  
   addBadword() {
     this.topicCloudAdminService.addToBadwordList(this.newBadWord);
     this.newBadWord = undefined;
