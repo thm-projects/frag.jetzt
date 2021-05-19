@@ -256,7 +256,7 @@
       <div
         fxLayout="column"
         fxLayoutAlign="center"
-        *ngIf="isStudent"
+        *ngIf="isStudent && !disabled"
         [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
         <button mat-icon-button
                 (click)="voteUp(comment)"
@@ -317,6 +317,27 @@
           {{comment.userNumber}}
         </strong>
       </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
+           [mat-menu-trigger-for]="keywordsMenu"
+           *ngIf="(comment.keywords != undefined && comment.keywords.length > 0)"
+           class="comment-keywords">
+        <mat-icon svgIcon="comment_tag"></mat-icon>
+        <span>
+          &nbsp;{{ 'comment-page.keywords' | translate }}
+        </span>
+        <mat-menu #keywordsMenu>
+        
+          <mat-list dense class="keywords-list">
+            <mat-list-item  *ngFor="let keyword of comment.keywords; let odd = odd; let even = even"
+                            [class.keywords-alternate]="odd"
+                            [class.keywords-even]="even">
+                            <span class="keyword-span">{{keyword}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-menu>
+      </div>
+
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
               class="moderate-button"

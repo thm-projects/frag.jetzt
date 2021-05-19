@@ -21,6 +21,8 @@ import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { RoomService } from '../../../services/http/room.service';
+import { Room } from '../../../models/room';
 import { TagCloudHeaderDataOverview } from '../tag-cloud/tag-cloud.interface';
 
 @Component({
@@ -36,22 +38,25 @@ export class HeaderComponent implements OnInit {
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
+  room : Room;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
 
+
   constructor(public location: Location,
-    private authenticationService: AuthenticationService,
-    private notificationService: NotificationService,
-    public router: Router,
-    private translationService: TranslateService,
-    public dialog: MatDialog,
-    private userService: UserService,
-    public eventService: EventService,
-    private bonusTokenService: BonusTokenService,
-    private _r: Renderer2,
-    private motdService: MotdService,
-    private confirmDialog: MatDialog
+              private authenticationService: AuthenticationService,
+              private notificationService: NotificationService,
+              public router: Router,
+              private translationService: TranslateService,
+              public dialog: MatDialog,
+              private userService: UserService,
+              public eventService: EventService,
+              private bonusTokenService: BonusTokenService,
+              private _r: Renderer2,
+              private motdService: MotdService,
+              private confirmDialog: MatDialog,
+              private roomService: RoomService
   ) {
   }
 
@@ -116,6 +121,10 @@ export class HeaderComponent implements OnInit {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
+            this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
+          } else {
+            this.shortId = '';
+            this.room = null;
           }
         }
       }
@@ -305,6 +314,12 @@ export class HeaderComponent implements OnInit {
 
   public navigateTopicCloudAdministration() {
     this.eventService.broadcast('navigate', 'topicCloudAdministration');
+  }
+
+  public blockQuestions() {
+    // flip state if clicked
+    this.room.closed = !this.room.closed;
+    this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
   }
 
 }
