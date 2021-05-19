@@ -32,7 +32,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
   filteredKeywords: Keyword[] = [];
   model = new FormControl('');
   output: any | undefined;
-  newOutput: [];
 
   keywords: Keyword[] = [
     {
@@ -249,14 +248,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
     for (const keyword of this.keywords) {
       if (keyword.keyword===text) {
         this.output = [];
-        //  console.log(keyword.keyword);
         for( let i=0;i <keyword.questions.length;i++){
-          // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
           this.spacyService.analyse(keyword.questions[i], model)
             .subscribe(res => {
               console.log(res.words);
               this.output.push(res.words);
-              //  console.log(res.arcs);
             }, () => {
               console.log('error');
             });
@@ -264,14 +260,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
       }
     }
   }
-
-  commentLang = [
-    { lang: 'tagkeyword' },
-    { lang: 'spacykeyword' },
-  ];
-  selectedLang = localStorage.getItem('currentLang');
-  comment: Comment;
-
   addBadword() {
     this.topicCloudAdminService.addToBadwordList(this.newBadWord);
     this.newBadWord = undefined;

@@ -32,26 +32,6 @@
         </button>
       </mat-expansion-panel>
     </mat-accordion>
-
-    <!--mat-icon _ngcontent-oki-c368="" role="img" class="mat-icon
-    notranslate header-icons material-icons mat-icon-no-color ng-star-inserted" aria-hidden="true" data-mat-icon-type="font">more_vert </mat-icon-->
-      <!--mat-select class="select-list" [(ngModel)]="selectedLang" >
-        <mat-option *ngFor="let lang of commentLang" [value]="lang.lang">
-          <span *ngIf="lang.lang == 'tag'">Tag</span>
-          <span *ngIf="lang.lang == 'spacyfrage'">spacy keyword</span>
-        </mat-option>
-      </mat-select-->
-      <!-- <mat-form-field>
-    <div>
-      <mat-form-field>
-        <mat-label>key wählen</mat-label>
-        <mat-select [(ngModel)]="selectedLang">
-          <mat-option *ngFor="let team of commentLang" [value]="team.lang">
-            {{team.lang}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
-
       <mat-form-field>
         <mat-label>Language</mat-label>
         <mat-select [formControl]="model">
@@ -60,7 +40,6 @@
           <mat-option value="fr" >{{'topic-cloud-dialog.french' | translate}}</mat-option>
         </mat-select>
       </mat-form-field>
-
     </div>
    </mat-card>
 
