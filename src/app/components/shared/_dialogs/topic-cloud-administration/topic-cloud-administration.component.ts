@@ -32,6 +32,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   filteredKeywords: Keyword[] = [];
   model = new FormControl('');
   output: any | undefined;
+  isenddKeyword= true;
 
   keywords: Keyword[] = [
     {
@@ -202,6 +203,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
         this.deleteKeyword(keyword);
+        this.isenddKeyword= false;
       }
     });
   }
@@ -245,6 +247,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   keywordtoSpacy(text: string,model: string) {
+    this.isenddKeyword=true;
     for (const keyword of this.keywords) {
       if (keyword.keyword===text) {
         this.output = [];
