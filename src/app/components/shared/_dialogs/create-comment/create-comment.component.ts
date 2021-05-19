@@ -23,6 +23,7 @@ export class CreateCommentComponent implements OnInit {
   roomId: string;
   tags: string[];
   selectedTag: string;
+  wrongPercent:boolean = false;
 
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'auto';
@@ -72,7 +73,10 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
+      if(!this.wrongPercent)
       this.openSpacyDialog(comment);
+      else
+      this.dialogRef.close(comment);
     }
   }
 
@@ -131,13 +135,21 @@ export class CreateCommentComponent implements OnInit {
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
+    let words: string[] = commentBody.innerText.trim().split(" ");
     let wrongWords: string[] = [];
-    this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
+    this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {      
       if(wordsCheck.matches.length > 0 ) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
           wrongWords.push(wrongWord);
         });
+      let errorQuotient = (wrongWords.length * 100 ) / words.length; 
+          if(errorQuotient >= 20){
+            this.wrongPercent = true;
+            }else{
+            this.wrongPercent = false;
+          }
+
         this.checkSpellings(commentBody.innerHTML).subscribe((res) => {
           for(let i = res.matches.length - 1; i >= 0; i--){ // Reverse for loop to make sure the offset is right.
             const wrongWord = commentBody.innerHTML
