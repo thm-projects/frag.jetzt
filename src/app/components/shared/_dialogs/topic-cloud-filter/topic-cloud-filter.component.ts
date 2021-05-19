@@ -1,11 +1,11 @@
-import {Component, Inject, OnInit, Input} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {NotificationService} from '../../../../services/util/notification.service';
-import {TranslateService} from '@ngx-translate/core';
-import {RoomCreatorPageComponent} from '../../../creator/room-creator-page/room-creator-page.component';
-import {LanguageService} from '../../../../services/util/language.service';
-import {EventService} from '../../../../services/util/event.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, Inject, OnInit, Input } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { NotificationService } from '../../../../services/util/notification.service';
+import { TranslateService } from '@ngx-translate/core';
+import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
+import { LanguageService } from '../../../../services/util/language.service';
+import { EventService } from '../../../../services/util/event.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentFilterOptions } from '../../../../utils/filter-options';
 
 @Component({
