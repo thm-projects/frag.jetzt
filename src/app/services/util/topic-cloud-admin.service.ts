@@ -22,7 +22,7 @@ export class TopicCloudAdminService {
   }
 
   filterProfanityWords(str: string): string {
-    let questionWithProfanity = str;  
+    let questionWithProfanity = str;
     this.profanityWords.concat(this.getBadwordList()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
@@ -37,7 +37,7 @@ export class TopicCloudAdminService {
     return questionWithProfanity;
   }
 
-  getBadwordList():string[]{
+  getBadwordList(): string[]{
     const list = localStorage.getItem(this.blacklistKey);
     return list ? list.split(',') : [];
   }
@@ -45,7 +45,7 @@ export class TopicCloudAdminService {
   addToBadwordList(word: string) {
     if (word !== undefined) {
       const newList = this.getBadwordList();
-      if (newList.includes(word)){  
+      if (newList.includes(word)){
         return;
       }
       newList.push(word);

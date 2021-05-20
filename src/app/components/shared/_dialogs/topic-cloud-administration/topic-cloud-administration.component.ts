@@ -119,7 +119,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   getBadWordList() {
-    return this.topicCloudAdminService.getBadWordList;
+    return this.topicCloudAdminService.getBadwordList();
   }
 
   sortQuestions(sortMode?: string) {
