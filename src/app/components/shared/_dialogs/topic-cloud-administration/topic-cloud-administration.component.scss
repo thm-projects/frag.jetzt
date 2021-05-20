@@ -33,12 +33,21 @@ mat-icon {
   fill: currentColor;
 }
 
+mat-list-item:hover {
+  background-color: rgba(128, 128, 128, 0.2);
+
+}
+
 .color-surface {
   background-color: var(--surface);
 }
 
 .color-background {
   background-color: var(--dialog);
+}
+
+.color-on-surface {
+  color: var(--on-surface);
 }
 
 .search{

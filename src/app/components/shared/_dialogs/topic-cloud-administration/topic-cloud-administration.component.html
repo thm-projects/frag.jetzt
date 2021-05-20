@@ -30,6 +30,22 @@
             <mat-icon>add_circle</mat-icon>
             {{'topic-cloud-dialog.send' | translate}}
           </button>
+
+          <mat-list role="list" *ngIf="showBadWordList">
+            <mat-list-item class="color-on-surface" *ngFor="let word of getBadWordList()" role="listitem">{{word}}
+              <button style="margin-left: auto" mat-icon-button class="red">
+                <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+
+          <div>
+            <button mat-raised-button *ngIf="getBadWordList().length > 0" class="primaryBackground"
+              (click)="showBadWordList=!showBadWordList">
+              {{showBadWordList ? "Hide badword list" : "Show badword list"}}
+            </button>
+          </div>
+
         </mat-expansion-panel>
 
         <mat-expansion-panel class="color-background"

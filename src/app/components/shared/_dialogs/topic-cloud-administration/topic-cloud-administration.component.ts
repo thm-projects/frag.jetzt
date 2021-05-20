@@ -31,6 +31,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
+  showBadWordList = false;
 
   keywords: Keyword[] = [
     {
@@ -115,6 +116,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   getKeywordWithoutProfanity(keyword: string): string {
     return this.topicCloudAdminService.filterProfanityWords(keyword);
+  }
+
+  getBadWordList() {
+    return this.topicCloudAdminService.getBadWordList;
   }
 
   sortQuestions(sortMode?: string) {
