@@ -13,12 +13,17 @@ const httpOptions = {
 export class TopicCloudAdminService extends BaseHttpService{
 
   private badWords = [];
+  private profanityWords = [];
   private irrelevantWords = [];
 
   constructor(private http: HttpClient) {
     super();
     this.badWords = BadWords;
     this.badWords['custom'] = [];
+    // TODO: add other languages
+    /* put all arrays of languages together */
+    this.profanityWords = this.badWords['en'].concat(this.badWords['de'])
+    .concat(this.badWords['fr']).concat(this.badWords['custom']);
   }
 
   get getBadWordList(): string[]{
@@ -27,11 +32,7 @@ export class TopicCloudAdminService extends BaseHttpService{
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    // TODO: another languages
-    /* put all arrays of languages together */
-    const profanityWords = this.badWords['en'].concat(this.badWords['de'])
-                           .concat(this.badWords['fr']).concat(this.badWords['custom']);
-    profanityWords.map(word =>{
+    this.profanityWords.map(word =>{
       questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
       this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
       : questionWithProfanity;
