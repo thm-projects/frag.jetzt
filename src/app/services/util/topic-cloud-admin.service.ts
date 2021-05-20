@@ -1,3 +1,4 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
 
@@ -8,26 +9,21 @@ export class TopicCloudAdminService {
   private badWords = [];
   private profanityWords = [];
   private irrelevantWords = [];
+  private blacklistKey = 'custom-Profanity-List';
 
   constructor() {
     this.badWords = BadWords;
-    this.badWords['custom'] = [];
     /* put all arrays of languages together */
     this.profanityWords = this.badWords['en']
       .concat(this.badWords['de'])
       .concat(this.badWords['fr'])
       .concat(this.badWords['ar'])
-      .concat(this.badWords['tr'])
-      .concat(this.badWords['custom']);
-  }
-
-  get getBadWordList(): string[] {
-    return this.badWords['custom'];
+      .concat(this.badWords['tr']);
   }
 
   filterProfanityWords(str: string): string {
-    let questionWithProfanity = str;
-    this.profanityWords.map((word) => {
+    let questionWithProfanity = str;  
+    this.profanityWords.concat(this.getBadwordList()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
         .includes(word.toLowerCase())
@@ -41,10 +37,34 @@ export class TopicCloudAdminService {
     return questionWithProfanity;
   }
 
+  getBadwordList():string[]{
+    const list = localStorage.getItem(this.blacklistKey);
+    return list ? list.split(',') : [];
+  }
+
   addToBadwordList(word: string) {
     if (word !== undefined) {
-      this.badWords['custom'].push(word);
+      const newList = this.getBadwordList();
+      if (newList.includes(word)){  
+        return;
+      }
+      newList.push(word);
+      localStorage.setItem(this.blacklistKey, newList.toString());
     }
+  }
+
+  removeFromBadwordList(badword: string){
+    const list = this.getBadwordList();
+    list.map(word => {
+      if (word === badword){
+        list.splice(list.indexOf(word, 0), 1);
+      }
+    });
+    localStorage.setItem(this.blacklistKey, list.toString());
+  }
+
+  removeBadwordList(){
+    localStorage.removeItem(this.blacklistKey);
   }
 
   addToIrrelevantwordList(word: string) {
