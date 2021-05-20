@@ -10,6 +10,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { FormControl } from '@angular/forms';
 import { SpacyService } from '../../../../services/http/spacy.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -28,6 +29,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
   enterIrrelevantWord = false;
   newBadWord: string = undefined;
   newIrrelevantWord: string = undefined;
+  choice : string ;
+  choix : string[]=['keyword', 'full-text', 'keyword & full-text'];
 
   sortMode = 'alphabetic';
   searchedKeyword = undefined;

@@ -1,6 +1,13 @@
 <mat-icon (click)="hideuppdercase()" >settings </mat-icon>
 <!-- <mat-dialog-content> -->
-<ars-row>
+<ars-row ars-flex-box>
+  <mat-radio-group class = "tp-radio-group" [(ngModel)]="choice">
+    <mat-radio-button class = "tp-radio-button"
+                      *ngFor = "let tony of choix" [value] = "tony">
+      {{tony}}
+    </mat-radio-button>
+  </mat-radio-group>
+  
   <mat-card *ngIf="show" class="color-surface">
     <div>
       <mat-slide-toggle [(ngModel)]="considerVotes">
