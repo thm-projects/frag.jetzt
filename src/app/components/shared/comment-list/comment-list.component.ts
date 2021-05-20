@@ -78,7 +78,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   moderator = 'moderator';
   lecturer = 'lecturer';
   tag = 'tag';
+  selectedTag = '';
   userNumber = 'userNumber';
+  keyword = 'keyword';
+  selectedKeyword = '';
   answer = 'answer';
   unanswered = 'unanswered';
   owner = 'owner';
@@ -258,6 +261,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     filter.filterSelected = this.currentFilter;
     filter.paused = this.freeze;
     filter.periodSet = this.period;
+    filter.keywordSelected = this.selectedKeyword;
+    filter.tagSelected = this.selectedTag;
 
     if (filter.periodSet == Period.FROMNOW) {
       filter.timeStampNow = new Date().getTime();
@@ -495,6 +500,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sortComments(this.currentSort);
       return;
     }
+    console.log(compare);
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
@@ -510,9 +516,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
         case this.unread:
           return !c.read;
         case this.tag:
+          this.selectedTag = compare;
           return c.tag === compare;
         case this.userNumber:
           return c.userNumber === compare;
+        case this.keyword:
+          this.selectedKeyword = compare;
+          return c.keywords != null ? c.keywords.includes(compare) : false;
         case this.answer:
           return c.answer;
         case this.unanswered:
@@ -564,6 +574,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.filterComments(this.tag, tag);
   }
 
+  clickedOnKeyword(keyword: string): void {
+    this.filterComments(this.keyword, keyword);
+  }
+
   clickedUserNumber(usrNumber: number): void {
     this.filterComments(this.userNumber, usrNumber);
   }
@@ -575,7 +589,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.notificationService.show(msg);
     });
 
-    let filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime());
+    let filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime(), this.selectedTag, this.selectedKeyword);
     filter.writeFilter();
   }
 
