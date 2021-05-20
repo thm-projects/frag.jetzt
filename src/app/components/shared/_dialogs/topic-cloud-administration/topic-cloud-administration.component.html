@@ -1,5 +1,6 @@
+<mat-icon (click)="hideuppdercase()" >settings </mat-icon>
 <mat-dialog-content>
-  <mat-card class="color-surface">
+  <mat-card *ngIf="show" class="color-surface">
     <div>
       <mat-slide-toggle [(ngModel)]="considerVotes">
         {{'topic-cloud-dialog.consider-votes' | translate}}

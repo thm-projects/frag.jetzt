@@ -33,6 +33,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
+  show: boolean = false;
+  buttonName: any = 'Show'
 
   keywords: Keyword[] = [
     {
@@ -268,6 +270,14 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   refreshAllLists(){
     this.searchKeyword();
+  }
+
+  hideuppdercase(){
+    this.show = !this.show;
+    if(this.show)
+      this.buttonName = 'Hide';
+    else
+      this.buttonName = 'Show';
   }
 }
 
