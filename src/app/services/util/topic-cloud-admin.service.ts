@@ -1,23 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BaseHttpService } from '../http/base-http.service';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
 
 @Injectable({
   providedIn: 'root'
 })
-export class TopicCloudAdminService extends BaseHttpService{
+export class TopicCloudAdminService{
 
   private badWords = [];
   private profanityWords = [];
   private irrelevantWords = [];
 
-  constructor(private http: HttpClient) {
-    super();
+  constructor() {
     this.badWords = BadWords;
     this.badWords['custom'] = [];
     // TODO: add other languages
