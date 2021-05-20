@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class TopicCloudAdminService{
-
+export class TopicCloudAdminService {
   private badWords = [];
   private profanityWords = [];
   private irrelevantWords = [];
@@ -15,20 +14,28 @@ export class TopicCloudAdminService{
     this.badWords['custom'] = [];
     // TODO: add other languages
     /* put all arrays of languages together */
-    this.profanityWords = this.badWords['en'].concat(this.badWords['de'])
-    .concat(this.badWords['fr']).concat(this.badWords['custom']);
+    this.profanityWords = this.badWords['en']
+      .concat(this.badWords['de'])
+      .concat(this.badWords['fr'])
+      .concat(this.badWords['custom']);
   }
 
-  get getBadWordList(): string[]{
+  get getBadWordList(): string[] {
     return this.badWords['custom'];
   }
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    this.profanityWords.map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
-      : questionWithProfanity;
+    this.profanityWords.map((word) => {
+      questionWithProfanity = questionWithProfanity
+        .toLowerCase()
+        .includes(word.toLowerCase())
+        ? this.replaceString(
+          questionWithProfanity.toLowerCase(),
+          word.toLowerCase(),
+          this.generateXWord(word.length)
+        )
+        : questionWithProfanity;
     });
     return questionWithProfanity;
   }
@@ -45,13 +52,13 @@ export class TopicCloudAdminService{
     }
   }
 
-  private replaceString(str: string, search: string, replace: string){
+  private replaceString(str: string, search: string, replace: string) {
     return str.split(search).join(replace);
   }
 
-  private generateXWord(count: number){
+  private generateXWord(count: number) {
     let res = '';
-    for (let i = 0; i < count; i++){
+    for (let i = 0; i < count; i++) {
       res += '*';
     }
     return res;

@@ -14,7 +14,7 @@ export class TopicCloudConfirmDialogComponent implements OnInit {
   constructor(
     public confirmDialogRef: MatDialogRef<TopicCloudConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
-  
+
   ngOnInit(): void {
   }
 
@@ -43,6 +43,6 @@ export class TopicCloudConfirmDialogComponent implements OnInit {
 
 export interface DialogData {
   topic: string;
-  message:string;
-  confirmLabel:string;
+  message: string;
+  confirmLabel: string;
 }

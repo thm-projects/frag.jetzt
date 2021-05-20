@@ -7,10 +7,7 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { FormControl } from '@angular/forms';
-import { SpacyService } from '../../../../services/http/spacy.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -181,7 +178,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   confirmEdit(key: Keyword): void {
-    for (let keyword of this.keywords){
+    for (const keyword of this.keywords){
       if (keyword.keywordID === key.keywordID) {
         if (this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase())){
           this.openConfirmDialog(keyword, 'merge-message', 'merge');
@@ -198,10 +195,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-
-
   openConfirmDialog(keyword: Keyword, msg: string, _confirmLabel: string) {
-    const translationPart = "topic-cloud-confirm-dialog."+msg;
+    const translationPart = 'topic-cloud-confirm-dialog.'+msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
       data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
     });
@@ -245,7 +240,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     return undefined;
   }
 
-  focusInput(id:string) {
+  focusInput(id: string) {
     setTimeout(() => {
       document.getElementById(id).focus();
     }, 100);
