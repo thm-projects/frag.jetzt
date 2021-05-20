@@ -81,7 +81,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "questions-blocked": "Questions are blocked!"
+    "questions-blocked": "No further questions!"
   },
   "spacy-dialog": {
     "auto": "auto",
