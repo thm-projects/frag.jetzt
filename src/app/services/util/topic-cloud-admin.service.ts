@@ -12,11 +12,12 @@ export class TopicCloudAdminService {
   constructor() {
     this.badWords = BadWords;
     this.badWords['custom'] = [];
-    // TODO: add other languages
     /* put all arrays of languages together */
     this.profanityWords = this.badWords['en']
       .concat(this.badWords['de'])
       .concat(this.badWords['fr'])
+      .concat(this.badWords['ar'])
+      .concat(this.badWords['tr'])
       .concat(this.badWords['custom']);
   }
 
