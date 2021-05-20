@@ -184,8 +184,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
       if (keyword.keywordID === key.keywordID) {
         if (this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase())){
           this.openConfirmDialog(keyword, 'merge-message', 'merge');
+        } else {
+          keyword.keyword = this.newKeyword.trim();
         }
-        keyword.keyword = this.newKeyword.trim();
         break;
       }
     }
