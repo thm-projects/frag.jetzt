@@ -34,7 +34,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchMode = false;
   filteredKeywords: Keyword[] = [];
   show: boolean = false;
-  buttonName: any = 'Show'
+  buttonSetting: any = 'Show'
 
   keywords: Keyword[] = [
     {
@@ -275,9 +275,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
   hideuppdercase(){
     this.show = !this.show;
     if(this.show)
-      this.buttonName = 'Hide';
+    this.buttonSetting = 'Hide';
     else
-      this.buttonName = 'Show';
+    this.buttonSetting = 'Show';
   }
 }
 
