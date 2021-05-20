@@ -227,7 +227,8 @@
     "prev-comment-lbl": "Previous question",
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
-    "overview-questioners-tooltip": "Number of questioners"
+    "overview-questioners-tooltip": "Number of questioners",
+    "questions-blocked": "No further questions!"
   },
   "tag-cloud": {
     "config": "Modify cloud view",

@@ -18,7 +18,7 @@
 
 
     <ng-container *ngIf="room && room.closed">
-      <h1>{{'header.questions-blocked'|translate}}</h1>
+      <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
     <ars-style-btn-material
@@ -348,7 +348,7 @@
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 
-      <ng-container *ngIf="shortId && user && user.role > 0">
+      <ng-container *ngIf="shortId && user && user.role > 0 && !router.url.includes('/participant')">
         <button mat-menu-item
                 (click)="blockQuestions()"
                 [ngClass]="{'color-warn': room.closed}"
