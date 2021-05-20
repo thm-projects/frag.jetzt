@@ -84,6 +84,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
         'Englisch: Fuck you!',
         'Deutsch: Fick dich!',
         'Französisch: Gros con!',
+        'Türkisch: Orospu çocuğu!',
+        'Arabisch: عاهرة!',
         'Multi language: Ficken, Fuck, con',
         'Custom: Nieder mit KQC'
       ]
