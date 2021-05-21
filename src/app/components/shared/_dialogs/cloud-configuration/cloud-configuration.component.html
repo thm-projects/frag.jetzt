@@ -128,5 +128,39 @@
     <div  class="weight-class-button button-row">
       <button (click)="toggleCleanupView()" mat-button class="primary">{{'tag-cloud-config.back-btn' | translate}}</button>
     </div>
+    <h2>{{'tag-cloud-config.cleanUpView' | translate}}</h2>
+    <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <mat-slide-toggle matTooltip="{{'tag-cloud-config.automatic-spelling-tooltip' | translate}}" [checked]="automaticSpelling">{{'tag-cloud-config.automatic-spelling' | translate}}</mat-slide-toggle>
+      </div>
+    </div>
+      <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
+          <div><mat-radio-button value="1" [checked]="lowerCase">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="2" [checked]="capitalization">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="3" [checked]="standard">{{'tag-cloud-config.standard' | translate}}</mat-radio-button> </div>
+        </mat-radio-group>
+      </div>
+      <div class="input-row special-settings alphabetical-sorting" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+          <mat-slide-toggle matTooltip="{{'tag-cloud-config.alphabetical-sorting-tooltip' | translate}}" [checked]="alphabeticalSorting">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
+        </div>
+      </div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text" id=rotation>{{'tag-cloud-config.rotation' | translate}}</mat-label>
+        <mat-slider
+        matTooltip="{{'tag-cloud-config.rotation-tooltip' | translate}}" 
+                    [value]="rotation" min="0" max="360" step="10"
+                    [(ngModel)]="rotation" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+                    [thumbLabel]="true"></mat-slider>
+      </div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-form-field fxFlex fxLayout.xs="column">
+          <mat-label>{{'tag-cloud-config.highestWeight' | translate}}</mat-label>
+          <input #highestWeight matTooltip="{{'tag-cloud-config.highestWeight-tooltip' | translate}}" [value]="cloudParameters.highestWeight" matInput type="number"
+            [(ngModel)]="cloudParameters.highestWeight" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+            min="0" max="150" step="1"/>
+        </mat-form-field>
+      </div>
   </div>
 </div>

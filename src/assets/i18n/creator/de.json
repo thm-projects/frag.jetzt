@@ -369,6 +369,20 @@
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
     "weight-color-tooltip": "Auswahl der Schriftfarbe",
-    "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen"
+    "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen",
+    "automatic-spelling": "Automatische Rechtschreibung",
+    "notation": "Notation:",
+    "lowerCase": "Kleinschreibung",
+    "capitalization": "Großschreibung",
+    "standard": "Standard",
+    "alphabetical-sorting": "Alphabetische Sortierung",
+    "cleanUpView": "Tag-Cleanup Einstellungen",
+    "rotation": "Drehgrad zufälliger Einträge",
+    "highestWeight": "Anzahl Tags mit max. Gewichtung",
+    "automatic-spelling-tooltip": "automatische Überprüfung der Rechtschreibung",
+    "notation-tooltip": "Einstellung der Schreibweise: klein, groß, standard",
+    "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
+    "rotation-tooltip": "Einige Einträge zufällig um x Grad drehen",
+    "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen"
   }
 }

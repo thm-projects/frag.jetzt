@@ -16,6 +16,13 @@ export class CloudConfigurationComponent implements OnInit{
   oldCloudParameters: CloudParameters;
   extendedView: boolean;
   cleanUpView: boolean;
+  automaticSpelling: boolean;
+  lowerCase: boolean;
+  capitalization: boolean;
+  standard: boolean;
+  alphabeticalSorting: boolean;
+  rotation: number;
+  highestWeight: number;
   weightClasses: WeightClass[]=[
     {maxTagNumber: 20,
     tagColor: '#8800ff'},
@@ -51,6 +58,13 @@ export class CloudConfigurationComponent implements OnInit{
     this.parseArrayToJsonWeightClasses();
     this.extendedView = false;
     this.cleanUpView = false;
+    this.automaticSpelling = true;
+    this.lowerCase = true;
+    this.capitalization = false;
+    this.standard = false;
+    this.alphabeticalSorting = true;
+    this.rotation = 360;
+    this.highestWeight = 100;
   }
 
   fontColorChanged(value: string){
