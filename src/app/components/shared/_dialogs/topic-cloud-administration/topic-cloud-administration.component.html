@@ -29,9 +29,9 @@
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
-          <mat-list role="list" *ngIf="showBadWordList">
+          <mat-list role="list" *ngIf="showBadWordList" class="margin-bottom">
             <mat-list-item class="color-on-surface" *ngFor="let word of getBadWordList()" role="listitem">{{word}}
-              <button style="margin-left: auto" mat-icon-button class="red">
+              <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBadWords(word)">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
               </button>
             </mat-list-item>
@@ -64,16 +64,16 @@
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
-          <mat-list role="list" *ngIf="showBlacklistWordList">
-            <mat-list-item class="color-on-surface" *ngFor="let word of getBadWordList()" role="listitem">{{word}}
-              <button style="margin-left: auto" mat-icon-button class="red">
+          <mat-list role="list" *ngIf="showBlacklistWordList" class="margin-bottom">
+            <mat-list-item class="color-on-surface" *ngFor="let word of getBlacklist()" role="listitem">{{word}}
+              <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBlacklist(word)">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
               </button>
             </mat-list-item>
           </mat-list>
 
           <div>
-            <button mat-raised-button *ngIf="getBlacklistWordList().length > 0" class="primaryBackground"
+            <button mat-raised-button *ngIf="getBlacklist().length > 0" class="primaryBackground"
               (click)="showBlacklistWordList=!showBlacklistWordList">
               {{showBlacklistWordList ? "Hide blacklistword list" : "Show blacklistword list"}}
             </button>

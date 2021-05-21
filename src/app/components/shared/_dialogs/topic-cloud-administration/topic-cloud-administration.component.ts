@@ -123,7 +123,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     return this.topicCloudAdminService.getBadWordList();
   }
 
-  getBlacklistWordList() {
+  getBlacklist() {
     return this.topicCloudAdminService.getBlacklistWordList();
   }
 
@@ -273,6 +273,14 @@ export class TopicCloudAdministrationComponent implements OnInit {
     if (this.searchMode){
       this.searchKeyword();
     }
+  }
+
+  removeWordFromBadWords(word: string) {
+    this.topicCloudAdminService.removeFromBadWordList(word);
+  }
+
+  removeWordFromBlacklist(word: string) {
+    this.topicCloudAdminService.removeWordFromBlacklist(word);
   }
 
   refreshAllLists(){
