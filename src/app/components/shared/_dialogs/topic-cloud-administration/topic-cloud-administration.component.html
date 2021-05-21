@@ -16,7 +16,7 @@
           (closed)="enterBadword = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
-              {{'topic-cloud-dialog.add-profanity-word' | translate}}
+              {{'topic-cloud-dialog.edit-profanity-list' | translate}}
               <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
@@ -28,7 +28,7 @@
 
           <button mat-button color="primary" (click)="addBadword()">
             <mat-icon>add_circle</mat-icon>
-            {{'topic-cloud-dialog.send' | translate}}
+            {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
           <mat-list role="list" *ngIf="showBadWordList">
@@ -53,7 +53,7 @@
           (closed)="enterIrrelevantWord = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
-              {{'topic-cloud-dialog.add-irrelevant-word' | translate}}
+              {{'topic-cloud-dialog.edit-irrelevant-list' | translate}}
               <mat-icon>{{!enterIrrelevantWord ? 'add' : 'remove'}}</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
@@ -65,8 +65,24 @@
 
           <button mat-button color="primary" (click)="addIrrelevantWord()">
             <mat-icon>add_circle</mat-icon>
-            {{'topic-cloud-dialog.send' | translate}}
+            {{'topic-cloud-dialog.add-word' | translate}}
           </button>
+
+          <mat-list role="list" *ngIf="showIrrelevantWordList">
+            <mat-list-item class="color-on-surface" *ngFor="let word of getBadWordList()" role="listitem">{{word}}
+              <button style="margin-left: auto" mat-icon-button class="red">
+                <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
+              </button>
+            </mat-list-item>
+          </mat-list>
+
+          <div>
+            <button mat-raised-button *ngIf="getIrrelevantWordList().length > 0" class="primaryBackground"
+              (click)="showIrrelevantWordList=!showIrrelevantWordList">
+              {{showIrrelevantWordList ? "Hide irrelevantword list" : "Show irrelevantword list"}}
+            </button>
+          </div>
+
         </mat-expansion-panel>
       </mat-accordion>
 
@@ -92,7 +108,7 @@
       <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
     </div>
     <div fxLayoutAlign="end" *ngIf="!searchMode">
-      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-button 
+      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-button
               [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>

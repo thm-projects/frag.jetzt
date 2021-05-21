@@ -32,6 +32,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   searchMode = false;
   filteredKeywords: Keyword[] = [];
   showBadWordList = false;
+  showIrrelevantWordList = false;
 
   keywords: Keyword[] = [
     {
@@ -119,7 +120,11 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   getBadWordList() {
-    return this.topicCloudAdminService.getBadwordList();
+    return this.topicCloudAdminService.getBadWordList();
+  }
+
+  getIrrelevantWordList() {
+    return this.topicCloudAdminService.getIrrelevantWordList();
   }
 
   sortQuestions(sortMode?: string) {
@@ -255,7 +260,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   addBadword() {
-    this.topicCloudAdminService.addToBadwordList(this.newBadWord);
+    this.topicCloudAdminService.addToBadWordList(this.newBadWord);
     this.newBadWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
