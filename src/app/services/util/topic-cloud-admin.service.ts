@@ -32,7 +32,6 @@ export class TopicCloudAdminService {
   }
 
   setAdminData(adminData:TopicCloudAdminData){
-    console.log(adminData);
     localStorage.setItem('Topic-Cloud-Admin-Data', JSON.stringify(adminData));
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -15,7 +15,7 @@ import { TopicCloudAdminData } from './TopicCloudAdminData';
   templateUrl: './topic-cloud-administration.component.html',
   styleUrls: ['./topic-cloud-administration.component.scss']
 })
-export class TopicCloudAdministrationComponent implements OnInit {
+export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
   public considerVotes = false;
   public profanityFilter = true;
@@ -110,30 +110,24 @@ export class TopicCloudAdministrationComponent implements OnInit {
               }
 
   ngOnInit(): void {
-    this.setDefaultAdminData();
-    this.test();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
   }
 
-  test(){
-    localStorage.removeItem('Topic-Cloud-Admin-Data');
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
-    console.log(this.topicCloudAdminService.getAdminData);
+  ngOnDestroy(){
+    this.setAdminData();
   }
 
-  setDefaultAdminData(){
-    this.topicCloudAdminData = this.topicCloudAdminService.getAdminData;
-    if (!this.topicCloudAdminData){
-      this.topicCloudAdminData = {
-        blackList: this.topicCloudAdminService.getProfanityWords,
-        considerVotes: this.considerVotes,
-        profanityFilter: this.profanityFilter,
-        hideBlacklist: this.hideBlacklist
-      }
+  setAdminData(){
+    this.topicCloudAdminData = {
+      blackList: this.topicCloudAdminService.getProfanityWords,
+      considerVotes: this.considerVotes,
+      profanityFilter: this.profanityFilter,
+      hideBlacklist: this.hideBlacklist
     }
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
 
   getKeywordWithoutProfanity(keyword: string): string {
