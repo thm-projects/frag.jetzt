@@ -104,9 +104,9 @@
       <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
       <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
     </div>
-    <div fxLayoutAlign="end" *ngIf="!searchMode">
-      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-button
-              [matMenuTriggerFor]="sortMenu" mat-ripple>
+    <div class="margin-left" fxLayoutAlign="center center">
+      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button
+              [matMenuTriggerFor]="sortMenu">
         <mat-icon>sort</mat-icon>
       </button>
     </div>
