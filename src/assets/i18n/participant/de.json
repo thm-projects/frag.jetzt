@@ -242,9 +242,9 @@
     "sort-count": "Fragenanzahl",
     "sort-vote": "Votes",
     "keyword-search": "Stichwort suchen",
-    "add-profanity-word": "Wort zur Zensurliste hinzufügen",
-    "add-irrelevant-word": "Wort zur Irrelevantliste hinzufügen",
-    "send": "Abschicken",
+    "edit-profanity-list": "Zensurliste bearbeiten",
+    "edit-irrelevant-list": "Irrelevantliste bearbeiten",
+    "add-word": "Wort hinzufügen",
     "enter-word": "Wort eingeben"
   },
   "topic-cloud-confirm-dialog": {

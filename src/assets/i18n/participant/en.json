@@ -247,9 +247,9 @@
     "sort-count": "Questions count",
     "sort-vote": "Votes",
     "keyword-search": "Search keyword",
-    "add-profanity-word": "Add word to profanity list",
-    "add-irrelevant-word": "Add word to irrelevant list",
-    "send": "Send",
+    "edit-profanity-list": "Edit profanity list",
+    "edit-irrelevant-list": "Edit irrelevant list",
+    "add-word": "Add Word",
     "enter-word": "Enter word"
   },
   "topic-cloud-confirm-dialog":{
