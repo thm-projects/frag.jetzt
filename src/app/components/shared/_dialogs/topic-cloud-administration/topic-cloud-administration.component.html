@@ -11,13 +11,12 @@
         {{'topic-cloud-dialog.hide-irrelevant' | translate}}
       </mat-slide-toggle>
 
-      <mat-accordion hideToggle class="new-Badword" multi>
+      <mat-accordion class="new-Badword" multi>
         <mat-expansion-panel class="color-background" (opened)="enterBadword = true; focusInput('bad-word-input')"
           (closed)="enterBadword = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
               {{'topic-cloud-dialog.edit-profanity-list' | translate}}
-              <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -26,8 +25,7 @@
             <input matInput id="bad-word-input" [(ngModel)]="newBadWord">
           </mat-form-field>
 
-          <button mat-button color="primary" (click)="addBadword()">
-            <mat-icon>add_circle</mat-icon>
+          <button mat-stroked-button color="primary" class="margin-left" (click)="addBadword()">
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
@@ -54,7 +52,6 @@
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
               {{'topic-cloud-dialog.edit-irrelevant-list' | translate}}
-              <mat-icon>{{!enterIrrelevantWord ? 'add' : 'remove'}}</mat-icon>
             </mat-panel-description>
           </mat-expansion-panel-header>
 
@@ -63,8 +60,7 @@
             <input matInput id="irrelevant-word-input" [(ngModel)]="newIrrelevantWord">
           </mat-form-field>
 
-          <button mat-button color="primary" (click)="addIrrelevantWord()">
-            <mat-icon>add_circle</mat-icon>
+          <button mat-stroked-button color="primary" class="margin-left" (click)="addIrrelevantWord()">
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
