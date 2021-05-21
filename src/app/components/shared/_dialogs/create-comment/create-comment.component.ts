@@ -23,7 +23,7 @@ export class CreateCommentComponent implements OnInit {
   roomId: string;
   tags: string[];
   selectedTag: string;
-  wrongPercent:boolean = false;
+  inputText = '';
 
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'auto';
@@ -73,35 +73,39 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
-      if(!this.wrongPercent)
       this.openSpacyDialog(comment);
-      else
-      this.dialogRef.close(comment);
     }
   }
 
   openSpacyDialog(comment: Comment): void {
-    this.checkSpellings(comment.body).subscribe((res) => {
-      let commentBodyChecked = comment.body;
-      const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
-      for(let i = res.matches.length - 1; i >= 0; i--){
-        commentBodyChecked = commentBodyChecked.substr(0, res.matches[i].offset) +
-        commentBodyChecked.substr(res.matches[i].offset + res.matches[i].length, commentBodyChecked.length);
-      }
-      const dialogRef = this.dialog.open(SpacyDialogComponent, {
-        data: {
-          comment,
-          commentLang,
-          commentBodyChecked
+    this.checkSpellings(this.inputText).subscribe((res) => {
+      let words: string[] = this.inputText.trim().split(" ");
+      let errorQuotient = (res.matches.length * 100) / words.length;
+      console.log(errorQuotient);
+      if (errorQuotient <= 20) {
+        let commentBodyChecked = this.inputText;
+        const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
+        for (let i = res.matches.length - 1; i >= 0; i--) {
+          commentBodyChecked = commentBodyChecked.substr(0, res.matches[i].offset) +
+            commentBodyChecked.substr(res.matches[i].offset + res.matches[i].length, commentBodyChecked.length);
         }
-      });
-
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result) {
-            this.dialogRef.close(result);
+        const dialogRef = this.dialog.open(SpacyDialogComponent, {
+          data: {
+            comment,
+            commentLang,
+            commentBodyChecked
           }
         });
+
+        dialogRef.afterClosed()
+          .subscribe(result => {
+            if (result) {
+              this.dialogRef.close(result);
+            }
+          });
+      }else {
+        this.dialogRef.close(comment);
+      }
     });
   };
 
@@ -126,7 +130,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   maxLength(commentBody: HTMLDivElement): void {
-    // Cut the text down to 500 or 1000 chars depending on the user role.
+    this.inputText = commentBody.innerText;
     if(this.user.role === 3 && commentBody.innerText.length > 1000) {
       commentBody.innerText = commentBody.innerText.slice(0, 1000);
     } else if(this.user.role !== 3 && commentBody.innerText.length > 500){
@@ -135,32 +139,40 @@ export class CreateCommentComponent implements OnInit {
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
-    let words: string[] = commentBody.innerText.trim().split(" ");
     let wrongWords: string[] = [];
-    this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {      
+    commentBody.innerHTML = this.inputText;
+    this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
       if(wordsCheck.matches.length > 0 ) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
           wrongWords.push(wrongWord);
         });
-      let errorQuotient = (wrongWords.length * 100 ) / words.length; 
-          if(errorQuotient >= 20){
-            this.wrongPercent = true;
-            }else{
-            this.wrongPercent = false;
-          }
-
         this.checkSpellings(commentBody.innerHTML).subscribe((res) => {
-          for(let i = res.matches.length - 1; i >= 0; i--){ // Reverse for loop to make sure the offset is right.
+          for(let i = res.matches.length - 1; i >= 0; i--){
             const wrongWord = commentBody.innerHTML
               .slice(res.matches[i].offset, res.matches[i].offset + res.matches[i].length);
 
-            if (wrongWords.includes(wrongWord)) { // Only replace the real Words, excluding the HTML tags
-              const msg = res.matches[i].message; // The explanation of the suggestion for improvement
-              const suggestions = res.matches[i].replacements; // The suggestions for improvement. Access: suggestions[x].value
-              const replacement = '<span style="text-decoration: underline wavy red">'  // set the Styling for all marked words
-                // Select menu with suggestions has to be injected here.
-                + wrongWord +
+            if (wrongWords.includes(wrongWord)) {
+              const msg = res.matches[i].message;
+              const suggestions: any[] = res.matches[i].replacements;
+              let displayOptions= 3;
+              let suggestionsHTML = '<b contenteditable="false" style="color: black; display: block; text-align: center;">'+msg+'</b>';
+              if(suggestions.length < displayOptions){
+                displayOptions = suggestions.length;
+              }
+              for (let i = 0; i < displayOptions; i++) {
+                suggestionsHTML += '<p contenteditable="false" class="suggestions"' +
+                  ' style="color: black; display: block; text-align: center; cursor: pointer;">' +
+                  suggestions[i].value + '</p>'
+              }
+              const replacement =
+                '<span class="markUp">' +
+                '   <span style="text-decoration: underline wavy red; cursor: pointer;">' +
+                      wrongWord +
+                '   </span>' +
+                '     <div class="dropdownBlock" style="display: none; position: static; background-color: #f1f1f1; z-index: 1;">' +
+                        suggestionsHTML +
+                '     </div>' +
                 '</span>';
               commentBody.innerHTML = commentBody.innerHTML.substr(0, res.matches[i].offset) +
                 replacement +
@@ -168,6 +180,22 @@ export class CreateCommentComponent implements OnInit {
                   commentBody.innerHTML.length);
             }
           }
+          setTimeout(()=>{
+            Array.from(document.getElementsByClassName('markUp')).forEach(marked=>{
+              marked.addEventListener("click",()=>{
+                marked.outerHTML = marked.outerHTML.replace('display: none','display: block');
+
+                setTimeout(()=>{
+                  Array.from(document.getElementsByClassName('suggestions')).forEach(e=>{
+                    e.addEventListener("click",()=>{
+                      e.parentElement.parentElement.outerHTML = e.innerHTML;
+                      this.inputText = commentBody.innerText;
+                    });
+                  });
+                }, 500)
+              });
+            });
+          }, 500)
         });
       }
     });

@@ -65,7 +65,7 @@
             </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{commentBody.innerText.length}} / {{user.role === 3 ? 1000 : 500}}
+                {{inputText.length}} / {{user.role === 3 ? 1000 : 500}}
               </span>
             </mat-hint>
           </mat-form-field>
@@ -80,7 +80,7 @@
         <ars-row [height]="12"></ars-row>
         <ars-row [overflow]="'auto'"
                  style="max-height:calc( 100vh - 250px )">
-          <markdown [data]="commentBody.innerText"></markdown>
+          <markdown [data]="inputText"></markdown>
         </ars-row>
       </mat-tab>
     </mat-tab-group>
@@ -92,7 +92,7 @@
     <ars-col>
       <button class="mat-flat-button spell-button"  (click)="grammarCheck(commentBody)">{{ 'comment-page.grammar-check' | translate}}</button>
     </ars-col>
-    <ars-col> 
+    <ars-col>
       <app-dialog-action-buttons
         buttonsLabelSection="comment-page"
         confirmButtonLabel="send"
