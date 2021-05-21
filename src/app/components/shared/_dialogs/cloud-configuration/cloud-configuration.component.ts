@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { CloudParameters } from '../../tag-cloud/tag-cloud.interface';
@@ -9,7 +9,7 @@ import { WeightClass } from './weight-class.interface';
   templateUrl: './cloud-configuration.component.html',
   styleUrls: ['./cloud-configuration.component.scss'],
 })
-export class CloudConfigurationComponent implements OnInit{
+export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent;
   cloudParameters: CloudParameters;
   defaultCloudParameters: CloudParameters;
@@ -45,55 +45,50 @@ export class CloudConfigurationComponent implements OnInit{
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.cloudParameters = this.parent.getCurrentCloudParameters();
-    this.defaultCloudParameters = this.parent.getCurrentCloudParameters();    
+    this.cloudParameters = this.parent.currentCloudParameters;
+    this.defaultCloudParameters = this.parent.currentCloudParameters;
     this.parseArrayToJsonWeightClasses();
     this.extendedView = false;
   }
 
-  fontColorChanged(value: string){
+  fontColorChanged(value: string) {
     this.cloudParameters.fontColor = value;
     this.valueChanged();
   }
 
-  backgroundColorChanged(value: string){
+  backgroundColorChanged(value: string) {
     this.cloudParameters.backgroundColor = value;
     this.valueChanged();
   }
 
   parseArrayToJsonWeightClasses(){
-    this.cloudParameters.cloudWeightCount.forEach((element, i) => {
-      this.weightClasses[i].maxTagNumber = element;
-    });
-
-    this.cloudParameters.cloudWeightColor.forEach((element, i) => {
-      this.weightClasses[i].tagColor = element;
+    this.cloudParameters.cloudWeightSettings.forEach((element, i) => {
+      this.weightClasses[i].maxTagNumber = element.maxVisibleElements;
+      this.weightClasses[i].tagColor = element.color;
     });
   }
-  
+
   parseJsonToArrayWeightClasses(){
     this.weightClasses.forEach((element, i) => {
-      this.cloudParameters.cloudWeightCount[i] =  element.maxTagNumber;
-      this.cloudParameters.cloudWeightColor[i] =  element.tagColor;
+      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements =  element.maxTagNumber;
+      this.cloudParameters.cloudWeightSettings[i].color =  element.tagColor;
     });
   }
 
 
   valueChanged(){
     this.parseJsonToArrayWeightClasses();
-    this.parent.setCloudParameters(this.cloudParameters, false);    
+    this.parent.setCloudParameters(this.cloudParameters, false);
   }
 
   cancel(){
-    this.parent.isDemo = true;
-    this.parent.demoToggle();
+    this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
   }
 
   save(){
-    this.parent.isDemo = true;
-    this.parent.demoToggle();
+    this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
   }
