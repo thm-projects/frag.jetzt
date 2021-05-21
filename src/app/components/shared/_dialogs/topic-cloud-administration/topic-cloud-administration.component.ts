@@ -17,9 +17,9 @@ import { TopicCloudAdminData } from './TopicCloudAdminData';
 })
 export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
-  public considerVotes = false;
-  public profanityFilter = true;
-  public hideBlacklist = false;
+  public considerVotes: boolean;
+  public profanityFilter: boolean;
+  public hideBlacklist: boolean;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
@@ -27,14 +27,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   enterBlacklistWord = false;
   newBadWord: string = undefined;
   newBlacklistWord: string = undefined;
-  private topicCloudAdminData: TopicCloudAdminData;
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
   showBadWordList = false;
   showBlacklistWordList = false;
-
   keywords: Keyword[] = [
     {
       keywordID: 1,
@@ -93,28 +91,29 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         'Custom: Nieder mit KQC'
       ]
     },
-
   ];
+  private topicCloudAdminData: TopicCloudAdminData;
 
   constructor(public cloudDialogRef: MatDialogRef<TagCloudComponent>,
-              public confirmDialog: MatDialog,
-              private notificationService: NotificationService,
-              private authenticationService: AuthenticationService,
-              private translateService: TranslateService,
-              private langService: LanguageService,
-              private topicCloudAdminService: TopicCloudAdminService) {
+    public confirmDialog: MatDialog,
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private translateService: TranslateService,
+    private langService: LanguageService,
+    private topicCloudAdminService: TopicCloudAdminService) {
 
-                this.langService.langEmitter.subscribe(lang => {
-                  this.translateService.use(lang);
-                });
-              }
+      this.langService.langEmitter.subscribe(lang => {
+        this.translateService.use(lang);
+      });
+    }
 
-  ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
-    this.checkIfUserIsModOrCreator();
-    this.checkIfThereAreQuestions();
-    this.sortQuestions();
-  }
+    ngOnInit(): void {
+      this.translateService.use(localStorage.getItem('currentLang'));
+      this.checkIfUserIsModOrCreator();
+      this.checkIfThereAreQuestions();
+      this.sortQuestions();
+      this.setDefaultAdminData();
+    }
 
   ngOnDestroy(){
     this.setAdminData();
@@ -126,8 +125,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       hideBlacklist: this.hideBlacklist
-    }
+    };
     this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
+  }
+
+  setDefaultAdminData() {
+    this.topicCloudAdminData = this.topicCloudAdminService.getAdminData;
+    if (this.topicCloudAdminData) {
+      this.considerVotes = this.topicCloudAdminData.considerVotes;
+      this.profanityFilter = this.topicCloudAdminData.profanityFilter;
+      this.hideBlacklist = this.topicCloudAdminData.hideBlacklist;
+    }
   }
 
   getKeywordWithoutProfanity(keyword: string): string {

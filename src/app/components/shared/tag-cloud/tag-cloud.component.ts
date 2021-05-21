@@ -26,6 +26,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { CloudParameters, CloudWeightColor, CloudWeightCount, TagCloudHeaderDataOverview } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 
 class CustomPosition implements Position {
   left: number;
@@ -197,7 +198,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private route: ActivatedRoute,
               protected roomService: RoomService,
               private themeService: ThemeService,
-              private wsCommentService: WsCommentServiceService) {
+              private wsCommentService: WsCommentServiceService,
+              private tcas: TopicCloudAdminService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -205,6 +207,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('tagCloud', this.tcas.getAdminData);
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
         this.openCreateDialog();

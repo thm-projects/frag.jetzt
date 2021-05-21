@@ -27,8 +27,18 @@ export class TopicCloudAdminService {
                               concat(this.getBlacklistWordList());
   }
 
-  get getAdminData(): TopicCloudAdminData{
-    return JSON.parse(localStorage.getItem('Topic-Cloud-Admin-Data'));;
+  get getAdminData(): TopicCloudAdminData {
+    let data = JSON.parse(localStorage.getItem('Topic-Cloud-Admin-Data'));
+
+    if (!data) {
+      data = {
+        blackList: this.profanityWords,
+        considerVotes: false,
+        profanityFilter: true,
+        hideBlacklist: false
+      };
+    }
+    return data;
   }
 
   setAdminData(adminData:TopicCloudAdminData){
