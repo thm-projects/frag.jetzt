@@ -309,6 +309,7 @@
     "threshold": "Threshold value for display? ",
     "threshold-description": "Set the threshold value above which a negatively rated question should be displayed.",
     "update": "Save",
+    "block" : "Block questions",
     "update-description": "Save changes",
     "question": "Question",
     "favorite": "Favorite",

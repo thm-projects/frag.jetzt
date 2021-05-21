@@ -11,6 +11,7 @@ import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-p
 import { EventService } from '../../../../services/util/event.service';
 import { RoomDeleted } from '../../../../models/events/room-deleted';
 
+
 @Component({
   selector: 'app-room-edit',
   templateUrl: './room-edit.component.html',
@@ -90,4 +91,5 @@ export class RoomEditComponent implements OnInit {
   buildSaveActionCallback(): () => void {
     return () => this.save();
   }
+  
 }

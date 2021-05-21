@@ -348,7 +348,7 @@
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 
-      <ng-container *ngIf="shortId && user && user.role > 0 && !router.url.includes('/participant')">
+      <ng-container *ngIf="router.url.includes('/creator') || router.url.includes('/moderator')">
         <button mat-menu-item
                 (click)="blockQuestions()"
                 [ngClass]="{'color-warn': room.closed}"

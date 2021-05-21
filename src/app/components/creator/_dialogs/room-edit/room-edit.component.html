@@ -55,12 +55,21 @@
       </mat-tab>
     </mat-tab-group>
     <div fxLayoutAlign="center center">
+      <button mat-flat-button
+            type="button"
+            style="background-color: teal;"
+            (click)="blockQuestions()"
+            aria-labelledby="block">
+          <mat-icon>block</mat-icon>
+          {{ 'room-page.block' | translate }}</button>
+
       <button mat-raised-button
               class="delete"
               (click)="openDeleteRoomDialog()"
               aria-labelledby="delete-room">
         <mat-icon>delete</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
+
     </div>
   </div>
 </div>
@@ -68,6 +77,7 @@
 <app-dialog-action-buttons
   buttonsLabelSection="room-page"
   confirmButtonLabel="update"
+  
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildSaveActionCallback()"
 ></app-dialog-action-buttons>
