@@ -8,7 +8,7 @@ import * as BadWords from 'naughty-words';
 export class TopicCloudAdminService {
   private badWords = [];
   private profanityWords = [];
-  private irrelevantWords = [];
+  private irrelevantWords = []; // should be stored in backend
   private blacklistKey = 'custom-Profanity-List';
 
   constructor() {
@@ -23,7 +23,7 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    this.profanityWords.concat(this.getBadwordList()).map((word) => {
+    this.profanityWords.concat(this.getBadWordList()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
         .includes(word.toLowerCase())
@@ -37,14 +37,14 @@ export class TopicCloudAdminService {
     return questionWithProfanity;
   }
 
-  getBadwordList(): string[]{
+  getBadWordList(): string[] {
     const list = localStorage.getItem(this.blacklistKey);
     return list ? list.split(',') : [];
   }
 
-  addToBadwordList(word: string) {
+  addToBadWordList(word: string) {
     if (word !== undefined) {
-      const newList = this.getBadwordList();
+      const newList = this.getBadWordList();
       if (newList.includes(word)){
         return;
       }
@@ -53,8 +53,8 @@ export class TopicCloudAdminService {
     }
   }
 
-  removeFromBadwordList(badword: string){
-    const list = this.getBadwordList();
+  removeFromBadWordList(badword: string) {
+    const list = this.getBadWordList();
     list.map(word => {
       if (word === badword){
         list.splice(list.indexOf(word, 0), 1);
@@ -67,11 +67,20 @@ export class TopicCloudAdminService {
     localStorage.removeItem(this.blacklistKey);
   }
 
+  getIrrelevantWordList(): string[] {
+    return this.irrelevantWords;
+  }
+
   addToIrrelevantwordList(word: string) {
     if (word !== undefined) {
       this.irrelevantWords.push(word);
     }
   }
+
+  removeFromIrrelevantWordList(irrelevantWord: string) {
+    this.irrelevantWords.splice(this.irrelevantWords.indexOf(irrelevantWord), 1);
+  }
+
 
   private replaceString(str: string, search: string, replace: string) {
     return str.split(search).join(replace);
