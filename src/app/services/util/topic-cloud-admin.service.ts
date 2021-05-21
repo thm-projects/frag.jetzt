@@ -30,7 +30,7 @@ export class TopicCloudAdminService {
         ? this.replaceString(
           questionWithProfanity.toLowerCase(),
           word.toLowerCase(),
-          this.generateXWord(word.length)
+          this.generateCensoredWord(word.length)
         )
         : questionWithProfanity;
     });
@@ -86,7 +86,7 @@ export class TopicCloudAdminService {
     return str.split(search).join(replace);
   }
 
-  private generateXWord(count: number) {
+  private generateCensoredWord(count: number) {
     let res = '';
     for (let i = 0; i < count; i++) {
       res += '*';
