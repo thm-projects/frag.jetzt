@@ -275,6 +275,10 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
+  removeWordFromBlacklist(word: string){
+    this.topicCloudAdminService.removeWordFromBlacklist(word);
+  }
+
   refreshAllLists(){
     this.searchKeyword();
   }
