@@ -85,17 +85,17 @@ export class CloudConfigurationComponent implements OnInit{
   }
 
   cancel(){
-    this.parent.isDemo = true;
-    this.parent.demoToggle();
-    this.parent.setCloudParameters(this.defaultCloudParameters);
-    this.parent.configurationOpen = false;
+    // this.parent.isDemo = true;
+    // this.parent.demoToggle();
+    // this.parent.setCloudParameters(this.defaultCloudParameters);
+    // this.parent.configurationOpen = false;
   }
 
   save(){
-    this.parent.isDemo = true;
-    this.parent.demoToggle();
-    this.parent.setCloudParameters(this.cloudParameters);
-    this.parent.configurationOpen = false;
+    // this.parent.isDemo = true;
+    // this.parent.demoToggle();
+    // this.parent.setCloudParameters(this.cloudParameters);
+    // this.parent.configurationOpen = false;
   }
 
   toggleExtendedView(){

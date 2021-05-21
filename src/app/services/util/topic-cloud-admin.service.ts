@@ -1,7 +1,7 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-
+import { TopicCloudAdminData } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData'
 @Injectable({
   providedIn: 'root',
 })
@@ -10,6 +10,7 @@ export class TopicCloudAdminService {
   private profanityWords = [];
   private blacklist = []; // should be stored in backend
   private profanityKey = 'custom-Profanity-List';
+  topicCloudAdminData
 
   constructor() {
     this.badWords = BadWords;
@@ -19,6 +20,20 @@ export class TopicCloudAdminService {
       .concat(this.badWords['fr'])
       .concat(this.badWords['ar'])
       .concat(this.badWords['tr']);
+  }
+
+  get getProfanityWords(){
+    return this.profanityWords.concat(this.getBadWordList()).
+                              concat(this.getBlacklistWordList());
+  }
+
+  get getAdminData(): TopicCloudAdminData{
+    return JSON.parse(localStorage.getItem('Topic-Cloud-Admin-Data'));;
+  }
+
+  setAdminData(adminData:TopicCloudAdminData){
+    console.log(adminData);
+    localStorage.setItem('Topic-Cloud-Admin-Data', JSON.stringify(adminData));
   }
 
   filterProfanityWords(str: string): string {

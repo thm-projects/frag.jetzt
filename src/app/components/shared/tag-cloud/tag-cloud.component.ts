@@ -26,14 +26,13 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { CloudParameters, CloudWeightColor, CloudWeightCount, TagCloudHeaderDataOverview } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { demoMap } from './demoData';
 
 class CustomPosition implements Position {
   left: number;
   top: number;
 
   constructor(public relativeLeft: number,
-    public relativeTop: number) {
+              public relativeTop: number) {
   }
 
   updatePosition(width: number, height: number, text: string, style: CSSStyleDeclaration) {
@@ -46,13 +45,13 @@ class CustomPosition implements Position {
 
 class TagComment implements CloudData {
   constructor(public color: string,
-    public external: boolean,
-    public link: string,
-    public position: Position,
-    public rotate: number,
-    public text: string,
-    public tooltip: string,
-    public weight: number) {
+              public external: boolean,
+              public link: string,
+              public position: Position,
+              public rotate: number,
+              public text: string,
+              public tooltip: string,
+              public weight: number) {
   }
 }
 
@@ -153,11 +152,10 @@ const getDefaultCloudParameters = (): CloudParameters => {
 })
 export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
+  @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   @Input() user: User;
   @Input() roomId: string;
   room: Room;
-  headerInterface = null;
   directSend = true;
   shortId: string;
   options: CloudOptions = {
@@ -183,23 +181,23 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   randomizeAngle = false;
   isLoading = true;
   dataSize: CloudWeightCount;
-
-  //Demo Toggle
-  isDemo: boolean = false;
-  oldCloudData = [];
+  //Subscriptions
+  headerInterface = null;
+  wsCommentSubscription = null;
+  themeSubscription = null;
 
   constructor(private commentService: CommentService,
-    private spacyService: SpacyService,
-    private langService: LanguageService,
-    private translateService: TranslateService,
-    public dialog: MatDialog,
-    private notificationService: NotificationService,
-    public eventService: EventService,
-    private authenticationService: AuthenticationService,
-    private route: ActivatedRoute,
-    protected roomService: RoomService,
-    private themeService: ThemeService,
-    private wsCommentService: WsCommentServiceService) {
+              private spacyService: SpacyService,
+              private langService: LanguageService,
+              private translateService: TranslateService,
+              public dialog: MatDialog,
+              private notificationService: NotificationService,
+              public eventService: EventService,
+              private authenticationService: AuthenticationService,
+              private route: ActivatedRoute,
+              protected roomService: RoomService,
+              private themeService: ThemeService,
+              private wsCommentService: WsCommentServiceService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -212,7 +210,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         this.openCreateDialog();
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
-        this.demoToggle();
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%'
@@ -243,18 +240,18 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.commentService.getFilteredComments(this.roomId).subscribe((comments: Comment[]) => {
       this.analyse(comments);
     });
-    this.themeService.getTheme().subscribe(() => {
+    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
       if (this.child) {
         setTimeout(() => {
           this.setCloudParameters(this.getCurrentCloudParameters(), false);
         }, 1);
       }
     });
-    this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
+    this.wsCommentSubscription = this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
       this.commentService.getFilteredComments(this.roomId).subscribe((oldComments: Comment[]) => {
         this.analyse(oldComments);
       });
-    });
+  });
   }
 
   ngAfterViewInit() {
@@ -263,6 +260,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     document.getElementById('footer_rescale').style.display = 'block';
+    this.headerInterface.unsubscribe();
+    this.wsCommentSubscription.unsubscribe();
+    this.themeSubscription.unsubscribe();
   }
 
   initTagCloud() {
@@ -353,11 +353,11 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       } as TagCloudHeaderDataOverview);
       this.data.length = 0;
       map.forEach((val, key) => {
-        this.data.push(new TagComment(null,
-          true, null, null,
-          this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
-          'TODO', val));
-      }
+          this.data.push(new TagComment(null,
+            true, null, null,
+            this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
+            'TODO', val));
+        }
       );
       this.sortPositionsAlphabetically(this.sorted);
       this.updateTagCloud();
@@ -374,18 +374,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   updateTagCloud() {
-    let oldData = [].concat(this.data);
-
-    if (this.isDemo) {
-      this.data = [];
-      demoMap.forEach((val, key) => {
-        this.data.push(new TagComment(null,
-          true, null, null,
-          this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
-          'TODO', val));
-      });
-    }
-
     this.isLoading = true;
     if (this.sorted && this.data.length) {
       if (!this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
@@ -470,13 +458,4 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public demoToggle() {
-    if (this.isDemo) {
-      this.data = [].concat(this.oldCloudData);
-    } else {
-      this.oldCloudData = [].concat(this.data);
-    }
-    this.isDemo = !this.isDemo;
-    this.updateTagCloud();
-  }
 }

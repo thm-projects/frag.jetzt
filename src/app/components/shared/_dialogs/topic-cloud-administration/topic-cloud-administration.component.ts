@@ -8,6 +8,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { TopicCloudAdminData } from './TopicCloudAdminData';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -16,9 +17,9 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 })
 export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
-  public considerVotes: boolean; // should be sent back to tagCloud component
-  public profanityFilter = true; // should be sent back to tagCloud component
-  public hideBlacklist: boolean; // should be sent back to tagCloud component
+  public considerVotes = false;
+  public profanityFilter = true;
+  public hideBlacklist = false;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
@@ -26,7 +27,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
   enterBlacklistWord = false;
   newBadWord: string = undefined;
   newBlacklistWord: string = undefined;
-
+  private topicCloudAdminData: TopicCloudAdminData;
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
@@ -109,10 +110,30 @@ export class TopicCloudAdministrationComponent implements OnInit {
               }
 
   ngOnInit(): void {
+    this.setDefaultAdminData();
+    this.test();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
+  }
+
+  test(){
+    localStorage.removeItem('Topic-Cloud-Admin-Data');
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
+    console.log(this.topicCloudAdminService.getAdminData);
+  }
+
+  setDefaultAdminData(){
+    this.topicCloudAdminData = this.topicCloudAdminService.getAdminData;
+    if (!this.topicCloudAdminData){
+      this.topicCloudAdminData = {
+        blackList: this.topicCloudAdminService.getProfanityWords,
+        considerVotes: this.considerVotes,
+        profanityFilter: this.profanityFilter,
+        hideBlacklist: this.hideBlacklist
+      }
+    }
   }
 
   getKeywordWithoutProfanity(keyword: string): string {
