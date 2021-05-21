@@ -101,7 +101,8 @@
       </mat-form-field>
     </div>
     <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
-      <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
+      <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
+      <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
     </div>
     <div fxLayoutAlign="end" *ngIf="!searchMode">
       <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-button
