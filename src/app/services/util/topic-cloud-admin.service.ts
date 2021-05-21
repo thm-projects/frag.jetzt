@@ -8,8 +8,8 @@ import * as BadWords from 'naughty-words';
 export class TopicCloudAdminService {
   private badWords = [];
   private profanityWords = [];
-  private irrelevantWords = []; // should be stored in backend
-  private blacklistKey = 'custom-Profanity-List';
+  private blacklist = []; // should be stored in backend
+  private profanityKey = 'custom-Profanity-List';
 
   constructor() {
     this.badWords = BadWords;
@@ -38,7 +38,7 @@ export class TopicCloudAdminService {
   }
 
   getBadWordList(): string[] {
-    const list = localStorage.getItem(this.blacklistKey);
+    const list = localStorage.getItem(this.profanityKey);
     return list ? list.split(',') : [];
   }
 
@@ -49,7 +49,7 @@ export class TopicCloudAdminService {
         return;
       }
       newList.push(word);
-      localStorage.setItem(this.blacklistKey, newList.toString());
+      localStorage.setItem(this.profanityKey, newList.toString());
     }
   }
 
@@ -60,25 +60,25 @@ export class TopicCloudAdminService {
         list.splice(list.indexOf(word, 0), 1);
       }
     });
-    localStorage.setItem(this.blacklistKey, list.toString());
+    localStorage.setItem(this.profanityKey, list.toString());
   }
 
   removeBadwordList(){
-    localStorage.removeItem(this.blacklistKey);
+    localStorage.removeItem(this.profanityKey);
   }
 
-  getIrrelevantWordList(): string[] {
-    return this.irrelevantWords;
+  getBlacklistWordList(): string[] {
+    return this.blacklist;
   }
 
-  addToIrrelevantwordList(word: string) {
+  addToBlacklistWordList(word: string) {
     if (word !== undefined) {
-      this.irrelevantWords.push(word);
+      this.blacklist.push(word);
     }
   }
 
-  removeFromIrrelevantWordList(irrelevantWord: string) {
-    this.irrelevantWords.splice(this.irrelevantWords.indexOf(irrelevantWord), 1);
+  removeWordFromBlacklist(word: string) {
+    this.blacklist.splice(this.blacklist.indexOf(word), 1);
   }
 
 

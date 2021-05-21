@@ -18,21 +18,21 @@ export class TopicCloudAdministrationComponent implements OnInit {
   public panelOpenState = false;
   public considerVotes: boolean; // should be sent back to tagCloud component
   public profanityFilter = true; // should be sent back to tagCloud component
-  public hideIrrelevant: boolean; // should be sent back to tagCloud component
+  public hideBlacklist: boolean; // should be sent back to tagCloud component
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
   enterBadword = false;
-  enterIrrelevantWord = false;
+  enterBlacklistWord = false;
   newBadWord: string = undefined;
-  newIrrelevantWord: string = undefined;
+  newBlacklistWord: string = undefined;
 
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
   showBadWordList = false;
-  showIrrelevantWordList = false;
+  showBlacklistWordList = false;
 
   keywords: Keyword[] = [
     {
@@ -123,8 +123,8 @@ export class TopicCloudAdministrationComponent implements OnInit {
     return this.topicCloudAdminService.getBadWordList();
   }
 
-  getIrrelevantWordList() {
-    return this.topicCloudAdminService.getIrrelevantWordList();
+  getBlacklistWordList() {
+    return this.topicCloudAdminService.getBlacklistWordList();
   }
 
   sortQuestions(sortMode?: string) {
@@ -267,9 +267,9 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  addIrrelevantWord() {
-    this.topicCloudAdminService.addToIrrelevantwordList(this.newIrrelevantWord);
-    this.newIrrelevantWord = undefined;
+  addBlacklistWord() {
+    this.topicCloudAdminService.addToBlacklistWordList(this.newBlacklistWord);
+    this.newBlacklistWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
     }

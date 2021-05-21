@@ -7,8 +7,8 @@
       <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="hideIrrelevant">
-        {{'topic-cloud-dialog.hide-irrelevant' | translate}}
+      <mat-slide-toggle [(ngModel)]="hideBlacklist">
+        {{'topic-cloud-dialog.hide-blacklist' | translate}}
       </mat-slide-toggle>
 
       <mat-accordion class="new-Badword" multi>
@@ -47,24 +47,24 @@
         </mat-expansion-panel>
 
         <mat-expansion-panel class="color-background"
-          (opened)="enterIrrelevantWord = true; focusInput('irrelevant-word-input')"
-          (closed)="enterIrrelevantWord = false">
+          (opened)="enterBlacklistWord = true; focusInput('blacklist-word-input')"
+          (closed)="enterBlacklistWord = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-description>
-              {{'topic-cloud-dialog.edit-irrelevant-list' | translate}}
+              {{'topic-cloud-dialog.edit-blacklist-list' | translate}}
             </mat-panel-description>
           </mat-expansion-panel-header>
 
           <mat-form-field>
             <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
-            <input matInput id="irrelevant-word-input" [(ngModel)]="newIrrelevantWord">
+            <input matInput id="blacklist-word-input" [(ngModel)]="newBlacklistWord">
           </mat-form-field>
 
-          <button mat-stroked-button color="primary" class="margin-left" (click)="addIrrelevantWord()">
+          <button mat-stroked-button color="primary" class="margin-left" (click)="addBlacklistWord()">
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
-          <mat-list role="list" *ngIf="showIrrelevantWordList">
+          <mat-list role="list" *ngIf="showBlacklistWordList">
             <mat-list-item class="color-on-surface" *ngFor="let word of getBadWordList()" role="listitem">{{word}}
               <button style="margin-left: auto" mat-icon-button class="red">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
@@ -73,9 +73,9 @@
           </mat-list>
 
           <div>
-            <button mat-raised-button *ngIf="getIrrelevantWordList().length > 0" class="primaryBackground"
-              (click)="showIrrelevantWordList=!showIrrelevantWordList">
-              {{showIrrelevantWordList ? "Hide irrelevantword list" : "Show irrelevantword list"}}
+            <button mat-raised-button *ngIf="getBlacklistWordList().length > 0" class="primaryBackground"
+              (click)="showBlacklistWordList=!showBlacklistWordList">
+              {{showBlacklistWordList ? "Hide blacklistword list" : "Show blacklistword list"}}
             </button>
           </div>
 
