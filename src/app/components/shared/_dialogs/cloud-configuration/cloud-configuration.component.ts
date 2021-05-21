@@ -15,6 +15,7 @@ export class CloudConfigurationComponent implements OnInit{
   defaultCloudParameters: CloudParameters;
   oldCloudParameters: CloudParameters;
   extendedView: boolean;
+  cleanUpView: boolean;
   weightClasses: WeightClass[]=[
     {maxTagNumber: 20,
     tagColor: '#8800ff'},
@@ -46,9 +47,10 @@ export class CloudConfigurationComponent implements OnInit{
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudParameters = this.parent.getCurrentCloudParameters();
-    this.defaultCloudParameters = this.parent.getCurrentCloudParameters();    
+    this.defaultCloudParameters = this.parent.getCurrentCloudParameters();
     this.parseArrayToJsonWeightClasses();
     this.extendedView = false;
+    this.cleanUpView = false;
   }
 
   fontColorChanged(value: string){
@@ -70,7 +72,7 @@ export class CloudConfigurationComponent implements OnInit{
       this.weightClasses[i].tagColor = element;
     });
   }
-  
+
   parseJsonToArrayWeightClasses(){
     this.weightClasses.forEach((element, i) => {
       this.cloudParameters.cloudWeightCount[i] =  element.maxTagNumber;
@@ -81,7 +83,7 @@ export class CloudConfigurationComponent implements OnInit{
 
   valueChanged(){
     this.parseJsonToArrayWeightClasses();
-    this.parent.setCloudParameters(this.cloudParameters, false);    
+    this.parent.setCloudParameters(this.cloudParameters, false);
   }
 
   cancel(){
@@ -98,10 +100,15 @@ export class CloudConfigurationComponent implements OnInit{
     this.parent.configurationOpen = false;
   }
 
-  toggleExtendedView(){
+  toggleExtendedView() {
+    this.cleanUpView = false;
     this.extendedView = !this.extendedView;
   }
 
+  toggleCleanupView() {
+    this.cleanUpView = !this.cleanUpView;
+    this.extendedView = false;
+  }
 
   weightColorChanged(index: number, event: string): void {
     this.weightClasses[index].tagColor = event;

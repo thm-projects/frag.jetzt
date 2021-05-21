@@ -1,14 +1,16 @@
 <div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
-  <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView">
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView && !cleanUpView">
     <h2>{{'tag-cloud-config.title' | translate}}</h2>
-    <div class="input-row special-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+    <div class="input-row special-settings demo-cloud-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
         <mat-slide-toggle fxFlex (change)="parent.demoToggle()" [checked]="parent.isDemo"
           [ngModelOptions]="{standalone: true}">Demo Cloud</mat-slide-toggle>
       </div>
-      
-      <div  class="button-row weight-class-button">
-        <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
+    </div>
+    <div class="input-row specialButtons special-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <div class="button-row weight-class-buttons">
+        <button (click)="toggleExtendedView()" mat-button class="primary" id="extendedViewButton">{{'tag-cloud-config.extended-btn' | translate}}</button>
+        <button (click)="toggleCleanupView()" mat-button class="primary">Tag-Cleanup</button>
       </div>
     </div>
     <h3>{{'tag-cloud-config.general' | translate}}</h3>
@@ -120,6 +122,11 @@
                     [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                     [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
       </div>
+    </div>
+  </div>
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="cleanUpView">
+    <div  class="weight-class-button button-row">
+      <button (click)="toggleCleanupView()" mat-button class="primary">{{'tag-cloud-config.back-btn' | translate}}</button>
     </div>
   </div>
 </div>
