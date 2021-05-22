@@ -3,9 +3,11 @@ import { Observable, Subject } from 'rxjs';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { CloudParameters } from './tag-cloud.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface TagCloudDataTagEntry {
   weight: number;
+  adjustedWeight: number;
   cachedVoteCount: number;
   comments: Comment[];
 }
@@ -15,20 +17,27 @@ export interface TagCloudDataTagEntry {
  */
 export type TagCloudData = Map<string, TagCloudDataTagEntry>;
 
+export type TagCloudMetaDataCount = [
+  number, // w1
+  number, // w2
+  number, // w3
+  number, // w4
+  number, // w5
+  number, // w6
+  number, // w7
+  number, // w8
+  number, // w9
+  number  // w10
+];
+
+
 export interface TagCloudMetaData {
   commentCount: number;
   userCount: number;
   tagCount: number;
   minWeight: number;
   maxWeight: number;
-}
-
-const demoData: TagCloudData = new Map<string, TagCloudDataTagEntry>();
-{
-  const TOPIC_NAME = 'Topic'; // TODO Language Support
-  for (let i = 10; i >= 1; i--) {
-    demoData.set(TOPIC_NAME + ' ' + i, {cachedVoteCount: 0, comments: [], weight: i});
-  }
+  countPerWeight: TagCloudMetaDataCount;
 }
 
 export enum TagCloudDataSupplyType {
@@ -48,15 +57,23 @@ export class TagCloudDataManager {
   private _supplyType = TagCloudDataSupplyType.keywordsAndFullText;
   private _lastFetchedData: TagCloudData = null;
   private _lastFetchedComments: Comment[] = null;
-  private _lastMinMaxWeights = null;
+  private _lastMetaData: TagCloudMetaData = null;
   private readonly _currentMetaData: TagCloudMetaData;
+  private _demoData: TagCloudData = null;
 
   constructor(private _wsCommentService: WsCommentServiceService,
               private _commentService: CommentService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new Subject<TagCloudData>();
-    this._currentMetaData = {tagCount: 0, commentCount: 0, userCount: 0, minWeight: 0, maxWeight: 0};
+    this._currentMetaData = {
+      tagCount: 0,
+      commentCount: 0,
+      userCount: 0,
+      minWeight: 0,
+      maxWeight: 0,
+      countPerWeight: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    };
     this._metaDataBus = new Subject<TagCloudMetaData>();
     this._cachedData = null;
     // Subscribe to own 'service' for caching
@@ -83,6 +100,20 @@ export class TagCloudDataManager {
     }
     this._wsCommentSubscription.unsubscribe();
     this._wsCommentSubscription = null;
+  }
+
+  updateDemoData(translate: TranslateService): void {
+    translate.get('tag-cloud.demo-data-topic').subscribe(text => {
+      this._demoData = new Map<string, TagCloudDataTagEntry>();
+      for (let i = 10; i >= 1; i--) {
+        this._demoData.set(text.replace('%d', '' + i), {
+          cachedVoteCount: 0,
+          comments: [],
+          weight: i,
+          adjustedWeight: i - 1
+        });
+      }
+    });
   }
 
   get metaData(): TagCloudMetaData {
@@ -112,11 +143,18 @@ export class TagCloudDataManager {
     if (active !== this._isDemoActive) {
       this._isDemoActive = active;
       if (this._isDemoActive) {
-        this._lastMinMaxWeights = [this._currentMetaData.minWeight, this._currentMetaData.maxWeight];
-        [this._currentMetaData.minWeight, this._currentMetaData.maxWeight] = [1, 10];
-      } else if (this._lastMinMaxWeights !== null) {
-        [this._currentMetaData.minWeight, this._currentMetaData.maxWeight] = this._lastMinMaxWeights;
-        this._lastMinMaxWeights = null;
+        this._lastMetaData = {
+          ...this._currentMetaData,
+          countPerWeight: [...this._currentMetaData.countPerWeight]
+        };
+        this._currentMetaData.minWeight = 1;
+        this._currentMetaData.maxWeight = 10;
+        this._currentMetaData.countPerWeight = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+      } else if (this._lastMetaData !== null) {
+        for (const key of Object.keys(this._lastMetaData)) {
+          this._currentMetaData[key] = this._lastMetaData[key];
+        }
+        this._lastMetaData = null;
       }
       this.reformatData();
     }
@@ -164,7 +202,7 @@ export class TagCloudDataManager {
 
   private getCurrentData(): TagCloudData {
     if (this._isDemoActive) {
-      return demoData;
+      return this._demoData;
     }
     return this._lastFetchedData;
   }
@@ -172,20 +210,26 @@ export class TagCloudDataManager {
   private onUpdateData(): void {
     this._commentService.getFilteredComments(this._roomId).subscribe((comments: Comment[]) => {
       this._lastFetchedComments = comments;
-      this._currentMetaData.commentCount = comments.length;
+      if (this._isDemoActive) {
+        this._lastMetaData.commentCount = comments.length;
+      } else {
+        this._currentMetaData.commentCount = comments.length;
+      }
       this.rebuildTagData();
     });
   }
 
   private rebuildTagData() {
+    const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of this._lastFetchedComments) {
       //TODO Check supply types
       for (const keyword of comment.keywords) {
+        //TODO Check spelling
         let current = data.get(keyword);
         if (current === undefined) {
-          current = {cachedVoteCount: 0, comments: [], weight: 0};
+          current = {cachedVoteCount: 0, comments: [], weight: 0, adjustedWeight: 0};
           data.set(keyword, current);
         }
         current.cachedVoteCount += comment.score;
@@ -200,12 +244,20 @@ export class TagCloudDataManager {
       minWeight = Math.min(value.weight, minWeight || value.weight);
       maxWeight = Math.max(value.weight, maxWeight || value.weight);
     }
+    //calculate weight counts and adjusted weights
+    const same = minWeight === maxWeight;
+    const span = maxWeight - minWeight;
+    currentMeta.countPerWeight = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    for (const value of data.values()) {
+      value.adjustedWeight = same ? 4 : Math.round((value.weight - minWeight) * 9.0 / span);
+      ++currentMeta.countPerWeight[value.adjustedWeight];
+    }
     this._lastFetchedData = data;
-    this._currentMetaData.tagCount = data.size;
-    this._currentMetaData.userCount = users.size;
-    this._currentMetaData.minWeight = minWeight;
-    this._currentMetaData.maxWeight = maxWeight;
-    this._metaDataBus.next(this._currentMetaData);
+    currentMeta.tagCount = data.size;
+    currentMeta.userCount = users.size;
+    currentMeta.minWeight = minWeight;
+    currentMeta.maxWeight = maxWeight;
+    this._metaDataBus.next(currentMeta);
     if (!this._isDemoActive) {
       this.reformatData();
     }
