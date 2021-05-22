@@ -80,16 +80,18 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
-    "export-comments": "Fragen speichern"
+    "export-comments": "Fragen speichern",
+    "questions-blocked": "Fragen sind deaktiviert!"
   },
   "content": {
     "cancel": "Abbrechen",
     "delete": "Löschen"
   },
   "spacy-dialog":{
-    "german": "Deutsch",
-    "english": "Englisch",
-    "french": "Französisch",
+    "auto": "auto",
+    "de": "Deutsch",
+    "en": "Englisch",
+    "fr": "Französisch",
     "empty-nouns": "Keine Nomen enthalten",
     "select-all": "Alles auswählen"
   },
@@ -137,13 +139,16 @@
     "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragekategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf die Nummer, um die Fragen dieses anonymen Fragenstellers zu filtern.",
+    "keywords-per-question": "Klick auf die Keywords, um die Keywords anzuzeigen die für die Frage hinterlegt wurden.",
+    "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
     "write-comment": "Eingabe",
     "preview-comment": "Vorschau",
     "show-more": "Mehr ansehen",
     "show-less": "Weniger anzeigen",
-    "sure": "Bist du sicher?"
+    "sure": "Bist du sicher?",
+    "grammar-check": "Rechtschreibprüfung"
   },
 
   "home-page": {
@@ -233,11 +238,20 @@
     "edit-keyword-tip": "Neues Thema",
     "no-keywords-note": "Es gibt keine Themen",
     "consider-votes": "Votes berücksichtigen",
-    "tags-lowercase": "Themen klein schreiben",
+    "profanity": "Schimpfwörter zensieren",
+    "hide-irrelevant": "Irrelevante Stichworte verbergen",
     "sort-alpha": "Alphabetisch",
     "sort-count": "Fragenanzahl",
     "sort-vote": "Votes",
-    "keyword-search": "Stichwort suchen"
+    "keyword-search": "Stichwort suchen",
+    "add-profanity-word": "Wort zur Zensurliste hinzufügen",
+    "add-irrelevant-word": "Wort zur Irrelevantliste hinzufügen",
+    "send": "Abschicken",
+    "enter-word": "Wort eingeben",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "french": "Französisch",
+    "sendKey": "schickt keyword zu spacy"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
@@ -276,6 +290,14 @@
     "select-color-tooltip": "Auswahl der Schriftfarbe",
     "hover-scale-tooltip": "Skallierung der Wörter beim Erscheinen",
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
-    "hover-delay-tooltip": "Verzögerung der Wörter beim Erscheinen"
+    "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
+    "extended-btn": "Gewichtsklassen",
+    "back-btn": "Zurück",
+    "weight-class-settings": "Gewichtsklassen Einstellungen",
+    "weight-class": "Gewichtsklasse",
+    "weight-color": "Schriftfarbe",
+    "weight-number": "max. Anzahl Schlüsselwörter",
+    "weight-color-tooltip": "Auswahl der Schriftfarbe",
+    "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen"
   }
 }

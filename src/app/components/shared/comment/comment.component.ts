@@ -40,6 +40,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
   @Input() user: User;
+  @Input() disabled = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
   isStudent = false;

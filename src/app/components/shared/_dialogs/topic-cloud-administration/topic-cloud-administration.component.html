@@ -1,15 +1,71 @@
 <mat-dialog-content>
-  <mat-card>
-    <mat-slide-toggle [(ngModel)]="considerVotes">{{'topic-cloud-dialog.consider-votes' | translate}}</mat-slide-toggle>
-    <mat-slide-toggle [(ngModel)]="tagsLowerCase">{{'topic-cloud-dialog.tags-lowercase' | translate}}</mat-slide-toggle>
-  </mat-card>
+  <mat-card class="color-surface">
+    <div>
+      <mat-slide-toggle [(ngModel)]="considerVotes">
+        {{'topic-cloud-dialog.consider-votes' | translate}}
+      </mat-slide-toggle>
+      <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
+        {{'topic-cloud-dialog.profanity' | translate}}
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="hideIrrelevant">
+        {{'topic-cloud-dialog.hide-irrelevant' | translate}}
+      </mat-slide-toggle>
+
+      <mat-accordion hideToggle class="new-Badword" multi>
+        <mat-expansion-panel class="color-background"
+                            (opened)="enterBadword = true; focusBadWordInput()"
+                            (closed)="enterBadword = false">
+          <mat-expansion-panel-header class="color-background">
+            <mat-panel-description>
+              {{'topic-cloud-dialog.add-profanity-word' | translate}}
+                <mat-icon>{{!enterBadword ? 'add' : 'remove'}}</mat-icon>
+          </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field>
+            <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
+            <input matInput id="bad-word-input" [(ngModel)]="newBadWord">
+          </mat-form-field>
+
+          <button mat-button color="primary" (click)="addBadword()">
+            <mat-icon>add_circle</mat-icon>
+              {{'topic-cloud-dialog.send' | translate}}
+          </button>
+        </mat-expansion-panel>
+      <!-- </mat-accordion>
+
+      <mat-accordion hideToggle class="new-Badword" multi> -->
+        <mat-expansion-panel class="color-background"
+                            (opened)="enterIrrelevantWord = true; focusIrrelevantWordInput()"
+                            (closed)="enterIrrelevantWord = false">
+          <mat-expansion-panel-header class="color-background">
+            <mat-panel-description>
+              {{'topic-cloud-dialog.add-irrelevant-word' | translate}}
+                <mat-icon>{{!enterIrrelevantWord ? 'add' : 'remove'}}</mat-icon>
+          </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <mat-form-field>
+            <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
+            <input matInput id="irrelevant-word-input" [(ngModel)]="newIrrelevantWord">
+          </mat-form-field>
+
+          <button mat-button color="primary" (click)="addIrrelevantWord()">
+            <mat-icon>add_circle</mat-icon>
+              {{'topic-cloud-dialog.send' | translate}}
+          </button>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+    </div>
+   </mat-card>
 
   <div fxLayout="row" style="margin-top: 10px;">
     <mat-label fxLayoutAlign="center center">
       <mat-icon>search</mat-icon>
     </mat-label>
     <div style="margin-left: 10px;">
-      <mat-form-field class="example-form-field">
+      <mat-form-field [ngClass]="{'search': searchMode}">
         <input #searchBox id="searchBox" (input)="searchKeyword()"
                [(ngModel)]="searchedKeyword" matInput type="text"
                placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
@@ -18,41 +74,49 @@
                 mat-button matSuffix mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
           <mat-icon>close</mat-icon>
         </button>
+
       </mat-form-field>
     </div>
-    <div fxLayoutAlign="end" style="margin-left: 52%;">
-      <button  mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
+    <div fxLayoutAlign="center center" style="margin-left: 52%; font-weight: bold;"  >
+      <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
+    </div>
+    <div fxLayoutAlign="end" *ngIf="!searchMode">
+      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-button [matMenuTriggerFor]="sortMenu" mat-ripple>
         <mat-icon>sort</mat-icon>
       </button>
     </div>
   </div>
 
   <mat-menu #sortMenu>
-    <button mat-menu-item (click)="sortQuestions('alphabetic')">
+    <button [ngClass]="{'animation-blink': sortMode==='alphabetic'}" mat-menu-item (click)="sortQuestions('alphabetic')">
       <mat-icon>sort_by_alpha</mat-icon>
       {{'topic-cloud-dialog.sort-alpha' | translate}} </button>
-    <button mat-menu-item (click)="sortQuestions('questionsCount')">
+    <button [ngClass]="{'animation-blink': sortMode==='questionsCount'}" mat-menu-item (click)="sortQuestions('questionsCount')">
       <mat-icon>swap_vert</mat-icon>
       {{'topic-cloud-dialog.sort-count' | translate}} </button>
-    <button mat-menu-item (click)="sortQuestions('voteCount')">
+    <button [ngClass]="{'animation-blink': sortMode==='voteCount'}" mat-menu-item (click)="sortQuestions('voteCount')">
       <mat-icon>swap_vert</mat-icon>
       {{'topic-cloud-dialog.sort-vote' | translate}} </button>
   </mat-menu>
 
   <mat-accordion>
-    <mat-expansion-panel hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
-        <mat-expansion-panel-header>
+    <mat-expansion-panel class="color-surface" hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
+        <mat-expansion-panel-header class="color-surface">
             <mat-panel-title fxLayoutAlign="center">
               {{'topic-cloud-dialog.no-keywords-note' | translate}}
             </mat-panel-title>
         </mat-expansion-panel-header>
       </mat-expansion-panel>
-    <mat-expansion-panel (opened)="panelOpenState = true"
-                         (closed)="panelOpenState = edit = false"
-                         *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
-      <mat-expansion-panel-header class="color">
-        <mat-panel-title [ngClass]="{'edit-keyword': editedKeyword}">
-          {{keyword.keyword}}
+      <!-- *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
+       -->
+    <mat-expansion-panel class="color-surface"
+                        (opened)="panelOpenState = true"
+                        (closed)="panelOpenState = edit = false"
+                        *ngFor="let keyword of
+                        (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
+      <mat-expansion-panel-header class="color-surface">
+        <mat-panel-title>
+          {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
           {{keyword.questions.length}}
@@ -66,6 +130,7 @@
         [keyword]="keyword.keyword"
         [maxShowedCharachters]="140"
         [isCollapsed]="!panelOpenState"
+        [profanityFilter]="profanityFilter"
         ></app-topic-dialog-comment>
       </div>
 
@@ -93,9 +158,9 @@
         <!-- TODO: textinput and buttons in one row -->
         <div align="end">
           <button mat-raised-button class="redBackground margin-right" (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
-          <button mat-raised-button class="primaryBackground" (click)="confirmEdit(keyword.keywordID)">{{'topic-cloud-dialog.save' | translate}}</button>
+          <button mat-raised-button class="primaryBackground" (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save' | translate}}</button>
         </div>
       </div>
-    </mat-expansion-panel>
+    </mat-expansion-panel><br>
   </mat-accordion>
 </mat-dialog-content>

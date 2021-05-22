@@ -30,6 +30,8 @@ import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { CommentFilterOptions } from '../../../utils/filter-options';
+import { isObjectBindingPattern } from 'typescript';
 
 export enum Period {
   FROMNOW    = 'from-now',
@@ -98,6 +100,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   period: Period = Period.TWOWEEKS;
   fromNow: number;
   moderatorIds: string[];
+  commentsEnabled: boolean;
 
   constructor(
     private commentService: CommentService,
@@ -217,6 +220,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.roomId = room.id;
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
+          this.commentsEnabled = (this.userRole > 0) || !this.room.closed;
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
@@ -246,9 +250,20 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.searchPlaceholder = msg;
     });
 
-    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+    this.getCurrentFilter().writeFilter();
+  }
+
+  private getCurrentFilter() : CommentFilterOptions {
+    let filter = new CommentFilterOptions();
+    filter.filterSelected = this.currentFilter;
+    filter.paused = this.freeze;
+    filter.periodSet = this.period;
+
+    if (filter.periodSet == Period.FROMNOW) {
+      filter.timeStampNow = new Date().getTime();
+    }
+
+    return filter;
   }
 
   getModeratorIds() {
@@ -513,8 +528,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
 
-    // set current filters to local storage for later use
-    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
   }
 
   sort(array: any[], type: string): any[] {
@@ -560,6 +574,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
       this.notificationService.show(msg);
     });
+
+    let filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime());
+    filter.writeFilter();
   }
 
   playCommentStream() {
@@ -574,6 +591,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
       this.notificationService.show(msg);
     });
+    
+    let filter = this.getCurrentFilter();
+    filter.writeFilter();
   }
 
   subscribeCommentStream() {
@@ -648,8 +668,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentsFilteredByTime = this.comments;
     }
 
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+    this.getCurrentFilter().writeFilter();
     
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');

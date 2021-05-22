@@ -1,9 +1,17 @@
 <div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
-  <div class="cloud-configuration-form" fxLayout="column">
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView">
     <h2>{{'tag-cloud-config.title' | translate}}</h2>
-    <h3>{{'tag-cloud-config.general' | translate}}</h3>
-    <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+    <div class="input-row special-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <mat-slide-toggle fxFlex (change)="parent.dataManager.demoActive = !parent.dataManager.demoActive"
+                          [checked]="parent.dataManager.demoActive"
+                          [ngModelOptions]="{standalone: true}">Demo Cloud</mat-slide-toggle>
+      </div>
+      <div  class="button-row weight-class-button">
+        <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
+      </div>
     </div>
+    <h3>{{'tag-cloud-config.general' | translate}}</h3>
     <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <mat-slide-toggle (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
         [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
@@ -83,6 +91,35 @@
     <div class="button-row">
       <button (click)="cancel()" mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
       <button (click)="save()" mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
+    </div>
+  </div>
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="extendedView">
+    <div  class="weight-class-button button-row">
+      <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.back-btn' | translate}}</button>
+    </div>
+    <h2>{{'tag-cloud-config.weight-class-settings' | translate}}</h2>
+    <div *ngFor="let weightClass of weightClasses" class="weight-class-setting">
+      <h3 class="weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</h3>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+          <div fxLayout="row" fxLayoutGap="5px">
+            <mat-form-field fxFlex="100%">
+              <mat-label>{{'tag-cloud-config.weight-color' | translate}}</mat-label>
+              <input matInput [value]="weightClass.tagColor" [colorPicker]="weightClass.tagColor"
+                     (colorPickerChange)="weightColorChanged(weightClasses.indexOf(weightClass), $event)" class="custom-color-picker" />
+              <p matTooltip="{{'tag-cloud-config.weight-color-tooltip' | translate}}" class="custom-color-picker-text">
+                {{'tag-cloud-config.select-color' | translate}}</p>
+            </mat-form-field>
+            <div fxFlex="35px" class="color-box" [style.background]="weightClass.tagColor"></div>
+          </div>
+        </div>
+      </div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text">{{'tag-cloud-config.weight-number' | translate}}</mat-label>
+        <mat-slider [value]="weightClass.maxTagNumber" min="0" max="30" step="1"
+                    [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+                    [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
+      </div>
     </div>
   </div>
 </div>
