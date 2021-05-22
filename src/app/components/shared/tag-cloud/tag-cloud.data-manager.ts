@@ -3,6 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { CloudParameters } from './tag-cloud.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -39,14 +40,6 @@ export interface TagCloudMetaData {
   countPerWeight: TagCloudMetaDataCount;
 }
 
-const demoData: TagCloudData = new Map<string, TagCloudDataTagEntry>();
-{
-  const TOPIC_NAME = 'Topic'; // TODO Language Support
-  for (let i = 10; i >= 1; i--) {
-    demoData.set(TOPIC_NAME + ' ' + i, {cachedVoteCount: 0, comments: [], weight: i, adjustedWeight: i - 1});
-  }
-}
-
 export enum TagCloudDataSupplyType {
   fullText,
   keywords,
@@ -66,6 +59,7 @@ export class TagCloudDataManager {
   private _lastFetchedComments: Comment[] = null;
   private _lastMetaData: TagCloudMetaData = null;
   private readonly _currentMetaData: TagCloudMetaData;
+  private _demoData: TagCloudData = null;
 
   constructor(private _wsCommentService: WsCommentServiceService,
               private _commentService: CommentService) {
@@ -106,6 +100,20 @@ export class TagCloudDataManager {
     }
     this._wsCommentSubscription.unsubscribe();
     this._wsCommentSubscription = null;
+  }
+
+  updateDemoData(translate: TranslateService): void {
+    translate.get('tag-cloud.demo-data-topic').subscribe(text => {
+      this._demoData = new Map<string, TagCloudDataTagEntry>();
+      for (let i = 10; i >= 1; i--) {
+        this._demoData.set(text.replace('%d', '' + i), {
+          cachedVoteCount: 0,
+          comments: [],
+          weight: i,
+          adjustedWeight: i - 1
+        });
+      }
+    });
   }
 
   get metaData(): TagCloudMetaData {
@@ -194,7 +202,7 @@ export class TagCloudDataManager {
 
   private getCurrentData(): TagCloudData {
     if (this._isDemoActive) {
-      return demoData;
+      return this._demoData;
     }
     return this._lastFetchedData;
   }

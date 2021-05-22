@@ -226,7 +226,8 @@
   },
   "tag-cloud": {
     "config": "Wolkenansicht ändern",
-    "administration": "Wolkenthemen editieren"
+    "administration": "Wolkenthemen editieren",
+    "demo-data-topic": "Thema %d"
   },
   "topic-cloud-dialog": {
     "cancel": "Abbrechen",

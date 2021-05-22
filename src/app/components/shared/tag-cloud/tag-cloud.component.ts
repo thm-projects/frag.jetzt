@@ -259,6 +259,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initTagCloud() {
     this.dataManager.activate(this.roomId);
+    this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
     setTimeout(() => {
       this.redraw();
