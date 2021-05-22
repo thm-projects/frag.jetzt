@@ -55,6 +55,7 @@
     "back": "Back",
     "cancel": "Cancel",
     "delete": "Delete",
+    "block" : "Block questions",
     "delete-account": "Delete account",
     "home-header": "Collect and rate questions",
     "id": "Key",
@@ -88,6 +89,7 @@
     "motd": "News",
     "tag-cloud-config": "Modify cloud view",
     "tag-cloud-administration": "Edit cloud topics",
+    "questions-blocked": "Questions are blocked!",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords"

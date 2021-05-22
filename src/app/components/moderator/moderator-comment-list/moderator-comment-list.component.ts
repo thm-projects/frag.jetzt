@@ -23,6 +23,8 @@ import { Export } from '../../../models/export';
 import { CreateCommentComponent } from '../../shared/_dialogs/create-comment/create-comment.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { CommentFilterOptions } from '../../../utils/filter-options';
+
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -188,9 +190,19 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       this.searchPlaceholder = msg;
     });
 
-    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+    this.getCurrentFilter().writeFilter();
+  }
+
+  private getCurrentFilter() : CommentFilterOptions {
+    let filter = new CommentFilterOptions();
+    filter.filterSelected = this.currentFilter;
+    filter.periodSet = this.period;
+
+    if (filter.periodSet == Period.FROMNOW) {
+      filter.timeStampNow = new Date().getTime();
+    }
+
+    return filter;
   }
 
   checkScroll(): void {
@@ -354,8 +366,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
 
-    // set current filters to local storage for later use
-    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
+    CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
   }
 
   clickedUserNumber(usrNumber: number): void {
@@ -432,8 +443,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       this.commentsFilteredByTime = this.comments;
     }
 
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
+    this.getCurrentFilter().writeFilter();
 
     this.filterComments(this.currentFilter);
   }

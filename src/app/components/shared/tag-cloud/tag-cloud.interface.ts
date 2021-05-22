@@ -1,34 +1,40 @@
-export interface TagCloudHeaderDataOverview {
-  commentCount: number;
-  userCount: number;
-  tagCount: number;
+export interface CloudWeightSetting {
+  /**
+   * This field specifies how many elements of this weight are displayed.
+   *
+   * A number less than zero means that all elements of the weight are displayed.
+   */
+  maxVisibleElements: number;
+  /**
+   * CSS color property value.
+   */
+  color: string;
+  /**
+   * Rotation of each html element in degrees.
+   *
+   * null indicates random rotation.
+   */
+  rotation: number;
 }
 
-export type CloudWeightCount = [
-  number, // w1
-  number, // w2
-  number, // w3
-  number, // w4
-  number, // w5
-  number, // w6
-  number, // w7
-  number, // w8
-  number, // w9
-  number // w10
+export type CloudWeightSettings = [
+  CloudWeightSetting, // w1
+  CloudWeightSetting, // w2
+  CloudWeightSetting, // w3
+  CloudWeightSetting, // w4
+  CloudWeightSetting, // w5
+  CloudWeightSetting, // w6
+  CloudWeightSetting, // w7
+  CloudWeightSetting, // w8
+  CloudWeightSetting, // w9
+  CloudWeightSetting  // w10
 ];
 
-export type CloudWeightColor = [
-  string, // w1
-  string, // w2
-  string, // w3
-  string, // w4
-  string, // w5
-  string, // w6
-  string, // w7
-  string, // w8
-  string, // w9
-  string // w10
-];
+export enum CloudTextStyle {
+  normal,
+  lowercase,
+  capitalized
+}
 
 export interface CloudParameters {
   /**
@@ -68,13 +74,38 @@ export interface CloudParameters {
    */
   randomAngles: boolean;
   /**
-   * The count of cloud weights is used to limit the size of the displayed weighted elements.
-   *
-   * A number less than zero means that all elements of the weight are displayed.
+   * Sorts the cloud alphabetical.
    */
-  cloudWeightCount: CloudWeightCount;
+  sortAlphabetically: boolean;
   /**
-   * This array contains the CSS color property for each cloud weight
+   * Checks if the word is spelled correctly, if not, do not display it.
    */
-  cloudWeightColor: CloudWeightColor;
+  checkSpelling: boolean;
+  /**
+   * Custom CSS text transform setting
+   */
+  textTransform: CloudTextStyle;
+  /**
+   * Array of settings for each weight group.
+   */
+  cloudWeightSettings: CloudWeightSettings;
 }
+
+const clone = (elem: any): any => {
+  if (Array.isArray(elem)) {
+    const copy = new Array(elem.length);
+    for (let i = 0; i < elem.length; i++) {
+      copy[i] = clone(elem[i]);
+    }
+    return copy;
+  } else if (elem instanceof Object) {
+    const copy = {};
+    for (const key of Object.keys(elem)) {
+      copy[key] = clone(elem[key]);
+    }
+    return copy;
+  }
+  return elem;
+};
+
+export const cloneParameters = (parameters: CloudParameters) => clone(parameters);

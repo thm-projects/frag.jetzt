@@ -80,12 +80,14 @@
     "token": "Bonus token",
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
-    "export-comments": "Save questions"
+    "export-comments": "Save questions",
+    "questions-blocked": "Questions are blocked!"
   },
   "spacy-dialog": {
-    "german": "German",
-    "english": "English",
-    "french": "French",
+    "auto": "auto",
+    "de": "German",
+    "en": "English",
+    "fr": "French",
     "empty-nouns": "No nouns included",
     "select-all": "Select all"
   },
@@ -162,6 +164,8 @@
     "tag-reset": "Reset",
     "tag-to-filter": "Click on the question category to filter questions in that category.",
     "user-number": "Click on the number to filter the questions from this anonymous questioner.",
+    "keywords-per-question": "Click to display the keywords that have been entered for the question.",
+    "keywords": "Keywords",
     "vote-down": "Vote down",
     "vote-up": "Vote up",
     "write-comment": "Input",
@@ -178,7 +182,8 @@
     "edit-favorite": "Mark for bonus",
     "edit-favorite-reset": "Remove marker",
     "edit-bookmark": "Bookmark",
-    "edit-bookmark-reset": "Remove marker"
+    "edit-bookmark-reset": "Remove marker",
+    "grammar-check": "Spell check"
   },
   "content": {
     "abort": "Abort",
@@ -357,7 +362,14 @@
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
-    "hover-delay-tooltip": "Select hover-delay"
-    
+    "hover-delay-tooltip": "Select hover-delay",
+
+    "weight-class-settings": "Weight-classes settings",
+    "weight-class": "Weight class",
+    "back-btn": "Back",
+    "weight-color": "Font color",
+    "weight-number": "max. number of keywords",
+    "weight-color-tooltip": "select font-color",
+    "weight-number-tooltip": "select maximal number of keywords"
   }
 }

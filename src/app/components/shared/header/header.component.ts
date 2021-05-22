@@ -1,27 +1,29 @@
-import {Component, OnInit, Renderer2} from '@angular/core';
-import {AuthenticationService} from '../../../services/http/authentication.service';
-import {NotificationService} from '../../../services/util/notification.service';
-import {Router, NavigationEnd} from '@angular/router';
-import {User} from '../../../models/user';
-import {UserRole} from '../../../models/user-roles.enum';
-import {Location} from '@angular/common';
-import {TranslateService} from '@ngx-translate/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {LoginComponent} from '../login/login.component';
-import {DeleteAccountComponent} from '../_dialogs/delete-account/delete-account.component';
-import {UserService} from '../../../services/http/user.service';
-import {EventService} from '../../../services/util/event.service';
-import {AppComponent} from '../../../app.component';
-import {Rescale} from '../../../models/rescale';
-import {KeyboardUtils} from '../../../utils/keyboard';
-import {KeyboardKey} from '../../../utils/keyboard/keys';
-import {UserBonusTokenComponent} from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import {RemindOfTokensComponent} from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import {QrCodeDialogComponent} from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import {BonusTokenService} from '../../../services/http/bonus-token.service';
-import {MotdService} from '../../../services/http/motd.service';
-import {TopicCloudFilterComponent} from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import {TagCloudHeaderDataOverview} from '../tag-cloud/tag-cloud.interface';
+import { Component, OnInit, Renderer2 } from '@angular/core';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { NotificationService } from '../../../services/util/notification.service';
+import { Router, NavigationEnd } from '@angular/router';
+import { User } from '../../../models/user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LoginComponent } from '../login/login.component';
+import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
+import { UserService } from '../../../services/http/user.service';
+import { EventService } from '../../../services/util/event.service';
+import { AppComponent } from '../../../app.component';
+import { Rescale } from '../../../models/rescale';
+import { KeyboardUtils } from '../../../utils/keyboard';
+import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
+import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { MotdService } from '../../../services/http/motd.service';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { RoomService } from '../../../services/http/room.service';
+import { Room } from '../../../models/room';
+import { TagCloudMetaData } from '../tag-cloud/tag-cloud.data-manager';
 
 @Component({
   selector: 'app-header',
@@ -36,6 +38,7 @@ export class HeaderComponent implements OnInit {
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
+  room : Room;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
@@ -52,6 +55,7 @@ export class HeaderComponent implements OnInit {
               private _r: Renderer2,
               private motdService: MotdService,
               private confirmDialog: MatDialog,
+              private roomService: RoomService
   ) {
   }
 
@@ -61,7 +65,7 @@ export class HeaderComponent implements OnInit {
         this.motdService.requestDialog();
       });
     });
-    this.eventService.on<TagCloudHeaderDataOverview>('tagCloudHeaderDataOverview').subscribe(data => {
+    this.eventService.on<TagCloudMetaData>('tagCloudHeaderDataOverview').subscribe(data => {
       this.commentsCountQuestions = data.commentCount;
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
@@ -116,6 +120,10 @@ export class HeaderComponent implements OnInit {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
+            this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
+          } else {
+            this.shortId = '';
+            this.room = null;
           }
         }
       }
@@ -305,6 +313,12 @@ export class HeaderComponent implements OnInit {
 
   public navigateTopicCloudAdministration() {
     this.eventService.broadcast('navigate', 'topicCloudAdministration');
+  }
+
+  public blockQuestions() {
+    // flip state if clicked
+    this.room.closed = !this.room.closed;
+    this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
   }
 
 }
