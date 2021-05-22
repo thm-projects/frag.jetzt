@@ -158,14 +158,14 @@ export class CreateCommentComponent implements OnInit {
               let displayOptions= 3;
               let suggestionsHTML = '';
 
-              if(suggestions.length < displayOptions) {
+              if(!suggestions.length)
+                suggestionsHTML = '<span style="color: black; display: block; text-align: center;">' + res.matches[i].message + '</span>';
+
+              if(suggestions.length < displayOptions)
                 displayOptions = suggestions.length;
-              }
 
               for (let i = 0; i < displayOptions; i++) {
-                suggestionsHTML += '<span class="suggestions"' +
-                  ' style="color: black; display: block; text-align: center; cursor: pointer;">' +
-                  suggestions[i].value + '</span>'
+                suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[i].value + '</span>'
               }
 
               const replacement =
@@ -173,7 +173,7 @@ export class CreateCommentComponent implements OnInit {
                 '   <span style="text-decoration: underline wavy red; cursor: pointer;">' +
                       wrongWord +
                 '   </span>' +
-                '     <div class="dropdownBlock" style="display: none; width: 113px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
+                '     <div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
                         suggestionsHTML +
                 '     </div>' +
                 '</div>';
