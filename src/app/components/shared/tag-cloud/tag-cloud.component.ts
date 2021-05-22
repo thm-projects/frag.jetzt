@@ -8,7 +8,7 @@ import {
   ZoomOnHoverOptions
 } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
-import { Result, SpacyService } from '../../../services/http/spacy.service';
+import { SpacyService } from '../../../services/http/spacy.service';
 import { Comment } from '../../../models/comment';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,7 +26,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { TagCloudData, TagCloudDataManager } from './tag-cloud.data-manager';
+import { TagCloudDataManager } from './tag-cloud.data-manager';
 
 class CustomPosition implements Position {
   left: number;
@@ -259,6 +259,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initTagCloud() {
     this.dataManager.activate(this.roomId);
+    this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
     setTimeout(() => {
       this.redraw();
@@ -309,22 +310,20 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < 10; i++) {
       countFiler.push(this._currentSettings.cloudWeightSettings[i].maxVisibleElements);
     }
-    const minWeight = this.dataManager.metaData.minWeight;
-    const maxWeight = this.dataManager.metaData.maxWeight;
-    const same = minWeight === maxWeight;
-    const span = maxWeight - minWeight;
-    for (const entry of data) {
-      const weight = same ? 4 : Math.round((entry[1].weight - minWeight) * 9.0 / span);
-      const remaining = countFiler[weight];
-      if (remaining !== 0) {
-        if (remaining > 0) {
-          --countFiler[weight];
+    for (const [tag, tagData] of data) {
+      const amount = this.dataManager.demoActive ? 10 - tagData.adjustedWeight : 1;
+      for (let i = 0; i < amount; i++) {
+        const remaining = countFiler[tagData.adjustedWeight];
+        if (remaining !== 0) {
+          if (remaining > 0) {
+            --countFiler[tagData.adjustedWeight];
+          }
+          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
+          if (rotation === null || this._currentSettings.randomAngles) {
+            rotation = Math.floor(Math.random() * 30 - 15);
+          }
+          newElements.push(new TagComment(null, true, null, null, rotation, tag, 'TODO', tagData.weight));
         }
-        let rotation = this._currentSettings.cloudWeightSettings[weight].rotation;
-        if (rotation === null || this._currentSettings.randomAngles) {
-          rotation = Math.floor(Math.random() * 30 - 15);
-        }
-        newElements.push(new TagComment(null, true, null, null, rotation, entry[0], 'TODO', entry[1].weight));
       }
     }
     if (this._currentSettings.sortAlphabetically) {
