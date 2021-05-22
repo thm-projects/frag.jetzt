@@ -12,6 +12,15 @@ export interface TagCloudDataTagEntry {
   comments: Comment[];
 }
 
+export interface TagCloudMetaData {
+  commentCount: number;
+  userCount: number;
+  tagCount: number;
+  minWeight: number;
+  maxWeight: number;
+  countPerWeight: TagCloudMetaDataCount;
+}
+
 /**
  * The key is a generated tag (out of all comments).
  */
@@ -30,20 +39,16 @@ export type TagCloudMetaDataCount = [
   number  // w10
 ];
 
-
-export interface TagCloudMetaData {
-  commentCount: number;
-  userCount: number;
-  tagCount: number;
-  minWeight: number;
-  maxWeight: number;
-  countPerWeight: TagCloudMetaDataCount;
-}
-
 export enum TagCloudDataSupplyType {
   fullText,
   keywords,
   keywordsAndFullText
+}
+
+export enum TagCloudCalcWeightType {
+  byLength,
+  byVotes,
+  byLengthAndVotes
 }
 
 export class TagCloudDataManager {
@@ -55,6 +60,7 @@ export class TagCloudDataManager {
   private _wsCommentSubscription = null;
   private _roomId = null;
   private _supplyType = TagCloudDataSupplyType.keywordsAndFullText;
+  private _calcWeightType = TagCloudCalcWeightType.byLength;
   private _lastFetchedData: TagCloudData = null;
   private _lastFetchedComments: Comment[] = null;
   private _lastMetaData: TagCloudMetaData = null;
@@ -135,6 +141,17 @@ export class TagCloudDataManager {
     }
   }
 
+  set weightCalcType(type: TagCloudCalcWeightType) {
+    if (type !== this._calcWeightType) {
+      this._calcWeightType = type;
+      this.rebuildTagData();
+    }
+  }
+
+  get weightCalcType(): TagCloudCalcWeightType {
+    return this._calcWeightType;
+  }
+
   get demoActive(): boolean {
     return this._isDemoActive;
   }
@@ -191,10 +208,10 @@ export class TagCloudDataManager {
     //TODO SORT
     if (this._isAlphabeticallySorted) {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
-        .sort((a, b) => a[0].localeCompare(b[0])));
+        .sort(([aTag], [bTag]) => aTag.localeCompare(bTag)));
     } else {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
-        .sort((a, b) => b[1].weight - a[1].weight));
+        .sort(([_, aTagData], [__, bTagData]) => bTagData.weight - aTagData.weight));
     }
     //TODO APPLY OTHER
     this._dataBus.next(newData);
@@ -219,13 +236,25 @@ export class TagCloudDataManager {
     });
   }
 
+  private calculateWeight(tagData: TagCloudDataTagEntry): number {
+    switch (this._calcWeightType) {
+      case TagCloudCalcWeightType.byVotes:
+        return tagData.cachedVoteCount;
+      case TagCloudCalcWeightType.byLengthAndVotes:
+        return tagData.cachedVoteCount / 10.0 + tagData.comments.length;
+      default:
+        return tagData.comments.length;
+    }
+  }
+
   private rebuildTagData() {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of this._lastFetchedComments) {
       //TODO Check supply types
-      for (const keyword of comment.keywords) {
+      let keywords = comment.keywords || [];
+      for (const keyword of keywords) {
         //TODO Check spelling
         let current = data.get(keyword);
         if (current === undefined) {
@@ -240,7 +269,7 @@ export class TagCloudDataManager {
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {
-      value.weight = value.comments.length; //TODO START USING OTHER METHODS
+      value.weight = this.calculateWeight(value);
       minWeight = Math.min(value.weight, minWeight || value.weight);
       maxWeight = Math.max(value.weight, maxWeight || value.weight);
     }
