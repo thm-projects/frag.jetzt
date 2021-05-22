@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
-import { CloudParameters } from '../../tag-cloud/tag-cloud.interface';
+import { CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
 import { WeightClass } from './weight-class.interface';
 
 @Component({
@@ -11,6 +11,7 @@ import { WeightClass } from './weight-class.interface';
 })
 export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent;
+  CloudTextStyle:CloudTextStyle;
   cloudParameters: CloudParameters;
   defaultCloudParameters: CloudParameters;
   oldCloudParameters: CloudParameters;
@@ -98,6 +99,7 @@ export class CloudConfigurationComponent implements OnInit {
   }
 
   cancel(){
+    console.log("Parameterliste: "+ JSON.stringify(this.cloudParameters));
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
@@ -121,6 +123,11 @@ export class CloudConfigurationComponent implements OnInit {
 
   weightColorChanged(index: number, event: string): void {
     this.weightClasses[index].tagColor = event;
+    this.valueChanged();
+  }
+
+  textStyleChanged(val:CloudTextStyle){
+    this.cloudParameters.textTransform = val;
     this.valueChanged();
   }
 

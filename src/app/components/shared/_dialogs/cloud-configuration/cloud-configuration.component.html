@@ -132,19 +132,19 @@
     <h2>{{'tag-cloud-config.cleanUpView' | translate}}</h2>
     <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-        <mat-slide-toggle matTooltip="{{'tag-cloud-config.automatic-spelling-tooltip' | translate}}" [checked]="automaticSpelling">{{'tag-cloud-config.automatic-spelling' | translate}}</mat-slide-toggle>
+        <mat-slide-toggle matTooltip="{{'tag-cloud-config.automatic-spelling-tooltip' | translate}}" [(ngModel)]="cloudParameters.checkSpelling" [checked]="cloudParameters.checkSpelling" [ngModelOptions]="{standalone: true}" (change)="valueChanged()">{{'tag-cloud-config.automatic-spelling' | translate}}</mat-slide-toggle>
       </div>
     </div>
       <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
         <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
-          <div><mat-radio-button value="1" [checked]="lowerCase">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button> </div>
-          <div><mat-radio-button value="2" [checked]="capitalization">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button> </div>
-          <div><mat-radio-button value="3" [checked]="standard">{{'tag-cloud-config.standard' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="1" (change)="textStyleChanged(1)" [checked]="cloudParameters.textTransform == 1">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="2" (change)="textStyleChanged(2)" [checked]="cloudParameters.textTransform == 2">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="0" (change)="textStyleChanged(0)" [checked]="cloudParameters.textTransform == 0">{{'tag-cloud-config.standard' | translate}}</mat-radio-button> </div>
         </mat-radio-group>
       </div>
       <div class="input-row special-settings alphabetical-sorting" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
         <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <mat-slide-toggle matTooltip="{{'tag-cloud-config.alphabetical-sorting-tooltip' | translate}}" [checked]="alphabeticalSorting">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
+          <mat-slide-toggle matTooltip="{{'tag-cloud-config.alphabetical-sorting-tooltip' | translate}}" [(ngModel)]="cloudParameters.sortAlphabetically" [checked]="cloudParameters.sortAlphabetically" [ngModelOptions]="{standalone: true}"(change)="valueChanged()">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
         </div>
       </div>
       <div class="input-row" fxLayout="column" fxLayoutGap="5px">
