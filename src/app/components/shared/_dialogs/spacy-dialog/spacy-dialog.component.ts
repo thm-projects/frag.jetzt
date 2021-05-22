@@ -23,7 +23,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
+
   keywords: Keyword[] = [];
+  keywordsOriginal: Keyword[] = []
 
   constructor(
     protected langService: LanguageService,
@@ -51,7 +53,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywords = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromQuestionaire = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromSpacy = this.keywordsOriginal.map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
@@ -72,8 +75,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
           }
         }
         this.keywords = words;
+        this.keywordsOriginal = words;
       }, () => {
         this.keywords = [];
+        this.keywordsOriginal = [];
       });
   }
 

@@ -20,7 +20,8 @@ export class Comment {
   answer: string;
   userNumber: number;
   number: number;
-  keywords: string[];
+  keywordsFromSpacy: string[];
+  keywordsFromQuestionaire: string[];
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -37,7 +38,8 @@ export class Comment {
               tag: string = '',
               answer: string = '',
               userNumber: number = 0,
-              keywords: string[] = []) {
+              keywordsFromSpacy: string[] = [],
+              keywordsFromQuestionaire: string[] = []) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -55,6 +57,7 @@ export class Comment {
     this.tag = tag;
     this.answer = answer;
     this.userNumber = userNumber;
-    this.keywords = keywords;
+    this.keywordsFromSpacy = keywordsFromSpacy;
+    this.keywordsFromQuestionaire = keywordsFromQuestionaire;
   }
 }
