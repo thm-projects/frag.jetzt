@@ -164,7 +164,7 @@ export class CreateCommentComponent implements OnInit {
 
               for (let i = 0; i < displayOptions; i++) {
                 suggestionsHTML += '<span class="suggestions"' +
-                  ' style="color: white; display: block; text-align: center; cursor: pointer;">' +
+                  ' style="color: black; display: block; text-align: center; cursor: pointer;">' +
                   suggestions[i].value + '</span>'
               }
 
@@ -173,7 +173,7 @@ export class CreateCommentComponent implements OnInit {
                 '   <span style="text-decoration: underline wavy red; cursor: pointer;">' +
                       wrongWord +
                 '   </span>' +
-                '     <div class="dropdownBlock" style="display: none; width: 160px; background-color: black; color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
+                '     <div class="dropdownBlock" style="display: none; width: 113px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
                         suggestionsHTML +
                 '     </div>' +
                 '</div>';
