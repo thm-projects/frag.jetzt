@@ -64,6 +64,11 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {TagCloudModule} from 'angular-tag-cloud-module';
 import {SpacyService} from './services/http/spacy.service';
 
+import 'prismjs';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
+import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
+import 'katex/dist/katex.min.js';
+import 'emoji-toolkit/lib/js/joypixels.min.js';
 
 export function dialogClose(dialogResult: any) {
 }
