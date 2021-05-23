@@ -114,3 +114,10 @@ mat-dialog-content{
   max-height: 70vh!important;
   padding-top: 0px;
 }
+.float {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 1.5em;
+  height: 1.5em;
+}
