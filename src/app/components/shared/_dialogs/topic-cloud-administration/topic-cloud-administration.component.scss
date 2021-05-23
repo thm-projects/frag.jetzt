@@ -11,12 +11,12 @@
 .tp-radio-group {
   display: inline-flex;
   flex-direction: column;
-  color: var(--white)
+  color: var(--primary)
 }
 .tp-radio-button {
   margin: 5px;
-  color: var(--primary) ;
-  //margin-left: 16px;
+  color: var(--primary);
+  margin-left: 16px;
 }
 .tp-selected-value {
   margin: 15px 0;
