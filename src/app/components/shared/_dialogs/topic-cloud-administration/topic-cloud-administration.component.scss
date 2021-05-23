@@ -8,6 +8,20 @@
   margin-right: 16px;
 }
 
+.tp-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  color: var(--white)
+}
+.tp-radio-button {
+  margin: 5px;
+  color: var(--primary) ;
+  //margin-left: 16px;
+}
+.tp-selected-value {
+  margin: 15px 0;
+  color: var(--primary);
+}
 .primary {
   color: var(--primary);
   background: none;

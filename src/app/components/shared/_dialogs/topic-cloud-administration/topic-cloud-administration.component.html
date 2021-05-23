@@ -1,15 +1,17 @@
 <mat-icon (click)="hideuppdercase()" >settings </mat-icon>
-<!-- <mat-dialog-content> -->
-<ars-row ars-flex-box>
-  <mat-radio-group class = "tp-radio-group" [(ngModel)]="choice">
-    <mat-radio-button class = "tp-radio-button"
-                      *ngFor = "let tony of choix" [value] = "tony">
-      {{tony}}
-    </mat-radio-button>
-  </mat-radio-group>
-  
+<mat-dialog-content>
+<!-- <ars-row ars-flex-box> -->
+
+
   <mat-card *ngIf="show" class="color-surface">
+    <mat-radio-group class = "tp-radio-group" [(ngModel)]="choice">
+      <mat-radio-button class = "tp-radio-button"
+                        *ngFor = "let tony of choix" [value] = "tony">
+        {{tony}}
+      </mat-radio-button>
+    </mat-radio-group>
     <div>
+
       <mat-slide-toggle [(ngModel)]="considerVotes">
         {{'topic-cloud-dialog.consider-votes' | translate}}
       </mat-slide-toggle>
@@ -172,5 +174,5 @@
       </div>
     </mat-expansion-panel><br>
   </mat-accordion>
-<!-- </mat-dialog-content> -->
-</ars-row>
+</mat-dialog-content>
+<!-- </ars-row> -->
