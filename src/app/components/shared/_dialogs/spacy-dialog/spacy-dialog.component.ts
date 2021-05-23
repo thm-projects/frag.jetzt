@@ -23,6 +23,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
+  spacyKeywords: string[] = [];
   keywords: Keyword[] = [];
 
   constructor(
@@ -51,7 +52,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywords = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromSpacy = this.spacyKeywords;
       this.dialogRef.close(this.comment);
     };
   }
@@ -61,8 +63,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.analyse(this.commentBodyChecked, model)
       .subscribe(res => {
-        for(const word of res.words) {
+        this.spacyKeywords.length = 0;
+        for (const word of res.words) {
           if (word.tag.charAt(0) === 'N') {
+            this.spacyKeywords.push(word.text);
             words.push({
               word: word.text,
               completed: false,
@@ -73,6 +77,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         }
         this.keywords = words;
       }, () => {
+        this.spacyKeywords = [];
         this.keywords = [];
       });
   }
