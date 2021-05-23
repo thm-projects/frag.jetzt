@@ -1,7 +1,9 @@
 <ars-row ars-flex-box>
   <ars-row>
     <div class="lang-selection">
-    <button class="lang-btn" mat-button (click)="select.open()">
+    <button class="lang-btn" mat-button (click)="select.open()"
+            matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+            matTooltipShowDelay="750">
     <i class="material-icons">language</i>
       {{'spacy-dialog.' + (selectedLang === 'auto' ? 'auto' : languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
       <mat-select class="select-list" #select [(ngModel)]="selectedLang">
@@ -45,6 +47,7 @@
             <input [disabled]="true" matInput>
             <div [contentEditable]="true"
                       [spellcheck]="false"
+                      spellcheck="false"
                       (focus)="eventService.makeFocusOnInputTrue()"
                       style="margin-top:15px;width:100%;"
                       (blur)="eventService.makeFocusOnInputFalse()"

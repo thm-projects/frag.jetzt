@@ -79,8 +79,8 @@ export class CreateCommentComponent implements OnInit {
 
   openSpacyDialog(comment: Comment): void {
     this.checkSpellings(this.inputText).subscribe((res) => {
-      let words: string[] = this.inputText.trim().split(" ");
-      let errorQuotient = (res.matches.length * 100) / words.length;
+      const words: string[] = this.inputText.trim().split(' ');
+      const errorQuotient = (res.matches.length * 100) / words.length;
 
       if (errorQuotient <= 20) {
         let commentBodyChecked = this.inputText;
@@ -101,7 +101,9 @@ export class CreateCommentComponent implements OnInit {
 
         dialogRef.afterClosed()
           .subscribe(result => {
-            if (result) this.dialogRef.close(result);
+            if (result) {
+this.dialogRef.close(result);
+}
           });
       } else {
         this.dialogRef.close(comment);
@@ -139,7 +141,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
-    let wrongWords: string[] = [];
+    const wrongWords: string[] = [];
     commentBody.innerHTML = this.inputText;
     this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
       if(wordsCheck.matches.length > 0 ) {
@@ -158,14 +160,17 @@ export class CreateCommentComponent implements OnInit {
               let displayOptions= 3;
               let suggestionsHTML = '';
 
-              if(!suggestions.length)
+              if(!suggestions.length) {
                 suggestionsHTML = '<span style="color: black; display: block; text-align: center;">' + res.matches[i].message + '</span>';
+}
 
-              if(suggestions.length < displayOptions)
+              if(suggestions.length < displayOptions) {
                 displayOptions = suggestions.length;
+}
 
-              for (let i = 0; i < displayOptions; i++) {
-                suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[i].value + '</span>'
+              for (let j = 0; j < displayOptions; j++) {
+                // eslint-disable-next-line max-len
+                  suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[j].value + '</span>';
               }
 
               const replacement =
@@ -173,6 +178,7 @@ export class CreateCommentComponent implements OnInit {
                 '   <span style="text-decoration: underline wavy red; cursor: pointer;">' +
                       wrongWord +
                 '   </span>' +
+                // eslint-disable-next-line max-len
                 '     <div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
                         suggestionsHTML +
                 '     </div>' +
@@ -185,20 +191,20 @@ export class CreateCommentComponent implements OnInit {
 
           setTimeout(() => {
             Array.from(document.getElementsByClassName('markUp')).forEach(marked=>{
-              marked.addEventListener("click",()=>{
+              marked.addEventListener('click',()=>{
                 marked.outerHTML = marked.outerHTML.replace('display: none','display: block');
 
                 setTimeout(() => {
                   Array.from(document.getElementsByClassName('suggestions')).forEach(e => {
-                    e.addEventListener("click", () => {
+                    e.addEventListener('click', () => {
                       e.parentElement.parentElement.outerHTML = e.innerHTML;
                       this.inputText = commentBody.innerText;
                     });
                   });
-                }, 500)
+                }, 500);
               });
             });
-          }, 500)
+          }, 500);
         });
       }
     });
