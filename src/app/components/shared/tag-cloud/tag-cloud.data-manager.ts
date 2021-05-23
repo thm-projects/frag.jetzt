@@ -3,12 +3,22 @@ import { Observable, Subject } from 'rxjs';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { CloudParameters } from './tag-cloud.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface TagCloudDataTagEntry {
   weight: number;
   adjustedWeight: number;
   cachedVoteCount: number;
   comments: Comment[];
+}
+
+export interface TagCloudMetaData {
+  commentCount: number;
+  userCount: number;
+  tagCount: number;
+  minWeight: number;
+  maxWeight: number;
+  countPerWeight: TagCloudMetaDataCount;
 }
 
 /**
@@ -29,28 +39,16 @@ export type TagCloudMetaDataCount = [
   number  // w10
 ];
 
-
-export interface TagCloudMetaData {
-  commentCount: number;
-  userCount: number;
-  tagCount: number;
-  minWeight: number;
-  maxWeight: number;
-  countPerWeight: TagCloudMetaDataCount;
-}
-
-const demoData: TagCloudData = new Map<string, TagCloudDataTagEntry>();
-{
-  const TOPIC_NAME = 'Topic'; // TODO Language Support
-  for (let i = 10; i >= 1; i--) {
-    demoData.set(TOPIC_NAME + ' ' + i, {cachedVoteCount: 0, comments: [], weight: i, adjustedWeight: i - 1});
-  }
-}
-
 export enum TagCloudDataSupplyType {
   fullText,
   keywords,
   keywordsAndFullText
+}
+
+export enum TagCloudCalcWeightType {
+  byLength,
+  byVotes,
+  byLengthAndVotes
 }
 
 export class TagCloudDataManager {
@@ -62,10 +60,12 @@ export class TagCloudDataManager {
   private _wsCommentSubscription = null;
   private _roomId = null;
   private _supplyType = TagCloudDataSupplyType.keywordsAndFullText;
+  private _calcWeightType = TagCloudCalcWeightType.byLength;
   private _lastFetchedData: TagCloudData = null;
   private _lastFetchedComments: Comment[] = null;
   private _lastMetaData: TagCloudMetaData = null;
   private readonly _currentMetaData: TagCloudMetaData;
+  private _demoData: TagCloudData = null;
 
   constructor(private _wsCommentService: WsCommentServiceService,
               private _commentService: CommentService) {
@@ -108,6 +108,20 @@ export class TagCloudDataManager {
     this._wsCommentSubscription = null;
   }
 
+  updateDemoData(translate: TranslateService): void {
+    translate.get('tag-cloud.demo-data-topic').subscribe(text => {
+      this._demoData = new Map<string, TagCloudDataTagEntry>();
+      for (let i = 10; i >= 1; i--) {
+        this._demoData.set(text.replace('%d', '' + i), {
+          cachedVoteCount: 0,
+          comments: [],
+          weight: i,
+          adjustedWeight: i - 1
+        });
+      }
+    });
+  }
+
   get metaData(): TagCloudMetaData {
     return this._currentMetaData;
   }
@@ -125,6 +139,17 @@ export class TagCloudDataManager {
       this._supplyType = type;
       this.rebuildTagData();
     }
+  }
+
+  set weightCalcType(type: TagCloudCalcWeightType) {
+    if (type !== this._calcWeightType) {
+      this._calcWeightType = type;
+      this.rebuildTagData();
+    }
+  }
+
+  get weightCalcType(): TagCloudCalcWeightType {
+    return this._calcWeightType;
   }
 
   get demoActive(): boolean {
@@ -180,21 +205,19 @@ export class TagCloudDataManager {
       return;
     }
     let newData: TagCloudData;
-    //TODO SORT
     if (this._isAlphabeticallySorted) {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
-        .sort((a, b) => a[0].localeCompare(b[0])));
+        .sort(([aTag], [bTag]) => aTag.localeCompare(bTag)));
     } else {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
-        .sort((a, b) => b[1].weight - a[1].weight));
+        .sort(([_, aTagData], [__, bTagData]) => bTagData.weight - aTagData.weight));
     }
-    //TODO APPLY OTHER
     this._dataBus.next(newData);
   }
 
   private getCurrentData(): TagCloudData {
     if (this._isDemoActive) {
-      return demoData;
+      return this._demoData;
     }
     return this._lastFetchedData;
   }
@@ -211,14 +234,35 @@ export class TagCloudDataManager {
     });
   }
 
+  private calculateWeight(tagData: TagCloudDataTagEntry): number {
+    switch (this._calcWeightType) {
+      case TagCloudCalcWeightType.byVotes:
+        return tagData.cachedVoteCount;
+      case TagCloudCalcWeightType.byLengthAndVotes:
+        return tagData.cachedVoteCount / 10.0 + tagData.comments.length;
+      default:
+        return tagData.comments.length;
+    }
+  }
+
   private rebuildTagData() {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of this._lastFetchedComments) {
-      //TODO Check supply types
-      for (const keyword of comment.keywords) {
-        //TODO Check spelling
+      let keywords = comment.keywordsFromQuestioner;
+      if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
+        if (!keywords || !keywords.length) {
+          keywords = comment.keywordsFromSpacy;
+        }
+      } else if (this._supplyType === TagCloudDataSupplyType.fullText) {
+        keywords = comment.keywordsFromSpacy;
+      }
+      if (!keywords) {
+        keywords = [];
+      }
+      for (const keyword of keywords) {
+        //TODO Check spelling & check profanity
         let current = data.get(keyword);
         if (current === undefined) {
           current = {cachedVoteCount: 0, comments: [], weight: 0, adjustedWeight: 0};
@@ -232,7 +276,7 @@ export class TagCloudDataManager {
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {
-      value.weight = value.comments.length; //TODO START USING OTHER METHODS
+      value.weight = this.calculateWeight(value);
       minWeight = Math.min(value.weight, minWeight || value.weight);
       maxWeight = Math.max(value.weight, maxWeight || value.weight);
     }

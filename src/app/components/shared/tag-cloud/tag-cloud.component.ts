@@ -263,6 +263,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initTagCloud() {
     this.dataManager.activate(this.roomId);
+    this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
     setTimeout(() => {
       this.redraw();
@@ -313,19 +314,19 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = 0; i < 10; i++) {
       countFiler.push(this._currentSettings.cloudWeightSettings[i].maxVisibleElements);
     }
-    for (const entry of data) {
-      const amount = this.dataManager.demoActive ? 10 - entry[1].adjustedWeight : 1;
+    for (const [tag, tagData] of data) {
+      const amount = this.dataManager.demoActive ? 10 - tagData.adjustedWeight : 1;
       for (let i = 0; i < amount; i++) {
-        const remaining = countFiler[entry[1].adjustedWeight];
+        const remaining = countFiler[tagData.adjustedWeight];
         if (remaining !== 0) {
           if (remaining > 0) {
-            --countFiler[entry[1].adjustedWeight];
+            --countFiler[tagData.adjustedWeight];
           }
-          let rotation = this._currentSettings.cloudWeightSettings[entry[1].adjustedWeight].rotation;
+          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          newElements.push(new TagComment(null, true, null, null, rotation, entry[0], 'TODO', entry[1].weight));
+          newElements.push(new TagComment(null, true, null, null, rotation, tag, 'TODO', tagData.weight));
         }
       }
     }
