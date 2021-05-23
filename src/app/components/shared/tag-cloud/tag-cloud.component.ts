@@ -19,7 +19,7 @@ import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';
 import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
 import { ThemeService } from '../../../../theme/theme.service';
@@ -27,6 +27,7 @@ import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings }
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { TagCloudDataManager } from './tag-cloud.data-manager';
+import { Location } from '@angular/common';
 
 class CustomPosition implements Position {
   left: number;
@@ -161,6 +162,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   themeSubscription = null;
   readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
+  tag = null;
 
   constructor(private commentService: CommentService,
               private spacyService: SpacyService,
@@ -173,7 +175,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private route: ActivatedRoute,
               protected roomService: RoomService,
               private themeService: ThemeService,
-              private wsCommentService: WsCommentServiceService) {
+              private wsCommentService: WsCommentServiceService,
+              private router: Router,
+              private location: Location) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -506,4 +510,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     return 0;
   }
 
+  openTags(tag: CloudData){
+    //this.router.navigate(['../'], {relativeTo: this.route});
+    console.log(tag.text);
+    //waiting for tag-filtering to submit filters
+  }
 }
