@@ -29,9 +29,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
   enterIrrelevantWord = false;
   newBadWord: string = undefined;
   newIrrelevantWord: string = undefined;
-  choice : string ;   //should be sent back to tagCloud component
-  choix : string[]=['keyword', 'full-text', 'keyword & full-text'];
-
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
