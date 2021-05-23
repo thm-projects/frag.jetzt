@@ -78,9 +78,9 @@
           <mat-divider></mat-divider>
         </ars-row>
         <ars-row [height]="12"></ars-row>
-        <ars-row [overflow]="'auto'"
-                 style="max-height:calc( 100vh - 250px )">
-          <markdown [data]="commentBody.innerText"></markdown>
+        <ars-row>
+          <markdown katex emoji lineNumbers lineHighlight
+                    [data]="body"></markdown>
         </ars-row>
       </mat-tab>
     </mat-tab-group>
