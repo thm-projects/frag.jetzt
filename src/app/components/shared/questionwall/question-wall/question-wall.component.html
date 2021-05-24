@@ -6,7 +6,7 @@
           <button ars-btn (click)="leave()" matRipple aria-labelledby="back-lbl"><i>arrow_back</i></button>
         </ars-col>
       </ars-fill>
-      <ng-container *ngIf="room && room.closed">
+      <ng-container *ngIf="room && room.closed && !router.url.includes('/room-list/')">
         <mat-icon>block</mat-icon>
         <h2>{{'question-wall.questions-blocked'|translate}}</h2>
       </ng-container>

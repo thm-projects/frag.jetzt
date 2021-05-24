@@ -17,7 +17,7 @@
     </h2>
 
 
-    <ng-container *ngIf="room && room.closed">
+    <ng-container *ngIf="room && room.closed && !router.url.includes('/room-list/')">
       <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
