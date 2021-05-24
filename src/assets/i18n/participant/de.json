@@ -245,7 +245,8 @@
     "edit-profanity-list": "Zensurliste bearbeiten",
     "edit-blacklist-list": "Blacklistliste bearbeiten",
     "add-word": "Wort hinzufügen",
-    "enter-word": "Wort eingeben"
+    "enter-word": "Wort eingeben",
+    "settings": "Einstellungen"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",

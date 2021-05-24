@@ -250,7 +250,8 @@
     "edit-profanity-list": "Edit profanity list",
     "edit-blacklist-list": "Edit blacklist list",
     "add-word": "Add Word",
-    "enter-word": "Enter word"
+    "enter-word": "Enter word",
+    "settings": "Settings"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
