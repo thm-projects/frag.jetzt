@@ -1,6 +1,14 @@
 <mat-dialog-content>
-  <mat-card class="color-surface" *ngIf="showSettingsPanel">
-    <div>
+  <mat-accordion hideToggle>
+    <mat-expansion-panel class="color-surface">
+
+      <mat-expansion-panel-header class="color-surface">
+        <mat-icon class="color-on-surface" style="margin-right: 10px">settings</mat-icon>
+        <mat-panel-title>
+          Settings
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
       <mat-slide-toggle [(ngModel)]="considerVotes">
         {{'topic-cloud-dialog.consider-votes' | translate}}
       </mat-slide-toggle>
@@ -15,9 +23,9 @@
         <mat-expansion-panel class="color-background" (opened)="enterBadword = true; focusInput('bad-word-input')"
           (closed)="enterBadword = false">
           <mat-expansion-panel-header class="color-background">
-            <mat-panel-description>
+            <mat-panel-title>
               {{'topic-cloud-dialog.edit-profanity-list' | translate}}
-            </mat-panel-description>
+            </mat-panel-title>
           </mat-expansion-panel-header>
 
           <mat-form-field>
@@ -50,9 +58,9 @@
           (opened)="enterBlacklistWord = true; focusInput('blacklist-word-input')"
           (closed)="enterBlacklistWord = false">
           <mat-expansion-panel-header class="color-background">
-            <mat-panel-description>
+            <mat-panel-title>
               {{'topic-cloud-dialog.edit-blacklist-list' | translate}}
-            </mat-panel-description>
+            </mat-panel-title>
           </mat-expansion-panel-header>
 
           <mat-form-field>
@@ -82,14 +90,12 @@
         </mat-expansion-panel>
       </mat-accordion>
 
-    </div>
-  </mat-card>
+    </mat-expansion-panel>
 
-  <div fxLayout="row" style="margin-top: 10px;">
-    <button class="vertical-center" mat-icon-button (click)="showSettingsPanel=!showSettingsPanel">
-      <mat-icon>settings</mat-icon>
-    </button>
-    <mat-label fxLayoutAlign="center center" style="margin-left: 20px;">
+  </mat-accordion>
+
+  <div fxLayout="row">
+    <mat-label fxLayoutAlign="center center">
       <mat-icon>search</mat-icon>
     </mat-label>
     <div style="margin-left: 10px;">
