@@ -2,6 +2,11 @@
 @import 'theme/dark-theme/dark-theme';
 @import 'theme/blue-theme/blue-theme';
 @import 'theme/purple-theme/purple-theme';
+
+@import '~katex/dist/katex.min.css';
+@import '~prismjs/plugins/line-numbers/prism-line-numbers.css';
+@import '~prismjs/plugins/line-highlight/prism-line-highlight.css';
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only

@@ -24,6 +24,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   tags: string[];
   selectedTag: string;
   inputText = '';
+  body: string;
 
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'auto';
@@ -153,6 +154,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     } else if (this.user.role !== 3 && commentBody.innerText.length > 500) {
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
+    this.body = commentBody.innerText;
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
