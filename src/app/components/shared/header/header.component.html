@@ -17,36 +17,36 @@
     </h2>
 
 
-
-
     <ars-style-btn-material
       [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
       *ngIf="router.url.includes('tagcloud')"
       ars-flex-box>
-      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-      <button ars-btn
-              class="pseudo-button"
-              matRipple
-              matTooltip="{{'header.overview-question-tooltip' | translate}}">
-        <i>comment</i>
-        <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
-      </button>
-      <button ars-btn
-              class="pseudo-button"
-              matRipple
-              matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
-        <i>person</i>
-        <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
-      </button>
+      <ars-col ars-btn-wrp
+               [xp]="16"
+               [extra]="true">
+        <button ars-btn
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-question-tooltip' | translate}}">
+          <i>comment</i>
+          <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
+        </button>
+        <button ars-btn
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
+          <i>person</i>
+          <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+        </button>
 
-      <button ars-btn
-              class="pseudo-button"
-              matRipple
-              matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
-        <mat-icon svgIcon="comment_tag"
-                  class="oldtypo-h2 comment_tag-icon"></mat-icon>
-        <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
-      </button>
+        <button ars-btn
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
+          <mat-icon svgIcon="comment_tag"
+                    class="oldtypo-h2 comment_tag-icon"></mat-icon>
+          <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
+        </button>
       </ars-col>
     </ars-style-btn-material>
 
@@ -120,8 +120,15 @@
           <!-- Question board -->
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
-
-
+            <button mat-menu-item
+                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room))"
+                    tabindex="0"
+                    (click)="navigateCreateQuestion();">
+              <mat-icon>
+                add
+              </mat-icon>
+              <span>{{'header.create-question' | translate}}</span>
+            </button>
             <ng-container>
 
               <button mat-menu-item
@@ -262,7 +269,9 @@
                   *ngIf="router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudAdministration()">
-            <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
+            <mat-icon aria-hidden="false"
+                      aria-label="Control Icon">edit
+            </mat-icon>
             <span>{{'header.tag-cloud-administration' | translate}}</span>
           </button>
 
@@ -337,7 +346,6 @@
         <mat-icon class="color-warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
-
 
 
       <button mat-menu-item
