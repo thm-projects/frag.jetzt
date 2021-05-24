@@ -1,16 +1,6 @@
 <mat-dialog-content>
-
-  <mat-card *ngIf="show" class="color-surface">
-    <mat-radio-group class = "tp-radio-group" >
-
-      <p>  <mat-radio-button value="1" [(ngModel)]="keyword">{{'topic-cloud-dialog.keyword' | translate}}</mat-radio-button><br>
-        <mat-radio-button value="2" [(ngModel)]="full-text">{{'topic-cloud-dialog.full-text' | translate}}</mat-radio-button><br>
-        <mat-radio-button value="3" [(ngModel)]="keyword-full-text">{{'topic-cloud-dialog.keyword-full-text' | translate}}</mat-radio-button>
-      </p>
-
-    </mat-radio-group>
+  <mat-card class="color-surface" *ngIf="showSettingsPanel">
     <div>
-
       <mat-slide-toggle [(ngModel)]="considerVotes">
         {{'topic-cloud-dialog.consider-votes' | translate}}
       </mat-slide-toggle>
@@ -96,7 +86,10 @@
   </mat-card>
 
   <div fxLayout="row" style="margin-top: 10px;">
-    <mat-label fxLayoutAlign="center center">
+    <button class="vertical-center" mat-icon-button (click)="showSettingsPanel=!showSettingsPanel">
+      <mat-icon>settings</mat-icon>
+    </button>
+    <mat-label fxLayoutAlign="center center" style="margin-left: 20px;">
       <mat-icon>search</mat-icon>
     </mat-label>
     <div style="margin-left: 10px;">
@@ -114,7 +107,7 @@
       <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
       <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
     </div>
-    <div class="margin-left" fxLayoutAlign="center center">
+    <div class="margin-left vertical-center">
       <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button
               [matMenuTriggerFor]="sortMenu">
         <mat-icon>sort</mat-icon>
@@ -196,11 +189,4 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
-  <div class="float">
-    <button mat-fab color="primary" (click)="hideUppercase()">
-      <mat-icon>settings</mat-icon>
-    </button>
-  </div>
 </mat-dialog-content>
-
-

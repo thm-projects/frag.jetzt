@@ -11,7 +11,6 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 import { TopicCloudAdminData } from './TopicCloudAdminData';
 import { ActivatedRoute } from '@angular/router';
 
-
 @Component({
   selector: 'app-topic-cloud-administration',
   templateUrl: './topic-cloud-administration.component.html',
@@ -35,6 +34,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   filteredKeywords: Keyword[] = [];
   showBadWordList = false;
   showBlacklistWordList = false;
+  showSettingsPanel = false;
   userRole: UserRole;
   keywords: Keyword[] = [
     {
@@ -312,14 +312,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   refreshAllLists(){
     this.searchKeyword();
-  }
-
-  hideUppercase(){
-    this.show = !this.show;
-    if(this.show)
-    this.buttonSetting = 'Hide';
-    else
-    this.buttonSetting = 'Show';
   }
 }
 
