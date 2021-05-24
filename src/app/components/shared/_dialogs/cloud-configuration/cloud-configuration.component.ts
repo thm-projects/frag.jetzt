@@ -30,52 +30,62 @@ export class CloudConfigurationComponent implements OnInit {
     {
       maxTagNumber: 20,
       tagColor: '#8800ff',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 20,
       tagColor: '#ff00ff',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0,
     },
     {
       maxTagNumber: 17,
       tagColor: '#ffea00',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 15,
       tagColor: '#00CC99',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 12,
       tagColor: '#00CC66',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 10,
       tagColor: '#0033FF',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 8,
       tagColor: '#CC0099',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 7,
       tagColor: '#FF3399',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 6,
       tagColor: '#FFFF00',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
     {
       maxTagNumber: 5,
       tagColor: '#FF0000',
-      actualTagNumber: 5
+      actualTagNumber: 5,
+      rotationAngle: 0
     },
   ];
 
@@ -89,7 +99,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters = this.parent.currentCloudParameters;
     this.defaultCloudParameters = this.parent.currentCloudParameters;
     this.parent.dataManager.getMetaData().subscribe((value)=>{
-      this.countPerWeight = value.countPerWeight; 
+      this.countPerWeight = value.countPerWeight;
       this.parseArrayToJsonWeightClasses();
     })
     this.extendedView = false;

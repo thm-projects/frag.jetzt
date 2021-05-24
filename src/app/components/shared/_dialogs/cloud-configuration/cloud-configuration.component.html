@@ -123,6 +123,12 @@
                     [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                     [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
       </div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text">{{'tag-cloud-config.rotate-weight' | translate}}</mat-label>
+        <mat-slider [value]="weightClass.rotationAngle" min="-180" max="180" step="1"
+                    [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+                    [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
+      </div>
     </div>
   </div>
   <div class="cloud-configuration-form" fxLayout="column" *ngIf="cleanUpView">
@@ -146,14 +152,6 @@
         <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
           <mat-slide-toggle matTooltip="{{'tag-cloud-config.alphabetical-sorting-tooltip' | translate}}" [(ngModel)]="cloudParameters.sortAlphabetically" [checked]="cloudParameters.sortAlphabetically" [ngModelOptions]="{standalone: true}"(change)="valueChanged()">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
         </div>
-      </div>
-      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-        <mat-label class="label-text" id=rotation>{{'tag-cloud-config.rotation' | translate}}</mat-label>
-        <mat-slider
-        matTooltip="{{'tag-cloud-config.rotation-tooltip' | translate}}" 
-                    [value]="rotation" min="0" max="360" step="10"
-                    [(ngModel)]="rotation" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
-                    [thumbLabel]="true"></mat-slider>
       </div>
       <div class="input-row" fxLayout="column" fxLayoutGap="5px">
         <mat-form-field fxFlex fxLayout.xs="column">

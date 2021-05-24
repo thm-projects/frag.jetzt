@@ -313,6 +313,8 @@
     "notation-tooltip": "Einstellung der Schreibweise: klein, groß, standard",
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "rotation-tooltip": "Einige Einträge zufällig um x Grad drehen",
-    "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen"
+    "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
+    "rotate-weight": "Einige Einträge dieser Gewichtsklasse zufällig um x Grad drehen",
+    "rotate-weight-tooltip": "Einige zufällig ausgewählte Einträge um diesen Winkel drehen"
   }
 }

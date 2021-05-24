@@ -318,6 +318,8 @@
     "notation-tooltip": "Notation-Settings: small, large, standard",
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
     "rotation-tooltip": "rotate some entries randomly by x degrees",
-    "highestWeight-tooltip": "show x tags with the highest weight"
+    "highestWeight-tooltip": "show x tags with the highest weight",
+    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
+    "rotate-weight-tooltip":"Rotate some randomly selected entries by this angle"
   }
 }
