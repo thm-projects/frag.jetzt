@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { LanguagetoolService, Language } from '../../../../services/http/languag
   templateUrl: './create-comment.component.html',
   styleUrls: ['./create-comment.component.scss']
 })
-export class CreateCommentComponent implements OnInit {
+export class CreateCommentComponent implements OnInit, OnDestroy {
 
   comment: Comment;
 
@@ -47,20 +47,22 @@ export class CreateCommentComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     setTimeout(() => {
       document.getElementById('answer-input').focus();
-      document.addEventListener('click', this.onDocumentClick)
+      document.addEventListener('click', this.onDocumentClick);
     }, 0);
   }
 
   onDocumentClick(e) {
     const container = document.getElementsByClassName('dropdownBlock');
     Array.prototype.forEach.call(container, (elem) => {
-      if (!elem.contains(e.target) && (!(e.target as Node).parentElement.classList.contains('markUp') || (e.target as HTMLElement).dataset.id !== ((elem as Node).parentElement as HTMLElement).dataset.id))
+      if (!elem.contains(e.target) && (!(e.target as Node).parentElement.classList.contains('markUp')
+        || (e.target as HTMLElement).dataset.id !== ((elem as Node).parentElement as HTMLElement).dataset.id)) {
         (elem as HTMLElement).style.display = 'none';
+      }
     });
   }
 
   ngOnDestroy() {
-    document.removeEventListener('click', this.onDocumentClick)
+    document.removeEventListener('click', this.onDocumentClick);
   }
 
   onNoClick(): void {
@@ -187,7 +189,7 @@ export class CreateCommentComponent implements OnInit {
               }
 
               const replacement =
-                '<div class="markUp" data-id="' + i + '" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
+                '<div class="markUp" data-id="'+i+'" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
                 '   <span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
                 wrongWord +
                 '   </span>' +
@@ -205,7 +207,7 @@ export class CreateCommentComponent implements OnInit {
           setTimeout(() => {
             Array.from(document.getElementsByClassName('markUp')).forEach(marked => {
               marked.addEventListener('click', () => {
-                ((marked as HTMLElement).lastChild as HTMLElement).style.display = 'block'
+                ((marked as HTMLElement).lastChild as HTMLElement).style.display = 'block';
                 setTimeout(() => {
                   Array.from(document.getElementsByClassName('suggestions')).forEach(e => {
                     e.addEventListener('click', () => {
