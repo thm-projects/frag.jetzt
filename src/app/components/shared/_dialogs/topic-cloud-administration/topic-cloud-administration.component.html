@@ -8,6 +8,24 @@
           {{'topic-cloud-dialog.settings' | translate}}
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <mat-card style="background: none; margin-bottom: 10px;">
+        <mat-label class="color-on-surface">
+          {{"topic-cloud-dialog.select-choice" | translate}}
+        </mat-label>
+        <mat-radio-group
+        class="radio-button-group"
+        [(ngModel)]="sentToSpacyChoice">
+          <mat-radio-button checked="true" value="keyword" class="radio-button-item">
+            {{"topic-cloud-dialog.keyword" | translate}}
+          </mat-radio-button>
+          <mat-radio-button value="full-text" class="radio-button-item">
+            {{"topic-cloud-dialog.full-text" | translate}}
+          </mat-radio-button>
+          <mat-radio-button value="keyword-full-text" class="color-on-surface">
+            {{"topic-cloud-dialog.both" | translate}}
+          </mat-radio-button>
+        </mat-radio-group>
+      </mat-card>
 
       <mat-slide-toggle [(ngModel)]="considerVotes">
         {{'topic-cloud-dialog.consider-votes' | translate}}

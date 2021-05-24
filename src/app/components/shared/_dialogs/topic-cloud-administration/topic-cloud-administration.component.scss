@@ -118,3 +118,18 @@ mat-panel-title, mat-panel-description {
   margin-top: auto;
   margin-bottom: auto;
 }
+
+.radio-button-item{
+  margin-bottom: 7px;
+  color: var(--on-surface);
+}
+
+.radio-button-group{
+  display: flex;
+  flex-direction: column;
+  margin: 15px 0;
+}
+
+mat-dialog-content{
+  max-height: initial;
+}

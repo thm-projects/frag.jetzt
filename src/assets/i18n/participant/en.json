@@ -251,7 +251,11 @@
     "edit-blacklist-list": "Edit blacklist list",
     "add-word": "Add Word",
     "enter-word": "Enter word",
-    "settings": "Settings"
+    "settings": "Settings",
+    "keyword": "Keyword",
+    "full-text": "Full-text",
+    "both": "beides",
+    "select-choice": "select one"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

@@ -35,6 +35,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showBadWordList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
+  sentToSpacyChoice: string = undefined;
   userRole: UserRole;
   keywords: Keyword[] = [
     {

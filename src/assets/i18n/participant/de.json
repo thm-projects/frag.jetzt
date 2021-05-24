@@ -246,7 +246,11 @@
     "edit-blacklist-list": "Blacklistliste bearbeiten",
     "add-word": "Wort hinzufügen",
     "enter-word": "Wort eingeben",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "keyword": "Stichwort",
+    "full-text": "Voller Text",
+    "both": "Both",
+    "select-choice": "Wählen Sie aus"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
