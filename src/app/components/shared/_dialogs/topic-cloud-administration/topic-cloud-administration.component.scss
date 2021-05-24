@@ -58,7 +58,7 @@ mat-list-item:hover {
   color: var(--on-surface);
 }
 
-.search{
+.search {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
   border: none;
@@ -130,6 +130,7 @@ mat-panel-title, mat-panel-description {
   margin: 15px 0;
 }
 
-mat-dialog-content{
-  max-height: initial;
+mat-dialog-content {
+  max-height: 80vh!important;
 }
+
