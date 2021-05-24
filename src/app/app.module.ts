@@ -125,7 +125,13 @@ export function initializeApp(appConfig: AppConfig) {
       markedOptions: {
         provide: MarkedOptions,
         useValue: {
-          sanitize: true
+          pedantic: false,
+          gfm: true,
+          breaks: true,
+          sanitize: false,
+          smartLists: true,
+          smartypants: true,
+          xhtml: false
         }
       }
     }),
