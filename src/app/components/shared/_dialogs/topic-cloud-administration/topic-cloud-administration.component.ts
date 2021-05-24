@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { TopicCloudAdminData } from './TopicCloudAdminData';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -33,6 +34,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   filteredKeywords: Keyword[] = [];
   showBadWordList = false;
   showBlacklistWordList = false;
+  userRole: UserRole;
   keywords: Keyword[] = [
     {
       keywordID: 1,
@@ -100,6 +102,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private translateService: TranslateService,
     private langService: LanguageService,
+    private route: ActivatedRoute,
     private topicCloudAdminService: TopicCloudAdminService) {
 
       this.langService.langEmitter.subscribe(lang => {
@@ -215,8 +218,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   confirmEdit(key: Keyword): void {
     for (const keyword of this.keywords){
       if (keyword.keywordID === key.keywordID) {
-        if (this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase())){
-          this.openConfirmDialog(keyword, 'merge-message', 'merge');
+        const key2 = this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase());
+        if (key2){
+          this.openConfirmDialog(keyword, key2, 'merge-message', 'merge');
         } else {
           keyword.keyword = this.newKeyword.trim();
         }
@@ -231,7 +235,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  openConfirmDialog(keyword: Keyword, msg: string, _confirmLabel: string) {
+  openConfirmDialog(keyword: Keyword, key2: Keyword, msg: string, _confirmLabel: string) {
     const translationPart = 'topic-cloud-confirm-dialog.'+msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
       data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
@@ -241,7 +245,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       if (result === 'delete') {
         this.deleteKeyword(keyword);
       } else if (result === 'merge') {
-        this.mergeKeywords(keyword);
+        this.mergeKeywords(keyword, key2);
       }
     });
   }
@@ -257,8 +261,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  mergeKeywords(key1: Keyword) {
-    const key2 = this.checkIfKeywordExists(key1.keyword.trim().toLowerCase());
+  mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
       key1.questions.map(question => {
         key2.questions.push(question);
