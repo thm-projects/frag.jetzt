@@ -1,4 +1,6 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
+import { Room } from '../../../../models/room';
+import { RoomService } from '../../../../services/http/room.service';
 
 /**
  * Available confirm button types.
@@ -90,4 +92,5 @@ export class DialogActionButtonsComponent implements OnInit {
       this.cancelButtonClickAction();
     }
   }
+ 
 }

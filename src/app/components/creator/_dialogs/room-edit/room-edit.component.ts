@@ -19,6 +19,7 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 })
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
+  check: boolean = false;
 
   roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
 
@@ -69,6 +70,9 @@ export class RoomEditComponent implements OnInit {
   }
 
   save(): void {
+    this.editRoom.closed = this.check;
+    console.log(this.check);
+    this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
         && !this.roomNameFormControl.hasError('minlength')
         && !this.roomNameFormControl.hasError('maxlength')) {
@@ -90,6 +94,18 @@ export class RoomEditComponent implements OnInit {
    */
   buildSaveActionCallback(): () => void {
     return () => this.save();
+  }
+  public blockedQuestions() {
+    var checkBox = <HTMLInputElement> document.getElementById("myCheck");
+    var save = document.getElementById("save");
+    if(checkBox.checked){
+      console.log(checkBox.checked);
+      // flip state if clicked
+      this.editRoom.closed = !this.editRoom.closed;
+      this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
+    }
+    console.log(checkBox.checked);
+    
   }
   
 }
