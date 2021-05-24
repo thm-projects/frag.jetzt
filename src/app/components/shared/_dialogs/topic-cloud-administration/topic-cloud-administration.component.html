@@ -116,9 +116,9 @@
     <mat-label fxLayoutAlign="center center">
       <mat-icon>search</mat-icon>
     </mat-label>
-    <div style="margin-left: 10px;">
+    <div style="margin-left: 10px; margin-top: 6px;">
       <mat-form-field [ngClass]="{'search': searchMode}">
-        <input #searchBox id="searchBox" (input)="searchKeyword()" [(ngModel)]="searchedKeyword" matInput type="text"
+        <input #searchBox class="searchBox" (input)="searchKeyword()" [(ngModel)]="searchedKeyword" matInput type="text"
           placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
         <button *ngIf="searchedKeyword" (click)="searchedKeyword = ''; searchMode = false;" mat-button matSuffix
           mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
@@ -191,7 +191,7 @@
           <mat-icon class="primary">edit</mat-icon>
         </button>
         <button class="margin-right" mat-icon-button style="align-self:flex-end;"
-          (click)="openConfirmDialog(keyword, 'delete-message', 'delete')">
+          (click)="openConfirmDialog(keyword, undefined, 'delete-message', 'delete')">
           <mat-icon class="red">delete</mat-icon>
         </button>
       </div>
