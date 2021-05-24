@@ -7,10 +7,8 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { FormControl } from '@angular/forms';
-import { SpacyService } from '../../../../services/http/spacy.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { Validators } from "@angular/forms";
+
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -272,7 +270,7 @@ export class TopicCloudAdministrationComponent implements OnInit {
     this.searchKeyword();
   }
 
-  hideuppdercase(){
+  hideUppercase(){
     this.show = !this.show;
     if(this.show)
     this.buttonSetting = 'Hide';

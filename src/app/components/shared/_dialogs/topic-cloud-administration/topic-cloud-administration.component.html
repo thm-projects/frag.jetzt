@@ -1,17 +1,3 @@
-<!--button class="float"><span><mat-icon (click)="hideuppdercase()" >settings </mat-icon></span></button-->
-<!--nav class="float" mfb-menu position="br" effect="zoomin" label="hover here"
-     active-icon="ion-edit" resting-icon="ion-plus-round"
-     toggling-method="click">
-  <button mfb-button icon="paper-airplane" label="menu item">tt</button>
-  <button  icon="settings" class="float"><span><mat-icon (click)="hideuppdercase()">setting</mat-icon></span></button>
-</nav-->
-<!--div>
-  <button
-          class="mat-focus-indicator mat-tooltip-trigger fab_add_comment mat-icon-button mat-fab mat-button-base mat-accent ng-star-inserted">
-    <span class="mat-button-wrapper"> <mat-icon (click)="hideuppdercase()" >settings </mat-icon></span><span
-    matripple="" class="mat-ripple mat-button-ripple mat-button-ripple-round" ></span><span class="mat-button-focus-overlay"></span></button>
-</div-->
-
 <mat-dialog-content>
 
   <mat-card *ngIf="show" class="color-surface">
@@ -187,10 +173,11 @@
       </div>
     </mat-expansion-panel>
   </mat-accordion>
+  <div class="float">
+    <button mat-fab color="primary" (click)="hideUppercase()">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
 </mat-dialog-content>
-<div class="float">
-  <button mat-fab color="primary" (click)="hideuppdercase()">
-    <mat-icon>settings</mat-icon>
-  </button>
-</div>
+
 
