@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { TopicCloudAdminData } from './TopicCloudAdminData';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -35,7 +34,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showBadWordList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
-  sentToSpacyChoice: string = undefined;
+  sentToSpacyChoice = 'keyword';
   userRole: UserRole;
   keywords: Keyword[] = [
     {
@@ -104,7 +103,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private translateService: TranslateService,
     private langService: LanguageService,
-    private route: ActivatedRoute,
     private topicCloudAdminService: TopicCloudAdminService) {
 
       this.langService.langEmitter.subscribe(lang => {
