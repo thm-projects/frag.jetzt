@@ -215,7 +215,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         this.configurationOpen = !this.configurationOpen;
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
-          minWidth: '50%'
+          minWidth: '50%',
+          minHeight: '50%'
         });
       }
     });

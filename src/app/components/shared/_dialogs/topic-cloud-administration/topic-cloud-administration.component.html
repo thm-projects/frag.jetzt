@@ -1,6 +1,16 @@
 <mat-dialog-content>
-  <mat-card class="color-surface">
+
+  <mat-card *ngIf="show" class="color-surface">
+    <mat-radio-group class = "tp-radio-group" >
+
+      <p>  <mat-radio-button value="1" [(ngModel)]="keyword">{{'topic-cloud-dialog.keyword' | translate}}</mat-radio-button><br>
+        <mat-radio-button value="2" [(ngModel)]="full-text">{{'topic-cloud-dialog.full-text' | translate}}</mat-radio-button><br>
+        <mat-radio-button value="3" [(ngModel)]="keyword-full-text">{{'topic-cloud-dialog.keyword-full-text' | translate}}</mat-radio-button>
+      </p>
+
+    </mat-radio-group>
     <div>
+
       <mat-slide-toggle [(ngModel)]="considerVotes">
         {{'topic-cloud-dialog.consider-votes' | translate}}
       </mat-slide-toggle>
@@ -184,6 +194,13 @@
             | translate}}</button>
         </div>
       </div>
-    </mat-expansion-panel><br>
+    </mat-expansion-panel>
   </mat-accordion>
+  <div class="float">
+    <button mat-fab color="primary" (click)="hideUppercase()">
+      <mat-icon>settings</mat-icon>
+    </button>
+  </div>
 </mat-dialog-content>
+
+

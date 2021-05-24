@@ -113,3 +113,15 @@ mat-panel-title, mat-panel-description {
 .new-Badword .mat-form-field + .mat-form-field {
   margin-left: 8px;
 }
+mat-dialog-content{
+  max-height: 70vh!important;
+  padding-top: 0px;
+}
+.float {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  width: 3em;
+  height: 3em;
+  color: ghostwhite;
+}
