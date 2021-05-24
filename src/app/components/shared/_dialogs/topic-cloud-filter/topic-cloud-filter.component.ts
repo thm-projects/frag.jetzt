@@ -7,6 +7,9 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommentFilterOptions } from '../../../../utils/filter-options';
+import { CommentService } from '../../../../services/http/comment.service';
+import { RoomService } from '../../../../services/http/room.service';
+import { Comment } from '../../../../models/comment';
 
 @Component({
   selector: 'app-topic-cloud-filter',
@@ -21,7 +24,11 @@ export class TopicCloudFilterComponent implements OnInit {
   continueFilter = 'continueWithCurr';
 
   tmpFilter : CommentFilterOptions;
+  allCommentCount:number;
+  comments: Comment[] = [];
+  roomId: string;
   
+ 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
               public notificationService: NotificationService,
@@ -29,6 +36,8 @@ export class TopicCloudFilterComponent implements OnInit {
               protected langService: LanguageService,
               private route: ActivatedRoute,
               private router: Router,
+              protected roomService: RoomService,
+              private commentService: CommentService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
@@ -38,6 +47,16 @@ export class TopicCloudFilterComponent implements OnInit {
     this.translationService.use(localStorage.getItem('currentLang'));
     this.tmpFilter = CommentFilterOptions.readFilter();
     localStorage.setItem("filtertmp", JSON.stringify(this.tmpFilter));
+    this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+      this.roomId = room.id;
+      });
+
+     
+    this.commentService.getAckComments(this.roomId)
+            .subscribe(comments => {
+              this.comments = comments;
+            });
+                this.allCommentCount =this.comments.length;
   }
 
   closeDialog(): void {

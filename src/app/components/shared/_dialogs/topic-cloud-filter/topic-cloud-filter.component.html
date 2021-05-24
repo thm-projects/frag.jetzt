@@ -4,13 +4,11 @@
 
 <mat-divider></mat-divider>
   <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
-    <mat-radio-button value="continueWithAll">{{'content.continue-with-all-questions' | translate}}</mat-radio-button>
+    <mat-radio-button value="continueWithAll">{{allCommentCount}} {{'content.continue-with-all-questions' | translate}}</mat-radio-button>
     <mat-radio-button checked="true" value="continueWithCurr">{{'content.continue-with-current-questions' | translate}}</mat-radio-button>
     <mat-radio-button value="continueWithAllFromNow">{{'content.continue-with-all-questions-from-now' | translate}}</mat-radio-button>
   </mat-radio-group>
-
-
-<app-dialog-action-buttons
+  <app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
   buttonIcon="cloud"
