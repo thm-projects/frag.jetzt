@@ -102,6 +102,7 @@
     </div>
     <h2>{{'tag-cloud-config.weight-class-settings' | translate}}</h2>
     <div *ngFor="let weightClass of weightClasses" class="weight-class-setting">
+      <div class ="weight-class-setting-content">
       <h3 class="weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</h3>
       <div class="input-row" fxLayout="column" fxLayoutGap="5px">
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
@@ -117,8 +118,9 @@
           </div>
         </div>
       </div>
-      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-        <mat-label class="label-text">{{'tag-cloud-config.weight-number' | translate}}</mat-label>
+      
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
+        <mat-label class="label-text" >{{'tag-cloud-config.weight-number' | translate}}</mat-label>
         <mat-slider [value]="weightClass.maxTagNumber" min="0" [max]="weightClass.actualTagNumber" step="1"
                     [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                     [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
@@ -130,6 +132,7 @@
                     [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
       </div>
     </div>
+  </div>
   </div>
   <div class="cloud-configuration-form" fxLayout="column" *ngIf="cleanUpView">
     <div  class="weight-class-button button-row">

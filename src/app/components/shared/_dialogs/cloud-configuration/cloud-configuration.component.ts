@@ -101,6 +101,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.dataManager.getMetaData().subscribe((value)=>{
       this.countPerWeight = value.countPerWeight;
       this.parseArrayToJsonWeightClasses();
+      
     })
     this.extendedView = false;
     this.cleanUpView = false;
@@ -125,9 +126,10 @@ export class CloudConfigurationComponent implements OnInit {
 
   parseArrayToJsonWeightClasses() {
     this.cloudParameters.cloudWeightSettings.forEach((element, i) => {
-       this.weightClasses[i].maxTagNumber = element.maxVisibleElements;
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
+        this.weightClasses[i].rotationAngle = element.rotation;
+
     });
   }
 
@@ -135,6 +137,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.weightClasses.forEach((element, i) => {
       this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber;
       this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
+      this.cloudParameters.cloudWeightSettings[i].rotation = element.rotationAngle;
     });
   }
 
@@ -145,7 +148,6 @@ export class CloudConfigurationComponent implements OnInit {
   }
 
   cancel() {
-    console.log("Parameterliste: " + JSON.stringify(this.cloudParameters));
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
@@ -176,5 +178,6 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters.textTransform = val;
     this.valueChanged();
   }
+
 
 }
