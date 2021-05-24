@@ -256,10 +256,11 @@
       <div
         fxLayout="column"
         fxLayoutAlign="center"
-        *ngIf="isStudent && !disabled"
+        *ngIf="isStudent"
         [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
         <button mat-icon-button
                 (click)="voteUp(comment)"
+                *ngIf="!disabled"
                 matTooltip="{{ 'comment-page.vote-up' | translate }}"
                 tabindex="0"
                 attr.aria-labelledby="comment_vote_up{{ comment.id }}">
@@ -270,6 +271,7 @@
         <span class="score">{{comment.score}}</span>
         <button mat-icon-button
                 (click)="voteDown(comment)"
+                *ngIf="!disabled"
                 matTooltip="{{ 'comment-page.vote-down' | translate }}"
                 tabindex="0"
                 attr.aria-labelledby="comment_vote_down{{ comment.id }}">
