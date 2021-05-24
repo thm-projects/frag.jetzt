@@ -30,7 +30,7 @@ export class CreateCommentComponent implements OnInit {
 
   bodyForm = new FormControl('', [Validators.required]);
 
-  @ViewChild('commentBody', { static: true })commentBody: HTMLDivElement;
+  @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
 
   constructor(
     private notification: NotificationService,
@@ -47,7 +47,20 @@ export class CreateCommentComponent implements OnInit {
     this.translateService.use(localStorage.getItem('currentLang'));
     setTimeout(() => {
       document.getElementById('answer-input').focus();
+      document.addEventListener('click', this.onDocumentClick)
     }, 0);
+  }
+
+  onDocumentClick(e) {
+    const container = document.getElementsByClassName('dropdownBlock');
+    Array.prototype.forEach.call(container, (elem) => {
+      if (!elem.contains(e.target) && (!(e.target as Node).parentElement.classList.contains('markUp') || (e.target as HTMLElement).dataset.id !== ((elem as Node).parentElement as HTMLElement).dataset.id))
+        (elem as HTMLElement).style.display = 'none';
+    });
+  }
+
+  ngOnDestroy() {
+    document.removeEventListener('click', this.onDocumentClick)
   }
 
   onNoClick(): void {
@@ -102,8 +115,8 @@ export class CreateCommentComponent implements OnInit {
         dialogRef.afterClosed()
           .subscribe(result => {
             if (result) {
-this.dialogRef.close(result);
-}
+              this.dialogRef.close(result);
+            }
           });
       } else {
         this.dialogRef.close(comment);
@@ -133,9 +146,9 @@ this.dialogRef.close(result);
 
   maxLength(commentBody: HTMLDivElement): void {
     this.inputText = commentBody.innerText;
-    if(this.user.role === 3 && commentBody.innerText.length > 1000) {
+    if (this.user.role === 3 && commentBody.innerText.length > 1000) {
       commentBody.innerText = commentBody.innerText.slice(0, 1000);
-    } else if(this.user.role !== 3 && commentBody.innerText.length > 500){
+    } else if (this.user.role !== 3 && commentBody.innerText.length > 500) {
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
   }
@@ -144,43 +157,43 @@ this.dialogRef.close(result);
     const wrongWords: string[] = [];
     commentBody.innerHTML = this.inputText;
     this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
-      if(wordsCheck.matches.length > 0 ) {
+      if (wordsCheck.matches.length > 0) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
           wrongWords.push(wrongWord);
         });
 
         this.checkSpellings(commentBody.innerHTML).subscribe((res) => {
-          for(let i = res.matches.length - 1; i >= 0; i--) {
+          for (let i = res.matches.length - 1; i >= 0; i--) {
             const wrongWord = commentBody.innerHTML
               .slice(res.matches[i].offset, res.matches[i].offset + res.matches[i].length);
 
             if (wrongWords.includes(wrongWord)) {
               const suggestions: any[] = res.matches[i].replacements;
-              let displayOptions= 3;
+              let displayOptions = 3;
               let suggestionsHTML = '';
 
-              if(!suggestions.length) {
+              if (!suggestions.length) {
                 suggestionsHTML = '<span style="color: black; display: block; text-align: center;">' + res.matches[i].message + '</span>';
-}
+              }
 
-              if(suggestions.length < displayOptions) {
+              if (suggestions.length < displayOptions) {
                 displayOptions = suggestions.length;
-}
+              }
 
               for (let j = 0; j < displayOptions; j++) {
                 // eslint-disable-next-line max-len
-                  suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[j].value + '</span>';
+                suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[j].value + '</span>';
               }
 
               const replacement =
-                '<div class="markUp" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
-                '   <span style="text-decoration: underline wavy red; cursor: pointer;">' +
-                      wrongWord +
+                '<div class="markUp" data-id="' + i + '" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
+                '   <span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
+                wrongWord +
                 '   </span>' +
                 // eslint-disable-next-line max-len
                 '     <div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
-                        suggestionsHTML +
+                suggestionsHTML +
                 '     </div>' +
                 '</div>';
 
@@ -190,10 +203,9 @@ this.dialogRef.close(result);
           }
 
           setTimeout(() => {
-            Array.from(document.getElementsByClassName('markUp')).forEach(marked=>{
-              marked.addEventListener('click',()=>{
-                marked.outerHTML = marked.outerHTML.replace('display: none','display: block');
-
+            Array.from(document.getElementsByClassName('markUp')).forEach(marked => {
+              marked.addEventListener('click', () => {
+                ((marked as HTMLElement).lastChild as HTMLElement).style.display = 'block'
                 setTimeout(() => {
                   Array.from(document.getElementsByClassName('suggestions')).forEach(e => {
                     e.addEventListener('click', () => {
