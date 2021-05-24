@@ -16,11 +16,11 @@ import { CommentFilterOptions } from '../../../../utils/filter-options';
 export class TopicCloudFilterComponent implements OnInit {
   @Input() filteredComments: any;
   @Input() commentsFilteredByTime: any;
+  @Input() shortId: string;
 
   continueFilter = 'continueWithCurr';
 
   tmpFilter : CommentFilterOptions;
-  shortId: string;
   
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -38,9 +38,6 @@ export class TopicCloudFilterComponent implements OnInit {
     this.translationService.use(localStorage.getItem('currentLang'));
     this.tmpFilter = CommentFilterOptions.readFilter();
     localStorage.setItem("filtertmp", JSON.stringify(this.tmpFilter));
-    this.route.params.subscribe(params => {
-      this.shortId = params['shortId'];
-    });
   }
 
   closeDialog(): void {

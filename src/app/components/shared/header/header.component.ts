@@ -306,6 +306,7 @@ export class HeaderComponent implements OnInit {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
       autoFocus: false
     });
+    confirmDialogRef.componentInstance.shortId = this.shortId;
   }
 
   public navigateTopicCloudConfig() {
