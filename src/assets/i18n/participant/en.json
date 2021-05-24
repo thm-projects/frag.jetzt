@@ -256,8 +256,8 @@
     "settings": "Settings",
     "keyword": "Keyword",
     "full-text": "Full-text",
-    "both": "beides",
-    "select-choice": "select one"
+    "both": "Both",
+    "select-choice": "Select one"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
