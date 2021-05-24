@@ -83,9 +83,10 @@
     "questions-blocked": "Fragen sind deaktiviert!"
   },
   "spacy-dialog":{
-    "german": "Deutsch",
-    "english": "Englisch",
-    "french": "Französisch",
+    "auto": "auto",
+    "de": "Deutsch",
+    "en": "Englisch",
+    "fr": "Französisch",
     "empty-nouns": "Keine Nomen enthalten",
     "select-all": "Alles auswählen"
   },
@@ -180,7 +181,8 @@
     "edit-favorite": "Für einen Bonus markieren",
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
-    "edit-bookmark-reset": "Markierung zurücksetzen"
+    "edit-bookmark-reset": "Markierung zurücksetzen",
+    "grammar-check": "Rechtschreibprüfung"
   },
   "content": {
     "abort": "Abbrechen",

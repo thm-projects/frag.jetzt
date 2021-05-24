@@ -21,7 +21,8 @@
       </div>
       <mat-divider></mat-divider>
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <markdown [data]="room.description.trim()"></markdown>
+        <markdown class="images" katex emoji lineNumbers lineHighlight
+          [data]="room.description.trim()"></markdown>
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError } from 'rxjs/operators';
 
+export type Model = 'de' | 'en' | 'fr';
+
 export class Result {
   arcs: Arc[];
   words: Word[];

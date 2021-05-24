@@ -88,9 +88,10 @@
     "delete": "Löschen"
   },
   "spacy-dialog":{
-    "german": "Deutsch",
-    "english": "Englisch",
-    "french": "Französisch",
+    "auto": "auto",
+    "de": "Deutsch",
+    "en": "Englisch",
+    "fr": "Französisch",
     "empty-nouns": "Keine Nomen enthalten",
     "select-all": "Alles auswählen"
   },
@@ -146,7 +147,8 @@
     "preview-comment": "Vorschau",
     "show-more": "Mehr ansehen",
     "show-less": "Weniger anzeigen",
-    "sure": "Bist du sicher?"
+    "sure": "Bist du sicher?",
+    "grammar-check": "Rechtschreibprüfung"
   },
 
   "home-page": {
