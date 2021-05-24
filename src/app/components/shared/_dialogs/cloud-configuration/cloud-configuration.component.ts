@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
+import { TagCloudMetaDataCount } from '../../tag-cloud/tag-cloud.data-manager';
 import { CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
 import { WeightClass } from './weight-class.interface';
 
@@ -11,10 +12,11 @@ import { WeightClass } from './weight-class.interface';
 })
 export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent;
-  CloudTextStyle:CloudTextStyle;
+  CloudTextStyle: CloudTextStyle;
   cloudParameters: CloudParameters;
   defaultCloudParameters: CloudParameters;
   oldCloudParameters: CloudParameters;
+  countPerWeight: TagCloudMetaDataCount;
   extendedView: boolean;
   cleanUpView: boolean;
   automaticSpelling: boolean;
@@ -24,39 +26,72 @@ export class CloudConfigurationComponent implements OnInit {
   alphabeticalSorting: boolean;
   rotation: number;
   highestWeight: number;
-  weightClasses: WeightClass[]=[
-    {maxTagNumber: 20,
-    tagColor: '#8800ff'},
-    {maxTagNumber: 20,
-    tagColor: '#ff00ff'},
-    {maxTagNumber: 17,
-    tagColor: '#ffea00'},
-    {maxTagNumber: 15,
-    tagColor: '#00CC99'},
-    {maxTagNumber: 12,
-    tagColor: '#00CC66'},
-    {maxTagNumber: 10,
-    tagColor: '#0033FF'},
-    {maxTagNumber: 8,
-    tagColor: '#CC0099'},
-    {maxTagNumber: 7,
-    tagColor: '#FF3399'},
-    {maxTagNumber: 6,
-    tagColor: '#FFFF00'},
-    {maxTagNumber: 5,
-    tagColor: '#FF0000'},
+  weightClasses: WeightClass[] = [
+    {
+      maxTagNumber: 20,
+      tagColor: '#8800ff',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 20,
+      tagColor: '#ff00ff',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 17,
+      tagColor: '#ffea00',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 15,
+      tagColor: '#00CC99',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 12,
+      tagColor: '#00CC66',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 10,
+      tagColor: '#0033FF',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 8,
+      tagColor: '#CC0099',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 7,
+      tagColor: '#FF3399',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 6,
+      tagColor: '#FFFF00',
+      actualTagNumber: 5
+    },
+    {
+      maxTagNumber: 5,
+      tagColor: '#FF0000',
+      actualTagNumber: 5
+    },
   ];
 
 
   isTestCloud = false;
 
-  constructor(private translateService: TranslateService) {}
+  constructor(private translateService: TranslateService) { }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudParameters = this.parent.currentCloudParameters;
     this.defaultCloudParameters = this.parent.currentCloudParameters;
-    this.parseArrayToJsonWeightClasses();
+    this.parent.dataManager.getMetaData().subscribe((value)=>{
+      this.countPerWeight = value.countPerWeight; 
+      this.parseArrayToJsonWeightClasses();
+    })
     this.extendedView = false;
     this.cleanUpView = false;
     this.automaticSpelling = true;
@@ -78,34 +113,35 @@ export class CloudConfigurationComponent implements OnInit {
     this.valueChanged();
   }
 
-  parseArrayToJsonWeightClasses(){
+  parseArrayToJsonWeightClasses() {
     this.cloudParameters.cloudWeightSettings.forEach((element, i) => {
-      this.weightClasses[i].maxTagNumber = element.maxVisibleElements;
-      this.weightClasses[i].tagColor = element.color;
+       this.weightClasses[i].maxTagNumber = element.maxVisibleElements;
+       this.weightClasses[i].tagColor = element.color;
+       this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
     });
   }
 
-  parseJsonToArrayWeightClasses(){
+  parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
-      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements =  element.maxTagNumber;
-      this.cloudParameters.cloudWeightSettings[i].color =  element.tagColor;
+      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber;
+      this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
     });
   }
 
 
-  valueChanged(){
+  valueChanged() {
     this.parseJsonToArrayWeightClasses();
     this.parent.setCloudParameters(this.cloudParameters, false);
   }
 
-  cancel(){
-    console.log("Parameterliste: "+ JSON.stringify(this.cloudParameters));
+  cancel() {
+    console.log("Parameterliste: " + JSON.stringify(this.cloudParameters));
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
   }
 
-  save(){
+  save() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
@@ -126,7 +162,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.valueChanged();
   }
 
-  textStyleChanged(val:CloudTextStyle){
+  textStyleChanged(val: CloudTextStyle) {
     this.cloudParameters.textTransform = val;
     this.valueChanged();
   }

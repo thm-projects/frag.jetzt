@@ -75,6 +75,7 @@ mat-divider {
   display: block;
   position: relative;
   right: 40px;
+  pointer-events: none;
 }
 
 ::ng-deep .mat-slide-toggle-thumb{
@@ -152,6 +153,7 @@ mat-divider {
 ::ng-deep.custom-color-picker{
   opacity: 0;
   z-index: -1;
+  cursor: pointer;
 }
 .custom-color-picker-text{
   position: absolute;
