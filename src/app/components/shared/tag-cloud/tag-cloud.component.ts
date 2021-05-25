@@ -8,11 +8,8 @@ import {
   ZoomOnHoverOptions
 } from 'angular-tag-cloud-module';
 import { CommentService } from '../../../services/http/comment.service';
-import { SpacyService } from '../../../services/http/spacy.service';
-import { Comment } from '../../../models/comment';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
@@ -27,7 +24,11 @@ import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings }
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { TagCloudDataManager } from './tag-cloud.data-manager';
+<<<<<<< HEAD
 import { Location } from '@angular/common';
+=======
+import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+>>>>>>> cec4a862e0fc233490a8ae801cc911c2b4abddf9
 
 class CustomPosition implements Position {
   left: number;
@@ -162,10 +163,13 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   themeSubscription = null;
   readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
+<<<<<<< HEAD
   tag = null;
+=======
+  private _createCommentWrapper: CreateCommentWrapper = null;
+>>>>>>> cec4a862e0fc233490a8ae801cc911c2b4abddf9
 
   constructor(private commentService: CommentService,
-              private spacyService: SpacyService,
               private langService: LanguageService,
               private translateService: TranslateService,
               public dialog: MatDialog,
@@ -204,7 +208,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this.openCreateDialog();
+        this._createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
         this.dataManager.demoActive = !this.dataManager.demoActive;
@@ -233,6 +237,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           this.room = room;
           this.roomId = room.id;
           this.directSend = this.room.directSend;
+          this._createCommentWrapper = new CreateCommentWrapper(this.translateService,
+            this.notificationService, this.commentService, this.dialog, this.room);
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
@@ -322,7 +328,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           if (remaining > 0) {
             --countFiler[tagData.adjustedWeight];
           }
-          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
+          let rotation = Math.random() < 0.5 ? this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation : 0;
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
@@ -371,53 +377,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         this.redraw();
       }, debounceTime - diff);
     }
-  }
-
-  openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
-    dialogRef.componentInstance.user = this.user;
-    dialogRef.componentInstance.roomId = this.roomId;
-    let tags;
-    tags = [];
-    if (this.room.tags) {
-      tags = this.room.tags;
-    }
-    dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.send(result);
-        } else {
-          return;
-        }
-      });
-  }
-
-  send(comment: Comment): void {
-    if (this.directSend) {
-      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-        this.notificationService.show(msg);
-      });
-      comment.ack = true;
-    } else {
-      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
-        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-        comment.ack = true;
-      }
-      if (this.userRole === 0) {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }
-    }
-    this.commentService.addComment(comment).subscribe();
   }
 
   private redraw(): void {

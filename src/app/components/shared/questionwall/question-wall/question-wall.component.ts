@@ -47,7 +47,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList = [];
   userSelection = false;
   tags;
-  fontSize = 250;
+  fontSize = 180;
   periodsList = Object.values(Period);
   period: Period = Period.ALL;
 

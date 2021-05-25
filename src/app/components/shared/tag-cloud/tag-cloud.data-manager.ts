@@ -95,6 +95,7 @@ export class TagCloudDataManager {
     }
     this._roomId = roomId;
     this.onUpdateData();
+    //TODO Optimize for special events => better performance
     this._wsCommentSubscription = this._wsCommentService
       .getCommentStream(this._roomId).subscribe(e => this.onUpdateData());
   }

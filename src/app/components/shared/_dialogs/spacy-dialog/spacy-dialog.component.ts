@@ -46,7 +46,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   /**
    * Returns a lambda which closes the dialog on call.
    */
-   buildCloseDialogActionCallback(): () => void {
+  buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close();
   }
 
@@ -61,34 +61,31 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   evalInput(model: Model) {
     const words: Keyword[] = [];
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-    this.spacyService.analyse(this.commentBodyChecked, model)
-      .subscribe(res => {
-        this.spacyKeywords.length = 0;
-        for (const word of res.words) {
-          if (word.tag.charAt(0) === 'N') {
-            this.spacyKeywords.push(word.text);
-            words.push({
-              word: word.text,
-              completed: false,
-              editing: false,
-              selected: false
-            });
-          }
-        }
-        this.keywords = words;
-      }, () => {
-        this.spacyKeywords = [];
-        this.keywords = [];
-      });
+    this.spacyService.getKeywords(this.commentBodyChecked, model).subscribe(res => {
+      this.spacyKeywords = res;
+      const wordsArr = [];
+      for (const tag of res) {
+        wordsArr.push({
+          word: tag,
+          completed: false,
+          editing: false,
+          selected: false
+        });
+      }
+      this.keywords = wordsArr;
+    }, () => {
+      this.spacyKeywords = [];
+      this.keywords = [];
+    });
   }
 
-  onEdit(keyword){
+  onEdit(keyword) {
     keyword.editing = true;
     keyword.completed = false;
     keyword.selected = false;
   }
 
-  onEndEditing(keyword){
+  onEndEditing(keyword) {
     keyword.editing = false;
     keyword.completed = true;
     keyword.selected = true;
