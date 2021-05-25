@@ -42,7 +42,7 @@ export class TopicCloudAdminService {
         blacklist: this.profanityWords,
         considerVotes: false,
         profanityFilter: true,
-        hideBlacklist: false
+        blacklistIsActive: false
       };
     }
     return data;

@@ -19,7 +19,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
   public considerVotes: boolean;
   public profanityFilter: boolean;
-  public hideBlacklist: boolean;
+  public blacklistIsActive: boolean;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
@@ -124,10 +124,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   setAdminData(){
     this.topicCloudAdminData = {
-      blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.hideBlacklist),
+      blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.blacklistIsActive),
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
-      hideBlacklist: this.hideBlacklist
+      blacklistIsActive: this.blacklistIsActive
     };
     this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
@@ -137,7 +137,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (this.topicCloudAdminData) {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
-      this.hideBlacklist = this.topicCloudAdminData.hideBlacklist;
+      this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
     }
   }
 

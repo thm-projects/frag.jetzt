@@ -32,7 +32,7 @@
       <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="hideBlacklist">
+      <mat-slide-toggle [(ngModel)]="blacklistIsActive">
         {{'topic-cloud-dialog.hide-blacklist' | translate}}
       </mat-slide-toggle>
 
@@ -121,7 +121,7 @@
         </button>
       </mat-form-field>
     </div>
-    
+
     <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
       <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
       <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
