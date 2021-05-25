@@ -24,11 +24,7 @@ import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings }
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { TagCloudDataManager } from './tag-cloud.data-manager';
-<<<<<<< HEAD
-import { Location } from '@angular/common';
-=======
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
->>>>>>> cec4a862e0fc233490a8ae801cc911c2b4abddf9
 
 class CustomPosition implements Position {
   left: number;
@@ -163,11 +159,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   themeSubscription = null;
   readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
-<<<<<<< HEAD
-  tag = null;
-=======
   private _createCommentWrapper: CreateCommentWrapper = null;
->>>>>>> cec4a862e0fc233490a8ae801cc911c2b4abddf9
+  tag = null;
+  private _subscriptionCommentlist = null;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -471,8 +465,14 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openTags(tag: CloudData){
-    //this.router.navigate(['../'], {relativeTo: this.route});
-    console.log(tag.text);
-    //waiting for tag-filtering to submit filters
+    if(this._subscriptionCommentlist !== null){
+      return;
+    }
+    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
+      //send this.tag.text instead of 'Autos' -> wait for group 3 to implement...
+      this.eventService.broadcast('setTagConfig', this.tag.text);
+      this._subscriptionCommentlist.unsubscribe();
+    });
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 }

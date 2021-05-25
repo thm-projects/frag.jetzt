@@ -136,6 +136,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       dialogRef.componentInstance.roomId = this.room.id;
     });
+    this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.clickedOnTag(tag);
+    });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
       const dialogRef = this.dialog.open(TagsComponent, {
@@ -255,6 +258,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
 
     this.getCurrentFilter().writeFilter();
+    this.eventService.broadcast('commentListCreated', null);
   }
 
   private getCurrentFilter(): CommentFilterOptions {
