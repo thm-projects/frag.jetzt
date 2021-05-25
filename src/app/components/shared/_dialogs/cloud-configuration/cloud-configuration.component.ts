@@ -101,8 +101,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.dataManager.getMetaData().subscribe((value)=>{
       this.countPerWeight = value.countPerWeight;
       this.parseArrayToJsonWeightClasses();
-      
-    })
+    });
     this.extendedView = false;
     this.cleanUpView = false;
     this.automaticSpelling = true;
@@ -128,8 +127,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters.cloudWeightSettings.forEach((element, i) => {
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
-        this.weightClasses[i].rotationAngle = element.rotation;
-
+       this.weightClasses[i].rotationAngle = element.rotation;
     });
   }
 
@@ -140,7 +138,6 @@ export class CloudConfigurationComponent implements OnInit {
       this.cloudParameters.cloudWeightSettings[i].rotation = element.rotationAngle;
     });
   }
-
 
   valueChanged() {
     this.parseJsonToArrayWeightClasses();
@@ -178,6 +175,5 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters.textTransform = val;
     this.valueChanged();
   }
-
 
 }
