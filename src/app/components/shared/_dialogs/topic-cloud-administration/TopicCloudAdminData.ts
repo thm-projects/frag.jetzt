@@ -1,5 +1,5 @@
 export interface TopicCloudAdminData{
-    blackList: string[];
+    blacklist: string[];
     considerVotes: boolean;
     profanityFilter: boolean;
     hideBlacklist: boolean;

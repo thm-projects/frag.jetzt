@@ -1,7 +1,6 @@
 <mat-dialog-content>
   <mat-accordion hideToggle>
     <mat-expansion-panel class="color-surface">
-
       <mat-expansion-panel-header class="color-surface">
         <mat-icon class="color-on-surface" style="margin-right: 10px">settings</mat-icon>
         <mat-panel-title>
@@ -69,7 +68,6 @@
               {{showBadWordList ? "Hide badword list" : "Show badword list"}}
             </button>
           </div>
-
         </mat-expansion-panel>
 
         <mat-expansion-panel class="color-background"
@@ -104,12 +102,9 @@
               {{showBlacklistWordList ? "Hide blacklist" : "Show blacklist"}}
             </button>
           </div>
-
         </mat-expansion-panel>
       </mat-accordion>
-
     </mat-expansion-panel>
-
   </mat-accordion>
 
   <div fxLayout="row">
@@ -124,9 +119,9 @@
           mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
           <mat-icon>close</mat-icon>
         </button>
-
       </mat-form-field>
     </div>
+    
     <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
       <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
       <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>

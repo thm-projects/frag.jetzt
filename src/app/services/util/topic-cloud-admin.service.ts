@@ -38,7 +38,7 @@ export class TopicCloudAdminService {
 
     if (!data) {
       data = {
-        blackList: this.profanityWords,
+        blacklist: this.profanityWords,
         considerVotes: false,
         profanityFilter: true,
         hideBlacklist: false

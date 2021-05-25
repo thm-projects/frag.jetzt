@@ -124,7 +124,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   setAdminData(){
     this.topicCloudAdminData = {
-      blackList: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.hideBlacklist),
+      blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.hideBlacklist),
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       hideBlacklist: this.hideBlacklist
