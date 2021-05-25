@@ -320,16 +320,16 @@
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
            [mat-menu-trigger-for]="keywordsMenu"
-           *ngIf="(comment.keywords != undefined && comment.keywords.length > 0)"
+           *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
            class="comment-keywords">
         <mat-icon svgIcon="comment_tag"></mat-icon>
         <span>
           &nbsp;{{ 'comment-page.keywords' | translate }}
         </span>
         <mat-menu #keywordsMenu>
-        
+
           <mat-list dense class="keywords-list">
-            <mat-list-item  *ngFor="let keyword of comment.keywords; let odd = odd; let even = even"
+            <mat-list-item  *ngFor="let keyword of comment.keywordsFromQuestioner; let odd = odd; let even = even"
                             [class.keywords-alternate]="odd"
                             [class.keywords-even]="even">
                             <span class="keyword-span">{{keyword}}</span>
