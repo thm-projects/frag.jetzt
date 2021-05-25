@@ -110,17 +110,16 @@ export class CommentService extends BaseHttpService {
       properties: { roomId: roomId, ack: true },
       externalFilters: {}
     }, httpOptions).pipe(
-      map(commentList => {
-        return commentList.map(comment => {
+      map(commentList => commentList.map(comment => {
           const newComment = this.parseUserNumber(comment);
-          console.log(comment);
-          // @ts-ignore
-          newComment.keywordsFromQuestioner = JSON.parse(newComment.keywordsFromQuestioner as string);
-          // @ts-ignore
-          newComment.keywordsFromSpacy = JSON.parse(newComment.keywordsFromSpacy as string);
+          newComment.keywordsFromQuestioner =
+            // @ts-ignore
+            newComment.keywordsFromQuestioner ? JSON.parse(newComment.keywordsFromQuestioner as string) : null;
+          newComment.keywordsFromSpacy =
+            // @ts-ignore
+            newComment.keywordsFromSpacy ? JSON.parse(newComment.keywordsFromSpacy as string) : null;
           return newComment;
-        });
-      }),
+        })),
       tap(_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
     );

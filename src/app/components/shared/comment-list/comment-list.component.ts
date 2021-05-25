@@ -102,7 +102,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
-  private _createCommentWrapper: CreateCommentWrapper = null;
+  createCommentWrapper: CreateCommentWrapper = null;
 
   constructor(
     private commentService: CommentService,
@@ -129,7 +129,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   initNavigation() {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this._createCommentWrapper.openCreateDialog(this.user));
+    nav('createQuestion', () => this.createCommentWrapper.openCreateDialog(this.user));
     nav('moderator', () => {
       const dialogRef = this.dialog.open(ModeratorsComponent, {
         width: '400px',
@@ -223,7 +223,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
           this.commentsEnabled = (this.userRole > 0) || !this.room.closed;
-          this._createCommentWrapper = new CreateCommentWrapper(this.translateService,
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
