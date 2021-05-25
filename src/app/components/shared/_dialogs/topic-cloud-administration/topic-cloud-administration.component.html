@@ -14,13 +14,13 @@
         <mat-radio-group
         class="radio-button-group"
         [(ngModel)]="sentToSpacyChoice">
-          <mat-radio-button checked="true" value="keyword" class="radio-button-item">
+          <mat-radio-button checked="true" value="0" class="radio-button-item">
             {{"topic-cloud-dialog.keyword" | translate}}
           </mat-radio-button>
-          <mat-radio-button value="full-text" class="radio-button-item">
+          <mat-radio-button value="1" class="radio-button-item">
             {{"topic-cloud-dialog.full-text" | translate}}
           </mat-radio-button>
-          <mat-radio-button value="keyword-full-text" class="color-on-surface">
+          <mat-radio-button value="2" class="color-on-surface">
             {{"topic-cloud-dialog.both" | translate}}
           </mat-radio-button>
         </mat-radio-group>
@@ -186,7 +186,7 @@
           <mat-icon class="primary">edit</mat-icon>
         </button>
         <button class="margin-right" mat-icon-button style="align-self:flex-end;"
-          (click)="openConfirmDialog(keyword, undefined, 'delete-message', 'delete')">
+          (click)="openConfirmDialog('delete-message','delete',keyword)">
           <mat-icon class="red">delete</mat-icon>
         </button>
       </div>

@@ -1,7 +1,8 @@
 import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-import { TopicCloudAdminData } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData'
+// eslint-disable-next-line max-len
+import { TopicCloudAdminData, KeywordORfulltext } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 @Injectable({
   providedIn: 'root',
 })
@@ -36,13 +37,13 @@ export class TopicCloudAdminService {
 
   get getAdminData(): TopicCloudAdminData {
     let data = JSON.parse(localStorage.getItem('Topic-Cloud-Admin-Data'));
-
     if (!data) {
       data = {
         blacklist: this.profanityWords,
         considerVotes: false,
         profanityFilter: true,
-        blacklistIsActive: false
+        blacklistIsActive: false,
+        keywordORfulltext: KeywordORfulltext.keyword
       };
     }
     return data;
