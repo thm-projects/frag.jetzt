@@ -244,7 +244,7 @@
     "no-keywords-note": "There are no topics!",
     "consider-votes": "Consider Votes",
     "profanity": "Censor profanity",
-    "hide-blacklist": "Hide blacklist keywords",
+    "hide-blacklist-words": "Hide blacklist keywords",
     "sort-alpha": "Alphabetically",
     "sort-count": "Questions count",
     "sort-vote": "Votes",
@@ -257,7 +257,11 @@
     "keyword": "Keyword",
     "full-text": "Full-text",
     "both": "Both",
-    "select-choice": "Select one"
+    "select-choice": "Select one",
+    "show-blacklist": "Show blacklist",
+    "hide-blacklist": "Hide blacklist",
+    "show-profanity-list": "Show profanity list",
+    "hide-profanity-list": "Hide profanity list"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

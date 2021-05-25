@@ -239,7 +239,7 @@
     "no-keywords-note": "Es gibt keine Themen",
     "consider-votes": "Votes berücksichtigen",
     "profanity": "Schimpfwörter zensieren",
-    "hide-blacklist": "Blacklist Stichworte verbergen",
+    "hide-blacklist-words": "Blacklist Stichworte verbergen",
     "sort-alpha": "Alphabetisch",
     "sort-count": "Fragenanzahl",
     "sort-vote": "Votes",
@@ -252,7 +252,11 @@
     "keyword": "Stichwort",
     "full-text": "Voller Text",
     "both": "Beide",
-    "select-choice": "Wählen Sie aus"
+    "select-choice": "Wählen Sie aus",
+    "show-blacklist": "Zeige Blackliste",
+    "hide-blacklist": "Verberge Blackliste",
+    "show-profanity-list": "Zeige Schimpfwortliste",
+    "hide-profanity-list": "Verberge Schimpfwortliste"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",

@@ -33,7 +33,7 @@
         {{'topic-cloud-dialog.profanity' | translate}}
       </mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="blacklistIsActive">
-        {{'topic-cloud-dialog.hide-blacklist' | translate}}
+        {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
       </mat-slide-toggle>
 
       <mat-accordion class="new-profanity-word" multi>
@@ -65,7 +65,7 @@
           <div>
             <button mat-raised-button *ngIf="getProfanityList().length > 0" class="primaryBackground"
               (click)="showProfanityList=!showProfanityList">
-              {{showProfanityList ? "Hide profanity list" : "Show profanity list"}}
+              {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) : ('topic-cloud-dialog.show-profanity-list' | translate)}}
             </button>
           </div>
         </mat-expansion-panel>
@@ -99,7 +99,7 @@
           <div>
             <button mat-raised-button *ngIf="getBlacklist().length > 0" class="primaryBackground"
               (click)="showBlacklistWordList=!showBlacklistWordList">
-              {{showBlacklistWordList ? "Hide blacklist" : "Show blacklist"}}
+              {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) : ('topic-cloud-dialog.show-blacklist' | translate)}}
             </button>
           </div>
         </mat-expansion-panel>
