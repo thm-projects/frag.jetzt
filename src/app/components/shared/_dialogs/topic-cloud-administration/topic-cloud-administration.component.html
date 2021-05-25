@@ -36,9 +36,9 @@
         {{'topic-cloud-dialog.hide-blacklist' | translate}}
       </mat-slide-toggle>
 
-      <mat-accordion class="new-Badword" multi>
-        <mat-expansion-panel class="color-background" (opened)="enterBadword=true; focusInput('bad-word-input')"
-          (closed)="enterBadword = false">
+      <mat-accordion class="new-profanity-word" multi>
+        <mat-expansion-panel class="color-background" (opened)="enterProfanityWord=true; focusInput('profanity-word-input')"
+          (closed)="enterProfanityWord = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-title>
               {{'topic-cloud-dialog.edit-profanity-list' | translate}}
@@ -47,25 +47,25 @@
 
           <mat-form-field>
             <mat-label>{{'topic-cloud-dialog.enter-word' | translate}}</mat-label>
-            <input matInput id="bad-word-input" [(ngModel)]="newBadWord">
+            <input matInput id="bad-word-input" [(ngModel)]="newProfanityWord">
           </mat-form-field>
 
-          <button mat-stroked-button color="primary" class="margin-left" (click)="addBadword()">
+          <button mat-stroked-button color="primary" class="margin-left" (click)="addProfanityWord()">
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
 
-          <mat-list role="list" *ngIf="showBadWordList" class="margin-bottom">
-            <mat-list-item class="color-on-surface" *ngFor="let word of getBadWordList()" role="listitem">{{word}}
-              <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBadWords(word)">
+          <mat-list role="list" *ngIf="showProfanityList" class="margin-bottom">
+            <mat-list-item class="color-on-surface" *ngFor="let word of getProfanityList()" role="listitem">{{word}}
+              <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromProfanityList(word)">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
               </button>
             </mat-list-item>
           </mat-list>
 
           <div>
-            <button mat-raised-button *ngIf="getBadWordList().length > 0" class="primaryBackground"
-              (click)="showBadWordList=!showBadWordList">
-              {{showBadWordList ? "Hide badword list" : "Show badword list"}}
+            <button mat-raised-button *ngIf="getProfanityList().length > 0" class="primaryBackground"
+              (click)="showProfanityList=!showProfanityList">
+              {{showProfanityList ? "Hide profanity list" : "Show profanity list"}}
             </button>
           </div>
         </mat-expansion-panel>

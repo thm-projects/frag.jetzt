@@ -23,15 +23,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
-  enterBadword = false;
+  enterProfanityWord = false;
   enterBlacklistWord = false;
-  newBadWord: string = undefined;
+  newProfanityWord: string = undefined;
   newBlacklistWord: string = undefined;
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
-  showBadWordList = false;
+  showProfanityList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
   sentToSpacyChoice = 'keyword';
@@ -145,12 +145,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     return this.topicCloudAdminService.filterProfanityWords(keyword);
   }
 
-  getBadWordList() {
-    return this.topicCloudAdminService.getBadWordList();
+  getProfanityList() {
+    return this.topicCloudAdminService.getProfanityList();
   }
 
   getBlacklist() {
-    return this.topicCloudAdminService.getBlacklistWordList();
+    return this.topicCloudAdminService.getBlacklist();
   }
 
   sortQuestions(sortMode?: string) {
@@ -285,9 +285,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }, 100);
   }
 
-  addBadword() {
-    this.topicCloudAdminService.addToBadWordList(this.newBadWord);
-    this.newBadWord = undefined;
+  addProfanityWord() {
+    this.topicCloudAdminService.addToProfanityList(this.newProfanityWord);
+    this.newProfanityWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
     }
@@ -301,8 +301,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  removeWordFromBadWords(word: string) {
-    this.topicCloudAdminService.removeFromBadWordList(word);
+  removeWordFromProfanityList(word: string) {
+    this.topicCloudAdminService.removeFromProfanityList(word);
   }
 
   removeWordFromBlacklist(word: string) {

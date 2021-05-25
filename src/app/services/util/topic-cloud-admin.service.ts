@@ -26,7 +26,7 @@ export class TopicCloudAdminService {
     let words = [];
     if (profanityFilter) {
       // TODO: send only words that are contained in keywords
-      words = words.concat(this.profanityWords).concat(this.getBadWordList());
+      words = words.concat(this.profanityWords).concat(this.getProfanityList());
     }
     if (blacklistFilter && this.blacklist.length > 0) {
         words = words.concat(this.blacklist);
@@ -54,7 +54,7 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    this.profanityWords.concat(this.getBadWordList()).map((word) => {
+    this.profanityWords.concat(this.getProfanityList()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
         .includes(word.toLowerCase())
@@ -68,14 +68,14 @@ export class TopicCloudAdminService {
     return questionWithProfanity;
   }
 
-  getBadWordList(): string[] {
+  getProfanityList(): string[] {
     const list = localStorage.getItem(this.profanityKey);
     return list ? list.split(',') : [];
   }
 
-  addToBadWordList(word: string) {
+  addToProfanityList(word: string) {
     if (word !== undefined) {
-      const newList = this.getBadWordList();
+      const newList = this.getProfanityList();
       if (newList.includes(word)){
         return;
       }
@@ -84,21 +84,21 @@ export class TopicCloudAdminService {
     }
   }
 
-  removeFromBadWordList(badword: string) {
-    const list = this.getBadWordList();
+  removeFromProfanityList(profanityWord: string) {
+    const list = this.getProfanityList();
     list.map(word => {
-      if (word === badword){
+      if (word === profanityWord){
         list.splice(list.indexOf(word, 0), 1);
       }
     });
     localStorage.setItem(this.profanityKey, list.toString());
   }
 
-  removeBadwordList(){
+  removeProfanityList(){
     localStorage.removeItem(this.profanityKey);
   }
 
-  getBlacklistWordList(): string[] {
+  getBlacklist(): string[] {
     return this.blacklist;
   }
 
