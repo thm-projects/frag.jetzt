@@ -104,7 +104,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService) {
-
       this.langService.langEmitter.subscribe(lang => {
         this.translateService.use(lang);
       });
