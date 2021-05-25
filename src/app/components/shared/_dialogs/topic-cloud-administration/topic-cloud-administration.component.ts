@@ -21,6 +21,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  KeywordORfulltextENUM = KeywordORfulltext;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
@@ -35,7 +37,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showProfanityList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
-  sentToSpacyChoice: string = undefined;
+  keywordORfulltext: string = undefined;
   userRole: UserRole;
   keywords: Keyword[] = [
     {
@@ -124,24 +126,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   setAdminData(){
-    let typeChoice;
-    switch(this.sentToSpacyChoice){
-      case '0':
-        typeChoice = KeywordORfulltext.keyword;
-        break;
-      case '1':
-        typeChoice = KeywordORfulltext.fulltext;
-        break;
-      case '2':
-        typeChoice = KeywordORfulltext.both;
-        break;
-    }
     this.topicCloudAdminData = {
       blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.blacklistIsActive),
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       blacklistIsActive: this.blacklistIsActive,
-      keywordORfulltext: typeChoice
+      keywordORfulltext: KeywordORfulltext[this.keywordORfulltext]
     };
     this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
@@ -152,7 +142,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
-      this.sentToSpacyChoice = this.topicCloudAdminData.keywordORfulltext.toString();
+      this.keywordORfulltext = KeywordORfulltext[this.topicCloudAdminData.keywordORfulltext];
     }
   }
 
@@ -204,7 +194,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   editKeyword(index: number): void {
     this.edit = true;
-
     setTimeout(() => {
       document.getElementById('edit-input'+ index).focus();
     }, 0);
