@@ -90,6 +90,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         'Französisch: Gros con!',
         'Türkisch: Orospu çocuğu!',
         'Arabisch: عاهرة!',
+        'Russisch: Муда!',
         'Multi language: Ficken, Fuck, con',
         'Custom: Nieder mit KQC'
       ]

@@ -18,6 +18,7 @@ export class TopicCloudAdminService {
       .concat(this.badWords['de'])
       .concat(this.badWords['fr'])
       .concat(this.badWords['ar'])
+      .concat(this.badWords['ru'])
       .concat(this.badWords['tr']);
   }
 
