@@ -39,7 +39,8 @@ export class Comment {
               answer: string = '',
               userNumber: number = 0,
               keywordsFromSpacy: string[] = [],
-              keywordsFromQuestioner: string[] = []) {
+              keywordsFromQuestioner: string[] = []
+             ) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
