@@ -75,6 +75,7 @@ mat-divider {
   display: block;
   position: relative;
   right: 40px;
+  pointer-events: none;
 }
 
 ::ng-deep .mat-slide-toggle-thumb{
@@ -152,6 +153,7 @@ mat-divider {
 ::ng-deep.custom-color-picker{
   opacity: 0;
   z-index: -1;
+  cursor: pointer;
 }
 .custom-color-picker-text{
   position: absolute;
@@ -167,7 +169,7 @@ mat-divider {
   opacity: 0.2;
 }
 
-.weight-class-setting {
+.weight-class-setting-content {
   border-top: 3px solid var(--primary);
 }
 
@@ -176,12 +178,24 @@ mat-divider {
   color: var(--on-dialog);
 }
 
-.weight-class-button {
+#extendedViewButton {
+  margin-right: 10px;
+}
+
+.demo-cloud-settings {
+  border-bottom: none;
+}
+
+.weight-class-buttons {
   margin-bottom: 0;
 }
 
 .special-settings{
-  border-top: 2px solid var(--primary);
+  border-top: none;
   border-bottom: 2px solid var(--primary);
   padding: 10px 0;
+}
+
+#rotation{
+  margin-top: 10px;
 }

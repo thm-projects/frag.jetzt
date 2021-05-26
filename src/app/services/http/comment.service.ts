@@ -109,7 +109,12 @@ export class CommentService extends BaseHttpService {
       externalFilters: {}
     }, httpOptions).pipe(
       map(commentList => {
-        return commentList.map(comment => this.parseUserNumber(comment));
+        return commentList.map(comment => {
+          const newComment = this.parseUserNumber(comment);
+          // @ts-ignore
+          newComment.keywords = JSON.parse(newComment.keywords as string);
+          return newComment;
+        });
       }),
       tap(_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
