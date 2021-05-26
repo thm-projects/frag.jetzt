@@ -12,6 +12,7 @@
           class="spacyTagCloud"
           (window:resize)="onResize($event)"
           (afterInit)="initTagCloud()"
+          (clicked)="openTags($event)"
           [data]="data"
           [width]="options.width"
           [height]="options.height"

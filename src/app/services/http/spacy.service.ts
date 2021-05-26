@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 export type Model = 'de' | 'en' | 'fr';
 
@@ -71,6 +71,12 @@ export class SpacyService extends BaseHttpService {
 
   constructor(private http: HttpClient) {
     super();
+  }
+
+  getKeywords(text: string, model: string): Observable<string[]> {
+    return this.analyse(text, model).pipe(
+      map(result => result.words.filter(v => v.tag.charAt(0) === 'N').map(v => v.text))
+    );
   }
 
   analyse(text: string, model: string): Observable<Result> {
