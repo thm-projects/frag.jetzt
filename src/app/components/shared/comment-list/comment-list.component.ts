@@ -481,7 +481,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          return c.keywords != null ? c.keywords.includes(compare) : false;
+          return c.keywordsFromQuestioner != null ? c.keywordsFromQuestioner.includes(compare) : false;
         case this.answer:
           return c.answer;
         case this.unanswered:

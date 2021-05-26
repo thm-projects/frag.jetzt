@@ -85,8 +85,8 @@ export class TopicCloudFilterComponent implements OnInit {
       if (c.userNumber) {
         userSet.add(c.userNumber);
       }
-      if (c.keywords) {
-        c.keywords.forEach(k => {
+      if (c.keywordsFromQuestioner) {
+        c.keywordsFromQuestioner.forEach(k => {
           keywordSet.add(k);
         });
       }
