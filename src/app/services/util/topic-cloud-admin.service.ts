@@ -7,21 +7,19 @@ import { TopicCloudAdminData, KeywordOrFulltext } from '../../../app/components/
   providedIn: 'root',
 })
 export class TopicCloudAdminService {
-  private badWords = [];
   private profanityWords = [];
   private blacklist = []; // should be stored in backend
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
 
   constructor() {
-    this.badWords = BadWords;
     /* put all arrays of languages together */
-    this.profanityWords = this.badWords['en']
-      .concat(this.badWords['de'])
-      .concat(this.badWords['fr'])
-      .concat(this.badWords['ar'])
-      .concat(this.badWords['ru'])
-      .concat(this.badWords['tr']);
+    this.profanityWords = BadWords['en']
+      .concat(BadWords['de'])
+      .concat(BadWords['fr'])
+      .concat(BadWords['ar'])
+      .concat(BadWords['ru'])
+      .concat(BadWords['tr']);
   }
 
   getBlacklistWords(profanityFilter: boolean, blacklistFilter: boolean) {
