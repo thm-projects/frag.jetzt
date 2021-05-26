@@ -23,7 +23,7 @@ import { MotdService } from '../../../services/http/motd.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
-import { TagCloudHeaderDataOverview } from '../tag-cloud/tag-cloud.interface';
+import { TagCloudMetaData } from '../tag-cloud/tag-cloud.data-manager';
 
 @Component({
   selector: 'app-header',
@@ -42,7 +42,6 @@ export class HeaderComponent implements OnInit {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
-
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -66,7 +65,7 @@ export class HeaderComponent implements OnInit {
         this.motdService.requestDialog();
       });
     });
-    this.eventService.on<TagCloudHeaderDataOverview>('tagCloudHeaderDataOverview').subscribe(data => {
+    this.eventService.on<TagCloudMetaData>('tagCloudHeaderDataOverview').subscribe(data => {
       this.commentsCountQuestions = data.commentCount;
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
