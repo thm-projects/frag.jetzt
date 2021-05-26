@@ -8,7 +8,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { TopicCloudAdminData } from './TopicCloudAdminData';
+import { Label, TopicCloudAdminData } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 
 @Component({
@@ -38,6 +38,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
+  wantedLabels: Label[] = [];
+
   keywords: Keyword[] = [
     {
       keywordID: 1,
@@ -127,6 +129,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   setAdminData(){
     this.topicCloudAdminData = {
       blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.blacklistIsActive),
+      wantedLabels: this.wantedLabels,
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       blacklistIsActive: this.blacklistIsActive,
@@ -142,6 +145,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
+      this.wantedLabels = this.topicCloudAdminData.wantedLabels;
     }
   }
 

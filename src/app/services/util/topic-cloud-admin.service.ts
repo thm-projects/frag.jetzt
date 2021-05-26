@@ -10,7 +10,8 @@ export class TopicCloudAdminService {
   private badWords = [];
   private profanityWords = [];
   private blacklist = []; // should be stored in backend
-  private profanityKey = 'custom-Profanity-List';
+  private readonly profanityKey = 'custom-Profanity-List';
+  private readonly adminKey = 'Topic-Cloud-Admin-Data';
 
   constructor() {
     this.badWords = BadWords;
@@ -36,10 +37,11 @@ export class TopicCloudAdminService {
   }
 
   get getAdminData(): TopicCloudAdminData {
-    let data = JSON.parse(localStorage.getItem('Topic-Cloud-Admin-Data'));
+    let data = JSON.parse(localStorage.getItem(this.adminKey));
     if (!data) {
       data = {
         blacklist: this.profanityWords,
+        wantedLabels: [],
         considerVotes: false,
         profanityFilter: true,
         blacklistIsActive: false,
@@ -50,7 +52,7 @@ export class TopicCloudAdminService {
   }
 
   setAdminData(adminData: TopicCloudAdminData){
-    localStorage.setItem('Topic-Cloud-Admin-Data', JSON.stringify(adminData));
+    localStorage.setItem(this.adminKey, JSON.stringify(adminData));
   }
 
   filterProfanityWords(str: string): string {
