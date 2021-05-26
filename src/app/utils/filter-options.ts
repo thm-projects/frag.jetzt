@@ -14,6 +14,8 @@ export const enum FilterNames {
 
 export class CommentFilterOptions {
     filterSelected : string;
+    keywordSelected : string;
+    tagSelected : string;
 
     paused: boolean;
     timeStampUntil : number;
@@ -23,6 +25,8 @@ export class CommentFilterOptions {
 
     constructor() {
         this.filterSelected = '';
+        this.keywordSelected = '';
+        this.tagSelected = '';
         this.paused = false;
         this.periodSet = Period.ALL;
     }
@@ -46,19 +50,25 @@ export class CommentFilterOptions {
         filter.filterSelected = filterSelected;
         filter.paused = false;
 
+        filter.tagSelected = '';
+        filter.keywordSelected = '';
+
         filter.periodSet = Period.FROMNOW;
         filter.timeStampNow = new Date().getTime();
 
         return filter;
     }
 
-    public static generateFilterUntil(filterSelected : string, periodSelected : Period, untilTime : number) : CommentFilterOptions {
+    public static generateFilterUntil(filterSelected : string, periodSelected : Period, untilTime : number, tagSelected : string, keywordSelected : string) : CommentFilterOptions {
         let filter = new CommentFilterOptions();
         
         filter.filterSelected = filterSelected;
 
         filter.paused = true;
         filter.timeStampUntil = untilTime;
+
+        filter.tagSelected = tagSelected;
+        filter.keywordSelected = keywordSelected;
         
         filter.periodSet = periodSelected;
 

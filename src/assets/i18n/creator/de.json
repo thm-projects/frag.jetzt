@@ -313,6 +313,7 @@
     "threshold": "Schwellenwert für die Anzeige? ",
     "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
     "update": "Speichern",
+    "block" : "Fragen sperren",
     "update-description": "Speichert die Änderungen",
     "question": "Frage",
     "favorite": "Favorit",
