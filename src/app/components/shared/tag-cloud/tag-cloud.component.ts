@@ -160,7 +160,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
   private _createCommentWrapper: CreateCommentWrapper = null;
-  tag = null;
   private _subscriptionCommentlist = null;
 
   constructor(private commentService: CommentService,
@@ -174,8 +173,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               protected roomService: RoomService,
               private themeService: ThemeService,
               private wsCommentService: WsCommentServiceService,
-              private router: Router,
-              private location: Location) {
+              private router: Router) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -373,6 +371,18 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  openTags(tag: CloudData): void {
+    if(this._subscriptionCommentlist !== null){
+      return;
+    }
+    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
+      //send tag.text instead of 'Autos' -> wait for group 3 to implement...
+      this.eventService.broadcast('setTagConfig', tag.text);
+      this._subscriptionCommentlist.unsubscribe();
+    });
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
+
   private redraw(): void {
     if (this.child === undefined) {
       return;
@@ -462,17 +472,5 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
     return 0;
-  }
-
-  openTags(tag: CloudData){
-    if(this._subscriptionCommentlist !== null){
-      return;
-    }
-    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
-      //send this.tag.text instead of 'Autos' -> wait for group 3 to implement...
-      this.eventService.broadcast('setTagConfig', this.tag.text);
-      this._subscriptionCommentlist.unsubscribe();
-    });
-    this.router.navigate(['../'], {relativeTo: this.route});
   }
 }

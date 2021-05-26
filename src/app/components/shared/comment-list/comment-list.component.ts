@@ -239,6 +239,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
             .subscribe(comments => {
               this.comments = comments;
               this.getComments();
+              this.eventService.broadcast('commentListCreated', null);
             });
           /**
            if (this.userRole === UserRole.PARTICIPANT) {
@@ -258,7 +259,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
 
     this.getCurrentFilter().writeFilter();
-    this.eventService.broadcast('commentListCreated', null);
   }
 
   private getCurrentFilter(): CommentFilterOptions {
