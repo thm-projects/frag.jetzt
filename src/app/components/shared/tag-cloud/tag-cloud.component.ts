@@ -115,7 +115,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     delayWord: 0,
     randomAngles: false,
     checkSpelling: true,
-    sortAlphabetically: true,
+    sortAlphabetically: false,
     textTransform: CloudTextStyle.lowercase,
     cloudWeightSettings: weightSettings
   };
@@ -206,7 +206,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataManager.demoActive = !this.dataManager.demoActive;
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
-          minWidth: '50%'
+          minWidth: '50%',
+          maxHeight: '80%'
         });
       }
     });

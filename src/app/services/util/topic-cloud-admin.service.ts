@@ -1,64 +1,126 @@
+import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BaseHttpService } from '../http/base-http.service';
-import { catchError } from 'rxjs/operators';
-
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
-
+// eslint-disable-next-line max-len
+import { TopicCloudAdminData, KeywordOrFulltext } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class TopicCloudAdminService extends BaseHttpService{
-
+export class TopicCloudAdminService {
   private badWords = [];
-  private irrelevantWords = [];
+  private profanityWords = [];
+  private blacklist = []; // should be stored in backend
+  private profanityKey = 'custom-Profanity-List';
 
-  constructor(private http: HttpClient) {
-    super();
+  constructor() {
     this.badWords = BadWords;
-    this.badWords['custom'] = [];
+    /* put all arrays of languages together */
+    this.profanityWords = this.badWords['en']
+      .concat(this.badWords['de'])
+      .concat(this.badWords['fr'])
+      .concat(this.badWords['ar'])
+      .concat(this.badWords['ru'])
+      .concat(this.badWords['tr']);
   }
 
-  get getBadWordList(): string[]{
-    return this.badWords['custom'];
+  getBlacklistWords(profanityFilter: boolean, blacklistFilter: boolean) {
+    let words = [];
+    if (profanityFilter) {
+      // TODO: send only words that are contained in keywords
+      words = words.concat(this.profanityWords).concat(this.getProfanityList());
+    }
+    if (blacklistFilter && this.blacklist.length > 0) {
+        words = words.concat(this.blacklist);
+    }
+    return words;
+  }
+
+  get getAdminData(): TopicCloudAdminData {
+    let data = JSON.parse(localStorage.getItem('Topic-Cloud-Admin-Data'));
+    if (!data) {
+      data = {
+        blacklist: this.profanityWords,
+        considerVotes: false,
+        profanityFilter: true,
+        blacklistIsActive: false,
+        keywordORfulltext: KeywordOrFulltext.keyword
+      };
+    }
+    return data;
+  }
+
+  setAdminData(adminData: TopicCloudAdminData){
+    localStorage.setItem('Topic-Cloud-Admin-Data', JSON.stringify(adminData));
   }
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    // TODO: another languages
-    /* put all arrays of languages together */
-    const profanityWords = this.badWords['en'].concat(this.badWords['de'])
-                           .concat(this.badWords['fr']).concat(this.badWords['custom']);
-    profanityWords.map(word =>{
-      questionWithProfanity = questionWithProfanity.toLowerCase().includes(word.toLowerCase()) ?
-      this.replaceString(questionWithProfanity.toLowerCase(), word.toLowerCase(), this.generateXWord(word.length))
-      : questionWithProfanity;
+    this.profanityWords.concat(this.getProfanityList()).map((word) => {
+      questionWithProfanity = questionWithProfanity
+        .toLowerCase()
+        .includes(word.toLowerCase())
+        ? this.replaceString(
+          questionWithProfanity.toLowerCase(),
+          word.toLowerCase(),
+          this.generateCensoredWord(word.length)
+        )
+        : questionWithProfanity;
     });
     return questionWithProfanity;
   }
 
-  addToBadwordList(word: string) {
+  getProfanityList(): string[] {
+    const list = localStorage.getItem(this.profanityKey);
+    return list ? list.split(',') : [];
+  }
+
+  addToProfanityList(word: string) {
     if (word !== undefined) {
-      this.badWords['custom'].push(word);
+      const newList = this.getProfanityList();
+      if (newList.includes(word)){
+        return;
+      }
+      newList.push(word);
+      localStorage.setItem(this.profanityKey, newList.toString());
     }
   }
 
-  addToIrrelevantwordList(word: string) {
+  removeFromProfanityList(profanityWord: string) {
+    const list = this.getProfanityList();
+    list.map(word => {
+      if (word === profanityWord){
+        list.splice(list.indexOf(word, 0), 1);
+      }
+    });
+    localStorage.setItem(this.profanityKey, list.toString());
+  }
+
+  removeProfanityList(){
+    localStorage.removeItem(this.profanityKey);
+  }
+
+  getBlacklist(): string[] {
+    return this.blacklist;
+  }
+
+  addToBlacklistWordList(word: string) {
     if (word !== undefined) {
-      this.irrelevantWords.push(word);
+      this.blacklist.push(word);
     }
   }
 
-  private replaceString(str: string, search: string, replace: string){
+  removeWordFromBlacklist(word: string) {
+    this.blacklist.splice(this.blacklist.indexOf(word), 1);
+  }
+
+
+  private replaceString(str: string, search: string, replace: string) {
     return str.split(search).join(replace);
   }
 
-  private generateXWord(count: number){
+  private generateCensoredWord(count: number) {
     let res = '';
-    for (let i = 0; i < count; i++){
+    for (let i = 0; i < count; i++) {
       res += '*';
     }
     return res;
