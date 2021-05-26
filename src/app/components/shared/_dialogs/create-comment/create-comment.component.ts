@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -15,7 +15,7 @@ import { LanguagetoolService, Language } from '../../../../services/http/languag
   templateUrl: './create-comment.component.html',
   styleUrls: ['./create-comment.component.scss']
 })
-export class CreateCommentComponent implements OnInit, OnDestroy {
+export class CreateCommentComponent implements OnInit {
 
   comment: Comment;
 
@@ -23,7 +23,6 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   roomId: string;
   tags: string[];
   selectedTag: string;
-  inputText = '';
   body: string;
 
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
@@ -31,7 +30,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
 
   bodyForm = new FormControl('', [Validators.required]);
 
-  @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
+  @ViewChild('commentBody', { static: true })commentBody: HTMLDivElement;
 
   constructor(
     private notification: NotificationService,
@@ -48,22 +47,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.translateService.use(localStorage.getItem('currentLang'));
     setTimeout(() => {
       document.getElementById('answer-input').focus();
-      document.addEventListener('click', this.onDocumentClick);
     }, 0);
-  }
-
-  onDocumentClick(e) {
-    const container = document.getElementsByClassName('dropdownBlock');
-    Array.prototype.forEach.call(container, (elem) => {
-      if (!elem.contains(e.target) && (!(e.target as Node).parentElement.classList.contains('markUp')
-        || (e.target as HTMLElement).dataset.id !== ((elem as Node).parentElement as HTMLElement).dataset.id)) {
-        (elem as HTMLElement).style.display = 'none';
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    document.removeEventListener('click', this.onDocumentClick);
   }
 
   onNoClick(): void {
@@ -94,36 +78,27 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   openSpacyDialog(comment: Comment): void {
-    this.checkSpellings(this.inputText).subscribe((res) => {
-      const words: string[] = this.inputText.trim().split(' ');
-      const errorQuotient = (res.matches.length * 100) / words.length;
-
-      if (errorQuotient <= 20) {
-        let commentBodyChecked = this.inputText;
-        const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
-
-        for (let i = res.matches.length - 1; i >= 0; i--) {
-          commentBodyChecked = commentBodyChecked.substr(0, res.matches[i].offset) +
-            commentBodyChecked.substr(res.matches[i].offset + res.matches[i].length, commentBodyChecked.length);
+    this.checkSpellings(comment.body).subscribe((res) => {
+      let commentBodyChecked = comment.body;
+      const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
+      for(let i = res.matches.length - 1; i >= 0; i--){
+        commentBodyChecked = commentBodyChecked.substr(0, res.matches[i].offset) +
+        commentBodyChecked.substr(res.matches[i].offset + res.matches[i].length, commentBodyChecked.length);
+      }
+      const dialogRef = this.dialog.open(SpacyDialogComponent, {
+        data: {
+          comment,
+          commentLang,
+          commentBodyChecked
         }
+      });
 
-        const dialogRef = this.dialog.open(SpacyDialogComponent, {
-          data: {
-            comment,
-            commentLang,
-            commentBodyChecked
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result) {
+            this.dialogRef.close(result);
           }
         });
-
-        dialogRef.afterClosed()
-          .subscribe(result => {
-            if (result) {
-              this.dialogRef.close(result);
-            }
-          });
-      } else {
-        this.dialogRef.close(comment);
-      }
     });
   };
 
@@ -148,79 +123,41 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   maxLength(commentBody: HTMLDivElement): void {
-    this.inputText = commentBody.innerText;
-    if (this.user.role === 3 && commentBody.innerText.length > 1000) {
+    // Cut the text down to 500 or 1000 chars depending on the user role.
+    if(this.user.role === 3 && commentBody.innerText.length > 1000) {
       commentBody.innerText = commentBody.innerText.slice(0, 1000);
-    } else if (this.user.role !== 3 && commentBody.innerText.length > 500) {
+    } else if(this.user.role !== 3 && commentBody.innerText.length > 500){
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
     this.body = commentBody.innerText;
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
-    const wrongWords: string[] = [];
-    commentBody.innerHTML = this.inputText;
+    let wrongWords: string[] = [];
     this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
-      if (wordsCheck.matches.length > 0) {
+      if(wordsCheck.matches.length > 0 ) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
           wrongWords.push(wrongWord);
         });
-
         this.checkSpellings(commentBody.innerHTML).subscribe((res) => {
-          for (let i = res.matches.length - 1; i >= 0; i--) {
+          for(let i = res.matches.length - 1; i >= 0; i--){ // Reverse for loop to make sure the offset is right.
             const wrongWord = commentBody.innerHTML
               .slice(res.matches[i].offset, res.matches[i].offset + res.matches[i].length);
 
-            if (wrongWords.includes(wrongWord)) {
-              const suggestions: any[] = res.matches[i].replacements;
-              let displayOptions = 3;
-              let suggestionsHTML = '';
-
-              if (!suggestions.length) {
-                suggestionsHTML = '<span style="color: black; display: block; text-align: center;">' + res.matches[i].message + '</span>';
-              }
-
-              if (suggestions.length < displayOptions) {
-                displayOptions = suggestions.length;
-              }
-
-              for (let j = 0; j < displayOptions; j++) {
-                // eslint-disable-next-line max-len
-                suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[j].value + '</span>';
-              }
-
-              const replacement =
-                '<div class="markUp" data-id="'+i+'" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
-                '   <span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
-                wrongWord +
-                '   </span>' +
-                // eslint-disable-next-line max-len
-                '     <div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
-                suggestionsHTML +
-                '     </div>' +
-                '</div>';
-
+            if (wrongWords.includes(wrongWord)) { // Only replace the real Words, excluding the HTML tags
+              const msg = res.matches[i].message; // The explanation of the suggestion for improvement
+              const suggestions = res.matches[i].replacements; // The suggestions for improvement. Access: suggestions[x].value
+              const replacement = '<span style="text-decoration: underline wavy red">'  // set the Styling for all marked words
+                // Select menu with suggestions has to be injected here.
+                + wrongWord +
+                '</span>';
               commentBody.innerHTML = commentBody.innerHTML.substr(0, res.matches[i].offset) +
-                replacement + commentBody.innerHTML.substr(res.matches[i].offset + wrongWord.length, commentBody.innerHTML.length);
+                replacement +
+                commentBody.innerHTML.substr(res.matches[i].offset + wrongWord.length,
+                  commentBody.innerHTML.length);
             }
           }
-
-          setTimeout(() => {
-            Array.from(document.getElementsByClassName('markUp')).forEach(marked => {
-              marked.addEventListener('click', () => {
-                ((marked as HTMLElement).lastChild as HTMLElement).style.display = 'block';
-                setTimeout(() => {
-                  Array.from(document.getElementsByClassName('suggestions')).forEach(e => {
-                    e.addEventListener('click', () => {
-                      e.parentElement.parentElement.outerHTML = e.innerHTML;
-                      this.inputText = commentBody.innerText;
-                    });
-                  });
-                }, 500);
-              });
-            });
-          }, 500);
         });
       }
     });
