@@ -72,7 +72,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.spacyService.getKeywords(this.commentBodyChecked, model)
       .subscribe(words => {
         for(const word of words) {
-          const filteredwords = word.match(regex);
+          const filteredwords = word.match(regex) || [];
           for (const filteredword of filteredwords) {
             if(filteredword !== null && filteredword !== undefined && keywords.filter(item => item.word === filteredword).length < 1) {
               keywords.push({
