@@ -70,6 +70,13 @@ export class CommentFilterUtils {
             }
         }
 
+        if (filter.keywordSelected != '') {
+          return com.keywords.includes(filter.keywordSelected);
+        }
+        if (filter.tagSelected != ''){
+          return com.tag === filter.tagSelected;
+        }
+
         return true;        
     }
 

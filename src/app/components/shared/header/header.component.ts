@@ -116,14 +116,14 @@ export class HeaderComponent implements OnInit {
       if (val instanceof NavigationEnd) {
         /* segments gets all parts of the url */
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
+        this.shortId = '';
+        this.room = null;
+
         if (segments && segments.length > 2) {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
             this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
-          } else {
-            this.shortId = '';
-            this.room = null;
           }
         }
       }
@@ -305,6 +305,7 @@ export class HeaderComponent implements OnInit {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
       autoFocus: false
     });
+    confirmDialogRef.componentInstance.shortId = this.shortId;
   }
 
   public navigateTopicCloudConfig() {
