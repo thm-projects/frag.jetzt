@@ -38,7 +38,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
-  wantedLabels: Label[] = [];
+  wantedLabels: {[Key: string]: Label[]} = {
+    de: [],
+    en: []
+  };
 
   keywords: Keyword[] = [
     {
@@ -115,6 +118,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.fillListOfLabels();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
@@ -129,7 +133,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   setAdminData(){
     this.topicCloudAdminData = {
       blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.blacklistIsActive),
-      wantedLabels: this.wantedLabels,
+      germanWantedLabels: this.wantedLabels['de'],
+      englischWantedLabels: this.wantedLabels['en'],
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       blacklistIsActive: this.blacklistIsActive,
@@ -145,7 +150,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
-      this.wantedLabels = this.topicCloudAdminData.wantedLabels;
+      this.wantedLabels['en'] = this.topicCloudAdminData.englischWantedLabels;
+      this.wantedLabels['de'] = this.topicCloudAdminData.germanWantedLabels;
     }
   }
 
@@ -318,6 +324,34 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   refreshAllLists(){
     this.searchKeyword();
+  }
+
+  fillListOfLabels(){
+    /* German list */
+    this.wantedLabels['de'] = [
+      {tag: 'sb',  label: 'Subjekt'},
+      {tag: 'pd',  label: 'Prädikat'},
+      {tag: 'og',  label: 'Genitivobjekt'},
+      {tag: 'ag',  label: 'Genitivattribut'},
+      {tag: 'app', label: 'Apposition'},
+      {tag: 'da',  label: 'Dativobjekt'},
+      {tag: 'oa',  label: 'Akkusativobjekt'},
+      {tag: 'nk',  label: 'Noun Kernel Element'},
+      {tag: 'mo',  label: 'Modifikator'},
+      {tag: 'cj',  label: 'Konjunktor'}
+    ];
+
+    /* English list */
+    this.wantedLabels['en'] = [
+      {tag: 'no',  label: 'NOUN'},
+      {tag: 'pro',  label: 'PRONOUN'},
+      {tag: 've',  label: 'VERB'},
+      {tag: 'adj',  label: 'ADJECTIVE'},
+      {tag: 'adv', label: 'ADVERB'},
+      {tag: 'pre',  label: 'PREPOSITION'},
+      {tag: 'con',  label: 'CONJUNCTION'},
+      {tag: 'int',  label: 'INTERJECTION'}
+    ];
   }
 }
 
