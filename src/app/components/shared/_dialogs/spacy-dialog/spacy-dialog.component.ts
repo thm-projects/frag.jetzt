@@ -23,7 +23,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
+
   keywords: Keyword[] = [];
+  keywordsOriginal: Keyword[] = [];
 
   constructor(
     protected langService: LanguageService,
@@ -51,29 +53,47 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywords = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromSpacy = this.keywordsOriginal.map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
 
   evalInput(model: Model) {
     const words: Keyword[] = [];
+    let regex;
+    if(this.commentLang === 'de') {
+      regex = new RegExp('(?!Der|Die|Das)[A-ZAÄÖÜ][a-zäöüß]+(-[A-Z][a-zäöüß]+)*', 'g');
+    } else if (this.commentLang === 'en') {
+      regex = new RegExp('(?!he|she|it|for|with)[a-z]{2,}(-[a-z]{2,})*', 'gi');
+    } else {
+      regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
+    }
+    console.log('comLang: ' + this.commentLang);
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.analyse(this.commentBodyChecked, model)
       .subscribe(res => {
+        console.log(res.words);
         for(const word of res.words) {
           if (word.tag.charAt(0) === 'N') {
-            words.push({
-              word: word.text,
-              completed: false,
-              editing: false,
-              selected: false
-            });
+            const filteredwords = word.text.match(regex);
+            for (const a of filteredwords) {
+              if(a !== null && a !== undefined && words.filter(item => item.word === a).length < 1) {
+                words.push({
+                  word: a,
+                  completed: false,
+                  editing: false,
+                  selected: false
+                });
+              }
+            }
           }
         }
         this.keywords = words;
+        this.keywordsOriginal = words;
       }, () => {
         this.keywords = [];
+        this.keywordsOriginal = [];
       });
   }
 
