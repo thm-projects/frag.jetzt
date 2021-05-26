@@ -401,7 +401,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let textTransform = '';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
-      textTransform = 'text-transform: capitalize;';
+      textTransform = 'text-transform: uppercase;';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
     }

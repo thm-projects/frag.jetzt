@@ -304,6 +304,22 @@
     "weight-color": "Font color",
     "weight-number": "max. number of keywords",
     "weight-color-tooltip": "select font-color",
-    "wieght-number-tooltip": "select maximal number of keywords"
+    "wieght-number-tooltip": "select maximal number of keywords",
+    "automatic-spelling": "Automatic spelling",
+    "notation": "Notation:",
+    "lowerCase": "Lower case",
+    "capitalization": "Capitalization",
+    "standard": "Standard",
+    "alphabetical-sorting": "Alphabetical sorting",
+    "cleanUpView": "Tag-Cleanup Settings",
+    "rotation": "rotation of random entries",
+    "highestWeight": "Number of tags with highest weight",
+    "automatic-spelling-tooltip": "automatic spelling check",
+    "notation-tooltip": "Notation-Settings: small, large, standard",
+    "alphabetical-sorting-tooltip": "Alphabetical sorting",
+    "rotation-tooltip": "rotate some entries randomly by x degrees",
+    "highestWeight-tooltip": "show x tags with the highest weight",
+    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
+    "rotate-weight-tooltip":"Rotate some randomly selected entries by this angle"
   }
 }
