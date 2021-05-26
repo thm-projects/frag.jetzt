@@ -14,13 +14,13 @@
         <mat-radio-group
         class="radio-button-group"
         [(ngModel)]="keywordORfulltext">
-          <mat-radio-button checked="true" [value]="KeywordORfulltextENUM[0]" class="radio-button-item">
+          <mat-radio-button checked="true" [value]="keywordOrFulltextENUM[0]" class="radio-button-item">
             {{"topic-cloud-dialog.keyword" | translate}}
           </mat-radio-button>
-          <mat-radio-button [value]="KeywordORfulltextENUM[1]" class="radio-button-item">
+          <mat-radio-button [value]="keywordOrFulltextENUM[1]" class="radio-button-item">
             {{"topic-cloud-dialog.full-text" | translate}}
           </mat-radio-button>
-          <mat-radio-button [value]="KeywordORfulltextENUM[2]" class="color-on-surface">
+          <mat-radio-button [value]="keywordOrFulltextENUM[2]" class="color-on-surface">
             {{"topic-cloud-dialog.both" | translate}}
           </mat-radio-button>
         </mat-radio-group>

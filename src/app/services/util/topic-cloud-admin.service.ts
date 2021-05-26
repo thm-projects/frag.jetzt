@@ -2,7 +2,7 @@ import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
 // eslint-disable-next-line max-len
-import { TopicCloudAdminData, KeywordORfulltext } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData, KeywordOrFulltext } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 @Injectable({
   providedIn: 'root',
 })
@@ -43,7 +43,7 @@ export class TopicCloudAdminService {
         considerVotes: false,
         profanityFilter: true,
         blacklistIsActive: false,
-        keywordORfulltext: KeywordORfulltext.keyword
+        keywordORfulltext: KeywordOrFulltext.keyword
       };
     }
     return data;

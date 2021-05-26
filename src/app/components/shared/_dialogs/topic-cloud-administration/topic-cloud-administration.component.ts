@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { TopicCloudAdminData } from './TopicCloudAdminData';
-import { KeywordORfulltext } from './TopicCloudAdminData';
+import { KeywordOrFulltext } from './TopicCloudAdminData';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -21,8 +21,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  KeywordORfulltextENUM = KeywordORfulltext;
+  keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
@@ -131,7 +130,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       blacklistIsActive: this.blacklistIsActive,
-      keywordORfulltext: KeywordORfulltext[this.keywordORfulltext]
+      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext]
     };
     this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
@@ -142,7 +141,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
-      this.keywordORfulltext = KeywordORfulltext[this.topicCloudAdminData.keywordORfulltext];
+      this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
     }
   }
 

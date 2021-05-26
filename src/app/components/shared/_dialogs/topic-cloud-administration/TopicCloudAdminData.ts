@@ -3,10 +3,10 @@ export interface TopicCloudAdminData{
     considerVotes: boolean;
     profanityFilter: boolean;
     blacklistIsActive: boolean;
-    keywordORfulltext: KeywordORfulltext;
+    keywordORfulltext: KeywordOrFulltext;
 }
 
-export enum KeywordORfulltext{
+export enum KeywordOrFulltext{
     keyword,
     fulltext,
     both
