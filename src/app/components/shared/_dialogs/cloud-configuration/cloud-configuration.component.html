@@ -1,13 +1,17 @@
 <div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
-  <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView">
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView && !cleanUpView">
     <h2>{{'tag-cloud-config.title' | translate}}</h2>
-    <div class="input-row special-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+    <div class="input-row special-settings demo-cloud-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-        <mat-slide-toggle fxFlex (change)="parent.demoToggle()" [checked]="parent.isDemo"
-          [ngModelOptions]="{standalone: true}">Demo Cloud</mat-slide-toggle>
+        <mat-slide-toggle fxFlex (change)="parent.dataManager.demoActive = !parent.dataManager.demoActive"
+                          [checked]="parent.dataManager.demoActive"
+                          [ngModelOptions]="{standalone: true}">Demo Cloud</mat-slide-toggle>
       </div>
-      <div  class="button-row weight-class-button">
-        <button (click)="toggleExtendedView()" mat-button class="primary">{{'tag-cloud-config.extended-btn' | translate}}</button>
+    </div>
+    <div class="input-row specialButtons special-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <div class="button-row weight-class-buttons">
+        <button (click)="toggleExtendedView()" mat-button class="primary" id="extendedViewButton">{{'tag-cloud-config.extended-btn' | translate}}</button>
+        <button (click)="toggleCleanupView()" mat-button class="primary">Tag-Cleanup</button>
       </div>
     </div>
     <h3>{{'tag-cloud-config.general' | translate}}</h3>
@@ -98,6 +102,7 @@
     </div>
     <h2>{{'tag-cloud-config.weight-class-settings' | translate}}</h2>
     <div *ngFor="let weightClass of weightClasses" class="weight-class-setting">
+      <div class ="weight-class-setting-content">
       <h3 class="weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</h3>
       <div class="input-row" fxLayout="column" fxLayoutGap="5px">
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
@@ -113,12 +118,51 @@
           </div>
         </div>
       </div>
-      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-        <mat-label class="label-text">{{'tag-cloud-config.weight-number' | translate}}</mat-label>
-        <mat-slider [value]="weightClass.maxTagNumber" min="0" max="30" step="1"
+      
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
+        <mat-label class="label-text" >{{'tag-cloud-config.weight-number' | translate}}</mat-label>
+        <mat-slider [value]="weightClass.maxTagNumber" min="0" [max]="weightClass.actualTagNumber" step="1"
                     [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                     [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
       </div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-label class="label-text">{{'tag-cloud-config.rotate-weight' | translate}}</mat-label>
+        <mat-slider [value]="weightClass.rotationAngle" min="-180" max="180" step="1"
+                    [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+                    [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
+      </div>
     </div>
+  </div>
+  </div>
+  <div class="cloud-configuration-form" fxLayout="column" *ngIf="cleanUpView">
+    <div  class="weight-class-button button-row">
+      <button (click)="toggleCleanupView()" mat-button class="primary">{{'tag-cloud-config.back-btn' | translate}}</button>
+    </div>
+    <h2>{{'tag-cloud-config.cleanUpView' | translate}}</h2>
+    <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+      <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <mat-slide-toggle matTooltip="{{'tag-cloud-config.automatic-spelling-tooltip' | translate}}" [(ngModel)]="cloudParameters.checkSpelling" [checked]="cloudParameters.checkSpelling" [ngModelOptions]="{standalone: true}" (change)="valueChanged()">{{'tag-cloud-config.automatic-spelling' | translate}}</mat-slide-toggle>
+      </div>
+    </div>
+      <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
+          <div><mat-radio-button value="1" (change)="textStyleChanged(1)" [checked]="cloudParameters.textTransform == 1">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="2" (change)="textStyleChanged(2)" [checked]="cloudParameters.textTransform == 2">{{'tag-cloud-config.capitalization' | translate}}</mat-radio-button> </div>
+          <div><mat-radio-button value="0" (change)="textStyleChanged(0)" [checked]="cloudParameters.textTransform == 0">{{'tag-cloud-config.standard' | translate}}</mat-radio-button> </div>
+        </mat-radio-group>
+      </div>
+      <div class="input-row special-settings alphabetical-sorting" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+        <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+          <mat-slide-toggle matTooltip="{{'tag-cloud-config.alphabetical-sorting-tooltip' | translate}}" [(ngModel)]="cloudParameters.sortAlphabetically" [checked]="cloudParameters.sortAlphabetically" [ngModelOptions]="{standalone: true}"(change)="valueChanged()">{{'tag-cloud-config.alphabetical-sorting' | translate}}</mat-slide-toggle>
+        </div>
+      </div>
+      <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+        <mat-form-field fxFlex fxLayout.xs="column">
+          <mat-label>{{'tag-cloud-config.highestWeight' | translate}}</mat-label>
+          <input #highestWeight matTooltip="{{'tag-cloud-config.highestWeight-tooltip' | translate}}" [value]="cloudParameters.highestWeight" matInput type="number"
+            [(ngModel)]="cloudParameters.highestWeight" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
+            min="0" max="150" step="1"/>
+        </mat-form-field>
+      </div>
   </div>
 </div>

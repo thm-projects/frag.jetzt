@@ -12,11 +12,12 @@
           class="spacyTagCloud"
           (window:resize)="onResize($event)"
           (afterInit)="initTagCloud()"
+          (clicked)="openTags($event)"
           [data]="data"
           [width]="options.width"
           [height]="options.height"
           [overflow]="options.overflow"
-          [delay]="options.delay"
+          [delay]="currentCloudParameters.delayWord"
           [randomizeAngle]="false"
           [zoomOnHover]="zoomOnHoverOptions"
           [realignOnResize]="false">
