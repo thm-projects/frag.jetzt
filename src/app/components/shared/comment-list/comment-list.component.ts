@@ -32,6 +32,7 @@ import { ModeratorService } from '../../../services/http/moderator.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { CommentFilterOptions } from '../../../utils/filter-options';
 import { isObjectBindingPattern } from 'typescript';
+import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 
 export enum Period {
   FROMNOW    = 'from-now',
@@ -101,6 +102,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
+  createCommentWrapper: CreateCommentWrapper = null;
 
   constructor(
     private commentService: CommentService,
@@ -127,12 +129,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   initNavigation() {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this.openCreateDialog());
+    nav('createQuestion', () => this.createCommentWrapper.openCreateDialog(this.user));
     nav('moderator', () => {
       const dialogRef = this.dialog.open(ModeratorsComponent, {
         width: '400px',
       });
       dialogRef.componentInstance.roomId = this.room.id;
+    });
+    this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.clickedOnTag(tag);
     });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
@@ -221,6 +226,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
           this.commentsEnabled = (this.userRole > 0) || !this.room.closed;
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
+            this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
@@ -232,6 +239,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
             .subscribe(comments => {
               this.comments = comments;
               this.getComments();
+              this.eventService.broadcast('commentListCreated', null);
             });
           /**
            if (this.userRole === UserRole.PARTICIPANT) {
@@ -253,8 +261,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.getCurrentFilter().writeFilter();
   }
 
-  private getCurrentFilter() : CommentFilterOptions {
-    let filter = new CommentFilterOptions();
+  private getCurrentFilter(): CommentFilterOptions {
+    const filter = new CommentFilterOptions();
     filter.filterSelected = this.currentFilter;
     filter.paused = this.freeze;
     filter.periodSet = this.period;
@@ -395,7 +403,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 case this.ack:
                   const isNowAck = <boolean>value;
                   if (!isNowAck) {
-                    this.comments = this.comments.filter(function (el) {
+                    this.comments = this.comments.filter((el) => {
                       return el.id !== payload.id;
                     });
                     this.setTimePeriod();
@@ -422,7 +430,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         break;
       case 'CommentDeleted':
         for (let i = 0; i < this.comments.length; i++) {
-          this.comments = this.comments.filter(function (el) {
+          this.comments = this.comments.filter((el) => {
             return el.id !== payload.id;
           });
         }
@@ -435,55 +443,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
   closeDialog() {
     this.dialog.closeAll();
-  }
-  openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
-    dialogRef.componentInstance.user = this.user;
-    dialogRef.componentInstance.roomId = this.roomId;
-    let tags;
-    tags = [];
-    if (this.room.tags) {
-      tags = this.room.tags;
-    }
-    dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.send(result);
-        } else {
-          return;
-        }
-      });
-  }
-
-
-  send(comment: Comment): void {
-    let message;
-    if (this.directSend) {
-      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-        message = msg;
-      });
-      comment.ack = true;
-    } else {
-      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
-        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-          message = msg;
-        });
-        comment.ack = true;
-      }
-      if (this.userRole === 0) {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-          message = msg;
-        });
-      }
-    }
-    this.commentService.addComment(comment).subscribe();
-    this.notificationService.show(message);
   }
 
   filterComments(type: string, compare?: any): void {
@@ -538,13 +497,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
       } else if (type === this.votedesc) {
         return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
       } else if (type === this.time) {
-        const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
+        const dateA = new Date(a.timestamp);
+        const dateB = new Date(b.timestamp);
         return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
       }
     });
-    return sortedArray.sort((a, b) => {
-      return this.isCreatedByModeratorOrCreator(a) ? -1 : this.isCreatedByModeratorOrCreator(b) ? 1 : 0;
-    });
+    return sortedArray.sort((a, b) => this.isCreatedByModeratorOrCreator(a) ? -1 : this.isCreatedByModeratorOrCreator(b) ? 1 : 0);
   }
 
   isCreatedByModeratorOrCreator(comment: Comment): boolean {
@@ -575,7 +533,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.notificationService.show(msg);
     });
 
-    let filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime());
+    const filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime());
     filter.writeFilter();
   }
 
@@ -591,8 +549,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
       this.notificationService.show(msg);
     });
-    
-    let filter = this.getCurrentFilter();
+
+    const filter = this.getCurrentFilter();
     filter.writeFilter();
   }
 
@@ -669,7 +627,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }
 
     this.getCurrentFilter().writeFilter();
-    
+
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
