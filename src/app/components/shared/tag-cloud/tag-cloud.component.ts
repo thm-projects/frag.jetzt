@@ -115,7 +115,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     delayWord: 0,
     randomAngles: false,
     checkSpelling: true,
-    sortAlphabetically: true,
+    sortAlphabetically: false,
     textTransform: CloudTextStyle.lowercase,
     cloudWeightSettings: weightSettings
   };
