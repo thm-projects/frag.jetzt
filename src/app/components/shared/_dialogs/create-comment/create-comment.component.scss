@@ -123,3 +123,8 @@ mat-hint {
 .mat-option {
   color: var(--on-surface);
 }
+
+::ng-deep .mat-tab-body-content {
+  max-width: 540px !important;
+  overflow-x: hidden !important;
+}
