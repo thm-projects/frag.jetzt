@@ -1,8 +1,9 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-// eslint-disable-next-line max-len
-import { TopicCloudAdminData, KeywordOrFulltext } from '../../../app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData, KeywordOrFulltext } from 'src/app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { RoomService } from './../../services/http/room.service';
+import { Room } from '../../models/room';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +13,7 @@ export class TopicCloudAdminService {
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
 
-  constructor() {
+  constructor(private roomService: RoomService) {
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
@@ -113,6 +114,14 @@ export class TopicCloudAdminService {
     this.blacklist.splice(this.blacklist.indexOf(word), 1);
   }
 
+  updateRoomBlacklist() {
+    let updatedRoom: Room;
+    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+      updatedRoom = room;
+    });
+    updatedRoom.blacklist = JSON.stringify(this.getBlacklist());
+    this.roomService.updateRoom(updatedRoom);
+  }
 
   private replaceString(str: string, search: string, replace: string) {
     return str.split(search).join(replace);
