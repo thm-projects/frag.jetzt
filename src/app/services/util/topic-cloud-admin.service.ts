@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-/*import { TopicCloudAdminData, KeywordOrFulltext } from 'src/app/components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';*/
-import { TopicCloudAdminData, KeywordOrFulltext } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData'
+import { TopicCloudAdminData, KeywordOrFulltext } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from './../../services/http/room.service';
 import { Room } from '../../models/room';
 
