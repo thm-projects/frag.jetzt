@@ -25,7 +25,7 @@ import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-admin
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { TagCloudDataManager } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
-import {TopicCloudAdminService} from "../../../services/util/topic-cloud-admin.service";
+import { TopicCloudAdminService } from "../../../services/util/topic-cloud-admin.service";
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 
 class CustomPosition implements Position {
@@ -184,7 +184,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.dataManager = new TagCloudDataManager(wsCommentService, commentService,topicCloudAdmin);
+    this.dataManager = new TagCloudDataManager(wsCommentService, commentService, topicCloudAdmin);
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
   }
 
@@ -379,7 +379,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openTags(tag: CloudData): void {
-    if(this._subscriptionCommentlist !== null){
+    if (this._subscriptionCommentlist !== null) {
       return;
     }
     this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
@@ -398,9 +398,12 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.child.reDraw();
     this.isLoading = false;
     // This should fix the hover bug (scale was not turned off sometimes)
+    if (this.dataManager.currentData === null) {
+      return;
+    }
     const it = this.dataManager.currentData.entries();
     this.child.cloudDataHtmlElements.forEach(elem => {
-      const {value:[tag, tagData]} = it.next();
+      const {value: [tag, tagData]} = it.next();
       elem.addEventListener('mouseleave', () => {
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
       });

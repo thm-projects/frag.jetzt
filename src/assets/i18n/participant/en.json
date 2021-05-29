@@ -240,6 +240,18 @@
     "administration": "Edit cloud topics",
     "demo-data-topic": "Topic %d"
   },
+  "tag-cloud-popup": {
+    "few-seconds": "few seconds",
+    "few-minutes": "few minutes",
+    "some-minutes": "{{minutes}} minutes",
+    "one-hour": "1 hour",
+    "some-hours": "{{hours}} hours",
+    "one-day": "1 day",
+    "some-days": "{{days}} days",
+    "one-week": "1 week",
+    "some-weeks": "{{weeks}} weeks",
+    "some-months": "{{months}} months"
+  },
   "topic-cloud-dialog":{
     "edit": "Edit",
     "delete": "Delete",

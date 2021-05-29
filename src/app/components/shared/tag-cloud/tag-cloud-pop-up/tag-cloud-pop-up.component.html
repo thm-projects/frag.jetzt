@@ -1,4 +1,4 @@
-<div>
+<div id="popupContainer">
   <span>
     <mat-icon>comment</mat-icon>
     <p>
@@ -18,11 +18,13 @@
     </p>
     <mat-icon>date_range</mat-icon>
     <p>
-      {{tagData && tagData.cachedVoteCount}}
+      {{timePeriodText}}
     </p>
   </span>
-  <p>Kategorien:</p>
-  <ul *ngIf="categories">
-    <li *ngFor="let category of categories">{{category}}</li>
-  </ul>
+  <div *ngIf="categories && categories.length">
+    <p>Kategorien:</p>
+    <ul>
+      <li *ngFor="let category of categories">{{category}}</li>
+    </ul>
+  </div>
 </div>
