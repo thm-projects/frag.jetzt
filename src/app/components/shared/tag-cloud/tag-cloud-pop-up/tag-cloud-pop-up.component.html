@@ -1,0 +1,24 @@
+<div>
+  <span>
+    <mat-icon>comment</mat-icon>
+    <p>
+      {{tagData && tagData.comments.length}} 1
+    </p>
+    <mat-icon>person</mat-icon>
+    <p>
+      {{tagData && tagData.distinctUsers.size}} 2
+    </p>
+    <mat-icon>thumb_up</mat-icon>
+    <p>
+      {{tagData && tagData.cachedVoteCount}} 3
+    </p>
+    <mat-icon>date_range</mat-icon>
+    <p>
+      {{tagData && tagData.cachedVoteCount}} 3 Wochen
+    </p>
+  </span>
+  <p>Kategorien:</p>
+  <ul *ngIf="categories">
+    <li *ngFor="let category of categories">{{category}}</li>
+  </ul>
+</div>

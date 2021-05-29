@@ -43,14 +43,16 @@ class CustomPosition implements Position {
 }
 
 class TagComment implements CloudData {
-  constructor(public color: string,
-              public external: boolean,
-              public link: string,
-              public position: Position,
+
+  constructor(public text: string,
               public rotate: number,
-              public text: string,
-              public tooltip: string,
-              public weight: number) {
+              public weight: number,
+              public index: number,
+              public color: string = null,
+              public external: boolean = false,
+              public link: string = null,
+              public position: Position = null,
+              public tooltip: string = null) {
   }
 }
 
@@ -324,7 +326,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          newElements.push(new TagComment(null, true, null, null, rotation, tag, 'TODO', tagData.weight));
+          newElements.push(new TagComment(tag, rotation, tagData.weight, newElements.length));
         }
       }
     }
@@ -372,6 +374,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openTags(tag: CloudData): void {
+    const myTag = tag as TagComment;
+    console.log(this.dataManager.currentData.get(myTag.text));
+    console.log(this.child.cloudDataHtmlElements[myTag.index]);
+    /* TODO rollback to default!
     if(this._subscriptionCommentlist !== null){
       return;
     }
@@ -380,7 +386,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       this.eventService.broadcast('setTagConfig', tag.text);
       this._subscriptionCommentlist.unsubscribe();
     });
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['../'], {relativeTo: this.route});*/
   }
 
   private redraw(): void {

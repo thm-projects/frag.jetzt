@@ -9,6 +9,9 @@ export interface TagCloudDataTagEntry {
   weight: number;
   adjustedWeight: number;
   cachedVoteCount: number;
+  distinctUsers: Set<number>;
+  firstTimeStamp: Date;
+  categories: Set<string>;
   comments: Comment[];
 }
 
@@ -117,7 +120,10 @@ export class TagCloudDataManager {
           cachedVoteCount: 0,
           comments: [],
           weight: i,
-          adjustedWeight: i - 1
+          adjustedWeight: i - 1,
+          categories: new Set<string>(),
+          distinctUsers: new Set<number>(),
+          firstTimeStamp: new Date()
         });
       }
     });
@@ -266,10 +272,26 @@ export class TagCloudDataManager {
         //TODO Check spelling & check profanity
         let current = data.get(keyword);
         if (current === undefined) {
-          current = {cachedVoteCount: 0, comments: [], weight: 0, adjustedWeight: 0};
+          current = {
+            cachedVoteCount: 0,
+            comments: [],
+            weight: 0,
+            adjustedWeight: 0,
+            distinctUsers: new Set<number>(),
+            categories: new Set<string>(),
+            firstTimeStamp: comment.timestamp
+          };
           data.set(keyword, current);
         }
         current.cachedVoteCount += comment.score;
+        current.distinctUsers.add(comment.userNumber);
+        if (comment.tag) {
+          current.categories.add(comment.tag);
+        }
+        // @ts-ignore
+        if (current.firstTimeStamp - comment.timestamp > 0){
+          current.firstTimeStamp = comment.timestamp;
+        }
         current.comments.push(comment);
       }
       users.add(comment.userNumber);

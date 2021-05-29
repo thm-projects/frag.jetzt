@@ -36,6 +36,7 @@ import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-admini
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
 import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
+import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 
 @NgModule({
   imports: [
@@ -77,7 +78,8 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     TopicCloudAdministrationComponent,
     TopicDialogCommentComponent,
     TopicCloudFilterComponent,
-    SpacyDialogComponent
+    SpacyDialogComponent,
+    TagCloudPopUpComponent
   ],
     exports: [
         RoomJoinComponent,
@@ -93,7 +95,8 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
         CommentComponent,
         DialogActionButtonsComponent,
         UserBonusTokenComponent,
-        CloudConfigurationComponent
+        CloudConfigurationComponent,
+        TagCloudPopUpComponent
     ]
 })
 export class SharedModule {
