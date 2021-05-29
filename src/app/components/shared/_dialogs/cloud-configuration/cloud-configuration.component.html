@@ -9,7 +9,7 @@
       </div>
     </div>
     <br>
-    <mat-accordion>
+    <mat-accordion id="accordion">
       <mat-expansion-panel class="matExpansionPanel" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -79,7 +79,7 @@
         <mat-expansion-panel class="matExpansionPanel" hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3>{{'tag-cloud-config.hover-title' | translate}}</h3> 
+              <h3>{{'tag-cloud-config.hover-title' | translate}}</h3>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div>
@@ -122,7 +122,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-        <div class="cloud-configuration-form" fxLayout="column">  
+        <div class="cloud-configuration-form" fxLayout="column">
           <div *ngFor="let weightClass of weightClasses" class="weight-class-setting">
             <div class ="weight-class-setting-content">
             <h3 class="weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</h3>
@@ -152,7 +152,7 @@
                             [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                             [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
               </div>
-            </div> 
+            </div>
           </div>
         </div>
         </div>
