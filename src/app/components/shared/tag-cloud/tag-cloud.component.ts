@@ -26,6 +26,7 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { TagCloudDataManager } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import {TopicCloudAdminService} from "../../../services/util/topic-cloud-admin.service";
+import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 
 class CustomPosition implements Position {
   left: number;
@@ -132,6 +133,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
 export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
+  @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @Input() user: User;
   @Input() roomId: string;
   room: Room;
@@ -377,10 +379,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openTags(tag: CloudData): void {
-    const myTag = tag as TagComment;
-    console.log(this.dataManager.currentData.get(myTag.text));
-    console.log(this.child.cloudDataHtmlElements[myTag.index]);
-    /* TODO rollback to default!
     if(this._subscriptionCommentlist !== null){
       return;
     }
@@ -389,7 +387,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       this.eventService.broadcast('setTagConfig', tag.text);
       this._subscriptionCommentlist.unsubscribe();
     });
-    this.router.navigate(['../'], {relativeTo: this.route});*/
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 
   private redraw(): void {
@@ -400,9 +398,14 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.child.reDraw();
     this.isLoading = false;
     // This should fix the hover bug (scale was not turned off sometimes)
+    const it = this.dataManager.currentData.entries();
     this.child.cloudDataHtmlElements.forEach(elem => {
+      const {value:[tag, tagData]} = it.next();
       elem.addEventListener('mouseleave', () => {
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
+      });
+      elem.addEventListener('mouseenter', () => {
+        this.popup.initPopUp(tag, tagData);
       });
     });
   }
