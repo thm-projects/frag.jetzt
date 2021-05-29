@@ -25,6 +25,7 @@ import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-admin
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { TagCloudDataManager } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+import {TopicCloudAdminService} from "../../../services/util/topic-cloud-admin.service";
 
 class CustomPosition implements Position {
   left: number;
@@ -175,12 +176,13 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               protected roomService: RoomService,
               private themeService: ThemeService,
               private wsCommentService: WsCommentServiceService,
+              private topicCloudAdmin: TopicCloudAdminService,
               private router: Router) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.dataManager = new TagCloudDataManager(wsCommentService, commentService);
+    this.dataManager = new TagCloudDataManager(wsCommentService, commentService,topicCloudAdmin);
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
   }
 
