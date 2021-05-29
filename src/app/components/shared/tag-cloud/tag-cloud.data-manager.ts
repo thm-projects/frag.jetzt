@@ -274,7 +274,6 @@ export class TagCloudDataManager {
         keywords = [];
       }
       for (const keyword of keywords) {
-        //TODO Check spelling & check profanity
         const lowerCaseKeyWord = keyword.toLowerCase();
         let profanity = false;
         for(let word of blackList){
