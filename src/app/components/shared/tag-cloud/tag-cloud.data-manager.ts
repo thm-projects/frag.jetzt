@@ -6,6 +6,7 @@ import { CloudParameters } from './tag-cloud.interface';
 import { TranslateService } from '@ngx-translate/core';
 import {Message} from '@stomp/stompjs';
 import {CommentFilterUtils} from '../../../utils/filter-comments';
+import {TopicCloudAdminService} from "../../../services/util/topic-cloud-admin.service";
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -73,7 +74,8 @@ export class TagCloudDataManager {
   private _demoData: TagCloudData = null;
 
   constructor(private _wsCommentService: WsCommentServiceService,
-              private _commentService: CommentService) {
+              private _commentService: CommentService,
+              private _tagCloudAdmin:TopicCloudAdminService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new Subject<TagCloudData>();
@@ -258,6 +260,7 @@ export class TagCloudDataManager {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
+    const blackList = this._tagCloudAdmin.getBlacklistWords(true,true);
     for (const comment of this._lastFetchedComments) {
       let keywords = comment.keywordsFromQuestioner;
       if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
@@ -272,6 +275,17 @@ export class TagCloudDataManager {
       }
       for (const keyword of keywords) {
         //TODO Check spelling & check profanity
+        const lowerCaseKeyWord = keyword.toLowerCase();
+        let profanity = false;
+        for(let word of blackList){
+          if(lowerCaseKeyWord.includes(word)){
+            profanity = true;
+            break;
+          }
+        }
+        if(profanity){
+          continue;
+        }
         let current = data.get(keyword);
         if (current === undefined) {
           current = {
