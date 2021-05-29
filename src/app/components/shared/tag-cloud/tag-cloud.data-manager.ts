@@ -4,6 +4,8 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { CloudParameters } from './tag-cloud.interface';
 import { TranslateService } from '@ngx-translate/core';
+import {Message} from '@stomp/stompjs';
+import {CommentFilterUtils} from '../../../utils/filter-comments';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -97,10 +99,10 @@ export class TagCloudDataManager {
       return;
     }
     this._roomId = roomId;
-    this.onUpdateData();
+    this.fetchData();
     //TODO Optimize for special events => better performance
     this._wsCommentSubscription = this._wsCommentService
-      .getCommentStream(this._roomId).subscribe(e => this.onUpdateData());
+      .getCommentStream(this._roomId).subscribe(e => this.onMessage(e));
   }
 
   deactivate(): void {
@@ -229,7 +231,7 @@ export class TagCloudDataManager {
     return this._lastFetchedData;
   }
 
-  private onUpdateData(): void {
+  private fetchData(): void {
     this._commentService.getFilteredComments(this._roomId).subscribe((comments: Comment[]) => {
       this._lastFetchedComments = comments;
       if (this._isDemoActive) {
@@ -319,6 +321,52 @@ export class TagCloudDataManager {
     this._metaDataBus.next(currentMeta);
     if (!this._isDemoActive) {
       this.reformatData();
+    }
+  }
+
+  private onMessage(message: Message): void {
+    const msg = JSON.parse(message.body);
+    const payload = msg.payload;
+    console.log(msg);
+    switch (msg.type) {
+      case 'CommentCreated':
+        this._commentService.getComment(payload.id).subscribe(c=> {
+          console.log(c);
+          if (CommentFilterUtils.checkComment(c)) {
+            this._lastFetchedComments.push(c);
+            this.rebuildTagData();
+          }
+        });
+        break;
+      case 'CommentPatched':
+        for (const comment of this._lastFetchedComments) {
+          if (payload.id === comment.id) {
+            for (const [key, value] of Object.entries(payload.changes)) {
+              switch (key) {
+                case 'score':
+                  comment.score = value as number;
+                  this.rebuildTagData();
+                  break;
+                case 'ack':
+                  const isNowAck = value as boolean;
+                  if (!isNowAck) {
+                    this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
+                  }
+                  this.rebuildTagData();
+                  break;
+                case 'tag':
+                  comment.tag = value as string;
+                  this.rebuildTagData();
+                  break;
+                case 'CommentDeleted':
+                  this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
+                  this.rebuildTagData();
+                  break;
+              }
+            }
+            break;
+          }
+        }
     }
   }
 
