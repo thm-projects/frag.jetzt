@@ -26,6 +26,11 @@ app-comment-list {
     outline: none;
   }
 }
+.spell-button{
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-top: 1rem;
+}
 
 .send {
   color: var(--on-primary);

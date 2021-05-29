@@ -194,6 +194,7 @@ mat-card-content > :first-child {
 }
 .keywords-even {
   background-color: var(--alt-surface);
+  cursor: pointer;
 }
 .keyword-span {
   color: var(--on-surface) !important;
