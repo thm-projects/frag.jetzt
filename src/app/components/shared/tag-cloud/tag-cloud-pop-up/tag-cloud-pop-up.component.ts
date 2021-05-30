@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TagCloudDataTagEntry } from '../tag-cloud.data-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
+import {TopicCloudAdminService} from "../../../../services/util/topic-cloud-admin.service";
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
@@ -16,7 +17,8 @@ export class TagCloudPopUpComponent implements OnInit {
   timePeriodText: string;
 
   constructor(private langService: LanguageService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              private _tagCloudAdmin:TopicCloudAdminService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -95,6 +97,10 @@ export class TagCloudPopUpComponent implements OnInit {
     this.translateService.get('tag-cloud-popup.some-months', {
       months
     }).subscribe(e => this.timePeriodText = e);
+  }
+
+  addBlacklistWord(){
+    this._tagCloudAdmin.addToBlacklistWordList(this.tag.toLowerCase());
   }
 
 }

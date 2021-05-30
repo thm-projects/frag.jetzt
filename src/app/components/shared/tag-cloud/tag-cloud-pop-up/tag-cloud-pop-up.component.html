@@ -20,6 +20,9 @@
     <p>
       {{timePeriodText}}
     </p>
+    <button mat-button (click)="addBlacklistWord()">
+      <mat-icon>gavel</mat-icon>
+    </button>
   </span>
   <div *ngIf="categories && categories.length">
     <p>Kategorien:</p>
