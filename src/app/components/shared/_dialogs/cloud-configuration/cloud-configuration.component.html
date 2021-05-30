@@ -17,7 +17,7 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="input-row firstElementOfExpansionPanel" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <mat-slide-toggle (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
+          <mat-slide-toggle matTooltip="{{'tag-cloud-config.random-angle-tooltip' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
             [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
@@ -150,7 +150,7 @@
                 <mat-label class="label-text">{{'tag-cloud-config.rotate-weight' | translate}}</mat-label>
                 <mat-slider [value]="weightClass.rotationAngle" min="-180" max="180" step="1"
                             [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
-                            [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
+                            [thumbLabel]="true" matTooltip="{{'tag-cloud-config.rotate-weight-tooltip' | translate}}"></mat-slider>
               </div>
             </div>
           </div>

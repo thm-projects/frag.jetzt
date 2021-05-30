@@ -364,13 +364,13 @@
     "hover-time-tooltip": "Select hover-time",
     "hover-delay-tooltip": "Select hover-delay",
 
-    "weight-class-settings": "Weight-classes settings",
+    "weight-class-settings": "Weight-class Settings",
     "weight-class": "Weight class",
     "back-btn": "Back",
     "weight-color": "Font color",
     "weight-number": "max. number of keywords",
-    "weight-color-tooltip": "select font-color",
-    "weight-number-tooltip": "select maximal number of keywords",
+    "weight-color-tooltip": "Select font-color",
+    "weight-number-tooltip": "Select maximal number of keywords",
     "automatic-spelling": "Automatic spelling",
     "notation": "Notation:",
     "lowerCase": "Lower case",
@@ -383,9 +383,8 @@
     "automatic-spelling-tooltip": "automatic spelling check",
     "notation-tooltip": "Notation-Settings: small, large, standard",
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
-    "rotation-tooltip": "rotate some entries randomly by x degrees",
+    "rotate-weight-tooltip": "Rotate some entries randomly by x degrees",
     "highestWeight-tooltip": "show x tags with the highest weight",
-    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
-    "rotate-weight-tooltip": "Rotate some randomly selected entries by this angle"
+    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees"
   }
 }
