@@ -219,7 +219,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
-          maxHeight: '80%'
+          maxHeight: '80%',
+          data: {
+            user: this.user
+          }
         }).afterClosed().subscribe(() => {
           this.dataManager.updateAdminSettings();
         });

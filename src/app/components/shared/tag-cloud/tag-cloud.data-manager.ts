@@ -13,6 +13,8 @@ export interface TagCloudDataTagEntry {
   weight: number;
   adjustedWeight: number;
   cachedVoteCount: number;
+  cachedUpVotes: number;
+  cachedDownVotes: number;
   distinctUsers: Set<number>;
   firstTimeStamp: Date;
   categories: Set<string>;
@@ -104,7 +106,6 @@ export class TagCloudDataManager {
       this._wsCommentSubscription = this._wsCommentService
         .getCommentStream(this._roomId).subscribe(e => this.onMessage(e));
     }
-
   }
 
   deactivate(): void {
@@ -120,6 +121,8 @@ export class TagCloudDataManager {
       for (let i = 10; i >= 1; i--) {
         this._demoData.set(text.replace('%d', '' + i), {
           cachedVoteCount: 0,
+          cachedUpVotes: 0,
+          cachedDownVotes: 0,
           comments: [],
           weight: i,
           adjustedWeight: i - 1,
@@ -301,6 +304,8 @@ export class TagCloudDataManager {
         if (current === undefined) {
           current = {
             cachedVoteCount: 0,
+            cachedUpVotes: 0,
+            cachedDownVotes: 0,
             comments: [],
             weight: 0,
             adjustedWeight: 0,
@@ -311,6 +316,8 @@ export class TagCloudDataManager {
           data.set(keyword, current);
         }
         current.cachedVoteCount += comment.score;
+        current.cachedUpVotes += comment.upvotes;
+        current.cachedDownVotes += comment.downvotes;
         current.distinctUsers.add(comment.userNumber);
         if (comment.tag) {
           current.categories.add(comment.tag);
