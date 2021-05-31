@@ -3,6 +3,8 @@ import * as BadWords from 'naughty-words';
 import { TopicCloudAdminData, KeywordOrFulltext } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from './../../services/http/room.service';
 import { Room } from '../../models/room';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +15,9 @@ export class TopicCloudAdminService {
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
 
-  constructor(private roomService: RoomService) {
+  constructor(private roomService: RoomService,
+              private translateService: TranslateService,
+              private notificationService: NotificationService) {
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
@@ -107,6 +111,7 @@ export class TopicCloudAdminService {
   addToBlacklistWordList(word: string) {
     if (word !== undefined) {
       this.blacklist.push(word);
+      this.updateRoomBlacklist();
     }
   }
 
@@ -118,9 +123,18 @@ export class TopicCloudAdminService {
     let updatedRoom: Room;
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
       updatedRoom = room;
+      updatedRoom.blacklist = JSON.stringify(this.getBlacklist());
+      this.roomService.updateRoom(updatedRoom).subscribe(_ => {
+        this.translateService.get('room-page.changes-successful').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      },
+      error => {
+        this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      });
     });
-    updatedRoom.blacklist = JSON.stringify(this.getBlacklist());
-    this.roomService.updateRoom(updatedRoom);
   }
 
   private replaceString(str: string, search: string, replace: string) {
