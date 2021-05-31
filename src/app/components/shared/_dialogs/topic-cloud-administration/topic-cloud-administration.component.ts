@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
@@ -11,6 +11,7 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 import { Label, TopicCloudAdminData } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { RoomService } from '../../../../services/http/room.service';
+import { User } from '../../../../models/user';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -106,7 +107,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   ];
   private topicCloudAdminData: TopicCloudAdminData;
 
-  constructor(public cloudDialogRef: MatDialogRef<TagCloudComponent>,
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: Data,
+    public cloudDialogRef: MatDialogRef<TagCloudComponent>,
     public confirmDialog: MatDialog,
     private notificationService: NotificationService,
     private authenticationService: AuthenticationService,
@@ -120,9 +123,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.isCreatorOrMod = (this.data.user.role !== UserRole.PARTICIPANT);
     this.fillListOfLabels();
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
@@ -189,12 +192,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.keywords.sort((a, b) => b.questions.length - a.questions.length);
         break;
     }
-  }
-
-  checkIfUserIsModOrCreator() {
-    this.isCreatorOrMod = this.authenticationService.getRole() === UserRole.CREATOR ||
-                          this.authenticationService.getRole() === UserRole.EDITING_MODERATOR ||
-                          this.authenticationService.getRole() === UserRole.EXECUTIVE_MODERATOR;
   }
 
   checkIfThereAreQuestions() {
@@ -365,3 +362,8 @@ interface Keyword {
   keyword: string;
   questions: string[];
 }
+
+export interface Data{
+  user: User;
+}
+
