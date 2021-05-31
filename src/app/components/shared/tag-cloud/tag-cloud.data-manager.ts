@@ -4,9 +4,9 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { CloudParameters } from './tag-cloud.interface';
 import { TranslateService } from '@ngx-translate/core';
-import {Message} from '@stomp/stompjs';
-import {CommentFilterUtils} from '../../../utils/filter-comments';
-import {TopicCloudAdminService} from "../../../services/util/topic-cloud-admin.service";
+import { Message } from '@stomp/stompjs';
+import { CommentFilterUtils } from '../../../utils/filter-comments';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -75,7 +75,7 @@ export class TagCloudDataManager {
 
   constructor(private _wsCommentService: WsCommentServiceService,
               private _commentService: CommentService,
-              private _tagCloudAdmin:TopicCloudAdminService) {
+              private _tagCloudAdmin: TopicCloudAdminService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new Subject<TagCloudData>();
@@ -192,6 +192,11 @@ export class TagCloudDataManager {
     return this._isAlphabeticallySorted;
   }
 
+  blockWord(tag: string): void {
+    this._tagCloudAdmin.addToBlacklistWordList(tag.toLowerCase());
+    this.rebuildTagData();
+  }
+
   updateConfig(parameters: CloudParameters): boolean {
     if (parameters.sortAlphabetically !== this._isAlphabeticallySorted) {
       this._isAlphabeticallySorted = parameters.sortAlphabetically;
@@ -260,7 +265,7 @@ export class TagCloudDataManager {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
-    const blackList = this._tagCloudAdmin.getBlacklistWords(true,true);
+    const blackList = this._tagCloudAdmin.getBlacklistWords(true, true);
     for (const comment of this._lastFetchedComments) {
       let keywords = comment.keywordsFromQuestioner;
       if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
@@ -276,13 +281,13 @@ export class TagCloudDataManager {
       for (const keyword of keywords) {
         const lowerCaseKeyWord = keyword.toLowerCase();
         let profanity = false;
-        for(let word of blackList){
-          if(lowerCaseKeyWord.includes(word)){
+        for (let word of blackList) {
+          if (lowerCaseKeyWord.includes(word)) {
             profanity = true;
             break;
           }
         }
-        if(profanity){
+        if (profanity) {
           continue;
         }
         let current = data.get(keyword);
@@ -304,7 +309,7 @@ export class TagCloudDataManager {
           current.categories.add(comment.tag);
         }
         // @ts-ignore
-        if (current.firstTimeStamp - comment.timestamp > 0){
+        if (current.firstTimeStamp - comment.timestamp > 0) {
           current.firstTimeStamp = comment.timestamp;
         }
         current.comments.push(comment);
@@ -340,11 +345,9 @@ export class TagCloudDataManager {
   private onMessage(message: Message): void {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
-    console.log(msg);
     switch (msg.type) {
       case 'CommentCreated':
-        this._commentService.getComment(payload.id).subscribe(c=> {
-          console.log(c);
+        this._commentService.getComment(payload.id).subscribe(c => {
           if (CommentFilterUtils.checkComment(c)) {
             this._lastFetchedComments.push(c);
             this.rebuildTagData();
@@ -354,28 +357,32 @@ export class TagCloudDataManager {
       case 'CommentPatched':
         for (const comment of this._lastFetchedComments) {
           if (payload.id === comment.id) {
+            let needRebuild = false;
             for (const [key, value] of Object.entries(payload.changes)) {
               switch (key) {
                 case 'score':
                   comment.score = value as number;
-                  this.rebuildTagData();
+                  needRebuild = true;
                   break;
                 case 'ack':
                   const isNowAck = value as boolean;
                   if (!isNowAck) {
                     this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
                   }
-                  this.rebuildTagData();
+                  needRebuild = true;
                   break;
                 case 'tag':
                   comment.tag = value as string;
-                  this.rebuildTagData();
+                  needRebuild = true;
                   break;
                 case 'CommentDeleted':
                   this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
-                  this.rebuildTagData();
+                  needRebuild = true;
                   break;
               }
+            }
+            if (needRebuild) {
+              this.rebuildTagData();
             }
             break;
           }

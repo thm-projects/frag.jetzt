@@ -9,9 +9,9 @@
           <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
         </div>
         <angular-tag-cloud
+          id="tagCloudComponent"
           class="spacyTagCloud"
           (window:resize)="onResize($event)"
-          (afterInit)="initTagCloud()"
           (clicked)="openTags($event)"
           [data]="data"
           [width]="options.width"
@@ -28,5 +28,5 @@
 </ars-screen>
 
 <ars-screen style="margin: 90px; width: auto; height: auto;">
-  <app-tag-cloud-pop-up></app-tag-cloud-pop-up>
+  <app-tag-cloud-pop-up [parent]="this"></app-tag-cloud-pop-up>
 </ars-screen>

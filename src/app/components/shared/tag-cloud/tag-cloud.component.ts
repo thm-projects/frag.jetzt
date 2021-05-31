@@ -23,9 +23,9 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { TagCloudDataManager } from './tag-cloud.data-manager';
+import { TagCloudDataManager, TagCloudDataTagEntry } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
-import { TopicCloudAdminService } from "../../../services/util/topic-cloud-admin.service";
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 
 class CustomPosition implements Position {
@@ -36,9 +36,9 @@ class CustomPosition implements Position {
               public relativeTop: number) {
   }
 
-  updatePosition(width: number, height: number, text: string, style: CSSStyleDeclaration) {
-    const offsetY = parseFloat(style.height) / 2;
-    const offsetX = parseFloat(style.width) / 2;
+  updatePosition(width: number, height: number, metrics: TextMetrics) {
+    const offsetY = (metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent) / 2;
+    const offsetX = metrics.width / 2;
     this.left = width * this.relativeLeft - offsetX;
     this.top = height * this.relativeTop - offsetY;
   }
@@ -49,6 +49,7 @@ class TagComment implements CloudData {
   constructor(public text: string,
               public rotate: number,
               public weight: number,
+              public tagData: TagCloudDataTagEntry,
               public index: number,
               public color: string = null,
               public external: boolean = false,
@@ -166,6 +167,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   private _currentSettings: CloudParameters;
   private _createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionCommentlist = null;
+  private _calcCanvas: HTMLCanvasElement = null;
+  private _calcRenderContext: CanvasRenderingContext2D = null;
+  private _calcFont: string = null;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -186,6 +190,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     this.dataManager = new TagCloudDataManager(wsCommentService, commentService, topicCloudAdmin);
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
+    this._calcCanvas = document.createElement('canvas');
+    this._calcRenderContext = this._calcCanvas.getContext('2d');
   }
 
   private static getCurrentCloudParameters(): CloudParameters {
@@ -257,6 +263,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     document.getElementById('footer_rescale').style.display = 'none';
+    this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
+    this.dataManager.activate(this.roomId);
+    this.dataManager.updateDemoData(this.translateService);
+    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
 
   ngOnDestroy() {
@@ -264,15 +274,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.headerInterface.unsubscribe();
     this.themeSubscription.unsubscribe();
     this.dataManager.deactivate();
-  }
-
-  initTagCloud() {
-    this.dataManager.activate(this.roomId);
-    this.dataManager.updateDemoData(this.translateService);
-    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-    setTimeout(() => {
-      this.redraw();
-    });
   }
 
   get tagCloudDataManager(): TagCloudDataManager {
@@ -331,7 +332,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          newElements.push(new TagComment(tag, rotation, tagData.weight, newElements.length));
+          newElements.push(new TagComment(tag, rotation, tagData.weight, tagData, newElements.length));
         }
       }
     }
@@ -345,6 +346,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
         }
       }
+      this.updateAlphabeticalPosition(newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -355,25 +357,17 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   updateTagCloud(dataUpdated = false) {
     this.isLoading = true;
     if (this._currentSettings.sortAlphabetically && this.data.length) {
-      if (dataUpdated || !this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
-        this.child.reDraw();
-      }
-      const width = this.child.calculatedWidth;
-      const height = this.child.calculatedHeight;
-      this.data.forEach((e, i) => {
-        (e.position as CustomPosition).updatePosition(width, height, e.text,
-          window.getComputedStyle(this.child.cloudDataHtmlElements[i]));
-      });
+      this.updateAlphabeticalPosition(this.data);
     }
     const debounceTime = 1_000;
     const current = new Date().getTime();
     const diff = current - this.lastDebounceTime;
     if (diff >= debounceTime) {
-      this.redraw();
+      this.redraw(dataUpdated);
     } else {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
-        this.redraw();
+        this.redraw(dataUpdated);
       }, debounceTime - diff);
     }
   }
@@ -390,25 +384,40 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.router.navigate(['../'], {relativeTo: this.route});
   }
 
-  private redraw(): void {
+  private updateAlphabeticalPosition(elements: TagComment[]): void {
+    const sizes = new Array(10);
+    const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
+    for (let i = 1; i <= 10; i++) {
+      sizes[i - 1] = (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%';
+    }
+    const width = this.child.calculatedWidth;
+    const height = this.child.calculatedHeight;
+    elements.forEach((e, i) => {
+      this._calcRenderContext.font = sizes[e.tagData.adjustedWeight] + ' ' + this._calcFont;
+      (e.position as CustomPosition).updatePosition(width, height, this._calcRenderContext.measureText(e.text));
+    });
+  }
+
+  private redraw(dataUpdate: boolean): void {
     if (this.child === undefined) {
       return;
     }
     this.lastDebounceTime = new Date().getTime();
-    this.child.reDraw();
+    if (!dataUpdate) {
+      this.child.reDraw();
+    }
     this.isLoading = false;
     // This should fix the hover bug (scale was not turned off sometimes)
     if (this.dataManager.currentData === null) {
       return;
     }
-    const it = this.dataManager.currentData.entries();
-    this.child.cloudDataHtmlElements.forEach(elem => {
-      const {value: [tag, tagData]} = it.next();
+    this.child.cloudDataHtmlElements.forEach((elem, i) => {
+      const dataElement = this.data[i];
       elem.addEventListener('mouseleave', () => {
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
       });
       elem.addEventListener('mouseenter', () => {
-        this.popup.initPopUp(tag, tagData);
+        this.popup.initPopUp(dataElement.text, dataElement.tagData);
       });
     });
   }

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TagCloudDataTagEntry } from '../tag-cloud.data-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import {TopicCloudAdminService} from "../../../../services/util/topic-cloud-admin.service";
+import { TagCloudComponent } from '../tag-cloud.component';
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
@@ -11,14 +11,14 @@ import {TopicCloudAdminService} from "../../../../services/util/topic-cloud-admi
 })
 export class TagCloudPopUpComponent implements OnInit {
 
+  @Input() parent: TagCloudComponent;
   tag: string;
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
 
   constructor(private langService: LanguageService,
-              private translateService: TranslateService,
-              private _tagCloudAdmin:TopicCloudAdminService) {
+              private translateService: TranslateService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -33,6 +33,10 @@ export class TagCloudPopUpComponent implements OnInit {
     this.tagData = tagData;
     this.categories = Array.from(tagData.categories.keys());
     this.calculateDateText();
+  }
+
+  addBlacklistWord(): void {
+    this.parent.dataManager.blockWord(this.tag);
   }
 
   private calculateDateText(): void {
@@ -97,10 +101,6 @@ export class TagCloudPopUpComponent implements OnInit {
     this.translateService.get('tag-cloud-popup.some-months', {
       months
     }).subscribe(e => this.timePeriodText = e);
-  }
-
-  addBlacklistWord(){
-    this._tagCloudAdmin.addToBlacklistWordList(this.tag.toLowerCase());
   }
 
 }
