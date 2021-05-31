@@ -3,6 +3,8 @@ import { TagCloudDataTagEntry } from '../tag-cloud.data-manager';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudComponent } from '../tag-cloud.component';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { User } from '../../../../models/user';
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
@@ -16,9 +18,11 @@ export class TagCloudPopUpComponent implements OnInit {
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
+  user: User;
 
   constructor(private langService: LanguageService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              private authenticationService: AuthenticationService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -26,6 +30,11 @@ export class TagCloudPopUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.timePeriodText = '...';
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
   }
 
   initPopUp(tag: string, tagData: TagCloudDataTagEntry) {
