@@ -5,19 +5,21 @@ import { RoomService } from './../../services/http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TopicCloudAdminService {
   private profanityWords = [];
-  private blacklist = []; // should be stored in backend
+  // private blacklist = []; // should be stored in backend
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
 
   constructor(private roomService: RoomService,
-              private translateService: TranslateService,
-              private notificationService: NotificationService) {
+    private translateService: TranslateService,
+    private notificationService: NotificationService) {
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
@@ -34,7 +36,7 @@ export class TopicCloudAdminService {
       words = words.concat(this.profanityWords).concat(this.getProfanityList());
     }
     if (blacklistFilter && this.blacklist.length > 0) {
-        words = words.concat(this.blacklist);
+      words = words.concat(this.blacklist);
     }
     return words;
   }
@@ -54,7 +56,7 @@ export class TopicCloudAdminService {
     return data;
   }
 
-  setAdminData(adminData: TopicCloudAdminData){
+  setAdminData(adminData: TopicCloudAdminData) {
     localStorage.setItem(this.adminKey, JSON.stringify(adminData));
   }
 
@@ -82,7 +84,7 @@ export class TopicCloudAdminService {
   addToProfanityList(word: string) {
     if (word !== undefined) {
       const newList = this.getProfanityList();
-      if (newList.includes(word)){
+      if (newList.includes(word)) {
         return;
       }
       newList.push(word);
@@ -93,68 +95,69 @@ export class TopicCloudAdminService {
   removeFromProfanityList(profanityWord: string) {
     const list = this.getProfanityList();
     list.map(word => {
-      if (word === profanityWord){
+      if (word === profanityWord) {
         list.splice(list.indexOf(word, 0), 1);
       }
     });
     localStorage.setItem(this.profanityKey, list.toString());
   }
 
-  removeProfanityList(){
+  removeProfanityList() {
     localStorage.removeItem(this.profanityKey);
   }
 
-  getBlacklist(): string[] {
-    return this.blacklist;
+  getRoom(): Observable<Room> {
+    return this.roomService.getRoom(localStorage.getItem('RoomId'));
   }
 
-  setBlacklist(b: string) {
-    if (b !== '') {
-      this.blacklist = JSON.parse(b);
-    }
-  }
+  // setBlacklist(b: string) {
+  //   if (b !== '') {
+  //     this.blacklist = JSON.parse(b);
+  //   }
+  // }
 
-  addToBlacklistWordList(word: string) {
+  addWordToBlacklist(word: string) {
     if (word !== undefined) {
-      this.blacklist.push(word);
-      this.updateRoomBlacklist();
+      this.getRoom().subscribe(room => {
+        this.updateRoomBlacklist(JSON.parse(room.blacklist).push(word));
+      });
     }
   }
 
   removeWordFromBlacklist(word: string) {
+    if (word !== undefined) {
+      this.getRoom().subscribe(room => {
+        this.updateRoomBlacklist(JSON.parse(room.blacklist).splice(room.blacklist.indexOf(word, 1)));
+      });
+    }
+    // let updatedRoom: Room;
+    // this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+    //   updatedRoom = room;
+    //   updatedRoom.blacklist = JSON.stringify(this.getBlacklist().splice(this.blacklist.indexOf(word), 1));
+    //   this.updateRoom(updatedRoom);
+    // });
+  }
+
+  updateRoomBlacklist(blacklist: string[]) {
     let updatedRoom: Room;
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
       updatedRoom = room;
-      updatedRoom.blacklist = JSON.stringify(this.getBlacklist().splice(this.blacklist.indexOf(word), 1));
-      this.roomService.updateRoom(updatedRoom).subscribe(_ => {
-        this.translateService.get('room-page.changes-successful').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      },
-      error => {
-        this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      });
+      updatedRoom.blacklist = JSON.stringify(blacklist);
+      this.updateRoom(updatedRoom);
     });
   }
 
-  updateRoomBlacklist() {
-    let updatedRoom: Room;
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      updatedRoom = room;
-      updatedRoom.blacklist = JSON.stringify(this.getBlacklist());
-      this.roomService.updateRoom(updatedRoom).subscribe(_ => {
-        this.translateService.get('room-page.changes-successful').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      },
+  updateRoom(updatedRoom: Room) {
+    this.roomService.updateRoom(updatedRoom).subscribe(_ => {
+      this.translateService.get('room-page.changes-successful').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    },
       error => {
         this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
       });
-    });
   }
 
   private replaceString(str: string, search: string, replace: string) {
