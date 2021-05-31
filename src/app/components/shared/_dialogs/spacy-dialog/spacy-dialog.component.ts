@@ -23,7 +23,6 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
-
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
 
@@ -47,7 +46,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   /**
    * Returns a lambda which closes the dialog on call.
    */
-   buildCloseDialogActionCallback(): () => void {
+  buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close();
   }
 
@@ -60,7 +59,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   evalInput(model: Model) {
-    const words: Keyword[] = [];
+    const keywords: Keyword[] = [];
     let regex;
     if(this.commentLang === 'de') {
       regex = new RegExp('(?!Der|Die|Das)[A-ZAÄÖÜ][a-zäöüß]+(-[A-Z][a-zäöüß]+)*', 'g');
@@ -69,41 +68,37 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     } else {
       regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
     }
-    console.log('comLang: ' + this.commentLang);
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-    this.spacyService.analyse(this.commentBodyChecked, model)
-      .subscribe(res => {
-        console.log(res.words);
-        for(const word of res.words) {
-          if (word.tag.charAt(0) === 'N') {
-            const filteredwords = word.text.match(regex);
-            for (const a of filteredwords) {
-              if(a !== null && a !== undefined && words.filter(item => item.word === a).length < 1) {
-                words.push({
-                  word: a,
-                  completed: false,
-                  editing: false,
-                  selected: false
-                });
-              }
+    this.spacyService.getKeywords(this.commentBodyChecked, model)
+      .subscribe(words => {
+        for(const word of words) {
+          const filteredwords = word.match(regex) || [];
+          for (const filteredword of filteredwords) {
+            if(filteredword !== null && filteredword !== undefined && keywords.filter(item => item.word === filteredword).length < 1) {
+              keywords.push({
+                word: filteredword,
+                completed: false,
+                editing: false,
+                selected: false
+              });
             }
           }
         }
-        this.keywords = words;
-        this.keywordsOriginal = words;
+        this.keywords = keywords;
+        this.keywordsOriginal = keywords;
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
       });
   }
 
-  onEdit(keyword){
+  onEdit(keyword) {
     keyword.editing = true;
     keyword.completed = false;
     keyword.selected = false;
   }
 
-  onEndEditing(keyword){
+  onEndEditing(keyword) {
     keyword.editing = false;
     keyword.completed = true;
     keyword.selected = true;

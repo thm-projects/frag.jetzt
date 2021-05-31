@@ -95,6 +95,7 @@ export class TagCloudDataManager {
     }
     this._roomId = roomId;
     this.onUpdateData();
+    //TODO Optimize for special events => better performance
     this._wsCommentSubscription = this._wsCommentService
       .getCommentStream(this._roomId).subscribe(e => this.onUpdateData());
   }
@@ -205,7 +206,6 @@ export class TagCloudDataManager {
       return;
     }
     let newData: TagCloudData;
-    //TODO SORT
     if (this._isAlphabeticallySorted) {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
         .sort(([aTag], [bTag]) => aTag.localeCompare(bTag)));
@@ -213,7 +213,6 @@ export class TagCloudDataManager {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
         .sort(([_, aTagData], [__, bTagData]) => bTagData.weight - aTagData.weight));
     }
-    //TODO APPLY OTHER
     this._dataBus.next(newData);
   }
 
@@ -252,10 +251,19 @@ export class TagCloudDataManager {
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of this._lastFetchedComments) {
-      //TODO Check supply types
-      let keywords = comment.keywords || [];
+      let keywords = comment.keywordsFromQuestioner;
+      if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
+        if (!keywords || !keywords.length) {
+          keywords = comment.keywordsFromSpacy;
+        }
+      } else if (this._supplyType === TagCloudDataSupplyType.fullText) {
+        keywords = comment.keywordsFromSpacy;
+      }
+      if (!keywords) {
+        keywords = [];
+      }
       for (const keyword of keywords) {
-        //TODO Check spelling
+        //TODO Check spelling & check profanity
         let current = data.get(keyword);
         if (current === undefined) {
           current = {cachedVoteCount: 0, comments: [], weight: 0, adjustedWeight: 0};

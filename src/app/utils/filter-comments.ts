@@ -71,7 +71,7 @@ export class CommentFilterUtils {
         }
 
         if (filter.keywordSelected != '') {
-          return com.keywords.includes(filter.keywordSelected);
+          return com.keywordsFromQuestioner.includes(filter.keywordSelected);
         }
         if (filter.tagSelected != ''){
           return com.tag === filter.tagSelected;

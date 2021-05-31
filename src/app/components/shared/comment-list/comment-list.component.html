@@ -3,7 +3,7 @@
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
-     
+
   <button id="filter-close-button"
           mat-icon-button
           class="searchBarButton"
@@ -239,7 +239,7 @@
         mat-icon-button
         aria-labelledby="add"
         class="fab_add_comment"
-        (click)="openCreateDialog()"
+        (click)="this.createCommentWrapper.openCreateDialog(this.user)"
         matTooltip="{{ 'comment-list.add-comment' | translate }}">
   <mat-icon>add</mat-icon>
 </button>
