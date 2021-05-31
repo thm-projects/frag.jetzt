@@ -181,6 +181,7 @@
           justify-content: center;
           hyphens: auto;
           word-break: break-word;
+          color: yellow;
         }
 
         &-inner {
@@ -301,4 +302,7 @@
 
 .selection:focus{
   background-color: black !important;
+}
+h2{
+  color: red;
 }

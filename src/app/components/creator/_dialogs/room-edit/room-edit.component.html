@@ -51,16 +51,21 @@
       </mat-tab>
       <mat-tab label="{{'session.preview' | translate}}"
                [disabled]="!editRoom.description">
-        <markdown [data]="editRoom.description"></markdown>
+        <markdown class="images" katex emoji lineNumbers lineHighlight
+          [data]="editRoom.description"></markdown>
       </mat-tab>
     </mat-tab-group>
     <div fxLayoutAlign="center center">
+      <label for="myCheck" style="background: darkgreen;  font-size: larger;">{{ 'room-page.block' | translate }} </label> 
+      <input type="checkbox" id= "myCheck" [(ngModel)]= "check" >
+      
       <button mat-raised-button
               class="delete"
               (click)="openDeleteRoomDialog()"
               aria-labelledby="delete-room">
         <mat-icon>delete</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
+
     </div>
   </div>
 </div>
@@ -68,6 +73,7 @@
 <app-dialog-action-buttons
   buttonsLabelSection="room-page"
   confirmButtonLabel="update"
+  
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildSaveActionCallback()"
 ></app-dialog-action-buttons>

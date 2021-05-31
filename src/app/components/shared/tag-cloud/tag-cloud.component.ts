@@ -16,15 +16,17 @@ import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';
 import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
 import { ThemeService } from '../../../../theme/theme.service';
 import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { TagCloudDataManager } from './tag-cloud.data-manager';
+import { TagCloudDataManager, TagCloudDataTagEntry } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 
 class CustomPosition implements Position {
   left: number;
@@ -34,23 +36,26 @@ class CustomPosition implements Position {
               public relativeTop: number) {
   }
 
-  updatePosition(width: number, height: number, text: string, style: CSSStyleDeclaration) {
-    const offsetY = parseFloat(style.height) / 2;
-    const offsetX = parseFloat(style.width) / 2;
+  updatePosition(width: number, height: number, metrics: TextMetrics) {
+    const offsetY = (metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent) / 2;
+    const offsetX = metrics.width / 2;
     this.left = width * this.relativeLeft - offsetX;
     this.top = height * this.relativeTop - offsetY;
   }
 }
 
 class TagComment implements CloudData {
-  constructor(public color: string,
-              public external: boolean,
-              public link: string,
-              public position: Position,
+
+  constructor(public text: string,
               public rotate: number,
-              public text: string,
-              public tooltip: string,
-              public weight: number) {
+              public weight: number,
+              public tagData: TagCloudDataTagEntry,
+              public index: number,
+              public color: string = null,
+              public external: boolean = false,
+              public link: string = null,
+              public position: Position = null,
+              public tooltip: string = null) {
   }
 }
 
@@ -115,7 +120,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     delayWord: 0,
     randomAngles: false,
     checkSpelling: true,
-    sortAlphabetically: true,
+    sortAlphabetically: false,
     textTransform: CloudTextStyle.lowercase,
     cloudWeightSettings: weightSettings
   };
@@ -129,6 +134,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
 export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
+  @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @Input() user: User;
   @Input() roomId: string;
   room: Room;
@@ -160,6 +166,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
   private _createCommentWrapper: CreateCommentWrapper = null;
+  private _subscriptionCommentlist = null;
+  private _calcCanvas: HTMLCanvasElement = null;
+  private _calcRenderContext: CanvasRenderingContext2D = null;
+  private _calcFont: string = null;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -171,13 +181,17 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private route: ActivatedRoute,
               protected roomService: RoomService,
               private themeService: ThemeService,
-              private wsCommentService: WsCommentServiceService) {
+              private wsCommentService: WsCommentServiceService,
+              private topicCloudAdmin: TopicCloudAdminService,
+              private router: Router) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.dataManager = new TagCloudDataManager(wsCommentService, commentService);
+    this.dataManager = new TagCloudDataManager(wsCommentService, commentService, topicCloudAdmin);
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
+    this._calcCanvas = document.createElement('canvas');
+    this._calcRenderContext = this._calcCanvas.getContext('2d');
   }
 
   private static getCurrentCloudParameters(): CloudParameters {
@@ -204,7 +218,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataManager.demoActive = !this.dataManager.demoActive;
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
-          minWidth: '50%'
+          minWidth: '50%',
+          maxHeight: '80%'
         });
       }
     });
@@ -248,6 +263,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     document.getElementById('footer_rescale').style.display = 'none';
+    this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
+    this.dataManager.activate(this.roomId);
+    this.dataManager.updateDemoData(this.translateService);
+    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
 
   ngOnDestroy() {
@@ -255,15 +274,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.headerInterface.unsubscribe();
     this.themeSubscription.unsubscribe();
     this.dataManager.deactivate();
-  }
-
-  initTagCloud() {
-    this.dataManager.activate(this.roomId);
-    this.dataManager.updateDemoData(this.translateService);
-    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-    setTimeout(() => {
-      this.redraw();
-    });
   }
 
   get tagCloudDataManager(): TagCloudDataManager {
@@ -322,7 +332,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          newElements.push(new TagComment(null, true, null, null, rotation, tag, 'TODO', tagData.weight));
+          newElements.push(new TagComment(tag, rotation, tagData.weight, tagData, newElements.length));
         }
       }
     }
@@ -336,6 +346,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
         }
       }
+      this.updateAlphabeticalPosition(newElements);
     }
     this.data = newElements;
     setTimeout(() => {
@@ -346,40 +357,67 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   updateTagCloud(dataUpdated = false) {
     this.isLoading = true;
     if (this._currentSettings.sortAlphabetically && this.data.length) {
-      if (dataUpdated || !this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
-        this.child.reDraw();
-      }
-      const width = this.child.calculatedWidth;
-      const height = this.child.calculatedHeight;
-      this.data.forEach((e, i) => {
-        (e.position as CustomPosition).updatePosition(width, height, e.text,
-          window.getComputedStyle(this.child.cloudDataHtmlElements[i]));
-      });
+      this.updateAlphabeticalPosition(this.data);
     }
     const debounceTime = 1_000;
     const current = new Date().getTime();
     const diff = current - this.lastDebounceTime;
     if (diff >= debounceTime) {
-      this.redraw();
+      this.redraw(dataUpdated);
     } else {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
-        this.redraw();
+        this.redraw(dataUpdated);
       }, debounceTime - diff);
     }
   }
 
-  private redraw(): void {
+  openTags(tag: CloudData): void {
+    if (this._subscriptionCommentlist !== null) {
+      return;
+    }
+    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
+      //send tag.text instead of 'Autos' -> wait for group 3 to implement...
+      this.eventService.broadcast('setTagConfig', tag.text);
+      this._subscriptionCommentlist.unsubscribe();
+    });
+    this.router.navigate(['../'], {relativeTo: this.route});
+  }
+
+  private updateAlphabeticalPosition(elements: TagComment[]): void {
+    const sizes = new Array(10);
+    const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
+    for (let i = 1; i <= 10; i++) {
+      sizes[i - 1] = (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%';
+    }
+    const width = this.child.calculatedWidth;
+    const height = this.child.calculatedHeight;
+    elements.forEach((e, i) => {
+      this._calcRenderContext.font = sizes[e.tagData.adjustedWeight] + ' ' + this._calcFont;
+      (e.position as CustomPosition).updatePosition(width, height, this._calcRenderContext.measureText(e.text));
+    });
+  }
+
+  private redraw(dataUpdate: boolean): void {
     if (this.child === undefined) {
       return;
     }
     this.lastDebounceTime = new Date().getTime();
-    this.child.reDraw();
+    if (!dataUpdate) {
+      this.child.reDraw();
+    }
     this.isLoading = false;
     // This should fix the hover bug (scale was not turned off sometimes)
-    this.child.cloudDataHtmlElements.forEach(elem => {
+    if (this.dataManager.currentData === null) {
+      return;
+    }
+    this.child.cloudDataHtmlElements.forEach((elem, i) => {
+      const dataElement = this.data[i];
       elem.addEventListener('mouseleave', () => {
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
+      });
+      elem.addEventListener('mouseenter', () => {
+        this.popup.initPopUp(dataElement.text, dataElement.tagData);
       });
     });
   }
@@ -397,7 +435,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     let textTransform = '';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
-      textTransform = 'text-transform: capitalize;';
+      textTransform = 'text-transform: uppercase;';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
     }
@@ -459,5 +497,4 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return 0;
   }
-
 }

@@ -4,11 +4,17 @@ import { WsCommentServiceService } from '../../../services/websockets/ws-comment
 import { CommentService } from '../../../services/http/comment.service';
 import { CloudParameters } from './tag-cloud.interface';
 import { TranslateService } from '@ngx-translate/core';
+import { Message } from '@stomp/stompjs';
+import { CommentFilterUtils } from '../../../utils/filter-comments';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 
 export interface TagCloudDataTagEntry {
   weight: number;
   adjustedWeight: number;
   cachedVoteCount: number;
+  distinctUsers: Set<number>;
+  firstTimeStamp: Date;
+  categories: Set<string>;
   comments: Comment[];
 }
 
@@ -68,7 +74,8 @@ export class TagCloudDataManager {
   private _demoData: TagCloudData = null;
 
   constructor(private _wsCommentService: WsCommentServiceService,
-              private _commentService: CommentService) {
+              private _commentService: CommentService,
+              private _tagCloudAdmin: TopicCloudAdminService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new Subject<TagCloudData>();
@@ -94,10 +101,10 @@ export class TagCloudDataManager {
       return;
     }
     this._roomId = roomId;
-    this.onUpdateData();
+    this.fetchData();
     //TODO Optimize for special events => better performance
     this._wsCommentSubscription = this._wsCommentService
-      .getCommentStream(this._roomId).subscribe(e => this.onUpdateData());
+      .getCommentStream(this._roomId).subscribe(e => this.onMessage(e));
   }
 
   deactivate(): void {
@@ -117,7 +124,10 @@ export class TagCloudDataManager {
           cachedVoteCount: 0,
           comments: [],
           weight: i,
-          adjustedWeight: i - 1
+          adjustedWeight: i - 1,
+          categories: new Set<string>(),
+          distinctUsers: new Set<number>(),
+          firstTimeStamp: new Date()
         });
       }
     });
@@ -182,6 +192,11 @@ export class TagCloudDataManager {
     return this._isAlphabeticallySorted;
   }
 
+  blockWord(tag: string): void {
+    this._tagCloudAdmin.addToBlacklistWordList(tag.toLowerCase());
+    this.rebuildTagData();
+  }
+
   updateConfig(parameters: CloudParameters): boolean {
     if (parameters.sortAlphabetically !== this._isAlphabeticallySorted) {
       this._isAlphabeticallySorted = parameters.sortAlphabetically;
@@ -223,7 +238,7 @@ export class TagCloudDataManager {
     return this._lastFetchedData;
   }
 
-  private onUpdateData(): void {
+  private fetchData(): void {
     this._commentService.getFilteredComments(this._roomId).subscribe((comments: Comment[]) => {
       this._lastFetchedComments = comments;
       if (this._isDemoActive) {
@@ -250,6 +265,7 @@ export class TagCloudDataManager {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
+    const blackList = this._tagCloudAdmin.getBlacklistWords(true, true);
     for (const comment of this._lastFetchedComments) {
       let keywords = comment.keywordsFromQuestioner;
       if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
@@ -263,13 +279,39 @@ export class TagCloudDataManager {
         keywords = [];
       }
       for (const keyword of keywords) {
-        //TODO Check spelling & check profanity
+        const lowerCaseKeyWord = keyword.toLowerCase();
+        let profanity = false;
+        for (let word of blackList) {
+          if (lowerCaseKeyWord.includes(word)) {
+            profanity = true;
+            break;
+          }
+        }
+        if (profanity) {
+          continue;
+        }
         let current = data.get(keyword);
         if (current === undefined) {
-          current = {cachedVoteCount: 0, comments: [], weight: 0, adjustedWeight: 0};
+          current = {
+            cachedVoteCount: 0,
+            comments: [],
+            weight: 0,
+            adjustedWeight: 0,
+            distinctUsers: new Set<number>(),
+            categories: new Set<string>(),
+            firstTimeStamp: comment.timestamp
+          };
           data.set(keyword, current);
         }
         current.cachedVoteCount += comment.score;
+        current.distinctUsers.add(comment.userNumber);
+        if (comment.tag) {
+          current.categories.add(comment.tag);
+        }
+        // @ts-ignore
+        if (current.firstTimeStamp - comment.timestamp > 0) {
+          current.firstTimeStamp = comment.timestamp;
+        }
         current.comments.push(comment);
       }
       users.add(comment.userNumber);
@@ -297,6 +339,54 @@ export class TagCloudDataManager {
     this._metaDataBus.next(currentMeta);
     if (!this._isDemoActive) {
       this.reformatData();
+    }
+  }
+
+  private onMessage(message: Message): void {
+    const msg = JSON.parse(message.body);
+    const payload = msg.payload;
+    switch (msg.type) {
+      case 'CommentCreated':
+        this._commentService.getComment(payload.id).subscribe(c => {
+          if (CommentFilterUtils.checkComment(c)) {
+            this._lastFetchedComments.push(c);
+            this.rebuildTagData();
+          }
+        });
+        break;
+      case 'CommentPatched':
+        for (const comment of this._lastFetchedComments) {
+          if (payload.id === comment.id) {
+            let needRebuild = false;
+            for (const [key, value] of Object.entries(payload.changes)) {
+              switch (key) {
+                case 'score':
+                  comment.score = value as number;
+                  needRebuild = true;
+                  break;
+                case 'ack':
+                  const isNowAck = value as boolean;
+                  if (!isNowAck) {
+                    this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
+                  }
+                  needRebuild = true;
+                  break;
+                case 'tag':
+                  comment.tag = value as string;
+                  needRebuild = true;
+                  break;
+                case 'CommentDeleted':
+                  this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
+                  needRebuild = true;
+                  break;
+              }
+            }
+            if (needRebuild) {
+              this.rebuildTagData();
+            }
+            break;
+          }
+        }
     }
   }
 

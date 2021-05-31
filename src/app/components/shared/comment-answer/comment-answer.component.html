@@ -11,7 +11,8 @@
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
       <div *ngIf="(isStudent || !edit) && answer">
-        <markdown [data]="answer"></markdown>
+        <markdown class="images" katex emoji lineNumbers lineHighlight
+          [data]="answer"></markdown>
         <div fxLayout="row"
              fxLayoutAlign="end">
           <button mat-raised-button
@@ -52,7 +53,8 @@
         </mat-tab>
         <mat-tab label="{{'session.preview' | translate}}"
                  [disabled]="!answer">
-          <markdown [data]="answer"></markdown>
+          <markdown class="images" katex emoji lineNumbers lineHighlight
+            [data]="answer"></markdown>
         </mat-tab>
       </mat-tab-group>
       <div fxLayout="row"

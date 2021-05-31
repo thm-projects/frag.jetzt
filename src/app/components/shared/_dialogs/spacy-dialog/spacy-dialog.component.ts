@@ -23,8 +23,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
-  spacyKeywords: string[] = [];
   keywords: Keyword[] = [];
+  keywordsOriginal: Keyword[] = [];
 
   constructor(
     protected langService: LanguageService,
@@ -53,30 +53,43 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   buildCreateCommentActionCallback() {
     return () => {
       this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
-      this.comment.keywordsFromSpacy = this.spacyKeywords;
+      this.comment.keywordsFromSpacy = this.keywordsOriginal.map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
 
   evalInput(model: Model) {
-    const words: Keyword[] = [];
+    const keywords: Keyword[] = [];
+    let regex;
+    if(this.commentLang === 'de') {
+      regex = new RegExp('(?!Der|Die|Das)[A-ZAÄÖÜ][a-zäöüß]+(-[A-Z][a-zäöüß]+)*', 'g');
+    } else if (this.commentLang === 'en') {
+      regex = new RegExp('(?!he|she|it|for|with)[a-z]{2,}(-[a-z]{2,})*', 'gi');
+    } else {
+      regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
+    }
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-    this.spacyService.getKeywords(this.commentBodyChecked, model).subscribe(res => {
-      this.spacyKeywords = res;
-      const wordsArr = [];
-      for (const tag of res) {
-        wordsArr.push({
-          word: tag,
-          completed: false,
-          editing: false,
-          selected: false
-        });
-      }
-      this.keywords = wordsArr;
-    }, () => {
-      this.spacyKeywords = [];
-      this.keywords = [];
-    });
+    this.spacyService.getKeywords(this.commentBodyChecked, model)
+      .subscribe(words => {
+        for(const word of words) {
+          const filteredwords = word.match(regex) || [];
+          for (const filteredword of filteredwords) {
+            if(filteredword !== null && filteredword !== undefined && keywords.filter(item => item.word === filteredword).length < 1) {
+              keywords.push({
+                word: filteredword,
+                completed: false,
+                editing: false,
+                selected: false
+              });
+            }
+          }
+        }
+        this.keywords = keywords;
+        this.keywordsOriginal = keywords;
+      }, () => {
+        this.keywords = [];
+        this.keywordsOriginal = [];
+      });
   }
 
   onEdit(keyword) {

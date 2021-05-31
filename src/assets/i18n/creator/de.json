@@ -88,7 +88,12 @@
     "en": "Englisch",
     "fr": "Französisch",
     "empty-nouns": "Keine Nomen enthalten",
-    "select-all": "Alles auswählen"
+    "select-all": "Alles auswählen",
+    "lang-button-hint": "Ausgewählte Sprache für die Rechtschreibprüfung",
+    "select-all-hint": "Alle Stichwörter auswählen",
+    "select-keyword-hint": "Dieses Stickwort auswählen",
+    "edit-keyword-hint": "Stichwort editieren",
+    "editing-done-hint": "Editierung abschliessen"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
@@ -308,6 +313,7 @@
     "threshold": "Schwellenwert für die Anzeige? ",
     "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
     "update": "Speichern",
+    "block" : "Fragen sperren",
     "update-description": "Speichert die Änderungen",
     "question": "Frage",
     "favorite": "Favorit",
@@ -369,6 +375,22 @@
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
     "weight-color-tooltip": "Auswahl der Schriftfarbe",
-    "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen"
+    "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen",
+    "automatic-spelling": "Automatische Rechtschreibung",
+    "notation": "Notation:",
+    "lowerCase": "Kleinschreibung",
+    "capitalization": "Großschreibung",
+    "standard": "Standard",
+    "alphabetical-sorting": "Alphabetische Sortierung",
+    "cleanUpView": "Tag-Cleanup Einstellungen",
+    "rotation": "Drehgrad zufälliger Einträge",
+    "highestWeight": "Anzahl Tags mit max. Gewichtung",
+    "automatic-spelling-tooltip": "automatische Überprüfung der Rechtschreibung",
+    "notation-tooltip": "Einstellung der Schreibweise: klein, groß, standard",
+    "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
+    "rotation-tooltip": "Einige Einträge zufällig um x Grad drehen",
+    "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
+    "rotate-weight": "Einige Einträge dieser Gewichtsklasse zufällig um x Grad drehen",
+    "rotate-weight-tooltip": "Einige zufällig ausgewählte Einträge um diesen Winkel drehen"
   }
 }

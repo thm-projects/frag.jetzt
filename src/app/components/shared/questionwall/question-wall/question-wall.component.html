@@ -6,6 +6,10 @@
           <button ars-btn (click)="leave()" matRipple aria-labelledby="back-lbl"><i>arrow_back</i></button>
         </ars-col>
       </ars-fill>
+      <ng-container *ngIf="room && room.closed && !router.url.includes('/room-list/')">
+        <mat-icon>block</mat-icon>
+        <h2>{{'question-wall.questions-blocked'|translate}}</h2>
+      </ng-container>
       <ars-col>
         <!-- centered col -->
       </ars-col>
@@ -115,7 +119,8 @@
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
-                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" [data]="commentFocus.comment.body"></markdown>
+                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" class="images" katex emoji lineNumbers lineHighlight
+                          [data]="commentFocus.comment.body"></markdown>
               </ars-row>
             </ars-row>
             <ars-row [height]="50">
@@ -220,7 +225,8 @@
                   (click)="focusComment(comment)"
                   style="box-sizing:border-box;padding:0 16px;cursor:pointer">
                   <p class="questionwall-comment-body">
-                    <markdown [data]="comment.comment.body"></markdown>
+                    <markdown class="images" katex emoji lineNumbers lineHighlight
+                      [data]="comment.comment.body"></markdown>
                   </p>
                 </ars-row>
                 <ars-row [height]="50">

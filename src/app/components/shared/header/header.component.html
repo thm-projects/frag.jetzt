@@ -17,38 +17,40 @@
     </h2>
 
 
-    <ng-container *ngIf="room && room.closed">
-      <h1>{{'header.questions-blocked'|translate}}</h1>
+    <ng-container *ngIf="room && room.closed && !router.url.includes('/room-list/')">
+      <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
     <ars-style-btn-material
       [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
       *ngIf="router.url.includes('tagcloud')"
       ars-flex-box>
-      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-      <button ars-btn
-              class="pseudo-button"
-              matRipple
-              matTooltip="{{'header.overview-question-tooltip' | translate}}">
-        <i>comment</i>
-        <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
-      </button>
-      <button ars-btn
-              class="pseudo-button"
-              matRipple
-              matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
-        <i>person</i>
-        <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
-      </button>
+      <ars-col ars-btn-wrp
+               [xp]="16"
+               [extra]="true">
+        <button ars-btn
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-question-tooltip' | translate}}">
+          <i>comment</i>
+          <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
+        </button>
+        <button ars-btn
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
+          <i>person</i>
+          <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+        </button>
 
-      <button ars-btn
-              class="pseudo-button"
-              matRipple
-              matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
-        <mat-icon svgIcon="comment_tag"
-                  class="oldtypo-h2 comment_tag-icon"></mat-icon>
-        <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
-      </button>
+        <button ars-btn
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
+          <mat-icon svgIcon="comment_tag"
+                    class="oldtypo-h2 comment_tag-icon"></mat-icon>
+          <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
+        </button>
       </ars-col>
     </ars-style-btn-material>
 
@@ -131,7 +133,6 @@
               </mat-icon>
               <span>{{'header.create-question' | translate}}</span>
             </button>
-
             <ng-container>
 
               <button mat-menu-item
@@ -272,7 +273,9 @@
                   *ngIf="router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudAdministration()">
-            <mat-icon aria-hidden="false" aria-label="Control Icon">edit</mat-icon>
+            <mat-icon aria-hidden="false"
+                      aria-label="Control Icon">edit
+            </mat-icon>
             <span>{{'header.tag-cloud-administration' | translate}}</span>
           </button>
 
@@ -348,7 +351,7 @@
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 
-      <ng-container *ngIf="shortId && user && user.role > 0">
+      <ng-container *ngIf="router.url.includes('/creator') || router.url.includes('/moderator')">
         <button mat-menu-item
                 (click)="blockQuestions()"
                 [ngClass]="{'color-warn': room && room.closed}"

@@ -79,7 +79,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   moderator = 'moderator';
   lecturer = 'lecturer';
   tag = 'tag';
+  selectedTag = '';
   userNumber = 'userNumber';
+  keyword = 'keyword';
+  selectedKeyword = '';
   answer = 'answer';
   unanswered = 'unanswered';
   owner = 'owner';
@@ -102,7 +105,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
-  private _createCommentWrapper: CreateCommentWrapper = null;
+  createCommentWrapper: CreateCommentWrapper = null;
 
   constructor(
     private commentService: CommentService,
@@ -129,12 +132,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   initNavigation() {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this._createCommentWrapper.openCreateDialog(this.user));
+    nav('createQuestion', () => this.createCommentWrapper.openCreateDialog(this.user));
     nav('moderator', () => {
       const dialogRef = this.dialog.open(ModeratorsComponent, {
         width: '400px',
       });
       dialogRef.componentInstance.roomId = this.room.id;
+    });
+    this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.clickedOnTag(tag);
     });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
@@ -223,7 +229,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
           this.commentsEnabled = (this.userRole > 0) || !this.room.closed;
-          this._createCommentWrapper = new CreateCommentWrapper(this.translateService,
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
@@ -236,6 +242,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
             .subscribe(comments => {
               this.comments = comments;
               this.getComments();
+              this.eventService.broadcast('commentListCreated', null);
             });
           /**
            if (this.userRole === UserRole.PARTICIPANT) {
@@ -262,6 +269,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     filter.filterSelected = this.currentFilter;
     filter.paused = this.freeze;
     filter.periodSet = this.period;
+    filter.keywordSelected = this.selectedKeyword;
+    filter.tagSelected = this.selectedTag;
 
     if (filter.periodSet == Period.FROMNOW) {
       filter.timeStampNow = new Date().getTime();
@@ -450,6 +459,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sortComments(this.currentSort);
       return;
     }
+    console.log(compare);
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
@@ -465,9 +475,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
         case this.unread:
           return !c.read;
         case this.tag:
+          this.selectedTag = compare;
           return c.tag === compare;
         case this.userNumber:
           return c.userNumber === compare;
+        case this.keyword:
+          this.selectedKeyword = compare;
+          return c.keywordsFromQuestioner != null ? c.keywordsFromQuestioner.includes(compare) : false;
         case this.answer:
           return c.answer;
         case this.unanswered:
@@ -518,6 +532,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.filterComments(this.tag, tag);
   }
 
+  clickedOnKeyword(keyword: string): void {
+    this.filterComments(this.keyword, keyword);
+  }
+
   clickedUserNumber(usrNumber: number): void {
     this.filterComments(this.userNumber, usrNumber);
   }
@@ -529,7 +547,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.notificationService.show(msg);
     });
 
-    const filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime());
+    let filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime(), this.selectedTag, this.selectedKeyword);
     filter.writeFilter();
   }
 

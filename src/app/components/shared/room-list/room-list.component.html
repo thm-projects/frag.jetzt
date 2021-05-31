@@ -33,7 +33,6 @@
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before" matBadgeSize="small" matBadgeOverlap="false">
-              <mat-icon *ngIf="room.closed" class="warn" [inline]="true">block</mat-icon>
               &raquo;{{room.name}}&laquo;
             </span>
           </td>
@@ -47,6 +46,7 @@
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId }}
+            <mat-icon *ngIf="room.closed" class="warn" [inline]="true">block</mat-icon>
           </td>
         </ng-container>
 
