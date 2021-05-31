@@ -108,6 +108,12 @@ export class TopicCloudAdminService {
     return this.blacklist;
   }
 
+  setBlacklist(b: string) {
+    if (b !== '') {
+      this.blacklist = JSON.parse(b);
+    }
+  }
+
   addToBlacklistWordList(word: string) {
     if (word !== undefined) {
       this.blacklist.push(word);

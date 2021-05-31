@@ -10,6 +10,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { Label, TopicCloudAdminData } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
+import { RoomService } from '../../../../services/http/room.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -111,7 +112,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private translateService: TranslateService,
     private langService: LanguageService,
-    private topicCloudAdminService: TopicCloudAdminService) {
+    private topicCloudAdminService: TopicCloudAdminService,
+    private roomService: RoomService) {
       this.langService.langEmitter.subscribe(lang => {
         this.translateService.use(lang);
       });
@@ -123,7 +125,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
-    this.setDefaultAdminData();
+    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+      this.topicCloudAdminService.setBlacklist(room.blacklist);
+      this.setDefaultAdminData();
+    });
   }
 
   ngOnDestroy(){
