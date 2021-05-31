@@ -122,7 +122,21 @@ export class TopicCloudAdminService {
   }
 
   removeWordFromBlacklist(word: string) {
-    this.blacklist.splice(this.blacklist.indexOf(word), 1);
+    let updatedRoom: Room;
+    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+      updatedRoom = room;
+      updatedRoom.blacklist = JSON.stringify(this.getBlacklist().splice(this.blacklist.indexOf(word), 1));
+      this.roomService.updateRoom(updatedRoom).subscribe(_ => {
+        this.translateService.get('room-page.changes-successful').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      },
+      error => {
+        this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      });
+    });
   }
 
   updateRoomBlacklist() {
