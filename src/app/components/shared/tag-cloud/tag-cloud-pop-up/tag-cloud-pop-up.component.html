@@ -20,7 +20,7 @@
     <p>
       {{timePeriodText}}
     </p>
-    <button mat-button (click)="addBlacklistWord()">
+    <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
       <mat-icon>gavel</mat-icon>
     </button>
   </span>
