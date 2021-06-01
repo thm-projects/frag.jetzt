@@ -110,16 +110,11 @@ export class TopicCloudAdminService {
     return this.roomService.getRoom(localStorage.getItem('RoomId'));
   }
 
-  // setBlacklist(b: string) {
-  //   if (b !== '') {
-  //     this.blacklist = JSON.parse(b);
-  //   }
-  // }
-
   addWordToBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        this.updateRoomBlacklist(JSON.parse(room.blacklist).push(word));
+        room.blacklist = JSON.parse(room.blacklist).push(word);
+        this.updateRoom(room);
       });
     }
   }
@@ -127,24 +122,10 @@ export class TopicCloudAdminService {
   removeWordFromBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        this.updateRoomBlacklist(JSON.parse(room.blacklist).splice(room.blacklist.indexOf(word, 1)));
+        room.blacklist = JSON.parse(room.blacklist).splice(room.blacklist.indexOf(word, 1));;
+        this.updateRoom(room);
       });
     }
-    // let updatedRoom: Room;
-    // this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-    //   updatedRoom = room;
-    //   updatedRoom.blacklist = JSON.stringify(this.getBlacklist().splice(this.blacklist.indexOf(word), 1));
-    //   this.updateRoom(updatedRoom);
-    // });
-  }
-
-  updateRoomBlacklist(blacklist: string[]) {
-    let updatedRoom: Room;
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      updatedRoom = room;
-      updatedRoom.blacklist = JSON.stringify(blacklist);
-      this.updateRoom(updatedRoom);
-    });
   }
 
   updateRoom(updatedRoom: Room) {
