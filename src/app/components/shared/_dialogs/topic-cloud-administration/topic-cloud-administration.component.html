@@ -87,8 +87,7 @@
           <button mat-stroked-button color="primary" class="margin-left" (click)="addBlacklistWord()">
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
-
-          <mat-list role="list" *ngIf="showBlacklistWordList" class="margin-bottom">
+          <mat-list role="list" *ngIf="showBlacklistWordList && blacklist.length > 0" class="margin-bottom">
             <mat-list-item class="color-on-surface" *ngFor="let word of blacklist" role="listitem">{{word}}
               <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBlacklist(word)">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>

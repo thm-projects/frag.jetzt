@@ -21,7 +21,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
-  blacklist: string[] = [];    // TODO: implement a watcher for blacklist
+  blacklist: string[];
+  blacklistSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -120,7 +121,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-    this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
+    this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.fillListOfLabels();
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -131,6 +132,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     this.setAdminData();
+    if(this.blacklistSubscription !== undefined){
+      this.blacklistSubscription.unsubscribe();
+    }
   }
 
   setAdminData(){

@@ -6,20 +6,20 @@ import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TopicCloudAdminService {
+  private blacklist: Subject<string[]>;
   private profanityWords = [];
   // private blacklist = []; // should be stored in backend
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
-
   constructor(private roomService: RoomService,
     private translateService: TranslateService,
     private notificationService: NotificationService) {
+    this.blacklist = new Subject<string[]>();
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
@@ -61,11 +61,11 @@ export class TopicCloudAdminService {
   }
 
   getBlacklist(): Observable<string[]>{
-    const subject = new Subject<string[]>();
+    // TODO: add watcher for another moderators
     this.getRoom().subscribe(room => {
-      subject.next(JSON.parse(room.blacklist));
+      this.blacklist.next(JSON.parse(room.blacklist));
     });
-    return subject.asObservable();
+    return this.blacklist.asObservable();
   }
 
   filterProfanityWords(str: string): string {
@@ -145,17 +145,19 @@ export class TopicCloudAdminService {
     this.updateRoom(room);
   }
 
-  updateRoom(updatedRoom: Room) {
+  updateRoom(updatedRoom: Room){
     this.roomService.updateRoom(updatedRoom).subscribe(_ => {
       this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {
         this.notificationService.show(msg);
+        /* update blacklist for subscribers */
+        this.blacklist.next(JSON.parse(updatedRoom.blacklist));
       });
     },
       error => {
         this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-      });
+    });
   }
 
   private replaceString(str: string, search: string, replace: string) {
