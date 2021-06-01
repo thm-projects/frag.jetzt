@@ -123,15 +123,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-    this.isCreatorOrMod = (this.data.user.role !== UserRole.PARTICIPANT);
+    this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.fillListOfLabels();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfThereAreQuestions();
     this.sortQuestions();
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      this.topicCloudAdminService.setBlacklist(room.blacklist);
-      this.setDefaultAdminData();
-    });
+    // this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+    //   this.topicCloudAdminService.setBlacklist(room.blacklist);
+    //   this.setDefaultAdminData();
+    // });
   }
 
   ngOnDestroy(){
@@ -172,7 +172,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   getBlacklist() {
-    return this.topicCloudAdminService.getBlacklist();
+    return [];
+    // return this.topicCloudAdminService.getBlacklist();
   }
 
   sortQuestions(sortMode?: string) {
@@ -309,7 +310,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addBlacklistWord() {
-    this.topicCloudAdminService.addToBlacklistWordList(this.newBlacklistWord);
+    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord);
     this.newBlacklistWord = undefined;
     if (this.searchMode){
       this.searchKeyword();

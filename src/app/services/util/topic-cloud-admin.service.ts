@@ -35,9 +35,9 @@ export class TopicCloudAdminService {
       // TODO: send only words that are contained in keywords
       words = words.concat(this.profanityWords).concat(this.getProfanityList());
     }
-    if (blacklistFilter && this.blacklist.length > 0) {
-      words = words.concat(this.blacklist);
-    }
+    // if (blacklistFilter && this.blacklist.length > 0) {
+    //   words = words.concat(this.blacklist);
+    // }
     return words;
   }
 
@@ -107,13 +107,15 @@ export class TopicCloudAdminService {
   }
 
   getRoom(): Observable<Room> {
-    return this.roomService.getRoom(localStorage.getItem('RoomId'));
+    return this.roomService.getRoom(localStorage.getItem('roomId'));
   }
 
   addWordToBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        room.blacklist = JSON.parse(room.blacklist).push(word);
+        const newlist = room.blacklist.length > 0 ? JSON.parse(room.blacklist) : [];
+        newlist.push(word);
+        room.blacklist = JSON.stringify(newlist);
         this.updateRoom(room);
       });
     }
@@ -122,8 +124,12 @@ export class TopicCloudAdminService {
   removeWordFromBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        room.blacklist = JSON.parse(room.blacklist).splice(room.blacklist.indexOf(word, 1));;
-        this.updateRoom(room);
+        if (room.blacklist.length > 0){
+          const newlist = JSON.parse(room.blacklist);
+          newlist.splice(newlist.indexOf(word, 0), 1);
+          room.blacklist = JSON.stringify(newlist);
+          this.updateRoom(room);
+        }
       });
     }
   }
