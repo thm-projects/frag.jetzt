@@ -311,5 +311,9 @@
   },
   "qr-dialog": {
     "session": "Raum"
+  },
+  "topic-cloud": {
+    "changes-gone-wrong": "Etwas ist schief gelaufen!",
+    "changes-successful": "Änderungen gespeichert."
   }
 }

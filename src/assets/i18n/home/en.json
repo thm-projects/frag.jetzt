@@ -315,5 +315,9 @@
   },
   "qr-dialog": {
     "session": "Key code"
+  },
+  "topic-cloud": {
+    "changes-gone-wrong": "Something went wrong!",
+    "changes-successful": "Successfully updated."
   }
 }
