@@ -5,7 +5,7 @@ import { RoomService } from './../../services/http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -58,6 +58,14 @@ export class TopicCloudAdminService {
 
   setAdminData(adminData: TopicCloudAdminData) {
     localStorage.setItem(this.adminKey, JSON.stringify(adminData));
+  }
+
+  getBlacklist(): Observable<string[]>{
+    const subject = new Subject<string[]>();
+    this.getRoom().subscribe(room => {
+      subject.next(JSON.parse(room.blacklist));
+    });
+    return subject.asObservable();
   }
 
   filterProfanityWords(str: string): string {

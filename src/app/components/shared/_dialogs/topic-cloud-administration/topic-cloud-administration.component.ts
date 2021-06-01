@@ -3,14 +3,12 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { Label, TopicCloudAdminData } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
-import { RoomService } from '../../../../services/http/room.service';
 import { User } from '../../../../models/user';
 
 @Component({
@@ -23,6 +21,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
+  blacklist: string[] = [];    // TODO: implement a watcher for blacklist
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -112,26 +111,22 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     public cloudDialogRef: MatDialogRef<TagCloudComponent>,
     public confirmDialog: MatDialog,
     private notificationService: NotificationService,
-    private authenticationService: AuthenticationService,
     private translateService: TranslateService,
     private langService: LanguageService,
-    private topicCloudAdminService: TopicCloudAdminService,
-    private roomService: RoomService) {
+    private topicCloudAdminService: TopicCloudAdminService) {
       this.langService.langEmitter.subscribe(lang => {
         this.translateService.use(lang);
       });
     }
 
   ngOnInit(): void {
+    this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.fillListOfLabels();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfThereAreQuestions();
     this.sortQuestions();
-    // this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-    //   this.topicCloudAdminService.setBlacklist(room.blacklist);
-    //   this.setDefaultAdminData();
-    // });
+    this.setDefaultAdminData();
   }
 
   ngOnDestroy(){
@@ -169,11 +164,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   getProfanityList() {
     return this.topicCloudAdminService.getProfanityList();
-  }
-
-  getBlacklist() {
-    return [];
-    // return this.topicCloudAdminService.getBlacklist();
   }
 
   sortQuestions(sortMode?: string) {

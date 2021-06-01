@@ -89,7 +89,7 @@
           </button>
 
           <mat-list role="list" *ngIf="showBlacklistWordList" class="margin-bottom">
-            <mat-list-item class="color-on-surface" *ngFor="let word of getBlacklist()" role="listitem">{{word}}
+            <mat-list-item class="color-on-surface" *ngFor="let word of blacklist" role="listitem">{{word}}
               <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBlacklist(word)">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
               </button>
@@ -97,7 +97,8 @@
           </mat-list>
 
           <div>
-            <button mat-raised-button *ngIf="getBlacklist().length > 0" class="primaryBackground"
+            <button mat-raised-button class="primaryBackground"
+              *ngIf="blacklist.length > 0"
               (click)="showBlacklistWordList=!showBlacklistWordList">
               {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) : ('topic-cloud-dialog.show-blacklist' | translate)}}
             </button>
