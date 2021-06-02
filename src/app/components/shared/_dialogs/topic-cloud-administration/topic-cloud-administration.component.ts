@@ -21,7 +21,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
-  blacklist: string[];
+  blacklist: string[] = [];
   blacklistSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
@@ -109,7 +109,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
-    public cloudDialogRef: MatDialogRef<TagCloudComponent>,
+    public cloudDialogRef: MatDialogRef<TopicCloudAdministrationComponent>,
     public confirmDialog: MatDialog,
     private notificationService: NotificationService,
     private translateService: TranslateService,
@@ -139,7 +139,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   setAdminData(){
     this.topicCloudAdminData = {
-      blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.blacklistIsActive),
+      blacklist: [],
       germanWantedLabels: this.wantedLabels['de'],
       englischWantedLabels: this.wantedLabels['en'],
       considerVotes: this.considerVotes,
@@ -151,7 +151,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   setDefaultAdminData() {
-    this.topicCloudAdminData = this.topicCloudAdminService.getAdminData;
+    this.topicCloudAdminData = this.topicCloudAdminService.getDefaultAdminData;
     if (this.topicCloudAdminData) {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
@@ -167,7 +167,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   getProfanityList() {
-    return this.topicCloudAdminService.getProfanityList();
+    return this.topicCloudAdminService.getCustomProfanityList();
   }
 
   sortQuestions(sortMode?: string) {

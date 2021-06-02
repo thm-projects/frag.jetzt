@@ -11,15 +11,16 @@ import { Observable, Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class TopicCloudAdminService {
+  private adminData: Subject<TopicCloudAdminData>;
   private blacklist: Subject<string[]>;
   private profanityWords = [];
-  // private blacklist = []; // should be stored in backend
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
   constructor(private roomService: RoomService,
     private translateService: TranslateService,
     private notificationService: NotificationService) {
     this.blacklist = new Subject<string[]>();
+    this.adminData = new Subject<TopicCloudAdminData>();
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
@@ -29,23 +30,15 @@ export class TopicCloudAdminService {
       .concat(BadWords['tr']);
   }
 
-  getBlacklistWords(profanityFilter: boolean, blacklistFilter: boolean) {
-    let words = [];
-    if (profanityFilter) {
-      // TODO: send only words that are contained in keywords
-      words = words.concat(this.profanityWords).concat(this.getProfanityList());
-    }
-    // if (blacklistFilter && this.blacklist.length > 0) {
-    //   words = words.concat(this.blacklist);
-    // }
-    return words;
+  get getAdminData(): Observable<TopicCloudAdminData>{
+    return this.adminData.asObservable();
   }
 
-  get getAdminData(): TopicCloudAdminData {
+  get getDefaultAdminData(): TopicCloudAdminData {
     let data = JSON.parse(localStorage.getItem(this.adminKey));
     if (!data) {
       data = {
-        blacklist: this.profanityWords,
+        blacklist: [],
         wantedLabels: [],
         considerVotes: false,
         profanityFilter: true,
@@ -56,8 +49,12 @@ export class TopicCloudAdminService {
     return data;
   }
 
-  setAdminData(adminData: TopicCloudAdminData) {
-    localStorage.setItem(this.adminKey, JSON.stringify(adminData));
+  setAdminData(_adminData: TopicCloudAdminData) {
+    localStorage.setItem(this.adminKey, JSON.stringify(_adminData));
+    this.getBlacklist().subscribe(list => {
+      _adminData.blacklist = this.getCustomProfanityList().concat(list);
+      this.adminData.next(_adminData);
+    });
   }
 
   getBlacklist(): Observable<string[]>{
@@ -70,7 +67,7 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    this.profanityWords.concat(this.getProfanityList()).map((word) => {
+    this.profanityWords.concat(this.getCustomProfanityList()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
         .includes(word.toLowerCase())
@@ -84,14 +81,14 @@ export class TopicCloudAdminService {
     return questionWithProfanity;
   }
 
-  getProfanityList(): string[] {
+  getCustomProfanityList(): string[] {
     const list = localStorage.getItem(this.profanityKey);
     return list ? list.split(',') : [];
   }
 
   addToProfanityList(word: string) {
     if (word !== undefined) {
-      const newList = this.getProfanityList();
+      const newList = this.getCustomProfanityList();
       if (newList.includes(word)) {
         return;
       }
@@ -101,7 +98,7 @@ export class TopicCloudAdminService {
   }
 
   removeFromProfanityList(profanityWord: string) {
-    const list = this.getProfanityList();
+    const list = this.getCustomProfanityList();
     list.map(word => {
       if (word === profanityWord) {
         list.splice(list.indexOf(word, 0), 1);
