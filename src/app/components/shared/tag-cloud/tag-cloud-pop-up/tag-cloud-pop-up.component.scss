@@ -6,6 +6,7 @@
   position: relative;
   box-shadow: 0 0 10px var(--dialog);
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .popupContainer::after {
@@ -79,4 +80,8 @@ ul {
 
 button {
   color: red;
+  min-width: unset;
+  margin-left: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
