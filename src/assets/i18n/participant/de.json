@@ -232,7 +232,13 @@
   "tag-cloud": {
     "config": "Wolkenansicht ändern",
     "administration": "Wolkenthemen editieren",
-    "demo-data-topic": "Thema %d"
+    "demo-data-topic": "Thema %d",
+    "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
+    "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
+    "period-since-first-comment":"Zeitraum seit erstem Kommentar",
+    "upvotes-topic": "Upvotes für dieses Thema",
+    "downvotes-topic": "Downvotes für dieses Thema",
+    "blacklist-topic": "Thema zur Blacklist hinzufügen"
   },
   "tag-cloud-popup": {
     "few-seconds": "wenige Sekunden",
