@@ -423,6 +423,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       elem.addEventListener('mouseenter', () => {
         this.popup.initPopUp(dataElement.text, dataElement.tagData);
+        this.popup.position(parseFloat(elem.style.left), parseFloat(elem.style.top), elem.offsetWidth, elem.offsetHeight);
       });
     });
   }

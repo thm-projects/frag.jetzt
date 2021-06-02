@@ -33,7 +33,10 @@ mat-drawer-content {
 }
 
 app-tag-cloud-pop-up {
-  position: absolute;
   width: max-content;
   height: max-content;
+}
+
+span {
+  user-select: none !important;
 }

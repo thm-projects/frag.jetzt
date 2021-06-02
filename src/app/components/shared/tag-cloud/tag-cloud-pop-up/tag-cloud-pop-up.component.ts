@@ -5,6 +5,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudComponent } from '../tag-cloud.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
+import {retagTsFile} from "@angular/compiler-cli/src/ngtsc/shims";
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
@@ -29,6 +30,7 @@ export class TagCloudPopUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.show(false);
     this.timePeriodText = '...';
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
@@ -38,6 +40,7 @@ export class TagCloudPopUpComponent implements OnInit {
   }
 
   initPopUp(tag: string, tagData: TagCloudDataTagEntry) {
+    this.show(true);
     this.tag = tag;
     this.tagData = tagData;
     this.categories = Array.from(tagData.categories.keys());
@@ -46,6 +49,24 @@ export class TagCloudPopUpComponent implements OnInit {
 
   addBlacklistWord(): void {
     this.parent.dataManager.blockWord(this.tag);
+    this.show(false);
+  }
+
+  position(left, top, tagWidth, tagHeight) {
+    const html = document.querySelector('.popupContainer') as HTMLElement;
+    const width = html.offsetWidth;
+    const tagLeft = left - width * 0.5 + tagWidth * 0.5;
+    const tagTop = top - 50;
+    html.style.position = 'absolute';
+    html.style.top = tagTop + 'px';
+    html.style.zIndex = '100';
+    html.style.left = ((tagLeft < 0) ? 0 : (tagLeft > window.innerWidth) ? window.innerWidth - tagWidth : tagLeft) + 'px';
+  }
+
+  show(visible: boolean) {
+    const html = document.querySelector('.popupContainer') as HTMLElement;
+    html.style.display = (visible) ? '' : 'none';
+    html.classList.add('down');
   }
 
   private calculateDateText(): void {
@@ -111,5 +132,4 @@ export class TagCloudPopUpComponent implements OnInit {
       months
     }).subscribe(e => this.timePeriodText = e);
   }
-
 }
