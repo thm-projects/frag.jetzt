@@ -8,6 +8,7 @@
         <div [ngClass]="{'hidden': !isLoading}" fxLayout="row" fxLayoutAlign="center center" fxFill>
           <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
         </div>
+        <app-tag-cloud-pop-up></app-tag-cloud-pop-up>
         <angular-tag-cloud
           id="tagCloudComponent"
           class="spacyTagCloud"
@@ -25,8 +26,4 @@
       </ars-fill>
     </mat-drawer-content>
   </mat-drawer-container>
-</ars-screen>
-
-<ars-screen style="margin: 90px; width: auto; height: auto;">
-  <app-tag-cloud-pop-up [parent]="this"></app-tag-cloud-pop-up>
 </ars-screen>

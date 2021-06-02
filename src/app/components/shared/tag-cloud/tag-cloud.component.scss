@@ -31,3 +31,9 @@ mat-drawer-content {
 ::ng-deep mat-progress-spinner circle {
   stroke: var(--on-background) !important;
 }
+
+app-tag-cloud-pop-up {
+  position: absolute;
+  width: max-content;
+  height: max-content;
+}
