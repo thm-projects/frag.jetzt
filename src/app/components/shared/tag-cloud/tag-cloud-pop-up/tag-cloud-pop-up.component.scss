@@ -1,9 +1,20 @@
-div#popupContainer {
+.popupContainer {
   border-radius: 25px;
   border: 2px solid #000;
   background-color: var(--dialog);
   padding: 10px;
-  box-shadow: 0 0 10px var(--dialog);
+  position: relative;
+}
+
+.pointer {
+  height: 20px;
+  width: 20px;
+  background-color: var(--dialog);
+  margin: auto;
+  transform: rotate(45deg);
+  margin-top: -11px;
+  border: 2px solid #000;
+  border-width: 0 2px 2px 0;
 }
 
 div > p {
