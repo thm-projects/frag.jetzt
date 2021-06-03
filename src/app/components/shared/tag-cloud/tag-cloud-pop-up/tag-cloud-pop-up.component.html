@@ -1,4 +1,7 @@
-<div class="popupContainer">
+<div #popupContainer
+     class="popupContainer"
+     (focusout)="onFocus($event)"
+      tabindex="0">
   <span>
     <mat-icon matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
     <p>
@@ -16,13 +19,16 @@
     <p>
       {{tagData && tagData.cachedDownVotes}}
     </p>
+    <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
+      <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
+    </button>
+  </span>
+  <br>
+  <span>
     <mat-icon matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
     <p>
       {{timePeriodText}}
     </p>
-    <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
-      <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
-    </button>
   </span>
   <div *ngIf="categories && categories.length">
     <p>Kategorien:</p>

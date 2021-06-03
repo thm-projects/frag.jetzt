@@ -408,10 +408,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.lastDebounceTime = new Date().getTime();
+    this.isLoading = false;
     if (!dataUpdate) {
       this.child.reDraw();
     }
-    this.isLoading = false;
     // This should fix the hover bug (scale was not turned off sometimes)
     if (this.dataManager.currentData === null) {
       return;
@@ -422,8 +422,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
       });
       elem.addEventListener('mouseenter', () => {
-        this.popup.initPopUp(dataElement.text, dataElement.tagData);
-        this.popup.position(parseFloat(elem.style.left), parseFloat(elem.style.top), elem.offsetWidth, elem.offsetHeight);
+        this.popup.initPopUp(dataElement.text, dataElement.tagData, () => {
+          this.popup.position(elem);
+          this.popup.show(true);
+        });
       });
     });
   }

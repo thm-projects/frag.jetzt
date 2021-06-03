@@ -37,6 +37,6 @@ app-tag-cloud-pop-up {
   height: max-content;
 }
 
-span {
+::ng-deep .spacyTagCloud span {
   user-select: none !important;
 }
