@@ -42,14 +42,14 @@ const deLabels: Label[] = [
 ];
 
 const enLabels: Label[] = [
-    {tag: 'no',   label: 'NOUN'},
-    {tag: 'pro',  label: 'PRONOUN'},
-    {tag: 've',   label: 'VERB'},
-    {tag: 'adj',  label: 'ADJECTIVE'},
-    {tag: 'adv',  label: 'ADVERB'},
-    {tag: 'pre',  label: 'PREPOSITION'},
-    {tag: 'con',  label: 'CONJUNCTION'},
-    {tag: 'int',  label: 'INTERJECTION'}
+    {tag: 'no',   label: 'Noun'},
+    {tag: 'pro',  label: 'Pronoun'},
+    {tag: 've',   label: 'Verb'},
+    {tag: 'adj',  label: 'Adjective'},
+    {tag: 'adv',  label: 'AdverbDVERB'},
+    {tag: 'pre',  label: 'Preposition'},
+    {tag: 'con',  label: 'Conjunction'},
+    {tag: 'int',  label: 'Interjection'}
 ];
 
 export const spacyLabels = new Labels(deLabels, enLabels);
