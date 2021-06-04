@@ -60,7 +60,8 @@ export class TopicCloudAdminService {
   getBlacklist(): Observable<string[]>{
     // TODO: add watcher for another moderators
     this.getRoom().subscribe(room => {
-      this.blacklist.next(JSON.parse(room.blacklist));
+      const list = room.blacklist.length > 0 ? JSON.parse(room.blacklist) : [];
+      this.blacklist.next(list);
     });
     return this.blacklist.asObservable();
   }
