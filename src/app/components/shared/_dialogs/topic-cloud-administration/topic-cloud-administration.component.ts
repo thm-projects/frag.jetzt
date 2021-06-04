@@ -6,7 +6,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { TopicCloudAdminData, Labels } from './TopicCloudAdminData';
+import { TopicCloudAdminData, Labels, spacyLabels } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 
@@ -39,7 +39,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
+
   wantedLabels: Labels;
+  englishLabels = true;
+  germanLabels = true;
 
   keywords: Keyword[] = [
     {
@@ -123,6 +126,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.checkIfThereAreQuestions();
     this.sortQuestions();
     this.setDefaultAdminData();
+    this.wantedLabels = spacyLabels;
   }
 
   ngOnDestroy(){

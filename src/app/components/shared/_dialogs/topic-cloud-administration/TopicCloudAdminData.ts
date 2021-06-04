@@ -1,4 +1,4 @@
-export interface TopicCloudAdminData{
+export interface TopicCloudAdminData {
     blacklist: string[];
     wantedLabels: Labels;
     considerVotes: boolean;
@@ -7,22 +7,22 @@ export interface TopicCloudAdminData{
     keywordORfulltext: KeywordOrFulltext;
 }
 
-export enum KeywordOrFulltext{
+export enum KeywordOrFulltext {
     keyword,
     fulltext,
     both
 }
 
-export interface Label{
+export interface Label {
     readonly tag: string;
     readonly label: string;
 }
 
-export class Labels{
+export class Labels {
     readonly de: Label[];
     readonly en: Label[];
 
-    constructor(_de: Label[], _en: Label[]){
+    constructor(_de: Label[], _en: Label[]) {
         this.de = _de;
         this.en = _en;
     }

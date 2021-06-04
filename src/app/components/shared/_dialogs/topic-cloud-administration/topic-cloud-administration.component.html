@@ -70,7 +70,7 @@
           </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="color-background"
+        <mat-expansion-panel class="color-background margin-bottom"
           (opened)="enterBlacklistWord = true; focusInput('blacklist-word-input')"
           (closed)="enterBlacklistWord = false">
           <mat-expansion-panel-header class="color-background">
@@ -104,6 +104,37 @@
           </div>
         </mat-expansion-panel>
       </mat-accordion>
+
+      <mat-accordion>
+        <mat-expansion-panel class="color-background">
+          <mat-expansion-panel-header class="color-background">
+            <mat-panel-title>
+              Spacy labels
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-selection-list *ngIf="germanLabels">
+            <mat-list-item class="color-on-surface">
+              German
+            </mat-list-item>
+
+            <mat-list-option selected=true class="color-on-surface" *ngFor="let label of wantedLabels.de">
+              {{label.label + " (" + label.tag + ")"}}
+            </mat-list-option>
+          </mat-selection-list>
+
+          <mat-selection-list *ngIf="englishLabels">
+            <mat-list-item class="color-on-surface">
+              English
+            </mat-list-item>
+
+            <mat-list-option selected=true class="color-on-surface" *ngFor="let label of wantedLabels.en">
+              {{label.label + " (" + label.tag + ")"}}
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-expansion-panel>
+      </mat-accordion>
+
     </mat-expansion-panel>
   </mat-accordion>
 
