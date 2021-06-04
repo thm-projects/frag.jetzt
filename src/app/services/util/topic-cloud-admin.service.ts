@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
-import { TopicCloudAdminData, KeywordOrFulltext } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+// eslint-disable-next-line max-len
+import { TopicCloudAdminData, KeywordOrFulltext, Labels } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from './../../services/http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
@@ -39,7 +40,7 @@ export class TopicCloudAdminService {
     if (!data) {
       data = {
         blacklist: [],
-        wantedLabels: [],
+        wantedLabels: new Labels([], []),
         considerVotes: false,
         profanityFilter: true,
         blacklistIsActive: false,

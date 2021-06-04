@@ -1,13 +1,12 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { Label, TopicCloudAdminData } from './TopicCloudAdminData';
+import { TopicCloudAdminData, Labels } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 
@@ -40,10 +39,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
-  wantedLabels: {[Key: string]: Label[]} = {
-    de: [],
-    en: []
-  };
+  wantedLabels: Labels;
 
   keywords: Keyword[] = [
     {
@@ -123,7 +119,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
-    this.fillListOfLabels();
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfThereAreQuestions();
     this.sortQuestions();
@@ -140,8 +135,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   setAdminData(){
     this.topicCloudAdminData = {
       blacklist: [],
-      germanWantedLabels: this.wantedLabels['de'],
-      englischWantedLabels: this.wantedLabels['en'],
+      wantedLabels: this.wantedLabels,
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       blacklistIsActive: this.blacklistIsActive,
@@ -157,8 +151,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
-      this.wantedLabels['en'] = this.topicCloudAdminData.englischWantedLabels;
-      this.wantedLabels['de'] = this.topicCloudAdminData.germanWantedLabels;
+      this.wantedLabels = this.topicCloudAdminData.wantedLabels;
     }
   }
 
@@ -321,34 +314,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   refreshAllLists(){
     this.searchKeyword();
-  }
-
-  fillListOfLabels(){
-    /* German list */
-    this.wantedLabels['de'] = [
-      {tag: 'sb',  label: 'Subjekt'},
-      {tag: 'pd',  label: 'Prädikat'},
-      {tag: 'og',  label: 'Genitivobjekt'},
-      {tag: 'ag',  label: 'Genitivattribut'},
-      {tag: 'app', label: 'Apposition'},
-      {tag: 'da',  label: 'Dativobjekt'},
-      {tag: 'oa',  label: 'Akkusativobjekt'},
-      {tag: 'nk',  label: 'Noun Kernel Element'},
-      {tag: 'mo',  label: 'Modifikator'},
-      {tag: 'cj',  label: 'Konjunktor'}
-    ];
-
-    /* English list */
-    this.wantedLabels['en'] = [
-      {tag: 'no',  label: 'NOUN'},
-      {tag: 'pro',  label: 'PRONOUN'},
-      {tag: 've',  label: 'VERB'},
-      {tag: 'adj',  label: 'ADJECTIVE'},
-      {tag: 'adv', label: 'ADVERB'},
-      {tag: 'pre',  label: 'PREPOSITION'},
-      {tag: 'con',  label: 'CONJUNCTION'},
-      {tag: 'int',  label: 'INTERJECTION'}
-    ];
   }
 }
 
