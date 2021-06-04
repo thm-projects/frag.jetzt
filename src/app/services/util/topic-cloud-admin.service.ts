@@ -60,8 +60,7 @@ export class TopicCloudAdminService {
   getBlacklist(): Observable<string[]>{
     // TODO: add watcher for another moderators
     this.getRoom().subscribe(room => {
-      const list = room.blacklist.length > 0 ? JSON.parse(room.blacklist) : [];
-      this.blacklist.next(list);
+      this.blacklist.next(JSON.parse(room.blacklist));
     });
     return this.blacklist.asObservable();
   }
@@ -119,7 +118,7 @@ export class TopicCloudAdminService {
   addWordToBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        const newlist = room.blacklist.length > 0 ? JSON.parse(room.blacklist) : [];
+        const newlist = JSON.parse(room.blacklist);
         newlist.push(word);
         this.updateBlacklist(newlist, room);
       });

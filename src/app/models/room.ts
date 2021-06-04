@@ -21,7 +21,7 @@ export class Room {
     abbreviation: string = '',
     name: string = '',
     description: string = '',
-    blacklist: string = '',
+    blacklist: string = '[]',
     closed: boolean = false,
     moderated: boolean = true,
     directSend: boolean = true,
