@@ -378,6 +378,14 @@ export class TagCloudDataManager {
                   comment.score = value as number;
                   needRebuild = true;
                   break;
+                case 'upvotes':
+                  comment.upvotes = value as number;
+                  needRebuild = true;
+                  break;
+                case 'downvotes':
+                  comment.downvotes = value as number;
+                  needRebuild = true;
+                  break;
                 case 'ack':
                   const isNowAck = value as boolean;
                   if (!isNowAck) {
