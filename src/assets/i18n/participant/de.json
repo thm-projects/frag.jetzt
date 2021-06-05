@@ -292,10 +292,10 @@
     "hover-scale-tooltip": "Skallierung der Wörter beim Erscheinen",
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
     "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
-    "extended-btn": "Gewichtsklassen",
+    "extended-btn": "Wichtigkeitsklasse",
     "back-btn": "Zurück",
-    "weight-class-settings": "Gewichtsklasse Einstellungen",
-    "weight-class": "Gewichtsklasse",
+    "weight-class-settings": "Wichtigkeitsklassen Einstellungen",
+    "weight-class": "Wichtigkeitsklasse",
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
     "weight-color-tooltip": "Auswahl der Schriftfarbe",
@@ -314,6 +314,6 @@
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
-    "rotate-weight-tooltip": "einige Einträge dieser Gewichtsklasse zufällig um x Grad drehen"
+    "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen"
   }
 }

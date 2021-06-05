@@ -363,8 +363,8 @@
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
     "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
 
-    "weight-class-settings": "Gewichtsklasse Einstellungen",
-    "weight-class": "Gewichtsklasse",
+    "weight-class-settings": "Wichtigkeitsklasse Einstellungen",
+    "weight-class": "Wichtigkeitsklasse",
     "back-btn": "Zurück",
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
@@ -384,6 +384,6 @@
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
-    "rotate-weight-tooltip": "einige Einträge dieser Gewichtsklasse zufällig um x Grad drehen"
+    "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklassen zufällig um x Grad drehen"
   }
 }
