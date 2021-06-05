@@ -5,7 +5,8 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudComponent } from '../tag-cloud.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
-import { EventService } from '../../../../services/util/event.service';
+
+const CLOSE_TIME = 1500;
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
@@ -21,12 +22,12 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   categories: string[];
   timePeriodText: string;
   user: User;
-  private _popupVisible = 0;
+  private _popupHoverTimer: number;
+  private _popupCloseTimer: number;
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
-              private authenticationService: AuthenticationService,
-              private eventService: EventService) {
+              private authenticationService: AuthenticationService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -39,59 +40,65 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         this.user = newUser;
       }
     });
-    const popup = document.querySelector('.popupContainer') as HTMLElement;
-    popup.addEventListener('mouseenter', () => {
-      this._popupVisible = 1;
-      this.eventService.broadcast('popupVisible', null);
-      clearTimeout(this.parent._currentTimeout);
-    });
-    popup.addEventListener('mouseleave', () => {
-      this._popupVisible = 0;
-      this.eventService.broadcast('popupNotVisible', null);
-      this.parent._currentTimeout = setTimeout(() => {
-        if(this._popupVisible != 1){
-          this.show(false);
-        }
-      }, 1500);
-    });
   }
 
   ngAfterViewInit() {
-    this.show(false);
+    const html = this.popupContainer.nativeElement as HTMLDivElement;
+    html.addEventListener('mouseenter', () => {
+      clearTimeout(this._popupCloseTimer);
+    });
+    html.addEventListener('mouseleave', () => {
+      this._popupCloseTimer = setTimeout(() => {
+        this.close();
+      }, CLOSE_TIME);
+    });
   }
 
   onFocus(event) {
     if (!this.popupContainer.nativeElement.contains(event.target)) {
-      this.show(false);
+      this.close();
     }
   }
 
-  initPopUp(tag: string, tagData: TagCloudDataTagEntry, afterInit?: () => void) {
-    this.tag = tag;
-    this.tagData = tagData;
-    this.categories = Array.from(tagData.categories.keys());
-    this.calculateDateText(afterInit);
+  leave(): void {
+    clearTimeout(this._popupHoverTimer);
+    this._popupCloseTimer = setTimeout(() => {
+      this.close();
+    }, CLOSE_TIME);
+  }
+
+  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
+    clearTimeout(this._popupCloseTimer);
+    clearTimeout(this._popupHoverTimer);
+    this._popupHoverTimer = setTimeout(() => {
+      this.tag = tag;
+      this.tagData = tagData;
+      this.categories = Array.from(tagData.categories.keys());
+      this.calculateDateText(() => {
+        this.position(elem);
+      });
+    }, hoverDelayInMs);
   }
 
   addBlacklistWord(): void {
     this.parent.dataManager.blockWord(this.tag);
-    this.show(false);
+    this.close();
   }
 
-  position(elem: HTMLElement) {
+  close(): void {
+    const html = this.popupContainer.nativeElement as HTMLDivElement;
+    html.classList.remove('up', 'down', 'right', 'left');
+  }
+
+  private position(elem: HTMLElement) {
     const html = this.popupContainer.nativeElement as HTMLDivElement;
     const rect = html.getBoundingClientRect();
     const sub = elem.getBoundingClientRect();
+    //Berechnung für Platz
     html.style.top = (sub.y - rect.height - 10) + 'px';
     html.style.left = (sub.x + (sub.width - rect.width) / 2) + 'px';
-  }
-
-  show(visible: boolean) {
-    const html = this.popupContainer.nativeElement as HTMLDivElement;
-    html.classList.toggle('down', visible);
-    if (visible) {
-      html.focus();
-    }
+    html.classList.add('down');
+    html.focus();
   }
 
   private calculateDateText(afterInit: () => void): void {

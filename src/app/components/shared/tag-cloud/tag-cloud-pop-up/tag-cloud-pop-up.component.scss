@@ -7,8 +7,9 @@
   position: absolute;
   box-shadow: 0 0 10px var(--dialog);
   box-sizing: border-box;
-  z-index: 2;
-  transform: translateY(-72px);
+  z-index: 3;
+  color: var(--on-dialog);
+  transform: translateY(-67px);
 
   &:focus {
     outline: none;
@@ -81,18 +82,17 @@ div > p {
 
 span {
   margin-right: 5px;
-}
 
-span > mat-icon {
-  margin: -1px 0px 0px 12px;
-  vertical-align: middle;
-}
+  & > mat-icon {
+    margin: -1px 0px 0px 12px;
+    vertical-align: middle;
+  }
 
-span > p {
-  color: #000;
-  display: inline;
-  font-weight: 600;
-  vertical-align: middle;
+  & > p {
+    display: inline;
+    font-weight: 600;
+    vertical-align: middle;
+  }
 }
 
 ul {
@@ -100,7 +100,7 @@ ul {
 }
 
 button {
-  color: red;
+  color: var(--red);
   min-width: unset;
   margin-left: 0;
   padding-left: 10px;

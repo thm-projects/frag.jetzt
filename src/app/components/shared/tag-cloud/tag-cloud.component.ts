@@ -170,8 +170,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
-  private _popupVisible = 0;
-  _currentTimeout = null;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -421,28 +419,12 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.child.cloudDataHtmlElements.forEach((elem, i) => {
       const dataElement = this.data[i];
       elem.addEventListener('mouseleave', () => {
-        this._popupVisible = 0;
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
-        this.eventService.on('popupVisible').subscribe(() => {
-          this._popupVisible = 1;
-          clearTimeout(this._currentTimeout);
-        });
-        this.eventService.on('popupNotVisible').subscribe(() => {
-          this._popupVisible = 0;
-        });
-        this._currentTimeout = setTimeout(() => {
-          if(this._popupVisible != 1){
-            this.popup.show(false);
-          }
-        }, 1500);
+        this.popup.leave();
       });
       elem.addEventListener('mouseenter', () => {
-        this._popupVisible = 1;
-        clearTimeout(this._currentTimeout);
-        this.popup.initPopUp(dataElement.text, dataElement.tagData, () => {
-          this.popup.position(elem);
-          this.popup.show(true);
-        });
+        this.popup.enter(elem, dataElement.text, dataElement.tagData,
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });
     });
   }
@@ -473,7 +455,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }', rules.length);
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { color: ' +
-      this._currentSettings.fontColor + '; }', rules.length);
+      this._currentSettings.fontColor + '; background-color: ' +
+      this._currentSettings.backgroundColor + '; }', rules.length);
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { background-color: ' +
       this._currentSettings.backgroundColor + '; }', rules.length);
   }
