@@ -5,6 +5,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudComponent } from '../tag-cloud.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-tag-cloud-pop-up',
@@ -20,10 +21,12 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   categories: string[];
   timePeriodText: string;
   user: User;
+  private _popupVisible = 0;
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private eventService: EventService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -35,6 +38,21 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       if (newUser) {
         this.user = newUser;
       }
+    });
+    const popup = document.querySelector('.popupContainer') as HTMLElement;
+    popup.addEventListener('mouseenter', () => {
+      this._popupVisible = 1;
+      this.eventService.broadcast('popupVisible', null);
+      clearTimeout(this.parent._currentTimeout);
+    });
+    popup.addEventListener('mouseleave', () => {
+      this._popupVisible = 0;
+      this.eventService.broadcast('popupNotVisible', null);
+      this.parent._currentTimeout = setTimeout(() => {
+        if(this._popupVisible != 1){
+          this.show(false);
+        }
+      }, 1500);
     });
   }
 
