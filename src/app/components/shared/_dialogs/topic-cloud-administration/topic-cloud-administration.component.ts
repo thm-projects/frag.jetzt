@@ -120,10 +120,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.checkIfThereAreQuestions();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.checkIfThereAreQuestions();
     this.sortQuestions();
     this.setDefaultAdminData();
     this.wantedLabels = spacyLabels;
@@ -188,10 +188,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   checkIfThereAreQuestions() {
     if (this.keywords.length === 0){
-      this.translateService.get('topic-cloud-dialog.nokeyword-note').subscribe(msg => {
+      this.translateService.get('topic-cloud-dialog.no-keywords-note').subscribe(msg => {
         this.notificationService.show(msg);
       });
-      this.cloudDialogRef.close();
+      setTimeout(() => {
+        this.cloudDialogRef.close();
+      }, 0);
     }
   }
 
