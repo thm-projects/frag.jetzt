@@ -24,8 +24,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   user: User;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
-  private _popupVisible = 0;
-  private  _popupHandleDirection: string;
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
@@ -78,7 +76,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
-        this.show(true);
       });
     }, hoverDelayInMs);
   }
@@ -93,7 +90,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     html.classList.remove('up', 'down', 'right', 'left');
   }
 
-  position(elem: HTMLElement) {
+  private position(elem: HTMLElement) {
     const html = this.popupContainer.nativeElement as HTMLDivElement;
     const popup = html.getBoundingClientRect();
     const tag = elem.getBoundingClientRect();
@@ -101,89 +98,67 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     // calculate the free space to the left, right, top and bottom from tag
     const spaceLeft = tag.x + tag.width / 2;
     const spaceRight = boundingBox.right - tag.right + tag.width / 2;
-    const spaceTop = tag.y -boundingBox.y;
+    const spaceTop = tag.y - boundingBox.y;
     const spaceBottom = boundingBox.bottom - tag.bottom;
     // set flags if tag is near bounding box
-    let isLeft = false;
-    let isRight = false;
-    let isTop = false;
-    let isBottom = false;
-    if (spaceLeft <= popup.width / 2.0)
-      isLeft = true;
-    if (spaceRight <= popup.width / 2.0)
-      isRight = true;
-    if (spaceTop <= popup.height)
-      isTop = true;
-    if (spaceBottom <= popup.height)
-      isBottom = true;
+    const isLeft = spaceLeft <= popup.width / 2.0;
+    const isRight = spaceRight <= popup.width / 2.0;
+    const isTop = spaceTop <= popup.height;
+    const isBottom = spaceBottom <= popup.height;
+
     // try to make a decision where to place the popup outgoing from tag with checks if we are at a border of the viewport
-    const TOP = 0, BOTTOM = 1, LEFT = 2, RIGHT = 3;
+    enum PopupPosition {
+      top,
+      bottom,
+      left,
+      right
+    }
+
     let dockingPosition;
     if (isLeft && isTop && !isBottom && !isRight) {
-      dockingPosition = RIGHT
-    }
-    else if (isTop && !isLeft && !isRight && !isBottom) {
-      dockingPosition = BOTTOM
-    }
-    else if (isRight && isTop && !isLeft && !isBottom) {
-      dockingPosition = LEFT
-    }
-    else if (isLeft && !isTop && !isRight && !isBottom) {
-      dockingPosition = RIGHT
-    }
-    else if (!isLeft && !isTop && !isRight && !isBottom) {
+      dockingPosition = PopupPosition.right;
+    } else if (isTop && !isLeft && !isRight && !isBottom) {
+      dockingPosition = PopupPosition.bottom;
+    } else if (isRight && isTop && !isLeft && !isBottom) {
+      dockingPosition = PopupPosition.left;
+    } else if (isLeft && !isTop && !isRight && !isBottom) {
+      dockingPosition = PopupPosition.right;
+    } else if (!isLeft && !isTop && !isRight && !isBottom) {
       // default docking when all sides offer enough space
-      dockingPosition = TOP
-    }
-    else if (isRight && !isTop && !isLeft && !isBottom) {
-      dockingPosition = LEFT
-    }
-    else if (isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = RIGHT
-    }
-    else if (!isLeft && isBottom && !isTop && !isRight) {
-      dockingPosition = TOP
-    }
-    else if (!isLeft && isBottom && isTop && !isRight) {
-      dockingPosition = LEFT
-    }
-    else {
+      dockingPosition = PopupPosition.top;
+    } else if (isRight && !isTop && !isLeft && !isBottom) {
+      dockingPosition = PopupPosition.left;
+    } else if (isLeft && isBottom && !isTop && !isRight) {
+      dockingPosition = PopupPosition.right;
+    } else if (!isLeft && isBottom && !isTop && !isRight) {
+      dockingPosition = PopupPosition.top;
+    } else if (!isLeft && isBottom && isTop && !isRight) {
+      dockingPosition = PopupPosition.left;
+    } else {
       /*
-       * TODO: Find solution for small screens when all sides produce unpleasant results
-       *  ALSO: check in every single condition if there is really enough space to dock the popup there. (only small screens problem) Question is, what do we do then?
-       *  UNTIL BETTER SOLUTION FOUND: dock on Top
+       * Find solution for small screens when all sides produce unpleasant results
        */
-      dockingPosition = TOP;
+      dockingPosition = PopupPosition.top;
     }
-    if (dockingPosition === BOTTOM) {
-      html.style.top = (tag.y + tag.height + 10) + 'px';
-      html.style.left = (tag.x + (tag.width - popup.width) / 2) + 'px';
-      this._popupHandleDirection = 'up';
-    }
-    else if (dockingPosition === TOP) {
-      html.style.top = (tag.y - popup.height - 10) + 'px';
-      html.style.left = (tag.x + (tag.width - popup.width) / 2) + 'px';
-      this._popupHandleDirection = 'down';
-    }
-    else if (dockingPosition === LEFT) {
-      html.style.top = (tag.y + 5 - popup.height / 2 + tag.height / 2) + 'px';
-      html.style.left = (tag.x - popup.width - 15 - 0.15 * tag.width) + 'px';
-      this._popupHandleDirection = 'right';
-    }
-    else if (dockingPosition === RIGHT) {
-      html.style.top = (tag.y + 5 - popup.height / 2 + tag.height / 2) + 'px';
-      html.style.left = (tag.x + tag.width + 10 + 15 + 0.15 * tag.width) + 'px';
-      this._popupHandleDirection = 'left';
-    }
-  }
-
-  show(visible: boolean) {
-    const html = this.popupContainer.nativeElement as HTMLDivElement;
     html.classList.remove('left', 'right', 'up', 'down');
-    html.classList.toggle(this._popupHandleDirection, visible);
-    if (visible) {
-      html.focus();
+    if (dockingPosition === PopupPosition.bottom) {
+      html.style.top = tag.bottom + 'px';
+      html.style.left = tag.x + tag.width / 2 + 'px';
+      html.classList.add('up');
+    } else if (dockingPosition === PopupPosition.top) {
+      html.style.top = tag.y + 'px';
+      html.style.left = tag.x + tag.width / 2 + 'px';
+      html.classList.add('down');
+    } else if (dockingPosition === PopupPosition.left) {
+      html.style.top = tag.top + tag.height / 2 + 'px';
+      html.style.left = tag.x + 'px';
+      html.classList.add('right');
+    } else if (dockingPosition === PopupPosition.right) {
+      html.style.top = tag.top + tag.height / 2 + 'px';
+      html.style.left = tag.right + 'px';
+      html.classList.add('left');
     }
+    html.focus();
   }
 
   private calculateDateText(afterInit: () => void): void {

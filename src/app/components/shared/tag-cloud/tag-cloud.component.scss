@@ -1,3 +1,6 @@
+$header-size: 67px;
+$margin: 15px;
+
 .mat-drawer.mat-drawer-push {
   background-color: var(--background);
 }
@@ -7,16 +10,16 @@ mat-drawer {
 }
 
 ars-fill {
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
-  margin: 15px;
+  width: calc(100% - #{2 * $margin});
+  height: calc(100% - #{2 * $margin});
+  margin: $margin;
 }
 
 mat-drawer-container {
-  height: calc(100% - 67px);
+  height: calc(100% - #{$header-size});
   width: 100%;
   position: fixed;
-  margin-top: 67px;
+  margin-top: $header-size;
 }
 
 mat-drawer-content {
