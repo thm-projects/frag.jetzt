@@ -148,13 +148,16 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   maxLength(commentBody: HTMLDivElement): void {
-    this.inputText = commentBody.innerText;
     if (this.user.role === 3 && commentBody.innerText.length > 1000) {
       commentBody.innerText = commentBody.innerText.slice(0, 1000);
     } else if (this.user.role !== 3 && commentBody.innerText.length > 500) {
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
     this.body = commentBody.innerText;
+    if(this.body.length === 1 && this.body.charCodeAt(this.body.length - 1) === 10){
+      commentBody.innerHTML = commentBody.innerHTML.replace('<br>','');
+    }
+    this.inputText = commentBody.innerText;
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
