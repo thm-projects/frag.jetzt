@@ -35,8 +35,13 @@ div {
   color: var(--on-secondary);
 }
 
-button {
+::ng-deep .mat-button {
   min-width: 105px;
+}
+
+.close-btn mat-icon{
+  font-size: 20px;
+  margin-top: 2px;
 }
 
 mat-icon {

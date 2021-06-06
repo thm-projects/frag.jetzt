@@ -10,7 +10,7 @@
     </div>
     <br>
     <mat-accordion id="accordion">
-      <mat-expansion-panel expanded class="matExpansionPanel" hideToggle>
+      <mat-expansion-panel [expanded]="step == 0" (opened)="setStep(0)" class="matExpansionPanel" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>{{'tag-cloud-config.general' | translate}}</h3>
@@ -75,8 +75,10 @@
               matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
           </mat-form-field>
         </div>
+        <mat-action-row>
+          <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>        </mat-action-row>
       </mat-expansion-panel>
-        <mat-expansion-panel class="matExpansionPanel" hideToggle>
+        <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel" hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>
               <h3>{{'tag-cloud-config.hover-title' | translate}}</h3>
@@ -114,8 +116,12 @@
                 [thumbLabel]="true" matTooltip="{{'tag-cloud-config.hover-delay-tooltip' | translate}}"></mat-slider>
             </div>
           </div>
+          <mat-action-row>
+            <button mat-icon-button (click)="prevStep()"><mat-icon>expand_less</mat-icon></button>
+            <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>
+          </mat-action-row>
       </mat-expansion-panel>
-      <mat-expansion-panel class="matExpansionPanel" hideToggle>
+      <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3>{{'tag-cloud-config.weight-class-settings' | translate}}</h3>
@@ -156,6 +162,10 @@
           </div>
         </div>
         </div>
+        <mat-action-row>
+          <button mat-icon-button (click)="prevStep()"><mat-icon>expand_less</mat-icon></button>
+          <button class="close-btn" mat-icon-button (click)="nextStep()"><mat-icon>close</mat-icon></button>
+        </mat-action-row>
       </mat-expansion-panel>
     </mat-accordion>
     <br>

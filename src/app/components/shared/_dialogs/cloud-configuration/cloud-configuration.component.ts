@@ -26,6 +26,7 @@ export class CloudConfigurationComponent implements OnInit {
   alphabeticalSorting: boolean;
   rotation: number;
   highestWeight: number;
+  step:number = 0;
   weightClasses: WeightClass[] = [
     {
       maxTagNumber: 20,
@@ -148,12 +149,16 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
+    this.setStep(0)
+
   }
 
   save() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
-    this.parent.configurationOpen = false;
+    this.parent.configurationOpen = false;    
+   this.setStep(0)
+
   }
 
   toggleExtendedView() {
@@ -174,6 +179,18 @@ export class CloudConfigurationComponent implements OnInit {
   textStyleChanged(val: CloudTextStyle) {
     this.cloudParameters.textTransform = val;
     this.valueChanged();
+  }
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
   }
 
 }
