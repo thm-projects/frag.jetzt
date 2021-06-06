@@ -40,7 +40,10 @@ export class TopicCloudAdminService {
     if (!data) {
       data = {
         blacklist: [],
-        wantedLabels: new Labels([], []),
+        wantedLabelsDE: {
+          de: [],
+          en: []
+        },
         considerVotes: false,
         profanityFilter: true,
         blacklistIsActive: false,

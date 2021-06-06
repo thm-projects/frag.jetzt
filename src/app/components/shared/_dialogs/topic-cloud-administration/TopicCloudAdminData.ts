@@ -1,6 +1,9 @@
 export interface TopicCloudAdminData {
     blacklist: string[];
-    wantedLabels: Labels;
+    wantedLabels: {
+      de: string[];
+      en: string[];
+    };
     considerVotes: boolean;
     profanityFilter: boolean;
     blacklistIsActive: boolean;

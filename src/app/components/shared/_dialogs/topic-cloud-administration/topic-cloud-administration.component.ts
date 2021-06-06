@@ -43,9 +43,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   keywordORfulltext: string = undefined;
   userRole: UserRole;
 
-  wantedLabels: Labels;
-  englishLabels = true;
-  germanLabels = true;
+  spacyLabels: Labels;
+  wantedLabels: {
+    de: string[];
+    en: string[];
+  };
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -71,8 +73,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.spacyLabels = spacyLabels;
+    this.wantedLabels = {
+      de: [],
+      en: []
+    };
     this.setDefaultAdminData();
-    this.wantedLabels = spacyLabels;
   }
 
   ngOnDestroy(){
@@ -108,10 +114,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
-  setAdminData(){
+  setAdminData() {
     this.topicCloudAdminData = {
       blacklist: [],
-      wantedLabels: this.wantedLabels,
+      wantedLabels: {
+        de: this.wantedLabels.de,
+        en: this.wantedLabels.en
+      },
       considerVotes: this.considerVotes,
       profanityFilter: this.profanityFilter,
       blacklistIsActive: this.blacklistIsActive,
@@ -127,7 +136,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
-      this.wantedLabels = this.topicCloudAdminData.wantedLabels;
+      this.wantedLabels = {
+        de: this.topicCloudAdminData.wantedLabels.de,
+        en: this.topicCloudAdminData.wantedLabels.en
+      };
     }
   }
 
@@ -289,7 +301,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.topicCloudAdminService.removeWordFromBlacklist(word);
   }
 
-  refreshAllLists(){
+  refreshAllLists() {
     this.searchKeyword();
   }
 }
