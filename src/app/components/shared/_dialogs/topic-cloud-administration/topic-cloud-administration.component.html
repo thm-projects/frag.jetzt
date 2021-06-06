@@ -115,14 +115,14 @@
           <mat-tab-group mat-align-tabs="center">
             <mat-tab label="German">
               <mat-selection-list [(ngModel)]="wantedLabels.de">
-                <mat-list-option selected=true [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
+                <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
                   {{label.label + " (" + label.tag + ")"}}
                 </mat-list-option>
               </mat-selection-list>
             </mat-tab>
             <mat-tab label="English">
               <mat-selection-list [(ngModel)]="wantedLabels.en">
-                <mat-list-option selected=true [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
+                <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
                   {{label.label + " (" + label.tag + ")"}}
                 </mat-list-option>
               </mat-selection-list>

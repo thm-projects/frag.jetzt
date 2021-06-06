@@ -75,8 +75,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = {
-      de: [],
-      en: []
+      de: ['sb', 'pd', 'og', 'ag', 'app', 'da', 'oa', 'nk', 'mo', 'cj'],
+      en: ['no', 'pro', 've', 'adj', 'adv', 'pre', 'con', 'int']
     };
     this.setDefaultAdminData();
   }
