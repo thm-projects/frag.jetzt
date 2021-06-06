@@ -459,7 +459,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sortComments(this.currentSort);
       return;
     }
-    console.log(compare);
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
@@ -481,7 +480,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          return c.keywordsFromQuestioner != null ? c.keywordsFromQuestioner.includes(compare) : false;
+          return c.keywordsFromQuestioner != null && c.keywordsFromQuestioner.length > 0 ? c.keywordsFromQuestioner.includes(compare) : false;
         case this.answer:
           return c.answer;
         case this.unanswered:

@@ -72,7 +72,15 @@ export class CommentService extends BaseHttpService {
   getComment(commentId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
     return this.http.get<Comment>(connectionUrl, httpOptions).pipe(
-      map(comment => this.parseUserNumber(comment)),
+      map(comment => {
+        const newComment = this.parseUserNumber(comment);
+        newComment.keywordsFromQuestioner =
+        // @ts-ignore
+        newComment.keywordsFromQuestioner ? JSON.parse(newComment.keywordsFromQuestioner) as string[] : null;
+        newComment.keywordsFromSpacy =
+        // @ts-ignore
+        newComment.keywordsFromSpacy ? JSON.parse(newComment.keywordsFromSpacy as string[]) : null;
+      return newComment;}),
       tap(_ => ''),
       catchError(this.handleError<Comment>('getComment'))
     );
@@ -114,10 +122,11 @@ export class CommentService extends BaseHttpService {
           const newComment = this.parseUserNumber(comment);
           newComment.keywordsFromQuestioner =
             // @ts-ignore
-            newComment.keywordsFromQuestioner ? JSON.parse(newComment.keywordsFromQuestioner as string) : null;
-          newComment.keywordsFromSpacy =
+            newComment.keywordsFromQuestioner ? JSON.parse(newComment.keywordsFromQuestioner) as string[] : null;
+            console.log(newComment.keywordsFromQuestioner);
+            newComment.keywordsFromSpacy =
             // @ts-ignore
-            newComment.keywordsFromSpacy ? JSON.parse(newComment.keywordsFromSpacy as string) : null;
+            newComment.keywordsFromSpacy ? JSON.parse(newComment.keywordsFromSpacy as string[]) : null;
           return newComment;
         })),
       tap(_ => ''),
@@ -132,7 +141,15 @@ export class CommentService extends BaseHttpService {
       externalFilters: {}
     }, httpOptions).pipe(
       map(commentList => {
-        return commentList.map(comment => this.parseUserNumber(comment));
+        return commentList.map(comment => {
+          const newComment = this.parseUserNumber(comment);
+          newComment.keywordsFromQuestioner =
+          // @ts-ignore
+          newComment.keywordsFromQuestioner ? JSON.parse(newComment.keywordsFromQuestioner) as string[] : null;
+          newComment.keywordsFromSpacy =
+          // @ts-ignore
+          newComment.keywordsFromSpacy ? JSON.parse(newComment.keywordsFromSpacy as string[]) : null;
+        return newComment;});
       }),
       tap(_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
@@ -146,7 +163,15 @@ export class CommentService extends BaseHttpService {
       externalFilters: {}
     }, httpOptions).pipe(
       map(commentList => {
-        return commentList.map(comment => this.parseUserNumber(comment));
+        return commentList.map(comment => {
+          const newComment = this.parseUserNumber(comment);
+          newComment.keywordsFromQuestioner =
+          // @ts-ignore
+          newComment.keywordsFromQuestioner ? JSON.parse(newComment.keywordsFromQuestioner) as string[] : null;
+          newComment.keywordsFromSpacy =
+          // @ts-ignore
+          newComment.keywordsFromSpacy ? JSON.parse(newComment.keywordsFromSpacy as string[]) : null;
+        return newComment;});
       }),
       tap(_ => ''),
       catchError(this.handleError<Comment[]>('getComments', []))
