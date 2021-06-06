@@ -9,6 +9,7 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 import { TopicCloudAdminData, Labels, spacyLabels } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
+import { CommentService } from '../../../../services/http/comment.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -44,66 +45,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   englishLabels = true;
   germanLabels = true;
 
-  keywords: Keyword[] = [
-    {
-      keywordID: 1,
-      keyword: 'Cloud',
-      questions: [
-        'Wieviel speicherplatz steht mir in der Cloud zur verfügung?',
-        'Sollen wir die Tag Cloud implementieren?',
-        // eslint-disable-next-line max-len
-        'Wie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegungWie genau ist die Cloud aufgebaut? Wieviel speicherplatz steht mir in der Cloud zur verfuegung',
-      ]
-    },
-    {
-      keywordID: 2,
-      keyword: 'SWT',
-      questions: [
-        'Muss man fuer das Modul SWT bestanden haben?'
-      ]
-    },
-    {
-      keywordID: 3,
-      keyword: 'Frage',
-      questions: [
-        'Das ist eine Lange Frage mit dem Thema \'frage\'',
-        'Ich habe eine Frage, sind Fragen zum thema \'Frage\' auch erlaubt?',
-        'Ich wollte Fragen ob sie gerne Sachen gefragt werden',
-        'Langsam geht mir die Fragerei mit den ganzen Fragen auf den Geist Frage'
-      ]
-    },
-    {
-      keywordID: 4,
-      keyword: 'Klausur',
-      questions: [
-        'Darf man in der Klausur hilfmittel verwenden?',
-        'An welchem Termin findet die Klausur statt?'
-      ]
-    },
-    {
-      keywordID: 5,
-      keyword: 'Diskrete Math',
-      questions: [
-        'wann wird die nächste veranstaltung stattfinden?',
-        'gibt es heute übung?'
-      ]
-    },
-    {
-      keywordID: 6,
-      keyword: 'Arsch',
-      questions: [
-        'Das ist eine Testfrage fuer den Profanity Filter, du Arschloch',
-        'Englisch: Fuck you!',
-        'Deutsch: Fick dich!',
-        'Französisch: Gros con!',
-        'Türkisch: Orospu çocuğu!',
-        'Arabisch: عاهرة!',
-        'Russisch: Муда!',
-        'Multi language: Ficken, Fuck, con',
-        'Custom: Nieder mit KQC'
-      ]
-    },
-  ];
+  keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
 
   constructor(
@@ -113,14 +55,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private langService: LanguageService,
-    private topicCloudAdminService: TopicCloudAdminService) {
+    private topicCloudAdminService: TopicCloudAdminService,
+    private commentService: CommentService) {
       this.langService.langEmitter.subscribe(lang => {
         this.translateService.use(lang);
       });
     }
 
   ngOnInit(): void {
-    this.checkIfThereAreQuestions();
+    this.initKeywords();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -134,6 +77,28 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if(this.blacklistSubscription !== undefined){
       this.blacklistSubscription.unsubscribe();
     }
+  }
+
+  initKeywords(){
+    this.commentService.getFilteredComments(localStorage.getItem('roomId')).subscribe(comments => {
+      comments.map(comment => {
+        const keywords = this.keywordORfulltext === KeywordOrFulltext[0] ? comment.keywordsFromQuestioner : comment.keywordsFromSpacy;
+        keywords.map(_keyword => {
+          const existingKey = this.checkIfKeywordExists(_keyword);
+          if (existingKey){
+            existingKey.questions.push(comment.body);
+          } else {
+            const keyword: Keyword = {
+              keywordID: comment.id,
+              keyword: _keyword,
+              questions: [comment.body]
+            };
+            this.keywords.push(keyword);
+          }
+        });
+      });
+      this.checkIfThereAreQuestions();
+    });
   }
 
   setAdminData(){
@@ -227,7 +192,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   confirmEdit(key: Keyword): void {
     for (const keyword of this.keywords){
       if (keyword.keywordID === key.keywordID) {
-        const key2 = this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase());
+        const key2 = this.checkIfKeywordExists(this.newKeyword);
         if (key2){
           this.openConfirmDialog('merge-message', 'merge', keyword, key2);
         } else {
@@ -281,7 +246,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   checkIfKeywordExists(key: string): Keyword {
     for(const keyword of this.keywords){
-      if(keyword.keyword.toLowerCase() === key){
+      if(keyword.keyword.toLowerCase() === key.trim().toLowerCase()){
         return keyword;
       }
     }
@@ -324,7 +289,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 }
 
 interface Keyword {
-  keywordID: number;
+  keywordID: string;
   keyword: string;
   questions: string[];
 }
