@@ -108,7 +108,8 @@
     "select-all-hint": "Select all keywords",
     "select-keyword-hint": "Select this keyword",
     "edit-keyword-hint": "Edit keyword",
-    "editing-done-hint": "Finish editing"
+    "editing-done-hint": "Finish editing",
+    "force-language-selection": "Please select a language."
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",

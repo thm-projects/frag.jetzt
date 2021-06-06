@@ -70,6 +70,9 @@
                 {{inputText.length}} / {{user.role === 3 ? 1000 : 500}}
               </span>
             </mat-hint>
+            <span *ngIf="!this.hasSpellcheckConfidence">
+              <p>{{ 'spacy-dialog.force-language-selection' | translate }}</p>
+            </span>
           </mat-form-field>
         </ars-row>
       </mat-tab>
@@ -92,7 +95,12 @@
   </ars-row>
   <ars-row ars-flex-box>
     <ars-col>
-      <button class="mat-flat-button spell-button"  (click)="grammarCheck(commentBody)">{{ 'comment-page.grammar-check' | translate}}</button>
+      <button mat-button class="spell-button" (click)="grammarCheck(commentBody)">
+        {{ 'comment-page.grammar-check' | translate}}
+        <mat-icon *ngIf="isSpellchecking" style="margin: 0;">
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-icon>
+      </button>
     </ars-col>
     <ars-col>
       <app-dialog-action-buttons

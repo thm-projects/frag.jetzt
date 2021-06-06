@@ -128,3 +128,7 @@ mat-hint {
   max-width: 540px !important;
   overflow-x: hidden !important;
 }
+
+::ng-deep .mat-spinner circle {
+  stroke: var(--on-primary);
+}

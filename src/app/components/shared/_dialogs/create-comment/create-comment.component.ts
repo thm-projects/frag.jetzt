@@ -31,6 +31,9 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
 
   bodyForm = new FormControl('', [Validators.required]);
 
+  isSpellchecking = false;
+  hasSpellcheckConfidence = true;
+
   @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
 
   constructor(
@@ -97,8 +100,9 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.checkSpellings(this.inputText).subscribe((res) => {
       const words: string[] = this.inputText.trim().split(' ');
       const errorQuotient = (res.matches.length * 100) / words.length;
+      const hasSpellcheckConfidence = this.checkLanguageConfidence(res);
 
-      if (errorQuotient <= 20) {
+      if (hasSpellcheckConfidence && errorQuotient <= 20) {
         let commentBodyChecked = this.inputText;
         const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
 
@@ -163,7 +167,14 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   grammarCheck(commentBody: HTMLDivElement): void {
     const wrongWords: string[] = [];
     commentBody.innerHTML = this.inputText;
+    this.isSpellchecking = true;
+    this.hasSpellcheckConfidence = true;
     this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
+      if(!this.checkLanguageConfidence(wordsCheck)) {
+        this.hasSpellcheckConfidence = false;
+        return;
+      }
+
       if (wordsCheck.matches.length > 0) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
@@ -239,6 +250,12 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           }, 500);
         });
       }
+    }, () => {}, () => {
+      this.isSpellchecking = false;
     });
+  }
+
+  checkLanguageConfidence(wordsCheck: any) {
+    return this.selectedLang === 'auto' ? wordsCheck.language.detectedLanguage.confidence >= 0.5 : true;
   }
 }
