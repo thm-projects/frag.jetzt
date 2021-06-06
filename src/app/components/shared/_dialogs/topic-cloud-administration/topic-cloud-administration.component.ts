@@ -9,9 +9,10 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 import { TopicCloudAdminData, Labels, spacyLabels } from './TopicCloudAdminData';
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
+import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
-import * as internal from 'assert';
+import { TSMap } from 'typescript-map';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -69,7 +70,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.initKeywords());
-    this.initKeywords();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -79,6 +79,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       en: ['no', 'pro', 've', 'adj', 'adv', 'pre', 'con', 'int']
     };
     this.setDefaultAdminData();
+    this.initKeywords();
   }
 
   ngOnDestroy(){
@@ -97,12 +98,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           const existingKey = this.checkIfKeywordExists(_keyword);
           if (existingKey){
             existingKey.vote++;
-            existingKey.questions.push(comment.body);
+            existingKey.comments.push(comment);
           } else {
             const keyword: Keyword = {
               keywordID: comment.id,
               keyword: _keyword,
-              questions: [comment.body],
+              comments: [comment],
               vote: 1
             };
             this.keywords.push(keyword);
@@ -161,7 +162,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
         break;
       case 'questionsCount':
-        this.keywords.sort((a, b) => b.questions.length - a.questions.length);
+        this.keywords.sort((a, b) => b.comments.length - a.comments.length);
         break;
       case 'voteCount':
         this.keywords.sort((a, b) => b.vote - a.vote);
@@ -188,18 +189,37 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   deleteKeyword(key: Keyword): void{
-    this.keywords.map(keyword => {
-      if (keyword.keywordID === key.keywordID) {
-          this.keywords.splice(this.keywords.indexOf(keyword, 0), 1);
-      }
+    key.comments.map(comment => {
+      const changes = new TSMap<string, any>();
+      let keywords = comment.keywordsFromQuestioner;
+      keywords.splice(keywords.indexOf(key.keyword, 0), 1);
+      changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
+      keywords = comment.keywordsFromSpacy;
+      keywords.splice(keywords.indexOf(key.keyword, 0), 1);
+      changes.set('keywordsFromSpacy', JSON.stringify(keywords));
+      this.updateComment(comment, changes);
     });
+
     if (this.keywords.length === 0) {
       this.cloudDialogRef.close();
     }
+
     if (this.searchMode === true){
-      /* update filtered array if it is searchmode */
       this.searchKeyword();
     }
+  }
+
+  updateComment(updatedComment: Comment, changes: TSMap<string, any>){
+    this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
+      this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    },
+      error => {
+        this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+    });
   }
 
   cancelEdit(): void {
@@ -255,8 +275,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
-      key1.questions.map(question => {
-        key2.questions.push(question);
+      key1.comments.map(question => {
+        key2.comments.push(question);
       });
       this.deleteKeyword(key1);
     }
@@ -309,7 +329,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 interface Keyword {
   keywordID: string;
   keyword: string;
-  questions: string[];
+  comments: Comment[];
   vote: number;
 }
 

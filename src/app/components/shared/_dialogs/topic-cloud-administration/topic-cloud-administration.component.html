@@ -194,13 +194,13 @@
           {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
-          {{keyword.questions.length}}
-          {{'topic-cloud-dialog.question-count-'+(keyword.questions.length > 1 ? 'plural' : 'singular') | translate}}
+          {{keyword.comments.length}}
+          {{'topic-cloud-dialog.question-count-'+(keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div *ngFor="let question of keyword.questions">
+      <div *ngFor="let question of keyword.comments">
         <mat-divider></mat-divider>
-        <app-topic-dialog-comment [question]="question" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
+        <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
           [isCollapsed]="!panelOpenState" [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
       </div>
 
