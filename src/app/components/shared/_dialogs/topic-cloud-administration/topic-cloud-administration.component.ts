@@ -228,17 +228,30 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   confirmEdit(key: Keyword): void {
-    for (const keyword of this.keywords){
-      if (keyword.keywordID === key.keywordID) {
-        const key2 = this.checkIfKeywordExists(this.newKeyword);
-        if (key2){
-          this.openConfirmDialog('merge-message', 'merge', keyword, key2);
-        } else {
-          keyword.keyword = this.newKeyword.trim();
+    const key2 = this.checkIfKeywordExists(this.newKeyword);
+    if (key2){
+      this.openConfirmDialog('merge-message', 'merge', key, key2);
+    } else {
+      key.comments.map(comment => {
+        const changes = new TSMap<string, any>();
+        let keywords = comment.keywordsFromQuestioner;
+        for (let i = 0; i < keywords.length; i++){
+          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()){
+            keywords[i] = this.newKeyword.trim();
+          }
         }
-        break;
-      }
+        changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
+        keywords = comment.keywordsFromSpacy;
+        for (let i = 0; i < keywords.length; i++){
+          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()){
+            keywords[i] = this.newKeyword.trim();
+          }
+        }
+        changes.set('keywordsFromSpacy', JSON.stringify(keywords));
+        this.updateComment(comment, changes);
+      });
     }
+
     this.edit = false;
     this.newKeyword = undefined;
     this.sortQuestions();
