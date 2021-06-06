@@ -11,6 +11,7 @@ import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { CommentService } from '../../../../services/http/comment.service';
 import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
+import * as internal from 'assert';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -90,12 +91,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         keywords.map(_keyword => {
           const existingKey = this.checkIfKeywordExists(_keyword);
           if (existingKey){
+            existingKey.vote++;
             existingKey.questions.push(comment.body);
           } else {
             const keyword: Keyword = {
               keywordID: comment.id,
               keyword: _keyword,
-              questions: [comment.body]
+              questions: [comment.body],
+              vote: 1
             };
             this.keywords.push(keyword);
           }
@@ -149,8 +152,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.keywords.sort((a, b) => b.questions.length - a.questions.length);
         break;
       case 'voteCount':
-        console.log('not implemented!, sorting with question count');
-        this.keywords.sort((a, b) => b.questions.length - a.questions.length);
+        this.keywords.sort((a, b) => b.vote - a.vote);
         break;
     }
   }
@@ -296,6 +298,7 @@ interface Keyword {
   keywordID: string;
   keyword: string;
   questions: string[];
+  vote: number;
 }
 
 export interface Data{
