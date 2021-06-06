@@ -11,9 +11,7 @@
         <mat-label class="color-on-surface">
           {{"topic-cloud-dialog.select-choice" | translate}}
         </mat-label>
-        <mat-radio-group
-        class="radio-button-group"
-        [(ngModel)]="keywordORfulltext">
+        <mat-radio-group class="radio-button-group" [(ngModel)]="keywordORfulltext">
           <mat-radio-button checked="true" [value]="keywordOrFulltextENUM[0]" class="radio-button-item">
             {{"topic-cloud-dialog.keyword" | translate}}
           </mat-radio-button>
@@ -65,7 +63,8 @@
           <div>
             <button mat-raised-button *ngIf="getProfanityList().length > 0" class="primaryBackground"
               (click)="showProfanityList=!showProfanityList">
-              {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) : ('topic-cloud-dialog.show-profanity-list' | translate)}}
+              {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) :
+              ('topic-cloud-dialog.show-profanity-list' | translate)}}
             </button>
           </div>
         </mat-expansion-panel>
@@ -96,10 +95,10 @@
           </mat-list>
 
           <div>
-            <button mat-raised-button class="primaryBackground"
-              *ngIf="blacklist.length > 0"
+            <button mat-raised-button class="primaryBackground" *ngIf="blacklist.length > 0"
               (click)="showBlacklistWordList=!showBlacklistWordList">
-              {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) : ('topic-cloud-dialog.show-blacklist' | translate)}}
+              {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) :
+              ('topic-cloud-dialog.show-blacklist' | translate)}}
             </button>
           </div>
         </mat-expansion-panel>
@@ -113,25 +112,22 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <mat-selection-list *ngIf="germanLabels">
-            <mat-list-item class="color-on-surface">
-              German
-            </mat-list-item>
-
-            <mat-list-option selected=true class="color-on-surface" *ngFor="let label of wantedLabels.de">
-              {{label.label + " (" + label.tag + ")"}}
-            </mat-list-option>
-          </mat-selection-list>
-
-          <mat-selection-list *ngIf="englishLabels">
-            <mat-list-item class="color-on-surface">
-              English
-            </mat-list-item>
-
-            <mat-list-option selected=true class="color-on-surface" *ngFor="let label of wantedLabels.en">
-              {{label.label + " (" + label.tag + ")"}}
-            </mat-list-option>
-          </mat-selection-list>
+          <mat-tab-group mat-align-tabs="center">
+            <mat-tab label="German">
+              <mat-selection-list>
+                <mat-list-option selected=true class="color-on-surface" *ngFor="let label of wantedLabels.de">
+                  {{label.label + " (" + label.tag + ")"}}
+                </mat-list-option>
+              </mat-selection-list>
+            </mat-tab>
+            <mat-tab label="English">
+              <mat-selection-list>
+                <mat-list-option selected=true class="color-on-surface" *ngFor="let label of wantedLabels.en">
+                  {{label.label + " (" + label.tag + ")"}}
+                </mat-list-option>
+              </mat-selection-list>
+            </mat-tab>
+          </mat-tab-group>
         </mat-expansion-panel>
       </mat-accordion>
 
@@ -155,11 +151,11 @@
 
     <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
       <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
-      <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
+      <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length :
+        keywords.length}}</p>
     </div>
     <div class="margin-left vertical-center">
-      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button
-              [matMenuTriggerFor]="sortMenu">
+      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
         <mat-icon>sort</mat-icon>
       </button>
     </div>
