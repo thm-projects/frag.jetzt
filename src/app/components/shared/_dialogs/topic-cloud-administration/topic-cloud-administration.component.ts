@@ -71,7 +71,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.sortQuestions();
     this.setDefaultAdminData();
     this.wantedLabels = spacyLabels;
   }
@@ -105,6 +104,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         });
       });
       this.checkIfThereAreQuestions();
+      this.sortQuestions();
     });
   }
 
