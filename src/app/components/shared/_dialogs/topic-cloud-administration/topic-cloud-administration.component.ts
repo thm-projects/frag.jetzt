@@ -10,6 +10,7 @@ import { TopicCloudAdminData, Labels, spacyLabels } from './TopicCloudAdminData'
 import { KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { CommentService } from '../../../../services/http/comment.service';
+import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -56,13 +57,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
-    private commentService: CommentService) {
+    private commentService: CommentService,
+    private wsCommentServiceService: WsCommentServiceService) {
       this.langService.langEmitter.subscribe(lang => {
         this.translateService.use(lang);
       });
     }
 
   ngOnInit(): void {
+    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.initKeywords());
     this.initKeywords();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
@@ -81,6 +84,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   initKeywords(){
     this.commentService.getFilteredComments(localStorage.getItem('roomId')).subscribe(comments => {
+      this.keywords = [];
       comments.map(comment => {
         const keywords = this.keywordORfulltext === KeywordOrFulltext[0] ? comment.keywordsFromQuestioner : comment.keywordsFromSpacy;
         keywords.map(_keyword => {
