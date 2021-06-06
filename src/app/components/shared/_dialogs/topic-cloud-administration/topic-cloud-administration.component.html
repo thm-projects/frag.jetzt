@@ -112,7 +112,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
 
-          <mat-tab-group mat-align-tabs="center">
+          <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
             <mat-tab label="German">
               <mat-selection-list [(ngModel)]="wantedLabels.de">
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
