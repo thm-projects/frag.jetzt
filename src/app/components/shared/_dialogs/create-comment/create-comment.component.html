@@ -46,6 +46,7 @@
           <mat-form-field style="width:100%;">
             <input [disabled]="true" matInput>
             <div [contentEditable]="true"
+            (paste)="clearHTML(commentBody)"
                       [spellcheck]="false"
                       spellcheck="false"
                       (focus)="eventService.makeFocusOnInputTrue()"
