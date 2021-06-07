@@ -236,14 +236,18 @@ export class CommentListComponent implements OnInit, OnDestroy {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
-          this.getModeratorIds();
-          this.subscribeCommentStream();
-          this.commentService.getAckComments(this.room.id)
-            .subscribe(comments => {
-              this.comments = comments;
-              this.getComments();
-              this.eventService.broadcast('commentListCreated', null);
-            });
+          this.moderatorService.get(this.roomId).subscribe(list => {
+            this.moderatorIds = list.map(m => m.accountId);
+            this.moderatorIds.push(this.room.ownerId);
+
+            this.subscribeCommentStream();
+            this.commentService.getAckComments(this.room.id)
+              .subscribe(comments => {
+                this.comments = comments;
+                this.getComments();
+                this.eventService.broadcast('commentListCreated', null);
+              });
+          });
           /**
            if (this.userRole === UserRole.PARTICIPANT) {
             this.openCreateDialog();
@@ -277,13 +281,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }
 
     return filter;
-  }
-
-  getModeratorIds() {
-    this.moderatorService.get(this.roomId).subscribe(list => {
-      this.moderatorIds = list.map(m => m.accountId);
-      this.moderatorIds.push(this.room.ownerId);
-    });
   }
 
   ngOnDestroy() {
