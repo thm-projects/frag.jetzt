@@ -453,7 +453,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
       this.currentFilter = '';
+      this.selectedTag = '';
+      this.selectedKeyword = '';
       this.sortComments(this.currentSort);
+      CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
       return;
     }
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
