@@ -56,7 +56,7 @@ export class TopicCloudAdminService {
   setAdminData(_adminData: TopicCloudAdminData) {
     localStorage.setItem(this.adminKey, JSON.stringify(_adminData));
     this.getBlacklist().subscribe(list => {
-      _adminData.blacklist = this.getCustomProfanityList().concat(list);
+      _adminData.blacklist = this.getCustomProfanityList().concat(list).concat(this.profanityWords);
       this.adminData.next(_adminData);
     });
   }

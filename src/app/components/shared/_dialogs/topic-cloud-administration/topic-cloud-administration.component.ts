@@ -108,7 +108,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           }
         });
       });
-      this.checkIfThereAreQuestions();
+      // this.checkIfThereAreQuestions();
       this.sortQuestions();
     });
   }
@@ -289,14 +289,16 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
       key1.comments.map(comment => {
-        const changes = new TSMap<string, any>();
-        let keywords = comment.keywordsFromQuestioner;
-        keywords.push(key2.keyword);
-        changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
-        keywords = comment.keywordsFromSpacy;
-        keywords.push(key2.keyword);
-        changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-        this.updateComment(comment, changes);
+        if (this.checkIfCommentExists(key2.comments, comment.id)){
+          const changes = new TSMap<string, any>();
+          let keywords = comment.keywordsFromQuestioner;
+          keywords.push(key2.keyword);
+          changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
+          keywords = comment.keywordsFromSpacy;
+          keywords.push(key2.keyword);
+          changes.set('keywordsFromSpacy', JSON.stringify(keywords));
+          this.updateComment(comment, changes);
+        }
       });
       this.deleteKeyword(key1);
     }
