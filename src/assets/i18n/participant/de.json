@@ -228,7 +228,8 @@
     "prev-comment-lbl": "Vorherige Frage",
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl gestellter Fragen",
-    "overview-questioners-tooltip": "Anzahl Fragensteller*innen"
+    "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
+    "questions-blocked": "Fragen sind deaktiviert!"
   },
   "tag-cloud": {
     "config": "Wolkenansicht ändern",

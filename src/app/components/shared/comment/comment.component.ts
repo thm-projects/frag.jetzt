@@ -42,6 +42,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() user: User;
   @Input() disabled = false;
   @Output() clickedOnTag = new EventEmitter<string>();
+  @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
   isStudent = false;
   isCreator = false;
@@ -58,6 +59,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isExpanded = false;
   isExpandable = false;
+  selectedKeyword: string = '';
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
