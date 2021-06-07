@@ -324,7 +324,7 @@
            [mat-menu-trigger-for]="keywordsMenu"
            *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
            class="comment-keywords">
-        <mat-icon svgIcon="comment_tag"></mat-icon>
+        <mat-icon svgIcon="hashtag" class="keyword-icon"></mat-icon>
         <span>
           &nbsp;{{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate ) : this.selectedKeyword}}
         </span>
