@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
@@ -44,6 +44,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   keywordORfulltext: string = undefined;
   userRole: UserRole;
 
+  @ViewChild('allSelectedDE') allSelectedDE2;
+  // @ViewChild('allSelectedEN') allSelectedEN;
+  allSelectedDE = true;
+  allSelectedEN = true;
   spacyLabels: Labels;
   wantedLabels: {
     de: string[];
@@ -345,6 +349,28 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   refreshAllLists() {
     this.searchKeyword();
+  }
+
+  selectAllDE() {
+    if (this.allSelectedDE) {
+      this.wantedLabels.de = []
+    } else {
+      this.wantedLabels.de = [];
+      this.spacyLabels.de.forEach(label => {
+        this.wantedLabels.de.push(label.tag);
+      });
+    }
+  }
+
+  selectAllEN() {
+    if (this.allSelectedEN) {
+      this.wantedLabels.en = [];
+      this.spacyLabels.en.forEach(label => {
+        this.wantedLabels.en.push(label.tag);
+      });
+    } else {
+      this.wantedLabels.en = []
+    }
   }
 }
 
