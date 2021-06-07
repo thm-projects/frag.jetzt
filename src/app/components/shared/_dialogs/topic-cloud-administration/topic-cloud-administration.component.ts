@@ -197,7 +197,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       keywords = comment.keywordsFromSpacy;
       keywords.splice(keywords.indexOf(key.keyword, 0), 1);
       changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-      this.updateComment(comment, changes);
+      this.updateComment(comment, changes, 'keyword-delete');
     });
 
     if (this.keywords.length === 0) {
@@ -209,14 +209,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateComment(updatedComment: Comment, changes: TSMap<string, any>){
+  updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate: string){
     this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
-      this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {
+      this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
         this.notificationService.show(msg);
       });
     },
       error => {
-        this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
+        this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
     });
@@ -248,7 +248,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           }
         }
         changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-        this.updateComment(comment, changes);
+        this.updateComment(comment, changes, 'keyword-edit');
       });
     }
 
@@ -288,8 +288,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
-      key1.comments.map(question => {
-        key2.comments.push(question);
+      key1.comments.map(comment => {
+        key2.comments.push(comment);
       });
       this.deleteKeyword(key1);
     }

@@ -263,7 +263,11 @@
     "show-blacklist": "Zeige Blackliste",
     "hide-blacklist": "Verberge Blackliste",
     "show-profanity-list": "Zeige Schimpfwortliste",
-    "hide-profanity-list": "Verberge Schimpfwortliste"
+    "hide-profanity-list": "Verberge Schimpfwortliste",
+    "keyword-delete": "Stichwort gelöscht",
+    "keyword-edit": "Stichwort umbenannt",
+    "keywords-merge": "Stichwörter zusammengefügt",
+    "changes-gone-wrong": "etwas ist schiefgelaufen"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
