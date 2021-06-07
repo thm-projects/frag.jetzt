@@ -140,7 +140,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       dialogRef.componentInstance.roomId = this.room.id;
     });
     this.eventService.on<string>('setTagConfig').subscribe(tag => {
-      this.clickedOnTag(tag);
+      this.clickedOnKeyword(tag);
     });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
