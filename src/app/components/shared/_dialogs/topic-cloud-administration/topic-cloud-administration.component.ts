@@ -98,7 +98,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         keywords.map(_keyword => {
           const existingKey = this.checkIfKeywordExists(_keyword);
           if (existingKey){
-            existingKey.vote++;
+            existingKey.vote += comment.score;
             if (this.checkIfCommentExists(existingKey.comments, comment.id)){
               existingKey.comments.push(comment);
             }
@@ -106,7 +106,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
             const keyword: Keyword = {
               keyword: _keyword,
               comments: [comment],
-              vote: 1
+              vote: comment.score
             };
             this.keywords.push(keyword);
           }

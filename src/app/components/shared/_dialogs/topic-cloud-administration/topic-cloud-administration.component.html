@@ -192,14 +192,20 @@
     </button>
   </mat-menu>
 
+  <mat-card class="color-surface" *ngIf="keywords.length === 0 || (searchMode && filteredKeywords.length === 0)">
+    <p class="color-on-surface" fxLayoutAlign="center">
+      {{'topic-cloud-dialog.no-keywords-note' | translate}}
+    </p>
+  </mat-card>
+
   <mat-accordion>
-    <mat-expansion-panel class="color-surface" hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
+    <!-- <mat-expansion-panel class="color-surface" hideToggle *ngIf="keywords.length === 0 || (searchMode && filteredKeywords.length === 0)">
       <mat-expansion-panel-header class="color-surface">
         <mat-panel-title fxLayoutAlign="center">
           {{'topic-cloud-dialog.no-keywords-note' | translate}}
         </mat-panel-title>
       </mat-expansion-panel-header>
-    </mat-expansion-panel>
+    </mat-expansion-panel> -->
 
     <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true" (closed)="panelOpenState = edit = false"
       *ngFor="let keyword of
