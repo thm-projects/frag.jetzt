@@ -101,7 +101,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
             existingKey.comments.push(comment);
           } else {
             const keyword: Keyword = {
-              keywordID: comment.id,
               keyword: _keyword,
               comments: [comment],
               vote: 1
@@ -188,7 +187,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }, 0);
   }
 
-  deleteKeyword(key: Keyword): void{
+  deleteKeyword(key: Keyword, message?: string): void{
     key.comments.map(comment => {
       const changes = new TSMap<string, any>();
       let keywords = comment.keywordsFromQuestioner;
@@ -197,23 +196,21 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       keywords = comment.keywordsFromSpacy;
       keywords.splice(keywords.indexOf(key.keyword, 0), 1);
       changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-      this.updateComment(comment, changes, 'keyword-delete');
+      this.updateComment(comment, changes, message);
     });
-
-    if (this.keywords.length === 0) {
-      this.cloudDialogRef.close();
-    }
 
     if (this.searchMode === true){
       this.searchKeyword();
     }
   }
 
-  updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate: string){
+  updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate?: string){
     this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
-      this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
-        this.notificationService.show(msg);
-      });
+      if (messageTranslate){
+        this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
     },
       error => {
         this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
@@ -268,7 +265,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
-        this.deleteKeyword(keyword);
+        this.deleteKeyword(keyword, 'keyword-delete');
       } else if (result === 'merge') {
         this.mergeKeywords(keyword, mergeTarget);
       }
@@ -289,7 +286,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
       key1.comments.map(comment => {
-        key2.comments.push(comment);
+        const changes = new TSMap<string, any>();
+        let keywords = comment.keywordsFromQuestioner;
+        keywords.push(key2.keyword);
+        changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
+        keywords = comment.keywordsFromSpacy;
+        keywords.push(key2.keyword);
+        changes.set('keywordsFromSpacy', JSON.stringify(keywords));
+        this.updateComment(comment, changes);
       });
       this.deleteKeyword(key1);
     }
@@ -340,7 +344,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 }
 
 interface Keyword {
-  keywordID: string;
   keyword: string;
   comments: Comment[];
   vote: number;
