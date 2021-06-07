@@ -24,6 +24,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   commentLang: Model;
   commentBodyChecked: string;
   keywords: Keyword[] = [];
+  keywordsOriginal: Keyword[] = [];
 
   constructor(
     protected langService: LanguageService,
@@ -45,45 +46,59 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   /**
    * Returns a lambda which closes the dialog on call.
    */
-   buildCloseDialogActionCallback(): () => void {
+  buildCloseDialogActionCallback(): () => void {
     return () => this.dialogRef.close();
   }
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywords = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
+      this.comment.keywordsFromSpacy = this.keywordsOriginal.map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
 
   evalInput(model: Model) {
-    const words: Keyword[] = [];
+    const keywords: Keyword[] = [];
+    let regex;
+    if(this.commentLang === 'de') {
+      regex = new RegExp('(?!Der|Die|Das)[A-ZAÄÖÜ][a-zäöüß]+(-[A-Z][a-zäöüß]+)*', 'g');
+    } else if (this.commentLang === 'en') {
+      regex = new RegExp('(?!he|she|it|for|with)[a-z]{2,}(-[a-z]{2,})*', 'gi');
+    } else {
+      regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
+    }
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-    this.spacyService.analyse(this.commentBodyChecked, model)
-      .subscribe(res => {
-        for(const word of res.words) {
-          if (word.tag.charAt(0) === 'N') {
-            words.push({
-              word: word.text,
-              completed: false,
-              editing: false,
-              selected: false
-            });
+    this.spacyService.getKeywords(this.commentBodyChecked, model)
+      .subscribe(words => {
+        for(const word of words) {
+          const filteredwords = word.match(regex) || [];
+          for (const filteredword of filteredwords) {
+            if(filteredword !== null && filteredword !== undefined && keywords.filter(item => item.word === filteredword).length < 1) {
+              keywords.push({
+                word: filteredword,
+                completed: false,
+                editing: false,
+                selected: false
+              });
+            }
           }
         }
-        this.keywords = words;
+        this.keywords = keywords;
+        this.keywordsOriginal = keywords;
       }, () => {
         this.keywords = [];
+        this.keywordsOriginal = [];
       });
   }
 
-  onEdit(keyword){
+  onEdit(keyword) {
     keyword.editing = true;
     keyword.completed = false;
     keyword.selected = false;
   }
 
-  onEndEditing(keyword){
+  onEndEditing(keyword) {
     keyword.editing = false;
     keyword.completed = true;
     keyword.selected = true;

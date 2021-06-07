@@ -1,12 +1,32 @@
-mat-radio-button{
+mat-radio-button {
     margin: 5px;
-
 }
 
-
-
 mat-radio-group {
-    display: flex;
+  display: flex;
   flex-direction: column;
   margin: 15px 0;
+}
+
+::ng-deep .mat-radio-label-content {
+  width: 100%;
+}
+
+.elementRow {
+  display: flex;
+  flex-direction: row;
+  width: 100% !important;
+}
+
+.elementText {
+  align-content: flex-start;
+  margin-right: 10px;
+}
+
+.elementIcons {
+  margin-left: auto;
+}
+
+.comment_tag-icon {
+  height: 16px !important;
 }

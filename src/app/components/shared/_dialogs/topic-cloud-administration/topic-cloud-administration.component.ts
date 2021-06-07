@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -7,33 +7,37 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { FormControl } from '@angular/forms';
-import { SpacyService } from '../../../../services/http/spacy.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { TopicCloudAdminData } from './TopicCloudAdminData';
+import { KeywordOrFulltext } from './TopicCloudAdminData';
 
 @Component({
   selector: 'app-topic-cloud-administration',
   templateUrl: './topic-cloud-administration.component.html',
   styleUrls: ['./topic-cloud-administration.component.scss']
 })
-export class TopicCloudAdministrationComponent implements OnInit {
+export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
-  public considerVotes: boolean; // should be sent back to tagCloud component
-  public profanityFilter = true; // should be sent back to tagCloud component
-  public hideIrrelevant: boolean; // should be sent back to tagCloud component
+  public considerVotes: boolean;
+  public profanityFilter: boolean;
+  public blacklistIsActive: boolean;
+  keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
   isCreatorOrMod: boolean;
-  enterBadword = false;
-  enterIrrelevantWord = false;
-  newBadWord: string = undefined;
-  newIrrelevantWord: string = undefined;
-
+  enterProfanityWord = false;
+  enterBlacklistWord = false;
+  newProfanityWord: string = undefined;
+  newBlacklistWord: string = undefined;
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
   filteredKeywords: Keyword[] = [];
-
+  showProfanityList = false;
+  showBlacklistWordList = false;
+  showSettingsPanel = false;
+  keywordORfulltext: string = undefined;
+  userRole: UserRole;
   keywords: Keyword[] = [
     {
       keywordID: 1,
@@ -86,35 +90,71 @@ export class TopicCloudAdministrationComponent implements OnInit {
         'Englisch: Fuck you!',
         'Deutsch: Fick dich!',
         'Französisch: Gros con!',
+        'Türkisch: Orospu çocuğu!',
+        'Arabisch: عاهرة!',
+        'Russisch: Муда!',
         'Multi language: Ficken, Fuck, con',
         'Custom: Nieder mit KQC'
       ]
     },
-
   ];
+  private topicCloudAdminData: TopicCloudAdminData;
 
   constructor(public cloudDialogRef: MatDialogRef<TagCloudComponent>,
-              public confirmDialog: MatDialog,
-              private notificationService: NotificationService,
-              private authenticationService: AuthenticationService,
-              private translateService: TranslateService,
-              private langService: LanguageService,
-              private topicCloudAdminService: TopicCloudAdminService) {
-
-                this.langService.langEmitter.subscribe(lang => {
-                  this.translateService.use(lang);
-                });
-              }
+    public confirmDialog: MatDialog,
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private translateService: TranslateService,
+    private langService: LanguageService,
+    private topicCloudAdminService: TopicCloudAdminService) {
+      this.langService.langEmitter.subscribe(lang => {
+        this.translateService.use(lang);
+      });
+    }
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.checkIfUserIsModOrCreator();
     this.checkIfThereAreQuestions();
     this.sortQuestions();
+    this.setDefaultAdminData();
+  }
+
+  ngOnDestroy(){
+    this.setAdminData();
+  }
+
+  setAdminData(){
+    this.topicCloudAdminData = {
+      blacklist: this.topicCloudAdminService.getBlacklistWords(this.profanityFilter, this.blacklistIsActive),
+      considerVotes: this.considerVotes,
+      profanityFilter: this.profanityFilter,
+      blacklistIsActive: this.blacklistIsActive,
+      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext]
+    };
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
+  }
+
+  setDefaultAdminData() {
+    this.topicCloudAdminData = this.topicCloudAdminService.getAdminData;
+    if (this.topicCloudAdminData) {
+      this.considerVotes = this.topicCloudAdminData.considerVotes;
+      this.profanityFilter = this.topicCloudAdminData.profanityFilter;
+      this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
+      this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
+    }
   }
 
   getKeywordWithoutProfanity(keyword: string): string {
     return this.topicCloudAdminService.filterProfanityWords(keyword);
+  }
+
+  getProfanityList() {
+    return this.topicCloudAdminService.getProfanityList();
+  }
+
+  getBlacklist() {
+    return this.topicCloudAdminService.getBlacklist();
   }
 
   sortQuestions(sortMode?: string) {
@@ -153,7 +193,6 @@ export class TopicCloudAdministrationComponent implements OnInit {
 
   editKeyword(index: number): void {
     this.edit = true;
-
     setTimeout(() => {
       document.getElementById('edit-input'+ index).focus();
     }, 0);
@@ -180,12 +219,17 @@ export class TopicCloudAdministrationComponent implements OnInit {
   }
 
   confirmEdit(key: Keyword): void {
-    this.keywords.map(keyword => {
+    for (const keyword of this.keywords){
       if (keyword.keywordID === key.keywordID) {
-          this.integrateIfKeywordExists(keyword, this.newKeyword.trim().toLowerCase());
+        const key2 = this.checkIfKeywordExists(this.newKeyword.trim().toLowerCase());
+        if (key2){
+          this.openConfirmDialog('merge-message', 'merge', keyword, key2);
+        } else {
           keyword.keyword = this.newKeyword.trim();
+        }
+        break;
       }
-    });
+    }
     this.edit = false;
     this.newKeyword = undefined;
     this.sortQuestions();
@@ -194,14 +238,17 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  openConfirmDialog(keyword: Keyword): void {
+  openConfirmDialog(msg: string, _confirmLabel: string, keyword: Keyword, mergeTarget?: Keyword) {
+    const translationPart = 'topic-cloud-confirm-dialog.'+msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
-      data: {topic: keyword.keyword}
+      data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
       if (result === 'delete') {
         this.deleteKeyword(keyword);
+      } else if (result === 'merge') {
+        this.mergeKeywords(keyword, mergeTarget);
       }
     });
   }
@@ -217,15 +264,12 @@ export class TopicCloudAdministrationComponent implements OnInit {
     }
   }
 
-  //TODO: confirm dialog -> keyword does already exist, do you want to merge the questions with the existing keyword?
-
-  integrateIfKeywordExists(keyword: Keyword, keyname: string) {
-    const key = this.checkIfKeywordExists(keyname);
-    if (key !== undefined){
-      key.questions.map(question => {
-        keyword.questions.push(question);
+  mergeKeywords(key1: Keyword, key2: Keyword) {
+    if (key1 !== undefined && key2 !== undefined){
+      key1.questions.map(question => {
+        key2.questions.push(question);
       });
-      this.deleteKeyword(key);
+      this.deleteKeyword(key1);
     }
   }
 
@@ -238,32 +282,34 @@ export class TopicCloudAdministrationComponent implements OnInit {
     return undefined;
   }
 
-  focusBadWordInput() {
+  focusInput(id: string) {
     setTimeout(() => {
-      document.getElementById('bad-word-input').focus();
+      document.getElementById(id).focus();
     }, 100);
   }
 
-  focusIrrelevantWordInput() {
-    setTimeout(() => {
-      document.getElementById('irrelevant-word-input').focus();
-    }, 100);
-  }
-
-  addBadword() {
-    this.topicCloudAdminService.addToBadwordList(this.newBadWord);
-    this.newBadWord = undefined;
+  addProfanityWord() {
+    this.topicCloudAdminService.addToProfanityList(this.newProfanityWord);
+    this.newProfanityWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
     }
   }
 
-  addIrrelevantWord() {
-    this.topicCloudAdminService.addToIrrelevantwordList(this.newIrrelevantWord);
-    this.newIrrelevantWord = undefined;
+  addBlacklistWord() {
+    this.topicCloudAdminService.addToBlacklistWordList(this.newBlacklistWord);
+    this.newBlacklistWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
     }
+  }
+
+  removeWordFromProfanityList(word: string) {
+    this.topicCloudAdminService.removeFromProfanityList(word);
+  }
+
+  removeWordFromBlacklist(word: string) {
+    this.topicCloudAdminService.removeWordFromBlacklist(word);
   }
 
   refreshAllLists(){

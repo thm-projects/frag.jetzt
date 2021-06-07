@@ -81,7 +81,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "questions-blocked": "Questions are blocked!"
+    "questions-blocked": "No further questions!"
   },
   "spacy-dialog": {
     "auto": "auto",
@@ -89,7 +89,12 @@
     "en": "English",
     "fr": "French",
     "empty-nouns": "No nouns included",
-    "select-all": "Select all"
+    "select-all": "Select all",
+    "lang-button-hint": "Selected language for spell check",
+    "select-all-hint": "Select all keywords",
+    "select-keyword-hint": "Select this keyword",
+    "edit-keyword-hint": "Edit keyword",
+    "editing-done-hint": "Finish editing"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
@@ -309,6 +314,7 @@
     "threshold": "Threshold value for display? ",
     "threshold-description": "Set the threshold value above which a negatively rated question should be displayed.",
     "update": "Save",
+    "block" : "Block questions",
     "update-description": "Save changes",
     "question": "Question",
     "favorite": "Favorite",

@@ -2,8 +2,19 @@
   <div class="anchor-wrp">
     <span *ngIf="keywords.length > 0">
       <ars-row class="select-all-section">
-        <mat-checkbox class="select-all-checkbox" id="checkAll" (change)="selectAll(checkall.checked)" #checkall></mat-checkbox>
-        <mat-label class="select-all-label" for="checkAll" (click)="checkall.checked = !checkall.checked; selectAll(checkall.checked)">
+        <mat-checkbox class="select-all-checkbox"
+                      id="checkAll"
+                      (change)="selectAll(checkall.checked)"
+                      #checkall
+                      matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
+                      matTooltipShowDelay="750">
+        </mat-checkbox>
+        <mat-label class="select-all-label"
+                   for="checkAll"
+                   (click)="checkall.checked = !checkall.checked;
+                   selectAll(checkall.checked)"
+                   matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
+                   matTooltipShowDelay="750">
           <mat-icon class="select-all-icon">playlist_add_check</mat-icon>
           {{ 'spacy-dialog.select-all' | translate }}
         </mat-label>
@@ -22,16 +33,22 @@
           <div class="keywords-actions">
             <mat-checkbox [checked]="keyword.completed"
                           (change)="keyword.selected = $event.checked"
-                          [(ngModel)]="keyword.completed">
+                          [(ngModel)]="keyword.completed"
+                          matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}"
+                          matTooltipShowDelay="750">
             </mat-checkbox>
             <button *ngIf="!keyword.editing"
                     (click)="onEdit(keyword)" mat-icon-button
-                    [ngClass]="{'keywords-actions-selected': keyword.selected}">
+                    [ngClass]="{'keywords-actions-selected': keyword.selected}"
+                    matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}"
+                    matTooltipShowDelay="750">
               <mat-icon>edit</mat-icon>
             </button>
             <button *ngIf="keyword.editing"
                     (click)="onEndEditing(keyword)" mat-icon-button
-                    class = "edit-accept">
+                    class = "edit-accept"
+                    matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}"
+                    matTooltipShowDelay="750">
               <mat-icon>check</mat-icon>
             </button>
           </div>
