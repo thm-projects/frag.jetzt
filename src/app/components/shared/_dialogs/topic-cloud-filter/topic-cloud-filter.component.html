@@ -16,7 +16,7 @@
         </div>
       </div>
     </mat-radio-button>
-    <mat-radio-button checked="true" value="continueWithCurr">
+    <mat-radio-button checked="true" value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
       <div class="elementRow">
         <div class="elementText">
           {{'content.continue-with-current-questions' | translate}}
