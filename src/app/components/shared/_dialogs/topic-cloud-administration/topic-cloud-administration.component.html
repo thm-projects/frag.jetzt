@@ -102,16 +102,13 @@
             </button>
           </div>
         </mat-expansion-panel>
-      </mat-accordion>
-
-      <mat-accordion>
         <mat-expansion-panel class="color-background">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-title>
               Spacy labels
             </mat-panel-title>
           </mat-expansion-panel-header>
-
+  
           <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
             <mat-tab label="{{'topic-cloud-dialog.german' | translate}}">
               <mat-selection-list [(ngModel)]="wantedLabels.de">
