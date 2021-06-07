@@ -272,7 +272,9 @@
     "keyword-delete": "keyword deleted",
     "keyword-edit": "keyword renamed",
     "keywords-merge": "keywords merged",
-    "changes-gone-wrong": "somthing gone wrong"
+    "changes-gone-wrong": "somthing has gone wrong",
+    "english": "English",
+    "german": "German"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

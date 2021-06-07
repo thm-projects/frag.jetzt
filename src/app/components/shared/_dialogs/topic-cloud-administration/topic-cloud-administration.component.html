@@ -113,14 +113,14 @@
           </mat-expansion-panel-header>
 
           <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
-            <mat-tab label="German">
+            <mat-tab label="{{'topic-cloud-dialog.german' | translate}}">
               <mat-selection-list [(ngModel)]="wantedLabels.de">
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
                   {{label.label + " (" + label.tag + ")"}}
                 </mat-list-option>
               </mat-selection-list>
             </mat-tab>
-            <mat-tab label="English">
+            <mat-tab label="{{'topic-cloud-dialog.english' | translate}}">
               <mat-selection-list [(ngModel)]="wantedLabels.en">
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
                   {{label.label + " (" + label.tag + ")"}}
