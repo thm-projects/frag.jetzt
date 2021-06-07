@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as BadWords from 'naughty-words';
 // eslint-disable-next-line max-len
-import { TopicCloudAdminData, KeywordOrFulltext, Labels } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData, KeywordOrFulltext, Labels, spacyLabels } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from './../../services/http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
@@ -41,8 +41,8 @@ export class TopicCloudAdminService {
       data = {
         blacklist: [],
         wantedLabelsDE: {
-          de: [],
-          en: []
+          de: this.getDefaultSpacyTagsDE(),
+          en: this.getDefaultSpacyTagsEN()
         },
         considerVotes: false,
         profanityFilter: true,
@@ -61,7 +61,7 @@ export class TopicCloudAdminService {
     });
   }
 
-  getBlacklist(): Observable<string[]>{
+  getBlacklist(): Observable<string[]> {
     // TODO: add watcher for another moderators
     this.getRoom().subscribe(room => {
       this.blacklist.next(JSON.parse(room.blacklist));
@@ -159,6 +159,22 @@ export class TopicCloudAdminService {
           this.notificationService.show(msg);
         });
     });
+  }
+
+  getDefaultSpacyTagsDE(): string[] {
+    let tags: string[];
+    spacyLabels.de.forEach(label => {
+      tags.push(label.tag);
+    });
+    return tags;
+  }
+
+  getDefaultSpacyTagsEN(): string[] {
+    let tags: string[];
+    spacyLabels.en.forEach(label => {
+      tags.push(label.tag);
+    });
+    return tags;
   }
 
   private replaceString(str: string, search: string, replace: string) {
