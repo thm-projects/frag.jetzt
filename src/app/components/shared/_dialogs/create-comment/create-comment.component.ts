@@ -72,11 +72,10 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  clearHTML(element){
-    navigator.clipboard.readText().then((text) => {
-    element.innerHTML = text.replace(/<[^>]*>?/gm, '');
-
-    })
+  clearHTML(e){
+    e.preventDefault();
+    const text = e.clipboardData.getData('text');
+    document.getElementById('answer-input').innerText += text.replace(/<[^>]*>?/gm, '');
   }
 
   checkInputData(body: string): boolean {
