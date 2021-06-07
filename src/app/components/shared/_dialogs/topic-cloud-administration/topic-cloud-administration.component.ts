@@ -95,7 +95,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           const existingKey = this.checkIfKeywordExists(_keyword);
           if (existingKey){
             existingKey.vote++;
-            existingKey.comments.push(comment);
+            if (this.checkIfCommentExists(existingKey.comments, comment.id)){
+              existingKey.comments.push(comment);
+            }
           } else {
             const keyword: Keyword = {
               keyword: _keyword,
@@ -109,6 +111,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.checkIfThereAreQuestions();
       this.sortQuestions();
     });
+  }
+
+  checkIfCommentExists(comments: Comment[], id: string): boolean{
+    return comments.filter(comment => comment.id === id).length === 0;
   }
 
   setAdminData() {
