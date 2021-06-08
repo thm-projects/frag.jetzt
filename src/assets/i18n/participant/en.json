@@ -268,7 +268,14 @@
     "show-blacklist": "Show blacklist",
     "hide-blacklist": "Hide blacklist",
     "show-profanity-list": "Show profanity list",
-    "hide-profanity-list": "Hide profanity list"
+    "hide-profanity-list": "Hide profanity list",
+    "keyword-delete": "keyword deleted",
+    "keyword-edit": "keyword renamed",
+    "keywords-merge": "keywords merged",
+    "changes-gone-wrong": "somthing has gone wrong",
+    "english": "English",
+    "german": "German",
+    "select-all": "Select all"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
