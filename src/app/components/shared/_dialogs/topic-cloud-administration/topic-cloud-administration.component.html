@@ -108,10 +108,10 @@
               Spacy labels
             </mat-panel-title>
           </mat-expansion-panel-header>
-  
+
           <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
             <mat-tab label="{{'topic-cloud-dialog.german' | translate}}">
-              <mat-selection-list [(ngModel)]="wantedLabels.de">
+              <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.de">
 
                 <mat-option class="color-on-surface" (click)="selectAllDE(); allSelectedDE = !allSelectedDE">
                   <mat-label>
@@ -126,7 +126,7 @@
               </mat-selection-list>
             </mat-tab>
             <mat-tab label="{{'topic-cloud-dialog.english' | translate}}">
-              <mat-selection-list [(ngModel)]="wantedLabels.en">
+              <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.en">
 
                 <mat-option class="color-on-surface" (click)="selectAllEN(); allSelectedEN = !allSelectedEN">
                   <mat-label>

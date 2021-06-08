@@ -162,7 +162,7 @@ export class TopicCloudAdminService {
   }
 
   getDefaultSpacyTagsDE(): string[] {
-    let tags: string[];
+    const tags: string[] = [];
     spacyLabels.de.forEach(label => {
       tags.push(label.tag);
     });
@@ -170,7 +170,7 @@ export class TopicCloudAdminService {
   }
 
   getDefaultSpacyTagsEN(): string[] {
-    let tags: string[];
+    const tags: string[] = [];
     spacyLabels.en.forEach(label => {
       tags.push(label.tag);
     });
