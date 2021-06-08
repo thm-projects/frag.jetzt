@@ -23,7 +23,7 @@ import { MotdService } from '../../../services/http/motd.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
-import { TagCloudMetaData } from '../tag-cloud/tag-cloud.data-manager';
+import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
 
 @Component({
   selector: 'app-header',

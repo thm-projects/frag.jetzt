@@ -1,13 +1,15 @@
-import { Comment } from '../../../models/comment';
-import { Observable, Subject } from 'rxjs';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { CommentService } from '../../../services/http/comment.service';
-import { CloudParameters } from './tag-cloud.interface';
+import { Injectable } from '@angular/core';
+import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { WsCommentServiceService } from '../websockets/ws-comment-service.service';
+import { CommentService } from '../http/comment.service';
+import { TopicCloudAdminService } from './topic-cloud-admin.service';
+import { CommentFilterOptions } from '../../utils/filter-options';
 import { TranslateService } from '@ngx-translate/core';
+import { CloudParameters } from '../../components/shared/tag-cloud/tag-cloud.interface';
+import { Comment } from '../../models/comment';
+import { CommentFilterUtils } from '../../utils/filter-comments';
 import { Message } from '@stomp/stompjs';
-import { CommentFilterUtils } from '../../../utils/filter-comments';
-import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
-import { CommentFilterOptions } from '../../../utils/filter-options';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -60,7 +62,10 @@ export enum TagCloudCalcWeightType {
   byLengthAndVotes
 }
 
-export class TagCloudDataManager {
+@Injectable({
+  providedIn: 'root'
+})
+export class TagCloudDataService {
   private _isDemoActive: boolean;
   private _isAlphabeticallySorted: boolean;
   private _dataBus: Subject<TagCloudData>;
@@ -75,6 +80,10 @@ export class TagCloudDataManager {
   private _lastMetaData: TagCloudMetaData = null;
   private readonly _currentMetaData: TagCloudMetaData;
   private _demoData: TagCloudData = null;
+  private _adminData: TopicCloudAdminData = null;
+  private _currentBlacklist: string[] = [];
+  private _subscriptionAdminData: Subscription;
+  private _subscriptionBlacklist: Subscription;
 
   constructor(private _wsCommentService: WsCommentServiceService,
               private _commentService: CommentService,
@@ -98,9 +107,18 @@ export class TagCloudDataManager {
     });
   }
 
-  activate(roomId: string): void {
+  bindToRoom(roomId: string): void {
     this._roomId = roomId;
-    this.updateAdminSettings(false);
+    this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
+      this._adminData = adminData;
+      this._calcWeightType = this._adminData.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
+      this._supplyType = this._adminData.keywordORfulltext as unknown as TagCloudDataSupplyType;
+      this.rebuildTagData();
+    });
+    this._subscriptionBlacklist = this._tagCloudAdmin.getBlacklist().subscribe(blacklist => {
+      this._currentBlacklist = blacklist || [];
+      this.rebuildTagData();
+    });
     this.fetchData();
     if (!CommentFilterOptions.readFilter().paused) {
       this._wsCommentSubscription = this._wsCommentService
@@ -108,7 +126,9 @@ export class TagCloudDataManager {
     }
   }
 
-  deactivate(): void {
+  unbindRoom(): void {
+    this._subscriptionBlacklist.unsubscribe();
+    this._subscriptionAdminData.unsubscribe();
     if (this._wsCommentSubscription !== null) {
       this._wsCommentSubscription.unsubscribe();
       this._wsCommentSubscription = null;
@@ -194,17 +214,8 @@ export class TagCloudDataManager {
   }
 
   blockWord(tag: string): void {
-    this._tagCloudAdmin.addToBlacklistWordList(tag.toLowerCase());
+    this._tagCloudAdmin.addWordToBlacklist(tag.toLowerCase());
     this.rebuildTagData();
-  }
-
-  updateAdminSettings(refresh = true): void {
-    const data = this._tagCloudAdmin.getAdminData;
-    this._calcWeightType = data.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
-    this._supplyType = data.keywordORfulltext as unknown as TagCloudDataSupplyType;
-    if (refresh) {
-      this.rebuildTagData();
-    }
   }
 
   updateConfig(parameters: CloudParameters): boolean {
@@ -272,10 +283,12 @@ export class TagCloudDataManager {
   }
 
   private rebuildTagData() {
+    if (!this._lastFetchedComments) {
+      return;
+    }
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
-    const blackList = this._tagCloudAdmin.getBlacklistWords(true, true);
     for (const comment of this._lastFetchedComments) {
       let keywords = comment.keywordsFromQuestioner;
       if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
@@ -291,7 +304,7 @@ export class TagCloudDataManager {
       for (const keyword of keywords) {
         const lowerCaseKeyWord = keyword.toLowerCase();
         let profanity = false;
-        for (const word of blackList) {
+        for (const word of this._currentBlacklist) {
           if (lowerCaseKeyWord.includes(word)) {
             profanity = true;
             break;
@@ -412,5 +425,4 @@ export class TagCloudDataManager {
         break;
     }
   }
-
 }

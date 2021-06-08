@@ -23,10 +23,10 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { TagCloudDataManager, TagCloudDataTagEntry } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 
 class CustomPosition implements Position {
   left: number;
@@ -163,7 +163,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   //Subscriptions
   headerInterface = null;
   themeSubscription = null;
-  readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
   private _createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionCommentlist = null;
@@ -183,12 +182,12 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private themeService: ThemeService,
               private wsCommentService: WsCommentServiceService,
               private topicCloudAdmin: TopicCloudAdminService,
-              private router: Router) {
+              private router: Router,
+              public dataManager: TagCloudDataService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.dataManager = new TagCloudDataManager(wsCommentService, commentService, topicCloudAdmin);
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
@@ -223,8 +222,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
           data: {
             user: this.user
           }
-        }).afterClosed().subscribe(() => {
-          this.dataManager.updateAdminSettings();
         });
       }
     });
@@ -269,7 +266,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    this.dataManager.activate(this.roomId);
+    this.dataManager.bindToRoom(this.roomId);
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
@@ -278,10 +275,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById('footer_rescale').style.display = 'block';
     this.headerInterface.unsubscribe();
     this.themeSubscription.unsubscribe();
-    this.dataManager.deactivate();
+    this.dataManager.unbindRoom();
   }
 
-  get tagCloudDataManager(): TagCloudDataManager {
+  get tagCloudDataManager(): TagCloudDataService {
     return this.dataManager;
   }
 

@@ -459,7 +459,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sortComments(this.currentSort);
       return;
     }
-    console.log(compare);
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
