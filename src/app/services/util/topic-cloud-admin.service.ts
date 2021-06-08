@@ -40,7 +40,7 @@ export class TopicCloudAdminService {
     if (!data) {
       data = {
         blacklist: [],
-        wantedLabelsDE: {
+        wantedLabels: {
           de: this.getDefaultSpacyTagsDE(),
           en: this.getDefaultSpacyTagsEN()
         },
@@ -162,7 +162,7 @@ export class TopicCloudAdminService {
   }
 
   getDefaultSpacyTagsDE(): string[] {
-    const tags: string[] = [];
+    let tags: string[] = [];
     spacyLabels.de.forEach(label => {
       tags.push(label.tag);
     });
@@ -170,7 +170,7 @@ export class TopicCloudAdminService {
   }
 
   getDefaultSpacyTagsEN(): string[] {
-    const tags: string[] = [];
+    let tags: string[] = [];
     spacyLabels.en.forEach(label => {
       tags.push(label.tag);
     });
