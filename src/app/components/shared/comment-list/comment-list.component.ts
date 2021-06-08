@@ -140,7 +140,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       dialogRef.componentInstance.roomId = this.room.id;
     });
     this.eventService.on<string>('setTagConfig').subscribe(tag => {
-      this.clickedOnTag(tag);
+      this.clickedOnKeyword(tag);
     });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
@@ -459,7 +459,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sortComments(this.currentSort);
       return;
     }
-    console.log(compare);
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
