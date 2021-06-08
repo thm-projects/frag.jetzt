@@ -43,9 +43,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
-
-  @ViewChild('allSelectedDE') allSelectedDE2;
-  // @ViewChild('allSelectedEN') allSelectedEN;
   allSelectedDE = true;
   allSelectedEN = true;
   spacyLabels: Labels;
@@ -112,7 +109,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           }
         });
       });
-      // this.checkIfThereAreQuestions();
       this.sortQuestions();
     });
   }
