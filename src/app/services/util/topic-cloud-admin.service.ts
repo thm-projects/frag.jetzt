@@ -131,7 +131,7 @@ export class TopicCloudAdminService {
       this.getRoom().subscribe(room => {
         const newlist = JSON.parse(room.blacklist);
         if (!newlist.includes(word)){
-          newlist.push(word);
+          newlist.push(word.toLowerCase());
         }
         this.updateBlacklist(newlist, room);
       });

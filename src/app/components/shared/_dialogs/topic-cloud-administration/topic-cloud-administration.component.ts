@@ -72,7 +72,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
-    this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
+    this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
