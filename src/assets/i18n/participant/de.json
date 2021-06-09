@@ -87,7 +87,7 @@
     "cancel": "Abbrechen",
     "delete": "Löschen"
   },
-  "spacy-dialog":{
+  "spacy-dialog": {
     "auto": "auto",
     "de": "Deutsch",
     "en": "Englisch",
@@ -155,7 +155,6 @@
     "sure": "Bist du sicher?",
     "grammar-check": "Rechtschreibprüfung"
   },
-
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
     "no-room-found": "Es wurde keine Sitzung mit diesem Raum-Code gefunden.",
@@ -218,7 +217,7 @@
     "filter-lbl": "Filter-Menü anzeigen",
     "filter-lbl-favorites": "Favorisierte Fragen filtern",
     "filter-lbl-approved": "Bejahte Fragen filtern",
-    "filter-lbl-disapproved":"Verneinte Fragen filtern",
+    "filter-lbl-disapproved": "Verneinte Fragen filtern",
     "filter-tags-lbl": "Nach Kategorien filtern",
     "user-lbl": "Benutzer-Menü öffnen",
     "slider-lbl": "Fragen-Zoom einstellen",
@@ -233,7 +232,25 @@
   "tag-cloud": {
     "config": "Wolkenansicht ändern",
     "administration": "Wolkenthemen editieren",
-    "demo-data-topic": "Thema %d"
+    "demo-data-topic": "Thema %d",
+    "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
+    "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
+    "period-since-first-comment":"Zeitraum seit erstem Kommentar",
+    "upvote-topic": "Upvotes für dieses Thema",
+    "downvote-topic": "Downvotes für dieses Thema",
+    "blacklist-topic": "Thema zur Blacklist hinzufügen"
+  },
+  "tag-cloud-popup": {
+    "few-seconds": "wenige Sekunden",
+    "few-minutes": "wenige Minuten",
+    "some-minutes": "{{minutes}} Minuten",
+    "one-hour": "1 Stunde",
+    "some-hours": "{{hours}} Stunden",
+    "one-day": "1 Tag",
+    "some-days": "{{days}} Tage",
+    "one-week": "1 Woche",
+    "some-weeks": "{{weeks}} Wochen",
+    "some-months": "{{months}} Monate"
   },
   "topic-cloud-dialog": {
     "cancel": "Abbrechen",
@@ -263,7 +280,14 @@
     "show-blacklist": "Zeige Blackliste",
     "hide-blacklist": "Verberge Blackliste",
     "show-profanity-list": "Zeige Schimpfwortliste",
-    "hide-profanity-list": "Verberge Schimpfwortliste"
+    "hide-profanity-list": "Verberge Schimpfwortliste",
+    "keyword-delete": "Stichwort gelöscht",
+    "keyword-edit": "Stichwort umbenannt",
+    "keywords-merge": "Stichwörter zusammengefügt",
+    "changes-gone-wrong": "Etwas ist schiefgelaufen",
+    "english": "Englisch",
+    "german": "Deutsch",
+    "select-all": "Alle auswählen"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
@@ -277,24 +301,24 @@
     "read-more": "Mehr lesen",
     "read-less": "Weniger lesen"
   },
-  "tag-cloud-config":{
-    "title":"Tag-Cloud Einstellungen",
-    "general":"Allgemeine Einstellungen",
-    "overflow":"Überlauf",
-    "height":"Höhe",
-    "random-angle":"Zufallswinkel",
-    "realign":"Neu ausrichten",
-    "background":"Hintergrundfarbe",
-    "word-delay":"Wortverzögerung",
-    "hover-color":"Schriftfarbe",
-    "hover-scale":"Hover Skala",
-    "hover-time":"Hover Zeit",
-    "hover-title":"Hover Einstellungen",
-    "hover-delay":"Hover Verzögerung",
-    "cancel-btn":"Abbruch",
-    "save-btn":"Speichern",
-    "font-size-min":"Schriftgröße min",
-    "font-size-max":"Schriftgröße max",
+  "tag-cloud-config": {
+    "title": "Tag-Cloud Einstellungen",
+    "general": "Allgemeine Einstellungen",
+    "overflow": "Überlauf",
+    "height": "Höhe",
+    "random-angle": "Zufallswinkel",
+    "realign": "Neu ausrichten",
+    "background": "Hintergrundfarbe",
+    "word-delay": "Wortverzögerung",
+    "hover-color": "Schriftfarbe",
+    "hover-scale": "Hover Skala",
+    "hover-time": "Hover Zeit",
+    "hover-title": "Hover Einstellungen",
+    "hover-delay": "Hover Verzögerung",
+    "cancel-btn": "Abbruch",
+    "save-btn": "Speichern",
+    "font-size-min": "Schriftgröße min",
+    "font-size-max": "Schriftgröße max",
     "select-color": "Farbauswahl",
     "random-angle-tooltip": "Anordnung der Winkel zufällig generieren",
     "background-tooltip": "Auswahl der Hintergrundfarbe",
