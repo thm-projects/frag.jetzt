@@ -359,7 +359,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   selectAllDE() {
     if (this.allSelectedDE) {
-      this.wantedLabels.de = []
+      this.wantedLabels.de = [];
     } else {
       this.wantedLabels.de = [];
       this.spacyLabels.de.forEach(label => {
@@ -375,7 +375,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.wantedLabels.en.push(label.tag);
       });
     } else {
-      this.wantedLabels.en = []
+      this.wantedLabels.en = [];
     }
   }
 }
