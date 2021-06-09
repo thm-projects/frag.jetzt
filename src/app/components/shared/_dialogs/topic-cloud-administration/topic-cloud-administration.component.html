@@ -162,9 +162,8 @@
     </div>
 
     <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
-      <mat-icon svgIcon="comment_tag"
-                [ngClass]="{'animation-blink': searchMode}"
-                class="oldtypo-h2 comment_tag-icon"></mat-icon>
+      <mat-icon [ngClass]="{'animation-blink': searchMode}"
+                class="oldtypo-h2 comment_tag-icon">tag</mat-icon>
       <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length :
         keywords.length}}</p>
     </div>
