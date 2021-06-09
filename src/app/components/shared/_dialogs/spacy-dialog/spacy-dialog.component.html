@@ -55,8 +55,8 @@
         </mat-list-item>
       </mat-list>
     </ars-row>
-    <span *ngIf="keywords.length<=0">
-      <p>{{ 'spacy-dialog.empty-nouns' | translate}}</p>
+    <span *ngIf="keywords.length <= 0 && !this.isLoading">
+      <p>{{ 'spacy-dialog.empty-nouns' | translate }}</p>
     </span>
 
   </div>
