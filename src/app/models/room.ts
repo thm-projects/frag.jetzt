@@ -14,6 +14,7 @@ export class Room {
   directSend: boolean;
   threshold: number;
   tags: string[];
+  questionsBlocked: boolean;
 
   constructor(
     ownerId: string = '',
@@ -27,6 +28,7 @@ export class Room {
     directSend: boolean = true,
     threshold: number = null,
     tags: string[] = [],
+    questionsBlocked: boolean = false,
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -40,5 +42,6 @@ export class Room {
     this.directSend = directSend;
     this.threshold = threshold;
     this.tags = tags;
+    this.questionsBlocked = questionsBlocked;
   }
 }
