@@ -83,8 +83,8 @@ export class TopicCloudFilterComponent implements OnInit {
       this.commentsLoaded = true;
     } else {
       this.disableCurrentFiltersOptions = ((this.allCommentsCount == this.filteredCommentsCount) &&
-                                          (this.allCommentsCount == this.filteredCommentsCount) && 
-                                          (this.allCommentsCount == this.filteredCommentsCount));
+                                          (this.allCommentsUsers == this.filteredCommentsUsers) && 
+                                          (this.allCommentsKeywords == this.filteredCommentsKeywords));
 
       if (this.disableCurrentFiltersOptions) {
         this.continueFilter = 'continueWithAll';
