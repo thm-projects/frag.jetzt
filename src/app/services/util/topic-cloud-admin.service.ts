@@ -56,7 +56,13 @@ export class TopicCloudAdminService {
   setAdminData(_adminData: TopicCloudAdminData) {
     localStorage.setItem(this.adminKey, JSON.stringify(_adminData));
     this.getBlacklist().subscribe(list => {
-      _adminData.blacklist = this.getCustomProfanityList().concat(list).concat(this.profanityWords);
+      _adminData.blacklist = [];
+      if (_adminData.profanityFilter){
+        _adminData.blacklist = this.getCustomProfanityList().concat(this.profanityWords);
+      }
+      if (_adminData.blacklistIsActive){
+        _adminData.blacklist.concat(list);
+      }
       this.adminData.next(_adminData);
     });
   }
@@ -124,7 +130,9 @@ export class TopicCloudAdminService {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
         const newlist = JSON.parse(room.blacklist);
-        newlist.push(word);
+        if (!newlist.includes(word)){
+          newlist.push(word);
+        }
         this.updateBlacklist(newlist, room);
       });
     }
@@ -163,7 +171,7 @@ export class TopicCloudAdminService {
   }
 
   getDefaultSpacyTagsDE(): string[] {
-    let tags: string[] = [];
+    const tags: string[] = [];
     spacyLabels.de.forEach(label => {
       tags.push(label.tag);
     });
@@ -171,7 +179,7 @@ export class TopicCloudAdminService {
   }
 
   getDefaultSpacyTagsEN(): string[] {
-    let tags: string[] = [];
+    const tags: string[] = [];
     spacyLabels.en.forEach(label => {
       tags.push(label.tag);
     });
