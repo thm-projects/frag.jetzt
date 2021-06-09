@@ -139,7 +139,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
-      console.log(this.topicCloudAdminData);
       this.wantedLabels = {
         de: this.topicCloudAdminData.wantedLabels.de,
         en: this.topicCloudAdminData.wantedLabels.en
