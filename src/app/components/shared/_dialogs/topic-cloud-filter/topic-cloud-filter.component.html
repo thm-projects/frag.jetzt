@@ -12,11 +12,11 @@
         <div class="elementIcons">
           <mat-icon [inline]="true">comment</mat-icon> {{allCommentsCount}} 
           <mat-icon [inline]="true">person</mat-icon> {{allCommentsUsers}}
-          <mat-icon svgIcon="comment_tag" class="comment_tag-icon"></mat-icon> {{allCommentsKeywords}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{allCommentsKeywords}}
         </div>
       </div>
     </mat-radio-button>
-    <mat-radio-button checked="true" value="continueWithCurr">
+    <mat-radio-button checked="true" value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
       <div class="elementRow">
         <div class="elementText">
           {{'content.continue-with-current-questions' | translate}}
@@ -24,7 +24,7 @@
         <div class="elementIcons">
           <mat-icon [inline]="true">comment</mat-icon> {{filteredCommentsCount}}
           <mat-icon [inline]="true">person</mat-icon> {{filteredCommentsUsers}}
-          <mat-icon svgIcon="comment_tag" class="comment_tag-icon"></mat-icon> {{filteredCommentsKeywords}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{filteredCommentsKeywords}}
         </div>
       </div>
     </mat-radio-button>

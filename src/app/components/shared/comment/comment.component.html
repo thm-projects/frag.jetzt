@@ -324,14 +324,14 @@
            [mat-menu-trigger-for]="keywordsMenu"
            *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
            class="comment-keywords">
-        <mat-icon svgIcon="comment_tag"></mat-icon>
+        <mat-icon svgIcon="hashtag" class="keyword-icon"></mat-icon>
         <span>
           &nbsp;{{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate ) : this.selectedKeyword}}
         </span>
         <mat-menu #keywordsMenu>
 
           <mat-list dense class="keywords-list">
-            <mat-list-item  *ngFor="let keyword of comment.keywordsFromQuestioner; let odd = odd; let even = even"
+            <mat-list-item *ngFor="let keyword of comment.keywordsFromQuestioner; let odd = odd; let even = even"
                             [class.keywords-alternate]="odd"
                             [class.keywords-even]="even">                  
                             <span (click)="this.clickedOnKeyword.emit(keyword)" class="keyword-span">{{keyword}}</span>
