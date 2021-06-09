@@ -34,6 +34,7 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.check = this.editRoom.questionsBlocked;
   }
 
   openDeleteRoomDialog(): void {
