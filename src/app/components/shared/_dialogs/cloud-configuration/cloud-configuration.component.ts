@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
-import { TagCloudMetaDataCount } from '../../tag-cloud/tag-cloud.data-manager';
 import { CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
 import { WeightClass } from './weight-class.interface';
+import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 
 @Component({
   selector: 'app-cloud-configuration',

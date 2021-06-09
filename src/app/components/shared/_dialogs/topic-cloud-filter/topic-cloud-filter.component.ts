@@ -39,6 +39,9 @@ export class TopicCloudFilterComponent implements OnInit {
   filteredCommentsUsers : number;
   filteredCommentsKeywords : number;
 
+  disableCurrentFiltersOptions : boolean = false;
+  commentsLoaded : boolean = false;
+
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
               public notificationService: NotificationService,
@@ -63,14 +66,30 @@ export class TopicCloudFilterComponent implements OnInit {
         this.allCommentsCount = counts.comments;
         this.allCommentsUsers = counts.users;
         this.allCommentsKeywords = counts.keywords;
+        this.commentsLoadedCallback();
       });
       this.commentService.getFilteredComments(room.id).subscribe(comments => {
         const counts = this.getCommentCounts(comments);
         this.filteredCommentsCount = counts.comments;
         this.filteredCommentsUsers = counts.users;
         this.filteredCommentsKeywords = counts.keywords;
-      });
+        this.commentsLoadedCallback();
+      });      
     });
+  }
+
+  commentsLoadedCallback() {
+    if (!this.commentsLoaded) {
+      this.commentsLoaded = true;
+    } else {
+      this.disableCurrentFiltersOptions = ((this.allCommentsCount == this.filteredCommentsCount) &&
+                                          (this.allCommentsUsers == this.filteredCommentsUsers) && 
+                                          (this.allCommentsKeywords == this.filteredCommentsKeywords));
+
+      if (this.disableCurrentFiltersOptions) {
+        this.continueFilter = 'continueWithAll';
+      }
+    }
   }
 
   closeDialog(): void {

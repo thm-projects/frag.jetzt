@@ -16,6 +16,10 @@
   margin-bottom: 16px;
 }
 
+.margin-top {
+  margin-top: 16px;
+}
+
 .primary {
   color: var(--primary);
   background: none;
@@ -134,3 +138,6 @@ mat-dialog-content {
   max-height: 80vh!important;
 }
 
+.comment_tag-icon {
+  height: 18px !important;
+}

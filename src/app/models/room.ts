@@ -8,6 +8,7 @@ export class Room {
   abbreviation: string;
   name: string;
   description: string;
+  blacklist: string;
   closed: boolean;
   moderated: boolean;
   directSend: boolean;
@@ -20,6 +21,7 @@ export class Room {
     abbreviation: string = '',
     name: string = '',
     description: string = '',
+    blacklist: string = '[]',
     closed: boolean = false,
     moderated: boolean = true,
     directSend: boolean = true,
@@ -32,6 +34,7 @@ export class Room {
     this.abbreviation = abbreviation;
     this.name = name;
     this.description = description;
+    this.blacklist = blacklist;
     this.closed = closed;
     this.moderated = moderated;
     this.directSend = directSend;

@@ -5,13 +5,14 @@
     </mat-drawer>
     <mat-drawer-content>
       <ars-fill ars-flex-box>
+        <app-tag-cloud-pop-up [parent]="this"></app-tag-cloud-pop-up>
         <div [ngClass]="{'hidden': !isLoading}" fxLayout="row" fxLayoutAlign="center center" fxFill>
           <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
         </div>
         <angular-tag-cloud
+          id="tagCloudComponent"
           class="spacyTagCloud"
           (window:resize)="onResize($event)"
-          (afterInit)="initTagCloud()"
           (clicked)="openTags($event)"
           [data]="data"
           [width]="options.width"
