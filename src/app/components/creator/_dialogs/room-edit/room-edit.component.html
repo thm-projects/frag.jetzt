@@ -56,9 +56,12 @@
       </mat-tab>
     </mat-tab-group>
     <div fxLayoutAlign="center center">
-      <label for="myCheck" style="background: darkgreen;  font-size: larger;">{{ 'room-page.block' | translate }} </label> 
-      <input type="checkbox" id= "myCheck" [(ngModel)]= "check" >
-      
+      <mat-slide-toggle [(ngModel)]= "check">{{ 'room-page.block' | translate }}</mat-slide-toggle>
+    </div>
+    <div fxLayoutAlign="center center">
+      <!-- <input type="checkbox" id= "myCheck" [(ngModel)]= "check" > -->
+   <!-- <mat-label for="myCheck" ><mat-icon>block</mat-icon>{{ 'room-page.block' | translate }} </mat-label> -->
+
       <button mat-raised-button
               class="delete"
               (click)="openDeleteRoomDialog()"

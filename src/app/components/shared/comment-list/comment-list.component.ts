@@ -236,14 +236,18 @@ export class CommentListComponent implements OnInit, OnDestroy {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
-          this.getModeratorIds();
-          this.subscribeCommentStream();
-          this.commentService.getAckComments(this.room.id)
-            .subscribe(comments => {
-              this.comments = comments;
-              this.getComments();
-              this.eventService.broadcast('commentListCreated', null);
-            });
+          this.moderatorService.get(this.roomId).subscribe(list => {
+            this.moderatorIds = list.map(m => m.accountId);
+            this.moderatorIds.push(this.room.ownerId);
+
+            this.subscribeCommentStream();
+            this.commentService.getAckComments(this.room.id)
+              .subscribe(comments => {
+                this.comments = comments;
+                this.getComments();
+                this.eventService.broadcast('commentListCreated', null);
+              });
+          });
           /**
            if (this.userRole === UserRole.PARTICIPANT) {
             this.openCreateDialog();
@@ -277,13 +281,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }
 
     return filter;
-  }
-
-  getModeratorIds() {
-    this.moderatorService.get(this.roomId).subscribe(list => {
-      this.moderatorIds = list.map(m => m.accountId);
-      this.moderatorIds.push(this.room.ownerId);
-    });
   }
 
   ngOnDestroy() {
@@ -457,7 +454,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
       this.currentFilter = '';
+      this.selectedTag = '';
+      this.selectedKeyword = '';
       this.sortComments(this.currentSort);
+      CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
       return;
     }
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
@@ -481,7 +481,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          return c.keywordsFromQuestioner != null ? c.keywordsFromQuestioner.includes(compare) : false;
+          return c.keywordsFromQuestioner != null && c.keywordsFromQuestioner.length > 0 ? c.keywordsFromQuestioner.includes(compare) : false;
         case this.answer:
           return c.answer;
         case this.unanswered:
