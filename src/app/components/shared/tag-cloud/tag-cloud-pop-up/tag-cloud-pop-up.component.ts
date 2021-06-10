@@ -62,6 +62,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   leave(): void {
     clearTimeout(this._popupHoverTimer);
+    clearTimeout(this._popupCloseTimer);
     this._popupCloseTimer = setTimeout(() => {
       this.close();
     }, CLOSE_TIME);
