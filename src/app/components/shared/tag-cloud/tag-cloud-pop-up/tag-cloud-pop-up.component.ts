@@ -1,10 +1,9 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { TagCloudComponent } from '../tag-cloud.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
-import { TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
+import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
 
 const CLOSE_TIME = 1500;
 
@@ -15,7 +14,6 @@ const CLOSE_TIME = 1500;
 })
 export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
-  @Input() parent: TagCloudComponent;
   @ViewChild('popupContainer') popupContainer: ElementRef;
   tag: string;
   tagData: TagCloudDataTagEntry;
@@ -27,7 +25,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private tagCloudDataService: TagCloudDataService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -82,7 +81,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   addBlacklistWord(): void {
-    this.parent.dataManager.blockWord(this.tag);
+    this.tagCloudDataService.blockWord(this.tag);
     this.close();
   }
 
