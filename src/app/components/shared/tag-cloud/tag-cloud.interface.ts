@@ -33,7 +33,8 @@ export type CloudWeightSettings = [
 export enum CloudTextStyle {
   normal,
   lowercase,
-  capitalized
+  capitalized,
+  uppercase
 }
 
 export interface CloudParameters {
