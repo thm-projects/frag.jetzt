@@ -25,6 +25,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   commentBodyChecked: string;
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
+  isLoading = false;
 
   constructor(
     protected langService: LanguageService,
@@ -68,6 +69,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     } else {
       regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
     }
+
+    this.isLoading = true;
+
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.getKeywords(this.commentBodyChecked, model)
       .subscribe(words => {
@@ -89,6 +93,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
+      }, () => {
+        this.isLoading = false;
       });
   }
 
