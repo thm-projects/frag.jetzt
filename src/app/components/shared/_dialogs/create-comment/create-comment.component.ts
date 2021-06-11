@@ -34,6 +34,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
 
+  newLang = 'auto';
+
   @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
 
   constructor(
@@ -189,7 +191,20 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         this.hasSpellcheckConfidence = false;
         return;
       }
-
+      console.log(document.getElementById('langSelect').innerText);
+      if(document.getElementById('langSelect').innerText.includes(this.newLang)
+            || document.getElementById('langSelect').innerText.includes('auto')){
+        if(wordsCheck.language.name.includes('German')){
+          //this.newLang = German;
+        }else if(wordsCheck.language.name.includes('English')){
+          //this.newLang = English;
+        }else if(wordsCheck.language.name.includes('French')){
+          //this.newLang = French;
+        }else{
+          this.newLang = wordsCheck.language.name;
+        }
+        document.getElementById('langSelect').innerHTML = this.newLang;
+      }
       if (wordsCheck.matches.length > 0) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);

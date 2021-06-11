@@ -5,8 +5,13 @@
             matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
             matTooltipShowDelay="750">
     <i class="material-icons">language</i>
-      {{'spacy-dialog.' + (selectedLang === 'auto' ? 'auto' : languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
-      <mat-select class="select-list" #select [(ngModel)]="selectedLang">
+      <span *ngIf="!(selectedLang === 'auto')">
+      {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
+      </span>
+      <span *ngIf="(selectedLang === 'auto')" id="langSelect">
+         auto
+      </span>
+        <mat-select class="select-list" #select [(ngModel)]="selectedLang">
         <mat-option *ngFor="let lang of languages" [value]="lang">
           <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
           <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
