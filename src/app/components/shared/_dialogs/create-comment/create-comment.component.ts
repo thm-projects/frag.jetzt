@@ -72,10 +72,20 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  clearHTML(e){
+
+  onPaste(e){
     e.preventDefault();
+    const elem = document.getElementById('answer-input');
     const text = e.clipboardData.getData('text');
-    document.getElementById('answer-input').innerText += text.replace(/<[^>]*>?/gm, '');
+    elem.innerText += text.replace(/<[^>]*>?/gm, '');
+
+    const range = document.createRange();
+    range.setStart(elem.lastChild, elem.lastChild.textContent.length);
+    range.collapse(true);
+
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   checkInputData(body: string): boolean {

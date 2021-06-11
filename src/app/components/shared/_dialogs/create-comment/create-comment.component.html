@@ -45,19 +45,18 @@
         <ars-row [overflow]="'visible'" style="max-height:calc( 100vh - 250px )">
           <mat-form-field style="width:100%;">
             <input [disabled]="true" matInput>
-            <div [contentEditable]="true"
-            (paste)="clearHTML($event);
-                maxLength(commentBody)"
-                      [spellcheck]="false"
-                      spellcheck="false"
-                      (focus)="eventService.makeFocusOnInputTrue()"
-                      style="margin-top:15px;width:100%;"
-                      (blur)="eventService.makeFocusOnInputFalse()"
-                      #commentBody
-                      aria-labelledby="ask-question-description"
-                      autofocus
-                      (input)="maxLength(commentBody)"
-                      id="answer-input">
+            <div
+              [contentEditable]="true"
+              (paste)="onPaste($event); maxLength(commentBody)"
+              [spellcheck]="false"
+              (focus)="eventService.makeFocusOnInputTrue()"
+              style="margin-top:15px;width:100%;"
+              (blur)="eventService.makeFocusOnInputFalse()"
+              #commentBody
+              aria-labelledby="ask-question-description"
+              autofocus
+              (input)="maxLength(commentBody)"
+              id="answer-input">
             </div>
             <mat-placeholder class="placeholder">
               {{ 'comment-page.enter-comment' | translate }}
