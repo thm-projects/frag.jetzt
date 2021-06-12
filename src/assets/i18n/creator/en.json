@@ -343,8 +343,7 @@
     "preview": "Preview"
   },
   "tag-cloud-config":{
-    "title":"Tag-Cloud Options",
-    "general":"General Options",
+    "general":"General",
     "overflow":"Overflow",
     "height":"Height",
     "random-angle":"Randomize angle",
@@ -354,14 +353,13 @@
     "hover-color":"Font-color",
     "hover-scale":"Scale",
     "hover-time":"Hover time",
-    "hover-title":"Hover Options",
+    "hover-title":"Hover",
     "hover-delay":"Hover delay",
     "cancel-btn":"Cancel",
     "save-btn":"Save",
     "font-size-min":"Font size min",
     "font-size-max":"Font size max",
     "select-color": "Selected color",
-
     "random-angle-tooltip": "Generate angle randomly",
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
@@ -371,9 +369,8 @@
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
     "hover-delay-tooltip": "Select hover-delay",
-
-    "weight-class-settings": "Weight-class Settings",
-    "weight-class": "Weight class",
+    "weight-class-settings": "Weight-classes",
+    "weight-class": "Weight-class",
     "back-btn": "Back",
     "weight-color": "Font color",
     "weight-number": "max. number of keywords",
