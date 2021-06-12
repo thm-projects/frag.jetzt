@@ -1,6 +1,5 @@
 <div id="wholeDialog" class="drawer-container" fxLayout="column" fxLayoutGap="5px">
   <div class="cloud-configuration-form" fxLayout="column" *ngIf="!extendedView && !cleanUpView">
-    <h2>{{'tag-cloud-config.title' | translate}}</h2>
     <div class="input-row special-settings demo-cloud-settings" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
       <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
         <mat-slide-toggle fxFlex (change)="parent.dataManager.demoActive = !parent.dataManager.demoActive"
