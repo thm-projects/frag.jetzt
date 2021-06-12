@@ -293,7 +293,9 @@
     "changes-gone-wrong": "somthing has gone wrong",
     "english": "English",
     "german": "German",
-    "select-all": "Select all"
+    "select-all": "Select all",
+    "keyword-counter": "Topic count",
+    "sort": "Sort"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

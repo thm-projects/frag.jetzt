@@ -161,15 +161,18 @@
       </mat-form-field>
     </div>
 
-    <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
+    <div fxLayoutAlign="center center" 
+          style="margin-left: auto; font-weight: bold;">
       <mat-icon [ngClass]="{'animation-blink': searchMode}"
-                class="oldtypo-h2 comment_tag-icon">tag</mat-icon>
-      <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length :
+                class="oldtypo-h2 comment_tag-icon"
+                matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">tag</mat-icon>
+      <p [ngClass]="{'animation-blink': searchMode}"
+          matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">{{searchMode ? filteredKeywords.length :
         keywords.length}}</p>
     </div>
     <div class="margin-left vertical-center">
       <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
-        <mat-icon>sort</mat-icon>
+        <mat-icon matTooltip="{{'topic-cloud-dialog.sort' | translate}}">sort</mat-icon>
       </button>
     </div>
   </div>
@@ -221,11 +224,11 @@
         <mat-divider></mat-divider>
 
         <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
-          <mat-icon class="primary">edit</mat-icon>
+          <mat-icon class="primary" matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit</mat-icon>
         </button>
         <button class="margin-right" mat-icon-button style="align-self:flex-end;"
           (click)="openConfirmDialog('delete-message','delete',keyword)">
-          <mat-icon class="red">delete</mat-icon>
+          <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete</mat-icon>
         </button>
       </div>
 

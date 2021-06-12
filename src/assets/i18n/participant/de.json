@@ -287,7 +287,9 @@
     "changes-gone-wrong": "Etwas ist schiefgelaufen",
     "english": "Englisch",
     "german": "Deutsch",
-    "select-all": "Alle auswählen"
+    "select-all": "Alle auswählen",
+    "keyword-counter": "Anzahl der Themen",
+    "sort": "Sortieren"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
