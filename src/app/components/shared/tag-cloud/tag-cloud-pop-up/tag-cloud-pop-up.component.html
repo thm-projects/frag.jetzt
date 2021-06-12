@@ -42,6 +42,13 @@
         </p>
       </span>
     </div>
+    <div *ngIf="spellingData">
+      <input #replacementInput type ="text" list = "replacement" >
+       <datalist id ="replacement">
+         <option *ngFor="let data of spellingData"> {{data}}</option>
+       </datalist>
+      <button (click)="updateTag()">send</button>
+    </div>
     <div *ngIf="categories && categories.length">
       <p>Kategorien:</p>
       <ul>
