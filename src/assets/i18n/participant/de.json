@@ -99,7 +99,7 @@
     "select-keyword-hint": "Dieses Stickwort auswählen",
     "edit-keyword-hint": "Stichwort editieren",
     "editing-done-hint": "Editierung abschliessen",
-    "force-language-selection": "Bitte wähle eine Sprache aus."
+    "force-language-selection": "Automatische Spracherkennung unpräzise, bitte gewählte Sprache prüfen!"
   },
   "comment-page": {
     "a11y-comment_input": "Gib deine Frage ein",

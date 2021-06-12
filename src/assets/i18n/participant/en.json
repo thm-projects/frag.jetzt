@@ -109,7 +109,7 @@
     "select-keyword-hint": "Select this keyword",
     "edit-keyword-hint": "Edit keyword",
     "editing-done-hint": "Finish editing",
-    "force-language-selection": "Please select a language."
+    "force-language-selection": "Language detection inaccurate, please check language settings!"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",

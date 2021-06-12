@@ -77,8 +77,9 @@
               </span>
             </mat-hint>
             <span *ngIf="!this.hasSpellcheckConfidence">
-              <p>{{ 'spacy-dialog.force-language-selection' | translate }}</p>
+              <p class="lang-confidence">{{ 'spacy-dialog.force-language-selection' | translate }}</p>
             </span>
+
           </mat-form-field>
         </ars-row>
       </mat-tab>
