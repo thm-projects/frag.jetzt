@@ -37,19 +37,22 @@ import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic
 import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    EssentialsModule,
-    SharedRoutingModule,
-    MatRippleModule,
-    ArsModule,
-    MarkdownModule,
-    QRCodeModule,
-    TagCloudModule,
-    ColorPickerModule
-  ],
+    imports: [
+        CommonModule,
+        EssentialsModule,
+        SharedRoutingModule,
+        MatRippleModule,
+        ArsModule,
+        MarkdownModule,
+        QRCodeModule,
+        TagCloudModule,
+        ColorPickerModule,
+        DragDropModule
+    ],
   declarations: [
     RoomJoinComponent,
     PageNotFoundComponent,
@@ -79,7 +82,8 @@ import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-p
     TopicDialogCommentComponent,
     TopicCloudFilterComponent,
     SpacyDialogComponent,
-    TagCloudPopUpComponent
+    TagCloudPopUpComponent,
+    WorkerDialogComponent
   ],
     exports: [
         RoomJoinComponent,
