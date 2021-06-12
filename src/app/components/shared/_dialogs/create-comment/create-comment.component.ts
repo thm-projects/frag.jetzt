@@ -195,11 +195,11 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       if(document.getElementById('langSelect').innerText.includes(this.newLang)
             || document.getElementById('langSelect').innerText.includes('auto')){
         if(wordsCheck.language.name.includes('German')){
-          //this.newLang = German;
+          this.selectedLang = 'de-DE';
         }else if(wordsCheck.language.name.includes('English')){
-          //this.newLang = English;
+          this.selectedLang= 'en-US';
         }else if(wordsCheck.language.name.includes('French')){
-          //this.newLang = French;
+          this.selectedLang = 'fr';
         }else{
           this.newLang = wordsCheck.language.name;
         }
