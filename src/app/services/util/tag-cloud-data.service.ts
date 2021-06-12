@@ -245,7 +245,6 @@ export class TagCloudDataService {
   }
 
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
-    console.log(`Admin data ${data}`);
     this._adminData = data;
     this._calcWeightType = this._adminData.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
     this._supplyType = this._adminData.keywordORfulltext as unknown as TagCloudDataSupplyType;
