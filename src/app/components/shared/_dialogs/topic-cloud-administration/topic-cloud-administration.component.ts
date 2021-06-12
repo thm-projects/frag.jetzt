@@ -43,8 +43,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
-  allSelectedDE = true;
-  allSelectedEN = true;
   spacyLabels: Labels;
   wantedLabels: {
     de: string[];
@@ -358,18 +356,18 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   selectAllDE() {
-    if (this.allSelectedDE) {
-      this.wantedLabels.de = [];
-    } else {
+    if (this.wantedLabels.de.length < this.spacyLabels.de.length) {
       this.wantedLabels.de = [];
       this.spacyLabels.de.forEach(label => {
         this.wantedLabels.de.push(label.tag);
       });
+    } else {
+      this.wantedLabels.de = [];
     }
   }
 
   selectAllEN() {
-    if (this.allSelectedEN) {
+    if (this.wantedLabels.en.length < this.spacyLabels.en.length) {
       this.wantedLabels.en = [];
       this.spacyLabels.en.forEach(label => {
         this.wantedLabels.en.push(label.tag);

@@ -118,7 +118,7 @@
             <mat-tab label="{{'topic-cloud-dialog.german' | translate}}">
               <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.de">
 
-                <mat-option class="color-on-surface" (click)="selectAllDE(); allSelectedDE = !allSelectedDE">
+                <mat-option class="color-on-surface" (click)="selectAllDE()">
                   <mat-label>
                     <mat-icon>playlist_add_check</mat-icon>
                     {{'topic-cloud-dialog.select-all' | translate}}
@@ -133,7 +133,7 @@
             <mat-tab label="{{'topic-cloud-dialog.english' | translate}}">
               <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.en">
 
-                <mat-option class="color-on-surface" (click)="selectAllEN(); allSelectedEN = !allSelectedEN">
+                <mat-option class="color-on-surface" (click)="selectAllEN()">
                   <mat-label>
                     <mat-icon>playlist_add_check</mat-icon>
                     {{'topic-cloud-dialog.select-all' | translate}}
