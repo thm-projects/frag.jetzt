@@ -168,6 +168,11 @@ mat-divider {
   transform: translateY(-35px);
 }
 
+.settings-heading {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 ::ng-deep.mat-drawer-backdrop.mat-drawer-shown{
   display: none;
 }
