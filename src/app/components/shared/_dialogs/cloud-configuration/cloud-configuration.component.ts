@@ -193,4 +193,16 @@ export class CloudConfigurationComponent implements OnInit {
     this.step--;
   }
 
+  reset(){
+    this.parent.resetColorsToTheme();
+    this.parent.configurationOpen = false;
+    this.cloudParameters = this.parent.currentCloudParameters;
+  }
+
+  changeFont(family:string, style: string){
+    if(family !== "") this.cloudParameters.fontFamily = family;
+
+    if(style !== "") this.cloudParameters.fontStyle = style;
+  }
+
 }

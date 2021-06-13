@@ -148,7 +148,10 @@ mat-divider {
 .button-row{
   margin: auto auto 50px auto ;
 }
-
+.reset {
+  margin: 25px auto auto auto;
+  background-color: var(--alt-surface);
+}
 .cloud-configuration-form{
   width: 290px;
 }
