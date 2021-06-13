@@ -356,6 +356,10 @@
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
     "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen",
     "font":"Schrift",
-    "reset-btn": "Zurücksetzten"
+    "reset-btn": "Zurücksetzten",    
+    "font-style-bold" : "Fett",
+    "font-style-italic": "Kursiv",
+    "font-family":"Schrift Art",
+    "font-style-normal":"Standart"
   }
 }
