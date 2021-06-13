@@ -23,10 +23,10 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
-import { TagCloudDataManager, TagCloudDataTagEntry } from './tag-cloud.data-manager';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 
 class CustomPosition implements Position {
   left: number;
@@ -110,6 +110,10 @@ const getDefaultCloudParameters = (): CloudParameters => {
     {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
   ];
   return {
+    fontFamily: 'Helvetica,Arial,sans-serif',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontSize: '10px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
     fontSizeMin: 100,
@@ -121,7 +125,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     randomAngles: false,
     checkSpelling: true,
     sortAlphabetically: false,
-    textTransform: CloudTextStyle.lowercase,
+    textTransform: CloudTextStyle.normal,
     cloudWeightSettings: weightSettings
   };
 };
@@ -163,7 +167,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   //Subscriptions
   headerInterface = null;
   themeSubscription = null;
-  readonly dataManager: TagCloudDataManager;
   private _currentSettings: CloudParameters;
   private _createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionCommentlist = null;
@@ -183,12 +186,12 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private themeService: ThemeService,
               private wsCommentService: WsCommentServiceService,
               private topicCloudAdmin: TopicCloudAdminService,
-              private router: Router) {
+              private router: Router,
+              public dataManager: TagCloudDataService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.dataManager = new TagCloudDataManager(wsCommentService, commentService, topicCloudAdmin);
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
@@ -199,7 +202,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     const temp: CloudParameters = jsonData != null ? JSON.parse(jsonData) : null;
     const elem = getDefaultCloudParameters();
     if (temp != null) {
-      for (const key in Object.keys(elem)) {
+      for (const key of Object.keys(elem)) {
         if (temp[key] !== undefined) {
           elem[key] = temp[key];
         }
@@ -219,9 +222,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
-          maxHeight: '80%'
-        }).afterClosed().subscribe(() => {
-          this.dataManager.updateAdminSettings();
+          maxHeight: '80%',
+          data: {
+            user: this.user
+          }
         });
       }
     });
@@ -266,7 +270,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    this.dataManager.activate(this.roomId);
+    this.dataManager.bindToRoom(this.roomId);
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
@@ -275,10 +279,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     document.getElementById('footer_rescale').style.display = 'block';
     this.headerInterface.unsubscribe();
     this.themeSubscription.unsubscribe();
-    this.dataManager.deactivate();
+    this.dataManager.unbindRoom();
   }
 
-  get tagCloudDataManager(): TagCloudDataManager {
+  get tagCloudDataManager(): TagCloudDataService {
     return this.dataManager;
   }
 
@@ -309,7 +313,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   resetColorsToTheme() {
     this.setCloudParameters(getDefaultCloudParameters());
   }
-
 
   onResize(event: UIEvent): any {
     this.updateTagCloud();
@@ -375,7 +378,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openTags(tag: CloudData): void {
-    if (this._subscriptionCommentlist !== null) {
+    if (this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
       return;
     }
     this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
@@ -405,10 +408,10 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this.lastDebounceTime = new Date().getTime();
+    this.isLoading = false;
     if (!dataUpdate) {
       this.child.reDraw();
     }
-    this.isLoading = false;
     // This should fix the hover bug (scale was not turned off sometimes)
     if (this.dataManager.currentData === null) {
       return;
@@ -417,9 +420,11 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       const dataElement = this.data[i];
       elem.addEventListener('mouseleave', () => {
         elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
+        this.popup.leave();
       });
       elem.addEventListener('mouseenter', () => {
-        this.popup.initPopUp(dataElement.text, dataElement.tagData);
+        this.popup.enter(elem, dataElement.text, dataElement.tagData,
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });
     });
   }
@@ -435,24 +440,33 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = rules.length - 1; i >= 0; i--) {
       customTagCloudStyles.sheet.deleteRule(i);
     }
+    // global
     let textTransform = '';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
-      textTransform = 'text-transform: uppercase;';
+      textTransform = 'text-transform: capitalize;';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
+    }else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+      textTransform = 'text-transform: uppercase;';
     }
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +
+      textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
+      'font-size: ' + this._currentSettings.fontSize + '; ' +
+      'font-weight: ' + this._currentSettings.fontWeight + '; ' +
+      'font-style' + this._currentSettings.fontStyle + '; }');
+    // custom spans
     const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
     for (let i = 1; i <= 10; i++) {
-      customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i +
-        ', .spacyTagCloud > span.w' + i + ' > a { '
-        + 'color: ' + this._currentSettings.cloudWeightSettings[i - 1].color + ';' +
-        textTransform + ' font-size: ' +
-        (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }', rules.length);
+      customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ', ' +
+        '.spacyTagCloud > span.w' + i + ' > a { ' +
+        'color: ' + this._currentSettings.cloudWeightSettings[i - 1].color + '; ' +
+        'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
     }
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { color: ' +
-      this._currentSettings.fontColor + '; }', rules.length);
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { background-color: ' +
-      this._currentSettings.backgroundColor + '; }', rules.length);
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
+      'color: ' + this._currentSettings.fontColor + '; ' +
+      'background-color: ' + this._currentSettings.backgroundColor + '; }');
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
+      'background-color: ' + this._currentSettings.backgroundColor + '; }');
   }
 
   /**
@@ -467,8 +481,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     /*
     hoverScale, hoverTime, hoverDelay, delayWord can be updated without refreshing
      */
-    const cssUpdates = ['backgroundColor', 'fontColor', 'fontSizeMin', 'fontSizeMax', 'textTransform'];
-    const dataUpdates = ['randomAngles', 'sortAlphabetically', 'checkSpelling'];
+    const cssUpdates = ['backgroundColor', 'fontColor'];
+    const dataUpdates = ['randomAngles', 'sortAlphabetically',
+      'fontSizeMin', 'fontSizeMax', 'textTransform', 'fontStyle', 'fontWeight', 'fontFamily', 'fontSize'];
     const cssWeightUpdates = ['color'];
     const dataWeightUpdates = ['maxVisibleElements', 'rotation'];
     //data updates

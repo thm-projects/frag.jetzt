@@ -1,33 +1,59 @@
-<div id="popupContainer">
-  <span>
-    <mat-icon>comment</mat-icon>
-    <p>
-      {{tagData && tagData.comments.length}}
-    </p>
-    <mat-icon>person</mat-icon>
-    <p>
-      {{tagData && tagData.distinctUsers.size}}
-    </p>
-    <mat-icon>thumb_up</mat-icon>
-    <p>
-      {{tagData && tagData.cachedVoteCount}}
-    </p>
-    <mat-icon>thumb_down</mat-icon>
-    <p>
-      {{tagData && tagData.cachedVoteCount}}
-    </p>
-    <mat-icon>date_range</mat-icon>
-    <p>
-      {{timePeriodText}}
-    </p>
-    <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
-      <mat-icon>gavel</mat-icon>
-    </button>
-  </span>
-  <div *ngIf="categories && categories.length">
-    <p>Kategorien:</p>
-    <ul>
-      <li *ngFor="let category of categories">{{category}}</li>
-    </ul>
+<div #popupContainer
+     class="popupContainer"
+     (focusout)="onFocus($event)"
+     tabindex="0">
+  <div>
+    <div>
+      <span>
+        <mat-icon matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
+        <p>
+          {{tagData && tagData.comments.length}}
+        </p>
+      </span>
+      <span>
+        <mat-icon matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>
+        <p>
+          {{tagData && tagData.distinctUsers.size}}
+        </p>
+      </span>
+      <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
+        <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
+      </button>
+    </div>
+    <div>
+      <span>
+        <mat-icon matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
+        <p>
+          {{tagData && tagData.cachedUpVotes}}
+        </p>
+      </span>
+      <span>
+        <mat-icon matTooltip="{{'tag-cloud.downvote-topic' | translate}}">thumb_down</mat-icon>
+        <p>
+          {{tagData && tagData.cachedDownVotes}}
+        </p>
+      </span>
+    </div>
+    <div>
+      <span>
+        <mat-icon matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
+        <p>
+          {{timePeriodText}}
+        </p>
+      </span>
+    </div>
+    <div *ngIf="spellingData">
+      <input #replacementInput type ="text" list = "replacement" >
+       <datalist id ="replacement">
+         <option *ngFor="let data of spellingData"> {{data}}</option>
+       </datalist>
+      <button mat-button class ="replace-button" (click)="updateTag()">send</button>
+    </div>
+    <div *ngIf="categories && categories.length">
+      <p>Kategorien:</p>
+      <ul>
+        <li *ngFor="let category of categories">{{category}}</li>
+      </ul>
+    </div>
   </div>
 </div>

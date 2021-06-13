@@ -1,5 +1,4 @@
 import { CorrectWrong } from './correct-wrong.enum';
-import { ViewChild } from '@angular/core';
 
 export class Comment {
   id: string;
@@ -22,6 +21,8 @@ export class Comment {
   number: number;
   keywordsFromQuestioner: string[];
   keywordsFromSpacy: string[];
+  upvotes: number;
+  downvotes: number;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -39,7 +40,9 @@ export class Comment {
               answer: string = '',
               userNumber: number = 0,
               keywordsFromQuestioner: string[] = [],
-              keywordsFromSpacy: string[] = []) {
+              keywordsFromSpacy: string[] = [],
+              upvotes = 0,
+              downvotes = 0) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -59,5 +62,7 @@ export class Comment {
     this.userNumber = userNumber;
     this.keywordsFromQuestioner = keywordsFromQuestioner;
     this.keywordsFromSpacy = keywordsFromSpacy;
+    this.upvotes = upvotes;
+    this.downvotes = downvotes;
   }
 }

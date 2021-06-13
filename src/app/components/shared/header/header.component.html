@@ -47,7 +47,7 @@
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
-          <mat-icon svgIcon="comment_tag"
+          <mat-icon svgIcon="hashtag"
                     class="oldtypo-h2 comment_tag-icon"></mat-icon>
           <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
         </button>
@@ -162,6 +162,16 @@
                 </mat-icon>
                 <span>{{'header.tag-cloud' | translate}}</span>
               </button>
+
+
+              <button mat-menu-item
+                      tabindex="0"
+                      (click)="startWorkerDialog()">
+                <mat-icon>cloud
+                </mat-icon>
+                <span>Enter keywords from spaCy</span>
+              </button>
+
 
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
