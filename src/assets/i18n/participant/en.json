@@ -108,7 +108,8 @@
     "select-all-hint": "Select all keywords",
     "select-keyword-hint": "Select this keyword",
     "edit-keyword-hint": "Edit keyword",
-    "editing-done-hint": "Finish editing"
+    "editing-done-hint": "Finish editing",
+    "force-language-selection": "Please select a language."
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
@@ -238,7 +239,25 @@
   "tag-cloud": {
     "config": "Modify cloud view",
     "administration": "Edit cloud topics",
-    "demo-data-topic": "Topic %d"
+    "demo-data-topic": "Topic %d",
+    "overview-question-topic-tooltip": "Number of questions with this topic",
+    "overview-questioners-topic-tooltip": "Number of questioners with this topic",
+    "period-since-first-comment":"Period since first comment",
+    "upvote-topic": "Upvotes for this topic",
+    "downvote-topic": "Downvotes for this topic",
+    "blacklist-topic": "Add topic to blacklist"
+  },
+  "tag-cloud-popup": {
+    "few-seconds": "few seconds",
+    "few-minutes": "few minutes",
+    "some-minutes": "{{minutes}} minutes",
+    "one-hour": "1 hour",
+    "some-hours": "{{hours}} hours",
+    "one-day": "1 day",
+    "some-days": "{{days}} days",
+    "one-week": "1 week",
+    "some-weeks": "{{weeks}} weeks",
+    "some-months": "{{months}} months"
   },
   "topic-cloud-dialog":{
     "edit": "Edit",
@@ -268,7 +287,14 @@
     "show-blacklist": "Show blacklist",
     "hide-blacklist": "Hide blacklist",
     "show-profanity-list": "Show profanity list",
-    "hide-profanity-list": "Hide profanity list"
+    "hide-profanity-list": "Hide profanity list",
+    "keyword-delete": "keyword deleted",
+    "keyword-edit": "keyword renamed",
+    "keywords-merge": "keywords merged",
+    "changes-gone-wrong": "somthing has gone wrong",
+    "english": "English",
+    "german": "German",
+    "select-all": "Select all"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
@@ -311,13 +337,13 @@
     "hover-time-tooltip": "Select hover-time",
     "hover-delay-tooltip": "Select hover-delay",
     "extended-btn": "Weight classes",
-    "weight-class-settings": "Weight-classes settings",
+    "weight-class-settings": "Weight-class Settings",
     "weight-class": "Weight class",
     "back-btn": "Back",
     "weight-color": "Font color",
     "weight-number": "max. number of keywords",
-    "weight-color-tooltip": "select font-color",
-    "wieght-number-tooltip": "select maximal number of keywords",
+    "weight-color-tooltip": "Select font-color",
+    "weight-number-tooltip": "Select maximal number of keywords",
     "automatic-spelling": "Automatic spelling",
     "notation": "Notation:",
     "lowerCase": "Lower case",
@@ -330,9 +356,8 @@
     "automatic-spelling-tooltip": "automatic spelling check",
     "notation-tooltip": "Notation-Settings: small, large, standard",
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
-    "rotation-tooltip": "rotate some entries randomly by x degrees",
+    "rotate-weight-tooltip": "Rotate some entries randomly by x degrees",
     "highestWeight-tooltip": "show x tags with the highest weight",
-    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
-    "rotate-weight-tooltip":"Rotate some randomly selected entries by this angle"
+    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees"
   }
 }

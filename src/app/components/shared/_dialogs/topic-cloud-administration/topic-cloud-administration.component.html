@@ -11,9 +11,7 @@
         <mat-label class="color-on-surface">
           {{"topic-cloud-dialog.select-choice" | translate}}
         </mat-label>
-        <mat-radio-group
-        class="radio-button-group"
-        [(ngModel)]="keywordORfulltext">
+        <mat-radio-group class="radio-button-group" [(ngModel)]="keywordORfulltext">
           <mat-radio-button checked="true" [value]="keywordOrFulltextENUM[0]" class="radio-button-item">
             {{"topic-cloud-dialog.keyword" | translate}}
           </mat-radio-button>
@@ -37,7 +35,7 @@
       </mat-slide-toggle>
 
       <mat-accordion class="new-profanity-word" multi>
-        <mat-expansion-panel class="color-background" (opened)="enterProfanityWord=true; focusInput('profanity-word-input')"
+        <mat-expansion-panel class="color-background" (opened)="enterProfanityWord=true; focusInput('bad-word-input')"
           (closed)="enterProfanityWord = false">
           <mat-expansion-panel-header class="color-background">
             <mat-panel-title>
@@ -65,12 +63,13 @@
           <div>
             <button mat-raised-button *ngIf="getProfanityList().length > 0" class="primaryBackground"
               (click)="showProfanityList=!showProfanityList">
-              {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) : ('topic-cloud-dialog.show-profanity-list' | translate)}}
+              {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) :
+              ('topic-cloud-dialog.show-profanity-list' | translate)}}
             </button>
           </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel class="color-background"
+        <mat-expansion-panel class="color-background margin-bottom"
           (opened)="enterBlacklistWord = true; focusInput('blacklist-word-input')"
           (closed)="enterBlacklistWord = false">
           <mat-expansion-panel-header class="color-background">
@@ -87,9 +86,8 @@
           <button mat-stroked-button color="primary" class="margin-left" (click)="addBlacklistWord()">
             {{'topic-cloud-dialog.add-word' | translate}}
           </button>
-
-          <mat-list role="list" *ngIf="showBlacklistWordList" class="margin-bottom">
-            <mat-list-item class="color-on-surface" *ngFor="let word of getBlacklist()" role="listitem">{{word}}
+          <mat-list role="list" *ngIf="showBlacklistWordList && blacklist.length > 0" class="margin-bottom">
+            <mat-list-item class="color-on-surface" *ngFor="let word of blacklist" role="listitem">{{word}}
               <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBlacklist(word)">
                 <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
               </button>
@@ -97,11 +95,52 @@
           </mat-list>
 
           <div>
-            <button mat-raised-button *ngIf="getBlacklist().length > 0" class="primaryBackground"
+            <button mat-raised-button class="primaryBackground" *ngIf="blacklist.length > 0"
               (click)="showBlacklistWordList=!showBlacklistWordList">
-              {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) : ('topic-cloud-dialog.show-blacklist' | translate)}}
+              {{showBlacklistWordList ? ('topic-cloud-dialog.hide-blacklist' | translate) :
+              ('topic-cloud-dialog.show-blacklist' | translate)}}
             </button>
           </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="color-background">
+          <mat-expansion-panel-header class="color-background">
+            <mat-panel-title>
+              Spacy labels
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
+            <mat-tab label="{{'topic-cloud-dialog.german' | translate}}">
+              <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.de">
+
+                <mat-option class="color-on-surface" (click)="selectAllDE(); allSelectedDE = !allSelectedDE">
+                  <mat-label>
+                    <mat-icon>playlist_add_check</mat-icon>
+                    {{'topic-cloud-dialog.select-all' | translate}}
+                  </mat-label>
+                </mat-option>
+
+                <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
+                  {{label.label + " (" + label.tag + ")"}}
+                </mat-list-option>
+              </mat-selection-list>
+            </mat-tab>
+            <mat-tab label="{{'topic-cloud-dialog.english' | translate}}">
+              <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.en">
+
+                <mat-option class="color-on-surface" (click)="selectAllEN(); allSelectedEN = !allSelectedEN">
+                  <mat-label>
+                    <mat-icon>playlist_add_check</mat-icon>
+                    {{'topic-cloud-dialog.select-all' | translate}}
+                  </mat-label>
+                </mat-option>
+
+                <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
+                  {{label.label + " (" + label.tag + ")"}}
+                </mat-list-option>
+              </mat-selection-list>
+            </mat-tab>
+          </mat-tab-group>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-expansion-panel>
@@ -123,12 +162,14 @@
     </div>
 
     <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
-      <mat-icon [ngClass]="{'animation-blink': searchMode}">sell</mat-icon>
-      <p class="margin-left" [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length : keywords.length}}</p>
+      <mat-icon svgIcon="comment_tag"
+                [ngClass]="{'animation-blink': searchMode}"
+                class="oldtypo-h2 comment_tag-icon"></mat-icon>
+      <p [ngClass]="{'animation-blink': searchMode}">{{searchMode ? filteredKeywords.length :
+        keywords.length}}</p>
     </div>
     <div class="margin-left vertical-center">
-      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button
-              [matMenuTriggerFor]="sortMenu">
+      <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
         <mat-icon>sort</mat-icon>
       </button>
     </div>
@@ -151,15 +192,13 @@
     </button>
   </mat-menu>
 
-  <mat-accordion>
-    <mat-expansion-panel class="color-surface" hideToggle *ngIf="searchMode && filteredKeywords.length === 0">
-      <mat-expansion-panel-header class="color-surface">
-        <mat-panel-title fxLayoutAlign="center">
-          {{'topic-cloud-dialog.no-keywords-note' | translate}}
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-    </mat-expansion-panel>
+  <mat-card class="color-surface" *ngIf="keywords.length === 0 || (searchMode && filteredKeywords.length === 0)">
+    <p class="color-on-surface" fxLayoutAlign="center">
+      {{'topic-cloud-dialog.no-keywords-note' | translate}}
+    </p>
+  </mat-card>
 
+  <mat-accordion>
     <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true" (closed)="panelOpenState = edit = false"
       *ngFor="let keyword of
                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
@@ -168,13 +207,13 @@
           {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
-          {{keyword.questions.length}}
-          {{'topic-cloud-dialog.question-count-'+(keyword.questions.length > 1 ? 'plural' : 'singular') | translate}}
+          {{keyword.comments.length}}
+          {{'topic-cloud-dialog.question-count-'+(keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <div *ngFor="let question of keyword.questions">
+      <div *ngFor="let question of keyword.comments">
         <mat-divider></mat-divider>
-        <app-topic-dialog-comment [question]="question" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
+        <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
           [isCollapsed]="!panelOpenState" [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
       </div>
 

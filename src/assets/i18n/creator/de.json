@@ -93,7 +93,8 @@
     "select-all-hint": "Alle Stichwörter auswählen",
     "select-keyword-hint": "Dieses Stickwort auswählen",
     "edit-keyword-hint": "Stichwort editieren",
-    "editing-done-hint": "Editierung abschliessen"
+    "editing-done-hint": "Editierung abschliessen",
+    "force-language-selection": "Bitte wähle eine Sprache aus."
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
@@ -369,8 +370,8 @@
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
     "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
 
-    "weight-class-settings": "Gewichtsklassen Einstellungen",
-    "weight-class": "Gewichtsklasse",
+    "weight-class-settings": "Wichtigkeitsklasse Einstellungen",
+    "weight-class": "Wichtigkeitsklasse",
     "back-btn": "Zurück",
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
@@ -388,9 +389,8 @@
     "automatic-spelling-tooltip": "automatische Überprüfung der Rechtschreibung",
     "notation-tooltip": "Einstellung der Schreibweise: klein, groß, standard",
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
-    "rotation-tooltip": "Einige Einträge zufällig um x Grad drehen",
     "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
-    "rotate-weight": "Einige Einträge dieser Gewichtsklasse zufällig um x Grad drehen",
-    "rotate-weight-tooltip": "Einige zufällig ausgewählte Einträge um diesen Winkel drehen"
+    "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
+    "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklassen zufällig um x Grad drehen"
   }
 }
