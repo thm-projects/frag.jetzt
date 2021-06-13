@@ -16,6 +16,18 @@ $header-size: 67px;
   z-index: 3;
   color: var(--on-dialog);
   transform: translateY(-$header-size);
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
   &:focus {
     outline: none;
@@ -115,4 +127,27 @@ button {
   margin-left: 0;
   padding-left: 10px;
   padding-right: 10px;
+}
+.replace-button{
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-top: 1rem;
+  min-width: 30px !important;
+  min-height: 10px !important;
+}
+input {
+  border-radius: 5px;
+  line-height: 80%;
+  caret-color: var(--on-surface);
+  -webkit-appearance: textarea;
+  min-height: 30px;
+  min-width: 100px;
+  cursor: text;
+  margin-right: 5px;
+  color: var(--on-dialog);
+  background-color: var(--dialog);
+
+  &:focus {
+    outline: none;
+  }
 }

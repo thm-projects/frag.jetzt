@@ -24,7 +24,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public considerVotes: boolean;
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
-  blacklist: string[] = [];
+   blacklist: string[] = [];
   blacklistSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;

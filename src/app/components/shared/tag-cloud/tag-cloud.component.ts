@@ -110,6 +110,10 @@ const getDefaultCloudParameters = (): CloudParameters => {
     {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
   ];
   return {
+    fontFamily: 'Helvetica,Arial,sans-serif',
+    fontWeight: 'normal',
+    fontStyle: 'normal',
+    fontSize: '10px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
     fontSizeMin: 100,
@@ -121,7 +125,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     randomAngles: false,
     checkSpelling: true,
     sortAlphabetically: false,
-    textTransform: CloudTextStyle.lowercase,
+    textTransform: CloudTextStyle.normal,
     cloudWeightSettings: weightSettings
   };
 };
@@ -198,7 +202,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     const temp: CloudParameters = jsonData != null ? JSON.parse(jsonData) : null;
     const elem = getDefaultCloudParameters();
     if (temp != null) {
-      for (const key in Object.keys(elem)) {
+      for (const key of Object.keys(elem)) {
         if (temp[key] !== undefined) {
           elem[key] = temp[key];
         }
@@ -310,7 +314,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     this.setCloudParameters(getDefaultCloudParameters());
   }
 
-
   onResize(event: UIEvent): any {
     this.updateTagCloud();
   }
@@ -375,7 +378,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openTags(tag: CloudData): void {
-    if (this._subscriptionCommentlist !== null) {
+    if (this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
       return;
     }
     this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
@@ -437,25 +440,33 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = rules.length - 1; i >= 0; i--) {
       customTagCloudStyles.sheet.deleteRule(i);
     }
+    // global
     let textTransform = '';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
-      textTransform = 'text-transform: uppercase;';
+      textTransform = 'text-transform: capitalize;';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
+    }else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+      textTransform = 'text-transform: uppercase;';
     }
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +
+      textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
+      'font-size: ' + this._currentSettings.fontSize + '; ' +
+      'font-weight: ' + this._currentSettings.fontWeight + '; ' +
+      'font-style' + this._currentSettings.fontStyle + '; }');
+    // custom spans
     const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
     for (let i = 1; i <= 10; i++) {
-      customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i +
-        ', .spacyTagCloud > span.w' + i + ' > a { '
-        + 'color: ' + this._currentSettings.cloudWeightSettings[i - 1].color + ';' +
-        textTransform + ' font-size: ' +
-        (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }', rules.length);
+      customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ', ' +
+        '.spacyTagCloud > span.w' + i + ' > a { ' +
+        'color: ' + this._currentSettings.cloudWeightSettings[i - 1].color + '; ' +
+        'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
     }
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { color: ' +
-      this._currentSettings.fontColor + '; background-color: ' +
-      this._currentSettings.backgroundColor + '; }', rules.length);
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { background-color: ' +
-      this._currentSettings.backgroundColor + '; }', rules.length);
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
+      'color: ' + this._currentSettings.fontColor + '; ' +
+      'background-color: ' + this._currentSettings.backgroundColor + '; }');
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
+      'background-color: ' + this._currentSettings.backgroundColor + '; }');
   }
 
   /**
@@ -470,8 +481,9 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     /*
     hoverScale, hoverTime, hoverDelay, delayWord can be updated without refreshing
      */
-    const cssUpdates = ['backgroundColor', 'fontColor', 'fontSizeMin', 'fontSizeMax', 'textTransform'];
-    const dataUpdates = ['randomAngles', 'sortAlphabetically', 'checkSpelling'];
+    const cssUpdates = ['backgroundColor', 'fontColor'];
+    const dataUpdates = ['randomAngles', 'sortAlphabetically',
+      'fontSizeMin', 'fontSizeMax', 'textTransform', 'fontStyle', 'fontWeight', 'fontFamily', 'fontSize'];
     const cssWeightUpdates = ['color'];
     const dataWeightUpdates = ['maxVisibleElements', 'rotation'];
     //data updates

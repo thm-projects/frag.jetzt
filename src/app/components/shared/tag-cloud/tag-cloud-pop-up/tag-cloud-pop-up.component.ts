@@ -1,10 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { TagCloudComponent } from '../tag-cloud.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
-import { TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
+import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
+import {Language, LanguagetoolService} from "../../../../services/http/languagetool.service";
 
 const CLOSE_TIME = 1500;
 
@@ -15,8 +15,8 @@ const CLOSE_TIME = 1500;
 })
 export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
-  @Input() parent: TagCloudComponent;
   @ViewChild('popupContainer') popupContainer: ElementRef;
+  @ViewChild('replacementInput') replacementinput: ElementRef;
   tag: string;
   tagData: TagCloudDataTagEntry;
   categories: string[];
@@ -24,10 +24,15 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   user: User;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
+  languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
+  selectedLang: Language = 'auto';
+  spellingData: string[];
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
-              private authenticationService: AuthenticationService) {
+              private authenticationService: AuthenticationService,
+              private tagCloudDataService: TagCloudDataService,
+              private languagetoolService:LanguagetoolService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -62,12 +67,24 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   leave(): void {
     clearTimeout(this._popupHoverTimer);
+    clearTimeout(this._popupCloseTimer);
     this._popupCloseTimer = setTimeout(() => {
       this.close();
     }, CLOSE_TIME);
   }
 
   enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
+    this.spellingData = undefined;
+    this.checkSpellings(tag).subscribe(correction => {
+      this.spellingData = [];
+      for(const match of correction.matches) {
+        if(match.replacements != null && match.replacements > 0){
+          for(const replacement of match.replacements) {
+            this.spellingData.push(replacement.value);
+          }
+        }
+      }
+    });
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
     this._popupHoverTimer = setTimeout(() => {
@@ -81,7 +98,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   addBlacklistWord(): void {
-    this.parent.dataManager.blockWord(this.tag);
+    this.tagCloudDataService.blockWord(this.tag);
     this.close();
   }
 
@@ -229,5 +246,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.translateService.get('tag-cloud-popup.some-months', {
       months
     }).subscribe(subscriber);
+  }
+  checkSpellings(text: string, language: Language = this.selectedLang) {
+    return this.languagetoolService.checkSpellings(text, language);
+  }
+  updateTag(){
+   console.log(this.replacementinput.nativeElement.value);
   }
 }

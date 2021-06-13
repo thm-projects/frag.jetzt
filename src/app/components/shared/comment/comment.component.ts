@@ -18,7 +18,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { User } from '../../../models/user';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-comment',
@@ -41,9 +40,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
   @Input() user: User;
-  @Input() disabled = false;
   @Output() clickedOnTag = new EventEmitter<string>();
-  @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
   isStudent = false;
   isCreator = false;
@@ -60,7 +57,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isExpanded = false;
   isExpandable = false;
-  selectedKeyword: string = '';
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -131,10 +127,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setRead(comment: Comment): void {
-      // @ts-ignore
-
-    this.commentService.toggleRead(comment).subscribe(c => {this.comment = c; this.comment.keywordsFromQuestioner = JSON.parse(c.keywordsFromQuestioner)});
-    // @ts-ignore
+    this.commentService.toggleRead(comment).subscribe();
   }
 
   markCorrect(comment: Comment, type: CorrectWrong): void {
@@ -143,16 +136,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
       } else {
         comment.correct = type;
       }
-    // @ts-ignore
-    this.commentService.markCorrect(comment).subscribe(c => {this.comment = c; this.comment.keywordsFromQuestioner = JSON.parse(c.keywordsFromQuestioner)});
-   // @ts-ignore
+    this.commentService.markCorrect(comment).subscribe();
   }
 
-
   setFavorite(comment: Comment): void {
-      // @ts-ignore
-    this.commentService.toggleFavorite(comment).subscribe(c => {this.comment = c; this.comment.keywordsFromQuestioner = JSON.parse(c.keywordsFromQuestioner)});
-      // @ts-ignore
+    this.commentService.toggleFavorite(comment).subscribe();
   }
 
   voteUp(comment: Comment): void {
@@ -219,15 +207,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setAck(comment: Comment): void {
-    //@ts-ignore
-    this.commentService.toggleAck(comment).subscribe(c => {this.comment = c; this.comment.keywordsFromQuestioner = JSON.parse(c.keywordsFromQuestioner)});
-    //@ts-ignore
+    this.commentService.toggleAck(comment).subscribe();
   }
 
   setBookmark(comment: Comment): void {
-    //@ts-ignore
-    this.commentService.toggleBookmark(comment).subscribe(c => {this.comment = c; this.comment.keywordsFromQuestioner = JSON.parse(c.keywordsFromQuestioner)});
-    //@ts-ignore  
+    this.commentService.toggleBookmark(comment).subscribe();
   }
 
   goToFullScreen(element: Element): void {

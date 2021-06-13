@@ -81,9 +81,7 @@ export class TagCloudDataService {
   private readonly _currentMetaData: TagCloudMetaData;
   private _demoData: TagCloudData = null;
   private _adminData: TopicCloudAdminData = null;
-  private _currentBlacklist: string[] = [];
   private _subscriptionAdminData: Subscription;
-  private _subscriptionBlacklist: Subscription;
 
   constructor(private _wsCommentService: WsCommentServiceService,
               private _commentService: CommentService,
@@ -109,16 +107,11 @@ export class TagCloudDataService {
 
   bindToRoom(roomId: string): void {
     this._roomId = roomId;
+    this.onReceiveAdminData(this._tagCloudAdmin.getDefaultAdminData);
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
-      this._adminData = adminData;
-      this._calcWeightType = this._adminData.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
-      this._supplyType = this._adminData.keywordORfulltext as unknown as TagCloudDataSupplyType;
-      this.rebuildTagData();
+      this.onReceiveAdminData(adminData,true);
     });
-    this._subscriptionBlacklist = this._tagCloudAdmin.getBlacklist().subscribe(blacklist => {
-      this._currentBlacklist = blacklist || [];
-      this.rebuildTagData();
-    });
+
     this.fetchData();
     if (!CommentFilterOptions.readFilter().paused) {
       this._wsCommentSubscription = this._wsCommentService
@@ -127,7 +120,6 @@ export class TagCloudDataService {
   }
 
   unbindRoom(): void {
-    this._subscriptionBlacklist.unsubscribe();
     this._subscriptionAdminData.unsubscribe();
     if (this._wsCommentSubscription !== null) {
       this._wsCommentSubscription.unsubscribe();
@@ -252,6 +244,15 @@ export class TagCloudDataService {
     this._dataBus.next(newData);
   }
 
+  private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
+    this._adminData = data;
+    this._calcWeightType = this._adminData.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
+    this._supplyType = this._adminData.keywordORfulltext as unknown as TagCloudDataSupplyType;
+    if(update) {
+      this.rebuildTagData();
+    }
+  }
+
   private getCurrentData(): TagCloudData {
     if (this._isDemoActive) {
       return this._demoData;
@@ -304,7 +305,7 @@ export class TagCloudDataService {
       for (const keyword of keywords) {
         const lowerCaseKeyWord = keyword.toLowerCase();
         let profanity = false;
-        for (const word of this._currentBlacklist) {
+        for (const word of this._adminData.blacklist) {
           if (lowerCaseKeyWord.includes(word)) {
             profanity = true;
             break;
