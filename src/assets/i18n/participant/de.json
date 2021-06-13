@@ -354,6 +354,8 @@
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
-    "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen"
+    "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen",
+    "font":"Schrift",
+    "reset-btn": "Zurücksetzten"
   }
 }

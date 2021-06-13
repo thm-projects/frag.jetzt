@@ -59,6 +59,19 @@
             [value]="cloudParameters.delayWord" matTooltip="{{'tag-cloud-config.word-delay-tooltip' | translate}}">
           </mat-slider>
         </div>
+        <mat-action-row>
+          <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>        </mat-action-row>
+      </mat-expansion-panel>
+
+
+      <!--  Fonts-->
+      <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel" hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <h3 class="settings-heading">{{'tag-cloud-config.font' | translate}}</h3>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
@@ -75,10 +88,20 @@
               matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
           </mat-form-field>
         </div>
+
+
         <mat-action-row>
-          <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>        </mat-action-row>
+          <button mat-icon-button (click)="prevStep()"><mat-icon>expand_less</mat-icon></button>
+          <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>
+        </mat-action-row>
       </mat-expansion-panel>
-        <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel" hideToggle>
+
+
+
+
+
+
+        <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel" hideToggle>
           <mat-expansion-panel-header>
             <mat-panel-title>
               <h3 class="settings-heading">{{'tag-cloud-config.hover-title' | translate}}</h3>
@@ -121,7 +144,7 @@
             <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>
           </mat-action-row>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel" hideToggle>
+      <mat-expansion-panel [expanded]="step == 3" (opened)="setStep(3)" class="matExpansionPanel" hideToggle>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <h3 class="settings-heading">{{'tag-cloud-config.weight-class-settings' | translate}}</h3>
@@ -169,6 +192,9 @@
       </mat-expansion-panel>
     </mat-accordion>
     <br>
+    <div class="button-row">
+      <button (click)="reset()" mat-button class="reset" >{{'tag-cloud-config.reset-btn' | translate}}</button>
+    </div>
     <div class="button-row">
       <button (click)="cancel()" mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
       <button (click)="save()" mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>

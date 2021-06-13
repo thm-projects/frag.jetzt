@@ -360,6 +360,8 @@
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
     "rotate-weight-tooltip": "Rotate some entries randomly by x degrees",
     "highestWeight-tooltip": "show x tags with the highest weight",
-    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees"
+    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
+    "font":"Font",
+    "reset-btn": "Reset"
   }
 }
