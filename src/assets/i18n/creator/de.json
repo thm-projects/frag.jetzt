@@ -395,7 +395,6 @@
     "reset-btn": "Zurücksetzten",
     "font-style-bold" : "Fett",
     "font-style-italic": "Kursiv",
-    "font-family":"Schrift Art",
-    "font-style-normal":"Standart"
+    "font-family":"Schrift Art"
   }
 }
