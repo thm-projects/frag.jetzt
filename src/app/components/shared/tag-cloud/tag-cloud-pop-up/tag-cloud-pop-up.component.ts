@@ -6,6 +6,9 @@ import { User } from '../../../../models/user';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
 import {Language, LanguagetoolService} from "../../../../services/http/languagetool.service";
 import {FormControl} from "@angular/forms";
+import {TSMap} from "typescript-map";
+import {CommentService} from "../../../../services/http/comment.service";
+import {Comment} from "../../../../models/comment";
 
 const CLOSE_TIME = 1500;
 
@@ -29,13 +32,16 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   selectedLang: Language = 'en-US';
   spellingData: string[] = undefined;
   tagReplacementInput: string;
-  isTagWronglySpelled: boolean = false;
+  wronglySpelledTag: string;
+
+
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
               private authenticationService: AuthenticationService,
               private tagCloudDataService: TagCloudDataService,
-              private languagetoolService:LanguagetoolService) {
+              private languagetoolService : LanguagetoolService,
+              private commentService : CommentService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -80,6 +86,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.spellingData = undefined;
     this.checkSpellings(tag,).subscribe(correction => {
       this.spellingData = [];
+      this.wronglySpelledTag = tag;
       for(const match of correction.matches) {
         if(match.replacements != null && match.replacements.length > 0){
           for(const replacement of match.replacements) {
@@ -255,6 +262,28 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
   updateTag(){
    this.tagReplacementInput = this.replacementInput.value;
+    this.tagData.comments.forEach(comment => {
+      const changes = new TSMap<string, any>();
+      let keywords = comment.keywordsFromQuestioner;
+      for (let i = 0; i < keywords.length; i++){
+        if (keywords[i].toLowerCase() === this.wronglySpelledTag.toLowerCase()){
+          keywords[i] = this.tagReplacementInput.trim();
+          console.log(keywords[i]);
+        }
+      }
+      changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
+      keywords = comment.keywordsFromSpacy;
+      for (let i = 0; i < keywords.length; i++){
+        if (keywords[i].toLowerCase() === this.wronglySpelledTag.toLowerCase()){
+          keywords[i] = this.tagReplacementInput.trim();
+          console.log(keywords[i]+ 'z');
+        }
+      }
+      changes.set('keywordsFromSpacy', JSON.stringify(keywords));
+      this.commentService.patchComment(comment, changes).subscribe(rt => {
+        console.log('PATCHED .........................');
+      });
+    });
    console.log(this.tagReplacementInput);
    this.close();
   }
