@@ -251,7 +251,8 @@
     "some-days": "{{days}} Tage",
     "one-week": "1 Woche",
     "some-weeks": "{{weeks}} Wochen",
-    "some-months": "{{months}} Monate"
+    "some-months": "{{months}} Monate",
+    "tag-correction-placeholder": "Korrektur"
   },
   "topic-cloud-dialog": {
     "cancel": "Abbrechen",

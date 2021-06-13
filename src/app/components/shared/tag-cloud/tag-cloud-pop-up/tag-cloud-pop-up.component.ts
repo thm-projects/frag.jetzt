@@ -5,6 +5,7 @@ import { AuthenticationService } from '../../../../services/http/authentication.
 import { User } from '../../../../models/user';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
 import {Language, LanguagetoolService} from "../../../../services/http/languagetool.service";
+import {FormControl} from "@angular/forms";
 
 const CLOSE_TIME = 1500;
 
@@ -16,7 +17,7 @@ const CLOSE_TIME = 1500;
 export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   @ViewChild('popupContainer') popupContainer: ElementRef;
-  @ViewChild('replacementInput') replacementinput: ElementRef;
+  replacementInput = new FormControl();
   tag: string;
   tagData: TagCloudDataTagEntry;
   categories: string[];
@@ -25,8 +26,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
-  selectedLang: Language = 'auto';
-  spellingData: string[];
+  selectedLang: Language = 'en-US';
+  spellingData: string[] = undefined;
+  tagReplacementInput: string;
+  isTagWronglySpelled: boolean = false;
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
@@ -75,10 +78,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
     this.spellingData = undefined;
-    this.checkSpellings(tag).subscribe(correction => {
+    this.checkSpellings(tag,).subscribe(correction => {
       this.spellingData = [];
       for(const match of correction.matches) {
-        if(match.replacements != null && match.replacements > 0){
+        if(match.replacements != null && match.replacements.length > 0){
           for(const replacement of match.replacements) {
             this.spellingData.push(replacement.value);
           }
@@ -251,6 +254,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     return this.languagetoolService.checkSpellings(text, language);
   }
   updateTag(){
-   console.log(this.replacementinput.nativeElement.value);
+   this.tagReplacementInput = this.replacementInput.value;
+   console.log(this.tagReplacementInput);
+   this.close();
   }
 }

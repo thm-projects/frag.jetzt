@@ -43,11 +43,21 @@
       </span>
     </div>
     <div *ngIf="spellingData">
-      <input #replacementInput type ="text" list = "replacement" >
-       <datalist id ="replacement">
-         <option *ngFor="let data of spellingData"> {{data}}</option>
-       </datalist>
-      <button (click)="updateTag()">send</button>
+      <mat-form-field>
+        <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
+        <input type="text"
+               aria-label="{{'tag-cloud-popup.tag-correction-placeholder' | translate}}"
+               matInput
+               [formControl]="replacementInput"
+               [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let data of spellingData" [value]="data">
+            {{data}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <br>
+      <button mat-button class ="replace-button" (click)="updateTag()">send</button>
     </div>
     <div *ngIf="categories && categories.length">
       <p>Kategorien:</p>
