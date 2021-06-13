@@ -35,7 +35,7 @@ unit_tests:
    - npm i
    - npm test
 
-.sonar:
+sonar:
   stage: codestyle
   only:
     - staging
@@ -62,7 +62,7 @@ ngbuild:
     paths:
       - "$BUILD_DIR"
 
-.deploy_staging:
+deploy_staging:
   stage: deploy
   only:
     - staging
