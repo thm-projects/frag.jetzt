@@ -156,7 +156,7 @@
       <mat-icon>search</mat-icon>
     </mat-label>
     <div style="margin-left: 10px; margin-top: 6px;">
-      <mat-form-field [ngClass]="{'search': searchMode}">
+      <mat-form-field [ngClass]="{'search': searchMode, 'smallerInput': deviceType === 'mobile'}">
         <input #searchBox class="searchBox" (input)="searchKeyword()" [(ngModel)]="searchedKeyword" matInput type="text"
           placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
         <button *ngIf="searchedKeyword" (click)="searchedKeyword = ''; searchMode = false;" mat-button matSuffix

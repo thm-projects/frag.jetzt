@@ -74,6 +74,10 @@ mat-list-item:hover {
   transition: width 300ms linear;
 }
 
+.smallerInput{
+  max-width: 100px;
+}
+
 label {
   color: var(--on-surface)
 }

@@ -37,6 +37,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
+  deviceType: string;
   filteredKeywords: Keyword[] = [];
   showProfanityList = false;
   showBlacklistWordList = false;
@@ -68,6 +69,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.deviceType = localStorage.getItem('deviceType');
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
