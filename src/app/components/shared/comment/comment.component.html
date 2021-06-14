@@ -328,9 +328,6 @@
         <span matBadge="{{comment.keywordsFromQuestioner.length}}" matBadgeSize="small" matBadgeOverlap="false">
           {{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate ) : this.selectedKeyword}}
         </span>
-        <span>
-          &nbsp;{{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate ) : this.selectedKeyword}}
-        </span>
         <mat-menu #keywordsMenu>
 
           <mat-list dense class="keywords-list">
