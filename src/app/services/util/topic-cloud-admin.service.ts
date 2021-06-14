@@ -76,23 +76,6 @@ export class TopicCloudAdminService {
     return this.blacklist.asObservable();
   }
 
-  // TODO: Bug, returned string is always lowercase, case should not be changed
-  filterProfanityWords(str: string): string {
-    let questionWithProfanity = str;
-    this.profanityWords.concat(this.getCustomProfanityList()).map((word) => {
-      questionWithProfanity = questionWithProfanity
-        .toLowerCase()
-        .includes(word.toLowerCase())
-        ? this.replaceString(
-          questionWithProfanity.toLowerCase(),
-          word.toLowerCase(),
-          this.generateCensoredWord(word.length)
-        )
-        : questionWithProfanity;
-    });
-    return questionWithProfanity;
-  }
-
   getCustomProfanityList(): string[] {
     const list = localStorage.getItem(this.profanityKey);
     return list ? list.split(',') : [];
@@ -190,8 +173,24 @@ export class TopicCloudAdminService {
     return tags;
   }
 
+  filterProfanityWords(str: string): string {
+    let questionWithProfanity = str;
+    this.profanityWords.concat(this.getCustomProfanityList()).map((word) => {
+      questionWithProfanity = questionWithProfanity
+        .toLowerCase()
+        .includes(word.toLowerCase())
+        ? this.replaceString(
+          questionWithProfanity,
+          word,
+          this.generateCensoredWord(word.length)
+        )
+        : questionWithProfanity;
+    });
+    return questionWithProfanity;
+  }
+
   private replaceString(str: string, search: string, replace: string) {
-    return str.split(search).join(replace);
+    return str.replace(new RegExp(search, 'gi'), replace);
   }
 
   private generateCensoredWord(count: number) {
