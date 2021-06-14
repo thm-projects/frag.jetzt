@@ -133,7 +133,7 @@ export class TopicCloudAdminService {
         if (!newlist.includes(word)){
           newlist.push(word.toLowerCase());
         }
-        this.updateBlacklist(newlist, room);
+        this.updateBlacklist(newlist, room, 'add-successful');
       });
     }
   }
@@ -144,20 +144,23 @@ export class TopicCloudAdminService {
         if (room.blacklist.length > 0){
           const newlist = JSON.parse(room.blacklist);
           newlist.splice(newlist.indexOf(word, 0), 1);
-          this.updateBlacklist(newlist, room);
+          this.updateBlacklist(newlist, room, 'remove-successful');
         }
       });
     }
   }
 
-  updateBlacklist(list: string[], room: Room){
+  updateBlacklist(list: string[], room: Room, msg?: string) {
     room.blacklist = JSON.stringify(list);
-    this.updateRoom(room);
+    this.updateRoom(room, msg);
   }
 
-  updateRoom(updatedRoom: Room){
+  updateRoom(updatedRoom: Room, message?: string) {
     this.roomService.updateRoom(updatedRoom).subscribe(_ => {
-      this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {
+      if (!message) {
+        message = 'changes-successful';
+      }
+      this.translateService.get('topic-cloud.' + message).subscribe(msg => {
         this.notificationService.show(msg);
         /* update blacklist for subscribers */
         this.blacklist.next(JSON.parse(updatedRoom.blacklist));
