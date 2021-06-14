@@ -26,7 +26,7 @@ export class CloudConfigurationComponent implements OnInit {
   alphabeticalSorting: boolean;
   rotation: number;
   highestWeight: number;
-  step:number = 0;
+  step:number = 10;
   weightClasses: WeightClass[] = [
     {
       maxTagNumber: 20,
@@ -143,6 +143,8 @@ export class CloudConfigurationComponent implements OnInit {
   valueChanged() {
     this.parseJsonToArrayWeightClasses();
     this.parent.setCloudParameters(this.cloudParameters, false);
+    console.log(this.cloudParameters);
+    
   }
 
   cancel() {
@@ -199,10 +201,14 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters = this.parent.currentCloudParameters;
   }
 
-  changeFont(family:string, style: string){
-    if(family !== "") this.cloudParameters.fontFamily = family;
-
-    if(style !== "") this.cloudParameters.fontStyle = style;
+  italicChecked(event){
+    console.log(event.checked);
+    
+    event.checked == true ? this.cloudParameters.fontStyle = "italic" : this.cloudParameters.fontStyle = "normal";
+    this.valueChanged();
   }
-
+  boldChecked(event){
+    event.checked == true ? this.cloudParameters.fontWeight = "bold" : this.cloudParameters.fontWeight = "normal";
+    this.valueChanged();
+  }
 }
