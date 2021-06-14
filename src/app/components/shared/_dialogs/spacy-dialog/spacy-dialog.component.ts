@@ -131,7 +131,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     }
   }
 
-  mauellKeywordsToKeywords(){
+  manualKeywordsToKeywords(){
     let tempKeywords = this.manualKeywords.replace(/\s/g,'').split(",");
     this.keywords = tempKeywords.map((keyword)=>{
       return {
