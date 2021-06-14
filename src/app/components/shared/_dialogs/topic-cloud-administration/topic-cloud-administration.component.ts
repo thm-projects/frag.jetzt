@@ -328,7 +328,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addProfanityWord() {
-    this.topicCloudAdminService.addToProfanityList(this.newProfanityWord);
+    this.topicCloudAdminService.addToProfanityList(this.newProfanityWord.toLowerCase());
     this.newProfanityWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
@@ -336,7 +336,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addBlacklistWord() {
-    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord);
+    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord.toLowerCase());
     this.newBlacklistWord = undefined;
     if (this.searchMode){
       this.searchKeyword();
