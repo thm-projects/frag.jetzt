@@ -31,6 +31,9 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
 
   bodyForm = new FormControl('', [Validators.required]);
 
+  isSpellchecking = false;
+  hasSpellcheckConfidence = true;
+
   @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
 
   constructor(
@@ -69,6 +72,11 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   onNoClick(): void {
     this.dialogRef.close();
   }
+  clearHTML(e){
+    e.preventDefault();
+    const text = e.clipboardData.getData('text');
+    document.getElementById('answer-input').innerText += text.replace(/<[^>]*>?/gm, '');
+  }
 
   checkInputData(body: string): boolean {
     body = body.trim();
@@ -97,8 +105,9 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.checkSpellings(this.inputText).subscribe((res) => {
       const words: string[] = this.inputText.trim().split(' ');
       const errorQuotient = (res.matches.length * 100) / words.length;
+      const hasSpellcheckConfidence = this.checkLanguageConfidence(res);
 
-      if (errorQuotient <= 20) {
+      if (hasSpellcheckConfidence && errorQuotient <= 20) {
         let commentBodyChecked = this.inputText;
         const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
 
@@ -148,19 +157,29 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   maxLength(commentBody: HTMLDivElement): void {
-    this.inputText = commentBody.innerText;
     if (this.user.role === 3 && commentBody.innerText.length > 1000) {
       commentBody.innerText = commentBody.innerText.slice(0, 1000);
     } else if (this.user.role !== 3 && commentBody.innerText.length > 500) {
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
     this.body = commentBody.innerText;
+    if(this.body.length === 1 && this.body.charCodeAt(this.body.length - 1) === 10){
+      commentBody.innerHTML = commentBody.innerHTML.replace('<br>','');
+    }
+    this.inputText = commentBody.innerText;
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
     const wrongWords: string[] = [];
     commentBody.innerHTML = this.inputText;
+    this.isSpellchecking = true;
+    this.hasSpellcheckConfidence = true;
     this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
+      if(!this.checkLanguageConfidence(wordsCheck)) {
+        this.hasSpellcheckConfidence = false;
+        return;
+      }
+
       if (wordsCheck.matches.length > 0) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
@@ -192,13 +211,13 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
 
               const replacement =
                 '<div class="markUp" data-id="'+i+'" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
-                '   <span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
-                wrongWord +
-                '   </span>' +
-                // eslint-disable-next-line max-len
-                '     <div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%; left: 50%; margin-left: -80px;">' +
-                suggestionsHTML +
-                '     </div>' +
+                  '<span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
+                          wrongWord +
+                  '</span>' +
+                  // eslint-disable-next-line max-len
+                  '<div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%;">' +
+                        suggestionsHTML +
+                  '</div>' +
                 '</div>';
 
               commentBody.innerHTML = commentBody.innerHTML.substr(0, res.matches[i].offset) +
@@ -207,13 +226,26 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           }
 
           setTimeout(() => {
-            Array.from(document.getElementsByClassName('markUp')).forEach(marked => {
-              marked.addEventListener('click', () => {
-                ((marked as HTMLElement).lastChild as HTMLElement).style.display = 'block';
+            Array.from(document.getElementsByClassName('markUp')).forEach(markup => {
+              markup.addEventListener('click', () => {
+                ((markup as HTMLElement).lastChild as HTMLElement).style.display = 'block';
+                const rectdiv = (document.getElementById('answer-input')).getBoundingClientRect();
+                const rectmarkup = markup.getBoundingClientRect();
+                let offset;
+                if (rectmarkup.x + rectmarkup.width / 2 > rectdiv.right - 80) {
+                  offset = rectdiv.right - rectmarkup.x - rectmarkup.width;
+                  ((markup as HTMLElement).lastChild as HTMLElement).style.right = -offset + 'px';
+                } else if (rectmarkup.x + rectmarkup.width / 2 < rectdiv.left + 80) {
+                  offset = rectmarkup.x - rectdiv.left;
+                  ((markup as HTMLElement).lastChild as HTMLElement).style.left = -offset + 'px';
+                } else {
+                  ((markup as HTMLElement).lastChild as HTMLElement).style.left = '50%';
+                  ((markup as HTMLElement).lastChild as HTMLElement).style.marginLeft = '-80px';
+                }
                 setTimeout(() => {
-                  Array.from(document.getElementsByClassName('suggestions')).forEach(e => {
-                    e.addEventListener('click', () => {
-                      e.parentElement.parentElement.outerHTML = e.innerHTML;
+                  Array.from(document.getElementsByClassName('suggestions')).forEach(suggestion => {
+                    suggestion.addEventListener('click', () => {
+                      suggestion.parentElement.parentElement.outerHTML = suggestion.innerHTML;
                       this.inputText = commentBody.innerText;
                     });
                   });
@@ -223,6 +255,12 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           }, 500);
         });
       }
+    }, () => {}, () => {
+      this.isSpellchecking = false;
     });
+  }
+
+  checkLanguageConfidence(wordsCheck: any) {
+    return this.selectedLang === 'auto' ? wordsCheck.language.detectedLanguage.confidence >= 0.5 : true;
   }
 }

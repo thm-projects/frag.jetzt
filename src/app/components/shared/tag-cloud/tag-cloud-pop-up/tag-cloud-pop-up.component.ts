@@ -4,7 +4,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudComponent } from '../tag-cloud.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
-import { TagCloudDataTagEntry } from "../../../../services/util/tag-cloud-data.service";
+import { TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
 
 const CLOSE_TIME = 1500;
 
