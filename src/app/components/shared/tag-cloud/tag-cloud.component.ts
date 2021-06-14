@@ -453,7 +453,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
       'font-size: ' + this._currentSettings.fontSize + '; ' +
       'font-weight: ' + this._currentSettings.fontWeight + '; ' +
-      'font-style' + this._currentSettings.fontStyle + '; }');
+      'font-style:' + this._currentSettings.fontStyle + '; }');
     // custom spans
     const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
     for (let i = 1; i <= 10; i++) {

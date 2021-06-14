@@ -9,10 +9,10 @@
     </div>
     <br>
     <mat-accordion id="accordion">
-      <mat-expansion-panel [expanded]="step == 0" (opened)="setStep(0)" class="matExpansionPanel" hideToggle>
+      <mat-expansion-panel [expanded]="step == 0" (opened)="setStep(0)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h3 class="settings-heading">{{'tag-cloud-config.general' | translate}}</h3>
+            <label class=" expansion-title settings-heading">{{'tag-cloud-config.general' | translate}}</label>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="input-row firstElementOfExpansionPanel" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
@@ -65,13 +65,31 @@
 
 
       <!--  Fonts-->
-      <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel" hideToggle>
+      <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h3 class="settings-heading">{{'tag-cloud-config.font' | translate}}</h3>
+            <label class=" expansion-title settings-heading">{{'tag-cloud-config.font' | translate}}</label>
           </mat-panel-title>
         </mat-expansion-panel-header>
-
+        <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+          <mat-form-field appearance="fill">
+            <mat-label>{{'tag-cloud-config.font-family' | translate}}</mat-label>
+            <mat-select (selectionChange)="valueChanged()" [(ngModel)]="cloudParameters.fontFamily">
+              <mat-option value="Helvetica,Arial,sans-serif">Helvetica</mat-option>
+              <mat-option value="Roboto">Roboto</mat-option>
+              <mat-option value="Abril Fatface">Abril Fatface</mat-option>
+              <mat-option value="Dancing Script">Dancing Script</mat-option>
+              <mat-option value="Indie Flower">Indie Flower</mat-option>
+              <mat-option value="Permanent Marker">Permanent Marker</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
+          <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
+            <div><mat-checkbox value="italic" (change)="italicChecked($event)">{{'tag-cloud-config.font-style-italic' | translate}}</mat-checkbox> </div>
+            <div><mat-checkbox value="bold" (change)="boldChecked($event)" >{{'tag-cloud-config.font-style-bold' | translate}}</mat-checkbox> </div>
+          </mat-radio-group>
+        </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
@@ -96,15 +114,10 @@
         </mat-action-row>
       </mat-expansion-panel>
 
-
-
-
-
-
-        <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel" hideToggle>
+        <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              <h3 class="settings-heading">{{'tag-cloud-config.hover-title' | translate}}</h3>
+              <label class=" expansion-title settings-heading">{{'tag-cloud-config.hover-title' | translate}}</label>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div>
@@ -144,17 +157,17 @@
             <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>
           </mat-action-row>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="step == 3" (opened)="setStep(3)" class="matExpansionPanel" hideToggle>
+      <mat-expansion-panel [expanded]="step == 3" (opened)="setStep(3)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
-            <h3 class="settings-heading">{{'tag-cloud-config.weight-class-settings' | translate}}</h3>
+            <label class=" expansion-title settings-heading">{{'tag-cloud-config.weight-class-settings' | translate}}</label>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
         <div class="cloud-configuration-form" fxLayout="column">
           <div *ngFor="let weightClass of weightClasses" class="weight-class-setting">
             <div class ="weight-class-setting-content">
-            <h3 class="weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</h3>
+            <label class=" expansion-title weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</label>
               <div class="input-row" fxLayout="column" fxLayoutGap="5px">
                 <div fxLayout="row" fxLayoutGap="5px">
                   <mat-form-field fxFlex="100%">
@@ -193,11 +206,11 @@
     </mat-accordion>
     <br>
     <div class="button-row">
-      <button (click)="reset()" mat-button class="reset" >{{'tag-cloud-config.reset-btn' | translate}}</button>
+      <button (click)="reset()" mat-button class="reset tag-config-button" >{{'tag-cloud-config.reset-btn' | translate}}</button>
     </div>
     <div class="button-row">
-      <button (click)="cancel()" mat-button class="secondary">{{'tag-cloud-config.cancel-btn' | translate}}</button>
-      <button (click)="save()" mat-button class="primary">{{'tag-cloud-config.save-btn' | translate}}</button>
+      <button (click)="cancel()" mat-button class="secondary tag-config-button">{{'tag-cloud-config.cancel-btn' | translate}}</button>
+      <button (click)="save()" mat-button class="primary tag-config-button">{{'tag-cloud-config.save-btn' | translate}}</button>
     </div>
   </div>
 </div>
