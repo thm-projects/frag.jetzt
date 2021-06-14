@@ -46,7 +46,7 @@ export class TopicCloudAdminService {
         },
         considerVotes: false,
         profanityFilter: true,
-        blacklistIsActive: false,
+        blacklistIsActive: true,
         keywordORfulltext: KeywordOrFulltext.keyword
       };
     }
