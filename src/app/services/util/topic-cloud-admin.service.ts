@@ -76,6 +76,7 @@ export class TopicCloudAdminService {
     return this.blacklist.asObservable();
   }
 
+  // TODO: Bug, returned string is always lowercase, case should not be changed
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
     this.profanityWords.concat(this.getCustomProfanityList()).map((word) => {
