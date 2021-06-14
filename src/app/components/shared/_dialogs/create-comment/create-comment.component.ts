@@ -191,9 +191,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         this.hasSpellcheckConfidence = false;
         return;
       }
-      console.log(document.getElementById('langSelect').innerText);
-      if(document.getElementById('langSelect').innerText.includes(this.newLang)
-            || document.getElementById('langSelect').innerText.includes('auto')){
+      if(this.selectedLang === 'auto' && (document.getElementById('langSelect').innerText.includes(this.newLang)
+        || document.getElementById('langSelect').innerText.includes('auto'))) {
         if(wordsCheck.language.name.includes('German')){
           this.selectedLang = 'de-DE';
         }else if(wordsCheck.language.name.includes('English')){

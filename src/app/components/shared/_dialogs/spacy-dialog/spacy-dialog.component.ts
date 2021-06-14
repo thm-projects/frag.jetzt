@@ -27,8 +27,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   keywordsOriginal: Keyword[] = [];
   isLoading = false;
   langSupported = true;
-  manualKeywords : string = "";
-
+  manualKeywords = '';
 
   constructor(
     protected langService: LanguageService,
@@ -56,14 +55,13 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
-      this.comment.keywordsFromSpacy = this.keywordsOriginal.map(kw => kw.word);
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => kw.word);
+      this.comment.keywordsFromSpacy = this.keywordsOriginal.filter(kw => kw.word.length).map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
 
   evalInput(model: Model) {
-  
     const keywords: Keyword[] = [];
     let regex;
     if(this.commentLang === 'de') {
@@ -76,7 +74,6 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       this.langSupported = false;
       return;
     }
-   
     this.isLoading = true;
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
@@ -95,8 +92,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
             }
           }
         }
-        this.keywords = keywords;
-        this.keywordsOriginal = keywords;
+
+        // Deep copy
+        this.keywords = JSON.parse(JSON.stringify(keywords));
+        this.keywordsOriginal = JSON.parse(JSON.stringify(keywords));;
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
@@ -132,14 +131,18 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   manualKeywordsToKeywords(){
-    let tempKeywords = this.manualKeywords.replace(/\s/g,'').split(",");
-    this.keywords = tempKeywords.map((keyword)=>{
-      return {
-        "word": keyword,
-        "completed": true,
-        "editing": false,
-        "selected": true
-      }
-    })
+    const tempKeywords = this.manualKeywords.replace(/\s/g,'');
+    if(tempKeywords.length) {
+      this.keywords = tempKeywords.split(',').map((keyword) => (
+         {
+            word: keyword,
+            completed: true,
+            editing: false,
+            selected: true
+        }
+      ));
+    } else {
+      this.keywords = [];
+    }
   }
 }
