@@ -51,7 +51,7 @@
               <input matInput id="bad-word-input" [(ngModel)]="newProfanityWord">
             </mat-form-field>
 
-            <button mat-stroked-button color="primary" class="margin-left" (click)="addProfanityWord()">
+            <button mat-stroked-button color="secondary" class="margin-left" (click)="addProfanityWord()">
               {{'topic-cloud-dialog.add-word' | translate}}
             </button>
 
@@ -87,7 +87,7 @@
               <input matInput id="blacklist-word-input" [(ngModel)]="newBlacklistWord">
             </mat-form-field>
 
-            <button mat-stroked-button color="primary" class="margin-left" (click)="addBlacklistWord()">
+            <button mat-stroked-button color="secondary" class="margin-left" (click)="addBlacklistWord()">
               {{'topic-cloud-dialog.add-word' | translate}}
             </button>
             <mat-list role="list" *ngIf="showBlacklistWordList && blacklist.length > 0" class="margin-bottom">
