@@ -335,7 +335,8 @@ export class HeaderComponent implements OnInit {
         position: {left: '50px', bottom: '50px'},
         role: 'dialog',
         hasBackdrop: false,
-        closeOnNavigation: false
+        closeOnNavigation: false,
+        panelClass: 'workerContainer'
       });
 
       const component: WorkerDialogComponent = this.workerDialogRef.componentInstance;

@@ -128,30 +128,46 @@ button {
   padding-left: 10px;
   padding-right: 10px;
 }
-.replace-button{
+
+.replace-button {
   background-color: var(--primary);
   color: var(--on-primary);
-  margin-top: 1rem;
   min-width: 30px !important;
   min-height: 10px !important;
+  width: 100%;
+  z-index: 3;
 }
-mat-form-field{
+
+::ng-deep .replacementContainer {
+  align-self: center;
+
+  .mat-form-field-infix {
+    min-width: 150px;
+    width: min-content;
+  }
+
+  .mat-form-field-wrapper {
+    margin-bottom: -0.8em;
+  }
+}
+
+mat-form-field {
   border-radius: 5px;
   line-height: 80%;
   caret-color: var(--on-surface);
   -webkit-appearance: textarea;
   min-height: 30px;
-  min-width: 100px;
+  min-width: 140px;
   cursor: text;
-  margin-right: 5px;
   color: var(--on-dialog);
   background-color: var(--dialog);
-  margin-top: 5px;
+  margin-top: 0.2em;
 
   &:focus {
     outline: none;
   }
 }
+
 #replacement {
   color: var(--on-dialog);
   background-color: var(--dialog);
