@@ -110,7 +110,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
   ];
   return {
-    fontFamily: 'Helvetica,Arial,sans-serif',
+    fontFamily: 'Dancing Script',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: '10px',
@@ -122,7 +122,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverTime: 0.6,
     hoverDelay: 0.4,
     delayWord: 0,
-    randomAngles: false,
+    randomAngles: true,
     checkSpelling: true,
     sortAlphabetically: false,
     textTransform: CloudTextStyle.normal,
