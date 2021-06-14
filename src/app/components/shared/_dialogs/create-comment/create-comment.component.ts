@@ -34,7 +34,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
 
-  @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
+  @ViewChild('commentBody', {static: true}) commentBody: HTMLDivElement;
 
   constructor(
     private notification: NotificationService,
@@ -72,7 +72,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  clearHTML(e){
+
+  clearHTML(e) {
     e.preventDefault();
     const text = e.clipboardData.getData('text');
     document.getElementById('answer-input').innerText += text.replace(/<[^>]*>?/gm, '');
@@ -108,19 +109,13 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       const hasSpellcheckConfidence = this.checkLanguageConfidence(res);
 
       if (hasSpellcheckConfidence && errorQuotient <= 20) {
-        let commentBodyChecked = this.inputText;
         const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
-
-        for (let i = res.matches.length - 1; i >= 0; i--) {
-          commentBodyChecked = commentBodyChecked.substr(0, res.matches[i].offset) +
-            commentBodyChecked.substr(res.matches[i].offset + res.matches[i].length, commentBodyChecked.length);
-        }
 
         const dialogRef = this.dialog.open(SpacyDialogComponent, {
           data: {
             comment,
             commentLang,
-            commentBodyChecked
+            commentBodyChecked: this.inputText
           }
         });
 
@@ -163,8 +158,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       commentBody.innerText = commentBody.innerText.slice(0, 500);
     }
     this.body = commentBody.innerText;
-    if(this.body.length === 1 && this.body.charCodeAt(this.body.length - 1) === 10){
-      commentBody.innerHTML = commentBody.innerHTML.replace('<br>','');
+    if (this.body.length === 1 && this.body.charCodeAt(this.body.length - 1) === 10) {
+      commentBody.innerHTML = commentBody.innerHTML.replace('<br>', '');
     }
     this.inputText = commentBody.innerText;
   }
@@ -175,7 +170,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
     this.checkSpellings(commentBody.innerText).subscribe((wordsCheck) => {
-      if(!this.checkLanguageConfidence(wordsCheck)) {
+      if (!this.checkLanguageConfidence(wordsCheck)) {
         this.hasSpellcheckConfidence = false;
         return;
       }
@@ -210,14 +205,14 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
               }
 
               const replacement =
-                '<div class="markUp" data-id="'+i+'" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
-                  '<span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
-                          wrongWord +
-                  '</span>' +
-                  // eslint-disable-next-line max-len
-                  '<div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%;">' +
-                        suggestionsHTML +
-                  '</div>' +
+                '<div class="markUp" data-id="' + i + '" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
+                '<span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
+                wrongWord +
+                '</span>' +
+                // eslint-disable-next-line max-len
+                '<div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%;">' +
+                suggestionsHTML +
+                '</div>' +
                 '</div>';
 
               commentBody.innerHTML = commentBody.innerHTML.substr(0, res.matches[i].offset) +
@@ -255,7 +250,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           }, 500);
         });
       }
-    }, () => {}, () => {
+    }, () => {
+    }, () => {
       this.isSpellchecking = false;
     });
   }

@@ -4,11 +4,10 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
-import {Language, LanguagetoolService} from "../../../../services/http/languagetool.service";
-import {FormControl} from "@angular/forms";
-import {TSMap} from "typescript-map";
-import {CommentService} from "../../../../services/http/comment.service";
-import {Comment} from "../../../../models/comment";
+import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { FormControl } from '@angular/forms';
+import { TSMap } from 'typescript-map';
+import { CommentService } from '../../../../services/http/comment.service';
 
 const CLOSE_TIME = 1500;
 
@@ -26,22 +25,17 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   categories: string[];
   timePeriodText: string;
   user: User;
-  private _popupHoverTimer: number;
-  private _popupCloseTimer: number;
-  languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'en-US';
   spellingData: string[] = undefined;
-  tagReplacementInput: string;
-  wronglySpelledTag: string;
-
-
+  private _popupHoverTimer: number;
+  private _popupCloseTimer: number;
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
               private authenticationService: AuthenticationService,
               private tagCloudDataService: TagCloudDataService,
-              private languagetoolService : LanguagetoolService,
-              private commentService : CommentService) {
+              private languagetoolService: LanguagetoolService,
+              private commentService: CommentService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -62,34 +56,26 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       clearTimeout(this._popupCloseTimer);
     });
     html.addEventListener('mouseleave', () => {
-      this._popupCloseTimer = setTimeout(() => {
-        this.close();
-      }, CLOSE_TIME);
+      this.close();
     });
   }
 
-  onFocus(event) {
-    if (!this.popupContainer.nativeElement.contains(event.target)) {
-      this.close();
-    }
+  onFocusOut() {
+    this.close();
   }
 
   leave(): void {
     clearTimeout(this._popupHoverTimer);
-    clearTimeout(this._popupCloseTimer);
-    this._popupCloseTimer = setTimeout(() => {
-      this.close();
-    }, CLOSE_TIME);
+    this.close();
   }
 
   enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
     this.spellingData = undefined;
-    this.checkSpellings(tag,).subscribe(correction => {
+    this.languagetoolService.checkSpellings(tag, this.selectedLang).subscribe(correction => {
       this.spellingData = [];
-      this.wronglySpelledTag = tag;
-      for(const match of correction.matches) {
-        if(match.replacements != null && match.replacements.length > 0){
-          for(const replacement of match.replacements) {
+      for (const match of correction.matches) {
+        if (match.replacements != null && match.replacements.length > 0) {
+          for (const replacement of match.replacements) {
             this.spellingData.push(replacement.value);
           }
         }
@@ -109,12 +95,46 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   addBlacklistWord(): void {
     this.tagCloudDataService.blockWord(this.tag);
-    this.close();
+    this.close(false);
   }
 
-  close(): void {
+  close(addDelay = true): void {
     const html = this.popupContainer.nativeElement as HTMLDivElement;
-    html.classList.remove('up', 'down', 'right', 'left');
+    clearTimeout(this._popupCloseTimer);
+    if (addDelay) {
+      if (html.contains(document.activeElement) && html !== document.activeElement) {
+        return;
+      }
+      this._popupCloseTimer = setTimeout(() => {
+        if (html.contains(document.activeElement) && html !== document.activeElement) {
+          return;
+        }
+        html.classList.remove('up', 'down', 'right', 'left');
+      }, CLOSE_TIME);
+    } else {
+      html.classList.remove('up', 'down', 'right', 'left');
+    }
+  }
+
+  updateTag(): void {
+    const tagReplacementInput = this.replacementInput.value.trim();
+    if (tagReplacementInput.length < 1 || tagReplacementInput === this.tag) {
+      return;
+    }
+    const renameKeyword = (elem: string, index: number, array: string[]) => {
+      if (elem === this.tag) {
+        array[index] = tagReplacementInput;
+      }
+    };
+    this.tagData.comments.forEach(comment => {
+      const changes = new TSMap<string, any>();
+      comment.keywordsFromQuestioner.forEach(renameKeyword);
+      changes.set('keywordsFromQuestioner', JSON.stringify(comment.keywordsFromQuestioner));
+      comment.keywordsFromSpacy.forEach(renameKeyword);
+      changes.set('keywordsFromSpacy', JSON.stringify(comment.keywordsFromSpacy));
+      this.commentService.patchComment(comment, changes).subscribe();
+    });
+    this.close(false);
   }
 
   private position(elem: HTMLElement) {
@@ -256,35 +276,5 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.translateService.get('tag-cloud-popup.some-months', {
       months
     }).subscribe(subscriber);
-  }
-  checkSpellings(text: string, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(text, language);
-  }
-  updateTag(){
-   this.tagReplacementInput = this.replacementInput.value;
-    this.tagData.comments.forEach(comment => {
-      const changes = new TSMap<string, any>();
-      let keywords = comment.keywordsFromQuestioner;
-      for (let i = 0; i < keywords.length; i++){
-        if (keywords[i].toLowerCase() === this.wronglySpelledTag.toLowerCase()){
-          keywords[i] = this.tagReplacementInput.trim();
-          console.log(keywords[i]);
-        }
-      }
-      changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
-      keywords = comment.keywordsFromSpacy;
-      for (let i = 0; i < keywords.length; i++){
-        if (keywords[i].toLowerCase() === this.wronglySpelledTag.toLowerCase()){
-          keywords[i] = this.tagReplacementInput.trim();
-          console.log(keywords[i]+ 'z');
-        }
-      }
-      changes.set('keywordsFromSpacy', JSON.stringify(keywords));
-      this.commentService.patchComment(comment, changes).subscribe(rt => {
-        console.log('PATCHED .........................');
-      });
-    });
-   console.log(this.tagReplacementInput);
-   this.close();
   }
 }
