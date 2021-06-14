@@ -62,9 +62,6 @@
         <mat-action-row>
           <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>        </mat-action-row>
       </mat-expansion-panel>
-
-
-      <!--  Fonts-->
       <mat-expansion-panel [expanded]="step == 1" (opened)="setStep(1)" class="matExpansionPanel">
         <mat-expansion-panel-header>
           <mat-panel-title>
@@ -85,9 +82,9 @@
           </mat-form-field>
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
-            <div><mat-checkbox value="italic" (change)="italicChecked($event)">{{'tag-cloud-config.font-style-italic' | translate}}</mat-checkbox> </div>
-            <div><mat-checkbox value="bold" (change)="boldChecked($event)" >{{'tag-cloud-config.font-style-bold' | translate}}</mat-checkbox> </div>
+          <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> 
+            <div><mat-slide-toggle value="italic" (change)="italicChecked($event)"[ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-italic' | translate}}</mat-slide-toggle> </div>
+            <div><mat-slide-toggle value="bold" (change)="boldChecked($event)" [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-bold' | translate}}</mat-slide-toggle> </div>
           </mat-radio-group>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
@@ -106,14 +103,11 @@
               matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
           </mat-form-field>
         </div>
-
-
         <mat-action-row>
           <button mat-icon-button (click)="prevStep()"><mat-icon>expand_less</mat-icon></button>
           <button mat-icon-button (click)="nextStep()"><mat-icon>expand_more</mat-icon></button>
         </mat-action-row>
       </mat-expansion-panel>
-
         <mat-expansion-panel [expanded]="step == 2" (opened)="setStep(2)" class="matExpansionPanel">
           <mat-expansion-panel-header>
             <mat-panel-title>

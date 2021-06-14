@@ -194,6 +194,8 @@ mat-divider {
 
 .weight-class-setting-content {
   border-top: 3px solid var(--primary);
+  padding-top: 20px;
+  padding-bottom: 15px;
 }
 
 .weight-class-heading {
@@ -239,4 +241,7 @@ mat-divider {
 .firstElementOfExpansionPanel{
   border-top: 2px solid var(--primary);
   padding-top: 10px;
+}
+.automatic-spelling{
+  padding-bottom: 30px;
 }
