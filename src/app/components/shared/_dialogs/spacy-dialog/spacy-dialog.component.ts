@@ -26,6 +26,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
   isLoading = false;
+  langSupported = true;
+  manualKeywords : string = "";
+
 
   constructor(
     protected langService: LanguageService,
@@ -60,16 +63,20 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   evalInput(model: Model) {
+  
     const keywords: Keyword[] = [];
     let regex;
     if(this.commentLang === 'de') {
       regex = new RegExp('(?!Der|Die|Das)[A-ZAÄÖÜ][a-zäöüß]+(-[A-Z][a-zäöüß]+)*', 'g');
     } else if (this.commentLang === 'en') {
       regex = new RegExp('(?!he|she|it|for|with)[a-z]{2,}(-[a-z]{2,})*', 'gi');
-    } else {
+    } else if(this.commentLang === 'fr'){
       regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
+    }else{
+      this.langSupported = false;
+      return;
     }
-
+   
     this.isLoading = true;
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
@@ -122,5 +129,17 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         item.selected = false;
       });
     }
+  }
+
+  mauellKeywordsToKeywords(){
+    let tempKeywords = this.manualKeywords.replace(/\s/g,'').split(",");
+    this.keywords = tempKeywords.map((keyword)=>{
+      return {
+        "word": keyword,
+        "completed": true,
+        "editing": false,
+        "selected": true
+      }
+    })
   }
 }

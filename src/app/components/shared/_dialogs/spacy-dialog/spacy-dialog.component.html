@@ -58,6 +58,10 @@
     <span *ngIf="keywords.length <= 0 && !this.isLoading">
       <p>{{ 'spacy-dialog.empty-nouns' | translate }}</p>
     </span>
+    <span *ngIf="!langSupported">
+      <p class="manual-input-title">{{ 'spacy-dialog.add-manually' | translate }}</p>
+    <textarea class="manual-input" [(ngModel)]="manualKeywords" (input)="manualKeywordsToKeywords()"></textarea>
+    </span>
 
   </div>
 </ars-row>

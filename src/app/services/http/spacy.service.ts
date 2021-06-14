@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map } from 'rxjs/operators';
 
-export type Model = 'de' | 'en' | 'fr';
+export type Model = 'de' | 'en' | 'fr' | 'auto';
 
 export class Result {
   arcs: Arc[];
