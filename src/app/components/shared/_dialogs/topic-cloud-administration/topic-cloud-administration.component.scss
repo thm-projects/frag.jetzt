@@ -62,6 +62,10 @@ mat-list-item:hover {
   color: var(--on-surface);
 }
 
+.color-on-background {
+  color: var(--on-background);
+}
+
 .search {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
