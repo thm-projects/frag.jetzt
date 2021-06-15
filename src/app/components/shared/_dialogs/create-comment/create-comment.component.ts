@@ -36,6 +36,8 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
 
+  newLang = 'auto';
+
   constructor(
     private notification: NotificationService,
     public dialogRef: MatDialogRef<CommentListComponent>,
@@ -73,10 +75,19 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  clearHTML(e) {
+  onPaste(e){
     e.preventDefault();
+    const elem = document.getElementById('answer-input');
     const text = e.clipboardData.getData('text');
-    document.getElementById('answer-input').innerText += text.replace(/<[^>]*>?/gm, '');
+    elem.innerText += text.replace(/<[^>]*>?/gm, '');
+
+    const range = document.createRange();
+    range.setStart(elem.lastChild, elem.lastChild.textContent.length);
+    range.collapse(true);
+
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   checkInputData(body: string): boolean {
@@ -179,7 +190,19 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         this.hasSpellcheckConfidence = false;
         return;
       }
-
+      if(this.selectedLang === 'auto' && (document.getElementById('langSelect').innerText.includes(this.newLang)
+        || document.getElementById('langSelect').innerText.includes('auto'))) {
+        if(wordsCheck.language.name.includes('German')){
+          this.selectedLang = 'de-DE';
+        }else if(wordsCheck.language.name.includes('English')){
+          this.selectedLang= 'en-US';
+        }else if(wordsCheck.language.name.includes('French')){
+          this.selectedLang = 'fr';
+        }else{
+          this.newLang = wordsCheck.language.name;
+        }
+        document.getElementById('langSelect').innerHTML = this.newLang;
+      }
       if (wordsCheck.matches.length > 0) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
