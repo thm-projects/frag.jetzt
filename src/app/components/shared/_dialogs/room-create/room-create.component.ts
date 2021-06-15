@@ -75,6 +75,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.abbreviation = '00000000';
     newRoom.description = '';
     newRoom.blacklist = '[]';
+    newRoom.questionsBlocked = false;
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       if (!new RegExp('[1-9a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)
         || this.customShortIdName.startsWith(' ') || this.customShortIdName.endsWith(' ')) {

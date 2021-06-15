@@ -132,3 +132,14 @@ mat-hint {
 ::ng-deep .mat-spinner circle {
   stroke: var(--on-primary);
 }
+
+.spellcheck {
+  @media screen and (max-width:500px) {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;  
+    align-items: flex-end;
+  } 
+}
