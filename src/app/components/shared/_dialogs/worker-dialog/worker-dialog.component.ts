@@ -1,13 +1,13 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {Room} from "../../../../models/room";
-import {CommentService} from "../../../../services/http/comment.service";
+import { Component, OnInit } from '@angular/core';
+import { Room } from '../../../../models/room';
+import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
-import {SpacyService} from "../../../../services/http/spacy.service";
-import {TSMap} from "typescript-map";
+import { SpacyService } from '../../../../services/http/spacy.service';
+import { TSMap } from 'typescript-map';
+
 export interface WorkTask {
-  room: Room,
-  comments: Comment[]
+  room: Room;
+  comments: Comment[];
 }
 
 @Component({
@@ -17,13 +17,16 @@ export interface WorkTask {
 })
 export class WorkerDialogComponent implements OnInit {
 
-  isRunning: boolean = false;
+  isRunning = false;
   taskQueue: WorkTask[] = [];
   closeCallback: any = null;
-  constructor(private commentService: CommentService,
-              private spacyService: SpacyService) {}
 
-  ngOnInit(): void {}
+  constructor(private commentService: CommentService,
+              private spacyService: SpacyService) {
+  }
+
+  ngOnInit(): void {
+  }
 
   _callNextInQueue(): void {
     if (!this.isQueueEmpty()) {
@@ -32,7 +35,7 @@ export class WorkerDialogComponent implements OnInit {
       this.runWorkTask(task);
     } else {
       this.isRunning = false;
-      setTimeout(()=> this.close(), 2000);
+      setTimeout(() => this.close(), 2000);
     }
   }
 
@@ -42,21 +45,20 @@ export class WorkerDialogComponent implements OnInit {
     }
 
     this.commentService.getAckComments(room.id).subscribe((comments: Comment[]) => {
-      const task: WorkTask = {room: room, comments: comments};
+      const task: WorkTask = {room, comments};
 
       // TEST
       //for (let i = 0 ; i < 5 ; i++) {
-        this.taskQueue.push(task);
+      this.taskQueue.push(task);
       //}
 
       if (!this.isRunning) {
         this._callNextInQueue();
       }
-    })
+    });
   }
 
   runWorkTask(task: WorkTask): void {
-
     task.comments.forEach((c: Comment) => {
       const model = 'de';
       const text = c.body;
@@ -71,9 +73,8 @@ export class WorkerDialogComponent implements OnInit {
           console.log('PATCHED .........................');
           this._callNextInQueue();
         });
-
-      })
-    })
+      });
+    });
   }
 
   getNumberInQueue() {

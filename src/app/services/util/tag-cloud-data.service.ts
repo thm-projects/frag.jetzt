@@ -400,6 +400,14 @@ export class TagCloudDataService {
                   comment.downvotes = value as number;
                   needRebuild = true;
                   break;
+                case 'keywordsFromSpacy':
+                  comment.keywordsFromSpacy = JSON.parse(value as string);
+                  needRebuild = true;
+                  break;
+                case 'keywordsFromQuestioner':
+                  comment.keywordsFromQuestioner = JSON.parse(value as string);
+                  needRebuild = true;
+                  break;
                 case 'ack':
                   const isNowAck = value as boolean;
                   if (!isNowAck) {

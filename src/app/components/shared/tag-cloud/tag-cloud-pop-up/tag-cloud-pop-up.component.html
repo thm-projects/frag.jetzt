@@ -42,12 +42,13 @@
         </p>
       </span>
     </div>
-    <div *ngIf="spellingData">
+    <div class="replacementContainer" *ngIf="checkLanguage">
       <mat-form-field>
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"
                aria-label="{{'tag-cloud-popup.tag-correction-placeholder' | translate}}"
                matInput
+               (keyup)="checkEnter($event)"
                [formControl]="replacementInput"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
@@ -57,7 +58,7 @@
         </mat-autocomplete>
       </mat-form-field>
       <br>
-      <button mat-button class ="replace-button" (click)="updateTag()">send</button>
+      <button mat-button class="replace-button" (click)="updateTag()">{{"comment-page.send" | translate}}</button>
     </div>
     <div *ngIf="categories && categories.length">
       <p>Kategorien:</p>
