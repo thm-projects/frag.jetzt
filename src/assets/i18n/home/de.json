@@ -100,7 +100,8 @@
     "questions-blocked": "Fragen sind deaktiviert!",
     "overview-question-tooltip": "Anzahl gestellter Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
-    "overview-keywords-tooltip": "Anzahl Schlüsselwörter"
+    "overview-keywords-tooltip": "Anzahl Schlüsselwörter",
+    "update-spacy-keywords": "Stichwörter anlegen"
   },
   "help": {
     "cancel": "Schließen",

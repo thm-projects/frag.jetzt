@@ -17,7 +17,7 @@
     </h2>
 
 
-    <ng-container *ngIf="room && room.closed && !router.url.includes('/room-list/')">
+    <ng-container *ngIf="room && room.questionsBlocked && !router.url.includes('/room-list/')">
       <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
@@ -125,7 +125,7 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room && !room.closed))"
+                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room && !room.questionsBlocked))"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>
@@ -162,6 +162,16 @@
                 </mat-icon>
                 <span>{{'header.tag-cloud' | translate}}</span>
               </button>
+
+
+              <button mat-menu-item
+                      tabindex="0"
+                      (click)="startWorkerDialog()">
+                <mat-icon>update
+                </mat-icon>
+                <span>{{'header.update-spacy-keywords' | translate}}</span>
+              </button>
+
 
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
@@ -354,7 +364,7 @@
       <ng-container *ngIf="router.url.includes('/creator') || router.url.includes('/moderator')">
         <button mat-menu-item
                 (click)="blockQuestions()"
-                [ngClass]="{'color-warn': room && room.closed}"
+                [ngClass]="{'color-warn': room && room.questionsBlocked}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
           <span>{{'header.block' | translate}}</span>

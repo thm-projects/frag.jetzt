@@ -92,7 +92,8 @@
     "questions-blocked": "No further questions!",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
-    "overview-keywords-tooltip": "Number of Keywords"
+    "overview-keywords-tooltip": "Number of Keywords",
+    "update-spacy-keywords": "Add keywords"
   },
   "help": {
     "cancel": "Close",
