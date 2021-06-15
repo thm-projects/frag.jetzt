@@ -209,7 +209,7 @@
                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color-surface">
         <mat-panel-title>
-          {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
+          {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
           {{keyword.comments.length}}

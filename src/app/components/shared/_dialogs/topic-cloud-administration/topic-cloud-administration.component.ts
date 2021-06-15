@@ -112,6 +112,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           } else {
             const keyword: Keyword = {
               keyword: _keyword,
+              keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
               comments: [comment],
               vote: comment.score
             };
@@ -382,6 +383,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
 interface Keyword {
   keyword: string;
+  keywordWithoutProfanity: string;
   comments: Comment[];
   vote: number;
 }
