@@ -1,0 +1,14 @@
+<div id="worker-content">
+  <div id="header">
+    <button id="btn_hide" (click)="close()">X</button>
+    <details>
+      <summary>Laufend # {{getNumberInQueue()}}</summary>
+      <div mat-dialog-content>
+        <div *ngFor="let task of taskQueue">
+          <span>{{ task.room.name }}, # {{ task.comments.length }}</span>
+        </div>
+      </div>
+    </details>
+  </div>
+</div>
+
