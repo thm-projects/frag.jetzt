@@ -228,7 +228,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.roomId = room.id;
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
-          this.commentsEnabled = (this.userRole > 0) || !this.room.closed;
+          this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
           this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
