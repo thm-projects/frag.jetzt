@@ -9,7 +9,7 @@
     "logLevel": "debug"
   },
   "/spacy": {
-    "target": "https://spacy.frag.jetzt/dep",
+    "target": "https://spacy.frag.jetzt/noun",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {

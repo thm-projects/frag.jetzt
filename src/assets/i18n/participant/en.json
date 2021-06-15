@@ -258,7 +258,8 @@
     "some-days": "{{days}} days",
     "one-week": "1 week",
     "some-weeks": "{{weeks}} weeks",
-    "some-months": "{{months}} months"
+    "some-months": "{{months}} months",
+    "tag-correction-placeholder": "Correction"
   },
   "topic-cloud-dialog":{
     "edit": "Edit",
