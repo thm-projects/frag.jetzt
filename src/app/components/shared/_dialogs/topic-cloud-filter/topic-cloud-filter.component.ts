@@ -38,7 +38,7 @@ export class TopicCloudFilterComponent implements OnInit {
   filteredCommentsCount : number;
   filteredCommentsUsers : number;
   filteredCommentsKeywords : number;
-
+  
   disableCurrentFiltersOptions : boolean = false;
   commentsLoaded : boolean = false;
 
@@ -74,7 +74,7 @@ export class TopicCloudFilterComponent implements OnInit {
         this.filteredCommentsUsers = counts.users;
         this.filteredCommentsKeywords = counts.keywords;
         this.commentsLoadedCallback();
-      });      
+      });
     });
   }
 
