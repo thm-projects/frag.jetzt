@@ -112,7 +112,7 @@ export class TopicCloudAdminService {
   addWordToBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        const newlist = JSON.parse(room.blacklist);
+        const newlist = room.blacklist ? JSON.parse(room.blacklist) : [];
         if (!newlist.includes(word)){
           newlist.push(word.toLowerCase());
         }
