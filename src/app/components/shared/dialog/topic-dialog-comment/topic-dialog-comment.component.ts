@@ -17,9 +17,10 @@ export class TopicDialogCommentComponent implements OnInit {
   public badWords = [];
   questionWithoutProfanity: string = undefined;
 
-  public shortQuestion: string;
   public parts: string[];
   public partsWithoutProfanity: string[];
+  public partsShort: string[];
+  public partsWithoutProfanityShort: string[];
 
   constructor(private topicCloudAdminService: TopicCloudAdminService) { }
 
@@ -31,11 +32,21 @@ export class TopicDialogCommentComponent implements OnInit {
     }
   }
 
+  get partsOfShortQuestion(){
+    if (this.profanityFilter) {
+      return this.partsWithoutProfanityShort;
+    } else {
+      return this.partsShort;
+    }
+  }
+
   ngOnInit(): void {
     this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
-    this.partsWithoutProfanity = this.questionWithoutProfanity.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
-                                                              .split(new RegExp(this.keyword,'i'));
-    this.parts = this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
-                              .split(new RegExp(this.keyword,'i'));
+    this.partsWithoutProfanity = this.questionWithoutProfanity.split(new RegExp(this.keyword,'i'));
+    this.parts = this.question.split(new RegExp(this.keyword,'i'));
+    this.partsShort = this.question.slice(0, this.maxShowedCharachters)
+    .split(new RegExp(this.keyword,'i'));
+    this.partsWithoutProfanityShort = this.questionWithoutProfanity.slice(0, this.maxShowedCharachters)
+    .split(new RegExp(this.keyword,'i'));
   }
 }
