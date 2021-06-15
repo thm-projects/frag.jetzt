@@ -343,7 +343,7 @@ export class HeaderComponent implements OnInit {
       component.getCloseCallback(() => {
         this.workerDialogRef.close();
         this.workerDialogRef = null;
-      })
+      });
       component.addWorkTask(this.room);
     } else {
       const component: WorkerDialogComponent = this.workerDialogRef.componentInstance;

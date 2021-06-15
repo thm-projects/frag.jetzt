@@ -46,11 +46,7 @@ export class WorkerDialogComponent implements OnInit {
 
     this.commentService.getAckComments(room.id).subscribe((comments: Comment[]) => {
       const task: WorkTask = {room, comments};
-
-      // TEST
-      //for (let i = 0 ; i < 5 ; i++) {
       this.taskQueue.push(task);
-      //}
 
       if (!this.isRunning) {
         this._callNextInQueue();
@@ -67,10 +63,10 @@ export class WorkerDialogComponent implements OnInit {
         changes.set('keywordsFromSpacy', JSON.stringify(keywords));
         this.taskQueue = this.taskQueue.slice(1, this.taskQueue.length);
 
-        // TEST:
-        // this._callNextInQueue();
-        this.commentService.patchComment(c, changes).subscribe(rt => {
+        this.commentService.patchComment(c, changes).subscribe(_ => {
           console.log('PATCHED .........................');
+          this._callNextInQueue();
+        }, _ => {
           this._callNextInQueue();
         });
       });
