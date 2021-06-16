@@ -60,10 +60,10 @@ export class TopicCloudAdminService {
     this.getBlacklist().subscribe(list => {
       _adminData.blacklist = [];
       if (_adminData.blacklistIsActive){
-        _adminData.blacklist.concat(list);
+        _adminData.blacklist = list;
       }
       if (_adminData.profanityFilter){
-        _adminData.blacklist = this.getProfanityListFromStorage().concat(this.profanityWords);
+        _adminData.blacklist = _adminData.blacklist.concat(this.getProfanityListFromStorage().concat(this.profanityWords));
       }
       this.adminData.next(_adminData);
     });
