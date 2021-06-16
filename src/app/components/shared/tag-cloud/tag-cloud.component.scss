@@ -1,12 +1,14 @@
 $header-size: 67px;
 $margin: 15px;
 
-.mat-drawer.mat-drawer-push {
+mat-drawer,
+.mat-drawer {
   background-color: var(--background);
-}
 
-mat-drawer {
-  background-color: var(--dialog);
+  @media (max-width: 450px) {
+    width: 100vw;
+  }
+
 }
 
 ars-fill {

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map, tap } from 'rxjs/operators';
 
-export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt';
+export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt' | 'auto';
 
 //[B]egin, [I]nside, [O]utside or unset
 type EntityPosition = 'B' | 'I' | 'O' | '';

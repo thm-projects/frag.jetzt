@@ -319,7 +319,9 @@
   },
   "topic-cloud": {
     "changes-gone-wrong": "Something went wrong!",
-    "changes-successful": "Successfully updated."
+    "changes-successful": "Successfully updated.",
+    "add-successful": "Word added",
+    "remove-successful": "Word removed"
   },
   "worker-dialog": {
     "running": "running"

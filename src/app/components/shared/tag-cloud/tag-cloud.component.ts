@@ -61,20 +61,33 @@ class TagComment implements CloudData {
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 const transformationScaleKiller = /scale\([^)]*\)/;
-const defaultColors: string[] = [
-  // variable, fallback
-  'var(--secondary, greenyellow)', // hover
-  'var(--moderator, lightblue)', // w1
-  'var(--blue, green)', // w2
-  'var(--grey, yellow)', // w3
-  'var(--red, orange)', // w4
-  'var(--primary, pink)', // w5
-  'var(--yellow, gray)', // w6
-  'var(--on-background, lightgreen)', // w7
-  'var(--purple, tomato)', // w8
-  'var(--magenta, white)', // w9
-  'var(--light-green, brown)', // w10
-  'var(--background, black)' //background
+type DefaultColors = [
+  hover: string,
+  w1: string,
+  w2: string,
+  w3: string,
+  w4: string,
+  w5: string,
+  w6: string,
+  w7: string,
+  w8: string,
+  w9: string,
+  w10: string,
+  background: string
+];
+const defaultColors: DefaultColors = [
+  'var(--secondary, greenyellow)',
+  'var(--moderator, lightblue)',
+  'var(--blue, green)',
+  'var(--grey, yellow)',
+  'var(--red, orange)',
+  'var(--primary, pink)',
+  'var(--yellow, gray)',
+  'var(--on-background, lightgreen)',
+  'var(--purple, tomato)',
+  'var(--magenta, white)',
+  'var(--light-green, brown)',
+  'var(--background, black)'
 ];
 
 const getResolvedDefaultColors = (): string[] => {
@@ -83,7 +96,7 @@ const getResolvedDefaultColors = (): string[] => {
   document.body.appendChild(elem);
   const results = [];
   for (const color of defaultColors) {
-    elem.style.backgroundColor = 'rgb(0, 0, 0)'; // fallback
+    elem.style.backgroundColor = 'rgb(0, 0, 0)';
     elem.style.backgroundColor = color;
     const result = window.getComputedStyle(elem).backgroundColor.match(colorRegex);
     const r = parseInt(result[1], 10);
@@ -110,7 +123,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
   ];
   return {
-    fontFamily: 'Helvetica,Arial,sans-serif',
+    fontFamily: 'Dancing Script',
     fontWeight: 'normal',
     fontStyle: 'normal',
     fontSize: '10px',
@@ -122,7 +135,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverTime: 0.6,
     hoverDelay: 0.4,
     delayWord: 0,
-    randomAngles: false,
+    randomAngles: true,
     checkSpelling: true,
     sortAlphabetically: false,
     textTransform: CloudTextStyle.normal,
@@ -145,18 +158,16 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   directSend = true;
   shortId: string;
   options: CloudOptions = {
-    // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
     width: 1,
-    // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
     height: 1,
     overflow: false,
-    font: 'Georgia', // not working
+    font: 'Not used',
     delay: 0
   };
   zoomOnHoverOptions: ZoomOnHoverOptions = {
-    scale: 1.3, // Elements will become 130 % of current size on hover
-    transitionTime: 0.6, // it will take 0.6 seconds until the zoom level defined in scale property has been reached
-    delay: 0.4 // Zoom will take affect after 0.4 seconds
+    scale: 1.3,
+    transitionTime: 0.6,
+    delay: 0.4
   };
   userRole: UserRole;
   data: TagComment[] = [];
@@ -164,7 +175,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
   lastDebounceTime = 0;
   configurationOpen = false;
   isLoading = true;
-  //Subscriptions
   headerInterface = null;
   themeSubscription = null;
   private _currentSettings: CloudParameters;
@@ -382,7 +392,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       return;
     }
     this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
-      //send tag.text instead of 'Autos' -> wait for group 3 to implement...
       this.eventService.broadcast('setTagConfig', tag.text);
       this._subscriptionCommentlist.unsubscribe();
     });
@@ -412,7 +421,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!dataUpdate) {
       this.child.reDraw();
     }
-    // This should fix the hover bug (scale was not turned off sometimes)
     if (this.dataManager.currentData === null) {
       return;
     }
@@ -441,7 +449,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     for (let i = rules.length - 1; i >= 0; i--) {
       customTagCloudStyles.sheet.deleteRule(i);
     }
-    // global
     let textTransform = '';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
       textTransform = 'text-transform: capitalize;';
@@ -454,8 +461,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
       'font-size: ' + this._currentSettings.fontSize + '; ' +
       'font-weight: ' + this._currentSettings.fontWeight + '; ' +
-      'font-style' + this._currentSettings.fontStyle + '; }');
-    // custom spans
+      'font-style:' + this._currentSettings.fontStyle + '; }');
     const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
     for (let i = 1; i <= 10; i++) {
       customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ', ' +
@@ -479,15 +485,11 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this._currentSettings) {
       return 2;
     }
-    /*
-    hoverScale, hoverTime, hoverDelay, delayWord can be updated without refreshing
-     */
     const cssUpdates = ['backgroundColor', 'fontColor'];
     const dataUpdates = ['randomAngles', 'sortAlphabetically',
       'fontSizeMin', 'fontSizeMax', 'textTransform', 'fontStyle', 'fontWeight', 'fontFamily', 'fontSize'];
     const cssWeightUpdates = ['color'];
     const dataWeightUpdates = ['maxVisibleElements', 'rotation'];
-    //data updates
     for (const key of dataUpdates) {
       if (this._currentSettings[key] !== parameters[key]) {
         return 2;
@@ -500,7 +502,6 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
-    //css updates
     for (const key of cssUpdates) {
       if (this._currentSettings[key] !== parameters[key]) {
         return 1;

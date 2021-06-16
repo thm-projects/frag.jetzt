@@ -314,8 +314,10 @@
     "session": "Raum"
   },
   "topic-cloud": {
-    "changes-gone-wrong": "Etwas ist schief gelaufen!",
-    "changes-successful": "Änderungen gespeichert."
+    "changes-gone-wrong": "Etwas ist schiefgelaufen!",
+    "changes-successful": "Änderungen gespeichert.",
+    "add-successful": "Wort hinzugefügt",
+    "remove-successful": "Wort entfernt"
   },
   "worker-dialog": {
     "running": "Laufend"
