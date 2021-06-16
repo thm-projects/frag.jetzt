@@ -296,7 +296,9 @@
     "changes-gone-wrong": "somthing has gone wrong",
     "english": "English",
     "german": "German",
-    "select-all": "Select all"
+    "select-all": "Select all",
+    "keyword-counter": "Topic count",
+    "sort": "Sort"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
@@ -311,8 +313,7 @@
     "read-less": "Read less"
   },
   "tag-cloud-config":{
-    "title":"Tag-Cloud Options",
-    "general":"General Options",
+    "general":"General",
     "overflow":"Overflow",
     "height":"Height",
     "random-angle":"Randomize angle",
@@ -322,7 +323,7 @@
     "hover-color":"Font-color",
     "hover-scale":"Scale",
     "hover-time":"Hover time",
-    "hover-title":"Hover Options",
+    "hover-title":"Hover",
     "hover-delay":"Hover delay",
     "cancel-btn":"Cancel",
     "save-btn":"Save",
@@ -339,17 +340,18 @@
     "hover-time-tooltip": "Select hover-time",
     "hover-delay-tooltip": "Select hover-delay",
     "extended-btn": "Weight classes",
-    "weight-class-settings": "Weight-class Settings",
-    "weight-class": "Weight class",
+    "weight-class-settings": "Weight-classes",
+    "weight-class": "Weight-class",
     "back-btn": "Back",
     "weight-color": "Font color",
     "weight-number": "max. number of keywords",
     "weight-color-tooltip": "Select font-color",
     "weight-number-tooltip": "Select maximal number of keywords",
-    "automatic-spelling": "Automatic spelling",
+    "automatic-spelling": "Spell check",
     "notation": "Notation:",
     "lowerCase": "Lower case",
     "capitalization": "Capitalization",
+    "upperCase": "Upper Case",
     "standard": "Standard",
     "alphabetical-sorting": "Alphabetical sorting",
     "cleanUpView": "Tag-Cleanup Settings",
@@ -360,6 +362,11 @@
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
     "rotate-weight-tooltip": "Rotate some entries randomly by x degrees",
     "highestWeight-tooltip": "show x tags with the highest weight",
-    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees"
+    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
+    "font":"Font",
+    "reset-btn": "Reset",
+    "font-style-bold" : "Bold",
+    "font-style-italic": "Italic",
+    "font-family":"Font Family"
   }
 }

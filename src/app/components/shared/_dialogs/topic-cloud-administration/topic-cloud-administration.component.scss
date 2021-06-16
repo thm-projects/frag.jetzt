@@ -62,6 +62,10 @@ mat-list-item:hover {
   color: var(--on-surface);
 }
 
+.color-on-background {
+  color: var(--on-background);
+}
+
 .search {
   box-sizing: border-box;
   padding: 0 10px 0 5px;
@@ -72,6 +76,10 @@ mat-list-item:hover {
   border-radius: 5px;
   color: var(--on-surface);
   transition: width 300ms linear;
+}
+
+.smallerInput{
+  max-width: 100px;
 }
 
 label {
