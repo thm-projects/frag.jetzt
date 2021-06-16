@@ -219,7 +219,7 @@
       <div *ngFor="let question of keyword.comments">
         <mat-divider></mat-divider>
         <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-          [isCollapsed]="!panelOpenState" [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
+                                  [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
       </div>
 
       <div *ngIf="isCreatorOrMod">

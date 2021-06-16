@@ -11,8 +11,8 @@ export class TopicDialogCommentComponent implements OnInit {
   @Input() question: string;
   @Input() keyword: string ;
   @Input() maxShowedCharachters: number;
-  @Input() isCollapsed = false;
   @Input() profanityFilter = true;
+  isCollapsed = false;
 
   public badWords = [];
   questionWithoutProfanity: string = undefined;
