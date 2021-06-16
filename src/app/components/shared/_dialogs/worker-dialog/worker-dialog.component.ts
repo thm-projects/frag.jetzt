@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
-import { SpacyService } from '../../../../services/http/spacy.service';
+import {Model, SpacyService} from '../../../../services/http/spacy.service';
 import { TSMap } from 'typescript-map';
 
 export interface WorkTask {
@@ -46,6 +46,7 @@ export class WorkerDialogComponent implements OnInit {
 
     this.commentService.getAckComments(room.id).subscribe((comments: Comment[]) => {
       const task: WorkTask = {room, comments};
+
       this.taskQueue.push(task);
 
       if (!this.isRunning) {
@@ -56,7 +57,7 @@ export class WorkerDialogComponent implements OnInit {
 
   runWorkTask(task: WorkTask): void {
     task.comments.forEach((c: Comment) => {
-      const model = 'de';
+      const model = (localStorage.getItem('currentLang') || 'de') as Model;
       const text = c.body;
       this.spacyService.getKeywords(text, model).subscribe((keywords: string[]) => {
         const changes = new TSMap<string, string>();
@@ -64,7 +65,6 @@ export class WorkerDialogComponent implements OnInit {
         this.taskQueue = this.taskQueue.slice(1, this.taskQueue.length);
 
         this.commentService.patchComment(c, changes).subscribe(_ => {
-          console.log('PATCHED .........................');
           this._callNextInQueue();
         }, _ => {
           this._callNextInQueue();
@@ -82,6 +82,8 @@ export class WorkerDialogComponent implements OnInit {
   }
 
   close(): void {
+    this.taskQueue = []
+    this.isRunning = false;
     if (this.closeCallback) {
       this.closeCallback();
     }

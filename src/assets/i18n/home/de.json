@@ -318,5 +318,8 @@
     "changes-successful": "Änderungen gespeichert.",
     "add-successful": "Wort hinzugefügt",
     "remove-successful": "Wort entfernt"
+  },
+  "worker-dialog": {
+    "running": "Laufend"
   }
 }
