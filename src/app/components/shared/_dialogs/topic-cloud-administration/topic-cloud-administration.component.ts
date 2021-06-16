@@ -25,7 +25,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
+  profanitywordlist: string[] = [];
   blacklistSubscription = undefined;
+  profanitylistSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -49,6 +51,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     de: string[];
     en: string[];
   };
+  spacyLabelsAllSelectedDE = true;
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -72,6 +75,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.deviceType = localStorage.getItem('deviceType');
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
+    this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
+    this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
+      this.updateKeywords();
+      this.profanitywordlist = list;
+    });
     this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
@@ -84,6 +92,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.setAdminData();
     if(this.blacklistSubscription !== undefined){
       this.blacklistSubscription.unsubscribe();
+    }
+    if(this.profanitylistSubscription !== undefined){
+      this.profanitylistSubscription.unsubscribe();
     }
   }
 
@@ -112,6 +123,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           } else {
             const keyword: Keyword = {
               keyword: _keyword,
+              keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
               comments: [comment],
               vote: comment.score
             };
@@ -158,10 +170,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   getKeywordWithoutProfanity(keyword: string): string {
     return this.topicCloudAdminService.filterProfanityWords(keyword);
-  }
-
-  getProfanityList() {
-    return this.topicCloudAdminService.getCustomProfanityList();
   }
 
   sortQuestions(sortMode?: string) {
@@ -363,8 +371,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.spacyLabels.de.forEach(label => {
         this.wantedLabels.de.push(label.tag);
       });
+      this.spacyLabelsAllSelectedDE = true;
     } else {
       this.wantedLabels.de = [];
+      this.spacyLabelsAllSelectedDE = false;
     }
   }
 
@@ -382,6 +392,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
 interface Keyword {
   keyword: string;
+  keywordWithoutProfanity: string;
   comments: Comment[];
   vote: number;
 }
