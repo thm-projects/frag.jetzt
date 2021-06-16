@@ -25,7 +25,7 @@ export class LanguagetoolService extends BaseHttpService {
       case 'fr':
         return 'fr';
       default:
-        return 'de';
+        return 'auto';
     }
   }
 

@@ -163,6 +163,16 @@
                 <span>{{'header.tag-cloud' | translate}}</span>
               </button>
 
+
+              <button mat-menu-item
+                      tabindex="0"
+                      (click)="startWorkerDialog()">
+                <mat-icon>update
+                </mat-icon>
+                <span>{{'header.update-spacy-keywords' | translate}}</span>
+              </button>
+
+
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
             </ng-container>

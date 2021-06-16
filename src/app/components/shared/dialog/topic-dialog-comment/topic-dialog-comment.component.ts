@@ -6,7 +6,7 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
   templateUrl: './topic-dialog-comment.component.html',
   styleUrls: ['./topic-dialog-comment.component.scss']
 })
-export class TopicDialogCommentComponent implements OnInit, OnChanges {
+export class TopicDialogCommentComponent implements OnInit {
 
   @Input() question: string;
   @Input() keyword: string ;
@@ -15,29 +15,27 @@ export class TopicDialogCommentComponent implements OnInit, OnChanges {
   @Input() profanityFilter = true;
 
   public badWords = [];
-  questionWithProfinity: string = undefined;
+  questionWithoutProfanity: string = undefined;
 
   public shortQuestion: string;
+  public parts: string[];
+  public partsWithoutProfanity: string[];
 
   constructor(private topicCloudAdminService: TopicCloudAdminService) { }
 
-  ngOnChanges(changes: SimpleChanges) {
-  }
-
   get partsOfQuestion() {
     if (this.profanityFilter) {
-      const question = this.topicCloudAdminService.filterProfanityWords(this.question);
-      return question
-          .slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
-          .split(new RegExp(this.keyword,'i'));
+      return this.partsWithoutProfanity;
     } else {
-      return this.question
-          .slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
-          .split(new RegExp(this.keyword,'i'));
+      return this.parts;
     }
   }
 
   ngOnInit(): void {
-    this.questionWithProfinity = this.topicCloudAdminService.filterProfanityWords(this.question);
+    this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
+    this.partsWithoutProfanity = this.questionWithoutProfanity.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
+                                                              .split(new RegExp(this.keyword,'i'));
+    this.parts = this.question.slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
+                              .split(new RegExp(this.keyword,'i'));
   }
 }

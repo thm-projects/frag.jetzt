@@ -100,7 +100,8 @@
     "questions-blocked": "Fragen sind deaktiviert!",
     "overview-question-tooltip": "Anzahl gestellter Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
-    "overview-keywords-tooltip": "Anzahl Schlüsselwörter"
+    "overview-keywords-tooltip": "Anzahl Schlüsselwörter",
+    "update-spacy-keywords": "Stichwörter anlegen"
   },
   "help": {
     "cancel": "Schließen",
@@ -313,7 +314,9 @@
     "session": "Raum"
   },
   "topic-cloud": {
-    "changes-gone-wrong": "Etwas ist schief gelaufen!",
-    "changes-successful": "Änderungen gespeichert."
+    "changes-gone-wrong": "Etwas ist schiefgelaufen!",
+    "changes-successful": "Änderungen gespeichert.",
+    "add-successful": "Wort hinzugefügt",
+    "remove-successful": "Wort entfernt"
   }
 }

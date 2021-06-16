@@ -33,10 +33,27 @@ export type CloudWeightSettings = [
 export enum CloudTextStyle {
   normal,
   lowercase,
-  capitalized
+  capitalized,
+  uppercase
 }
 
 export interface CloudParameters {
+  /**
+   * The general font family for the tag cloud
+   */
+  fontFamily: string;
+  /**
+   * The general font style for the tag cloud
+   */
+  fontStyle: string;
+  /**
+   * The general font weight for the tag cloud
+   */
+  fontWeight: string;
+  /**
+   * The general font size for the tag cloud
+   */
+  fontSize: string;
   /**
    * Background color of the Tag-cloud
    */

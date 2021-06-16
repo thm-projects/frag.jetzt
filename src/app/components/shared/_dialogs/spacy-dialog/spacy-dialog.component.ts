@@ -26,6 +26,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
   isLoading = false;
+  langSupported = true;
+  manualKeywords = '';
 
   constructor(
     protected langService: LanguageService,
@@ -53,43 +55,33 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected).map(kw => kw.word);
-      this.comment.keywordsFromSpacy = this.keywordsOriginal.map(kw => kw.word);
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => kw.word);
+      this.comment.keywordsFromSpacy = this.keywordsOriginal.filter(kw => kw.word.length).map(kw => kw.word);
       this.dialogRef.close(this.comment);
     };
   }
 
   evalInput(model: Model) {
     const keywords: Keyword[] = [];
-    let regex;
-    if(this.commentLang === 'de') {
-      regex = new RegExp('(?!Der|Die|Das)[A-ZAÄÖÜ][a-zäöüß]+(-[A-Z][a-zäöüß]+)*', 'g');
-    } else if (this.commentLang === 'en') {
-      regex = new RegExp('(?!he|she|it|for|with)[a-z]{2,}(-[a-z]{2,})*', 'gi');
-    } else {
-      regex = new RegExp('(?!au|de|la|le|en|un)[A-ZÀ-Ÿ]{2,}', 'gi');
-    }
-
     this.isLoading = true;
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.getKeywords(this.commentBodyChecked, model)
       .subscribe(words => {
-        for(const word of words) {
-          const filteredwords = word.match(regex) || [];
-          for (const filteredword of filteredwords) {
-            if(filteredword !== null && filteredword !== undefined && keywords.filter(item => item.word === filteredword).length < 1) {
-              keywords.push({
-                word: filteredword,
-                completed: false,
-                editing: false,
-                selected: false
-              });
-            }
+        for (const word of words) {
+          if (keywords.findIndex(item => item.word === word) < 0) {
+            keywords.push({
+              word,
+              completed: false,
+              editing: false,
+              selected: false
+            });
           }
         }
-        this.keywords = keywords;
-        this.keywordsOriginal = keywords;
+
+        // Deep copy
+        this.keywords = JSON.parse(JSON.stringify(keywords));
+        this.keywordsOriginal = JSON.parse(JSON.stringify(keywords));;
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
@@ -121,6 +113,22 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         item.completed = false;
         item.selected = false;
       });
+    }
+  }
+
+  manualKeywordsToKeywords(){
+    const tempKeywords = this.manualKeywords.replace(/\s/g,'');
+    if(tempKeywords.length) {
+      this.keywords = tempKeywords.split(',').map((keyword) => (
+         {
+            word: keyword,
+            completed: true,
+            editing: false,
+            selected: true
+        }
+      ));
+    } else {
+      this.keywords = [];
     }
   }
 }
