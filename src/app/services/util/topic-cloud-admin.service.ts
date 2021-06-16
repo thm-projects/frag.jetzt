@@ -15,6 +15,7 @@ export class TopicCloudAdminService {
   private adminData: Subject<TopicCloudAdminData>;
   private blacklist: Subject<string[]>;
   private profanityWords = [];
+  private customProfanityWords: Subject<string[]>;
   private readonly profanityKey = 'custom-Profanity-List';
   private readonly adminKey = 'Topic-Cloud-Admin-Data';
   constructor(private roomService: RoomService,
@@ -22,6 +23,7 @@ export class TopicCloudAdminService {
     private notificationService: NotificationService) {
     this.blacklist = new Subject<string[]>();
     this.adminData = new Subject<TopicCloudAdminData>();
+    this.customProfanityWords = new Subject<string[]>();
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
@@ -57,11 +59,11 @@ export class TopicCloudAdminService {
     localStorage.setItem(this.adminKey, JSON.stringify(_adminData));
     this.getBlacklist().subscribe(list => {
       _adminData.blacklist = [];
-      if (_adminData.profanityFilter){
-        _adminData.blacklist = this.getCustomProfanityList().concat(this.profanityWords);
-      }
       if (_adminData.blacklistIsActive){
-        _adminData.blacklist.concat(list);
+        _adminData.blacklist = list;
+      }
+      if (_adminData.profanityFilter){
+        _adminData.blacklist = _adminData.blacklist.concat(this.getProfanityListFromStorage().concat(this.profanityWords));
       }
       this.adminData.next(_adminData);
     });
@@ -75,30 +77,32 @@ export class TopicCloudAdminService {
     return this.blacklist.asObservable();
   }
 
-  getCustomProfanityList(): string[] {
+  getProfanityListFromStorage(){
     const list = localStorage.getItem(this.profanityKey);
-    return list ? list.split(',') : [];
+    return list ? JSON.parse(list) : [];
+  }
+
+  getCustomProfanityList(): Observable<string[]> {
+    this.customProfanityWords.next(this.getProfanityListFromStorage());
+    return this.customProfanityWords.asObservable();
   }
 
   addToProfanityList(word: string) {
     if (word !== undefined) {
-      const newList = this.getCustomProfanityList();
-      if (newList.includes(word)) {
-        return;
+      const plist = this.getProfanityListFromStorage();
+      if (!plist.includes(word.toLowerCase().trim())) {
+        plist.push(word.toLowerCase().trim());
+        this.customProfanityWords.next(plist);
+        localStorage.setItem(this.profanityKey, JSON.stringify(plist));
       }
-      newList.push(word);
-      localStorage.setItem(this.profanityKey, newList.toString());
     }
   }
 
-  removeFromProfanityList(profanityWord: string) {
-    const list = this.getCustomProfanityList();
-    list.map(word => {
-      if (word === profanityWord) {
-        list.splice(list.indexOf(word, 0), 1);
-      }
-    });
-    localStorage.setItem(this.profanityKey, list.toString());
+  removeFromProfanityList(word: string) {
+    const plist = this.getProfanityListFromStorage();
+    plist.splice(plist.indexOf(word, 0), 1);
+    this.customProfanityWords.next(plist);
+    localStorage.setItem(this.profanityKey, JSON.stringify(plist));
   }
 
   removeProfanityList() {
@@ -112,9 +116,9 @@ export class TopicCloudAdminService {
   addWordToBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        const newlist = JSON.parse(room.blacklist);
-        if (!newlist.includes(word)){
-          newlist.push(word.toLowerCase());
+        const newlist = room.blacklist ? JSON.parse(room.blacklist) : [];
+        if (!newlist.includes(word.toLowerCase().trim())){
+          newlist.push(word.toLowerCase().trim());
         }
         this.updateBlacklist(newlist, room, 'add-successful');
       });
@@ -173,10 +177,10 @@ export class TopicCloudAdminService {
 
   filterProfanityWords(str: string): string {
     let questionWithProfanity = str;
-    this.profanityWords.concat(this.getCustomProfanityList()).map((word) => {
+    this.profanityWords.concat(this.getProfanityListFromStorage()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
-        .includes(word.toLowerCase())
+        .includes(word)
         ? this.replaceString(
           questionWithProfanity,
           word,

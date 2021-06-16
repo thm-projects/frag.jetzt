@@ -56,7 +56,7 @@
             </button>
 
             <mat-list role="list" *ngIf="showProfanityList" class="margin-bottom">
-              <mat-list-item class="color-on-surface" *ngFor="let word of getProfanityList()" role="listitem">{{word}}
+              <mat-list-item class="color-on-surface" *ngFor="let word of profanitywordlist" role="listitem">{{word}}
                 <button style="margin-left: auto" mat-icon-button class="red"
                   (click)="removeWordFromProfanityList(word)">
                   <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
@@ -65,7 +65,7 @@
             </mat-list>
 
             <div>
-              <button mat-raised-button *ngIf="getProfanityList().length > 0" class="primaryBackground"
+              <button mat-raised-button *ngIf="profanitywordlist.length > 0" class="primaryBackground"
                 (click)="showProfanityList=!showProfanityList">
                 {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) :
                 ('topic-cloud-dialog.show-profanity-list' | translate)}}
@@ -119,10 +119,11 @@
               <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.de">
 
                 <mat-option class="color-on-surface" (click)="selectAllDE()">
-                  <mat-label>
+                  <mat-label class="color-on-surface">
                     <mat-icon>playlist_add_check</mat-icon>
                     {{'topic-cloud-dialog.select-all' | translate}}
                   </mat-label>
+                  <mat-checkbox style="vertical-align: middle;float: right;" [checked]="this.wantedLabels.de.length===this.spacyLabels.de.length"></mat-checkbox>
                 </mat-option>
 
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
@@ -134,10 +135,11 @@
               <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.en">
 
                 <mat-option class="color-on-surface" (click)="selectAllEN()">
-                  <mat-label>
+                  <mat-label class="color-on-surface">
                     <mat-icon>playlist_add_check</mat-icon>
                     {{'topic-cloud-dialog.select-all' | translate}}
                   </mat-label>
+                  <mat-checkbox style="vertical-align: middle;float: right;" [checked]="this.wantedLabels.en.length===this.spacyLabels.en.length"></mat-checkbox>
                 </mat-option>
 
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
@@ -209,7 +211,7 @@
                         (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i">
       <mat-expansion-panel-header class="color-surface">
         <mat-panel-title>
-          {{profanityFilter ? getKeywordWithoutProfanity(keyword.keyword) : keyword.keyword}}
+          {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
         </mat-panel-title>
         <mat-panel-description>
           {{keyword.comments.length}}
@@ -219,7 +221,7 @@
       <div *ngFor="let question of keyword.comments">
         <mat-divider></mat-divider>
         <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-          [isCollapsed]="!panelOpenState" [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
+                                  [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
       </div>
 
       <div *ngIf="isCreatorOrMod">
