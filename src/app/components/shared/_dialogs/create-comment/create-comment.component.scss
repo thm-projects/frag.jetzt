@@ -135,9 +135,9 @@ mat-hint {
 }
 
 .lang-confidence {
-  animation: shake 0.8s;
+  animation: shake 0.5s;
   color: var(--red);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 @keyframes shake {
