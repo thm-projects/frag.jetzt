@@ -37,14 +37,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
+  deviceType: string;
   filteredKeywords: Keyword[] = [];
   showProfanityList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
-  allSelectedDE = true;
-  allSelectedEN = true;
   spacyLabels: Labels;
   wantedLabels: {
     de: string[];
@@ -70,14 +69,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.initKeywords());
+    this.deviceType = localStorage.getItem('deviceType');
+    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
-    this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
+    this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
     this.setDefaultAdminData();
-    this.initKeywords();
+    this.updateKeywords();
   }
 
   ngOnDestroy(){
@@ -87,11 +87,21 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  initKeywords(){
+  updateKeywords(){
     this.commentService.getFilteredComments(localStorage.getItem('roomId')).subscribe(comments => {
       this.keywords = [];
       comments.map(comment => {
-        const keywords = this.keywordORfulltext === KeywordOrFulltext[0] ? comment.keywordsFromQuestioner : comment.keywordsFromSpacy;
+        let keywords = comment.keywordsFromQuestioner;
+        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.keyword]){
+          keywords = comment.keywordsFromSpacy;
+        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]){
+          keywords = comment.keywordsFromQuestioner.concat(comment.keywordsFromSpacy);
+        }
+
+        if (!keywords){
+          keywords = [];
+        }
+
         keywords.map(_keyword => {
           const existingKey = this.checkIfKeywordExists(_keyword);
           if (existingKey){
@@ -348,24 +358,24 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   selectAllDE() {
-    if (this.allSelectedDE) {
-      this.wantedLabels.de = []
-    } else {
+    if (this.wantedLabels.de.length < this.spacyLabels.de.length) {
       this.wantedLabels.de = [];
       this.spacyLabels.de.forEach(label => {
         this.wantedLabels.de.push(label.tag);
       });
+    } else {
+      this.wantedLabels.de = [];
     }
   }
 
   selectAllEN() {
-    if (this.allSelectedEN) {
+    if (this.wantedLabels.en.length < this.spacyLabels.en.length) {
       this.wantedLabels.en = [];
       this.spacyLabels.en.forEach(label => {
         this.wantedLabels.en.push(label.tag);
       });
     } else {
-      this.wantedLabels.en = []
+      this.wantedLabels.en = [];
     }
   }
 }
