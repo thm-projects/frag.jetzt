@@ -34,6 +34,7 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.check = this.editRoom.questionsBlocked;
   }
 
   openDeleteRoomDialog(): void {
@@ -70,7 +71,7 @@ export class RoomEditComponent implements OnInit {
   }
 
   save(): void {
-    this.editRoom.closed = this.check;
+    this.editRoom.questionsBlocked = this.check;
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
         && !this.roomNameFormControl.hasError('minlength')

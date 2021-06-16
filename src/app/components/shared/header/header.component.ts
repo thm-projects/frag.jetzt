@@ -320,7 +320,7 @@ export class HeaderComponent implements OnInit {
 
   public blockQuestions() {
     // flip state if clicked
-    this.room.closed = !this.room.closed;
+    this.room.questionsBlocked = !this.room.questionsBlocked;
     this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
   }
 
@@ -335,14 +335,15 @@ export class HeaderComponent implements OnInit {
         position: {left: '50px', bottom: '50px'},
         role: 'dialog',
         hasBackdrop: false,
-        closeOnNavigation: false
+        closeOnNavigation: false,
+        panelClass: 'workerContainer'
       });
 
       const component: WorkerDialogComponent = this.workerDialogRef.componentInstance;
       component.getCloseCallback(() => {
         this.workerDialogRef.close();
         this.workerDialogRef = null;
-      })
+      });
       component.addWorkTask(this.room);
     } else {
       const component: WorkerDialogComponent = this.workerDialogRef.componentInstance;

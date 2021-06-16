@@ -424,7 +424,8 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       elem.addEventListener('mouseenter', () => {
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
+          this._currentSettings.checkSpelling);
       });
     });
   }
@@ -446,7 +447,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
       textTransform = 'text-transform: capitalize;';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
-    }else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+    } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
       textTransform = 'text-transform: uppercase;';
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +

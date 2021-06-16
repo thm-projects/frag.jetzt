@@ -4,7 +4,12 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { User } from '../../../../models/user';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
-import {Language, LanguagetoolService} from "../../../../services/http/languagetool.service";
+import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { FormControl } from '@angular/forms';
+import { TSMap } from 'typescript-map';
+import { CommentService } from '../../../../services/http/comment.service';
+import { NotificationService } from '../../../../services/util/notification.service';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 const CLOSE_TIME = 1500;
 
@@ -16,23 +21,27 @@ const CLOSE_TIME = 1500;
 export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   @ViewChild('popupContainer') popupContainer: ElementRef;
-  @ViewChild('replacementInput') replacementinput: ElementRef;
+  @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
+  replacementInput = new FormControl();
   tag: string;
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
   user: User;
+  selectedLang: Language = 'en-US';
+  spellingData: string[] = [];
+  checkLanguage = false;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
-  languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
-  selectedLang: Language = 'auto';
-  spellingData: string[];
+  private _hasLeft = true;
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
               private authenticationService: AuthenticationService,
               private tagCloudDataService: TagCloudDataService,
-              private languagetoolService:LanguagetoolService) {
+              private languagetoolService: LanguagetoolService,
+              private commentService: CommentService,
+              private notificationService: NotificationService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -51,42 +60,40 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     const html = this.popupContainer.nativeElement as HTMLDivElement;
     html.addEventListener('mouseenter', () => {
       clearTimeout(this._popupCloseTimer);
+      this._hasLeft = false;
     });
     html.addEventListener('mouseleave', () => {
-      this._popupCloseTimer = setTimeout(() => {
-        this.close();
-      }, CLOSE_TIME);
+      this._hasLeft = true;
+      this.close();
     });
   }
 
-  onFocus(event) {
-    if (!this.popupContainer.nativeElement.contains(event.target)) {
-      this.close();
-    }
+  onFocusOut() {
+    this.close();
   }
 
   leave(): void {
     clearTimeout(this._popupHoverTimer);
-    clearTimeout(this._popupCloseTimer);
-    this._popupCloseTimer = setTimeout(() => {
-      this.close();
-    }, CLOSE_TIME);
+    this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
-    this.spellingData = undefined;
-    this.checkSpellings(tag).subscribe(correction => {
+  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, checkLanguage: boolean): void {
+    this.checkLanguage = checkLanguage;
+    if (checkLanguage) {
       this.spellingData = [];
-      for(const match of correction.matches) {
-        if(match.replacements != null && match.replacements > 0){
-          for(const replacement of match.replacements) {
-            this.spellingData.push(replacement.value);
+      this.languagetoolService.checkSpellings(tag, this.selectedLang).subscribe(correction => {
+        for (const match of correction.matches) {
+          if (match.replacements != null && match.replacements.length > 0) {
+            for (const replacement of match.replacements) {
+              this.spellingData.push(replacement.value);
+            }
           }
         }
-      }
-    });
+      });
+    }
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
+    this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.tag = tag;
       this.tagData = tagData;
@@ -99,12 +106,62 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   addBlacklistWord(): void {
     this.tagCloudDataService.blockWord(this.tag);
-    this.close();
+    this.close(false);
   }
 
-  close(): void {
+  close(addDelay = true): void {
     const html = this.popupContainer.nativeElement as HTMLDivElement;
-    html.classList.remove('up', 'down', 'right', 'left');
+    clearTimeout(this._popupCloseTimer);
+    if (addDelay) {
+      if (!this._hasLeft || (html.contains(document.activeElement) && html !== document.activeElement)) {
+        return;
+      }
+      this._popupCloseTimer = setTimeout(() => {
+        if (html.contains(document.activeElement) && html !== document.activeElement) {
+          return;
+        }
+        html.classList.remove('up', 'down', 'right', 'left');
+      }, CLOSE_TIME);
+    } else {
+      html.classList.remove('up', 'down', 'right', 'left');
+    }
+  }
+
+  updateTag(): void {
+    const tagReplacementInput = this.replacementInput.value.trim();
+    if (tagReplacementInput.length < 1 || tagReplacementInput === this.tag) {
+      return;
+    }
+    const renameKeyword = (elem: string, index: number, array: string[]) => {
+      if (elem === this.tag) {
+        array[index] = tagReplacementInput;
+      }
+    };
+    this.tagData.comments.forEach(comment => {
+      const changes = new TSMap<string, any>();
+      comment.keywordsFromQuestioner.forEach(renameKeyword);
+      changes.set('keywordsFromQuestioner', JSON.stringify(comment.keywordsFromQuestioner));
+      comment.keywordsFromSpacy.forEach(renameKeyword);
+      changes.set('keywordsFromSpacy', JSON.stringify(comment.keywordsFromSpacy));
+      this.commentService.patchComment(comment, changes).subscribe(_ => {
+        this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }, _ => {
+        this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      });
+    });
+    this.close(false);
+    this.replacementInput.reset();
+    this.trigger.closePanel();
+  }
+
+  checkEnter(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.updateTag();
+    }
   }
 
   private position(elem: HTMLElement) {
@@ -246,11 +303,5 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.translateService.get('tag-cloud-popup.some-months', {
       months
     }).subscribe(subscriber);
-  }
-  checkSpellings(text: string, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(text, language);
-  }
-  updateTag(){
-   console.log(this.replacementinput.nativeElement.value);
   }
 }

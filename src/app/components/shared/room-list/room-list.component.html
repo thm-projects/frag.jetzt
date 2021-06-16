@@ -46,7 +46,7 @@
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId }}
-            <mat-icon *ngIf="room.closed" class="warn" [inline]="true">block</mat-icon>
+            <mat-icon *ngIf="room.questionsBlocked" class="warn" [inline]="true">block</mat-icon>
           </td>
         </ng-container>
 

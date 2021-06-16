@@ -4,76 +4,27 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map, tap } from 'rxjs/operators';
 
-export type Model = 'de' | 'en' | 'fr';
+export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt' | 'auto';
 
-export class Result {
-  arcs: Arc[];
-  words: Word[];
+//[B]egin, [I]nside, [O]utside or unset
+type EntityPosition = 'B' | 'I' | 'O' | '';
 
-  constructor(
-    arcs: Arc[] = [],
-    words: Word[] = []
-  ) {
-    this.arcs = arcs;
-    this.words = words;
-  }
-
-  static empty(): Result {
-    return new Result();
-  }
+interface NounToken {
+  dep: string; // dependency inside the sentence
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  entity_pos: EntityPosition; // entity position
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  entity_type: string; // entity type
+  lemma: string; // lemma of token
+  tag: string; // tag of token
+  text: string; // text of token
 }
 
-export class Word {
-  tag: string;
-  text: string;
-
-  constructor(
-    tag: string,
-    text: string
-  ) {
-    this.tag = tag;
-    this.text = text;
-  }
-}
-
-export class Noun {
-  text: string;
-  dependencyRelation: string;
-
-  constructor(
-    text: string,
-    dependencyRelation: string
-  ) {
-    this.text = text;
-    this.dependencyRelation = dependencyRelation;
-  }
-}
-
-export class Arc {
-  dir: string;
-  end: number;
-  label: string;
-  start: number;
-  text: string;
-
-  constructor(
-    dir: string,
-    end: number,
-    label: string,
-    start: number,
-    text: string,
-  ) {
-    this.dir = dir;
-    this.end = end;
-    this.label = label;
-    this.start = start;
-    this.text = text;
-  }
-
-}
-
+type NounCompound = NounToken[];
+type NounCompoundList = NounCompound[];
 
 const httpOptions = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
@@ -86,42 +37,44 @@ export class SpacyService extends BaseHttpService {
     super();
   }
 
-  getKeywords(text: string, model: string): Observable<string[]> {
-    console.log(text);
-    return this.analyse(text, model).pipe(
-      tap(e => {
-        const nouns: Noun[] = [];
-        const absoluteNouns = e.words.filter((v, index) => {
-          v['index'] = index;
-          return v.tag.charAt(0) === 'N';
-        });
-        console.log(e);
-        for (const arc of e.arcs) {
-          const index = arc.dir.charAt(0) === 'r' ? arc.end : arc.start;
-          const elem = e.words[index];
-          if (elem.tag.charAt(0) === 'N') {
-            while (absoluteNouns[0]['index'] < index) {
-              const current = absoluteNouns.splice(0, 1)[0];
-              console.log(current);
-              nouns.push(new Noun(current['text'], 'ROOT'));
-            }
-            const actualNode = absoluteNouns.splice(0, 1)[0];
-            console.log(actualNode);
-            console.assert(actualNode['index'] === index, 'Indices should be equal!');
-            nouns.push(new Noun(elem.text, arc.label));
-          }
+  private static processCompound(result: string[], data: NounCompound) {
+    let isInEntity = false;
+    let start = 0;
+    const pushNew = (i: number) => {
+      if (start < i) {
+        result.push(data.slice(start, i).reduce((acc, current) => acc + ' ' + current.lemma, ''));
+        start = i;
+      }
+    };
+    data.forEach((noun, i) => {
+      if (noun.entity_pos === 'B' || (noun.entity_pos === 'I' && !isInEntity)) {
+        // entity begins
+        pushNew(i);
+        isInEntity = true;
+      } else if (isInEntity) {
+        if (noun.entity_pos === '' || noun.entity_pos === 'O') {
+          // entity ends
+          pushNew(i);
+          isInEntity = false;
         }
-        console.log(nouns);
-      }),
-      map(result => result.words.filter(v => v.tag.charAt(0) === 'N').map(v => v.text))
-    );
+      }
+    });
+    pushNew(data.length);
   }
 
-  analyse(text: string, model: string): Observable<Result> {
+  getKeywords(text: string, model: Model): Observable<string[]> {
     const url = '/spacy';
-    return this.http.post<Result>(url, {text, model}, httpOptions)
+    return this.http.post<NounCompoundList>(url, {text, model}, httpOptions)
       .pipe(
-        catchError(this.handleError<any>('analyse'))
+        tap(_ => ''),
+        catchError(this.handleError<any>('getKeywords')),
+        map((result: NounCompoundList) => {
+          const filteredNouns: string[] = [];
+          result.forEach(compound => {
+            SpacyService.processCompound(filteredNouns, compound);
+          });
+          return filteredNouns;
+        })
       );
   }
 }
