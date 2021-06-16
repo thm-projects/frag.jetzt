@@ -40,13 +40,15 @@ export class TopicDialogCommentComponent implements OnInit {
     }
   }
 
+  shortQuestionParts(question: string){
+    return question.slice(0, this.maxShowedCharachters).split(new RegExp(this.keyword, 'i'));
+  }
+
   ngOnInit(): void {
     this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
     this.partsWithoutProfanity = this.questionWithoutProfanity.split(new RegExp(this.keyword,'i'));
     this.parts = this.question.split(new RegExp(this.keyword,'i'));
-    this.partsShort = this.question.slice(0, this.maxShowedCharachters)
-    .split(new RegExp(this.keyword,'i'));
-    this.partsWithoutProfanityShort = this.questionWithoutProfanity.slice(0, this.maxShowedCharachters)
-    .split(new RegExp(this.keyword,'i'));
+    this.partsShort = this.shortQuestionParts(this.question);
+    this.partsWithoutProfanityShort = this.shortQuestionParts(this.questionWithoutProfanity);
   }
 }
