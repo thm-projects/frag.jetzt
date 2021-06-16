@@ -75,9 +75,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.deviceType = localStorage.getItem('deviceType');
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
+    this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
-      this.profanitywordlist = list;
       this.updateKeywords();
+      this.profanitywordlist = list;
     });
     this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -169,10 +170,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   getKeywordWithoutProfanity(keyword: string): string {
     return this.topicCloudAdminService.filterProfanityWords(keyword);
-  }
-
-  getProfanityList() {
-    return this.topicCloudAdminService.getCustomProfanityList();
   }
 
   sortQuestions(sortMode?: string) {

@@ -63,13 +63,9 @@ export class TopicCloudAdminService {
         _adminData.blacklist.concat(list);
       }
       if (_adminData.profanityFilter){
-        this.getCustomProfanityList().subscribe(plist => {
-          _adminData.blacklist = plist.concat(this.profanityWords);
-          this.adminData.next(_adminData);
-        });
-      } else {
-        this.adminData.next(_adminData);
+        _adminData.blacklist = this.getProfanityListFromStorage().concat(this.profanityWords);
       }
+      this.adminData.next(_adminData);
     });
   }
 
