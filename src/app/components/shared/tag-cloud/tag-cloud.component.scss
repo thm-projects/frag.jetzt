@@ -45,3 +45,7 @@ app-tag-cloud-pop-up {
 ::ng-deep .spacyTagCloud span {
   user-select: none !important;
 }
+
+::ng-deep .spacyTagCloud span:hover {
+  cursor: pointer;
+}
