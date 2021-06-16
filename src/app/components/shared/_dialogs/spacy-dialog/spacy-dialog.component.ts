@@ -26,7 +26,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
   isLoading = false;
-  langSupported = true;
+  langSupported: boolean;
   manualKeywords = '';
 
   constructor(
@@ -40,10 +40,13 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.comment = this.data.comment;
     this.commentLang = this.data.commentLang;
     this.commentBodyChecked = this.data.commentBodyChecked;
+    this.langSupported = this.commentLang !== 'auto';
   }
 
   ngAfterContentInit(): void {
-    this.evalInput(this.commentLang);
+    if(this.langSupported) {
+      this.evalInput(this.commentLang);
+    }
   }
 
   /**
@@ -117,9 +120,18 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     }
   }
 
-  manualKeywordsToKeywords() {
-    const tempKeywords = this.manualKeywords.replace(/\s/g, '');
-    if (tempKeywords.length) {
+  allKeywordsSelected(): boolean {
+    for(const kw of this.keywords) {
+      if(!kw.selected) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  manualKeywordsToKeywords(){
+    const tempKeywords = this.manualKeywords.replace(/\s/g,'');
+    if(tempKeywords.length) {
       this.keywords = tempKeywords.split(',').map((keyword) => (
         {
           word: keyword,
