@@ -6,6 +6,7 @@
                       id="checkAll"
                       (change)="selectAll(checkall.checked)"
                       #checkall
+                      [checked]="allKeywordsSelected()"
                       matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
                       matTooltipShowDelay="750">
         </mat-checkbox>

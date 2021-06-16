@@ -119,6 +119,15 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     }
   }
 
+  allKeywordsSelected(): boolean {
+    for(const kw of this.keywords) {
+      if(!kw.selected) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   manualKeywordsToKeywords(){
     const tempKeywords = this.manualKeywords.replace(/\s/g,'');
     if(tempKeywords.length) {
