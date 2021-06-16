@@ -320,5 +320,8 @@
   "topic-cloud": {
     "changes-gone-wrong": "Something went wrong!",
     "changes-successful": "Successfully updated."
+  },
+  "worker-dialog": {
+    "running": "running"
   }
 }

@@ -1,7 +1,14 @@
 button {
-  position: absolute !important;
-  right: 5px;
-  top: 5px;
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-weight: bold;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: large;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 ::ng-deep .workerContainer > .mat-dialog-container {
@@ -14,3 +21,20 @@ button {
 #worker-content {
   padding-left: 5px;
 }
+
+summary {
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 4px -2px #232323;
+  -moz-box-shadow: 0 4px 4px -2px #232323;
+  -webkit-box-shadow: 0 4px 4px -2px #232323;
+  cursor: pointer;
+}
+
+#entry {
+    display:flex;
+    flex-direction:row;
+    justify-content: left;
+  }
+
+
