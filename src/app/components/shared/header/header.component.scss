@@ -73,7 +73,7 @@ button:focus {
 }
 
 svg {
-  -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
+  -webkit-filter: invert(100%);
   filter: invert(100%);
 }
 
@@ -130,3 +130,13 @@ svg {
 h1{
   color: red;
 }
+::ng-deep .mat-menu-item:hover .qrcode svg > path {
+  fill: var(--dialog);
+  color: var(--dialog);
+  background-color: var(--on-dialog) !important;
+  }
+  
+  ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon{
+  color: var(--dialog);
+  background-color: var(--on-dialog) !important;
+  }
