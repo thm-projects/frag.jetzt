@@ -49,6 +49,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     de: string[];
     en: string[];
   };
+  spacyLabelsAllSelectedDE = true;
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -364,8 +365,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.spacyLabels.de.forEach(label => {
         this.wantedLabels.de.push(label.tag);
       });
+      this.spacyLabelsAllSelectedDE = true;
     } else {
       this.wantedLabels.de = [];
+      this.spacyLabelsAllSelectedDE = false;
     }
   }
 

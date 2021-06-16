@@ -119,10 +119,11 @@
               <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.de">
 
                 <mat-option class="color-on-surface" (click)="selectAllDE()">
-                  <mat-label>
+                  <mat-label class="color-on-surface">
                     <mat-icon>playlist_add_check</mat-icon>
                     {{'topic-cloud-dialog.select-all' | translate}}
                   </mat-label>
+                  <mat-checkbox style="vertical-align: middle;float: right;" [checked]="this.wantedLabels.de.length===this.spacyLabels.de.length"></mat-checkbox>
                 </mat-option>
 
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
@@ -134,10 +135,11 @@
               <mat-selection-list *ngIf="wantedLabels" [(ngModel)]="wantedLabels.en">
 
                 <mat-option class="color-on-surface" (click)="selectAllEN()">
-                  <mat-label>
+                  <mat-label class="color-on-surface">
                     <mat-icon>playlist_add_check</mat-icon>
                     {{'topic-cloud-dialog.select-all' | translate}}
                   </mat-label>
+                  <mat-checkbox style="vertical-align: middle;float: right;" [checked]="this.wantedLabels.en.length===this.spacyLabels.en.length"></mat-checkbox>
                 </mat-option>
 
                 <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
