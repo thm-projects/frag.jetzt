@@ -62,16 +62,17 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   evalInput(model: Model) {
-    const keywords: Keyword[] = [];
     this.isLoading = true;
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.getKeywords(this.commentBodyChecked, model)
       .subscribe(words => {
+        const keywords: Keyword[] = [];
         for (const word of words) {
-          if (keywords.findIndex(item => item.word === word) < 0) {
+          const newWord = word.trim();
+          if (keywords.findIndex(item => item.word === newWord) < 0) {
             keywords.push({
-              word,
+              word: newWord,
               completed: false,
               editing: false,
               selected: false
@@ -80,8 +81,8 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         }
 
         // Deep copy
-        this.keywords = JSON.parse(JSON.stringify(keywords));
-        this.keywordsOriginal = JSON.parse(JSON.stringify(keywords));;
+        this.keywords = keywords;
+        this.keywordsOriginal = JSON.parse(JSON.stringify(keywords));
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
@@ -116,15 +117,15 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     }
   }
 
-  manualKeywordsToKeywords(){
-    const tempKeywords = this.manualKeywords.replace(/\s/g,'');
-    if(tempKeywords.length) {
+  manualKeywordsToKeywords() {
+    const tempKeywords = this.manualKeywords.replace(/\s/g, '');
+    if (tempKeywords.length) {
       this.keywords = tempKeywords.split(',').map((keyword) => (
-         {
-            word: keyword,
-            completed: true,
-            editing: false,
-            selected: true
+        {
+          word: keyword,
+          completed: true,
+          editing: false,
+          selected: true
         }
       ));
     } else {
