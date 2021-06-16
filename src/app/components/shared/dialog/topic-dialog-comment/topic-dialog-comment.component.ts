@@ -22,7 +22,7 @@ export class TopicDialogCommentComponent implements OnInit {
   public partsShort: string[];
   public partsWithoutProfanityShort: string[];
 
-  constructor(private topicCloudAdminService: TopicCloudAdminService) { }
+  constructor(private topicCloudAdminService: TopicCloudAdminService) {}
 
   get partsOfQuestion() {
     if (this.profanityFilter) {
@@ -47,8 +47,8 @@ export class TopicDialogCommentComponent implements OnInit {
   ngOnInit(): void {
     this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
     this.partsWithoutProfanity = this.questionWithoutProfanity.split(new RegExp(this.keyword,'i'));
+    this.partsWithoutProfanityShort = this.shortQuestionParts(this.questionWithoutProfanity);
     this.parts = this.question.split(new RegExp(this.keyword,'i'));
     this.partsShort = this.shortQuestionParts(this.question);
-    this.partsWithoutProfanityShort = this.shortQuestionParts(this.questionWithoutProfanity);
   }
 }

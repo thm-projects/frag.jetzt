@@ -56,7 +56,7 @@
             </button>
 
             <mat-list role="list" *ngIf="showProfanityList" class="margin-bottom">
-              <mat-list-item class="color-on-surface" *ngFor="let word of getProfanityList()" role="listitem">{{word}}
+              <mat-list-item class="color-on-surface" *ngFor="let word of profanitywordlist" role="listitem">{{word}}
                 <button style="margin-left: auto" mat-icon-button class="red"
                   (click)="removeWordFromProfanityList(word)">
                   <mat-icon mat-list-icon style="margin-bottom: 6px;">delete</mat-icon>
@@ -65,7 +65,7 @@
             </mat-list>
 
             <div>
-              <button mat-raised-button *ngIf="getProfanityList().length > 0" class="primaryBackground"
+              <button mat-raised-button *ngIf="profanitywordlist.length > 0" class="primaryBackground"
                 (click)="showProfanityList=!showProfanityList">
                 {{showProfanityList ? ('topic-cloud-dialog.hide-profanity-list' | translate) :
                 ('topic-cloud-dialog.show-profanity-list' | translate)}}

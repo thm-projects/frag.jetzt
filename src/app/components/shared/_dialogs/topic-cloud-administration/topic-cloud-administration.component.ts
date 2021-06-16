@@ -25,7 +25,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
+  profanitywordlist: string[] = [];
   blacklistSubscription = undefined;
+  profanitylistSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -73,6 +75,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.deviceType = localStorage.getItem('deviceType');
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
+    this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
+      this.profanitywordlist = list;
+      this.updateKeywords();
+    });
     this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
@@ -85,6 +91,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.setAdminData();
     if(this.blacklistSubscription !== undefined){
       this.blacklistSubscription.unsubscribe();
+    }
+    if(this.profanitylistSubscription !== undefined){
+      this.profanitylistSubscription.unsubscribe();
     }
   }
 
