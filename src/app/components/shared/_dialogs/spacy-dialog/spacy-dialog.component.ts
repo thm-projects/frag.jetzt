@@ -26,7 +26,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
   isLoading = false;
-  langSupported = true;
+  langSupported: boolean;
   manualKeywords = '';
 
   constructor(
@@ -40,10 +40,13 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.comment = this.data.comment;
     this.commentLang = this.data.commentLang;
     this.commentBodyChecked = this.data.commentBodyChecked;
+    this.langSupported = this.commentLang !== 'auto';
   }
 
   ngAfterContentInit(): void {
-    this.evalInput(this.commentLang);
+    if(this.langSupported) {
+      this.evalInput(this.commentLang);
+    }
   }
 
   /**
