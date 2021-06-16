@@ -83,10 +83,10 @@ export class TopicCloudAdminService {
   addToProfanityList(word: string) {
     if (word !== undefined) {
       const newList = this.getCustomProfanityList();
-      if (newList.includes(word)) {
+      if (newList.includes(word.toLowerCase().trim())) {
         return;
       }
-      newList.push(word);
+      newList.push(word.toLowerCase().trim());
       localStorage.setItem(this.profanityKey, newList.toString());
     }
   }
@@ -113,8 +113,8 @@ export class TopicCloudAdminService {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
         const newlist = room.blacklist ? JSON.parse(room.blacklist) : [];
-        if (!newlist.includes(word)){
-          newlist.push(word.toLowerCase());
+        if (!newlist.includes(word.toLowerCase().trim())){
+          newlist.push(word.toLowerCase().trim());
         }
         this.updateBlacklist(newlist, room, 'add-successful');
       });
@@ -176,7 +176,7 @@ export class TopicCloudAdminService {
     this.profanityWords.concat(this.getCustomProfanityList()).map((word) => {
       questionWithProfanity = questionWithProfanity
         .toLowerCase()
-        .includes(word.toLowerCase())
+        .includes(word)
         ? this.replaceString(
           questionWithProfanity,
           word,
