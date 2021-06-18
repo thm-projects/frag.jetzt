@@ -72,10 +72,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       .subscribe(words => {
         const keywords: Keyword[] = [];
         for (const word of words) {
-          const newWord = word.trim();
-          if (keywords.findIndex(item => item.word === newWord) < 0) {
+          if (keywords.findIndex(item => item.word === word) < 0) {
             keywords.push({
-              word: newWord,
+              word,
               completed: false,
               editing: false,
               selected: false
