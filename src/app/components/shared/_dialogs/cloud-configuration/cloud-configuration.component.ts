@@ -157,7 +157,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
-   this.setStep(0)
+   this.setStep(0);
 
   }
 
@@ -206,5 +206,13 @@ export class CloudConfigurationComponent implements OnInit {
   boldChecked(event){
     event.checked == true ? this.cloudParameters.fontWeight = "bold" : this.cloudParameters.fontWeight = "normal";
     this.valueChanged();
+  }
+
+  checkItalic() {
+    return this.cloudParameters.fontStyle === 'italic';
+  }
+
+  checkBold() {
+    return this.cloudParameters.fontWeight === 'bold';
   }
 }
