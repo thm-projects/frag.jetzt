@@ -331,7 +331,9 @@
     "really-delete-tokens": "Willst du wirklich alle Tokens dieser Sitzung löschen?",
     "delete-all-tokens": "Alle Tokens löschen",
     "token-deleted": "Der Token wurde gelöscht.",
-    "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht."
+    "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht.",
+    "profanity-filter": "Schimpfwörter zensieren",
+    "words-will-be-overwritten": "profane words will be overwritten with '***'"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",

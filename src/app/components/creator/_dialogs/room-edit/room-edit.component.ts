@@ -20,6 +20,7 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
   check: boolean = false;
+  profanityCheck = true;
 
   roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
 
@@ -88,11 +89,18 @@ export class RoomEditComponent implements OnInit {
     return () => this.closeDialog('abort');
   }
 
-
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
   buildSaveActionCallback(): () => void {
     return () => this.save();
+  }
+
+  showMessage(label?: string) {
+    if (this.profanityCheck){
+      this.translationService.get('room-page.'+label).subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    }
   }
 }
