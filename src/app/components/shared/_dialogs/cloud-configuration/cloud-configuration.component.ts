@@ -143,22 +143,20 @@ export class CloudConfigurationComponent implements OnInit {
   valueChanged() {
     this.parseJsonToArrayWeightClasses();
     this.parent.setCloudParameters(this.cloudParameters, false);
-    console.log(this.cloudParameters);
-    
   }
 
   cancel() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
-    this.setStep(0)
+    this.setStep(0);
 
   }
 
   save() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
-    this.parent.configurationOpen = false;    
+    this.parent.configurationOpen = false;
    this.setStep(0)
 
   }
@@ -202,8 +200,6 @@ export class CloudConfigurationComponent implements OnInit {
   }
 
   italicChecked(event){
-    console.log(event.checked);
-    
     event.checked == true ? this.cloudParameters.fontStyle = "italic" : this.cloudParameters.fontStyle = "normal";
     this.valueChanged();
   }
