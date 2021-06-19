@@ -4,7 +4,6 @@ import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
-import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
@@ -17,11 +16,10 @@ import { NotificationService } from '../../../services/util/notification.service
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
@@ -29,9 +27,7 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { CommentFilterOptions } from '../../../utils/filter-options';
-import { isObjectBindingPattern } from 'typescript';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 
 export enum Period {

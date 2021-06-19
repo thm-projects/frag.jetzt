@@ -9,6 +9,7 @@ import { CommentListComponent } from '../../comment-list/comment-list.component'
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 import { LanguagetoolService, Language } from '../../../../services/http/languagetool.service';
+import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 
 @Component({
   selector: 'app-submit-comment',
@@ -75,7 +76,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  onPaste(e){
+  onPaste(e) {
     e.preventDefault();
     const elem = document.getElementById('answer-input');
     const text = e.clipboardData.getData('text');
@@ -120,34 +121,27 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   openSpacyDialog(comment: Comment): void {
-    const filteredInputText = this.checkUTFEmoji(this.inputText);
-    this.checkSpellings(filteredInputText).subscribe((res) => {
-      const words: string[] = filteredInputText.trim().split(' ');
-      const errorQuotient = (res.matches.length * 100) / words.length;
-      const hasSpellcheckConfidence = this.checkLanguageConfidence(res);
-
-      if (hasSpellcheckConfidence && errorQuotient <= 20) {
-        const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
-
-        const dialogRef = this.dialog.open(SpacyDialogComponent, {
-          data: {
-            comment,
-            commentLang,
-            commentBodyChecked: filteredInputText
-          }
-        });
-
-        dialogRef.afterClosed()
-          .subscribe(result => {
-            if (result) {
-              this.dialogRef.close(result);
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, this.inputText, this.selectedLang)
+      .subscribe((result) => {
+        if (result.isAcceptable) {
+          const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
+          const dialogRef = this.dialog.open(SpacyDialogComponent, {
+            data: {
+              comment,
+              commentLang,
+              commentBodyChecked: result.text
             }
           });
-      } else {
-        this.dialogRef.close(comment);
-      }
-    });
-  };
+          dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+              this.dialogRef.close(dialogResult);
+            }
+          });
+        } else {
+          this.dialogRef.close(comment);
+        }
+      });
+  }
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -190,15 +184,15 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         this.hasSpellcheckConfidence = false;
         return;
       }
-      if(this.selectedLang === 'auto' && (document.getElementById('langSelect').innerText.includes(this.newLang)
+      if (this.selectedLang === 'auto' && (document.getElementById('langSelect').innerText.includes(this.newLang)
         || document.getElementById('langSelect').innerText.includes('auto'))) {
-        if(wordsCheck.language.name.includes('German')){
+        if (wordsCheck.language.name.includes('German')) {
           this.selectedLang = 'de-DE';
-        }else if(wordsCheck.language.name.includes('English')){
-          this.selectedLang= 'en-US';
-        }else if(wordsCheck.language.name.includes('French')){
+        } else if (wordsCheck.language.name.includes('English')) {
+          this.selectedLang = 'en-US';
+        } else if (wordsCheck.language.name.includes('French')) {
           this.selectedLang = 'fr';
-        }else{
+        } else {
           this.newLang = wordsCheck.language.name;
         }
         document.getElementById('langSelect').innerHTML = this.newLang;
@@ -278,7 +272,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           }, 500);
         });
       }
-    }, () => {}, () => {
+    }, () => '', () => {
       this.isSpellchecking = false;
     });
   }

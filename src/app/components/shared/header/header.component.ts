@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import {_MatDialogBase, MAT_DIALOG_DEFAULT_OPTIONS, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -24,7 +24,7 @@ import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
-import {WorkerDialogComponent} from "../_dialogs/worker-dialog/worker-dialog.component";
+import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -39,11 +39,10 @@ export class HeaderComponent implements OnInit {
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
-  room : Room;
+  room: Room;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
-  workerDialogRef: MatDialogRef<WorkerDialogComponent, null> = null;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -325,33 +324,7 @@ export class HeaderComponent implements OnInit {
   }
 
   public startWorkerDialog() {
-
-    if (this.workerDialogRef == null) {
-
-      this.workerDialogRef = this.dialog.open(WorkerDialogComponent, {
-        width: '200px',
-        disableClose: true,
-        autoFocus: false,
-        position: {left: '50px', bottom: '50px'},
-        role: 'dialog',
-        hasBackdrop: false,
-        closeOnNavigation: false,
-        panelClass: 'workerContainer'
-      });
-
-      const component: WorkerDialogComponent = this.workerDialogRef.componentInstance;
-      component.getCloseCallback(() => {
-        this.workerDialogRef.close();
-        this.workerDialogRef = null;
-      });
-      component.addWorkTask(this.room);
-    } else {
-      const component: WorkerDialogComponent = this.workerDialogRef.componentInstance;
-      component.addWorkTask(this.room);
-    }
-
-    }
-
-
+    WorkerDialogComponent.addWorkTask(this.dialog, this.room);
+  }
 
 }
