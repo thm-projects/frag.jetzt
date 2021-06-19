@@ -32,7 +32,7 @@
           {{'topic-cloud-dialog.consider-votes' | translate}}
         </mat-slide-toggle>
         <div *ngIf="isCreatorOrMod">
-          <mat-slide-toggle (change)="refreshAllLists()" [(ngModel)]="profanityFilter">
+          <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
             {{'topic-cloud-dialog.profanity' | translate}}
           </mat-slide-toggle>
           <mat-slide-toggle [(ngModel)]="blacklistIsActive">
