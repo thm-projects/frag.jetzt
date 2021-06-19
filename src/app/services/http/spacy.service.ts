@@ -45,7 +45,16 @@ export class SpacyService extends BaseHttpService {
       .pipe(
         tap(_ => ''),
         catchError(this.handleError<any>('getKeywords')),
-        map((result: KeywordList) => result.map(e => e.type === 'entity' ? e.text.trim() : e.lemma.trim()))
+        map((result: KeywordList) => {
+          const keywords = [];
+          result.forEach(e => {
+            const keyword = e.type === 'entity' ? e.text.trim() : e.lemma.trim();
+            if (keywords.findIndex(word => word === keyword) < 0) {
+              keywords.push(keyword);
+            }
+          });
+          return keywords;
+        })
       );
   }
 }
