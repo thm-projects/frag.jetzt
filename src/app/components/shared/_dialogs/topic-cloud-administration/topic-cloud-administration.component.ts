@@ -52,6 +52,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     en: string[];
   };
   spacyLabelsAllSelectedDE = true;
+  isLoading: boolean;
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -72,6 +73,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.deviceType = localStorage.getItem('deviceType');
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
@@ -132,6 +134,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         });
       });
       this.sortQuestions();
+      this.isLoading = false;
     });
   }
 
