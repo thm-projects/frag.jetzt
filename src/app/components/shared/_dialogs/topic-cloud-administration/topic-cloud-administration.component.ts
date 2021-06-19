@@ -105,13 +105,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.keywords = [];
       comments.map(comment => {
         let keywords = comment.keywordsFromQuestioner;
-        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.keyword]){
+        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+          if (!keywords || !keywords.length) {
+            keywords = comment.keywordsFromSpacy;
+          }
+        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
           keywords = comment.keywordsFromSpacy;
-        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]){
-          keywords = comment.keywordsFromQuestioner.concat(comment.keywordsFromSpacy);
         }
-
-        if (!keywords){
+        if (!keywords) {
           keywords = [];
         }
 
@@ -179,7 +180,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (sortMode !== undefined) {
       this.sortMode = sortMode;
     }
-
     switch (this.sortMode) {
       case 'alphabetic':
         this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
