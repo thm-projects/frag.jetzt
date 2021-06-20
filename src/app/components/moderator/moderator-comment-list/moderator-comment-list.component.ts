@@ -15,7 +15,6 @@ import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
-import { Period } from '../../shared/comment-list/comment-list.component';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
@@ -23,7 +22,7 @@ import { Export } from '../../../models/export';
 import { CreateCommentComponent } from '../../shared/_dialogs/create-comment/create-comment.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { CommentFilterOptions } from '../../../utils/filter-options';
+import { CommentFilter, Period } from '../../../utils/filter-options';
 
 
 @Component({
@@ -189,12 +188,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
-
-    this.getCurrentFilter().writeFilter();
   }
 
-  private getCurrentFilter() : CommentFilterOptions {
-    let filter = new CommentFilterOptions();
+  private getCurrentFilter() {
+    let filter = new CommentFilter();
     filter.filterSelected = this.currentFilter;
     filter.periodSet = this.period;
 
@@ -202,7 +199,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       filter.timeStampNow = new Date().getTime();
     }
 
-    return filter;
+    CommentFilter.currentFilter = filter;
   }
 
   checkScroll(): void {
@@ -366,8 +363,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
-
-    CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
   }
 
   clickedUserNumber(usrNumber: number): void {
@@ -443,8 +438,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     } else {
       this.commentsFilteredByTime = this.comments;
     }
-
-    this.getCurrentFilter().writeFilter();
 
     this.filterComments(this.currentFilter);
   }

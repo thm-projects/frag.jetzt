@@ -14,7 +14,7 @@ import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { CorrectWrong } from '../../../../models/correct-wrong.enum';
 import { MatSliderChange } from '@angular/material/slider';
-import { Period } from '../../comment-list/comment-list.component';
+import { Period } from '../../../../utils/filter-options';
 
 @Component({
   selector: 'app-question-wall',
