@@ -1,11 +1,10 @@
-import { Period } from '../components/shared/comment-list/comment-list.component';
 import { Comment } from '../models/comment';
 import { CorrectWrong } from '../models/correct-wrong.enum';
-import { CommentFilterOptions, FilterNames } from './filter-options';
+import { CommentFilter, FilterNames, Period } from './filter-options';
 
 export class CommentFilterUtils {
     
-    private static checkPeriod(com : Comment, filter : CommentFilterOptions) : boolean {
+    private static checkPeriod(com : Comment, filter : CommentFilter) : boolean {
         /* Filter by Period */
         const currentTime = new Date();
         const hourInSeconds = 3600000;
@@ -48,7 +47,7 @@ export class CommentFilterUtils {
         return commentTime > (currentTime.getTime() - periodInSeconds);
     }
 
-    private static checkFilters(com : Comment, filter : CommentFilterOptions) : boolean {
+    private static checkFilters(com : Comment, filter : CommentFilter) : boolean {
         if (filter.filterSelected) {  // no filters => return true
             switch (filter.filterSelected) {
               case FilterNames.correct:
@@ -79,10 +78,8 @@ export class CommentFilterUtils {
 
         return true;        
     }
-
-    public static checkComment(com : Comment) : boolean {
-        let filter = CommentFilterOptions.readFilter();
-        return (this.checkPeriod(com, filter) && this.checkFilters(com, filter));
+    
+    public static checkComment(com : Comment, filter : CommentFilter = CommentFilter.currentFilter) : boolean {
+      return (this.checkPeriod(com, filter) && this.checkFilters(com, filter));
     }
-
 }

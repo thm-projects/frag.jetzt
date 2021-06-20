@@ -17,42 +17,42 @@
     </h2>
 
 
-    <ng-container *ngIf="room && room.questionsBlocked && !router.url.includes('/room-list/')">
+    <ng-container *ngIf="room && room.closed && !router.url.includes('/room-list/')">
       <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
-    <ars-style-btn-material
+    <!--Topic Cloud-->
+    <div class="topic-cloud-btns"
       [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
       *ngIf="router.url.includes('tagcloud')"
       ars-flex-box>
-      <ars-col ars-btn-wrp
+      <ars-col
                [xp]="16"
                [extra]="true">
-        <button ars-btn
+        <button mat-icon-button
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-question-tooltip' | translate}}">
-          <i>comment</i>
-          <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
+          <mat-icon class="oldtypo-h2 comment_tag-icon">comment</mat-icon>
+          <span style="margin-left: 0.25em;">{{commentsCountQuestions}}</span>
         </button>
-        <button ars-btn
+        <button mat-icon-button
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
-          <i>person</i>
-          <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+          <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
+          <span style="margin-left: 0.25em;">{{commentsCountUsers}}</span>
         </button>
-
-        <button ars-btn
+        <button mat-icon-button
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
           <mat-icon svgIcon="hashtag"
                     class="oldtypo-h2 comment_tag-icon"></mat-icon>
-          <p style="margin-left: 0.25em;">{{commentsCountKeywords}}</p>
+          <span style="margin-left: 0.25em;">{{commentsCountKeywords}}</span>
         </button>
       </ars-col>
-    </ars-style-btn-material>
+    </div>
 
     <!--Feedback im Hörsaal-->
     <h2 class="oldtypo-h2"
@@ -125,7 +125,7 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room && !room.questionsBlocked))"
+                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room && !room.closed))"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>
@@ -162,16 +162,6 @@
                 </mat-icon>
                 <span>{{'header.tag-cloud' | translate}}</span>
               </button>
-
-
-              <button mat-menu-item
-                      tabindex="0"
-                      (click)="startWorkerDialog()">
-                <mat-icon>update
-                </mat-icon>
-                <span>{{'header.update-spacy-keywords' | translate}}</span>
-              </button>
-
 
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
@@ -364,7 +354,7 @@
       <ng-container *ngIf="router.url.includes('/creator') || router.url.includes('/moderator')">
         <button mat-menu-item
                 (click)="blockQuestions()"
-                [ngClass]="{'color-warn': room && room.questionsBlocked}"
+                [ngClass]="{'color-warn': room && room.closed}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
           <span>{{'header.block' | translate}}</span>

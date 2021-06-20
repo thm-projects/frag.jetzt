@@ -36,12 +36,17 @@ mat-toolbar-row {
   margin: 0 !important;
 }
 
-ars-style-btn-material button {
-  &:hover, &:focus {
-    border: none;
+.topic-cloud-btns {
+  > ars-col button {
+    margin-right: 0.75em;
+
+    &:hover, &:focus {
+      border: none;
+    }
   }
 
   > * {
+    overflow: hidden !important;
     color: var(--on-surface);
   }
 }
@@ -73,7 +78,7 @@ button:focus {
 }
 
 svg {
-  -webkit-filter: invert(100%);
+  -webkit-filter: invert(100%); /* safari 6.0 - 9.0 */
   filter: invert(100%);
 }
 
@@ -117,26 +122,7 @@ svg {
   * {
     background-color: transparent !important;
   }
-  *:hover {
-    color: var(--dialog);
-    background-color: var(--on-dialog) !important;
-
-    mat-icon{
-      color: var(--dialog);
-      background-color: var(--on-dialog) !important;
-    }
-  }
 }
 h1{
   color: red;
 }
-::ng-deep .mat-menu-item:hover .qrcode svg > path {
-  fill: var(--dialog);
-  color: var(--dialog);
-  background-color: var(--on-dialog) !important;
-  }
-  
-  ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon{
-  color: var(--dialog);
-  background-color: var(--on-dialog) !important;
-  }

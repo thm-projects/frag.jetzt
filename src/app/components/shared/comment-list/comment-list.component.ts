@@ -27,18 +27,10 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { CommentFilterOptions } from '../../../utils/filter-options';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { CommentFilter, Period } from '../../../utils/filter-options';
+import { isObjectBindingPattern } from 'typescript';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
-
-export enum Period {
-  FROMNOW    = 'from-now',
-  ONEHOUR    = 'time-1h',
-  THREEHOURS = 'time-3h',
-  ONEDAY     = 'time-1d',
-  ONEWEEK    = 'time-1w',
-  TWOWEEKS   = 'time-2w',
-  ALL        = 'time-all'
-}
 
 @Component({
   selector: 'app-comment-list',
@@ -261,11 +253,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.searchPlaceholder = msg;
     });
 
-    this.getCurrentFilter().writeFilter();
+    CommentFilter.writeStdFilter();
   }
 
-  private getCurrentFilter(): CommentFilterOptions {
-    const filter = new CommentFilterOptions();
+  private setCurrentFilter() {
+    const filter = new CommentFilter();
     filter.filterSelected = this.currentFilter;
     filter.paused = this.freeze;
     filter.periodSet = this.period;
@@ -276,7 +268,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       filter.timeStampNow = new Date().getTime();
     }
 
-    return filter;
+    CommentFilter.currentFilter = filter;
   }
 
   ngOnDestroy() {
@@ -453,7 +445,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.selectedTag = '';
       this.selectedKeyword = '';
       this.sortComments(this.currentSort);
-      CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
       return;
     }
     this.filteredComments = this.commentsFilteredByTime.filter(c => {
@@ -492,8 +483,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
-
-    CommentFilterOptions.writeFilterStatic(this.getCurrentFilter());
   }
 
   sort(array: any[], type: string): any[] {
@@ -542,9 +531,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
       this.notificationService.show(msg);
     });
-
-    let filter = CommentFilterOptions.generateFilterUntil(this.currentFilter, this.period, new Date().getTime(), this.selectedTag, this.selectedKeyword);
-    filter.writeFilter();
   }
 
   playCommentStream() {
@@ -559,9 +545,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
       this.notificationService.show(msg);
     });
-
-    const filter = this.getCurrentFilter();
-    filter.writeFilter();
   }
 
   subscribeCommentStream() {
@@ -635,8 +618,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     } else {
       this.commentsFilteredByTime = this.comments;
     }
-
-    this.getCurrentFilter().writeFilter();
 
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');

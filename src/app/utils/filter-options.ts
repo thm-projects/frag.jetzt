@@ -1,6 +1,3 @@
-import { Period } from "../components/shared/comment-list/comment-list.component";
-import { CommentFilterUtils } from "./filter-comments";
-
 export const enum FilterNames {
     read = 'read',
     unread = 'unread',
@@ -12,40 +9,53 @@ export const enum FilterNames {
     unanswered = 'unanswered'
 };
 
-export class CommentFilterOptions {
-    filterSelected : string;
-    keywordSelected : string;
-    tagSelected : string;
+export enum Period {
+    FROMNOW    = 'from-now',
+    ONEHOUR    = 'time-1h',
+    THREEHOURS = 'time-3h',
+    ONEDAY     = 'time-1d',
+    ONEWEEK    = 'time-1w',
+    TWOWEEKS   = 'time-2w',
+    ALL        = 'time-all'
+}
 
-    paused: boolean;
-    timeStampUntil : number;
+export class CommentFilter {
+    filterSelected : string = '';
+    keywordSelected : string = '';
+    tagSelected : string = '';
 
-    periodSet : Period;
-    timeStampNow : number;
+    paused: boolean = false;
+    timeStampUntil : number = 0;
 
-    constructor() {
-        this.filterSelected = '';
-        this.keywordSelected = '';
-        this.tagSelected = '';
-        this.paused = false;
-        this.periodSet = Period.ALL;
+    periodSet : Period = Period.TWOWEEKS;
+    timeStampNow : number = 0;
+
+    constructor(obj?: any) {
+        if (obj) {
+            this.filterSelected = obj.filterSelected;
+            this.keywordSelected = obj.keywordSelected;
+            this.tagSelected = obj.tagSelected;
+            this.paused = obj.paused;
+            this.timeStampUntil = obj.timeStampUntil;
+            this.periodSet = obj.periodSet;
+            this.timeStampNow = obj.timeStampNow;
+        }
     }
 
-    public writeFilter() {
-        localStorage.setItem("filter", JSON.stringify(this));
-    }
-
-
-    public static writeFilterStatic(filter : CommentFilterOptions) {
+    public static set currentFilter(filter : CommentFilter) {
         localStorage.setItem("filter", JSON.stringify(filter));
     }
 
-    public static readFilter() : CommentFilterOptions {
-        return JSON.parse(localStorage.getItem("filter"));
+    public static get currentFilter() : CommentFilter {
+        return new CommentFilter(JSON.parse(localStorage.getItem("filter")));
+    }
+
+    public static writeStdFilter() {
+        this.currentFilter = new CommentFilter();
     }
     
-    public static generateFilterNow(filterSelected : string) : CommentFilterOptions {
-        let filter = new CommentFilterOptions();
+    public static generateFilterNow(filterSelected : string) : CommentFilter {
+        let filter = new CommentFilter();
         
         filter.filterSelected = filterSelected;
         filter.paused = false;
@@ -59,8 +69,8 @@ export class CommentFilterOptions {
         return filter;
     }
 
-    public static generateFilterUntil(filterSelected : string, periodSelected : Period, untilTime : number, tagSelected : string, keywordSelected : string) : CommentFilterOptions {
-        let filter = new CommentFilterOptions();
+    public static generateFilterUntil(filterSelected : string, periodSelected : Period, untilTime : number, tagSelected : string, keywordSelected : string) : CommentFilter {
+        let filter = new CommentFilter();
         
         filter.filterSelected = filterSelected;
 
@@ -74,5 +84,4 @@ export class CommentFilterOptions {
 
         return filter;
     }
-
 }

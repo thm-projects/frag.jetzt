@@ -6,7 +6,7 @@ import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/roo
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
-import { CommentFilterOptions } from '../../../../utils/filter-options';
+import { CommentFilter } from '../../../../utils/filter-options';
 import { CommentService } from '../../../../services/http/comment.service';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
@@ -30,7 +30,7 @@ export class TopicCloudFilterComponent implements OnInit {
 
   continueFilter = 'continueWithCurr';
 
-  tmpFilter : CommentFilterOptions;
+  tmpFilter : CommentFilter;
   allCommentsCount : number;
   allCommentsUsers : number;
   allCommentsKeywords : number;
@@ -57,7 +57,7 @@ export class TopicCloudFilterComponent implements OnInit {
 
   ngOnInit() {
     this.translationService.use(localStorage.getItem('currentLang'));
-    this.tmpFilter = CommentFilterOptions.readFilter();
+    this.tmpFilter = CommentFilter.currentFilter;
     localStorage.setItem("filtertmp", JSON.stringify(this.tmpFilter));
 
     this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
@@ -123,26 +123,26 @@ export class TopicCloudFilterComponent implements OnInit {
 
   confirmButtonActionCallback() {
     return () =>  {
-      let filter : CommentFilterOptions;
+      let filter : CommentFilter;
       
       switch (this.continueFilter) {
         case 'continueWithAll':
-          filter = new CommentFilterOptions(); // all questions allowed
+          filter = new CommentFilter(); // all questions allowed
           break;
           
         case 'continueWithAllFromNow':
-          filter = CommentFilterOptions.generateFilterNow(this.tmpFilter.filterSelected);
+          filter = CommentFilter.generateFilterNow(this.tmpFilter.filterSelected);
           break;
             
         case 'continueWithCurr':
-          filter = JSON.parse(localStorage.getItem("filtertmp")) as CommentFilterOptions;
+          filter = JSON.parse(localStorage.getItem("filtertmp")) as CommentFilter;
           break;
           
         default:
           return;
       }
           
-      CommentFilterOptions.writeFilterStatic(filter);
+      CommentFilter.currentFilter = filter;
       this.dialogRef.close(this.router.navigateByUrl('/participant/room/' + this.shortId + '/comments/tagcloud'));
     }
   }

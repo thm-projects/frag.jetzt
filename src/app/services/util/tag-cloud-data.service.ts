@@ -4,7 +4,7 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { WsCommentServiceService } from '../websockets/ws-comment-service.service';
 import { CommentService } from '../http/comment.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
-import { CommentFilterOptions } from '../../utils/filter-options';
+import { CommentFilter } from '../../utils/filter-options';
 import { TranslateService } from '@ngx-translate/core';
 import { CloudParameters } from '../../components/shared/tag-cloud/tag-cloud.interface';
 import { Comment } from '../../models/comment';
@@ -113,7 +113,7 @@ export class TagCloudDataService {
     });
 
     this.fetchData();
-    if (!CommentFilterOptions.readFilter().paused) {
+    if (!CommentFilter.currentFilter.paused) {
       this._wsCommentSubscription = this._wsCommentService
         .getCommentStream(this._roomId).subscribe(e => this.onMessage(e));
     }

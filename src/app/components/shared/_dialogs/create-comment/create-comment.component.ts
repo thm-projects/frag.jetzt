@@ -35,6 +35,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   bodyForm = new FormControl('', [Validators.required]);
 
   isSpellchecking = false;
+  isSendingToSpacy = false;
   hasSpellcheckConfidence = true;
 
   newLang = 'auto';
@@ -110,6 +111,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
+      this.isSendingToSpacy = true;
       this.openSpacyDialog(comment);
     }
   }
@@ -140,6 +142,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         } else {
           this.dialogRef.close(comment);
         }
+        this.isSendingToSpacy = false;
       });
   }
 

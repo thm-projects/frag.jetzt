@@ -45,6 +45,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   ngAfterContentInit(): void {
     if(this.langSupported) {
+      this.commentBodyChecked = this.commentBodyChecked.replace(/[#*_]+/g ,'');
       this.evalInput(this.commentLang);
     }
   }
