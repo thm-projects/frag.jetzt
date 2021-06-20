@@ -344,6 +344,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (this.searchMode){
       this.searchKeyword();
     }
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   addBlacklistWord() {
@@ -352,14 +354,20 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (this.searchMode){
       this.searchKeyword();
     }
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   removeWordFromProfanityList(word: string) {
     this.topicCloudAdminService.removeFromProfanityList(word);
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   removeWordFromBlacklist(word: string) {
     this.topicCloudAdminService.removeWordFromBlacklist(word);
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   refreshAllLists() {
