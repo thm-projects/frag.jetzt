@@ -73,11 +73,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.deviceType = localStorage.getItem('deviceType');
-    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.updateKeywords());
+    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
-      this.updateKeywords();
       this.profanitywordlist = list;
     });
     this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
@@ -101,21 +100,23 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   updateKeywords(){
     this.commentService.getFilteredComments(localStorage.getItem('roomId')).subscribe(comments => {
       this.keywords = [];
-      comments.map(comment => {
-        let keywords = comment.keywordsFromQuestioner;
+      comments.forEach(comment => {
+        let keywords: string[];
         if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.keyword]){
           keywords = comment.keywordsFromSpacy;
         } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]){
           keywords = comment.keywordsFromQuestioner.concat(comment.keywordsFromSpacy);
+        } else {
+          keywords = comment.keywordsFromQuestioner;
         }
 
         if (!keywords){
           keywords = [];
         }
 
-        keywords.map(_keyword => {
+        keywords.forEach(_keyword => {
           const existingKey = this.checkIfKeywordExists(_keyword);
-          if (existingKey){
+          if (existingKey) {
             existingKey.vote += comment.score;
             if (this.checkIfCommentExists(existingKey.comments, comment.id)){
               existingKey.comments.push(comment);
@@ -209,7 +210,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   deleteKeyword(key: Keyword, message?: string): void{
-    key.comments.map(comment => {
+    key.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
       let keywords = comment.keywordsFromQuestioner;
       keywords.splice(keywords.indexOf(key.keyword, 0), 1);
@@ -250,7 +251,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (key2){
       this.openConfirmDialog('merge-message', 'merge', key, key2);
     } else {
-      key.comments.map(comment => {
+      key.comments.forEach(comment => {
         const changes = new TSMap<string, any>();
         let keywords = comment.keywordsFromQuestioner;
         for (let i = 0; i < keywords.length; i++){
@@ -306,7 +307,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
-      key1.comments.map(comment => {
+      key1.comments.forEach(comment => {
         if (this.checkIfCommentExists(key2.comments, comment.id)){
           const changes = new TSMap<string, any>();
           let keywords = comment.keywordsFromQuestioner;
