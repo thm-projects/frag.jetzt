@@ -7,6 +7,8 @@ import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
 import { CommentFilterUtils } from '../../utils/filter-comments';
+import { RoomService } from './room.service';
+import { TopicCloudAdminService } from '../util/topic-cloud-admin.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -22,8 +24,14 @@ export class CommentService extends BaseHttpService {
     vote: '/vote'
   };
 
-  constructor(private http: HttpClient) {
+  private profanityFilter: boolean;
+
+  constructor(private http: HttpClient,
+              private roomService: RoomService,
+              private topicCloudAdminService: TopicCloudAdminService) {
     super();
+    this.profanityFilter = true;
+    // this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => this.profanityFilter = room.profanityFilter);
   }
 
 
@@ -225,9 +233,13 @@ export class CommentService extends BaseHttpService {
 
 
   parseComment(comment: Comment): Comment {
+    if (this.profanityFilter){
+      comment.body = this.topicCloudAdminService.filterProfanityWords(comment.body);
+    }
     comment.userNumber = this.hashCode(comment.creatorId);
     // make list out of string "array"
-    comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ? JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
+    comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
+                                     JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
     comment.keywordsFromSpacy = comment.keywordsFromSpacy ? JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
     return comment;
   }
