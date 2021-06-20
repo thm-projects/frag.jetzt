@@ -6,9 +6,10 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { CommentFilterUtils } from '../../utils/filter-comments';
+import { CommentFilter } from '../../utils/filter-options';
 
 const httpOptions = {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
@@ -98,10 +99,6 @@ export class CommentService extends BaseHttpService {
       tap(_ => ''),
       catchError(this.handleError<Comment>('deleteComment'))
     );
-  }
-
-  getFilteredComments(roomId: string) : Observable<Comment[]> {
-    return this.getAckComments(roomId).pipe(map(commentList => commentList.filter(comment => CommentFilterUtils.checkComment(comment))));
   }
 
   getAckComments(roomId: string): Observable<Comment[]> {

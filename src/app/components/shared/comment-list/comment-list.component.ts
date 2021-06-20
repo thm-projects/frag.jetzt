@@ -27,17 +27,19 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { CommentFilter, Period } from '../../../utils/filter-options';
-import { isObjectBindingPattern } from 'typescript';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+
+export interface CommentListData {
+  comments: Comment[];
+  currentFilter: CommentFilter;
+}
 
 @Component({
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
 })
-
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
@@ -89,11 +91,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentStream: Subscription;
   periodsList = Object.values(Period);
   headerInterface = null;
-  period: Period = Period.TWOWEEKS;
+  period: Period = Period.twoWeeks;
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
   createCommentWrapper: CreateCommentWrapper = null;
+  private _subscriptionEventServiceTagConfig = null;
+  private _subscriptionEventServiceRoomData = null;
 
   constructor(
     private commentService: CommentService,
@@ -118,6 +122,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   initNavigation() {
+    this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.clickedOnKeyword(tag);
+    });
+    this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
+      this.eventService.broadcast('currentRoomData', {
+        currentFilter: this.getCurrentFilter(),
+        comments: this.comments
+      } as CommentListData);
+    });
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
     nav('createQuestion', () => this.createCommentWrapper.openCreateDialog(this.user));
@@ -126,9 +139,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
         width: '400px',
       });
       dialogRef.componentInstance.roomId = this.room.id;
-    });
-    this.eventService.on<string>('setTagConfig').subscribe(tag => {
-      this.clickedOnKeyword(tag);
     });
     nav('tags', () => {
       const updRoom = JSON.parse(JSON.stringify(this.room));
@@ -252,23 +262,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
-
-    CommentFilter.writeStdFilter();
-  }
-
-  private setCurrentFilter() {
-    const filter = new CommentFilter();
-    filter.filterSelected = this.currentFilter;
-    filter.paused = this.freeze;
-    filter.periodSet = this.period;
-    filter.keywordSelected = this.selectedKeyword;
-    filter.tagSelected = this.selectedTag;
-
-    if (filter.periodSet == Period.FROMNOW) {
-      filter.timeStampNow = new Date().getTime();
-    }
-
-    CommentFilter.currentFilter = filter;
   }
 
   ngOnDestroy() {
@@ -278,6 +271,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.titleService.resetTitle();
     if (this.headerInterface) {
       this.headerInterface.unsubscribe();
+    }
+    if (this._subscriptionEventServiceRoomData) {
+      this._subscriptionEventServiceRoomData.unsubscribe();
+    }
+    if (this._subscriptionEventServiceTagConfig) {
+      this._subscriptionEventServiceTagConfig.unsubscribe();
     }
   }
 
@@ -298,7 +297,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.hideCommentsList = true;
         this.filteredComments = this.comments
           .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
-                       || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
+            || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
       }
     } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
@@ -432,6 +431,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.searchComments();
     }
   }
+
   closeDialog() {
     this.dialog.closeAll();
   }
@@ -577,7 +577,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
       // current live announcer content must be cleared before next read
       this.liveAnnouncer.clear();
 
-      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */ });
+      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */
+      });
     }, 450);
   }
 
@@ -589,37 +590,52 @@ export class CommentListComponent implements OnInit, OnDestroy {
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (this.period !== Period.ALL) {
+    if (this.period !== Period.all) {
       switch (this.period) {
-        case Period.FROMNOW:
+        case Period.fromNow:
           if (!this.fromNow) {
             this.fromNow = new Date().getTime();
           }
           break;
-        case Period.ONEHOUR:
+        case Period.oneHour:
           periodInSeconds = hourInSeconds;
           break;
-        case Period.THREEHOURS:
+        case Period.threeHours:
           periodInSeconds = hourInSeconds * 2;
           break;
-        case Period.ONEDAY:
+        case Period.oneDay:
           periodInSeconds = hourInSeconds * 24;
           break;
-        case Period.ONEWEEK:
+        case Period.oneWeek:
           periodInSeconds = hourInSeconds * 168;
           break;
-        case Period.TWOWEEKS:
+        case Period.twoWeeks:
           periodInSeconds = hourInSeconds * 336;
           break;
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >=
-                     (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
+          (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
       this.commentsFilteredByTime = this.comments;
     }
 
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+  }
+
+  private getCurrentFilter(): CommentFilter {
+    const filter = new CommentFilter();
+    filter.filterSelected = this.currentFilter;
+    filter.paused = this.freeze;
+    filter.periodSet = this.period;
+    filter.keywordSelected = this.selectedKeyword;
+    filter.tagSelected = this.selectedTag;
+
+    if (filter.periodSet === Period.fromNow) {
+      filter.timeStampNow = new Date().getTime();
+    }
+
+    return filter;
   }
 }

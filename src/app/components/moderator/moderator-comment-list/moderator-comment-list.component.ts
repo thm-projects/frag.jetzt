@@ -64,7 +64,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   search = false;
   searchPlaceholder = '';
   periodsList = Object.values(Period);
-  period: Period = Period.TWOWEEKS;
+  period: Period = Period.twoWeeks;
   fromNow: number;
   headerInterface = null;
 
@@ -191,11 +191,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   }
 
   private getCurrentFilter() {
-    let filter = new CommentFilter();
+    const filter = new CommentFilter();
     filter.filterSelected = this.currentFilter;
     filter.periodSet = this.period;
 
-    if (filter.periodSet == Period.FROMNOW) {
+    if (filter.periodSet === Period.fromNow) {
       filter.timeStampNow = new Date().getTime();
     }
 
@@ -409,32 +409,32 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (this.period !== Period.ALL) {
+    if (this.period !== Period.all) {
       switch (this.period) {
-        case Period.FROMNOW:
+        case Period.fromNow:
           if (!this.fromNow) {
             this.fromNow = new Date().getTime();
           }
           break;
-        case Period.ONEHOUR:
+        case Period.oneHour:
           periodInSeconds = hourInSeconds;
           break;
-        case Period.THREEHOURS:
+        case Period.threeHours:
           periodInSeconds = hourInSeconds * 2;
           break;
-        case Period.ONEDAY:
+        case Period.oneDay:
           periodInSeconds = hourInSeconds * 24;
           break;
-        case Period.ONEWEEK:
+        case Period.oneWeek:
           periodInSeconds = hourInSeconds * 168;
           break;
-        case Period.TWOWEEKS:
+        case Period.twoWeeks:
           periodInSeconds = hourInSeconds * 336;
           break;
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >=
-          (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
+          (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
       this.commentsFilteredByTime = this.comments;
     }

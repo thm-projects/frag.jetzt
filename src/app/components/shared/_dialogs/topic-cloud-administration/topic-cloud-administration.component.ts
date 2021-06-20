@@ -98,7 +98,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   updateKeywords(){
-    this.commentService.getFilteredComments(localStorage.getItem('roomId')).subscribe(comments => {
+    this.commentService.getAckComments(localStorage.getItem('roomId')).subscribe(comments => {
       this.keywords = [];
       comments.forEach(comment => {
         let keywords: string[];
