@@ -12,7 +12,6 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
-import { CorrectWrong } from '../../../../models/correct-wrong.enum';
 import { MatSliderChange } from '@angular/material/slider';
 import { Period } from '../../../../utils/filter-options';
 
@@ -49,7 +48,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   tags;
   fontSize = 180;
   periodsList = Object.values(Period);
-  period: Period = Period.ALL;
+  period: Period = Period.all;
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -355,21 +354,21 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (period !== Period.ALL) {
+    if (period !== Period.all) {
       switch (period) {
-        case Period.ONEHOUR:
+        case Period.oneHour:
           periodInSeconds = hourInSeconds;
           break;
-        case Period.THREEHOURS:
+        case Period.threeHours:
           periodInSeconds = hourInSeconds * 2;
           break;
-        case Period.ONEDAY:
+        case Period.oneDay:
           periodInSeconds = hourInSeconds * 24;
           break;
-        case Period.ONEWEEK:
+        case Period.oneWeek:
           periodInSeconds = hourInSeconds * 168;
           break;
-        case Period.TWOWEEKS:
+        case Period.twoWeeks:
           periodInSeconds = hourInSeconds * 336;
           break;
       }
