@@ -76,7 +76,6 @@ export class HeaderComponent implements OnInit {
       this.authenticationService.refreshLogin();
     }
     const userAgent = navigator.userAgent;
-    console.log(userAgent);
     // Check if mobile device
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
       // Check if IOS device
