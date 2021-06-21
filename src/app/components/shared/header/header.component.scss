@@ -36,12 +36,17 @@ mat-toolbar-row {
   margin: 0 !important;
 }
 
-ars-style-btn-material button {
-  &:hover, &:focus {
-    border: none;
+.topic-cloud-btns {
+  > ars-col button {
+    margin-right: 0.75em;
+
+    &:hover, &:focus {
+      border: none;
+    }
   }
 
   > * {
+    overflow: hidden !important;
     color: var(--on-surface);
   }
 }

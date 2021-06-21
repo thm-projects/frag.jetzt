@@ -21,6 +21,7 @@ app-comment-list {
   -webkit-appearance: textarea;
   min-height: 50px;
   cursor: text;
+  word-wrap: break-word;
 
   &:focus {
     outline: none;
@@ -133,13 +134,37 @@ mat-hint {
   stroke: var(--on-primary);
 }
 
+.lang-confidence {
+  color: var(--white);
+  border: solid var(--red);
+  border-width: thick;
+  border-radius: 5px;
+  background-color: var(--red);
+  animation: shake 0.5s;
+  font-size: 16px;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(0px, 0) rotate(-1deg); }
+  20% { transform: translate(0px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, 0) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-1px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, 0) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -0) rotate(-1deg); }
+}
+
 .spellcheck {
   @media screen and (max-width:500px) {
     overflow: auto;
     display: flex;
     justify-content: space-between;
     flex-direction: column !important;
-    flex-wrap: wrap;  
+    flex-wrap: wrap;
     align-items: flex-end;
-  } 
+  }
 }

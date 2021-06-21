@@ -81,7 +81,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.checkLanguage = checkLanguage;
     if (checkLanguage) {
       this.spellingData = [];
-      this.languagetoolService.checkSpellings(tag, this.selectedLang).subscribe(correction => {
+      this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
+        const langKey = correction.language.code.split('-')[0].toUpperCase();
+        if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
+          return;
+        }
         for (const match of correction.matches) {
           if (match.replacements != null && match.replacements.length > 0) {
             for (const replacement of match.replacements) {
@@ -137,11 +141,20 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
         array[index] = tagReplacementInput;
       }
     };
+    const tagReplacementInputLower = tagReplacementInput.toLowerCase();
     this.tagData.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
-      comment.keywordsFromQuestioner.forEach(renameKeyword);
+      if (comment.keywordsFromQuestioner.findIndex(e => e.toLowerCase() === tagReplacementInputLower) >= 0) {
+        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(e => e !== this.tag);
+      } else {
+        comment.keywordsFromQuestioner.forEach(renameKeyword);
+      }
       changes.set('keywordsFromQuestioner', JSON.stringify(comment.keywordsFromQuestioner));
-      comment.keywordsFromSpacy.forEach(renameKeyword);
+      if (comment.keywordsFromSpacy.findIndex(e => e.toLowerCase() === tagReplacementInputLower) >= 0) {
+        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(e => e !== this.tag);
+      } else {
+        comment.keywordsFromSpacy.forEach(renameKeyword);
+      }
       changes.set('keywordsFromSpacy', JSON.stringify(comment.keywordsFromSpacy));
       this.commentService.patchComment(comment, changes).subscribe(_ => {
         this.translateService.get('topic-cloud-dialog.keyword-edit').subscribe(msg => {

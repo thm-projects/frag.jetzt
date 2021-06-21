@@ -25,7 +25,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public profanityFilter: boolean;
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
+  profanitywordlist: string[] = [];
   blacklistSubscription = undefined;
+  profanitylistSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -37,19 +39,20 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
+  deviceType: string;
   filteredKeywords: Keyword[] = [];
   showProfanityList = false;
   showBlacklistWordList = false;
   showSettingsPanel = false;
   keywordORfulltext: string = undefined;
   userRole: UserRole;
-  allSelectedDE = true;
-  allSelectedEN = true;
   spacyLabels: Labels;
   wantedLabels: {
     de: string[];
     en: string[];
   };
+  spacyLabelsAllSelectedDE = true;
+  isLoading: boolean;
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -70,14 +73,20 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
-    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(_ => this.initKeywords());
+    this.isLoading = true;
+    this.deviceType = localStorage.getItem('deviceType');
+    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
-    this.isCreatorOrMod = this.data ? (this.data.user.role !== UserRole.PARTICIPANT) : true;
+    this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
+    this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
+      this.profanitywordlist = list;
+    });
+    this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
     this.setDefaultAdminData();
-    this.initKeywords();
+    this.updateKeywords();
   }
 
   ngOnDestroy(){
@@ -85,16 +94,30 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if(this.blacklistSubscription !== undefined){
       this.blacklistSubscription.unsubscribe();
     }
+    if(this.profanitylistSubscription !== undefined){
+      this.profanitylistSubscription.unsubscribe();
+    }
   }
 
-  initKeywords(){
-    this.commentService.getFilteredComments(localStorage.getItem('roomId')).subscribe(comments => {
+  updateKeywords(){
+    this.commentService.getAckComments(localStorage.getItem('roomId')).subscribe(comments => {
       this.keywords = [];
-      comments.map(comment => {
-        const keywords = this.keywordORfulltext === KeywordOrFulltext[0] ? comment.keywordsFromQuestioner : comment.keywordsFromSpacy;
-        keywords.map(_keyword => {
+      comments.forEach(comment => {
+        let keywords = comment.keywordsFromQuestioner;
+        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+          if (!keywords || !keywords.length) {
+            keywords = comment.keywordsFromSpacy;
+          }
+        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
+          keywords = comment.keywordsFromSpacy;
+        }
+        if (!keywords) {
+          keywords = [];
+        }
+
+        keywords.forEach(_keyword => {
           const existingKey = this.checkIfKeywordExists(_keyword);
-          if (existingKey){
+          if (existingKey) {
             existingKey.vote += comment.score;
             if (this.checkIfCommentExists(existingKey.comments, comment.id)){
               existingKey.comments.push(comment);
@@ -102,6 +125,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           } else {
             const keyword: Keyword = {
               keyword: _keyword,
+              keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
               comments: [comment],
               vote: comment.score
             };
@@ -110,6 +134,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         });
       });
       this.sortQuestions();
+      this.isLoading = false;
     });
   }
 
@@ -150,15 +175,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     return this.topicCloudAdminService.filterProfanityWords(keyword);
   }
 
-  getProfanityList() {
-    return this.topicCloudAdminService.getCustomProfanityList();
-  }
-
   sortQuestions(sortMode?: string) {
     if (sortMode !== undefined) {
       this.sortMode = sortMode;
     }
-
     switch (this.sortMode) {
       case 'alphabetic':
         this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
@@ -191,7 +211,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   deleteKeyword(key: Keyword, message?: string): void{
-    key.comments.map(comment => {
+    key.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
       let keywords = comment.keywordsFromQuestioner;
       keywords.splice(keywords.indexOf(key.keyword, 0), 1);
@@ -232,7 +252,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (key2){
       this.openConfirmDialog('merge-message', 'merge', key, key2);
     } else {
-      key.comments.map(comment => {
+      key.comments.forEach(comment => {
         const changes = new TSMap<string, any>();
         let keywords = comment.keywordsFromQuestioner;
         for (let i = 0; i < keywords.length; i++){
@@ -288,7 +308,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined){
-      key1.comments.map(comment => {
+      key1.comments.forEach(comment => {
         if (this.checkIfCommentExists(key2.comments, comment.id)){
           const changes = new TSMap<string, any>();
           let keywords = comment.keywordsFromQuestioner;
@@ -325,6 +345,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (this.searchMode){
       this.searchKeyword();
     }
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   addBlacklistWord() {
@@ -333,45 +355,59 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (this.searchMode){
       this.searchKeyword();
     }
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   removeWordFromProfanityList(word: string) {
     this.topicCloudAdminService.removeFromProfanityList(word);
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   removeWordFromBlacklist(word: string) {
     this.topicCloudAdminService.removeWordFromBlacklist(word);
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
-  refreshAllLists() {
-    this.searchKeyword();
+  changeProfanityFilter() {
+    if (this.profanityFilter){
+      this.translateService.get('topic-cloud-dialog.words-will-be-overwritten').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+      this.searchKeyword();
+    }
   }
 
   selectAllDE() {
-    if (this.allSelectedDE) {
-      this.wantedLabels.de = []
-    } else {
+    if (this.wantedLabels.de.length < this.spacyLabels.de.length) {
       this.wantedLabels.de = [];
       this.spacyLabels.de.forEach(label => {
         this.wantedLabels.de.push(label.tag);
       });
+      this.spacyLabelsAllSelectedDE = true;
+    } else {
+      this.wantedLabels.de = [];
+      this.spacyLabelsAllSelectedDE = false;
     }
   }
 
   selectAllEN() {
-    if (this.allSelectedEN) {
+    if (this.wantedLabels.en.length < this.spacyLabels.en.length) {
       this.wantedLabels.en = [];
       this.spacyLabels.en.forEach(label => {
         this.wantedLabels.en.push(label.tag);
       });
     } else {
-      this.wantedLabels.en = []
+      this.wantedLabels.en = [];
     }
   }
 }
 
 interface Keyword {
   keyword: string;
+  keywordWithoutProfanity: string;
   comments: Comment[];
   vote: number;
 }

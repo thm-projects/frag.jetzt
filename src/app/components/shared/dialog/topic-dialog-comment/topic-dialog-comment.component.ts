@@ -6,38 +6,47 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
   templateUrl: './topic-dialog-comment.component.html',
   styleUrls: ['./topic-dialog-comment.component.scss']
 })
-export class TopicDialogCommentComponent implements OnInit, OnChanges {
+export class TopicDialogCommentComponent implements OnInit {
 
   @Input() question: string;
   @Input() keyword: string ;
   @Input() maxShowedCharachters: number;
-  @Input() isCollapsed = false;
   @Input() profanityFilter = true;
+  isCollapsed = false;
 
   public badWords = [];
-  questionWithProfinity: string = undefined;
+  questionWithoutProfanity: string = undefined;
 
-  public shortQuestion: string;
+  public parts: string[];
+  public partsWithoutProfanity: string[];
+  public partsShort: string[];
+  public partsWithoutProfanityShort: string[];
 
-  constructor(private topicCloudAdminService: TopicCloudAdminService) { }
-
-  ngOnChanges(changes: SimpleChanges) {
-  }
+  constructor(private topicCloudAdminService: TopicCloudAdminService) {}
 
   get partsOfQuestion() {
-    if (this.profanityFilter) {
-      const question = this.topicCloudAdminService.filterProfanityWords(this.question);
-      return question
-          .slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
-          .split(new RegExp(this.keyword,'i'));
-    } else {
-      return this.question
-          .slice(0,this.isCollapsed? this.question.length: this.maxShowedCharachters)
-          .split(new RegExp(this.keyword,'i'));
-    }
+    return this.profanityFilter ? this.partsWithoutProfanity : this.parts;
+  }
+
+  get partsOfShortQuestion(){
+    return this.profanityFilter ? this.partsWithoutProfanityShort : this.partsShort;
+  }
+
+  splitShortQuestion(question: string){
+    const cleanedKeyword = this.keyword.replace(/([^a-z0-9]+)/gi, '');
+    return question.slice(0, this.maxShowedCharachters).split(new RegExp(cleanedKeyword, 'i'));
+  }
+
+  splitQuestion(question: string){
+    const cleanedKeyword = this.keyword.replace(/([^a-z0-9]+)/gi, '');
+    return question.split(new RegExp(cleanedKeyword,'i'));
   }
 
   ngOnInit(): void {
-    this.questionWithProfinity = this.topicCloudAdminService.filterProfanityWords(this.question);
+    this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
+    this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
+    this.parts = this.splitQuestion(this.question);
+    this.partsWithoutProfanityShort = this.splitShortQuestion(this.questionWithoutProfanity);
+    this.partsShort = this.splitShortQuestion(this.question);
   }
 }

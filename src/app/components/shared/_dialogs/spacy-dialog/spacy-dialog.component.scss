@@ -48,6 +48,17 @@
   padding-left: 15px;
   cursor: pointer;
 }
+.manual-input{
+  background-color: transparent;
+  border: 1px solid var(--on-dialog);
+  padding: 5px;
+  border-radius: 5px;
+  color: var(--on-dialog);
+  width: 100%
+}
+.manual-input-title{
+  margin-top: 15px;
+}
 .select-list{
   width: calc(100% - 24px);
 }

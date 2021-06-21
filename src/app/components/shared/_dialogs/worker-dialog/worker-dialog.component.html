@@ -1,14 +1,19 @@
 <div id="worker-content">
-  <div id="header">
-    <button id="btn_hide" (click)="close()">X</button>
+  <div id="header" (window:beforeunload)="checkTasks($event)">
     <details>
-      <summary>Laufend # {{getNumberInQueue()}}</summary>
+      <summary>
+        <span>{{'worker-dialog.running' | translate}} # {{getRooms().length}}</span>
+        <span><button id="btn_hide" (click)="close()">x</button></span>
+      </summary>
       <div mat-dialog-content>
-        <div *ngFor="let task of taskQueue">
-          <span>{{ task.room.name }}, # {{ task.comments.length }}</span>
+        <div id="entry" *ngFor="let task of getRooms().values()">
+          <mat-icon svgIcon="meeting_room"></mat-icon>
+          <span>{{ task.room.name }}</span>
+          <span style="width: 10px"></span>
+          <mat-icon>comment</mat-icon>
+          <span>{{ task.statistics.length }}</span>
         </div>
       </div>
     </details>
   </div>
 </div>
-

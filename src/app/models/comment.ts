@@ -1,3 +1,4 @@
+import { dashCaseToCamelCase } from '@angular/compiler/src/util';
 import { CorrectWrong } from './correct-wrong.enum';
 
 export class Comment {

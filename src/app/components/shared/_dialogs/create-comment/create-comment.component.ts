@@ -9,6 +9,7 @@ import { CommentListComponent } from '../../comment-list/comment-list.component'
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 import { LanguagetoolService, Language } from '../../../../services/http/languagetool.service';
+import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 
 @Component({
   selector: 'app-submit-comment',
@@ -34,7 +35,10 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   bodyForm = new FormControl('', [Validators.required]);
 
   isSpellchecking = false;
+  isSendingToSpacy = false;
   hasSpellcheckConfidence = true;
+
+  newLang = 'auto';
 
   constructor(
     private notification: NotificationService,
@@ -73,10 +77,19 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
     this.dialogRef.close();
   }
 
-  clearHTML(e) {
+  onPaste(e) {
     e.preventDefault();
+    const elem = document.getElementById('answer-input');
     const text = e.clipboardData.getData('text');
-    document.getElementById('answer-input').innerText += text.replace(/<[^>]*>?/gm, '');
+    elem.innerText += text.replace(/<[^>]*>?/gm, '');
+
+    const range = document.createRange();
+    range.setStart(elem.lastChild, elem.lastChild.textContent.length);
+    range.collapse(true);
+
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
   }
 
   checkInputData(body: string): boolean {
@@ -98,6 +111,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
+      this.isSendingToSpacy = true;
       this.openSpacyDialog(comment);
     }
   }
@@ -109,34 +123,28 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   openSpacyDialog(comment: Comment): void {
-    const filteredInputText = this.checkUTFEmoji(this.inputText);
-    this.checkSpellings(filteredInputText).subscribe((res) => {
-      const words: string[] = filteredInputText.trim().split(' ');
-      const errorQuotient = (res.matches.length * 100) / words.length;
-      const hasSpellcheckConfidence = this.checkLanguageConfidence(res);
-
-      if (hasSpellcheckConfidence && errorQuotient <= 20) {
-        const commentLang = this.languagetoolService.mapLanguageToSpacyModel(res.language.code);
-
-        const dialogRef = this.dialog.open(SpacyDialogComponent, {
-          data: {
-            comment,
-            commentLang,
-            commentBodyChecked: filteredInputText
-          }
-        });
-
-        dialogRef.afterClosed()
-          .subscribe(result => {
-            if (result) {
-              this.dialogRef.close(result);
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, this.inputText, this.selectedLang)
+      .subscribe((result) => {
+        if (result.isAcceptable) {
+          const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
+          const dialogRef = this.dialog.open(SpacyDialogComponent, {
+            data: {
+              comment,
+              commentLang,
+              commentBodyChecked: result.text
             }
           });
-      } else {
-        this.dialogRef.close(comment);
-      }
-    });
-  };
+          dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+              this.dialogRef.close(dialogResult);
+            }
+          });
+        } else {
+          this.dialogRef.close(comment);
+        }
+        this.isSendingToSpacy = false;
+      });
+  }
 
   /**
    * Returns a lambda which closes the dialog on call.
@@ -179,7 +187,19 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
         this.hasSpellcheckConfidence = false;
         return;
       }
-
+      if (this.selectedLang === 'auto' && (document.getElementById('langSelect').innerText.includes(this.newLang)
+        || document.getElementById('langSelect').innerText.includes('auto'))) {
+        if (wordsCheck.language.name.includes('German')) {
+          this.selectedLang = 'de-DE';
+        } else if (wordsCheck.language.name.includes('English')) {
+          this.selectedLang = 'en-US';
+        } else if (wordsCheck.language.name.includes('French')) {
+          this.selectedLang = 'fr';
+        } else {
+          this.newLang = wordsCheck.language.name;
+        }
+        document.getElementById('langSelect').innerHTML = this.newLang;
+      }
       if (wordsCheck.matches.length > 0) {
         wordsCheck.matches.forEach(grammarError => {
           const wrongWord = commentBody.innerText.slice(grammarError.offset, grammarError.offset + grammarError.length);
@@ -255,7 +275,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
           }, 500);
         });
       }
-    }, () => {}, () => {
+    }, () => '', () => {
       this.isSpellchecking = false;
     });
   }

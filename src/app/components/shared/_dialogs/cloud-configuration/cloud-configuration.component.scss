@@ -1,16 +1,12 @@
-* {
-  color: var(--on-dialog);
-}
-
 h2{
   color: var(--on-dialog);
   font-size: 1.7rem;
 }
 
-h3 {
-
+.expansion-title{
   color: var(--primary);
   padding-bottom: 6px;
+  font-size: 1.2rem;
 }
 
 #commentSlider {
@@ -35,8 +31,8 @@ div {
   color: var(--on-secondary);
 }
 
-::ng-deep .mat-button {
-  min-width: 105px;
+.tag-config-button{
+  min-width: 135px;
 }
 
 .close-btn mat-icon{
@@ -146,15 +142,24 @@ mat-divider {
 }
 
 .button-row{
-  margin: auto auto 50px auto ;
+  width: 100%;
+  margin: auto auto 20px auto ;
 }
-
+.reset {
+  margin: 25px auto auto auto;
+  background-color: var(--white);
+  color: black;
+  width: 100%;
+}
 .cloud-configuration-form{
   width: 290px;
 }
 
 .drawer-container{
+  color: var(--on-dialog)!important;
   margin: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 ::ng-deep.custom-color-picker{
@@ -168,6 +173,11 @@ mat-divider {
   transform: translateY(-35px);
 }
 
+.settings-heading {
+  margin-left: 0;
+  margin-right: auto;
+}
+
 ::ng-deep.mat-drawer-backdrop.mat-drawer-shown{
   display: none;
 }
@@ -179,6 +189,8 @@ mat-divider {
 
 .weight-class-setting-content {
   border-top: 3px solid var(--primary);
+  padding-top: 20px;
+  padding-bottom: 15px;
 }
 
 .weight-class-heading {
@@ -207,6 +219,7 @@ mat-divider {
   border-top: none;
   border-bottom: 2px solid var(--primary);
   padding: 10px 0;
+  margin-bottom: 20px;
 }
 
 #rotation{
@@ -215,6 +228,7 @@ mat-divider {
 
 .matExpansionPanel{
   background-color: var(--dialog);
+  color: var(--on-dialog)!important;
   margin: 2px;
   padding: 5px;
 }
@@ -222,4 +236,7 @@ mat-divider {
 .firstElementOfExpansionPanel{
   border-top: 2px solid var(--primary);
   padding-top: 10px;
+}
+.automatic-spelling{
+  padding-bottom: 30px;
 }
