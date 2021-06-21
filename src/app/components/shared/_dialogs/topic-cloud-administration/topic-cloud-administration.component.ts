@@ -103,13 +103,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.commentService.getAckComments(localStorage.getItem('roomId')).subscribe(comments => {
       this.keywords = [];
       comments.forEach(comment => {
-        let keywords: string[];
-        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.keyword]){
+        let keywords = comment.keywordsFromQuestioner;
+        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+          if (!keywords || !keywords.length) {
+            keywords = comment.keywordsFromSpacy;
+          }
+        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
           keywords = comment.keywordsFromSpacy;
-        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]){
-          keywords = comment.keywordsFromQuestioner.concat(comment.keywordsFromSpacy);
-        } else {
-          keywords = comment.keywordsFromQuestioner;
         }
         if (!keywords) {
           keywords = [];
