@@ -6,22 +6,24 @@ import { catchError, map, tap } from 'rxjs/operators';
 
 export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt' | 'auto';
 
-//[B]egin, [I]nside, [O]utside or unset
-type EntityPosition = 'B' | 'I' | 'O' | '';
+type KeywordType = 'entity' | 'noun';
 
-interface NounToken {
-  dep: string; // dependency inside the sentence
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  entity_pos: EntityPosition; // entity position
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  entity_type: string; // entity type
-  lemma: string; // lemma of token
-  tag: string; // tag of token
-  text: string; // text of token
+interface NounKeyword {
+  type: KeywordType;
+  lemma: string;
+  text: string;
+  dep: string;
+  tag: string;
+  pos: string;
 }
 
-type NounCompound = NounToken[];
-type NounCompoundList = NounCompound[];
+interface EntityKeyword extends NounKeyword {
+  entityType: string;
+}
+
+type AbstractKeyword = NounKeyword | EntityKeyword;
+
+type KeywordList = AbstractKeyword[];
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -37,43 +39,21 @@ export class SpacyService extends BaseHttpService {
     super();
   }
 
-  private static processCompound(result: string[], data: NounCompound) {
-    let isInEntity = false;
-    let start = 0;
-    const pushNew = (i: number) => {
-      if (start < i) {
-        result.push(data.slice(start, i).reduce((acc, current) => acc + ' ' + current.lemma, ''));
-        start = i;
-      }
-    };
-    data.forEach((noun, i) => {
-      if (noun.entity_pos === 'B' || (noun.entity_pos === 'I' && !isInEntity)) {
-        // entity begins
-        pushNew(i);
-        isInEntity = true;
-      } else if (isInEntity) {
-        if (noun.entity_pos === '' || noun.entity_pos === 'O') {
-          // entity ends
-          pushNew(i);
-          isInEntity = false;
-        }
-      }
-    });
-    pushNew(data.length);
-  }
-
   getKeywords(text: string, model: Model): Observable<string[]> {
     const url = '/spacy';
-    return this.http.post<NounCompoundList>(url, {text, model}, httpOptions)
+    return this.http.post<KeywordList>(url, {text, model}, httpOptions)
       .pipe(
         tap(_ => ''),
         catchError(this.handleError<any>('getKeywords')),
-        map((result: NounCompoundList) => {
-          const filteredNouns: string[] = [];
-          result.forEach(compound => {
-            SpacyService.processCompound(filteredNouns, compound);
+        map((result: KeywordList) => {
+          const keywords = [];
+          result.forEach(e => {
+            const keyword = e.type === 'entity' ? e.text.trim() : e.lemma.trim();
+            if (keywords.findIndex(word => word === keyword) < 0) {
+              keywords.push(keyword);
+            }
           });
-          return filteredNouns;
+          return keywords;
         })
       );
   }
