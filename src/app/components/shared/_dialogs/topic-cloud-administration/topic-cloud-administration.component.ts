@@ -52,6 +52,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     en: string[];
   };
   spacyLabelsAllSelectedDE = true;
+  isLoading: boolean;
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -72,6 +73,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.deviceType = localStorage.getItem('deviceType');
     this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe();
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
@@ -109,8 +111,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         } else {
           keywords = comment.keywordsFromQuestioner;
         }
-
-        if (!keywords){
+        if (!keywords) {
           keywords = [];
         }
 
@@ -133,6 +134,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         });
       });
       this.sortQuestions();
+      this.isLoading = false;
     });
   }
 
@@ -177,7 +179,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (sortMode !== undefined) {
       this.sortMode = sortMode;
     }
-
     switch (this.sortMode) {
       case 'alphabetic':
         this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
@@ -370,8 +371,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.ngOnInit();
   }
 
-  refreshAllLists() {
-    this.searchKeyword();
+  changeProfanityFilter() {
+    if (this.profanityFilter){
+      this.translateService.get('topic-cloud-dialog.words-will-be-overwritten').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+      this.searchKeyword();
+    }
   }
 
   selectAllDE() {

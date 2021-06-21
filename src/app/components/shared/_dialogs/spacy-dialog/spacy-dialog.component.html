@@ -24,6 +24,9 @@
     <span *ngIf="keywords.length > 0"></span>
 
     <ars-row class="list-container">
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill>
+        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+      </div>
       <mat-list dense class="keywords-list">
         <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"
                         [class.keywords-alternate]="odd"
@@ -77,7 +80,7 @@
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback()">
+      [confirmButtonClickAction]="!isLoading ? buildCreateCommentActionCallback() : undefined">
     </app-dialog-action-buttons>
   </ars-col>
 </ars-row>

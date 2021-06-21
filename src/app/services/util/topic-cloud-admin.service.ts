@@ -128,7 +128,7 @@ export class TopicCloudAdminService {
   removeWordFromBlacklist(word: string) {
     if (word !== undefined) {
       this.getRoom().subscribe(room => {
-        if (room.blacklist.length > 0){
+        if (room.blacklist && room.blacklist.length > 0){
           const newlist = JSON.parse(room.blacklist);
           newlist.splice(newlist.indexOf(word, 0), 1);
           this.updateBlacklist(newlist, room, 'remove-successful');
