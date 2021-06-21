@@ -82,6 +82,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
+      this.refreshKeywords();
     });
     this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -172,8 +173,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.keywords = [];
     tempKeywords.forEach(keyword => {
       keyword.comments.forEach(comment => this.pushInKeywords(comment));
-      console.log(this.keywords);
     });
+    if (this.searchMode){
+      this.searchKeyword();
+    }
   }
 
   pushInKeywords(comment: Comment){
@@ -432,33 +435,19 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   addProfanityWord() {
     this.topicCloudAdminService.addToProfanityList(this.newProfanityWord);
     this.newProfanityWord = undefined;
-    if (this.searchMode){
-      this.searchKeyword();
-    }
-    this.ngOnDestroy();
-    this.ngOnInit();
   }
 
   addBlacklistWord() {
     this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord);
     this.newBlacklistWord = undefined;
-    if (this.searchMode){
-      this.searchKeyword();
-    }
-    this.ngOnDestroy();
-    this.ngOnInit();
   }
 
   removeWordFromProfanityList(word: string) {
     this.topicCloudAdminService.removeFromProfanityList(word);
-    this.ngOnDestroy();
-    this.ngOnInit();
   }
 
   removeWordFromBlacklist(word: string) {
     this.topicCloudAdminService.removeWordFromBlacklist(word);
-    this.ngOnDestroy();
-    this.ngOnInit();
   }
 
   changeProfanityFilter() {
@@ -466,7 +455,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.translateService.get('topic-cloud-dialog.words-will-be-overwritten').subscribe(msg => {
         this.notificationService.show(msg);
       });
-      this.searchKeyword();
+      if (this.searchMode){
+        this.searchKeyword();
+      }
     }
   }
 
