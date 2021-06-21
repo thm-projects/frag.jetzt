@@ -9,9 +9,9 @@ partition "Comment List"
         repeat
             switch (options)
                 case ()
-                    :select\nlanguage;
+                    :   select\nlanguage;
                 case ()
-                    :select\n tag;
+                    :select\n  tag;
                 case ()
                     switch ()
                         case ()
@@ -42,16 +42,15 @@ partition "Comment List"
             endswitch
         repeat while (continue\n editing)
 
-       :send;
+        :send;
         note left
         only if text is added
         end note
         partition "SpaCy dialog" {
             if(    supported\n     language\ndetected or set) then (yes)
                 if (nouns included?) then (yes)
-                    if()
-                        repeat
-                        switch()
+                    repeat
+                        switch(options)
                             case ()
                                 :select\deselect\na keyword;
                             case ()
@@ -59,18 +58,16 @@ partition "Comment List"
                             case ()
                                 :     edit\n a keyword;
                                 :save;
+                            case ()
                         endswitch
-                        repeat while ()
-                     else
-                    endif
-
-              else (no)
-              endif
-           else (no)
-                    if(add keyword manually?)
-                        repeat
+                    repeat while (continue\n setting)
+                else (no)
+                endif
+            else (no)
+                if(add keyword manually?)
+                    repeat
                         :add keyword;
-                        switch (  options)
+                        switch (options)
                             case ()
                                 :select\deselect\na keyword;
                             case ()
@@ -80,18 +77,17 @@ partition "Comment List"
                                 :save;
                             case()
                         endswitch
-                        repeat while ()
-                    else
-                    endif
-           endif
-            if()
-            :send;
-            : publish\nquestion;
+                    repeat while (continue\n setting)
+                else
+                endif
+            endif
+            if(options)
+                :   send\n(publish\nquestion);
             else
                 :cancel;
             endif
             stop
-       }
+        }
     }
 }
 
