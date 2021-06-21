@@ -13,6 +13,8 @@ import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
 import { TSMap } from 'typescript-map';
+import { Message } from '@stomp/stompjs';
+
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -75,7 +77,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.isLoading = true;
     this.deviceType = localStorage.getItem('deviceType');
-    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe();
+    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(message => this.receiveMessage(message));
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
@@ -86,7 +88,123 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
     this.setDefaultAdminData();
-    this.updateKeywords();
+    this.initializeKeywords();
+  }
+
+  receiveMessage(message: Message){
+    const msg = JSON.parse(message.body);
+    const payload = msg.payload;
+    switch (msg.type) {
+      case 'CommentCreated':
+        this.commentService.getComment(payload.id).subscribe(com => {
+          this.pushInKeywords(com);
+        });
+        break;
+      case 'CommentPatched':
+        this.keywords.forEach(keyword => {
+          for (const comment of keyword.comments) {
+            if (payload.id === comment.id) {
+              let refreshKeywords = false;
+              for (const [key, value] of Object.entries(payload.changes)) {
+                switch (key) {
+                  case 'score':
+                    comment.score = value as number;
+                    refreshKeywords = true;
+                    break;
+                  case 'upvotes':
+                    comment.upvotes = value as number;
+                    refreshKeywords = true;
+                    break;
+                  case 'downvotes':
+                    comment.downvotes = value as number;
+                    refreshKeywords = true;
+                    break;
+                  case 'keywordsFromSpacy':
+                    comment.keywordsFromSpacy = JSON.parse(value as string);
+                    refreshKeywords = true;
+                    break;
+                  case 'keywordsFromQuestioner':
+                    comment.keywordsFromQuestioner = JSON.parse(value as string);
+                    refreshKeywords = true;
+                    break;
+                  case 'ack':
+                    if (!value as boolean) {
+                      this.removeFromKeywords(payload);
+                      refreshKeywords = true;
+                    }
+                    break;
+                  case 'tag':
+                    comment.tag = value as string;
+                    refreshKeywords = true;
+                    break;
+                }
+              }
+              if (refreshKeywords) {
+                this.refreshKeywords();
+              }
+              break;
+            }
+          }
+        });
+        break;
+      case 'CommentDeleted':
+        this.removeFromKeywords(payload);
+        break;
+    }
+    if (this.searchMode){
+      this.searchKeyword();
+    }
+  }
+
+  removeFromKeywords(comment: Comment){
+    for (const keyword of this.keywords){
+      keyword.comments.forEach(_comment => {
+        if (_comment.id === comment.id){
+          keyword.comments.splice(keyword.comments.indexOf(comment, 0), 1);
+        }
+      });
+    }
+    this.refreshKeywords();
+  }
+
+  refreshKeywords(){
+    const tempKeywords = this.keywords;
+    this.keywords = [];
+    tempKeywords.forEach(keyword => {
+      keyword.comments.forEach(comment => this.pushInKeywords(comment));
+      console.log(this.keywords);
+    });
+  }
+
+  pushInKeywords(comment: Comment){
+    let keywords = comment.keywordsFromQuestioner;
+    if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+      if (!keywords || !keywords.length) {
+        keywords = comment.keywordsFromSpacy;
+      }
+    } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
+      keywords = comment.keywordsFromSpacy;
+    }
+    if (!keywords) {
+      keywords = [];
+    }
+    keywords.forEach(_keyword => {
+      const existingKey = this.checkIfKeywordExists(_keyword);
+      if (existingKey) {
+        existingKey.vote += comment.score;
+        if (this.checkIfCommentExists(existingKey.comments, comment.id)){
+          existingKey.comments.push(comment);
+        }
+      } else {
+        const keyword: Keyword = {
+          keyword: _keyword,
+          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
+          comments: [comment],
+          vote: comment.score
+        };
+        this.keywords.push(keyword);
+      }
+    });
   }
 
   ngOnDestroy(){
@@ -99,39 +217,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateKeywords(){
+  initializeKeywords(){
     this.commentService.getAckComments(localStorage.getItem('roomId')).subscribe(comments => {
       this.keywords = [];
       comments.forEach(comment => {
-        let keywords = comment.keywordsFromQuestioner;
-        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
-          if (!keywords || !keywords.length) {
-            keywords = comment.keywordsFromSpacy;
-          }
-        } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
-          keywords = comment.keywordsFromSpacy;
-        }
-        if (!keywords) {
-          keywords = [];
-        }
-
-        keywords.forEach(_keyword => {
-          const existingKey = this.checkIfKeywordExists(_keyword);
-          if (existingKey) {
-            existingKey.vote += comment.score;
-            if (this.checkIfCommentExists(existingKey.comments, comment.id)){
-              existingKey.comments.push(comment);
-            }
-          } else {
-            const keyword: Keyword = {
-              keyword: _keyword,
-              keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
-              comments: [comment],
-              vote: comment.score
-            };
-            this.keywords.push(keyword);
-          }
-        });
+        this.pushInKeywords(comment);
       });
       this.sortQuestions();
       this.isLoading = false;
