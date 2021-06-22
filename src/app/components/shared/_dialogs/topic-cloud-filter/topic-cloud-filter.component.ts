@@ -6,14 +6,13 @@ import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/roo
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
-import { CommentFilterOptions } from '../../../../utils/filter-options';
-import { CommentService } from '../../../../services/http/comment.service';
+import { CommentFilter } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
-
+import { CommentListData } from '../../comment-list/comment-list.component';
 
 class CommentsCount {
-  comments : number;
+  comments: number;
   users: number;
   keywords: number;
 }
@@ -24,23 +23,14 @@ class CommentsCount {
   styleUrls: ['./topic-cloud-filter.component.scss']
 })
 export class TopicCloudFilterComponent implements OnInit {
-  @Input() filteredComments: any;
-  @Input() commentsFilteredByTime: any;
   @Input() shortId: string;
 
   continueFilter = 'continueWithCurr';
-
-  tmpFilter : CommentFilterOptions;
-  allCommentsCount : number;
-  allCommentsUsers : number;
-  allCommentsKeywords : number;
-
-  filteredCommentsCount : number;
-  filteredCommentsUsers : number;
-  filteredCommentsKeywords : number;
-  
-  disableCurrentFiltersOptions : boolean = false;
-  commentsLoaded : boolean = false;
+  comments: Comment[];
+  tmpFilter: CommentFilter;
+  allComments: CommentsCount;
+  filteredComments: CommentsCount;
+  disableCurrentFiltersOptions = false;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -49,7 +39,6 @@ export class TopicCloudFilterComponent implements OnInit {
               protected langService: LanguageService,
               private router: Router,
               protected roomService: RoomService,
-              private commentService: CommentService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
@@ -57,49 +46,32 @@ export class TopicCloudFilterComponent implements OnInit {
 
   ngOnInit() {
     this.translationService.use(localStorage.getItem('currentLang'));
-    this.tmpFilter = CommentFilterOptions.readFilter();
-    localStorage.setItem("filtertmp", JSON.stringify(this.tmpFilter));
-
-    this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-      this.commentService.getAckComments(room.id).subscribe(comments => { 
-        const counts = this.getCommentCounts(comments);
-        this.allCommentsCount = counts.comments;
-        this.allCommentsUsers = counts.users;
-        this.allCommentsKeywords = counts.keywords;
-        this.commentsLoadedCallback();
-      });
-      this.commentService.getFilteredComments(room.id).subscribe(comments => {
-        const counts = this.getCommentCounts(comments);
-        this.filteredCommentsCount = counts.comments;
-        this.filteredCommentsUsers = counts.users;
-        this.filteredCommentsKeywords = counts.keywords;
-        this.commentsLoadedCallback();
-      });
+    const subscriptionEventService = this.eventService.on<CommentListData>('currentRoomData').subscribe(data => {
+      subscriptionEventService.unsubscribe();
+      this.comments = data.comments;
+      this.tmpFilter = data.currentFilter;
+      this.allComments = this.getCommentCounts(this.comments);
+      this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
+      this.commentsLoadedCallback();
     });
+    this.eventService.broadcast('pushCurrentRoomData');
   }
 
   commentsLoadedCallback() {
-    if (!this.commentsLoaded) {
-      this.commentsLoaded = true;
-    } else {
-      this.disableCurrentFiltersOptions = ((this.allCommentsCount == this.filteredCommentsCount) &&
-                                          (this.allCommentsUsers == this.filteredCommentsUsers) && 
-                                          (this.allCommentsKeywords == this.filteredCommentsKeywords));
+    this.disableCurrentFiltersOptions = ((this.allComments.comments === this.filteredComments.comments) &&
+      (this.allComments.users === this.filteredComments.users) &&
+      (this.allComments.keywords === this.filteredComments.keywords));
 
-      if (this.disableCurrentFiltersOptions) {
-        this.continueFilter = 'continueWithAll';
-      }
+    if (this.disableCurrentFiltersOptions) {
+      this.continueFilter = 'continueWithAll';
     }
   }
 
-  closeDialog(): void {
-  }
+  getCommentCounts(comments: Comment[]): CommentsCount {
+    const counts = new CommentsCount();
+    const userSet = new Set<number>();
+    const keywordSet = new Set<string>();
 
-  getCommentCounts(comments : Comment[]) : CommentsCount {
-    let counts = new CommentsCount();
-    let userSet = new Set<number>();
-    let keywordSet = new Set<string>();
-    
     comments.forEach(c => {
       if (c.userNumber) {
         userSet.add(c.userNumber);
@@ -122,28 +94,28 @@ export class TopicCloudFilterComponent implements OnInit {
   }
 
   confirmButtonActionCallback() {
-    return () =>  {
-      let filter : CommentFilterOptions;
-      
+    return () => {
+      let filter: CommentFilter;
+
       switch (this.continueFilter) {
         case 'continueWithAll':
-          filter = new CommentFilterOptions(); // all questions allowed
+          filter = new CommentFilter(); // all questions allowed
           break;
-          
+
         case 'continueWithAllFromNow':
-          filter = CommentFilterOptions.generateFilterNow(this.tmpFilter.filterSelected);
+          filter = CommentFilter.generateFilterNow(this.tmpFilter.filterSelected);
           break;
-            
+
         case 'continueWithCurr':
-          filter = JSON.parse(localStorage.getItem("filtertmp")) as CommentFilterOptions;
+          filter = this.tmpFilter;
           break;
-          
+
         default:
           return;
       }
-          
-      CommentFilterOptions.writeFilterStatic(filter);
+
+      CommentFilter.currentFilter = filter;
       this.dialogRef.close(this.router.navigateByUrl('/participant/room/' + this.shortId + '/comments/tagcloud'));
-    }
+    };
   }
 }
