@@ -52,11 +52,13 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() cancelButtonClickAction: (Function | undefined);
 
-  
+
   /**
    * TRUE if some spacing will be rendered above the action buttons.
    */
   @Input() spacing = true;
+
+  @Input() showLoadingCycle = false;
 
 
   /**

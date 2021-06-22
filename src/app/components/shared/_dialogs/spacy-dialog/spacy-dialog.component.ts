@@ -5,6 +5,7 @@ import { CreateCommentComponent } from '../create-comment/create-comment.compone
 import { SpacyService, Model } from '../../../../services/http/spacy.service';
 import { LanguageService } from '../../../../services/util/language.service';
 import { Comment } from '../../../../models/comment';
+import { map } from 'rxjs/operators';
 
 export interface Keyword {
   word: string;
@@ -44,7 +45,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit(): void {
-    if(this.langSupported) {
+    if (this.langSupported) {
       this.evalInput(this.commentLang);
     }
   }
@@ -69,23 +70,21 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.getKeywords(this.commentBodyChecked, model)
+      .pipe(
+        map(keywords => keywords.map(keyword => ({
+          word: keyword,
+          completed: false,
+          editing: false,
+          selected: false
+        } as Keyword)))
+      )
       .subscribe(words => {
-        const keywords: Keyword[] = [];
-        for (const word of words) {
-          const newWord = word.trim();
-          if (keywords.findIndex(item => item.word === newWord) < 0) {
-            keywords.push({
-              word: newWord,
-              completed: false,
-              editing: false,
-              selected: false
-            });
-          }
+        this.keywords = words;
+        //deep copy
+        this.keywordsOriginal = [...words];
+        for (let i = 0; i < this.keywordsOriginal.length; i++) {
+          this.keywordsOriginal[i] = {...this.keywordsOriginal[i]};
         }
-
-        // Deep copy
-        this.keywords = keywords;
-        this.keywordsOriginal = JSON.parse(JSON.stringify(keywords));
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
@@ -121,17 +120,17 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   allKeywordsSelected(): boolean {
-    for(const kw of this.keywords) {
-      if(!kw.selected) {
+    for (const kw of this.keywords) {
+      if (!kw.selected) {
         return false;
       }
     }
     return true;
   }
 
-  manualKeywordsToKeywords(){
-    const tempKeywords = this.manualKeywords.replace(/\s/g,'');
-    if(tempKeywords.length) {
+  manualKeywordsToKeywords() {
+    const tempKeywords = this.manualKeywords.replace(/\s/g, '');
+    if (tempKeywords.length) {
       this.keywords = tempKeywords.split(',').map((keyword) => (
         {
           word: keyword,

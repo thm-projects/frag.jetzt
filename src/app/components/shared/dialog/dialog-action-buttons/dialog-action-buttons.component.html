@@ -12,7 +12,11 @@
         class="mat-flat-button {{ confirmButtonType }}-confirm-button"
         attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
         (click)="performConfirmButtonClickAction()"
-      ><mat-icon *ngIf="buttonIcon" style="margin-right: 5px;">{{buttonIcon}}</mat-icon>{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
+      ><mat-icon *ngIf="buttonIcon" style="margin-right: 5px;">{{buttonIcon}}</mat-icon>{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}
+        <mat-icon *ngIf="showLoadingCycle">
+          <mat-spinner diameter="20"></mat-spinner>
+        </mat-icon>
+      </button>
       <button
         *ngIf="cancelButtonClickAction !== undefined"
         type="button"
