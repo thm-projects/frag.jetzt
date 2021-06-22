@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {
   CloudData,
@@ -22,7 +22,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { ThemeService } from '../../../../theme/theme.service';
 import { cloneParameters, CloudParameters, CloudTextStyle, CloudWeightSettings } from './tag-cloud.interface';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
@@ -148,7 +148,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
@@ -194,7 +194,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
               private route: ActivatedRoute,
               protected roomService: RoomService,
               private themeService: ThemeService,
-              private wsCommentService: WsCommentServiceService,
+              private wsCommentService: WsCommentService,
               private topicCloudAdmin: TopicCloudAdminService,
               private router: Router,
               public dataManager: TagCloudDataService) {
@@ -277,7 +277,7 @@ export class TagCloudComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit() {
+  ngAfterContentInit() {
     document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
     this.dataManager.bindToRoom(this.roomId);

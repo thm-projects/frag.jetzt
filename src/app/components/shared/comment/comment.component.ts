@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -8,7 +8,6 @@ import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -18,7 +17,6 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { User } from '../../../models/user';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-comment',
@@ -70,8 +68,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     private notification: NotificationService,
     private translateService: TranslateService,
     public dialog: MatDialog,
-    protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService) {
+    protected langService: LanguageService) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
@@ -227,7 +224,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   setBookmark(comment: Comment): void {
     //@ts-ignore
     this.commentService.toggleBookmark(comment).subscribe(c => {this.comment = c; this.comment.keywordsFromQuestioner = JSON.parse(c.keywordsFromQuestioner)});
-    //@ts-ignore  
+    //@ts-ignore
   }
 
   goToFullScreen(element: Element): void {

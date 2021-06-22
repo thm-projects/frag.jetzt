@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Comment } from '../../../models/comment';
 import { User } from '../../../models/user';
@@ -30,7 +30,7 @@ export class CommentAnswerComponent implements OnInit {
               private notificationService: NotificationService,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              protected wsCommentService: WsCommentServiceService,
+              protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               private authenticationService: AuthenticationService,
               public dialog: MatDialog) { }

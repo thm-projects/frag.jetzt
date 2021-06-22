@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
@@ -6,14 +6,12 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { TopicCloudAdminData, Labels, spacyLabels } from './TopicCloudAdminData';
-import { KeywordOrFulltext } from './TopicCloudAdminData';
+import { TopicCloudAdminData, Labels, spacyLabels, KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
-import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
 import { TSMap } from 'typescript-map';
-import { Message } from '@stomp/stompjs';
+import { RoomDataService } from '../../../../services/util/room-data.service';
 
 
 @Component({
@@ -30,6 +28,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   profanitywordlist: string[] = [];
   blacklistSubscription = undefined;
   profanitylistSubscription = undefined;
+  commentServiceSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
   newKeyword = undefined;
   edit = false;
@@ -68,16 +67,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
     private commentService: CommentService,
-    private wsCommentServiceService: WsCommentServiceService) {
-      this.langService.langEmitter.subscribe(lang => {
-        this.translateService.use(lang);
-      });
-    }
+    private roomDataService: RoomDataService) {
+    this.langService.langEmitter.subscribe(lang => {
+      this.translateService.use(lang);
+    });
+  }
 
   ngOnInit(): void {
     this.isLoading = true;
     this.deviceType = localStorage.getItem('deviceType');
-    this.wsCommentServiceService.getCommentStream(localStorage.getItem('roomId')).subscribe(message => this.receiveMessage(message));
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
@@ -92,75 +90,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.initializeKeywords();
   }
 
-  receiveMessage(message: Message){
-    const msg = JSON.parse(message.body);
-    const payload = msg.payload;
-    switch (msg.type) {
-      case 'CommentCreated':
-        this.commentService.getComment(payload.id).subscribe(com => {
-          this.pushInKeywords(com);
-        });
-        break;
-      case 'CommentPatched':
-        this.keywords.forEach(keyword => {
-          for (const comment of keyword.comments) {
-            if (payload.id === comment.id) {
-              let refreshKeywords = false;
-              for (const [key, value] of Object.entries(payload.changes)) {
-                switch (key) {
-                  case 'score':
-                    comment.score = value as number;
-                    refreshKeywords = true;
-                    break;
-                  case 'upvotes':
-                    comment.upvotes = value as number;
-                    refreshKeywords = true;
-                    break;
-                  case 'downvotes':
-                    comment.downvotes = value as number;
-                    refreshKeywords = true;
-                    break;
-                  case 'keywordsFromSpacy':
-                    comment.keywordsFromSpacy = JSON.parse(value as string);
-                    refreshKeywords = true;
-                    break;
-                  case 'keywordsFromQuestioner':
-                    comment.keywordsFromQuestioner = JSON.parse(value as string);
-                    refreshKeywords = true;
-                    break;
-                  case 'ack':
-                    if (!value as boolean) {
-                      this.removeFromKeywords(payload);
-                      refreshKeywords = true;
-                    }
-                    break;
-                  case 'tag':
-                    comment.tag = value as string;
-                    refreshKeywords = true;
-                    break;
-                }
-              }
-              if (refreshKeywords) {
-                this.refreshKeywords();
-              }
-              break;
-            }
-          }
-        });
-        break;
-      case 'CommentDeleted':
-        this.removeFromKeywords(payload);
-        break;
-    }
-    if (this.searchMode){
-      this.searchKeyword();
-    }
-  }
-
-  removeFromKeywords(comment: Comment){
-    for (const keyword of this.keywords){
+  removeFromKeywords(comment: Comment) {
+    for (const keyword of this.keywords) {
       keyword.comments.forEach(_comment => {
-        if (_comment.id === comment.id){
+        if (_comment.id === comment.id) {
           keyword.comments.splice(keyword.comments.indexOf(comment, 0), 1);
         }
       });
@@ -168,18 +101,18 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.refreshKeywords();
   }
 
-  refreshKeywords(){
+  refreshKeywords() {
     const tempKeywords = this.keywords;
     this.keywords = [];
     tempKeywords.forEach(keyword => {
       keyword.comments.forEach(comment => this.pushInKeywords(comment));
     });
-    if (this.searchMode){
+    if (this.searchMode) {
       this.searchKeyword();
     }
   }
 
-  pushInKeywords(comment: Comment){
+  pushInKeywords(comment: Comment) {
     let keywords = comment.keywordsFromQuestioner;
     if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
       if (!keywords || !keywords.length) {
@@ -195,7 +128,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       const existingKey = this.checkIfKeywordExists(_keyword);
       if (existingKey) {
         existingKey.vote += comment.score;
-        if (this.checkIfCommentExists(existingKey.comments, comment.id)){
+        if (this.checkIfCommentExists(existingKey.comments, comment.id)) {
           existingKey.comments.push(comment);
         }
       } else {
@@ -210,18 +143,19 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.setAdminData();
-    if(this.blacklistSubscription !== undefined){
+    if (this.blacklistSubscription !== undefined) {
       this.blacklistSubscription.unsubscribe();
     }
-    if(this.profanitylistSubscription !== undefined){
+    if (this.profanitylistSubscription !== undefined) {
       this.profanitylistSubscription.unsubscribe();
     }
   }
 
-  initializeKeywords(){
-    this.commentService.getAckComments(localStorage.getItem('roomId')).subscribe(comments => {
+  initializeKeywords() {
+    const roomId = localStorage.getItem('roomId');
+    this.roomDataService.getRoomData(roomId).subscribe(comments => {
       this.keywords = [];
       comments.forEach(comment => {
         this.pushInKeywords(comment);
@@ -229,9 +163,37 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.sortQuestions();
       this.isLoading = false;
     });
+    this.commentServiceSubscription = this.roomDataService.receiveUpdates([
+      {type: 'CommentCreated', finished: true},
+      {type: 'CommentDeleted'},
+      {type: 'CommentPatched', finished: true, updates: ['score']},
+      {type: 'CommentPatched', finished: true, updates: ['upvotes']},
+      {type: 'CommentPatched', finished: true, updates: ['downvotes']},
+      {type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy']},
+      {type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner']},
+      {type: 'CommentPatched', finished: true, updates: ['ack']},
+      {type: 'CommentPatched', finished: true, updates: ['tag']},
+      {type: 'CommentPatched', subtype: 'ack'},
+      {finished: true}
+    ]).subscribe(update => {
+      if (update.type === 'CommentCreated') {
+        this.pushInKeywords(update.comment);
+      } else if (update.type === 'CommentDeleted') {
+        this.removeFromKeywords(update.comment);
+      } else if (update.type === 'CommentPatched' && update.subtype === 'ack') {
+        if (!update.comment.ack) {
+          this.removeFromKeywords(update.comment);
+        }
+      }
+      if (update.finished) {
+        if (this.searchMode) {
+          this.searchKeyword();
+        }
+      }
+    });
   }
 
-  checkIfCommentExists(comments: Comment[], id: string): boolean{
+  checkIfCommentExists(comments: Comment[], id: string): boolean {
     return comments.filter(comment => comment.id === id).length === 0;
   }
 
@@ -251,7 +213,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   setDefaultAdminData() {
-    this.topicCloudAdminData = this.topicCloudAdminService.getDefaultAdminData;
+    this.topicCloudAdminData = TopicCloudAdminService.getDefaultAdminData;
     if (this.topicCloudAdminData) {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
       this.profanityFilter = this.topicCloudAdminData.profanityFilter;
@@ -286,7 +248,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   checkIfThereAreQuestions() {
-    if (this.keywords.length === 0){
+    if (this.keywords.length === 0) {
       this.translateService.get('topic-cloud-dialog.no-keywords-note').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -299,11 +261,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   editKeyword(index: number): void {
     this.edit = true;
     setTimeout(() => {
-      document.getElementById('edit-input'+ index).focus();
+      document.getElementById('edit-input' + index).focus();
     }, 0);
   }
 
-  deleteKeyword(key: Keyword, message?: string): void{
+  deleteKeyword(key: Keyword, message?: string): void {
     key.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
       let keywords = comment.keywordsFromQuestioner;
@@ -315,24 +277,24 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.updateComment(comment, changes, message);
     });
 
-    if (this.searchMode === true){
+    if (this.searchMode === true) {
       this.searchKeyword();
     }
   }
 
-  updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate?: string){
+  updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate?: string) {
     this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
-      if (messageTranslate){
-        this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }
-    },
+        if (messageTranslate) {
+          this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        }
+      },
       error => {
         this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
         });
-    });
+      });
   }
 
   cancelEdit(): void {
@@ -342,21 +304,21 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   confirmEdit(key: Keyword): void {
     const key2 = this.checkIfKeywordExists(this.newKeyword);
-    if (key2){
+    if (key2) {
       this.openConfirmDialog('merge-message', 'merge', key, key2);
     } else {
       key.comments.forEach(comment => {
         const changes = new TSMap<string, any>();
         let keywords = comment.keywordsFromQuestioner;
-        for (let i = 0; i < keywords.length; i++){
-          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()){
+        for (let i = 0; i < keywords.length; i++) {
+          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()) {
             keywords[i] = this.newKeyword.trim();
           }
         }
         changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
         keywords = comment.keywordsFromSpacy;
-        for (let i = 0; i < keywords.length; i++){
-          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()){
+        for (let i = 0; i < keywords.length; i++) {
+          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()) {
             keywords[i] = this.newKeyword.trim();
           }
         }
@@ -368,13 +330,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.edit = false;
     this.newKeyword = undefined;
     this.sortQuestions();
-    if (this.searchMode){
+    if (this.searchMode) {
       this.searchKeyword();
     }
   }
 
   openConfirmDialog(msg: string, _confirmLabel: string, keyword: Keyword, mergeTarget?: Keyword) {
-    const translationPart = 'topic-cloud-confirm-dialog.'+msg;
+    const translationPart = 'topic-cloud-confirm-dialog.' + msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
       data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
     });
@@ -389,7 +351,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   searchKeyword(): void {
-    if (!this.searchedKeyword){
+    if (!this.searchedKeyword) {
       this.searchMode = false;
     } else {
       this.filteredKeywords = this.keywords.filter(keyword =>
@@ -400,9 +362,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
-    if (key1 !== undefined && key2 !== undefined){
+    if (key1 !== undefined && key2 !== undefined) {
       key1.comments.forEach(comment => {
-        if (this.checkIfCommentExists(key2.comments, comment.id)){
+        if (this.checkIfCommentExists(key2.comments, comment.id)) {
           const changes = new TSMap<string, any>();
           let keywords = comment.keywordsFromQuestioner;
           keywords.push(key2.keyword);
@@ -418,8 +380,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   checkIfKeywordExists(key: string): Keyword {
-    for(const keyword of this.keywords){
-      if(keyword.keyword.toLowerCase() === key.trim().toLowerCase()){
+    for (const keyword of this.keywords) {
+      if (keyword.keyword.toLowerCase() === key.trim().toLowerCase()) {
         return keyword;
       }
     }
@@ -451,11 +413,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   changeProfanityFilter() {
-    if (this.profanityFilter){
+    if (this.profanityFilter) {
       this.translateService.get('topic-cloud-dialog.words-will-be-overwritten').subscribe(msg => {
         this.notificationService.show(msg);
       });
-      if (this.searchMode){
+      if (this.searchMode) {
         this.searchKeyword();
       }
     }
@@ -493,7 +455,7 @@ interface Keyword {
   vote: number;
 }
 
-export interface Data{
+export interface Data {
   user: User;
 }
 
