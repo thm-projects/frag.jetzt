@@ -8,7 +8,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -35,7 +35,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected route: ActivatedRoute,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              protected wsCommentService: WsCommentServiceService,
+              protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               protected authenticationService: AuthenticationService,
               private liveAnnouncer: LiveAnnouncer,

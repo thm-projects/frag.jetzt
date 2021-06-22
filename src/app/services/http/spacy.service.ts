@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map, tap } from 'rxjs/operators';
+import { TopicCloudAdminService } from '../util/topic-cloud-admin.service';
 
 export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt' | 'auto';
 
@@ -177,12 +178,13 @@ export class SpacyService extends BaseHttpService {
 
   getKeywords(text: string, model: Model): Observable<string[]> {
     const url = '/spacy';
+    const wanted = TopicCloudAdminService.getDefaultAdminData.wantedLabels[model];
     return this.http.post<KeywordList>(url, {text, model}, httpOptions)
       .pipe(
         tap(_ => ''),
         catchError(this.handleError<any>('getKeywords')),
-        map((result: KeywordList) =>
-          [...new Set(result.map(e => e.type === 'entity' ? e.text.trim() : e.lemma.trim()))])
+        map((elem: KeywordList) => wanted != null ? elem.filter(e => wanted.includes(e.dep)) : elem),
+        map((result: KeywordList) => [...new Set(result.map(e => e.lemma.trim()))])
       );
   }
 }

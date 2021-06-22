@@ -3,7 +3,7 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
-import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../../services/websockets/ws-comment.service';
 import { QuestionWallComment } from '../QuestionWallComment';
 import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
 import { Router } from '@angular/router';
@@ -67,7 +67,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router,
     private commentService: CommentService,
     private roomService: RoomService,
-    private wsCommentService: WsCommentServiceService,
+    private wsCommentService: WsCommentService,
     private langService: LanguageService,
     private translateService: TranslateService
   ) {

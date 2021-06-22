@@ -6,7 +6,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Message } from '@stomp/stompjs';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -33,7 +33,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               protected route: ActivatedRoute,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              protected wsCommentService: WsCommentServiceService,
+              protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               protected notification: NotificationService,
               public eventService: EventService,
