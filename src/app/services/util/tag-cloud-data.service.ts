@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { WsCommentServiceService } from '../websockets/ws-comment-service.service';
-import { CommentService } from '../http/comment.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { CommentFilter } from '../../utils/filter-options';
 import { TranslateService } from '@ngx-translate/core';
 import { CloudParameters } from '../../components/shared/tag-cloud/tag-cloud.interface';
 import { Comment } from '../../models/comment';
-import { Message } from '@stomp/stompjs';
+import { RoomDataService } from './room-data.service';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -70,7 +68,7 @@ export class TagCloudDataService {
   private _dataBus: Subject<TagCloudData>;
   private _metaDataBus: Subject<TagCloudMetaData>;
   private _cachedData: TagCloudData;
-  private _wsCommentSubscription = null;
+  private _commentSubscription = null;
   private _roomId = null;
   private _supplyType = TagCloudDataSupplyType.keywordsAndFullText;
   private _calcWeightType = TagCloudCalcWeightType.byLength;
@@ -83,9 +81,8 @@ export class TagCloudDataService {
   private _subscriptionAdminData: Subscription;
   private _currentFilter: CommentFilter;
 
-  constructor(private _wsCommentService: WsCommentServiceService,
-              private _commentService: CommentService,
-              private _tagCloudAdmin: TopicCloudAdminService) {
+  constructor(private _tagCloudAdmin: TopicCloudAdminService,
+              private _roomDataService: RoomDataService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new Subject<TagCloudData>();
@@ -108,23 +105,34 @@ export class TagCloudDataService {
   bindToRoom(roomId: string): void {
     this._currentFilter = CommentFilter.currentFilter;
     this._roomId = roomId;
-    this.onReceiveAdminData(this._tagCloudAdmin.getDefaultAdminData);
+    this.onReceiveAdminData(TopicCloudAdminService.getDefaultAdminData);
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
 
     this.fetchData();
     if (!this._currentFilter.paused) {
-      this._wsCommentSubscription = this._wsCommentService
-        .getCommentStream(this._roomId).subscribe(e => this.onMessage(e));
+      this._commentSubscription = this._roomDataService.receiveUpdates([
+        {type: 'CommentCreated', finished: true},
+        {type: 'CommentDeleted'},
+        {type: 'CommentPatched', finished: true, updates: ['score']},
+        {type: 'CommentPatched', finished: true, updates: ['downvotes']},
+        {type: 'CommentPatched', finished: true, updates: ['upvotes']},
+        {type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy']},
+        {type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner']},
+        {type: 'CommentPatched', finished: true, updates: ['ack']},
+        {type: 'CommentPatched', finished: true, updates: ['tag']},
+      ]).subscribe(_ => {
+        this.rebuildTagData();
+      });
     }
   }
 
   unbindRoom(): void {
     this._subscriptionAdminData.unsubscribe();
-    if (this._wsCommentSubscription !== null) {
-      this._wsCommentSubscription.unsubscribe();
-      this._wsCommentSubscription = null;
+    if (this._commentSubscription !== null) {
+      this._commentSubscription.unsubscribe();
+      this._commentSubscription = null;
     }
   }
 
@@ -262,7 +270,7 @@ export class TagCloudDataService {
   }
 
   private fetchData(): void {
-    this._commentService.getAckComments(this._roomId).subscribe((comments: Comment[]) => {
+    this._roomDataService.getRoomData(this._roomId).subscribe((comments: Comment[]) => {
       this._lastFetchedComments = comments;
       if (this._isDemoActive) {
         this._lastMetaData.commentCount = comments.length;
@@ -369,69 +377,6 @@ export class TagCloudDataService {
     this._metaDataBus.next(currentMeta);
     if (!this._isDemoActive) {
       this.reformatData();
-    }
-  }
-
-  private onMessage(message: Message): void {
-    const msg = JSON.parse(message.body);
-    const payload = msg.payload;
-    switch (msg.type) {
-      case 'CommentCreated':
-        this._commentService.getComment(payload.id).subscribe(c => {
-          this._lastFetchedComments.push(c);
-          this.rebuildTagData();
-        });
-        break;
-      case 'CommentPatched':
-        for (const comment of this._lastFetchedComments) {
-          if (payload.id === comment.id) {
-            let needRebuild = false;
-            for (const [key, value] of Object.entries(payload.changes)) {
-              switch (key) {
-                case 'score':
-                  comment.score = value as number;
-                  needRebuild = true;
-                  break;
-                case 'upvotes':
-                  comment.upvotes = value as number;
-                  needRebuild = true;
-                  break;
-                case 'downvotes':
-                  comment.downvotes = value as number;
-                  needRebuild = true;
-                  break;
-                case 'keywordsFromSpacy':
-                  comment.keywordsFromSpacy = JSON.parse(value as string);
-                  needRebuild = true;
-                  break;
-                case 'keywordsFromQuestioner':
-                  comment.keywordsFromQuestioner = JSON.parse(value as string);
-                  needRebuild = true;
-                  break;
-                case 'ack':
-                  const isNowAck = value as boolean;
-                  if (!isNowAck) {
-                    this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
-                  }
-                  needRebuild = true;
-                  break;
-                case 'tag':
-                  comment.tag = value as string;
-                  needRebuild = true;
-                  break;
-              }
-            }
-            if (needRebuild) {
-              this.rebuildTagData();
-            }
-            break;
-          }
-        }
-        break;
-      case 'CommentDeleted':
-        this._lastFetchedComments = this._lastFetchedComments.filter((el) => el.id !== payload.id);
-        this.rebuildTagData();
-        break;
     }
   }
 }

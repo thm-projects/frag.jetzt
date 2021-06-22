@@ -39,20 +39,25 @@ const deLabels: Label[] = [
     {tag: 'app', label: 'Apposition'},
     {tag: 'da',  label: 'Dativobjekt'},
     {tag: 'oa',  label: 'Akkusativobjekt'},
-    {tag: 'nk',  label: 'Noun Kernel Element'},
+    {tag: 'nk',  label: 'Nomen Kernelement'},
     {tag: 'mo',  label: 'Modifikator'},
-    {tag: 'cj',  label: 'Konjunktor'}
+    {tag: 'cj',  label: 'Konjunktor'},
+    {tag: 'ROOT',  label: 'Satzkernelement'},
+    {tag: 'par',  label: 'Klammerzusatz'}
 ];
 
 const enLabels: Label[] = [
-    {tag: 'no',   label: 'Noun'},
-    {tag: 'pro',  label: 'Pronoun'},
-    {tag: 've',   label: 'Verb'},
-    {tag: 'adj',  label: 'Adjective'},
-    {tag: 'adv',  label: 'AdverbDVERB'},
-    {tag: 'pre',  label: 'Preposition'},
-    {tag: 'con',  label: 'Conjunction'},
-    {tag: 'int',  label: 'Interjection'}
+    {tag: 'nsubj',   label: 'Nominal subject'},
+    {tag: 'nsubjpass',  label: 'Passive nominal subject'},
+    {tag: 'pobj',   label: 'Object of preposition'},
+    {tag: 'nummod',  label: 'Numeric modifier'},
+    {tag: 'compound',  label: 'Compound'},
+    {tag: 'dobj',  label: 'Direct object'},
+    {tag: 'amod',  label: 'Adjectival modifier'},
+    {tag: 'npadvmod',  label: 'Noun phrase as adverbial modifier'},
+    {tag: 'conj',  label: 'Conjunct'},
+    {tag: 'ROOT',  label: 'Sentence kernel element'},
+    {tag: 'intj',  label: 'Interjection'}
 ];
 
 export const spacyLabels = new Labels(deLabels, enLabels);

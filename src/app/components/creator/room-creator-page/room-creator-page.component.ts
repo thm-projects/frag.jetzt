@@ -11,7 +11,7 @@ import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { TSMap } from 'typescript-map';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from '../_dialogs/bonus-token/bonus-token.component';
@@ -52,7 +52,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               public dialog: MatDialog,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              protected wsCommentService: WsCommentServiceService,
+              protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
