@@ -29,6 +29,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CommentFilter, Period } from '../../../utils/filter-options';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 
 export interface CommentListData {
   comments: Comment[];
@@ -117,6 +118,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private translationService: TranslateService,
     private bonusTokenService: BonusTokenService,
     private moderatorService: ModeratorService,
+    private topicCloudAdminService: TopicCloudAdminService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -348,7 +350,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
       case 'CommentCreated':
         const c = new Comment();
         c.roomId = this.roomId;
-        c.body = payload.body;
+        if (this.room.profanityFilter){
+          c.body = this.topicCloudAdminService.filterProfanityWords(payload.body);
+        } else {
+          c.body = payload.body;
+        }
         c.id = payload.id;
         c.timestamp = payload.timestamp;
         c.tag = payload.tag;

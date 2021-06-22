@@ -31,8 +31,6 @@ export class CommentService extends BaseHttpService {
               private roomService: RoomService,
               private topicCloudAdminService: TopicCloudAdminService) {
     super();
-    this.profanityFilter = true;
-    // this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => this.profanityFilter = room.profanityFilter);
   }
 
 
@@ -230,9 +228,11 @@ export class CommentService extends BaseHttpService {
 
 
   parseComment(comment: Comment): Comment {
-    if (this.profanityFilter){
-      comment.body = this.topicCloudAdminService.filterProfanityWords(comment.body);
-    }
+    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+      if (room.profanityFilter){
+        comment.body = this.topicCloudAdminService.filterProfanityWords(comment.body);
+      }
+    });
     comment.userNumber = this.hashCode(comment.creatorId);
     // make list out of string "array"
     comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
