@@ -7,12 +7,12 @@
     <mat-radio-button value="continueWithAll">
       <div class="elementRow">
         <div class="elementText">
-          {{'content.continue-with-all-questions' | translate}} 
+          {{'content.continue-with-all-questions' | translate}}
         </div>
         <div class="elementIcons">
-          <mat-icon [inline]="true">comment</mat-icon> {{allCommentsCount}} 
-          <mat-icon [inline]="true">person</mat-icon> {{allCommentsUsers}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{allCommentsKeywords}}
+          <mat-icon [inline]="true">comment</mat-icon> {{allComments.comments}}
+          <mat-icon [inline]="true">person</mat-icon> {{allComments.users}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{allComments.keywords}}
         </div>
       </div>
     </mat-radio-button>
@@ -22,9 +22,9 @@
           {{'content.continue-with-current-questions' | translate}}
         </div>
         <div class="elementIcons">
-          <mat-icon [inline]="true">comment</mat-icon> {{filteredCommentsCount}}
-          <mat-icon [inline]="true">person</mat-icon> {{filteredCommentsUsers}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{filteredCommentsKeywords}}
+          <mat-icon [inline]="true">comment</mat-icon> {{filteredComments.comments}}
+          <mat-icon [inline]="true">person</mat-icon> {{filteredComments.users}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{filteredComments.keywords}}
         </div>
       </div>
     </mat-radio-button>

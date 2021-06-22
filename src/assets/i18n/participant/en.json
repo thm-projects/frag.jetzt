@@ -298,7 +298,8 @@
     "german": "German",
     "select-all": "Select all",
     "keyword-counter": "Topic count",
-    "sort": "Sort"
+    "sort": "Sort",
+    "words-will-be-overwritten": "profane words will be overwritten with '***'"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
