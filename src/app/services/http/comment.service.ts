@@ -6,7 +6,6 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { CommentFilterUtils } from '../../utils/filter-comments';
 import { RoomService } from './room.service';
 import { TopicCloudAdminService } from '../util/topic-cloud-admin.service';
 import { CommentFilter } from '../../utils/filter-options';

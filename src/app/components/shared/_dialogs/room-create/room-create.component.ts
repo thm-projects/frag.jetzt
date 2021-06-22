@@ -76,6 +76,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
+    newRoom.profanityFilter = true;
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       if (!new RegExp('[1-9a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)
         || this.customShortIdName.startsWith(' ') || this.customShortIdName.endsWith(' ')) {
