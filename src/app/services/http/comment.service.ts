@@ -25,8 +25,6 @@ export class CommentService extends BaseHttpService {
     vote: '/vote'
   };
 
-  private profanityFilter: boolean;
-
   constructor(private http: HttpClient,
               private roomService: RoomService,
               private topicCloudAdminService: TopicCloudAdminService) {
