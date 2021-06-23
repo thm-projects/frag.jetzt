@@ -31,10 +31,22 @@ summary {
   cursor: pointer;
 }
 
-#entry {
-    display:flex;
-    flex-direction:row;
-    justify-content: left;
-  }
+.entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  border-bottom: var(--primary) dashed 2px;
+}
+
+.entryRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+span, mat-icon {
+  margin-right: 7px;
+}
 
 

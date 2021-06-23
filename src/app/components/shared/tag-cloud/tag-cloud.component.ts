@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {
   CloudData,
@@ -148,7 +148,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
@@ -228,7 +228,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this._createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
-        this.dataManager.demoActive = !this.dataManager.demoActive;
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
@@ -285,6 +284,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
 
+  ngAfterViewInit() {
+    this.rebuildData();
+  }
+
   ngOnDestroy() {
     document.getElementById('footer_rescale').style.display = 'block';
     this.headerInterface.unsubscribe();
@@ -329,6 +332,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   rebuildData() {
+    if (!this.child || !this.dataManager.currentData) {
+      return;
+    }
     const newElements = [];
     const data = this.dataManager.currentData;
     const countFiler = [];

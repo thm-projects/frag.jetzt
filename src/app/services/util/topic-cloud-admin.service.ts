@@ -46,10 +46,10 @@ export class TopicCloudAdminService {
           de: this.getDefaultSpacyTagsDE(),
           en: this.getDefaultSpacyTagsEN()
         },
-        considerVotes: false,
+        considerVotes: true,
         profanityFilter: true,
         blacklistIsActive: true,
-        keywordORfulltext: KeywordOrFulltext.keyword
+        keywordORfulltext: KeywordOrFulltext.both
       };
     }
     return data;
@@ -58,7 +58,9 @@ export class TopicCloudAdminService {
   static getDefaultSpacyTagsDE(): string[] {
     const tags: string[] = [];
     spacyLabels.de.forEach(label => {
-      tags.push(label.tag);
+      if (label.enabledByDefault) {
+        tags.push(label.tag);
+      }
     });
     return tags;
   }
@@ -66,7 +68,9 @@ export class TopicCloudAdminService {
   static getDefaultSpacyTagsEN(): string[] {
     const tags: string[] = [];
     spacyLabels.en.forEach(label => {
-      tags.push(label.tag);
+      if (label.enabledByDefault) {
+        tags.push(label.tag);
+      }
     });
     return tags;
   }

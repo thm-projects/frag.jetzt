@@ -62,12 +62,25 @@ export class WorkerDialogComponent implements OnInit {
     return WorkerDialogComponent.queuedRooms;
   }
 
+  getActiveRoomCount(): number {
+    let count = 0;
+    WorkerDialogComponent.queuedRooms.values().forEach(e => {
+      if (e.isRunning()) {
+        ++count;
+      }
+    });
+    return count;
+  }
+
   appendRoom(room: Room) {
     WorkerDialogComponent.queuedRooms.set(room.id,
       new WorkerDialogTask(room, this.spacyService, this.commentService, this.languagetoolService, () => {
-        if (WorkerDialogComponent.queuedRooms.length === 0) {
-          setTimeout(() => this.close(), 2000);
-        }
+        setTimeout(() => {
+          WorkerDialogComponent.queuedRooms.delete(room.id);
+          if (WorkerDialogComponent.queuedRooms.length === 0) {
+            this.close();
+          }
+        }, 10_000);
       })
     );
   }

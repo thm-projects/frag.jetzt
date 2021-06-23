@@ -102,10 +102,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   refreshKeywords() {
-    const tempKeywords = this.keywords;
     this.keywords = [];
-    tempKeywords.forEach(keyword => {
-      keyword.comments.forEach(comment => this.pushInKeywords(comment));
+    this.roomDataService.currentRoomData.forEach(comment => {
+      this.pushInKeywords(comment);
     });
     if (this.searchMode) {
       this.searchKeyword();

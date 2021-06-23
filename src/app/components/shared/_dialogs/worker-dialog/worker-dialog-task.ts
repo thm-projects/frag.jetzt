@@ -39,6 +39,10 @@ export class WorkerDialogTask {
     });
   }
 
+  isRunning(): boolean {
+    return this._running.some(e => e === true);
+  }
+
   private callSpacy(currentIndex: number) {
     if (this.error || currentIndex >= this._comments.length) {
       this._running[currentIndex % concurrentCallsPerTask] = false;
