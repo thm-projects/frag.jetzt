@@ -158,8 +158,8 @@ export class RoomDataService {
   private setCommentBodies(comment: Comment) {
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
       this._savedCommentsBeforeFilter.set(comment.id, comment.body);
-      this._savedCommentsAfterFilter.set(comment.id,
-      this.topicCloudAdminService.filterProfanityWords(comment.body, room.censorPartialWords, room.censorLanguageSpecific, 'de')
+      this._savedCommentsAfterFilter.set(comment.id, this.topicCloudAdminService
+          .filterProfanityWords(comment.body, room.censorPartialWords, room.censorLanguageSpecific, ['comment.langs']) // comment.langs
       );
     });
   }

@@ -179,9 +179,14 @@ export class TopicCloudAdminService {
       });
   }
 
-  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string){
+  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, langs?: string[]){
     let filteredString = str;
-    const profWords = censorLanguageSpecificCheck ? BadWords[lang] : this.profanityWords;
+    let profWords = [];
+    if (censorLanguageSpecificCheck) {
+      langs.forEach(lang => profWords = profWords.concat(BadWords[lang]));
+    } else {
+      profWords = this.profanityWords;
+    }
     const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(' ');
     profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
       if (toCensoredString.includes(word)) {
