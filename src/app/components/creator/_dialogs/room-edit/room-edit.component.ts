@@ -74,8 +74,6 @@ export class RoomEditComponent implements OnInit {
   save(): void {
     this.editRoom.questionsBlocked = this.check;
     this.editRoom.profanityFilter = this.profanityCheck;
-    // temp solution until the backend is updated
-    localStorage.setItem('room-profanity-filter', (this.profanityCheck ? 'true' : 'false'));
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
         && !this.roomNameFormControl.hasError('minlength')

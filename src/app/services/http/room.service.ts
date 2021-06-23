@@ -138,9 +138,6 @@ export class RoomService extends BaseHttpService {
   }
 
   setRoomId(room: Room): void {
-    // temp solution until the backend is updated
-    room.profanityFilter = localStorage.getItem('room-profanity-filter') !== 'false' ||
-                           !localStorage.getItem('room-profanity-filter') ? true : false;
     localStorage.setItem('roomId', room.id);
   }
 }
