@@ -8,18 +8,20 @@
       <div mat-dialog-content>
         <div class="entry" *ngFor="let task of getRooms().values()">
           <div class="entryRow">
-            <mat-icon svgIcon="meeting_room"></mat-icon>
+            <mat-icon svgIcon="meeting_room" matTooltip="{{'worker-dialog.room-name' | translate}}"></mat-icon>
             <span>{{ task.room.name }}</span>
             <span *ngIf="task.error" style="color: var(--red)">{{task.error}}</span>
           </div>
           <div *ngIf="!task.error" class="entryRow">
-            <mat-icon>comment</mat-icon>
+            <mat-icon matTooltip="{{'worker-dialog.comments' | translate}}">comment</mat-icon>
             <span>{{task.statistics.succeeded}}/{{ task.statistics.length}}</span>
-            <mat-icon *ngIf="task.statistics.badSpelled" style="color: darkorange">warning</mat-icon>
+            <mat-icon *ngIf="task.statistics.badSpelled" style="color: darkorange"
+              matTooltip="{{'worker-dialog.bad-spelled' | translate}}">warning</mat-icon>
             <span *ngIf="task.statistics.badSpelled">
               {{task.statistics.badSpelled}}
             </span>
-            <mat-icon *ngIf="task.statistics.failed" style="color: var(--red)">error</mat-icon>
+            <mat-icon *ngIf="task.statistics.failed" style="color: var(--red)"
+              matTooltip="{{'worker-dialog.failed' | translate}}">error</mat-icon>
             <span *ngIf="task.statistics.failed">
               {{task.statistics.failed}}
             </span>
