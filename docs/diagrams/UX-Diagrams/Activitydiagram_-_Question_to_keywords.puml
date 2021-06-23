@@ -13,11 +13,23 @@ partition "Comment List"
                 case ()
                     :select\n  tag;
                 case ()
+                    switch (suggestions\n    active?)
+                        case( no)
+                            :spellcheck;
+                            switch ()
+                                case ()
+                                    :     use\nsuggestion;
+                                case ()
+                            endswitch
+                        case ( yes)
+                          :     use\nsuggestion;
+                    endswitch
+                case ()
                     switch ()
                         case ()
                             :cancel;
                         case ()
-                            :     click\noutside of\n  window;
+                            :    click\noutside of\n  window;
                     endswitch
                     stop
                 case (\n\n\n\n\n\n if\n preview\n selected)
