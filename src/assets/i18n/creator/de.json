@@ -333,7 +333,7 @@
     "token-deleted": "Der Token wurde gelöscht.",
     "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht.",
     "profanity-filter": "Schimpfwörter zensieren",
-    "words-will-be-overwritten": "profane words will be overwritten with '***'"
+    "words-will-be-overwritten": "Schimpfwörter werden mit'***' überschrieben"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
