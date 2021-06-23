@@ -6,8 +6,6 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { RoomService } from './room.service';
-import { TopicCloudAdminService } from '../util/topic-cloud-admin.service';
 import { CommentFilter } from '../../utils/filter-options';
 
 const httpOptions = {
@@ -25,9 +23,7 @@ export class CommentService extends BaseHttpService {
     vote: '/vote'
   };
 
-  constructor(private http: HttpClient,
-              private roomService: RoomService,
-              private topicCloudAdminService: TopicCloudAdminService) {
+  constructor(private http: HttpClient) {
     super();
   }
 
@@ -226,11 +222,6 @@ export class CommentService extends BaseHttpService {
 
 
   parseComment(comment: Comment): Comment {
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      if (room.profanityFilter){
-        comment.body = this.topicCloudAdminService.filterProfanityWords(comment.body);
-      }
-    });
     comment.userNumber = this.hashCode(comment.creatorId);
     // make list out of string "array"
     comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
