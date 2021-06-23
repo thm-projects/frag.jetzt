@@ -115,7 +115,7 @@ export class RoomDataService {
 
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
     if (roomId && roomId === this._currentRoomId) {
-      this.checkProfanity();
+      this.checkProfanity(this._currentComments);
       return of(freezed ? [...this._currentComments] : this._currentComments);
     }
     const tempSubject = new Subject<Comment[]>();
@@ -127,14 +127,32 @@ export class RoomDataService {
     return tempSubject.asObservable();
   }
 
-  private checkProfanity() {
+  getComment(id: string): Observable<Comment> {
+    if (!this._fastCommentAccess) {
+      const comment = new Subject<Comment>();
+      this.commentService.getComment(id).subscribe(c => {
+        this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+          if (room.profanityFilter) {
+            c.body = this.topicCloudAdminService.filterProfanityWords(c.body);
+          }
+          comment.next(c);
+        });
+      });
+      return comment.asObservable();
+    } else {
+      this.checkProfanity([this._fastCommentAccess[id]]);
+      return of(this._fastCommentAccess[id]);
+    }
+  }
+
+  private checkProfanity(comments: Comment[]) {
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
       if (room.profanityFilter) {
-        this._currentComments.forEach(comment => {
+        comments.forEach(comment => {
           comment.body = this._savedCommentsAfterFilter.get(comment.id);
         });
       } else {
-        this._currentComments.forEach(comment => {
+        comments.forEach(comment => {
           comment.body = this._savedCommentsBeforeFilter.get(comment.id);
         });
       }
@@ -176,7 +194,7 @@ export class RoomDataService {
 
   private triggerUpdate(type: UpdateType, additionalInformation: UpdateInformation) {
     if ((additionalInformation && additionalInformation.type === 'CommentCreated') || !additionalInformation) {
-      this.checkProfanity();
+      this.checkProfanity(this._currentComments);
     }
     if (type === UpdateType.force) {
       this._commentUpdates.next(this._currentComments);

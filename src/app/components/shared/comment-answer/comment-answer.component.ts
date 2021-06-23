@@ -11,6 +11,7 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
+import { RoomDataService } from '../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -33,6 +34,7 @@ export class CommentAnswerComponent implements OnInit {
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               private authenticationService: AuthenticationService,
+              private roomDataService: RoomDataService,
               public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -41,7 +43,7 @@ export class CommentAnswerComponent implements OnInit {
       this.isStudent = false;
     }
     this.route.params.subscribe(params => {
-      this.commentService.getComment(params['commentId']).subscribe(comment => {
+      this.roomDataService.getComment(params['commentId']).subscribe(comment => {
         this.comment = comment;
         this.answer = this.comment.answer;
         this.isLoading = false;
