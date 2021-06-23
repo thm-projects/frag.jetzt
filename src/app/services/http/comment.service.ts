@@ -86,7 +86,8 @@ export class CommentService extends BaseHttpService {
         roomId: comment.roomId, body: comment.body,
         read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag,
         keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
-        keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner)
+        keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
+        language: comment.language
       }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))

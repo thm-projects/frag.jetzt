@@ -121,6 +121,10 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result.isAcceptable) {
           const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
+          // Store language if it was auto-detected
+          if(this.selectedLang === 'auto') {
+            comment.language = commentLang;
+          }
           const dialogRef = this.dialog.open(SpacyDialogComponent, {
             data: {
               comment,
