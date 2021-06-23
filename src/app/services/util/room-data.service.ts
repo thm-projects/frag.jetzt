@@ -133,7 +133,7 @@ export class RoomDataService {
         this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
           if (room.profanityFilter) {
             c.body = this.topicCloudAdminService.filterProfanityWords(c.body,
-                                                room.censorPartialWords, room.censorLanguageSpecific, 'de');
+                                                room.censorPartialWords, room.censorLanguageSpecific, ['comment.langs']);
           }
           comment.next(c);
         });
