@@ -224,7 +224,8 @@ export class CommentService extends BaseHttpService {
   parseComment(comment: Comment): Comment {
     comment.userNumber = this.hashCode(comment.creatorId);
     // make list out of string "array"
-    comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ? JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
+    comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
+                                     JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
     comment.keywordsFromSpacy = comment.keywordsFromSpacy ? JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
     return comment;
   }

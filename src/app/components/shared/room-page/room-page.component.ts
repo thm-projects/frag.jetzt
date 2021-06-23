@@ -4,7 +4,7 @@ import { User } from '../../../models/user';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
 import { Message, IMessage } from '@stomp/stompjs';
@@ -28,7 +28,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
               protected location: Location,
-              protected wsCommentService: WsCommentServiceService,
+              protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               protected eventService: EventService
   ) {
