@@ -109,7 +109,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   checkProfanity(){
-    this.roomDataService.checkProfanity(this.comment);
+    if (!this.router.url.includes('moderator/comments')) {
+      this.roomDataService.checkProfanity(this.comment);
+    }
   }
 
   toggleExpand(evt: MouseEvent) {

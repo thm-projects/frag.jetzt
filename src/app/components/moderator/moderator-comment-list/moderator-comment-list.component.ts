@@ -326,7 +326,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         c.id = payload.id;
         c.timestamp = payload.timestamp;
         c.creatorId = payload.creatorId;
-        c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
+        c.keywordsFromQuestioner = payload.keywordsFromQuestioner ?
+                                   JSON.parse(payload.keywordsFromQuestioner as unknown as string) : null;
         c.userNumber = this.commentService.hashCode(c.creatorId);
         this.comments = this.comments.concat(c);
         break;
