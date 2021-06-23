@@ -206,6 +206,10 @@ mat-card-content > :first-child {
   height: 18px !important;
 }
 
+.mat-badge-content {
+  background: #fb9a1c;
+}
+
 .user-number {
   cursor: pointer;
   color: var(--on-surface);
