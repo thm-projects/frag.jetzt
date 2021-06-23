@@ -227,7 +227,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   getKeywordWithoutProfanity(keyword: string): string {
-    return this.topicCloudAdminService.filterProfanityWords(keyword);
+    return this.topicCloudAdminService.filterProfanityWords(keyword, true, false);
   }
 
   sortQuestions(sortMode?: string) {

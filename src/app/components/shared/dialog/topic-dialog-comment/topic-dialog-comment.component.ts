@@ -43,7 +43,7 @@ export class TopicDialogCommentComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
+    this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question, true, false);
     this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
     this.parts = this.splitQuestion(this.question);
     this.partsWithoutProfanityShort = this.splitShortQuestion(this.questionWithoutProfanity);

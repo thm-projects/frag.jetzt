@@ -132,7 +132,8 @@ export class RoomDataService {
       this.commentService.getComment(id).subscribe(c => {
         this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
           if (room.profanityFilter) {
-            c.body = this.topicCloudAdminService.filterProfanityWords(c.body);
+            c.body = this.topicCloudAdminService.filterProfanityWords(c.body,
+                                                room.censorPartialWords, room.censorLanguageSpecific, 'de');
           }
           comment.next(c);
         });
@@ -155,8 +156,12 @@ export class RoomDataService {
   }
 
   private setCommentBodies(comment: Comment) {
-    this._savedCommentsBeforeFilter.set(comment.id, comment.body);
-    this._savedCommentsAfterFilter.set(comment.id, this.topicCloudAdminService.filterProfanityWords(comment.body));
+    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+      this._savedCommentsBeforeFilter.set(comment.id, comment.body);
+      this._savedCommentsAfterFilter.set(comment.id,
+      this.topicCloudAdminService.filterProfanityWords(comment.body, room.censorPartialWords, room.censorLanguageSpecific, 'de')
+      );
+    });
   }
 
   private removeCommentBodies(key: string) {
