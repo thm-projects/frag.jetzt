@@ -1,0 +1,95 @@
+@startuml
+partition Topic-Cloud #skyblue {
+skinparam backgroundColor #skyblue
+
+skinparam class{
+BackgroundColor Application
+BorderColor black
+ArrowColor black
+}
+
+skinparam BorderColor black
+skinparam ArrowColor black
+skinparam backgroundColor #powderblue
+skinparam backgroundColor Linen
+skinparam LegendBackgroundColor Strategy
+skinparam LegendBorderThickness 0
+skinparam LegendFontSize 12
+
+start
+if (decision ?) then
+ :create room;
+else
+ :enter room-code/name;
+endif
+
+ :click options;
+ :select topic-cloud;
+
+partition #powderblue select-list {
+switch ()
+case()
+ :continue with\ncomplete list\nof questions;
+case()
+ :continue with\n current filters;
+case()
+  :continue with\nall questions\n    from now;
+endswitch
+ :select option;
+}
+
+if (choose ?) then (cancel)
+-[#black]->
+end
+else (confirm "continue-button")
+:modify cloud-view;
+
+ floating note right:edit your own topic-cloud\n         or demo-cloud
+switch ()
+case()
+ :    activate\ndemo-cloud;
+case()
+ :  deactivate\ndemo-cloud;
+endswitch
+
+partition #powderblue edit-cloud {
+fork
+:general options;
+
+fork again
+:font options;
+
+fork again
+: hover options;
+
+fork again
+:weight-class options;
+end fork
+floating note right:options for weight\n classes 1 to 10
+
+}
+switch ()
+case()
+ :reset;
+case()
+ :cancel;
+case()
+ :save;
+endswitch
+end
+
+legend right
+  | |= \n »frag.jetzt« \n|
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML v1.2021.5|
+  | Ersteller| Lauryn Lorna Monthe Djomeni, Aliye Tanriseven|
+  | Vorherige Änderung | 18.06.2021 |
+  | Letzte Änderung| 20.06.2021 |
+  | Letzte Änderung von| Lauryn Lorna Monthe Djomeni\n Aliye Tanriseven |
+end legend
+
+
+@enduml
+}
