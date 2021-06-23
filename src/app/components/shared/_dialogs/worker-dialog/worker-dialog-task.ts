@@ -40,7 +40,7 @@ export class WorkerDialogTask {
   }
 
   isRunning(): boolean {
-    return this._running.some(e => e === true);
+    return !this._running || this._running.some(e => e === true);
   }
 
   private callSpacy(currentIndex: number) {

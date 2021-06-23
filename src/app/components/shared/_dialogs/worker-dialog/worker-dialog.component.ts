@@ -6,6 +6,8 @@ import { TSMap } from 'typescript-map';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WorkerDialogTask } from './worker-dialog-task';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-worker-dialog',
@@ -19,7 +21,10 @@ export class WorkerDialogComponent implements OnInit {
 
   constructor(private commentService: CommentService,
               private languagetoolService: LanguagetoolService,
-              private spacyService: SpacyService) {
+              private spacyService: SpacyService,
+              protected langService: LanguageService,
+              private translateService: TranslateService) {
+                langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   static addWorkTask(dialog: MatDialog, room: Room): boolean {
@@ -49,6 +54,7 @@ export class WorkerDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   checkTasks(event: BeforeUnloadEvent) {
