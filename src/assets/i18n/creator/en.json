@@ -332,7 +332,9 @@
     "really-delete-tokens": "Do you really want to delete all tokens of this session?",
     "delete-all-tokens": "Delete all tokens",
     "token-deleted": "Token has been deleted.",
-    "tokens-deleted": "All tokens of this sessions have been deleted."
+    "tokens-deleted": "All tokens of this sessions have been deleted.",
+    "profanity-filter": "Censor profanity",
+    "words-will-be-overwritten": "profane words will be overwritten with '***'"
   },
   "session": {
     "a11y-description": "Enter a description of the session",

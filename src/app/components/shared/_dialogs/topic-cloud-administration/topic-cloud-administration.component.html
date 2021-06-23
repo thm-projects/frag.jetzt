@@ -15,7 +15,7 @@
           <mat-label class="color-on-surface">
             {{"topic-cloud-dialog.select-choice" | translate}}
           </mat-label>
-          <mat-radio-group class="radio-button-group" (change)=(updateKeywords()) [(ngModel)]="keywordORfulltext">
+          <mat-radio-group class="radio-button-group" (change)=(refreshKeywords()) [(ngModel)]="keywordORfulltext">
             <mat-radio-button checked="true" [value]="keywordOrFulltextENUM[0]" class="radio-button-item">
               {{"topic-cloud-dialog.keyword" | translate}}
             </mat-radio-button>

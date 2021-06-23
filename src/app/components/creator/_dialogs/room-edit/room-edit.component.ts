@@ -20,6 +20,7 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
   check: boolean = false;
+  profanityCheck = true;
 
   roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
 
@@ -35,6 +36,7 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
     this.check = this.editRoom.questionsBlocked;
+    this.profanityCheck = this.editRoom.profanityFilter;
   }
 
   openDeleteRoomDialog(): void {
@@ -62,7 +64,6 @@ export class RoomEditComponent implements OnInit {
     });
   }
 
-
   /**
    * Closes the dialog on call.
    */
@@ -72,6 +73,9 @@ export class RoomEditComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
+    this.editRoom.profanityFilter = this.profanityCheck;
+    // temp solution until the backend is updated
+    localStorage.setItem('room-profanity-filter', (this.profanityCheck ? 'true' : 'false'));
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
         && !this.roomNameFormControl.hasError('minlength')
@@ -88,11 +92,18 @@ export class RoomEditComponent implements OnInit {
     return () => this.closeDialog('abort');
   }
 
-
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
   buildSaveActionCallback(): () => void {
     return () => this.save();
+  }
+
+  showMessage(label?: string) {
+    if (this.profanityCheck){
+      this.translationService.get('room-page.'+label).subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    }
   }
 }
