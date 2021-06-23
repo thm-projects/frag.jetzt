@@ -224,6 +224,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
+      this.authenticationService.checkAccess(this.shortId);
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;

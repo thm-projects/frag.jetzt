@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommentFilter } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
@@ -23,7 +23,7 @@ class CommentsCount {
   styleUrls: ['./topic-cloud-filter.component.scss']
 })
 export class TopicCloudFilterComponent implements OnInit {
-  @Input() shortId: string;
+  @Input() target: string;
 
   continueFilter = 'continueWithCurr';
   comments: Comment[];
@@ -115,7 +115,7 @@ export class TopicCloudFilterComponent implements OnInit {
       }
 
       CommentFilter.currentFilter = filter;
-      this.dialogRef.close(this.router.navigateByUrl('/participant/room/' + this.shortId + '/comments/tagcloud'));
+      this.dialogRef.close(this.router.navigateByUrl(this.target));
     };
   }
 }
