@@ -152,6 +152,7 @@ export class CommentService extends BaseHttpService {
   patchComment(comment: Comment, changes: TSMap<string, any>) {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id;
     return this.http.patch(connectionUrl, changes, httpOptions).pipe(
+      map(c => this.parseComment(c as Comment)),
       tap(_ => ''),
       catchError(this.handleError<any>('patchComment'))
     );
@@ -222,8 +223,10 @@ export class CommentService extends BaseHttpService {
 
 
   parseComment(comment: Comment): Comment {
+    if (!comment){
+      return;
+    }
     comment.userNumber = this.hashCode(comment.creatorId);
-    // make list out of string "array"
     comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
                                      JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
     comment.keywordsFromSpacy = comment.keywordsFromSpacy ? JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;

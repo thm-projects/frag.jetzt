@@ -115,7 +115,6 @@ export class RoomDataService {
 
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
     if (roomId && roomId === this._currentRoomId) {
-      this.checkProfanity(this._currentComments);
       return of(freezed ? [...this._currentComments] : this._currentComments);
     }
     const tempSubject = new Subject<Comment[]>();
@@ -140,21 +139,17 @@ export class RoomDataService {
       });
       return comment.asObservable();
     } else {
-      this.checkProfanity([this._fastCommentAccess[id]]);
+      this.checkProfanity(this._fastCommentAccess[id]);
       return of(this._fastCommentAccess[id]);
     }
   }
 
-  private checkProfanity(comments: Comment[]) {
+  public checkProfanity(comment: Comment) {
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
       if (room.profanityFilter) {
-        comments.forEach(comment => {
-          comment.body = this._savedCommentsAfterFilter.get(comment.id);
-        });
+        comment.body = this._savedCommentsAfterFilter.get(comment.id);
       } else {
-        comments.forEach(comment => {
-          comment.body = this._savedCommentsBeforeFilter.get(comment.id);
-        });
+        comment.body = this._savedCommentsBeforeFilter.get(comment.id);
       }
     });
   }
@@ -193,9 +188,6 @@ export class RoomDataService {
   }
 
   private triggerUpdate(type: UpdateType, additionalInformation: UpdateInformation) {
-    if ((additionalInformation && additionalInformation.type === 'CommentCreated') || !additionalInformation) {
-      this.checkProfanity(this._currentComments);
-    }
     if (type === UpdateType.force) {
       this._commentUpdates.next(this._currentComments);
     } else if (type === UpdateType.commentStream) {
