@@ -27,6 +27,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CommentFilter, Period } from '../../../utils/filter-options';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 
 export interface CommentListData {
@@ -115,7 +116,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private translationService: TranslateService,
     private bonusTokenService: BonusTokenService,
     private moderatorService: ModeratorService,
-    private roomDataService: RoomDataService,
+    private topicCloudAdminService: TopicCloudAdminService,
+    private roomDataService: RoomDataService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
