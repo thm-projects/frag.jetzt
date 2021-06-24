@@ -138,9 +138,6 @@ export class RoomService extends BaseHttpService {
   }
 
   setRoomId(room: Room): void {
-    // temp
-    room.censorLanguageSpecific = true;
-    room.censorPartialWords = true;
     localStorage.setItem('roomId', room.id);
   }
 }

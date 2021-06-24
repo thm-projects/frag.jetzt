@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Room } from '../../../../models/room';
+import { ProfanityFilter, Room } from '../../../../models/room';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RoomDeleteComponent } from '../room-delete/room-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -19,7 +19,7 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 })
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
-  check: boolean = false;
+  check = false;
   profanityCheck: boolean;
   censorPartialWordsCheck: boolean;
   censorLanguageSpecificCheck: boolean;
@@ -38,9 +38,13 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
     this.check = this.editRoom.questionsBlocked;
-    this.profanityCheck = this.editRoom.profanityFilter;
-    this.censorLanguageSpecificCheck = this.editRoom.censorLanguageSpecific;
-    this.censorPartialWordsCheck = this.editRoom.censorPartialWords;
+    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.deactived;
+    if (this.editRoom.profanityFilter === ProfanityFilter.all){
+      this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
+    } else if (this.profanityCheck){
+      this.censorLanguageSpecificCheck = this.editRoom.profanityFilter === ProfanityFilter.languageSpecific;
+      this.censorPartialWordsCheck = this.editRoom.profanityFilter === ProfanityFilter.partialWords;
+    }
   }
 
   openDeleteRoomDialog(): void {
@@ -77,9 +81,13 @@ export class RoomEditComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck;
-    this.editRoom.censorLanguageSpecific = this.censorLanguageSpecificCheck;
-    this.editRoom.censorPartialWords = this.censorPartialWordsCheck;
+    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.none : ProfanityFilter.deactived;
+    if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
+      this.editRoom.profanityFilter = ProfanityFilter.all;
+    } else if (this.profanityCheck){
+      this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
+      this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : this.editRoom.profanityFilter;
+    }
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
         && !this.roomNameFormControl.hasError('minlength')

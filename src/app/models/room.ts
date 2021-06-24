@@ -15,9 +15,7 @@ export class Room {
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
-  profanityFilter: boolean;
-  censorPartialWords: boolean;
-  censorLanguageSpecific: boolean;
+  profanityFilter: ProfanityFilter;
 
 
   constructor(
@@ -33,9 +31,7 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: boolean = true,
-    censorPartialWords: boolean = false,
-    censorLanguageSpecific: boolean = false
+    profanityFilter: ProfanityFilter = ProfanityFilter.none
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -51,7 +47,13 @@ export class Room {
     this.tags = tags;
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
-    this.censorPartialWords = censorPartialWords;
-    this.censorLanguageSpecific = censorLanguageSpecific;
   }
+}
+
+export enum ProfanityFilter{
+  all = 0,
+  languageSpecific = 1,
+  partialWords = 2,
+  none = 3,
+  deactived = 4
 }

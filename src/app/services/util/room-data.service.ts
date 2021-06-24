@@ -7,6 +7,7 @@ import { CommentService } from '../http/comment.service';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { RoomService } from '../http/room.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
+import { ProfanityFilter, Room } from '../../models/room';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -127,13 +128,12 @@ export class RoomDataService {
   }
 
   getComment(id: string): Observable<Comment> {
-    if (!this._fastCommentAccess) {
+    if (!this._fastCommentAccess[id]) {
       const comment = new Subject<Comment>();
       this.commentService.getComment(id).subscribe(c => {
         this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
           if (room.profanityFilter) {
-            c.body = this.topicCloudAdminService.filterProfanityWords(c.body,
-                                                room.censorPartialWords, room.censorLanguageSpecific, ['comment.langs']);
+            c.body = this.filterCommentOfProfanity(room, c);
           }
           comment.next(c);
         });
@@ -147,7 +147,7 @@ export class RoomDataService {
 
   public checkProfanity(comment: Comment) {
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      if (room.profanityFilter) {
+      if (room.profanityFilter !== ProfanityFilter.deactived) {
         comment.body = this._savedCommentsAfterFilter.get(comment.id);
       } else {
         comment.body = this._savedCommentsBeforeFilter.get(comment.id);
@@ -158,10 +158,14 @@ export class RoomDataService {
   private setCommentBodies(comment: Comment) {
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
       this._savedCommentsBeforeFilter.set(comment.id, comment.body);
-      this._savedCommentsAfterFilter.set(comment.id, this.topicCloudAdminService
-          .filterProfanityWords(comment.body, room.censorPartialWords, room.censorLanguageSpecific, ['comment.langs']) // comment.langs
-      );
+      this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(room, comment));
     });
+  }
+
+  private filterCommentOfProfanity(room: Room, comment: Comment): string {
+    const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
+    const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
+    return this.topicCloudAdminService.filterProfanityWords(comment.body, partialWords, languageSpecific, ['de']);
   }
 
   private removeCommentBodies(key: string) {
