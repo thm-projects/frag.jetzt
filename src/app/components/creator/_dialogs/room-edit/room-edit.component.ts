@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Room } from '../../../../models/room';
+import { ProfanityFilterType, Room } from '../../../../models/room';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RoomDeleteComponent } from '../room-delete/room-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
@@ -36,7 +36,7 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
     this.check = this.editRoom.questionsBlocked;
-    this.profanityCheck = this.editRoom.profanityFilter === 2;
+    this.profanityCheck = this.editRoom.profanityFilter === ProfanityFilterType.languageSpecific;
   }
 
   openDeleteRoomDialog(): void {
@@ -73,7 +73,7 @@ export class RoomEditComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck ? 2 : 1;
+    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilterType.languageSpecific : ProfanityFilterType.none;
     // temp solution until the backend is updated
     localStorage.setItem('room-profanity-filter', String(this.editRoom.profanityFilter));
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);

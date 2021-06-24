@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Room } from '../../models/room';
+import { ProfanityFilterType, Room } from '../../models/room';
 import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -137,7 +137,8 @@ export class RoomService extends BaseHttpService {
   setRoomId(room: Room): void {
     // temp solution until the backend is updated
     const filter = +localStorage.getItem('room-profanity-filter');
-    room.profanityFilter = Number.isNaN(filter) || filter < 0 || filter > 3 ? 2 : filter;
+    const isInvalid = Number.isNaN(filter) || filter < ProfanityFilterType.all || filter > ProfanityFilterType.none;
+    room.profanityFilter =  isInvalid ? ProfanityFilterType.languageSpecific : filter;
     localStorage.setItem('roomId', room.id);
   }
 }

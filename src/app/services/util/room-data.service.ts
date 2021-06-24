@@ -7,6 +7,7 @@ import { CommentService } from '../http/comment.service';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { RoomService } from '../http/room.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
+import { ProfanityFilterType } from '../../models/room';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -129,7 +130,7 @@ export class RoomDataService {
 
   private checkProfanity() {
     this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      if (room.profanityFilter) {
+      if (room.profanityFilter !== ProfanityFilterType.none) {
         this._currentComments.forEach(comment => {
           comment.body = this._savedCommentsAfterFilter.get(comment.id);
         });

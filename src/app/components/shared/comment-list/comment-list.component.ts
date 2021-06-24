@@ -266,7 +266,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
-    this._subscriptionEventServiceRoomData = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
+    this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
       const message = JSON.parse(msg.body);
       if (message.type === 'RoomPatched') {
         this.room = message.payload.changes;
@@ -282,7 +282,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
-    this._subscriptionEventServiceRoomData.unsubscribe();
+    this._subscriptionRoomService.unsubscribe();
     this.titleService.resetTitle();
     if (this.headerInterface) {
       this.headerInterface.unsubscribe();
