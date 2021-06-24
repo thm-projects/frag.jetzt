@@ -82,14 +82,13 @@
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
           <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:">
-            <div><mat-slide-toggle [checked]="checkItalic()" (change)="italicChecked($event)"[ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-italic' | translate}}</mat-slide-toggle> </div>
             <div><mat-slide-toggle [checked]="checkBold()" (change)="boldChecked($event)" [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-bold' | translate}}</mat-slide-toggle> </div>
           </mat-radio-group>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
-            <input #minFont [value]="cloudParameters.fontSizeMin" matInput type="number"
+            <input #minFont [value]="cloudParameters.fontSizeMin.toString()" matInput type="number"
               [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
               min="280" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
           </mat-form-field>

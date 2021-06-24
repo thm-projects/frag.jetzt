@@ -124,7 +124,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   ];
   return {
     fontFamily: 'Dancing Script',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     fontStyle: 'normal',
     fontSize: '280px',
     backgroundColor: resDefaultColors[11],
