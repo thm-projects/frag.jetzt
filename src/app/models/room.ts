@@ -1,5 +1,3 @@
-import { TSMap } from 'typescript-map';
-
 export class Room {
   id: string;
   revision: string;

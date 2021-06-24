@@ -1,15 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Room } from '../../models/room';
-import { RoomJoined } from '../../models/events/room-joined';
-import { RoomCreated } from '../../models/events/room-created';
+import { ProfanityFilterType, Room } from '../../models/room';
 import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
 import { EventService } from '../util/event.service';
-import { TSMap } from 'typescript-map';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -110,7 +107,7 @@ export class RoomService extends BaseHttpService {
 
   addToHistory(roomId: string): void {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
-    this.http.post(connectionUrl, { roomId: roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe(() => {});
+    this.http.post(connectionUrl, { roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe();
   }
 
   removeFromHistory(roomId: string): Observable<Room> {

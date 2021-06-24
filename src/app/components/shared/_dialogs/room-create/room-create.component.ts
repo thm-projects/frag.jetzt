@@ -7,7 +7,6 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TSMap } from 'typescript-map';
 import { EventService } from '../../../../services/util/event.service';
 import { User } from '../../../../models/user';
 
@@ -100,8 +99,8 @@ export class RoomCreateComponent implements OnInit {
       this.room = room;
       let msg1: string;
       let msg2: string;
-      this.translateService.get('home-page.created-1').subscribe(msg => { msg1 = msg; });
-      this.translateService.get('home-page.created-2').subscribe(msg => { msg2 = msg; });
+      this.translateService.get('home-page.created-1').subscribe(msg => msg1 = msg);
+      this.translateService.get('home-page.created-2').subscribe(msg => msg2 = msg);
       this.notification.show(msg1 + longRoomName + msg2);
       this.authenticationService.setAccess(encoded, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);

@@ -29,6 +29,7 @@ import { CommentFilter, Period } from '../../../utils/filter-options';
 import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
+import { WsRoomService } from '../../../services/websockets/ws-room.service';
 
 export interface CommentListData {
   comments: Comment[];
@@ -98,6 +99,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
+  private _subscriptionRoomService = null;
 
   constructor(
     private commentService: CommentService,
@@ -117,7 +119,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private bonusTokenService: BonusTokenService,
     private moderatorService: ModeratorService,
     private topicCloudAdminService: TopicCloudAdminService,
-    private roomDataService: RoomDataService
+    private roomDataService: RoomDataService,
+    private wsRoomService: WsRoomService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -221,6 +224,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
+      this.authenticationService.checkAccess(this.shortId);
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
@@ -262,12 +266,23 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
+    this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
+      const message = JSON.parse(msg.body);
+      if (message.type === 'RoomPatched') {
+        this.room = message.payload.changes;
+        this.roomId = this.room.id;
+        this.moderationEnabled = this.room.moderated;
+        this.directSend = this.room.directSend;
+        this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+      }
+    });
   }
 
   ngOnDestroy() {
     if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
+    this._subscriptionRoomService.unsubscribe();
     this.titleService.resetTitle();
     if (this.headerInterface) {
       this.headerInterface.unsubscribe();
