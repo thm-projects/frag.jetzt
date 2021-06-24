@@ -1,4 +1,9 @@
-import { TSMap } from 'typescript-map';
+export enum ProfanityFilterType {
+  all = 0,
+  languageSpecific,
+  partialWords,
+  none
+}
 
 export class Room {
   id: string;
@@ -15,6 +20,7 @@ export class Room {
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
+  profanityFilter: ProfanityFilterType;
 
   constructor(
     ownerId: string = '',
@@ -29,6 +35,7 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
+    profanityFilter: ProfanityFilterType = ProfanityFilterType.languageSpecific
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -43,5 +50,6 @@ export class Room {
     this.threshold = threshold;
     this.tags = tags;
     this.questionsBlocked = questionsBlocked;
+    this.profanityFilter = profanityFilter;
   }
 }

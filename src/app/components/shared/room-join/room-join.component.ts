@@ -74,7 +74,7 @@ export class RoomJoinComponent implements OnInit {
   joinRoom(id: string): void {
     if (!this.sessionCodeFormControl.hasError('required') && !this.sessionCodeFormControl.hasError('minlength')) {
       if (!this.user) {
-        this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
+        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
           this.getRoom(id);
         });
       } else {

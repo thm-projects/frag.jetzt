@@ -2,16 +2,30 @@
   <div id="header" (window:beforeunload)="checkTasks($event)">
     <details>
       <summary>
-        <span>{{'worker-dialog.running' | translate}} # {{getRooms().length}}</span>
+        <span>{{'worker-dialog.running' | translate}} # {{getActiveRoomCount()}}</span>
         <span><button id="btn_hide" (click)="close()">x</button></span>
       </summary>
       <div mat-dialog-content>
-        <div id="entry" *ngFor="let task of getRooms().values()">
-          <mat-icon svgIcon="meeting_room"></mat-icon>
-          <span>{{ task.room.name }}</span>
-          <span style="width: 10px"></span>
-          <mat-icon>comment</mat-icon>
-          <span>{{ task.statistics.length }}</span>
+        <div class="entry" *ngFor="let task of getRooms().values()">
+          <div class="entryRow">
+            <mat-icon svgIcon="meeting_room" matTooltip="{{'worker-dialog.room-name' | translate}}"></mat-icon>
+            <span>{{ task.room.name }}</span>
+            <span *ngIf="task.error" style="color: var(--red)">{{task.error}}</span>
+          </div>
+          <div *ngIf="!task.error" class="entryRow">
+            <mat-icon matTooltip="{{'worker-dialog.comments' | translate}}">comment</mat-icon>
+            <span>{{task.statistics.succeeded}}/{{ task.statistics.length}}</span>
+            <mat-icon *ngIf="task.statistics.badSpelled" style="color: darkorange"
+              matTooltip="{{'worker-dialog.bad-spelled' | translate}}">warning</mat-icon>
+            <span *ngIf="task.statistics.badSpelled">
+              {{task.statistics.badSpelled}}
+            </span>
+            <mat-icon *ngIf="task.statistics.failed" style="color: var(--red)"
+              matTooltip="{{'worker-dialog.failed' | translate}}">error</mat-icon>
+            <span *ngIf="task.statistics.failed">
+              {{task.statistics.failed}}
+            </span>
+          </div>
         </div>
       </div>
     </details>

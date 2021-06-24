@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
 import { MatDialog } from '@angular/material/dialog';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { User } from '../../../models/user';
 import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -73,7 +73,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService,
+    private wsCommentService: WsCommentService,
     protected roomService: RoomService,
     public eventService: EventService,
     private router: Router,

@@ -15,7 +15,7 @@
           <mat-label class="color-on-surface">
             {{"topic-cloud-dialog.select-choice" | translate}}
           </mat-label>
-          <mat-radio-group class="radio-button-group" (change)=(updateKeywords()) [(ngModel)]="keywordORfulltext">
+          <mat-radio-group class="radio-button-group" (change)=(refreshKeywords()) [(ngModel)]="keywordORfulltext">
             <mat-radio-button checked="true" [value]="keywordOrFulltextENUM[0]" class="radio-button-item">
               {{"topic-cloud-dialog.keyword" | translate}}
             </mat-radio-button>
@@ -173,8 +173,8 @@
       </div>
   
       <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
-        <mat-icon [ngClass]="{'animation-blink': searchMode}" class="oldtypo-h2 comment_tag-icon"
-          matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">tag</mat-icon>
+        <mat-icon [ngClass]="{'animation-blink': searchMode}" svgIcon="hashtag" class="oldtypo-h2 comment_tag-icon"
+          matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}"></mat-icon>
         <p [ngClass]="{'animation-blink': searchMode}" matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
           {{searchMode ? filteredKeywords.length :
           keywords.length}}</p>
