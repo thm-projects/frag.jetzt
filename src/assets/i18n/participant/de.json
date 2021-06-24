@@ -336,7 +336,7 @@
     "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
     "extended-btn": "Wichtigkeitsklasse",
     "back-btn": "Zurück",
-    "weight-class-settings": "Relevanz-Gruppen",
+    "weight-class-settings": "Relevanz",
     "weight-class": "Relevanz-Gruppe",
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
@@ -359,9 +359,9 @@
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
     "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen",
     "font":"Schrift",
-    "reset-btn": "Zurücksetzten",    
+    "reset-btn": "Zurücksetzten",
     "font-style-bold" : "Fett",
     "font-style-italic": "Kursiv",
-    "font-family":"Schrift Art"
+    "font-family":"Schriftart"
   }
 }
