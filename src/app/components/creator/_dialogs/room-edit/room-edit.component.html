@@ -62,10 +62,10 @@
       <mat-slide-toggle (change)="showMessage('words-will-be-overwritten')" [(ngModel)]= "profanityCheck">
         {{ 'room-page.profanity-filter' | translate }}
       </mat-slide-toggle>
-      <mat-slide-toggle (change)="showMessage('words-will-be-overwritten')" [(ngModel)]= "censorLanguageSpecificCheck">
+      <mat-slide-toggle *ngIf="profanityCheck" (change)="showMessage('words-will-be-overwritten')" [(ngModel)]= "censorLanguageSpecificCheck">
         Sprachspezifisch zensieren
       </mat-slide-toggle>
-      <mat-slide-toggle (change)="showMessage('words-will-be-overwritten')" [(ngModel)]= "censorPartialWordsCheck">
+      <mat-slide-toggle *ngIf="profanityCheck" (change)="showMessage('words-will-be-overwritten')" [(ngModel)]= "censorPartialWordsCheck">
         Teilwörter zensier
       </mat-slide-toggle>
     </div>
