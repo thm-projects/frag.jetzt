@@ -19,7 +19,7 @@ import { RoomDeleted } from '../../../../models/events/room-deleted';
 })
 export class RoomEditComponent implements OnInit {
   editRoom: Room;
-  check: boolean = false;
+  check = false;
   profanityCheck = true;
 
   roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
@@ -36,7 +36,7 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
     this.check = this.editRoom.questionsBlocked;
-    this.profanityCheck = this.editRoom.profanityFilter;
+    this.profanityCheck = this.editRoom.profanityFilter === 2;
   }
 
   openDeleteRoomDialog(): void {
@@ -73,9 +73,9 @@ export class RoomEditComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck;
+    this.editRoom.profanityFilter = this.profanityCheck ? 2 : 1;
     // temp solution until the backend is updated
-    localStorage.setItem('room-profanity-filter', (this.profanityCheck ? 'true' : 'false'));
+    localStorage.setItem('room-profanity-filter', String(this.editRoom.profanityFilter));
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
         && !this.roomNameFormControl.hasError('minlength')

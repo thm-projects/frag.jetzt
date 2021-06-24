@@ -15,7 +15,7 @@ export class Room {
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
-  profanityFilter: boolean;
+  profanityFilter: number;
 
   constructor(
     ownerId: string = '',
@@ -30,7 +30,7 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: boolean = true
+    profanityFilter: number = 2
   ) {
     this.id = '';
     this.ownerId = ownerId;

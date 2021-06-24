@@ -267,11 +267,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.searchPlaceholder = msg;
     });
     this._subscriptionEventServiceRoomData = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
-      this.room = JSON.parse(msg.body);
-      this.roomId = this.room.id;
-      this.moderationEnabled = this.room.moderated;
-      this.directSend = this.room.directSend;
-      this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+      const message = JSON.parse(msg.body);
+      if (message.type === 'RoomPatched') {
+        this.room = message.payload.changes;
+        this.roomId = this.room.id;
+        this.moderationEnabled = this.room.moderated;
+        this.directSend = this.room.directSend;
+        this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+      }
     });
   }
 

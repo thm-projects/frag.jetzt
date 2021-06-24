@@ -8,6 +8,8 @@ import { WorkerDialogTask } from './worker-dialog-task';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
+import { Comment } from '../../../../models/comment';
+import { RoomDataService } from '../../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-worker-dialog',
@@ -23,8 +25,9 @@ export class WorkerDialogComponent implements OnInit {
               private languagetoolService: LanguagetoolService,
               private spacyService: SpacyService,
               protected langService: LanguageService,
-              private translateService: TranslateService) {
-                langService.langEmitter.subscribe(lang => translateService.use(lang));
+              private translateService: TranslateService,
+              private roomDataService: RoomDataService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   static addWorkTask(dialog: MatDialog, room: Room): boolean {
@@ -49,7 +52,7 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    this.dialogRef.componentInstance.appendRoom(room);
+    this.dialogRef.componentInstance.appendRoom(room, this.dialogRef.componentInstance.roomDataService.currentRoomData);
     return true;
   }
 
@@ -78,9 +81,9 @@ export class WorkerDialogComponent implements OnInit {
     return count;
   }
 
-  appendRoom(room: Room) {
+  appendRoom(room: Room, comments: Comment[]) {
     WorkerDialogComponent.queuedRooms.set(room.id,
-      new WorkerDialogTask(room, this.spacyService, this.commentService, this.languagetoolService, () => {
+      new WorkerDialogTask(room, comments, this.spacyService, this.commentService, this.languagetoolService, () => {
         setTimeout(() => {
           WorkerDialogComponent.queuedRooms.delete(room.id);
           if (WorkerDialogComponent.queuedRooms.length === 0) {

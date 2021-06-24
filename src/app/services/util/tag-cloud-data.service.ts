@@ -272,11 +272,6 @@ export class TagCloudDataService {
   private fetchData(): void {
     this._roomDataService.getRoomData(this._roomId).subscribe((comments: Comment[]) => {
       this._lastFetchedComments = comments;
-      if (this._isDemoActive) {
-        this._lastMetaData.commentCount = comments.length;
-      } else {
-        this._currentMetaData.commentCount = comments.length;
-      }
       this.rebuildTagData();
     });
   }
@@ -300,6 +295,7 @@ export class TagCloudDataService {
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     const filteredComments = this._lastFetchedComments.filter(comment => this._currentFilter.checkComment(comment));
+    currentMeta.commentCount = filteredComments.length;
     for (const comment of filteredComments) {
       let keywords = comment.keywordsFromQuestioner;
       if (this._supplyType === TagCloudDataSupplyType.keywordsAndFullText) {
