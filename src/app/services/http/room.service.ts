@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProfanityFilterType, Room } from '../../models/room';
+import { Room } from '../../models/room';
 import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
