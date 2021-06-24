@@ -77,16 +77,16 @@ type DefaultColors = [
 ];
 const defaultColors: DefaultColors = [
   'var(--secondary, greenyellow)',
-  'var(--moderator, lightblue)',
-  'var(--blue, green)',
-  'var(--grey, yellow)',
-  'var(--red, orange)',
-  'var(--primary, pink)',
-  'var(--yellow, gray)',
-  'var(--on-background, lightgreen)',
-  'var(--purple, tomato)',
-  'var(--magenta, white)',
-  'var(--light-green, brown)',
+  '#f1f1f1',
+  '#d98e49',
+  '#ccca3c',
+  '#83e761',
+  '#3accd4',
+  '#54a1e9',
+  '#3a44ee',
+  '#9725eb',
+  '#e436c7',
+  '#ff0000',
   'var(--background, black)'
 ];
 
