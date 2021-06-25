@@ -183,11 +183,11 @@ export class TopicCloudAdminService {
       });
   }
 
-  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, langs?: string[]){
+  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string){
     let filteredString = str;
     let profWords = [];
     if (censorLanguageSpecificCheck) {
-      langs.forEach(lang => profWords = profWords.concat(BadWords[lang]));
+      profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : 'de')];
     } else {
       profWords = this.profanityWords;
     }

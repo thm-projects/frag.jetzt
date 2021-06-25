@@ -173,7 +173,7 @@ export class RoomDataService {
   private filterCommentOfProfanity(room: Room, comment: Comment): string {
     const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
     const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
-    return this.topicCloudAdminService.filterProfanityWords(comment.body, partialWords, languageSpecific, ['de']);
+    return this.topicCloudAdminService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
   }
 
   private removeCommentBodies(key: string) {
