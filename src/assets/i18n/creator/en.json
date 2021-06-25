@@ -363,6 +363,7 @@
     "font-size-max":"Font size max",
     "select-color": "Selected color",
     "random-angle-tooltip": "Generate angle randomly",
+    "random-angle-note": "If Enabled, the rotation of the individual weight-class is disabled",
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
     "font-size-min-tooltip": "Select minimum font-size",

@@ -362,6 +362,7 @@
     "font-size-max":"Schriftgröße max",
     "select-color": "Farbauswahl",
     "random-angle-tooltip": "Anordnung der Winkel zufällig generieren",
+    "random-angle-note": "Wenn Aktiviert, wird die Rotierung der einzelnen Relevanz-Gruppen deaktiviert",
     "background-tooltip": "Auswahl der Hintergrundfarbe",
     "word-delay-tooltip": "Animationsverzögerung der Wörter",
     "font-size-min-tooltip": "Auswahl der minimalen Schriftgrösse",

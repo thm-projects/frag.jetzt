@@ -18,6 +18,7 @@
         <div class="input-row firstElementOfExpansionPanel" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
           <mat-slide-toggle matTooltip="{{'tag-cloud-config.random-angle-tooltip' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
             [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
+            <mat-icon matTooltip="{{'tag-cloud-config.random-angle-note' | translate}}">help</mat-icon>
         </div>
           <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
             <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
