@@ -175,7 +175,7 @@
                             [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
               </div>
               </div>
-              <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+              <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="!cloudParameters.randomAngles">
                 <mat-label class="label-text">{{'tag-cloud-config.rotate-weight' | translate}}</mat-label>
                 <mat-slider [value]="weightClass.rotationAngle" min="-180" max="180" step="1"
                             [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
