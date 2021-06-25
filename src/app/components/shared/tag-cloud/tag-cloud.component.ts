@@ -477,7 +477,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
-      'color: ' + this._currentSettings.fontColor + '; ' +
+      'color: ' + this._currentSettings.fontColor + ' !important; ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
