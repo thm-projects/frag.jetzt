@@ -19,11 +19,6 @@
           <mat-slide-toggle matTooltip="{{'tag-cloud-config.random-angle-tooltip' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
             [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
         </div>
-        <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-            <mat-slide-toggle matTooltip="{{'tag-cloud-config.automatic-spelling-tooltip' | translate}}" [(ngModel)]="cloudParameters.checkSpelling" [checked]="cloudParameters.checkSpelling" [ngModelOptions]="{standalone: true}" (change)="valueChanged()">{{'tag-cloud-config.automatic-spelling' | translate}}</mat-slide-toggle>
-          </div>
-        </div>
           <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
             <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
               <div><mat-radio-button value="1" (change)="textStyleChanged(1)" [checked]="cloudParameters.textTransform == 1">{{'tag-cloud-config.lowerCase' | translate}}</mat-radio-button> </div>
