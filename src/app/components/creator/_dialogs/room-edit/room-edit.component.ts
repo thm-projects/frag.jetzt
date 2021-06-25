@@ -113,8 +113,8 @@ export class RoomEditComponent implements OnInit {
     return () => this.save();
   }
 
-  showMessage(label?: string) {
-    if (this.profanityCheck){
+  showMessage(label: string, event: boolean) {
+    if (event) {
       this.translationService.get('room-page.'+label).subscribe(msg => {
         this.notificationService.show(msg);
       });
