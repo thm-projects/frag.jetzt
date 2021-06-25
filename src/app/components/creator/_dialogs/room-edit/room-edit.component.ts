@@ -82,11 +82,13 @@ export class RoomEditComponent implements OnInit {
   save(): void {
     this.editRoom.questionsBlocked = this.check;
     this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.none : ProfanityFilter.deactivated;
-    if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
-      this.editRoom.profanityFilter = ProfanityFilter.all;
-    } else if (this.profanityCheck){
-      this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
-      this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : this.editRoom.profanityFilter;
+    if (this.profanityCheck) {
+      if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
+        this.editRoom.profanityFilter = ProfanityFilter.all;
+      } else {
+        this.editRoom.profanityFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
+        this.editRoom.profanityFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : this.editRoom.profanityFilter;
+      }
     }
     this.roomService.updateRoom(this.editRoom).subscribe(r => this.editRoom = r);
     if (!this.roomNameFormControl.hasError('required')
