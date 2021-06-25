@@ -133,7 +133,7 @@ export class RoomDataService {
   public checkProfanity(comment: Comment){
     const finish = new Subject<boolean>();
     const subscription = finish.asObservable().subscribe(_ => {
-      if (this.room.profanityFilter !== ProfanityFilter.deactived) {
+      if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
         comment.body = this._savedCommentsAfterFilter.get(comment.id);
       } else {
         comment.body = this._savedCommentsBeforeFilter.get(comment.id);

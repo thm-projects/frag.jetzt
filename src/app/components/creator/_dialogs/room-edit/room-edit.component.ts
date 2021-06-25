@@ -38,7 +38,7 @@ export class RoomEditComponent implements OnInit {
 
   ngOnInit() {
     this.check = this.editRoom.questionsBlocked;
-    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.deactived;
+    this.profanityCheck = this.editRoom.profanityFilter !== ProfanityFilter.deactivated;
     if (this.editRoom.profanityFilter === ProfanityFilter.all){
       this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
     } else if (this.profanityCheck){
@@ -81,7 +81,7 @@ export class RoomEditComponent implements OnInit {
 
   save(): void {
     this.editRoom.questionsBlocked = this.check;
-    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.none : ProfanityFilter.deactived;
+    this.editRoom.profanityFilter = this.profanityCheck ? ProfanityFilter.none : ProfanityFilter.deactivated;
     if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
       this.editRoom.profanityFilter = ProfanityFilter.all;
     } else if (this.profanityCheck){
