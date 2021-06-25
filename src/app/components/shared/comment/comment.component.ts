@@ -98,6 +98,12 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.inAnswerView = !this.router.url.includes('comments');
   }
 
+  checkProfanity(){
+    if (!this.router.url.includes('moderator/comments')) {
+      this.roomDataService.checkProfanity(this.comment);
+    }
+  }
+
   ngAfterViewInit(): void {
     this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
     if (!this.isExpandable) {
@@ -105,12 +111,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
     } else {
       this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
       this.commentBody.setOverflow('hidden');
-    }
-  }
-
-  checkProfanity(){
-    if (!this.router.url.includes('moderator/comments')) {
-      this.roomDataService.checkProfanity(this.comment);
     }
   }
 

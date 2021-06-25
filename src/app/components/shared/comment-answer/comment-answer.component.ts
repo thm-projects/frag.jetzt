@@ -43,7 +43,7 @@ export class CommentAnswerComponent implements OnInit {
       this.isStudent = false;
     }
     this.route.params.subscribe(params => {
-      this.roomDataService.getComment(params['commentId']).subscribe(comment => {
+      this.commentService.getComment(params['commentId']).subscribe(comment => {
         this.comment = comment;
         this.answer = this.comment.answer;
         this.isLoading = false;

@@ -8,6 +8,7 @@ import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { RoomService } from '../http/room.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { ProfanityFilter, Room } from '../../models/room';
+import { WsRoomService } from '..//websockets/ws-room.service';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -93,11 +94,13 @@ export class RoomDataService {
   private _currentRoomId: string = null;
   private _savedCommentsBeforeFilter = new Map();
   private _savedCommentsAfterFilter = new Map();
+  private room: Room;
 
   constructor(private wsCommentService: WsCommentService,
               private commentService: CommentService,
               private roomService: RoomService,
-              private topicCloudAdminService: TopicCloudAdminService) {
+              private topicCloudAdminService: TopicCloudAdminService,
+              private wsRoomService: WsRoomService) {
   }
 
   get currentRoomData() {
@@ -127,38 +130,43 @@ export class RoomDataService {
     return tempSubject.asObservable();
   }
 
-  getComment(id: string): Observable<Comment> {
-    if (!this._fastCommentAccess[id]) {
-      const comment = new Subject<Comment>();
-      this.commentService.getComment(id).subscribe(c => {
-        this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-          if (room.profanityFilter) {
-            c.body = this.filterCommentOfProfanity(room, c);
-          }
-          comment.next(c);
-        });
-      });
-      return comment.asObservable();
-    } else {
-      this.checkProfanity(this._fastCommentAccess[id]);
-      return of(this._fastCommentAccess[id]);
-    }
-  }
-
-  public checkProfanity(comment: Comment) {
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      if (room.profanityFilter !== ProfanityFilter.deactived) {
+  public checkProfanity(comment: Comment){
+    const finish = new Subject<boolean>();
+    const subscription = finish.asObservable().subscribe(_ => {
+      if (this.room.profanityFilter !== ProfanityFilter.deactived) {
         comment.body = this._savedCommentsAfterFilter.get(comment.id);
       } else {
         comment.body = this._savedCommentsBeforeFilter.get(comment.id);
       }
+      subscription.unsubscribe();
     });
+
+    if (!this._savedCommentsAfterFilter.get(comment.id) || !this.room) {
+      if (!this.room) {
+        this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+          this.room = room;
+          this.setCommentBody(comment);
+          finish.next(true);
+        });
+      } else {
+        this.setCommentBody(comment);
+        finish.next(true);
+      }
+    } else {
+      finish.next(true);
+    }
   }
 
-  private setCommentBodies(comment: Comment) {
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      this._savedCommentsBeforeFilter.set(comment.id, comment.body);
-      this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(room, comment));
+  private setCommentBody(comment: Comment) {
+    this._savedCommentsBeforeFilter.set(comment.id, comment.body);
+    this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
+  }
+
+  private filterAllCommentsBodies(){
+    this._currentComments.forEach(comment => {
+      comment.body = this._savedCommentsBeforeFilter.get(comment.id);
+      this.setCommentBody(comment);
+      this.checkProfanity(comment);
     });
   }
 
@@ -185,14 +193,24 @@ export class RoomDataService {
       this._wsCommentServiceSubscription.unsubscribe();
     }
     this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
-      .subscribe(msg => this.onMessageReceive(msg));
-    this.commentService.getAckComments(roomId).subscribe(comments => {
-      this._currentComments = comments;
-      for (const comment of comments) {
-        this.setCommentBodies(comment);
-        this._fastCommentAccess[comment.id] = comment;
+    .subscribe(msg => this.onMessageReceive(msg));
+    this.roomService.getRoom(roomId).subscribe(room => {
+      this.room = room;
+      this.commentService.getAckComments(roomId).subscribe(comments => {
+        this._currentComments = comments;
+        for (const comment of comments) {
+          this.setCommentBody(comment);
+          this._fastCommentAccess[comment.id] = comment;
+        }
+        this.triggerUpdate(UpdateType.force, null);
+      });
+    });
+    this.wsRoomService.getRoomStream(roomId).subscribe(msg => {
+      const message = JSON.parse(msg.body);
+      if (message.type === 'RoomPatched') {
+        this.room = message.payload.changes;
+        this.filterAllCommentsBodies();
       }
-      this.triggerUpdate(UpdateType.force, null);
     });
   }
 
@@ -242,7 +260,7 @@ export class RoomDataService {
     this.commentService.getComment(c.id).subscribe(comment => {
       this._fastCommentAccess[comment.id] = comment;
       this._currentComments.push(comment);
-      this.setCommentBodies(comment);
+      this.setCommentBody(comment);
       this.triggerUpdate(UpdateType.commentStream, {
         type: 'CommentCreated',
         finished: true,
