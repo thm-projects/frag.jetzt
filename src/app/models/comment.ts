@@ -70,6 +70,10 @@ export class Comment {
     this.downvotes = downvotes;
     this.language = language;
   }
+
+  static mapModelToLanguage(model: Model): Language {
+    return Language[model] || Language.auto;
+  }
 }
 
 export enum Language {
