@@ -1,10 +1,9 @@
 import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { CleaningFunctionService} from '../../../../services/util/cleaning-function.service';
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
 import { SpacyService, Model } from '../../../../services/http/spacy.service';
-import { LanguagetoolService } from '../../../..//services/http/languagetool.service';
+import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
 import { map } from 'rxjs/operators';
 
@@ -34,7 +33,6 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   constructor(
     protected langService: LanguagetoolService,
     private spacyService: SpacyService,
-    private cleaningService: CleaningFunctionService,
     public dialogRef: MatDialogRef<CreateCommentComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
   }
@@ -71,7 +69,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.isLoading = true;
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
-    this.spacyService.getKeywords(this.cleaningService.cleaningFunction(this.commentBodyChecked), model)
+    this.spacyService.getKeywords(this.commentBodyChecked, model)
       .pipe(
         map(keywords => keywords.map(keyword => ({
           word: keyword,

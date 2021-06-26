@@ -63,7 +63,6 @@ import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.compo
 import { MatDialogModule } from '@angular/material/dialog';
 import {TagCloudModule} from 'angular-tag-cloud-module';
 import {SpacyService} from './services/http/spacy.service';
-import { CleaningFunctionService} from './services/util/cleaning-function.service';
 
 import 'prismjs';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
@@ -177,7 +176,6 @@ export function initializeApp(appConfig: AppConfig) {
     CustomIconService,
     WsConnectorService,
     SpacyService,
-    CleaningFunctionService,
     {
       provide: MatDialogRef,
       useValue: {

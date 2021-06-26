@@ -159,7 +159,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   checkSpellings(text: string, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(text, language);
+    return this.languagetoolService.checkSpellings(CreateCommentKeywords.cleaningFunction(text), language);
   }
 
   maxLength(commentBody: HTMLDivElement): void {
