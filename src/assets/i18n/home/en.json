@@ -324,6 +324,10 @@
     "remove-successful": "Word removed"
   },
   "worker-dialog": {
-    "running": "running"
+    "running": "Running",
+    "room-name" : "Session name",
+    "comments" : "Questions",
+    "bad-spelled" : "Spelling too bad",
+    "failed" : "Error occured"
   }
 }
