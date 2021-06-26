@@ -365,6 +365,8 @@
     "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
     "font":"Font",
     "reset-btn": "Reset",
+    "font-family-tooltip": "Select font",  
+    "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
     "font-family":"Font Family"

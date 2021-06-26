@@ -394,6 +394,8 @@
     "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklassen zufällig um x Grad drehen",
     "font":"Schrift",
     "reset-btn": "Zurücksetzten",
+    "font-family-tooltip": "Schriftart auswählen",
+    "bold-notation-tooltip": "Schriftdicke fett auswählen",
     "font-style-bold" : "Fett",
     "font-style-italic": "Kursiv",
     "font-family":"Schriftart"

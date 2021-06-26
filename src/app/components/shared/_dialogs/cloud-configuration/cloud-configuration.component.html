@@ -67,7 +67,7 @@
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field appearance="fill">
             <mat-label>{{'tag-cloud-config.font-family' | translate}}</mat-label>
-            <mat-select (selectionChange)="valueChanged()" [(ngModel)]="cloudParameters.fontFamily">
+            <mat-select (selectionChange)="valueChanged()" matTooltip="{{'tag-cloud-config.font-family-tooltip' | translate}}" [(ngModel)]="cloudParameters.fontFamily">
               <mat-option value="sans-serif">Normal</mat-option>
               <mat-option value="Abril Fatface">Abril Fatface</mat-option>
               <mat-option value="Dancing Script">Dancing Script</mat-option>
@@ -77,7 +77,7 @@
           </mat-form-field>
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:">
+          <mat-radio-group matTooltip="{{'tag-cloud-config.bold-notation-tooltip' | translate}}" aria-label="Notation:">
             <div><mat-slide-toggle [checked]="checkBold()" (change)="boldChecked($event)" [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-bold' | translate}}</mat-slide-toggle> </div>
           </mat-radio-group>
         </div>
