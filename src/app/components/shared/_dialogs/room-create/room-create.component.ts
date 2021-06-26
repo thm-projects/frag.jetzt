@@ -1,13 +1,12 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { RoomService } from '../../../../services/http/room.service';
-import { Room } from '../../../../models/room';
+import { ProfanityFilter, Room } from '../../../../models/room';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
-import { TSMap } from 'typescript-map';
 import { EventService } from '../../../../services/util/event.service';
 import { User } from '../../../../models/user';
 
@@ -76,7 +75,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.profanityFilter = true;
+    newRoom.profanityFilter = ProfanityFilter.none;
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       if (!new RegExp('[1-9a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)
         || this.customShortIdName.startsWith(' ') || this.customShortIdName.endsWith(' ')) {
@@ -100,8 +99,8 @@ export class RoomCreateComponent implements OnInit {
       this.room = room;
       let msg1: string;
       let msg2: string;
-      this.translateService.get('home-page.created-1').subscribe(msg => { msg1 = msg; });
-      this.translateService.get('home-page.created-2').subscribe(msg => { msg2 = msg; });
+      this.translateService.get('home-page.created-1').subscribe(msg => msg1 = msg);
+      this.translateService.get('home-page.created-2').subscribe(msg => msg2 = msg);
       this.notification.show(msg1 + longRoomName + msg2);
       this.authenticationService.setAccess(encoded, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);

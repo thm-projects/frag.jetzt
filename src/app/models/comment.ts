@@ -25,7 +25,7 @@ export class Comment {
   keywordsFromSpacy: string[];
   upvotes: number;
   downvotes: number;
-  language: Model;
+  language: Language;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -46,7 +46,7 @@ export class Comment {
               keywordsFromSpacy: string[] = [],
               upvotes = 0,
               downvotes = 0,
-              language: Model = 'auto') {
+              language = Language.auto) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -71,3 +71,15 @@ export class Comment {
     this.language = language;
   }
 }
+
+export enum Language {
+  de = 'DE',
+  en = 'EN',
+  fr = 'FR',
+  es = 'ES',
+  it = 'IT',
+  nl = 'NL',
+  pt = 'PT',
+  auto = 'AUTO'
+}
+

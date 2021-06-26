@@ -299,7 +299,9 @@
     "select-all": "Select all",
     "keyword-counter": "Topic count",
     "sort": "Sort",
-    "words-will-be-overwritten": "profane words will be overwritten with '***'"
+    "words-will-be-overwritten": "profane words will be overwritten with '***'",
+    "keyword-from-spacy": "Keyword from spaCy",
+    "keyword-from-questioner": "Keyword from questioner"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

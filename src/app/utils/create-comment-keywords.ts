@@ -17,6 +17,7 @@ export class CreateCommentKeywords {
       })
     );
   }
+
   static cleaningFunction(text: string): string {
     // eslint-disable-next-line max-len
     const regexEmoji    = new RegExp('\uD918\uDD28|\ufe0f|\u200D|\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff]', 'g');

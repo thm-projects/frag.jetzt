@@ -320,6 +320,10 @@
     "remove-successful": "Wort entfernt"
   },
   "worker-dialog": {
-    "running": "Laufend"
+    "running": "Laufend",
+    "room-name" : "Sitzungsname",
+    "comments" : "Abgearbeitete Fragen",
+    "bad-spelled" : "Zu schlechte Rechtschreibung",
+    "failed" : "Fehler aufgetreten"
   }
 }

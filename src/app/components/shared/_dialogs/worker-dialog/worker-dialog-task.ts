@@ -11,7 +11,6 @@ const concurrentCallsPerTask = 4;
 
 export class WorkerDialogTask {
 
-  initializing = true;
   error: string = null;
   readonly statistics = {
     succeeded: 0,
@@ -19,24 +18,26 @@ export class WorkerDialogTask {
     failed: 0,
     length: 0
   };
-  private _comments: Comment[] = null;
-  private _running: boolean[] = null;
+  private readonly _comments: Comment[] = null;
+  private readonly _running: boolean[] = null;
 
   constructor(public readonly room: Room,
+              private comments: Comment[],
               private spacyService: SpacyService,
               private commentService: CommentService,
               private languagetoolService: LanguagetoolService,
               private finished: () => void) {
-    this.commentService.getAckComments(room.id).subscribe((c) => {
-      this._comments = c;
-      this.statistics.length = c.length;
-      this.initializing = false;
-      this._running = new Array(concurrentCallsPerTask);
-      for (let i = 0; i < concurrentCallsPerTask; i++) {
-        this._running[i] = true;
-        this.callSpacy(i);
-      }
-    });
+    this._comments = comments;
+    this.statistics.length = comments.length;
+    this._running = new Array(concurrentCallsPerTask);
+    for (let i = 0; i < concurrentCallsPerTask; i++) {
+      this._running[i] = true;
+      this.callSpacy(i);
+    }
+  }
+
+  isRunning(): boolean {
+    return this._running.some(e => e === true);
   }
 
   private callSpacy(currentIndex: number) {
