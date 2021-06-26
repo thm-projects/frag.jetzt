@@ -398,7 +398,9 @@
     "select-all": "Alle auswählen",
     "keyword-counter": "Anzahl der Themen",
     "sort": "Sortieren",
-    "words-will-be-overwritten": "unanständige Wörter werden mit '***' überschrieben"
+    "words-will-be-overwritten": "unanständige Wörter werden mit '***' überschrieben",
+    "keyword-from-spacy": "Stichwort von spaCy",
+    "keyword-from-questioner": "Stichwort vom Fragesteller"
   },
   "tag-cloud-config":{
     "general":"Allgemein",
