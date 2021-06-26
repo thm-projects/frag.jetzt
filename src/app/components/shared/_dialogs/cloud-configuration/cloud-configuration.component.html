@@ -171,7 +171,7 @@
               <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px">
                 <mat-label class="label-text" >{{'tag-cloud-config.weight-number' | translate}}</mat-label>
-                <mat-slider [value]="weightClass.maxTagNumber" min="0" [max]="weightClass.actualTagNumber" step="1"
+                <mat-slider [value]="weightClass.maxTagNumber" min="1" [max]="weightClass.actualTagNumber" step="1"
                             [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                             [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
               </div>
