@@ -1,16 +1,5 @@
 import { CorrectWrong } from './correct-wrong.enum';
 
-export enum Language {
-  de = 'DE',
-  en = 'EN',
-  fr = 'FR',
-  es = 'ES',
-  it = 'IT',
-  nl = 'NL',
-  pt = 'PT',
-  auto = 'AUTO'
-}
-
 export class Comment {
   id: string;
   roomId: string;
@@ -80,3 +69,15 @@ export class Comment {
     this.language = language;
   }
 }
+
+export enum Language {
+  de = 'DE',
+  en = 'EN',
+  fr = 'FR',
+  es = 'ES',
+  it = 'IT',
+  nl = 'NL',
+  pt = 'PT',
+  auto = 'AUTO'
+}
+

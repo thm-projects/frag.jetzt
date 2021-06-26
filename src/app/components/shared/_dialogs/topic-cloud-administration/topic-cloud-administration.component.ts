@@ -112,13 +112,16 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   pushInKeywords(comment: Comment) {
+    let _keywordType = KeywordType.fromQuestioner;
     let keywords = comment.keywordsFromQuestioner;
     if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
       if (!keywords || !keywords.length) {
         keywords = comment.keywordsFromSpacy;
+        _keywordType = KeywordType.fromSpacy;
       }
     } else if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.fulltext]) {
       keywords = comment.keywordsFromSpacy;
+      _keywordType = KeywordType.fromSpacy;
     }
     if (!keywords) {
       keywords = [];
@@ -133,6 +136,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       } else {
         const keyword: Keyword = {
           keyword: _keyword,
+          keywordType: _keywordType,
           keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
           comments: [comment],
           vote: comment.score
@@ -226,7 +230,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   getKeywordWithoutProfanity(keyword: string): string {
-    return this.topicCloudAdminService.filterProfanityWords(keyword);
+    return this.topicCloudAdminService.filterProfanityWords(keyword, true, false);
   }
 
   sortQuestions(sortMode?: string) {
@@ -449,6 +453,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
 interface Keyword {
   keyword: string;
+  keywordType: KeywordType;
   keywordWithoutProfanity: string;
   comments: Comment[];
   vote: number;
@@ -456,5 +461,10 @@ interface Keyword {
 
 export interface Data {
   user: User;
+}
+
+enum KeywordType {
+  fromSpacy = 0,
+  fromQuestioner = 1
 }
 

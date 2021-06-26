@@ -183,20 +183,21 @@ export class TopicCloudAdminService {
       });
   }
 
-  filterProfanityWords(str: string): string {
-    let questionWithProfanity = str;
-    this.profanityWords.concat(this.getProfanityListFromStorage()).map((word) => {
-      questionWithProfanity = questionWithProfanity
-        .toLowerCase()
-        .includes(word)
-        ? this.replaceString(
-          questionWithProfanity,
-          word,
-          this.generateCensoredWord(word.length)
-        )
-        : questionWithProfanity;
+  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string){
+    let filteredString = str;
+    let profWords = [];
+    if (censorLanguageSpecificCheck) {
+      profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : 'de')];
+    } else {
+      profWords = this.profanityWords;
+    }
+    const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(' ');
+    profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
+      if (toCensoredString.includes(word)) {
+        filteredString = this.replaceString(filteredString, word, this.generateCensoredWord(word.length));
+      }
     });
-    return questionWithProfanity;
+    return filteredString;
   }
 
   private replaceString(str: string, search: string, replace: string) {
