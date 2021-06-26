@@ -334,7 +334,11 @@
     "token-deleted": "Token has been deleted.",
     "tokens-deleted": "All tokens of this sessions have been deleted.",
     "profanity-filter": "Censor profanity",
-    "words-will-be-overwritten": "profane words will be overwritten with '***'"
+    "language-specific-filter": "Filter language-specific",
+    "partial-words-filter": "Filter partial words",
+    "words-will-be-overwritten": "Profane words will be overwritten with '***'",
+    "only-specific-language-will-be-filtered": "Only the language of the question will be filtered",
+    "partial-words-will-be-filtered": "Profane partial words will be also filtered"
   },
   "session": {
     "a11y-description": "Enter a description of the session",
@@ -404,7 +408,9 @@
     "select-all": "Select all",
     "keyword-counter": "Topic count",
     "sort": "Sort",
-    "words-will-be-overwritten": "profane words will be overwritten with '***'"
+    "words-will-be-overwritten": "profane words will be overwritten with '***'",
+    "keyword-from-spacy": "Keyword from spaCy",
+    "keyword-from-questioner": "Keyword from questioner"
   },
   "tag-cloud-config":{
     "general":"General",

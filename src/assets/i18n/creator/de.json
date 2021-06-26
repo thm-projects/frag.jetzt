@@ -333,7 +333,11 @@
     "token-deleted": "Der Token wurde gelöscht.",
     "tokens-deleted": "Alle Tokens dieser Sitzung wurden gelöscht.",
     "profanity-filter": "Schimpfwörter zensieren",
-    "words-will-be-overwritten": "profane words will be overwritten with '***'"
+    "language-specific-filter": "Sprachspezifisch filtern",
+    "partial-words-filter": "Teilwörter filtern",
+    "words-will-be-overwritten": "Profane Wörter werden mit '***' überschrieben",
+    "only-specific-language-will-be-filtered": "Nur die Sprache der Frage wird gefiltert",
+    "partial-words-will-be-filtered": "Profane Teilwörter werden auch gefiltert"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
@@ -394,7 +398,9 @@
     "select-all": "Alle auswählen",
     "keyword-counter": "Anzahl der Themen",
     "sort": "Sortieren",
-    "words-will-be-overwritten": "unanständige Wörter werden mit '***' überschrieben"
+    "words-will-be-overwritten": "unanständige Wörter werden mit '***' überschrieben",
+    "keyword-from-spacy": "Stichwort von spaCy",
+    "keyword-from-questioner": "Stichwort vom Fragesteller"
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",

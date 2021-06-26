@@ -1,11 +1,3 @@
-export enum ProfanityFilterType {
-  all = 'ALL',
-  languageSpecific = 'LANGUAGE_SPECIFIC',
-  partialWords = 'PARTIAL_WORDS',
-  none = 'NONE',
-  deactivated = 'DEACTIVATED'
-}
-
 export class Room {
   id: string;
   revision: string;
@@ -21,7 +13,7 @@ export class Room {
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
-  profanityFilter: ProfanityFilterType;
+  profanityFilter: ProfanityFilter;
 
   constructor(
     ownerId: string = '',
@@ -36,7 +28,7 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: ProfanityFilterType = ProfanityFilterType.languageSpecific
+    profanityFilter: ProfanityFilter = ProfanityFilter.none
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -53,4 +45,12 @@ export class Room {
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
   }
+}
+
+export enum ProfanityFilter {
+  all = 'ALL',
+  languageSpecific = 'LANGUAGE_SPECIFIC',
+  partialWords = 'PARTIAL_WORDS',
+  none = 'NONE',
+  deactivated = 'DEACTIVATED'
 }
