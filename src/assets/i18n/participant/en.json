@@ -110,7 +110,8 @@
     "edit-keyword-hint": "Edit keyword",
     "editing-done-hint": "Finish editing",
     "force-language-selection": "Language detection inaccurate, please check language settings!",
-    "add-manually": "You can manually enter the keywords separated with a comma "
+    "add-manually": "You can manually enter the keywords separated with a comma",
+    "select-keywords": "Choose the keywords for your question"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
