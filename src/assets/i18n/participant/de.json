@@ -233,8 +233,6 @@
     "questions-blocked": "Fragen sind deaktiviert!"
   },
   "tag-cloud": {
-    "config": "Wolkenansicht ändern",
-    "administration": "Wolkenthemen editieren",
     "demo-data-topic": "Thema %d",
     "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
     "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
@@ -360,7 +358,7 @@
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
     "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen",
     "font":"Schrift",
-    "reset-btn": "Zurücksetzten",    
+    "reset-btn": "Zurücksetzten",
     "font-style-bold" : "Fett",
     "font-style-italic": "Kursiv",
     "font-family":"Schrift Art"

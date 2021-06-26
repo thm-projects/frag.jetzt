@@ -1,15 +1,17 @@
-import { Component, Inject, OnInit, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommentFilter } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
+import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { KeywordOrFulltext } from '../topic-cloud-administration/TopicCloudAdminData';
 
 class CommentsCount {
   comments: number;
@@ -31,6 +33,7 @@ export class TopicCloudFilterComponent implements OnInit {
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
+  private readonly _filter: KeywordOrFulltext;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -42,6 +45,7 @@ export class TopicCloudFilterComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
+    this._filter = TopicCloudAdminService.getDefaultAdminData.keywordORfulltext;
   }
 
   ngOnInit() {
@@ -76,8 +80,14 @@ export class TopicCloudFilterComponent implements OnInit {
       if (c.userNumber) {
         userSet.add(c.userNumber);
       }
-      if (c.keywordsFromQuestioner) {
-        c.keywordsFromQuestioner.forEach(k => {
+      let source = c.keywordsFromQuestioner;
+      if (this._filter === KeywordOrFulltext.both) {
+        source = !source || !source.length ? c.keywordsFromSpacy : source;
+      } else if (this._filter === KeywordOrFulltext.fulltext) {
+        source = c.keywordsFromSpacy;
+      }
+      if (source) {
+        source.forEach(k => {
           keywordSet.add(k);
         });
       }

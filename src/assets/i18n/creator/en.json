@@ -344,6 +344,15 @@
     "session-name": "Session name",
     "preview": "Preview"
   },
+  "tag-cloud": {
+    "demo-data-topic": "Topic %d",
+    "overview-question-topic-tooltip": "Number of questions with this topic",
+    "overview-questioners-topic-tooltip": "Number of questioners with this topic",
+    "period-since-first-comment":"Period since first comment",
+    "upvote-topic": "Upvotes for this topic",
+    "downvote-topic": "Downvotes for this topic",
+    "blacklist-topic": "Add topic to blacklist"
+  },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",
     "few-minutes": "few minutes",

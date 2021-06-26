@@ -239,8 +239,6 @@
     "questions-blocked": "No further questions!"
   },
   "tag-cloud": {
-    "config": "Modify cloud view",
-    "administration": "Edit cloud topics",
     "demo-data-topic": "Topic %d",
     "overview-question-topic-tooltip": "Number of questions with this topic",
     "overview-questioners-topic-tooltip": "Number of questioners with this topic",
