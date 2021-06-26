@@ -34,6 +34,7 @@ export class TopicCloudFilterComponent implements OnInit {
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
   private readonly _filter: KeywordOrFulltext;
+  private readonly _blacklist: string[];
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -45,7 +46,9 @@ export class TopicCloudFilterComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
-    this._filter = TopicCloudAdminService.getDefaultAdminData.keywordORfulltext;
+    const adminData = TopicCloudAdminService.getDefaultAdminData;
+    this._filter = adminData.keywordORfulltext;
+    this._blacklist = adminData.blacklist;
   }
 
   ngOnInit() {
@@ -88,7 +91,17 @@ export class TopicCloudFilterComponent implements OnInit {
       }
       if (source) {
         source.forEach(k => {
-          keywordSet.add(k);
+          let isProfanity = false;
+          const lowerCasedKeyword = k.toLowerCase();
+          for (const word of this._blacklist) {
+            if (lowerCasedKeyword.includes(word)) {
+              isProfanity = true;
+              break;
+            }
+          }
+          if (!isProfanity) {
+            keywordSet.add(k);
+          }
         });
       }
     });
