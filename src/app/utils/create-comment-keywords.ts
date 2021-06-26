@@ -5,6 +5,7 @@ export class CreateCommentKeywords {
 
   static isSpellingAcceptable(languagetoolService: LanguagetoolService, text: string, language: Language = 'auto') {
     text = this.cleanUTFEmoji(text);
+    text = text.replace(/#/g, '').trim();
     return languagetoolService.checkSpellings(text, language).pipe(
       map(result => {
         const wordCount = text.trim().split(' ').length;
