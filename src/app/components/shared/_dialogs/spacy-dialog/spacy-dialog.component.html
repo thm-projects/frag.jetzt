@@ -43,14 +43,14 @@
                           matTooltipShowDelay="750">
             </mat-checkbox>
             <button *ngIf="!keyword.editing"
-                    (click)="onEdit(keyword)" mat-icon-button
+                    (click)="onEdit(keyword); onEditChange(1)" mat-icon-button
                     [ngClass]="{'keywords-actions-selected': keyword.selected}"
                     matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}"
                     matTooltipShowDelay="750">
               <mat-icon>edit</mat-icon>
             </button>
             <button *ngIf="keyword.editing"
-                    (click)="onEndEditing(keyword)" mat-icon-button
+                    (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
                     class = "edit-accept"
                     matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}"
                     matTooltipShowDelay="750">
@@ -76,6 +76,7 @@
   <ars-fill></ars-fill>
   <ars-col>
     <app-dialog-action-buttons
+      #appDialogActionButtons
       buttonsLabelSection="comment-page"
       confirmButtonLabel="send"
       [showDivider]="false"

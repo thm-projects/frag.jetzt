@@ -102,7 +102,10 @@
   </ars-row>
   <ars-row ars-flex-box class="spellcheck">
     <ars-col>
-      <button mat-button class="spell-button" (click)="grammarCheck(commentBody)">
+      <button
+        [disabled]="this.commentBody.innerHTML.length === 0"
+        mat-flat-button class="spell-button"
+        (click)="grammarCheck(commentBody)">
         {{ 'comment-page.grammar-check' | translate}}
         <mat-icon *ngIf="isSpellchecking" style="margin: 0;">
           <mat-spinner diameter="20"></mat-spinner>

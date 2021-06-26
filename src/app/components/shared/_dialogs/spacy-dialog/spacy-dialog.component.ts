@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
+import {AfterContentInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
@@ -6,6 +6,7 @@ import { SpacyService, Model } from '../../../../services/http/spacy.service';
 import { LanguageService } from '../../../../services/util/language.service';
 import { Comment } from '../../../../models/comment';
 import { map } from 'rxjs/operators';
+import {DialogActionButtonsComponent} from "../../dialog/dialog-action-buttons/dialog-action-buttons.component";
 
 export interface Keyword {
   word: string;
@@ -21,6 +22,8 @@ export interface Keyword {
 })
 export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
+  @ViewChild('appDialogActionButtons') appDialogActionButtons: DialogActionButtonsComponent;
+
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
@@ -29,6 +32,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   isLoading = false;
   langSupported: boolean;
   manualKeywords = '';
+  _concurrentEdits = 0
 
   constructor(
     protected langService: LanguageService,
@@ -142,5 +146,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     } else {
       this.keywords = [];
     }
+  }
+
+  onEditChange(change: number) {
+    this._concurrentEdits += change;
+    this.appDialogActionButtons.confirmButtonDisabled = (this._concurrentEdits > 0)
   }
 }
