@@ -136,7 +136,6 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverDelay: 0.4,
     delayWord: 0,
     randomAngles: true,
-    checkSpelling: true,
     sortAlphabetically: false,
     textTransform: CloudTextStyle.normal,
     cloudWeightSettings: weightSettings
@@ -439,8 +438,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       });
       elem.addEventListener('mouseenter', () => {
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-          this._currentSettings.checkSpelling);
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });
     });
   }

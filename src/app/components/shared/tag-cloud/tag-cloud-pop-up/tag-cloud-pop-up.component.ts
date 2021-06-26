@@ -30,7 +30,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   user: User;
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
-  checkLanguage = false;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
   private _hasLeft = true;
@@ -77,24 +76,21 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, checkLanguage: boolean): void {
-    this.checkLanguage = checkLanguage;
-    if (checkLanguage) {
-      this.spellingData = [];
-      this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
-        const langKey = correction.language.code.split('-')[0].toUpperCase();
-        if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
-          return;
-        }
-        for (const match of correction.matches) {
-          if (match.replacements != null && match.replacements.length > 0) {
-            for (const replacement of match.replacements) {
-              this.spellingData.push(replacement.value);
-            }
+  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
+    this.spellingData = [];
+    this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
+      const langKey = correction.language.code.split('-')[0].toUpperCase();
+      if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
+        return;
+      }
+      for (const match of correction.matches) {
+        if (match.replacements != null && match.replacements.length > 0) {
+          for (const replacement of match.replacements) {
+            this.spellingData.push(replacement.value);
           }
         }
-      });
-    }
+      }
+    });
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
     this._hasLeft = true;

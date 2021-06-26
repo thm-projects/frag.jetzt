@@ -136,9 +136,8 @@ export class RoomService extends BaseHttpService {
 
   setRoomId(room: Room): void {
     // temp solution until the backend is updated
-    const filter = +localStorage.getItem('room-profanity-filter');
-    const isInvalid = Number.isNaN(filter) || filter < ProfanityFilterType.all || filter > ProfanityFilterType.none;
-    room.profanityFilter =  isInvalid ? ProfanityFilterType.languageSpecific : filter;
+    const filter = localStorage.getItem('room-profanity-filter');
+    room.profanityFilter =  filter as ProfanityFilterType;
     localStorage.setItem('roomId', room.id);
   }
 }

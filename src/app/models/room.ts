@@ -1,8 +1,9 @@
 export enum ProfanityFilterType {
-  all = 0,
-  languageSpecific,
-  partialWords,
-  none
+  all = 'ALL',
+  languageSpecific = 'LANGUAGE_SPECIFIC',
+  partialWords = 'PARTIAL_WORDS',
+  none = 'NONE',
+  deactivated = 'DEACTIVATED'
 }
 
 export class Room {

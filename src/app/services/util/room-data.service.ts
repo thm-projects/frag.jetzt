@@ -216,19 +216,23 @@ export class RoomDataService {
     c.tag = payload.tag;
     c.creatorId = payload.creatorId;
     c.userNumber = this.commentService.hashCode(c.creatorId);
+    c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
+    this._fastCommentAccess[c.id] = c;
+    this._currentComments.push(c);
     this.triggerUpdate(UpdateType.commentStream, {
       type: 'CommentCreated',
       finished: false,
       comment: c
     });
     this.commentService.getComment(c.id).subscribe(comment => {
-      this._fastCommentAccess[comment.id] = comment;
-      this._currentComments.push(comment);
-      this.setCommentBodies(comment);
+      for (const key of Object.keys(comment)) {
+        c[key] = comment[key];
+      }
+      this.setCommentBodies(c);
       this.triggerUpdate(UpdateType.commentStream, {
         type: 'CommentCreated',
         finished: true,
-        comment
+        comment: c
       });
     });
   }

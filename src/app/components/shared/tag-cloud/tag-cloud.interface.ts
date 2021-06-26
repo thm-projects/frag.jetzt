@@ -95,10 +95,6 @@ export interface CloudParameters {
    */
   sortAlphabetically: boolean;
   /**
-   * Checks if the word is spelled correctly, if not, do not display it.
-   */
-  checkSpelling: boolean;
-  /**
    * Custom CSS text transform setting
    */
   textTransform: CloudTextStyle;
