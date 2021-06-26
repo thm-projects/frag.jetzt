@@ -206,10 +206,6 @@ mat-icon {
   color: var(--background);
 }
 
-.focus_item {
+.focus_item:focus {
   border: 1px solid var(--on-surface);
-}
-
-.unfocus_item {
-  border: none;
 }

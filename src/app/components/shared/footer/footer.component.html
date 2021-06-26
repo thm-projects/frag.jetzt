@@ -27,6 +27,7 @@
 
     <span class="fill-remaining-space"></span>
     <button [matMenuTriggerFor]="langMenu"
+            (menuOpened)="openMenu()"
             aria-labelledby="language-label"
             class="focus_button"
             id="language-menu"
@@ -98,14 +99,10 @@
     <mat-menu #langMenu="matMenu"
               [overlapTrigger]="false">
       <button (click)="useLanguage('de')"
-              [ngClass]="{
-              'focus_item':getLanguage()==='de',
-              'unfocus_item':getLanguage()!=='de'}"
+              class="focus_item"
               mat-menu-item>{{ 'footer.german' | translate }}</button>
       <button (click)="useLanguage('en')"
-              [ngClass]="{
-              'focus_item':getLanguage()==='en',
-              'unfocus_item':getLanguage()!=='en'}"
+              class="focus_item"
               mat-menu-item>{{ 'footer.english' | translate }}</button>
     </mat-menu>
 

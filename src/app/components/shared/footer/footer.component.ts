@@ -1,5 +1,5 @@
-import { LanguageService } from './../../../services/util/language.service';
-import { Component, OnInit } from '@angular/core';
+import { LanguageService } from '../../../services/util/language.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { AppComponent } from '../../../app.component';
 import { StyleService } from '../../../../../projects/ars/src/lib/style/style.service';
 import { MotdService } from '../../../services/http/motd.service';
 import { MotdDialogComponent } from '../_dialogs/motd-dialog/motd-dialog.component';
+import { MatMenu } from '@angular/material/menu';
 
 @Component({
   selector: 'app-footer',
@@ -25,6 +26,8 @@ import { MotdDialogComponent } from '../_dialogs/motd-dialog/motd-dialog.compone
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+
+  @ViewChild('langMenu') langaugeMenu: MatMenu;
 
   public demoId = 'Feedback';
 
@@ -176,5 +179,13 @@ export class FooterComponent implements OnInit {
 
   getLanguage(): string {
     return localStorage.getItem('currentLang');
+  }
+
+  openMenu() {
+    if (this.getLanguage() === 'de') {
+      this.langaugeMenu._allItems.get(0).focus();
+    } else if (this.getLanguage() === 'en') {
+      this.langaugeMenu._allItems.get(1).focus();
+    }
   }
 }
