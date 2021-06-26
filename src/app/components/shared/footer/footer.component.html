@@ -98,10 +98,14 @@
     <mat-menu #langMenu="matMenu"
               [overlapTrigger]="false">
       <button (click)="useLanguage('de')"
-              class="focus_item"
+              [ngClass]="{
+              'focus_item':getLanguage()==='de',
+              'unfocus_item':getLanguage()!=='de'}"
               mat-menu-item>{{ 'footer.german' | translate }}</button>
       <button (click)="useLanguage('en')"
-              class="focus_item"
+              [ngClass]="{
+              'focus_item':getLanguage()==='en',
+              'unfocus_item':getLanguage()!=='en'}"
               mat-menu-item>{{ 'footer.english' | translate }}</button>
     </mat-menu>
 
