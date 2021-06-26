@@ -111,16 +111,16 @@ const getResolvedDefaultColors = (): string[] => {
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[1], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[2], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[3], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[4], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[5], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[6], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[7], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[8], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[9], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[10], rotation: 0},
   ];
   return {
     fontFamily: 'Dancing Script',
