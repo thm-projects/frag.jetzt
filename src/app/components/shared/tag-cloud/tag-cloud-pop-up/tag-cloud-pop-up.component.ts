@@ -10,6 +10,7 @@ import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 const CLOSE_TIME = 1500;
 
@@ -78,19 +79,21 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
     this.spellingData = [];
-    this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
-      const langKey = correction.language.code.split('-')[0].toUpperCase();
-      if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
-        return;
-      }
-      for (const match of correction.matches) {
-        if (match.replacements != null && match.replacements.length > 0) {
-          for (const replacement of match.replacements) {
-            this.spellingData.push(replacement.value);
+    if (this.user && this.user.role > UserRole.PARTICIPANT) {
+      this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
+        const langKey = correction.language.code.split('-')[0].toUpperCase();
+        if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {
+          return;
+        }
+        for (const match of correction.matches) {
+          if (match.replacements != null && match.replacements.length > 0) {
+            for (const replacement of match.replacements) {
+              this.spellingData.push(replacement.value);
+            }
           }
         }
-      }
-    });
+      });
+    }
     clearTimeout(this._popupCloseTimer);
     clearTimeout(this._popupHoverTimer);
     this._hasLeft = true;
