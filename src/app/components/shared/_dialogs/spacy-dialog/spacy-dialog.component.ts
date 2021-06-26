@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
 import { SpacyService, Model } from '../../../../services/http/spacy.service';
-import { LanguageService } from '../../../../services/util/language.service';
+import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
 import { map } from 'rxjs/operators';
 
@@ -31,7 +31,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   manualKeywords = '';
 
   constructor(
-    protected langService: LanguageService,
+    protected langService: LanguagetoolService,
     private spacyService: SpacyService,
     public dialogRef: MatDialogRef<CreateCommentComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
@@ -41,7 +41,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.comment = this.data.comment;
     this.commentLang = this.data.commentLang;
     this.commentBodyChecked = this.data.commentBodyChecked;
-    this.langSupported = this.commentLang !== 'auto';
+    this.langSupported = this.langService.isSupportedLanguage(this.data.commentLang);
   }
 
   ngAfterContentInit(): void {

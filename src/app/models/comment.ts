@@ -1,4 +1,5 @@
 import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { Model } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 
 export class Comment {
@@ -68,6 +69,10 @@ export class Comment {
     this.upvotes = upvotes;
     this.downvotes = downvotes;
     this.language = language;
+  }
+
+  static mapModelToLanguage(model: Model): Language {
+    return Language[model] || Language.auto;
   }
 }
 
