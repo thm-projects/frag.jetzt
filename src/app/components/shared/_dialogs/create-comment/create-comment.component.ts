@@ -121,7 +121,10 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result.isAcceptable) {
           const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
-          comment.language = commentLang.toUpperCase() as CommentLanguage;
+          // Store language if it was auto-detected
+          if(this.selectedLang === 'auto') {
+            comment.language = Comment.mapModelToLanguage(commentLang);
+          }
           const dialogRef = this.dialog.open(SpacyDialogComponent, {
             data: {
               comment,
@@ -157,7 +160,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
   }
 
   checkSpellings(text: string, language: Language = this.selectedLang) {
-    return this.languagetoolService.checkSpellings(text, language);
+    return this.languagetoolService.checkSpellings(CreateCommentKeywords.cleaningFunction(text), language);
   }
 
   maxLength(commentBody: HTMLDivElement): void {
