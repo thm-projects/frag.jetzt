@@ -366,8 +366,8 @@
                 [ngClass]="{'color-warn': room && room.questionsBlocked}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
-          <span *ngIf="name">{{'header.block' | translate}}</span> 
-          <span *ngIf="!name">{{'header.unlock' | translate}}</span> 
+          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span> 
+          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span> 
         </button>
       </ng-container>
 

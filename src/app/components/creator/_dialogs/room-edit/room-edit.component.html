@@ -58,15 +58,9 @@
     <div fxLayoutAlign="center center">
       <mat-slide-toggle [(ngModel)]= "check">{{ 'room-page.block' | translate }}</mat-slide-toggle>
     </div>
-    <div fxLayoutAlign="center center" fxLayout="column">
-      <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)" [(ngModel)]= "profanityCheck">
+    <div fxLayoutAlign="center center">
+      <mat-slide-toggle (change)="showMessage('words-will-be-overwritten')" [(ngModel)]= "profanityCheck">
         {{ 'room-page.profanity-filter' | translate }}
-      </mat-slide-toggle>
-      <mat-slide-toggle *ngIf="profanityCheck" (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)" [(ngModel)]= "censorLanguageSpecificCheck">
-        {{ 'room-page.language-specific-filter' | translate }}
-      </mat-slide-toggle>
-      <mat-slide-toggle *ngIf="profanityCheck" (change)="showMessage('partial-words-will-be-filtered', $event.checked)" [(ngModel)]= "censorPartialWordsCheck">
-        {{ 'room-page.partial-words-filter' | translate }}
       </mat-slide-toggle>
     </div>
     <div fxLayoutAlign="center center">
