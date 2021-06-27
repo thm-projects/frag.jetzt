@@ -27,7 +27,7 @@ class CommentsCount {
 export class TopicCloudFilterComponent implements OnInit {
   @Input() target: string;
 
-  continueFilter = 'continueWithCurr';
+  continueFilter = 'continueWithAll';
   comments: Comment[];
   tmpFilter: CommentFilter;
   allComments: CommentsCount;

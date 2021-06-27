@@ -1,6 +1,6 @@
 <mat-divider></mat-divider>
   <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
-    <mat-radio-button value="continueWithAll">
+    <mat-radio-button checked="true" value="continueWithAll">
       <div class="elementRow">
         <div class="elementText">
           {{'content.continue-with-all-questions' | translate}}
@@ -15,7 +15,7 @@
         </div>
       </div>
     </mat-radio-button>
-    <mat-radio-button checked="true" value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
+    <mat-radio-button value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
       <div class="elementRow">
         <div class="elementText">
           {{'content.continue-with-current-questions' | translate}}

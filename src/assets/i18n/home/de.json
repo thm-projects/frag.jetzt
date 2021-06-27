@@ -50,9 +50,9 @@
     "cancel": "Abbrechen",
     "continue": "Weiter",
     "reset": "Zurücksetzen",
-    "continue-with-all-questions" : "Weiter mit kompletter Fragenliste",
-    "continue-with-current-questions": "Weiter mit aktuellen Filtern",
-    "continue-with-all-questions-from-now": "Weiter mit allen Fragen ab jetzt"
+    "continue-with-all-questions" : "Weiter mit allen Fragen der Sitzung",
+    "continue-with-current-questions": "Weiter mit aktueller Fragenliste",
+    "continue-with-all-questions-from-now": "Weiter mit Fragen, die ab jetzt gestellt werden"
   },
   "header": {
     "abort": "Abbrechen",
