@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, Inject, OnInit, ViewChild} from '@angular/core';
+import { AfterContentInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
@@ -6,7 +6,7 @@ import { SpacyService, Model } from '../../../../services/http/spacy.service';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
 import { map } from 'rxjs/operators';
-import {DialogActionButtonsComponent} from "../../dialog/dialog-action-buttons/dialog-action-buttons.component";
+import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 
 export interface Keyword {
   word: string;
