@@ -17,7 +17,7 @@
     </h2>
 
 
-    <ng-container *ngIf="room && room.questionsBlocked && !router.url.includes('/room-list/')">
+    <ng-container *ngIf="room && room.questionsBlocked">
       <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
@@ -360,7 +360,7 @@
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 
-      <ng-container *ngIf="router.url.includes('/creator/room') || router.url.includes('/moderator/room')">
+      <ng-container *ngIf="room && user && user.role > 0">
         <button mat-menu-item
                 (click)="blockQuestions()"
                 [ngClass]="{'color-warn': room && room.questionsBlocked}"
