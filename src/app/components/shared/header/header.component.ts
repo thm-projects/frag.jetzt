@@ -135,8 +135,8 @@ export class HeaderComponent implements OnInit {
               this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
                 const message = JSON.parse(msg.body);
                 if (message.type === 'RoomPatched') {
-                  this.room = message.payload.changes;
-                  this.moderationEnabled = this.room.moderated;
+                  this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+                  this.moderationEnabled = message.payload.changes.moderated;
                 }
               });
             });
@@ -341,7 +341,7 @@ export class HeaderComponent implements OnInit {
   public blockQuestions() {
     // flip state if clicked
     this.room.questionsBlocked = !this.room.questionsBlocked;
-    this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
+    this.roomService.updateRoom(this.room).subscribe();
   }
 
   public startWorkerDialog() {
