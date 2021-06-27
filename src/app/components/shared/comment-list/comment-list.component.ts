@@ -123,7 +123,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private roomDataService: RoomDataService,
     private wsRoomService: WsRoomService
   ) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.langEmitter.subscribe(lang => {
+      translateService.use(lang);
+      this.translateService.get('comment-list.search').subscribe(msg => {
+        this.searchPlaceholder = msg;
+      });
+    });
   }
 
   initNavigation() {
@@ -325,9 +330,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   activateSearch() {
-    this.translateService.get('comment-list.search').subscribe(msg => {
-      this.searchPlaceholder = msg;
-    });
     this.search = true;
     this.searchField.nativeElement.focus();
   }
