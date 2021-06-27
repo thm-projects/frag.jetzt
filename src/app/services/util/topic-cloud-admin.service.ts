@@ -37,13 +37,13 @@ export class TopicCloudAdminService {
       .concat(BadWords['ar'])
       .concat(BadWords['ru'])
       .concat(BadWords['tr']);
-      this.wsRoomService.getRoomStream(localStorage.getItem('roomId')).subscribe(msg => {
-        const message = JSON.parse(msg.body);
-        const room = message.payload.changes;
-        if (message.type === 'RoomPatched') {
-          this.blacklist.next(room.blacklist ? JSON.parse(room.blacklist) : []);
-        }
-      });
+    this.wsRoomService.getRoomStream(localStorage.getItem('roomId')).subscribe(msg => {
+      const message = JSON.parse(msg.body);
+      const room = message.payload.changes;
+      if (message.type === 'RoomPatched') {
+        this.blacklist.next(room.blacklist ? JSON.parse(room.blacklist) : []);
+      }
+    });
   }
 
   static get getDefaultAdminData(): TopicCloudAdminData {
@@ -196,7 +196,7 @@ export class TopicCloudAdminService {
     let filteredString = str;
     let profWords = [];
     if (censorLanguageSpecificCheck) {
-      profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : 'de')];
+      profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : localStorage.getItem('currentLang'))];
     } else {
       profWords = this.profanityWords;
     }
