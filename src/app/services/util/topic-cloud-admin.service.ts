@@ -6,7 +6,7 @@ import {
   spacyLabels
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from '../http/room.service';
-import { Room } from '../../models/room';
+import { ProfanityFilter, Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { Observable, Subject } from 'rxjs';
@@ -47,7 +47,7 @@ export class TopicCloudAdminService {
           en: this.getDefaultSpacyTagsEN()
         },
         considerVotes: true,
-        profanityFilter: true,
+        profanityFilter: ProfanityFilter.none,
         blacklistIsActive: true,
         keywordORfulltext: KeywordOrFulltext.both
       };
@@ -86,7 +86,7 @@ export class TopicCloudAdminService {
       if (_adminData.blacklistIsActive) {
         _adminData.blacklist = list;
       }
-      if (_adminData.profanityFilter) {
+      if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
         _adminData.blacklist = _adminData.blacklist.concat(this.getProfanityListFromStorage().concat(this.profanityWords));
       }
       this.adminData.next(_adminData);

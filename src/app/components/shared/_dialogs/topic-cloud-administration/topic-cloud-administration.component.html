@@ -27,17 +27,29 @@
             </mat-radio-button>
           </mat-radio-group>
         </mat-card>
-  
-        <mat-slide-toggle [(ngModel)]="considerVotes">
-          {{'topic-cloud-dialog.consider-votes' | translate}}
-        </mat-slide-toggle>
+        
+        <mat-card style="background: none;">
+          <mat-slide-toggle [(ngModel)]="considerVotes">
+            {{'topic-cloud-dialog.consider-votes' | translate}}
+          </mat-slide-toggle>
+        </mat-card>
         <div *ngIf="isCreatorOrMod">
-          <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
-            {{'topic-cloud-dialog.profanity' | translate}}
-          </mat-slide-toggle>
-          <mat-slide-toggle [(ngModel)]="blacklistIsActive">
-            {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
-          </mat-slide-toggle>
+          <mat-card style="background: none;">
+            <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
+              {{'topic-cloud-dialog.profanity' | translate}}
+            </mat-slide-toggle>
+            <mat-slide-toggle *ngIf="profanityFilter" (change)="changeProfanityFilter()" [(ngModel)]="censorLanguageSpecificCheck">
+              Sprachspezifisch
+            </mat-slide-toggle>
+            <mat-slide-toggle *ngIf="profanityFilter" (change)="changeProfanityFilter()" [(ngModel)]="censorPartialWordsCheck">
+              Teilwörter
+            </mat-slide-toggle>
+          </mat-card>
+          <mat-card style="background: none;">
+            <mat-slide-toggle [(ngModel)]="blacklistIsActive">
+              {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
+            </mat-slide-toggle>
+          </mat-card>
         </div>
   
         <mat-accordion class="new-profanity-word" multi>
@@ -225,7 +237,8 @@
         <div *ngFor="let question of keyword.comments">
           <mat-divider></mat-divider>
           <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-                                    [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
+                                    [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+                                    [partialWords]="censorPartialWordsCheck" [language]="question.language"></app-topic-dialog-comment>
         </div>
   
         <div *ngIf="isCreatorOrMod">

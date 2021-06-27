@@ -12,6 +12,7 @@ import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { ProfanityFilter } from '../../../../models/room';
 
 
 @Component({
@@ -22,7 +23,6 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
   public considerVotes: boolean;
-  public profanityFilter: boolean;
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
   profanitywordlist: string[] = [];
@@ -54,9 +54,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   };
   spacyLabelsAllSelectedDE = true;
   isLoading: boolean;
-
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
+  private profanityFilter: boolean;
+  private censorPartialWordsCheck: boolean;
+  private censorLanguageSpecificCheck: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -137,7 +139,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         const keyword: Keyword = {
           keyword: _keyword,
           keywordType: _keywordType,
-          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
+          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword, comment.language),
           comments: [comment],
           vote: comment.score
         };
@@ -201,6 +203,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   setAdminData() {
+    let profFilter = this.profanityFilter ? ProfanityFilter.none : ProfanityFilter.deactivated;
+    if (this.profanityFilter) {
+      if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
+        profFilter = ProfanityFilter.all;
+      } else {
+        profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
+        profFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : profFilter;
+      }
+    }
     this.topicCloudAdminData = {
       blacklist: [],
       wantedLabels: {
@@ -208,7 +219,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         en: this.wantedLabels.en
       },
       considerVotes: this.considerVotes,
-      profanityFilter: this.profanityFilter,
+      profanityFilter: profFilter,
       blacklistIsActive: this.blacklistIsActive,
       keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext]
     };
@@ -219,7 +230,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.topicCloudAdminData = TopicCloudAdminService.getDefaultAdminData;
     if (this.topicCloudAdminData) {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
-      this.profanityFilter = this.topicCloudAdminData.profanityFilter;
+      this.profanityFilter = this.topicCloudAdminData.profanityFilter !== ProfanityFilter.deactivated;
+    if (this.topicCloudAdminData.profanityFilter === ProfanityFilter.all){
+      this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
+    } else if (this.profanityFilter){
+      this.censorLanguageSpecificCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.languageSpecific;
+      this.censorPartialWordsCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.partialWords;
+    }
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
       this.wantedLabels = {
@@ -229,8 +246,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  getKeywordWithoutProfanity(keyword: string): string {
-    return this.topicCloudAdminService.filterProfanityWords(keyword, true, false);
+  getKeywordWithoutProfanity(keyword: string, lang: string): string {
+    return this.topicCloudAdminService.filterProfanityWords(keyword, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, lang);
   }
 
   sortQuestions(sortMode?: string) {
@@ -424,6 +441,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.searchKeyword();
       }
     }
+    this.refreshKeywords();
   }
 
   selectAllDE() {
