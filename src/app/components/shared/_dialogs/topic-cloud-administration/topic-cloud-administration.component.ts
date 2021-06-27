@@ -6,6 +6,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 import { TopicCloudAdminData, Labels, spacyLabels, KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
@@ -13,7 +14,6 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ProfanityFilter } from '../../../../models/room';
-
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -69,7 +69,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
     private commentService: CommentService,
-    private roomDataService: RoomDataService) {
+    private roomDataService: RoomDataService,
+    private profanityFilterService: ProfanityFilterService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -78,8 +79,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.deviceType = localStorage.getItem('deviceType');
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
-    this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
-    this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
+    this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
+    this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
       this.refreshKeywords();
     });
@@ -246,7 +247,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   getKeywordWithoutProfanity(keyword: string, lang: string): string {
-    return this.topicCloudAdminService.filterProfanityWords(keyword, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, lang);
+    return this.profanityFilterService.filterProfanityWords(keyword, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, lang);
   }
 
   sortQuestions(sortMode?: string) {
@@ -414,7 +415,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addProfanityWord() {
-    this.topicCloudAdminService.addToProfanityList(this.newProfanityWord);
+    this.profanityFilterService.addToProfanityList(this.newProfanityWord);
     this.newProfanityWord = undefined;
   }
 
@@ -424,7 +425,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeWordFromProfanityList(word: string) {
-    this.topicCloudAdminService.removeFromProfanityList(word);
+    this.profanityFilterService.removeFromProfanityList(word);
   }
 
   removeWordFromBlacklist(word: string) {

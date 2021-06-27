@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Language } from '../../../../models/comment';
-import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 
 @Component({
   selector: 'app-topic-dialog-comment',
@@ -27,7 +27,7 @@ export class TopicDialogCommentComponent implements OnInit {
   public partsShort: string[];
   public partsWithoutProfanityShort: string[];
 
-  constructor(private topicCloudAdminService: TopicCloudAdminService) {}
+  constructor(private profanityFilterService: ProfanityFilterService) {}
 
   get partsOfQuestion() {
     return this.profanityFilter ? this.partsWithoutProfanity : this.parts;
@@ -49,7 +49,7 @@ export class TopicDialogCommentComponent implements OnInit {
     if (!this.language) {
       return;
     }
-    this.questionWithoutProfanity = this.topicCloudAdminService.
+    this.questionWithoutProfanity = this.profanityFilterService.
                                     filterProfanityWords(this.question, this.partialWords, this.languageSpecific, this.language);
     this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
     this.parts = this.splitQuestion(this.question);
