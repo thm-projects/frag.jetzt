@@ -110,7 +110,8 @@
     "edit-keyword-hint": "Edit keyword",
     "editing-done-hint": "Finish editing",
     "force-language-selection": "Language detection inaccurate, please check language settings!",
-    "add-manually": "You can manually enter the keywords separated with a comma "
+    "add-manually": "You can manually enter the keywords separated with a comma",
+    "select-keywords": "Choose the keywords for your question"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
@@ -238,8 +239,6 @@
     "questions-blocked": "No further questions!"
   },
   "tag-cloud": {
-    "config": "Modify cloud view",
-    "administration": "Edit cloud topics",
     "demo-data-topic": "Topic %d",
     "overview-question-topic-tooltip": "Number of questions with this topic",
     "overview-questioners-topic-tooltip": "Number of questioners with this topic",
@@ -299,7 +298,9 @@
     "select-all": "Select all",
     "keyword-counter": "Topic count",
     "sort": "Sort",
-    "words-will-be-overwritten": "profane words will be overwritten with '***'"
+    "words-will-be-overwritten": "profane words will be overwritten with '***'",
+    "keyword-from-spacy": "Keyword from spaCy",
+    "keyword-from-questioner": "Keyword from questioner"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

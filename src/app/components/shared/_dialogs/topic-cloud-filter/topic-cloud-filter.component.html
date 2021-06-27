@@ -6,9 +6,12 @@
           {{'content.continue-with-all-questions' | translate}}
         </div>
         <div class="elementIcons">
-          <mat-icon [inline]="true">comment</mat-icon> {{allComments.comments}}
-          <mat-icon [inline]="true">person</mat-icon> {{allComments.users}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{allComments.keywords}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{allComments.comments}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon> {{allComments.users}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"
+            matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon> {{allComments.keywords}}
         </div>
       </div>
     </mat-radio-button>
@@ -18,9 +21,12 @@
           {{'content.continue-with-current-questions' | translate}}
         </div>
         <div class="elementIcons">
-          <mat-icon [inline]="true">comment</mat-icon> {{filteredComments.comments}}
-          <mat-icon [inline]="true">person</mat-icon> {{filteredComments.users}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{filteredComments.keywords}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{filteredComments.comments}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon> {{filteredComments.users}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"
+            matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon> {{filteredComments.keywords}}
         </div>
       </div>
     </mat-radio-button>
