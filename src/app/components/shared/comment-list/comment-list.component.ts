@@ -96,6 +96,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
+  userNumberSelection: number = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
@@ -446,6 +447,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   clickedUserNumber(usrNumber: number): void {
+    this.userNumberSelection = usrNumber;
     this.filterComments(this.userNumber, usrNumber);
   }
 
@@ -585,6 +587,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     filter.periodSet = this.period;
     filter.keywordSelected = this.selectedKeyword;
     filter.tagSelected = this.selectedTag;
+    filter.userNumberSelected = this.userNumberSelection;
 
     if (filter.periodSet === Period.fromNow) {
       filter.timeStampNow = new Date().getTime();
