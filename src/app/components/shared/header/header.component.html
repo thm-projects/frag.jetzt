@@ -360,13 +360,14 @@
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 
-      <ng-container *ngIf="router.url.includes('/creator') || router.url.includes('/moderator')">
+      <ng-container *ngIf="router.url.includes('/creator/room') || router.url.includes('/moderator/room')">
         <button mat-menu-item
                 (click)="blockQuestions()"
                 [ngClass]="{'color-warn': room && room.questionsBlocked}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
-          <span>{{'header.block' | translate}}</span>
+          <span *ngIf="name">{{'header.block' | translate}}</span> 
+          <span *ngIf="!name">{{'header.unlock' | translate}}</span> 
         </button>
       </ng-container>
 

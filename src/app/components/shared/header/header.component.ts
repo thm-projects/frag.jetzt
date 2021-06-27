@@ -32,6 +32,7 @@ import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.c
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  name = true;
   user: User;
   cTime: string;
   shortId: string;
@@ -320,10 +321,10 @@ export class HeaderComponent implements OnInit {
     // flip state if clicked
     this.room.questionsBlocked = !this.room.questionsBlocked;
     this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
+    this.name = false;
   }
 
   public startWorkerDialog() {
     WorkerDialogComponent.addWorkTask(this.dialog, this.room);
   }
-
 }
