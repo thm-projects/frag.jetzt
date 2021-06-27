@@ -51,7 +51,6 @@ export class WorkerDialogTask {
       }
       return;
     }
-    const fallbackmodel = (localStorage.getItem('currentLang') || 'de') as Model;
     const currentComment = this._comments[currentIndex];
     CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, currentComment.body)
       .subscribe(result => {
@@ -60,9 +59,15 @@ export class WorkerDialogTask {
           this.callSpacy(currentIndex + concurrentCallsPerTask);
           return;
         }
-        const model = this.languagetoolService
-          .mapLanguageToSpacyModel(result.result.language.detectedLanguage.code as Language);
-        this.spacyService.getKeywords(result.text, model === 'auto' ? fallbackmodel : model)
+        const commentModel = currentComment.language.toLowerCase();
+        const model = commentModel !== 'auto' ? commentModel.toLowerCase() as Model :
+          this.languagetoolService.mapLanguageToSpacyModel(result.result.language.detectedLanguage.code as Language);
+        if (model === 'auto') {
+          this.statistics.badSpelled++;
+          this.callSpacy(currentIndex + concurrentCallsPerTask);
+          return;
+        }
+        this.spacyService.getKeywords(result.text, model)
           .subscribe(newKeywords => {
               const changes = new TSMap<string, string>();
               changes.set('keywordsFromSpacy', JSON.stringify(newKeywords));
@@ -74,19 +79,16 @@ export class WorkerDialogTask {
                   if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
                     this.error = 'forbidden';
                   }
-                  console.log(patchError);
                 }, () => {
                   this.callSpacy(currentIndex + concurrentCallsPerTask);
                 });
             },
-            keywordError => {
+            __ => {
               this.statistics.failed++;
-              console.log(keywordError);
               this.callSpacy(currentIndex + concurrentCallsPerTask);
             });
-      }, error => {
+      }, _ => {
         this.statistics.failed++;
-        console.log(error);
         this.callSpacy(currentIndex + concurrentCallsPerTask);
       });
   }

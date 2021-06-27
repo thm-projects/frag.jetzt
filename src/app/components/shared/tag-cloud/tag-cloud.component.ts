@@ -111,16 +111,16 @@ const getResolvedDefaultColors = (): string[] => {
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[1], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[2], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[3], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[4], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[5], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[6], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[7], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[8], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[9], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[10], rotation: 0},
   ];
   return {
     fontFamily: 'Dancing Script',
@@ -136,7 +136,6 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverDelay: 0.4,
     delayWord: 0,
     randomAngles: true,
-    checkSpelling: true,
     sortAlphabetically: false,
     textTransform: CloudTextStyle.normal,
     cloudWeightSettings: weightSettings
@@ -439,8 +438,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       });
       elem.addEventListener('mouseenter', () => {
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-          this._currentSettings.checkSpelling);
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });
     });
   }
@@ -477,7 +475,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
-      'color: ' + this._currentSettings.fontColor + '; ' +
+      'color: ' + this._currentSettings.fontColor + ' !important; ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');

@@ -56,6 +56,7 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "block" : "Block questions",
+    "unlock": "Unlock questions",
     "delete-account": "Delete account",
     "home-header": "Collect and rate questions",
     "id": "Key",
@@ -130,9 +131,9 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "reset": "Reset",
-    "continue-with-all-questions" : "Continue with complete list of questions",
-    "continue-with-current-questions": "Continue with current filters",
-    "continue-with-all-questions-from-now": "Continue with all questions from now"
+    "continue-with-all-questions" : "Continue with all questions of the session",
+    "continue-with-current-questions": "Continue with current question list",
+    "continue-with-all-questions-from-now": "Continue with questions that will be asked form now on"
 
   },
   "imprint": {

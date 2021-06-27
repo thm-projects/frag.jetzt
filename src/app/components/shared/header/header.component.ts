@@ -325,5 +325,4 @@ export class HeaderComponent implements OnInit {
   public startWorkerDialog() {
     WorkerDialogComponent.addWorkTask(this.dialog, this.room);
   }
-
 }

@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Comment } from '../../../../models/comment';
+import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -121,9 +121,12 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         if (result.isAcceptable) {
           const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
+          const selectedLangExtend = this.selectedLang[2] === '-' ? this.selectedLang.substr(0, 2) : this.selectedLang;
           // Store language if it was auto-detected
-          if(this.selectedLang === 'auto') {
+          if (this.selectedLang === 'auto') {
             comment.language = Comment.mapModelToLanguage(commentLang);
+          } else if (CommentLanguage[selectedLangExtend]) {
+            comment.language = CommentLanguage[selectedLangExtend];
           }
           const dialogRef = this.dialog.open(SpacyDialogComponent, {
             data: {
@@ -138,6 +141,7 @@ export class CreateCommentComponent implements OnInit, OnDestroy {
             }
           });
         } else {
+          comment.language = CommentLanguage.auto;
           this.dialogRef.close(comment);
         }
         this.isSendingToSpacy = false;

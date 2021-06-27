@@ -402,6 +402,15 @@
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragesteller"
   },
+  "tag-cloud": {
+    "demo-data-topic": "Thema %d",
+    "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
+    "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
+    "period-since-first-comment":"Zeitraum seit erstem Kommentar",
+    "upvote-topic": "Upvotes für dieses Thema",
+    "downvote-topic": "Downvotes für dieses Thema",
+    "blacklist-topic": "Thema zur Blacklist hinzufügen"
+  },
   "tag-cloud-config":{
     "general":"Allgemein",
     "overflow":"Überlauf",

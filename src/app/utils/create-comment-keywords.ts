@@ -2,6 +2,7 @@ import { Language, LanguagetoolService } from '../services/http/languagetool.ser
 import { map } from 'rxjs/operators';
 
 export class CreateCommentKeywords {
+
   static isSpellingAcceptable(languagetoolService: LanguagetoolService, text: string, language: Language = 'auto') {
     text = this.cleaningFunction(text);
     return languagetoolService.checkSpellings(text, language).pipe(

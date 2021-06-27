@@ -130,7 +130,7 @@ export class RoomDataService {
     return tempSubject.asObservable();
   }
 
-  public checkProfanity(comment: Comment){
+  public checkProfanity(comment: Comment) {
     const finish = new Subject<boolean>();
     const subscription = finish.asObservable().subscribe(_ => {
       if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
@@ -162,7 +162,7 @@ export class RoomDataService {
     this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
   }
 
-  private filterAllCommentsBodies(){
+  private filterAllCommentsBodies() {
     this._currentComments.forEach(comment => {
       comment.body = this._savedCommentsBeforeFilter.get(comment.id);
       this.setCommentBody(comment);
@@ -193,7 +193,7 @@ export class RoomDataService {
       this._wsCommentServiceSubscription.unsubscribe();
     }
     this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
-    .subscribe(msg => this.onMessageReceive(msg));
+      .subscribe(msg => this.onMessageReceive(msg));
     this.roomService.getRoom(roomId).subscribe(room => {
       this.room = room;
       this.commentService.getAckComments(roomId).subscribe(comments => {
@@ -252,19 +252,23 @@ export class RoomDataService {
     c.tag = payload.tag;
     c.creatorId = payload.creatorId;
     c.userNumber = this.commentService.hashCode(c.creatorId);
+    c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
+    this._fastCommentAccess[c.id] = c;
+    this._currentComments.push(c);
     this.triggerUpdate(UpdateType.commentStream, {
       type: 'CommentCreated',
       finished: false,
       comment: c
     });
     this.commentService.getComment(c.id).subscribe(comment => {
-      this._fastCommentAccess[comment.id] = comment;
-      this._currentComments.push(comment);
-      this.setCommentBody(comment);
+      for (const key of Object.keys(comment)) {
+        c[key] = comment[key];
+      }
+      this.setCommentBody(c);
       this.triggerUpdate(UpdateType.commentStream, {
         type: 'CommentCreated',
         finished: true,
-        comment
+        comment: c
       });
     });
   }
