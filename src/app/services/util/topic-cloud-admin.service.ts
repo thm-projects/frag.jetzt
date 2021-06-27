@@ -30,12 +30,16 @@ export class TopicCloudAdminService {
     this.blacklist = new Subject<string[]>();
     this.adminData = new Subject<TopicCloudAdminData>();
     this.customProfanityWords = new Subject<string[]>();
-    /* put all arrays of languages together */
+
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
       .concat(BadWords['fr'])
       .concat(BadWords['ar'])
       .concat(BadWords['ru'])
+      .concat(BadWords['es'])
+      .concat(BadWords['it'])
+      .concat(BadWords['nl'])
+      .concat(BadWords['pt'])
       .concat(BadWords['tr']);
     this.wsRoomService.getRoomStream(localStorage.getItem('roomId')).subscribe(msg => {
       const message = JSON.parse(msg.body);
