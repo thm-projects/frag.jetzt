@@ -10,6 +10,7 @@ import { ProfanityFilter, Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
 import { Observable, Subject } from 'rxjs';
+import { WsRoomService } from '..//websockets/ws-room.service';
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +25,7 @@ export class TopicCloudAdminService {
 
   constructor(private roomService: RoomService,
               private translateService: TranslateService,
+              private wsRoomService: WsRoomService,
               private notificationService: NotificationService) {
     this.blacklist = new Subject<string[]>();
     this.adminData = new Subject<TopicCloudAdminData>();
@@ -35,6 +37,13 @@ export class TopicCloudAdminService {
       .concat(BadWords['ar'])
       .concat(BadWords['ru'])
       .concat(BadWords['tr']);
+      this.wsRoomService.getRoomStream(localStorage.getItem('roomId')).subscribe(msg => {
+        const message = JSON.parse(msg.body);
+        const room = message.payload.changes;
+        if (message.type === 'RoomPatched') {
+          this.blacklist.next(room.blacklist ? JSON.parse(room.blacklist) : []);
+        }
+      });
   }
 
   static get getDefaultAdminData(): TopicCloudAdminData {
