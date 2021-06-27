@@ -93,6 +93,7 @@ export class RoomJoinComponent implements OnInit {
 
   addAndNavigate() {
     if (this.user.id === this.room.ownerId) {
+      this.authenticationService.setAccess(this.room.shortId, UserRole.CREATOR);
       this.router.navigate([`/creator/room/${this.room.shortId}/comments`]);
     } else {
       this.roomService.addToHistory(this.room.id);
