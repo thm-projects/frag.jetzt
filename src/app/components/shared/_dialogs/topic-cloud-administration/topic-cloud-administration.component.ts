@@ -53,7 +53,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     en: string[];
   };
   spacyLabelsAllSelectedDE = true;
-  isLoading: boolean;
+  isLoading = true;
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
   private profanityFilter: boolean;
@@ -76,7 +76,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.deviceType = localStorage.getItem('deviceType');
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();

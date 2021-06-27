@@ -406,6 +406,10 @@
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragesteller"
   },
+  "dialog-comment": {
+    "read-more": "Mehr lesen",
+    "read-less": "Weniger lesen"
+  },
   "tag-cloud-config":{
     "general":"Allgemein",
     "overflow":"Überlauf",
