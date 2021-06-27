@@ -191,7 +191,8 @@ export class TopicCloudAdminService {
     } else {
       profWords = this.profanityWords;
     }
-    const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(' ');
+    // eslint-disable-next-line max-len
+    const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(/[\s,.]+/);
     profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
       if (toCensoredString.includes(word)) {
         filteredString = this.replaceString(filteredString, word, this.generateCensoredWord(word.length));

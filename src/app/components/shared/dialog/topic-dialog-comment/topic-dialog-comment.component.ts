@@ -38,13 +38,11 @@ export class TopicDialogCommentComponent implements OnInit {
   }
 
   splitShortQuestion(question: string){
-    const cleanedKeyword = this.keyword.replace(/([^a-z0-9]+)/gi, '');
-    return question.slice(0, this.maxShowedCharachters).split(new RegExp(this.keyword, 'i'));
+    return question.slice(0, this.maxShowedCharachters).split(this.keyword);
   }
 
   splitQuestion(question: string){
-    const cleanedKeyword = this.keyword.replace(/([^a-z0-9]+)/gi, '');
-    return question.split(new RegExp(this.keyword,'i'));
+    return question.split(this.keyword);
   }
 
   ngOnInit(): void {
