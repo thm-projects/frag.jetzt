@@ -35,13 +35,13 @@
         </mat-card>
         <div *ngIf="isCreatorOrMod">
           <mat-card style="background: none;">
-            <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
+            <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)" [(ngModel)]="profanityFilter">
               {{'topic-cloud-dialog.profanity' | translate}}
             </mat-slide-toggle>
-            <mat-slide-toggle *ngIf="profanityFilter" (change)="changeProfanityFilter()" [(ngModel)]="censorLanguageSpecificCheck">
+            <mat-slide-toggle *ngIf="profanityFilter" (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)" [(ngModel)]="censorLanguageSpecificCheck">
               Sprachspezifisch
             </mat-slide-toggle>
-            <mat-slide-toggle *ngIf="profanityFilter" (change)="changeProfanityFilter()" [(ngModel)]="censorPartialWordsCheck">
+            <mat-slide-toggle *ngIf="profanityFilter" (change)="showMessage('partial-words-will-be-filtered', $event.checked)" [(ngModel)]="censorPartialWordsCheck">
               Teilwörter
             </mat-slide-toggle>
           </mat-card>

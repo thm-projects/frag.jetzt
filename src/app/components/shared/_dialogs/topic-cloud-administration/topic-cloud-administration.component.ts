@@ -432,9 +432,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.topicCloudAdminService.removeWordFromBlacklist(word);
   }
 
-  changeProfanityFilter() {
-    if (this.profanityFilter) {
-      this.translateService.get('topic-cloud-dialog.words-will-be-overwritten').subscribe(msg => {
+  showMessage(label: string, event: boolean) {
+    if (event) {
+      this.translateService.get('topic-cloud-dialog.' + label).subscribe(msg => {
         this.notificationService.show(msg);
       });
       if (this.searchMode) {
