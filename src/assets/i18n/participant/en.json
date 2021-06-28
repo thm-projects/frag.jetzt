@@ -300,7 +300,13 @@
     "sort": "Sort",
     "words-will-be-overwritten": "profane words will be overwritten with '***'",
     "keyword-from-spacy": "Keyword from spaCy",
-    "keyword-from-questioner": "Keyword from questioner"
+    "keyword-from-questioner": "Keyword from questioner",
+    "topic-requirement-title": "Topic requirement",
+    "topic-requirement-questions": "Minimum number of questions",
+    "topic-requirement-questioners": "Minimum number of questioners",
+    "topic-requirement-upvotes": "Minimum number of upvotes",
+    "topic-requirement-begin-datetime": "Earliest comment",
+    "topic-requirement-end-datetime": "Last comment"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
@@ -366,7 +372,7 @@
     "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
     "font":"Font",
     "reset-btn": "Reset",
-    "font-family-tooltip": "Select font",  
+    "font-family-tooltip": "Select font",
     "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",

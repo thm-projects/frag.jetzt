@@ -11,7 +11,8 @@ import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { KeywordOrFulltext } from '../topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
+import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
 
 class CommentsCount {
   comments: number;
@@ -33,8 +34,7 @@ export class TopicCloudFilterComponent implements OnInit {
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
-  private readonly _filter: KeywordOrFulltext;
-  private readonly _blacklist: string[];
+  private readonly _adminData: TopicCloudAdminData;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -46,9 +46,7 @@ export class TopicCloudFilterComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
-    const adminData = TopicCloudAdminService.getDefaultAdminData;
-    this._filter = adminData.keywordORfulltext;
-    this._blacklist = adminData.blacklist;
+    this._adminData = TopicCloudAdminService.getDefaultAdminData;
   }
 
   ngOnInit() {
@@ -75,40 +73,11 @@ export class TopicCloudFilterComponent implements OnInit {
   }
 
   getCommentCounts(comments: Comment[]): CommentsCount {
+    const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, comments);
     const counts = new CommentsCount();
-    const userSet = new Set<number>();
-    const keywordSet = new Set<string>();
-
-    comments.forEach(c => {
-      if (c.userNumber) {
-        userSet.add(c.userNumber);
-      }
-      let source = c.keywordsFromQuestioner;
-      if (this._filter === KeywordOrFulltext.both) {
-        source = !source || !source.length ? c.keywordsFromSpacy : source;
-      } else if (this._filter === KeywordOrFulltext.fulltext) {
-        source = c.keywordsFromSpacy;
-      }
-      if (source) {
-        source.forEach(k => {
-          let isProfanity = false;
-          const lowerCasedKeyword = k.toLowerCase();
-          for (const word of this._blacklist) {
-            if (lowerCasedKeyword.includes(word)) {
-              isProfanity = true;
-              break;
-            }
-          }
-          if (!isProfanity) {
-            keywordSet.add(k);
-          }
-        });
-      }
-    });
-
     counts.comments = comments.length;
-    counts.users = userSet.size;
-    counts.keywords = keywordSet.size;
+    counts.users = users.size;
+    counts.keywords = data.size;
     return counts;
   }
 

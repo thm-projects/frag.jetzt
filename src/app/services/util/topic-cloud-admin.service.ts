@@ -9,14 +9,15 @@ import { RoomService } from '../http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Comment } from '../../models/comment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TopicCloudAdminService {
   private static readonly adminKey = 'Topic-Cloud-Admin-Data';
-  private adminData: Subject<TopicCloudAdminData>;
+  private adminData: BehaviorSubject<TopicCloudAdminData>;
   private blacklist: Subject<string[]>;
   private profanityWords = [];
   private customProfanityWords: Subject<string[]>;
@@ -26,7 +27,7 @@ export class TopicCloudAdminService {
               private translateService: TranslateService,
               private notificationService: NotificationService) {
     this.blacklist = new Subject<string[]>();
-    this.adminData = new Subject<TopicCloudAdminData>();
+    this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
     this.customProfanityWords = new Subject<string[]>();
     /* put all arrays of languages together */
     this.profanityWords = BadWords['en']
@@ -37,8 +38,42 @@ export class TopicCloudAdminService {
       .concat(BadWords['tr']);
   }
 
+  static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (string) => void) {
+    let source = comment.keywordsFromQuestioner;
+    if (config.keywordORfulltext === KeywordOrFulltext.both) {
+      source = !source || !source.length ? comment.keywordsFromSpacy : source;
+    } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
+      source = comment.keywordsFromSpacy;
+    }
+    if (!source) {
+      return;
+    }
+    for (const keyword of source) {
+      let isProfanity = false;
+      const lowerCasedKeyword = keyword.toLowerCase();
+      for (const word of config.blacklist) {
+        if (lowerCasedKeyword.includes(word)) {
+          isProfanity = true;
+          break;
+        }
+      }
+      if (!isProfanity) {
+        keywordFunc(keyword);
+      }
+    }
+  }
+
+  static isTopicAllowed(config: TopicCloudAdminData, comments: number, users: number,
+                        upvotes: number, firstTimeStamp: Date, lastTimeStamp: Date) {
+    return !((config.minQuestions > comments) ||
+      (config.minQuestioners > users) ||
+      (config.minUpvotes > upvotes) ||
+      (config.startDate && new Date(config.startDate) > firstTimeStamp) ||
+      (config.endDate && new Date(config.endDate) < lastTimeStamp));
+  }
+
   static get getDefaultAdminData(): TopicCloudAdminData {
-    let data = JSON.parse(localStorage.getItem(this.adminKey));
+    let data: TopicCloudAdminData = JSON.parse(localStorage.getItem(this.adminKey));
     if (!data) {
       data = {
         blacklist: [],
@@ -49,7 +84,12 @@ export class TopicCloudAdminService {
         considerVotes: true,
         profanityFilter: true,
         blacklistIsActive: true,
-        keywordORfulltext: KeywordOrFulltext.both
+        keywordORfulltext: KeywordOrFulltext.both,
+        minQuestioners: 1,
+        minQuestions: 1,
+        minUpvotes: 0,
+        startDate: null,
+        endDate: null
       };
     }
     return data;
@@ -184,7 +224,7 @@ export class TopicCloudAdminService {
       });
   }
 
-  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string){
+  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string) {
     let filteredString = str;
     let profWords = [];
     if (censorLanguageSpecificCheck) {
