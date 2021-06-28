@@ -114,6 +114,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  sortKeywords(keywords: string[]){
+    return keywords.sort((a,b) => a.localeCompare(b));
+  }
+
   toggleExpand(evt: MouseEvent) {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {

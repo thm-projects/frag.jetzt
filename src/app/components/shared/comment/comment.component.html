@@ -331,7 +331,7 @@
         <mat-menu #keywordsMenu>
 
           <mat-list dense class="keywords-list">
-            <mat-list-item *ngFor="let keyword of comment.keywordsFromQuestioner; let odd = odd; let even = even"
+            <mat-list-item *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
                             [class.keywords-alternate]="odd"
                             [class.keywords-even]="even">                  
                             <span (click)="this.clickedOnKeyword.emit(keyword)" class="keyword-span">{{keyword}}</span>
