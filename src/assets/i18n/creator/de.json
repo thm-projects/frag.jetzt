@@ -95,7 +95,8 @@
     "edit-keyword-hint": "Stichwort editieren",
     "editing-done-hint": "Editierung abschliessen",
     "force-language-selection": "Automatische Spracherkennung unpräzise, bitte gewählte Sprache prüfen!",
-    "add-manually": "Geben Sie bitte die Stichwörter unten mit separatem Komma ein"
+    "add-manually": "Geben Sie bitte die Stichwörter unten mit separatem Komma ein",
+    "select-keywords": "Wählen Sie die Stichwörter für Ihre Frage aus"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
