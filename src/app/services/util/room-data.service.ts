@@ -8,7 +8,7 @@ import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { RoomService } from '../http/room.service';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { ProfanityFilter, Room } from '../../models/room';
-import { WsRoomService } from '..//websockets/ws-room.service';
+import { WsRoomService } from '../websockets/ws-room.service';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -192,10 +192,10 @@ export class RoomDataService {
     if (this._wsCommentServiceSubscription) {
       this._wsCommentServiceSubscription.unsubscribe();
     }
-    this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
-      .subscribe(msg => this.onMessageReceive(msg));
     this.roomService.getRoom(roomId).subscribe(room => {
       this.room = room;
+      this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
+        .subscribe(msg => this.onMessageReceive(msg));
       this.commentService.getAckComments(roomId).subscribe(comments => {
         this._currentComments = comments;
         for (const comment of comments) {
