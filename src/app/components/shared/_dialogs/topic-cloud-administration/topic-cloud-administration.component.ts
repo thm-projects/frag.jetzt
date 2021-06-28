@@ -6,13 +6,14 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 import { TopicCloudAdminData, Labels, spacyLabels, KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-
+import { ProfanityFilter } from '../../../../models/room';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -22,7 +23,6 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public panelOpenState = false;
   public considerVotes: boolean;
-  public profanityFilter: boolean;
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
   profanitywordlist: string[] = [];
@@ -62,6 +62,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
+  private profanityFilter: boolean;
+  private censorPartialWordsCheck: boolean;
+  private censorLanguageSpecificCheck: boolean;
+  private testProfanityWord: string = undefined;
+  private testProfanityLanguage = 'de';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -72,18 +77,18 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
     private commentService: CommentService,
-    private roomDataService: RoomDataService) {
+    private roomDataService: RoomDataService,
+    private profanityFilterService: ProfanityFilterService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.deviceType = localStorage.getItem('deviceType');
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
-    this.profanitywordlist = this.topicCloudAdminService.getProfanityListFromStorage();
-    this.profanitylistSubscription = this.topicCloudAdminService.getCustomProfanityList().subscribe(list => {
+    this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
+    this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
       this.refreshKeywords();
     });
@@ -142,7 +147,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         const keyword: Keyword = {
           keyword: _keyword,
           keywordType: _keywordType,
-          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword),
+          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword, comment.language),
           comments: [comment],
           vote: comment.score
         };
@@ -172,17 +177,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     });
     this.commentServiceSubscription = this.roomDataService.receiveUpdates([
-      {type: 'CommentCreated', finished: true},
-      {type: 'CommentDeleted'},
-      {type: 'CommentPatched', finished: true, updates: ['score']},
-      {type: 'CommentPatched', finished: true, updates: ['upvotes']},
-      {type: 'CommentPatched', finished: true, updates: ['downvotes']},
-      {type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy']},
-      {type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner']},
-      {type: 'CommentPatched', finished: true, updates: ['ack']},
-      {type: 'CommentPatched', finished: true, updates: ['tag']},
-      {type: 'CommentPatched', subtype: 'ack'},
-      {finished: true}
+      { type: 'CommentCreated', finished: true },
+      { type: 'CommentDeleted' },
+      { type: 'CommentPatched', finished: true, updates: ['score'] },
+      { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
+      { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
+      { type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy'] },
+      { type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner'] },
+      { type: 'CommentPatched', finished: true, updates: ['ack'] },
+      { type: 'CommentPatched', finished: true, updates: ['tag'] },
+      { type: 'CommentPatched', subtype: 'ack' },
+      { finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.pushInKeywords(update.comment);
@@ -206,42 +211,57 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   setAdminData() {
-    let minQuestionersVerified = +this.minQuestioners;
-    if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
-      minQuestionersVerified = 1;
+    let profFilter = this.profanityFilter ? ProfanityFilter.none : ProfanityFilter.deactivated;
+    if (this.profanityFilter) {
+      if (this.censorLanguageSpecificCheck && this.censorPartialWordsCheck) {
+        profFilter = ProfanityFilter.all;
+      } else {
+        profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
+        profFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : profFilter;
+      }
+      let minQuestionersVerified = +this.minQuestioners;
+      if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
+        minQuestionersVerified = 1;
+      }
+      let minQuestionsVerified = +this.minQuestions;
+      if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
+        minQuestionsVerified = 1;
+      }
+      let minUpvotesVerified = +this.minUpvotes;
+      if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
+        minUpvotesVerified = 0;
+      }
+      this.topicCloudAdminData = {
+        blacklist: [],
+        wantedLabels: {
+          de: this.wantedLabels.de,
+          en: this.wantedLabels.en
+        },
+        considerVotes: this.considerVotes,
+        profanityFilter: profFilter,
+        blacklistIsActive: this.blacklistIsActive,
+        keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
+        minQuestioners: minQuestionersVerified,
+        minQuestions: minQuestionsVerified,
+        minUpvotes: minUpvotesVerified,
+        startDate: this.startDate.length ? this.startDate : null,
+        endDate: this.endDate.length ? this.endDate : null
+      };
+      this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
     }
-    let minQuestionsVerified = +this.minQuestions;
-    if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
-      minQuestionsVerified = 1;
-    }
-    let minUpvotesVerified = +this.minUpvotes;
-    if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
-      minUpvotesVerified = 0;
-    }
-    this.topicCloudAdminData = {
-      blacklist: [],
-      wantedLabels: {
-        de: this.wantedLabels.de,
-        en: this.wantedLabels.en
-      },
-      considerVotes: this.considerVotes,
-      profanityFilter: this.profanityFilter,
-      blacklistIsActive: this.blacklistIsActive,
-      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
-      minQuestioners: minQuestionersVerified,
-      minQuestions: minQuestionsVerified,
-      minUpvotes: minUpvotesVerified,
-      startDate: this.startDate.length ? this.startDate : null,
-      endDate: this.endDate.length ? this.endDate : null
-    };
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
 
   setDefaultAdminData() {
     this.topicCloudAdminData = TopicCloudAdminService.getDefaultAdminData;
     if (this.topicCloudAdminData) {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
-      this.profanityFilter = this.topicCloudAdminData.profanityFilter;
+      this.profanityFilter = this.topicCloudAdminData.profanityFilter !== ProfanityFilter.deactivated;
+      if (this.topicCloudAdminData.profanityFilter === ProfanityFilter.all) {
+        this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
+      } else if (this.profanityFilter) {
+        this.censorLanguageSpecificCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.languageSpecific;
+        this.censorPartialWordsCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.partialWords;
+      }
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
       this.wantedLabels = {
@@ -256,8 +276,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  getKeywordWithoutProfanity(keyword: string): string {
-    return this.topicCloudAdminService.filterProfanityWords(keyword, true, false);
+  getKeywordWithoutProfanity(keyword: string, lang: string): string {
+    return this.profanityFilterService.filterProfanityWords(keyword, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, lang);
   }
 
   sortQuestions(sortMode?: string) {
@@ -314,12 +334,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate?: string) {
     this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
-        if (messageTranslate) {
-          this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        }
-      },
+      if (messageTranslate) {
+        this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
+    },
       error => {
         this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
@@ -368,7 +388,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   openConfirmDialog(msg: string, _confirmLabel: string, keyword: Keyword, mergeTarget?: Keyword) {
     const translationPart = 'topic-cloud-confirm-dialog.' + msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
-      data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
+      data: { topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel }
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
@@ -425,7 +445,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addProfanityWord() {
-    this.topicCloudAdminService.addToProfanityList(this.newProfanityWord);
+    this.profanityFilterService.addToProfanityList(this.newProfanityWord);
     this.newProfanityWord = undefined;
   }
 
@@ -435,22 +455,23 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeWordFromProfanityList(word: string) {
-    this.topicCloudAdminService.removeFromProfanityList(word);
+    this.profanityFilterService.removeFromProfanityList(word);
   }
 
   removeWordFromBlacklist(word: string) {
     this.topicCloudAdminService.removeWordFromBlacklist(word);
   }
 
-  changeProfanityFilter() {
-    if (this.profanityFilter) {
-      this.translateService.get('topic-cloud-dialog.words-will-be-overwritten').subscribe(msg => {
+  showMessage(label: string, event: boolean) {
+    if (event) {
+      this.translateService.get('topic-cloud-dialog.' + label).subscribe(msg => {
         this.notificationService.show(msg);
       });
       if (this.searchMode) {
         this.searchKeyword();
       }
     }
+    this.refreshKeywords();
   }
 
   selectAllDE() {
@@ -474,6 +495,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       });
     } else {
       this.wantedLabels.en = [];
+    }
+  }
+
+  getFilteredProfanity(): string {
+    if (this.testProfanityWord) {
+      return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, this.testProfanityLanguage);
+    } else {
+      return '';
     }
   }
 }

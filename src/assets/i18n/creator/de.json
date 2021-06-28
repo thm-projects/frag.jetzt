@@ -337,7 +337,9 @@
     "partial-words-filter": "Teilwörter filtern",
     "words-will-be-overwritten": "Profane Wörter werden mit '***' überschrieben",
     "only-specific-language-will-be-filtered": "Nur die Sprache der Frage wird gefiltert",
-    "partial-words-will-be-filtered": "Profane Teilwörter werden auch gefiltert"
+    "partial-words-will-be-filtered": "Profane Teilwörter werden auch gefiltert",
+    "keyword-from-spacy": "Stichwort von spaCy",
+    "keyword-from-questioner": "Stichwort vom Fragesteller"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
@@ -398,15 +400,30 @@
     "select-all": "Alle auswählen",
     "keyword-counter": "Anzahl der Themen",
     "sort": "Sortieren",
-    "words-will-be-overwritten": "unanständige Wörter werden mit '***' überschrieben",
+    "language-specific-filter": "Sprachspezifisch filtern",
+    "partial-words-filter": "Teilwörter filtern",
+    "words-will-be-overwritten": "Profane Wörter werden mit '***' überschrieben",
+    "only-specific-language-will-be-filtered": "Nur die Sprache der Frage wird gefiltert",
+    "partial-words-will-be-filtered": "Profane Teilwörter werden auch gefiltert",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragesteller",
+    "test-profanity": "Profanität testen",
+    "word": "Wort",
+    "word-is-profanity": "Wort ist profan",
+    "word-is-not-profanity": "Wort ist nicht profan",
+    "words-in-profanity": "Profane Wörter",
+    "language": "Sprache",
+    "preview": "Vorschau",
     "topic-requirement-title": "Themen Anforderung",
     "topic-requirement-questions": "Minimale Anzahl an Fragen",
     "topic-requirement-questioners": "Minimale Anzahl an Fragensteller*innen",
     "topic-requirement-upvotes": "Minimale Anzahl an Upvotes",
     "topic-requirement-begin-datetime": "Frühester Kommentar",
     "topic-requirement-end-datetime": "Letzter Kommentar"
+  },
+  "dialog-comment": {
+    "read-more": "Mehr lesen",
+    "read-less": "Weniger lesen"
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
