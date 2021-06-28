@@ -85,7 +85,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       )
       .subscribe(words => {
         this.keywords = words;
+        this.keywords.sort((a, b) => a.word.localeCompare(b.word));
         this.hasKeywordsFromSpacy = this.keywords.length > 0;
+
         //deep copy
         this.keywordsOriginal = [...words];
         for (let i = 0; i < this.keywordsOriginal.length; i++) {
