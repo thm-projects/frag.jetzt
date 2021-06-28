@@ -16,6 +16,16 @@ export enum DialogConfirmActionButtonType {
 })
 export class DialogActionButtonsComponent implements OnInit {
 
+  /**
+   * gray out confirm button
+   */
+  @Input() confirmButtonDisabled: boolean = false
+
+  /**
+   * gray out cancel button
+   */
+  @Input() cancelButtonDisabled: boolean = false
+
   @Input() showDivider = true;
 
   /**

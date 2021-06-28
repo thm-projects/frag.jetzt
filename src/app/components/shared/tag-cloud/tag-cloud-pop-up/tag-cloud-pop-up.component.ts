@@ -10,6 +10,7 @@ import { TSMap } from 'typescript-map';
 import { CommentService } from '../../../../services/http/comment.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 const CLOSE_TIME = 1500;
 
@@ -30,7 +31,6 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   user: User;
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
-  checkLanguage = false;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
   private _hasLeft = true;
@@ -77,10 +77,9 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, checkLanguage: boolean): void {
-    this.checkLanguage = checkLanguage;
-    if (checkLanguage) {
-      this.spellingData = [];
+  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
+    this.spellingData = [];
+    if (this.user && this.user.role > UserRole.PARTICIPANT) {
       this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
         const langKey = correction.language.code.split('-')[0].toUpperCase();
         if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {

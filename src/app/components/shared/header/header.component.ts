@@ -25,6 +25,7 @@ import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
+import { WsRoomService } from '../../../services/websockets/ws-room.service';
 
 @Component({
   selector: 'app-header',
@@ -43,6 +44,7 @@ export class HeaderComponent implements OnInit {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
+  private _subscriptionRoomService = null;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -56,7 +58,8 @@ export class HeaderComponent implements OnInit {
               private _r: Renderer2,
               private motdService: MotdService,
               private confirmDialog: MatDialog,
-              private roomService: RoomService
+              private roomService: RoomService,
+              private wsRoomService: WsRoomService
   ) {
   }
 
@@ -118,12 +121,25 @@ export class HeaderComponent implements OnInit {
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
         this.shortId = '';
         this.room = null;
+        if (this._subscriptionRoomService) {
+          this._subscriptionRoomService.unsubscribe();
+          this._subscriptionRoomService = null;
+        }
 
         if (segments && segments.length > 2) {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
-            this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
+            this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+              this.room = room;
+              this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
+                const message = JSON.parse(msg.body);
+                if (message.type === 'RoomPatched') {
+                  this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+                  this.moderationEnabled = message.payload.changes.moderated;
+                }
+              });
+            });
           }
         }
       }
@@ -148,6 +164,12 @@ export class HeaderComponent implements OnInit {
     this.motdService.onNewMessage().subscribe(state => {
       this.motdState = state;
     });
+  }
+
+  ngOnDestroy() {
+    if (this._subscriptionRoomService) {
+      this._subscriptionRoomService.unsubscribe();
+    }
   }
 
   showMotdDialog() {
@@ -319,11 +341,10 @@ export class HeaderComponent implements OnInit {
   public blockQuestions() {
     // flip state if clicked
     this.room.questionsBlocked = !this.room.questionsBlocked;
-    this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
+    this.roomService.updateRoom(this.room).subscribe();
   }
 
   public startWorkerDialog() {
     WorkerDialogComponent.addWorkTask(this.dialog, this.room);
   }
-
 }

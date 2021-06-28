@@ -77,16 +77,16 @@ type DefaultColors = [
 ];
 const defaultColors: DefaultColors = [
   'var(--secondary, greenyellow)',
-  'var(--moderator, lightblue)',
-  'var(--blue, green)',
-  'var(--grey, yellow)',
-  'var(--red, orange)',
-  'var(--primary, pink)',
-  'var(--yellow, gray)',
-  'var(--on-background, lightgreen)',
-  'var(--purple, tomato)',
-  'var(--magenta, white)',
-  'var(--light-green, brown)',
+  '#f1f1f1',
+  '#d98e49',
+  '#ccca3c',
+  '#83e761',
+  '#3accd4',
+  '#54a1e9',
+  '#3a44ee',
+  '#9725eb',
+  '#e436c7',
+  '#ff0000',
   'var(--background, black)'
 ];
 
@@ -111,32 +111,31 @@ const getResolvedDefaultColors = (): string[] => {
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[1], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[2], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[3], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[4], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[5], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[6], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[7], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[8], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[9], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[10], rotation: 0},
   ];
   return {
     fontFamily: 'Dancing Script',
-    fontWeight: 'normal',
+    fontWeight: 'bold',
     fontStyle: 'normal',
-    fontSize: '10px',
+    fontSize: '280px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
-    fontSizeMin: 100,
+    fontSizeMin: 280,
     fontSizeMax: 380,
     hoverScale: 1.3,
     hoverTime: 0.6,
     hoverDelay: 0.4,
     delayWord: 0,
     randomAngles: true,
-    checkSpelling: true,
     sortAlphabetically: false,
     textTransform: CloudTextStyle.normal,
     cloudWeightSettings: weightSettings
@@ -238,10 +237,16 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         });
       }
     });
-    this.dataManager.getData().subscribe(_ => {
+    this.dataManager.getData().subscribe(data => {
+      if (!data) {
+        return;
+      }
       this.rebuildData();
     });
     this.dataManager.getMetaData().subscribe(data => {
+      if (!data) {
+        return;
+      }
       this.eventService.broadcast('tagCloudHeaderDataOverview', data);
     });
     this.authenticationService.watchUser.subscribe(newUser => {
@@ -439,8 +444,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       });
       elem.addEventListener('mouseenter', () => {
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-          this._currentSettings.checkSpelling);
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });
     });
   }
@@ -477,7 +481,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
-      'color: ' + this._currentSettings.fontColor + '; ' +
+      'color: ' + this._currentSettings.fontColor + ' !important; ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
