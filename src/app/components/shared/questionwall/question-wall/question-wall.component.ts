@@ -60,7 +60,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private langService: LanguageService,
     private translateService: TranslateService,
     private roomDataService: RoomDataService
-  ) {
+    ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.roomId = localStorage.getItem('roomId');
     this.timeUpdateInterval = setInterval(() => {
@@ -87,11 +87,12 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.commentService.getAckComments(this.roomId).subscribe(e => {
+    this.roomDataService.getRoomData(this.roomId).subscribe(e => {
       e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       e.forEach(c => {
+        this.roomDataService.checkProfanity(c);
         const comment = new QuestionWallComment(c, true);
-        this.roomDataService.checkProfanity(comment.comment);
+        this.comments.push(comment);
         this.setTimePeriod(this.period);
       });
       this.updateCommentsCountOverview();
@@ -100,21 +101,43 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.room = e;
       this.tags = e.tags;
     });
-    this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
-      this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
-        this.notUndefined(this.comments.find(f => f.comment.id === comment.id), qwComment => {
-          qwComment.comment = comment;
-          this.roomDataService.checkProfanity(comment);
-        }, () => {
-          this.wrap(this.pushIncommingComment(comment), qwComment => {
-            if (this.focusIncommingComments) {
-              setTimeout(() => this.focusComment(qwComment), 5);
-            }
-          });
-        });
-      });
-    });
+
+    // this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
+    //   this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
+    //     this.notUndefined(this.comments.find(f => f.comment.id === comment.id), qwComment => {
+    //       qwComment.comment = comment;
+    //       this.roomDataService.checkProfanity(comment);
+    //     }, () => {
+    //       this.wrap(this.pushIncommingComment(comment), qwComment => {
+    //         if (this.focusIncommingComments) {
+    //           setTimeout(() => this.focusComment(qwComment), 5);
+    //         }
+    //       });
+    //     });
+    //   });
+    // });
+    this.subscribeCommentStream();
     this.initKeySupport();
+  }
+
+  subscribeCommentStream() {
+    this.roomDataService.receiveUpdates([
+      { type: 'CommentCreated', finished: true},
+      { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
+      { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
+      {finished: true}
+    ]).subscribe(update => {
+      if (update.type === 'CommentCreated') {
+        this.wrap(this.pushIncommingComment(update.comment), qwComment => {
+          if (this.focusIncommingComments) {
+            setTimeout(() => this.focusComment(qwComment), 5);
+          }
+        });
+      } else if (update.type === 'CommentPatched') {
+        const qwComment = this.comments.find(f => f.comment.id === update.comment.id);
+        qwComment.comment = update.comment;
+      }
+    });
   }
 
   updateCommentsCountOverview(): void {
