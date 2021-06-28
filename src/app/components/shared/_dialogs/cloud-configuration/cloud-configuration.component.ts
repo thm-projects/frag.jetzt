@@ -132,6 +132,7 @@ export class CloudConfigurationComponent implements OnInit {
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
        this.weightClasses[i].rotationAngle = element.rotation;
+       this.weightClasses[i].maxTagNumber = element.maxVisibleElements == -1 ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
     });
   }
 

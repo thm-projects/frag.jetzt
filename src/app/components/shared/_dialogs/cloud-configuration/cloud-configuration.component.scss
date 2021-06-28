@@ -121,7 +121,7 @@ mat-divider {
 ::ng-deep .mat-accent .mat-slider-track-fill,
 ::ng-deep .mat-accent .mat-slider-thumb,
 ::ng-deep .mat-accent .mat-slider-thumb-label{
-  color: var(--on-primary);;
+  color: var(--on-primary);
   background-color: var(--primary);
 }
 
@@ -130,12 +130,12 @@ mat-divider {
 }
 
 ::ng-deep .primary{
-  color: var(--on-primary);;
+  color: var(--on-primary);
   background-color: var(--primary);
 }
 
 ::ng-deep .secondary{
-  color: var(--on-cancel);;
+  color: var(--on-cancel);
   background-color: var(--cancel);
   margin-right: 20px;
 
@@ -143,11 +143,11 @@ mat-divider {
 
 .button-row{
   width: 100%;
-  margin: auto auto 20px auto ;
+  margin: auto auto 20px auto;
 }
 .reset {
   margin: 25px auto auto auto;
-  background-color: var(--white);
+  background-color: var(--secondary);
   color: black;
   width: 100%;
 }

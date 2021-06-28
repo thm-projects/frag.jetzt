@@ -18,11 +18,7 @@
         <div class="input-row firstElementOfExpansionPanel" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
           <mat-slide-toggle matTooltip="{{'tag-cloud-config.random-angle-tooltip' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]="cloudParameters.randomAngles"
             [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.random-angle' | translate}}</mat-slide-toggle>
-        </div>
-        <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <div class="input-row" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-            <mat-slide-toggle matTooltip="{{'tag-cloud-config.automatic-spelling-tooltip' | translate}}" [(ngModel)]="cloudParameters.checkSpelling" [checked]="cloudParameters.checkSpelling" [ngModelOptions]="{standalone: true}" (change)="valueChanged()">{{'tag-cloud-config.automatic-spelling' | translate}}</mat-slide-toggle>
-          </div>
+            <mat-icon matTooltip="{{'tag-cloud-config.random-angle-note' | translate}}">help</mat-icon>
         </div>
           <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
             <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:"> {{'tag-cloud-config.notation' | translate}}
@@ -71,7 +67,7 @@
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field appearance="fill">
             <mat-label>{{'tag-cloud-config.font-family' | translate}}</mat-label>
-            <mat-select (selectionChange)="valueChanged()" [(ngModel)]="cloudParameters.fontFamily">
+            <mat-select (selectionChange)="valueChanged()" matTooltip="{{'tag-cloud-config.font-family-tooltip' | translate}}" [(ngModel)]="cloudParameters.fontFamily">
               <mat-option value="sans-serif">Normal</mat-option>
               <mat-option value="Abril Fatface">Abril Fatface</mat-option>
               <mat-option value="Dancing Script">Dancing Script</mat-option>
@@ -81,24 +77,23 @@
           </mat-form-field>
         </div>
         <div class="input-row special-settings automatic-spelling" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-          <mat-radio-group matTooltip="{{'tag-cloud-config.notation-tooltip' | translate}}" aria-label="Notation:">
-            <div><mat-slide-toggle [checked]="checkItalic()" (change)="italicChecked($event)"[ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-italic' | translate}}</mat-slide-toggle> </div>
+          <mat-radio-group matTooltip="{{'tag-cloud-config.bold-notation-tooltip' | translate}}" aria-label="Notation:">
             <div><mat-slide-toggle [checked]="checkBold()" (change)="boldChecked($event)" [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.font-style-bold' | translate}}</mat-slide-toggle> </div>
           </mat-radio-group>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
-            <input #minFont [value]="cloudParameters.fontSizeMin" matInput type="number"
+            <input #minFont [value]="cloudParameters.fontSizeMin.toString()" matInput type="number"
               [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
-              min="10" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
+              min="280" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
           </mat-form-field>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
             <input #maxFont matInput type="number" [(ngModel)]="cloudParameters.fontSizeMax"
-              [ngModelOptions]="{standalone: true}" (change)="valueChanged()" min="10" max="1000" step="10"
+              [ngModelOptions]="{standalone: true}" (change)="valueChanged()" min="280" max="1000" step="10"
               matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
           </mat-form-field>
         </div>
@@ -176,12 +171,12 @@
               <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px">
                 <mat-label class="label-text" >{{'tag-cloud-config.weight-number' | translate}}</mat-label>
-                <mat-slider [value]="weightClass.maxTagNumber" min="0" [max]="weightClass.actualTagNumber" step="1"
+                <mat-slider [value]="weightClass.maxTagNumber" min="1" [max]="weightClass.actualTagNumber" step="1"
                             [(ngModel)]="weightClass.maxTagNumber" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
                             [thumbLabel]="true" matTooltip="{{'tag-cloud-config.weight-number-tooltip' | translate}}"></mat-slider>
               </div>
               </div>
-              <div class="input-row" fxLayout="column" fxLayoutGap="5px">
+              <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="!cloudParameters.randomAngles">
                 <mat-label class="label-text">{{'tag-cloud-config.rotate-weight' | translate}}</mat-label>
                 <mat-slider [value]="weightClass.rotationAngle" min="-180" max="180" step="1"
                             [(ngModel)]="weightClass.rotationAngle" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
