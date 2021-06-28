@@ -26,12 +26,13 @@ export class CommentFilter {
   filterSelected = '';
   keywordSelected = '';
   tagSelected = '';
+  userNumberSelected = 0;
 
   paused = false;
   timeStampUntil = 0;
 
   periodSet: Period = Period.twoWeeks;
-  timeStampNow = 0;
+  timeStampNow = 0; 
 
   constructor(obj?: any) {
     if (obj) {
@@ -42,6 +43,7 @@ export class CommentFilter {
       this.timeStampUntil = obj.timeStampUntil;
       this.periodSet = obj.periodSet;
       this.timeStampNow = obj.timeStampNow;
+      this.userNumberSelected = obj.userNumberSelected;
     }
   }
 
@@ -56,6 +58,7 @@ export class CommentFilter {
   public static generateFilterNow(filterSelected: string): CommentFilter {
     const filter = new CommentFilter();
 
+    filter.userNumberSelected = 0;
     filter.filterSelected = filterSelected;
     filter.paused = false;
 
@@ -72,6 +75,8 @@ export class CommentFilter {
                                     tagSelected: string, keywordSelected: string): CommentFilter {
     const filter = new CommentFilter();
 
+
+    filter.userNumberSelected = 0;
     filter.filterSelected = filterSelected;
 
     filter.paused = true;
@@ -152,6 +157,10 @@ export class CommentFilter {
         case FilterNames.unanswered:
           return !com.answer;
       }
+    }
+
+    if (this.userNumberSelected !== 0) {
+      return com.userNumber === this.userNumberSelected;
     }
 
     if (this.keywordSelected !== '') {

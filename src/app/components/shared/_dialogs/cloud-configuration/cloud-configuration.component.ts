@@ -100,6 +100,9 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters = this.parent.currentCloudParameters;
     this.defaultCloudParameters = this.parent.currentCloudParameters;
     this.parent.dataManager.getMetaData().subscribe((value)=>{
+      if (!value) {
+        return;
+      }
       this.countPerWeight = value.countPerWeight;
       this.parseArrayToJsonWeightClasses();
     });
@@ -129,6 +132,7 @@ export class CloudConfigurationComponent implements OnInit {
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
        this.weightClasses[i].rotationAngle = element.rotation;
+       this.weightClasses[i].maxTagNumber = element.maxVisibleElements == -1 ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
     });
   }
 

@@ -15,7 +15,6 @@ export class Room {
   questionsBlocked: boolean;
   profanityFilter: ProfanityFilter;
 
-
   constructor(
     ownerId: string = '',
     shortId: string = '',
@@ -48,7 +47,7 @@ export class Room {
   }
 }
 
-export enum ProfanityFilter{
+export enum ProfanityFilter {
   all = 'ALL',
   languageSpecific = 'LANGUAGE_SPECIFIC',
   partialWords = 'PARTIAL_WORDS',

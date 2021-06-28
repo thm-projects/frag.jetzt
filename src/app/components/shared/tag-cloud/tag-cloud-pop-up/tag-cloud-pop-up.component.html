@@ -42,7 +42,7 @@
         </p>
       </span>
     </div>
-    <div class="replacementContainer" *ngIf="checkLanguage && user && user.role >= 1">
+    <div class="replacementContainer" *ngIf="user && user.role >= 1">
       <mat-form-field>
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"

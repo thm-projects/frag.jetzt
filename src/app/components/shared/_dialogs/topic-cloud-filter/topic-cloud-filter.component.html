@@ -1,30 +1,32 @@
-<div mat-dialog-content>
-  <p>{{'content.topic-cloud-content' | translate}}</p>
-</div>
-
 <mat-divider></mat-divider>
   <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
-    <mat-radio-button value="continueWithAll">
+    <mat-radio-button checked="true" value="continueWithAll">
       <div class="elementRow">
         <div class="elementText">
           {{'content.continue-with-all-questions' | translate}}
         </div>
         <div class="elementIcons">
-          <mat-icon [inline]="true">comment</mat-icon> {{allComments.comments}}
-          <mat-icon [inline]="true">person</mat-icon> {{allComments.users}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{allComments.keywords}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{allComments.comments}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon> {{allComments.users}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"
+            matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon> {{allComments.keywords}}
         </div>
       </div>
     </mat-radio-button>
-    <mat-radio-button checked="true" value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
+    <mat-radio-button value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
       <div class="elementRow">
         <div class="elementText">
           {{'content.continue-with-current-questions' | translate}}
         </div>
         <div class="elementIcons">
-          <mat-icon [inline]="true">comment</mat-icon> {{filteredComments.comments}}
-          <mat-icon [inline]="true">person</mat-icon> {{filteredComments.users}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"></mat-icon> {{filteredComments.keywords}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{filteredComments.comments}}
+          <mat-icon [inline]="true"
+            matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon> {{filteredComments.users}}
+          <mat-icon svgIcon="hashtag" class="comment_tag-icon"
+            matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon> {{filteredComments.keywords}}
         </div>
       </div>
     </mat-radio-button>

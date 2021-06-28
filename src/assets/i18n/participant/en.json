@@ -110,7 +110,8 @@
     "edit-keyword-hint": "Edit keyword",
     "editing-done-hint": "Finish editing",
     "force-language-selection": "Language detection inaccurate, please check language settings!",
-    "add-manually": "You can manually enter the keywords separated with a comma "
+    "add-manually": "You can manually enter the keywords separated with a comma",
+    "select-keywords": "Choose the keywords for your question"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
@@ -238,8 +239,6 @@
     "questions-blocked": "No further questions!"
   },
   "tag-cloud": {
-    "config": "Modify cloud view",
-    "administration": "Edit cloud topics",
     "demo-data-topic": "Topic %d",
     "overview-question-topic-tooltip": "Number of questions with this topic",
     "overview-questioners-topic-tooltip": "Number of questioners with this topic",
@@ -340,6 +339,7 @@
     "font-size-max":"Font size max",
     "select-color": "Selected color",
     "random-angle-tooltip": "Generate angle randomly",
+    "random-angle-note": "If Enabled, the rotation of the individual weight-class is disabled",
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
     "font-size-min-tooltip": "Select minimum font-size",
@@ -356,7 +356,6 @@
     "weight-number": "max. number of keywords",
     "weight-color-tooltip": "Select font-color",
     "weight-number-tooltip": "Select maximal number of keywords",
-    "automatic-spelling": "Spell check",
     "notation": "Notation:",
     "lowerCase": "Lower case",
     "capitalization": "Capitalization",
@@ -366,7 +365,6 @@
     "cleanUpView": "Tag-Cleanup Settings",
     "rotation": "rotation of random entries",
     "highestWeight": "Number of tags with highest weight",
-    "automatic-spelling-tooltip": "automatic spelling check",
     "notation-tooltip": "Notation-Settings: small, large, standard",
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
     "rotate-weight-tooltip": "Rotate some entries randomly by x degrees",
@@ -374,6 +372,8 @@
     "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
     "font":"Font",
     "reset-btn": "Reset",
+    "font-family-tooltip": "Select font",  
+    "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
     "font-family":"Font Family"

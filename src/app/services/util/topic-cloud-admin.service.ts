@@ -89,6 +89,7 @@ export class TopicCloudAdminService {
       if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
         _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
       }
+      localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
       this.adminData.next(_adminData);
     });
   }

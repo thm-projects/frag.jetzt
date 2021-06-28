@@ -96,6 +96,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
+  userNumberSelection: number = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
@@ -122,11 +123,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private roomDataService: RoomDataService,
     private wsRoomService: WsRoomService
   ) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.langEmitter.subscribe(lang => {
+      translateService.use(lang);
+      this.translateService.get('comment-list.search').subscribe(msg => {
+        this.searchPlaceholder = msg;
+      });
+    });
   }
 
   initNavigation() {
     this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.setTimePeriod(Period.all);
       this.clickedOnKeyword(tag);
     });
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
@@ -324,9 +331,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   activateSearch() {
-    this.translateService.get('comment-list.search').subscribe(msg => {
-      this.searchPlaceholder = msg;
-    });
     this.search = true;
     this.searchField.nativeElement.focus();
   }
@@ -392,7 +396,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          return c.keywordsFromQuestioner ? c.keywordsFromQuestioner.includes(compare) : false;
+          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.includes(compare) : false;
+          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.includes(compare) : false;
+          return isInQuestioner || isInSpacy;
         case this.answer:
           return c.answer;
         case this.unanswered:
@@ -446,6 +452,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   clickedUserNumber(usrNumber: number): void {
+    this.userNumberSelection = usrNumber;
     this.filterComments(this.userNumber, usrNumber);
   }
 
@@ -585,6 +592,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     filter.periodSet = this.period;
     filter.keywordSelected = this.selectedKeyword;
     filter.tagSelected = this.selectedTag;
+    filter.userNumberSelected = this.userNumberSelection;
 
     if (filter.periodSet === Period.fromNow) {
       filter.timeStampNow = new Date().getTime();

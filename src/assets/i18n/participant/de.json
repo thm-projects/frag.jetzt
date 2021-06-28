@@ -100,7 +100,8 @@
     "edit-keyword-hint": "Stichwort editieren",
     "editing-done-hint": "Editierung abschliessen",
     "force-language-selection": "Automatische Spracherkennung unpräzise, bitte gewählte Sprache prüfen!",
-    "add-manually": "Geben Sie bitte die Stichwörter unten mit separatem Komma ein"
+    "add-manually": "Geben Sie bitte die Stichwörter unten mit separatem Komma ein",
+    "select-keywords": "Wählen Sie die Stichwörter für Ihre Frage aus"
   },
   "comment-page": {
     "a11y-comment_input": "Gib deine Frage ein",
@@ -232,8 +233,6 @@
     "questions-blocked": "Fragen sind deaktiviert!"
   },
   "tag-cloud": {
-    "config": "Wolkenansicht ändern",
-    "administration": "Wolkenthemen editieren",
     "demo-data-topic": "Thema %d",
     "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
     "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
@@ -334,6 +333,7 @@
     "font-size-max": "Schriftgröße max",
     "select-color": "Farbauswahl",
     "random-angle-tooltip": "Anordnung der Winkel zufällig generieren",
+    "random-angle-note": "Wenn Aktiviert, wird die Rotierung der einzelnen Relevanz-Gruppen deaktiviert",
     "background-tooltip": "Auswahl der Hintergrundfarbe",
     "word-delay-tooltip": "Animationsverzögerung der Wörter",
     "font-size-min-tooltip": "Auswahl der minimalen Schriftgrösse",
@@ -344,13 +344,12 @@
     "hover-delay-tooltip": "Hover-Verzögerung der Wörter",
     "extended-btn": "Wichtigkeitsklasse",
     "back-btn": "Zurück",
-    "weight-class-settings": "Relevanz-Gruppen",
+    "weight-class-settings": "Relevanz",
     "weight-class": "Relevanz-Gruppe",
     "weight-color": "Schriftfarbe",
     "weight-number": "max. Anzahl Schlüsselwörter",
     "weight-color-tooltip": "Auswahl der Schriftfarbe",
     "weight-number-tooltip": "maximale Anzahl der Schlüsselwörter festlegen",
-    "automatic-spelling": "Rechtschreibüberprüfung",
     "notation": "Notation:",
     "lowerCase": "Kleinschreibung",
     "capitalization": "Kapitälchen",
@@ -360,16 +359,17 @@
     "cleanUpView": "Tag-Cleanup Einstellungen",
     "rotation": "Drehgrad zufälliger Einträge",
     "highestWeight": "Anzahl Tags mit max. Gewichtung",
-    "automatic-spelling-tooltip": "automatische Überprüfung der Rechtschreibung",
     "notation-tooltip": "Einstellung der Schreibweise: klein, groß, standard",
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Einige Einträge dieser Klasse zufällig um x Grad drehen",
     "rotate-weight-tooltip": "einige Einträge dieser Wichtigkeitsklasse zufällig um x Grad drehen",
     "font":"Schrift",
-    "reset-btn": "Zurücksetzten",    
+    "reset-btn": "Zurücksetzten",
+    "font-family-tooltip": "Schriftart auswählen",
+    "bold-notation-tooltip": "Schriftdicke fett auswählen",
     "font-style-bold" : "Fett",
     "font-style-italic": "Kursiv",
-    "font-family":"Schrift Art"
+    "font-family":"Schriftart"
   }
 }
