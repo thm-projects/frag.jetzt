@@ -404,7 +404,12 @@
     "only-specific-language-will-be-filtered": "Nur die Sprache der Frage wird gefiltert",
     "partial-words-will-be-filtered": "Profane Teilwörter werden auch gefiltert",
     "keyword-from-spacy": "Stichwort von spaCy",
-    "keyword-from-questioner": "Stichwort vom Fragesteller"
+    "keyword-from-questioner": "Stichwort vom Fragesteller",
+    "test-profanity": "Profanität testen",
+    "word": "Wort",
+    "word-is-profanity": "Wort ist profan",
+    "word-is-not-profanity": "Wort ist nicht profan",
+    "words-in-profanity": "Profane Wörter"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",

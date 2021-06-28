@@ -300,7 +300,12 @@
     "keyword-counter": "Topic count",
     "sort": "Sort",
     "keyword-from-spacy": "Keyword from spaCy",
-    "keyword-from-questioner": "Keyword from questioner"
+    "keyword-from-questioner": "Keyword from questioner",
+    "test-profanity": "Test profanity",
+    "word": "word",
+    "word-is-profanity": "Word is profane",
+    "word-is-not-profanity": "Word is not profane",
+    "words-in-profanity": "Words in profanity filter"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

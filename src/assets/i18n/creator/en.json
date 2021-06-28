@@ -403,7 +403,12 @@
     "only-specific-language-will-be-filtered": "Only the language of the question will be filtered",
     "partial-words-will-be-filtered": "Profane partial words will be also filtered",
     "keyword-from-spacy": "Keyword from spaCy",
-    "keyword-from-questioner": "Keyword from questioner"
+    "keyword-from-questioner": "Keyword from questioner",
+    "test-profanity": "Test profanity",
+    "word": "word",
+    "word-is-profanity": "Word is profane",
+    "word-is-not-profanity": "Word is not profane",
+    "words-in-profanity": "Words in profanity filter"
   },
   "dialog-comment": {
     "read-more": "read more",

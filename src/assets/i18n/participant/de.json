@@ -295,6 +295,11 @@
     "sort": "Sortieren",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragesteller",
+    "test-profanity": "Profanität testen",
+    "word": "Wort",
+    "word-is-profanity": "Wort ist profan",
+    "word-is-not-profanity": "Wort ist nicht profan",
+    "words-in-profanity": "Profane Wörter"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
