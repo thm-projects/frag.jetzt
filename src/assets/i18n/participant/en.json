@@ -305,7 +305,9 @@
     "word": "word",
     "word-is-profanity": "Word is profane",
     "word-is-not-profanity": "Word is not profane",
-    "words-in-profanity": "Words in profanity filter"
+    "words-in-profanity": "Words in profanity filter",
+    "language": "Language",
+    "preview": "Preview"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",

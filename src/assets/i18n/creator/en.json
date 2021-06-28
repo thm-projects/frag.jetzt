@@ -410,7 +410,9 @@
     "word": "word",
     "word-is-profanity": "Word is profane",
     "word-is-not-profanity": "Word is not profane",
-    "words-in-profanity": "Words in profanity filter"
+    "words-in-profanity": "Words in profanity filter",
+    "language": "Language",
+    "preview": "Preview"
   },
   "dialog-comment": {
     "read-more": "read more",

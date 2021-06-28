@@ -411,7 +411,9 @@
     "word": "Wort",
     "word-is-profanity": "Wort ist profan",
     "word-is-not-profanity": "Wort ist nicht profan",
-    "words-in-profanity": "Profane Wörter"
+    "words-in-profanity": "Profane Wörter",
+    "language": "Sprache",
+    "preview": "Vorschau"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",
