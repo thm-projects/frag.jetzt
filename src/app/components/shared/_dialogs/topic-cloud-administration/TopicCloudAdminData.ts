@@ -8,6 +8,11 @@ export interface TopicCloudAdminData {
   profanityFilter: boolean;
   blacklistIsActive: boolean;
   keywordORfulltext: KeywordOrFulltext;
+  minQuestions: number;
+  minQuestioners: number;
+  minUpvotes: number;
+  startDate: string;
+  endDate: string;
 }
 
 export enum KeywordOrFulltext {
