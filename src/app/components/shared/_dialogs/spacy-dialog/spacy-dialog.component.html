@@ -22,8 +22,6 @@
         </mat-label>
       </ars-row>
     </span>
-    <span *ngIf="keywords.length > 0"></span>
-
     <ars-row class="list-container">
       <div fxLayout="row" fxLayoutAlign="center center" fxFill>
         <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
@@ -61,10 +59,7 @@
       </mat-list>
     </ars-row>
     <ars-row>
-      <span *ngIf="keywords.length <= 0 && !this.isLoading">
-        <p>{{ 'spacy-dialog.empty-nouns' | translate }}</p>
-      </span>
-      <span *ngIf="!langSupported">
+      <span *ngIf="!isLoading && (!langSupported || !hasKeywordsFromSpacy)">
         <p class="manual-input-title">{{ 'spacy-dialog.add-manually' | translate }}</p>
         <textarea class="manual-input" [(ngModel)]="manualKeywords" (input)="manualKeywordsToKeywords()"></textarea>
       </span>

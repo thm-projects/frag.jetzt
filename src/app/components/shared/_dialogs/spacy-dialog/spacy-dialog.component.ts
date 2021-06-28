@@ -29,10 +29,11 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   commentBodyChecked: string;
   keywords: Keyword[] = [];
   keywordsOriginal: Keyword[] = [];
+  hasKeywordsFromSpacy = false;
   isLoading = false;
   langSupported: boolean;
   manualKeywords = '';
-  _concurrentEdits = 0
+  _concurrentEdits = 0;
 
   constructor(
     protected langService: LanguagetoolService,
@@ -84,6 +85,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       )
       .subscribe(words => {
         this.keywords = words;
+        this.keywords.sort((a, b) => a.word.localeCompare(b.word));
+        this.hasKeywordsFromSpacy = this.keywords.length > 0;
+
         //deep copy
         this.keywordsOriginal = [...words];
         for (let i = 0; i < this.keywordsOriginal.length; i++) {
@@ -92,6 +96,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
+        this.hasKeywordsFromSpacy = false;
       }, () => {
         this.isLoading = false;
       });
@@ -150,6 +155,6 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   onEditChange(change: number) {
     this._concurrentEdits += change;
-    this.appDialogActionButtons.confirmButtonDisabled = (this._concurrentEdits > 0)
+    this.appDialogActionButtons.confirmButtonDisabled = (this._concurrentEdits > 0);
   }
 }
