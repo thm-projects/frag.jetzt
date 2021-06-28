@@ -29,6 +29,21 @@ export class ProfanityFilterService {
     return this.getProfanityListFromStorage().concat(this.profanityWords);
   }
 
+  // checkProfanity(word: string, consorPartialWordsCheck: boolean, lang?: string) {
+  //   let profanityWords = [];
+  //   if (lang) {
+  //     profanityWords = BadWords[lang];
+  //   } else {
+  //     profanityWords = this.profanityWords;
+  //   }
+
+  //   if (consorPartialWordsCheck) {
+
+  //   }
+
+  //   return profanityWords.includes(word.toLowerCase());
+  // }
+
   getProfanityListFromStorage() {
     const list = localStorage.getItem(this.profanityKey);
     return list ? JSON.parse(list) : [];

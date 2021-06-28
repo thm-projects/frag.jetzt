@@ -60,7 +60,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   private censorPartialWordsCheck: boolean;
   private censorLanguageSpecificCheck: boolean;
   private testProfanityWord: string = undefined;
-  private wordIsProfanity: boolean = undefined;
+  private testProfanityLanguage = 'de';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -470,8 +470,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     }
   }
 
-  testProfanity(word) {
-    this.wordIsProfanity = this.profanityFilterService.getProfanityList.includes(word.toLowerCase());
+  getFilteredProfanity(): string {
+    if (this.testProfanityWord) {
+      return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, this.testProfanityLanguage);
+    } else {
+      return '';
+    }
   }
 }
 
