@@ -14,6 +14,7 @@ import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
 import { Period } from '../../../../utils/filter-options';
+import { RoomDataService } from '../../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-question-wall',
@@ -50,18 +51,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   periodsList = Object.values(Period);
   period: Period = Period.all;
 
-  public wrap<E>(e: E, action: (e: E) => void) {
-    action(e);
-  }
-
-  public notUndefined<E>(e: E, action: (e: E) => void, elsePart?: () => void) {
-    if (e) {
-      action(e);
-    } else if (elsePart) {
-      elsePart();
-    }
-  }
-
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
@@ -69,7 +58,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomService: RoomService,
     private wsCommentService: WsCommentService,
     private langService: LanguageService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private roomDataService: RoomDataService
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.roomId = localStorage.getItem('roomId');
@@ -82,6 +72,18 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  public wrap<E>(e: E, action: (e: E) => void) {
+    action(e);
+  }
+
+  public notUndefined<E>(e: E, action: (e: E) => void, elsePart?: () => void) {
+    if (e) {
+      action(e);
+    } else if (elsePart) {
+      elsePart();
+    }
+  }
+
   ngOnInit(): void {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -89,7 +91,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       e.forEach(c => {
         const comment = new QuestionWallComment(c, true);
-        this.comments.push(comment);
+        this.roomDataService.checkProfanity(comment.comment);
         this.setTimePeriod(this.period);
       });
       this.updateCommentsCountOverview();
@@ -102,6 +104,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
         this.notUndefined(this.comments.find(f => f.comment.id === comment.id), qwComment => {
           qwComment.comment = comment;
+          this.roomDataService.checkProfanity(comment);
         }, () => {
           this.wrap(this.pushIncommingComment(comment), qwComment => {
             if (this.focusIncommingComments) {
@@ -182,6 +185,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
+    this.roomDataService.checkProfanity(comment);
+    console.log(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
