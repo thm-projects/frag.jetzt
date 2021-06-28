@@ -237,10 +237,16 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         });
       }
     });
-    this.dataManager.getData().subscribe(_ => {
+    this.dataManager.getData().subscribe(data => {
+      if (!data) {
+        return;
+      }
       this.rebuildData();
     });
     this.dataManager.getMetaData().subscribe(data => {
+      if (!data) {
+        return;
+      }
       this.eventService.broadcast('tagCloudHeaderDataOverview', data);
     });
     this.authenticationService.watchUser.subscribe(newUser => {

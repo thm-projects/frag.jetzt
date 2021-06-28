@@ -100,6 +100,9 @@ export class CloudConfigurationComponent implements OnInit {
     this.cloudParameters = this.parent.currentCloudParameters;
     this.defaultCloudParameters = this.parent.currentCloudParameters;
     this.parent.dataManager.getMetaData().subscribe((value)=>{
+      if (!value) {
+        return;
+      }
       this.countPerWeight = value.countPerWeight;
       this.parseArrayToJsonWeightClasses();
     });
