@@ -39,10 +39,10 @@
               {{'topic-cloud-dialog.profanity' | translate}}
             </mat-slide-toggle>
             <mat-slide-toggle *ngIf="profanityFilter" (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)" [(ngModel)]="censorLanguageSpecificCheck">
-              Sprachspezifisch
+              {{'topic-cloud-dialog.language-specific-filter' | translate}}
             </mat-slide-toggle>
             <mat-slide-toggle *ngIf="profanityFilter" (change)="showMessage('partial-words-will-be-filtered', $event.checked)" [(ngModel)]="censorPartialWordsCheck">
-              Teilwörter
+              {{'topic-cloud-dialog.partial-words-filter' | translate}}
             </mat-slide-toggle>
 
             <mat-accordion>

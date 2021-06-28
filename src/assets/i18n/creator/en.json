@@ -399,6 +399,8 @@
     "select-all": "Select all",
     "keyword-counter": "Topic count",
     "sort": "Sort",
+    "language-specific-filter": "Filter language-specific",
+    "partial-words-filter": "Filter partial words",
     "words-will-be-overwritten": "profane words will be overwritten with '***'",
     "only-specific-language-will-be-filtered": "Only the language of the question will be filtered",
     "partial-words-will-be-filtered": "Profane partial words will be also filtered",
