@@ -53,7 +53,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     en: string[];
   };
   spacyLabelsAllSelectedDE = true;
-  isLoading = true;
+  isLoading: boolean;
+  minQuestions: string;
+  minQuestioners: string;
+  minUpvotes: string;
+  startDate: string;
+  endDate: string;
+
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
   private profanityFilter: boolean;
@@ -213,19 +219,36 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
         profFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : profFilter;
       }
+      let minQuestionersVerified = +this.minQuestioners;
+      if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
+        minQuestionersVerified = 1;
+      }
+      let minQuestionsVerified = +this.minQuestions;
+      if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
+        minQuestionsVerified = 1;
+      }
+      let minUpvotesVerified = +this.minUpvotes;
+      if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
+        minUpvotesVerified = 0;
+      }
+      this.topicCloudAdminData = {
+        blacklist: [],
+        wantedLabels: {
+          de: this.wantedLabels.de,
+          en: this.wantedLabels.en
+        },
+        considerVotes: this.considerVotes,
+        profanityFilter: profFilter,
+        blacklistIsActive: this.blacklistIsActive,
+        keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
+        minQuestioners: minQuestionersVerified,
+        minQuestions: minQuestionsVerified,
+        minUpvotes: minUpvotesVerified,
+        startDate: this.startDate.length ? this.startDate : null,
+        endDate: this.endDate.length ? this.endDate : null
+      };
+      this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
     }
-    this.topicCloudAdminData = {
-      blacklist: [],
-      wantedLabels: {
-        de: this.wantedLabels.de,
-        en: this.wantedLabels.en
-      },
-      considerVotes: this.considerVotes,
-      profanityFilter: profFilter,
-      blacklistIsActive: this.blacklistIsActive,
-      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext]
-    };
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
 
   setDefaultAdminData() {
@@ -245,6 +268,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         de: this.topicCloudAdminData.wantedLabels.de,
         en: this.topicCloudAdminData.wantedLabels.en
       };
+      this.minQuestioners = String(this.topicCloudAdminData.minQuestioners);
+      this.minQuestions = String(this.topicCloudAdminData.minQuestions);
+      this.minUpvotes = String(this.topicCloudAdminData.minUpvotes);
+      this.startDate = this.topicCloudAdminData.startDate || '';
+      this.endDate = this.topicCloudAdminData.endDate || '';
     }
   }
 

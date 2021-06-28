@@ -372,6 +372,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.currentFilter = '';
       this.selectedTag = '';
       this.selectedKeyword = '';
+      this.userNumberSelection = 0;
       this.sortComments(this.currentSort);
       return;
     }

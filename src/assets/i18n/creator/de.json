@@ -87,7 +87,6 @@
     "de": "Deutsch",
     "en": "Englisch",
     "fr": "Französisch",
-    "empty-nouns": "Keine Nomen enthalten",
     "select-all": "Alles auswählen",
     "lang-button-hint": "Ausgewählte Sprache für die Rechtschreibprüfung",
     "select-all-hint": "Alle Stichwörter auswählen",
@@ -95,7 +94,8 @@
     "edit-keyword-hint": "Stichwort editieren",
     "editing-done-hint": "Editierung abschliessen",
     "force-language-selection": "Automatische Spracherkennung unpräzise, bitte gewählte Sprache prüfen!",
-    "add-manually": "Geben Sie bitte die Stichwörter unten mit separatem Komma ein"
+    "add-manually": "Geben Sie bitte die Stichwörter unten mit separatem Komma ein",
+    "select-keywords": "Wählen Sie die Stichwörter für Ihre Frage aus"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
@@ -417,7 +417,13 @@
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",
-    "read-less": "Weniger lesen"
+    "read-less": "Weniger lesen",
+    "topic-requirement-title": "Themen Anforderung",
+    "topic-requirement-questions": "Minimale Anzahl an Fragen",
+    "topic-requirement-questioners": "Minimale Anzahl an Fragensteller*innen",
+    "topic-requirement-upvotes": "Minimale Anzahl an Upvotes",
+    "topic-requirement-begin-datetime": "Frühester Kommentar",
+    "topic-requirement-end-datetime": "Letzter Kommentar"
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",

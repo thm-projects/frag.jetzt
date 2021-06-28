@@ -61,6 +61,7 @@ class TagComment implements CloudData {
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 const transformationScaleKiller = /scale\([^)]*\)/;
+const transformationRotationKiller = /rotate\(([^)]*)\)/;
 type DefaultColors = [
   hover: string,
   w1: string,
@@ -176,8 +177,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   isLoading = true;
   headerInterface = null;
   themeSubscription = null;
+  createCommentWrapper: CreateCommentWrapper = null;
   private _currentSettings: CloudParameters;
-  private _createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionCommentlist = null;
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
@@ -224,7 +225,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this._createCommentWrapper.openCreateDialog(this.user);
+        this.createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
       } else if (e === 'topicCloudAdministration') {
@@ -263,7 +264,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
           this.room = room;
           this.roomId = room.id;
           this.directSend = this.room.directSend;
-          this._createCommentWrapper = new CreateCommentWrapper(this.translateService,
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
@@ -439,10 +440,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     this.child.cloudDataHtmlElements.forEach((elem, i) => {
       const dataElement = this.data[i];
       elem.addEventListener('mouseleave', () => {
-        elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim();
+        elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim() +
+          ' rotate(' + (elem.dataset['tempRotation'] || '0deg') + ')';
         this.popup.leave();
       });
       elem.addEventListener('mouseenter', () => {
+        const transformMatch = elem.style.transform.match(transformationRotationKiller);
+        elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
+        elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
           (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });

@@ -28,9 +28,15 @@
           </mat-radio-group>
         </mat-card>
 
-        <mat-card style="background: none;">
-          <mat-slide-toggle [(ngModel)]="considerVotes">
-            {{'topic-cloud-dialog.consider-votes' | translate}}
+        <mat-slide-toggle [(ngModel)]="considerVotes">
+          {{'topic-cloud-dialog.consider-votes' | translate}}
+        </mat-slide-toggle>
+        <div *ngIf="isCreatorOrMod">
+          <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
+            {{'topic-cloud-dialog.profanity' | translate}}
+          </mat-slide-toggle>
+          <mat-slide-toggle [(ngModel)]="blacklistIsActive">
+            {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
           </mat-slide-toggle>
         </mat-card>
         <div *ngIf="isCreatorOrMod">
@@ -249,6 +255,48 @@
               </mat-tab>
             </mat-tab-group>
           </mat-expansion-panel>
+          <mat-expansion-panel class="color-background">
+            <mat-expansion-panel-header class="color-background">
+              <mat-panel-title>
+                {{'topic-cloud-dialog.topic-requirement-title' | translate}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <mat-form-field class="themeRequirementInput" appearance="fill">
+              <mat-label>{{'topic-cloud-dialog.topic-requirement-questions' | translate}}</mat-label>
+              <input matInput type="number" min="1" [(ngModel)]="minQuestions">
+            </mat-form-field>
+            <mat-form-field class="themeRequirementInput" appearance="fill">
+              <mat-label>{{'topic-cloud-dialog.topic-requirement-questioners' | translate}}</mat-label>
+              <input matInput type="number" min="1" [(ngModel)]="minQuestioners">
+            </mat-form-field>
+            <mat-form-field class="themeRequirementInput" appearance="fill">
+              <mat-label>{{'topic-cloud-dialog.topic-requirement-upvotes' | translate}}</mat-label>
+              <input matInput type="number" min="0" [(ngModel)]="minUpvotes">
+            </mat-form-field>
+
+            <table class="themeRequirementInput">
+              <tr>
+                <td>
+                  <mat-form-field class="themeRequirementInput" appearance="fill">
+                    <mat-label>{{'topic-cloud-dialog.topic-requirement-begin-datetime' | translate}}</mat-label>
+                    <input matInput type="datetime-local" [(ngModel)]="startDate">
+                    <button *ngIf="startDate" matSuffix mat-icon-button aria-label="Clear" (click)="startDate=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </td>
+                <td>
+                  <mat-form-field class="themeRequirementInput" appearance="fill">
+                    <mat-label>{{'topic-cloud-dialog.topic-requirement-end-datetime' | translate}}</mat-label>
+                    <input matInput type="datetime-local" [(ngModel)]="endDate">
+                    <button *ngIf="endDate" matSuffix mat-icon-button aria-label="Clear" (click)="endDate=''">
+                      <mat-icon>close</mat-icon>
+                    </button>
+                  </mat-form-field>
+                </td>
+              </tr>
+            </table>
+          </mat-expansion-panel>
         </mat-accordion>
       </mat-expansion-panel>
     </mat-accordion>
@@ -301,8 +349,7 @@
       </button>
     </mat-menu>
 
-    <mat-card class="color-surface"
-      *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+    <mat-card class="color-surface" *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
       <p class="color-on-surface" fxLayoutAlign="center">
         {{'topic-cloud-dialog.no-keywords-note' | translate}}
       </p>

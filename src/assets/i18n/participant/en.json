@@ -102,7 +102,6 @@
     "de": "German",
     "en": "English",
     "fr": "French",
-    "empty-nouns": "No nouns included",
     "select-all": "Select all",
     "lang-button-hint": "Selected language for spell check",
     "select-all-hint": "Select all keywords",
@@ -306,7 +305,13 @@
     "word-is-not-profanity": "Word is not profane",
     "words-in-profanity": "Words in profanity filter",
     "language": "Language",
-    "preview": "Preview"
+    "preview": "Preview",
+    "topic-requirement-title": "Topic requirement",
+    "topic-requirement-questions": "Minimum number of questions",
+    "topic-requirement-questioners": "Minimum number of questioners",
+    "topic-requirement-upvotes": "Minimum number of upvotes",
+    "topic-requirement-begin-datetime": "Earliest comment",
+    "topic-requirement-end-datetime": "Last comment"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
@@ -372,7 +377,7 @@
     "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
     "font":"Font",
     "reset-btn": "Reset",
-    "font-family-tooltip": "Select font",  
+    "font-family-tooltip": "Select font",
     "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
