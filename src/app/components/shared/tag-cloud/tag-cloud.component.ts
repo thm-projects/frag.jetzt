@@ -177,8 +177,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   isLoading = true;
   headerInterface = null;
   themeSubscription = null;
+  createCommentWrapper: CreateCommentWrapper = null;
   private _currentSettings: CloudParameters;
-  private _createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionCommentlist = null;
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
@@ -225,7 +225,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this._createCommentWrapper.openCreateDialog(this.user);
+        this.createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
       } else if (e === 'topicCloudAdministration') {
@@ -264,7 +264,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
           this.room = room;
           this.roomId = room.id;
           this.directSend = this.room.directSend;
-          this._createCommentWrapper = new CreateCommentWrapper(this.translateService,
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
