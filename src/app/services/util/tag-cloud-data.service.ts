@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { CommentFilter } from '../../utils/filter-options';
 import { TranslateService } from '@ngx-translate/core';
@@ -65,8 +65,8 @@ export enum TagCloudCalcWeightType {
 export class TagCloudDataService {
   private _isDemoActive: boolean;
   private _isAlphabeticallySorted: boolean;
-  private _dataBus: Subject<TagCloudData>;
-  private _metaDataBus: Subject<TagCloudMetaData>;
+  private _dataBus: BehaviorSubject<TagCloudData>;
+  private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
   private _cachedData: TagCloudData;
   private _commentSubscription = null;
   private _roomId = null;
@@ -85,7 +85,7 @@ export class TagCloudDataService {
               private _roomDataService: RoomDataService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
-    this._dataBus = new Subject<TagCloudData>();
+    this._dataBus = new BehaviorSubject<TagCloudData>(null);
     this._currentMetaData = {
       tagCount: 0,
       commentCount: 0,
@@ -94,7 +94,7 @@ export class TagCloudDataService {
       maxWeight: 0,
       countPerWeight: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     };
-    this._metaDataBus = new Subject<TagCloudMetaData>();
+    this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
     this._cachedData = null;
     // Subscribe to own 'service' for caching
     this._dataBus.asObservable().subscribe(data => {
