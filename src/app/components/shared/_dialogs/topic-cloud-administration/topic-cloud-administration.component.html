@@ -44,6 +44,54 @@
             <mat-slide-toggle *ngIf="profanityFilter" (change)="showMessage('partial-words-will-be-filtered', $event.checked)" [(ngModel)]="censorPartialWordsCheck">
               Teilwörter
             </mat-slide-toggle>
+
+            <mat-accordion>
+              <mat-expansion-panel class="color-background" (opened)="focusInput('test-profanity-input')">
+                <mat-expansion-panel-header class="color-background">
+                  <mat-panel-title>
+                    {{"topic-cloud-dialog.test-profanity" | translate}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-form-field>
+                  <mat-label>{{"topic-cloud-dialog.word" | translate}}</mat-label>
+                  <input id="test-profanity-input" matInput [ngModel]="testProfanityWord" (ngModelChange)="testProfanity($event)">
+                </mat-form-field>
+                <p class="red testProfanity" *ngIf="wordIsProfanity">{{"topic-cloud-dialog.word-is-profanity" | translate}}</p>
+                <p class="green testProfanity" *ngIf="!wordIsProfanity">{{"topic-cloud-dialog.word-is-not-profanity" | translate}}</p>
+
+
+                <mat-accordion>
+                  <mat-expansion-panel class="color-background">
+                    <mat-expansion-panel-header class="color-background">
+                      <mat-panel-title>
+                        {{"topic-cloud-dialog.words-in-profanity" | translate}}   
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en" target="_blank">English</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/de" target="_blank">German</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/fr" target="_blank">French</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ar" target="_blank">Arabic</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ru" target="_blank">Russian</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/es" target="_blank">Spanish</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/it" target="_blank">Italian</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/nl" target="_blank">Netherlandish</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/tr" target="_blank">Turkish</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/pt" target="_blank">Portuguese</a>
+                  </mat-expansion-panel>
+                </mat-accordion>
+                
+              </mat-expansion-panel>
+            </mat-accordion>
+
           </mat-card>
           <mat-card style="background: none;">
             <mat-slide-toggle [(ngModel)]="blacklistIsActive">

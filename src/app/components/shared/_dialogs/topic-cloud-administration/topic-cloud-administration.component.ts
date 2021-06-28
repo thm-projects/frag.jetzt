@@ -59,6 +59,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   private profanityFilter: boolean;
   private censorPartialWordsCheck: boolean;
   private censorLanguageSpecificCheck: boolean;
+  private testProfanityWord: string = undefined;
+  private wordIsProfanity: boolean = undefined;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -169,17 +171,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.isLoading = false;
     });
     this.commentServiceSubscription = this.roomDataService.receiveUpdates([
-      {type: 'CommentCreated', finished: true},
-      {type: 'CommentDeleted'},
-      {type: 'CommentPatched', finished: true, updates: ['score']},
-      {type: 'CommentPatched', finished: true, updates: ['upvotes']},
-      {type: 'CommentPatched', finished: true, updates: ['downvotes']},
-      {type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy']},
-      {type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner']},
-      {type: 'CommentPatched', finished: true, updates: ['ack']},
-      {type: 'CommentPatched', finished: true, updates: ['tag']},
-      {type: 'CommentPatched', subtype: 'ack'},
-      {finished: true}
+      { type: 'CommentCreated', finished: true },
+      { type: 'CommentDeleted' },
+      { type: 'CommentPatched', finished: true, updates: ['score'] },
+      { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
+      { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
+      { type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy'] },
+      { type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner'] },
+      { type: 'CommentPatched', finished: true, updates: ['ack'] },
+      { type: 'CommentPatched', finished: true, updates: ['tag'] },
+      { type: 'CommentPatched', subtype: 'ack' },
+      { finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.pushInKeywords(update.comment);
@@ -231,12 +233,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (this.topicCloudAdminData) {
       this.considerVotes = this.topicCloudAdminData.considerVotes;
       this.profanityFilter = this.topicCloudAdminData.profanityFilter !== ProfanityFilter.deactivated;
-    if (this.topicCloudAdminData.profanityFilter === ProfanityFilter.all){
-      this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
-    } else if (this.profanityFilter){
-      this.censorLanguageSpecificCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.languageSpecific;
-      this.censorPartialWordsCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.partialWords;
-    }
+      if (this.topicCloudAdminData.profanityFilter === ProfanityFilter.all) {
+        this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
+      } else if (this.profanityFilter) {
+        this.censorLanguageSpecificCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.languageSpecific;
+        this.censorPartialWordsCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.partialWords;
+      }
       this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
       this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
       this.wantedLabels = {
@@ -304,12 +306,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate?: string) {
     this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
-        if (messageTranslate) {
-          this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        }
-      },
+      if (messageTranslate) {
+        this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      }
+    },
       error => {
         this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
@@ -358,7 +360,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   openConfirmDialog(msg: string, _confirmLabel: string, keyword: Keyword, mergeTarget?: Keyword) {
     const translationPart = 'topic-cloud-confirm-dialog.' + msg;
     const confirmDialogRef = this.confirmDialog.open(TopicCloudConfirmDialogComponent, {
-      data: {topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel}
+      data: { topic: keyword.keyword, message: translationPart, confirmLabel: _confirmLabel }
     });
 
     confirmDialogRef.afterClosed().subscribe(result => {
@@ -466,6 +468,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     } else {
       this.wantedLabels.en = [];
     }
+  }
+
+  testProfanity(word) {
+    this.wordIsProfanity = this.profanityFilterService.getProfanityList.includes(word.toLowerCase());
   }
 }
 
