@@ -421,17 +421,17 @@
     "word-is-not-profanity": "Word is not profane",
     "words-in-profanity": "Words in profanity filter",
     "language": "Language",
-    "preview": "Preview"
-  },
-  "dialog-comment": {
-    "read-more": "read more",
-    "read-less": "read less",
+    "preview": "Preview",
     "topic-requirement-title": "Topic requirement",
     "topic-requirement-questions": "Minimum number of questions",
     "topic-requirement-questioners": "Minimum number of questioners",
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment"
+  },
+  "dialog-comment": {
+    "read-more": "read more",
+    "read-less": "read less"
   },
   "tag-cloud-config":{
     "general":"General",

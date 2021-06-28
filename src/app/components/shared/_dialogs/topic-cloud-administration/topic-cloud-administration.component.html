@@ -28,15 +28,9 @@
           </mat-radio-group>
         </mat-card>
 
-        <mat-slide-toggle [(ngModel)]="considerVotes">
-          {{'topic-cloud-dialog.consider-votes' | translate}}
-        </mat-slide-toggle>
-        <div *ngIf="isCreatorOrMod">
-          <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
-            {{'topic-cloud-dialog.profanity' | translate}}
-          </mat-slide-toggle>
-          <mat-slide-toggle [(ngModel)]="blacklistIsActive">
-            {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
+        <mat-card style="background: none;">
+          <mat-slide-toggle [(ngModel)]="considerVotes">
+            {{'topic-cloud-dialog.consider-votes' | translate}}
           </mat-slide-toggle>
         </mat-card>
         <div *ngIf="isCreatorOrMod">
@@ -255,6 +249,9 @@
               </mat-tab>
             </mat-tab-group>
           </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion>
           <mat-expansion-panel class="color-background">
             <mat-expansion-panel-header class="color-background">
               <mat-panel-title>
@@ -298,6 +295,7 @@
             </table>
           </mat-expansion-panel>
         </mat-accordion>
+
       </mat-expansion-panel>
     </mat-accordion>
 
@@ -349,7 +347,8 @@
       </button>
     </mat-menu>
 
-    <mat-card class="color-surface" *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+    <mat-card class="color-surface"
+      *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
       <p class="color-on-surface" fxLayoutAlign="center">
         {{'topic-cloud-dialog.no-keywords-note' | translate}}
       </p>
