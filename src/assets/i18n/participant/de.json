@@ -294,7 +294,13 @@
     "sort": "Sortieren",
     "words-will-be-overwritten": "unanständige Wörter werden mit '***' überschrieben",
     "keyword-from-spacy": "Stichwort von spaCy",
-    "keyword-from-questioner": "Stichwort vom Fragesteller"
+    "keyword-from-questioner": "Stichwort vom Fragesteller",
+    "topic-requirement-title": "Themen Anforderung",
+    "topic-requirement-questions": "Minimale Anzahl an Fragen",
+    "topic-requirement-questioners": "Minimale Anzahl an Fragensteller*innen",
+    "topic-requirement-upvotes": "Minimale Anzahl an Upvotes",
+    "topic-requirement-begin-datetime": "Frühester Kommentar",
+    "topic-requirement-end-datetime": "Letzter Kommentar"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",

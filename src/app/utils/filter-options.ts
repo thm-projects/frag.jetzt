@@ -32,7 +32,7 @@ export class CommentFilter {
   timeStampUntil = 0;
 
   periodSet: Period = Period.twoWeeks;
-  timeStampNow = 0; 
+  timeStampNow = 0;
 
   constructor(obj?: any) {
     if (obj) {
