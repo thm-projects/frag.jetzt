@@ -22,19 +22,33 @@ button {
   padding-left: 5px;
 }
 
-summary {
+.entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  border-bottom: var(--primary) dashed 2px;
+  margin-bottom: 3px;
+  padding-bottom: 3px;
+}
+
+.entryRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+span, mat-icon {
+  margin-right: 7px;
+}
+
+details > summary {
   border: none;
   outline: none;
-  box-shadow: 0 4px 4px -2px #232323;
-  -moz-box-shadow: 0 4px 4px -2px #232323;
-  -webkit-box-shadow: 0 4px 4px -2px #232323;
   cursor: pointer;
 }
 
-#entry {
-    display:flex;
-    flex-direction:row;
-    justify-content: left;
-  }
-
-
+details[open]> summary {
+  box-shadow: 0 4px 4px -2px #232323;
+  margin-bottom: 7px; 
+}

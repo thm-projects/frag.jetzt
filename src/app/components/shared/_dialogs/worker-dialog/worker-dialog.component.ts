@@ -6,6 +6,10 @@ import { TSMap } from 'typescript-map';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WorkerDialogTask } from './worker-dialog-task';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from '../../../../services/util/language.service';
+import { Comment } from '../../../../models/comment';
+import { RoomDataService } from '../../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-worker-dialog',
@@ -19,7 +23,11 @@ export class WorkerDialogComponent implements OnInit {
 
   constructor(private commentService: CommentService,
               private languagetoolService: LanguagetoolService,
-              private spacyService: SpacyService) {
+              private spacyService: SpacyService,
+              protected langService: LanguageService,
+              private translateService: TranslateService,
+              private roomDataService: RoomDataService) {
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   static addWorkTask(dialog: MatDialog, room: Room): boolean {
@@ -44,11 +52,12 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    this.dialogRef.componentInstance.appendRoom(room);
+    this.dialogRef.componentInstance.appendRoom(room, this.dialogRef.componentInstance.roomDataService.currentRoomData);
     return true;
   }
 
   ngOnInit(): void {
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   checkTasks(event: BeforeUnloadEvent) {
@@ -62,12 +71,25 @@ export class WorkerDialogComponent implements OnInit {
     return WorkerDialogComponent.queuedRooms;
   }
 
-  appendRoom(room: Room) {
+  getActiveRoomCount(): number {
+    let count = 0;
+    WorkerDialogComponent.queuedRooms.values().forEach(e => {
+      if (e.isRunning()) {
+        ++count;
+      }
+    });
+    return count;
+  }
+
+  appendRoom(room: Room, comments: Comment[]) {
     WorkerDialogComponent.queuedRooms.set(room.id,
-      new WorkerDialogTask(room, this.spacyService, this.commentService, this.languagetoolService, () => {
-        if (WorkerDialogComponent.queuedRooms.length === 0) {
-          setTimeout(() => this.close(), 2000);
-        }
+      new WorkerDialogTask(room, comments, this.spacyService, this.commentService, this.languagetoolService, () => {
+        setTimeout(() => {
+          WorkerDialogComponent.queuedRooms.delete(room.id);
+          if (WorkerDialogComponent.queuedRooms.length === 0) {
+            this.close();
+          }
+        }, 10_000);
       })
     );
   }

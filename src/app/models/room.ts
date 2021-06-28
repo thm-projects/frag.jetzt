@@ -1,5 +1,3 @@
-import { TSMap } from 'typescript-map';
-
 export class Room {
   id: string;
   revision: string;
@@ -15,7 +13,7 @@ export class Room {
   threshold: number;
   tags: string[];
   questionsBlocked: boolean;
-  profanityFilter: boolean;
+  profanityFilter: ProfanityFilter;
 
   constructor(
     ownerId: string = '',
@@ -30,7 +28,7 @@ export class Room {
     threshold: number = null,
     tags: string[] = [],
     questionsBlocked: boolean = false,
-    profanityFilter: boolean = true
+    profanityFilter: ProfanityFilter = ProfanityFilter.none
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -47,4 +45,12 @@ export class Room {
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
   }
+}
+
+export enum ProfanityFilter {
+  all = 'ALL',
+  languageSpecific = 'LANGUAGE_SPECIFIC',
+  partialWords = 'PARTIAL_WORDS',
+  none = 'NONE',
+  deactivated = 'DEACTIVATED'
 }

@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {
   CloudData,
@@ -111,16 +111,16 @@ const getResolvedDefaultColors = (): string[] => {
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0},
-    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[1], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[2], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[3], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[4], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[5], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[6], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[7], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[8], rotation: 0},
+    {maxVisibleElements: 5, color: resDefaultColors[9], rotation: 0},
+    {maxVisibleElements: 6, color: resDefaultColors[10], rotation: 0},
   ];
   return {
     fontFamily: 'Dancing Script',
@@ -136,7 +136,6 @@ const getDefaultCloudParameters = (): CloudParameters => {
     hoverDelay: 0.4,
     delayWord: 0,
     randomAngles: true,
-    checkSpelling: true,
     sortAlphabetically: false,
     textTransform: CloudTextStyle.normal,
     cloudWeightSettings: weightSettings
@@ -148,7 +147,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
@@ -228,7 +227,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this._createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
         this.configurationOpen = !this.configurationOpen;
-        this.dataManager.demoActive = !this.dataManager.demoActive;
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
@@ -253,6 +251,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
+      this.authenticationService.checkAccess(this.shortId);
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
@@ -283,6 +282,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.dataManager.bindToRoom(this.roomId);
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
+  }
+
+  ngAfterViewInit() {
+    this.rebuildData();
   }
 
   ngOnDestroy() {
@@ -329,6 +332,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   rebuildData() {
+    if (!this.child || !this.dataManager.currentData) {
+      return;
+    }
     const newElements = [];
     const data = this.dataManager.currentData;
     const countFiler = [];
@@ -432,8 +438,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       elem.addEventListener('mouseenter', () => {
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
-          this._currentSettings.checkSpelling);
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
       });
     });
   }
@@ -470,7 +475,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
-      'color: ' + this._currentSettings.fontColor + '; ' +
+      'color: ' + this._currentSettings.fontColor + ' !important; ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');

@@ -27,6 +27,7 @@
 
     <span class="fill-remaining-space"></span>
     <button [matMenuTriggerFor]="langMenu"
+            (menuOpened)="openMenu()"
             aria-labelledby="language-label"
             class="focus_button"
             id="language-menu"

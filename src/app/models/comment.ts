@@ -1,4 +1,4 @@
-import { dashCaseToCamelCase } from '@angular/compiler/src/util';
+import { Model } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 
 export class Comment {
@@ -24,6 +24,7 @@ export class Comment {
   keywordsFromSpacy: string[];
   upvotes: number;
   downvotes: number;
+  language: Language;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -43,7 +44,8 @@ export class Comment {
               keywordsFromQuestioner: string[] = [],
               keywordsFromSpacy: string[] = [],
               upvotes = 0,
-              downvotes = 0) {
+              downvotes = 0,
+              language = Language.auto) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -65,5 +67,22 @@ export class Comment {
     this.keywordsFromSpacy = keywordsFromSpacy;
     this.upvotes = upvotes;
     this.downvotes = downvotes;
+    this.language = language;
+  }
+
+  static mapModelToLanguage(model: Model): Language {
+    return Language[model] || Language.auto;
   }
 }
+
+export enum Language {
+  de = 'DE',
+  en = 'EN',
+  fr = 'FR',
+  es = 'ES',
+  it = 'IT',
+  nl = 'NL',
+  pt = 'PT',
+  auto = 'AUTO'
+}
+

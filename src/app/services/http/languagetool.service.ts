@@ -5,7 +5,14 @@ import { catchError } from 'rxjs/operators';
 import { Model } from './spacy.service';
 import { Observable } from 'rxjs';
 
-export type Language = 'de-DE' | 'en-US' | 'fr' | 'auto';
+export type Language =  'de' | 'de-AT' | 'de-CH' | 'de-DE' |
+                        'en' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-US' |
+                        'fr' |
+                        'es' |
+                        'it' |
+                        'nl' | 'nl-BE' |
+                        'pt' | 'pt-BR' | 'pt-PT' |
+                        'auto';
 
 export interface LanguagetoolResult {
   software: {
@@ -75,15 +82,38 @@ export class LanguagetoolService extends BaseHttpService {
 
   mapLanguageToSpacyModel(language: Language): Model {
     switch (language) {
+      case 'de':
+      case 'de-AT':
+      case 'de-CH':
       case 'de-DE':
         return 'de';
+      case 'en':
+      case 'en-AU':
+      case 'en-CA':
+      case 'en-GB':
       case 'en-US':
         return 'en';
+      case 'es':
+        return 'es';
       case 'fr':
-        return 'fr';
+          return 'fr';
+      case 'it':
+        return 'it';
+      case 'nl':
+      case 'nl-BE':
+        return 'nl';
+      case 'pt':
+      case 'pt-BR':
+      case 'pt-PT':
+        return 'pt';
       default:
         return 'auto';
     }
+  }
+
+  isSupportedLanguage(language: Language) {
+    const supportedLanguages: Model[] = ['de', 'en', 'fr'];
+    return supportedLanguages.includes(this.mapLanguageToSpacyModel(language));
   }
 
   checkSpellings(text: string, language: Language): Observable<LanguagetoolResult> {

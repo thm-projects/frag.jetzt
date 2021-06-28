@@ -6,6 +6,7 @@
   <div fxLayoutAlign="end">
     <div fxLayout="row-reverse" fxLayoutGap="10px" class="buttons">
       <button
+        [disabled]="confirmButtonDisabled"
         *ngIf="confirmButtonClickAction !== undefined"
         type="button"
         mat-flat-button
@@ -18,6 +19,7 @@
         </mat-icon>
       </button>
       <button
+        [disabled]="cancelButtonDisabled"
         *ngIf="cancelButtonClickAction !== undefined"
         type="button"
         mat-flat-button

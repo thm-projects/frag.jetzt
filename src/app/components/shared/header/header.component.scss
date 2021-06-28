@@ -122,7 +122,27 @@ svg {
   * {
     background-color: transparent !important;
   }
+  *:hover {
+    color: var(--dialog);
+    background-color: var(--on-dialog) !important;
+
+    mat-icon{
+      color: var(--dialog);
+      background-color: var(--on-dialog) !important;
+    }
+  }
+
 }
-h1{
+h1 {
   color: red;
+}
+::ng-deep .mat-menu-item:hover .qrcode svg > path {
+  fill: var(--dialog);
+  color: var(--dialog);
+  background-color: var(--on-dialog) !important;
+}
+  
+::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
+  color: var(--dialog);
+  background-color: var(--on-dialog) !important;
 }

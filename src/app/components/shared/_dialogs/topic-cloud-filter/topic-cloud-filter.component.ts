@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,6 +10,8 @@ import { CommentFilter } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
+import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { KeywordOrFulltext } from '../topic-cloud-administration/TopicCloudAdminData';
 
 class CommentsCount {
   comments: number;
@@ -23,14 +25,16 @@ class CommentsCount {
   styleUrls: ['./topic-cloud-filter.component.scss']
 })
 export class TopicCloudFilterComponent implements OnInit {
-  @Input() shortId: string;
+  @Input() target: string;
 
-  continueFilter = 'continueWithCurr';
+  continueFilter = 'continueWithAll';
   comments: Comment[];
   tmpFilter: CommentFilter;
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
+  private readonly _filter: KeywordOrFulltext;
+  private readonly _blacklist: string[];
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -42,6 +46,9 @@ export class TopicCloudFilterComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
+    const adminData = TopicCloudAdminService.getDefaultAdminData;
+    this._filter = adminData.keywordORfulltext;
+    this._blacklist = adminData.blacklist;
   }
 
   ngOnInit() {
@@ -76,9 +83,25 @@ export class TopicCloudFilterComponent implements OnInit {
       if (c.userNumber) {
         userSet.add(c.userNumber);
       }
-      if (c.keywordsFromQuestioner) {
-        c.keywordsFromQuestioner.forEach(k => {
-          keywordSet.add(k);
+      let source = c.keywordsFromQuestioner;
+      if (this._filter === KeywordOrFulltext.both) {
+        source = !source || !source.length ? c.keywordsFromSpacy : source;
+      } else if (this._filter === KeywordOrFulltext.fulltext) {
+        source = c.keywordsFromSpacy;
+      }
+      if (source) {
+        source.forEach(k => {
+          let isProfanity = false;
+          const lowerCasedKeyword = k.toLowerCase();
+          for (const word of this._blacklist) {
+            if (lowerCasedKeyword.includes(word)) {
+              isProfanity = true;
+              break;
+            }
+          }
+          if (!isProfanity) {
+            keywordSet.add(k);
+          }
         });
       }
     });
@@ -115,7 +138,7 @@ export class TopicCloudFilterComponent implements OnInit {
       }
 
       CommentFilter.currentFilter = filter;
-      this.dialogRef.close(this.router.navigateByUrl('/participant/room/' + this.shortId + '/comments/tagcloud'));
+      this.dialogRef.close(this.router.navigateByUrl(this.target));
     };
   }
 }
