@@ -133,6 +133,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   initNavigation() {
     this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.setTimePeriod(Period.all);
       this.clickedOnKeyword(tag);
     });
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
@@ -395,7 +396,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          return c.keywordsFromQuestioner ? c.keywordsFromQuestioner.includes(compare) : false;
+          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.includes(compare) : false;
+          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.includes(compare) : false;
+          return isInQuestioner || isInSpacy;
         case this.answer:
           return c.answer;
         case this.unanswered:
