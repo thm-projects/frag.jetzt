@@ -1,3 +1,5 @@
+import { ProfanityFilter } from '../../../../models/room';
+
 export interface TopicCloudAdminData {
   blacklist: string[];
   wantedLabels: {
@@ -5,7 +7,7 @@ export interface TopicCloudAdminData {
     en: string[];
   };
   considerVotes: boolean;
-  profanityFilter: boolean;
+  profanityFilter: ProfanityFilter;
   blacklistIsActive: boolean;
   keywordORfulltext: KeywordOrFulltext;
   minQuestions: number;

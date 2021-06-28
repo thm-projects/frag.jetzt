@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import * as BadWords from 'naughty-words';
 import {
   TopicCloudAdminData,
   KeywordOrFulltext,
   spacyLabels
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from '../http/room.service';
-import { Room } from '../../models/room';
+import { ProfanityFilter, Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
+import { WsRoomService } from '..//websockets/ws-room.service';
+import { ProfanityFilterService } from './profanity-filter.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Comment } from '../../models/comment';
 
@@ -19,23 +20,21 @@ export class TopicCloudAdminService {
   private static readonly adminKey = 'Topic-Cloud-Admin-Data';
   private adminData: BehaviorSubject<TopicCloudAdminData>;
   private blacklist: Subject<string[]>;
-  private profanityWords = [];
-  private customProfanityWords: Subject<string[]>;
-  private readonly profanityKey = 'custom-Profanity-List';
 
   constructor(private roomService: RoomService,
               private translateService: TranslateService,
+              private wsRoomService: WsRoomService,
+              private profanityFilterService: ProfanityFilterService,
               private notificationService: NotificationService) {
     this.blacklist = new Subject<string[]>();
+    this.wsRoomService.getRoomStream(localStorage.getItem('roomId')).subscribe(msg => {
+      const message = JSON.parse(msg.body);
+      const room = message.payload.changes;
+      if (message.type === 'RoomPatched') {
+        this.blacklist.next(room.blacklist ? JSON.parse(room.blacklist) : []);
+      }
+    });
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
-    this.customProfanityWords = new Subject<string[]>();
-    /* put all arrays of languages together */
-    this.profanityWords = BadWords['en']
-      .concat(BadWords['de'])
-      .concat(BadWords['fr'])
-      .concat(BadWords['ar'])
-      .concat(BadWords['ru'])
-      .concat(BadWords['tr']);
   }
 
   static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (string) => void) {
@@ -82,7 +81,7 @@ export class TopicCloudAdminService {
           en: this.getDefaultSpacyTagsEN()
         },
         considerVotes: true,
-        profanityFilter: true,
+        profanityFilter: ProfanityFilter.none,
         blacklistIsActive: true,
         keywordORfulltext: KeywordOrFulltext.both,
         minQuestioners: 1,
@@ -126,8 +125,8 @@ export class TopicCloudAdminService {
       if (_adminData.blacklistIsActive) {
         _adminData.blacklist = list;
       }
-      if (_adminData.profanityFilter) {
-        _adminData.blacklist = _adminData.blacklist.concat(this.getProfanityListFromStorage().concat(this.profanityWords));
+      if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
+        _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
       }
       localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
       this.adminData.next(_adminData);
@@ -140,38 +139,6 @@ export class TopicCloudAdminService {
       this.blacklist.next(list);
     });
     return this.blacklist.asObservable();
-  }
-
-  getProfanityListFromStorage() {
-    const list = localStorage.getItem(this.profanityKey);
-    return list ? JSON.parse(list) : [];
-  }
-
-  getCustomProfanityList(): Observable<string[]> {
-    this.customProfanityWords.next(this.getProfanityListFromStorage());
-    return this.customProfanityWords.asObservable();
-  }
-
-  addToProfanityList(word: string) {
-    if (word !== undefined) {
-      const plist = this.getProfanityListFromStorage();
-      if (!plist.includes(word.toLowerCase().trim())) {
-        plist.push(word.toLowerCase().trim());
-        localStorage.setItem(this.profanityKey, JSON.stringify(plist));
-        this.customProfanityWords.next(plist);
-      }
-    }
-  }
-
-  removeFromProfanityList(word: string) {
-    const plist = this.getProfanityListFromStorage();
-    plist.splice(plist.indexOf(word, 0), 1);
-    localStorage.setItem(this.profanityKey, JSON.stringify(plist));
-    this.customProfanityWords.next(plist);
-  }
-
-  removeProfanityList() {
-    localStorage.removeItem(this.profanityKey);
   }
 
   getRoom(): Observable<Room> {
@@ -222,34 +189,5 @@ export class TopicCloudAdminService {
           this.notificationService.show(msg);
         });
       });
-  }
-
-  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string) {
-    let filteredString = str;
-    let profWords = [];
-    if (censorLanguageSpecificCheck) {
-      profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : 'de')];
-    } else {
-      profWords = this.profanityWords;
-    }
-    const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(' ');
-    profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
-      if (toCensoredString.includes(word)) {
-        filteredString = this.replaceString(filteredString, word, this.generateCensoredWord(word.length));
-      }
-    });
-    return filteredString;
-  }
-
-  private replaceString(str: string, search: string, replace: string) {
-    return str.replace(new RegExp(search, 'gi'), replace);
-  }
-
-  private generateCensoredWord(count: number) {
-    let res = '';
-    for (let i = 0; i < count; i++) {
-      res += '*';
-    }
-    return res;
   }
 }
