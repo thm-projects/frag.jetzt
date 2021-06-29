@@ -459,7 +459,7 @@
     "background-tooltip": "Auswahl der Hintergrundfarbe",
     "word-delay-tooltip": "Animationsverzögerung der Wörter",
     "font-size-min-tooltip": "Auswahl der minimalen Schriftgröße",
-    "font-size-max-tooltip": "Auswahl der maximalen Schriftgröße",
+    "font-size-max-tooltip": "Größenverhältnis max. / min. Schriftgröße",
     "select-color-tooltip": "Auswahl der Schriftfarbe",
     "hover-scale-tooltip": "Skalierung der Wörter beim Erscheinen",
     "hover-time-tooltip": "Festlegen der Erscheinungszeit der Wörter",
