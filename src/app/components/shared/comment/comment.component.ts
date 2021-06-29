@@ -44,6 +44,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
+  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
+  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
+  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isStudent = false;
   isCreator = false;
   isModerator = false;
@@ -54,12 +57,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
   currentVote: string;
   slideAnimationState = 'hidden';
   roleString: string;
-  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
-  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
-  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isExpanded = false;
   isExpandable = false;
-  selectedKeyword: string = '';
+  selectedKeyword = '';
+  filterProfanityForModerators = false;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -104,6 +105,19 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
   }
 
+  changeProfanityShowForModerators(comment: Comment) {
+    let newBody: string;
+    if (this.filterProfanityForModerators) {
+      newBody = this.roomDataService.getFilteredBody(comment.id);
+    } else {
+      newBody = this.roomDataService.getUnFilteredBody(comment.id);
+    }
+    if (newBody) {
+      comment.body = newBody;
+    }
+    this.filterProfanityForModerators = !this.filterProfanityForModerators;
+  }
+
   ngAfterViewInit(): void {
     this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
     if (!this.isExpandable) {
@@ -112,6 +126,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
       this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
       this.commentBody.setOverflow('hidden');
     }
+  }
+
+  sortKeywords(keywords: string[]){
+    return keywords.sort((a,b) => a.localeCompare(b));
   }
 
   toggleExpand(evt: MouseEvent) {

@@ -29,7 +29,7 @@
     </mat-drawer-content>
   </mat-drawer-container>
 </ars-screen>
-<button *ngIf="room && !room.closed"
+<button *ngIf="(user && user.role > 0) || (room && !room.questionsBlocked)"
         mat-fab
         mat-icon-button
         aria-labelledby="add"
