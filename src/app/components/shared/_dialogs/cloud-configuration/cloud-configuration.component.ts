@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
-import { CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
+import { cloneParameters, CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 
@@ -89,7 +89,8 @@ export class CloudConfigurationComponent implements OnInit {
       rotationAngle: 0
     },
   ];
-
+  MinFont:number;
+  MaxFont:number;
 
   isTestCloud = false;
 
@@ -97,8 +98,8 @@ export class CloudConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.cloudParameters = this.parent.currentCloudParameters;
-    this.defaultCloudParameters = this.parent.currentCloudParameters;
+    this.cloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.defaultCloudParameters = cloneParameters(this.parent.currentCloudParameters);
     this.parent.dataManager.getMetaData().subscribe((value)=>{
       if (!value) {
         return;
@@ -115,6 +116,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.alphabeticalSorting = true;
     this.rotation = 360;
     this.highestWeight = 100;
+    this.readMaxFont();
   }
 
   fontColorChanged(value: string) {
@@ -152,15 +154,19 @@ export class CloudConfigurationComponent implements OnInit {
   cancel() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
+    this.cloudParameters = cloneParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
     this.setStep(0);
+    this.readMaxFont();
   }
 
   save() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
+    this.defaultCloudParameters = cloneParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
     this.setStep(0);
+    this.readMaxFont();
   }
 
   toggleExtendedView() {
@@ -198,7 +204,9 @@ export class CloudConfigurationComponent implements OnInit {
   reset(){
     this.parent.resetColorsToTheme();
     this.parent.configurationOpen = false;
-    this.cloudParameters = this.parent.currentCloudParameters;
+    this.cloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.defaultCloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.readMaxFont();
   }
 
   italicChecked(event){
@@ -210,11 +218,26 @@ export class CloudConfigurationComponent implements OnInit {
     this.valueChanged();
   }
 
-  checkItalic() {
-    return this.cloudParameters.fontStyle === 'italic';
-  }
-
   checkBold() {
     return this.cloudParameters.fontWeight === 'bold';
+  }
+
+  readMaxFont(){
+    let valMax:number = this.cloudParameters.fontSizeMax;
+    let valMin:number = this.cloudParameters.fontSizeMin;
+    this.MaxFont = Math.floor(valMax/valMin);
+  }
+
+  calcMaxFont(event,setMin:Boolean){
+    let val:number = Number(event.target.value);
+    if(val >0 && val <=10 && !setMin){
+      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * val;
+      this.MaxFont = val;
+      this.valueChanged();
+    }
+    if(setMin){
+      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * this.MaxFont;
+      this.valueChanged();
+    }
   }
 }

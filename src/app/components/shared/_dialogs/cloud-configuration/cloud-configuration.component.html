@@ -85,15 +85,15 @@
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
             <input #minFont [value]="cloudParameters.fontSizeMin.toString()" matInput type="number"
-              [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
-              min="280" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
+              [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,true)"
+              min="50" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
           </mat-form-field>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
-            <input #maxFont matInput type="number" [(ngModel)]="cloudParameters.fontSizeMax"
-              [ngModelOptions]="{standalone: true}" (change)="valueChanged()" min="280" max="1000" step="10"
+            <input #maxFont matInput type="number" [(ngModel)]="MaxFont" [value]="MaxFont.toString()"
+              [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,false)" min="1" max="10" step="1"
               matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
           </mat-form-field>
         </div>
