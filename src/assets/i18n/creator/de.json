@@ -499,6 +499,9 @@
     "font-family-tooltip": "Schriftart auswählen",
     "bold-notation-tooltip": "Schrift fett setzen",
     "font-style-bold" : "Fett",
-    "font-family":"Schriftart"
+    "font-family":"Schriftart",
+    "manual-weight-number": "Anzahl festlegen",
+    "manual-weight-number-tooltip": "Limitierung der Relevanz-Gruppe",
+    "manual-weight-number-note": "Limitiert die jeweilige Relevanz-Gruppe auf einen selbst festgelegten Wert"
   }
 }

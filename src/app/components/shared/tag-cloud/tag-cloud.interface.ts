@@ -15,6 +15,7 @@ export interface CloudWeightSetting {
    * null indicates random rotation.
    */
   rotation: number;
+  allowManualTagNumber: boolean;
 }
 
 export type CloudWeightSettings = [
