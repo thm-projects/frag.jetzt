@@ -301,6 +301,9 @@ export class TagCloudDataService {
 
   private fetchData(): void {
     this._roomDataService.getRoomData(this._roomId).subscribe((comments: Comment[]) => {
+      if (comments === null) {
+        return;
+      }
       this._lastFetchedComments = comments;
       this.rebuildTagData();
     });
