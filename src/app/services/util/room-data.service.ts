@@ -119,12 +119,16 @@ export class RoomDataService {
 
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
     const tempSubject = new BehaviorSubject<Comment[]>(null);
-    const subscription = this._commentUpdates.subscribe(comments => {
+    if (this._currentRoomId !== roomId) {
+      this._commentUpdates.next(null);
+    }
+    let subscription: Subscription = null;
+    subscription = this._commentUpdates.subscribe(comments => {
       if (comments === null) {
         return;
       }
       tempSubject.next(freezed ? [...comments] : comments);
-      subscription.unsubscribe();
+      setTimeout(() => subscription.unsubscribe());
     });
     this.ensureRoomBinding(roomId);
     return tempSubject.asObservable();
@@ -155,6 +159,14 @@ export class RoomDataService {
     } else {
       finish.next(true);
     }
+  }
+
+  getUnFilteredBody(id: string): string {
+    return this._savedCommentsBeforeFilter.get(id);
+  }
+
+  getFilteredBody(id: string): string {
+    return this._savedCommentsAfterFilter.get(id);
   }
 
   private setCommentBody(comment: Comment) {

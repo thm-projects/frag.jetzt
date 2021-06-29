@@ -27,6 +27,7 @@ import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
+import { WsRoomService } from '../../../services/websockets/ws-room.service';
 
 class CustomPosition implements Position {
   left: number;
@@ -180,6 +181,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   createCommentWrapper: CreateCommentWrapper = null;
   private _currentSettings: CloudParameters;
   private _subscriptionCommentlist = null;
+  private _subscriptionRoom = null;
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
@@ -197,7 +199,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
               private wsCommentService: WsCommentService,
               private topicCloudAdmin: TopicCloudAdminService,
               private router: Router,
-              public dataManager: TagCloudDataService) {
+              public dataManager: TagCloudDataService,
+              private wsRoomService: WsRoomService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -263,6 +266,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
           this.roomId = room.id;
+          this._subscriptionRoom = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
+            const message = JSON.parse(msg.body);
+            if (message.type === 'RoomPatched') {
+              this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+            }
+          });
           this.directSend = this.room.directSend;
           this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
@@ -300,6 +309,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     this.headerInterface.unsubscribe();
     this.themeSubscription.unsubscribe();
     this.dataManager.unbindRoom();
+    if (this._subscriptionRoom) {
+      this._subscriptionRoom.unsubscribe();
+    }
   }
 
   get tagCloudDataManager(): TagCloudDataService {

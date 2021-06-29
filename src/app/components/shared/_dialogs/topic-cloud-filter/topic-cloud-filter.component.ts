@@ -6,7 +6,7 @@ import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/roo
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
-import { CommentFilter } from '../../../../utils/filter-options';
+import { CommentFilter, Period } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
@@ -34,6 +34,7 @@ export class TopicCloudFilterComponent implements OnInit {
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
+  isTopicRequirementActive = false;
   private readonly _adminData: TopicCloudAdminData;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -47,6 +48,7 @@ export class TopicCloudFilterComponent implements OnInit {
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
+    this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
 
   ngOnInit() {
@@ -72,6 +74,14 @@ export class TopicCloudFilterComponent implements OnInit {
     }
   }
 
+  isMobile() : boolean{
+    if(window.matchMedia("(max-width:500px)").matches){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   getCommentCounts(comments: Comment[]): CommentsCount {
     const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, comments);
     const counts = new CommentsCount();
@@ -91,7 +101,9 @@ export class TopicCloudFilterComponent implements OnInit {
 
       switch (this.continueFilter) {
         case 'continueWithAll':
-          filter = new CommentFilter(); // all questions allowed
+          // all questions allowed
+          filter = new CommentFilter();
+          filter.periodSet = Period.all;
           break;
 
         case 'continueWithAllFromNow':

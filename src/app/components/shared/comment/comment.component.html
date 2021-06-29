@@ -40,6 +40,15 @@
       <span class="fill-remaining-space"></span>
       <ng-container>
         <button mat-icon-button
+                *ngIf="(isCreator || isModerator)"
+                (click)="changeProfanityShowForModerators(comment)">
+          <mat-icon class="not-marked"
+            [matTooltip]="filterProfanityForModerators ? ('comment-page.show-comment-with-filter' | translate) :
+            ('comment-page.show-comment-without-filter' | translate)">
+            {{filterProfanityForModerators?'visibility_off':'visibility'}}
+          </mat-icon>
+        </button>
+        <button mat-icon-button
                 *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
                 (click)="answerComment()"
                 tabindex="0"

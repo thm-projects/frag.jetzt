@@ -190,7 +190,9 @@
     "edit-favorite-reset": "Remove marker",
     "edit-bookmark": "Bookmark",
     "edit-bookmark-reset": "Remove marker",
-    "grammar-check": "Spell check"
+    "grammar-check": "Spell check",
+    "show-comment-with-filter": "show question only localy with censore",
+    "show-comment-without-filter": "show question only localy without censore"
   },
   "content": {
     "abort": "Abort",

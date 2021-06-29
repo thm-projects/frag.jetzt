@@ -189,7 +189,9 @@
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
-    "grammar-check": "Rechtschreibprüfung"
+    "grammar-check": "Rechtschreibprüfung",
+    "show-comment-with-filter": "Frage nur lokal mit Zensierung zeigen",
+    "show-comment-without-filter": "Frage nur lokal ohne Zensierung zeigen"
   },
   "content": {
     "abort": "Abbrechen",

@@ -30,6 +30,13 @@
                [xp]="16"
                [extra]="true">
         <button mat-icon-button
+                *ngIf="isAdminConfigEnabled"
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
+          <mat-icon class="oldtypo-h2 comment_tag-icon" style="color: var(--red) !important;">warning</mat-icon>
+        </button>
+        <button mat-icon-button
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-question-tooltip' | translate}}">
@@ -157,6 +164,7 @@
 
               <button mat-menu-item
                       tabindex="0"
+                      *ngIf="!router.url.endsWith('moderator/comments')"
                       (click)="navigateTopicCloud()">
                 <mat-icon>cloud
                 </mat-icon>
@@ -199,7 +207,7 @@
           </ng-container>
 
           <!-- Session -->
-          <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/')">
+          <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <!-- app-room-participant-page -->
             <ng-container *ngIf="router.url.includes('/participant/room/')">
@@ -240,7 +248,7 @@
           <!-- Room General Options - bot -->
 
           <ng-container
-            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
+            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <button mat-menu-item
                     *ngIf="user"
@@ -366,8 +374,8 @@
                 [ngClass]="{'color-warn': room && room.questionsBlocked}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
-          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span> 
-          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span> 
+          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
+          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
         </button>
       </ng-container>
 

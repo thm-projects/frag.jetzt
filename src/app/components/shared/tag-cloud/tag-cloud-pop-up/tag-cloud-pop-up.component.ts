@@ -130,11 +130,19 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     }
   }
 
+  isNewTagReady(): boolean {
+    if (!this.replacementInput.value) {
+      return false;
+    }
+    const tag = this.replacementInput.value.trim();
+    return !(tag.length < 1 || tag === this.tag);
+  }
+
   updateTag(): void {
-    const tagReplacementInput = this.replacementInput.value.trim();
-    if (tagReplacementInput.length < 1 || tagReplacementInput === this.tag) {
+    if (!this.isNewTagReady()) {
       return;
     }
+    const tagReplacementInput = this.replacementInput.value.trim();
     const renameKeyword = (elem: string, index: number, array: string[]) => {
       if (elem === this.tag) {
         array[index] = tagReplacementInput;

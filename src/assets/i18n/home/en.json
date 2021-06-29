@@ -94,7 +94,8 @@
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
-    "update-spacy-keywords": "Add keywords"
+    "update-spacy-keywords": "Add keywords",
+    "overview-admin-config-enabled": "Themes requirement active"
   },
   "help": {
     "cancel": "Close",
@@ -132,8 +133,11 @@
     "continue": "Continue",
     "reset": "Reset",
     "continue-with-all-questions" : "Continue with all questions of the session",
+    "continue-with-all-questions-short" : "With all questions",
     "continue-with-current-questions": "Continue with current question list",
-    "continue-with-all-questions-from-now": "Continue with questions that will be asked form now on"
+    "continue-with-current-questions-short": "With question list",
+    "continue-with-all-questions-from-now": "Continue with questions that will be asked from now on",
+    "continue-with-all-questions-from-now-short": "With questions from now on"
 
   },
   "imprint": {
