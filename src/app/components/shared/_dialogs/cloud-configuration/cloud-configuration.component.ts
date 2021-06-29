@@ -134,13 +134,13 @@ export class CloudConfigurationComponent implements OnInit {
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
        this.weightClasses[i].rotationAngle = element.rotation;
-       this.weightClasses[i].maxTagNumber = element.maxVisibleElements == -1 ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+       this.weightClasses[i].maxTagNumber = (element.maxVisibleElements == -1 || element.maxVisibleElements == 0) ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
     });
   }
 
   parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
-      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber;
+      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber == 0 ? -1 : element.maxTagNumber;
       this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
       this.cloudParameters.cloudWeightSettings[i].rotation = element.rotationAngle;
     });
