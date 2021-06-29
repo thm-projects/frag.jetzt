@@ -292,7 +292,8 @@
     "keyword-counter": "Anzahl der Themen",
     "sort": "Sortieren",
     "keyword-from-spacy": "Stichwort von spaCy",
-    "keyword-from-questioner": "Stichwort vom Fragensteller",
+    "keyword-from-questioner": "Stichwort vom Fragesteller",
+    "Keyword-from-both": "Stichwort vom Fragensteller und spaCy",
     "test-profanity": "Profanität testen",
     "word": "Wort",
     "word-is-profanity": "Wort ist profan",
@@ -306,14 +307,6 @@
     "topic-requirement-upvotes": "Minimale Anzahl an Up-Votes",
     "topic-requirement-begin-datetime": "Früheste Frage",
     "topic-requirement-end-datetime": "Letzte Frage"
-  },
-  "topic-cloud-confirm-dialog": {
-    "cancel": "Abbrechen",
-    "delete": "Löschen",
-    "merge": "Zusammenfügen",
-    "delete-message": "Willst du das Thema wirklich löschen?",
-    "merge-message": "Stichwort existiert schon, willst du die beiden Stichwörter zusammenfügen?",
-    "confirm": "Bist du sicher?"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",
