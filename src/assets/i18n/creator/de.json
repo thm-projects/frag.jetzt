@@ -499,6 +499,7 @@
     "font-family-tooltip": "Schriftart auswählen",
     "bold-notation-tooltip": "Schrift fett setzen",
     "font-style-bold" : "Fett",
-    "font-family":"Schriftart"
+    "font-family":"Schriftart",
+    "manual-weight-number": "Manuelle Anzahl"
   }
 }

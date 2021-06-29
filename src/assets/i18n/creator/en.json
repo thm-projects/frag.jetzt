@@ -499,6 +499,7 @@
     "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
-    "font-family":"Font Family"
+    "font-family":"Font Family",
+    "manual-weight-number": "Manual amount"
   }
 }
