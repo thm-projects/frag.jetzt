@@ -409,6 +409,7 @@
     "partial-words-will-be-filtered": "Vulgäre Teilwörter auch filtern",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragensteller",
+    "Keyword-from-both": "Stichwort vom Fragensteller und spaCy",
     "test-profanity": "Profanität testen",
     "word": "Wort",
     "word-is-profanity": "Wort ist profan",
@@ -422,6 +423,14 @@
     "topic-requirement-upvotes": "Minimale Anzahl Up-Votes",
     "topic-requirement-begin-datetime": "Früheste Frage",
     "topic-requirement-end-datetime": "Letzte Frage"
+  },
+  "topic-cloud-confirm-dialog": {
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "merge": "Zusammenfügen",
+    "delete-message": "Möchten Sie das Thema wirklich löschen",
+    "merge-message": "Stichwort existiert schon, möchten Sie die beiden Stichworte zusammenfügen",
+    "confirm": "Sind Sie sicher?"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",
