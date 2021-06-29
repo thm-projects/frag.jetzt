@@ -157,6 +157,14 @@ export class RoomDataService {
     }
   }
 
+  getUnFilteredBody(id: string): string {
+    return this._savedCommentsBeforeFilter.get(id);
+  }
+
+  getFilteredBody(id: string): string {
+    return this._savedCommentsAfterFilter.get(id);
+  }
+
   private setCommentBody(comment: Comment) {
     this._savedCommentsBeforeFilter.set(comment.id, comment.body);
     this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
