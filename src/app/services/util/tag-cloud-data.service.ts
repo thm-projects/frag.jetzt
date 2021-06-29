@@ -300,13 +300,11 @@ export class TagCloudDataService {
   }
 
   private fetchData(): void {
-    console.log('Try to get room data');
     this._roomDataService.getRoomData(this._roomId).subscribe((comments: Comment[]) => {
       if (comments === null) {
         return;
       }
       this._lastFetchedComments = comments;
-      console.log('Room data get', comments);
       this.rebuildTagData();
     });
   }
@@ -327,13 +325,9 @@ export class TagCloudDataService {
       return;
     }
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
-    console.log('Start filtering', this._currentFilter);
     const filteredComments = this._lastFetchedComments.filter(comment => this._currentFilter.checkComment(comment));
-    console.log('End filtering', filteredComments);
     currentMeta.commentCount = filteredComments.length;
-    console.log('start building structure', this._adminData);
     const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, filteredComments);
-    console.log('end building structure', data);
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {

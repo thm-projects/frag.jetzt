@@ -6,7 +6,7 @@ import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/roo
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
-import { CommentFilter } from '../../../../utils/filter-options';
+import { CommentFilter, Period } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
@@ -91,7 +91,9 @@ export class TopicCloudFilterComponent implements OnInit {
 
       switch (this.continueFilter) {
         case 'continueWithAll':
-          filter = new CommentFilter(); // all questions allowed
+          // all questions allowed
+          filter = new CommentFilter();
+          filter.periodSet = Period.all;
           break;
 
         case 'continueWithAllFromNow':
