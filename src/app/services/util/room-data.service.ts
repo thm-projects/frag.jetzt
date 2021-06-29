@@ -6,7 +6,7 @@ import { Comment } from '../../models/comment';
 import { CommentService } from '../http/comment.service';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { RoomService } from '../http/room.service';
-import { TopicCloudAdminService } from './topic-cloud-admin.service';
+import { ProfanityFilterService } from './profanity-filter.service';
 import { ProfanityFilter, Room } from '../../models/room';
 import { WsRoomService } from '../websockets/ws-room.service';
 
@@ -99,7 +99,7 @@ export class RoomDataService {
   constructor(private wsCommentService: WsCommentService,
               private commentService: CommentService,
               private roomService: RoomService,
-              private topicCloudAdminService: TopicCloudAdminService,
+              private profanityFilterService: ProfanityFilterService,
               private wsRoomService: WsRoomService) {
   }
 
@@ -173,7 +173,7 @@ export class RoomDataService {
   private filterCommentOfProfanity(room: Room, comment: Comment): string {
     const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
     const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
-    return this.topicCloudAdminService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
+    return this.profanityFilterService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
   }
 
   private removeCommentBodies(key: string) {

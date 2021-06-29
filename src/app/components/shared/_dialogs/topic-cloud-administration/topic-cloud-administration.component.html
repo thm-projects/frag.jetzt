@@ -28,22 +28,116 @@
           </mat-radio-group>
         </mat-card>
 
-        <mat-slide-toggle [(ngModel)]="considerVotes">
-          {{'topic-cloud-dialog.consider-votes' | translate}}
-        </mat-slide-toggle>
+        <mat-card style="background: none;">
+          <mat-slide-toggle [(ngModel)]="considerVotes">
+            {{'topic-cloud-dialog.consider-votes' | translate}}
+          </mat-slide-toggle>
+        </mat-card>
         <div *ngIf="isCreatorOrMod">
-          <mat-slide-toggle (change)="changeProfanityFilter()" [(ngModel)]="profanityFilter">
-            {{'topic-cloud-dialog.profanity' | translate}}
-          </mat-slide-toggle>
-          <mat-slide-toggle [(ngModel)]="blacklistIsActive">
-            {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
-          </mat-slide-toggle>
+          <mat-card style="background: none;">
+            <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)"
+              [(ngModel)]="profanityFilter">
+              {{'topic-cloud-dialog.profanity' | translate}}
+            </mat-slide-toggle>
+            <mat-slide-toggle *ngIf="profanityFilter"
+              (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)"
+              [(ngModel)]="censorLanguageSpecificCheck">
+              {{'topic-cloud-dialog.language-specific-filter' | translate}}
+            </mat-slide-toggle>
+            <mat-slide-toggle *ngIf="profanityFilter"
+              (change)="showMessage('partial-words-will-be-filtered', $event.checked)"
+              [(ngModel)]="censorPartialWordsCheck">
+              {{'topic-cloud-dialog.partial-words-filter' | translate}}
+            </mat-slide-toggle>
+
+            <mat-accordion>
+              <mat-expansion-panel class="color-background" (opened)="focusInput('test-profanity-input')">
+                <mat-expansion-panel-header class="color-background">
+                  <mat-panel-title>
+                    {{'topic-cloud-dialog.test-profanity' | translate}}
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>
+                  <mat-form-field *ngIf="censorLanguageSpecificCheck">
+                    <mat-label>{{'topic-cloud-dialog.language' | translate}}</mat-label>
+                    <mat-select [(value)]="testProfanityLanguage">
+                      <mat-option value="en">English</mat-option>
+                      <mat-option value="de">German</mat-option>
+                      <mat-option value="fr">French</mat-option>
+                      <mat-option value="ar">Arabic</mat-option>
+                      <mat-option value="ru">Russian</mat-option>
+                      <mat-option value="es">Spanish</mat-option>
+                      <mat-option value="it">Italian</mat-option>
+                      <mat-option value="nl">Netherlandish</mat-option>
+                      <mat-option value="tr">Turkish</mat-option>
+                      <mat-option value="pt">Portuguese</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </p>
+                <p>
+                  <mat-form-field>
+                    <mat-label>{{'topic-cloud-dialog.word' | translate}}</mat-label>
+                    <input id="test-profanity-input" matInput [(ngModel)]="testProfanityWord">
+                  </mat-form-field>
+                </p>
+                <p>{{'topic-cloud-dialog.preview' | translate}}:</p>
+                <p>{{getFilteredProfanity()}}</p>
+
+
+                <mat-accordion>
+                  <mat-expansion-panel class="color-surface">
+                    <mat-expansion-panel-header class="color-surface">
+                      <mat-panel-title>
+                        {{"topic-cloud-dialog.words-in-profanity" | translate}}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/en"
+                      target="_blank">English</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/de"
+                      target="_blank">German</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/fr"
+                      target="_blank">French</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ar"
+                      target="_blank">Arabic</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/ru"
+                      target="_blank">Russian</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/es"
+                      target="_blank">Spanish</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/it"
+                      target="_blank">Italian</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/nl"
+                      target="_blank">Netherlandish</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/tr"
+                      target="_blank">Turkish</a>
+                    <br>
+                    <a href="https://raw.githubusercontent.com/LDNOOBW/List-of-Dirty-Naughty-Obscene-and-Otherwise-Bad-Words/master/pt"
+                      target="_blank">Portuguese</a>
+                  </mat-expansion-panel>
+                </mat-accordion>
+
+              </mat-expansion-panel>
+            </mat-accordion>
+
+          </mat-card>
+          <mat-card style="background: none;">
+            <mat-slide-toggle [(ngModel)]="blacklistIsActive">
+              {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
+            </mat-slide-toggle>
+          </mat-card>
         </div>
 
         <mat-accordion class="new-profanity-word" multi>
           <div *ngIf="isCreatorOrMod">
-            <mat-expansion-panel class="color-background" (opened)="enterProfanityWord=true; focusInput('bad-word-input')"
-              (closed)="enterProfanityWord = false">
+            <mat-expansion-panel class="color-background"
+              (opened)="enterProfanityWord=true; focusInput('bad-word-input')" (closed)="enterProfanityWord = false">
               <mat-expansion-panel-header class="color-background">
                 <mat-panel-title>
                   {{'topic-cloud-dialog.edit-profanity-list' | translate}}
@@ -127,7 +221,8 @@
                       <mat-icon>playlist_add_check</mat-icon>
                       {{'topic-cloud-dialog.select-all' | translate}}
                     </mat-label>
-                    <mat-checkbox style="vertical-align: middle;float: right;" [checked]="this.wantedLabels.de.length===this.spacyLabels.de.length"></mat-checkbox>
+                    <mat-checkbox style="vertical-align: middle;float: right;"
+                      [checked]="this.wantedLabels.de.length===this.spacyLabels.de.length"></mat-checkbox>
                   </mat-option>
 
                   <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.de">
@@ -143,7 +238,8 @@
                       <mat-icon>playlist_add_check</mat-icon>
                       {{'topic-cloud-dialog.select-all' | translate}}
                     </mat-label>
-                    <mat-checkbox style="vertical-align: middle;float: right;" [checked]="this.wantedLabels.en.length===this.spacyLabels.en.length"></mat-checkbox>
+                    <mat-checkbox style="vertical-align: middle;float: right;"
+                      [checked]="this.wantedLabels.en.length===this.spacyLabels.en.length"></mat-checkbox>
                   </mat-option>
 
                   <mat-list-option [value]="label.tag" class="color-on-surface" *ngFor="let label of spacyLabels.en">
@@ -153,6 +249,9 @@
               </mat-tab>
             </mat-tab-group>
           </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-accordion>
           <mat-expansion-panel class="color-background">
             <mat-expansion-panel-header class="color-background">
               <mat-panel-title>
@@ -196,6 +295,7 @@
             </table>
           </mat-expansion-panel>
         </mat-accordion>
+
       </mat-expansion-panel>
     </mat-accordion>
 
@@ -205,8 +305,8 @@
       </mat-label>
       <div style="margin-left: 10px; margin-top: 6px;">
         <mat-form-field [ngClass]="{'search': searchMode, 'smallerInput': deviceType === 'mobile'}">
-          <input #searchBox class="searchBox" (input)="searchKeyword()" [(ngModel)]="searchedKeyword" matInput type="text"
-            placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
+          <input #searchBox class="searchBox" (input)="searchKeyword()" [(ngModel)]="searchedKeyword" matInput
+            type="text" placeholder="{{'topic-cloud-dialog.keyword-search' | translate}}">
           <button *ngIf="searchedKeyword" (click)="searchedKeyword = ''; searchMode = false;" mat-button matSuffix
             mat-icon-button aria-label="topic-cloud-dialog.keyword-search">
             <mat-icon>close</mat-icon>
@@ -217,7 +317,8 @@
       <div fxLayoutAlign="center center" style="margin-left: auto; font-weight: bold;">
         <mat-icon [ngClass]="{'animation-blink': searchMode}" svgIcon="hashtag" class="oldtypo-h2 comment_tag-icon"
           matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}"></mat-icon>
-        <p [ngClass]="{'animation-blink': searchMode}" matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
+        <p [ngClass]="{'animation-blink': searchMode}"
+          matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
           {{searchMode ? filteredKeywords.length :
           keywords.length}}</p>
       </div>
@@ -239,20 +340,23 @@
         <mat-icon>swap_vert</mat-icon>
         {{'topic-cloud-dialog.sort-count' | translate}}
       </button>
-      <button [ngClass]="{'animation-blink': sortMode==='voteCount'}" mat-menu-item (click)="sortQuestions('voteCount')">
+      <button [ngClass]="{'animation-blink': sortMode==='voteCount'}" mat-menu-item
+        (click)="sortQuestions('voteCount')">
         <mat-icon>swap_vert</mat-icon>
         {{'topic-cloud-dialog.sort-vote' | translate}}
       </button>
     </mat-menu>
 
-    <mat-card class="color-surface" *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+    <mat-card class="color-surface"
+      *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
       <p class="color-on-surface" fxLayoutAlign="center">
         {{'topic-cloud-dialog.no-keywords-note' | translate}}
       </p>
     </mat-card>
 
     <mat-accordion>
-      <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true" (closed)="panelOpenState = edit = false"
+      <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
+        (closed)="panelOpenState = edit = false"
         *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index" [attr.data-index]="i"
         matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner') | translate}}">
         <mat-expansion-panel-header class="color-surface">
@@ -267,7 +371,8 @@
         <div *ngFor="let question of keyword.comments">
           <mat-divider></mat-divider>
           <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-                                    [profanityFilter]="profanityFilter"></app-topic-dialog-comment>
+            [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+            [partialWords]="censorPartialWordsCheck" [language]="question.language"></app-topic-dialog-comment>
         </div>
 
         <div *ngIf="isCreatorOrMod">
