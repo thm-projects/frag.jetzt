@@ -157,6 +157,7 @@
 
               <button mat-menu-item
                       tabindex="0"
+                      *ngIf="!router.url.endsWith('moderator/comments')"
                       (click)="navigateTopicCloud()">
                 <mat-icon>cloud
                 </mat-icon>
@@ -366,8 +367,8 @@
                 [ngClass]="{'color-warn': room && room.questionsBlocked}"
                 tabindex="0">
           <mat-icon class="color-warn">block</mat-icon>
-          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span> 
-          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span> 
+          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
+          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
         </button>
       </ng-container>
 
