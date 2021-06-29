@@ -39,6 +39,16 @@
       </button>
       <span class="fill-remaining-space"></span>
       <ng-container>
+        <!-- [(ngModel)]="profanityFilter" -->
+        <button mat-icon-button
+                *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
+                (click)="changeProfanityShowForModerators(comment)">
+          <mat-icon class="not-marked"
+            [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
+            ('comment-page.fullscreen' | translate)">
+            {{filterProfanityForModerators?'visibility_off':'visibility'}}
+          </mat-icon>
+        </button>
         <button mat-icon-button
                 *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
                 (click)="answerComment()"
