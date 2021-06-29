@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { WsCommentService } from '../websockets/ws-comment.service';
 import { Message } from '@stomp/stompjs';
 import { Comment } from '../../models/comment';
@@ -88,7 +88,7 @@ export class RoomDataService {
 
   private _currentSubscriptions: RoomDataUpdateSubscription[] = [];
   private _currentComments: Comment[] = null;
-  private _commentUpdates: Subject<Comment[]> = new Subject<Comment[]>();
+  private _commentUpdates: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
   private _fastCommentAccess: FastRoomAccessObject = null;
   private _wsCommentServiceSubscription: Subscription = null;
   private _currentRoomId: string = null;
@@ -118,11 +118,11 @@ export class RoomDataService {
   }
 
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
-    if (roomId && roomId === this._currentRoomId) {
-      return of(freezed ? [...this._currentComments] : this._currentComments);
-    }
-    const tempSubject = new Subject<Comment[]>();
+    const tempSubject = new BehaviorSubject<Comment[]>(null);
     const subscription = this._commentUpdates.subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
       tempSubject.next(freezed ? [...comments] : comments);
       subscription.unsubscribe();
     });
