@@ -51,8 +51,11 @@
     "continue": "Weiter",
     "reset": "Zurücksetzen",
     "continue-with-all-questions" : "Weiter mit allen Fragen der Sitzung",
+    "continue-with-all-questions-short" : "Mit allen Fragen",
     "continue-with-current-questions": "Weiter mit aktueller Fragenliste",
-    "continue-with-all-questions-from-now": "Weiter mit Fragen, die ab jetzt gestellt werden"
+    "continue-with-current-questions-short": "Mit Fragenliste",
+    "continue-with-all-questions-from-now": "Weiter mit Fragen, die ab jetzt gestellt werden",
+    "continue-with-all-questions-from-now-short": "Mit Fragen ab jetzt"
   },
   "header": {
     "abort": "Abbrechen",
