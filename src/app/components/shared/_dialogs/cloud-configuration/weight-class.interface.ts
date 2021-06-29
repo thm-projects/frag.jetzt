@@ -3,4 +3,5 @@ export interface WeightClass {
     tagColor: string;
     actualTagNumber: number;
     rotationAngle: number;
+    allowManualTagNumber: boolean;
 }
