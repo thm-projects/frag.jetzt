@@ -1,3 +1,7 @@
+<span *ngIf="isTopicRequirementActive">
+    <mat-icon [inline]="true" style="color: var(--red) !important;">warning</mat-icon>
+  {{'header.overview-admin-config-enabled' | translate}}
+</span>
 <mat-divider></mat-divider>
   <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
     <mat-radio-button checked="true" value="continueWithAll">

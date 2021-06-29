@@ -122,12 +122,13 @@ export class RoomDataService {
     if (this._currentRoomId !== roomId) {
       this._commentUpdates.next(null);
     }
-    const subscription = this._commentUpdates.subscribe(comments => {
+    let subscription: Subscription = null;
+    subscription = this._commentUpdates.subscribe(comments => {
       if (comments === null) {
         return;
       }
       tempSubject.next(freezed ? [...comments] : comments);
-      subscription.unsubscribe();
+      setTimeout(() => subscription.unsubscribe());
     });
     this.ensureRoomBinding(roomId);
     return tempSubject.asObservable();
