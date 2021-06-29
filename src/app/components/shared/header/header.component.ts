@@ -26,6 +26,7 @@ import { Room } from '../../../models/room';
 import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 
 @Component({
   selector: 'app-header',
@@ -44,6 +45,7 @@ export class HeaderComponent implements OnInit {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
+  isAdminConfigEnabled = false;
   private _subscriptionRoomService = null;
 
   constructor(public location: Location,
@@ -59,11 +61,15 @@ export class HeaderComponent implements OnInit {
               private motdService: MotdService,
               private confirmDialog: MatDialog,
               private roomService: RoomService,
-              private wsRoomService: WsRoomService
+              private wsRoomService: WsRoomService,
+              private topicCloudAdminService: TopicCloudAdminService
   ) {
   }
 
   ngOnInit() {
+    this.topicCloudAdminService.getAdminData.subscribe(data => {
+      this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
+    });
     this.eventService.on('userLogin').subscribe(e => {
       this.motdService.checkNewMessage(() => {
         this.motdService.requestDialog();
