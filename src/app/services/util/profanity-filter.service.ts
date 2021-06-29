@@ -69,6 +69,7 @@ export class ProfanityFilterService {
     } else {
       profWords = this.profanityWords;
     }
+    str = str.replace(new RegExp(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi), '');
     // eslint-disable-next-line max-len
     const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(/[\s,.]+/);
     profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
