@@ -157,11 +157,6 @@
             <div class ="weight-class-setting-content">
             <label class=" expansion-title weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</label>
               <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-                <div class="input-row firstElementOfWeightClass" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column">
-                  <mat-slide-toggle matTooltip="{{'tag-cloud-config.manual-weight-number' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]=" weightClass.allowManualTagNumber"
-                    [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.manual-weight-number' | translate}}</mat-slide-toggle>
-                    <mat-icon matTooltip="{{'tag-cloud-config.random-angle-note' | translate}}">help</mat-icon>
-                </div>
                 <div fxLayout="row" fxLayoutGap="5px">
                   <mat-form-field fxFlex="100%">
                     <mat-label>{{'tag-cloud-config.weight-color' | translate}}</mat-label>
@@ -172,6 +167,11 @@
                   </mat-form-field>
                   <div fxFlex="35px" class="color-box" [style.background]="weightClass.tagColor"></div>
                 </div>
+              </div>
+              <div class="input-row firstElementOfWeightClass" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
+                <mat-slide-toggle matTooltip="{{'tag-cloud-config.manual-weight-number-tooltip' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]=" weightClass.allowManualTagNumber"
+                  [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.manual-weight-number' | translate}}</mat-slide-toggle>
+                  <mat-icon matTooltip="{{'tag-cloud-config.manual-weight-number-note' | translate}}">help</mat-icon>
               </div>
               <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive && weightClass.allowManualTagNumber">
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px">

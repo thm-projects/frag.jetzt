@@ -500,6 +500,8 @@
     "bold-notation-tooltip": "Schrift fett setzen",
     "font-style-bold" : "Fett",
     "font-family":"Schriftart",
-    "manual-weight-number": "Manuelle Anzahl"
+    "manual-weight-number": "Anzahl festlegen",
+    "manual-weight-number-tooltip": "Limitierung der Relevanz-Gruppe",
+    "manual-weight-number-note": "Limitiert die jeweilige Relevanz-Gruppe auf einen selbst festgelegten Wert"
   }
 }

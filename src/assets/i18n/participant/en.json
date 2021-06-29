@@ -375,6 +375,8 @@
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
     "font-family":"Font Family",
-    "manual-weight-number": "Manual amount"
+    "manual-weight-number": "Set quantity",
+    "manual-weight-number-tooltip": "Quantity Limitation of this weight class",
+    "manual-weight-number-note": "Limits the respective weight class to a self-defined Quantity"
   }
 }
