@@ -34,6 +34,7 @@ export class TopicCloudFilterComponent implements OnInit {
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
+  isTopicRequirementActive = false;
   private readonly _adminData: TopicCloudAdminData;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -47,6 +48,7 @@ export class TopicCloudFilterComponent implements OnInit {
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
+    this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
 
   ngOnInit() {
@@ -69,6 +71,14 @@ export class TopicCloudFilterComponent implements OnInit {
 
     if (this.disableCurrentFiltersOptions) {
       this.continueFilter = 'continueWithAll';
+    }
+  }
+
+  isMobile() : boolean{
+    if(window.matchMedia("(max-width:500px)").matches){
+      return true;
+    }else{
+      return false;
     }
   }
 

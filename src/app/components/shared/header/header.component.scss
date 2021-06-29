@@ -31,7 +31,7 @@ mat-toolbar-row {
 
 .noOfQuestions {
   position: absolute !important;
-  right: 100px !important;
+  right: 130px !important;
   padding: 10px !important;
   margin: 0 !important;
 }
@@ -141,7 +141,7 @@ h1 {
   color: var(--dialog);
   background-color: var(--on-dialog) !important;
 }
-  
+
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
   color: var(--dialog);
   background-color: var(--on-dialog) !important;

@@ -221,6 +221,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     return comments.filter(comment => comment.id === id).length === 0;
   }
 
+  isTopicRequirementActive(): boolean {
+    return (this.minQuestioners !== '1') || (this.minQuestions !== '1') || (this.minUpvotes !== '0') ||
+      (!!this.startDate) || (!!this.endDate);
+  }
+
   setAdminData() {
     let profFilter = this.profanityFilter ? ProfanityFilter.none : ProfanityFilter.deactivated;
     if (this.profanityFilter) {

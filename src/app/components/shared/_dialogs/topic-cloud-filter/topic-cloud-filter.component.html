@@ -1,9 +1,13 @@
+<span *ngIf="isTopicRequirementActive">
+    <mat-icon [inline]="true" style="color: var(--red) !important;">warning</mat-icon>
+  {{'header.overview-admin-config-enabled' | translate}}
+</span>
 <mat-divider></mat-divider>
   <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
     <mat-radio-button checked="true" value="continueWithAll">
       <div class="elementRow">
         <div class="elementText">
-          {{'content.continue-with-all-questions' | translate}}
+          {{(!isMobile() ? 'content.continue-with-all-questions' : 'content.continue-with-all-questions-short') | translate}}
         </div>
         <div class="elementIcons">
           <mat-icon [inline]="true"
@@ -18,7 +22,7 @@
     <mat-radio-button value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
       <div class="elementRow">
         <div class="elementText">
-          {{'content.continue-with-current-questions' | translate}}
+          {{(!isMobile() ? 'content.continue-with-current-questions' : 'content.continue-with-current-questions-short')| translate}}
         </div>
         <div class="elementIcons">
           <mat-icon [inline]="true"
@@ -31,7 +35,7 @@
       </div>
     </mat-radio-button>
     <mat-radio-button value="continueWithAllFromNow">
-      {{'content.continue-with-all-questions-from-now' | translate}}
+      {{(!isMobile() ? 'content.continue-with-all-questions-from-now' : 'content.continue-with-all-questions-from-now-short') | translate}}
     </mat-radio-button>
   </mat-radio-group>
   <app-dialog-action-buttons

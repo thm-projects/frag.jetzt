@@ -341,7 +341,7 @@
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
     "font-size-min-tooltip": "Select minimum font-size",
-    "font-size-max-tooltip": "Select maximum font-size",
+    "font-size-max-tooltip": "Size ratio max. / min. font size",
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
