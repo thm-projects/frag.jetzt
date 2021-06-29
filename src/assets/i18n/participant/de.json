@@ -307,14 +307,6 @@
     "topic-requirement-begin-datetime": "Frühester Kommentar",
     "topic-requirement-end-datetime": "Letzter Kommentar"
   },
-  "topic-cloud-confirm-dialog": {
-    "cancel": "Abbrechen",
-    "delete": "Löschen",
-    "merge": "Zusammenfügen",
-    "delete-message": "Möchten Sie das Thema wirklich löschen",
-    "merge-message": "Stichwort existiert schon, möchten Sie die beiden Stichworte zusammenfügen",
-    "confirm": "Sind Sie sicher?"
-  },
   "dialog-comment": {
     "read-more": "Mehr lesen",
     "read-less": "Weniger lesen"

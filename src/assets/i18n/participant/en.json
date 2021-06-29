@@ -313,14 +313,6 @@
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment"
   },
-  "topic-cloud-confirm-dialog":{
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "merge": "Merge",
-    "delete-message": "Do you really want to delete the topic",
-    "merge-message": "Keyword already exists, do you want to merge both keywords",
-    "confirm": "Are you sure?"
-  },
   "dialog-comment":{
     "read-more": "Read more",
     "read-less": "Read less"
