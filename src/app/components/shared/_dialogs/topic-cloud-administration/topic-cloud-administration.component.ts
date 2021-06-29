@@ -209,6 +209,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         if (this.searchMode) {
           this.searchKeyword();
         }
+        this.refreshKeywords();
       }
     });
   }
