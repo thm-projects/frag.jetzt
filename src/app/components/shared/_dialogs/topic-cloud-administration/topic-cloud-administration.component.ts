@@ -169,6 +169,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   initializeKeywords() {
     const roomId = localStorage.getItem('roomId');
     this.roomDataService.getRoomData(roomId).subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
       this.keywords = [];
       comments.forEach(comment => {
         this.pushInKeywords(comment);

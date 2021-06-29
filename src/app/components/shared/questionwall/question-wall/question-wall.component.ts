@@ -88,6 +88,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
     this.roomDataService.getRoomData(this.roomId).subscribe(e => {
+      if (e === null) {
+        return;
+      }
       e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
       e.forEach(c => {
         this.roomDataService.checkProfanity(c);

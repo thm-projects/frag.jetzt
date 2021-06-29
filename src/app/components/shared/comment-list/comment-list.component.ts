@@ -251,6 +251,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
             this.moderatorIds.push(this.room.ownerId);
 
             this.roomDataService.getRoomData(this.room.id).subscribe(comments => {
+              if (comments === null) {
+                return;
+              }
               this.comments = comments;
               this.getComments();
               this.eventService.broadcast('commentListCreated', null);
@@ -459,12 +462,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   pauseCommentStream() {
     this.freeze = true;
-    this.roomDataService.getRoomData(this.roomId, true)
-      .subscribe(comments => {
-        this.comments = comments;
-        this.setComments(comments);
-        this.getComments();
-      });
+    this.roomDataService.getRoomData(this.roomId, true).subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
+      this.comments = comments;
+      this.setComments(comments);
+      this.getComments();
+    });
     this.commentStream.unsubscribe();
     this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
       this.notificationService.show(msg);
@@ -473,12 +478,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   playCommentStream() {
     this.freeze = false;
-    this.roomDataService.getRoomData(this.roomId)
-      .subscribe(comments => {
-        this.comments = comments;
-        this.setComments(comments);
-        this.getComments();
-      });
+    this.roomDataService.getRoomData(this.roomId).subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
+      this.comments = comments;
+      this.setComments(comments);
+      this.getComments();
+    });
     this.subscribeCommentStream();
     this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
       this.notificationService.show(msg);
