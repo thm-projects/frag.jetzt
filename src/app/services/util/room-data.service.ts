@@ -119,6 +119,9 @@ export class RoomDataService {
 
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
     const tempSubject = new BehaviorSubject<Comment[]>(null);
+    if (this._currentRoomId !== roomId) {
+      this._commentUpdates.next(null);
+    }
     const subscription = this._commentUpdates.subscribe(comments => {
       if (comments === null) {
         return;

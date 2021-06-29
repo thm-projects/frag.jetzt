@@ -200,7 +200,7 @@
           </ng-container>
 
           <!-- Session -->
-          <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/')">
+          <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <!-- app-room-participant-page -->
             <ng-container *ngIf="router.url.includes('/participant/room/')">
@@ -241,7 +241,7 @@
           <!-- Room General Options - bot -->
 
           <ng-container
-            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/')">
+            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <button mat-menu-item
                     *ngIf="user"
