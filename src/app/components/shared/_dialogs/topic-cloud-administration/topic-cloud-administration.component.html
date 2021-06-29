@@ -28,13 +28,13 @@
           </mat-radio-group>
         </mat-card>
 
-        <mat-card style="background: none;">
+        <mat-card style="background: none; margin-bottom: 10px;">
           <mat-slide-toggle [(ngModel)]="considerVotes">
             {{'topic-cloud-dialog.consider-votes' | translate}}
           </mat-slide-toggle>
         </mat-card>
         <div *ngIf="isCreatorOrMod">
-          <mat-card style="background: none;">
+          <mat-card style="background: none; margin-bottom: 10px;">
             <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)"
               [(ngModel)]="profanityFilter">
               {{'topic-cloud-dialog.profanity' | translate}}
@@ -127,7 +127,7 @@
             </mat-accordion>
 
           </mat-card>
-          <mat-card style="background: none;">
+          <mat-card style="background: none; margin-bottom: 10px;">
             <mat-slide-toggle [(ngModel)]="blacklistIsActive">
               {{'topic-cloud-dialog.hide-blacklist-words' | translate}}
             </mat-slide-toggle>
