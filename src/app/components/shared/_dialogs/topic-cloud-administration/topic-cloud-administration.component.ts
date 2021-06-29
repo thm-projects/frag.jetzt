@@ -144,6 +144,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           existingKey.comments.push(comment);
         }
       } else {
+        if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
+          if (comment.keywordsFromQuestioner.includes(_keyword) && comment.keywordsFromSpacy.includes(_keyword)) {
+            _keywordType = KeywordType.fromBoth;
+          } else {
+            _keywordType = comment.keywordsFromQuestioner.includes(_keyword) ? KeywordType.fromQuestioner : KeywordType.fromSpacy;
+          }
+        }
         const keyword: Keyword = {
           keyword: _keyword,
           keywordType: _keywordType,
@@ -205,6 +212,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         if (this.searchMode) {
           this.searchKeyword();
         }
+        this.refreshKeywords();
       }
     });
   }
@@ -508,6 +516,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   getFilteredProfanity(): string {
     if (this.testProfanityWord) {
+      // eslint-disable-next-line max-len
       return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, this.testProfanityLanguage);
     } else {
       return '';
@@ -529,6 +538,7 @@ export interface Data {
 
 enum KeywordType {
   fromSpacy = 0,
-  fromQuestioner = 1
+  fromQuestioner = 1,
+  fromBoth = 2
 }
 

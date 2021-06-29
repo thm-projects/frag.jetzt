@@ -74,6 +74,14 @@ export class TopicCloudFilterComponent implements OnInit {
     }
   }
 
+  isMobile() : boolean{
+    if(window.matchMedia("(max-width:500px)").matches){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   getCommentCounts(comments: Comment[]): CommentsCount {
     const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, comments);
     const counts = new CommentsCount();

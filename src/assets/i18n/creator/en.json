@@ -417,6 +417,7 @@
     "partial-words-will-be-filtered": "Profane partial words will be also filtered",
     "keyword-from-spacy": "Keyword from spaCy",
     "keyword-from-questioner": "Keyword from questioner",
+    "Keyword-from-both": "Keyword from questioner and spaCy",
     "test-profanity": "Test profanity",
     "word": "word",
     "word-is-profanity": "Word is profane",
@@ -430,6 +431,14 @@
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment"
+  },
+  "topic-cloud-confirm-dialog":{
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "merge": "Merge",
+    "delete-message": "Do you really want to delete the topic",
+    "merge-message": "Keyword already exists, do you want to merge both keywords",
+    "confirm": "Are you sure?"
   },
   "dialog-comment": {
     "read-more": "read more",
@@ -458,7 +467,7 @@
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
     "font-size-min-tooltip": "Select minimum font-size",
-    "font-size-max-tooltip": "Select maximum font-size",
+    "font-size-max-tooltip": "Size ratio max. / min. font size",
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
