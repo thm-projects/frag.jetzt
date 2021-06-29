@@ -41,11 +41,11 @@
       <ng-container>
         <!-- [(ngModel)]="profanityFilter" -->
         <button mat-icon-button
-                *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
+                *ngIf="(isCreator || isModerator)"
                 (click)="changeProfanityShowForModerators(comment)">
           <mat-icon class="not-marked"
-            [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
-            ('comment-page.fullscreen' | translate)">
+            [matTooltip]="filterProfanityForModerators ? ('comment-page.show-comment-with-filter' | translate) :
+            ('comment-page.show-comment-without-filter' | translate)">
             {{filterProfanityForModerators?'visibility_off':'visibility'}}
           </mat-icon>
         </button>
