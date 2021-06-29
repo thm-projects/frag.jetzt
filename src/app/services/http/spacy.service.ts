@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map, tap } from 'rxjs/operators';
 import { TopicCloudAdminService } from '../util/topic-cloud-admin.service';
+import { CreateCommentKeywords } from '../../utils/create-comment-keywords';
 
 export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt' | 'auto';
 
@@ -183,7 +184,9 @@ export class SpacyService extends BaseHttpService {
       .pipe(
         tap(_ => ''),
         catchError(this.handleError<any>('getKeywords')),
-        map((elem: KeywordList) => wanted != null ? elem.filter(e => wanted.includes(e.dep)) : elem),
+        map((elem: KeywordList) => wanted != null ?
+          elem.filter(e => wanted.includes(e.dep) && CreateCommentKeywords.isKeywordAcceptable(e.lemma)) :
+          elem),
         map((result: KeywordList) => [...new Set(result.map(e => e.lemma.trim()))])
       );
   }
