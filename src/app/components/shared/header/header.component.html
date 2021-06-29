@@ -30,6 +30,13 @@
                [xp]="16"
                [extra]="true">
         <button mat-icon-button
+                *ngIf="isAdminConfigEnabled"
+                class="pseudo-button"
+                matRipple
+                matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
+          <mat-icon class="oldtypo-h2 comment_tag-icon" style="color: var(--red) !important;">warning</mat-icon>
+        </button>
+        <button mat-icon-button
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-question-tooltip' | translate}}">

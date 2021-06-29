@@ -8,7 +8,7 @@ import { RoomService } from '../http/room.service';
 import { ProfanityFilter, Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
-import { WsRoomService } from '..//websockets/ws-room.service';
+import { WsRoomService } from '../websockets/ws-room.service';
 import { ProfanityFilterService } from './profanity-filter.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Comment } from '../../models/comment';
@@ -69,6 +69,11 @@ export class TopicCloudAdminService {
       (config.minUpvotes > upvotes) ||
       (config.startDate && new Date(config.startDate) > firstTimeStamp) ||
       (config.endDate && new Date(config.endDate) < lastTimeStamp));
+  }
+
+  static isTopicRequirementDisabled(data: TopicCloudAdminData): boolean {
+    return (data.minQuestioners === 1) && (data.minQuestions === 1) && (data.minUpvotes === 0) &&
+      (data.startDate === null) && (data.endDate === null);
   }
 
   static get getDefaultAdminData(): TopicCloudAdminData {
