@@ -293,6 +293,7 @@
     "sort": "Sortieren",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragesteller",
+    "Keyword-from-both": "Stichwort vom Fragensteller und spaCy",
     "test-profanity": "Profanität testen",
     "word": "Wort",
     "word-is-profanity": "Wort ist profan",

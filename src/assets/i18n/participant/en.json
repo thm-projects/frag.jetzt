@@ -299,6 +299,7 @@
     "sort": "Sort",
     "keyword-from-spacy": "Keyword from spaCy",
     "keyword-from-questioner": "Keyword from questioner",
+    "Keyword-from-both": "Keyword from questioner and spaCy",
     "test-profanity": "Test profanity",
     "word": "word",
     "word-is-profanity": "Word is profane",
