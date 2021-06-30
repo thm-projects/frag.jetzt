@@ -85,6 +85,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => this.blacklistIsActive = isActive);
     this.deviceType = localStorage.getItem('deviceType');
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
     this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
@@ -98,6 +99,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.wantedLabels = undefined;
     this.setDefaultAdminData();
     this.initializeKeywords();
+  }
+
+  changeblacklist() {
+    this.topicCloudAdminService.getRoom().subscribe(room => {
+      room.blacklistIsActive = this.blacklistIsActive;
+      this.topicCloudAdminService.updateRoom(room);
+    });
   }
 
   removeFromKeywords(comment: Comment) {
@@ -217,6 +225,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
+  blacklistIncludesKeyword(keyword: string) {
+    return this.blacklistIsActive && this.blacklist.includes(keyword.toLowerCase());
+  }
+
   checkIfCommentExists(comments: Comment[], id: string): boolean {
     return comments.filter(comment => comment.id === id).length === 0;
   }
@@ -263,8 +275,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         startDate: this.startDate.length ? this.startDate : null,
         endDate: this.endDate.length ? this.endDate : null
       };
-      this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
     }
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
 
   setDefaultAdminData() {
