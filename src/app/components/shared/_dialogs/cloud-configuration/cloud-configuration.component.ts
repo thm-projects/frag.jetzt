@@ -32,61 +32,71 @@ export class CloudConfigurationComponent implements OnInit {
       maxTagNumber: 20,
       tagColor: '#8800ff',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 20,
       tagColor: '#ff00ff',
       actualTagNumber: 5,
       rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 17,
       tagColor: '#ffea00',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 15,
       tagColor: '#00CC99',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 12,
       tagColor: '#00CC66',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 10,
       tagColor: '#0033FF',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 8,
       tagColor: '#CC0099',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 7,
       tagColor: '#FF3399',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 6,
       tagColor: '#FFFF00',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 5,
       tagColor: '#FF0000',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
   ];
   MinFont:number;
@@ -134,13 +144,19 @@ export class CloudConfigurationComponent implements OnInit {
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
        this.weightClasses[i].rotationAngle = element.rotation;
-       this.weightClasses[i].maxTagNumber = element.maxVisibleElements == -1 ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+       this.weightClasses[i].maxTagNumber = (element.maxVisibleElements == -1 || element.maxVisibleElements == 0) ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+       this.weightClasses[i].allowManualTagNumber = element.allowManualTagNumber;
     });
   }
 
   parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
-      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber;
+      this.cloudParameters.cloudWeightSettings[i].allowManualTagNumber = element.allowManualTagNumber;
+      if(element.allowManualTagNumber == true){
+        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber == 0 ? -1 : element.maxTagNumber;
+      }else{
+        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = -1;
+      }
       this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
       this.cloudParameters.cloudWeightSettings[i].rotation = element.rotationAngle;
     });

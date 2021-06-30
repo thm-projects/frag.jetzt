@@ -293,29 +293,20 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
-
-            <table class="themeRequirementInput">
-              <tr>
-                <td>
-                  <mat-form-field class="themeRequirementInput" appearance="fill">
-                    <mat-label>{{'topic-cloud-dialog.topic-requirement-begin-datetime' | translate}}</mat-label>
-                    <input matInput type="datetime-local" [(ngModel)]="startDate">
-                    <button *ngIf="startDate" matSuffix mat-icon-button aria-label="Clear" (click)="startDate=''">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field class="themeRequirementInput" appearance="fill">
-                    <mat-label>{{'topic-cloud-dialog.topic-requirement-end-datetime' | translate}}</mat-label>
-                    <input matInput type="datetime-local" [(ngModel)]="endDate">
-                    <button *ngIf="endDate" matSuffix mat-icon-button aria-label="Clear" (click)="endDate=''">
-                      <mat-icon>close</mat-icon>
-                    </button>
-                  </mat-form-field>
-                </td>
-              </tr>
-            </table>
+            <mat-form-field class="themeRequirementInput" appearance="fill">
+              <mat-label>{{'topic-cloud-dialog.topic-requirement-begin-datetime' | translate}}</mat-label>
+              <input matInput type="datetime-local" [(ngModel)]="startDate">
+              <button *ngIf="startDate" matSuffix mat-icon-button aria-label="Clear" (click)="startDate=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-form-field class="themeRequirementInput" appearance="fill">
+              <mat-label>{{'topic-cloud-dialog.topic-requirement-end-datetime' | translate}}</mat-label>
+              <input matInput type="datetime-local" [(ngModel)]="endDate">
+              <button *ngIf="endDate" matSuffix mat-icon-button aria-label="Clear" (click)="endDate=''">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
           </mat-expansion-panel>
         </mat-accordion>
 
