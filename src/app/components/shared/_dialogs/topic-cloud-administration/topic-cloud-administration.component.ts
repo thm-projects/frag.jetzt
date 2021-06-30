@@ -275,8 +275,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         startDate: this.startDate.length ? this.startDate : null,
         endDate: this.endDate.length ? this.endDate : null
       };
-      this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
     }
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
 
   setDefaultAdminData() {
