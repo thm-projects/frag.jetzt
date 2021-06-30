@@ -21,7 +21,7 @@ export class TopicCloudAdminService {
   private adminData: BehaviorSubject<TopicCloudAdminData>;
   private blacklist: Subject<string[]>;
   private blacklistIsActive: Subject<boolean>;
-
+  private blacklistActive: boolean;
   constructor(private roomService: RoomService,
               private translateService: TranslateService,
               private wsRoomService: WsRoomService,
@@ -34,6 +34,7 @@ export class TopicCloudAdminService {
       const room = message.payload.changes;
       if (message.type === 'RoomPatched') {
         this.blacklist.next(room.blacklist ? JSON.parse(room.blacklist) : []);
+        this.blacklistActive = room.blacklistIsActive;
         this.blacklistIsActive.next(room.blacklistIsActive);
       }
     });
@@ -129,17 +130,19 @@ export class TopicCloudAdminService {
   setAdminData(_adminData: TopicCloudAdminData) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
     this.getBlacklistIsActive().subscribe(isActive => {
-      this.getBlacklist().subscribe(list => {
-        _adminData.blacklist = [];
-        if (isActive) {
-          _adminData.blacklist = list;
-        }
-        if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
-          _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
-        }
-        localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-        this.adminData.next(_adminData);
-      });
+      _adminData.blacklistIsActive = isActive;
+    });
+    this.getBlacklist().subscribe(list => {
+      _adminData.blacklist = [];
+      if (_adminData.blacklistIsActive) {
+        _adminData.blacklist = list;
+      }
+      if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
+        _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
+      }
+      localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+      _adminData.blacklistIsActive = this.blacklistActive;
+      this.adminData.next(_adminData);
     });
   }
 
@@ -148,6 +151,7 @@ export class TopicCloudAdminService {
       const list = room.blacklist ? JSON.parse(room.blacklist) : [];
       this.blacklist.next(list);
       this.blacklistIsActive.next(room.blacklistIsActive);
+      this.blacklistActive = room.blacklistIsActive;
     });
     return this.blacklist.asObservable();
   }
