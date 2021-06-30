@@ -381,7 +381,7 @@
       <div *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index">
         <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
           (closed)="panelOpenState = edit = false" [attr.data-index]="i" *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
-          matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+          matTooltip="{{blacklistIncludesKeyword(keyword.keyword)?'Blacklist: ':''}}{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
           <mat-expansion-panel-header class="color-surface">
             <mat-panel-title [ngClass]="{'red': blacklistIncludesKeyword(keyword.keyword)}">
               {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
