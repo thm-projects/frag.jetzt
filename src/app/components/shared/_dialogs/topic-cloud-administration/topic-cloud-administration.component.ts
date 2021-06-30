@@ -217,6 +217,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
+  blacklistIncludesKeyword(keyword: string) {
+    return this.blacklist.includes(keyword.toLowerCase());
+  }
+
   checkIfCommentExists(comments: Comment[], id: string): boolean {
     return comments.filter(comment => comment.id === id).length === 0;
   }
