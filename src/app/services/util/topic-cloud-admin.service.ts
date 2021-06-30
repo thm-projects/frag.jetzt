@@ -20,18 +20,22 @@ export class TopicCloudAdminService {
   private static readonly adminKey = 'Topic-Cloud-Admin-Data';
   private adminData: BehaviorSubject<TopicCloudAdminData>;
   private blacklist: Subject<string[]>;
-
+  private blacklistIsActive: Subject<boolean>;
+  private blacklistActive: boolean;
   constructor(private roomService: RoomService,
               private translateService: TranslateService,
               private wsRoomService: WsRoomService,
               private profanityFilterService: ProfanityFilterService,
               private notificationService: NotificationService) {
     this.blacklist = new Subject<string[]>();
+    this.blacklistIsActive = new Subject<boolean>();
     this.wsRoomService.getRoomStream(localStorage.getItem('roomId')).subscribe(msg => {
       const message = JSON.parse(msg.body);
       const room = message.payload.changes;
       if (message.type === 'RoomPatched') {
         this.blacklist.next(room.blacklist ? JSON.parse(room.blacklist) : []);
+        this.blacklistActive = room.blacklistIsActive;
+        this.blacklistIsActive.next(room.blacklistIsActive);
       }
     });
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
@@ -125,6 +129,9 @@ export class TopicCloudAdminService {
 
   setAdminData(_adminData: TopicCloudAdminData) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+    this.getBlacklistIsActive().subscribe(isActive => {
+      _adminData.blacklistIsActive = isActive;
+    });
     this.getBlacklist().subscribe(list => {
       _adminData.blacklist = [];
       if (_adminData.blacklistIsActive) {
@@ -134,6 +141,7 @@ export class TopicCloudAdminService {
         _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
       }
       localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+      _adminData.blacklistIsActive = this.blacklistActive;
       this.adminData.next(_adminData);
     });
   }
@@ -142,8 +150,14 @@ export class TopicCloudAdminService {
     this.getRoom().subscribe(room => {
       const list = room.blacklist ? JSON.parse(room.blacklist) : [];
       this.blacklist.next(list);
+      this.blacklistIsActive.next(room.blacklistIsActive);
+      this.blacklistActive = room.blacklistIsActive;
     });
     return this.blacklist.asObservable();
+  }
+
+  getBlacklistIsActive() {
+    return this.blacklistIsActive.asObservable();
   }
 
   getRoom(): Observable<Room> {
