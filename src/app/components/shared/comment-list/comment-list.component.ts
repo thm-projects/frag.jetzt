@@ -78,6 +78,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   unanswered = 'unanswered';
   owner = 'owner';
   currentFilter = '';
+  currentFilterCompare: any = null;
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
@@ -371,6 +372,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
+    this.currentFilterCompare = compare;
     if (type === '') {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
@@ -591,7 +593,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentsFilteredByTime = this.comments;
     }
 
-    this.filterComments(this.currentFilter);
+    this.filterComments(this.currentFilter, this.currentFilterCompare);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
 
