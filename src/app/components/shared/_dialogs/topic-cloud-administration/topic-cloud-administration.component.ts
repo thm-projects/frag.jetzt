@@ -101,13 +101,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.initializeKeywords();
   }
 
-  changeblacklist() {
-    this.topicCloudAdminService.getRoom().subscribe(room => {
-      room.blacklistIsActive = this.blacklistIsActive;
-      this.topicCloudAdminService.updateRoom(room);
-    });
-  }
-
   removeFromKeywords(comment: Comment) {
     for (const keyword of this.keywords) {
       keyword.comments.forEach(_comment => {
@@ -276,7 +269,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       startDate: this.startDate.length ? this.startDate : null,
       endDate: this.endDate.length ? this.endDate : null
     };
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true);
   }
 
   setDefaultAdminData() {
