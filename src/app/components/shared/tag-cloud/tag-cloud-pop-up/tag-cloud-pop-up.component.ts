@@ -31,6 +31,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   user: User;
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
+  isBlacklistActive = true;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
   private _hasLeft = true;
@@ -77,7 +78,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
+  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
     this.spellingData = [];
     if (this.user && this.user.role > UserRole.PARTICIPANT) {
       this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
@@ -103,6 +104,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
+        this.isBlacklistActive = isBlacklistActive;
       });
     }, hoverDelayInMs);
   }
