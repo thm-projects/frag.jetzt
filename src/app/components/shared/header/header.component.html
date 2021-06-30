@@ -297,7 +297,8 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="router.url.endsWith('/tagcloud')"
+                  *ngIf="router.url.endsWith('/tagcloud') &&
+                  user && user.role > 0 && !router.url.includes('/participant/') && !router.url.endsWith('moderator/comments')"
                   tabindex="0"
                   (click)="navigateCreateQuestion();">
             <mat-icon>

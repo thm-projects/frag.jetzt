@@ -152,6 +152,7 @@ export class HeaderComponent implements OnInit {
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
 
+
     this._r.listen(document, 'keyup', (event) => {
       if (
         document.getElementById('back-button') &&
