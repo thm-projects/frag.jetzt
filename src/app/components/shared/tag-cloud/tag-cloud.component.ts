@@ -368,7 +368,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
           if (remaining > 0) {
             --countFiler[tagData.adjustedWeight];
           }
-          let rotation = Math.random() < 0.5 ? this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation : 0;
+          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
