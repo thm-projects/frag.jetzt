@@ -80,7 +80,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Fragen sind deaktiviert!"
+    "questions-blocked": "Fragenstellen deaktiviert"
   },
   "spacy-dialog":{
     "auto": "auto",
@@ -304,7 +304,7 @@
     "session-id": "Raum",
     "session-id-copied": "Direktlink wurde in die Zwischenablage kopiert.",
     "session-settings": "Sitzungsverwaltung",
-    "session-question-board": "Zur öffentlichen Frageliste",
+    "session-question-board": "Zur öffentlichen Fragenliste",
     "session-moderation-board": "Zum Index der verbannten Fragen",
     "settings-comment-moderation": "Fragen moderieren",
     "settings-comment-moderation-description": "Du oder einer deiner Moderatoren können Fragen aus der Anzeige verbannen.",
@@ -317,7 +317,7 @@
     "threshold": "Schwellenwert für die Anzeige? ",
     "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
     "update": "Speichern",
-    "block" : "Fragen sperren",
+    "block" : "Fragenstellen sperren",
     "update-description": "Speichert die Änderungen",
     "question": "Frage",
     "favorite": "Favorit",
@@ -417,7 +417,7 @@
     "words-in-profanity": "Profane Wörter",
     "language": "Sprache",
     "preview": "Vorschau",
-    "topic-requirement-title": "Anforderungen an die Themen",
+    "topic-requirement-title": "Einschränkungen für die Anzeige von Themen",
     "topic-requirement-questions": "Minimale Anzahl Fragen",
     "topic-requirement-questioners": "Minimale Anzahl Fragensteller*innen",
     "topic-requirement-upvotes": "Minimale Anzahl Up-Votes",
@@ -438,7 +438,7 @@
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
-    "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
+    "overview-question-topic-tooltip": "Anzahl Fragen mit diesem Thema",
     "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
     "period-since-first-comment":"Zeitraum seit erster Frage",
     "upvote-topic": "Up-Votes für dieses Thema",

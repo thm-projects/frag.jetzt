@@ -81,7 +81,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Fragen sind deaktiviert!"
+    "questions-blocked": "Fragenstellen deaktiviert"
   },
   "content": {
     "cancel": "Abbrechen",
@@ -227,13 +227,13 @@
     "autofocus-on-lbl": "Neue Fragen automatisch fokussieren",
     "prev-comment-lbl": "Vorherige Frage",
     "next-comment-lbl": "Nächste Frage",
-    "overview-question-tooltip": "Anzahl gestellter Fragen",
+    "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "questions-blocked": "Fragenstellen deaktiviert"
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
-    "overview-question-topic-tooltip": "Anzahl gestellter Fragen mit diesem Thema",
+    "overview-question-topic-tooltip": "Anzahl Fragen mit diesem Thema",
     "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
     "period-since-first-comment":"Zeitraum seit der ersten Frage",
     "upvote-topic": "Up-Votes für dieses Thema",
@@ -285,6 +285,7 @@
     "keyword-delete": "Thema gelöscht",
     "keyword-edit": "Thema umbenannt",
     "keywords-merge": "Themen zusammengefügt",
+    "spacy-labels": "Welche Nomen der Textanalyse sollen als Thema angezeigt werden?",
     "changes-gone-wrong": "Etwas ist schiefgelaufen",
     "english": "Englisch",
     "german": "Deutsch",
