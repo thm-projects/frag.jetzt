@@ -96,7 +96,7 @@
     "moderationboard": "Zum Index",
     "create-question": "Frage stellen",
     "questionwall": "Zur Fragenwand",
-    "tag-cloud": "Themenwolke",
+    "tag-cloud": "Zur Themenwolke",
     "fullscreen": "Text skalieren",
     "motd": "News",
     "tag-cloud-config": "Ansicht ändern",
@@ -105,7 +105,7 @@
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-keywords-tooltip": "Anzahl Schlüsselwörter",
-    "update-spacy-keywords": "Stichwörter anlegen",
+    "update-spacy-keywords": "Fragen analysieren",
     "overview-admin-config-enabled": "Themeneinschränkung aktiv"
   },
   "help": {
