@@ -80,7 +80,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Fragenstellen deaktiviert"
+    "questions-blocked": "Fragenstellen deaktiviert "
   },
   "spacy-dialog":{
     "auto": "auto",
@@ -480,7 +480,7 @@
     "weight-number": "max. Anzahl Themen",
     "weight-color-tooltip": "Auswahl der Schriftfarbe",
     "weight-number-tooltip": "maximale Anzahl der Themen festlegen",
-    "notation": "Schreibweise:",
+    "notation": "Schreibweise der Themen",
     "lowerCase": "Kleinschreibung",
     "capitalization": "jedes Wort großschreiben",
     "upperCase": "Großschreibung",
@@ -489,7 +489,7 @@
     "cleanUpView": "Tag-Cleanup Einstellungen",
     "rotation": "Drehgrad zufälliger Einträge",
     "highestWeight": "Anzahl Tags mit max. Gewichtung",
-    "notation-tooltip": "Einstellung der Schreibweise: klein, groß, wie eingeben",
+    "notation-tooltip": "Einstellung der Schreibweise: klein, groß, Kapitälchen, wie eingeben",
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "highestWeight-tooltip": "x Tags mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Themen dieser Häufigkeitsgruppe zufällig um x Grad drehen",
