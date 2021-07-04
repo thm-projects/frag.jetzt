@@ -18,23 +18,26 @@
 
 
     <ng-container *ngIf="room && room.questionsBlocked">
-      <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
+      <mat-icon>block</mat-icon>
+      <h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
     <!--Topic Cloud-->
     <div class="topic-cloud-btns"
-      [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
-      *ngIf="router.url.includes('tagcloud')"
-      ars-flex-box>
+         [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
+         *ngIf="router.url.includes('tagcloud')"
+         ars-flex-box>
       <ars-col
-               [xp]="16"
-               [extra]="true">
+        [xp]="16"
+        [extra]="true">
         <button mat-icon-button
                 *ngIf="isAdminConfigEnabled"
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
-          <mat-icon class="oldtypo-h2 comment_tag-icon" style="color: var(--red) !important;">warning</mat-icon>
+          <mat-icon class="oldtypo-h2 comment_tag-icon"
+                    style="color: var(--red) !important;">warning
+          </mat-icon>
         </button>
         <button mat-icon-button
                 class="pseudo-button"
@@ -316,6 +319,17 @@
             <span>{{'header.update-spacy-keywords' | translate}}</span>
           </button>
 
+          <button mat-menu-item
+                  tabindex="0"
+                  *ngIf="room && user && user.role > 0"
+                  (click)="blockQuestions()"
+                  [ngClass]="{'color-warn': room && room.questionsBlocked}"
+          >
+            <mat-icon class="color-warn">block</mat-icon>
+            <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
+            <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
+          </button>
+
         </ng-container>
 
       </div>
@@ -367,17 +381,6 @@
         <mat-icon class="color-warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
-
-      <ng-container *ngIf="room && user && user.role > 0">
-        <button mat-menu-item
-                (click)="blockQuestions()"
-                [ngClass]="{'color-warn': room && room.questionsBlocked}"
-                tabindex="0">
-          <mat-icon class="color-warn">block</mat-icon>
-          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
-          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
-        </button>
-      </ng-container>
 
       <button mat-menu-item
               (click)="logout()"
