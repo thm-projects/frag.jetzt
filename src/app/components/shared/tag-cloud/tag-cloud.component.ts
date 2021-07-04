@@ -308,7 +308,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   }
 
   ngAfterViewInit() {
-    this.rebuildData();
+    setTimeout(() => this.rebuildData());
   }
 
   ngOnDestroy() {
