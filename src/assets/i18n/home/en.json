@@ -40,10 +40,10 @@
     "language": "Language",
     "open": "Open",
     "style": "Display",
-    "motd-title-main": "»frag.jetzt« News",
+    "motd-title-main": "»frag.jetzt« FAQ",
     "motd-mark-all-read": "Mark all as read",
-    "motd-title-old": "News archive",
-    "motd-title-new": "Latest news",
+    "motd-title-old": "FAQ archive",
+    "motd-title-new": "Latest FAQ",
     "motd-mark-read": "Mark as read"
   },
   "header": {
@@ -87,7 +87,7 @@
     "questionwall": "Question focus",
     "tag-cloud": "Topic cloud",
     "fullscreen": "Text scaling",
-    "motd": "»frag.jetzt« News",
+    "motd": "»frag.jetzt« FAQ",
     "tag-cloud-config": "Modify cloud view",
     "tag-cloud-administration": "Edit cloud topics",
     "questions-blocked": "No further questions!",

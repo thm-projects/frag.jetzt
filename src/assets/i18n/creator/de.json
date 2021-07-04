@@ -495,7 +495,7 @@
     "rotate-weight": "Themen dieser Häufigkeitsgruppe zufällig um x Grad drehen",
     "rotate-weight-tooltip": "Themen dieser Häufigkeitsgruppe zufällig um x Grad drehen",
     "font":"Schrift",
-    "reset-btn": "Zurücksetzten",
+    "reset-btn": "Auf Standardwerte setzen",
     "font-family-tooltip": "Schriftart auswählen",
     "bold-notation-tooltip": "Schrift fett setzen",
     "font-style-bold" : "Fett",
