@@ -219,7 +219,7 @@
           <mat-expansion-panel class="color-background margin-bottom">
             <mat-expansion-panel-header class="color-background">
               <mat-panel-title>
-                Spacy labels
+                {{'topic-cloud-dialog.spacy-labels' | translate}}
               </mat-panel-title>
             </mat-expansion-panel-header>
 
@@ -338,7 +338,7 @@
       </div>
       <div class="margin-left vertical-center">
         <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
-          <mat-icon matTooltip="{{'topic-cloud-dialog.sort' | translate}}">sort</mat-icon>
+          <mat-icon matTooltip="{{'topic-cloud-dialog.sort' | translate}}">filter_list</mat-icon>
         </button>
       </div>
     </div>
@@ -389,7 +389,7 @@
                                       [partialWords]="censorPartialWordsCheck"
                                       [language]="question.language"></app-topic-dialog-comment>
           </div>
-  
+
           <div *ngIf="isCreatorOrMod">
             <!-- Only visible when not editing -->
             <div *ngIf="!edit" align="end">
@@ -402,7 +402,7 @@
                 <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete</mat-icon>
               </button>
             </div>
-  
+
             <!-- Only visible when editing -->
             <div *ngIf="edit">
               <mat-divider></mat-divider>

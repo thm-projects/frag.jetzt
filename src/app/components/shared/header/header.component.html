@@ -18,23 +18,25 @@
 
 
     <ng-container *ngIf="room && room.questionsBlocked">
-      <mat-icon>block</mat-icon><h1>{{'header.questions-blocked'|translate}}</h1>
+      <h1>{{'header.questions-blocked'|translate}}</h1>
     </ng-container>
 
     <!--Topic Cloud-->
     <div class="topic-cloud-btns"
-      [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
-      *ngIf="router.url.includes('tagcloud')"
-      ars-flex-box>
+         [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
+         *ngIf="router.url.includes('tagcloud')"
+         ars-flex-box>
       <ars-col
-               [xp]="16"
-               [extra]="true">
+        [xp]="16"
+        [extra]="true">
         <button mat-icon-button
                 *ngIf="isAdminConfigEnabled"
                 class="pseudo-button"
                 matRipple
                 matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
-          <mat-icon class="oldtypo-h2 comment_tag-icon" style="color: var(--red) !important;">warning</mat-icon>
+          <mat-icon class="oldtypo-h2 comment_tag-icon"
+                    style="color: red !important;">warning
+          </mat-icon>
         </button>
         <button mat-icon-button
                 class="pseudo-button"
@@ -192,7 +194,7 @@
                     *ngIf="user"
                     (click)="navigateExportQuestions()"
                     tabindex="0">
-              <mat-icon>save</mat-icon>
+              <mat-icon>file_download</mat-icon>
               <span>{{'header.export-questions' | translate}}</span>
             </button>
 
@@ -229,7 +231,7 @@
                       *ngIf="user"
                       (click)="navigateExportQuestions()"
                       tabindex="0">
-                <mat-icon>save</mat-icon>
+                <mat-icon>file_download</mat-icon>
                 <span>{{'header.export-questions' | translate}}</span>
               </button>
 
@@ -279,6 +281,16 @@
           </button>
 
           <button mat-menu-item
+                  tabindex="0"
+                  *ngIf="router.url.endsWith('/tagcloud')"
+                  routerLink="participant/room/{{shortId}}/comments">
+            <mat-icon>
+              forum
+            </mat-icon>
+            <span>{{'header.back-to-questionboard' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
                   *ngIf="router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudConfig()">
@@ -291,30 +303,30 @@
                   tabindex="0"
                   (click)="navigateTopicCloudAdministration()">
             <mat-icon aria-hidden="false"
-                      aria-label="Control Icon">edit
+                      aria-label="Control Icon">cloud
             </mat-icon>
             <span>{{'header.tag-cloud-administration' | translate}}</span>
           </button>
 
+
           <button mat-menu-item
-                  *ngIf="router.url.endsWith('/tagcloud') &&
-                  ((user.role > 0) || ((user.role == 0) && room && !room.questionsBlocked))"
                   tabindex="0"
-                  (click)="navigateCreateQuestion();">
-            <mat-icon>
-              add
+                  *ngIf="user && user.role > 0 && router.url.endsWith('/tagcloud')"
+                  (click)="startWorkerDialog()">
+            <mat-icon>update
             </mat-icon>
-            <span>{{'header.create-question' | translate}}</span>
+            <span>{{'header.update-spacy-keywords' | translate}}</span>
           </button>
 
           <button mat-menu-item
                   tabindex="0"
-                  *ngIf="router.url.endsWith('/tagcloud')"
-                  routerLink="participant/room/{{shortId}}/comments">
-            <mat-icon>
-              forum
-            </mat-icon>
-            <span>{{'header.back-to-questionboard' | translate}}</span>
+                  *ngIf="room && user && user.role > 0"
+                  (click)="blockQuestions()"
+                  [ngClass]="{'color-warn': room && room.questionsBlocked}"
+          >
+            <mat-icon class="color-warn">block</mat-icon>
+            <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
+            <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
           </button>
 
         </ng-container>
@@ -342,15 +354,6 @@
       </button>
 
       <button mat-menu-item
-              *ngIf="user"
-              (click)="showMotdDialog()">
-        <mat-icon>
-          {{ motdState ? 'notifications_active' : 'notifications_none' }}
-        </mat-icon>
-        <span>{{'header.motd' | translate}}</span>
-      </button>
-
-      <button mat-menu-item
               aria-hidden="true"
               *ngIf="isSafari === 'false'  && !router.url.includes('home')"
               (click)="getRescale().toggleState();">
@@ -362,23 +365,21 @@
       <mat-divider></mat-divider>
 
       <button mat-menu-item
+              *ngIf="user"
+              (click)="showMotdDialog()">
+        <mat-icon>
+          {{ motdState ? 'notifications_active' : 'help' }}
+        </mat-icon>
+        <span>{{'header.motd' | translate}}</span>
+      </button>
+
+      <button mat-menu-item
               *ngIf="user && !user.isGuest && user.loginId"
               (click)="openDeleteUserDialog()"
               tabindex="0">
         <mat-icon class="color-warn">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
-
-      <ng-container *ngIf="room && user && user.role > 0">
-        <button mat-menu-item
-                (click)="blockQuestions()"
-                [ngClass]="{'color-warn': room && room.questionsBlocked}"
-                tabindex="0">
-          <mat-icon class="color-warn">block</mat-icon>
-          <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
-          <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
-        </button>
-      </ng-container>
 
       <button mat-menu-item
               (click)="logout()"
