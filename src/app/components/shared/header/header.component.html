@@ -306,6 +306,16 @@
             <span>{{'header.tag-cloud-administration' | translate}}</span>
           </button>
 
+
+          <button mat-menu-item
+                  tabindex="0"
+                  *ngIf="user && user.role > 0 && router.url.endsWith('/tagcloud')"
+                  (click)="startWorkerDialog()">
+            <mat-icon>update
+            </mat-icon>
+            <span>{{'header.update-spacy-keywords' | translate}}</span>
+          </button>
+
         </ng-container>
 
       </div>
@@ -331,15 +341,6 @@
       </button>
 
       <button mat-menu-item
-              *ngIf="user"
-              (click)="showMotdDialog()">
-        <mat-icon>
-          {{ motdState ? 'notifications_active' : 'help' }}
-        </mat-icon>
-        <span>{{'header.motd' | translate}}</span>
-      </button>
-
-      <button mat-menu-item
               aria-hidden="true"
               *ngIf="isSafari === 'false'  && !router.url.includes('home')"
               (click)="getRescale().toggleState();">
@@ -349,6 +350,15 @@
       </button>
 
       <mat-divider></mat-divider>
+
+      <button mat-menu-item
+              *ngIf="user"
+              (click)="showMotdDialog()">
+        <mat-icon>
+          {{ motdState ? 'notifications_active' : 'help' }}
+        </mat-icon>
+        <span>{{'header.motd' | translate}}</span>
+      </button>
 
       <button mat-menu-item
               *ngIf="user && !user.isGuest && user.loginId"
