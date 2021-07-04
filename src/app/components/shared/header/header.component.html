@@ -279,6 +279,16 @@
           </button>
 
           <button mat-menu-item
+                  tabindex="0"
+                  *ngIf="router.url.endsWith('/tagcloud')"
+                  routerLink="participant/room/{{shortId}}/comments">
+            <mat-icon>
+              forum
+            </mat-icon>
+            <span>{{'header.back-to-questionboard' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
                   *ngIf="router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudConfig()">
@@ -294,26 +304,6 @@
                       aria-label="Control Icon">cloud
             </mat-icon>
             <span>{{'header.tag-cloud-administration' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  *ngIf="router.url.endsWith('/tagcloud')"
-                  tabindex="0"
-                  (click)="navigateCreateQuestion();">
-            <mat-icon>
-              add
-            </mat-icon>
-            <span>{{'header.create-question' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  tabindex="0"
-                  *ngIf="router.url.endsWith('/tagcloud')"
-                  routerLink="participant/room/{{shortId}}/comments">
-            <mat-icon>
-              forum
-            </mat-icon>
-            <span>{{'header.back-to-questionboard' | translate}}</span>
           </button>
 
         </ng-container>
