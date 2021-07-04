@@ -112,18 +112,25 @@ const getResolvedDefaultColors = (): string[] => {
 
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
+  const isMobile = window.matchMedia('(max-width:500px)').matches;
+  const elements = isMobile ? 5 : -1;
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: false},
+    { maxVisibleElements: elements, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: isMobile },
   ];
+  const mapValue = (current: number, minInputValue: number, maxInputValue: number, minOut: number, maxOut: number) => {
+    const value = (current - minInputValue) * (maxOut - minOut) / (maxInputValue - minInputValue) + minOut;
+    return Math.min(maxOut, Math.max(minOut, value));
+  };
+  const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
   return {
     fontFamily: 'Dancing Script',
     fontWeight: 'normal',
@@ -131,9 +138,9 @@ const getDefaultCloudParameters = (): CloudParameters => {
     fontSize: '10px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
-    fontSizeMin: 150,
-    fontSizeMax: 600,
-    hoverScale: 1.8,
+    fontSizeMin: mapValue(minValue, 375, 750, 100, 200),
+    fontSizeMax: mapValue(minValue, 375, 1500, 300, 700),
+    hoverScale: mapValue(minValue, 375, 1500, 1.25, 1.8),
     hoverTime: 0.6,
     hoverDelay: 0.1,
     delayWord: 0.1,
@@ -151,7 +158,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
 })
 export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
-  @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
+  @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @Input() user: User;
   @Input() roomId: string;
@@ -420,7 +427,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       this.eventService.broadcast('setTagConfig', tag.text);
       this._subscriptionCommentlist.unsubscribe();
     });
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   private updateAlphabeticalPosition(elements: TagComment[]): void {
