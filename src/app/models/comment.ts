@@ -1,4 +1,4 @@
-import { Model } from '../services/http/spacy.service';
+import { Model, SpacyKeyword } from '../services/http/spacy.service';
 import { CorrectWrong } from './correct-wrong.enum';
 
 export class Comment {
@@ -20,8 +20,8 @@ export class Comment {
   answer: string;
   userNumber: number;
   number: number;
-  keywordsFromQuestioner: string[];
-  keywordsFromSpacy: string[];
+  keywordsFromQuestioner: SpacyKeyword[];
+  keywordsFromSpacy: SpacyKeyword[];
   upvotes: number;
   downvotes: number;
   language: Language;
@@ -41,8 +41,8 @@ export class Comment {
               tag: string = '',
               answer: string = '',
               userNumber: number = 0,
-              keywordsFromQuestioner: string[] = [],
-              keywordsFromSpacy: string[] = [],
+              keywordsFromQuestioner: SpacyKeyword[] = [],
+              keywordsFromSpacy: SpacyKeyword[] = [],
               upvotes = 0,
               downvotes = 0,
               language = Language.auto) {

@@ -22,6 +22,7 @@ export class TopicCloudAdminService {
   private blacklist: Subject<string[]>;
   private blacklistIsActive: Subject<boolean>;
   private blacklistActive: boolean;
+
   constructor(private roomService: RoomService,
               private translateService: TranslateService,
               private wsRoomService: WsRoomService,
@@ -41,7 +42,7 @@ export class TopicCloudAdminService {
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
   }
 
-  static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (string) => void) {
+  static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (SpacyKeyword) => void) {
     let source = comment.keywordsFromQuestioner;
     if (config.keywordORfulltext === KeywordOrFulltext.both) {
       source = !source || !source.length ? comment.keywordsFromSpacy : source;
@@ -51,9 +52,13 @@ export class TopicCloudAdminService {
     if (!source) {
       return;
     }
+    const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
     for (const keyword of source) {
+      if (wantedLabels && !keyword.dep.some(e => wantedLabels.includes(e))) {
+        continue;
+      }
       let isProfanity = false;
-      const lowerCasedKeyword = keyword.toLowerCase();
+      const lowerCasedKeyword = keyword.lemma.toLowerCase();
       for (const word of config.blacklist) {
         if (lowerCasedKeyword.includes(word)) {
           isProfanity = true;

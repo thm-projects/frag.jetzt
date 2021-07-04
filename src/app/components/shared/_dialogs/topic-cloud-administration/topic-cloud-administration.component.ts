@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
-import { TopicCloudAdminData, Labels, spacyLabels, KeywordOrFulltext } from './TopicCloudAdminData';
+import { KeywordOrFulltext, Labels, spacyLabels, TopicCloudAdminData } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -60,7 +60,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   startDate: string;
   endDate: string;
 
-  keywords: Keyword[] = [];
+  keywords: Map<string, Keyword> = new Map<string, Keyword>();
   private topicCloudAdminData: TopicCloudAdminData;
   private profanityFilter: boolean;
   private censorPartialWordsCheck: boolean;
@@ -101,6 +101,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.initializeKeywords();
   }
 
+  getValues(): Keyword[] {
+    return [...this.keywords.values()];
+  }
+
   changeblacklist() {
     this.topicCloudAdminService.getRoom().subscribe(room => {
       room.blacklistIsActive = this.blacklistIsActive;
@@ -109,18 +113,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeFromKeywords(comment: Comment) {
-    for (const keyword of this.keywords) {
-      keyword.comments.forEach(_comment => {
-        if (_comment.id === comment.id) {
-          keyword.comments.splice(keyword.comments.indexOf(comment, 0), 1);
-        }
-      });
+    for (const [_, keyword] of this.keywords.entries()) {
+      const index = keyword.comments.findIndex(c => c.id === comment.id);
+      if (index >= 0) {
+        keyword.comments.splice(index, 1);
+      }
     }
     this.refreshKeywords();
   }
 
   refreshKeywords() {
-    this.keywords = [];
+    this.keywords = new Map<string, Keyword>();
     this.roomDataService.currentRoomData.forEach(comment => {
       this.pushInKeywords(comment);
     });
@@ -145,28 +148,30 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       keywords = [];
     }
     keywords.forEach(_keyword => {
-      const existingKey = this.checkIfKeywordExists(_keyword);
+      const existingKey = this.checkIfKeywordExists(_keyword.lemma);
       if (existingKey) {
         existingKey.vote += comment.score;
+        _keyword.dep.forEach(dep => existingKey.keywordDeps.add(dep));
         if (this.checkIfCommentExists(existingKey.comments, comment.id)) {
           existingKey.comments.push(comment);
         }
       } else {
         if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
-          if (comment.keywordsFromQuestioner.includes(_keyword) && comment.keywordsFromSpacy.includes(_keyword)) {
+          const includedFromQuestioner = comment.keywordsFromQuestioner.findIndex(e => e.lemma === _keyword.lemma) >= 0;
+          if (includedFromQuestioner && comment.keywordsFromSpacy.findIndex(e => e.lemma === _keyword.lemma) >= 0) {
             _keywordType = KeywordType.fromBoth;
           } else {
-            _keywordType = comment.keywordsFromQuestioner.includes(_keyword) ? KeywordType.fromQuestioner : KeywordType.fromSpacy;
+            _keywordType = includedFromQuestioner ? KeywordType.fromQuestioner : KeywordType.fromSpacy;
           }
         }
-        const keyword: Keyword = {
-          keyword: _keyword,
+        this.keywords.set(_keyword.lemma, {
+          keyword: _keyword.lemma,
+          keywordDeps: new Set<string>(_keyword.dep),
           keywordType: _keywordType,
-          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword, comment.language),
+          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword.lemma, comment.language),
           comments: [comment],
           vote: comment.score
-        };
-        this.keywords.push(keyword);
+        } as Keyword);
       }
     });
   }
@@ -187,7 +192,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       if (comments === null) {
         return;
       }
-      this.keywords = [];
+      this.keywords = new Map<string, Keyword>();
       comments.forEach(comment => {
         this.pushInKeywords(comment);
       });
@@ -312,21 +317,23 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (sortMode !== undefined) {
       this.sortMode = sortMode;
     }
+    const entries = [...this.keywords.entries()];
     switch (this.sortMode) {
       case 'alphabetic':
-        this.keywords.sort((a, b) => a.keyword.localeCompare(b.keyword));
+        entries.sort(([a], [b]) => a.localeCompare(b));
         break;
       case 'questionsCount':
-        this.keywords.sort((a, b) => b.comments.length - a.comments.length);
+        entries.sort(([_, a], [__, b]) => b.comments.length - a.comments.length);
         break;
       case 'voteCount':
-        this.keywords.sort((a, b) => b.vote - a.vote);
+        entries.sort(([_, a], [__, b]) => b.vote - a.vote);
         break;
     }
+    this.keywords = new Map(entries);
   }
 
   checkIfThereAreQuestions() {
-    if (this.keywords.length === 0) {
+    if (this.keywords.size === 0) {
       this.translateService.get('topic-cloud-dialog.no-keywords-note').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -347,10 +354,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     key.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
       let keywords = comment.keywordsFromQuestioner;
-      keywords.splice(keywords.indexOf(key.keyword, 0), 1);
+      keywords.splice(keywords.findIndex(e => e.lemma === key.keyword), 1);
       changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
       keywords = comment.keywordsFromSpacy;
-      keywords.splice(keywords.indexOf(key.keyword, 0), 1);
+      keywords.splice(keywords.findIndex(e => e.lemma === key.keyword), 1);
       changes.set('keywordsFromSpacy', JSON.stringify(keywords));
       this.updateComment(comment, changes, message);
     });
@@ -362,12 +369,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   updateComment(updatedComment: Comment, changes: TSMap<string, any>, messageTranslate?: string) {
     this.commentService.patchComment(updatedComment, changes).subscribe(_ => {
-      if (messageTranslate) {
-        this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-      }
-    },
+        if (messageTranslate) {
+          this.translateService.get('topic-cloud-dialog.' + messageTranslate).subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        }
+      },
       error => {
         this.translateService.get('topic-cloud-dialog.changes-gone-wrong').subscribe(msg => {
           this.notificationService.show(msg);
@@ -388,16 +395,17 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       key.comments.forEach(comment => {
         const changes = new TSMap<string, any>();
         let keywords = comment.keywordsFromQuestioner;
-        for (let i = 0; i < keywords.length; i++) {
-          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()) {
-            keywords[i] = this.newKeyword.trim();
+        const lowerCaseKeyword = key.keyword.toLowerCase();
+        for (const keyword of keywords) {
+          if (keyword.lemma.toLowerCase() === lowerCaseKeyword) {
+            keyword.lemma = this.newKeyword.trim();
           }
         }
         changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
         keywords = comment.keywordsFromSpacy;
-        for (let i = 0; i < keywords.length; i++) {
-          if (keywords[i].toLowerCase() === key.keyword.toLowerCase()) {
-            keywords[i] = this.newKeyword.trim();
+        for (const keyword of keywords) {
+          if (keyword.lemma.toLowerCase() === lowerCaseKeyword) {
+            keyword.lemma = this.newKeyword.trim();
           }
         }
         changes.set('keywordsFromSpacy', JSON.stringify(keywords));
@@ -432,35 +440,45 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (!this.searchedKeyword) {
       this.searchMode = false;
     } else {
-      this.filteredKeywords = this.keywords.filter(keyword =>
+      const entries = [...this.keywords.entries()];
+      this.filteredKeywords = entries.filter(([_, keyword]) =>
         keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
-      );
+      ).map(e => e[1]);
       this.searchMode = true;
     }
   }
 
   mergeKeywords(key1: Keyword, key2: Keyword) {
     if (key1 !== undefined && key2 !== undefined) {
-      key1.comments.forEach(comment => {
+      key1.comments = key1.comments.filter(comment => {
         if (this.checkIfCommentExists(key2.comments, comment.id)) {
           const changes = new TSMap<string, any>();
+          const lowerKey1 = key1.keyword.toLowerCase();
+
           let keywords = comment.keywordsFromQuestioner;
-          keywords.push(key2.keyword);
+          let index = keywords.findIndex(k => k.lemma.toLowerCase() === lowerKey1);
+          keywords[index].lemma = key2.keyword;
           changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
+
           keywords = comment.keywordsFromSpacy;
-          keywords.push(key2.keyword);
+          index = keywords.findIndex(k => k.lemma.toLowerCase() === lowerKey1);
+          keywords[index].lemma = key2.keyword;
           changes.set('keywordsFromSpacy', JSON.stringify(keywords));
+
           this.updateComment(comment, changes);
+          return false;
         }
+        return true;
       });
       this.deleteKeyword(key1);
     }
   }
 
   checkIfKeywordExists(key: string): Keyword {
-    for (const keyword of this.keywords) {
-      if (keyword.keyword.toLowerCase() === key.trim().toLowerCase()) {
-        return keyword;
+    const currentKeyword = key.toLowerCase();
+    for (const keyword of this.keywords.keys()) {
+      if (keyword.toLowerCase() === currentKeyword) {
+        return this.keywords.get(keyword);
       }
     }
     return undefined;
@@ -538,6 +556,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
 interface Keyword {
   keyword: string;
+  keywordDeps: Set<string>;
   keywordType: KeywordType;
   keywordWithoutProfanity: string;
   comments: Comment[];

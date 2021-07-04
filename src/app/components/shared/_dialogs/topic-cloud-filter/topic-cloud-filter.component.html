@@ -9,7 +9,7 @@
         <div class="elementText">
           {{(!isMobile() ? 'content.continue-with-all-questions' : 'content.continue-with-all-questions-short') | translate}}
         </div>
-        <div class="elementIcons">
+        <div class="elementIcons" *ngIf="allComments">
           <mat-icon [inline]="true"
             matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{allComments.comments}}
           <mat-icon [inline]="true"
@@ -24,7 +24,7 @@
         <div class="elementText">
           {{(!isMobile() ? 'content.continue-with-current-questions' : 'content.continue-with-current-questions-short')| translate}}
         </div>
-        <div class="elementIcons">
+        <div class="elementIcons" *ngIf="filteredComments">
           <mat-icon [inline]="true"
             matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{filteredComments.comments}}
           <mat-icon [inline]="true"

@@ -333,8 +333,7 @@
                   matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}"></mat-icon>
         <p [ngClass]="{'animation-blink': searchMode}"
            matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
-          {{searchMode ? filteredKeywords.length :
-          keywords.length}}</p>
+          {{searchMode ? filteredKeywords.length : keywords.size}}</p>
       </div>
       <div class="margin-left vertical-center">
         <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
@@ -362,14 +361,14 @@
     </mat-menu>
 
     <mat-card class="color-surface"
-              *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+              *ngIf="(keywords.size === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
       <p class="color-on-surface" fxLayoutAlign="center">
         {{'topic-cloud-dialog.no-keywords-note' | translate}}
       </p>
     </mat-card>
 
     <mat-accordion>
-      <div *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index">
+      <div *ngFor="let keyword of (searchMode ? filteredKeywords : getValues()); let i = index">
         <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
           (closed)="panelOpenState = edit = false" [attr.data-index]="i" *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
           matTooltip="{{blacklistIncludesKeyword(keyword.keyword)?'Blacklist: ':''}}{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
