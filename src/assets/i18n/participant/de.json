@@ -307,7 +307,8 @@
     "topic-requirement-questioners": "Minimale Anzahl Fragensteller*innen",
     "topic-requirement-upvotes": "Minimale Anzahl Up-Votes",
     "topic-requirement-begin-datetime": "Beginn der Zeitspanne",
-    "topic-requirement-end-datetime": "Ende der Zeitspanne"
+    "topic-requirement-end-datetime": "Ende der Zeitspanne",
+    "topic-requirement-reset": "Zurücksetzen"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",

@@ -307,6 +307,11 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
+            <button mat-button class="themeRequirementInput reset"
+                    [disabled]="!isTopicRequirementActive()"
+                    (click)="minQuestioners='1'; minQuestioners='1'; minUpvotes='0'; startDate=''; endDate=''">
+              {{'topic-cloud-dialog.topic-requirement-reset' | translate}}
+            </button>
           </mat-expansion-panel>
         </mat-accordion>
 
@@ -370,8 +375,9 @@
     <mat-accordion>
       <div *ngFor="let keyword of (searchMode ? filteredKeywords : getValues()); let i = index">
         <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
-          (closed)="panelOpenState = edit = false" [attr.data-index]="i" *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
-          matTooltip="{{blacklistIncludesKeyword(keyword.keyword)?'Blacklist: ':''}}{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+                             (closed)="panelOpenState = edit = false" [attr.data-index]="i"
+                             *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
+                             matTooltip="{{blacklistIncludesKeyword(keyword.keyword)?'Blacklist: ':''}}{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
           <mat-expansion-panel-header class="color-surface">
             <mat-panel-title [ngClass]="{'red': blacklistIncludesKeyword(keyword.keyword)}">
               {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
@@ -383,8 +389,10 @@
           </mat-expansion-panel-header>
           <div *ngFor="let question of keyword.comments">
             <mat-divider></mat-divider>
-            <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-                                      [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+            <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword"
+                                      [maxShowedCharachters]="140"
+                                      [profanityFilter]="profanityFilter"
+                                      [languageSpecific]="censorLanguageSpecificCheck"
                                       [partialWords]="censorPartialWordsCheck"
                                       [language]="question.language"></app-topic-dialog-comment>
           </div>
