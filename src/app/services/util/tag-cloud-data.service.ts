@@ -154,19 +154,20 @@ export class TagCloudDataService {
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
+    this._tagCloudAdmin.ensureRoomBound(roomId);
 
     this.fetchData();
     if (!this._currentFilter.paused) {
       this._commentSubscription = this._roomDataService.receiveUpdates([
-        {type: 'CommentCreated', finished: true},
-        {type: 'CommentDeleted'},
-        {type: 'CommentPatched', finished: true, updates: ['score']},
-        {type: 'CommentPatched', finished: true, updates: ['downvotes']},
-        {type: 'CommentPatched', finished: true, updates: ['upvotes']},
-        {type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy']},
-        {type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner']},
-        {type: 'CommentPatched', finished: true, updates: ['ack']},
-        {type: 'CommentPatched', finished: true, updates: ['tag']},
+        { type: 'CommentCreated', finished: true },
+        { type: 'CommentDeleted' },
+        { type: 'CommentPatched', finished: true, updates: ['score'] },
+        { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
+        { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
+        { type: 'CommentPatched', finished: true, updates: ['keywordsFromSpacy'] },
+        { type: 'CommentPatched', finished: true, updates: ['keywordsFromQuestioner'] },
+        { type: 'CommentPatched', finished: true, updates: ['ack'] },
+        { type: 'CommentPatched', finished: true, updates: ['tag'] },
       ]).subscribe(_ => {
         this.rebuildTagData();
       });

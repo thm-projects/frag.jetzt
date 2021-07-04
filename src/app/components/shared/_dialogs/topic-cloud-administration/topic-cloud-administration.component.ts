@@ -252,35 +252,35 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
         profFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : profFilter;
       }
-      let minQuestionersVerified = +this.minQuestioners;
-      if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
-        minQuestionersVerified = 1;
-      }
-      let minQuestionsVerified = +this.minQuestions;
-      if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
-        minQuestionsVerified = 1;
-      }
-      let minUpvotesVerified = +this.minUpvotes;
-      if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
-        minUpvotesVerified = 0;
-      }
-      this.topicCloudAdminData = {
-        blacklist: [],
-        wantedLabels: {
-          de: this.wantedLabels.de,
-          en: this.wantedLabels.en
-        },
-        considerVotes: this.considerVotes,
-        profanityFilter: profFilter,
-        blacklistIsActive: this.blacklistIsActive,
-        keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
-        minQuestioners: minQuestionersVerified,
-        minQuestions: minQuestionsVerified,
-        minUpvotes: minUpvotesVerified,
-        startDate: this.startDate.length ? this.startDate : null,
-        endDate: this.endDate.length ? this.endDate : null
-      };
     }
+    let minQuestionersVerified = +this.minQuestioners;
+    if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
+      minQuestionersVerified = 1;
+    }
+    let minQuestionsVerified = +this.minQuestions;
+    if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
+      minQuestionsVerified = 1;
+    }
+    let minUpvotesVerified = +this.minUpvotes;
+    if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
+      minUpvotesVerified = 0;
+    }
+    this.topicCloudAdminData = {
+      blacklist: [],
+      wantedLabels: {
+        de: this.wantedLabels.de,
+        en: this.wantedLabels.en
+      },
+      considerVotes: this.considerVotes,
+      profanityFilter: profFilter,
+      blacklistIsActive: this.blacklistIsActive,
+      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
+      minQuestioners: minQuestionersVerified,
+      minQuestions: minQuestionsVerified,
+      minUpvotes: minUpvotesVerified,
+      startDate: this.startDate.length ? this.startDate : null,
+      endDate: this.endDate.length ? this.endDate : null
+    };
     this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
   }
 
