@@ -133,13 +133,13 @@ const getDefaultCloudParameters = (): CloudParameters => {
     fontColor: resDefaultColors[0],
     fontSizeMin: 150,
     fontSizeMax: 600,
-    hoverScale: 1.3,
+    hoverScale: 1.8,
     hoverTime: 0.6,
-    hoverDelay: 0.4,
-    delayWord: 0,
+    hoverDelay: 0.1,
+    delayWord: 0.1,
     randomAngles: false,
     sortAlphabetically: false,
-    textTransform: CloudTextStyle.normal,
+    textTransform: CloudTextStyle.capitalized,
     cloudWeightSettings: weightSettings
   };
 };
