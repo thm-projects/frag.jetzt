@@ -56,6 +56,8 @@ export enum TagCloudCalcWeightType {
   byLengthAndVotes
 }
 
+const DEBOUNCE_TIME = 3_000;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -76,6 +78,8 @@ export class TagCloudDataService {
   private _adminData: TopicCloudAdminData = null;
   private _subscriptionAdminData: Subscription;
   private _currentFilter: CommentFilter;
+  private _debounceTimer = 0;
+  private _lastDebounceTime = new Date().getTime() - DEBOUNCE_TIME;
 
   constructor(private _tagCloudAdmin: TopicCloudAdminService,
               private _roomDataService: RoomDataService) {
@@ -287,7 +291,18 @@ export class TagCloudDataService {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
         .sort(([_, aTagData], [__, bTagData]) => bTagData.weight - aTagData.weight));
     }
-    this._dataBus.next(newData);
+    const currentTime = new Date().getTime();
+    const diff = currentTime - this._lastDebounceTime;
+    if (diff >= DEBOUNCE_TIME) {
+      this._dataBus.next(newData);
+      this._lastDebounceTime = currentTime;
+    } else {
+      clearTimeout(this._debounceTimer);
+      this._debounceTimer = setTimeout(() => {
+        this._dataBus.next(newData);
+        this._lastDebounceTime = new Date().getTime();
+      }, DEBOUNCE_TIME - diff);
+    }
   }
 
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
