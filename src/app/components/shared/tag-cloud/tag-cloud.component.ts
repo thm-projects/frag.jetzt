@@ -112,7 +112,8 @@ const getResolvedDefaultColors = (): string[] => {
 
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
-  const isMobile = window.matchMedia('(max-width:500px)').matches;
+  const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
+  const isMobile = minValue < 500;
   const elements = isMobile ? 5 : -1;
   const weightSettings: CloudWeightSettings = [
     { maxVisibleElements: elements, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: isMobile },
@@ -130,7 +131,6 @@ const getDefaultCloudParameters = (): CloudParameters => {
     const value = (current - minInputValue) * (maxOut - minOut) / (maxInputValue - minInputValue) + minOut;
     return Math.min(maxOut, Math.max(minOut, value));
   };
-  const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
   return {
     fontFamily: 'Dancing Script',
     fontWeight: 'normal',
@@ -138,7 +138,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
     fontSize: '10px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
-    fontSizeMin: mapValue(minValue, 375, 750, 100, 200),
+    fontSizeMin: mapValue(minValue, 375, 750, 125, 200),
     fontSizeMax: mapValue(minValue, 375, 1500, 300, 700),
     hoverScale: mapValue(minValue, 375, 1500, 1.25, 1.8),
     hoverTime: 0.6,
@@ -351,7 +351,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   }
 
   resetColorsToTheme() {
-    this.setCloudParameters(getDefaultCloudParameters());
+    this.setCloudParameters(getDefaultCloudParameters(), true);
   }
 
   onResize(event: UIEvent): any {
