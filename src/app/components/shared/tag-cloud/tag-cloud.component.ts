@@ -79,7 +79,7 @@ type DefaultColors = [
 ];
 const defaultColors: DefaultColors = [
   'var(--secondary, greenyellow)',
-  '#f1f1f1',
+  '#c1c1c1',
   '#d98e49',
   '#ccca3c',
   '#83e761',
