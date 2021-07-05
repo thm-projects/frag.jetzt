@@ -85,15 +85,15 @@
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-min' | translate}}</mat-label>
             <input #minFont [value]="cloudParameters.fontSizeMin.toString()" matInput type="number"
-              [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="valueChanged()"
-              min="280" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
+              [(ngModel)]="cloudParameters.fontSizeMin" [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,true)"
+              min="50" max="300" step="10" matTooltip="{{'tag-cloud-config.font-size-min-tooltip' | translate}}" />
           </mat-form-field>
         </div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
-            <input #maxFont matInput type="number" [(ngModel)]="cloudParameters.fontSizeMax"
-              [ngModelOptions]="{standalone: true}" (change)="valueChanged()" min="280" max="1000" step="10"
+            <input #maxFont matInput type="number" [(ngModel)]="MaxFont" [value]="MaxFont.toString()"
+              [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,false)" min="1" max="10" step="1"
               matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}" />
           </mat-form-field>
         </div>
@@ -168,7 +168,12 @@
                   <div fxFlex="35px" class="color-box" [style.background]="weightClass.tagColor"></div>
                 </div>
               </div>
-              <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
+              <div class="input-row firstElementOfWeightClass" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive">
+                <mat-slide-toggle matTooltip="{{'tag-cloud-config.manual-weight-number-tooltip' | translate}}" (change)="valueChanged()" fxFlex [(ngModel)]=" weightClass.allowManualTagNumber"
+                  [ngModelOptions]="{standalone: true}">{{'tag-cloud-config.manual-weight-number' | translate}}</mat-slide-toggle>
+                  <mat-icon matTooltip="{{'tag-cloud-config.manual-weight-number-note' | translate}}">help</mat-icon>
+              </div>
+              <div class="input-row" fxLayout="column" fxLayoutGap="5px" *ngIf="weightClass.actualTagNumber > 0 && !parent.dataManager.demoActive && weightClass.allowManualTagNumber">
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px">
                 <mat-label class="label-text" >{{'tag-cloud-config.weight-number' | translate}}</mat-label>
                 <mat-slider [value]="weightClass.maxTagNumber" min="1" [max]="weightClass.actualTagNumber" step="1"

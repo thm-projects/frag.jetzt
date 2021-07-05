@@ -284,7 +284,7 @@
     "live-announcer": "You're in the session now. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-feedback": "Live feedback",
     "Markdown-hint": "Format with Markdown",
-    "moderating-stream": "Index",
+    "moderating-stream": "Moderation",
     "moderator-added": "Moderator was added.",
     "moderator-email": "Mail address",
     "moderator-not-found": "A user with the entered mail address could not be found. Are you sure that the user has registered at »frag.jetzt« with this address?",
@@ -306,7 +306,7 @@
     "session-id-copied": "Session link was copied to the clipboard.",
     "session-settings": "Session administration",
     "session-question-board": "To the public question list",
-    "session-moderation-board": "To the index of banned questions",
+    "session-moderation-board": "To the moderation board",
     "settings-comment-moderation": "Moderate questions",
     "settings-comment-moderation-description": "You or one of your moderators can ban questions from the display.",
     "settings-direct-send": "Publish questions unmoderated? ",
@@ -417,6 +417,7 @@
     "partial-words-will-be-filtered": "Profane partial words will be also filtered",
     "keyword-from-spacy": "Keyword from spaCy",
     "keyword-from-questioner": "Keyword from questioner",
+    "Keyword-from-both": "Keyword from questioner and spaCy",
     "test-profanity": "Test profanity",
     "word": "word",
     "word-is-profanity": "Word is profane",
@@ -430,6 +431,14 @@
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment"
+  },
+  "topic-cloud-confirm-dialog":{
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "merge": "Merge",
+    "delete-message": "Do you really want to delete the topic",
+    "merge-message": "Keyword already exists, do you want to merge both keywords",
+    "confirm": "Are you sure?"
   },
   "dialog-comment": {
     "read-more": "read more",
@@ -458,7 +467,7 @@
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
     "font-size-min-tooltip": "Select minimum font-size",
-    "font-size-max-tooltip": "Select maximum font-size",
+    "font-size-max-tooltip": "Size ratio max. / min. font size",
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
@@ -490,6 +499,9 @@
     "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
-    "font-family":"Font Family"
+    "font-family":"Font Family",
+    "manual-weight-number": "Set quantity",
+    "manual-weight-number-tooltip": "Quantity Limitation of this weight class",
+    "manual-weight-number-note": "Limits the respective weight class to a self-defined value"
   }
 }

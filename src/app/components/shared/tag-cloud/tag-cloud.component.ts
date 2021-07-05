@@ -79,7 +79,7 @@ type DefaultColors = [
 ];
 const defaultColors: DefaultColors = [
   'var(--secondary, greenyellow)',
-  '#f1f1f1',
+  '#c1c1c1',
   '#d98e49',
   '#ccca3c',
   '#83e761',
@@ -113,33 +113,33 @@ const getResolvedDefaultColors = (): string[] => {
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: 5, color: resDefaultColors[1], rotation: 0},
-    {maxVisibleElements: 6, color: resDefaultColors[2], rotation: 0},
-    {maxVisibleElements: 5, color: resDefaultColors[3], rotation: 0},
-    {maxVisibleElements: 6, color: resDefaultColors[4], rotation: 0},
-    {maxVisibleElements: 5, color: resDefaultColors[5], rotation: 0},
-    {maxVisibleElements: 6, color: resDefaultColors[6], rotation: 0},
-    {maxVisibleElements: 5, color: resDefaultColors[7], rotation: 0},
-    {maxVisibleElements: 6, color: resDefaultColors[8], rotation: 0},
-    {maxVisibleElements: 5, color: resDefaultColors[9], rotation: 0},
-    {maxVisibleElements: 6, color: resDefaultColors[10], rotation: 0},
+    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: false},
+    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: false},
   ];
   return {
     fontFamily: 'Dancing Script',
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     fontStyle: 'normal',
-    fontSize: '280px',
+    fontSize: '10px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
-    fontSizeMin: 280,
-    fontSizeMax: 380,
-    hoverScale: 1.3,
-    hoverTime: 0.6,
+    fontSizeMin: 150,
+    fontSizeMax: 900,
+    hoverScale: 2,
+    hoverTime: 1,
     hoverDelay: 0.4,
-    delayWord: 0,
-    randomAngles: true,
+    delayWord: 100,
+    randomAngles: false,
     sortAlphabetically: false,
-    textTransform: CloudTextStyle.normal,
+    textTransform: CloudTextStyle.capitalized,
     cloudWeightSettings: weightSettings
   };
 };

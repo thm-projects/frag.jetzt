@@ -148,7 +148,7 @@ mat-divider {
 .reset {
   margin: 25px auto auto auto;
   background-color: var(--secondary);
-  color: black;
+  color: var(--alt-surface);
   width: 100%;
 }
 .cloud-configuration-form{
@@ -236,6 +236,10 @@ mat-divider {
 .firstElementOfExpansionPanel{
   border-top: 2px solid var(--primary);
   padding-top: 10px;
+}
+.firstElementOfWeightClass{
+  margin-top: 10px;
+  padding-bottom: 10px;
 }
 .automatic-spelling{
   padding-bottom: 30px;

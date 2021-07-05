@@ -291,7 +291,8 @@
     "keyword-delete": "keyword deleted",
     "keyword-edit": "keyword renamed",
     "keywords-merge": "keywords merged",
-    "changes-gone-wrong": "somthing has gone wrong",
+    "spacy-labels": "Which nouns of the text analysis should be displayed as topics?",
+    "changes-gone-wrong": "Something has gone wrong",
     "english": "English",
     "german": "German",
     "select-all": "Select all",
@@ -299,6 +300,7 @@
     "sort": "Sort",
     "keyword-from-spacy": "Keyword from spaCy",
     "keyword-from-questioner": "Keyword from questioner",
+    "Keyword-from-both": "Keyword from questioner and spaCy",
     "test-profanity": "Test profanity",
     "word": "word",
     "word-is-profanity": "Word is profane",
@@ -312,14 +314,6 @@
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment"
-  },
-  "topic-cloud-confirm-dialog":{
-    "cancel": "Cancel",
-    "delete": "Delete",
-    "merge": "Merge",
-    "delete-message": "Do you really want to delete the topic",
-    "merge-message": "Keyword already exists, do you want to merge both keywords",
-    "confirm": "Are you sure?"
   },
   "dialog-comment":{
     "read-more": "Read more",
@@ -348,7 +342,7 @@
     "background-tooltip": "Select background-color",
     "word-delay-tooltip": "Select word-delay",
     "font-size-min-tooltip": "Select minimum font-size",
-    "font-size-max-tooltip": "Select maximum font-size",
+    "font-size-max-tooltip": "Size ratio max. / min. font size",
     "select-color-tooltip": "Select font-color",
     "hover-scale-tooltip": "Select hover-scale",
     "hover-time-tooltip": "Select hover-time",
@@ -381,6 +375,9 @@
     "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
     "font-style-italic": "Italic",
-    "font-family":"Font Family"
+    "font-family":"Font Family",
+    "manual-weight-number": "Set quantity",
+    "manual-weight-number-tooltip": "Quantity Limitation of this weight class",
+    "manual-weight-number-note": "Limits the respective weight class to a self-defined Quantity"
   }
 }

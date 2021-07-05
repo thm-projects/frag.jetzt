@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
-import { CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
+import { cloneParameters, CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 
@@ -32,64 +32,75 @@ export class CloudConfigurationComponent implements OnInit {
       maxTagNumber: 20,
       tagColor: '#8800ff',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 20,
       tagColor: '#ff00ff',
       actualTagNumber: 5,
       rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 17,
       tagColor: '#ffea00',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 15,
       tagColor: '#00CC99',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 12,
       tagColor: '#00CC66',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 10,
       tagColor: '#0033FF',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 8,
       tagColor: '#CC0099',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 7,
       tagColor: '#FF3399',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 6,
       tagColor: '#FFFF00',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
     {
       maxTagNumber: 5,
       tagColor: '#FF0000',
       actualTagNumber: 5,
-      rotationAngle: 0
+      rotationAngle: 0,
+      allowManualTagNumber: false
     },
   ];
-
+  MinFont:number;
+  MaxFont:number;
 
   isTestCloud = false;
 
@@ -97,8 +108,8 @@ export class CloudConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.cloudParameters = this.parent.currentCloudParameters;
-    this.defaultCloudParameters = this.parent.currentCloudParameters;
+    this.cloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.defaultCloudParameters = cloneParameters(this.parent.currentCloudParameters);
     this.parent.dataManager.getMetaData().subscribe((value)=>{
       if (!value) {
         return;
@@ -115,6 +126,7 @@ export class CloudConfigurationComponent implements OnInit {
     this.alphabeticalSorting = true;
     this.rotation = 360;
     this.highestWeight = 100;
+    this.readMaxFont();
   }
 
   fontColorChanged(value: string) {
@@ -132,13 +144,19 @@ export class CloudConfigurationComponent implements OnInit {
        this.weightClasses[i].tagColor = element.color;
        this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
        this.weightClasses[i].rotationAngle = element.rotation;
-       this.weightClasses[i].maxTagNumber = element.maxVisibleElements == -1 ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+       this.weightClasses[i].maxTagNumber = (element.maxVisibleElements == -1 || element.maxVisibleElements == 0) ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+       this.weightClasses[i].allowManualTagNumber = element.allowManualTagNumber;
     });
   }
 
   parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
-      this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber;
+      this.cloudParameters.cloudWeightSettings[i].allowManualTagNumber = element.allowManualTagNumber;
+      if(element.allowManualTagNumber == true){
+        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber == 0 ? -1 : element.maxTagNumber;
+      }else{
+        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = -1;
+      }
       this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
       this.cloudParameters.cloudWeightSettings[i].rotation = element.rotationAngle;
     });
@@ -152,15 +170,19 @@ export class CloudConfigurationComponent implements OnInit {
   cancel() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
+    this.cloudParameters = cloneParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
     this.setStep(0);
+    this.readMaxFont();
   }
 
   save() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
+    this.defaultCloudParameters = cloneParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
     this.setStep(0);
+    this.readMaxFont();
   }
 
   toggleExtendedView() {
@@ -198,7 +220,9 @@ export class CloudConfigurationComponent implements OnInit {
   reset(){
     this.parent.resetColorsToTheme();
     this.parent.configurationOpen = false;
-    this.cloudParameters = this.parent.currentCloudParameters;
+    this.cloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.defaultCloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.readMaxFont();
   }
 
   italicChecked(event){
@@ -210,11 +234,26 @@ export class CloudConfigurationComponent implements OnInit {
     this.valueChanged();
   }
 
-  checkItalic() {
-    return this.cloudParameters.fontStyle === 'italic';
-  }
-
   checkBold() {
     return this.cloudParameters.fontWeight === 'bold';
+  }
+
+  readMaxFont(){
+    let valMax:number = this.cloudParameters.fontSizeMax;
+    let valMin:number = this.cloudParameters.fontSizeMin;
+    this.MaxFont = Math.floor(valMax/valMin);
+  }
+
+  calcMaxFont(event,setMin:Boolean){
+    let val:number = Number(event.target.value);
+    if(val >0 && val <=10 && !setMin){
+      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * val;
+      this.MaxFont = val;
+      this.valueChanged();
+    }
+    if(setMin){
+      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * this.MaxFont;
+      this.valueChanged();
+    }
   }
 }

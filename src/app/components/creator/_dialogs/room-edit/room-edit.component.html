@@ -55,10 +55,10 @@
           [data]="editRoom.description"></markdown>
       </mat-tab>
     </mat-tab-group>
-    <div fxLayoutAlign="center center">
+    <div fxLayout="column">
       <mat-slide-toggle [(ngModel)]= "check">{{ 'room-page.block' | translate }}</mat-slide-toggle>
     </div>
-    <div fxLayoutAlign="center center" fxLayout="column">
+    <div fxLayout="column">
       <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)" [(ngModel)]= "profanityCheck">
         {{ 'room-page.profanity-filter' | translate }}
       </mat-slide-toggle>
