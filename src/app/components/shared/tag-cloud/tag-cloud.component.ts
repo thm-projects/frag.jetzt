@@ -277,6 +277,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
             const message = JSON.parse(msg.body);
             if (message.type === 'RoomPatched') {
               this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+              this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
             }
           });
           this.directSend = this.room.directSend;

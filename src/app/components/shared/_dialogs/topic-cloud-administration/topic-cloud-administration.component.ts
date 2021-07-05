@@ -390,6 +390,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   confirmEdit(key: Keyword): void {
     const key2 = this.checkIfKeywordExists(this.newKeyword);
     if (key2) {
+      if (key === key2) {
+        return;
+      }
       this.openConfirmDialog('merge-message', 'merge', key, key2);
     } else {
       key.comments.forEach(comment => {

@@ -422,8 +422,10 @@
                 <button mat-raised-button class="redBackground margin-right"
                         (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
                 <button mat-raised-button class="primaryBackground"
-                        (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save'
-                  | translate}}</button>
+                        [disabled]="!newKeyword || newKeyword.toLowerCase() === keyword.keyword.toLowerCase()"
+                        (click)="confirmEdit(keyword)">
+                  {{'topic-cloud-dialog.save' | translate}}
+                </button>
               </div>
             </div>
           </div>
