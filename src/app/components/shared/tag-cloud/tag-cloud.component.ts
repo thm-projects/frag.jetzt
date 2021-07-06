@@ -79,7 +79,7 @@ type DefaultColors = [
 ];
 const defaultColors: DefaultColors = [
   'var(--secondary, greenyellow)',
-  '#f1f1f1',
+  '#c1c1c1',
   '#d98e49',
   '#ccca3c',
   '#83e761',
@@ -132,14 +132,14 @@ const getDefaultCloudParameters = (): CloudParameters => {
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
     fontSizeMin: 150,
-    fontSizeMax: 600,
-    hoverScale: 1.3,
-    hoverTime: 0.6,
+    fontSizeMax: 900,
+    hoverScale: 2,
+    hoverTime: 1,
     hoverDelay: 0.4,
-    delayWord: 0,
+    delayWord: 100,
     randomAngles: false,
     sortAlphabetically: false,
-    textTransform: CloudTextStyle.normal,
+    textTransform: CloudTextStyle.capitalized,
     cloudWeightSettings: weightSettings
   };
 };
