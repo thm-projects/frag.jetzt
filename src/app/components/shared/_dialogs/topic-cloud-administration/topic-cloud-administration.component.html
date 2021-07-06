@@ -425,3 +425,10 @@
     </mat-accordion>
   </div>
 </mat-dialog-content>
+<app-dialog-action-buttons
+  buttonsLabelSection="topic-cloud-dialog"
+  confirmButtonLabel="save"
+  
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>

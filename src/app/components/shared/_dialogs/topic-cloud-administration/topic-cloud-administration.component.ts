@@ -164,14 +164,33 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+   buildCloseDialogActionCallback(): () => void {
+    return () => this.ngOnDestroy();
+  }
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+   buildSaveActionCallback(): () => void {
+    return () => this.save();
+  }
+
   ngOnDestroy() {
-    this.setAdminData();
     if (this.blacklistSubscription !== undefined) {
       this.blacklistSubscription.unsubscribe();
     }
     if (this.profanitylistSubscription !== undefined) {
       this.profanitylistSubscription.unsubscribe();
     }
+    this.cloudDialogRef.close();
+  }
+
+  save() {
+    this.setAdminData();
+    this.ngOnDestroy();
   }
 
   initializeKeywords() {
