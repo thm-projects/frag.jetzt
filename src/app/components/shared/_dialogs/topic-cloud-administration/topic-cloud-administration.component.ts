@@ -101,13 +101,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.initializeKeywords();
   }
 
-  changeblacklist() {
-    this.topicCloudAdminService.getRoom().subscribe(room => {
-      room.blacklistIsActive = this.blacklistIsActive;
-      this.topicCloudAdminService.updateRoom(room);
-    });
-  }
-
   removeFromKeywords(comment: Comment) {
     for (const keyword of this.keywords) {
       keyword.comments.forEach(_comment => {
@@ -171,14 +164,33 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+   buildCloseDialogActionCallback(): () => void {
+    return () => this.ngOnDestroy();
+  }
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+   buildSaveActionCallback(): () => void {
+    return () => this.save();
+  }
+
   ngOnDestroy() {
-    this.setAdminData();
     if (this.blacklistSubscription !== undefined) {
       this.blacklistSubscription.unsubscribe();
     }
     if (this.profanitylistSubscription !== undefined) {
       this.profanitylistSubscription.unsubscribe();
     }
+    this.cloudDialogRef.close();
+  }
+
+  save() {
+    this.setAdminData();
+    this.ngOnDestroy();
   }
 
   initializeKeywords() {
@@ -247,36 +259,36 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         profFilter = this.censorLanguageSpecificCheck ? ProfanityFilter.languageSpecific : ProfanityFilter.none;
         profFilter = this.censorPartialWordsCheck ? ProfanityFilter.partialWords : profFilter;
       }
-      let minQuestionersVerified = +this.minQuestioners;
-      if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
-        minQuestionersVerified = 1;
-      }
-      let minQuestionsVerified = +this.minQuestions;
-      if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
-        minQuestionsVerified = 1;
-      }
-      let minUpvotesVerified = +this.minUpvotes;
-      if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
-        minUpvotesVerified = 0;
-      }
-      this.topicCloudAdminData = {
-        blacklist: [],
-        wantedLabels: {
-          de: this.wantedLabels.de,
-          en: this.wantedLabels.en
-        },
-        considerVotes: this.considerVotes,
-        profanityFilter: profFilter,
-        blacklistIsActive: this.blacklistIsActive,
-        keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
-        minQuestioners: minQuestionersVerified,
-        minQuestions: minQuestionsVerified,
-        minUpvotes: minUpvotesVerified,
-        startDate: this.startDate.length ? this.startDate : null,
-        endDate: this.endDate.length ? this.endDate : null
-      };
     }
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
+    let minQuestionersVerified = +this.minQuestioners;
+    if (Number.isNaN(minQuestionersVerified) || minQuestionersVerified < 1) {
+      minQuestionersVerified = 1;
+    }
+    let minQuestionsVerified = +this.minQuestions;
+    if (Number.isNaN(minQuestionsVerified) || minQuestionsVerified < 1) {
+      minQuestionsVerified = 1;
+    }
+    let minUpvotesVerified = +this.minUpvotes;
+    if (Number.isNaN(minUpvotesVerified) || minUpvotesVerified < 0) {
+      minUpvotesVerified = 0;
+    }
+    this.topicCloudAdminData = {
+      blacklist: [],
+      wantedLabels: {
+        de: this.wantedLabels.de,
+        en: this.wantedLabels.en
+      },
+      considerVotes: this.considerVotes,
+      profanityFilter: profFilter,
+      blacklistIsActive: this.blacklistIsActive,
+      keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
+      minQuestioners: minQuestionersVerified,
+      minQuestions: minQuestionsVerified,
+      minUpvotes: minUpvotesVerified,
+      startDate: this.startDate.length ? this.startDate : null,
+      endDate: this.endDate.length ? this.endDate : null
+    };
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true);
   }
 
   setDefaultAdminData() {

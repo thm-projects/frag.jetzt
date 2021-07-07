@@ -234,7 +234,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
-          maxHeight: '80%',
+          maxHeight: '95%',
           data: {
             user: this.user
           }
