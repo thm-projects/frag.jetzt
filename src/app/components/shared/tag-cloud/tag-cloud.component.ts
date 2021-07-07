@@ -114,18 +114,18 @@ const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
   const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
   const isMobile = minValue < 500;
-  const elements = isMobile ? 5 : -1;
+  const elements = isMobile ? 5 : 10;
   const weightSettings: CloudWeightSettings = [
-    { maxVisibleElements: elements, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: isMobile },
-    { maxVisibleElements: elements, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: isMobile },
+    { maxVisibleElements: elements, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: true },
   ];
   const mapValue = (current: number, minInputValue: number, maxInputValue: number, minOut: number, maxOut: number) => {
     const value = (current - minInputValue) * (maxOut - minOut) / (maxInputValue - minInputValue) + minOut;
