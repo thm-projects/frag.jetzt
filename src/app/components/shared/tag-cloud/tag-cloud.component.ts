@@ -303,7 +303,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   ngAfterContentInit() {
     document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    this.dataManager.bindToRoom(this.roomId);
+    this.dataManager.bindToRoom(this.roomId, this.userRole);
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
