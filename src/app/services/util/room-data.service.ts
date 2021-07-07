@@ -265,6 +265,7 @@ export class RoomDataService {
     c.creatorId = payload.creatorId;
     c.userNumber = this.commentService.hashCode(c.creatorId);
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
+    c.language = payload.language;
     this._fastCommentAccess[c.id] = c;
     this._currentComments.push(c);
     this.triggerUpdate(UpdateType.commentStream, {

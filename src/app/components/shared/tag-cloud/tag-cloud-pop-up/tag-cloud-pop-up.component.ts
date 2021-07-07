@@ -11,6 +11,7 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
+import { SpacyKeyword } from '../../../../services/http/spacy.service';
 
 const CLOSE_TIME = 1500;
 
@@ -31,6 +32,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   user: User;
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
+  isBlacklistActive = true;
   private _popupHoverTimer: number;
   private _popupCloseTimer: number;
   private _hasLeft = true;
@@ -77,7 +79,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number): void {
+  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
+    if (!elem) {
+      return;
+    }
     this.spellingData = [];
     if (this.user && this.user.role > UserRole.PARTICIPANT) {
       this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
@@ -103,6 +108,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
         this.position(elem);
+        this.isBlacklistActive = isBlacklistActive;
       });
     }, hoverDelayInMs);
   }
@@ -143,22 +149,22 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       return;
     }
     const tagReplacementInput = this.replacementInput.value.trim();
-    const renameKeyword = (elem: string, index: number, array: string[]) => {
-      if (elem === this.tag) {
-        array[index] = tagReplacementInput;
+    const renameKeyword = (elem: SpacyKeyword) => {
+      if (elem.lemma === this.tag) {
+        elem.lemma = tagReplacementInput;
       }
     };
     const tagReplacementInputLower = tagReplacementInput.toLowerCase();
     this.tagData.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
-      if (comment.keywordsFromQuestioner.findIndex(e => e.toLowerCase() === tagReplacementInputLower) >= 0) {
-        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(e => e !== this.tag);
+      if (comment.keywordsFromQuestioner.findIndex(e => e.lemma.toLowerCase() === tagReplacementInputLower) >= 0) {
+        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(e => e.lemma !== this.tag);
       } else {
         comment.keywordsFromQuestioner.forEach(renameKeyword);
       }
       changes.set('keywordsFromQuestioner', JSON.stringify(comment.keywordsFromQuestioner));
-      if (comment.keywordsFromSpacy.findIndex(e => e.toLowerCase() === tagReplacementInputLower) >= 0) {
-        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(e => e !== this.tag);
+      if (comment.keywordsFromSpacy.findIndex(e => e.lemma.toLowerCase() === tagReplacementInputLower) >= 0) {
+        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(e => e.lemma !== this.tag);
       } else {
         comment.keywordsFromSpacy.forEach(renameKeyword);
       }

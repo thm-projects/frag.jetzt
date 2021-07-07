@@ -3,10 +3,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
 import { catchError, map, tap } from 'rxjs/operators';
-import { TopicCloudAdminService } from '../util/topic-cloud-admin.service';
 import { CreateCommentKeywords } from '../../utils/create-comment-keywords';
 
 export type Model = 'de' | 'en' | 'fr' | 'es' | 'it' | 'nl' | 'pt' | 'auto';
+
+export interface SpacyKeyword {
+  lemma: string;
+  dep: string[];
+}
 
 type EnglishParserLabels = 'ROOT' | //None
   'acl' | //clausal modifier of noun (adjectival clause)
@@ -161,7 +165,7 @@ type KeywordList = AbstractKeyword[];
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({
@@ -177,17 +181,31 @@ export class SpacyService extends BaseHttpService {
     return LABELS[model];
   }
 
-  getKeywords(text: string, model: Model): Observable<string[]> {
+  getKeywords(text: string, model: Model): Observable<SpacyKeyword[]> {
     const url = '/spacy';
-    const wanted = TopicCloudAdminService.getDefaultAdminData.wantedLabels[model];
-    return this.http.post<KeywordList>(url, {text, model}, httpOptions)
+    return this.http.post<KeywordList>(url, { text, model }, httpOptions)
       .pipe(
         tap(_ => ''),
         catchError(this.handleError<any>('getKeywords')),
-        map((elem: KeywordList) => wanted != null ?
-          elem.filter(e => wanted.includes(e.dep) && CreateCommentKeywords.isKeywordAcceptable(e.lemma)) :
-          elem),
-        map((result: KeywordList) => [...new Set(result.map(e => e.lemma.trim()))])
+        map((elem: KeywordList) => {
+          const keywordsMap = new Map<string, { lemma: string; dep: Set<string> }>();
+          elem.forEach(e => {
+            const keyword = e.lemma.trim();
+            if (!CreateCommentKeywords.isKeywordAcceptable(keyword)) {
+              return;
+            }
+            let keywordObj = keywordsMap.get(keyword);
+            if (!keywordObj) {
+              keywordObj = {
+                lemma: keyword,
+                dep: new Set<string>()
+              };
+              keywordsMap.set(keyword, keywordObj);
+            }
+            keywordObj.dep.add(e.dep);
+          });
+          return [...keywordsMap.values()].map(e => ({ lemma: e.lemma, dep: [...e.dep] }));
+        })
       );
   }
 }

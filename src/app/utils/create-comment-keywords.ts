@@ -5,7 +5,7 @@ export class CreateCommentKeywords {
 
   static isKeywordAcceptable(keyword: string) {
     const regex = /(^[ -@\[-`{-~]+$)/g;
-    return keyword.match(regex) === null;
+    return keyword.match(regex) === null && keyword.length;
   }
 
   static isSpellingAcceptable(languagetoolService: LanguagetoolService, text: string, language: Language = 'auto') {
