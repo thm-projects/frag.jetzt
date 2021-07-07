@@ -1,5 +1,5 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
-import { KeywordOrFulltext, Labels, spacyLabels, TopicCloudAdminData } from './TopicCloudAdminData';
+import { TopicCloudAdminData, Labels, spacyLabels, KeywordOrFulltext } from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -105,13 +105,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     return [...this.keywords.values()];
   }
 
-  changeblacklist() {
-    this.topicCloudAdminService.getRoom().subscribe(room => {
-      room.blacklistIsActive = this.blacklistIsActive;
-      this.topicCloudAdminService.updateRoom(room);
-    });
-  }
-
   removeFromKeywords(comment: Comment) {
     for (const [_, keyword] of this.keywords.entries()) {
       const index = keyword.comments.findIndex(c => c.id === comment.id);
@@ -176,14 +169,33 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Returns a lambda which closes the dialog on call.
+   */
+   buildCloseDialogActionCallback(): () => void {
+    return () => this.ngOnDestroy();
+  }
+
+  /**
+   * Returns a lambda which executes the dialog dedicated action on call.
+   */
+   buildSaveActionCallback(): () => void {
+    return () => this.save();
+  }
+
   ngOnDestroy() {
-    this.setAdminData();
     if (this.blacklistSubscription !== undefined) {
       this.blacklistSubscription.unsubscribe();
     }
     if (this.profanitylistSubscription !== undefined) {
       this.profanitylistSubscription.unsubscribe();
     }
+    this.cloudDialogRef.close();
+  }
+
+  save() {
+    this.setAdminData();
+    this.ngOnDestroy();
   }
 
   initializeKeywords() {
@@ -281,7 +293,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       startDate: this.startDate.length ? this.startDate : null,
       endDate: this.endDate.length ? this.endDate : null
     };
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData);
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true);
   }
 
   setDefaultAdminData() {

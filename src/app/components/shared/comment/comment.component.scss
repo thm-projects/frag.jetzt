@@ -185,6 +185,10 @@ mat-card-content > :first-child {
 }
 
 
+::ng-deep .mat-menu-panel {
+  min-height: 56px !important;
+}
+
 .keywords-list {
   flex-grow: 1;
   flex-shrink: 1;

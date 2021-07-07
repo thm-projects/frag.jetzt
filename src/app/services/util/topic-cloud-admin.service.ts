@@ -138,28 +138,34 @@ export class TopicCloudAdminService {
         this.blacklistIsActive.next(room.blacklistIsActive);
         const data = TopicCloudAdminService.getDefaultAdminData;
         data.profanityFilter = room.profanityFilter;
-        this.setAdminData(data);
+        data.blacklistIsActive = this.blacklistActive;
+        this.setAdminData(data, false);
       }
     });
   }
 
-  setAdminData(_adminData: TopicCloudAdminData) {
+  setAdminData(_adminData: TopicCloudAdminData, updateRoom: boolean) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-    this.getBlacklistIsActive().subscribe(isActive => {
-      _adminData.blacklistIsActive = isActive;
-    });
-    this.getBlacklist().subscribe(list => {
-      _adminData.blacklist = [];
-      if (_adminData.blacklistIsActive) {
-        _adminData.blacklist = list;
-      }
-      if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
-        _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
-      }
-      localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-      _adminData.blacklistIsActive = this.blacklistActive;
-      this.adminData.next(_adminData);
-    });
+    if (updateRoom) {
+      this.getRoom().subscribe(room => {
+        room.blacklistIsActive = _adminData.blacklistIsActive;
+        this.updateRoom(room);
+      });
+    } else {
+      const subscription = this.getBlacklist().subscribe(list => {
+        _adminData.blacklist = [];
+        if (_adminData.blacklistIsActive) {
+          _adminData.blacklist = list;
+        }
+        if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
+          _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
+        }
+        localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+        _adminData.blacklistIsActive = this.blacklistActive;
+        this.adminData.next(_adminData);
+        subscription.unsubscribe();
+      });
+    }
   }
 
   getBlacklist(): Observable<string[]> {
