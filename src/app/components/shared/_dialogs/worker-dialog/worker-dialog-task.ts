@@ -79,15 +79,14 @@ export class WorkerDialogTask {
 
   private finishSpacyCall(finishType: FinishType, index: number, tags?: SpacyKeyword[]): void {
     if (finishType === FinishType.completed) {
-      this.statistics.succeeded++;
       this.patchToServer(tags, index);
     } else if (finishType === FinishType.badSpelled) {
       this.statistics.badSpelled++;
       this.patchToServer([], index);
     } else {
       this.statistics.failed++;
+      this.callSpacy(index + concurrentCallsPerTask);
     }
-    this.callSpacy(index + concurrentCallsPerTask);
   }
 
   private patchToServer(tags: SpacyKeyword[], index: number) {

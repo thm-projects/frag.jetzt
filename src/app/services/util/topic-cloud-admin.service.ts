@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  TopicCloudAdminData,
   KeywordOrFulltext,
-  spacyLabels
+  spacyLabels,
+  TopicCloudAdminData
 } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoomService } from '../http/room.service';
 import { ProfanityFilter, Room } from '../../models/room';
@@ -12,6 +12,7 @@ import { WsRoomService } from '../websockets/ws-room.service';
 import { ProfanityFilterService } from './profanity-filter.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { Comment } from '../../models/comment';
+import { UserRole } from '../../models/user-roles.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -124,7 +125,7 @@ export class TopicCloudAdminService {
     return this.adminData.asObservable();
   }
 
-  ensureRoomBound(roomId: string) {
+  ensureRoomBound(roomId: string, userRole: UserRole) {
     if (this._subscriptionWsRoom) {
       this._subscriptionWsRoom.unsubscribe();
       this._subscriptionWsRoom = null;
@@ -139,33 +140,32 @@ export class TopicCloudAdminService {
         const data = TopicCloudAdminService.getDefaultAdminData;
         data.profanityFilter = room.profanityFilter;
         data.blacklistIsActive = this.blacklistActive;
-        this.setAdminData(data, false);
+        this.setAdminData(data, false, userRole);
       }
     });
   }
 
-  setAdminData(_adminData: TopicCloudAdminData, updateRoom: boolean) {
+  setAdminData(_adminData: TopicCloudAdminData, updateRoom: boolean, userRole: UserRole) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-    if (updateRoom) {
+    if (updateRoom && userRole && userRole > UserRole.PARTICIPANT) {
       this.getRoom().subscribe(room => {
         room.blacklistIsActive = _adminData.blacklistIsActive;
         this.updateRoom(room);
       });
-    } else {
-      const subscription = this.getBlacklist().subscribe(list => {
-        _adminData.blacklist = [];
-        if (_adminData.blacklistIsActive) {
-          _adminData.blacklist = list;
-        }
-        if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
-          _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
-        }
-        localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-        _adminData.blacklistIsActive = this.blacklistActive;
-        this.adminData.next(_adminData);
-        subscription.unsubscribe();
-      });
     }
+    const subscription = this.getBlacklist().subscribe(list => {
+      _adminData.blacklist = [];
+      if (_adminData.blacklistIsActive) {
+        _adminData.blacklist = list;
+      }
+      if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
+        _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
+      }
+      localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+      _adminData.blacklistIsActive = this.blacklistActive;
+      this.adminData.next(_adminData);
+      subscription.unsubscribe();
+    });
   }
 
   getBlacklist(): Observable<string[]> {

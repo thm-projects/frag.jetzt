@@ -8,6 +8,7 @@ import { CloudParameters } from '../../components/shared/tag-cloud/tag-cloud.int
 import { Comment } from '../../models/comment';
 import { RoomDataService } from './room-data.service';
 import { SpacyKeyword } from '../http/spacy.service';
+import { UserRole } from '../../models/user-roles.enum';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -152,13 +153,13 @@ export class TagCloudDataService {
     ];
   }
 
-  bindToRoom(roomId: string): void {
+  bindToRoom(roomId: string, userRole: UserRole): void {
     this._currentFilter = CommentFilter.currentFilter;
     this._roomId = roomId;
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
-    this._tagCloudAdmin.ensureRoomBound(roomId);
+    this._tagCloudAdmin.ensureRoomBound(roomId, userRole);
 
     this.fetchData();
     if (!this._currentFilter.paused) {
