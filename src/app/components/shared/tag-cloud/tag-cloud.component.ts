@@ -410,10 +410,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     const debounceTime = 1_000;
     const current = new Date().getTime();
     const diff = current - this.lastDebounceTime;
+    clearTimeout(this.debounceTimer);
     if (diff >= debounceTime) {
       this.redraw(dataUpdated);
     } else {
-      clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
         this.redraw(dataUpdated);
       }, debounceTime - diff);

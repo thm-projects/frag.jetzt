@@ -294,11 +294,11 @@ export class TagCloudDataService {
     }
     const currentTime = new Date().getTime();
     const diff = currentTime - this._lastDebounceTime;
+    clearTimeout(this._debounceTimer);
     if (diff >= DEBOUNCE_TIME) {
       this._dataBus.next(newData);
       this._lastDebounceTime = currentTime;
     } else {
-      clearTimeout(this._debounceTimer);
       this._debounceTimer = setTimeout(() => {
         this._dataBus.next(newData);
         this._lastDebounceTime = new Date().getTime();
