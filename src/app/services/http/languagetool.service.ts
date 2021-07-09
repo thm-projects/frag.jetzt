@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { catchError } from 'rxjs/operators';
-import { Model } from './spacy.service';
 import { Observable } from 'rxjs';
+import { Model } from './spacy.interface';
 
 export type Language =  'de' | 'de-AT' | 'de-CH' | 'de-DE' |
                         'en' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-US' |

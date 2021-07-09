@@ -16,13 +16,17 @@
             <mat-icon matTooltip="{{'worker-dialog.comments' | translate}}">comment</mat-icon>
             <span>{{task.statistics.succeeded}}/{{ task.statistics.length}}</span>
             <mat-icon *ngIf="task.statistics.badSpelled" style="color: darkorange"
-              matTooltip="{{'worker-dialog.bad-spelled' | translate}}">warning</mat-icon>
+                      matTooltip="{{'worker-dialog.bad-spelled' | translate}}">warning
+            </mat-icon>
             <span *ngIf="task.statistics.badSpelled">
               {{task.statistics.badSpelled}}
             </span>
-            <mat-icon *ngIf="task.statistics.failed" style="color: var(--red)"
-              matTooltip="{{'worker-dialog.failed' | translate}}">error</mat-icon>
-            <span *ngIf="task.statistics.failed">
+          </div>
+          <div *ngIf="!task.error && task.statistics.failed" class="entryRow">
+            <mat-icon style="color: var(--red)"
+                      matTooltip="{{'worker-dialog.failed' | translate}}">error
+            </mat-icon>
+            <span>
               {{task.statistics.failed}}
             </span>
           </div>
