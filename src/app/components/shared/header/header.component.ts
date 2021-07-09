@@ -335,6 +335,7 @@ export class HeaderComponent implements OnInit {
       autoFocus: false
     });
     confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
+    confirmDialogRef.componentInstance.user = this.user;
   }
 
   public navigateTopicCloudConfig() {

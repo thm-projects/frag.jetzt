@@ -34,6 +34,7 @@ import { WsRoomService } from '../../../services/websockets/ws-room.service';
 export interface CommentListData {
   comments: Comment[];
   currentFilter: CommentFilter;
+  room: Room;
 }
 
 @Component({
@@ -140,7 +141,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
       this.eventService.broadcast('currentRoomData', {
         currentFilter: this.getCurrentFilter(),
-        comments: this.comments
+        comments: this.comments,
+        room: this.room
       } as CommentListData);
     });
     const navigation = {};

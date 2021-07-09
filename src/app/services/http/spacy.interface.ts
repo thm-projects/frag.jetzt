@@ -138,3 +138,5 @@ export const DEFAULT_NOUN_LABELS = {
   en: [] as EnglishParserLabels[],
   fr: [] as FrenchParserLabels[],
 };
+
+export const CURRENT_SUPPORTED_LANGUAGES: Model[] = ['de', 'en', 'fr'];

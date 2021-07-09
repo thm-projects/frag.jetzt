@@ -6,7 +6,7 @@ import { Language as Lang, LanguagetoolService } from '../../../../services/http
 import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Model } from '../../../../services/http/spacy.interface';
+import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../../../../services/http/spacy.interface';
 
 const concurrentCallsPerTask = 4;
 
@@ -68,7 +68,7 @@ export class WorkerDialogTask {
         const commentModel = currentComment.language.toLowerCase();
         const model = commentModel !== 'auto' ? commentModel.toLowerCase() as Model :
           this.languagetoolService.mapLanguageToSpacyModel(result.result.language.detectedLanguage.code as Lang);
-        if (model === 'auto') {
+        if (model === 'auto' || !CURRENT_SUPPORTED_LANGUAGES.includes(model)) {
           this.finishSpacyCall(FinishType.badSpelled, currentIndex);
           return;
         }
