@@ -143,6 +143,13 @@ export class TopicCloudAdminService {
         this.setAdminData(data, false, userRole);
       }
     });
+    this.roomService.getRoom(roomId).subscribe(room => {
+      this.blacklistActive = room.blacklistIsActive;
+      const adminData = TopicCloudAdminService.getDefaultAdminData;
+      adminData.blacklistIsActive = room.blacklistIsActive;
+      adminData.profanityFilter = room.profanityFilter;
+      this.setAdminData(adminData, false, userRole);
+    });
   }
 
   setAdminData(_adminData: TopicCloudAdminData, updateRoom: boolean, userRole: UserRole) {
