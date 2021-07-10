@@ -455,17 +455,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       comment.ack = true;
     } else {
-      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
-        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-          message = msg;
-        });
-        comment.ack = true;
-      }
-      if (this.userRole === 0) {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-          message = msg;
-        });
-      }
+      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
+        message = msg;
+      });
     }
     this.commentService.addComment(comment).subscribe();
     this.notificationService.show(message);
@@ -650,7 +642,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
     localStorage.setItem('currentPeriod', JSON.stringify(this.period));
     localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
-    
     this.filterComments(this.currentFilter);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
