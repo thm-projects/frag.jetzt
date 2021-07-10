@@ -285,7 +285,8 @@
     "token": "Bonus token",
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
-    "export-comments": "Save questions"
+    "export-comments": "Save questions",
+    "room-not-exist": "We are sorry, but the session you want to join does not exist.\nPlease inform the person who gave you this direct link."
   },
   "session": {
     "create-session": "Save",
