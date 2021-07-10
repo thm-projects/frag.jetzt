@@ -283,7 +283,8 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
-    "export-comments": "Fragen speichern"
+    "export-comments": "Fragen speichern",
+    "room-not-exist": "Es tut uns leid, aber die Sitzung, der Sie beitreten möchten, existiert nicht.\nBitte informieren Sie die Person, die Ihnen diesen Link gegeben hat."
   },
   "session": {
     "create-session": "Speichern",
