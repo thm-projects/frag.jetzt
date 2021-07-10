@@ -3,42 +3,65 @@
   {{'header.overview-admin-config-enabled' | translate}}
 </span>
 <mat-divider></mat-divider>
-  <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
-    <mat-radio-button checked="true" value="continueWithAll">
-      <div class="elementRow">
-        <div class="elementText">
-          {{(!isMobile() ? 'content.continue-with-all-questions' : 'content.continue-with-all-questions-short') | translate}}
-        </div>
-        <div class="elementIcons" *ngIf="allComments">
-          <mat-icon [inline]="true"
-            matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{allComments.comments}}
-          <mat-icon [inline]="true"
-            matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon> {{allComments.users}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"
-            matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon> {{allComments.keywords}}
-        </div>
+<mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
+  <mat-radio-button checked="true" value="continueWithAll">
+    <div class="elementRow">
+      <div class="elementText">
+        {{(!isMobile() ? 'content.continue-with-all-questions' : 'content.continue-with-all-questions-short') | translate}}
       </div>
-    </mat-radio-button>
-    <mat-radio-button value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
-      <div class="elementRow">
-        <div class="elementText">
-          {{(!isMobile() ? 'content.continue-with-current-questions' : 'content.continue-with-current-questions-short')| translate}}
-        </div>
-        <div class="elementIcons" *ngIf="filteredComments">
-          <mat-icon [inline]="true"
-            matTooltip="{{'header.overview-question-tooltip' | translate}}">comment</mat-icon> {{filteredComments.comments}}
-          <mat-icon [inline]="true"
-            matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person</mat-icon> {{filteredComments.users}}
-          <mat-icon svgIcon="hashtag" class="comment_tag-icon"
-            matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon> {{filteredComments.keywords}}
-        </div>
+      <div class="elementIcons" *ngIf="allComments">
+        <mat-icon [inline]="true"
+                  matTooltip="{{'header.overview-question-tooltip' | translate}}">comment
+        </mat-icon>
+        {{allComments.comments}}
+        <mat-icon [inline]="true"
+                  matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person
+        </mat-icon>
+        {{allComments.users}}
+        <mat-icon svgIcon="hashtag" class="comment_tag-icon"
+                  matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon>
+        {{allComments.keywords}}
       </div>
-    </mat-radio-button>
-    <mat-radio-button value="continueWithAllFromNow">
-      {{(!isMobile() ? 'content.continue-with-all-questions-from-now' : 'content.continue-with-all-questions-from-now-short') | translate}}
-    </mat-radio-button>
-  </mat-radio-group>
-  <app-dialog-action-buttons
+    </div>
+  </mat-radio-button>
+  <mat-radio-button value="continueWithCurr" *ngIf="!disableCurrentFiltersOptions">
+    <div class="elementRow">
+      <div class="elementText">
+        {{(!isMobile() ? 'content.continue-with-current-questions' : 'content.continue-with-current-questions-short')| translate}}
+      </div>
+      <div class="elementIcons" *ngIf="filteredComments">
+        <mat-icon [inline]="true"
+                  matTooltip="{{'header.overview-question-tooltip' | translate}}">comment
+        </mat-icon>
+        {{filteredComments.comments}}
+        <mat-icon [inline]="true"
+                  matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person
+        </mat-icon>
+        {{filteredComments.users}}
+        <mat-icon svgIcon="hashtag" class="comment_tag-icon"
+                  matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon>
+        {{filteredComments.keywords}}
+      </div>
+    </div>
+  </mat-radio-button>
+  <mat-radio-button value="continueWithAllFromNow">
+    {{(!isMobile() ? 'content.continue-with-all-questions-from-now' : 'content.continue-with-all-questions-from-now-short') | translate}}
+  </mat-radio-button>
+</mat-radio-group>
+
+<mat-card *ngIf="user && user.role > 0 && hasNoKeywords" class="noKeywords">
+  <p>{{'topic-cloud-filter.info-no-keywords' | translate}}</p>
+  <span>{{'topic-cloud-filter.label-refresh-keywords' | translate}}</span>
+  <button mat-button
+          (click)="onKeywordRefreshClick()">
+    {{'topic-cloud-filter.label-refresh-keywords-start' | translate}}
+  </button>
+</mat-card>
+
+<mat-divider *ngIf="user && user.role > 0"></mat-divider>
+<app-worker-dialog [inlined]="true" *ngIf="user && user.role > 0"></app-worker-dialog>
+
+<app-dialog-action-buttons
   buttonsLabelSection="content"
   confirmButtonLabel="continue"
   buttonIcon="cloud"

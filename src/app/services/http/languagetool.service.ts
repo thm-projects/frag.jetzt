@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
 import { catchError } from 'rxjs/operators';
-import { Model } from './spacy.service';
 import { Observable } from 'rxjs';
+import { CURRENT_SUPPORTED_LANGUAGES, Model } from './spacy.interface';
 
 export type Language =  'de' | 'de-AT' | 'de-CH' | 'de-DE' |
                         'en' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-US' |
@@ -112,8 +112,7 @@ export class LanguagetoolService extends BaseHttpService {
   }
 
   isSupportedLanguage(language: Language) {
-    const supportedLanguages: Model[] = ['de', 'en', 'fr'];
-    return supportedLanguages.includes(this.mapLanguageToSpacyModel(language));
+    return CURRENT_SUPPORTED_LANGUAGES.includes(this.mapLanguageToSpacyModel(language));
   }
 
   checkSpellings(text: string, language: Language): Observable<LanguagetoolResult> {

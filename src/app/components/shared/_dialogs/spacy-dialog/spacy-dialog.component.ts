@@ -2,10 +2,11 @@ import { AfterContentInit, Component, Inject, OnInit, ViewChild } from '@angular
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
-import { SpacyService, Model, SpacyKeyword } from '../../../../services/http/spacy.service';
+import { SpacyService, SpacyKeyword } from '../../../../services/http/spacy.service';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
 import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { Model } from '../../../../services/http/spacy.interface';
 
 export interface Keyword {
   word: string;
