@@ -369,59 +369,124 @@
     </mat-card>
 
     <mat-accordion>
-      <div *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index">
-        <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
-          (closed)="panelOpenState = edit = false" [attr.data-index]="i" *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
-          matTooltip="{{blacklistIncludesKeyword(keyword.keyword)?'Blacklist: ':''}}{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
-          <mat-expansion-panel-header class="color-surface">
-            <mat-panel-title [ngClass]="{'red': blacklistIncludesKeyword(keyword.keyword)}">
-              {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
-            </mat-panel-title>
-            <mat-panel-description [ngClass]="{'red': blacklistIncludesKeyword(keyword.keyword)}">
-              {{keyword.comments.length}}
-              {{'topic-cloud-dialog.question-count-' + (keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-          <div *ngFor="let question of keyword.comments">
-            <mat-divider></mat-divider>
-            <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-                                      [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
-                                      [partialWords]="censorPartialWordsCheck"
-                                      [language]="question.language"></app-topic-dialog-comment>
-          </div>
-
-          <div *ngIf="isCreatorOrMod">
-            <!-- Only visible when not editing -->
-            <div *ngIf="!edit" align="end">
-              <mat-divider></mat-divider>
-              <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
-                <mat-icon class="primary" matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit</mat-icon>
-              </button>
-              <button class="margin-right" mat-icon-button style="align-self:flex-end;"
-                      (click)="openConfirmDialog('delete-message','delete',keyword)">
-                <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete</mat-icon>
-              </button>
-            </div>
-
-            <!-- Only visible when editing -->
-            <div *ngIf="edit">
-              <mat-divider></mat-divider>
-              <mat-form-field>
-                <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
-                <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
-              </mat-form-field>
-              <!-- TODO: textinput and buttons in one row -->
-              <div align="end">
-                <button mat-raised-button class="redBackground margin-right"
-                        (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
-                <button mat-raised-button class="primaryBackground"
-                        (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save'
-                  | translate}}</button>
+      <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
+        <mat-tab label="{{'topic-cloud-dialog.keywords' | translate}}">
+          <div *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index">
+            <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
+              (closed)="panelOpenState = edit = false" [attr.data-index]="i"
+              matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+              <mat-expansion-panel-header class="color-surface">
+                <mat-panel-title>
+                  {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{keyword.comments.length}}
+                  {{'topic-cloud-dialog.question-count-' + (keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div *ngFor="let question of keyword.comments">
+                <mat-divider></mat-divider>
+                <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
+                                          [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+                                          [partialWords]="censorPartialWordsCheck"
+                                          [language]="question.language"></app-topic-dialog-comment>
               </div>
-            </div>
+    
+              <div *ngIf="isCreatorOrMod">
+                <!-- Only visible when not editing -->
+                <div *ngIf="!edit" align="end">
+                  <mat-divider></mat-divider>
+                  <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
+                    <mat-icon class="primary" matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit</mat-icon>
+                  </button>
+                  <button class="margin-right" mat-icon-button style="align-self:flex-end;"
+                          (click)="openConfirmDialog('delete-message','delete',keyword)">
+                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete</mat-icon>
+                  </button>
+                </div>
+    
+                <!-- Only visible when editing -->
+                <div *ngIf="edit">
+                  <mat-divider></mat-divider>
+                  <mat-form-field>
+                    <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
+                    <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
+                  </mat-form-field>
+                  <!-- TODO: textinput and buttons in one row -->
+                  <div align="end">
+                    <button mat-raised-button class="redBackground margin-right"
+                            (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
+                    <button mat-raised-button class="primaryBackground"
+                            (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save'
+                      | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
           </div>
-        </mat-expansion-panel>
-      </div>
+        </mat-tab>
+
+        <mat-tab label="Blacklist" *ngIf="isCreatorOrMod">
+          <mat-card class="color-surface"
+              *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+            <p class="color-on-surface" fxLayoutAlign="center">
+              {{'topic-cloud-dialog.no-keywords-note' | translate}}
+            </p>
+          </mat-card>
+          <div *ngFor="let keyword of (searchMode ? filteredKeywords : blacklistKeywords); let i = index">
+            <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
+              (closed)="panelOpenState = edit = false" [attr.data-index]="i"
+              matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+              <mat-expansion-panel-header class="color-surface">
+                <mat-panel-title>
+                  {{keyword.keyword}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  {{keyword.comments.length}}
+                  {{'topic-cloud-dialog.question-count-' + (keyword.comments.length > 1 ? 'plural' : 'singular') | translate}}
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+              <div *ngFor="let question of keyword.comments">
+                <mat-divider></mat-divider>
+                <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
+                                          [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+                                          [partialWords]="censorPartialWordsCheck"
+                                          [language]="question.language"></app-topic-dialog-comment>
+              </div>
+              <div>
+                <!-- Only visible when not editing -->
+                <div *ngIf="!edit" align="end">
+                  <mat-divider></mat-divider>
+                  <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
+                    <mat-icon class="primary" matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit</mat-icon>
+                  </button>
+                  <button class="margin-right" mat-icon-button style="align-self:flex-end;"
+                          (click)="openConfirmDialog('delete-message','delete',keyword)">
+                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete</mat-icon>
+                  </button>
+                </div>
+    
+                <!-- Only visible when editing -->
+                <div *ngIf="edit">
+                  <mat-divider></mat-divider>
+                  <mat-form-field>
+                    <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
+                    <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
+                  </mat-form-field>
+
+                  <div align="end">
+                    <button mat-raised-button class="redBackground margin-right"
+                            (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
+                    <button mat-raised-button class="primaryBackground"
+                            (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save'
+                      | translate}}</button>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
     </mat-accordion>
   </div>
 </mat-dialog-content>

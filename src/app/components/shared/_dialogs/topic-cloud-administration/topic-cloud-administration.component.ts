@@ -67,6 +67,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   private censorLanguageSpecificCheck: boolean;
   private testProfanityWord: string = undefined;
   private testProfanityLanguage = 'de';
+  private blacklistKeywords = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -87,7 +88,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => this.blacklistIsActive = isActive);
     this.deviceType = localStorage.getItem('deviceType');
-    this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
+    this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => {
+      this.blacklist = list;
+      this.refreshKeywords();
+    });
     this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
@@ -114,6 +118,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   refreshKeywords() {
     this.keywords = [];
+    this.blacklistKeywords = [];
     this.roomDataService.currentRoomData.forEach(comment => {
       this.pushInKeywords(comment);
     });
@@ -159,7 +164,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           comments: [comment],
           vote: comment.score
         };
-        this.keywords.push(keyword);
+        if (this.blacklistIncludesKeyword(_keyword)) {
+          this.blacklistKeywords.push(keyword);
+        } else {
+          this.keywords.push(keyword);
+        }
       }
     });
   }

@@ -430,7 +430,8 @@
     "topic-requirement-questioners": "Minimum number of questioners",
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
-    "topic-requirement-end-datetime": "Last comment"
+    "topic-requirement-end-datetime": "Last comment",
+    "keywords": "Keywords"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
