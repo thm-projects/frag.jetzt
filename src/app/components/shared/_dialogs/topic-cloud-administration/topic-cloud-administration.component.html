@@ -334,7 +334,7 @@
         <p [ngClass]="{'animation-blink': searchMode}"
            matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
           {{searchMode ? filteredKeywords.length :
-          keywords.length}}</p>
+            selectedTabIndex === 0 ? keywords.length : blacklistKeywords.length}}</p>
       </div>
       <div class="margin-left vertical-center">
         <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
@@ -361,16 +361,15 @@
       </button>
     </mat-menu>
 
-    <mat-card class="color-surface"
-              *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
-      <p class="color-on-surface" fxLayoutAlign="center">
-        {{'topic-cloud-dialog.no-keywords-note' | translate}}
-      </p>
-    </mat-card>
-
     <mat-accordion>
-      <mat-tab-group animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
+      <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="changeTabIndex()" animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
         <mat-tab label="{{'topic-cloud-dialog.keywords' | translate}}">
+          <mat-card class="color-surface"
+              *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+            <p class="color-on-surface" fxLayoutAlign="center">
+              {{'topic-cloud-dialog.no-keywords-note' | translate}}
+            </p>
+          </mat-card>
           <div *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index">
             <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
               (closed)="panelOpenState = edit = false" [attr.data-index]="i"

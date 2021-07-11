@@ -59,6 +59,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   minUpvotes: string;
   startDate: string;
   endDate: string;
+  selectedTabIndex = 0;
 
   keywords: Keyword[] = [];
   private topicCloudAdminData: TopicCloudAdminData;
@@ -103,6 +104,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.wantedLabels = undefined;
     this.setDefaultAdminData();
     this.initializeKeywords();
+  }
+
+  changeTabIndex() {
+    this.selectedTabIndex = this.selectedTabIndex === 0 ? 1 : 0;
+    if (this.searchMode) {
+      this.searchKeyword();
+    }
   }
 
   removeFromKeywords(comment: Comment) {
@@ -450,10 +458,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   searchKeyword(): void {
+    const toFilteredKeywords = this.selectedTabIndex === 0 ? this.keywords : this.blacklistKeywords;
     if (!this.searchedKeyword) {
       this.searchMode = false;
     } else {
-      this.filteredKeywords = this.keywords.filter(keyword =>
+      this.filteredKeywords = toFilteredKeywords.filter(keyword =>
         keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
       );
       this.searchMode = true;
