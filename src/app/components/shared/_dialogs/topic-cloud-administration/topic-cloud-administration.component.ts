@@ -87,7 +87,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => this.blacklistIsActive = isActive);
+    this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => {
+      this.blacklistIsActive = isActive;
+      this.refreshKeywords();
+    });
     this.deviceType = localStorage.getItem('deviceType');
     this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => {
       this.blacklist = list;
@@ -172,7 +175,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           comments: [comment],
           vote: comment.score
         };
-        if (this.blacklistIncludesKeyword(_keyword)) {
+        if (this.blacklistIncludesKeyword(_keyword) && this.blacklistIsActive) {
           this.blacklistKeywords.push(keyword);
         } else {
           this.keywords.push(keyword);

@@ -425,7 +425,10 @@
           </div>
         </mat-tab>
 
-        <mat-tab label="Blacklist" *ngIf="isCreatorOrMod">
+        <mat-tab *ngIf="isCreatorOrMod">
+          <ng-template mat-tab-label>
+            <span [ngClass]="{'animation-blink': blacklistIsActive}">Blacklist</span>
+          </ng-template>
           <mat-card class="color-surface"
               *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
             <p class="color-on-surface" fxLayoutAlign="center">
