@@ -427,7 +427,8 @@
 
         <mat-tab *ngIf="isCreatorOrMod">
           <ng-template mat-tab-label>
-            <span [ngClass]="{'animation-blink': blacklistIsActive}">Blacklist</span>
+            <label [ngClass]="{'animation-blink': blacklistIsActive}" 
+                   matTooltip="{{'topic-cloud-dialog.blacklist-is'+(blacklistIsActive?'':'-not')+'-active' | translate}}">Blacklist</label>
           </ng-template>
           <mat-card class="color-surface"
               *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">

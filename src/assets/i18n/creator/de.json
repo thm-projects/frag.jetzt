@@ -424,7 +424,9 @@
     "topic-requirement-upvotes": "Minimale Anzahl Up-Votes",
     "topic-requirement-begin-datetime": "Beginn der Zeitspanne",
     "topic-requirement-end-datetime": "Ende der Zeitspanne",
-    "keywords": "Stichwörter"
+    "keywords": "Stichwörter",
+    "blacklist-is-active": "Die Blacklist wird verborgen",
+    "blacklist-is-not-active": "Die Blacklist wird nicht verborgen"
   },
   "topic-cloud-confirm-dialog": {
     "cancel": "Abbrechen",
