@@ -404,6 +404,7 @@
     "keyword-delete": "keyword deleted",
     "keyword-edit": "keyword renamed",
     "keywords-merge": "keywords merged",
+    "spacy-labels": "Which nouns of the text analysis should be displayed as topics?",
     "changes-gone-wrong": "somthing has gone wrong",
     "english": "English",
     "german": "German",

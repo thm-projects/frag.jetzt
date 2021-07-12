@@ -156,7 +156,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
@@ -303,13 +303,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   ngAfterContentInit() {
     document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    this.dataManager.bindToRoom(this.roomId, this.userRole);
+    setTimeout(() => this.dataManager.bindToRoom(this.roomId, this.userRole));
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-  }
-
-  ngAfterViewInit() {
-    setTimeout(() => this.rebuildData());
   }
 
   ngOnDestroy() {
