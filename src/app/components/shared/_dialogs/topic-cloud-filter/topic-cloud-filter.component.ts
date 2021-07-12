@@ -68,7 +68,7 @@ export class TopicCloudFilterComponent implements OnInit {
       this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
       this.commentsLoadedCallback();
       this.hasNoKeywords = this.comments.length >= 3 &&
-        this.allComments.keywords === 0 &&
+        this.comments.every(comment => !comment.keywordsFromSpacy || comment.keywordsFromSpacy.length === 0) &&
         !WorkerDialogComponent.isWorkingOnRoom(data.room.id);
     });
     this.eventService.broadcast('pushCurrentRoomData');
