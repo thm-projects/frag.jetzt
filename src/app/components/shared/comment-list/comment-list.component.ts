@@ -34,6 +34,7 @@ import { WsRoomService } from '../../../services/websockets/ws-room.service';
 export interface CommentListData {
   comments: Comment[];
   currentFilter: CommentFilter;
+  room: Room;
 }
 
 @Component({
@@ -78,6 +79,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   unanswered = 'unanswered';
   owner = 'owner';
   currentFilter = '';
+  currentFilterCompare: any = null;
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
@@ -139,7 +141,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
       this.eventService.broadcast('currentRoomData', {
         currentFilter: this.getCurrentFilter(),
-        comments: this.comments
+        comments: this.comments,
+        room: this.room
       } as CommentListData);
     });
     const navigation = {};
@@ -371,6 +374,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
+    this.currentFilterCompare = compare;
     if (type === '') {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
@@ -402,8 +406,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.includes(compare) : false;
-          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.includes(compare) : false;
+          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.findIndex(k => k.lemma === compare) >= 0 : false;
+          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.findIndex(k => k.lemma === compare) >= 0 : false;
           return isInQuestioner || isInSpacy;
         case this.answer:
           return c.answer;
@@ -496,10 +500,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   subscribeCommentStream() {
     this.commentStream = this.roomDataService.receiveUpdates([
-      {type: 'CommentCreated', finished: true},
-      {type: 'CommentPatched', subtype: this.favorite},
-      {type: 'CommentPatched', subtype: 'score'},
-      {finished: true}
+      { type: 'CommentCreated', finished: true },
+      { type: 'CommentPatched', subtype: this.favorite },
+      { type: 'CommentPatched', subtype: 'score' },
+      { finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.announceNewComment(update.comment.body);
@@ -591,7 +595,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentsFilteredByTime = this.comments;
     }
 
-    this.filterComments(this.currentFilter);
+    this.filterComments(this.currentFilter, this.currentFilterCompare);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
 

@@ -13,6 +13,9 @@ import { CommentListData } from '../../comment-list/comment-list.component';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
 import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
+import { User } from '../../../../models/user';
+import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
+import { Room } from '../../../../models/room';
 
 class CommentsCount {
   comments: number;
@@ -27,6 +30,7 @@ class CommentsCount {
 })
 export class TopicCloudFilterComponent implements OnInit {
   @Input() target: string;
+  @Input() user: User;
 
   continueFilter = 'continueWithAll';
   comments: Comment[];
@@ -35,7 +39,9 @@ export class TopicCloudFilterComponent implements OnInit {
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
   isTopicRequirementActive = false;
+  hasNoKeywords = false;
   private readonly _adminData: TopicCloudAdminData;
+  private _room: Room;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -57,9 +63,13 @@ export class TopicCloudFilterComponent implements OnInit {
       subscriptionEventService.unsubscribe();
       this.comments = data.comments;
       this.tmpFilter = data.currentFilter;
+      this._room = data.room;
       this.allComments = this.getCommentCounts(this.comments);
       this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
       this.commentsLoadedCallback();
+      this.hasNoKeywords = this.comments.length >= 3 &&
+        this.allComments.keywords === 0 &&
+        !WorkerDialogComponent.isWorkingOnRoom(data.room.id);
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -74,12 +84,17 @@ export class TopicCloudFilterComponent implements OnInit {
     }
   }
 
-  isMobile() : boolean{
-    if(window.matchMedia("(max-width:500px)").matches){
+  isMobile(): boolean {
+    if (window.matchMedia('(max-width:500px)').matches) {
       return true;
-    }else{
+    } else {
       return false;
     }
+  }
+
+  onKeywordRefreshClick() {
+    this.hasNoKeywords = false;
+    WorkerDialogComponent.addWorkTask(this.dialog, this._room);
   }
 
   getCommentCounts(comments: Comment[]): CommentsCount {

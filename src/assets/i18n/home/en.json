@@ -55,7 +55,7 @@
     "back": "Back",
     "cancel": "Cancel",
     "delete": "Delete",
-    "block" : "Block questions",
+    "block": "Block questions",
     "unlock": "Unlock questions",
     "delete-account": "Delete account",
     "home-header": "Collect and rate questions",
@@ -132,13 +132,12 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "reset": "Reset",
-    "continue-with-all-questions" : "Continue with all questions of the session",
-    "continue-with-all-questions-short" : "With all questions",
+    "continue-with-all-questions": "Continue with all questions of the session",
+    "continue-with-all-questions-short": "With all questions",
     "continue-with-current-questions": "Continue with current question list",
     "continue-with-current-questions-short": "With question list",
     "continue-with-all-questions-from-now": "Continue with questions that will be asked from now on",
     "continue-with-all-questions-from-now-short": "With questions from now on"
-
   },
   "imprint": {
     "cancel": "Close",
@@ -286,7 +285,8 @@
     "token": "Bonus token",
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
-    "export-comments": "Save questions"
+    "export-comments": "Save questions",
+    "room-not-exist": "We are sorry, but the session you want to join does not exist.\nPlease inform the person who gave you this direct link."
   },
   "session": {
     "create-session": "Save",
@@ -295,7 +295,6 @@
     "max-ls": "Max. characters:",
     "session-name": "Session name",
     "session-name-with-key-code-generated": "Session name (code will be generated)"
-
   },
   "user-activation": {
     "activate": "Activate account",
@@ -330,9 +329,15 @@
   },
   "worker-dialog": {
     "running": "Running",
-    "room-name" : "Session name",
-    "comments" : "Questions",
-    "bad-spelled" : "Spelling too bad",
-    "failed" : "Error occured"
+    "room-name": "Session name",
+    "comments": "Questions",
+    "bad-spelled": "Spelling too bad",
+    "failed": "Error occured",
+    "inline-header": "Ongoing keyword updates"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "There are currently no keywords. The topic cloud will be empty. A question analysis can automatically create keywords in old sessions.",
+    "label-refresh-keywords": "Start question analysis?",
+    "label-refresh-keywords-start": "Start"
   }
 }

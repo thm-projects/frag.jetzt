@@ -18,6 +18,7 @@ import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { User } from '../../../models/user';
 import { RoomDataService } from '../../../services/util/room-data.service';
+import { SpacyKeyword } from '../../../services/http/spacy.service';
 
 @Component({
   selector: 'app-comment',
@@ -128,8 +129,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  sortKeywords(keywords: string[]){
-    return keywords.sort((a,b) => a.localeCompare(b));
+  sortKeywords(keywords: SpacyKeyword[]){
+    return keywords.sort((a,b) => a.lemma.localeCompare(b.lemma));
   }
 
   toggleExpand(evt: MouseEvent) {

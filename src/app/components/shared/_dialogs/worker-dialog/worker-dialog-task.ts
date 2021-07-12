@@ -1,13 +1,20 @@
 import { Room } from '../../../../models/room';
-import { Model, SpacyService } from '../../../../services/http/spacy.service';
+import { SpacyKeyword, SpacyService } from '../../../../services/http/spacy.service';
 import { CommentService } from '../../../../services/http/comment.service';
-import { Comment } from '../../../../models/comment';
-import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { Comment, Language } from '../../../../models/comment';
+import { Language as Lang, LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
+import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../../../../services/http/spacy.interface';
 
 const concurrentCallsPerTask = 4;
+
+enum FinishType {
+  completed,
+  badSpelled,
+  failed
+}
 
 export class WorkerDialogTask {
 
@@ -55,41 +62,49 @@ export class WorkerDialogTask {
     CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, currentComment.body)
       .subscribe(result => {
         if (!result.isAcceptable) {
-          this.statistics.badSpelled++;
-          this.callSpacy(currentIndex + concurrentCallsPerTask);
+          this.finishSpacyCall(FinishType.badSpelled, currentIndex);
           return;
         }
         const commentModel = currentComment.language.toLowerCase();
         const model = commentModel !== 'auto' ? commentModel.toLowerCase() as Model :
-          this.languagetoolService.mapLanguageToSpacyModel(result.result.language.detectedLanguage.code as Language);
-        if (model === 'auto') {
-          this.statistics.badSpelled++;
-          this.callSpacy(currentIndex + concurrentCallsPerTask);
+          this.languagetoolService.mapLanguageToSpacyModel(result.result.language.detectedLanguage.code as Lang);
+        if (model === 'auto' || !CURRENT_SUPPORTED_LANGUAGES.includes(model)) {
+          this.finishSpacyCall(FinishType.badSpelled, currentIndex);
           return;
         }
         this.spacyService.getKeywords(result.text, model)
-          .subscribe(newKeywords => {
-              const changes = new TSMap<string, string>();
-              changes.set('keywordsFromSpacy', JSON.stringify(newKeywords));
-              this.commentService.patchComment(currentComment, changes).subscribe(_ => {
-                  this.statistics.succeeded++;
-                },
-                patchError => {
-                  this.statistics.failed++;
-                  if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
-                    this.error = 'forbidden';
-                  }
-                }, () => {
-                  this.callSpacy(currentIndex + concurrentCallsPerTask);
-                });
-            },
-            __ => {
-              this.statistics.failed++;
-              this.callSpacy(currentIndex + concurrentCallsPerTask);
-            });
-      }, _ => {
+          .subscribe(newKeywords =>
+              this.finishSpacyCall(FinishType.completed, currentIndex, newKeywords, model.toUpperCase() as Language),
+            __ => this.finishSpacyCall(FinishType.failed, currentIndex));
+      }, _ => this.finishSpacyCall(FinishType.failed, currentIndex));
+  }
+
+  private finishSpacyCall(finishType: FinishType, index: number, tags?: SpacyKeyword[], lang?: Language): void {
+    if (finishType === FinishType.completed) {
+      this.patchToServer(tags, index, lang);
+    } else if (finishType === FinishType.badSpelled) {
+      this.statistics.badSpelled++;
+      this.patchToServer([], index, Language.auto);
+    } else {
+      this.statistics.failed++;
+      this.callSpacy(index + concurrentCallsPerTask);
+    }
+  }
+
+  private patchToServer(tags: SpacyKeyword[], index: number, language: Language) {
+    const changes = new TSMap<string, string>();
+    changes.set('keywordsFromSpacy', JSON.stringify(tags));
+    changes.set('language', language);
+    this.commentService.patchComment(this._comments[index], changes).subscribe(_ => {
+        this.statistics.succeeded++;
+        this.callSpacy(index + concurrentCallsPerTask);
+      },
+      patchError => {
         this.statistics.failed++;
-        this.callSpacy(currentIndex + concurrentCallsPerTask);
+        if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
+          this.error = 'forbidden';
+        }
+        this.callSpacy(index + concurrentCallsPerTask);
       });
   }
 

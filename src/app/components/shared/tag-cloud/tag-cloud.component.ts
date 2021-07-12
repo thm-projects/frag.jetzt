@@ -112,18 +112,25 @@ const getResolvedDefaultColors = (): string[] => {
 
 const getDefaultCloudParameters = (): CloudParameters => {
   const resDefaultColors = getResolvedDefaultColors();
+  const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
+  const isMobile = minValue < 500;
+  const elements = isMobile ? 5 : 10;
   const weightSettings: CloudWeightSettings = [
-    {maxVisibleElements: -1, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: false},
-    {maxVisibleElements: -1, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: false},
+    { maxVisibleElements: elements, color: resDefaultColors[1], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[2], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[3], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[4], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[5], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[6], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[7], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[8], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[9], rotation: 0, allowManualTagNumber: true },
+    { maxVisibleElements: elements, color: resDefaultColors[10], rotation: 0, allowManualTagNumber: true },
   ];
+  const mapValue = (current: number, minInputValue: number, maxInputValue: number, minOut: number, maxOut: number) => {
+    const value = (current - minInputValue) * (maxOut - minOut) / (maxInputValue - minInputValue) + minOut;
+    return Math.min(maxOut, Math.max(minOut, value));
+  };
   return {
     fontFamily: 'Dancing Script',
     fontWeight: 'normal',
@@ -131,9 +138,9 @@ const getDefaultCloudParameters = (): CloudParameters => {
     fontSize: '10px',
     backgroundColor: resDefaultColors[11],
     fontColor: resDefaultColors[0],
-    fontSizeMin: 150,
-    fontSizeMax: 900,
-    hoverScale: 2,
+    fontSizeMin: mapValue(minValue, 375, 750, 125, 200),
+    fontSizeMax: mapValue(minValue, 375, 1500, 300, 900),
+    hoverScale: mapValue(minValue, 375, 1500, 1.4, 2),
     hoverTime: 1,
     hoverDelay: 0.4,
     delayWord: 100,
@@ -151,7 +158,7 @@ const getDefaultCloudParameters = (): CloudParameters => {
 })
 export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
-  @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
+  @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @Input() user: User;
   @Input() roomId: string;
@@ -270,6 +277,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
             const message = JSON.parse(msg.body);
             if (message.type === 'RoomPatched') {
               this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+              this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
             }
           });
           this.directSend = this.room.directSend;
@@ -295,13 +303,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   ngAfterContentInit() {
     document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    this.dataManager.bindToRoom(this.roomId);
+    this.dataManager.bindToRoom(this.roomId, this.userRole);
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
 
   ngAfterViewInit() {
-    this.rebuildData();
+    setTimeout(() => this.rebuildData());
   }
 
   ngOnDestroy() {
@@ -343,7 +351,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   }
 
   resetColorsToTheme() {
-    this.setCloudParameters(getDefaultCloudParameters());
+    this.setCloudParameters(getDefaultCloudParameters(), true);
   }
 
   onResize(event: UIEvent): any {
@@ -368,7 +376,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
           if (remaining > 0) {
             --countFiler[tagData.adjustedWeight];
           }
-          let rotation = Math.random() < 0.5 ? this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation : 0;
+          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
@@ -402,10 +410,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     const debounceTime = 1_000;
     const current = new Date().getTime();
     const diff = current - this.lastDebounceTime;
+    clearTimeout(this.debounceTimer);
     if (diff >= debounceTime) {
       this.redraw(dataUpdated);
     } else {
-      clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
         this.redraw(dataUpdated);
       }, debounceTime - diff);
@@ -420,7 +428,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       this.eventService.broadcast('setTagConfig', tag.text);
       this._subscriptionCommentlist.unsubscribe();
     });
-    this.router.navigate(['../'], {relativeTo: this.route});
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   private updateAlphabeticalPosition(elements: TagComment[]): void {
@@ -461,7 +469,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
         elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
         this.popup.enter(elem, dataElement.text, dataElement.tagData,
-          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000);
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
+          this.room && this.room.blacklistIsActive);
       });
     });
   }

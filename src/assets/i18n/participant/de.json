@@ -308,7 +308,8 @@
     "topic-requirement-upvotes": "Minimale Anzahl Up-Votes",
     "topic-requirement-begin-datetime": "Beginn der Zeitspanne",
     "topic-requirement-end-datetime": "Ende der Zeitspanne",
-    "keywords": "Stichwörter"
+    "keywords": "Stichwörter",
+    "topic-requirement-reset": "Zurücksetzen"
   },
   "dialog-comment": {
     "read-more": "Mehr lesen",
@@ -362,8 +363,8 @@
     "notation-tooltip": "Einstellung der Schreibweise: klein, groß, wie vorgegeben",
     "alphabetical-sorting-tooltip": "Alphabetische Sortierung",
     "highestWeight-tooltip": "x Themen mit der höchsten Gewichtung anzeigen",
-    "rotate-weight": "Themen dieser Häufigkeitsgruppe zufällig um x Grad drehen",
-    "rotate-weight-tooltip": "Themen dieser Häufigkeitsgruppe zufällig um x Grad drehen",
+    "rotate-weight": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
+    "rotate-weight-tooltip": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
     "font":"Schrift",
     "reset-btn": "Auf Standardwerte setzen",
     "font-family-tooltip": "Schrift auswählen …",

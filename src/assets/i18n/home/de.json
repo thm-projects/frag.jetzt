@@ -283,7 +283,8 @@
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
-    "export-comments": "Fragen speichern"
+    "export-comments": "Fragen speichern",
+    "room-not-exist": "Es tut uns leid, aber die Sitzung, der Sie beitreten möchten, existiert nicht.\nBitte informieren Sie die Person, die Ihnen diesen Link gegeben hat."
   },
   "session": {
     "create-session": "Speichern",
@@ -329,6 +330,12 @@
     "room-name" : "Sitzungsname",
     "comments" : "Abgearbeitete Fragen",
     "bad-spelled" : "Zu schlechte Rechtschreibung",
-    "failed" : "Fehler aufgetreten"
+    "failed" : "Fehler aufgetreten",
+    "inline-header": "Laufende Stichwortaktualisierungen"
+  },
+  "topic-cloud-filter": {
+    "info-no-keywords": "Es sind derzeit keine Stichwörter vorhanden. Die Wortwolke wird leer sein. Eine Fragen-Analyse kann Stichwörter in alten Sessions automatisch erstellen.",
+    "label-refresh-keywords": "Fragen-Analyse starten?",
+    "label-refresh-keywords-start": "Starten"
   }
 }

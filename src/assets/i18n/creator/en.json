@@ -433,7 +433,8 @@
     "topic-requirement-end-datetime": "Last comment",
     "keywords": "Keywords",
     "blacklist-is-active": "The blacklist is hidden",
-    "blacklist-is-not-active": "The blacklist is not hidden"
+    "blacklist-is-not-active": "The blacklist is not hidden",
+    "topic-requirement-reset": "Reset"
   },
   "topic-cloud-confirm-dialog":{
     "cancel": "Cancel",
@@ -493,15 +494,14 @@
     "highestWeight": "Number of tags with highest weight",
     "notation-tooltip": "Notation-Settings: small, large, standard",
     "alphabetical-sorting-tooltip": "Alphabetical sorting",
-    "rotate-weight-tooltip": "Rotate some entries randomly by x degrees",
     "highestWeight-tooltip": "show x tags with the highest weight",
-    "rotate-weight": "Rotate some entries of this weight class randomly by x degrees",
+    "rotate-weight": "Rotate all entries of this class by x degrees",
+    "rotate-weight-tooltip": "Rotate all entries of this class by x degrees",
     "font":"Font",
     "reset-btn": "Reset",
     "font-family-tooltip": "Select font",
     "bold-notation-tooltip": "Select font-thickness bold",
     "font-style-bold" : "Bold",
-    "font-style-italic": "Italic",
     "font-family":"Font Family",
     "manual-weight-number": "Set quantity",
     "manual-weight-number-tooltip": "Quantity Limitation of this weight class",

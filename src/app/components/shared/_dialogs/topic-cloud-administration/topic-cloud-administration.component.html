@@ -307,6 +307,11 @@
                 <mat-icon>close</mat-icon>
               </button>
             </mat-form-field>
+            <button mat-button class="themeRequirementInput reset"
+                    [disabled]="!isTopicRequirementActive()"
+                    (click)="minQuestioners='1'; minQuestioners='1'; minUpvotes='0'; startDate=''; endDate=''">
+              {{'topic-cloud-dialog.topic-requirement-reset' | translate}}
+            </button>
           </mat-expansion-panel>
         </mat-accordion>
 
@@ -334,7 +339,7 @@
         <p [ngClass]="{'animation-blink': searchMode}"
            matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
           {{searchMode ? filteredKeywords.length :
-            selectedTabIndex === 0 ? keywords.length : blacklistKeywords.length}}</p>
+            selectedTabIndex === 0 ? keywords.size : blacklistKeywords.length}}</p>
       </div>
       <div class="margin-left vertical-center">
         <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
@@ -361,19 +366,21 @@
       </button>
     </mat-menu>
 
-    <mat-accordion>
-      <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="changeTabIndex()" animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
-        <mat-tab label="{{'topic-cloud-dialog.keywords' | translate}}">
-          <mat-card class="color-surface"
-              *ngIf="(keywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
-            <p class="color-on-surface" fxLayoutAlign="center">
-              {{'topic-cloud-dialog.no-keywords-note' | translate}}
-            </p>
-          </mat-card>
-          <div *ngFor="let keyword of (searchMode ? filteredKeywords : keywords); let i = index">
+    
+    <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="changeTabIndex()" animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
+      <mat-tab label="{{'topic-cloud-dialog.keywords' | translate}}">
+        <mat-card class="color-surface"
+                  *ngIf="(keywords.size === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+          <p class="color-on-surface" fxLayoutAlign="center">
+            {{'topic-cloud-dialog.no-keywords-note' | translate}}
+          </p>
+        </mat-card>
+        <mat-accordion>
+          <div *ngFor="let keyword of (searchMode ? filteredKeywords : getValues()); let i = index">
             <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
-              (closed)="panelOpenState = edit = false" [attr.data-index]="i"
-              matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+                                 (closed)="panelOpenState = edit = false" [attr.data-index]="i"
+                                 *ngIf="(blacklistIncludesKeyword(keyword.keyword) && isCreatorOrMod) || !blacklistIncludesKeyword(keyword.keyword)"
+                                 matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
               <mat-expansion-panel-header class="color-surface">
                 <mat-panel-title>
                   {{profanityFilter ? keyword.keywordWithoutProfanity : keyword.keyword}}
@@ -385,8 +392,10 @@
               </mat-expansion-panel-header>
               <div *ngFor="let question of keyword.comments">
                 <mat-divider></mat-divider>
-                <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-                                          [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+                <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword"
+                                          [maxShowedCharachters]="140"
+                                          [profanityFilter]="profanityFilter"
+                                          [languageSpecific]="censorLanguageSpecificCheck"
                                           [partialWords]="censorPartialWordsCheck"
                                           [language]="question.language"></app-topic-dialog-comment>
               </div>
@@ -416,26 +425,30 @@
                     <button mat-raised-button class="redBackground margin-right"
                             (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
                     <button mat-raised-button class="primaryBackground"
-                            (click)="confirmEdit(keyword)">{{'topic-cloud-dialog.save'
-                      | translate}}</button>
+                            [disabled]="!newKeyword || newKeyword.toLowerCase() === keyword.keyword.toLowerCase()"
+                            (click)="confirmEdit(keyword)">
+                      {{'topic-cloud-dialog.save' | translate}}
+                    </button>
                   </div>
                 </div>
               </div>
             </mat-expansion-panel>
           </div>
-        </mat-tab>
+        </mat-accordion>
+      </mat-tab>
 
-        <mat-tab *ngIf="isCreatorOrMod">
-          <ng-template mat-tab-label>
-            <label [ngClass]="{'animation-blink': blacklistIsActive}" 
-                   matTooltip="{{'topic-cloud-dialog.blacklist-is'+(blacklistIsActive?'':'-not')+'-active' | translate}}">Blacklist</label>
-          </ng-template>
-          <mat-card class="color-surface"
-              *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
-            <p class="color-on-surface" fxLayoutAlign="center">
-              {{'topic-cloud-dialog.no-keywords-note' | translate}}
-            </p>
-          </mat-card>
+      <mat-tab *ngIf="isCreatorOrMod">
+        <ng-template mat-tab-label>
+          <label [ngClass]="{'animation-blink': blacklistIsActive}" 
+                 matTooltip="{{'topic-cloud-dialog.blacklist-is'+(blacklistIsActive?'':'-not')+'-active' | translate}}">Blacklist</label>
+        </ng-template>
+        <mat-card class="color-surface"
+            *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+          <p class="color-on-surface" fxLayoutAlign="center">
+            {{'topic-cloud-dialog.no-keywords-note' | translate}}
+          </p>
+        </mat-card>
+        <mat-accordion>
           <div *ngFor="let keyword of (searchMode ? filteredKeywords : blacklistKeywords); let i = index">
             <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
               (closed)="panelOpenState = edit = false" [attr.data-index]="i"
@@ -476,7 +489,7 @@
                     <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
                     <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
                   </mat-form-field>
-
+  
                   <div align="end">
                     <button mat-raised-button class="redBackground margin-right"
                             (click)="cancelEdit()">{{'topic-cloud-dialog.cancel' | translate}}</button>
@@ -488,9 +501,9 @@
               </div>
             </mat-expansion-panel>
           </div>
-        </mat-tab>
-      </mat-tab-group>
-    </mat-accordion>
+        </mat-accordion>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </mat-dialog-content>
 <app-dialog-action-buttons

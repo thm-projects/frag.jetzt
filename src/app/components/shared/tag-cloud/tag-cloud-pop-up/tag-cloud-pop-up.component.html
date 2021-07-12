@@ -16,7 +16,7 @@
           {{tagData && tagData.distinctUsers.size}}
         </p>
       </span>
-      <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
+      <button *ngIf="user && user.role >= 1 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
         <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
       </button>
     </div>
