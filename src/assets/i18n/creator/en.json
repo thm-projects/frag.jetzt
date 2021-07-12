@@ -432,6 +432,9 @@
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment",
+    "keywords": "Keywords",
+    "blacklist-is-active": "The blacklist is hidden",
+    "blacklist-is-not-active": "The blacklist is not hidden",
     "topic-requirement-reset": "Reset"
   },
   "topic-cloud-confirm-dialog":{

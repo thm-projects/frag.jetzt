@@ -59,6 +59,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   minUpvotes: string;
   startDate: string;
   endDate: string;
+  selectedTabIndex = 0;
 
   keywords: Map<string, Keyword> = new Map<string, Keyword>();
   private topicCloudAdminData: TopicCloudAdminData;
@@ -67,6 +68,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   private censorLanguageSpecificCheck: boolean;
   private testProfanityWord: string = undefined;
   private testProfanityLanguage = 'de';
+  private blacklistKeywords = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -85,9 +87,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => this.blacklistIsActive = isActive);
+    this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => {
+      this.blacklistIsActive = isActive;
+      this.refreshKeywords();
+    });
     this.deviceType = localStorage.getItem('deviceType');
-    this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => this.blacklist = list);
+    this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => {
+      this.blacklist = list;
+      this.refreshKeywords();
+    });
     this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
@@ -99,6 +107,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.wantedLabels = undefined;
     this.setDefaultAdminData();
     this.initializeKeywords();
+  }
+
+  changeTabIndex() {
+    this.selectedTabIndex = this.selectedTabIndex === 0 ? 1 : 0;
+    if (this.searchMode) {
+      this.searchKeyword();
+    }
   }
 
   getValues(): Keyword[] {
@@ -116,6 +131,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   refreshKeywords() {
+    this.blacklistKeywords = [];
     this.keywords = new Map<string, Keyword>();
     this.roomDataService.currentRoomData.forEach(comment => {
       this.pushInKeywords(comment);
@@ -157,14 +173,20 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
             _keywordType = includedFromQuestioner ? KeywordType.fromQuestioner : KeywordType.fromSpacy;
           }
         }
-        this.keywords.set(_keyword.lemma, {
+        const entry = {
           keyword: _keyword.lemma,
           keywordDeps: new Set<string>(_keyword.dep),
           keywordType: _keywordType,
           keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword.lemma, comment.language),
           comments: [comment],
           vote: comment.score
-        } as Keyword);
+        };
+
+        if (this.blacklistIncludesKeyword(_keyword.lemma) && this.blacklistIsActive) {
+          this.blacklistKeywords.push(entry);
+        } else {
+          this.keywords.set(_keyword.lemma, entry as Keyword);
+        }
       }
     });
   }
@@ -455,10 +477,16 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     if (!this.searchedKeyword) {
       this.searchMode = false;
     } else {
-      const entries = [...this.keywords.entries()];
-      this.filteredKeywords = entries.filter(([_, keyword]) =>
+      if (this.selectedTabIndex === 0) {
+        const entries = [...this.keywords.entries()];
+        this.filteredKeywords = entries.filter(([_, keyword]) =>
         keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
-      ).map(e => e[1]);
+        ).map(e => e[1]);
+      } else {
+        this.filteredKeywords = this.blacklistKeywords.filter(keyword =>
+          keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
+        );
+      }
       this.searchMode = true;
     }
   }

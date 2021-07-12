@@ -308,6 +308,7 @@
     "topic-requirement-upvotes": "Minimale Anzahl Up-Votes",
     "topic-requirement-begin-datetime": "Beginn der Zeitspanne",
     "topic-requirement-end-datetime": "Ende der Zeitspanne",
+    "keywords": "Stichwörter",
     "topic-requirement-reset": "Zurücksetzen"
   },
   "dialog-comment": {

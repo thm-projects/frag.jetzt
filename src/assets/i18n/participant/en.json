@@ -314,6 +314,7 @@
     "topic-requirement-upvotes": "Minimum number of upvotes",
     "topic-requirement-begin-datetime": "Earliest comment",
     "topic-requirement-end-datetime": "Last comment",
+    "keywords": "Keywords",
     "topic-requirement-reset": "Reset"
   },
   "dialog-comment":{
