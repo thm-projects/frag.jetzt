@@ -182,7 +182,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           vote: comment.score
         };
 
-        const allowedKeyword = true;
         if (this.blacklistIncludesKeyword(_keyword.lemma) && this.blacklistIsActive) {
           this.blacklistKeywords.push(entry);
         } else {
