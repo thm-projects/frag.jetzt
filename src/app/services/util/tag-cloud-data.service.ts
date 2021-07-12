@@ -154,8 +154,12 @@ export class TagCloudDataService {
   }
 
   bindToRoom(roomId: string, userRole: UserRole): void {
+    if (this._subscriptionAdminData) {
+      throw new Error('Room already bound.');
+    }
     this._currentFilter = CommentFilter.currentFilter;
     this._roomId = roomId;
+    this._lastFetchedComments = null;
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
@@ -181,6 +185,7 @@ export class TagCloudDataService {
 
   unbindRoom(): void {
     this._subscriptionAdminData.unsubscribe();
+    this._subscriptionAdminData = null;
     if (this._commentSubscription !== null) {
       this._commentSubscription.unsubscribe();
       this._commentSubscription = null;

@@ -67,9 +67,7 @@ export class TopicCloudFilterComponent implements OnInit {
       this.allComments = this.getCommentCounts(this.comments);
       this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
       this.commentsLoadedCallback();
-      this.hasNoKeywords = this.comments.length >= 3 &&
-        this.allComments.keywords === 0 &&
-        !WorkerDialogComponent.isWorkingOnRoom(data.room.id);
+      this.hasNoKeywords = this.isUpdatable();
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -136,5 +134,24 @@ export class TopicCloudFilterComponent implements OnInit {
       CommentFilter.currentFilter = filter;
       this.dialogRef.close(this.router.navigateByUrl(this.target));
     };
+  }
+
+  private isUpdatable(): boolean {
+    if (this.comments.length < 3) {
+      return false;
+    }
+    let count = 0;
+    let newCount = 0;
+    this.comments.forEach(comment => {
+      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
+        newCount++;
+      } else {
+        count++;
+      }
+    });
+    if (count * 2 / 3 < newCount) {
+      return false;
+    }
+    return !WorkerDialogComponent.isWorkingOnRoom(this._room.id);
   }
 }
