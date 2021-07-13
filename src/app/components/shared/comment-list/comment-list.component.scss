@@ -258,3 +258,12 @@ h3 {
 h1{
   color: red;
 }
+
+.activeUserOverlay{
+  width:100px;
+  height:100px;
+  position:fixed;
+  background-color:red;
+  top:80px;
+  left:20px;
+}
