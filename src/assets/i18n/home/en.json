@@ -95,7 +95,8 @@
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
     "update-spacy-keywords": "Add keywords",
-    "overview-admin-config-enabled": "Themes requirement active"
+    "overview-admin-config-enabled": "Themes requirement active",
+    "quiz-now": "Quiz now"
   },
   "help": {
     "cancel": "Close",

@@ -106,7 +106,8 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "overview-keywords-tooltip": "Anzahl Schlüsselwörter",
     "update-spacy-keywords": "Fragen analysieren",
-    "overview-admin-config-enabled": "Themeneinschränkung aktiv"
+    "overview-admin-config-enabled": "Themeneinschränkung aktiv",
+    "quiz-now": "Jetzt quizzen"
   },
   "help": {
     "cancel": "Schließen",

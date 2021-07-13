@@ -182,6 +182,14 @@
                 <span>{{'header.update-spacy-keywords' | translate}}</span>
               </button>
 
+              <button mat-menu-item
+                      tabindex="0"
+                      routerLink="participant/room/{{shortId}}/comments/quiznow">
+                <mat-icon>school
+                </mat-icon>
+                <span>{{'header.quiz-now' | translate}}</span>
+              </button>
+
             </ng-container>
             <ng-container *ngIf="router.url.includes('/participant/room/')">
             </ng-container>

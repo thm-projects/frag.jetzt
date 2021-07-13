@@ -23,6 +23,7 @@ import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.co
 import { QuestionWallComponent } from '../shared/questionwall/question-wall/question-wall.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
+import { QuizNowComponent } from '../shared/quiz-now/quiz-now.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { MatRippleModule } from '@angular/material/core';
     DeleteCommentComponent,
     BonusDeleteComponent,
     DeleteAnswerComponent,
+    QuizNowComponent,
     QuestionWallComponent
   ],
   exports: []
