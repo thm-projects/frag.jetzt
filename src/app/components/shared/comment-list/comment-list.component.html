@@ -258,6 +258,11 @@
   </app-comment>
 
 </div>
+<!-- Active User Overlay -->
+<div class="activeUserOverlay">
+  <p>Active Users: {{activeUsers}}</p>
+</div>
+
 <!-- No Questions Present -->
 <div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"
