@@ -29,6 +29,7 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { UserCountService } from '../../../services/http/user-count.service';
 
 export enum Period {
   FROMNOW    = 'from-now',
@@ -116,6 +117,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private translationService: TranslateService,
     private bonusTokenService: BonusTokenService,
     private moderatorService: ModeratorService,
+    private userCountService: UserCountService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
@@ -214,6 +216,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
           this.roomId = room.id;
+          this.userCountService.getUserCount(this.room).subscribe(e=>{
+            console.log(e);
+          });
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
