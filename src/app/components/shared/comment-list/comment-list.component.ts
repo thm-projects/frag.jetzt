@@ -244,7 +244,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           this.roomId = room.id;
           this.activeUserService.getActiveUser(this.room)
           .subscribe(i=>{
-            this.activeUsers=i;
+            this.activeUsers=i.length;
           });
           this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
             const message = JSON.parse(msg.body);

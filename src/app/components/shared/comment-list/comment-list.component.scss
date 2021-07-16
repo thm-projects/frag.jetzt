@@ -260,10 +260,22 @@ h1{
 }
 
 .activeUserOverlay{
-  width:100px;
-  height:100px;
+  width:180px;
+  height:25px;
   position:fixed;
-  background-color:red;
   top:80px;
   left:20px;
+  >*{
+    float:left;
+    padding:0;
+    margin:0;
+  }
+  >p{
+    font-family:'Roboto', sans-serif;
+    font-weight:bold;
+    float:left;
+    padding:5px;
+    margin:0;
+    color:var(--on-background);
+  }
 }
