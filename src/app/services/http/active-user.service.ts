@@ -18,8 +18,8 @@ export class ActiveUserService extends BaseHttpService {
     super();
   }
 
-  public getActiveUser(room: Room):Observable<number>{
-    const url = '/api/roomsubscription/usercount';
+  public getActiveUser(room: Room):Observable<any>{
+    const url = '/api/roomsubscription/usercount?ids='+room.id;
     return this.http.get(url, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('yeet'))
