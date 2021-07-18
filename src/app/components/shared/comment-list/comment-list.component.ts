@@ -30,7 +30,6 @@ import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
-import {ActiveUserService} from '../../../services/http/active-user.service';
 
 export interface CommentListData {
   comments: Comment[];
@@ -104,7 +103,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
-  activeUsers: number = 0;
 
   constructor(
     private commentService: CommentService,
@@ -125,8 +123,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private moderatorService: ModeratorService,
     private topicCloudAdminService: TopicCloudAdminService,
     private roomDataService: RoomDataService,
-    private wsRoomService: WsRoomService,
-    private activeUserService: ActiveUserService
+    private wsRoomService: WsRoomService
   ) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
@@ -242,10 +239,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
           this.roomId = room.id;
-          this.activeUserService.getActiveUser(this.room)
-          .subscribe(i=>{
-            this.activeUsers=i.length;
-          });
           this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
             const message = JSON.parse(msg.body);
             if (message.type === 'RoomPatched') {
