@@ -77,7 +77,7 @@
               class="delete"
               (click)="openDeleteRoomDialog()"
               aria-labelledby="delete-room">
-        <mat-icon>delete</mat-icon>
+        <mat-icon>delete_forever</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
 
     </div>
@@ -87,7 +87,7 @@
 <app-dialog-action-buttons
   buttonsLabelSection="room-page"
   confirmButtonLabel="update"
-  
+
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildSaveActionCallback()"
 ></app-dialog-action-buttons>

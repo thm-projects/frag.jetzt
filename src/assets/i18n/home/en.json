@@ -40,7 +40,7 @@
     "language": "Language",
     "open": "Open",
     "style": "Display",
-    "motd-title-main": "FAQ",
+    "motd-title-main": "FAQ & App news",
     "motd-mark-all-read": "Mark all as read",
     "motd-title-old": "FAQ archive",
     "motd-title-new": "Latest FAQ",
@@ -84,10 +84,10 @@
     "back-to-questionboard": "Question list",
     "moderationboard": "Moderation board",
     "create-question": "Ask a question",
-    "questionwall": "Question focus",
+    "questionwall": "Presentation mode",
     "tag-cloud": "Topic cloud",
     "fullscreen": "Text scaling",
-    "motd": "FAQ",
+    "motd": "FAQ & App news",
     "tag-cloud-config": "Modify cloud view",
     "tag-cloud-administration": "Edit cloud topics",
     "questions-blocked": "No further questions!",
@@ -122,6 +122,7 @@
     "please-enter": "What is the key code of the room where the session takes place?",
     "room-name-input": "Enter the name of the session you want to create.",
     "session-id": "Which room?",
+    "join-room": "Join session",
     "update-available": "An update is available.",
     "custom-shortid": "Set the key code yourself?",
     "custom-shortid-placeholder": "a-z, A-Z, 0-9, - _ . ~ no blanks",
@@ -248,7 +249,7 @@
   "room-create": {
     "cancel": "Cancel",
     "cancel-description": "Cancel",
-    "create-room": "Create session",
+    "create-room": "Create room",
     "create-room-description": "New session"
   },
   "room-list": {

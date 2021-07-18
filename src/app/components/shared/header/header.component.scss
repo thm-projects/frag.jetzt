@@ -57,6 +57,7 @@ mat-toolbar-row {
 
 .sessions {
   color: var(--primary);
+  transform: scale(1.5);
 }
 
 h2 {
@@ -103,7 +104,7 @@ svg {
 }
 
 .beamer-icon {
-  transform: scale(1.5);
+  transform: scale(1.4);
 }
 
 .mat-menu-inner-title {

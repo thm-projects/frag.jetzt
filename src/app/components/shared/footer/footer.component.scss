@@ -106,7 +106,6 @@ mat-icon {
   outline:none;
   background-color:transparent;
   float:left;
-  border:none;
   margin:0px;
   padding:0px;
   cursor:pointer;
@@ -121,7 +120,6 @@ mat-icon {
   height:50px;
   float:left;
   margin-bottom:5px;
-  border-radius:2px;
 }
 
 .btnContent>.btnColorIcon{
@@ -130,6 +128,7 @@ mat-icon {
   float:left;
   margin:5px;
   padding:0px;
+  border-radius: 20px;
 }
 
 .checked{
@@ -139,6 +138,8 @@ mat-icon {
   float:left;
   border-radius:100%;
   transition:all 0.1s;
+  border-color: var(--red) !important;
+  border-width: thick !important;
 }
 
 .checked.checked_true{

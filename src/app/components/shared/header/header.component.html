@@ -138,7 +138,7 @@
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>
-                add
+                add_circle
               </mat-icon>
               <span>{{'header.create-question' | translate}}</span>
             </button>
@@ -158,7 +158,7 @@
                       tabindex="0"
                       *ngIf="deviceType !== 'mobile'"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
-                <mat-icon
+                <mat-icon class="beamer-icon"
                   svgIcon="beamer">
                 </mat-icon>
                 <span>{{'header.questionwall' | translate}}</span>
@@ -210,7 +210,7 @@
                     *ngIf="user && user.role > 0 && !router.url.includes('/participant/')"
                     (click)="navigateDeleteQuestions()"
                     tabindex="0">
-              <mat-icon class="color-warn">delete</mat-icon>
+              <mat-icon class="color-warn">delete_forever</mat-icon>
               <span>{{'header.delete-questions' | translate}}</span>
             </button>
 
@@ -247,7 +247,7 @@
                       *ngIf="user"
                       (click)="navigateDeleteQuestions()"
                       tabindex="0">
-                <mat-icon class="color-warn">delete</mat-icon>
+                <mat-icon class="color-warn">delete_forever</mat-icon>
                 <span>{{'header.delete-questions' | translate}}</span>
               </button>
 
@@ -347,7 +347,7 @@
               *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
-        <mat-icon class="sessions">view_list</mat-icon>
+        <mat-icon svgIcon="meeting_room" class="sessions"></mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
@@ -385,7 +385,7 @@
               *ngIf="user && !user.isGuest && user.loginId"
               (click)="openDeleteUserDialog()"
               tabindex="0">
-        <mat-icon class="color-warn">delete</mat-icon>
+        <mat-icon class="color-warn">delete_forever</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 

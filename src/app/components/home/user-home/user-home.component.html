@@ -1,16 +1,31 @@
-<div class="userHomeContainer" fxLayout="column" fxLayoutAlign="start" fxLayoutGap="20px">
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px">
+<div class="userHomeContainer"
+     fxLayout="column"
+     fxLayoutAlign="start"
+     fxLayoutGap="20px">
+  <div fxLayout="row"
+       fxLayoutAlign="center"
+       fxLayoutGap="15px">
     <app-room-join></app-room-join>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center" class="button-container">
-    <button class="focus_button" mat-raised-button (click)="openCreateRoomDialog()" id="create_session-button">
-      <mat-icon>add_circle</mat-icon>
+  <div fxLayout="row"
+       fxLayoutAlign="center"
+       class="button-container">
+    <button class="new-session"
+            mat-flat-button
+            (click)="openCreateRoomDialog()"
+            id="create_session-button">
+      <mat-icon class="add">add_circle</mat-icon>
       {{ 'home-page.create-session' | translate }}
     </button>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="15px">
+  <div fxLayout="row"
+       fxLayoutAlign="center"
+       fxLayoutGap="15px">
     <app-room-list [user]="user"></app-room-list>
   </div>
-  <button id="live_announcer-button" tabIndex="-1" (click)="announce()" class="visually-hidden">{{ 'home-page.live-announcer-user' | translate }}</button>
+  <button id="live_announcer-button"
+          tabIndex="-1"
+          (click)="announce()"
+          class="visually-hidden">{{ 'home-page.live-announcer-user' | translate }}</button>
 </div>
 
