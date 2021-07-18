@@ -26,14 +26,6 @@
     "ws": true,
     "logLevel": "debug"
   },
-  "/api/roomsubscription": {
-    "target": "http://localhost:8080",
-    "secure": false,
-    "pathRewrite": {
-      "^/api": ""
-    },
-    "logLevel": "debug"
-  },
   "/api": {
     "target": "http://localhost:8888",
     "secure": false,
