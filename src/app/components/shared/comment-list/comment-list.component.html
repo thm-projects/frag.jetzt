@@ -259,10 +259,15 @@
 
 </div>
 <!-- Active User Overlay -->
-<div class="activeUserOverlay">
-  <div class="viewer-icon">
+<div class="activityIcon"
+     aria-labelledby="activity"
+     *ngIf="deviceType === 'desktop'">
+  <div class="activityIconBackground"></div>
+  <div class="activityIconForeground" aria-hidden="true">
+    <p class="activityIconForegroundText">
+      {{activeUsers}}
+    </p>
   </div>
-  <p style="float:left;">Active Users: {{activeUsers}}</p>
 </div>
 
 <!-- No Questions Present -->
@@ -310,4 +315,5 @@
   <div id="select-time-1d">{{ 'comment-list.a11y-select-time-1d' | translate }}</div>
   <div id="select-time-1w">{{ 'comment-list.a11y-select-time-1w' | translate }}</div>
   <div id="select-time-all">{{ 'comment-list.a11y-select-time-all' | translate }}</div>
+  <div id="activity">{{ 'comment-list.a11y-activity' | translate }} {{activeUsers}}</div>
 </div>

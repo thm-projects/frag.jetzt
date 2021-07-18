@@ -259,23 +259,42 @@ h1{
   color: red;
 }
 
-.activeUserOverlay{
-  width:180px;
-  height:25px;
+.activityIcon{
+  width:64px;
+  height:64px;
   position:fixed;
   top:80px;
   left:20px;
-  >*{
-    float:left;
-    padding:0;
-    margin:0;
+  .activityIconForeground{
+    width:100%;
+    height:100%;
+    position:absolute;
+    .activityIconForegroundText{
+      float:left;
+      padding:0;
+      margin:0;
+      position:absolute;
+      font-family:'Roboto', sans-serif;
+      font-size:48px;
+      font-weight:800;
+      left:50%;
+      top:50%;
+      -webkit-transform:translateX(-50%) translateY(-50%);
+      -moz-transform:translateX(-50%) translateY(-50%);
+      transform:translateX(-50%) translateY(-50%);
+      -webkit-text-stroke: 2px var(--background);
+      -webkit-text-fill-color: var(--on-background);
+    }
   }
-  >p{
-    font-family:'Roboto', sans-serif;
-    font-weight:bold;
-    float:left;
-    padding:5px;
-    margin:0;
-    color:var(--on-background);
+  .activityIconBackground{
+    width:100%;
+    height:100%;
+    position:absolute;
+    background-color:var(--on-background);
+    -webkit-mask-image:url("../../../../assets/icons/activity.svg");
+    mask-image:url("../../../../assets/icons/activity.svg");
+    mask-repeat:no-repeat;
+    mask-position:center;
+    mask-size:contain;
   }
 }

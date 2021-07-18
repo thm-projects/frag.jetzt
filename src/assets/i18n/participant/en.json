@@ -35,6 +35,7 @@
     "a11y-select-time-1w": "Show all comments of the last 7 days",
     "a11y-select-time-2w": "Show all comments of the last 14 days",
     "a11y-select-time-all": "Show all comments",
+    "a11y-activity": "active user",
     "answered": "Answered questions",
     "add-comment": "Ask a question!",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
