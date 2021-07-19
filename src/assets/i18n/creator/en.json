@@ -81,7 +81,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "questions-blocked": "No further questions!"
+    "questions-blocked": "New questions blocked"
   },
   "spacy-dialog": {
     "auto": "auto",
@@ -162,7 +162,7 @@
     "no-comments": "No questions at present",
     "no-comments-with-filter": "No questions with selected filter settings",
     "no-comments-with-search": "No questions with your search",
-    "reject": "Put the question on the index",
+    "reject": "Ban the question to moderation",
     "search-box-input-description": "Search for questions",
     "semicolon": "CSV format (.csv)",
     "send": "Send",
@@ -191,8 +191,8 @@
     "edit-bookmark": "Bookmark",
     "edit-bookmark-reset": "Remove marker",
     "grammar-check": "Spell check",
-    "show-comment-with-filter": "show question only localy with censore",
-    "show-comment-without-filter": "show question only localy without censore"
+    "show-comment-with-filter": "Hide vulgar words",
+    "show-comment-without-filter": "Show vulgar words"
   },
   "content": {
     "abort": "Abort",

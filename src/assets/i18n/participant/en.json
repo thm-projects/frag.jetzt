@@ -91,7 +91,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "questions-blocked": "No further questions"
+    "questions-blocked": "New questions blocked"
   },
   "content": {
     "cancel": "Cancel",
@@ -235,7 +235,7 @@
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
-    "questions-blocked": "No further questions!"
+    "questions-blocked": "New questions blocked"
   },
   "tag-cloud": {
     "demo-data-topic": "Topic %d",

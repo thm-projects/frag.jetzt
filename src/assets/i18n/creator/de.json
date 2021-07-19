@@ -161,7 +161,7 @@
     "no-comments": "Keine Fragen zurzeit",
     "no-comments-with-filter": "Keine Fragen mit dem eingestellten Filter",
     "no-comments-with-search": "Keine Fragen mit deiner Suche",
-    "reject": "Frage auf den Index setzen",
+    "reject": "Frage in die Moderation verbannen",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "semicolon": "CSV-Format (.csv)",
     "send": "Senden",
@@ -190,8 +190,8 @@
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
     "grammar-check": "Rechtschreibprüfung",
-    "show-comment-with-filter": "Frage nur lokal mit Zensierung zeigen",
-    "show-comment-without-filter": "Frage nur lokal ohne Zensierung zeigen"
+    "show-comment-with-filter": "Vulgäre Wörter verbergen",
+    "show-comment-without-filter": "Vulgäre Wörter anzeigen"
   },
   "content": {
     "abort": "Abbrechen",
@@ -313,7 +313,7 @@
     "sure": "Bist du sicher?",
     "tag-new": "Neue Fragekategorie:",
     "tag-error": "Muss zwischen 3 und 30 Zeichen lang sein",
-    "tags": "Tags",
+    "tags": "Kategorien",
     "threshold": "Schwellenwert für die Anzeige? ",
     "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
     "update": "Speichern",

@@ -23,7 +23,7 @@
                 class="error"
                 *ngIf="emptyInputs"><strong>{{ 'home-page.no-empty-name' | translate }}</strong></mat-hint>
     </mat-form-field>
-    <mat-checkbox (change)="hasCustomShortId=$event.checked">{{ 'home-page.custom-shortid' | translate }}</mat-checkbox>
+    <mat-slide-toggle (change)="hasCustomShortId=$event.checked">{{ 'home-page.custom-shortid' | translate }}</mat-slide-toggle>
     <mat-form-field *ngIf="hasCustomShortId">
       <input (focus)="eventService.makeFocusOnInputTrue()"
              (blur)="eventService.makeFocusOnInputFalse()"
