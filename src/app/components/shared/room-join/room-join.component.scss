@@ -8,6 +8,7 @@ form {
 
 mat-error {
   font-size: small;
+  color: var(--red) !important;
 }
 
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
@@ -57,6 +58,6 @@ mat-error {
   color: var(--primary);
 }
 
-::ng-deep .mat-form-field-wrapper {
-  padding-left: 15px;
+::ng-deep .mat-form-field .mat-form-field-infix {
+  max-width: 130px;
 }
