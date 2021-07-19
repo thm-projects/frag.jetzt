@@ -159,7 +159,7 @@
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
-    "no-room-found": "Es wurde keine Sitzung mit diesem Raum-Code gefunden.",
+    "no-room-found": "Es wurde kein Raum mit diesem Raum-Code gefunden.",
     "only-numbers": "Ein Raum-Code besteht aus Ziffern.",
     "please-enter": "Bitte Raum-Code eingeben."
   },
