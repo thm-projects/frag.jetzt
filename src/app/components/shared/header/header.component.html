@@ -142,6 +142,36 @@
               <span>{{'header.create-question' | translate}}</span>
             </button>
 
+            <button mat-menu-item
+                    *ngIf="user && user.role == 0"
+                    tabindex="0"
+                    routerLink="participant/room/{{shortId}}">
+              <mat-icon>
+                flag
+              </mat-icon>
+              <span>{{'header.back-to-room' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    *ngIf="user && user.role == 3"
+                    tabindex="0"
+                    routerLink="creator/room/{{shortId}}">
+              <mat-icon>
+                flag
+              </mat-icon>
+              <span>{{'header.back-to-room' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    *ngIf="user && user.role == 2"
+                    tabindex="0"
+                    routerLink="moderator/room/{{shortId}}">
+              <mat-icon>
+                flag
+              </mat-icon>
+              <span>{{'header.back-to-room' | translate}}</span>
+            </button>
+
             <ng-container>
 
               <button mat-menu-item
@@ -220,22 +250,6 @@
                 <span>{{'header.bonustoken' | translate}}</span>
               </button>
 
-              <button mat-menu-item
-                      *ngIf="user"
-                      (click)="navigateExportQuestions()"
-                      tabindex="0">
-                <mat-icon>file_download</mat-icon>
-                <span>{{'header.export-questions' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      *ngIf="user"
-                      (click)="navigateDeleteQuestions()"
-                      tabindex="0">
-                <mat-icon class="color-warn">delete_forever</mat-icon>
-                <span>{{'header.delete-questions' | translate}}</span>
-              </button>
-
             </ng-container>
 
           </ng-container>
@@ -243,7 +257,7 @@
           <!-- Room General Options - bot -->
 
           <ng-container
-            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
+            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <button mat-menu-item
                     *ngIf="user"
@@ -274,7 +288,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="router.url.endsWith('/tagcloud')"
+                  *ngIf="user && user.role >0 && router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudConfig()">
             <mat-icon aria-label="Configuration Icon">cloud</mat-icon>
@@ -282,7 +296,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="router.url.endsWith('/tagcloud')"
+                  *ngIf="user && user.role >0 && router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudAdministration()">
             <mat-icon aria-hidden="false"
@@ -302,7 +316,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="user"
+                  *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateExportQuestions()"
                   tabindex="0">
             <mat-icon>file_download</mat-icon>
@@ -311,7 +325,7 @@
 
           <button mat-menu-item
                   tabindex="0"
-                  *ngIf="room && user && user.role > 0"
+                  *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="blockQuestions()"
                   [ngClass]="{'color-warn': room && room.questionsBlocked}"
           >
@@ -321,7 +335,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="user && user.role > 0 && !router.url.includes('/participant/')"
+                  *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateDeleteQuestions()"
                   tabindex="0">
             <mat-icon class="color-warn">delete_forever</mat-icon>
@@ -335,6 +349,14 @@
       <!-- General Options -->
 
       <button mat-menu-item
+              *ngIf="user && user.role == 0"
+              (click)="openUserBonusTokenDialog()"
+              tabindex="0">
+        <mat-icon class="star">grade</mat-icon>
+        <span>{{'header.user-bonus-token' | translate}}</span>
+      </button>
+
+      <button mat-menu-item
               *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
@@ -343,14 +365,6 @@
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
-      </button>
-
-      <button mat-menu-item
-              *ngIf="user"
-              (click)="openUserBonusTokenDialog()"
-              tabindex="0">
-        <mat-icon class="star">grade</mat-icon>
-        <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
 
       <button mat-menu-item
