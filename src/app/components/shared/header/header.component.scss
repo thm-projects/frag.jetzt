@@ -56,7 +56,7 @@ mat-toolbar-row {
 }
 
 .sessions {
-  color: var(--primary);
+  color: var(--primary) !important;
   transform: scale(1.5);
 }
 

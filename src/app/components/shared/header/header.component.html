@@ -133,7 +133,7 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && !router.url.endsWith('moderator/comments') && ((user.role > 0) || ((user.role == 0) && room && !room.questionsBlocked))"
+                    *ngIf="user && !router.url.endsWith('moderator/comments') && user.role == 0"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>
@@ -142,6 +142,16 @@
               <span>{{'header.create-question' | translate}}</span>
             </button>
             <ng-container>
+
+              <button mat-menu-item
+                      *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud')"
+                      tabindex="0"
+                      (click)="showQRDialog();">
+                <mat-icon svgIcon="qrcode"
+                          class="header-icons qrcode">
+                </mat-icon>
+                <span>{{'header.room-qr' | translate}}</span>
+              </button>
 
               <button mat-menu-item
                       tabindex="0"
@@ -174,15 +184,6 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="user && user.role > 0"
-                      (click)="startWorkerDialog()">
-                <mat-icon>update
-                </mat-icon>
-                <span>{{'header.update-spacy-keywords' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      tabindex="0"
                       routerLink="participant/room/{{shortId}}/comments/quiznow">
                 <mat-icon>school
                 </mat-icon>
@@ -196,22 +197,6 @@
             </ng-container>
             <ng-container *ngIf="router.url.includes('/creator/room/')">
             </ng-container>
-
-            <button mat-menu-item
-                    *ngIf="user"
-                    (click)="navigateExportQuestions()"
-                    tabindex="0">
-              <mat-icon>file_download</mat-icon>
-              <span>{{'header.export-questions' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    *ngIf="user && user.role > 0 && !router.url.includes('/participant/')"
-                    (click)="navigateDeleteQuestions()"
-                    tabindex="0">
-              <mat-icon class="color-warn">delete_forever</mat-icon>
-              <span>{{'header.delete-questions' | translate}}</span>
-            </button>
 
           </ng-container>
 
@@ -278,16 +263,6 @@
           </ng-container>
 
           <button mat-menu-item
-                  *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud')"
-                  tabindex="0"
-                  (click)="showQRDialog();">
-            <mat-icon svgIcon="qrcode"
-                      class="header-icons qrcode">
-            </mat-icon>
-            <span>{{'header.room-qr' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
                   tabindex="0"
                   *ngIf="router.url.endsWith('/tagcloud')"
                   routerLink="participant/room/{{shortId}}/comments">
@@ -326,6 +301,14 @@
           </button>
 
           <button mat-menu-item
+                  *ngIf="user"
+                  (click)="navigateExportQuestions()"
+                  tabindex="0">
+            <mat-icon>file_download</mat-icon>
+            <span>{{'header.export-questions' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
                   tabindex="0"
                   *ngIf="room && user && user.role > 0"
                   (click)="blockQuestions()"
@@ -334,6 +317,14 @@
             <mat-icon class="color-warn">block</mat-icon>
             <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
             <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
+                  *ngIf="user && user.role > 0 && !router.url.includes('/participant/')"
+                  (click)="navigateDeleteQuestions()"
+                  tabindex="0">
+            <mat-icon class="color-warn">delete_forever</mat-icon>
+            <span>{{'header.delete-questions' | translate}}</span>
           </button>
 
         </ng-container>
@@ -364,7 +355,7 @@
               aria-hidden="true"
               *ngIf="isSafari === 'false'  && !router.url.includes('home')"
               (click)="getRescale().toggleState();">
-        <mat-icon (click)="getRescale().toggleState();">format_size
+        <mat-icon class="fullscreen" (click)="getRescale().toggleState();">format_size
         </mat-icon>
         <span>{{'header.fullscreen' | translate}}</span>
       </button>
@@ -374,7 +365,7 @@
       <button mat-menu-item
               *ngIf="user"
               (click)="showMotdDialog()">
-        <mat-icon>
+        <mat-icon class="faq">
           {{ motdState ? 'notifications_active' : 'help' }}
         </mat-icon>
         <span>{{'header.motd' | translate}}</span>
