@@ -132,46 +132,6 @@
           <!-- Question board -->
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
-            <button mat-menu-item
-                    *ngIf="user && user.role == 0 && room && !room.questionsBlocked"
-                    tabindex="0"
-                    (click)="navigateCreateQuestion();">
-              <mat-icon>
-                add_circle
-              </mat-icon>
-              <span>{{'header.create-question' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    *ngIf="user && user.role == 0"
-                    tabindex="0"
-                    routerLink="participant/room/{{shortId}}">
-              <mat-icon>
-                flag
-              </mat-icon>
-              <span>{{'header.back-to-room' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    *ngIf="user && user.role == 3"
-                    tabindex="0"
-                    routerLink="creator/room/{{shortId}}">
-              <mat-icon>
-                flag
-              </mat-icon>
-              <span>{{'header.back-to-room' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    *ngIf="user && user.role == 2"
-                    tabindex="0"
-                    routerLink="moderator/room/{{shortId}}">
-              <mat-icon>
-                flag
-              </mat-icon>
-              <span>{{'header.back-to-room' | translate}}</span>
-            </button>
-
             <ng-container>
 
               <button mat-menu-item
@@ -355,6 +315,40 @@
         <mat-icon class="star">grade</mat-icon>
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
+
+      <ng-container *ngIf="router.url.endsWith('/comments')">
+
+      <button mat-menu-item
+              *ngIf="user && user.role == 0"
+              tabindex="0"
+              routerLink="participant/room/{{shortId}}">
+        <mat-icon>
+          flag
+        </mat-icon>
+        <span>{{'header.back-to-room' | translate}}</span>
+      </button>
+
+      <button mat-menu-item
+              *ngIf="user && user.role == 3"
+              tabindex="0"
+              routerLink="creator/room/{{shortId}}">
+        <mat-icon>
+          flag
+        </mat-icon>
+        <span>{{'header.back-to-room' | translate}}</span>
+      </button>
+
+      <button mat-menu-item
+              *ngIf="user && user.role == 2"
+              tabindex="0"
+              routerLink="moderator/room/{{shortId}}">
+        <mat-icon>
+          flag
+        </mat-icon>
+        <span>{{'header.back-to-room' | translate}}</span>
+      </button>
+
+        </ng-container>
 
       <button mat-menu-item
               *ngIf="user && !router.url.endsWith('/user')"

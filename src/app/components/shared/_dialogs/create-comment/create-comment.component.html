@@ -99,7 +99,7 @@
   <ars-row ars-flex-box class="spellcheck">
     <ars-col>
       <button
-        [disabled]="this.commentBody.innerHTML.length === 0"
+        [disabled]="this.commentBody.innerHTML.length < 4 "
         mat-flat-button class="spell-button"
         (click)="grammarCheck(commentBody)">
         {{ 'comment-page.grammar-check' | translate}}
