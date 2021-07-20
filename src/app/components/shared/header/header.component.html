@@ -133,7 +133,7 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && !router.url.endsWith('moderator/comments') && user.role == 0"
+                    *ngIf="user && user.role == 0 && room && !room.questionsBlocked"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon>
@@ -141,6 +141,7 @@
               </mat-icon>
               <span>{{'header.create-question' | translate}}</span>
             </button>
+
             <ng-container>
 
               <button mat-menu-item
@@ -168,7 +169,7 @@
                       *ngIf="deviceType !== 'mobile'"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
                 <mat-icon class="beamer-icon"
-                  svgIcon="beamer">
+                          svgIcon="beamer">
                 </mat-icon>
                 <span>{{'header.questionwall' | translate}}</span>
               </button>
@@ -337,7 +338,8 @@
               *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
-        <mat-icon svgIcon="meeting_room" class="sessions"></mat-icon>
+        <mat-icon svgIcon="meeting_room"
+                  class="sessions"></mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
@@ -355,7 +357,8 @@
               aria-hidden="true"
               *ngIf="isSafari === 'false'  && !router.url.includes('home')"
               (click)="getRescale().toggleState();">
-        <mat-icon class="fullscreen" (click)="getRescale().toggleState();">format_size
+        <mat-icon class="fullscreen"
+                  (click)="getRescale().toggleState();">format_size
         </mat-icon>
         <span>{{'header.fullscreen' | translate}}</span>
       </button>
