@@ -18,7 +18,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'room/:shortId/comments/quiznow',
+    path: 'room/:shortId/comments/quiz',
     component: QuizNowComponent,
     data: { roles: [
         UserRole.CREATOR,
