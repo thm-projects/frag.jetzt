@@ -86,23 +86,24 @@ import { ActiveUserComponent } from './overlay/active-user/active-user.component
     TagCloudPopUpComponent,
     ActiveUserComponent
   ],
-    exports: [
-        RoomJoinComponent,
-        PageNotFoundComponent,
-        RoomPageComponent,
-        RoomListComponent,
-        HeaderComponent,
-        FooterComponent,
-        CommentPageComponent,
-        CommentListComponent,
-        CreateCommentComponent,
-        PresentCommentComponent,
-        CommentComponent,
-        DialogActionButtonsComponent,
-        UserBonusTokenComponent,
-        CloudConfigurationComponent,
-        TagCloudPopUpComponent
-    ]
+	exports:[
+		RoomJoinComponent,
+		PageNotFoundComponent,
+		RoomPageComponent,
+		RoomListComponent,
+		HeaderComponent,
+		FooterComponent,
+		CommentPageComponent,
+		CommentListComponent,
+		CreateCommentComponent,
+		PresentCommentComponent,
+		CommentComponent,
+		DialogActionButtonsComponent,
+		UserBonusTokenComponent,
+		CloudConfigurationComponent,
+		TagCloudPopUpComponent,
+		ActiveUserComponent
+	]
 })
 export class SharedModule {
 }

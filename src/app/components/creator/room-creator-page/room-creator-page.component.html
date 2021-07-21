@@ -140,6 +140,8 @@
           class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
 </div>
 
+<app-active-user *ngIf="room&&deviceType==='desktop'" [room]="room"></app-active-user>
+
 <div class="visually-hidden">
   <div id="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>
   <div id="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>

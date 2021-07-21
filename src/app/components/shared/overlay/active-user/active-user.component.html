@@ -1,7 +1,12 @@
-<div class="activityIcon">
-  <div class="activityIconBackground"></div>
+<div class="activityIcon" #divElement>
+  <div class="activityIconBackground" [ngStyle]="{
+    'background-color':iconColor
+    }"></div>
   <div class="activityIconForeground" aria-hidden="true">
-    <p class="activityIconForegroundText">
+    <p class="activityIconForegroundText" [ngStyle]="{
+      'background-color':backgroundColor,
+      'color':foregroundColor
+      }">
       {{activeUser}}
     </p>
   </div>

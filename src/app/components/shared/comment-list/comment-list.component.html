@@ -259,7 +259,7 @@
 
 </div>
 <!-- Active User Overlay -->
-<app-active-user *ngIf="room" [room]="this.room"></app-active-user>
+<app-active-user *ngIf="room&&deviceType==='desktop'" [room]="this.room"></app-active-user>
 
 <!-- No Questions Present -->
 <div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
