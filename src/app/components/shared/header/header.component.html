@@ -166,7 +166,6 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="!router.url.endsWith('moderator/comments')"
                       (click)="navigateTopicCloud()">
                 <mat-icon>cloud
                 </mat-icon>
@@ -220,7 +219,6 @@
             *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <button mat-menu-item
-                    *ngIf="user"
                     (click)="navigateModerator()"
                     tabindex="0">
               <mat-icon>gavel</mat-icon>
@@ -228,7 +226,6 @@
             </button>
 
             <button mat-menu-item
-                    *ngIf="user"
                     (click)="navigateTags()"
                     tabindex="0">
               <mat-icon svgIcon="comment_tag"></mat-icon>
@@ -276,7 +273,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
+                  *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateExportQuestions()"
                   tabindex="0">
             <mat-icon>file_download</mat-icon>
@@ -316,7 +313,7 @@
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
 
-      <ng-container *ngIf="router.url.endsWith('/comments')">
+      <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
       <button mat-menu-item
               *ngIf="user && user.role == 0"
@@ -333,9 +330,9 @@
               tabindex="0"
               routerLink="creator/room/{{shortId}}">
         <mat-icon>
-          flag
+          settings
         </mat-icon>
-        <span>{{'header.back-to-room' | translate}}</span>
+        <span>{{'header.back-to-room-creator' | translate}}</span>
       </button>
 
       <button mat-menu-item
@@ -345,7 +342,7 @@
         <mat-icon>
           flag
         </mat-icon>
-        <span>{{'header.back-to-room' | translate}}</span>
+        <span>{{'header.back-to-room-moderator' | translate}}</span>
       </button>
 
         </ng-container>
@@ -383,7 +380,7 @@
       </button>
 
       <button mat-menu-item
-              *ngIf="user && !user.isGuest && user.loginId"
+              *ngIf="user && !user.isGuest && user.loginId && router.url.endsWith('/user')"
               (click)="openDeleteUserDialog()"
               tabindex="0">
         <mat-icon class="color-warn">delete_forever</mat-icon>
