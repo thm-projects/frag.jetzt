@@ -39,6 +39,7 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
 import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
 import { DragDropModule } from "@angular/cdk/drag-drop";
+import { ActiveUserComponent } from './overlay/active-user/active-user.component';
 
 @NgModule({
     imports: [
@@ -82,7 +83,8 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
     TopicDialogCommentComponent,
     TopicCloudFilterComponent,
     SpacyDialogComponent,
-    TagCloudPopUpComponent
+    TagCloudPopUpComponent,
+    ActiveUserComponent
   ],
     exports: [
         RoomJoinComponent,
