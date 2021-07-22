@@ -99,7 +99,8 @@
     "overview-keywords-tooltip": "Number of Keywords",
     "update-spacy-keywords": "Add keywords",
     "overview-admin-config-enabled": "Themes requirement active",
-    "quiz-now": "Quizzing"
+    "quiz-now": "Quizzing",
+    "moderation-warning": "Moderation board with unreleased questions"
   },
   "help": {
     "cancel": "Close",

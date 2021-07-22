@@ -110,7 +110,8 @@
     "overview-keywords-tooltip": "Anzahl Schlüsselwörter",
     "update-spacy-keywords": "Fragen analysieren",
     "overview-admin-config-enabled": "Themeneinschränkung aktiv",
-    "quiz-now": "Quizzen"
+    "quiz-now": "Quizzen",
+    "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen"
   },
   "help": {
     "cancel": "Schließen",

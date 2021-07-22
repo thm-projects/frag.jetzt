@@ -9,6 +9,11 @@ mat-toolbar {
   position: relative;
 }
 
+.mat-toolbar-moderation {
+  background-color: var(--moderator);
+  position: relative;
+}
+
 mat-toolbar-row {
   padding: 0 5px;
 }
@@ -123,20 +128,23 @@ svg {
   * {
     background-color: transparent !important;
   }
+
   *:hover {
     color: var(--dialog);
     background-color: var(--on-dialog) !important;
 
-    mat-icon{
+    mat-icon {
       color: var(--dialog);
       background-color: var(--on-dialog) !important;
     }
   }
 
 }
+
 h1 {
   color: red;
 }
+
 ::ng-deep .mat-menu-item:hover .qrcode svg > path {
   fill: var(--dialog) !important;
   color: var(--dialog) !important;

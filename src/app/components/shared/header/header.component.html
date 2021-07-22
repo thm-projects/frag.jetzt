@@ -1,5 +1,6 @@
 <mat-toolbar class="mat-elevation-z2">
-  <mat-toolbar-row>
+  <mat-toolbar-row
+    [ngClass]="{'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')}">
     <button id="back-button"
             mat-icon-button
             aria-labelledby="back-label"
@@ -7,6 +8,12 @@
             (click)="goBack()">
       <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
+
+    <span class="fill-remaining-space"
+          *ngIf="router.url.endsWith('/moderator/comments')"></span>
+
+    <span class="oldtypo-h2"
+          *ngIf="router.url.endsWith('/moderator/comments')">{{'header.moderation-warning'|translate}}</span>
 
     <span class="fill-remaining-space"></span>
 
@@ -315,37 +322,37 @@
 
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
-      <button mat-menu-item
-              *ngIf="user && user.role == 0"
-              tabindex="0"
-              routerLink="participant/room/{{shortId}}">
-        <mat-icon>
-          flag
-        </mat-icon>
-        <span>{{'header.back-to-room' | translate}}</span>
-      </button>
+        <button mat-menu-item
+                *ngIf="user && user.role == 0"
+                tabindex="0"
+                routerLink="participant/room/{{shortId}}">
+          <mat-icon>
+            flag
+          </mat-icon>
+          <span>{{'header.back-to-room' | translate}}</span>
+        </button>
 
-      <button mat-menu-item
-              *ngIf="user && user.role == 3"
-              tabindex="0"
-              routerLink="creator/room/{{shortId}}">
-        <mat-icon>
-          settings
-        </mat-icon>
-        <span>{{'header.back-to-room-creator' | translate}}</span>
-      </button>
+        <button mat-menu-item
+                *ngIf="user && user.role == 3"
+                tabindex="0"
+                routerLink="creator/room/{{shortId}}">
+          <mat-icon>
+            settings
+          </mat-icon>
+          <span>{{'header.back-to-room-creator' | translate}}</span>
+        </button>
 
-      <button mat-menu-item
-              *ngIf="user && user.role == 2"
-              tabindex="0"
-              routerLink="moderator/room/{{shortId}}">
-        <mat-icon>
-          flag
-        </mat-icon>
-        <span>{{'header.back-to-room-moderator' | translate}}</span>
-      </button>
+        <button mat-menu-item
+                *ngIf="user && user.role == 2"
+                tabindex="0"
+                routerLink="moderator/room/{{shortId}}">
+          <mat-icon>
+            flag
+          </mat-icon>
+          <span>{{'header.back-to-room-moderator' | translate}}</span>
+        </button>
 
-        </ng-container>
+      </ng-container>
 
       <button mat-menu-item
               *ngIf="user && !router.url.endsWith('/user')"
