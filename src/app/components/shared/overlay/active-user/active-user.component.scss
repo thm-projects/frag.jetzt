@@ -12,21 +12,14 @@
     position: absolute;
 
     .activityIconForegroundText {
-      width: 35px;
-      height: auto;
-      float: left;
-      padding: 3px;
-      margin: 0;
-      text-align: center;
-      position: absolute;
+      position: relative;
       font-family: 'Roboto', sans-serif;
-      font-size: 18px;
-      font-weight: normal;
-      right: -35px;
-      top: 0;
-      background-color: var(--primary);
-      color: var(--on-primary);
-      border-radius: 100%;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: none !important;
+      right: -75px;
+      background-color: transparent !important;
+      color: var(--green) !important;
       animation:popin-shadow 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550) both;
     }
   }
@@ -34,7 +27,7 @@
     width: 100%;
     height: 100%;
     position: absolute;
-    background-color:var(--on-background);
+    background-color:var(--green) !important;
     -webkit-mask-image: url("../../../../../assets/icons/activity.svg");
     mask-image: url("../../../../../assets/icons/activity.svg");
     mask-repeat: no-repeat;
