@@ -149,7 +149,7 @@
             <ng-container>
 
               <button mat-menu-item
-                      *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud')"
+                      *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') && !router.url.endsWith('moderator/comments')"
                       tabindex="0"
                       (click)="showQRDialog();">
                 <mat-icon svgIcon="qrcode"
@@ -170,7 +170,7 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="deviceType !== 'mobile'"
+                      *ngIf="deviceType !== 'mobile' && !router.url.endsWith('moderator/comments')"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
                 <mat-icon class="beamer-icon"
                           svgIcon="beamer">
@@ -180,6 +180,7 @@
 
               <button mat-menu-item
                       tabindex="0"
+                      *ngIf="!router.url.endsWith('moderator/comments')"
                       (click)="navigateTopicCloud()">
                 <mat-icon>cloud
                 </mat-icon>
@@ -188,6 +189,7 @@
 
               <button mat-menu-item
                       tabindex="0"
+                      *ngIf="!router.url.endsWith('moderator/comments')"
                       routerLink="quiz">
                 <mat-icon>school
                 </mat-icon>
