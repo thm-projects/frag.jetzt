@@ -1,6 +1,8 @@
 <mat-toolbar class="mat-elevation-z2">
   <mat-toolbar-row
+
     [ngClass]="{'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')}">
+
     <button id="back-button"
             mat-icon-button
             aria-labelledby="back-label"
@@ -12,20 +14,25 @@
     <span class="fill-remaining-space"
           *ngIf="router.url.endsWith('/moderator/comments')"></span>
 
-    <span class="oldtypo-h2"
-          *ngIf="router.url.endsWith('/moderator/comments')">{{'header.moderation-warning'|translate}}</span>
+    <h2 class="oldtypo-h2"
+        *ngIf="router.url.endsWith('/moderator/comments') && deviceType === 'desktop'">
+      {{'header.moderation-warning'|translate}}
+    </h2>
 
     <span class="fill-remaining-space"></span>
 
     <h2 class="oldtypo-h2"
-        *ngIf="router.url.includes('comments') && deviceType === 'desktop'"
-        fxLayoutAlign="center center">
+        *ngIf="deviceType === 'desktop' && router.url !== '/home'">
       {{cTime}}
     </h2>
 
-    <ng-container *ngIf="room && room.questionsBlocked">
-      <h1>{{'header.questions-blocked'|translate}}</h1>
-    </ng-container>
+    <span class="fill-remaining-space"
+          *ngIf="room && room.questionsBlocked"></span>
+
+    <h1
+      *ngIf="room && room.questionsBlocked">
+      {{'header.questions-blocked'|translate}}
+    </h1>
 
     <!--Topic Cloud-->
     <div class="topic-cloud-btns"
