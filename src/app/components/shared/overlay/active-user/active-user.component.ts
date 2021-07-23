@@ -22,7 +22,9 @@ export class ActiveUserComponent implements OnInit{
 
   ngOnInit(): void {
     this.activeUserService.getActiveUser(this.room).subscribe(i=>{
-      this.activeUser=i.length;
+      if(i&&i.length>0){
+        this.activeUser=i[0];
+      }
     });
   }
 
