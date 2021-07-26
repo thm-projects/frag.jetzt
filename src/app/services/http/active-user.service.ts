@@ -18,7 +18,7 @@ export class ActiveUserService extends BaseHttpService {
     super();
   }
 
-  public getActiveUser(room: Room):Observable<any>{
+  public getActiveUser(room: Room): Observable<any>{
     const url = '/api/roomsubscription/usercount?ids='+room.id;
     return this.http.get(url, httpOptions).pipe(
       tap(_ => ''),
@@ -26,14 +26,16 @@ export class ActiveUserService extends BaseHttpService {
     );
   }
 
-  public observeUserActivity(room:Room,a:(num:number)=>void):()=>void{
-    const interval=setInterval(()=>{
+  public observeUserActivity(room: Room,a: (num: number) => void): () => void{
+    const f=()=>{
       this.getActiveUser(room).subscribe(e=>{
         if(e&&e.length>0){
           a(e[0]);
         }
-      })
-    },5000);
+      });
+    };
+    f();
+    const interval=setInterval(()=>f(),5000);
     return ()=>clearInterval(interval);
   }
 
