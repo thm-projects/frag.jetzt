@@ -1,4 +1,4 @@
-import {AfterViewInit,Component,Input,OnInit,ViewChild} from '@angular/core';
+import {AfterViewInit,Component,Input,OnDestroy,OnInit,ViewChild} from '@angular/core';
 import {Room} from '../../../../models/room';
 import {ActiveUserService} from '../../../../services/http/active-user.service';
 
@@ -7,25 +7,32 @@ import {ActiveUserService} from '../../../../services/http/active-user.service';
   templateUrl: './active-user.component.html',
   styleUrls: ['./active-user.component.scss']
 })
-export class ActiveUserComponent implements OnInit{
+export class ActiveUserComponent implements OnInit, OnDestroy{
 
   @Input()room:Room;
   @Input()iconColor:string;
   @Input()foregroundColor:string;
   @Input()backgroundColor:string;
   @ViewChild('divElement')elem:HTMLElement;
-  activeUser:number;
+  activeUser:number=0;
+  onDestroyListener:(()=>void)[]=[];
 
   constructor(
     private activeUserService:ActiveUserService
   ) { }
 
   ngOnInit(): void {
-    this.activeUserService.getActiveUser(this.room).subscribe(i=>{
-      if(i&&i.length>0){
-        this.activeUser=i[0];
-      }
-    });
+    this.onDestroyListener.push(
+      this.activeUserService.observeUserActivity(this.room,user=>{
+        if(user!==null){
+          this.activeUser=user;
+        }
+      })
+    );
+  }
+
+  ngOnDestroy(){
+    this.onDestroyListener.forEach(e=>e());
   }
 
 }
