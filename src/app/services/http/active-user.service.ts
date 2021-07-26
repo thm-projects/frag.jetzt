@@ -26,4 +26,15 @@ export class ActiveUserService extends BaseHttpService {
     );
   }
 
+  public observeUserActivity(room:Room,a:(num:number)=>void):()=>void{
+    const interval=setInterval(()=>{
+      this.getActiveUser(room).subscribe(e=>{
+        if(e&&e.length>0){
+          a(e[0]);
+        }
+      })
+    },5000);
+    return ()=>clearInterval(interval);
+  }
+
 }
