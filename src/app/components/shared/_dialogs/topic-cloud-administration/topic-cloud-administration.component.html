@@ -168,7 +168,7 @@
                 <mat-list-item class="color-on-surface" *ngFor="let word of profanitywordlist" role="listitem">{{word}}
                   <button style="margin-left: auto" mat-icon-button class="red"
                           (click)="removeWordFromProfanityList(word)">
-                    <mat-icon mat-list-icon style="margin-bottom: 6px;">delete_forever</mat-icon>
+                    <mat-icon mat-list-icon style="margin-bottom: 6px;">delete_sweep</mat-icon>
                   </button>
                 </mat-list-item>
               </mat-list>
@@ -202,7 +202,7 @@
               <mat-list role="list" *ngIf="showBlacklistWordList && blacklist.length > 0" class="margin-bottom">
                 <mat-list-item class="color-on-surface" *ngFor="let word of blacklist" role="listitem">{{word}}
                   <button style="margin-left: auto" mat-icon-button class="red" (click)="removeWordFromBlacklist(word)">
-                    <mat-icon mat-list-icon style="margin-bottom: 6px;">delete_forever</mat-icon>
+                    <mat-icon mat-list-icon style="margin-bottom: 6px;">delete_sweep</mat-icon>
                   </button>
                 </mat-list-item>
               </mat-list>
@@ -409,7 +409,7 @@
                   </button>
                   <button class="margin-right" mat-icon-button style="align-self:flex-end;"
                           (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_forever</mat-icon>
+                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep</mat-icon>
                   </button>
                 </div>
 
@@ -478,7 +478,7 @@
                   </button>
                   <button class="margin-right" mat-icon-button style="align-self:flex-end;"
                           (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_forever</mat-icon>
+                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep</mat-icon>
                   </button>
                 </div>
 

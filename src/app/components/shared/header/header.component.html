@@ -215,14 +215,24 @@
             <!-- app-room-creator-page -->
             <ng-container *ngIf="router.url.includes('/moderator/room/')">
             </ng-container>
+
             <!-- app-room-creator-page -->
+
             <ng-container *ngIf="router.url.includes('/creator/room/')">
+
+              <button mat-menu-item
+                      (click)="navigateModerator()"
+                      tabindex="0">
+                <mat-icon>flag</mat-icon>
+                <span>{{'header.edit-session-description' | translate}}</span>
+              </button>
+
               <button mat-menu-item
                       *ngIf="user"
-                      (click)="navigateRoomBonusToken()"
+                      (click)="navigateModerator()"
                       tabindex="0">
-                <mat-icon class="star">grade</mat-icon>
-                <span>{{'header.bonustoken' | translate}}</span>
+                <mat-icon class="gavel">visibility_off</mat-icon>
+                <span>{{'header.moderation-mode' | translate}}</span>
               </button>
 
             </ng-container>
@@ -246,6 +256,28 @@
                     tabindex="0">
               <mat-icon svgIcon="comment_tag"></mat-icon>
               <span>{{'header.edit-tags' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    *ngIf="user"
+                    (click)="navigateRoomBonusToken()"
+                    tabindex="0">
+              <mat-icon class="star">grade</mat-icon>
+              <span>{{'header.bonustoken' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    (click)="navigateExportQuestions()"
+                    tabindex="0">
+              <mat-icon>file_download</mat-icon>
+              <span>{{'header.export-questions' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    (click)="navigateModerator()"
+                    tabindex="0">
+              <mat-icon>clear</mat-icon>
+              <span>{{'header.profanity-filter' | translate}}</span>
             </button>
 
           </ng-container>
@@ -289,7 +321,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
+                  *ngIf="router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateExportQuestions()"
                   tabindex="0">
             <mat-icon>file_download</mat-icon>
@@ -311,8 +343,16 @@
                   *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateDeleteQuestions()"
                   tabindex="0">
-            <mat-icon class="color-warn">delete_forever</mat-icon>
+            <mat-icon class="color-warn">delete_sweep</mat-icon>
             <span>{{'header.delete-questions' | translate}}</span>
+          </button>
+
+          <button mat-menu-item
+                  *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
+                  (click)="delete()"
+                  tabindex="0">
+            <mat-icon class="color-warn">delete</mat-icon>
+            <span>{{'header.delete-room' | translate}}</span>
           </button>
 
         </ng-container>
@@ -322,12 +362,14 @@
       <!-- General Options -->
 
       <button mat-menu-item
-              *ngIf="user && user.role == 0"
+              *ngIf="user && user.role == 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
               (click)="openUserBonusTokenDialog()"
               tabindex="0">
         <mat-icon class="star">grade</mat-icon>
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
+
+      <mat-divider></mat-divider>
 
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
@@ -374,17 +416,17 @@
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
 
+      <mat-divider *ngIf="!router.url.endsWith('user')"></mat-divider>
+
       <button mat-menu-item
               aria-hidden="true"
-              *ngIf="isSafari === 'false'  && !router.url.includes('home')"
+              *ngIf="isSafari === 'false'  && !router.url.includes('home')  && !router.url.endsWith('/quiz')"
               (click)="getRescale().toggleState();">
         <mat-icon class="fullscreen"
                   (click)="getRescale().toggleState();">format_size
         </mat-icon>
         <span>{{'header.fullscreen' | translate}}</span>
       </button>
-
-      <mat-divider></mat-divider>
 
       <button mat-menu-item
               *ngIf="user"
@@ -394,6 +436,8 @@
         </mat-icon>
         <span>{{'header.motd' | translate}}</span>
       </button>
+
+      <mat-divider></mat-divider>
 
       <button mat-menu-item
               *ngIf="user && !user.isGuest && user.loginId && router.url.endsWith('/user')"
