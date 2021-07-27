@@ -6,4 +6,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./quiz-now.component.scss']
 })
 export class QuizNowComponent {
+  urlSafe: SafeResourceUrl;
+
+  constructor(public sanitizer: DomSanitizer) { }
+
+  ngOnInit() {
+    this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl("https://arsnova.click/");
+  }
 }
