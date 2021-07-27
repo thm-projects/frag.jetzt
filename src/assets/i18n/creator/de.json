@@ -190,7 +190,7 @@
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
     "grammar-check": "Rechtschreibprüfung",
-    "show-comment-with-filter": "Vulgäre Wörter verbergen",
+    "show-comment-with-filter": "Vulgäre Wörter ausixen",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen"
   },
   "content": {
@@ -374,7 +374,7 @@
     "edit-keyword-tip": "Neues Thema",
     "no-keywords-note": "Es gibt keine Themen",
     "consider-votes": "Bewertungen der Fragen berücksichtigen",
-    "profanity": "Vulgäre Wörter mit »***« zensieren",
+    "profanity": "Vulgäre Wörter mit »***« überschreiben",
     "hide-blacklist-words": "Themen aus der Blacklist verbergen",
     "sort-alpha": "Alphabetisch",
     "sort-count": "Anzahl Fragen",
