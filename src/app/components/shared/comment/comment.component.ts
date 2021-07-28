@@ -19,6 +19,7 @@ import { RowComponent } from '../../../../../projects/ars/src/lib/components/lay
 import { User } from '../../../models/user';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyKeyword } from '../../../services/http/spacy.service';
+import { UserBonusTokenComponent } from "../../participant/_dialogs/user-bonus-token/user-bonus-token.component";
 
 @Component({
   selector: 'app-comment',
@@ -293,5 +294,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
       });
   }
 
-  openBonusStarDialog() { }
+  openBonusStarDialog() {
+    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
+      width: '600px'
+    });
+    dialogRef.componentInstance.userId = this.user.id;
+  }
 }

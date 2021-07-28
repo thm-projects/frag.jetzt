@@ -27,8 +27,6 @@ import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service'
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
-import { QuizNowComponent } from '../quiz-now/quiz-now.component';
-
 
 @Component({
   selector: 'app-header',
