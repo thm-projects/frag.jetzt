@@ -292,4 +292,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
       });
   }
+
+  openBonusStarDialog() { }
 }

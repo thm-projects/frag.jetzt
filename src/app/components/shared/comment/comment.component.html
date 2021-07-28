@@ -96,6 +96,16 @@
           </mat-icon>
         </button>
         <button mat-icon-button
+                *ngIf="(comment.favorite && isStudent && (comment.creatorId && user && comment.creatorId === user.id))"
+                (click)="openBonusStarDialog()"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                 : ('comment-page.mark-not-favorite' | translate)">grade
+          </mat-icon>
+        </button>
+        <button mat-icon-button
                 *ngIf="(!isStudent || comment.bookmark) && !moderator"
                 [disabled]="isStudent"
                 (click)="setBookmark(comment)"
