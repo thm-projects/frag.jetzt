@@ -406,6 +406,14 @@
       </ng-container>
 
       <button mat-menu-item
+              *ngIf="user && router.url.endsWith('/quiz')"
+              tabindex="0"
+              (click)="goBack()">
+        <mat-icon class="header-icons">forum</mat-icon>
+        <span>{{'header.back-to-questionboard' | translate}}</span>
+      </button>
+
+      <button mat-menu-item
               *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
