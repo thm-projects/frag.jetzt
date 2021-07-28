@@ -9,34 +9,10 @@ iframe {
 
 .responsive-iframe {
   position: absolute;
-  top: 6%;
+  top: 56px;
   left: 0;
   bottom: 0;
   right: 0;
   width: 100%;
   height: 100%;
-}
-
-@media only screen and (max-width: 600px) {
-  .responsive-iframe {
-    top: 10%;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .responsive-iframe {
-    top: 9%;
-  }
-}
-
-@media only screen and (max-width: 992px) {
-  .responsive-iframe {
-    top: 8%;
-  }
-}
-
-@media only screen and (max-width: 1200px) {
-  .responsive-iframe {
-    top: 7%;
-  }
 }
