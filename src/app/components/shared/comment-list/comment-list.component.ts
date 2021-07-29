@@ -99,12 +99,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
   fromNow: number;
   moderatorIds: string[];
   commentsEnabled: boolean;
-  userNumberSelection: number = 0;
+  userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
-  activeUsers: number = 0;
+  activeUsers = 0;
 
   constructor(
     private commentService: CommentService,

@@ -4,6 +4,7 @@ import {Room} from '../../models/room';
 import {catchError,tap} from 'rxjs/operators';
 import {BaseHttpService} from './base-http.service';
 import {HttpClient,HttpHeaders} from '@angular/common/http';
+import {HeaderService} from '../util/header.service';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })

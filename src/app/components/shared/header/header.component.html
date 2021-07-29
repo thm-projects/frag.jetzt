@@ -11,6 +11,11 @@
       <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
 
+    <ng-container *ngIf="toggleUserActivity">
+      <div class="userActivityIcon"></div>
+      <p class="userActivityTxt">{{userActivity}}</p>
+    </ng-container>
+
     <span class="fill-remaining-space"
           *ngIf="router.url.endsWith('/moderator/comments')"></span>
 
