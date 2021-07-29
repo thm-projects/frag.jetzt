@@ -162,6 +162,7 @@ export class TopicCloudAdminService {
         room.blacklistIsActive = _adminData.blacklistIsActive;
         this.updateRoom(room);
       });
+      return;
     }
     const subscription = this.getBlacklist().subscribe(list => {
       _adminData.blacklist = [];
