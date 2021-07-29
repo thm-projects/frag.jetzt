@@ -1,4 +1,4 @@
-<div class="activityIcon" #divElement>
+<div class="activityIcon" *ngIf="deviceType&&deviceType==='desktop'" #divElement>
   <div class="activityIconBackground" [ngStyle]="{
     'background-color':iconColor
     }"></div>

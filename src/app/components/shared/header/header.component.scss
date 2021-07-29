@@ -155,3 +155,21 @@ h1 {
   color: var(--dialog) !important;
   background-color: var(--on-dialog) !important;
 }
+
+.userActivityIcon{
+  width:25px;
+  height:25px;
+  margin-left:25px;
+  margin-bottom:5px;
+  background-color:var(--on-background);
+  -webkit-mask-image: url("../../../../assets/icons/activity.svg");
+  mask-image: url("../../../../assets/icons/activity.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+}
+
+.userActivityTxt{
+  color:var(--on-background);
+  margin-left:15px;
+}
