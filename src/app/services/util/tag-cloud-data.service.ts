@@ -263,7 +263,6 @@ export class TagCloudDataService {
 
   blockWord(tag: string): void {
     this._tagCloudAdmin.addWordToBlacklist(tag.toLowerCase());
-    this.rebuildTagData();
   }
 
   updateConfig(parameters: CloudParameters): boolean {
