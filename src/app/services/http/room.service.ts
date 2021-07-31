@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
-import { ProfanityFilterType, Room } from '../../models/room';
+import { Room } from '../../models/room';
 import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
 import { EventService } from '../util/event.service';
+import { NotificationService } from '../util/notification.service';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 const httpOptions = {
   headers: new HttpHeaders({})
@@ -25,7 +28,10 @@ export class RoomService extends BaseHttpService {
   constructor(
     private http: HttpClient,
     private eventService: EventService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private translateService: TranslateService,
+    private notificationService: NotificationService,
+    private router: Router
   ) {
     super();
   }
@@ -33,7 +39,7 @@ export class RoomService extends BaseHttpService {
   getCreatorRooms(): Observable<Room[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
     return this.http.post<Room[]>(connectionUrl, {
-      properties: { ownerId: this.authService.getUser().id },
+      properties: {ownerId: this.authService.getUser().id},
       externalFilters: {}
     }).pipe(
       tap((rooms) => {
@@ -49,7 +55,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
     return this.http.post<Room[]>(connectionUrl, {
       properties: {},
-      externalFilters: { inHistoryOfUserId: this.authService.getUser().id }
+      externalFilters: {inHistoryOfUserId: this.authService.getUser().id}
     }).pipe(
       tap((rooms) => {
         for (const r of rooms) {
@@ -60,7 +66,7 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  addRoom(room: Room, exc?: () => void ): Observable<Room> {
+  addRoom(room: Room, exc?: () => void): Observable<Room> {
     delete room.id;
     delete room.revision;
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/';
@@ -73,29 +79,29 @@ export class RoomService extends BaseHttpService {
         if (exc) {
           exc();
         }
-        return this.handleError<Room>(`add Room ${room}`);
+        return this.handleError<Room>(`add Room ${ room }`);
       })
     );
   }
 
   getRoom(id: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/${ id }`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/${ id }`;
     return this.http.get<Room>(connectionUrl).pipe(
       tap(room => this.setRoomId(room)),
-      catchError(this.handleError<Room>(`getRoom keyword=${ id }`))
+      catchError(this.handleRoomError<Room>(`getRoom keyword=${ id }`))
     );
   }
 
   getRoomByShortId(shortId: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
       tap(room => this.setRoomId(room)),
-      catchError(this.handleError<Room>(`getRoom shortId=${ shortId }`))
+      catchError(this.handleRoomError<Room>(`getRoom shortId=${ shortId }`))
     );
   }
 
-  getErrorHandledRoomByShortId(shortId: string, err: () => void ): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base +  this.apiUrl.rooms }/~${ shortId }`;
+  getErrorHandledRoomByShortId(shortId: string, err: () => void): Observable<Room> {
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
       tap(room => this.setRoomId(room)),
       catchError(() => {
@@ -107,11 +113,11 @@ export class RoomService extends BaseHttpService {
 
   addToHistory(roomId: string): void {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory`;
-    this.http.post(connectionUrl, { roomId, lastVisit: this.joinDate.getTime() }, httpOptions).subscribe();
+    this.http.post(connectionUrl, {roomId, lastVisit: this.joinDate.getTime()}, httpOptions).subscribe();
   }
 
   removeFromHistory(roomId: string): Observable<Room> {
-    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory/${roomId}`;
+    const connectionUrl = `${ this.apiUrl.base + this.apiUrl.user }/${ this.authService.getUser().id }/roomHistory/${ roomId }`;
     return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))
@@ -120,7 +126,7 @@ export class RoomService extends BaseHttpService {
 
   updateRoom(updatedRoom: Room): Observable<Room> {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ updatedRoom.shortId }`;
-    return this.http.put(connectionUrl, updatedRoom , httpOptions).pipe(
+    return this.http.put(connectionUrl, updatedRoom, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<any>('updateRoom'))
     );
@@ -135,10 +141,19 @@ export class RoomService extends BaseHttpService {
   }
 
   setRoomId(room: Room): void {
-    // temp solution until the backend is updated
-    const filter = +localStorage.getItem('room-profanity-filter');
-    const isInvalid = Number.isNaN(filter) || filter < ProfanityFilterType.all || filter > ProfanityFilterType.none;
-    room.profanityFilter =  isInvalid ? ProfanityFilterType.languageSpecific : filter;
     localStorage.setItem('roomId', room.id);
+  }
+
+  handleRoomError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      if (error.status === 404) {
+        this.translateService.get('room-list.room-not-exist').subscribe(msg => {
+          this.notificationService.show(msg);
+          this.router.navigateByUrl('');
+        });
+      }
+      return throwError(error);
+    };
   }
 }

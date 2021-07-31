@@ -20,7 +20,7 @@ export const arsnova = {
   '--on-dialog': '#000000',
   '--on-cancel': '#ffffff',
 
-  '--green': '#00FF00',
+  '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'red',

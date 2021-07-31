@@ -314,7 +314,12 @@
       </ars-col>
     </ars-style-btn-material>
   </ars-row>
+  <app-active-user *ngIf="room" [room]="room"
+                   [iconColor]="'#FFFFFF'"
+                   [backgroundColor]="'#FFFFFF'"
+                   [foregroundColor]="'#000000'"></app-active-user>
 </ars-screen>
+
 
 <div class="visually-hidden">
   <div id="back-lbl">{{'question-wall.back-lbl' | translate}}</div>

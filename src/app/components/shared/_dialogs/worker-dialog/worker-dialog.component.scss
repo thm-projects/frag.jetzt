@@ -48,7 +48,19 @@ details > summary {
   cursor: pointer;
 }
 
-details[open]> summary {
+details[open] > summary {
   box-shadow: 0 4px 4px -2px #232323;
-  margin-bottom: 7px; 
+  margin-bottom: 7px;
+}
+
+::ng-deep .noKeywords {
+  color: var(--on-surface);
+  background: var(--surface);
+  margin: 0.75em;
+
+  > button {
+    color: var(--on-primary);
+    background: var(--primary);
+    margin-left: 1em;
+  }
 }

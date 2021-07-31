@@ -1,4 +1,4 @@
-$header-size: 67px;
+$header-size: 56px;
 $margin: 15px;
 
 mat-drawer,
@@ -48,4 +48,23 @@ app-tag-cloud-pop-up {
 
 ::ng-deep .spacyTagCloud span:hover {
   cursor: pointer;
+}
+
+.fab_add_comment {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  transform: scale(1.4);
+  transition: all 0.1s ease-in-out;
+  z-index: 2;
+}
+
+.tag-cloud-brainstorming-question {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 2;
+  color: var(--tag-cloud-color, black);
 }

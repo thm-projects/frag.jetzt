@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
 import { WsCommentService } from '../websockets/ws-comment.service';
 import { Message } from '@stomp/stompjs';
 import { Comment } from '../../models/comment';
 import { CommentService } from '../http/comment.service';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
 import { RoomService } from '../http/room.service';
-import { TopicCloudAdminService } from './topic-cloud-admin.service';
-import { ProfanityFilterType } from '../../models/room';
+import { ProfanityFilterService } from './profanity-filter.service';
+import { ProfanityFilter, Room } from '../../models/room';
+import { WsRoomService } from '../websockets/ws-room.service';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -87,17 +88,19 @@ export class RoomDataService {
 
   private _currentSubscriptions: RoomDataUpdateSubscription[] = [];
   private _currentComments: Comment[] = null;
-  private _commentUpdates: Subject<Comment[]> = new Subject<Comment[]>();
+  private _commentUpdates: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
   private _fastCommentAccess: FastRoomAccessObject = null;
   private _wsCommentServiceSubscription: Subscription = null;
   private _currentRoomId: string = null;
   private _savedCommentsBeforeFilter = new Map();
   private _savedCommentsAfterFilter = new Map();
+  private room: Room;
 
   constructor(private wsCommentService: WsCommentService,
               private commentService: CommentService,
               private roomService: RoomService,
-              private topicCloudAdminService: TopicCloudAdminService) {
+              private profanityFilterService: ProfanityFilterService,
+              private wsRoomService: WsRoomService) {
   }
 
   get currentRoomData() {
@@ -115,36 +118,74 @@ export class RoomDataService {
   }
 
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
-    if (roomId && roomId === this._currentRoomId) {
-      this.checkProfanity();
-      return of(freezed ? [...this._currentComments] : this._currentComments);
+    const tempSubject = new BehaviorSubject<Comment[]>(null);
+    if (this._currentRoomId !== roomId) {
+      this._commentUpdates.next(null);
     }
-    const tempSubject = new Subject<Comment[]>();
-    const subscription = this._commentUpdates.subscribe(comments => {
+    let subscription: Subscription = null;
+    subscription = this._commentUpdates.subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
       tempSubject.next(freezed ? [...comments] : comments);
-      subscription.unsubscribe();
+      setTimeout(() => subscription.unsubscribe());
     });
     this.ensureRoomBinding(roomId);
     return tempSubject.asObservable();
   }
 
-  private checkProfanity() {
-    this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-      if (room.profanityFilter !== ProfanityFilterType.none) {
-        this._currentComments.forEach(comment => {
-          comment.body = this._savedCommentsAfterFilter.get(comment.id);
+  public checkProfanity(comment: Comment) {
+    const finish = new Subject<boolean>();
+    const subscription = finish.asObservable().subscribe(_ => {
+      if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
+        comment.body = this._savedCommentsAfterFilter.get(comment.id);
+      } else {
+        comment.body = this._savedCommentsBeforeFilter.get(comment.id);
+      }
+      subscription.unsubscribe();
+    });
+
+    if (!this._savedCommentsAfterFilter.get(comment.id) || !this.room) {
+      if (!this.room) {
+        this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
+          this.room = room;
+          this.setCommentBody(comment);
+          finish.next(true);
         });
       } else {
-        this._currentComments.forEach(comment => {
-          comment.body = this._savedCommentsBeforeFilter.get(comment.id);
-        });
+        this.setCommentBody(comment);
+        finish.next(true);
       }
+    } else {
+      finish.next(true);
+    }
+  }
+
+  getUnFilteredBody(id: string): string {
+    return this._savedCommentsBeforeFilter.get(id);
+  }
+
+  getFilteredBody(id: string): string {
+    return this._savedCommentsAfterFilter.get(id);
+  }
+
+  private setCommentBody(comment: Comment) {
+    this._savedCommentsBeforeFilter.set(comment.id, comment.body);
+    this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
+  }
+
+  private filterAllCommentsBodies() {
+    this._currentComments.forEach(comment => {
+      comment.body = this._savedCommentsBeforeFilter.get(comment.id);
+      this.setCommentBody(comment);
+      this.checkProfanity(comment);
     });
   }
 
-  private setCommentBodies(comment: Comment) {
-    this._savedCommentsBeforeFilter.set(comment.id, comment.body);
-    this._savedCommentsAfterFilter.set(comment.id, this.topicCloudAdminService.filterProfanityWords(comment.body));
+  private filterCommentOfProfanity(room: Room, comment: Comment): string {
+    const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
+    const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
+    return this.profanityFilterService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
   }
 
   private removeCommentBodies(key: string) {
@@ -163,22 +204,29 @@ export class RoomDataService {
     if (this._wsCommentServiceSubscription) {
       this._wsCommentServiceSubscription.unsubscribe();
     }
-    this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
-      .subscribe(msg => this.onMessageReceive(msg));
-    this.commentService.getAckComments(roomId).subscribe(comments => {
-      this._currentComments = comments;
-      for (const comment of comments) {
-        this.setCommentBodies(comment);
-        this._fastCommentAccess[comment.id] = comment;
+    this.roomService.getRoom(roomId).subscribe(room => {
+      this.room = room;
+      this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
+        .subscribe(msg => this.onMessageReceive(msg));
+      this.commentService.getAckComments(roomId).subscribe(comments => {
+        this._currentComments = comments;
+        for (const comment of comments) {
+          this.setCommentBody(comment);
+          this._fastCommentAccess[comment.id] = comment;
+        }
+        this.triggerUpdate(UpdateType.force, null);
+      });
+    });
+    this.wsRoomService.getRoomStream(roomId).subscribe(msg => {
+      const message = JSON.parse(msg.body);
+      if (message.type === 'RoomPatched') {
+        this.room = message.payload.changes;
+        this.filterAllCommentsBodies();
       }
-      this.triggerUpdate(UpdateType.force, null);
     });
   }
 
   private triggerUpdate(type: UpdateType, additionalInformation: UpdateInformation) {
-    if ((additionalInformation && additionalInformation.type === 'CommentCreated') || !additionalInformation) {
-      this.checkProfanity();
-    }
     if (type === UpdateType.force) {
       this._commentUpdates.next(this._currentComments);
     } else if (type === UpdateType.commentStream) {
@@ -216,19 +264,24 @@ export class RoomDataService {
     c.tag = payload.tag;
     c.creatorId = payload.creatorId;
     c.userNumber = this.commentService.hashCode(c.creatorId);
+    c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
+    c.language = payload.language;
+    this._fastCommentAccess[c.id] = c;
+    this._currentComments.push(c);
     this.triggerUpdate(UpdateType.commentStream, {
       type: 'CommentCreated',
       finished: false,
       comment: c
     });
     this.commentService.getComment(c.id).subscribe(comment => {
-      this._fastCommentAccess[comment.id] = comment;
-      this._currentComments.push(comment);
-      this.setCommentBodies(comment);
+      for (const key of Object.keys(comment)) {
+        c[key] = comment[key];
+      }
+      this.setCommentBody(c);
       this.triggerUpdate(UpdateType.commentStream, {
         type: 'CommentCreated',
         finished: true,
-        comment
+        comment: c
       });
     });
   }

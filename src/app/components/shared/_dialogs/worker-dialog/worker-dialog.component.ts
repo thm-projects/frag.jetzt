@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { CommentService } from '../../../../services/http/comment.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
@@ -21,6 +21,8 @@ export class WorkerDialogComponent implements OnInit {
   private static dialogRef: MatDialogRef<WorkerDialogComponent> = null;
   private static queuedRooms = new TSMap<string, WorkerDialogTask>();
 
+  @Input() inlined = false;
+
   constructor(private commentService: CommentService,
               private languagetoolService: LanguagetoolService,
               private spacyService: SpacyService,
@@ -30,13 +32,20 @@ export class WorkerDialogComponent implements OnInit {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
+  static isWorkingOnRoom(roomId: string) {
+    if (!this.dialogRef) {
+      return false;
+    }
+    return this.queuedRooms.has(roomId);
+  }
+
   static addWorkTask(dialog: MatDialog, room: Room): boolean {
     if (!this.dialogRef) {
       this.dialogRef = dialog.open(WorkerDialogComponent, {
         width: '200px',
         disableClose: true,
         autoFocus: false,
-        position: {left: '50px', bottom: '50px'},
+        position: { left: '50px', bottom: '50px' },
         role: 'dialog',
         hasBackdrop: false,
         closeOnNavigation: false,

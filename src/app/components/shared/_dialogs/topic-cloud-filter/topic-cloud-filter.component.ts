@@ -1,20 +1,33 @@
-import { Component, Inject, OnInit, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommentFilter } from '../../../../utils/filter-options';
+import { Router } from '@angular/router';
+import { CommentFilter, Period } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
+import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { KeywordOrFulltext, TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
+import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
+import { User } from '../../../../models/user';
+import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
+import { Room } from '../../../../models/room';
+import { CloudParameters } from '../../../../utils/cloud-parameters';
 
 class CommentsCount {
   comments: number;
   users: number;
   keywords: number;
+}
+
+enum KeywordsSource {
+  fromUser = 'fromUser',
+  fromSpacy = 'fromSpacy',
+  all = 'all'
 }
 
 @Component({
@@ -24,13 +37,20 @@ class CommentsCount {
 })
 export class TopicCloudFilterComponent implements OnInit {
   @Input() target: string;
+  @Input() user: User;
 
-  continueFilter = 'continueWithCurr';
+  question = '';
+  continueFilter = 'continueWithAll';
+  selectedSource;
   comments: Comment[];
   tmpFilter: CommentFilter;
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
+  isTopicRequirementActive = false;
+  hasNoKeywords = false;
+  private readonly _adminData: TopicCloudAdminData;
+  private _room: Room;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -40,8 +60,18 @@ export class TopicCloudFilterComponent implements OnInit {
               private router: Router,
               protected roomService: RoomService,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public eventService: EventService) {
+              public eventService: EventService,
+              private topicCloudAdminService: TopicCloudAdminService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
+    this._adminData = TopicCloudAdminService.getDefaultAdminData;
+    if (this._adminData.keywordORfulltext === KeywordOrFulltext.fulltext) {
+      this.selectedSource = KeywordsSource.fromSpacy;
+    } else if (this._adminData.keywordORfulltext === KeywordOrFulltext.keyword) {
+      this.selectedSource = KeywordsSource.fromUser;
+    } else {
+      this.selectedSource = KeywordsSource.all;
+    }
+    this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
 
   ngOnInit() {
@@ -50,9 +80,11 @@ export class TopicCloudFilterComponent implements OnInit {
       subscriptionEventService.unsubscribe();
       this.comments = data.comments;
       this.tmpFilter = data.currentFilter;
+      this._room = data.room;
       this.allComments = this.getCommentCounts(this.comments);
       this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
       this.commentsLoadedCallback();
+      this.hasNoKeywords = this.isUpdatable();
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -67,25 +99,21 @@ export class TopicCloudFilterComponent implements OnInit {
     }
   }
 
+  isMobile(): boolean {
+    return window.matchMedia('(max-width:500px)').matches;
+  }
+
+  onKeywordRefreshClick() {
+    this.hasNoKeywords = false;
+    WorkerDialogComponent.addWorkTask(this.dialog, this._room);
+  }
+
   getCommentCounts(comments: Comment[]): CommentsCount {
+    const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, comments);
     const counts = new CommentsCount();
-    const userSet = new Set<number>();
-    const keywordSet = new Set<string>();
-
-    comments.forEach(c => {
-      if (c.userNumber) {
-        userSet.add(c.userNumber);
-      }
-      if (c.keywordsFromQuestioner) {
-        c.keywordsFromQuestioner.forEach(k => {
-          keywordSet.add(k);
-        });
-      }
-    });
-
     counts.comments = comments.length;
-    counts.users = userSet.size;
-    counts.keywords = keywordSet.size;
+    counts.users = users.size;
+    counts.keywords = data.size;
     return counts;
   }
 
@@ -99,7 +127,9 @@ export class TopicCloudFilterComponent implements OnInit {
 
       switch (this.continueFilter) {
         case 'continueWithAll':
-          filter = new CommentFilter(); // all questions allowed
+          // all questions allowed
+          filter = new CommentFilter();
+          filter.periodSet = Period.all;
           break;
 
         case 'continueWithAllFromNow':
@@ -114,8 +144,41 @@ export class TopicCloudFilterComponent implements OnInit {
           return;
       }
 
+      if (this.selectedSource === KeywordsSource.fromSpacy) {
+        this._adminData.keywordORfulltext = KeywordOrFulltext.fulltext;
+      } else if (this.selectedSource === KeywordsSource.fromUser) {
+        this._adminData.keywordORfulltext = KeywordOrFulltext.keyword;
+      } else {
+        this._adminData.keywordORfulltext = KeywordOrFulltext.both;
+      }
+      this.topicCloudAdminService.setAdminData(this._adminData, false, this.user.role);
+
+      const params = CloudParameters.currentParameters;
+      params.question = this.question;
+      CloudParameters.currentParameters = params;
+
       CommentFilter.currentFilter = filter;
+
       this.dialogRef.close(this.router.navigateByUrl(this.target));
     };
+  }
+
+  private isUpdatable(): boolean {
+    if (this.comments.length < 3) {
+      return false;
+    }
+    let count = 0;
+    let newCount = 0;
+    this.comments.forEach(comment => {
+      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
+        newCount++;
+      } else {
+        count++;
+      }
+    });
+    if (count * 2 / 3 < newCount) {
+      return false;
+    }
+    return !WorkerDialogComponent.isWorkingOnRoom(this._room.id);
   }
 }

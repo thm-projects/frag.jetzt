@@ -25,10 +25,11 @@
       </mat-form-field>
       <button [disabled]="cookiesDisabled()"
               id="session_enter-button"
-              mat-fab
+              mat-flat-button
               type="submit"
               aria-labelledby="join-button-label">
         <mat-icon svgIcon="meeting_room" class="join-room"></mat-icon>
+        {{'home-page.join-room' | translate}}
       </button>
     </div>
   </form>

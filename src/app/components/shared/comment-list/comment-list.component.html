@@ -30,7 +30,7 @@
           mat-icon-button
           class="searchBarButton close red"
           *ngIf="searchInput !== '' || search"
-          (click)="hideCommentsList=false; searchInput = ''; search = false; searchPlaceholder = '';"
+          (click)="hideCommentsList=false; searchInput = ''; search = false;"
           aria-labelledby="close_search">
     <mat-icon>close</mat-icon>
   </button>
@@ -258,6 +258,9 @@
   </app-comment>
 
 </div>
+<!-- Active User Overlay -->
+<app-active-user *ngIf="room" [room]="this.room"></app-active-user>
+
 <!-- No Questions Present -->
 <div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"
@@ -303,4 +306,5 @@
   <div id="select-time-1d">{{ 'comment-list.a11y-select-time-1d' | translate }}</div>
   <div id="select-time-1w">{{ 'comment-list.a11y-select-time-1w' | translate }}</div>
   <div id="select-time-all">{{ 'comment-list.a11y-select-time-all' | translate }}</div>
+  <div id="activity">{{ 'comment-list.a11y-activity' | translate }} {{activeUsers}}</div>
 </div>

@@ -1,14 +1,16 @@
-import { AfterContentInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterContentInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { CreateCommentComponent } from '../create-comment/create-comment.component';
-import { SpacyService, Model } from '../../../../services/http/spacy.service';
-import { LanguageService } from '../../../../services/util/language.service';
+import { SpacyService, SpacyKeyword } from '../../../../services/http/spacy.service';
+import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
-import { map } from 'rxjs/operators';
+import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { Model } from '../../../../services/http/spacy.interface';
 
 export interface Keyword {
   word: string;
+  dep: string[];
   completed: boolean;
   editing: boolean;
   selected: boolean;
@@ -21,17 +23,21 @@ export interface Keyword {
 })
 export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
+  @ViewChild('appDialogActionButtons') appDialogActionButtons: DialogActionButtonsComponent;
+
   comment: Comment;
   commentLang: Model;
   commentBodyChecked: string;
   keywords: Keyword[] = [];
-  keywordsOriginal: Keyword[] = [];
+  keywordsOriginal: SpacyKeyword[] = [];
+  hasKeywordsFromSpacy = false;
   isLoading = false;
   langSupported: boolean;
   manualKeywords = '';
+  _concurrentEdits = 0;
 
   constructor(
-    protected langService: LanguageService,
+    protected langService: LanguagetoolService,
     private spacyService: SpacyService,
     public dialogRef: MatDialogRef<CreateCommentComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
@@ -41,7 +47,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     this.comment = this.data.comment;
     this.commentLang = this.data.commentLang;
     this.commentBodyChecked = this.data.commentBodyChecked;
-    this.langSupported = this.commentLang !== 'auto';
+    this.langSupported = this.langService.isSupportedLanguage(this.data.commentLang);
   }
 
   ngAfterContentInit(): void {
@@ -59,8 +65,11 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => kw.word);
-      this.comment.keywordsFromSpacy = this.keywordsOriginal.filter(kw => kw.word.length).map(kw => kw.word);
+      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => ({
+        lemma: kw.word,
+        dep: kw.dep
+      } as SpacyKeyword));
+      this.comment.keywordsFromSpacy = this.keywordsOriginal;
       this.dialogRef.close(this.comment);
     };
   }
@@ -70,24 +79,21 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.getKeywords(this.commentBodyChecked, model)
-      .pipe(
-        map(keywords => keywords.map(keyword => ({
-          word: keyword,
+      .subscribe(words => {
+        this.keywordsOriginal = words;
+        this.keywords = words.map(keyword => ({
+          word: keyword.lemma,
+          dep: [...keyword.dep],
           completed: false,
           editing: false,
           selected: false
-        } as Keyword)))
-      )
-      .subscribe(words => {
-        this.keywords = words;
-        //deep copy
-        this.keywordsOriginal = [...words];
-        for (let i = 0; i < this.keywordsOriginal.length; i++) {
-          this.keywordsOriginal[i] = {...this.keywordsOriginal[i]};
-        }
+        } as Keyword));
+        this.keywords.sort((a, b) => a.word.localeCompare(b.word));
+        this.hasKeywordsFromSpacy = this.keywords.length > 0;
       }, () => {
         this.keywords = [];
         this.keywordsOriginal = [];
+        this.hasKeywordsFromSpacy = false;
       }, () => {
         this.isLoading = false;
       });
@@ -134,6 +140,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       this.keywords = tempKeywords.split(',').map((keyword) => (
         {
           word: keyword,
+          dep: ['ROOT'],
           completed: true,
           editing: false,
           selected: true
@@ -142,5 +149,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     } else {
       this.keywords = [];
     }
+  }
+
+  onEditChange(change: number) {
+    this._concurrentEdits += change;
+    this.appDialogActionButtons.confirmButtonDisabled = (this._concurrentEdits > 0);
   }
 }

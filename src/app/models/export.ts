@@ -98,7 +98,7 @@ export class Export {
           const date = new Date();
           const dateString = date.toLocaleDateString();
           const data = this.mapper.parse(';', translationMap);
-          const fileName = this.room.name + '_' + this.room.shortId + dateString + '.csv';
+          const fileName = this.room.name + '-' + this.room.shortId + '-' + dateString + '.csv';
           this.exportData(data, fileName);
         }
       });

@@ -26,6 +26,7 @@ export class CommentFilter {
   filterSelected = '';
   keywordSelected = '';
   tagSelected = '';
+  userNumberSelected = 0;
 
   paused = false;
   timeStampUntil = 0;
@@ -42,6 +43,7 @@ export class CommentFilter {
       this.timeStampUntil = obj.timeStampUntil;
       this.periodSet = obj.periodSet;
       this.timeStampNow = obj.timeStampNow;
+      this.userNumberSelected = obj.userNumberSelected;
     }
   }
 
@@ -56,6 +58,7 @@ export class CommentFilter {
   public static generateFilterNow(filterSelected: string): CommentFilter {
     const filter = new CommentFilter();
 
+    filter.userNumberSelected = 0;
     filter.filterSelected = filterSelected;
     filter.paused = false;
 
@@ -72,6 +75,8 @@ export class CommentFilter {
                                     tagSelected: string, keywordSelected: string): CommentFilter {
     const filter = new CommentFilter();
 
+
+    filter.userNumberSelected = 0;
     filter.filterSelected = filterSelected;
 
     filter.paused = true;
@@ -154,8 +159,12 @@ export class CommentFilter {
       }
     }
 
+    if (this.userNumberSelected !== 0) {
+      return com.userNumber === this.userNumberSelected;
+    }
+
     if (this.keywordSelected !== '') {
-      return com.keywordsFromQuestioner.includes(this.keywordSelected);
+      return com.keywordsFromQuestioner.findIndex(e => e.lemma === this.keywordSelected) >= 0;
     }
 
     if (this.tagSelected !== '') {

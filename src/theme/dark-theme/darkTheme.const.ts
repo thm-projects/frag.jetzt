@@ -18,7 +18,7 @@ export const dark = {
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': '#000000',
 
   '--green': 'lightgreen',
   '--red': 'red',

@@ -9,6 +9,11 @@ mat-toolbar {
   position: relative;
 }
 
+.mat-toolbar-moderation {
+  background-color: var(--moderator);
+  position: relative;
+}
+
 mat-toolbar-row {
   padding: 0 5px;
 }
@@ -31,7 +36,7 @@ mat-toolbar-row {
 
 .noOfQuestions {
   position: absolute !important;
-  right: 100px !important;
+  right: 130px !important;
   padding: 10px !important;
   margin: 0 !important;
 }
@@ -56,7 +61,8 @@ mat-toolbar-row {
 }
 
 .sessions {
-  color: var(--primary);
+  color: var(--primary) !important;
+  transform: scale(1.5);
 }
 
 h2 {
@@ -103,7 +109,7 @@ svg {
 }
 
 .beamer-icon {
-  transform: scale(1.5);
+  transform: scale(1.4);
 }
 
 .mat-menu-inner-title {
@@ -122,27 +128,48 @@ svg {
   * {
     background-color: transparent !important;
   }
+
   *:hover {
     color: var(--dialog);
     background-color: var(--on-dialog) !important;
 
-    mat-icon{
+    mat-icon {
       color: var(--dialog);
       background-color: var(--on-dialog) !important;
     }
   }
 
 }
+
 h1 {
   color: red;
 }
+
 ::ng-deep .mat-menu-item:hover .qrcode svg > path {
-  fill: var(--dialog);
-  color: var(--dialog);
+  fill: var(--dialog) !important;
+  color: var(--dialog) !important;
   background-color: var(--on-dialog) !important;
 }
-  
+
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
-  color: var(--dialog);
+  color: var(--dialog) !important;
   background-color: var(--on-dialog) !important;
+}
+
+.userActivityIcon{
+  width:25px;
+  height:25px;
+  margin-left:25px;
+  margin-bottom:5px;
+  background-color:var(--on-background);
+  -webkit-mask-image: url("../../../../assets/icons/activity.svg");
+  mask-image: url("../../../../assets/icons/activity.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+}
+
+.userActivityTxt{
+  color:var(--on-background);
+  margin-left:15px;
 }

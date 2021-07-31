@@ -1,6 +1,7 @@
 <ars-row>
   <div class="anchor-wrp">
     <span *ngIf="keywords.length > 0">
+        <span>{{ 'spacy-dialog.select-keywords' | translate }}</span>
       <ars-row class="select-all-section">
         <mat-checkbox class="select-all-checkbox"
                       id="checkAll"
@@ -21,8 +22,6 @@
         </mat-label>
       </ars-row>
     </span>
-    <span *ngIf="keywords.length > 0"></span>
-
     <ars-row class="list-container">
       <div fxLayout="row" fxLayoutAlign="center center" fxFill>
         <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
@@ -42,14 +41,14 @@
                           matTooltipShowDelay="750">
             </mat-checkbox>
             <button *ngIf="!keyword.editing"
-                    (click)="onEdit(keyword)" mat-icon-button
+                    (click)="onEdit(keyword); onEditChange(1)" mat-icon-button
                     [ngClass]="{'keywords-actions-selected': keyword.selected}"
                     matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}"
                     matTooltipShowDelay="750">
               <mat-icon>edit</mat-icon>
             </button>
             <button *ngIf="keyword.editing"
-                    (click)="onEndEditing(keyword)" mat-icon-button
+                    (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
                     class = "edit-accept"
                     matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}"
                     matTooltipShowDelay="750">
@@ -60,10 +59,7 @@
       </mat-list>
     </ars-row>
     <ars-row>
-      <span *ngIf="keywords.length <= 0 && !this.isLoading">
-        <p>{{ 'spacy-dialog.empty-nouns' | translate }}</p>
-      </span>
-      <span *ngIf="!langSupported">
+      <span *ngIf="!isLoading && (!langSupported || !hasKeywordsFromSpacy)">
         <p class="manual-input-title">{{ 'spacy-dialog.add-manually' | translate }}</p>
         <textarea class="manual-input" [(ngModel)]="manualKeywords" (input)="manualKeywordsToKeywords()"></textarea>
       </span>
@@ -75,6 +71,7 @@
   <ars-fill></ars-fill>
   <ars-col>
     <app-dialog-action-buttons
+      #appDialogActionButtons
       buttonsLabelSection="comment-page"
       confirmButtonLabel="send"
       [showDivider]="false"

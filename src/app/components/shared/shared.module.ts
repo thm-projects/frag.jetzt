@@ -38,7 +38,8 @@ import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-c
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
-import {DragDropModule} from "@angular/cdk/drag-drop";
+import { DragDropModule } from "@angular/cdk/drag-drop";
+import { ActiveUserComponent } from './overlay/active-user/active-user.component';
 
 @NgModule({
     imports: [
@@ -83,25 +84,26 @@ import {DragDropModule} from "@angular/cdk/drag-drop";
     TopicCloudFilterComponent,
     SpacyDialogComponent,
     TagCloudPopUpComponent,
-    WorkerDialogComponent
+    ActiveUserComponent
   ],
-    exports: [
-        RoomJoinComponent,
-        PageNotFoundComponent,
-        RoomPageComponent,
-        RoomListComponent,
-        HeaderComponent,
-        FooterComponent,
-        CommentPageComponent,
-        CommentListComponent,
-        CreateCommentComponent,
-        PresentCommentComponent,
-        CommentComponent,
-        DialogActionButtonsComponent,
-        UserBonusTokenComponent,
-        CloudConfigurationComponent,
-        TagCloudPopUpComponent
-    ]
+	exports:[
+		RoomJoinComponent,
+		PageNotFoundComponent,
+		RoomPageComponent,
+		RoomListComponent,
+		HeaderComponent,
+		FooterComponent,
+		CommentPageComponent,
+		CommentListComponent,
+		CreateCommentComponent,
+		PresentCommentComponent,
+		CommentComponent,
+		DialogActionButtonsComponent,
+		UserBonusTokenComponent,
+		CloudConfigurationComponent,
+		TagCloudPopUpComponent,
+		ActiveUserComponent
+	]
 })
 export class SharedModule {
 }

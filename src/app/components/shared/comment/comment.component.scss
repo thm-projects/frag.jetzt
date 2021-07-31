@@ -185,6 +185,10 @@ mat-card-content > :first-child {
 }
 
 
+::ng-deep .mat-menu-panel {
+  min-height: 56px !important;
+}
+
 .keywords-list {
   flex-grow: 1;
   flex-shrink: 1;
@@ -204,6 +208,10 @@ mat-card-content > :first-child {
 
 .keyword-icon {
   height: 18px !important;
+}
+
+.mat-badge-content {
+  background: #fb9a1c;
 }
 
 .user-number {

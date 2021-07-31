@@ -25,7 +25,7 @@
                     mat-icon-button
                     (click)="copyShortId()">
               <mat-icon class="copy"
-                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">content_paste
+                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">share
               </mat-icon>
             </button>
           </mat-card-subtitle>
@@ -35,8 +35,12 @@
       <mat-divider></mat-divider>
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <markdown class="images" katex emoji lineNumbers lineHighlight
-          [data]="room.description.trim()"></markdown>
+        <markdown class="images"
+                  katex
+                  emoji
+                  lineNumbers
+                  lineHighlight
+                  [data]="room.description.trim()"></markdown>
       </mat-card-content>
       <div fxLayout="column"
            fxLayoutAlign="center"

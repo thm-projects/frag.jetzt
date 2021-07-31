@@ -1,9 +1,9 @@
-h2{
+h2 {
   color: var(--on-dialog);
   font-size: 1.7rem;
 }
 
-.expansion-title{
+.expansion-title {
   color: var(--primary);
   padding-bottom: 6px;
   font-size: 1.2rem;
@@ -31,11 +31,11 @@ div {
   color: var(--on-secondary);
 }
 
-.tag-config-button{
+.tag-config-button {
   min-width: 135px;
 }
 
-.close-btn mat-icon{
+.close-btn mat-icon {
   font-size: 20px;
   margin-top: 2px;
 }
@@ -64,7 +64,7 @@ mat-divider {
   margin-top: 20px;
 }
 
-.color-box{
+.color-box {
   flex: 1 1 100%;
   box-sizing: border-box;
   border: 2px solid var(--on-dialog);
@@ -81,29 +81,29 @@ mat-divider {
   pointer-events: none;
 }
 
-::ng-deep .mat-slide-toggle-thumb{
-  background-color:  var(--secondary);
+::ng-deep .mat-slide-toggle-thumb {
+  background-color: var(--secondary);
 }
 
-::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar{
-  background-color:  var(--primary);
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: var(--primary);
 }
 
-::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{
-  background-color:  var(--primary);
+::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-color: var(--primary);
 
 }
 
 ::ng-deep .mat-form-field-label {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface)!important;
+  background-color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface)!important;
+  background-color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
@@ -120,54 +120,57 @@ mat-divider {
 
 ::ng-deep .mat-accent .mat-slider-track-fill,
 ::ng-deep .mat-accent .mat-slider-thumb,
-::ng-deep .mat-accent .mat-slider-thumb-label{
-  color: var(--on-primary);;
+::ng-deep .mat-accent .mat-slider-thumb-label {
+  color: var(--on-primary);
   background-color: var(--primary);
 }
 
-::ng-deep .mat-accent .mat-slider-thumb-label-text{
-  color:  var(--on-primary);
+::ng-deep .mat-accent .mat-slider-thumb-label-text {
+  color: var(--on-primary);
 }
 
-::ng-deep .primary{
-  color: var(--on-primary);;
+::ng-deep .primary {
+  color: var(--on-primary);
   background-color: var(--primary);
 }
 
-::ng-deep .secondary{
-  color: var(--on-cancel);;
+::ng-deep .secondary {
+  color: var(--on-cancel);
   background-color: var(--cancel);
   margin-right: 20px;
 
 }
 
-.button-row{
+.button-row {
   width: 100%;
-  margin: auto auto 20px auto ;
-}
-.reset {
-  margin: 25px auto auto auto;
-  background-color: var(--white);
-  color: black;
-  width: 100%;
-}
-.cloud-configuration-form{
-  width: 290px;
+  margin: auto auto 20px auto;
 }
 
-.drawer-container{
-  color: var(--on-dialog)!important;
+.reset {
+  margin: 25px auto auto auto;
+  background-color: var(--secondary);
+  color: var(--alt-surface);
+  width: 100%;
+}
+
+.cloud-configuration-form {
+  width: min-content;
+}
+
+.drawer-container {
+  color: var(--on-dialog) !important;
   margin: 20px;
   align-items: center;
   justify-content: center;
 }
 
-::ng-deep.custom-color-picker{
+::ng-deep.custom-color-picker {
   opacity: 0;
   z-index: -1;
   cursor: pointer;
 }
-.custom-color-picker-text{
+
+.custom-color-picker-text {
   position: absolute;
   top: 25px;
   transform: translateY(-35px);
@@ -178,11 +181,11 @@ mat-divider {
   margin-right: auto;
 }
 
-::ng-deep.mat-drawer-backdrop.mat-drawer-shown{
+::ng-deep.mat-drawer-backdrop.mat-drawer-shown {
   display: none;
 }
 
-::ng-deep.mat-slider-track-background{
+::ng-deep.mat-slider-track-background {
   background-color: var(--primary);
   opacity: 0.2;
 }
@@ -215,28 +218,38 @@ mat-divider {
   margin-bottom: 0;
 }
 
-.special-settings{
+.special-settings {
   border-top: none;
   border-bottom: 2px solid var(--primary);
   padding: 10px 0;
   margin-bottom: 20px;
 }
 
-#rotation{
+#rotation {
   margin-top: 10px;
 }
 
-.matExpansionPanel{
+.matExpansionPanel {
   background-color: var(--dialog);
-  color: var(--on-dialog)!important;
+  color: var(--on-dialog) !important;
   margin: 2px;
   padding: 5px;
 }
 
-.firstElementOfExpansionPanel{
+.firstElementOfExpansionPanel {
   border-top: 2px solid var(--primary);
   padding-top: 10px;
 }
-.automatic-spelling{
+
+.firstElementOfWeightClass {
+  margin-top: 10px;
+  padding-bottom: 10px;
+}
+
+.automatic-spelling {
   padding-bottom: 30px;
+}
+
+.save-or-cancel {
+  width: max-content;
 }

@@ -94,7 +94,7 @@ PlantUML doesn't support pins.
 The black arrow only transmits the information
 that a question has been awarded a star.
 end note
-:select "Your stars";
+:select "Your bonus stars";
 :choose a session;
 :redeem token;
 :send email with token to lecturer;

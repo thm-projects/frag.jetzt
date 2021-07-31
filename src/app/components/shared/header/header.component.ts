@@ -1,30 +1,34 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
-import { AuthenticationService } from '../../../services/http/authentication.service';
-import { NotificationService } from '../../../services/util/notification.service';
-import { Router, NavigationEnd } from '@angular/router';
-import { User } from '../../../models/user';
-import { UserRole } from '../../../models/user-roles.enum';
-import { Location } from '@angular/common';
-import { TranslateService } from '@ngx-translate/core';
-import { MatDialog } from '@angular/material/dialog';
-import { LoginComponent } from '../login/login.component';
-import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
-import { UserService } from '../../../services/http/user.service';
-import { EventService } from '../../../services/util/event.service';
-import { AppComponent } from '../../../app.component';
-import { Rescale } from '../../../models/rescale';
-import { KeyboardUtils } from '../../../utils/keyboard';
-import { KeyboardKey } from '../../../utils/keyboard/keys';
-import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
-import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
-import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { MotdService } from '../../../services/http/motd.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import { RoomService } from '../../../services/http/room.service';
-import { Room } from '../../../models/room';
-import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
-import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
+import {Component,OnInit,Renderer2} from '@angular/core';
+import {AuthenticationService} from '../../../services/http/authentication.service';
+import {NotificationService} from '../../../services/util/notification.service';
+import {NavigationEnd,Router} from '@angular/router';
+import {User} from '../../../models/user';
+import {UserRole} from '../../../models/user-roles.enum';
+import {Location} from '@angular/common';
+import {TranslateService} from '@ngx-translate/core';
+import {MatDialog} from '@angular/material/dialog';
+import {LoginComponent} from '../login/login.component';
+import {DeleteAccountComponent} from '../_dialogs/delete-account/delete-account.component';
+import {UserService} from '../../../services/http/user.service';
+import {EventService} from '../../../services/util/event.service';
+import {AppComponent} from '../../../app.component';
+import {Rescale} from '../../../models/rescale';
+import {KeyboardUtils} from '../../../utils/keyboard';
+import {KeyboardKey} from '../../../utils/keyboard/keys';
+import {UserBonusTokenComponent} from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import {RemindOfTokensComponent} from '../../participant/_dialogs/remind-of-tokens/remind-of-tokens.component';
+import {QrCodeDialogComponent} from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
+import {BonusTokenService} from '../../../services/http/bonus-token.service';
+import {MotdService} from '../../../services/http/motd.service';
+import {TopicCloudFilterComponent} from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import {RoomService} from '../../../services/http/room.service';
+import {Room} from '../../../models/room';
+import {TagCloudMetaData} from '../../../services/util/tag-cloud-data.service';
+import {WorkerDialogComponent} from '../_dialogs/worker-dialog/worker-dialog.component';
+import {WsRoomService} from '../../../services/websockets/ws-room.service';
+import {TopicCloudAdminService} from '../../../services/util/topic-cloud-admin.service';
+import {HeaderService} from '../../../services/util/header.service';
+
 
 @Component({
   selector: 'app-header',
@@ -43,6 +47,10 @@ export class HeaderComponent implements OnInit {
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
+  isAdminConfigEnabled = false;
+  private _subscriptionRoomService = null;
+  toggleUserActivity=false;
+  userActivity=0;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -56,11 +64,17 @@ export class HeaderComponent implements OnInit {
               private _r: Renderer2,
               private motdService: MotdService,
               private confirmDialog: MatDialog,
-              private roomService: RoomService
+              private roomService: RoomService,
+              private wsRoomService: WsRoomService,
+              private topicCloudAdminService: TopicCloudAdminService,
+              private headerService: HeaderService
   ) {
   }
 
   ngOnInit() {
+    this.topicCloudAdminService.getAdminData.subscribe(data => {
+      this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
+    });
     this.eventService.on('userLogin').subscribe(e => {
       this.motdService.checkNewMessage(() => {
         this.motdService.requestDialog();
@@ -118,17 +132,31 @@ export class HeaderComponent implements OnInit {
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
         this.shortId = '';
         this.room = null;
+        if (this._subscriptionRoomService) {
+          this._subscriptionRoomService.unsubscribe();
+          this._subscriptionRoomService = null;
+        }
 
         if (segments && segments.length > 2) {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
-            this.roomService.getRoomByShortId(this.shortId).subscribe(room => this.room = room);
+            this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+              this.room = room;
+              this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
+                const message = JSON.parse(msg.body);
+                if (message.type === 'RoomPatched') {
+                  this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+                  this.moderationEnabled = message.payload.changes.moderated;
+                }
+              });
+            });
           }
         }
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+
 
     this._r.listen(document, 'keyup', (event) => {
       if (
@@ -147,6 +175,13 @@ export class HeaderComponent implements OnInit {
     });
     this.motdService.onNewMessage().subscribe(state => {
       this.motdState = state;
+    });
+
+    this.headerService.onActivityChange(e=>{
+      this.toggleUserActivity=e;
+    });
+    this.headerService.onUserChange(e=>{
+      this.userActivity=e;
     });
   }
 
@@ -306,6 +341,7 @@ export class HeaderComponent implements OnInit {
       autoFocus: false
     });
     confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
+    confirmDialogRef.componentInstance.user = this.user;
   }
 
   public navigateTopicCloudConfig() {
@@ -319,11 +355,10 @@ export class HeaderComponent implements OnInit {
   public blockQuestions() {
     // flip state if clicked
     this.room.questionsBlocked = !this.room.questionsBlocked;
-    this.roomService.updateRoom(this.room).subscribe(r => this.room = r);
+    this.roomService.updateRoom(this.room).subscribe();
   }
 
   public startWorkerDialog() {
     WorkerDialogComponent.addWorkTask(this.dialog, this.room);
   }
-
 }

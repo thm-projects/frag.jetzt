@@ -26,6 +26,7 @@ import { DeleteCommentsComponent } from '../_dialogs/delete-comments/delete-comm
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TopicCloudFilterComponent } from '../../shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import {HeaderService} from '../../../services/util/header.service';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -142,8 +143,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         if (lang === 'de') {
         this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
                                     'Aktueller Raum-Code: ' + this.room.shortId);
-        } else { this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
-          'Current Session Code: ' + this.room.shortId); }
+        } else {
+ this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
+          'Current Session Code: ' + this.room.shortId);
+}
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false

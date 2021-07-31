@@ -25,7 +25,7 @@
                     (click)="copyShortId()"
                     aria-labelledby="cloud_download">
               <mat-icon class="copy"
-                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">content_paste
+                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">share
               </mat-icon>
             </button>
           </mat-card-subtitle>
@@ -77,8 +77,12 @@
       </div>
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <markdown class="images" katex emoji lineNumbers lineHighlight
-          [data]="room.description.trim()"></markdown>
+        <markdown class="images"
+                  katex
+                  emoji
+                  lineNumbers
+                  lineHighlight
+                  [data]="room.description.trim()"></markdown>
       </mat-card-content>
       <div fxLayout="column"
            fxLayoutAlign="center"
@@ -110,7 +114,7 @@
                         class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">visibility_off
-                        </mat-icon>
+              </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
@@ -139,6 +143,9 @@
           (click)="announce()"
           class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
 </div>
+
+<app-active-user *ngIf="room"
+                 [room]="room"></app-active-user>
 
 <div class="visually-hidden">
   <div id="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>

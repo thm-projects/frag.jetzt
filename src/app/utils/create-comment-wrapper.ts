@@ -6,7 +6,6 @@ import { User } from '../models/user';
 import { Room } from '../models/room';
 import { Comment } from '../models/comment';
 import { NotificationService } from '../services/util/notification.service';
-import { UserRole } from '../models/user-roles.enum';
 import { CommentService } from '../services/http/comment.service';
 
 export class CreateCommentWrapper {
@@ -30,36 +29,27 @@ export class CreateCommentWrapper {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result) {
-          this.send(result, user.role);
+          this.send(result);
         } else {
           return;
         }
       });
   }
 
-  send(comment: Comment, userRole: UserRole): void {
+  send(comment: Comment): void {
+    let message;
     if (this.room.directSend) {
       this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-        this.notificationService.show(msg);
+        message = msg;
       });
       comment.ack = true;
     } else {
-      switch (userRole) {
-        case UserRole.EDITING_MODERATOR:
-        case UserRole.EXECUTIVE_MODERATOR:
-        case UserRole.CREATOR:
-          this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-          comment.ack = true;
-          break;
-        case UserRole.PARTICIPANT:
-          this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-          break;
-      }
+      this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
+        message = msg;
+      });
     }
-    this.commentService.addComment(comment).subscribe();
+    this.commentService.addComment(comment).subscribe(() => {
+      this.notificationService.show(message);
+    });
   }
 }

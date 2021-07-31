@@ -1,7 +1,8 @@
 <div>
 
   <mat-toolbar class="mat-elevation-z24"
-               id="footer-toolbar">
+               id="footer-toolbar"
+               *ngIf="!router.url.endsWith('/quiz')">
 
     <button (click)="showDemo()"
             aria-labelledby="demo-label"
@@ -27,6 +28,7 @@
 
     <span class="fill-remaining-space"></span>
     <button [matMenuTriggerFor]="langMenu"
+            (menuOpened)="openMenu()"
             aria-labelledby="language-label"
             class="focus_button"
             id="language-menu"

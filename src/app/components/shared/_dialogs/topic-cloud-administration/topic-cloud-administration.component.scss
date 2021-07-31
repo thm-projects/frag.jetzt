@@ -1,7 +1,8 @@
 // hide scrollbar
 ::-webkit-scrollbar {
-    display: none;  /* Chrome Safari */
+  display: none; /* Chrome Safari */
 }
+
 //TODO: hide scrollbar for IE and Firefox
 
 .margin-right {
@@ -27,6 +28,10 @@
 
 .red {
   color: var(--red);
+}
+
+.green {
+  color: var(--green);
 }
 
 .primaryBackground {
@@ -78,7 +83,7 @@ mat-list-item:hover {
   transition: width 300ms linear;
 }
 
-.smallerInput{
+.smallerInput {
   max-width: 100px;
 }
 
@@ -102,7 +107,7 @@ mat-panel-title, mat-panel-description {
   }
 }
 
-.animation-blink{
+.animation-blink {
   color: var(--red) !important;
   animation-name: animation_blink_5s;
   animation-timing-function: ease-in;
@@ -126,26 +131,53 @@ mat-panel-title, mat-panel-description {
   margin-left: 8px;
 }
 
+.themeRequirementInput {
+  width: 100%;
+  margin-left: 0 !important;
+}
+
 .vertical-center {
   margin-top: auto;
   margin-bottom: auto;
 }
 
-.radio-button-item{
+.radio-button-item {
   margin-bottom: 7px;
   color: var(--on-surface);
 }
 
-.radio-button-group{
+.radio-button-group {
   display: flex;
   flex-direction: column;
   margin: 15px 0;
 }
 
 mat-dialog-content {
-  max-height: 80vh!important;
+  max-height: 80vh !important;
+  margin: unset;
+  padding: unset;
 }
 
 .comment_tag-icon {
   height: 18px !important;
+}
+
+.testProfanity {
+  margin-top: 0px;
+}
+
+::ng-deep .ng-animating div mat-accordion mat-expansion-panel mat-expansion-panel-header {
+  height: 48px;
+}
+
+::ng-deep .ng-animating div mat-accordion mat-expansion-panel div.mat-expansion-panel-content {
+  height: 0px;
+  visibility: hidden;
+}
+
+.reset {
+  margin: 25px auto auto auto;
+  background-color: var(--secondary);
+  color: black;
+  width: 100%;
 }

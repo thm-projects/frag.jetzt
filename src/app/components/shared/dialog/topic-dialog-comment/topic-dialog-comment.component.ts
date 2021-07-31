@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
-import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Language } from '../../../../models/comment';
+import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 
 @Component({
   selector: 'app-topic-dialog-comment',
@@ -9,9 +10,13 @@ import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-ad
 export class TopicDialogCommentComponent implements OnInit {
 
   @Input() question: string;
+  @Input() language: Language;
   @Input() keyword: string ;
   @Input() maxShowedCharachters: number;
-  @Input() profanityFilter = true;
+  @Input() profanityFilter: boolean;
+  @Input() languageSpecific;
+  @Input() partialWords;
+
   isCollapsed = false;
 
   public badWords = [];
@@ -22,7 +27,7 @@ export class TopicDialogCommentComponent implements OnInit {
   public partsShort: string[];
   public partsWithoutProfanityShort: string[];
 
-  constructor(private topicCloudAdminService: TopicCloudAdminService) {}
+  constructor(private profanityFilterService: ProfanityFilterService) {}
 
   get partsOfQuestion() {
     return this.profanityFilter ? this.partsWithoutProfanity : this.parts;
@@ -33,17 +38,19 @@ export class TopicDialogCommentComponent implements OnInit {
   }
 
   splitShortQuestion(question: string){
-    const cleanedKeyword = this.keyword.replace(/([^a-z0-9]+)/gi, '');
-    return question.slice(0, this.maxShowedCharachters).split(new RegExp(cleanedKeyword, 'i'));
+    return question.slice(0, this.maxShowedCharachters).split(this.keyword);
   }
 
   splitQuestion(question: string){
-    const cleanedKeyword = this.keyword.replace(/([^a-z0-9]+)/gi, '');
-    return question.split(new RegExp(cleanedKeyword,'i'));
+    return question.split(this.keyword);
   }
 
   ngOnInit(): void {
-    this.questionWithoutProfanity = this.topicCloudAdminService.filterProfanityWords(this.question);
+    if (!this.language) {
+      return;
+    }
+    this.questionWithoutProfanity = this.profanityFilterService.
+                                    filterProfanityWords(this.question, this.partialWords, this.languageSpecific, this.language);
     this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
     this.parts = this.splitQuestion(this.question);
     this.partsWithoutProfanityShort = this.splitShortQuestion(this.questionWithoutProfanity);

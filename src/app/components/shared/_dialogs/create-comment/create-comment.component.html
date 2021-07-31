@@ -23,19 +23,15 @@
   </div>
     <div class="anchor-wrp">
       <div class="anchor-right">
-        <mat-form-field *ngIf="tags"
-                        class="tag-form-field">
+        <mat-form-field *ngIf="tags" class="tag-form-field">
           <mat-label>
-            <mat-icon class="icon-svg"
-                      svgIcon="comment_tag"></mat-icon>
-            {{'comment-page.tag' | translate}}</mat-label>
-          <mat-select [(ngModel)]="selectedTag"
-                      class="tag-select">
+            <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
+            {{'comment-page.tag' | translate}}
+          </mat-label>
+          <label for="tagSelect">{{selectedTag}}</label>
+          <mat-select [(ngModel)]="selectedTag" class="tag-select" id="tagSelect" style="display: inline">
             <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
-            <mat-option *ngFor="let tag of tags"
-                        value="{{tag}}">
-              {{tag}}
-            </mat-option>
+            <mat-option *ngFor="let tag of tags" value="{{tag}}">{{tag}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -102,7 +98,10 @@
   </ars-row>
   <ars-row ars-flex-box class="spellcheck">
     <ars-col>
-      <button mat-button class="spell-button" (click)="grammarCheck(commentBody)">
+      <button
+        [disabled]="this.commentBody.innerHTML.length < 4 "
+        mat-flat-button class="spell-button"
+        (click)="grammarCheck(commentBody)">
         {{ 'comment-page.grammar-check' | translate}}
         <mat-icon *ngIf="isSpellchecking" style="margin: 0;">
           <mat-spinner diameter="20"></mat-spinner>

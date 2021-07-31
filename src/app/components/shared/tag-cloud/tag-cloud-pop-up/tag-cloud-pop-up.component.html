@@ -16,7 +16,7 @@
           {{tagData && tagData.distinctUsers.size}}
         </p>
       </span>
-      <button *ngIf="user && user.role >= 1" mat-button (click)="addBlacklistWord()">
+      <button *ngIf="user && user.role >= 1 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
         <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
       </button>
     </div>
@@ -42,7 +42,7 @@
         </p>
       </span>
     </div>
-    <div class="replacementContainer" *ngIf="checkLanguage && user && user.role >= 1">
+    <div class="replacementContainer" *ngIf="user && user.role >= 1">
       <mat-form-field>
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"
@@ -58,7 +58,8 @@
         </mat-autocomplete>
       </mat-form-field>
       <br>
-      <button mat-button class="replace-button" (click)="updateTag()">{{"comment-page.send" | translate}}</button>
+      <button mat-button class="replace-button" [disabled]="!isNewTagReady()"
+              (click)="updateTag()">{{"comment-page.send" | translate}}</button>
     </div>
     <div *ngIf="categories && categories.length">
       <p>Kategorien:</p>
