@@ -6,7 +6,6 @@ import { User } from '../models/user';
 import { Room } from '../models/room';
 import { Comment } from '../models/comment';
 import { NotificationService } from '../services/util/notification.service';
-import { UserRole } from '../models/user-roles.enum';
 import { CommentService } from '../services/http/comment.service';
 
 export class CreateCommentWrapper {

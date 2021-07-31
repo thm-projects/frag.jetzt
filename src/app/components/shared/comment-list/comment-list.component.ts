@@ -26,7 +26,7 @@ import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CommentFilter, Period } from '../../../utils/filter-options';
-import { CreateCommentWrapper } from '../../../utils/CreateCommentWrapper';
+import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';

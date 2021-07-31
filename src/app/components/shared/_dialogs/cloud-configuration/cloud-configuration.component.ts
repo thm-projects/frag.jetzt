@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
-import { cloneParameters, CloudParameters, CloudTextStyle } from '../../tag-cloud/tag-cloud.interface';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
+import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -108,8 +108,8 @@ export class CloudConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.cloudParameters = cloneParameters(this.parent.currentCloudParameters);
-    this.defaultCloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+    this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.parent.dataManager.getMetaData().subscribe((value)=>{
       if (!value) {
         return;
@@ -170,7 +170,7 @@ export class CloudConfigurationComponent implements OnInit {
   cancel() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.defaultCloudParameters);
-    this.cloudParameters = cloneParameters(this.defaultCloudParameters);
+    this.cloudParameters = new CloudParameters(this.defaultCloudParameters);
     this.parent.configurationOpen = false;
     this.setStep(0);
     this.readMaxFont();
@@ -179,7 +179,7 @@ export class CloudConfigurationComponent implements OnInit {
   save() {
     this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
-    this.defaultCloudParameters = cloneParameters(this.cloudParameters);
+    this.defaultCloudParameters = new CloudParameters(this.cloudParameters);
     this.parent.configurationOpen = false;
     this.setStep(0);
     this.readMaxFont();
@@ -220,8 +220,8 @@ export class CloudConfigurationComponent implements OnInit {
   reset(){
     this.parent.resetColorsToTheme();
     this.parent.configurationOpen = false;
-    this.cloudParameters = cloneParameters(this.parent.currentCloudParameters);
-    this.defaultCloudParameters = cloneParameters(this.parent.currentCloudParameters);
+    this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
+    this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.readMaxFont();
   }
 

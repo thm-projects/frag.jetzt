@@ -340,8 +340,8 @@
                   [ngClass]="{'color-warn': room && room.questionsBlocked}"
           >
             <mat-icon class="color-warn">block</mat-icon>
-            <span *ngIf="!room.questionsBlocked">{{'header.block' | translate}}</span>
-            <span *ngIf="room.questionsBlocked">{{'header.unlock' | translate}}</span>
+            <span *ngIf="room && !room.questionsBlocked">{{'header.block' | translate}}</span>
+            <span *ngIf="room && room.questionsBlocked">{{'header.unlock' | translate}}</span>
           </button>
 
           <button mat-menu-item

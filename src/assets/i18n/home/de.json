@@ -46,16 +46,26 @@
     "motd-mark-read": "Gelesen"
   },
   "content": {
-    "topic-cloud-content": "Weiter zur Topic-Cloud mit den aktuellen Filtern?",
     "cancel": "Abbrechen",
     "continue": "Weiter",
     "reset": "Zurücksetzen",
-    "continue-with-all-questions" : "Mit allen Fragen der Sitzung",
-    "continue-with-all-questions-short" : "Alle Fragen",
-    "continue-with-current-questions": "Mit aktueller Fragenliste",
-    "continue-with-current-questions-short": "Fragenliste",
-    "continue-with-all-questions-from-now": "Brainstorming: Wolke aus den Eingaben ab jetzt",
-    "continue-with-all-questions-from-now-short": "Brainstorming"
+    "brainstorming-question": "Brainstorming-Frage",
+    "tag-cloud-title": "Themenwolke",
+    "tag-cloud-info": "Die Wortwolke in »frag.jetzt« dient als semantischer Filter: Je größer die Schrift, desto häufiger wurde das Wort grammatikalisch in den Fragen verwendet oder als Schlüsselwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
+    "tag-cloud-source-title": "Wähle, welche Fragen angezeigt werden sollen:",
+    "tag-cloud-source-verified-by-user": "nur Fragen, die mit Stichwörtern versehen wurden",
+    "tag-cloud-source-verified-by-user-short": "nur Fragen mit Stichwörtern",
+    "tag-cloud-source-analyzed": "nur Fragen, die grammatikalisch analysiert wurden",
+    "tag-cloud-source-analyzed-short": "nur analysierte Fragen",
+    "tag-cloud-source-all": "alle Fragen",
+    "tag-cloud-questions-title": "Wähle, welche Fragenmenge berücksichtigt werden soll:",
+    "tag-cloud-questions-all": "alle Fragen der Sitzung",
+    "tag-cloud-questions-all-short": "alle Fragen",
+    "tag-cloud-questions-current-filtered": "aktuelle Fragen",
+    "tag-cloud-questions-brainstorming": "Brainstorming: Fragen, die ab jetzt gestellt werden",
+    "tag-cloud-questions-brainstorming-short": "Brainstorming",
+    "tag-cloud-description": "Sobald die Wolke erscheint, fahre mit der Maus über ein Wort, um die Anzahl der involvierten Fragen, Fragensteller*innen und Bewertungen zu sehen. Klicke auf das Wort, um alle zugehörigen Fragen anzuzeigen.",
+    "tag-cloud-create": "Wortwolke erstellen"
   },
   "header": {
     "abort": "Abbrechen",

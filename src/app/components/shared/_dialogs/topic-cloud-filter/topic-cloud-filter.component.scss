@@ -5,11 +5,18 @@ mat-radio-button {
 mat-radio-group {
   display: flex;
   flex-direction: column;
-  margin: 15px 0;
+}
+
+mat-divider {
+  margin: 0.75em 0;
 }
 
 ::ng-deep .mat-radio-label-content {
   width: 100%;
+}
+
+::ng-deep mat-form-field > .mat-form-field-wrapper {
+  margin-bottom: -1.34375em;
 }
 
 .elementRow {
@@ -29,4 +36,19 @@ mat-radio-group {
 
 .comment_tag-icon {
   height: 18px !important;
+}
+
+.mat-dialog-content {
+  padding: 0;
+  margin: 0;
+}
+
+.noKeywords {
+  background: var(--surface);
+  color: var(--on-surface);
+}
+
+.secondary-confirm-button {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }

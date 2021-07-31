@@ -60,3 +60,11 @@ app-tag-cloud-pop-up {
   transition: all 0.1s ease-in-out;
   z-index: 2;
 }
+
+.tag-cloud-brainstorming-question {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 2;
+  color: var(--tag-cloud-color, black);
+}

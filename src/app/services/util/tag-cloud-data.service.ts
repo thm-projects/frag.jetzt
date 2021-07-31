@@ -4,11 +4,11 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
 import { CommentFilter } from '../../utils/filter-options';
 import { TranslateService } from '@ngx-translate/core';
-import { CloudParameters } from '../../components/shared/tag-cloud/tag-cloud.interface';
 import { Comment } from '../../models/comment';
 import { RoomDataService } from './room-data.service';
 import { SpacyKeyword } from '../http/spacy.service';
 import { UserRole } from '../../models/user-roles.enum';
+import { CloudParameters } from '../../utils/cloud-parameters';
 
 export interface TagCloudDataTagEntry {
   weight: number;

@@ -138,16 +138,26 @@
     "invalid-char-shortid": "This key code contains invalid characters."
   },
   "content": {
-    "topic-cloud-content": "Continue to the Topic Cloud with the current filters?",
     "cancel": "Cancel",
     "continue": "Continue",
     "reset": "Reset",
-    "continue-with-all-questions": "Continue with all questions of the session",
-    "continue-with-all-questions-short": "With all questions",
-    "continue-with-current-questions": "Continue with current question list",
-    "continue-with-current-questions-short": "With question list",
-    "continue-with-all-questions-from-now": "Continue with questions that will be asked from now on",
-    "continue-with-all-questions-from-now-short": "With questions from now on"
+    "brainstorming-question": "Brainstorming question",
+    "tag-cloud-title": "Topic cloud",
+    "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
+    "tag-cloud-source-title": "Choose which questions to display:",
+    "tag-cloud-source-verified-by-user": "only questions that have been tagged with keywords",
+    "tag-cloud-source-verified-by-user-short": "only tagged questions",
+    "tag-cloud-source-analyzed": "only questions that have been analyzed grammatically",
+    "tag-cloud-source-analyzed-short": "only analyzed questions",
+    "tag-cloud-source-all": "all questions",
+    "tag-cloud-questions-title": "Choose which set of questions to include:",
+    "tag-cloud-questions-all": "all questions of the session",
+    "tag-cloud-questions-all-short": "all questions",
+    "tag-cloud-questions-current-filtered": "current questions",
+    "tag-cloud-questions-brainstorming": "Brain storming session: questions that will be asked from now on",
+    "tag-cloud-questions-brainstorming-short": "Brain storming session",
+    "tag-cloud-description": "Once the cloud appears, hover over a word to see the number of questions, questioners, and ratings involved. Click on the word to see all associated questions.",
+    "tag-cloud-create": "Create word cloud"
   },
   "imprint": {
     "cancel": "Close",
