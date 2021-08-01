@@ -1,8 +1,6 @@
-<h1 mat-dialog-title>{{'content.tag-cloud-title' | translate}}</h1>
 <mat-dialog-content>
-  <p mat-dialog-content>{{'content.tag-cloud-info' | translate}}</p>
-  <mat-divider></mat-divider>
-  <h3 class="mat-h3">{{'content.tag-cloud-source-title' | translate}}</h3>
+
+  <h3>{{'content.tag-cloud-source-title' | translate}}</h3>
   <mat-radio-group [(ngModel)]="selectedSource">
     <mat-radio-button value="fromUser">
       <span *ngIf="isMobile()">{{'content.tag-cloud-source-verified-by-user-short' | translate}}</span>
@@ -16,12 +14,14 @@
       <span>{{'content.tag-cloud-source-all' | translate}}</span>
     </mat-radio-button>
   </mat-radio-group>
-  <mat-divider></mat-divider>
-  <h3 class="mat-h3">{{'content.tag-cloud-questions-title' | translate}}</h3>
+
+  <h3>{{'content.tag-cloud-questions-title' | translate}}</h3>
+
   <span *ngIf="isTopicRequirementActive">
     <mat-icon [inline]="true" style="color: var(--red) !important;">warning</mat-icon>
     {{'header.overview-admin-config-enabled' | translate}}
   </span>
+
   <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
     <mat-radio-button checked="true" value="continueWithAll">
       <div class="elementRow">
@@ -74,6 +74,7 @@
   </mat-radio-group>
 
   <mat-divider *ngIf="user && user.role > 0 && hasNoKeywords"></mat-divider>
+
   <mat-card *ngIf="user && user.role > 0 && hasNoKeywords" class="noKeywords">
     <p>{{'topic-cloud-filter.info-no-keywords' | translate}}</p>
     <span>{{'topic-cloud-filter.label-refresh-keywords' | translate}}</span>
@@ -86,11 +87,8 @@
   </mat-card>
 
   <mat-divider *ngIf="user && user.role > 0"></mat-divider>
-  <app-worker-dialog [inlined]="true" *ngIf="user && user.role > 0"></app-worker-dialog>
 
-  <mat-divider></mat-divider>
-  <p mat-dialog-content>{{'content.tag-cloud-description' | translate}}</p>
-</mat-dialog-content>
+  <app-worker-dialog [inlined]="true" *ngIf="user && user.role > 0"></app-worker-dialog>
 
 <app-dialog-action-buttons
   buttonsLabelSection="content"
