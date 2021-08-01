@@ -57,15 +57,15 @@
     "tag-cloud-source-verified-by-user-short": "Vergebene Stichwörter",
     "tag-cloud-source-analyzed": "Stichwörter aus der Grammatik-Analyse",
     "tag-cloud-source-analyzed-short": "Analysierte Stichwörter",
-    "tag-cloud-source-all": "Alle Stichwörter",
+    "tag-cloud-source-all": "Alle",
     "tag-cloud-questions-title": "Welche Fragen sollen berücksichtigt werden?",
-    "tag-cloud-questions-all": "Alle Fragen",
-    "tag-cloud-questions-all-short": "Alle Fragen",
-    "tag-cloud-questions-current-filtered": "Gefilterte Fragen",
+    "tag-cloud-questions-all": "Alle",
+    "tag-cloud-questions-all-short": "Alle",
+    "tag-cloud-questions-current-filtered": "Fragenliste",
     "tag-cloud-questions-brainstorming": "Fragen, die ab jetzt gestellt werden (Brainstorming)",
     "tag-cloud-questions-brainstorming-short": "Brainstorming",
     "tag-cloud-description": "Sobald die Wolke erscheint, fahre mit der Maus über ein Wort, um die Anzahl involvierter Fragen, Fragensteller*innen und Bewertungen zu sehen. Klicke auf das Wort, um die zugehörigen Fragen anzuzeigen.",
-    "tag-cloud-create": "Wolke erstellen"
+    "tag-cloud-create": "Anzeigen"
   },
   "header": {
     "abort": "Abbrechen",

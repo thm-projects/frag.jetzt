@@ -2,6 +2,9 @@
 
   <h3>{{'content.tag-cloud-source-title' | translate}}</h3>
   <mat-radio-group [(ngModel)]="selectedSource">
+    <mat-radio-button value="all">
+      <span>{{'content.tag-cloud-source-all' | translate}}</span>
+    </mat-radio-button>
     <mat-radio-button value="fromUser">
       <span *ngIf="isMobile()">{{'content.tag-cloud-source-verified-by-user-short' | translate}}</span>
       <span *ngIf="!isMobile()">{{'content.tag-cloud-source-verified-by-user' | translate}}</span>
@@ -9,9 +12,6 @@
     <mat-radio-button value="fromSpacy">
       <span *ngIf="isMobile()">{{'content.tag-cloud-source-analyzed-short' | translate}}</span>
       <span *ngIf="!isMobile()">{{'content.tag-cloud-source-analyzed' | translate}}</span>
-    </mat-radio-button>
-    <mat-radio-button value="all">
-      <span>{{'content.tag-cloud-source-all' | translate}}</span>
     </mat-radio-button>
   </mat-radio-group>
 
