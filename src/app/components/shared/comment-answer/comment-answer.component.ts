@@ -42,7 +42,7 @@ export class CommentAnswerComponent implements OnInit {
               private authenticationService: AuthenticationService,
               public languagetoolService: LanguagetoolService,
               public dialog: MatDialog,
-              eventService: EventService) {
+              public eventService: EventService) {
     this.grammarChecker = new GrammarChecker(languagetoolService);
   }
 
