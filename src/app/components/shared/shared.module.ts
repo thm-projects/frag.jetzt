@@ -40,7 +40,7 @@ import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-p
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ActiveUserComponent } from './overlay/active-user/active-user.component';
-import { AutofocusDirective } from '../../directive/autofocus.directive';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
 
 @NgModule({
   imports: [

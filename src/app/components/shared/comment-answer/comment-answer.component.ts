@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -11,7 +11,9 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
-import { RoomDataService } from '../../../services/util/room-data.service';
+import { LanguagetoolService } from '../../../services/http/languagetool.service';
+import { GrammarChecker } from '../../../utils/grammar-checker';
+import { EventService } from '../../../services/util/event.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -27,6 +29,10 @@ export class CommentAnswerComponent implements OnInit {
   isStudent = true;
   edit = false;
 
+  grammarChecker: GrammarChecker;
+
+  @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
+
   constructor(protected route: ActivatedRoute,
               private notificationService: NotificationService,
               private translateService: TranslateService,
@@ -34,8 +40,11 @@ export class CommentAnswerComponent implements OnInit {
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               private authenticationService: AuthenticationService,
-              private roomDataService: RoomDataService,
-              public dialog: MatDialog) { }
+              public languagetoolService: LanguagetoolService,
+              public dialog: MatDialog,
+              eventService: EventService) {
+    this.grammarChecker = new GrammarChecker(languagetoolService);
+  }
 
   ngOnInit() {
     this.user = this.authenticationService.getUser();
@@ -46,13 +55,14 @@ export class CommentAnswerComponent implements OnInit {
       this.commentService.getComment(params['commentId']).subscribe(comment => {
         this.comment = comment;
         this.answer = this.comment.answer;
+        this.edit = !this.answer;
         this.isLoading = false;
       });
     });
   }
 
   saveAnswer() {
-    this.edit = false;
+    this.edit = !this.answer;
     this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.comment-answered').subscribe(msg => {
       this.notificationService.show(msg);
@@ -72,10 +82,20 @@ export class CommentAnswerComponent implements OnInit {
   }
 
   deleteAnswer() {
+    if (this.commentBody) {
+      this.commentBody.nativeElement.innerText = '';
+    }
     this.answer = null;
     this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
       this.notificationService.show(msg);
+    });
+  }
+
+  onEditClick() {
+    this.edit = true;
+    setTimeout(() => {
+      this.commentBody.nativeElement.innerText = this.answer;
     });
   }
 }
