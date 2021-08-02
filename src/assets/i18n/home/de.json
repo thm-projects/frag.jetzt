@@ -49,8 +49,7 @@
     "cancel": "Abbrechen",
     "continue": "Weiter",
     "reset": "Zurücksetzen",
-    "brainstorming-question": "Brainstorming-Frage",
-    "tag-cloud-title": "Themenwolke",
+    "brainstorming-question": "Überschrift der Wortwolke",
     "tag-cloud-info": "Je größer die Schrift, desto häufiger wurde das Wort  in den Fragen verwendet oder als Stichwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
     "tag-cloud-source-title": "Welche Stichwörter sollen angezeigt werden?",
     "tag-cloud-source-verified-by-user": "Stichwörter der Fragensteller*innen",
@@ -64,7 +63,6 @@
     "tag-cloud-questions-current-filtered": "Fragenliste",
     "tag-cloud-questions-brainstorming": "Fragen, die ab jetzt gestellt werden (Brainstorming)",
     "tag-cloud-questions-brainstorming-short": "Brainstorming",
-    "tag-cloud-description": "Sobald die Wolke erscheint, fahre mit der Maus über ein Wort, um die Anzahl involvierter Fragen, Fragensteller*innen und Bewertungen zu sehen. Klicke auf das Wort, um die zugehörigen Fragen anzuzeigen.",
     "tag-cloud-create": "Anzeigen"
   },
   "header": {
@@ -354,8 +352,7 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Es sind derzeit keine Stichwörter vorhanden. Die Wortwolke wird leer sein. Eine Fragen-Analyse kann Stichwörter in alten Sessions automatisch erstellen.",
-    "label-refresh-keywords": "Fragen-Analyse starten?",
+    "info-no-keywords": "Es sind keine Stichwörter vorhanden. Die Wortwolke wird leer sein. Eine grammatikalische Fragen-Analyse kann Stichwörter automatisch erstellen. Fragen-Analyse starten?",
     "label-refresh-keywords-start": "Starten"
   }
 }

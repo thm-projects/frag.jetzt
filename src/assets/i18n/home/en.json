@@ -141,22 +141,20 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "reset": "Reset",
-    "brainstorming-question": "Brainstorming question",
-    "tag-cloud-title": "Topic cloud",
+    "brainstorming-question": "Word cloud heading",
     "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
-    "tag-cloud-source-title": "Choose which questions to display:",
-    "tag-cloud-source-verified-by-user": "only questions that have been tagged with keywords",
-    "tag-cloud-source-verified-by-user-short": "only tagged questions",
-    "tag-cloud-source-analyzed": "only questions that have been analyzed grammatically",
-    "tag-cloud-source-analyzed-short": "only analyzed questions",
-    "tag-cloud-source-all": "all questions",
-    "tag-cloud-questions-title": "Choose which set of questions to include:",
-    "tag-cloud-questions-all": "all questions of the session",
-    "tag-cloud-questions-all-short": "all questions",
-    "tag-cloud-questions-current-filtered": "current questions",
+    "tag-cloud-source-title": "Which keywords should be displayed?",
+    "tag-cloud-source-verified-by-user": "Keywords from the questioners",
+    "tag-cloud-source-verified-by-user-short": "Assigned keywords",
+    "tag-cloud-source-analyzed": "Keywords from grammar analysis",
+    "tag-cloud-source-analyzed-short": "Keywords analysed",
+    "tag-cloud-source-all": "All keywords",
+    "tag-cloud-questions-title": "Which questions should be included?",
+    "tag-cloud-questions-all": "All questions",
+    "tag-cloud-questions-all-short": "All questions",
+    "tag-cloud-questions-current-filtered": "Question list",
     "tag-cloud-questions-brainstorming": "Brain storming session: questions that will be asked from now on",
     "tag-cloud-questions-brainstorming-short": "Brain storming session",
-    "tag-cloud-description": "Once the cloud appears, hover over a word to see the number of questions, questioners, and ratings involved. Click on the word to see all associated questions.",
     "tag-cloud-create": "Create word cloud"
   },
   "imprint": {
@@ -352,12 +350,11 @@
     "room-name": "Session name",
     "comments": "Questions",
     "bad-spelled": "Spelling too bad",
-    "failed": "Error occured",
+    "failed": "Error occurred",
     "inline-header": "Ongoing keyword updates"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "There are currently no keywords. The topic cloud will be empty. A question analysis can automatically create keywords in old sessions.",
-    "label-refresh-keywords": "Start question analysis?",
+    "info-no-keywords": "TThere are no keywords. The word cloud will be empty. A grammatical question analysis can create keywords automatically. Start question analysis?",
     "label-refresh-keywords-start": "Start"
   }
 }
