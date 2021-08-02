@@ -34,7 +34,7 @@
       </div>
     </details>
     <div mat-dialog-content style="padding-top: 0.75em;" *ngIf="inlined">
-      <span>{{'worker-dialog.inline-header' | translate}} ({{getActiveRoomCount()}}):</span>
+      <h4>{{'worker-dialog.inline-header' | translate}} ({{getActiveRoomCount()}}):</h4>
       <div class="entry" *ngFor="let task of getRooms().values()">
         <div class="entryRow">
           <mat-icon svgIcon="meeting_room" matTooltip="{{'worker-dialog.room-name' | translate}}"></mat-icon>
