@@ -20,6 +20,11 @@ button {
 
 #worker-content {
   padding-left: 5px;
+
+  .mat-dialog-content {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .entry {

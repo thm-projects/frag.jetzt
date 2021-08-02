@@ -38,22 +38,23 @@ import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-c
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
 import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
-import { DragDropModule } from "@angular/cdk/drag-drop";
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ActiveUserComponent } from './overlay/active-user/active-user.component';
+import { AutofocusDirective } from '../../directive/autofocus.directive';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        EssentialsModule,
-        SharedRoutingModule,
-        MatRippleModule,
-        ArsModule,
-        MarkdownModule,
-        QRCodeModule,
-        TagCloudModule,
-        ColorPickerModule,
-        DragDropModule
-    ],
+  imports: [
+    CommonModule,
+    EssentialsModule,
+    SharedRoutingModule,
+    MatRippleModule,
+    ArsModule,
+    MarkdownModule,
+    QRCodeModule,
+    TagCloudModule,
+    ColorPickerModule,
+    DragDropModule
+  ],
   declarations: [
     RoomJoinComponent,
     PageNotFoundComponent,
@@ -84,26 +85,28 @@ import { ActiveUserComponent } from './overlay/active-user/active-user.component
     TopicCloudFilterComponent,
     SpacyDialogComponent,
     TagCloudPopUpComponent,
-    ActiveUserComponent
+    ActiveUserComponent,
+    WorkerDialogComponent,
+    AutofocusDirective
   ],
-	exports:[
-		RoomJoinComponent,
-		PageNotFoundComponent,
-		RoomPageComponent,
-		RoomListComponent,
-		HeaderComponent,
-		FooterComponent,
-		CommentPageComponent,
-		CommentListComponent,
-		CreateCommentComponent,
-		PresentCommentComponent,
-		CommentComponent,
-		DialogActionButtonsComponent,
-		UserBonusTokenComponent,
-		CloudConfigurationComponent,
-		TagCloudPopUpComponent,
-		ActiveUserComponent
-	]
+  exports: [
+    RoomJoinComponent,
+    PageNotFoundComponent,
+    RoomPageComponent,
+    RoomListComponent,
+    HeaderComponent,
+    FooterComponent,
+    CommentPageComponent,
+    CommentListComponent,
+    CreateCommentComponent,
+    PresentCommentComponent,
+    CommentComponent,
+    DialogActionButtonsComponent,
+    UserBonusTokenComponent,
+    CloudConfigurationComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent
+  ]
 })
 export class SharedModule {
 }
