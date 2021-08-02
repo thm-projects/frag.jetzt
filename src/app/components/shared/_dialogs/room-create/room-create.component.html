@@ -28,6 +28,7 @@
       <input (focus)="eventService.makeFocusOnInputTrue()"
              (blur)="eventService.makeFocusOnInputFalse()"
              (keyup)="resetInvalidCharacters()"
+             autofocus
              matInput
              #customShortId
              class="input-block"

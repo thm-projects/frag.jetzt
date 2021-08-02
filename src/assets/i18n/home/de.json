@@ -151,7 +151,7 @@
     "session-id": "Welcher Raum?",
     "join-room": "Teilnehmen",
     "update-available": "Eine neue Version ist verfügbar.",
-    "custom-shortid": "Raum-Code bestimmen",
+    "custom-shortid": "Raum-Code selbst bestimmen",
     "custom-shortid-placeholder": "Code aus: a-z, A-Z, 0-9, - , _ , . , ~ ",
     "invalid-shortid": "Der eingegebene Raum-Code ist nicht verfügbar.",
     "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
