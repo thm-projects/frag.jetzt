@@ -28,6 +28,7 @@ import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.comp
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
+import { SmartDebounce } from '../../../utils/smart-debounce';
 
 class CustomPosition implements Position {
   left: number;
@@ -91,8 +92,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   };
   userRole: UserRole;
   data: TagComment[] = [];
-  debounceTimer = 0;
-  lastDebounceTime = 0;
   configurationOpen = false;
   isLoading = true;
   headerInterface = null;
@@ -105,6 +104,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
+  private readonly _smartDebounce = new SmartDebounce(1, 1_000);
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -309,17 +309,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (this._currentSettings.sortAlphabetically && this.data.length) {
       this.updateAlphabeticalPosition(this.data);
     }
-    const debounceTime = 1_000;
-    const current = new Date().getTime();
-    const diff = current - this.lastDebounceTime;
-    clearTimeout(this.debounceTimer);
-    if (diff >= debounceTime) {
-      this.redraw(dataUpdated);
-    } else {
-      this.debounceTimer = setTimeout(() => {
-        this.redraw(dataUpdated);
-      }, debounceTime - diff);
-    }
+    this._smartDebounce.call(() => this.redraw(dataUpdated));
   }
 
   openTags(tag: CloudData): void {
@@ -351,7 +341,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (this.child === undefined) {
       return;
     }
-    this.lastDebounceTime = new Date().getTime();
     this.isLoading = false;
     if (!dataUpdate) {
       this.child.reDraw();
