@@ -33,3 +33,11 @@ a {
   background-color: var(--on-dialog) !important;
   color: var(--dialog) !important;
 }
+
+.mat-radio-outer-circle {
+  border-color: var(--on-dialog) !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: var(--on-dialog) !important;
+}
