@@ -1,26 +1,26 @@
 <ars-row ars-flex-box>
   <ars-row>
     <div class="lang-selection">
-    <button class="lang-btn" mat-button (click)="select.open()"
-            matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
-            matTooltipShowDelay="750">
-    <i class="material-icons">language</i>
-      <span *ngIf="!(selectedLang === 'auto')">
-      {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
-      </span>
-      <span *ngIf="(selectedLang === 'auto')" id="langSelect">
+      <button class="lang-btn" mat-button (click)="select.open()"
+              matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+              matTooltipShowDelay="750">
+        <i class="material-icons">language</i>
+        <span *ngIf="!(grammarChecker.selectedLang === 'auto')">
+          {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(grammarChecker.selectedLang)) | translate}}
+        </span>
+        <span *ngIf="(grammarChecker.selectedLang === 'auto')" id="langSelect">
          auto
-      </span>
-        <mat-select class="select-list" #select [(ngModel)]="selectedLang">
-        <mat-option *ngFor="let lang of languages" [value]="lang">
-          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
-          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
-          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
-          <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
-        </mat-option>
-      </mat-select>
-    </button>
-  </div>
+        </span>
+        <mat-select class="select-list" #select [(ngModel)]="grammarChecker.selectedLang">
+          <mat-option *ngFor="let lang of grammarChecker.languages" [value]="lang">
+            <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+            <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+            <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+            <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+          </mat-option>
+        </mat-select>
+      </button>
+    </div>
     <div class="anchor-wrp">
       <div class="anchor-right">
         <mat-form-field *ngIf="tags" class="tag-form-field">
@@ -47,8 +47,9 @@
           <mat-form-field style="width:100%;">
             <input [disabled]="true" matInput>
             <div
+              (document:click)="grammarChecker.onDocumentClick($event)"
               [contentEditable]="true"
-              (paste)="onPaste($event); maxLength(commentBody)"
+              (paste)="grammarChecker.onPaste($event); grammarChecker.maxLength(commentBody, user.role === 3 ? 1000 : 500)"
               [spellcheck]="false"
               (focus)="eventService.makeFocusOnInputTrue()"
               style="margin-top:15px;width:100%;"
@@ -56,7 +57,7 @@
               #commentBody
               aria-labelledby="ask-question-description"
               autofocus
-              (input)="maxLength(commentBody)"
+              (input)="grammarChecker.maxLength(commentBody, user.role === 3 ? 1000 : 500)"
               id="answer-input">
             </div>
             <mat-placeholder class="placeholder">
@@ -69,10 +70,10 @@
             </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{inputText.length}} / {{user.role === 3 ? 1000 : 500}}
+                {{commentBody.innerHTML.length}} / {{user.role === 3 ? 1000 : 500}}
               </span>
             </mat-hint>
-            <span *ngIf="!this.hasSpellcheckConfidence">
+            <span *ngIf="!grammarChecker.hasSpellcheckConfidence">
               <p class="lang-confidence">{{ 'spacy-dialog.force-language-selection' | translate }}</p>
             </span>
 
@@ -88,7 +89,7 @@
         <ars-row [height]="12"></ars-row>
         <ars-row>
           <markdown katex emoji lineNumbers lineHighlight
-                    [data]="body"></markdown>
+                    [data]="commentBody.innerText"></markdown>
         </ars-row>
       </mat-tab>
     </mat-tab-group>
@@ -101,9 +102,9 @@
       <button
         [disabled]="this.commentBody.innerHTML.length < 4 "
         mat-flat-button class="spell-button"
-        (click)="grammarCheck(commentBody)">
+        (click)="grammarChecker.grammarCheck(commentBody)">
         {{ 'comment-page.grammar-check' | translate}}
-        <mat-icon *ngIf="isSpellchecking" style="margin: 0;">
+        <mat-icon *ngIf="grammarChecker.isSpellchecking" style="margin: 0;">
           <mat-spinner diameter="20"></mat-spinner>
         </mat-icon>
       </button>
@@ -112,7 +113,7 @@
       <app-dialog-action-buttons
         buttonsLabelSection="comment-page"
         confirmButtonLabel="send"
-        [showLoadingCycle] = "isSendingToSpacy"
+        [showLoadingCycle]="isSendingToSpacy"
         [showDivider]="false"
         [spacing]="false"
         [cancelButtonClickAction]="buildCloseDialogActionCallback()"

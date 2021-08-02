@@ -45,3 +45,57 @@ mat-icon {
 .border-answer {
   box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12), -4px 0 0 0 var(--primary);
 }
+
+.material-icons {
+  margin-right: 18px;
+}
+
+.select-list {
+  width: calc(100% - 24px);
+}
+
+.lang-selection {
+  vertical-align: middle;
+  margin-right: 0;
+}
+
+::ng-deep .mat-select-value {
+  width: auto !important;
+}
+
+::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
+  color: var(--on-surface);
+  margin-right: 50px;
+}
+
+::ng-deep .mat-select-panel {
+  background: var(--dialog);
+}
+
+.mat-option {
+  color: var(--on-surface);
+}
+
+.spell-button{
+  background-color: var(--primary);
+  color: var(--on-primary);
+  display: inline-block
+}
+
+#buttonWrapper {
+  justify-content: space-between;
+}
+
+#answer-input {
+  line-height: 120%;
+  color: var(--on-surface);
+  caret-color: var(--on-surface);
+  -webkit-appearance: textarea;
+  min-height: 50px;
+  cursor: text;
+  word-wrap: break-word;
+
+  &:focus {
+    outline: none;
+  }
+}
