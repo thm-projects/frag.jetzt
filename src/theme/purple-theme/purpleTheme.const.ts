@@ -49,7 +49,7 @@ export const purple_meta = {
   },
   isDark: false,
   order: 1,
-  scale_desktop: 1.3,
+  scale_desktop: 1.5,
   scale_mobile: 1,
   previewColor: 'background'
 

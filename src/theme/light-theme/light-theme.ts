@@ -49,7 +49,7 @@ export const arsnova_meta = {
   },
   isDark: false,
   order: 3,
-  scale_desktop: 1,
+  scale_desktop: 1.2,
   scale_mobile: 1,
   previewColor: 'background'
 

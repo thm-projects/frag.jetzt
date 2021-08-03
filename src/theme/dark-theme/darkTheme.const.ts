@@ -49,7 +49,7 @@ export const dark_meta = {
   },
   isDark: true,
   order: 2,
-  scale_desktop: 1,
+  scale_desktop: 1.2,
   scale_mobile: 1,
   previewColor: 'background'
 
