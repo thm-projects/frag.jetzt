@@ -132,7 +132,7 @@
     "cancel-description": "Cancel",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "enter-comment": "Enter your question …",
-    "Markdown-hint": "Format with Markdown, KaTeX and emojis",
+    "Markdown-hint": "Format with Markdown & KaTeX",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please enter a question.",
