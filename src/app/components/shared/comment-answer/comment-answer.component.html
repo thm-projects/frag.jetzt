@@ -84,9 +84,8 @@
                       [data]="answer"></markdown>
           </mat-tab>
         </mat-tab-group>
-        <div id="buttonWrapper"
-             fxLayout="col">
-          <div fxLayout="row">
+        <ars-row ars-flex-box class="spellcheck">
+          <ars-col>
             <button
               *ngIf="edit"
               [disabled]="commentBody.innerHTML.length < 4 "
@@ -98,8 +97,8 @@
                 <mat-spinner diameter="20"></mat-spinner>
               </mat-icon>
             </button>
-          </div>
-          <div fxLayout="row">
+          </ars-col>
+          <ars-col style="display: flex; flex-direction: row;">
             <button mat-raised-button
                     *ngIf="answer"
                     class="delete"
@@ -111,8 +110,8 @@
                     style="display: inline-block"
                     (click)="answer = commentBody.innerText; saveAnswer()">
               {{'comment-page.save-answer' | translate}}</button>
-          </div>
-        </div>
+          </ars-col>
+        </ars-row>
       </div>
     </mat-card>
   </div>
