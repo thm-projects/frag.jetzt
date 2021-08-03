@@ -58,7 +58,7 @@
         </mat-autocomplete>
       </mat-form-field>
       <br>
-      <button mat-button class="replace-button" [disabled]="!isNewTagReady()"
+      <button mat-flat-button class="replace-button" [disabled]="!isNewTagReady()"
               (click)="updateTag()">{{"comment-page.send" | translate}}</button>
     </div>
     <div *ngIf="categories && categories.length">
