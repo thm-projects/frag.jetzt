@@ -123,7 +123,7 @@
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Deine Frage löschen",
     "enter-comment": "Gib deine Frage ein …",
-    "Markdown-hint": "Formatiere mit Markdown, KaTeX und Emojis",
+    "Markdown-hint": "Formatiere mit Markdown & KaTeX",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",
