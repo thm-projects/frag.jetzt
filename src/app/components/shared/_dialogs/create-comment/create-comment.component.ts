@@ -1,9 +1,8 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
 import { EventService } from '../../../../services/util/event.service';
@@ -19,17 +18,11 @@ import { GrammarChecker } from '../../../../utils/grammar-checker';
 })
 export class CreateCommentComponent implements OnInit {
 
-  @ViewChild('commentBody', { static: true }) commentBody: HTMLDivElement;
-
   comment: Comment;
-
   user: User;
   roomId: string;
   tags: string[];
   selectedTag: string;
-
-  bodyForm = new FormControl('', [Validators.required]);
-
   isSendingToSpacy = false;
   grammarChecker: GrammarChecker;
 
@@ -78,7 +71,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   openSpacyDialog(comment: Comment): void {
-    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, this.commentBody.innerHTML, this.grammarChecker.selectedLang)
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, comment.body, this.grammarChecker.selectedLang)
       .subscribe((result) => {
         if (result.isAcceptable) {
           const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
