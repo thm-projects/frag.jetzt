@@ -1,18 +1,24 @@
 <ars-row ars-flex-box>
   <ars-row>
     <div class="lang-selection">
-      <button class="lang-btn" mat-button (click)="select.open()"
+      <button class="lang-btn"
+              mat-button
+              (click)="select.open()"
               matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
               matTooltipShowDelay="750">
         <i class="material-icons">language</i>
         <span *ngIf="!(grammarChecker.selectedLang === 'auto')">
           {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(grammarChecker.selectedLang)) | translate}}
         </span>
-        <span *ngIf="(grammarChecker.selectedLang === 'auto')" id="langSelect">
+        <span *ngIf="(grammarChecker.selectedLang === 'auto')"
+              id="langSelect">
          auto
         </span>
-        <mat-select class="select-list" #select [(ngModel)]="grammarChecker.selectedLang">
-          <mat-option *ngFor="let lang of grammarChecker.languages" [value]="lang">
+        <mat-select class="select-list"
+                    #select
+                    [(ngModel)]="grammarChecker.selectedLang">
+          <mat-option *ngFor="let lang of grammarChecker.languages"
+                      [value]="lang">
             <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
             <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
             <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
@@ -23,15 +29,21 @@
     </div>
     <div class="anchor-wrp">
       <div class="anchor-right">
-        <mat-form-field *ngIf="tags" class="tag-form-field">
+        <mat-form-field *ngIf="tags"
+                        class="tag-form-field">
           <mat-label>
-            <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
+            <mat-icon class="icon-svg"
+                      svgIcon="comment_tag"></mat-icon>
             {{'comment-page.tag' | translate}}
           </mat-label>
           <label for="tagSelect">{{selectedTag}}</label>
-          <mat-select [(ngModel)]="selectedTag" class="tag-select" id="tagSelect" style="display: inline">
+          <mat-select [(ngModel)]="selectedTag"
+                      class="tag-select"
+                      id="tagSelect"
+                      style="display: inline">
             <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
-            <mat-option *ngFor="let tag of tags" value="{{tag}}">{{tag}}</mat-option>
+            <mat-option *ngFor="let tag of tags"
+                        value="{{tag}}">{{tag}}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -43,9 +55,11 @@
           <mat-divider></mat-divider>
         </ars-row>
         <ars-row [height]="12"></ars-row>
-        <ars-row [overflow]="'visible'" style="max-height:calc( 100vh - 250px )">
+        <ars-row [overflow]="'visible'"
+                 style="max-height:calc( 100vh - 250px )">
           <mat-form-field style="width:100%;">
-            <input [disabled]="true" matInput>
+            <input [disabled]="true"
+                   matInput>
             <div
               (document:click)="grammarChecker.onDocumentClick($event)"
               [contentEditable]="true"
@@ -88,7 +102,10 @@
         </ars-row>
         <ars-row [height]="12"></ars-row>
         <ars-row>
-          <markdown katex emoji lineNumbers lineHighlight
+          <markdown katex
+                    emoji
+                    lineNumbers
+                    lineHighlight
                     [data]="commentBody.innerText"></markdown>
         </ars-row>
       </mat-tab>
@@ -97,14 +114,17 @@
   <ars-row style="margin-top:8px">
     <mat-divider></mat-divider>
   </ars-row>
-  <ars-row ars-flex-box class="spellcheck">
+  <ars-row ars-flex-box
+           class="spellcheck">
     <ars-col>
       <button
         [disabled]="this.commentBody.innerHTML.length < 4 "
-        mat-flat-button class="spell-button"
+        mat-flat-button
+        class="spell-button"
         (click)="grammarChecker.grammarCheck(commentBody)">
         {{ 'comment-page.grammar-check' | translate}}
-        <mat-icon *ngIf="grammarChecker.isSpellchecking" style="margin: 0;">
+        <mat-icon *ngIf="grammarChecker.isSpellchecking"
+                  style="margin: 0;">
           <mat-spinner diameter="20"></mat-spinner>
         </mat-icon>
       </button>
