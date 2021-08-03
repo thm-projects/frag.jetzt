@@ -9,6 +9,7 @@ import { RoomDataService } from './room-data.service';
 import { SpacyKeyword } from '../http/spacy.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
+import { SmartDebounce } from '../../utils/smart-debounce';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -57,8 +58,6 @@ export enum TagCloudCalcWeightType {
   byLengthAndVotes
 }
 
-const DEBOUNCE_TIME = 3_000;
-
 @Injectable({
   providedIn: 'root'
 })
@@ -79,8 +78,7 @@ export class TagCloudDataService {
   private _adminData: TopicCloudAdminData = null;
   private _subscriptionAdminData: Subscription;
   private _currentFilter: CommentFilter;
-  private _debounceTimer = 0;
-  private _lastDebounceTime = new Date().getTime() - DEBOUNCE_TIME;
+  private readonly _smartDebounce = new SmartDebounce(200, 3_000);
 
   constructor(private _tagCloudAdmin: TopicCloudAdminService,
               private _roomDataService: RoomDataService) {
@@ -296,18 +294,7 @@ export class TagCloudDataService {
       newData = new Map<string, TagCloudDataTagEntry>([...current]
         .sort(([_, aTagData], [__, bTagData]) => bTagData.weight - aTagData.weight));
     }
-    const currentTime = new Date().getTime();
-    const diff = currentTime - this._lastDebounceTime;
-    clearTimeout(this._debounceTimer);
-    if (diff >= DEBOUNCE_TIME) {
-      this._dataBus.next(newData);
-      this._lastDebounceTime = currentTime;
-    } else {
-      this._debounceTimer = setTimeout(() => {
-        this._dataBus.next(newData);
-        this._lastDebounceTime = new Date().getTime();
-      }, DEBOUNCE_TIME - diff);
-    }
+    this._smartDebounce.call(() => this._dataBus.next(newData));
   }
 
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {

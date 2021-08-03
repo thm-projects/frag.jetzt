@@ -12,63 +12,107 @@
               *ngIf="!isStudent || answer">
       <div *ngIf="(isStudent || !edit) && answer">
         <markdown class="images" katex emoji lineNumbers lineHighlight
-          [data]="answer"></markdown>
+                  [data]="answer"></markdown>
         <div fxLayout="row"
              fxLayoutAlign="end">
           <button mat-raised-button
                   *ngIf="!isStudent && !edit"
                   class="save"
-                  (click)="edit = true">
+                  (click)="onEditClick()">
             <mat-icon>edit</mat-icon>
             {{'comment-page.edit-answer' | translate}}
           </button>
         </div>
       </div>
-      <mat-tab-group *ngIf="!isStudent && (edit || !answer)"
-                     [dynamicHeight]="false">
-        <mat-tab label="{{'comment-page.your-answer' | translate}}">
-          <mat-form-field class="input-block">
-            <textarea [(ngModel)]="answer"
-                      (input)="edit = true"
-                      (keyup)="$event.cancelBubble=true"
-                      matInput
-                      matTextareaAutosize
-                      matAutosizeMinRows="3"
-                      matAutosizeMaxRows="10"
-                      maxlength="2000"
-                      name="answer"
-                      autofocus>
-            </textarea>
-            <mat-hint align="start">
+      <div class="lang-selection"
+           *ngIf="!isStudent && (edit || !answer)">
+        <button class="lang-btn" mat-button (click)="select.open()"
+                matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+                matTooltipShowDelay="750">
+          <i class="material-icons">language</i>
+          <span *ngIf="!(grammarChecker.selectedLang === 'auto')">
+            {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(grammarChecker.selectedLang)) | translate}}
+          </span>
+          <span *ngIf="(grammarChecker.selectedLang === 'auto')" id="langSelect">
+            auto
+          </span>
+          <mat-select class="select-list" #select [(ngModel)]="grammarChecker.selectedLang">
+            <mat-option *ngFor="let lang of grammarChecker.languages" [value]="lang">
+              <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+              <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+              <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+              <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+            </mat-option>
+          </mat-select>
+        </button>
+      </div>
+      <div *ngIf="!isStudent && (edit || !answer)">
+        <mat-tab-group [dynamicHeight]="false">
+          <mat-tab label="{{'comment-page.your-answer' | translate}}">
+            <mat-divider></mat-divider>
+            <mat-form-field class="input-block">
+              <input [disabled]="true" matInput>
+              <div
+                (document:click)="grammarChecker.onDocumentClick($event)"
+                [contentEditable]="true"
+                (paste)="grammarChecker.onPaste($event); grammarChecker.maxLength(commentBody, 2000)"
+                [spellcheck]="false"
+                (focus)="eventService.makeFocusOnInputTrue()"
+                style="margin-top:1.25em; width:100%;"
+                (blur)="eventService.makeFocusOnInputFalse()"
+                #commentBody
+                aria-labelledby="ask-question-description"
+                autofocus
+                (input)="grammarChecker.maxLength(commentBody, 2000); answer = commentBody.innerText"
+                id="answer-input">
+              </div>
+              <mat-hint align="start">
               <span aria-hidden="true">
                 {{ 'comment-page.Markdown-hint' | translate }}
               </span>
-            </mat-hint>
-            <mat-hint align="end">
+              </mat-hint>
+              <mat-hint align="end">
             <span aria-hidden="true">
               {{ answer ? answer.length : 0 }} / 2000
             </span>
-            </mat-hint>
-          </mat-form-field>
-        </mat-tab>
-        <mat-tab label="{{'session.preview' | translate}}"
-                 [disabled]="!answer">
-          <markdown class="images" katex emoji lineNumbers lineHighlight
-            [data]="answer"></markdown>
-        </mat-tab>
-      </mat-tab-group>
-      <div fxLayout="row"
-           fxLayoutAlign="end">
-        <button mat-raised-button
-                *ngIf="!isStudent && answer && edit"
-                class="delete"
-                (click)="openDeleteAnswerDialog()">
-          {{'comment-page.delete-answer' | translate}}</button>
-        <button mat-raised-button
-                *ngIf="!isStudent && (edit || !answer)"
-                class="save"
-                (click)="saveAnswer()">
-          {{'comment-page.save-answer' | translate}}</button>
+              </mat-hint>
+            </mat-form-field>
+          </mat-tab>
+          <mat-tab label="{{'session.preview' | translate}}"
+                   [disabled]="!answer">
+            <markdown class="images" katex emoji lineNumbers lineHighlight
+                      [data]="answer"></markdown>
+          </mat-tab>
+        </mat-tab-group>
+        <div id="buttonWrapper"
+             fxLayout="col">
+          <div fxLayout="row">
+            <button
+              *ngIf="edit"
+              [disabled]="commentBody.innerHTML.length < 4 "
+              mat-raised-button
+              (click)="grammarChecker.grammarCheck(commentBody)"
+              class="spell-button">
+              {{ 'comment-page.grammar-check' | translate}}
+              <mat-icon *ngIf="grammarChecker.isSpellchecking" style="margin: 0;">
+                <mat-spinner diameter="20"></mat-spinner>
+              </mat-icon>
+            </button>
+          </div>
+          <div fxLayout="row">
+            <button mat-raised-button
+                    *ngIf="answer"
+                    class="delete"
+                    style="display: inline-block"
+                    (click)="openDeleteAnswerDialog()">
+              {{'comment-page.delete-answer' | translate}}</button>
+            <button mat-raised-button
+                    class="save"
+                    style="display: inline-block"
+                    (click)="answer = commentBody.innerText; saveAnswer()">
+              {{'comment-page.save-answer' | translate}}</button>
+          </div>
+        </div>
       </div>
     </mat-card>
   </div>
