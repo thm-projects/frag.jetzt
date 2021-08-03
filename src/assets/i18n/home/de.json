@@ -194,7 +194,7 @@
     "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungs-Schlüssel erneut an die angegebene Adresse.",
     "welcome": "»Haben Sie Fragen?«",
-    "welcome-feedback": "➜ Feedback",
+    "welcome-feedback": "➜ Feedback an die Entwickler von »frag.jetzt«",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {

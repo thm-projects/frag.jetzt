@@ -196,7 +196,7 @@
     "restart-account-activation-tooltip": "Sends the activation key again",
     "welcome": "»Any questions?«",
     "welcome-subtitle": "anonymous | in your browser | for free",
-    "welcome-feedback": "➜ Feedback",
+    "welcome-feedback": "➜ Feedback to the developers of »frag.jetzt«",
     "feedback-aria": "Please use the following Link to offer the developers bugs, features, praise and blame"
   },
   "overlay": {
