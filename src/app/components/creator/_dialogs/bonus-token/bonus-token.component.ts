@@ -8,6 +8,9 @@ import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import {fromEvent, Observable} from "rxjs";
+import {debounceTime, distinctUntilChanged, map} from "rxjs/operators";
+import {flatMap} from "rxjs/internal/operators";
 
 @Component({
   selector: 'app-bonus-token',
@@ -94,5 +97,24 @@ export class BonusTokenComponent implements OnInit {
    */
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close();
+  }
+
+  filterToken(event: any) {
+    const observable = fromEvent(event.target, 'keyup')
+      .pipe(
+        map(value => event.target.value),
+        debounceTime(1000),
+        distinctUntilChanged(),
+        flatMap((search) => {
+          // call the service
+        })
+      )
+      .subscribe((data) => {
+        // data
+      });
+
+    observable.subscribe((data) => {
+      // data
+    });
   }
 }

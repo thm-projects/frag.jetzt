@@ -341,7 +341,8 @@
     "only-specific-language-will-be-filtered": "Nur Vulgärausdrücke in der Sprache der Frage werden gefiltert",
     "partial-words-will-be-filtered": "Vulgäre Teilwörter werden auch gefiltert",
     "keyword-from-spacy": "Stichwort von spaCy",
-    "keyword-from-questioner": "Stichwort vom Fragensteller"
+    "keyword-from-questioner": "Stichwort vom Fragensteller",
+    "hint": "Nach Token filtern"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
