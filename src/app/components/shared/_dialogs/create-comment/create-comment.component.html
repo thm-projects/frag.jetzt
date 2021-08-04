@@ -36,7 +36,7 @@
         </mat-form-field>
       </div>
     </div>
-    <mat-tab-group>
+    <mat-tab-group (selectedTabChange)="tempEditView = commentBody.innerText">
       <mat-tab label="{{ 'comment-page.write-comment' | translate }}">
         <ars-row [height]="12"></ars-row>
         <ars-row>
@@ -70,7 +70,7 @@
             </mat-hint>
             <mat-hint align="end">
               <span aria-hidden="true">
-                {{commentBody.innerHTML.length}} / {{user.role === 3 ? 1000 : 500}}
+                {{commentBody.innerText.length}} / {{user.role === 3 ? 1000 : 500}}
               </span>
             </mat-hint>
             <span *ngIf="!grammarChecker.hasSpellcheckConfidence">
@@ -89,7 +89,7 @@
         <ars-row [height]="12"></ars-row>
         <ars-row>
           <markdown katex emoji lineNumbers lineHighlight
-                    [data]="commentBody.innerText"></markdown>
+                    [data]="tempEditView"></markdown>
         </ars-row>
       </mat-tab>
     </mat-tab-group>

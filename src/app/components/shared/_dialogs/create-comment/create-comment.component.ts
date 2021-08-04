@@ -25,6 +25,7 @@ export class CreateCommentComponent implements OnInit {
   selectedTag: string;
   isSendingToSpacy = false;
   grammarChecker: GrammarChecker;
+  tempEditView: string;
 
   constructor(
     private notification: NotificationService,
