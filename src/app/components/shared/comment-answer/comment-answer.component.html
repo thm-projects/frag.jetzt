@@ -47,7 +47,7 @@
         </button>
       </div>
       <div *ngIf="!isStudent && (edit || !answer)">
-        <mat-tab-group [dynamicHeight]="false">
+        <mat-tab-group [dynamicHeight]="false" (selectedTabChange)="tempEditView = commentBody.innerText">
           <mat-tab label="{{'comment-page.your-answer' | translate}}">
             <mat-divider></mat-divider>
             <mat-form-field class="input-block">
@@ -63,7 +63,7 @@
                 #commentBody
                 aria-labelledby="ask-question-description"
                 autofocus
-                (input)="grammarChecker.maxLength(commentBody, 2000); answer = commentBody.innerText"
+                (input)="grammarChecker.maxLength(commentBody, 2000);"
                 id="answer-input">
               </div>
               <mat-hint align="start">
@@ -73,15 +73,15 @@
               </mat-hint>
               <mat-hint align="end">
             <span aria-hidden="true">
-              {{ answer ? answer.length : 0 }} / 2000
+              {{ commentBody.innerText ? commentBody.innerText.length : 0 }} / 2000
             </span>
               </mat-hint>
             </mat-form-field>
           </mat-tab>
           <mat-tab label="{{'session.preview' | translate}}"
-                   [disabled]="!answer">
+                   [disabled]="!commentBody.innerText">
             <markdown class="images" katex emoji lineNumbers lineHighlight
-                      [data]="answer"></markdown>
+                      [data]="tempEditView"></markdown>
           </mat-tab>
         </mat-tab-group>
         <ars-row ars-flex-box class="spellcheck">
@@ -100,7 +100,7 @@
           </ars-col>
           <ars-col style="display: flex; flex-direction: row;">
             <button mat-raised-button
-                    *ngIf="answer"
+                    *ngIf="answer || commentBody.innerText"
                     class="delete"
                     style="display: inline-block"
                     (click)="openDeleteAnswerDialog()">

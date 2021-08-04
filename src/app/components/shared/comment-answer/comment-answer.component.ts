@@ -30,6 +30,7 @@ export class CommentAnswerComponent implements OnInit {
   edit = false;
 
   grammarChecker: GrammarChecker;
+  tempEditView: string;
 
   @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
 
