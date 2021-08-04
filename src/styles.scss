@@ -244,3 +244,7 @@ a {
   height: 1px !important;
   border-top-color: rgba(0, 0, 0, 0.12) !important;
 }
+
+.mat-error {
+  color: var(--red);
+}
