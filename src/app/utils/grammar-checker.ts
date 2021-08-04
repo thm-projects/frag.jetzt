@@ -56,7 +56,7 @@ export class GrammarChecker {
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
     const unfilteredText = commentBody.innerText;
-    const text = CreateCommentKeywords.cleaningFunction(commentBody.innerText);
+    const text = CreateCommentKeywords.cleaningFunction(commentBody.innerText, true);
     this.checkSpellings(text).subscribe((wordsCheck) => {
       if (!this.checkLanguageConfidence(wordsCheck)) {
         this.hasSpellcheckConfidence = false;
