@@ -66,6 +66,7 @@ mat-icon {
   width: 100%!important;
   background-color: var(--dialog);
   color: var(--on-dialog);
+  min-width: unset !important;
 }
 
 ::ng-deep .mat-menu-item {
@@ -86,9 +87,7 @@ mat-icon {
 }
 
 ::ng-deep .color-menu{
-  min-width:280px!important;
-  max-width:280px!important;
-  width:280px!important;
+  width:170px!important;
 }
 
 @media (max-width: 500px){
@@ -112,7 +111,7 @@ mat-icon {
 }
 
 ::ng-deep .color-menu button:last-child{
-  margin-bottom:5px;
+  margin-bottom:10px;
 }
 
 .btnContent{
@@ -194,7 +193,6 @@ mat-icon {
   white-space: nowrap;
   float:left;
   padding:0px;
-  margin:0px;
   margin-left:15px;
 }
 

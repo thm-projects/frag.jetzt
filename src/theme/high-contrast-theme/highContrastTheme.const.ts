@@ -42,10 +42,6 @@ export const highcontrast_meta = {
       en: 'High Contrast',
       de: 'Hoher Kontrast',
     },
-    description: {
-      en: 'Color contrast WCAG 2.1 AA',
-      de: 'Farbkontrast WCAG 2.1 AA',
-    },
   },
   isDark: true,
   order: 0,

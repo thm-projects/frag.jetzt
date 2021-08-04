@@ -42,10 +42,6 @@ export const arsnova_meta = {
       en: 'Light Mode',
       de: 'Light Mode'
     },
-    description: {
-      en: '',
-      de: ''
-    }
   },
   isDark: false,
   order: 3,
