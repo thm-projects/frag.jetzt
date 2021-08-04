@@ -94,7 +94,7 @@
     "select-keyword-hint": "Select this keyword",
     "edit-keyword-hint": "Edit keyword",
     "editing-done-hint": "Finish editing",
-    "force-language-selection": "Language detection inaccurate, please check language settings!",
+    "force-language-selection": "The language of the text input could not be detected automatically.",
     "add-manually": "You can manually enter the keywords separated with a comma",
     "select-keywords": "Choose the keywords for your question"
   },

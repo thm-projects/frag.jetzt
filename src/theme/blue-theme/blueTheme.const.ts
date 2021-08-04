@@ -39,10 +39,6 @@ export const blue_meta = {
       en: 'ENGLISH_NAME',
       de: 'GERMAN_NAME'
     },
-    description: {
-      en: 'ENGLISH_DESCRIPTION',
-      de: 'GERMAN_DESCRIPTION'
-    }
   },
   isDark: false,
   order: 4,

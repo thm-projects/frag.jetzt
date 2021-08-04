@@ -99,7 +99,7 @@
     "select-keyword-hint": "Dieses Wort als Stichwort auswählen",
     "edit-keyword-hint": "Wort editieren",
     "editing-done-hint": "Editieren beenden",
-    "force-language-selection": "Die automatische Spracherkennung ist ungenau. Bitte überprüfe die erkannte Sprache.",
+    "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
     "select-keywords": "Die Textanalyse deiner Eingabe schlägt folgende Nomen als Stichwörter vor. Welche kennzeichnen deine Frage am besten?"
   },

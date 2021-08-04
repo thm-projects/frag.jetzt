@@ -1,6 +1,6 @@
 export const arsnova = {
 
-  '--primary' : '#00324a',
+  '--primary' : 'green',
   '--primary-variant': 'LightGoldenrodYellow',
 
   '--secondary': 'maroon',
@@ -42,10 +42,6 @@ export const arsnova_meta = {
       en: 'Light Mode',
       de: 'Light Mode'
     },
-    description: {
-      en: '',
-      de: ''
-    }
   },
   isDark: false,
   order: 3,

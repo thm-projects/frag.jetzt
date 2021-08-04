@@ -42,10 +42,6 @@ export const dark_meta = {
       en: 'Dark Mode',
       de: 'Dark Mode'
     },
-    description: {
-      en: '',
-      de: ''
-    }
   },
   isDark: true,
   order: 2,
