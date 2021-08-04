@@ -39,7 +39,6 @@ export class HeaderComponent implements OnInit {
   user: User;
   cTime: string;
   shortId: string;
-  deviceType: string;
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
@@ -51,6 +50,7 @@ export class HeaderComponent implements OnInit {
   private _subscriptionRoomService = null;
   toggleUserActivity=false;
   userActivity=0;
+  deviceType = localStorage.getItem('deviceType');
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
