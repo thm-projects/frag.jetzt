@@ -33,7 +33,7 @@
           <span *ngIf="!(grammarChecker.selectedLang === 'auto')">
             {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(grammarChecker.selectedLang)) | translate}}
           </span>
-          <span *ngIf="(grammarChecker.selectedLang === 'auto')" id="langSelect">
+          <span *ngIf="(grammarChecker.selectedLang === 'auto')" #langSelect>
             auto
           </span>
           <mat-select class="select-list" #select [(ngModel)]="grammarChecker.selectedLang">

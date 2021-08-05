@@ -27,7 +27,8 @@ app-comment-list {
     outline: none;
   }
 }
-.spell-button{
+
+.spell-button {
   background-color: var(--primary);
   color: var(--on-primary);
   margin-top: 1rem;
@@ -37,21 +38,24 @@ app-comment-list {
   color: var(--on-primary);
   background-color: var(--primary);
 }
-::ng-deep .mat-select-value{
-  width: auto!important;
+
+::ng-deep .mat-select-value {
+  width: auto !important;
 }
 
-.material-icons{
+.material-icons {
   margin-right: 18px;
 }
 
-.select-list{
+.select-list {
   width: calc(100% - 24px);
 }
+
 .lang-selection {
   vertical-align: middle;
   margin-right: 0;
 }
+
 mat-hint {
   color: var(--on-surface) !important;
 }
@@ -65,43 +69,43 @@ mat-hint {
   color: var(--on-surface);
 }
 
-.tag-form-field{
-  @media screen and (max-width:500px) {
-    width:70px;
+.tag-form-field {
+  @media screen and (max-width: 500px) {
+    width: 70px;
   }
-  z-index:10000;
+  z-index: 10000;
 }
 
-.anchor-right{
-  @media screen and (max-width:500px) {
-    width:70px;
-    left:calc( 100% - 70px );
+.anchor-right {
+  @media screen and (max-width: 500px) {
+    width: 70px;
+    left: calc(100% - 70px);
   }
-  width:200px;
-  height:50px;
-  position:relative;
-  left:calc( 100% - 200px );
-  top:0;
+  width: 200px;
+  height: 50px;
+  position: relative;
+  left: calc(100% - 200px);
+  top: 0;
 }
 
-.anchor-wrp{
-  width:100%;
-  height:0;
-  position:relative;
-  left:0;
-  top:0;
+.anchor-wrp {
+  width: 100%;
+  height: 0;
+  position: relative;
+  left: 0;
+  top: 0;
 }
 
 ::ng-deep .mat-form-field-label {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface)!important;
+  background-color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface)!important;
+  background-color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-select-arrow-wrapper .mat-select-arrow {
@@ -142,21 +146,43 @@ mat-hint {
 }
 
 @keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(0px, 0) rotate(-1deg); }
-  20% { transform: translate(0px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, 0) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-1px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, 0) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -0) rotate(-1deg); }
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(0px, 0) rotate(-1deg);
+  }
+  20% {
+    transform: translate(0px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(3px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, 0) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 2px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-1px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-1px, 0) rotate(1deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -0) rotate(-1deg);
+  }
 }
 
 .spellcheck {
-  @media screen and (max-width:500px) {
+  @media screen and (max-width: 500px) {
     overflow: auto;
     display: flex;
     justify-content: space-between;
@@ -172,4 +198,47 @@ mat-hint {
 
 .mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled, .mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled, .mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled, .mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled, .mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled, .mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled, .mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled, .mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
   display: none;
+}
+
+/*
+Suggestion classes from Languagetool
+ */
+
+::ng-deep .markUp {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+
+  > span {
+    text-decoration: underline wavy red;
+    cursor: pointer;
+  }
+
+  > .dropdownBlock {
+    display: none;
+    width: 160px;
+    background-color: white;
+    border-style: solid;
+    border-color: var(--primary);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1000;
+    bottom: 100%;
+
+    > .suggestions {
+      color: black;
+      display: block;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    > .error-message {
+      color: black;
+      display: block;
+      text-align: center;
+    }
+  }
 }
