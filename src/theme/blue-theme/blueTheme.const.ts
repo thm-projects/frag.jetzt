@@ -41,6 +41,7 @@ export const blue_meta = {
     },
   },
   isDark: false,
+  availableOnMobile: true,
   order: 4,
   scale_desktop: 1,
   scale_mobile: 1,

@@ -12,8 +12,12 @@ export class ThemeService {
   private themes: Theme[] = [];
 
   constructor() {
+    const isMobile = window.matchMedia && window.matchMedia('(max-width: 499px)').matches;
     // eslint-disable-next-line guard-for-in
     for (const k in themes) {
+      if (!themes_meta[k].availableOnMobile && isMobile) {
+        continue;
+      }
       this.themes.push(new Theme(
         k,
         themes[k],

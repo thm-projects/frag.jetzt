@@ -44,6 +44,7 @@ export const purple_meta = {
     },
   },
   isDark: false,
+  availableOnMobile: false,
   order: 1,
   scale_desktop: 1.5,
   scale_mobile: 1,
