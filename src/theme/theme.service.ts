@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
-import { Theme, ThemeTranslationList } from './Theme';
+import { Theme } from './Theme';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +28,17 @@ export class ThemeService {
       }
       return 0;
     });
+    if (!this.themeName) {
+      const isDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : true;
+      for (let i = this.themes.length - 1; i > 0; i--) {
+        const theme = this.themes[i];
+        if (theme.isDark === isDark) {
+          this.themeName = theme.key;
+          break;
+        }
+      }
+      this.activate(this.themeName);
+    }
   }
 
   public getTheme() {
