@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -16,7 +16,10 @@ import { GrammarChecker } from '../../../../utils/grammar-checker';
   templateUrl: './create-comment.component.html',
   styleUrls: ['./create-comment.component.scss']
 })
-export class CreateCommentComponent implements OnInit {
+export class CreateCommentComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('langSelect') langSelect: ElementRef<HTMLDivElement>;
+  @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
 
   comment: Comment;
   user: User;
@@ -36,11 +39,15 @@ export class CreateCommentComponent implements OnInit {
     public languagetoolService: LanguagetoolService,
     public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.grammarChecker = new GrammarChecker(languagetoolService);
+    this.grammarChecker = new GrammarChecker(this.languagetoolService);
   }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
+  }
+
+  ngAfterViewInit() {
+    this.grammarChecker.initBehavior(() => this.commentBody.nativeElement, () => this.langSelect.nativeElement);
   }
 
   onNoClick(): void {

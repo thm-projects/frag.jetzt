@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -20,7 +20,10 @@ import { EventService } from '../../../services/util/event.service';
   templateUrl: './comment-answer.component.html',
   styleUrls: ['./comment-answer.component.scss']
 })
-export class CommentAnswerComponent implements OnInit {
+export class CommentAnswerComponent implements OnInit, AfterViewInit {
+
+  @ViewChild('langSelect') langSelect: ElementRef<HTMLSpanElement>;
+  @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
 
   comment: Comment;
   answer: string;
@@ -31,8 +34,6 @@ export class CommentAnswerComponent implements OnInit {
 
   grammarChecker: GrammarChecker;
   tempEditView: string;
-
-  @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
 
   constructor(protected route: ActivatedRoute,
               private notificationService: NotificationService,
@@ -60,6 +61,10 @@ export class CommentAnswerComponent implements OnInit {
         this.isLoading = false;
       });
     });
+  }
+
+  ngAfterViewInit() {
+    this.grammarChecker.initBehavior(() => this.commentBody.nativeElement, () => this.langSelect.nativeElement);
   }
 
   saveAnswer() {

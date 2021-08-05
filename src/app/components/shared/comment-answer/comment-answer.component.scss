@@ -114,3 +114,46 @@ mat-icon {
 .mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled, .mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled, .mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled, .mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled, .mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled, .mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled, .mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled, .mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
   display: none;
 }
+
+/*
+Suggestion classes from Languagetool
+ */
+
+::ng-deep .markUp {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+
+  > span {
+    text-decoration: underline wavy red;
+    cursor: pointer;
+  }
+
+  > .dropdownBlock {
+    display: none;
+    width: 160px;
+    background-color: white;
+    border-style: solid;
+    border-color: var(--primary);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1000;
+    bottom: 100%;
+
+    > .suggestions {
+      color: black;
+      display: block;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    > .error-message {
+      color: black;
+      display: block;
+      text-align: center;
+    }
+  }
+}

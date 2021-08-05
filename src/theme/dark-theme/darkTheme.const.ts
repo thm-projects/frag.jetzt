@@ -44,6 +44,7 @@ export const dark_meta = {
     },
   },
   isDark: true,
+  availableOnMobile: true,
   order: 2,
   scale_desktop: 1.2,
   scale_mobile: 1,

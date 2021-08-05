@@ -1,4 +1,4 @@
-import { Language, LanguagetoolService } from '../services/http/languagetool.service';
+import { Language, LanguagetoolResult, LanguagetoolService } from '../services/http/languagetool.service';
 import { CreateCommentKeywords } from './create-comment-keywords';
 
 export class GrammarChecker {
@@ -9,7 +9,15 @@ export class GrammarChecker {
   hasSpellcheckConfidence = true;
   newLang = 'auto';
 
+  private commentBody: () => HTMLDivElement;
+  private langSelect: () => HTMLSpanElement;
+
   constructor(private languagetoolService: LanguagetoolService) {
+  }
+
+  initBehavior(commentBody: () => HTMLDivElement, langSelect: () => HTMLSpanElement) {
+    this.commentBody = commentBody;
+    this.langSelect = langSelect;
   }
 
   onDocumentClick(e) {
@@ -35,17 +43,18 @@ export class GrammarChecker {
 
   onPaste(e) {
     e.preventDefault();
-    const elem = document.getElementById('answer-input');
     const text = e.clipboardData.getData('text');
-    elem.innerText += text.replace(/<[^>]*>?/gm, '');
-
+    const selection = window.getSelection();
+    const min = Math.min(selection.anchorOffset, selection.focusOffset);
+    const max = Math.max(selection.anchorOffset, selection.focusOffset);
+    const content = selection.anchorNode.textContent;
+    selection.anchorNode.textContent = content.substring(0, min) + text + content.substr(max);
     const range = document.createRange();
-    range.setStart(elem.lastChild, elem.lastChild.textContent.length);
+    const elem = selection.anchorNode instanceof HTMLElement ? selection.anchorNode.lastChild : selection.anchorNode;
+    range.setStart(elem, min + text.length);
     range.collapse(true);
-
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
+    selection.removeAllRanges();
+    selection.addRange(range);
   }
 
   grammarCheck(commentBody: HTMLDivElement): void {
@@ -62,8 +71,8 @@ export class GrammarChecker {
         this.hasSpellcheckConfidence = false;
         return;
       }
-      if (this.selectedLang === 'auto' && (document.getElementById('langSelect').innerText.includes(this.newLang)
-        || document.getElementById('langSelect').innerText.includes('auto'))) {
+      if (this.selectedLang === 'auto' && (this.langSelect().innerText.includes(this.newLang)
+        || this.langSelect().innerText.includes('auto'))) {
         if (wordsCheck.language.name.includes('German')) {
           this.selectedLang = 'de-DE';
         } else if (wordsCheck.language.name.includes('English')) {
@@ -73,7 +82,7 @@ export class GrammarChecker {
         } else {
           this.newLang = wordsCheck.language.name;
         }
-        document.getElementById('langSelect').innerHTML = this.newLang;
+        this.langSelect().innerHTML = this.newLang;
       }
       if (wordsCheck.matches.length <= 0) {
         return;
@@ -83,9 +92,9 @@ export class GrammarChecker {
         wrongWords.push(wrongWord);
       });
 
-      let html = '';
       let lastFound = unfilteredText.length;
       this.checkSpellings(unfilteredText).subscribe((res) => {
+        commentBody.innerHTML = '';
         for (let i = res.matches.length - 1; i >= 0; i--) {
           const end = res.matches[i].offset + res.matches[i].length;
           const start = res.matches[i].offset;
@@ -95,67 +104,15 @@ export class GrammarChecker {
             continue;
           }
 
-          const suggestions: any[] = res.matches[i].replacements;
-          let displayOptions = 3;
-          let suggestionsHTML = '';
-
-          if (!suggestions.length) {
-            suggestionsHTML = '<span style="color: black; display: block; text-align: center;">' + res.matches[i].message + '</span>';
+          if (lastFound > end) {
+            commentBody.prepend(unfilteredText.slice(end, lastFound));
           }
-
-          if (suggestions.length < displayOptions) {
-            displayOptions = suggestions.length;
-          }
-
-          for (let j = 0; j < displayOptions; j++) {
-            // eslint-disable-next-line max-len
-            suggestionsHTML += '<span class="suggestions"' + ' style="color: black; display: block; text-align: center; cursor: pointer;">' + suggestions[j].value + '</span>';
-          }
-
-          const replacement =
-            '<div class="markUp" data-id="' + i + '" style="position: relative; display: inline-block; border-bottom: 1px dotted black">' +
-            '<span data-id="' + i + '" style="text-decoration: underline wavy red; cursor: pointer;">' +
-            wrongWord +
-            '</span>' +
-            // eslint-disable-next-line max-len
-            '<div class="dropdownBlock" style="display: none; width: 160px; background-color: white; border-style: solid; border-color: var(--primary); color: #fff; text-align: center; border-radius: 6px; padding: 5px 0; position: absolute; z-index: 1000; bottom: 100%;">' +
-            suggestionsHTML +
-            '</div>' +
-            '</div>';
-
-          html = replacement + unfilteredText.slice(end, lastFound) + html;
+          commentBody.prepend(this.createSuggestionHTML(res, i, wrongWord));
           lastFound = res.matches[i].offset;
         }
-        commentBody.innerHTML = unfilteredText.slice(0, lastFound) + html;
-
-        setTimeout(() => {
-          Array.from(document.getElementsByClassName('markUp')).forEach((markup: HTMLElement) => {
-            markup.addEventListener('click', () => {
-              const lastChild = markup.lastChild as HTMLElement;
-              lastChild.style.display = 'block';
-              const rectdiv = (document.getElementById('answer-input')).getBoundingClientRect();
-              const rectmarkup = markup.getBoundingClientRect();
-              let offset;
-              if (rectmarkup.x + rectmarkup.width / 2 > rectdiv.right - 80) {
-                offset = rectdiv.right - rectmarkup.x - rectmarkup.width;
-                lastChild.style.right = -offset + 'px';
-              } else if (rectmarkup.x + rectmarkup.width / 2 < rectdiv.left + 80) {
-                offset = rectmarkup.x - rectdiv.left;
-                lastChild.style.left = -offset + 'px';
-              } else {
-                lastChild.style.left = '50%';
-                lastChild.style.marginLeft = '-80px';
-              }
-              setTimeout(() => {
-                Array.from(document.getElementsByClassName('suggestions')).forEach(suggestion => {
-                  suggestion.addEventListener('click', () => {
-                    suggestion.parentElement.parentElement.outerHTML = suggestion.innerHTML;
-                  });
-                });
-              }, 500);
-            });
-          });
-        }, 500);
+        if (lastFound > 0) {
+          commentBody.prepend(unfilteredText.slice(0, lastFound));
+        }
       });
     }, () => '', () => {
       this.isSpellchecking = false;
@@ -168,5 +125,53 @@ export class GrammarChecker {
 
   checkSpellings(text: string, language: Language = this.selectedLang) {
     return this.languagetoolService.checkSpellings(text, language);
+  }
+
+  private createSuggestionHTML(result: LanguagetoolResult, index: number, wrongWord: string) {
+    const markUpDiv = document.createElement('div');
+    markUpDiv.classList.add('markUp');
+    markUpDiv.dataset.id = String(index);
+    const wordMarker = document.createElement('span');
+    wordMarker.dataset.id = String(index);
+    wordMarker.append(wrongWord);
+    markUpDiv.append(wordMarker);
+    const dropDownDiv = document.createElement('div');
+    dropDownDiv.classList.add('dropdownBlock');
+    markUpDiv.append(dropDownDiv);
+    markUpDiv.addEventListener('click', () => {
+      dropDownDiv.style.display = 'block';
+      const rectdiv = this.commentBody().getBoundingClientRect();
+      const rectmarkup = markUpDiv.getBoundingClientRect();
+      let offset;
+      if (rectmarkup.x + rectmarkup.width / 2 > rectdiv.right - 80) {
+        offset = rectdiv.right - rectmarkup.x - rectmarkup.width;
+        dropDownDiv.style.right = -offset + 'px';
+      } else if (rectmarkup.x + rectmarkup.width / 2 < rectdiv.left + 80) {
+        offset = rectmarkup.x - rectdiv.left;
+        dropDownDiv.style.left = -offset + 'px';
+      } else {
+        dropDownDiv.style.left = '50%';
+        dropDownDiv.style.marginLeft = '-80px';
+      }
+    });
+    const suggestions = result.matches[index].replacements;
+    if (!suggestions.length) {
+      const elem = document.createElement('span');
+      elem.classList.add('error-message');
+      elem.append(result.matches[index].message);
+      dropDownDiv.append(elem);
+    } else {
+      const length = suggestions.length > 3 ? 3 : suggestions.length;
+      for (let j = 0; j < length; j++) {
+        const elem = document.createElement('span');
+        elem.classList.add('suggestions');
+        elem.append(suggestions[j].value);
+        elem.addEventListener('click', () => {
+          elem.parentElement.parentElement.outerHTML = suggestions[j].value;
+        });
+        dropDownDiv.append(elem);
+      }
+    }
+    return markUpDiv;
   }
 }
