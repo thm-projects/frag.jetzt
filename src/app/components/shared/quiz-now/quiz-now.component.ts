@@ -11,6 +11,6 @@ export class QuizNowComponent {
   constructor(public sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl("https://antworte.jetzt/");
+    this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl("https://staging.antworte.jetzt/");
   }
 }
