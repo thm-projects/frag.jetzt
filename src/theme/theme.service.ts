@@ -32,8 +32,9 @@ export class ThemeService {
       }
       return 0;
     });
-    if (!this.themeName) {
-      const isDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : true;
+    const isDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : true;
+    const selectedTheme = this.themes.find(elem => elem.key === this.themeName);
+    if (!this.themeName || !selectedTheme || selectedTheme.isDark !== isDark) {
       for (let i = this.themes.length - 1; i > 0; i--) {
         const theme = this.themes[i];
         if (theme.isDark === isDark) {
