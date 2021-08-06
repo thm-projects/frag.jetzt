@@ -151,7 +151,7 @@ export class TopicCloudFilterComponent implements OnInit {
       } else {
         this._adminData.keywordORfulltext = KeywordOrFulltext.both;
       }
-      this.topicCloudAdminService.setAdminData(this._adminData, false, this.user.role);
+      this.topicCloudAdminService.updateLocalAdminData(this._adminData);
 
       const params = CloudParameters.currentParameters;
       params.question = this.question;
