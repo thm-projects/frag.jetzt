@@ -146,16 +146,28 @@ export class TopicCloudAdminService {
     this.roomService.getRoom(roomId).subscribe(room => {
       this.blacklistActive = room.blacklistIsActive;
       const adminData = TopicCloudAdminService.getDefaultAdminData;
+      const list = this.finishBlacklist(room.blacklist ? JSON.parse(room.blacklist) : [], room.blacklistIsActive, room.profanityFilter);
+      let areEqual = !!adminData.blacklist && list.length === adminData.blacklist.length;
+      for (let i = 0; i < list.length && areEqual; i++) {
+        areEqual = list[i] === adminData.blacklist[i];
+      }
       if (adminData.blacklistIsActive !== room.blacklistIsActive ||
-        adminData.profanityFilter !== room.profanityFilter) {
+        adminData.profanityFilter !== room.profanityFilter || !areEqual) {
+        this.blacklist.next(list);
+        this.blacklistIsActive.next(room.blacklistIsActive);
+        this.blacklistActive = room.blacklistIsActive;
         adminData.blacklistIsActive = room.blacklistIsActive;
         adminData.profanityFilter = room.profanityFilter;
-        this.setAdminData(adminData, false, userRole);
+        this.setAdminData(adminData, false, userRole, list);
       }
     });
   }
 
-  setAdminData(_adminData: TopicCloudAdminData, updateRoom: boolean, userRole: UserRole) {
+  updateLocalAdminData(_adminData: TopicCloudAdminData) {
+    localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
+  }
+
+  setAdminData(_adminData: TopicCloudAdminData, updateRoom: boolean, userRole: UserRole, blacklist: string[] = null) {
     localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
     if (updateRoom && userRole && userRole > UserRole.PARTICIPANT) {
       this.getRoom().subscribe(room => {
@@ -164,17 +176,18 @@ export class TopicCloudAdminService {
       });
       return;
     }
-    const subscription = this.getBlacklist().subscribe(list => {
-      _adminData.blacklist = [];
-      if (_adminData.blacklistIsActive) {
-        _adminData.blacklist = list;
-      }
-      if (_adminData.profanityFilter !== ProfanityFilter.deactivated) {
-        _adminData.blacklist = _adminData.blacklist.concat(this.profanityFilterService.getProfanityList);
-      }
+    const applyBlacklist = (list: string[]) => {
+      _adminData.blacklist = this.finishBlacklist(list, _adminData.blacklistIsActive, _adminData.profanityFilter);
       localStorage.setItem(TopicCloudAdminService.adminKey, JSON.stringify(_adminData));
-      _adminData.blacklistIsActive = this.blacklistActive;
       this.adminData.next(_adminData);
+    };
+    if (blacklist) {
+      applyBlacklist(blacklist);
+      return;
+    }
+    const subscription = this.getBlacklist().subscribe(list => {
+      _adminData.blacklistIsActive = this.blacklistActive;
+      applyBlacklist(list);
       subscription.unsubscribe();
     });
   }
@@ -241,5 +254,13 @@ export class TopicCloudAdminService {
           this.notificationService.show(msg);
         });
       });
+  }
+
+  private finishBlacklist(list: string[], blacklistIsActive: boolean, profanityFilter: ProfanityFilter): string[] {
+    const blacklist = blacklistIsActive ? list : [];
+    if (profanityFilter === ProfanityFilter.deactivated) {
+      return blacklist;
+    }
+    return blacklist.concat(this.profanityFilterService.getProfanityList);
   }
 }

@@ -66,7 +66,6 @@ export class TagCloudDataService {
   private _isAlphabeticallySorted: boolean;
   private _dataBus: BehaviorSubject<TagCloudData>;
   private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
-  private _cachedData: TagCloudData;
   private _commentSubscription = null;
   private _roomId = null;
   private _calcWeightType = TagCloudCalcWeightType.byLength;
@@ -94,11 +93,6 @@ export class TagCloudDataService {
       countPerWeight: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     };
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
-    this._cachedData = null;
-    // Subscribe to own 'service' for caching
-    this._dataBus.asObservable().subscribe(data => {
-      this._cachedData = data;
-    });
   }
 
   static buildDataFromComments(adminData: TopicCloudAdminData, comments: Comment[]): [TagCloudData, Set<number>] {
@@ -216,7 +210,7 @@ export class TagCloudDataService {
   }
 
   get currentData(): TagCloudData {
-    return this._cachedData;
+    return this._dataBus.value;
   }
 
   set weightCalcType(type: TagCloudCalcWeightType) {
