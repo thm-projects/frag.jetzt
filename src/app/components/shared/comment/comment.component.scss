@@ -1,9 +1,8 @@
-@mixin card-box-shadow($color: transparent, $x: -4px){
-  box-shadow:
-    0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.12),
-    $x 0px 0px 0px $color;
+@mixin card-box-shadow($color: transparent, $x: -4px) {
+  box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2),
+  0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+  0px 1px 3px 0px rgba(0, 0, 0, 0.12),
+  $x 0px 0px 0px $color;
 }
 
 #comment-card {
@@ -11,7 +10,7 @@
   background-color: var(--surface);
   padding: 1.5% 1.5% 3% 3%;
   transition: background-color 0.5s linear,
-              box-shadow 0.15s ease-in-out;
+  box-shadow 0.15s ease-in-out;
   touch-action: auto !important;
 }
 
@@ -72,7 +71,7 @@ mat-card-content > :first-child {
 .score {
   text-align: center;
   margin: 0;
-  color: var(--primary);
+  color: var(--on-surface);
   font-size: 24px;
   font-weight: bold;
 }
@@ -136,39 +135,50 @@ mat-card-content > :first-child {
   background-color: var(--moderator) !important;
 }
 
-.border{
-  @include card-box-shadow(transparent,0);
-  &-correct{
+.border {
+  @include card-box-shadow(transparent, 0);
+
+  &-correct {
     @include card-box-shadow(var(--green));
   }
-  &-wrong{
+
+  &-wrong {
     @include card-box-shadow(var(--red));
   }
-  &-bookmark{
+
+  &-bookmark {
     @include card-box-shadow(var(--magenta));
   }
-  &-favorite{
+
+  &-favorite {
     @include card-box-shadow(var(--yellow));
   }
-  &-notMarked{
+
+  &-notMarked {
     @include card-box-shadow(var(--grey));
   }
-  &-answer{
+
+  &-answer {
     @include card-box-shadow(var(--primary));
   }
-  &-ownQuestion{
+
+  &-ownQuestion {
     @include card-box-shadow(var(--purple));
   }
-  &-bonus{
+
+  &-bonus {
     @include card-box-shadow(var(--yellow));
   }
-  &-merged{
+
+  &-merged {
     @include card-box-shadow(var(--magenta));
   }
-  &-discussed{
+
+  &-discussed {
     @include card-box-shadow(var(--gray));
   }
-  &-mergeSelect{
+
+  &-mergeSelect {
     @include card-box-shadow(var(--cyan));
   }
 }
@@ -178,6 +188,7 @@ mat-card-content > :first-child {
   color: var(--primary);
   margin-right: 10px;
 }
+
 .comment-keywords {
   cursor: pointer;
   color: var(--on-surface);
@@ -196,9 +207,11 @@ mat-card-content > :first-child {
   padding-top: 0 !important;
   background-color: var(--alt-dialog);
 }
+
 .keywords-even {
   background-color: var(--alt-surface);
 }
+
 .keyword-span {
   color: var(--on-surface) !important;
   opacity: 1 !important;
@@ -325,26 +338,27 @@ button:focus {
   border: 1px solid var(--on-surface);
 }
 
-:host{
-  .runningnum-outer{
-    width:100%;
-    height:0px;
-    background-color:red;
-    position:absolute;
-    >p{
-      font-size:200px;
-      padding:0;
-      margin:0;
-      font-weight:normal;
-      font-style:normal;
-      font-family:Roboto, 'sans-serif';
-      margin-top:-50px;
-      margin-right:32px;
-      color:var(--on-surface);
-      opacity:0.1;
-      float:right;
-      position:relative;
-      z-index:0;
+:host {
+  .runningnum-outer {
+    width: 100%;
+    height: 0px;
+    background-color: red;
+    position: absolute;
+
+    > p {
+      font-family: 'Roboto', sans-serif;
+      font-size: 150px;
+      padding: 0;
+      margin: 0;
+      font-weight: bold;
+      font-style: normal;
+      margin-top: -3px;
+      margin-right: 70px;
+      color: var(--on-surface);
+      opacity: 0.2;
+      float: right;
+      position: relative;
+      z-index: 0;
     }
   }
 }

@@ -144,11 +144,11 @@ svg {
   }
 
   *:hover {
-    color: var(--dialog);
+    color: var(--dialog) !important;
     background-color: var(--on-dialog) !important;
 
     mat-icon {
-      color: var(--dialog);
+      color: var(--dialog) !important;
       background-color: var(--on-dialog) !important;
     }
   }
