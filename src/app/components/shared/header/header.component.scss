@@ -5,7 +5,8 @@
 }
 
 mat-toolbar {
-  background-color: var(--surface);
+  background-color: transparent;
+  box-shadow: none;
   position: relative;
 }
 
@@ -72,14 +73,13 @@ h2 {
 
 .header-slogan-desktop {
   margin-right: 10px;
-  margin-left: 120px;
+  margin-left: 130px;
   font-size: medium !important;
   color: var(--on-background);
 }
 
 .header-slogan-mobile {
-  margin-right: 10px;
-  margin-left: 60px;
+  margin-left: 30px;
   font-size: medium !important;
   color: var(--on-background);
 }
