@@ -352,7 +352,7 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Es sind keine Stichwörter vorhanden. Die Wortwolke wird leer sein. Eine grammatikalische Fragen-Analyse kann Stichwörter automatisch erstellen. Fragen-Analyse starten?",
+    "info-no-keywords": "Es gibt keine Stichwörter. Die Wortwolke wird leer sein. Eine KI-basierte Fragen-Analyse kann Stichwörter nachträglich erstellen. Fragen-Analyse starten?",
     "label-refresh-keywords-start": "Starten"
   }
 }

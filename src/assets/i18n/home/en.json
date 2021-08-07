@@ -354,7 +354,7 @@
     "inline-header": "Ongoing keyword updates"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "TThere are no keywords. The word cloud will be empty. A grammatical question analysis can create keywords automatically. Start question analysis?",
+    "info-no-keywords": "There are no keywords. The word cloud will be empty. An AI-based question analysis can create keywords afterwards. Start question analysis?",
     "label-refresh-keywords-start": "Start"
   }
 }

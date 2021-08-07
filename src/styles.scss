@@ -248,3 +248,7 @@ a {
 .mat-error {
   color: var(--red);
 }
+
+.mat-spinner circle {
+  stroke: var(--on-background);
+}
