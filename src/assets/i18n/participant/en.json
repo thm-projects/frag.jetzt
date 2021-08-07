@@ -104,14 +104,14 @@
     "en": "English",
     "fr": "French",
     "select-all": "Select all",
-    "lang-button-hint": "Selected language for spell check",
+    "lang-button-hint": "Language for the spell checker",
     "select-all-hint": "Select all keywords",
     "select-keyword-hint": "Select this keyword",
     "edit-keyword-hint": "Edit keyword",
     "editing-done-hint": "Finish editing",
     "force-language-selection": "The language of the text input could not be detected automatically.",
-    "add-manually": "You can manually enter the keywords separated with a comma",
-    "select-keywords": "Choose the keywords for your question"
+    "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
+    "select-keywords": "The text analysis suggests the following keywords. Which best characterise your question?"
   },
   "comment-page": {
     "a11y-comment_input": "Enter your question",
