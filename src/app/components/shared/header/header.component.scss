@@ -144,12 +144,12 @@ svg {
   }
 
   *:hover {
-    color: var(--dialog) !important;
-    background-color: var(--on-dialog) !important;
+    color: var(--on-secondary) !important;
+    background-color: var(--secondary) !important;
 
     mat-icon {
-      color: var(--dialog) !important;
-      background-color: var(--on-dialog) !important;
+      color: var(--on-secondary) !important;
+      background-color: var(--secondary) !important;
     }
   }
 
@@ -166,8 +166,8 @@ h1 {
 }
 
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
-  color: var(--dialog) !important;
-  background-color: var(--on-dialog) !important;
+  color: white !important;
+  background-color: gray !important;
 }
 
 .userActivityIcon {
