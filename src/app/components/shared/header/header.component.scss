@@ -170,12 +170,12 @@ h1 {
   background-color: var(--on-dialog) !important;
 }
 
-.userActivityIcon{
-  width:25px;
-  height:25px;
-  margin-left:25px;
-  margin-bottom:5px;
-  background-color:var(--on-background);
+.userActivityIcon {
+  width: 25px;
+  height: 25px;
+  margin-left: 25px;
+  margin-bottom: 5px;
+  background-color: var(--primary);
   -webkit-mask-image: url("../../../../assets/icons/activity.svg");
   mask-image: url("../../../../assets/icons/activity.svg");
   mask-repeat: no-repeat;
@@ -183,7 +183,8 @@ h1 {
   mask-size: 100% 100%;
 }
 
-.userActivityTxt{
-  color:var(--on-background);
-  margin-left:15px;
+.userActivityTxt {
+  color: var(--primary);
+  margin-left: 5px;
+  font-size: 14px;
 }
