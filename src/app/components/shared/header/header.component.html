@@ -12,7 +12,8 @@
     </button>
 
     <ng-container *ngIf="toggleUserActivity">
-      <div class="userActivityIcon"></div>
+      <div class="userActivityIcon"
+           matTooltip="{{'header.users-online' | translate}}"></div>
       <p class="userActivityTxt">{{userActivity}}</p>
     </ng-container>
 
@@ -382,7 +383,6 @@
       </button>
 
 
-
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
         <button mat-menu-item
@@ -454,7 +454,6 @@
         </mat-icon>
         <span>{{'header.motd' | translate}}</span>
       </button>
-
 
 
       <button mat-menu-item
