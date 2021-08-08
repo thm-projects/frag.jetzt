@@ -2,7 +2,7 @@
   <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
   <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
   <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{ room.shortId }}</h3>
-  <mat-divider></mat-divider>
+
   <div *ngIf="bonusTokens.length >= 1">
     <div fxLayout="row" *ngFor="let bonusToken of bonusTokens; index as i" class="tokens">
       <p tabindex="0">

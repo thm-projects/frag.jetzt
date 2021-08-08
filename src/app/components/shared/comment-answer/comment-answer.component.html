@@ -49,7 +49,7 @@
       <div *ngIf="!isStudent && (edit || !answer)">
         <mat-tab-group [dynamicHeight]="false" (selectedTabChange)="tempEditView = commentBody.innerText">
           <mat-tab label="{{'comment-page.your-answer' | translate}}">
-            <mat-divider></mat-divider>
+
             <mat-form-field class="input-block">
               <input [disabled]="true" matInput>
               <div

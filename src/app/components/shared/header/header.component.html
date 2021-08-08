@@ -381,7 +381,7 @@
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
 
-      <mat-divider></mat-divider>
+
 
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
@@ -436,8 +436,6 @@
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
       </button>
 
-      <mat-divider *ngIf="!router.url.endsWith('user')"></mat-divider>
-
       <button mat-menu-item
               aria-hidden="true"
               *ngIf="isSafari === 'false'  && !router.url.includes('home')  && !router.url.endsWith('/quiz')"
@@ -457,7 +455,7 @@
         <span>{{'header.motd' | translate}}</span>
       </button>
 
-      <mat-divider></mat-divider>
+
 
       <button mat-menu-item
               *ngIf="user && !user.isGuest && user.loginId && router.url.endsWith('/user')"
