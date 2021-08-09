@@ -1,6 +1,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Indie+Flower&family=Permanent+Marker&display=swap" rel="stylesheet">
-<ars-screen ars-flex-box>
+<link
+  href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Indie+Flower&family=Permanent+Marker&display=swap"
+  rel="stylesheet">
+<ars-screen ars-flex-box
+            joyrideStep="hallo123"
+            [stepContentParams]="{text: 'Hallo Test'}"
+            appJoyrideTemplate>
   <h1 *ngIf="user && user.role > 0 && question" class="tag-cloud-brainstorming-question mat-display-1">{{question}}</h1>
   <mat-drawer-container class="spacyTagCloudContainer">
     <mat-drawer [(opened)]="configurationOpen" position="end" mode="over">

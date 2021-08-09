@@ -42,6 +42,9 @@
 
     <!--Topic Cloud-->
     <div class="topic-cloud-btns"
+         joyrideStep="infoHeader"
+         appJoyrideTemplate="true"
+         [stepContentParams]="{'text': 'Hallo'}"
          [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
          *ngIf="router.url.includes('tagcloud')"
          ars-flex-box>
