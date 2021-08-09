@@ -67,4 +67,9 @@ app-tag-cloud-pop-up {
   left: 20px;
   z-index: 2;
   color: var(--tag-cloud-color, black);
+  text-transform: var(--tag-cloud-transform, unset);
+  font-weight: var(--tag-cloud-font-weight, normal);
+  font-style: var(--tag-cloud-font-style, normal);
+  font-family: var(--tag-cloud-font-family, 'Dancing Script');
+  font-size: 50px;
 }

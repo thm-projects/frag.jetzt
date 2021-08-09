@@ -378,12 +378,16 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       customTagCloudStyles.sheet.deleteRule(i);
     }
     let textTransform = '';
+    let plainTextTransform = 'unset';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
       textTransform = 'text-transform: capitalize;';
+      plainTextTransform = 'capitalize';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
+      plainTextTransform = 'lowercase';
     } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
       textTransform = 'text-transform: uppercase;';
+      plainTextTransform = 'uppercase';
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +
       textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
@@ -403,7 +407,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
     customTagCloudStyles.sheet.insertRule(':root { ' +
-      '--tag-cloud-color: ' + this._currentSettings.fontColor + '; }');
+      '--tag-cloud-color: ' + this._currentSettings.fontColor + ';' +
+      '--tag-cloud-transform: ' + plainTextTransform + ';' +
+      '--tag-cloud-font-weight: ' + this._currentSettings.fontWeight + ';' +
+      '--tag-cloud-font-style: ' + this._currentSettings.fontStyle + ';' +
+      '--tag-cloud-font-family: ' + this._currentSettings.fontFamily + '; }');
   }
 
   /**
