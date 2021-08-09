@@ -1,9 +1,13 @@
-<div class="activityIcon" *ngIf="deviceType&&deviceType==='desktop'" #divElement>
-  <div class="activityIconBackground" [ngStyle]="{
-    'background-color':iconColor
-    }"></div>
-  <div class="activityIconForeground" aria-hidden="true">
-    <p class="activityIconForegroundText" [ngStyle]="{
+<div class="activityIcon"
+     *ngIf="deviceType&&deviceType==='desktop'"
+     #divElement>
+  <div class="activityIconBackground"
+       [ngStyle]="{'background-color':iconColor}">
+  </div>
+  <div class="activityIconForeground"
+       aria-hidden="true">
+    <p class="activityIconForegroundText"
+       [ngStyle]="{
       'background-color':backgroundColor,
       'color':foregroundColor
       }">

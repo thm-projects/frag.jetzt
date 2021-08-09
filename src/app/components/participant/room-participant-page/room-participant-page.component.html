@@ -19,7 +19,7 @@
         </mat-card-header>
         <span class="fill-remaining-space"></span>
       </div>
-      <mat-divider></mat-divider>
+
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
         <markdown class="images" katex emoji lineNumbers lineHighlight
           [data]="room.description.trim()"></markdown>

@@ -58,7 +58,8 @@
     "block": "Block new questions",
     "unlock": "Release for new questions",
     "delete-account": "Delete account",
-    "home-header": "Collect and rate questions",
+    "home-header": "",
+    "home-header-mobile": "",
     "id": "Key",
     "logged-out": "You are logged out now.",
     "login": "Log in",
@@ -72,6 +73,7 @@
     "sure": "Are you sure?",
     "user-bonus-token": "Bonus stars",
     "user-got-tokens": "You haven't received a star for a good question yet.",
+    "users-online": "Currently logged-in users",
     "visited-sessions": "Sessions",
     "question-wall": "Present questions",
     "room-qr": "Key code",
@@ -354,7 +356,7 @@
     "inline-header": "Ongoing keyword updates"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "TThere are no keywords. The word cloud will be empty. A grammatical question analysis can create keywords automatically. Start question analysis?",
+    "info-no-keywords": "There are no keywords. The word cloud will be empty. An AI-based question analysis can create keywords afterwards. Start question analysis?",
     "label-refresh-keywords-start": "Start"
   }
 }

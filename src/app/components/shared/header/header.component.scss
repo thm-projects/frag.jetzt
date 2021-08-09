@@ -5,7 +5,8 @@
 }
 
 mat-toolbar {
-  background-color: var(--surface);
+  background-color: transparent;
+  box-shadow: none;
   position: relative;
 }
 
@@ -72,14 +73,13 @@ h2 {
 
 .header-slogan-desktop {
   margin-right: 10px;
-  margin-left: 120px;
+  margin-left: 130px;
   font-size: medium !important;
   color: var(--on-background);
 }
 
 .header-slogan-mobile {
-  margin-right: 10px;
-  margin-left: 60px;
+  margin-left: 30px;
   font-size: medium !important;
   color: var(--on-background);
 }
@@ -144,12 +144,12 @@ svg {
   }
 
   *:hover {
-    color: var(--dialog) !important;
-    background-color: var(--on-dialog) !important;
+    color: var(--on-secondary) !important;
+    background-color: var(--secondary) !important;
 
     mat-icon {
-      color: var(--dialog) !important;
-      background-color: var(--on-dialog) !important;
+      color: var(--on-secondary) !important;
+      background-color: var(--secondary) !important;
     }
   }
 
@@ -166,16 +166,16 @@ h1 {
 }
 
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
-  color: var(--dialog) !important;
-  background-color: var(--on-dialog) !important;
+  color: white !important;
+  background-color: gray !important;
 }
 
-.userActivityIcon{
-  width:25px;
-  height:25px;
-  margin-left:25px;
-  margin-bottom:5px;
-  background-color:var(--on-background);
+.userActivityIcon {
+  width: 25px;
+  height: 25px;
+  margin-left: 25px;
+  margin-bottom: 5px;
+  background-color: var(--primary);
   -webkit-mask-image: url("../../../../assets/icons/activity.svg");
   mask-image: url("../../../../assets/icons/activity.svg");
   mask-repeat: no-repeat;
@@ -183,7 +183,8 @@ h1 {
   mask-size: 100% 100%;
 }
 
-.userActivityTxt{
-  color:var(--on-background);
-  margin-left:15px;
+.userActivityTxt {
+  color: var(--primary);
+  margin-left: 5px;
+  font-size: 14px;
 }

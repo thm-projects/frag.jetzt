@@ -2,9 +2,10 @@
   'dialog-action-buttons': true,
   'no-spacing': (spacing === false)
 }">
-  <mat-divider *ngIf="showDivider"></mat-divider>
   <div fxLayoutAlign="end">
-    <div fxLayout="row-reverse" fxLayoutGap="10px" class="buttons">
+    <div fxLayout="row-reverse"
+         fxLayoutGap="10px"
+         class="buttons">
       <button
         [disabled]="confirmButtonDisabled"
         *ngIf="confirmButtonClickAction !== undefined"
@@ -13,7 +14,10 @@
         class="mat-flat-button {{ confirmButtonType }}-confirm-button"
         attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
         (click)="performConfirmButtonClickAction()"
-      ><mat-icon *ngIf="buttonIcon" style="margin-right: 5px;">{{buttonIcon}}</mat-icon>{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}
+      >
+        <mat-icon *ngIf="buttonIcon"
+                  style="margin-right: 5px;">{{buttonIcon}}</mat-icon>
+        {{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}
         <mat-icon *ngIf="showLoadingCycle">
           <mat-spinner diameter="20"></mat-spinner>
         </mat-icon>

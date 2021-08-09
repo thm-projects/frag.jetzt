@@ -75,7 +75,8 @@
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "delete-account": "Konto löschen",
-    "home-header": "Fragen sammeln und bewerten",
+    "home-header": "",
+    "home-header-mobile": "",
     "id": "Code",
     "logged-out": "Du bist jetzt abgemeldet.",
     "login": "Anmelden",
@@ -91,6 +92,7 @@
     "sure": "Bist du sicher?",
     "user-bonus-token": "Bonus-Sterne",
     "user-got-tokens": "Du hast noch Sterne für Bonuspunkte, die verloren gehen!",
+    "users-online": "Aktuell eingeloggte User",
     "visited-sessions": "Sitzungen",
     "question-wall": "Fragen präsentieren",
     "room-qr": "Raum-Code",
@@ -193,7 +195,7 @@
     "restart-account-activation-button": "Falls ungültig, neuen Schlüssel anfordern.",
     "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungs-Schlüssel erneut an die angegebene Adresse.",
-    "welcome": "»Haben Sie Fragen?«",
+    "welcome": "»Noch Fragen?«",
     "welcome-feedback": "➜ Feedback an das »frag.jetzt«-Team",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
@@ -352,7 +354,7 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Es sind keine Stichwörter vorhanden. Die Wortwolke wird leer sein. Eine grammatikalische Fragen-Analyse kann Stichwörter automatisch erstellen. Fragen-Analyse starten?",
+    "info-no-keywords": "Es gibt keine Stichwörter. Die Wortwolke wird leer sein. Eine KI-basierte Fragen-Analyse kann Stichwörter nachträglich erstellen. Fragen-Analyse starten?",
     "label-refresh-keywords-start": "Starten"
   }
 }
