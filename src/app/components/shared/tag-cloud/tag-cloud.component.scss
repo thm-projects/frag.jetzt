@@ -66,7 +66,7 @@ app-tag-cloud-pop-up {
   top: 80px;
   left: 20px;
   z-index: 2;
-  color: var(--tag-cloud-color, black);
+  color: var(--tag-cloud-inverted-background, black);
   text-transform: var(--tag-cloud-transform, unset);
   font-weight: var(--tag-cloud-font-weight, normal);
   font-style: var(--tag-cloud-font-style, normal);
