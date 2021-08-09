@@ -391,7 +391,7 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div *ngFor="let question of keyword.comments">
-                <mat-divider></mat-divider>
+
                 <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword"
                                           [maxShowedCharachters]="140"
                                           [profanityFilter]="profanityFilter"
@@ -403,7 +403,7 @@
               <div *ngIf="isCreatorOrMod">
                 <!-- Only visible when not editing -->
                 <div *ngIf="!edit" align="end">
-                  <mat-divider></mat-divider>
+
                   <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
                     <mat-icon class="primary" matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit</mat-icon>
                   </button>
@@ -415,7 +415,7 @@
 
                 <!-- Only visible when editing -->
                 <div *ngIf="edit">
-                  <mat-divider></mat-divider>
+
                   <mat-form-field>
                     <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
                     <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">
@@ -463,7 +463,7 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
               <div *ngFor="let question of keyword.comments">
-                <mat-divider></mat-divider>
+
                 <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
                                           [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
                                           [partialWords]="censorPartialWordsCheck"
@@ -472,7 +472,7 @@
               <div>
                 <!-- Only visible when not editing -->
                 <div *ngIf="!edit" align="end">
-                  <mat-divider></mat-divider>
+
                   <button class="margin-right" mat-icon-button style="align-self:flex-end;" (click)="editKeyword(i)">
                     <mat-icon class="primary" matTooltip="{{'topic-cloud-dialog.edit' | translate}}">edit</mat-icon>
                   </button>
@@ -484,7 +484,7 @@
 
                 <!-- Only visible when editing -->
                 <div *ngIf="edit">
-                  <mat-divider></mat-divider>
+
                   <mat-form-field>
                     <mat-label>{{'topic-cloud-dialog.edit-keyword-tip' | translate}}</mat-label>
                     <input matInput id="{{'edit-input'+i}}" [(ngModel)]="newKeyword">

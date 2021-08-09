@@ -3,7 +3,7 @@
   <h2 tabindex="0" style="padding:0;margin:0 0 20px 0;">
     {{ 'footer.motd-title-main' | translate }}
   </h2>
-  <mat-divider></mat-divider>
+
 </ars-row>
 <mat-dialog-content class="container" ars-flex-box>
   <ars-row ars-flex-box>
@@ -12,7 +12,7 @@
     </ars-col>
     <ars-fill></ars-fill>
     <ars-col class="align-center-y">
-      <button mat-stroked-button (click)="markAllAsRead()">
+      <button mat-flat-button (click)="markAllAsRead()">
         <mat-icon style="margin-right:8px;">checkmark</mat-icon>
         <span>{{ 'footer.motd-mark-all-read' | translate }}</span>
       </button>

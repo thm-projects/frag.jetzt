@@ -123,7 +123,7 @@ export class CloudParameters {
     this.question = '';
     this.textTransform = CloudTextStyle.capitalized;
     this.cloudWeightSettings = [
-      { maxVisibleElements: elements, color: '#c1c1c1', rotation: 0, allowManualTagNumber: true },
+      { maxVisibleElements: elements, color: '#C0C0C0', rotation: 0, allowManualTagNumber: true },
       { maxVisibleElements: elements, color: '#d98e49', rotation: 0, allowManualTagNumber: true },
       { maxVisibleElements: elements, color: '#ccca3c', rotation: 0, allowManualTagNumber: true },
       { maxVisibleElements: elements, color: '#83e761', rotation: 0, allowManualTagNumber: true },
