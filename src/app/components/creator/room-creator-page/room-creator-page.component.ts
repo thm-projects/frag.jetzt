@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angu
 import { RoomService } from '../../../services/http/room.service';
 import {ActivatedRoute,Router} from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
-import { Room } from '../../../models/room';
+import {ProfanityFilter,Room} from '../../../models/room';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -29,6 +29,8 @@ import { TopicCloudFilterComponent } from '../../shared/_dialogs/topic-cloud-fil
 import {HeaderService} from '../../../services/util/header.service';
 import {RoomDeleteComponent} from '../_dialogs/room-delete/room-delete.component';
 import {RoomDeleted} from '../../../models/events/room-deleted';
+import {ProfanitySettingsComponent} from '../_dialogs/profanity-settings/profanity-settings.component';
+import {RoomDescriptionSettingsComponent} from '../_dialogs/room-description-settings/room-description-settings.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -78,7 +80,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     nav('deleteRoom',()=>this.openDeleteRoomDialog());
     nav('profanityFilter',()=>this.toggleProfanityFilter());
     nav('editSessionDescription',()=>this.editSessionDescription());
-    nav('moderatorMode',()=>this.moderatorView());
     nav('roomBonusToken', () => this.showBonusTokenDialog());
     nav('moderator', () => this.showModeratorsDialog());
     nav('tags', () => this.showTagsDialog());
@@ -93,15 +94,17 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   toggleProfanityFilter(){
-
+    const dialogRef = this.dialog.open(ProfanitySettingsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.editRoom=this.room;
   }
 
   editSessionDescription(){
-
-  }
-
-  moderatorView(){
-
+    const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.editRoom=this.room;
   }
 
   exportQuestions(){

@@ -343,10 +343,6 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'profanityFilter');
   }
 
-  public navgiateModeratorMode() {
-    this.eventService.broadcast('navigate', 'moderatorMode');
-  }
-
   public navigateEditSessionDescription() {
     this.eventService.broadcast('navigate', 'editSessionDescription');
   }

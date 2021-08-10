@@ -65,15 +65,6 @@
             {{ 'room-page.tags' | translate}}
           </button>
         </mat-menu>
-        <button id="settings-menu"
-                mat-icon-button
-                class="corner-icons"
-                [matMenuTriggerFor]="settingsMenu"
-                aria-labelledby="settings">
-          <mat-icon class="corner-icon"
-                    matTooltip="{{ 'room-page.session-settings' | translate}}">settings
-          </mat-icon>
-        </button>
       </div>
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
