@@ -14,6 +14,8 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
   @Input() iconColor: string;
   @Input() foregroundColor: string;
   @Input() backgroundColor: string;
+  @Input() left: number;
+  @Input() top: number;
   @ViewChild('divElement') elem: HTMLElement;
   activeUser=0;
   onDestroyListener: (() => void)[]=[];
