@@ -4,9 +4,7 @@
      fxFill>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading"
-                          color="primary"
-                          mode="indeterminate"></mat-progress-spinner>
+    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true" useCustomCSSColor="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
       <div fxLayout="row">
         <span class="corner-icons"></span>
@@ -65,15 +63,6 @@
             {{ 'room-page.tags' | translate}}
           </button>
         </mat-menu>
-        <button id="settings-menu"
-                mat-icon-button
-                class="corner-icons"
-                [matMenuTriggerFor]="settingsMenu"
-                aria-labelledby="settings">
-          <mat-icon class="corner-icon"
-                    matTooltip="{{ 'room-page.session-settings' | translate}}">settings
-          </mat-icon>
-        </button>
       </div>
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">

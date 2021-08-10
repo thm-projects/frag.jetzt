@@ -4,8 +4,7 @@
      fxFill>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading"
-                          mode="indeterminate"></mat-progress-spinner>
+    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true" useCustomCSSColor="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
       <div fxLayout="row">
         <span class="fill-remaining-space"></span>

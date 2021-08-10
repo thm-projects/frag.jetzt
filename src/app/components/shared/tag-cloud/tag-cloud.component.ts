@@ -31,6 +31,7 @@ import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters
 import { SmartDebounce } from '../../../utils/smart-debounce';
 import { JoyrideOptions } from 'ngx-joyride/lib/models/joyride-options.class';
 import { JoyrideService } from 'ngx-joyride';
+import { Theme } from '../../../../theme/Theme';
 
 class CustomPosition implements Position {
   left: number;
@@ -107,6 +108,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
   private readonly _smartDebounce = new SmartDebounce(1, 1_000);
+  private _currentTheme: Theme;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -136,6 +138,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   private static getCurrentCloudParameters(): CloudParameters {
     return CloudParameters.currentParameters;
+  }
+
+  private static invertHex(hexStr: string) {
+    const r = 255 - parseInt(hexStr.substr(1, 2), 16);
+    const g = 255 - parseInt(hexStr.substr(3, 2), 16);
+    const b = 255 - parseInt(hexStr.substr(5, 2), 16);
+    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 
   ngOnInit(): void {
@@ -198,7 +207,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
     });
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.themeSubscription = this.themeService.getTheme().subscribe(() => {
+    this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
+      this._currentTheme = this.themeService.getThemeByKey(themeName);
       if (this.child) {
         setTimeout(() => {
           this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
@@ -208,7 +218,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngAfterContentInit() {
-    document.getElementById('footer_rescale').style.display = 'none';
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
     setTimeout(() => this.dataManager.bindToRoom(this.roomId, this.userRole));
     this.dataManager.updateDemoData(this.translateService);
@@ -223,7 +232,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnDestroy() {
-    document.getElementById('footer_rescale').style.display = 'block';
+    const customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
+    if (customTagCloudStyles) {
+      customTagCloudStyles.sheet.disabled = true;
+    }
     this.headerInterface.unsubscribe();
     this.themeSubscription.unsubscribe();
     this.dataManager.unbindRoom();
@@ -262,7 +274,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetColorsToTheme() {
     const param = new CloudParameters();
-    param.resetToDefault();
+    param.resetToDefault(this._currentTheme.isDark);
     this.setCloudParameters(param, true);
   }
 
@@ -383,17 +395,22 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       customTagCloudStyles.id = 'tagCloudStyles';
       document.head.appendChild(customTagCloudStyles);
     }
+    customTagCloudStyles.sheet.disabled = false;
     const rules = customTagCloudStyles.sheet.cssRules;
     for (let i = rules.length - 1; i >= 0; i--) {
       customTagCloudStyles.sheet.deleteRule(i);
     }
     let textTransform = '';
+    let plainTextTransform = 'unset';
     if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
       textTransform = 'text-transform: capitalize;';
+      plainTextTransform = 'capitalize';
     } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
       textTransform = 'text-transform: lowercase;';
+      plainTextTransform = 'lowercase';
     } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
       textTransform = 'text-transform: uppercase;';
+      plainTextTransform = 'uppercase';
     }
     customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +
       textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
@@ -412,8 +429,22 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
     customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
       'background-color: ' + this._currentSettings.backgroundColor + '; }');
+    const invertedBackground = TagCloudComponent.invertHex(this._currentSettings.backgroundColor);
     customTagCloudStyles.sheet.insertRule(':root { ' +
-      '--tag-cloud-color: ' + this._currentSettings.fontColor + '; }');
+      '--tag-cloud-inverted-background: ' + invertedBackground + ';' +
+      '--tag-cloud-transform: ' + plainTextTransform + ';' +
+      '--tag-cloud-background-color: ' + this._currentSettings.backgroundColor + ';' +
+      '--tag-cloud-font-weight: ' + this._currentSettings.fontWeight + ';' +
+      '--tag-cloud-font-style: ' + this._currentSettings.fontStyle + ';' +
+      '--tag-cloud-font-family: ' + this._currentSettings.fontFamily + '; }');
+    customTagCloudStyles.sheet.insertRule('.header-icons { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }');
+    customTagCloudStyles.sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }');
+    customTagCloudStyles.sheet.insertRule('#footer_rescale {' +
+      'display: none; }');
+    customTagCloudStyles.sheet.insertRule('div.main_container {' +
+      'background-color: var(--tag-cloud-background-color) !important; }');
   }
 
   /**

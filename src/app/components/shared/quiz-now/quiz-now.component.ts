@@ -1,16 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 @Component({
   selector: 'app-quiz-now',
   templateUrl: './quiz-now.component.html',
   styleUrls: ['./quiz-now.component.scss']
 })
-export class QuizNowComponent {
+export class QuizNowComponent implements OnInit {
   urlSafe: SafeResourceUrl;
+  isLoading = true;
 
-  constructor(public sanitizer: DomSanitizer) { }
+  constructor(public sanitizer: DomSanitizer) {
+  }
 
   ngOnInit() {
-    this.urlSafe= this.sanitizer.bypassSecurityTrustResourceUrl("https://staging.antworte.jetzt/");
+    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl('https://staging.antworte.jetzt/');
   }
 }

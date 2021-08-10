@@ -24,7 +24,7 @@
     </span>
     <ars-row class="list-container">
       <div fxLayout="row" fxLayoutAlign="center center" fxFill>
-        <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+        <app-mat-spinner-overlay *ngIf="isLoading" useCustomCSSColor="true"></app-mat-spinner-overlay>
       </div>
       <mat-list dense class="keywords-list">
         <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"

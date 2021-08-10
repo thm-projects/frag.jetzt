@@ -45,6 +45,7 @@ import { JoyrideModule } from 'ngx-joyride';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-template.component';
 import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
+import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 
 @NgModule({
   imports: [
@@ -95,7 +96,8 @@ import { JoyrideTemplateDirective } from '../../directives/joyride-template.dire
     WorkerDialogComponent,
     AutofocusDirective,
     JoyrideTemplateComponent,
-    JoyrideTemplateDirective
+    JoyrideTemplateDirective,
+    MatSpinnerOverlayComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -113,7 +115,8 @@ import { JoyrideTemplateDirective } from '../../directives/joyride-template.dire
     UserBonusTokenComponent,
     CloudConfigurationComponent,
     TagCloudPopUpComponent,
-    ActiveUserComponent
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent
   ]
 })
 export class SharedModule {

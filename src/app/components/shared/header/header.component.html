@@ -237,7 +237,7 @@
             <ng-container *ngIf="router.url.includes('/creator/room/')">
 
               <button mat-menu-item
-                      (click)="navigateModerator()"
+                      (click)="navigateEditSessionDescription()"
                       tabindex="0">
                 <mat-icon>flag</mat-icon>
                 <span>{{'header.edit-session-description' | translate}}</span>
@@ -245,8 +245,8 @@
 
               <button mat-menu-item
                       *ngIf="user"
-                      (click)="navigateModerator()"
-                      tabindex="0">
+                      tabindex="0"
+                      routerLink="moderator/room/{{shortId}}/moderator/comments">
                 <mat-icon class="gavel">visibility_off</mat-icon>
                 <span>{{'header.moderation-mode' | translate}}</span>
               </button>
@@ -290,7 +290,7 @@
             </button>
 
             <button mat-menu-item
-                    (click)="navigateModerator()"
+                    (click)="navigateProfanityFilter()"
                     tabindex="0">
               <mat-icon>clear</mat-icon>
               <span>{{'header.profanity-filter' | translate}}</span>
@@ -365,7 +365,7 @@
 
           <button mat-menu-item
                   *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
-                  (click)="delete()"
+                  (click)="navigateDeleteRoom()"
                   tabindex="0">
             <mat-icon class="color-warn">delete</mat-icon>
             <span>{{'header.delete-room' | translate}}</span>

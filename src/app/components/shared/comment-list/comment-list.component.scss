@@ -255,6 +255,10 @@ h3 {
   opacity: 1.0 !important;
 }
 
-h1{
+h1 {
   color: red;
+}
+
+app-mat-spinner-overlay {
+  color: var(--primary);
 }

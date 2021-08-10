@@ -381,5 +381,22 @@
     "manual-weight-number": "Set quantity",
     "manual-weight-number-tooltip": "Quantity Limitation of this weight class",
     "manual-weight-number-note": "Limits the respective weight class to a self-defined Quantity"
+  },
+  "user-bonus-token": {
+    "header": "Redeem stars for bonus",
+    "no-bonus": "You haven't received a bonus star for a good question yet.",
+    "redeem-tokens": "Redeem stars by mail",
+    "mail-subject": "Request%20to%20redeem%20my%20tokens%20from%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
+    "mail-body-1": "Hello%2C%0D%0A%0D%0Ai%20have%20received%20the%20following%20tokens%20today%20in%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
+    "mail-body-2": "%C2%AB%20with%20the%20session%20code%20%C2%BB",
+    "mail-body-3": "%C2%AB%3A%0D%0A%0D%0A",
+    "mail-body-4": "%0D%0A%0D%0AI%20ask%20for%20the%20redemption%20in%20bonus%20points.%0D%0A%0D%0AThanks%20for%20%C2%BBfrag.jetzt%C2%AB!%0D%0A%0D%0A---",
+    "choose-session": "Choose a session",
+    "please-choose": "Please select a session first!"
+  },
+  "introduction": {
+    "cancel": "Close",
+    "cancel-description": "Close introduction.",
+    "title": "Introduction"
   }
 }

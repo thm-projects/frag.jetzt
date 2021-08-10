@@ -124,8 +124,11 @@
         (click)="grammarChecker.grammarCheck(commentBody)">
         {{ 'comment-page.grammar-check' | translate}}
         <mat-icon *ngIf="grammarChecker.isSpellchecking"
-                  style="margin: 0;">
-          <mat-spinner diameter="20"></mat-spinner>
+                  class="spinner-container">
+          <app-mat-spinner-overlay diameter="20"
+                                   strokeWidth="2"
+                                   [useCustomCSSColor]="true">
+          </app-mat-spinner-overlay>
         </mat-icon>
       </button>
     </ars-col>
