@@ -14,31 +14,31 @@ export interface DefaultCloudParameters {
 }
 
 export const LIGHT_THEME: DefaultCloudParameters = {
-  w1: '#C0C0C0',
-  w2: '#d98e49',
-  w3: '#ccca3c',
-  w4: '#83e761',
-  w5: '#3accd4',
-  w6: '#54a1e9',
-  w7: '#3a44ee',
-  w8: '#9725eb',
-  w9: '#e436c7',
-  w10: '#ff0000',
-  backgroundColor: 'var(--background, black)',
-  hoverColor: 'var(--secondary, greenyellow)'
+  w1: 'dimgray',
+  w2: 'brown',
+  w3: 'olive',
+  w4: 'seagreen',
+  w5: 'teal',
+  w6: 'navy',
+  w7: 'green',
+  w8: 'salmon',
+  w9: 'darkorange',
+  w10: 'red',
+  backgroundColor: 'var(--background, moccasin)',
+  hoverColor: 'var(--black, black)'
 };
 
 export const DARK_THEME: DefaultCloudParameters = {
-  w1: '#C0C0C0',
-  w2: '#d98e49',
-  w3: '#ccca3c',
-  w4: '#83e761',
-  w5: '#3accd4',
-  w6: '#54a1e9',
-  w7: '#3a44ee',
-  w8: '#9725eb',
-  w9: '#e436c7',
-  w10: '#ff0000',
-  backgroundColor: 'var(--background, black)',
-  hoverColor: 'var(--secondary, greenyellow)'
+  w1: 'dimgray',
+  w2: 'brown',
+  w3: 'olive',
+  w4: 'seagreen',
+  w5: 'teal',
+  w6: 'green',
+  w7: 'orange',
+  w8: 'magenta',
+  w9: 'greenyellow',
+  w10: 'red',
+  backgroundColor: 'var(--background, #121212)',
+  hoverColor: 'var(--white, white)'
 };
