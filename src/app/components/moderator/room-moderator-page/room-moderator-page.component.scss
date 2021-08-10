@@ -5,7 +5,7 @@ mat-card {
   max-width: 800px;
   min-height: 350px;
   max-height: 700px;
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
 }
 
 mat-card-content > :first-child {
@@ -19,8 +19,9 @@ mat-card-content > :first-child {
 .mat-icon-button {
   width: 60%; // 100%
   height: 75%;
-  color: var(--primary)!important;
+  color: var(--primary) !important;
   transition: all 0.3s;
+
   &:hover {
     transform: scale(1.2)
   }
@@ -51,24 +52,24 @@ mat-card-content > :first-child {
   line-height: 100%!important;
 }*/
 
-.main-icon{
+.main-icon {
   font-size: 80px;
   height: 80px;
   width: 80px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .smallerIcon {
   font-size: 55px;
   height: 55px;
   width: 55px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .room-short-id {
   font-size: larger;
   font-weight: bold;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
   margin: 5% 5% 0 0;
 }
 
@@ -81,33 +82,33 @@ mat-grid-list {
 }
 
 h1 {
-   font-size: large;
-   color: var(--on-surface)!important;
- }
+  font-size: large;
+  color: var(--on-surface) !important;
+}
 
 p {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 h2 {
   font-size: larger;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-card-header {
   min-height: 80px;
-  height: 10%!important;
+  height: 10% !important;
 }
 
 mat-card-title {
   height: 40%;
   min-width: 200px;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-card-subtitle {
   height: 30%;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-grid-tile {
@@ -116,7 +117,7 @@ mat-grid-tile {
 }
 
 mat-expansion-panel {
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
   min-width: 200px;
   hyphens: auto;
 }
@@ -149,4 +150,8 @@ mat-expansion-panel {
 markdown {
   color: var(--on-surface);
   margin: 0 3% 0 3% !important;
+}
+
+app-mat-spinner-overlay {
+  color: var(--primary);
 }

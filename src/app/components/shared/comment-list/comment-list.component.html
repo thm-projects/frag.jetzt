@@ -154,7 +154,8 @@
         <mat-icon class="star"
                   [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade
         </mat-icon>
-        <span [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">{{ 'comment-list.filter-favorite' | translate }}</span>
+        <span
+          [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -163,7 +164,8 @@
         <mat-icon class="bookmark"
                   [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">bookmark
         </mat-icon>
-        <span [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">{{ 'comment-list.filter-bookmark' | translate }}</span>
+        <span
+          [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">{{ 'comment-list.filter-bookmark' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -173,7 +175,8 @@
         <mat-icon class="answer"
                   [ngClass]="{answer: 'answered-icon'}[currentFilter]">comment
         </mat-icon>
-        <span [ngClass]="{answer: 'answered-icon'}[currentFilter]">{{ 'comment-list.filter-answered' | translate }}</span>
+        <span
+          [ngClass]="{answer: 'answered-icon'}[currentFilter]">{{ 'comment-list.filter-answered' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -183,7 +186,8 @@
         <mat-icon class="unanswered"
                   [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">comment
         </mat-icon>
-        <span [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">{{ 'comment-list.filter-unanswered' | translate }}</span>
+        <span
+          [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">{{ 'comment-list.filter-unanswered' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -201,7 +205,8 @@
         <mat-icon class="lecturer"
                   [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">school
         </mat-icon>
-        <span [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
+        <span
+          [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
       </button>
 
       <button mat-menu-item
@@ -210,7 +215,8 @@
         <mat-icon class="moderator"
                   [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">gavel
         </mat-icon>
-        <span [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
+        <span
+          [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
       </button>
 
 
@@ -244,6 +250,11 @@
   <mat-icon>add</mat-icon>
 </button>
 
+<app-mat-spinner-overlay *ngIf="isLoading"
+                         overlay="true"
+                         [useCustomCSSColor]="true">
+</app-mat-spinner-overlay>
+
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime"
                [comment]="current"
@@ -262,10 +273,11 @@
 <app-active-user *ngIf="room" [room]="this.room"></app-active-user>
 
 <!-- No Questions Present -->
-<div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
-     fxLayout="row"
-     fxLayoutAlign="center center"
-     class="no-comments">
+<div
+  *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  class="no-comments">
   <p class="oldtypo-p">{{ 'comment-page.no-comments' | translate }}</p>
 </div>
 
@@ -274,7 +286,8 @@
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
-  <p class="oldtypo-p">{{ (search ? 'comment-page.no-comments-with-search' : 'comment-page.no-comments-with-filter') | translate }}</p>
+  <p
+    class="oldtypo-p">{{ (search ? 'comment-page.no-comments-with-search' : 'comment-page.no-comments-with-filter') | translate }}</p>
 </div>
 
 <!--Hidden Div's for a11y-Descriptions-->

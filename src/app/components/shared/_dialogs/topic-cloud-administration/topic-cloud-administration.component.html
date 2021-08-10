@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <div fxLayout="row" fxLayoutAlign="center center" fxFill>
-    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+    <app-mat-spinner-overlay *ngIf="isLoading" [useCustomCSSColor]="true"></app-mat-spinner-overlay>
   </div>
   <div *ngIf="!isLoading">
     <mat-accordion hideToggle>
@@ -367,7 +367,8 @@
     </mat-menu>
 
 
-    <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="changeTabIndex()" animationDuration="0ms" mat-stretch-tabs mat-align-tabs="center">
+    <mat-tab-group [selectedIndex]="selectedTabIndex" (selectedIndexChange)="changeTabIndex()" animationDuration="0ms"
+                   mat-stretch-tabs mat-align-tabs="center">
       <mat-tab label="{{'topic-cloud-dialog.keywords' | translate}}">
         <mat-card class="color-surface"
                   *ngIf="(keywords.size === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
@@ -409,7 +410,8 @@
                   </button>
                   <button class="margin-right" mat-icon-button style="align-self:flex-end;"
                           (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep</mat-icon>
+                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep
+                    </mat-icon>
                   </button>
                 </div>
 
@@ -443,7 +445,7 @@
                  matTooltip="{{'topic-cloud-dialog.blacklist-is'+(blacklistIsActive?'':'-not')+'-active' | translate}}">Blacklist</label>
         </ng-template>
         <mat-card class="color-surface"
-            *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
+                  *ngIf="(blacklistKeywords.length === 0 || (searchMode && filteredKeywords.length === 0))&&!isLoading">
           <p class="color-on-surface" fxLayoutAlign="center">
             {{'topic-cloud-dialog.no-keywords-note' | translate}}
           </p>
@@ -451,8 +453,8 @@
         <mat-accordion>
           <div *ngFor="let keyword of (searchMode ? filteredKeywords : blacklistKeywords); let i = index">
             <mat-expansion-panel class="color-surface" (opened)="panelOpenState = true"
-              (closed)="panelOpenState = edit = false" [attr.data-index]="i"
-              matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
+                                 (closed)="panelOpenState = edit = false" [attr.data-index]="i"
+                                 matTooltip="{{'topic-cloud-dialog.'+(keyword.keywordType === 2?'Keyword-from-both':(keyword.keywordType === 0?'keyword-from-spacy':'keyword-from-questioner')) | translate}}">
               <mat-expansion-panel-header class="color-surface">
                 <mat-panel-title>
                   {{keyword.keyword}}
@@ -464,8 +466,10 @@
               </mat-expansion-panel-header>
               <div *ngFor="let question of keyword.comments">
 
-                <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword" [maxShowedCharachters]="140"
-                                          [profanityFilter]="profanityFilter" [languageSpecific]="censorLanguageSpecificCheck"
+                <app-topic-dialog-comment [question]="question.body" [keyword]="keyword.keyword"
+                                          [maxShowedCharachters]="140"
+                                          [profanityFilter]="profanityFilter"
+                                          [languageSpecific]="censorLanguageSpecificCheck"
                                           [partialWords]="censorPartialWordsCheck"
                                           [language]="question.language"></app-topic-dialog-comment>
               </div>
@@ -478,7 +482,8 @@
                   </button>
                   <button class="margin-right" mat-icon-button style="align-self:flex-end;"
                           (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep</mat-icon>
+                    <mat-icon class="red" matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep
+                    </mat-icon>
                   </button>
                 </div>
 

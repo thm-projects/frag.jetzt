@@ -1,7 +1,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Indie+Flower&family=Permanent+Marker&display=swap" rel="stylesheet">
+<link
+  href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Indie+Flower&family=Permanent+Marker&display=swap"
+  rel="stylesheet">
 <ars-screen ars-flex-box>
-  <h1 *ngIf="user && user.role > 0 && question" class="tag-cloud-brainstorming-question mat-display-1">{{question}}</h1>
+  <h1 *ngIf="user && user.role > 0 && question" class="tag-cloud-brainstorming-question mat-display-1">
+    {{question}}
+  </h1>
   <mat-drawer-container class="spacyTagCloudContainer">
     <mat-drawer [(opened)]="configurationOpen" position="end" mode="over">
       <app-cloud-configuration [parent]="this"></app-cloud-configuration>
@@ -9,9 +13,10 @@
     <mat-drawer-content>
       <ars-fill ars-flex-box>
         <app-tag-cloud-pop-up></app-tag-cloud-pop-up>
-        <div [ngClass]="{'hidden': !isLoading}" fxLayout="row" fxLayoutAlign="center center" fxFill>
-          <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
-        </div>
+        <app-mat-spinner-overlay *ngIf="isLoading"
+                                 overlay="true"
+                                 [useCustomCSSColor]="true">
+        </app-mat-spinner-overlay>
         <angular-tag-cloud
           id="tagCloudComponent"
           class="spacyTagCloud"

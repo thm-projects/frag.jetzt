@@ -300,11 +300,16 @@
   font-weight: bold;
 }
 
-.selection:focus{
+.selection:focus {
   background-color: black !important;
 }
-h2{
+
+h2 {
   color: red;
   font-weight: normal !important;
   padding-top: 10px !important;
+}
+
+app-mat-spinner-overlay {
+  color: var(--primary);
 }

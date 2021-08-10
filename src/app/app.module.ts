@@ -59,7 +59,6 @@ import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dial
 import { MatIconModule } from '@angular/material/icon';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
 import { MatomoModule } from 'ngx-matomo-v9';
-import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
@@ -106,7 +105,6 @@ export function initializeApp(appConfig: AppConfig) {
     DemoEnComponent,
     HelpEnComponent,
     OverlayComponent,
-    TagCloudComponent,
     QuizNowComponent
   ],
   imports: [

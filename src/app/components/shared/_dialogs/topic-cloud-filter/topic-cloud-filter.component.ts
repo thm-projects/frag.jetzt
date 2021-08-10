@@ -17,6 +17,8 @@ import { User } from '../../../../models/user';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
 import { Room } from '../../../../models/room';
 import { CloudParameters } from '../../../../utils/cloud-parameters';
+import { ThemeService } from '../../../../../theme/theme.service';
+import { Theme } from '../../../../../theme/Theme';
 
 class CommentsCount {
   comments: number;
@@ -51,6 +53,7 @@ export class TopicCloudFilterComponent implements OnInit {
   hasNoKeywords = false;
   private readonly _adminData: TopicCloudAdminData;
   private _room: Room;
+  private currentTheme: Theme;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -61,7 +64,8 @@ export class TopicCloudFilterComponent implements OnInit {
               protected roomService: RoomService,
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService,
-              private topicCloudAdminService: TopicCloudAdminService) {
+              private topicCloudAdminService: TopicCloudAdminService,
+              private themeService: ThemeService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
     if (this._adminData.keywordORfulltext === KeywordOrFulltext.fulltext) {
@@ -75,6 +79,9 @@ export class TopicCloudFilterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.themeService.getTheme().subscribe((themeName) => {
+      this.currentTheme = this.themeService.getThemeByKey(themeName);
+    });
     this.translationService.use(localStorage.getItem('currentLang'));
     const subscriptionEventService = this.eventService.on<CommentListData>('currentRoomData').subscribe(data => {
       subscriptionEventService.unsubscribe();

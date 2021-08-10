@@ -29,7 +29,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
-import { CloudConfigurationComponent } from "./_dialogs/cloud-configuration/cloud-configuration.component";
+import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
@@ -41,6 +41,8 @@ import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.co
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ActiveUserComponent } from './overlay/active-user/active-user.component';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
+import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 
 @NgModule({
   imports: [
@@ -84,10 +86,12 @@ import { AutofocusDirective } from '../../directives/autofocus.directive';
     TopicDialogCommentComponent,
     TopicCloudFilterComponent,
     SpacyDialogComponent,
+    TagCloudComponent,
     TagCloudPopUpComponent,
     ActiveUserComponent,
     WorkerDialogComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    MatSpinnerOverlayComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -105,7 +109,8 @@ import { AutofocusDirective } from '../../directives/autofocus.directive';
     UserBonusTokenComponent,
     CloudConfigurationComponent,
     TagCloudPopUpComponent,
-    ActiveUserComponent
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent
   ]
 })
 export class SharedModule {
