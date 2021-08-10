@@ -80,7 +80,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Fragenstellen deaktiviert "
+    "questions-blocked": "Fragenstellen deaktiviert"
   },
   "spacy-dialog": {
     "auto": "auto",
