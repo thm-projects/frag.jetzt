@@ -1,3 +1,7 @@
+<app-mat-spinner-overlay *ngIf="isLoading"
+                         [overlay]="true"
+                         [useCustomCSSColor]="true">
+</app-mat-spinner-overlay>
 <ars-screen ars-flex-box class="questionwall-screen">
   <ars-row [height]="50" class="questionwall-header">
     <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
@@ -17,9 +21,12 @@
         <ars-fill></ars-fill>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
           <mat-menu #sortMenu>
-            <button mat-menu-item (click)="sortTime(true)" aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
-            <button mat-menu-item (click)="sortTime()" aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
-            <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
+            <button mat-menu-item (click)="sortTime(true)"
+                    aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
+            <button mat-menu-item (click)="sortTime()"
+                    aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
+            <button mat-menu-item (click)="sortScore(true)"
+                    aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
             <button mat-menu-item (click)="filterFavorites()" aria-labelledby="filter-lbl-favorites" class="selection">
@@ -119,7 +126,8 @@
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
-                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" class="images" katex emoji lineNumbers lineHighlight
+                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" class="images"
+                          katex emoji lineNumbers lineHighlight
                           [data]="commentFocus.comment.body"></markdown>
               </ars-row>
             </ars-row>
@@ -214,11 +222,12 @@
                          style="box-sizing:border-box;padding:16px;cursor:pointer">
                   <ars-col class="questionwall-comment-meta">
                     <i class="questionwall-icon">person_pin_circle</i>
-                    <p (click)="filterUser(comment);" class="questionwall-comment-user" matRipple>{{comment.comment.userNumber}}</p>
+                    <p (click)="filterUser(comment);" class="questionwall-comment-user"
+                       matRipple>{{comment.comment.userNumber}}</p>
                     <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
                   </ars-col>
                   <ars-col>
-                    <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
+                    <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
                   </ars-col>
                 </ars-row>
                 <ars-row
@@ -226,7 +235,7 @@
                   style="box-sizing:border-box;padding:0 16px;cursor:pointer">
                   <p class="questionwall-comment-body">
                     <markdown class="images" katex emoji lineNumbers lineHighlight
-                      [data]="comment.comment.body"></markdown>
+                              [data]="comment.comment.body"></markdown>
                   </p>
                 </ars-row>
                 <ars-row [height]="50">
@@ -241,7 +250,7 @@
                       </button>
                     </ars-col>
                     <ars-fill (click)="focusComment(comment)" style="cursor:pointer"></ars-fill>
-                    <ars-col ars-btn-wrp [xp]="16" [extra]="true"*ngIf="comment.comment.tag">
+                    <ars-col ars-btn-wrp [xp]="16" [extra]="true" *ngIf="comment.comment.tag">
                       <button ars-btn (click)="filterTag(comment.comment.tag);" matRipple>
                         <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
                         <p>{{comment.comment.tag}}</p>
@@ -274,7 +283,8 @@
                 <p>{{'question-wall.filter-user-count' | translate}}</p>
               </button>
               <button ars-btn mat-ripple *ngFor="let user of userList" (click)="applyUserMap(user[1])">
-                <p>{{user[1]}}</p><p>{{user[0]}}</p>
+                <p>{{user[1]}}</p>
+                <p>{{user[0]}}</p>
               </button>
             </ars-row>
           </ars-style-btn-material>

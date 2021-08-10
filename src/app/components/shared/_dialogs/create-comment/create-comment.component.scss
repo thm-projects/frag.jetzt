@@ -134,10 +134,6 @@ mat-hint {
   overflow-x: hidden !important;
 }
 
-::ng-deep .mat-spinner circle {
-  stroke: var(--on-primary);
-}
-
 .lang-confidence {
   color: var(--on-cancel);
   background-color: var(--cancel);
@@ -198,6 +194,12 @@ mat-hint {
 
 .mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled, .mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled, .mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled, .mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled, .mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled, .mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled, .mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled, .mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
   display: none;
+}
+
+.spinner-container {
+  font-size: 14px;
+  margin-right: 7px;
+  margin-top: -2px;
 }
 
 /*

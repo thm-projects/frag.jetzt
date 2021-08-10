@@ -18,8 +18,11 @@
         <mat-icon *ngIf="buttonIcon"
                   style="margin-right: 5px;">{{buttonIcon}}</mat-icon>
         {{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}
-        <mat-icon *ngIf="showLoadingCycle">
-          <mat-spinner diameter="20"></mat-spinner>
+        <mat-icon *ngIf="showLoadingCycle" class="spinner-container">
+          <app-mat-spinner-overlay diameter="20"
+                                   strokeWidth="2"
+                                   [useCustomCSSColor]="true">
+          </app-mat-spinner-overlay>
         </mat-icon>
       </button>
       <button

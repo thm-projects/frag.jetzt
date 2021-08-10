@@ -1,6 +1,7 @@
 <div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner color="primary" mode="indeterminate" diameter="80"></mat-progress-spinner>
+    <app-mat-spinner-overlay [useCustomCSSColor]="true" diameter="80" strokeWidth="8">
+    </app-mat-spinner-overlay>
   </div>
 </div>
 
@@ -32,7 +33,8 @@
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before" matBadgeSize="small" matBadgeOverlap="false">
+            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before"
+                  matBadgeSize="small" matBadgeOverlap="false">
               &raquo;{{room.name}}&laquo;
             </span>
           </td>
@@ -97,9 +99,9 @@
             <div class="visually-hidden">
               <div id="{{ 'joinButtonLabel' + room.shortId | translate }}">
                 {{ 'room-list.join-message-template' | translate:{
-                  session: room.name,
-                  id: room.shortId,
-                  role: ( 'room-list.' + roleToString((room.role)) + '-role' | translate )
+                session: room.name,
+                id: room.shortId,
+                role: ('room-list.' + roleToString((room.role)) + '-role' | translate)
               } }}
               </div>
             </div>

@@ -33,8 +33,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
   isBlacklistActive = true;
-  private _popupHoverTimer: number;
-  private _popupCloseTimer: number;
+  private _popupHoverTimer;
+  private _popupCloseTimer;
   private _hasLeft = true;
 
   constructor(private langService: LanguageService,

@@ -50,6 +50,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   fontSize = 180;
   periodsList = Object.values(Period);
   period: Period = Period.all;
+  isLoading = true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -92,6 +93,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
       e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      this.isLoading = false;
       e.forEach(c => {
         this.roomDataService.checkProfanity(c);
         const comment = new QuestionWallComment(c, true);

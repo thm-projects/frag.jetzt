@@ -42,6 +42,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ActiveUserComponent } from './overlay/active-user/active-user.component';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 
 @NgModule({
   imports: [
@@ -89,7 +90,8 @@ import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
     TagCloudPopUpComponent,
     ActiveUserComponent,
     WorkerDialogComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    MatSpinnerOverlayComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -107,7 +109,8 @@ import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
     UserBonusTokenComponent,
     CloudConfigurationComponent,
     TagCloudPopUpComponent,
-    ActiveUserComponent
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent
   ]
 })
 export class SharedModule {
