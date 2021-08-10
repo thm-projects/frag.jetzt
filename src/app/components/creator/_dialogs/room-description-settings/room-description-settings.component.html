@@ -1,0 +1,43 @@
+<div mat-dialog-content
+     *ngIf="editRoom">
+  <mat-tab-group>
+    <mat-tab label="{{'room-page.description' | translate}}">
+      <mat-form-field class="input-block">
+      <textarea
+        (focus)="eventService.makeFocusOnInputTrue()"
+        (blur)="eventService.makeFocusOnInputFalse()"
+        [(ngModel)]="editRoom.description"
+        matInput
+        matTextareaAutosize
+        matAutosizeMinRows="2"
+        matAutosizeMaxRows="5"
+        maxlength="500"
+        name="description"
+        aria-labelledby="description"
+      ></textarea>
+        <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'room-page.Markdown-hint' | translate }}
+              </span>
+        </mat-hint>
+        <mat-hint align="end">
+            <span aria-hidden="true">
+              {{ editRoom.description?editRoom.description.length:0 }} / 500
+            </span>
+        </mat-hint>
+      </mat-form-field>
+    </mat-tab>
+    <mat-tab label="{{'session.preview' | translate}}"
+             [disabled]="!editRoom.description">
+      <markdown class="images" katex emoji lineNumbers lineHighlight
+                [data]="editRoom.description"></markdown>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>

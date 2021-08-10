@@ -23,6 +23,8 @@ import { DeleteAnswerComponent } from './_dialogs/delete-answer/delete-answer.co
 import { QuestionWallComponent } from '../shared/questionwall/question-wall/question-wall.component';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
+import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profanity-settings.component';
+import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-settings/room-description-settings.component';
 
 @NgModule({
   imports: [
@@ -56,7 +58,9 @@ import { MatRippleModule } from '@angular/material/core';
     DeleteCommentComponent,
     BonusDeleteComponent,
     DeleteAnswerComponent,
-    QuestionWallComponent
+    QuestionWallComponent,
+    ProfanitySettingsComponent,
+    RoomDescriptionSettingsComponent
   ],
   exports: []
 })
