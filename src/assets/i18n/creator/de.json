@@ -275,7 +275,7 @@
     "delete-room": "Sitzung Löschen",
     "delete-room-description": "Sitzung löschen",
     "deleted": " gelöscht.",
-    "description": "Beschreibung",
+    "description": "Text",
     "email-error": "E-Mail-Adresse ist ungültig.",
     "export-comments": "Fragen speichern",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
@@ -346,7 +346,7 @@
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
     "create-session": "Speichern",
-    "description": "Beschreibung",
+    "description": "Text",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung",
     "preview": "Vorschau"
