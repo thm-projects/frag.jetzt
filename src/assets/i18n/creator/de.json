@@ -510,5 +510,9 @@
     "manual-weight-number": "Anzahl Themen beschränken",
     "manual-weight-number-tooltip": "Anzahl Themen der Häufigkeitsgruppe",
     "manual-weight-number-note": "Begrenzt die Anzahl Themen einer Häufigkeitsgruppe auf den eingestellten Wert"
+  },
+  "token-validator": {
+    "valid": "VALID",
+    "invalid": "INVALID"
   }
 }
