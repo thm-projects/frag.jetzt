@@ -281,7 +281,7 @@
     "no-room-history": "Your room list is empty.",
     "panel-join-button": "",
     "panel-remove-button": "Remove session from list",
-    "delete-room": "Delete session",
+    "delete-room": "Delete room",
     "panel-session-id": "Room",
     "panel-session-name": "Meeting",
     "panel-user-role": "Role",
