@@ -159,6 +159,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             user: this.user
           }
         });
+      } else if (e === 'questionBoard') {
+        this.router.navigate(['../'], { relativeTo: this.route });
       }
     });
     this.dataManager.getData().subscribe(data => {
