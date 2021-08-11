@@ -56,18 +56,14 @@
         <div style="margin: 10px;"></div>
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-            <div fxLayout="row" fxLayoutGap="5px">
-              <mat-form-field fxFlex="100%">
-                <mat-label>{{'tag-cloud-config.background' | translate}}</mat-label>
-                <input matInput [value]="cloudParameters.backgroundColor"
-                       [colorPicker]="cloudParameters.backgroundColor"
-                       (colorPickerChange)="backgroundColorChanged($event)"
-                       class="custom-color-picker"
-                       [cpPosition]="'left'"/>
-                <p matTooltip="{{'tag-cloud-config.background-tooltip' | translate}}" class="custom-color-picker-text">
-                  {{'tag-cloud-config.select-color' | translate}}</p>
-              </mat-form-field>
-              <div fxFlex="35px" class="color-box" [style.background]="cloudParameters.backgroundColor"></div>
+            <div fxLayout="column" fxLayoutGap="5px">
+              <mat-label>{{'tag-cloud-config.background' | translate}}</mat-label>
+              <input [value]="cloudParameters.backgroundColor"
+                     [colorPicker]="cloudParameters.backgroundColor"
+                     (colorPickerChange)="backgroundColorChanged($event)"
+                     class="custom-color-picker"
+                     [cpToggle]="true"
+                     [cpDialogDisplay]="'inline'"/>
             </div>
           </div>
         </div>
@@ -148,19 +144,14 @@
         </mat-expansion-panel-header>
         <div>
           <div class="input-row firstElementOfExpansionPanel" fxLayout="column" fxLayoutGap="5px">
-            <div fxLayout="row" fxLayoutGap="5px">
-              <mat-form-field fxFlex="100%">
-                <mat-label>{{'tag-cloud-config.hover-color' | translate}}</mat-label>
-                <input matInput [value]="cloudParameters.fontColor"
-                       [colorPicker]="cloudParameters.fontColor"
-                       (colorPickerChange)="fontColorChanged($event)"
-                       class="custom-color-picker"
-                       [cpPosition]="'left'"/>
-                <p class="custom-color-picker-text"
-                   matTooltip="{{'tag-cloud-config.select-color-tooltip' | translate}}">
-                  {{'tag-cloud-config.select-color' | translate}}</p>
-              </mat-form-field>
-              <div fxFlex="35px" class="color-box" [style.background]="cloudParameters.fontColor"></div>
+            <div fxLayout="column" fxLayoutGap="5px">
+              <mat-label>{{'tag-cloud-config.hover-color' | translate}}</mat-label>
+              <input [value]="cloudParameters.fontColor"
+                     [colorPicker]="cloudParameters.fontColor"
+                     (colorPickerChange)="fontColorChanged($event)"
+                     [cpToggle]="true"
+                     class="custom-color-picker"
+                     [cpDialogDisplay]="'inline'"/>
             </div>
           </div>
           <div class="input-row" fxLayout="column" fxLayoutGap="5px">
@@ -211,18 +202,13 @@
                 <label
                   class=" expansion-title weight-class-heading">{{'tag-cloud-config.weight-class' | translate}} {{weightClasses.indexOf(weightClass) + 1}}</label>
                 <div class="input-row" fxLayout="column" fxLayoutGap="5px">
-                  <div fxLayout="row" fxLayoutGap="5px">
-                    <mat-form-field fxFlex="100%">
-                      <mat-label>{{'tag-cloud-config.weight-color' | translate}}</mat-label>
-                      <input matInput [value]="weightClass.tagColor" [colorPicker]="weightClass.tagColor"
-                             (colorPickerChange)="weightColorChanged(weightClasses.indexOf(weightClass), $event)"
-                             class="custom-color-picker"
-                             [cpPosition]="'left'"/>
-                      <p matTooltip="{{'tag-cloud-config.weight-color-tooltip' | translate}}"
-                         class="custom-color-picker-text">
-                        {{'tag-cloud-config.select-color' | translate}}</p>
-                    </mat-form-field>
-                    <div fxFlex="35px" class="color-box" [style.background]="weightClass.tagColor"></div>
+                  <div fxLayout="column" fxLayoutGap="5px">
+                    <mat-label>{{'tag-cloud-config.weight-color' | translate}}</mat-label>
+                    <input [value]="weightClass.tagColor" [colorPicker]="weightClass.tagColor"
+                           (colorPickerChange)="weightColorChanged(weightClasses.indexOf(weightClass), $event)"
+                           class="custom-color-picker"
+                           [cpToggle]="true"
+                           [cpDialogDisplay]="'inline'"/>
                   </div>
                 </div>
                 <div class="input-row firstElementOfWeightClass" fxLayout="row" fxLayoutGap="5px" fxLayout.xs="column"
