@@ -133,12 +133,12 @@ export class CloudParameters {
     p.style.display = 'none';
     document.body.appendChild(p);
     const minValue = window.innerWidth < window.innerHeight ? window.innerWidth : window.innerHeight;
-    const isMobile = minValue < 500;
-    const elements = isMobile ? 5 : 10;
+    const isMobile = minValue < 700;
+    const elements = isMobile ? 7 : 10;
     this.fontFamily = 'Dancing Script';
     this.fontStyle = 'normal';
     this.fontWeight = 'normal';
-    this.fontSize = '10px';
+    this.fontSize = '14px';
     this.backgroundColor = CloudParameters.resolveColor(p, theme.backgroundColor);
     this.fontColor = CloudParameters.resolveColor(p, theme.hoverColor);
     this.fontSizeMin = CloudParameters.mapValue(minValue, 375, 750, 125, 200);
