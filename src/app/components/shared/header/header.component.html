@@ -420,7 +420,7 @@
       <button mat-menu-item
               *ngIf="user && router.url.endsWith('/quiz')"
               tabindex="0"
-              (click)="goBack()">
+              (click)="navigateQuestionBoard()">
         <mat-icon class="header-icons">forum</mat-icon>
         <span>{{'header.back-to-questionboard' | translate}}</span>
       </button>
