@@ -269,7 +269,7 @@
     "create-room-description": "Neue Sitzung."
   },
   "room-list": {
-    "creator-role": "Du bist der Ersteller in diesem Raum.",
+    "creator-role": "Du bist der Ersteller dieses Raumes.",
     "entry": "Eintrag ",
     "executive-moderator-role": "Du bist ein Moderator in diesem Raum.",
     "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach Name oder Code filtern.",
