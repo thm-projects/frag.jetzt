@@ -13,15 +13,39 @@ mat-progress-spinner {
 .overlay {
   height: 100vh;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.286);
+  opacity: 0.2;
   z-index: 10;
   top: 0;
   left: 0;
   position: fixed;
 }
 
+.overlay.primary {
+  background-color: var(--primary);
+}
+
+.overlay.secondary {
+  background-color: var(--secondary);
+}
+
 mat-progress-spinner.inline-spinner {
   display: inline;
   margin-left: 0.25em;
   top: 0.115em;
+}
+
+mat-progress-spinner.primary, mat-progress-spinner.on-primary {
+  color: var(--on-primary);
+}
+
+mat-progress-spinner.primary.inline-spinner {
+  color: var(--primary);
+}
+
+mat-progress-spinner.secondary,  mat-progress-spinner.on-secondary {
+  color: var(--on-secondary);
+}
+
+mat-progress-spinner.secondary.inline-spinner {
+  color: var(--secondary);
 }

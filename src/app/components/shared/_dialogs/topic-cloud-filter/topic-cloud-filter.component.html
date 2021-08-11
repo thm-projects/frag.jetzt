@@ -67,6 +67,7 @@
              autofocus
              autocomplete="off"
              type="text"
+             (keyup)="checkForEnter($event)"
              [(ngModel)]="question">
       <button *ngIf="question"
               matSuffix

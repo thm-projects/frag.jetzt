@@ -4,6 +4,7 @@ import { TagCloudComponent } from '../../tag-cloud/tag-cloud.component';
 import { WeightClass } from './weight-class.interface';
 import { TagCloudMetaDataCount } from '../../../../services/util/tag-cloud-data.service';
 import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
+import { AppComponent } from '../../../../app.component';
 
 @Component({
   selector: 'app-cloud-configuration',
@@ -26,7 +27,7 @@ export class CloudConfigurationComponent implements OnInit {
   alphabeticalSorting: boolean;
   rotation: number;
   highestWeight: number;
-  step:number = 10;
+  step: number = 10;
   weightClasses: WeightClass[] = [
     {
       maxTagNumber: 20,
@@ -99,18 +100,19 @@ export class CloudConfigurationComponent implements OnInit {
       allowManualTagNumber: false
     },
   ];
-  MinFont:number;
-  MaxFont:number;
+  MinFont: number;
+  MaxFont: number;
 
   isTestCloud = false;
 
-  constructor(private translateService: TranslateService) { }
+  constructor(private translateService: TranslateService) {
+  }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-    this.parent.dataManager.getMetaData().subscribe((value)=>{
+    this.parent.dataManager.getMetaData().subscribe((value) => {
       if (!value) {
         return;
       }
@@ -141,20 +143,20 @@ export class CloudConfigurationComponent implements OnInit {
 
   parseArrayToJsonWeightClasses() {
     this.cloudParameters.cloudWeightSettings.forEach((element, i) => {
-       this.weightClasses[i].tagColor = element.color;
-       this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
-       this.weightClasses[i].rotationAngle = element.rotation;
-       this.weightClasses[i].maxTagNumber = (element.maxVisibleElements == -1 || element.maxVisibleElements == 0) ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
-       this.weightClasses[i].allowManualTagNumber = element.allowManualTagNumber;
+      this.weightClasses[i].tagColor = element.color;
+      this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
+      this.weightClasses[i].rotationAngle = element.rotation;
+      this.weightClasses[i].maxTagNumber = (element.maxVisibleElements == -1 || element.maxVisibleElements == 0) ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+      this.weightClasses[i].allowManualTagNumber = element.allowManualTagNumber;
     });
   }
 
   parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
       this.cloudParameters.cloudWeightSettings[i].allowManualTagNumber = element.allowManualTagNumber;
-      if(element.allowManualTagNumber == true){
+      if (element.allowManualTagNumber == true) {
         this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber == 0 ? -1 : element.maxTagNumber;
-      }else{
+      } else {
         this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = -1;
       }
       this.cloudParameters.cloudWeightSettings[i].color = element.tagColor;
@@ -167,22 +169,35 @@ export class CloudConfigurationComponent implements OnInit {
     this.parent.setCloudParameters(this.cloudParameters, false);
   }
 
-  cancel() {
+  closePanel() {
     this.parent.tagCloudDataManager.demoActive = false;
+    this.parent.drawer.close();
+    this.readMaxFont();
+    const defaultScale = AppComponent.rescale.getInitialScale();
+    if (defaultScale !== 1) {
+      AppComponent.rescale.setDefaultScale(defaultScale);
+      this.parent.updateTagCloud();
+    }
+  }
+
+  openPanel() {
+    if (AppComponent.rescale.getInitialScale() !== 1) {
+      AppComponent.rescale.setDefaultScale(1);
+    }
+  }
+
+  cancel() {
     this.parent.setCloudParameters(this.defaultCloudParameters);
     this.cloudParameters = new CloudParameters(this.defaultCloudParameters);
-    this.parent.configurationOpen = false;
     this.setStep(0);
-    this.readMaxFont();
+    this.closePanel();
   }
 
   save() {
-    this.parent.tagCloudDataManager.demoActive = false;
     this.parent.setCloudParameters(this.cloudParameters);
     this.defaultCloudParameters = new CloudParameters(this.cloudParameters);
-    this.parent.configurationOpen = false;
     this.setStep(0);
-    this.readMaxFont();
+    this.closePanel();
   }
 
   toggleExtendedView() {
@@ -217,19 +232,19 @@ export class CloudConfigurationComponent implements OnInit {
     this.step--;
   }
 
-  reset(){
+  reset() {
     this.parent.resetColorsToTheme();
-    this.parent.configurationOpen = false;
     this.cloudParameters = new CloudParameters(this.parent.currentCloudParameters);
     this.defaultCloudParameters = new CloudParameters(this.parent.currentCloudParameters);
-    this.readMaxFont();
+    this.closePanel();
   }
 
-  italicChecked(event){
+  italicChecked(event) {
     this.cloudParameters.fontStyle = event.checked === true ? 'italic' : 'normal';
     this.valueChanged();
   }
-  boldChecked(event){
+
+  boldChecked(event) {
     this.cloudParameters.fontWeight = event.checked === true ? 'bold' : 'normal';
     this.valueChanged();
   }
@@ -238,20 +253,20 @@ export class CloudConfigurationComponent implements OnInit {
     return this.cloudParameters.fontWeight === 'bold';
   }
 
-  readMaxFont(){
-    let valMax:number = this.cloudParameters.fontSizeMax;
-    let valMin:number = this.cloudParameters.fontSizeMin;
-    this.MaxFont = Math.floor(valMax/valMin);
+  readMaxFont() {
+    let valMax: number = this.cloudParameters.fontSizeMax;
+    let valMin: number = this.cloudParameters.fontSizeMin;
+    this.MaxFont = Math.floor(valMax / valMin);
   }
 
-  calcMaxFont(event,setMin:Boolean){
-    let val:number = Number(event.target.value);
-    if(val >0 && val <=10 && !setMin){
+  calcMaxFont(event, setMin: Boolean) {
+    let val: number = Number(event.target.value);
+    if (val > 0 && val <= 10 && !setMin) {
       this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * val;
       this.MaxFont = val;
       this.valueChanged();
     }
-    if(setMin){
+    if (setMin) {
       this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * this.MaxFont;
       this.valueChanged();
     }

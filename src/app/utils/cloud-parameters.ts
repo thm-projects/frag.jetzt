@@ -51,6 +51,10 @@ export class CloudParameters {
     localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
   }
 
+  static removeParameters() {
+    localStorage.removeItem('tagCloudConfiguration');
+  }
+
   fontFamily: string;
   fontStyle: string;
   fontWeight: string;
@@ -65,7 +69,6 @@ export class CloudParameters {
   delayWord: number;
   randomAngles: boolean;
   sortAlphabetically: boolean;
-  question: string;
   textTransform: CloudTextStyle;
   cloudWeightSettings: CloudWeightSettings;
 
@@ -85,7 +88,6 @@ export class CloudParameters {
       this.delayWord = obj.delayWord;
       this.randomAngles = obj.randomAngles;
       this.sortAlphabetically = obj.sortAlphabetically;
-      this.question = obj.question;
       this.textTransform = obj.textTransform;
       this.cloudWeightSettings = [
         { ...obj.cloudWeightSettings[0] },
@@ -149,7 +151,6 @@ export class CloudParameters {
     this.delayWord = 100;
     this.randomAngles = false;
     this.sortAlphabetically = false;
-    this.question = '';
     this.textTransform = CloudTextStyle.capitalized;
     this.cloudWeightSettings = [
       {

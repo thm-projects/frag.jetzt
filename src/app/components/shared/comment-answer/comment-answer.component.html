@@ -95,10 +95,7 @@
               {{ 'comment-page.grammar-check' | translate}}
               <mat-icon *ngIf="grammarChecker.isSpellchecking"
                         class="spinner-container">
-                <app-mat-spinner-overlay diameter="20"
-                                         strokeWidth="2"
-                                         [useCustomCSSColor]="true">
-                </app-mat-spinner-overlay>
+                <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
               </mat-icon>
             </button>
           </ars-col>

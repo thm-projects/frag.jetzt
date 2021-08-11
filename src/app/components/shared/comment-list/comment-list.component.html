@@ -250,10 +250,7 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<app-mat-spinner-overlay *ngIf="isLoading"
-                         overlay="true"
-                         [useCustomCSSColor]="true">
-</app-mat-spinner-overlay>
+<app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime"
