@@ -108,6 +108,10 @@ export class CreateCommentComponent implements OnInit, AfterViewInit {
           this.dialogRef.close(comment);
         }
         this.isSendingToSpacy = false;
+      }, () => {
+        comment.language = CommentLanguage.auto;
+        this.dialogRef.close(comment);
+        this.isSendingToSpacy = false;
       });
   }
 

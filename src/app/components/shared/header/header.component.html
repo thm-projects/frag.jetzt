@@ -298,7 +298,7 @@
           <button mat-menu-item
                   tabindex="0"
                   *ngIf="router.url.endsWith('/tagcloud')"
-                  routerLink="participant/room/{{shortId}}/comments">
+                  (click)="navigateQuestionBoard()">
             <mat-icon>
               forum
             </mat-icon>
@@ -420,7 +420,7 @@
       <button mat-menu-item
               *ngIf="user && router.url.endsWith('/quiz')"
               tabindex="0"
-              (click)="goBack()">
+              (click)="navigateQuestionBoard()">
         <mat-icon class="header-icons">forum</mat-icon>
         <span>{{'header.back-to-questionboard' | translate}}</span>
       </button>
@@ -475,6 +475,9 @@
 
     <button [disabled]="cookiesDisabled()"
             mat-button
+            [joyrideStep]="'optionHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="user && deviceType === 'desktop'"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label"
@@ -496,6 +499,9 @@
 
     <button [disabled]="cookiesDisabled()"
             mat-icon-button
+            [joyrideStep]="'optionHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="user && deviceType === 'mobile'"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
@@ -510,6 +516,9 @@
     <button id="login-button"
             [disabled]="cookiesDisabled()"
             mat-button
+            [joyrideStep]="'loginButtonHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="!user && deviceType === 'desktop'"
             (click)=login(false)
             aria-labelledby="login-label">
@@ -522,6 +531,9 @@
 
     <button [disabled]="cookiesDisabled()"
             mat-icon-button
+            [joyrideStep]="'loginButtonHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="!user && deviceType === 'mobile'"
             (click)=login(false)
             aria-labelledby="login-label">

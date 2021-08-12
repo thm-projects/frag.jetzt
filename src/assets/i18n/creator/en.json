@@ -340,7 +340,8 @@
     "partial-words-filter": "Filter partial words",
     "words-will-be-overwritten": "Profane words will be overwritten with '***'",
     "only-specific-language-will-be-filtered": "Only the language of the question will be filtered",
-    "partial-words-will-be-filtered": "Profane partial words will be also filtered"
+    "partial-words-will-be-filtered": "Profane partial words will be also filtered",
+    "hint": "Filter by token"
   },
   "session": {
     "a11y-description": "Enter a description of the session",
@@ -507,5 +508,9 @@
     "manual-weight-number": "Set quantity",
     "manual-weight-number-tooltip": "Quantity Limitation of this weight class",
     "manual-weight-number-note": "Limits the respective weight class to a self-defined value"
+  },
+  "token-validator": {
+    "valid": "VALID",
+    "invalid": "INVALID"
   }
 }

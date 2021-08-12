@@ -5,7 +5,10 @@
   <form (ngSubmit)="joinRoom(sessionCode.value)">
     <div fxLayout="row"
          fxLayoutAlign="center"
-         fxLayoutGap="10px">
+         fxLayoutGap="10px"
+         [joyrideStep]="'roomJoin'"
+         [stepPosition]="'top'"
+         appJoyrideTemplate>
       <mat-form-field (keyup.enter)="onEnter()">
         <input
           id="session_id-input"

@@ -158,10 +158,8 @@ mat-icon {
   justify-content: center;
 }
 
-::ng-deep.custom-color-picker {
-  opacity: 0;
-  z-index: -1;
-  cursor: pointer;
+.custom-color-picker {
+  display: none;
 }
 
 .custom-color-picker-text {
@@ -175,8 +173,8 @@ mat-icon {
   margin-right: auto;
 }
 
-::ng-deep.mat-drawer-backdrop.mat-drawer-shown {
-  display: none;
+::ng-deep .mat-drawer-backdrop {
+  opacity: 0;
 }
 
 ::ng-deep.mat-slider-track-background {
