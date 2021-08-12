@@ -1,3 +1,9 @@
+<h1 style="display: none;"
+    [joyrideStep]="'greeting'"
+    [appJoyrideTemplate]="true"
+    [stepPosition]="'center'">
+</h1>
+
 <div fxLayout="column"
      fxLayoutAlign="center"
      fxLayoutGap="20px"
@@ -33,7 +39,10 @@
   </div>
 
   <h2>
-    <span class="feedback">
+    <span class="feedback"
+          [joyrideStep]="'feedbackLink'"
+          appJoyrideTemplate
+          [stepPosition]="'top'">
       <a class="info"
          href="https://frag.jetzt/participant/room/Feedback/comments"
          target="_blank"

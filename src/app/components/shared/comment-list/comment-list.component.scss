@@ -226,6 +226,12 @@ h3 {
   transition: all 0.1s ease-in-out;
 }
 
+div.fab_add_comment {
+  width: 40px;
+  height: 40px;
+  visibility: hidden;
+}
+
 .visible {
   transform: scale(1.4);
 }

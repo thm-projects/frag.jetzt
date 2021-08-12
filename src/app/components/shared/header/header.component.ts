@@ -47,8 +47,8 @@ export class HeaderComponent implements OnInit {
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
   private _subscriptionRoomService = null;
-  toggleUserActivity=false;
-  userActivity=0;
+  toggleUserActivity = false;
+  userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
 
   constructor(public location: Location,
@@ -176,11 +176,11 @@ export class HeaderComponent implements OnInit {
       this.motdState = state;
     });
 
-    this.headerService.onActivityChange(e=>{
-      this.toggleUserActivity=e;
+    this.headerService.onActivityChange(e => {
+      this.toggleUserActivity = e;
     });
-    this.headerService.onUserChange(e=>{
-      this.userActivity=e;
+    this.headerService.onUserChange(e => {
+      this.userActivity = e;
     });
   }
 
@@ -335,7 +335,7 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'createQuestion');
   }
 
-  public navigateDeleteRoom(){
+  public navigateDeleteRoom() {
     this.eventService.broadcast('navigate', 'deleteRoom');
   }
 

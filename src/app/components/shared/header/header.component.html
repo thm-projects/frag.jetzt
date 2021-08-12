@@ -42,9 +42,6 @@
 
     <!--Topic Cloud-->
     <div class="topic-cloud-btns"
-         joyrideStep="infoHeader"
-         appJoyrideTemplate="true"
-         [stepContentParams]="{'text': 'Hallo'}"
          [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
          *ngIf="router.url.includes('tagcloud')"
          ars-flex-box>
@@ -478,6 +475,9 @@
 
     <button [disabled]="cookiesDisabled()"
             mat-button
+            [joyrideStep]="'optionHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="user && deviceType === 'desktop'"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label"
@@ -499,6 +499,9 @@
 
     <button [disabled]="cookiesDisabled()"
             mat-icon-button
+            [joyrideStep]="'optionHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="user && deviceType === 'mobile'"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
@@ -513,6 +516,9 @@
     <button id="login-button"
             [disabled]="cookiesDisabled()"
             mat-button
+            [joyrideStep]="'loginButtonHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="!user && deviceType === 'desktop'"
             (click)=login(false)
             aria-labelledby="login-label">
@@ -525,6 +531,9 @@
 
     <button [disabled]="cookiesDisabled()"
             mat-icon-button
+            [joyrideStep]="'loginButtonHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             *ngIf="!user && deviceType === 'mobile'"
             (click)=login(false)
             aria-labelledby="login-label">

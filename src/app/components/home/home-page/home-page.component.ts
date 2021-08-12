@@ -4,6 +4,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
+import { OnboardingService } from '../../../services/util/onboarding.service';
 
 @Component({
   selector: 'app-home-page',
@@ -19,12 +20,13 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
     private translateService: TranslateService,
     private eventService: EventService,
     private liveAnnouncer: LiveAnnouncer,
-    private _r: Renderer2
+    private _r: Renderer2,
+    private onboardingService: OnboardingService
   ) {
   }
 
   ngAfterContentInit(): void {
-    setTimeout( () => {
+    setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 500);
   }
@@ -43,7 +45,8 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
-  loadListener () {
+  loadListener() {
+    this.onboardingService.startDefaultTour();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('session_id-input').focus();

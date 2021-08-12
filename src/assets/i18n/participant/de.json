@@ -164,6 +164,16 @@
     "only-numbers": "Ein Raum-Code besteht aus Ziffern.",
     "please-enter": "Bitte Raum-Code eingeben."
   },
+  "joyride": {
+    "createQuestion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "createQuestionTitle": "Fragenerstellung",
+    "voting": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "votingTitle": "Fragenbewertung",
+    "commentFilter": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "commentFilterTitle": "Kommentarfilter",
+    "commentUserNumber": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "commentUserNumberTitle": "Anonymer User"
+  },
   "room-page": {
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Raum-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",

@@ -3,7 +3,10 @@
      fxlayoutgap="20px"
      fxFill>
   <app-room-join></app-room-join>
-  <button [disabled]="cookiesDisabled()"
+  <button [joyrideStep]="'createRoom'"
+          appJoyrideTemplate
+          [stepPosition]="'top'"
+          [disabled]="cookiesDisabled()"
           id="new_session-button"
           mat-flat-button
           class="new-session"

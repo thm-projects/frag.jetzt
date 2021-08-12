@@ -1,6 +1,7 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-joyride-template',
@@ -9,13 +10,19 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class JoyrideTemplateComponent implements OnInit {
 
-  @ViewChild('tempText', { static: true }) tempText: TemplateRef<any>;
+  @ViewChild('translateText', { static: true }) translateText: TemplateRef<any>;
   @ViewChild('nextButton', { static: true }) nextButton: TemplateRef<any>;
-  @ViewChild('cancelButton', { static: true }) cancelButton: TemplateRef<any>;
+  @ViewChild('prevButton', { static: true }) prevButton: TemplateRef<any>;
   @ViewChild('doneButton', { static: true }) doneButton: TemplateRef<any>;
   @ViewChild('counter', { static: true }) counter: TemplateRef<any>;
 
+  @Input() name: string;
+
+  title: string;
+  text: string;
+
   constructor(private langService: LanguageService,
+              private eventService: EventService,
               private translateService: TranslateService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -24,6 +31,12 @@ export class JoyrideTemplateComponent implements OnInit {
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.translateService.get(`joyride.${this.name}Title`).subscribe(translation => this.title = translation);
+    this.translateService.get(`joyride.${this.name}`).subscribe(translation => this.text = translation);
+  }
+
+  finish() {
+    this.eventService.broadcast('onboarding', 'finished');
   }
 
 }
