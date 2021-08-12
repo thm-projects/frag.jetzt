@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
@@ -8,16 +8,22 @@ import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { isNumeric } from 'rxjs/internal-compatibility';
 
 @Component({
   selector: 'app-bonus-token',
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss']
 })
-export class BonusTokenComponent implements OnInit {
+export class BonusTokenComponent implements OnInit, OnDestroy {
   room: Room;
   bonusTokens: BonusToken[] = [];
   lang: string;
+  private modelChanged: Subject<string> = new Subject<string>();
+  private subscription: Subscription;
+  private debounceTime = 500;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
@@ -29,11 +35,16 @@ export class BonusTokenComponent implements OnInit {
 
   ngOnInit() {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
-      this.bonusTokens = list.sort((a, b) => {
-        return (a.token > b.token) ? 1 : -1;
-      });
+      this.bonusTokens = list.sort((a, b) => (a.token > b.token) ? 1 : -1);
     });
     this.lang = localStorage.getItem('currentLang');
+    this.subscription = this.modelChanged
+      .pipe(
+        debounceTime(this.debounceTime),
+      )
+      .subscribe(value => {
+        this.inputToken(value);
+      });
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
@@ -94,5 +105,39 @@ export class BonusTokenComponent implements OnInit {
    */
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close();
+  }
+
+  inputToken(input: any) {
+    const index = this.validateTokenInput(input);
+    if(index !== -1) {
+      this.translationService.get('token-validator.valid').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    } else {
+      this.translationService.get('token-validator.invalid').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    }
+  }
+
+  validateTokenInput(input: any) {
+    let ind = -1;
+    if(input.length === 8 && isNumeric(input)) {
+      this.bonusTokens.map((c, index) => {
+        if (c.token === input) {
+          ind = index;
+        }
+      });
+    }
+    return ind;
+  }
+
+  inputChanged(event: any) {
+    event.cancelBubble = true;
+    this.modelChanged.next(event.target.value);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

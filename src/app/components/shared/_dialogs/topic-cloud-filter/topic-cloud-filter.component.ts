@@ -43,7 +43,6 @@ export class TopicCloudFilterComponent implements OnInit {
 
   question = '';
   continueFilter = 'continueWithAll';
-  selectedSource;
   comments: Comment[];
   tmpFilter: CommentFilter;
   allComments: CommentsCount;
@@ -68,13 +67,6 @@ export class TopicCloudFilterComponent implements OnInit {
               private themeService: ThemeService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
-    if (this._adminData.keywordORfulltext === KeywordOrFulltext.fulltext) {
-      this.selectedSource = KeywordsSource.fromSpacy;
-    } else if (this._adminData.keywordORfulltext === KeywordOrFulltext.keyword) {
-      this.selectedSource = KeywordsSource.fromUser;
-    } else {
-      this.selectedSource = KeywordsSource.all;
-    }
     this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
 
@@ -150,15 +142,6 @@ export class TopicCloudFilterComponent implements OnInit {
         default:
           return;
       }
-
-      if (this.selectedSource === KeywordsSource.fromSpacy) {
-        this._adminData.keywordORfulltext = KeywordOrFulltext.fulltext;
-      } else if (this.selectedSource === KeywordsSource.fromUser) {
-        this._adminData.keywordORfulltext = KeywordOrFulltext.keyword;
-      } else {
-        this._adminData.keywordORfulltext = KeywordOrFulltext.both;
-      }
-      this.topicCloudAdminService.updateLocalAdminData(this._adminData);
 
       const params = CloudParameters.currentParameters;
       params.question = this.question;

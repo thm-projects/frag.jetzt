@@ -244,8 +244,8 @@
     "a11y-cloud_download": "Copy link to session to the clipboard",
     "a11y-delete-all-comments": "Deletes all questions",
     "a11y-delete-moderator": "Delete this Moderator",
-    "a11y-delete-room": "Deletes the entered session",
-    "a11y-edit": "Opens a window with options, rename session, add description and delete session",
+    "a11y-delete-room": "Deletes the entered room",
+    "a11y-edit": "Opens a window with options, rename room, add description and delete room",
     "a11y-export-comments": "Exports all questions",
     "a11y-gavel": "Opens all questions selected by the moderator",
     "a11y-insert_comment": "Opens a window to manage questions",
@@ -273,7 +273,7 @@
     "create-content": "Create content",
     "default-content-group": "Default",
     "delete-all-comments": "Delete questions",
-    "delete-room": "Delete session",
+    "delete-room": "Delete room",
     "delete-room-description": "Delete session",
     "deleted": " deleted.",
     "description": "Description",
@@ -296,7 +296,7 @@
     "public-stream": "Questions",
     "really-delete-comments": "Do you really want to delete all questions of this session? This action cannot be undone.",
     "really-delete-comments-hint": "There are questions in this session that you marked for a bonus. Remove the stars to delete all questions.",
-    "delete-comments-alt-header": "Bonus tokens awarded",
+    "delete-comments-alt-header": "Attention! You have awarded stars.",
     "really-remove-moderator": "Do you really want to remove the following moderator?",
     "really2": "? This action cannot be undone. If you have given bonus stars, export all questions so that you can check submitted bonus tokens.",
     "reallyContent": "Do you really want to delete content ",
@@ -340,7 +340,8 @@
     "partial-words-filter": "Filter partial words",
     "words-will-be-overwritten": "Profane words will be overwritten with '***'",
     "only-specific-language-will-be-filtered": "Only the language of the question will be filtered",
-    "partial-words-will-be-filtered": "Profane partial words will be also filtered"
+    "partial-words-will-be-filtered": "Profane partial words will be also filtered",
+    "hint": "Filter by token"
   },
   "session": {
     "a11y-description": "Enter a description of the session",
@@ -507,5 +508,9 @@
     "manual-weight-number": "Set quantity",
     "manual-weight-number-tooltip": "Quantity Limitation of this weight class",
     "manual-weight-number-note": "Limits the respective weight class to a self-defined value"
+  },
+  "token-validator": {
+    "valid": "VALID",
+    "invalid": "INVALID"
   }
 }

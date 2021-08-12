@@ -243,7 +243,7 @@
     "a11y-cloud_download": "Direktlink zur Sitzung in die Zwischenablage kopieren",
     "a11y-delete-all-comments": "Löscht alle Fragen.",
     "a11y-delete-moderator": "Löscht diesen Moderator.",
-    "a11y-delete-room" : "Löscht die angegebene Sitzung.",
+    "a11y-delete-room" : "Löscht den angegebenen Raum.",
     "a11y-edit": "Öffnet ein Fenster mit den Optionen, Sitzung umbenennen, Beschreibung hinzufügen und Sitzung löschen.",
     "a11y-export-comments": "Exportiert alle Fragen.",
     "a11y-gavel": "Öffnet  das Moderations-Board.",
@@ -272,10 +272,10 @@
     "create-content": "Frage stellen",
     "default-content-group": "Standard",
     "delete-all-comments": "Fragen löschen",
-    "delete-room": "Sitzung Löschen",
+    "delete-room": "Raum löschen",
     "delete-room-description": "Sitzung löschen",
     "deleted": " gelöscht.",
-    "description": "Beschreibung",
+    "description": "Text",
     "email-error": "E-Mail-Adresse ist ungültig.",
     "export-comments": "Fragen speichern",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
@@ -295,7 +295,7 @@
     "public-stream": "Öffentliche Fragenliste",
     "really-delete-comments": "Willst du wirklich alle Fragen dieser Sitzung löschen? Die Aktion kann nicht rückgängig gemacht werden.",
     "really-delete-comments-hint": "Es gibt Fragen in dieser Sitzung, die du für einen Bonus markiert hast. Entferne die Markierungen, um alle Fragen zu löschen.",
-    "delete-comments-alt-header": "Sterne vergeben",
+    "delete-comments-alt-header": "Achtung! Du hast Sterne vergeben.",
     "really-remove-moderator": "Willst du folgenden Moderator wirklich entfernen?",
     "really2": " wirklich löschen? Die Aktion kann nicht rückgängig gemacht werden. Falls du Boni (Sterne) vergeben hast, exportiere alle Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "reallyContent": "Willst du die Frage ",
@@ -341,12 +341,13 @@
     "only-specific-language-will-be-filtered": "Nur Vulgärausdrücke in der Sprache der Frage werden gefiltert",
     "partial-words-will-be-filtered": "Vulgäre Teilwörter werden auch gefiltert",
     "keyword-from-spacy": "Stichwort von spaCy",
-    "keyword-from-questioner": "Stichwort vom Fragensteller"
+    "keyword-from-questioner": "Stichwort vom Fragensteller",
+    "hint": "Nach Token filtern"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
     "create-session": "Speichern",
-    "description": "Beschreibung",
+    "description": "Text",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung",
     "preview": "Vorschau"
@@ -509,5 +510,9 @@
     "manual-weight-number": "Anzahl Themen beschränken",
     "manual-weight-number-tooltip": "Anzahl Themen der Häufigkeitsgruppe",
     "manual-weight-number-note": "Begrenzt die Anzahl Themen einer Häufigkeitsgruppe auf den eingestellten Wert"
+  },
+  "token-validator": {
+    "valid": "VALID",
+    "invalid": "INVALID"
   }
 }
