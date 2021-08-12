@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BaseHttpService } from './base-http.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, tap, timeout } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { CURRENT_SUPPORTED_LANGUAGES, Model } from './spacy.interface';
 
-export type Language =  'de' | 'de-AT' | 'de-CH' | 'de-DE' |
-                        'en' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-US' |
-                        'fr' |
-                        'es' |
-                        'it' |
-                        'nl' | 'nl-BE' |
-                        'pt' | 'pt-BR' | 'pt-PT' |
-                        'auto';
+export type Language = 'de' | 'de-AT' | 'de-CH' | 'de-DE' |
+  'en' | 'en-AU' | 'en-CA' | 'en-GB' | 'en-US' |
+  'fr' |
+  'es' |
+  'it' |
+  'nl' | 'nl-BE' |
+  'pt' | 'pt-BR' | 'pt-PT' |
+  'auto';
 
 export interface LanguagetoolResult {
   software: {
@@ -96,7 +96,7 @@ export class LanguagetoolService extends BaseHttpService {
       case 'es':
         return 'es';
       case 'fr':
-          return 'fr';
+        return 'fr';
       case 'it':
         return 'it';
       case 'nl':
@@ -117,12 +117,15 @@ export class LanguagetoolService extends BaseHttpService {
 
   checkSpellings(text: string, language: Language): Observable<LanguagetoolResult> {
     const url = '/languagetool';
-    return this.http.get<LanguagetoolResult>(url, {
-      params: {
-        text, language
-      }
-    }).pipe(
-      catchError(this.handleError<any>('checkSpellings'))
-    );
+    return this.checkCanSendRequest('checkSpellings') || this.http
+      .get<LanguagetoolResult>(url, {
+        params: {
+          text, language
+        }
+      }).pipe(
+        tap(_ => ''),
+        timeout(500),
+        catchError(this.handleError<any>('checkSpellings'))
+      );
   }
 }

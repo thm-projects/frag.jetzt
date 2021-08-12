@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, timeout } from 'rxjs/operators';
 import { CreateCommentKeywords } from '../../utils/create-comment-keywords';
 import { DEFAULT_NOUN_LABELS, Model } from './spacy.interface';
 
@@ -50,9 +50,11 @@ export class SpacyService extends BaseHttpService {
 
   getKeywords(text: string, model: Model): Observable<SpacyKeyword[]> {
     const url = '/spacy';
-    return this.http.post<KeywordList>(url, { text, model }, httpOptions)
+    return this.checkCanSendRequest('getKeywords') || this.http
+      .post<KeywordList>(url, { text, model }, httpOptions)
       .pipe(
         tap(_ => ''),
+        timeout(500),
         catchError(this.handleError<any>('getKeywords')),
         map((elem: KeywordList) => {
           const keywordsMap = new Map<string, { lemma: string; dep: Set<string> }>();
