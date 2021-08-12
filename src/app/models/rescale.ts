@@ -1,4 +1,3 @@
-
 export class Rescale {
 
   private static isFullscreen: boolean;
@@ -12,14 +11,20 @@ export class Rescale {
   private state = 0;
 
   public static requestFullscreen() {
-    if (Rescale.isFullscreen) {return; }
+    if (Rescale.isFullscreen) {
+      return;
+    }
     Rescale.isFullscreen = true;
     document.body.requestFullscreen();
   }
 
   public static exitFullscreen() {
-    if (!Rescale.isFullscreen) {return; }
-    if (Rescale.isRescaleFullscreen) {return; }
+    if (!Rescale.isFullscreen) {
+      return;
+    }
+    if (Rescale.isRescaleFullscreen) {
+      return;
+    }
     Rescale.isFullscreen = false;
     document.exitFullscreen();
   }
@@ -50,6 +55,10 @@ export class Rescale {
 
   public scaleUndo() {
     this.setScale(this.defaultScale);
+  }
+
+  public getInitialScale() {
+    return this.cachedScale;
   }
 
   public setScale(scale: number) {
@@ -89,7 +98,7 @@ export class Rescale {
           this.toggleHeader(true);
           this.toggleFooter(true);
         }, 600);
-      break;
+        break;
       case 1:
         Rescale.requestFullscreenByRescale();
         setTimeout(() => {
@@ -99,8 +108,10 @@ export class Rescale {
         setTimeout(() => {
           this.toggleRescaler(true);
         }, 600);
-      break;
-      default: console.error('updateState, this should not happen.'); break;
+        break;
+      default:
+        console.error('updateState, this should not happen.');
+        break;
     }
   }
 

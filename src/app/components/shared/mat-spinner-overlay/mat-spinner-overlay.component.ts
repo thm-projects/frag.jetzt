@@ -9,7 +9,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { ThemePalette } from '@angular/material/core';
+
+export type SpinnerTheme = 'primary' | 'on-primary' | 'secondary' | 'on-secondary';
 
 @Component({
   selector: 'app-mat-spinner-overlay',
@@ -24,12 +25,11 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
   @Input() mode: ProgressSpinnerMode = 'indeterminate';
   @Input() strokeWidth = 10;
   @Input() overlay = false;
-  @Input() color: ThemePalette = 'primary';
   /**
    * Overrides diameter and strokeWidth settings, only possible if overlay is false
    */
   @Input() parentFontContainer: HTMLElement = null;
-  @Input() useCustomCSSColor = false;
+  @Input() color: SpinnerTheme = 'primary';
 
   constructor(private element: ElementRef<HTMLElement>,
               private renderer2: Renderer2) {
@@ -53,7 +53,7 @@ export class MatSpinnerOverlayComponent implements OnInit, AfterViewInit {
       return;
     }
     this.renderer2.setStyle(svg[0], 'position', 'static');
-    if (this.useCustomCSSColor && svg[0].firstElementChild) {
+    if (svg[0].firstElementChild) {
       this.renderer2.setStyle(svg[0].firstElementChild, 'stroke', 'currentColor', RendererStyleFlags2.Important);
     }
   }

@@ -143,14 +143,18 @@ export class TopicCloudFilterComponent implements OnInit {
           return;
       }
 
-      const params = CloudParameters.currentParameters;
-      params.question = this.question;
-      CloudParameters.currentParameters = params;
+      localStorage.setItem('tag-cloud-question', this.question);
 
       CommentFilter.currentFilter = filter;
 
       this.dialogRef.close(this.router.navigateByUrl(this.target));
     };
+  }
+
+  checkForEnter(e: KeyboardEvent) {
+    if (e.key === 'Enter') {
+      this.confirmButtonActionCallback()();
+    }
   }
 
   private isUpdatable(): boolean {

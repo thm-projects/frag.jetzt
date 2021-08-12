@@ -94,6 +94,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         this.keywords = [];
         this.keywordsOriginal = [];
         this.hasKeywordsFromSpacy = false;
+        this.isLoading = false;
       }, () => {
         this.isLoading = false;
       });

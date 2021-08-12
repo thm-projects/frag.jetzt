@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <div fxLayout="row" fxLayoutAlign="center center" fxFill>
-    <app-mat-spinner-overlay *ngIf="isLoading" [useCustomCSSColor]="true"></app-mat-spinner-overlay>
+    <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
   </div>
   <div *ngIf="!isLoading">
     <mat-accordion hideToggle>

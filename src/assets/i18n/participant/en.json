@@ -173,6 +173,16 @@
     "only-numbers": "A key is a combination of digits.",
     "please-enter": "Please enter a session key"
   },
+  "joyride": {
+    "createQuestion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "createQuestionTitle": "Create questions",
+    "voting": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "votingTitle": "Question rating",
+    "commentFilter": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "commentFilterTitle": "Comment filter",
+    "commentUserNumber": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "commentUserNumberTitle": "Anonym user"
+  },
   "room-page": {
     "a11y-announcer": "You are now in the session with the key you entered.",
     "a11y-question_answer": "Opens the page where you can ask questions and vote up or down other questions.",

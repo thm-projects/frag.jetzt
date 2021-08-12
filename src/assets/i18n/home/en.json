@@ -163,6 +163,26 @@
     "cancel-description": "Close introduction.",
     "title": "Introduction"
   },
+  "joyride": {
+    "next": "Next",
+    "prev": "Previous",
+    "step": "{{step}} / {{total}}",
+    "done": "Finish",
+    "greeting": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "greetingTitle": "Welcome",
+    "loginButtonHeader": "Here you can log in. When you are logged in, you can manage your rooms safely without worries of data loss.",
+    "loginButtonHeaderTitle": "Account login",
+    "roomJoin": "Here you can join a room after entering a room code by clicking on 'Join meeting'.",
+    "roomJoinTitle": "Joining a meeting",
+    "createRoom": "Here you can create your own room. These are assigned to the current user. If they are not logged in, this only applies as long as the browser data remains intact.",
+    "createRoomTitle": "Create a room",
+    "introduction": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "introductionTitle": "Demo",
+    "feedbackLink": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "feedbackLinkTitle": "Feedback",
+    "optionHeader": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
+    "optionHeaderTitle": "Options"
+  },
   "login": {
     "activation-key": "Activation key",
     "cancel": "Cancel",

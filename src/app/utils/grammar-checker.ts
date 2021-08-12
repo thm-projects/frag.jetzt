@@ -114,7 +114,9 @@ export class GrammarChecker {
           commentBody.prepend(unfilteredText.slice(0, lastFound));
         }
       });
-    }, () => '', () => {
+    }, () => {
+      this.isSpellchecking = false;
+    }, () => {
       this.isSpellchecking = false;
     });
   }

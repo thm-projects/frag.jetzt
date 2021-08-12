@@ -5,6 +5,9 @@
                *ngIf="!router.url.endsWith('/quiz')">
 
     <button (click)="showDemo()"
+            [joyrideStep]="'introduction'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             aria-labelledby="demo-label"
             class="focus_button"
             mat-button>

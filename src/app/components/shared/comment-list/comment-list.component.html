@@ -36,6 +36,9 @@
   </button>
 
   <div class="button-bar"
+       [joyrideStep]="'commentFilter'"
+       [stepPosition]="'bottom'"
+       appJoyrideTemplate
        fxLayoutAlign="center center">
     <div *ngIf="comments && commentsFilteredByTime.length > 0">
       <h3 class="counter"
@@ -240,6 +243,12 @@
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
+<div class="fab_add_comment"
+     [joyrideStep]="'createQuestion'"
+     [stepPosition]="'center'"
+     appJoyrideTemplate>
+</div>
+
 <button *ngIf="commentsEnabled"
         mat-fab
         mat-icon-button
@@ -250,13 +259,11 @@
   <mat-icon>add</mat-icon>
 </button>
 
-<app-mat-spinner-overlay *ngIf="isLoading"
-                         overlay="true"
-                         [useCustomCSSColor]="true">
-</app-mat-spinner-overlay>
+<app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime"
+  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
+               [usesJoyride]="i === 0"
                [comment]="current"
                [parseVote]="getVote(current)"
                [userRole]="userRole"

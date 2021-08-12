@@ -173,8 +173,8 @@ mat-icon {
   margin-right: auto;
 }
 
-::ng-deep.mat-drawer-backdrop.mat-drawer-shown {
-  display: none;
+::ng-deep .mat-drawer-backdrop {
+  opacity: 0;
 }
 
 ::ng-deep.mat-slider-track-background {

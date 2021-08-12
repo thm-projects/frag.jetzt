@@ -30,6 +30,7 @@ import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
 import { Theme } from '../../../../theme/Theme';
+import { MatDrawer } from '@angular/material/sidenav';
 
 class CustomPosition implements Position {
   left: number;
@@ -74,6 +75,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
+  @ViewChild(MatDrawer) drawer: MatDrawer;
+
   @Input() user: User;
   @Input() roomId: string;
   room: Room;
@@ -93,7 +96,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   };
   userRole: UserRole;
   data: TagComment[] = [];
-  configurationOpen = false;
   isLoading = true;
   headerInterface = null;
   themeSubscription = null;
@@ -105,7 +107,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _calcCanvas: HTMLCanvasElement = null;
   private _calcRenderContext: CanvasRenderingContext2D = null;
   private _calcFont: string = null;
-  private readonly _smartDebounce = new SmartDebounce(1, 1_000);
+  private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private _currentTheme: Theme;
 
   constructor(private commentService: CommentService,
@@ -128,7 +130,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.translateService.use(lang);
     });
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
-    this.question = this._currentSettings.question;
+    this.question = localStorage.getItem('tag-cloud-question');
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
   }
@@ -150,7 +152,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       if (e === 'createQuestion') {
         this.createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
-        this.configurationOpen = !this.configurationOpen;
+        if (this.drawer.opened) {
+          this.drawer.close();
+        } else {
+          this.drawer.open();
+        }
       } else if (e === 'topicCloudAdministration') {
         this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
@@ -159,6 +165,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             user: this.user
           }
         });
+      } else if (e === 'questionBoard') {
+        this.router.navigate(['../'], { relativeTo: this.route });
       }
     });
     this.dataManager.getData().subscribe(data => {
@@ -265,7 +273,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   resetColorsToTheme() {
     const param = new CloudParameters();
     param.resetToDefault(this._currentTheme.isDark);
-    this.setCloudParameters(param, true);
+    this.setCloudParameters(param, false);
+    CloudParameters.removeParameters();
   }
 
   onResize(event: UIEvent): any {

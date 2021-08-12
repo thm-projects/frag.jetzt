@@ -30,7 +30,7 @@ import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
-import {ActiveUserService} from '../../../services/http/active-user.service';
+import { ActiveUserService } from '../../../services/http/active-user.service';
 
 export interface CommentListData {
   comments: Comment[];
