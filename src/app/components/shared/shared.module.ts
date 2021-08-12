@@ -41,7 +41,10 @@ import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.co
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ActiveUserComponent } from './overlay/active-user/active-user.component';
 import { AutofocusDirective } from '../../directives/autofocus.directive';
+import { JoyrideModule } from 'ngx-joyride';
 import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-template.component';
+import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 
 @NgModule({
@@ -55,7 +58,8 @@ import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-ov
     QRCodeModule,
     TagCloudModule,
     ColorPickerModule,
-    DragDropModule
+    DragDropModule,
+    JoyrideModule.forChild()
   ],
   declarations: [
     RoomJoinComponent,
@@ -91,6 +95,8 @@ import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-ov
     ActiveUserComponent,
     WorkerDialogComponent,
     AutofocusDirective,
+    JoyrideTemplateComponent,
+    JoyrideTemplateDirective,
     MatSpinnerOverlayComponent
   ],
   exports: [

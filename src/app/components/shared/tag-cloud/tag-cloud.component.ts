@@ -29,6 +29,8 @@ import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/uti
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
+import { JoyrideOptions } from 'ngx-joyride/lib/models/joyride-options.class';
+import { JoyrideService } from 'ngx-joyride';
 import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 
@@ -124,7 +126,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
               private topicCloudAdmin: TopicCloudAdminService,
               private router: Router,
               public dataManager: TagCloudDataService,
-              private wsRoomService: WsRoomService) {
+              private wsRoomService: WsRoomService,
+              private jorideService: JoyrideService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -227,6 +230,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     setTimeout(() => this.dataManager.bindToRoom(this.roomId, this.userRole));
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
+    setTimeout(() => {
+      this.jorideService.startTour({
+        steps: ['infoHeader', 'hallo123'],
+        logsEnabled: true,
+        stepDefaultPosition: 'center'
+      });
+    }, 10_000);
   }
 
   ngOnDestroy() {

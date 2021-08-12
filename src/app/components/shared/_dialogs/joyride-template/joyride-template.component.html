@@ -1,0 +1,22 @@
+<ng-template #tempText let-text="text">
+  <h1>Dies ist ein Test!</h1>
+  {{text}}
+</ng-template>
+<ng-template #nextButton>
+  <button mat-button style="color: var(--on-primary); background-color: var(--primary);">
+    {{'content.continue' | translate}}
+  </button>
+</ng-template>
+<ng-template #cancelButton>
+  <button mat-button style="color: var(--on-secondary); background-color: var(--secondary);">
+    {{'content.cancel' | translate}}
+  </button>
+</ng-template>
+<ng-template #doneButton>
+  <button mat-button style="color: var(--on-secondary); background-color: var(--secondary);">
+    {{'content.cancel' | translate}}
+  </button>
+</ng-template>
+<ng-template #counter let-step="step" let-total="total">
+  {{ step }} of {{ total }} steps
+</ng-template>
