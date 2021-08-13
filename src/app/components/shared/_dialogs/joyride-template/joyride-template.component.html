@@ -1,14 +1,14 @@
-<ng-template #translateText>
+<ng-template #translateText class="textContainer">
   <h3 *ngIf="title">{{title}}</h3>
   {{text}}
 </ng-template>
 <ng-template #nextButton>
-  <button mat-button class="joy-primary">
+  <button mat-button class="joy-primary" (click)="handle($event, 1)">
     {{'joyride.next' | translate}}
   </button>
 </ng-template>
 <ng-template #prevButton>
-  <button mat-button class="joy-secondary">
+  <button mat-button class="joy-secondary" (click)="handle($event, -1)">
     {{'joyride.prev' | translate}}
   </button>
 </ng-template>

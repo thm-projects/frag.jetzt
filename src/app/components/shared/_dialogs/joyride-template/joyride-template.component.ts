@@ -2,6 +2,8 @@ import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core'
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { EventService } from '../../../../services/util/event.service';
+import { OnboardingService } from '../../../../services/util/onboarding.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-joyride-template',
@@ -23,7 +25,9 @@ export class JoyrideTemplateComponent implements OnInit {
 
   constructor(private langService: LanguageService,
               private eventService: EventService,
-              private translateService: TranslateService) {
+              private router: Router,
+              private translateService: TranslateService,
+              private onboardingService: OnboardingService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -37,6 +41,14 @@ export class JoyrideTemplateComponent implements OnInit {
 
   finish() {
     this.eventService.broadcast('onboarding', 'finished');
+  }
+
+  handle(e: MouseEvent, dir: number) {
+    if (this.onboardingService.doStep(dir)) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    return false;
   }
 
 }

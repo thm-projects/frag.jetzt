@@ -1,6 +1,6 @@
 <h1 style="display: none;"
     [joyrideStep]="'greeting'"
-    [appJoyrideTemplate]="true"
+    appJoyrideTemplate
     [stepPosition]="'center'">
 </h1>
 
@@ -53,6 +53,7 @@
   </h2>
 
   <button id="live_announcer-button"
+          autofocus
           tabIndex="-1"
           (click)="announce()"
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>

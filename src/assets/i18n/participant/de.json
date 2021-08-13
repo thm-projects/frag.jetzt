@@ -165,6 +165,10 @@
     "please-enter": "Bitte Raum-Code eingeben."
   },
   "joyride": {
+    "next": "Weiter",
+    "prev": "Zurück",
+    "step": "{{step}} / {{total}}",
+    "done": "Fertig",
     "createQuestion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
     "createQuestionTitle": "Fragenerstellung",
     "voting": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
