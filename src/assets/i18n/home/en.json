@@ -107,7 +107,8 @@
     "update-spacy-keywords": "Add keywords",
     "overview-admin-config-enabled": "Themes requirement active",
     "quiz-now": "Quizzing",
-    "moderation-warning": "Moderation board with unreleased questions"
+    "moderation-warning": "Moderation board with unreleased questions",
+    "tour": "Tour"
   },
   "help": {
     "cancel": "Close",

@@ -1,6 +1,8 @@
 <ng-template #translateText class="textContainer">
-  <h3 *ngIf="title">{{title}}</h3>
-  {{text}}
+  <div id="joyrideScrollContainer">
+    <h3 *ngIf="title">{{title}}</h3>
+    {{text}}
+  </div>
 </ng-template>
 <ng-template #nextButton>
   <button mat-button class="joy-primary" (click)="handle($event, 1)">
