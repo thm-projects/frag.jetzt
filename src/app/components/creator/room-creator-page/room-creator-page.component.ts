@@ -31,6 +31,9 @@ import {RoomDeleteComponent} from '../_dialogs/room-delete/room-delete.component
 import {RoomDeleted} from '../../../models/events/room-deleted';
 import {ProfanitySettingsComponent} from '../_dialogs/profanity-settings/profanity-settings.component';
 import {RoomDescriptionSettingsComponent} from '../_dialogs/room-description-settings/room-description-settings.component';
+import {ModeratorDeleteComponent} from '../_dialogs/moderator-delete/moderator-delete.component';
+import {ModeratorCommentPageComponent} from '../../moderator/moderator-comment-page/moderator-comment-page.component';
+import {ModeratorCommentListComponent} from '../../moderator/moderator-comment-list/moderator-comment-list.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -86,11 +89,16 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     nav('topicCloud', () => this.showTagCloud());
     nav('exportQuestions', () => this.exportQuestions());
     nav('deleteQuestions', () => this.deleteQuestions());
+    nav('moderatorSettings', () => this.navigateModeratorSettings());
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
         navigation[e]();
       }
     });
+  }
+
+  navigateModeratorSettings(){
+    this.showCommentsDialog();
   }
 
   toggleProfanityFilter(){
