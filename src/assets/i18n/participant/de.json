@@ -118,6 +118,8 @@
     "fullscreen": "Die Frage wurde beantwortet oder kommentiert. Klick auf das Symbol für die Ansicht.",
     "abort": "Abbrechen",
     "ask-question-description": "Gib hier deine Frage ein!",
+    "save-answer": "Speichern",
+    "delete-answer": "Löschen",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",

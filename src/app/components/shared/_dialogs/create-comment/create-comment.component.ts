@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -16,10 +16,7 @@ import { GrammarChecker } from '../../../../utils/grammar-checker';
   templateUrl: './create-comment.component.html',
   styleUrls: ['./create-comment.component.scss']
 })
-export class CreateCommentComponent implements OnInit, AfterViewInit {
-
-  @ViewChild('langSelect') langSelect: ElementRef<HTMLDivElement>;
-  @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
+export class CreateCommentComponent implements OnInit {
 
   comment: Comment;
   user: User;
@@ -35,7 +32,6 @@ export class CreateCommentComponent implements OnInit, AfterViewInit {
     public dialogRef: MatDialogRef<CommentListComponent>,
     private translateService: TranslateService,
     public dialog: MatDialog,
-    private translationService: TranslateService,
     public languagetoolService: LanguagetoolService,
     public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -46,10 +42,6 @@ export class CreateCommentComponent implements OnInit, AfterViewInit {
     this.translateService.use(localStorage.getItem('currentLang'));
   }
 
-  ngAfterViewInit() {
-    this.grammarChecker.initBehavior(() => this.commentBody.nativeElement, () => this.langSelect.nativeElement);
-  }
-
   onNoClick(): void {
     this.dialogRef.close();
   }
@@ -57,7 +49,7 @@ export class CreateCommentComponent implements OnInit, AfterViewInit {
   checkInputData(body: string): boolean {
     body = body.trim();
     if (!body) {
-      this.translationService.get('comment-page.error-comment').subscribe(message => {
+      this.translateService.get('comment-page.error-comment').subscribe(message => {
         this.notification.show(message);
       });
       return false;
@@ -115,17 +107,11 @@ export class CreateCommentComponent implements OnInit, AfterViewInit {
       });
   }
 
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
   buildCloseDialogActionCallback(): () => void {
     return () => this.onNoClick();
   }
 
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildCreateCommentActionCallback(text: HTMLDivElement): () => void {
-    return () => this.closeDialog(text.innerText);
+  buildCreateCommentActionCallback(): (string) => void {
+    return (text: string) => this.closeDialog(text);
   }
 }
