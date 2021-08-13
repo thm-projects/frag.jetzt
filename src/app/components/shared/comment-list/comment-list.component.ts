@@ -102,6 +102,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentsEnabled: boolean;
   userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
+  isJoyrideActive = false;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -275,7 +276,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
               this.comments = comments;
               this.getComments();
               this.eventService.broadcast('commentListCreated', null);
-              this.onboardingService.startDefaultTour();
+              this.isJoyrideActive = this.onboardingService.startDefaultTour();
             });
             this.subscribeCommentStream();
           });

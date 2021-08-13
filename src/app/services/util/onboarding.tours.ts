@@ -51,6 +51,11 @@ export const initDefaultTour = (authenticationService: AuthenticationService,
           authenticationService.logout();
         }
       }
+    },
+    voting: {
+      beforeLoad: () => {
+        document.getElementById('scroll_container').scrollTop = 0;
+      }
     }
   },
   doneAction: (_) => {

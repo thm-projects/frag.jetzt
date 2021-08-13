@@ -26,8 +26,9 @@ export class OnboardingService {
               private router: Router) {
   }
 
-  startDefaultTour() {
-    this.startOnboardingTour(initDefaultTour(this.authenticationService, this.dataStoreService, this.router));
+  startDefaultTour(ignoreDone = false): boolean {
+    return this.startOnboardingTour(
+      initDefaultTour(this.authenticationService, this.dataStoreService, this.router), ignoreDone);
   }
 
   doStep(stepDirection: number): boolean {
@@ -62,21 +63,29 @@ export class OnboardingService {
     return false;
   }
 
-  private startOnboardingTour(tour: OnboardingTour) {
+  private startOnboardingTour(tour: OnboardingTour, ignoreDone = false): boolean {
     if (this._activeTour) {
       this.cleanup();
-      return;
+      return false;
+    }
+    if (ignoreDone) {
+      this.dataStoreService.remove('onboarding_' + tour.name);
     }
     const tourInfo = JSON.parse(this.dataStoreService.get('onboarding_' + tour.name));
     if (tourInfo && tourInfo.state !== 'running') {
-      return;
+      return false;
     }
     AppComponent.rescale.setDefaultScale(1);
+    this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
+    const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
+    if (firstStepRoute.length > 1 && !this.router.url.endsWith('/' + firstStepRoute[1])) {
+      this.router.navigate([firstStepRoute[1]]);
+      return false;
+    }
     this._activeTour = tour;
     if (!tourInfo && this._activeTour.startupAction) {
       this._activeTour.startupAction();
     }
-    this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
     this.emulateWalkthrough();
     this._tourSubscription = this.joyrideService.startTour({
       steps: tour.tour,
@@ -86,6 +95,7 @@ export class OnboardingService {
     }).subscribe(step => this.afterStepMade(step));
     this._eventServiceSubscription = this.eventService.on<string>('onboarding')
       .subscribe(action => this.checkTourEnding(action));
+    return true;
   }
 
   private afterStepMade(step: JoyrideStepInfo) {
@@ -131,7 +141,7 @@ export class OnboardingService {
         lastTourObject.afterUnload(true);
       }
       if (currentTourObject && currentTourObject.afterLoad) {
-        lastTourObject.afterLoad(true);
+        currentTourObject.afterLoad(true);
       }
       lastTourObject = currentTourObject;
     }

@@ -1,3 +1,5 @@
+$joyrideElementPadding: 5px;
+
 app-comment {
   overflow: auto;
   overflow-wrap: break-word;
@@ -115,6 +117,11 @@ app-comment {
   margin-right: 2%;
 }
 
+.button-bar.joyrideActive {
+  padding: 15px;
+  margin: unset;
+}
+
 .correct-icon {
   color: var(--green);
 }
@@ -226,11 +233,12 @@ h3 {
   transition: all 0.1s ease-in-out;
 }
 
-div.fab_add_comment {
-  width: 56px;
-  height: 56px;
-  right: 6px;
-  bottom: 46px;
+#createCommentJoyrideWrapper {
+  position: fixed;
+  width: 56px + 2 * $joyrideElementPadding;
+  height: 56px + 2 * $joyrideElementPadding;
+  right: 17px - $joyrideElementPadding;
+  bottom: 57px - $joyrideElementPadding;
   visibility: hidden;
 }
 

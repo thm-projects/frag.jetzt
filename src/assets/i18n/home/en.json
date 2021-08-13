@@ -49,6 +49,7 @@
   "header": {
     "abort": "Cancel",
     "accessibility-back": "Go back to the previous page",
+    "accessibility-tour": "Starts the onboarding tour",
     "accessibility-login": "Open the login window",
     "accessibility-session": "Open the session menu. Here you can view the sessions you have attended or leave the current session.",
     "account-deleted": "Your account has been deleted.",
