@@ -347,6 +347,10 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'editSessionDescription');
   }
 
+  public navigateModeratorSettings() {
+    this.eventService.broadcast('navigate', 'moderatorSettings');
+  }
+
   public navigateTopicCloud() {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
       autoFocus: false

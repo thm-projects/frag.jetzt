@@ -241,9 +241,9 @@
               </button>
 
               <button mat-menu-item
+                      (click)="navigateModeratorSettings()"
                       *ngIf="user"
-                      tabindex="0"
-                      routerLink="moderator/room/{{shortId}}/moderator/comments">
+                      tabindex="0">
                 <mat-icon class="gavel">visibility_off</mat-icon>
                 <span>{{'header.moderation-mode' | translate}}</span>
               </button>
