@@ -62,6 +62,7 @@
   "header": {
     "abort": "Abbrechen",
     "accessibility-back": "Führt zur vorherigen Seite",
+    "accessibility-tour": "Startet die Onboarding Tour",
     "accessibility-login": "Öffnet das Anmeldungs-Fenster.",
     "accessibility-session": "Öffnet das Options-Menü. Hier kannst du deine besuchten Sitzungen einsehen oder die aktuelle Sitzung verlassen.",
     "account-deleted": "Dein Konto wurde gelöscht.",

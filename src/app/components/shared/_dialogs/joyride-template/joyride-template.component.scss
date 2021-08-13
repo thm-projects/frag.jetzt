@@ -57,6 +57,10 @@
       stroke: var(--on-dialog);
     }
   }
+
+  .joyride-step__body {
+    hyphens: auto;
+  }
 }
 
 .joy-primary {

@@ -31,6 +31,7 @@ import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
+import { OnboardingService } from '../../../services/util/onboarding.service';
 
 export interface CommentListData {
   comments: Comment[];
@@ -101,6 +102,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentsEnabled: boolean;
   userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
+  isJoyrideActive = false;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -126,7 +128,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private topicCloudAdminService: TopicCloudAdminService,
     private roomDataService: RoomDataService,
     private wsRoomService: WsRoomService,
-    private activeUserService: ActiveUserService
+    private activeUserService: ActiveUserService,
+    private onboardingService: OnboardingService
   ) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
@@ -273,6 +276,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
               this.comments = comments;
               this.getComments();
               this.eventService.broadcast('commentListCreated', null);
+              this.isJoyrideActive = this.onboardingService.startDefaultTour();
             });
             this.subscribeCommentStream();
           });

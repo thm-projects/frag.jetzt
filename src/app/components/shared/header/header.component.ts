@@ -28,6 +28,7 @@ import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.c
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { HeaderService } from '../../../services/util/header.service';
+import { OnboardingService } from '../../../services/util/onboarding.service';
 
 @Component({
   selector: 'app-header',
@@ -66,7 +67,8 @@ export class HeaderComponent implements OnInit {
               private roomService: RoomService,
               private wsRoomService: WsRoomService,
               private topicCloudAdminService: TopicCloudAdminService,
-              private headerService: HeaderService
+              private headerService: HeaderService,
+              private onboardingService: OnboardingService
   ) {
   }
 
@@ -231,6 +233,9 @@ export class HeaderComponent implements OnInit {
     this.location.back();
   }
 
+  startTour() {
+    this.onboardingService.startDefaultTour(true);
+  }
 
   login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {

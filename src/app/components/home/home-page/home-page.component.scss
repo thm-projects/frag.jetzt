@@ -32,6 +32,11 @@
   font-size: 60%;
   text-align: center;
   color: var(--on-background);
+
+  > a {
+    padding: 5px;
+    display: inline;
+  }
 }
 
 @keyframes moveInLeft {

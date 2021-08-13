@@ -1,6 +1,6 @@
 <h1 style="display: none;"
     [joyrideStep]="'greeting'"
-    [appJoyrideTemplate]="true"
+    appJoyrideTemplate
     [stepPosition]="'center'">
 </h1>
 
@@ -39,11 +39,11 @@
   </div>
 
   <h2>
-    <span class="feedback"
-          [joyrideStep]="'feedbackLink'"
-          appJoyrideTemplate
-          [stepPosition]="'top'">
-      <a class="info"
+    <span class="feedback">
+      <a [joyrideStep]="'feedbackLink'"
+         appJoyrideTemplate
+         [stepPosition]="'top'"
+         class="info"
          href="https://frag.jetzt/participant/room/Feedback/comments"
          target="_blank"
          aria-labelledby="feedback-aria">{{ 'login.welcome-feedback' | translate }}
@@ -53,6 +53,7 @@
   </h2>
 
   <button id="live_announcer-button"
+          autofocus
           tabIndex="-1"
           (click)="announce()"
           class="visually-hidden">{{ 'home-page.live-announcer' | translate }}</button>

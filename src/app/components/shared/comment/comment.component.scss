@@ -232,6 +232,10 @@ mat-card-content > :first-child {
   color: var(--on-surface);
 }
 
+.user-number.joyrideActive {
+  padding: 5px;
+}
+
 .commentExpanderButton {
   color: var(--on-surface);
 }
