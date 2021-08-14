@@ -46,7 +46,7 @@ export const highcontrast_meta = {
   isDark: true,
   availableOnMobile: true,
   order: 0,
-  scale_desktop: 1.2,
+  scale_desktop: 1,
   scale_mobile: 1,
   previewColor: 'secondary',
 
