@@ -120,7 +120,8 @@
     "update-spacy-keywords": "Fragen analysieren",
     "overview-admin-config-enabled": "Themeneinschränkung aktiv",
     "quiz-now": "Quizzen",
-    "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen"
+    "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen",
+    "tour": "Tour"
   },
   "help": {
     "cancel": "Schließen",

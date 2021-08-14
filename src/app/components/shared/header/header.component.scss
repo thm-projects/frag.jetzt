@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
 .app-title {
   cursor: pointer;
   margin: 0 auto;
@@ -189,4 +187,20 @@ h1 {
   color: var(--primary);
   margin-left: 5px;
   font-size: 14px;
+}
+
+.focus_button {
+  min-height: 28px;
+  font-size: 12px;
+  padding: unset;
+  color: var(--on-surface);
+
+  &:focus {
+    background: var(--on-surface);
+    color: var(--background);
+
+    mat-icon {
+      color: var(--background);
+    }
+  }
 }
