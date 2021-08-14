@@ -11,11 +11,15 @@
     </button>
 
     <button id="tour-button"
-            mat-icon-button
+            mat-button
             aria-labelledby="tour-label"
+            class="focus_button"
             *ngIf="router.url.endsWith('/home')"
             (click)="startTour()">
-      <mat-icon class="header-icons">tour</mat-icon>
+      <mat-icon class="header-icons">flag</mat-icon>
+      <span *ngIf="deviceType === 'desktop'">
+        {{ 'header.tour' | translate }}
+      </span>
     </button>
 
     <ng-container *ngIf="toggleUserActivity">
