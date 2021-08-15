@@ -169,7 +169,6 @@
     "send-description": "Send question",
     "tag": "Tag",
     "tag-reset": "Reset",
-    "comments": "moderator mode",
     "tag-to-filter": "Click on the question category to filter questions in that category.",
     "user-number": "Click on the number to filter the questions from this anonymous questioner.",
     "keywords-per-question": "Click to display the keywords that have been entered for the question.",
