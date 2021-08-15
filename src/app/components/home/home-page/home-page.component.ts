@@ -1,20 +1,22 @@
-import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, Renderer2, AfterViewInit } from '@angular/core';
 import { EventService } from '../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss']
 })
-export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
+export class HomePageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   deviceType: string;
   listenerFn: () => void;
+  private _eventServiceSubscription: Subscription;
 
   constructor(
     private translateService: TranslateService,
@@ -23,12 +25,6 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
     private _r: Renderer2,
     private onboardingService: OnboardingService
   ) {
-  }
-
-  ngAfterContentInit(): void {
-    setTimeout(() => {
-      document.getElementById('live_announcer-button').focus();
-    }, 500);
   }
 
   ngOnInit() {
@@ -45,8 +41,22 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
     }
   }
 
+  ngAfterViewInit() {
+    if (localStorage.getItem('dataProtectionConsent') === 'true') {
+      this.onboardingService.startDefaultTour();
+    } else {
+      this._eventServiceSubscription = this.eventService.on<boolean>('dataProtectionConsentUpdate')
+        .subscribe(b => {
+          if (b) {
+            this._eventServiceSubscription.unsubscribe();
+            this._eventServiceSubscription = null;
+            this.onboardingService.startDefaultTour();
+          }
+        });
+    }
+  }
+
   loadListener() {
-    this.onboardingService.startDefaultTour();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('session_id-input').focus();
@@ -68,6 +78,9 @@ export class HomePageComponent implements OnInit, OnDestroy, AfterContentInit {
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
+    if (this._eventServiceSubscription) {
+      this._eventServiceSubscription.unsubscribe();
+    }
   }
 
   public announce() {

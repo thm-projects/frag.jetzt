@@ -36,6 +36,7 @@
   </button>
 
   <div class="button-bar"
+       [ngClass]="{'joyrideActive': isJoyrideActive}"
        [joyrideStep]="'commentFilter'"
        [stepPosition]="'bottom'"
        appJoyrideTemplate
@@ -243,7 +244,7 @@
   <mat-icon>arrow_upward</mat-icon>
 </button>
 
-<div class="fab_add_comment"
+<div id="createCommentJoyrideWrapper"
      [joyrideStep]="'createQuestion'"
      [stepPosition]="'center'"
      appJoyrideTemplate>

@@ -49,6 +49,7 @@
   "header": {
     "abort": "Cancel",
     "accessibility-back": "Go back to the previous page",
+    "accessibility-tour": "Starts the onboarding tour",
     "accessibility-login": "Open the login window",
     "accessibility-session": "Open the session menu. Here you can view the sessions you have attended or leave the current session.",
     "account-deleted": "Your account has been deleted.",
@@ -106,7 +107,8 @@
     "update-spacy-keywords": "Add keywords",
     "overview-admin-config-enabled": "Themes requirement active",
     "quiz-now": "Quizzing",
-    "moderation-warning": "Moderation board with unreleased questions"
+    "moderation-warning": "Moderation board with unreleased questions",
+    "tour": "Tour"
   },
   "help": {
     "cancel": "Close",

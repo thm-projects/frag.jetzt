@@ -27,7 +27,7 @@
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 35%">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 40px">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
@@ -41,7 +41,7 @@
 
         <!-- Session ID column -->
         <ng-container matColumnDef="shortId" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 30%">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
@@ -53,7 +53,7 @@
 
         <!-- Role column -->
         <ng-container matColumnDef="role" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 15%">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
@@ -76,10 +76,10 @@
 
         <!-- Join button column -->
         <ng-container matColumnDef="button">
-          <th mat-header-cell *matHeaderCellDef style="width: 20%; text-align: end">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
-          <td mat-cell *matCellDef="let room" style="text-align: end"
+          <td mat-cell *matCellDef="let room" style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
             <button mat-icon-button [matMenuTriggerFor]="moreActions">
               <mat-icon>more_vert</mat-icon>

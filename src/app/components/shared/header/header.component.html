@@ -1,6 +1,5 @@
 <mat-toolbar class="mat-elevation-z2">
   <mat-toolbar-row
-
     [ngClass]="{'mat-toolbar-moderation': router.url.endsWith('/moderator/comments')}">
 
     <button id="back-button"
@@ -9,6 +8,18 @@
             *ngIf="router.url !== '/home'"
             (click)="goBack()">
       <mat-icon class="header-icons">arrow_back</mat-icon>
+    </button>
+
+    <button id="tour-button"
+            mat-button
+            aria-labelledby="tour-label"
+            class="focus_button"
+            *ngIf="router.url.endsWith('/home')"
+            (click)="startTour()">
+      <mat-icon class="header-icons">flag</mat-icon>
+      <span *ngIf="deviceType === 'desktop'">
+        {{ 'header.tour' | translate }}
+      </span>
     </button>
 
     <ng-container *ngIf="toggleUserActivity">
@@ -545,5 +556,6 @@
 <div class="visually-hidden">
   <div id="login-label">{{'header.accessibility-login' | translate}}</div>
   <div id="back-label">{{'header.accessibility-back' | translate}}</div>
+  <div id="tour-label">{{'header.accessibility-tour' | translate}}</div>
   <div id="session-label">{{'header.accessibility-session' | translate}}</div>
 </div>

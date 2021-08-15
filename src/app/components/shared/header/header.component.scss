@@ -188,3 +188,19 @@ h1 {
   margin-left: 5px;
   font-size: 14px;
 }
+
+.focus_button {
+  min-height: 28px;
+  font-size: 16px;
+  padding: unset;
+  color: var(--on-surface);
+
+  &:focus {
+    background: var(--on-surface);
+    color: var(--background);
+
+    mat-icon {
+      color: var(--background);
+    }
+  }
+}

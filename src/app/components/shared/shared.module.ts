@@ -117,7 +117,8 @@ import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-ov
     TagCloudPopUpComponent,
     ActiveUserComponent,
     MatSpinnerOverlayComponent,
-    JoyrideTemplateDirective
+    JoyrideTemplateDirective,
+    AutofocusDirective
   ]
 })
 export class SharedModule {

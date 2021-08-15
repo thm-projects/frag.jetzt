@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angula
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-cookies',
@@ -18,7 +19,10 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
 
-  constructor(private dialog: MatDialog, private dialogRef: MatDialogRef<CookiesComponent>, private ref: ElementRef) {
+  constructor(private dialog: MatDialog,
+              private dialogRef: MatDialogRef<CookiesComponent>,
+              private ref: ElementRef<HTMLElement>,
+              private eventService: EventService) {
   }
 
   ngOnInit() {
@@ -31,13 +35,14 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     setTimeout(() => {
-      (<HTMLElement>(<HTMLElement>this.ref.nativeElement).getElementsByClassName('mat-dialog-title')[0]).focus();
+      (this.ref.nativeElement.getElementsByClassName('mat-dialog-title')[0] as HTMLElement).focus();
     }, 500);
   }
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
     localStorage.setItem('dataProtectionConsent', 'true');
+    this.eventService.broadcast('dataProtectionConsentUpdate', true);
     this.dialogRef.close(true);
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
