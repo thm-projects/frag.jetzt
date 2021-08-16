@@ -2,6 +2,8 @@ import { AuthenticationService } from '../http/authentication.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from './data-store.service';
 import { Router } from '@angular/router';
+import { RoomService } from '../http/room.service';
+import { Observable, of, Subject } from 'rxjs';
 
 export interface OnboardingTourStepInteraction {
   beforeLoad?: (isNext: boolean) => void;
@@ -20,11 +22,22 @@ export interface OnboardingTour {
   tourActions?: OnboardingTourStepInteractionObject;
   startupAction?: () => void;
   doneAction?: (finished: boolean) => void;
+  checkIfRouteCanBeAccessed?: (route: string) => Observable<boolean>;
 }
+
+const roomChecker = (roomService: RoomService, roomUrl: string): Observable<boolean> => {
+  const index = roomUrl.indexOf('room/') + 5;
+  const shortId = roomUrl.substring(index, roomUrl.indexOf('/', index));
+  const sub = new Subject<boolean>();
+  roomService.getRoomByShortId(shortId)
+    .subscribe(room => sub.next(room != null), () => sub.next(false));
+  return sub.asObservable();
+};
 
 export const initDefaultTour = (authenticationService: AuthenticationService,
                                 dataStoreService: DataStoreService,
-                                router: Router): OnboardingTour => ({
+                                router: Router,
+                                roomService: RoomService): OnboardingTour => ({
   name: 'default',
   tour: [
     'greeting@home',
@@ -67,5 +80,11 @@ export const initDefaultTour = (authenticationService: AuthenticationService,
   },
   startupAction: () => {
     dataStoreService.set('onboarding-default-meta', String(authenticationService.isLoggedIn()));
+  },
+  checkIfRouteCanBeAccessed: (route: string) => {
+    if (route.endsWith('home')) {
+      return of(true);
+    }
+    return roomChecker(roomService, route);
   }
 });

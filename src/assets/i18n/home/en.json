@@ -170,6 +170,7 @@
     "prev": "Previous",
     "step": "{{step}} / {{total}}",
     "done": "Finish",
+    "cantAccessRoute": "This route is not available. The tour is canceled.",
     "greeting": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
     "greetingTitle": "Welcome",
     "loginButtonHeader": "Here you can log in. When you are logged in, you can manage your rooms safely without worries of data loss.",
