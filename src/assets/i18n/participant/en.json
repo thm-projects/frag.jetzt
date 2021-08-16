@@ -178,14 +178,14 @@
     "prev": "Previous",
     "step": "{{step}} / {{total}}",
     "done": "Finish",
-    "createQuestion": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
-    "createQuestionTitle": "Create questions",
-    "voting": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
-    "votingTitle": "Question rating",
-    "commentFilter": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum! Provident similique accusantium nemo autem.",
-    "commentFilterTitle": "Comment filter",
-    "commentUserNumber": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia, molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium optio, eaque rerum!",
-    "commentUserNumberTitle": "Anonym user"
+    "createQuestion": "Use the plus button to call up the editor. An AI suggests keywords for your question. These are used to create a topic cloud for the event."
+    "createQuestionTitle": "Ask a question",
+    "voting": "The audience can upvote or downvote questions, indicating their interest in the question or their agreement or disagreement with it."
+    "votingTitle": "Rate a question",
+    "commentFilter": "There are numerous sorting and filtering options for the question list. An active filter is shown in red. The question stream can also be paused for better readability when it is very dynamic."
+    "commentFilterTitle": "Manage question list",
+    "commentUserNumber": "All users ask their questions anonymously. A random number is assigned to each user in order to find all questions of that user. This is done by clicking on the number.",
+    "commentUserNumberTitle": "Find questions of a user"
   },
   "room-page": {
     "a11y-announcer": "You are now in the session with the key you entered.",
