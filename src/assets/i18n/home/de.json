@@ -169,6 +169,7 @@
     "prev": "Zurück",
     "step": "{{step}} / {{total}}",
     "done": "Fertig",
+    "cantAccessRoute": "Diese Route ist nicht verfügbar. Die Tour wird abgebrochen.",
     "greeting": "Die Tour führt dich zu den wichtigsten Stellen in unserem Audience-Response-System »frag.jetzt«. Das dauert nicht mehr als eine Minute.",
     "greetingTitle": "Willkommen!",
     "loginButtonHeader": "Nicht nötig, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern.",
