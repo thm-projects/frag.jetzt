@@ -511,6 +511,7 @@
   },
   "token-validator": {
     "valid": "VALID",
-    "invalid": "INVALID"
+    "invalid": "INVALID",
+    "cant-find-comment": "Can't find comment"
   }
 }

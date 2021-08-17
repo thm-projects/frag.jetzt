@@ -513,6 +513,7 @@
   },
   "token-validator": {
     "valid": "VALID",
-    "invalid": "INVALID"
+    "invalid": "INVALID",
+    "cant-find-comment": "Die Frage kann nicht gefunden werden"
   }
 }
