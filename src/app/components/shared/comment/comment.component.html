@@ -264,8 +264,7 @@
            tabindex="0">
         <ars-row #commentBody>
           <ars-row #commentBodyInner>
-            <markdown class="images" katex emoji lineNumbers lineHighlight
-                      [data]="comment.body"></markdown>
+            <app-custom-markdown class="images" [data]="comment.body"></app-custom-markdown>
           </ars-row>
         </ars-row>
         <span id="comment-{{ comment.id }}"

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 /**
  * Available confirm button types.
@@ -43,6 +43,11 @@ export class DialogActionButtonsComponent implements OnInit {
    * The i18n label identifier of the confirm button.
    */
   @Input() confirmButtonLabel: string;
+
+  /**
+   * The i18n label identifier of the confirm button.
+   */
+  @Input() cancelButtonLabel = 'cancel';
 
 
   /**

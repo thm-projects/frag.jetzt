@@ -34,12 +34,7 @@
 
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <markdown class="images"
-                  katex
-                  emoji
-                  lineNumbers
-                  lineHighlight
-                  [data]="room.description.trim()"></markdown>
+        <app-custom-markdown class="images" [data]="room.description.trim()"></app-custom-markdown>
       </mat-card-content>
       <div fxLayout="column"
            fxLayoutAlign="center"

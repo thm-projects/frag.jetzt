@@ -128,6 +128,8 @@
     "fullscreen": "Click for full view.",
     "abort": "Cancel",
     "ask-question-description": "Enter your question …",
+    "save-answer": "Save",
+    "delete-answer": "Delete",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",

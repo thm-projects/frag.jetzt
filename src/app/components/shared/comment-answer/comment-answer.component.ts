@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -12,18 +12,17 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
-import { GrammarChecker } from '../../../utils/grammar-checker';
 import { EventService } from '../../../services/util/event.service';
+import { WriteCommentComponent } from '../write-comment/write-comment.component';
 
 @Component({
   selector: 'app-comment-answer',
   templateUrl: './comment-answer.component.html',
   styleUrls: ['./comment-answer.component.scss']
 })
-export class CommentAnswerComponent implements OnInit, AfterViewInit {
+export class CommentAnswerComponent implements OnInit {
 
-  @ViewChild('langSelect') langSelect: ElementRef<HTMLSpanElement>;
-  @ViewChild('commentBody') commentBody: ElementRef<HTMLDivElement>;
+  @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
   comment: Comment;
   answer: string;
@@ -31,9 +30,6 @@ export class CommentAnswerComponent implements OnInit, AfterViewInit {
   user: User;
   isStudent = true;
   edit = false;
-
-  grammarChecker: GrammarChecker;
-  tempEditView: string;
 
   constructor(protected route: ActivatedRoute,
               private notificationService: NotificationService,
@@ -45,7 +41,6 @@ export class CommentAnswerComponent implements OnInit, AfterViewInit {
               public languagetoolService: LanguagetoolService,
               public dialog: MatDialog,
               public eventService: EventService) {
-    this.grammarChecker = new GrammarChecker(languagetoolService);
   }
 
   ngOnInit() {
@@ -63,33 +58,34 @@ export class CommentAnswerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
-    this.grammarChecker.initBehavior(() => this.commentBody.nativeElement, () => this.langSelect.nativeElement);
-  }
-
-  saveAnswer() {
-    this.edit = !this.answer;
-    this.commentService.answer(this.comment, this.answer).subscribe();
-    this.translateService.get('comment-page.comment-answered').subscribe(msg => {
-      this.notificationService.show(msg);
-    });
-  }
-
-  openDeleteAnswerDialog(): void {
-    const dialogRef = this.dialog.open(DeleteAnswerComponent, {
-      width: '400px'
-    });
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteAnswer();
-        }
+  saveAnswer(): (string) => void {
+    return (text: string) => {
+      this.answer = text;
+      this.edit = !this.answer;
+      this.commentService.answer(this.comment, this.answer).subscribe();
+      this.translateService.get('comment-page.comment-answered').subscribe(msg => {
+        this.notificationService.show(msg);
       });
+    };
+  }
+
+  openDeleteAnswerDialog(): () => void {
+    return () => {
+      const dialogRef = this.dialog.open(DeleteAnswerComponent, {
+        width: '400px'
+      });
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result === 'delete') {
+            this.deleteAnswer();
+          }
+        });
+    }
   }
 
   deleteAnswer() {
-    if (this.commentBody) {
-      this.commentBody.nativeElement.innerText = '';
+    if (this.commentComponent.commentBody) {
+      this.commentComponent.commentBody.nativeElement.innerText = '';
     }
     this.answer = null;
     this.commentService.answer(this.comment, this.answer).subscribe();
@@ -101,7 +97,7 @@ export class CommentAnswerComponent implements OnInit, AfterViewInit {
   onEditClick() {
     this.edit = true;
     setTimeout(() => {
-      this.commentBody.nativeElement.innerText = this.answer;
+      this.commentComponent.commentBody.nativeElement.innerText = this.answer;
     });
   }
 }

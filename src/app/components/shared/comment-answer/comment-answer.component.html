@@ -10,110 +10,31 @@
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
-      <div *ngIf="(isStudent || !edit) && answer">
-        <markdown class="images" katex emoji lineNumbers lineHighlight
-                  [data]="answer"></markdown>
-        <div fxLayout="row"
-             fxLayoutAlign="end">
-          <button mat-raised-button
-                  *ngIf="!isStudent && !edit"
-                  class="save"
-                  (click)="onEditClick()">
-            <mat-icon>edit</mat-icon>
-            {{'comment-page.edit-answer' | translate}}
-          </button>
-        </div>
-      </div>
-      <div class="lang-selection"
-           *ngIf="!isStudent && (edit || !answer)">
-        <button class="lang-btn" mat-button (click)="select.open()"
-                matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
-                matTooltipShowDelay="750">
-          <i class="material-icons">language</i>
-          <span *ngIf="!(grammarChecker.selectedLang === 'auto')">
-            {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(grammarChecker.selectedLang)) | translate}}
-          </span>
-          <span *ngIf="(grammarChecker.selectedLang === 'auto')" #langSelect>
-            auto
-          </span>
-          <mat-select class="select-list" #select [(ngModel)]="grammarChecker.selectedLang">
-            <mat-option *ngFor="let lang of grammarChecker.languages" [value]="lang">
-              <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
-              <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
-              <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
-              <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
-            </mat-option>
-          </mat-select>
-        </button>
-      </div>
-      <div *ngIf="!isStudent && (edit || !answer)">
-        <mat-tab-group [dynamicHeight]="false" (selectedTabChange)="tempEditView = commentBody.innerText">
-          <mat-tab label="{{'comment-page.your-answer' | translate}}">
-
-            <mat-form-field class="input-block">
-              <input [disabled]="true" matInput>
-              <div
-                (document:click)="grammarChecker.onDocumentClick($event)"
-                [contentEditable]="true"
-                (paste)="grammarChecker.onPaste($event); grammarChecker.maxLength(commentBody, 2000)"
-                [spellcheck]="false"
-                (focus)="eventService.makeFocusOnInputTrue()"
-                style="margin-top:1.25em; width:100%;"
-                (blur)="eventService.makeFocusOnInputFalse()"
-                #commentBody
-                aria-labelledby="ask-question-description"
-                autofocus
-                (input)="grammarChecker.maxLength(commentBody, 2000);"
-                id="answer-input">
-              </div>
-              <mat-hint align="start">
-              <span aria-hidden="true">
-                {{ 'comment-page.Markdown-hint' | translate }}
-              </span>
-              </mat-hint>
-              <mat-hint align="end">
-            <span aria-hidden="true">
-              {{ commentBody.innerText ? commentBody.innerText.length : 0 }} / 2000
-            </span>
-              </mat-hint>
-            </mat-form-field>
-          </mat-tab>
-          <mat-tab label="{{'session.preview' | translate}}"
-                   [disabled]="!commentBody.innerText">
-            <markdown class="images" katex emoji lineNumbers lineHighlight
-                      [data]="tempEditView"></markdown>
-          </mat-tab>
-        </mat-tab-group>
-        <ars-row ars-flex-box class="spellcheck">
-          <ars-col>
-            <button
-              *ngIf="edit"
-              [disabled]="commentBody.innerHTML.length < 4 "
-              mat-raised-button
-              (click)="grammarChecker.grammarCheck(commentBody)"
-              class="spell-button">
-              {{ 'comment-page.grammar-check' | translate}}
-              <mat-icon *ngIf="grammarChecker.isSpellchecking"
-                        class="spinner-container">
-                <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
-              </mat-icon>
-            </button>
-          </ars-col>
-          <ars-col style="display: flex; flex-direction: row;">
-            <button mat-raised-button
-                    *ngIf="answer || commentBody.innerText"
-                    class="delete"
-                    style="display: inline-block"
-                    (click)="openDeleteAnswerDialog()">
-              {{'comment-page.delete-answer' | translate}}</button>
-            <button mat-raised-button
-                    class="save"
-                    style="display: inline-block"
-                    (click)="answer = commentBody.innerText; saveAnswer()">
-              {{'comment-page.save-answer' | translate}}</button>
-          </ars-col>
-        </ars-row>
-      </div>
+      <app-write-comment [user]="user"
+                         [onClose]="openDeleteAnswerDialog()"
+                         [onSubmit]="saveAnswer()"
+                         [disableCancelButton]="!answer && commentComponent && commentComponent.commentBody && !commentComponent.commentBody.nativeElement.innerText"
+                         [confirmLabel]="'save-answer'"
+                         [cancelLabel]="'delete-answer'"
+                         [additionalTemplate]="editAnswer"
+                         [enabled]="!isStudent && (edit || !answer)">
+      </app-write-comment>
     </mat-card>
   </div>
 </div>
+
+<ng-template #editAnswer>
+  <div *ngIf="(isStudent || !edit) && answer">
+    <app-custom-markdown class="imborder-answerages" [data]="answer"></app-custom-markdown>
+    <div fxLayout="row"
+         fxLayoutAlign="end">
+      <button mat-raised-button
+              *ngIf="!isStudent && !edit"
+              class="save"
+              (click)="onEditClick()">
+        <mat-icon>edit</mat-icon>
+        {{'comment-page.edit-answer' | translate}}
+      </button>
+    </div>
+  </div>
+</ng-template>
