@@ -28,7 +28,7 @@
           [zoomOnHover]="zoomOnHoverOptions"
           [realignOnResize]="false">
         </angular-tag-cloud>
-        <app-active-user [room]="this.room" [top]="120"></app-active-user>
+        <app-active-user *ngIf="room" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
       <button *ngIf="((user && user.role > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
               mat-fab
