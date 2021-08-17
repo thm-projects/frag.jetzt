@@ -174,7 +174,7 @@
     "greetingTitle": "Willkommen!",
     "loginButtonHeader": "Nicht nötig, es sei denn du willst deine besuchten oder selbst erstellten Räume auf unserem Server speichern. Ein Konto ist auch für die Verwaltung von Bonuspunkten ratsam.",
     "loginButtonHeaderTitle": "Muss ich mich registrieren?",
-    "roomJoin": "Gib hier deb Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
+    "roomJoin": "Gib hier den Zugangscode für den Raum ein, um an der Veranstaltung teilzunehmen.",
     "roomJoinTitle": "Veranstaltung besuchen",
     "createRoom": "Jeder kann einen Raum für eine Veranstaltung erstellen. Der Zugangscode wird entweder generiert oder du bestimmst ihn selbst.",
     "createRoomTitle": "Raum erstellen",
