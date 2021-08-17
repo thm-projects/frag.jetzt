@@ -47,11 +47,10 @@ export class HeaderComponent implements OnInit {
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
+  private _subscriptionRoomService = null;
   toggleUserActivity = false;
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
-  userRole = -1;
-  private _subscriptionRoomService = null;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
