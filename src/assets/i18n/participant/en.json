@@ -178,7 +178,7 @@
     "prev": "Previous",
     "step": "{{step}} / {{total}}",
     "done": "Finish",
-    "createQuestion": "Call up the editor with the plus button. An AI will suggest keywords for your question. These will be used to create a topic cloud for the event.",
+    "createQuestion": "Call up the editor with the plus button. An AI will suggest keywords for your question. These will be used to create a topic cloud from all questions of the event.",
     "createQuestionTitle": "Ask a question",
     "voting": "The audience can rank questions up or down., indicating their interest in the question or their agreement or disagreement with it.",
     "votingTitle": "Rate a question",
