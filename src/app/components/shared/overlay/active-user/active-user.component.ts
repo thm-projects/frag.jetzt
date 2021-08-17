@@ -16,6 +16,7 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
   @Input() backgroundColor: string;
   @Input() left: number;
   @Input() top: number;
+  @Input() alwaysShowInHeader: boolean;
   @ViewChild('divElement') elem: HTMLElement;
   activeUser=0;
   onDestroyListener: (() => void)[]=[];
@@ -30,7 +31,7 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
   }
 
   ngOnInit(): void{
-    if(this.deviceType&&this.deviceType==='mobile'){
+    if(this.deviceType&&(this.deviceType==='mobile'||this.alwaysShowInHeader)){
       this.headerService.toggleCurrentUserActivity(true);
       this.onDestroyListener.push(()=>this.headerService.toggleCurrentUserActivity(false));
       this.onValueChangeListener.push(num=>this.headerService.setCurrentUserActivity(num));
