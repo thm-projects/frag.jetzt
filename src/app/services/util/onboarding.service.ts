@@ -63,7 +63,8 @@ export class OnboardingService {
       //Route gets switched
       const name = this._activeTour.name;
       const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
-      this.cancelTour(false);
+      this.cleanup();
+      this.joyrideService.closeTour();
       this.dataStoreService.set('onboarding_' + name, JSON.stringify({
         state: 'running',
         step: this._currentStep + stepDirection
@@ -72,16 +73,6 @@ export class OnboardingService {
       return true;
     }
     return false;
-  }
-
-  cancelTour(writeCanceled = true) {
-    if (writeCanceled) {
-      this.dataStoreService.set('onboarding_' + this._activeTour.name, JSON.stringify({ state: 'canceled' }));
-    }
-    this.cleanup();
-    document.querySelector('joyride-step').remove();
-    document.querySelector('body > div.backdrop-container').remove();
-    this.joyrideService.closeTour();
   }
 
   private startOnboardingTour(tour: OnboardingTour, ignoreDone = false): boolean {
@@ -108,9 +99,10 @@ export class OnboardingService {
       this._activeTour.startupAction();
     }
     this.emulateWalkthrough();
+    window.addEventListener('keyup', this._keyUpWrapper);
     this._tourSubscription = this.joyrideService.startTour({
       steps: tour.tour,
-      logsEnabled: true,
+      logsEnabled: false,
       stepDefaultPosition: 'center',
       startWith: this._activeTour.tour[this._currentStep - 1]
     }).subscribe(step => this.afterStepMade(step));
@@ -191,12 +183,38 @@ export class OnboardingService {
     if (this._activeTour.doneAction) {
       this._activeTour.doneAction(action === 'finished');
     }
-    this.cleanup();
+    this.cleanup(true);
   }
 
-  private cleanup() {
-    this._tourSubscription.unsubscribe();
+  private cleanup(finished = false) {
     this._eventServiceSubscription.unsubscribe();
     this._activeTour = null;
+    if (finished) {
+      this._tourSubscription.unsubscribe();
+      window.removeEventListener('keyup', this._keyUpWrapper);
+    }
+  }
+
+  private _keyUpWrapper = (e: KeyboardEvent) => this.onKeyUp(e);
+
+  private onKeyUp(e: KeyboardEvent) {
+    if (!this._activeTour) {
+      e.stopImmediatePropagation();
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      if (this._currentStep < 2 || this.doStep(-1)) {
+        e.stopImmediatePropagation();
+      }
+    } else if (e.key === 'ArrowRight') {
+      if (this._currentStep < this._activeTour.tour.length && this.doStep(1)) {
+        e.stopImmediatePropagation();
+      } else if (this._currentStep === this._activeTour.tour.length) {
+        this.eventService.broadcast('onboarding', 'finished');
+      }
+    } else if (e.key === 'Escape') {
+      e.stopImmediatePropagation();
+      this.joyrideService.closeTour();
+    }
   }
 }
