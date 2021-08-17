@@ -31,7 +31,6 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
   grammarChecker: GrammarChecker;
   tempEditView: string;
 
-
   constructor(private notification: NotificationService,
               private translateService: TranslateService,
               public eventService: EventService,
@@ -63,6 +62,10 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
         this.onSubmit(this.commentBody.nativeElement.innerText, this.selectedTag);
       }
     };
+  }
+
+  onTabChange() {
+    this.tempEditView = this.commentBody.nativeElement.innerText;
   }
 
   private checkInputData(body: string): boolean {

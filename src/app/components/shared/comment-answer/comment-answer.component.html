@@ -25,8 +25,7 @@
 
 <ng-template #editAnswer>
   <div *ngIf="(isStudent || !edit) && answer">
-    <markdown class="imborder-answerages" katex emoji lineNumbers lineHighlight
-              [data]="answer"></markdown>
+    <app-custom-markdown class="imborder-answerages" [data]="answer"></app-custom-markdown>
     <div fxLayout="row"
          fxLayoutAlign="end">
       <button mat-raised-button
