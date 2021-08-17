@@ -77,7 +77,7 @@ export class AuthenticationService extends BaseHttpService {
 
     return this.checkLogin(this.http.post<ClientAuthentication>(connectionUrl, {
       loginId: email,
-      password: password
+      password
     }, this.httpOptions), userRole, false).pipe(
       tap(x => {
         if (x === 'true') {
@@ -154,10 +154,8 @@ export class AuthenticationService extends BaseHttpService {
 
     return this.http.post<boolean>(connectionUrl, {
       loginId: email,
-      password: password
-    }, this.httpOptions).pipe(map(() => {
-      return true;
-    }));
+      password
+    }, this.httpOptions).pipe(map(() => true));
   }
 
   resetPassword(email: string): Observable<string> {
@@ -172,11 +170,7 @@ export class AuthenticationService extends BaseHttpService {
       key: null,
       password: null
     }, this.httpOptions).pipe(
-      catchError(err => {
-        return of(err.error.message);
-      }), map((result) => {
-        return result;
-      })
+      catchError(err => of(err.error.message)), map((result) => result)
     );
   }
 
@@ -189,14 +183,10 @@ export class AuthenticationService extends BaseHttpService {
         this.apiUrl.resetPassword;
 
     return this.http.post(connectionUrl, {
-      key: key,
-      password: password
+      key,
+      password
     }, this.httpOptions).pipe(
-      catchError(err => {
-        return of(err.error.message);
-      }), map((result) => {
-        return result;
-      })
+      catchError(err => of(err.error.message)), map((result) => result)
     );
   }
 
@@ -289,7 +279,7 @@ export class AuthenticationService extends BaseHttpService {
 
   saveAccessToLocalStorage(): void {
     const arr = new Array();
-    this.roomAccess.forEach(function (key, value) {
+    this.roomAccess.forEach(function(key, value) {
       arr.push(key + '_' + String(value));
     });
     localStorage.setItem(this.ROOM_ACCESS, JSON.stringify(arr));
