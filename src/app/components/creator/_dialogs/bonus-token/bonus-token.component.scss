@@ -1,6 +1,6 @@
 p {
   color: var(--on-surface);
-  margin: 10px 0 10px 0;
+  margin-right: 30px;
 }
 
 .delete-icon {
@@ -19,4 +19,12 @@ p {
   &:nth-child(even) {
     background-color: var(--alt-dialog);
   }
+}
+
+.mat-stroked-button {
+  margin-left: 30px
+}
+
+.selected {
+  color: var(--red);
 }

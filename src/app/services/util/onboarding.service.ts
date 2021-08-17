@@ -5,9 +5,13 @@ import { EventService } from './event.service';
 import { AuthenticationService } from '../http/authentication.service';
 import { Router } from '@angular/router';
 import { DataStoreService } from './data-store.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { initDefaultTour, OnboardingTour, OnboardingTourStepInteraction } from './onboarding.tours';
 import { JoyrideStepInfo } from 'ngx-joyride/lib/models/joyride-step-info.class';
+import { NotificationService } from './notification.service';
+import { RoomService } from '../http/room.service';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from './language.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,12 +27,20 @@ export class OnboardingService {
               private eventService: EventService,
               private dataStoreService: DataStoreService,
               private authenticationService: AuthenticationService,
-              private router: Router) {
+              private router: Router,
+              private notificationService: NotificationService,
+              private roomService: RoomService,
+              private translateService: TranslateService,
+              private langService: LanguageService) {
+    this.langService.langEmitter.subscribe(lang => {
+      this.translateService.use(lang);
+    });
+    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   startDefaultTour(ignoreDone = false): boolean {
     return this.startOnboardingTour(
-      initDefaultTour(this.authenticationService, this.dataStoreService, this.router), ignoreDone);
+      initDefaultTour(this.authenticationService, this.dataStoreService, this.router, this.roomService), ignoreDone);
   }
 
   doStep(stepDirection: number): boolean {
@@ -49,15 +61,15 @@ export class OnboardingService {
     }
     if (previous.length < current.length || previous[1] !== current[1]) {
       //Route gets switched
-      this.dataStoreService.set('onboarding_' + this._activeTour.name, JSON.stringify({
+      const name = this._activeTour.name;
+      const routeChecker = this._activeTour.checkIfRouteCanBeAccessed;
+      this.cleanup();
+      this.joyrideService.closeTour();
+      this.dataStoreService.set('onboarding_' + name, JSON.stringify({
         state: 'running',
         step: this._currentStep + stepDirection
       }));
-      this.cleanup();
-      document.querySelector('joyride-step').remove();
-      document.querySelector('body > div.backdrop-container').remove();
-      this.joyrideService.closeTour();
-      this.router.navigate([current[1]]);
+      this.tryNavigate(name, current[1], routeChecker);
       return true;
     }
     return false;
@@ -79,7 +91,7 @@ export class OnboardingService {
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
     const firstStepRoute = tour.tour[this._currentStep - 1].split('@');
     if (firstStepRoute.length > 1 && !this.router.url.endsWith('/' + firstStepRoute[1])) {
-      this.router.navigate([firstStepRoute[1]]);
+      this.tryNavigate(tour.name, firstStepRoute[1], tour.checkIfRouteCanBeAccessed);
       return false;
     }
     this._activeTour = tour;
@@ -87,9 +99,10 @@ export class OnboardingService {
       this._activeTour.startupAction();
     }
     this.emulateWalkthrough();
+    window.addEventListener('keyup', this._keyUpWrapper);
     this._tourSubscription = this.joyrideService.startTour({
       steps: tour.tour,
-      logsEnabled: true,
+      logsEnabled: false,
       stepDefaultPosition: 'center',
       startWith: this._activeTour.tour[this._currentStep - 1]
     }).subscribe(step => this.afterStepMade(step));
@@ -123,6 +136,23 @@ export class OnboardingService {
     }
   }
 
+  private tryNavigate(tourName: string, route: string, routeChecker: (string) => Observable<boolean>) {
+    if (routeChecker) {
+      routeChecker(route).subscribe(canAccess => {
+        if (canAccess) {
+          this.router.navigate([route]);
+        } else {
+          this.dataStoreService.set('onboarding_' + tourName, JSON.stringify({ state: 'canceled' }));
+          this.translateService.get('joyride.cantAccessRoute').subscribe(message => {
+            this.notificationService.show(message);
+          });
+        }
+      });
+    } else {
+      this.router.navigate([route]);
+    }
+  }
+
   private emulateWalkthrough() {
     if (!this._activeTour.tourActions) {
       return;
@@ -153,12 +183,38 @@ export class OnboardingService {
     if (this._activeTour.doneAction) {
       this._activeTour.doneAction(action === 'finished');
     }
-    this.cleanup();
+    this.cleanup(true);
   }
 
-  private cleanup() {
-    this._tourSubscription.unsubscribe();
+  private cleanup(finished = false) {
     this._eventServiceSubscription.unsubscribe();
     this._activeTour = null;
+    if (finished) {
+      this._tourSubscription.unsubscribe();
+      window.removeEventListener('keyup', this._keyUpWrapper);
+    }
+  }
+
+  private _keyUpWrapper = (e: KeyboardEvent) => this.onKeyUp(e);
+
+  private onKeyUp(e: KeyboardEvent) {
+    if (!this._activeTour) {
+      e.stopImmediatePropagation();
+      return;
+    }
+    if (e.key === 'ArrowLeft') {
+      if (this._currentStep < 2 || this.doStep(-1)) {
+        e.stopImmediatePropagation();
+      }
+    } else if (e.key === 'ArrowRight') {
+      if (this._currentStep < this._activeTour.tour.length && this.doStep(1)) {
+        e.stopImmediatePropagation();
+      } else if (this._currentStep === this._activeTour.tour.length) {
+        this.eventService.broadcast('onboarding', 'finished');
+      }
+    } else if (e.key === 'Escape') {
+      e.stopImmediatePropagation();
+      this.joyrideService.closeTour();
+    }
   }
 }

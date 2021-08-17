@@ -266,7 +266,7 @@
     "cancel-description": "Abbrechen",
     "changes-gone-wrong": "Etwas ist schief gelaufen!",
     "changes-successful": "Änderungen gespeichert.",
-    "comments": "Öffentliche Fragen",
+    "comments": "Moderationsmodus",
     "comments-deleted": "Alle Fragen wurden gelöscht.",
     "copy-session-id": "Kopiert den Link zu diesem Raum in die Zwischenablage.",
     "create-content": "Frage stellen",
@@ -513,6 +513,7 @@
   },
   "token-validator": {
     "valid": "VALID",
-    "invalid": "INVALID"
+    "invalid": "INVALID",
+    "cant-find-comment": "Die Frage kann nicht gefunden werden"
   }
 }
