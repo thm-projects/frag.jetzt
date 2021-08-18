@@ -428,6 +428,22 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.createdFromLecturer;
       }
     });
+    const testForModerator=()=>{
+      this.comments.forEach(e=>{
+        this.commentService.role(e).subscribe(i=>{
+          console.log(e,i);
+        });
+      });
+    };
+    if(type==='moderator'){
+      console.log(
+        'TEST moderator',
+        this.moderatorIds,
+        this.user,
+        this.room
+      );
+      testForModerator();
+    }
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
   }
