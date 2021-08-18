@@ -172,7 +172,7 @@ export class CommentService extends BaseHttpService {
   }
 
   role(comment: Comment) {
-    const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/role';
+    const connectionUrl = this.apiUrl.comment + '/' + comment.id + '/role';
     return this.http.patch(connectionUrl, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('roleComment'))
