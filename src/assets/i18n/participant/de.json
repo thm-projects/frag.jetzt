@@ -82,7 +82,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Fragenstellen deaktiviert "
+    "questions-blocked": "Neue Fragen deaktiviert "
   },
   "content": {
     "cancel": "Abbrechen",
@@ -246,7 +246,7 @@
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
-    "questions-blocked": "Fragenstellen deaktiviert "
+    "questions-blocked": "Neue Fragen deaktiviert "
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
