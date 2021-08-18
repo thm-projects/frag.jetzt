@@ -3,7 +3,7 @@
   <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
   <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{ room.shortId }}</h3>
   <div *ngIf="bonusTokens.length >= 1">
-    <div>
+    <div class="validator">
       <mat-form-field>
         <input (focus)="eventService.makeFocusOnInputTrue()"
                (blur)="eventService.makeFocusOnInputFalse()"
@@ -19,9 +19,14 @@
         <mat-hint align="end"
                   class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
       </mat-form-field>
-      <button (click)="navToCommentByValue()"
+      <button *ngIf="!valid" (click)="navToCommentByValue()"
               matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-              mat-stroked-button>
+              mat-stroked-button disabled>
+        Go to Question
+      </button>
+      <button *ngIf="valid" (click)="navToCommentByValue()"
+              matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
+              mat-stroked-button class="enabled">
         Go to Question
       </button>
     </div>
