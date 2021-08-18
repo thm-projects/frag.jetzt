@@ -8,6 +8,7 @@
         <input (focus)="eventService.makeFocusOnInputTrue()"
                (blur)="eventService.makeFocusOnInputFalse()"
                (keyup)="inputChanged($event)"
+               (input)="inputChanged($event)"
                matInput
                class="input-block"
                type="text"
