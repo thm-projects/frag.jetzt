@@ -64,6 +64,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   isExpandable = false;
   selectedKeyword = '';
   filterProfanityForModerators = false;
+  createdBy;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,

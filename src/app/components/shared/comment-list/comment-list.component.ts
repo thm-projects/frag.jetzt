@@ -423,9 +423,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
         case this.owner:
           return c.creatorId === this.user.id;
         case this.moderator:
-          return c.creatorId === this.user.id && (this.user.role === 2 || this.user.role === 1);
+          return this.moderatorIds.includes(c.creatorId);
         case this.lecturer:
-          return c.creatorId === this.user.id && this.user.role === 3;
+          return c.createdFromLecturer;
       }
     });
     this.hideCommentsList = true;

@@ -26,6 +26,7 @@ export class Comment {
   upvotes: number;
   downvotes: number;
   language: Language;
+  createdBy;
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -46,7 +47,8 @@ export class Comment {
               keywordsFromSpacy: SpacyKeyword[] = [],
               upvotes = 0,
               downvotes = 0,
-              language = Language.auto) {
+              language = Language.auto,
+              createdBy?: any) {
     this.id = '';
     this.roomId = roomId;
     this.creatorId = creatorId;
@@ -69,6 +71,7 @@ export class Comment {
     this.upvotes = upvotes;
     this.downvotes = downvotes;
     this.language = language;
+    this.createdBy = createdBy;
   }
 
   static mapModelToLanguage(model: Model): Language {
