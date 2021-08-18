@@ -70,8 +70,30 @@
     Kategorisierte Fragen können durch Klicken des »Tags« gefiltert werden.
     Das Tagging ermöglicht es dem Moderator einer Podiumsdiskussion,
     die Fragen aus dem Publikum nach Themen oder Adressaten zu filtern:
-    Tag »Frage an Herrn Scholz«, Tag »Frage an Herrn Söder« …
+    Tag »Frage an Herrn Scholz«, Tag »Frage an Frau Baerbock« …
   </p>
+
+  <p>
+    <strong>Fragen KI-gestützt analysieren</strong><br><br>
+    Mittels NLP (Natural Language Processing) werden alle Fragen grammatikalisch analysiert.
+    Die erkannten Nomen werden in ihre Grundform gebracht (lemmatisiert)
+    und dem Fragensteller als Stichwörter vorgeschlagen.
+    Wir verwenden die NLP-Software
+    <a class="info"
+       href="https://spacy.io/"
+       target="_blank"
+       rel="noreferrer">»spaCy«
+      <span>Öffnet neue Seite</span>
+    </a>.
+    Aus den analysierten oder den selbst vergebenen Stichwörtern kann eine Wortwolke erzeugt werden,
+    in »frag.jetzt« als Themenwolke bezeichnet.
+    Sie visualisiert die Häufigkeit der Stichwörter:
+    Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort.
+    Auch die Bewertung der Fragen geht in die Schriftgröße mit ein.
+    Die Themenwolke fungiert zugleich als Navigator zu allen Fragen eines ausgewählten Stichwortes:
+    Klickt man auf ein Wort in der Wolke, gelangt man zu allen Fragen mit diesem  Stichwort.
+  </p>
+
   <p>
     <strong>Fragen fokussiert präsentieren</strong><br><br>
     Für die Besprechung der Fragen am Beamer können diese einzeln in Vollansicht präsentiert werden.
@@ -140,12 +162,6 @@
     Aber bis dahin werden hunderte Informatikstudierende der THM engagiert und kontinuierlich an allen Aspekten der Software-Entwicklung
     (User Experience, Hochverfügbarkeit und Sicherheit) weiter arbeiten  – nicht für Geld, sondern Credit Points und gute Noten.
   </p>
-  <p>
-    <strong>Ausblick</strong><br><br>
-    Wir werden in nächster Zeit »frag.jetzt« in das freie Video-Konferenzsystem »Big&shy;Blue&shy;Button« (BBB) als Plugin integrieren.
-    So werden wir alle Vorteile unserer Feedback-App in BBB anbieten können, ohne zwischen den Browser-Tabs wechseln zu müssen.
-    Stay tuned!
-  </p>
 </div>
 
 <h2 tabindex="0">Studierende online aktivieren</h2>
@@ -210,170 +226,6 @@
     </li>
   </ol>
 </div>
-
-<h2 tabindex=0>Icons und Buttons</h2>
-
-<img tabindex=-1 src="/assets/images/poster.webp"
-     class="screenshot"
-     width="850"
-     height="1200"
-     alt="Info-Poster zu frag.jetzt">
-
-<h2 tabindex="0">Fragenliste aus Teilnehmersicht</h2>
-
-<img tabindex=-1 src="/assets/images/participant.webp"
-     class="screenshot"
-     width="400"
-     height="805"
-     alt="Screenshot einer Frage">
-
-<p tabindex="0">Kopfleiste des Fra&shy;gen&shy;boards</p>
-<ol tabindex="0">
-  <li>Zurück zur vorherigen Seite</li>
-  <li>Sitzung wird moderiert</li>
-  <li>QR-Code der Sitzung</li>
-  <li>Besuchte Sitzungen und erhaltene Sterne</li>
-</ol>
-
-<p tabindex="0">Werkzeugleiste des Fra&shy;gen&shy;boards</p>
-<ol tabindex="0">
-  <li>Anzahl eingegangener Fragen</li>
-  <li>Fragenliste durchsuchen</li>
-  <li>Fragen sortieren</li>
-  <li>Fragen filtern</li>
-  <li>Fragenstrom anhalten</li>
-  <li>Frage stellen</li>
-</ol>
-
-<p tabindex="0">Obere Werkzeugleiste einer Fragekarte</p>
-<ol tabindex="0">
-  <li>Zeitstempel der Frage</li>
-  <li>Dozent hat die Frage besprochen (Beamer-Icon)</li>
-  <li>Dozent hat die Frage kommentiert</li>
-  <li>Dozent hat die Frage bejaht</li>
-  <li>Die Frage wurde vom Dozenten oder Moderator mit einem Stern ausgezeichnet</li>
-</ol>
-
-<p tabindex="0">Untere Werkzeugleiste einer Fragekarte</p>
-<ol tabindex="0">
-  <li>Fragen nach der Kategorie (Tag-Icon) filtern</li>
-  <li>Fragen einer bestimmten Person (User-Icon) filtern</li>
-</ol>
-
-
-<h2 tabindex="0">Sitzungsverwaltung aus Dozentensicht</h2>
-
-<img tabindex=-1 src="/assets/images/lecturer.webp"
-     class="screenshot"
-     width="800"
-     height="600"
-     alt="Screenshot der Optionen für die Sitzungsverwaltung">
-
-<p tabindex="0">Mit einem Klick auf das Zahnrad-Icon öffnest du die Verwaltungs&shy;optionen:</p>
-<ol tabindex="0">
-  <li>Sitzung: Hier kannst du den Namen der Sitzung ändern und eine Beschreibung hinzufügen.
-      Für die Textformatierung steht dir <a class="info" href="https://de.wikipedia.org/wiki/Markdown" target="_blank">Markdown<span>Öffnet neue Seite</span></a> zur Verfügung.
-    Hier ist auch der Ort, um die Sitzung mit allen Fragen und Bewertungen zu löschen.
-  </li>
-  <li>Fragen: Du kannst einen Schwellenwert für die Veröffentlichung einer Frage festlegen,
-    das heißt, ab welcher negativen Bewertung eine Frage angezeigt wird. Der Wert liegt zwischen -100 und 0.
-
-    Weiterhin legst du fest, ob neue Fragen vor der Moderation sofort angezeigt werden sollen.
-
-    Hier ist auch der Ort, um alle Fragen mit ihren Bewertungen in eine Excel-Tabelle zu exportieren.
-
-    Ferner kannst du alle Fragen löschen, um die Sitzung aufs Neue zu verwenden.
-  </li>
-  <li>Moderatoren: Als Moderatoren können registrierte User aufgenommen werden.
-    Dazu benötigst du deren Mailadresse, mit der er oder sie sich registriert hat.
-  </li>
-  <li>Tokens für Bonus-Sterne: Wenn du eine Frage mit einem Stern auszeichnest,
-    wird ein 8-ziffriger Code (»Token«) für die Frage generiert und hier gelistet.
-    Der Autor der Frage findet den Token in seinem Konto und kann damit den Bonus bei dir einlösen.
-  </li>
-  <li>Tags: Hier kannst du sitzungsspezifische Kategorien festlegen (»Tags«), die deine Zuhörer zum Verschlagworten
-    (»Taggen«) ihrer Fragen verwenden können.
-    Der Tag erscheint dann bei der jeweiligen Frage.
-    Mit einem Klick darauf, werden alle Fragen mit diesem Tag gefiltert.
-  </li>
-</ol>
-
-<h2 tabindex="0">Rollenkonzept von »frag.jetzt«</h2>
-
-<div class="video">
-  <div class="videoWrapper">
-    <iframe tabindex="0"
-            width="560" height="315"
-            src="https://www.youtube.com/embed/qHRC6z9VtWs?autoplay=0" frameborder="0"
-            allowfullscreen
-    ></iframe>
-  </div>
-</div>
-
-<div id="demoContentTranscript" class="overflow_hide" tabindex="2">
-  <h2>Willkommen zur Demo von frag.jetzt!</h2>
-
-
-  <p>Mein Name ist Klaus Quibeldey-Cirkel. Ich bin Informatik-Professor an der Technischen Hochschule Mittelhessen und
-    Projektleiter von frag.jetzt.
-    Im Impressum der App finden Sie eine detaillierte Beschreibung des Projekts.</p>
-
-  <p>Nun zur Demo:
-    In frag.jetzt gibt es drei Rollen: die Lehrperson, die Studentin oder den Studenten und die Moderatorin oder den
-    Moderator.
-    Entsprechend sehen Sie drei Browser, in denen ich in in der jeweiligen Rolle das Nutzungs-Szenario von frag.jetzt
-    demonstrieren werde.</p>
-
-  <p>Eine Sitzung erstellen Sie mit einem Klick auf den Plus-Button.
-    Sie geben Ihrer Sitzung eine Bezeichnung
-    und das war es auch schon!
-    Ihren Studierenden teilen Sie den Raum-Code oder den Link der Sitzung mit.</p>
-
-
-  <p>Als Student gebe ich nun den Raum-Code ein oder den Link zur Sitzung.
-    Ich könnte sofort eine Frage stellen. Aber zunächst möchte ich den Moderator des Fragen-Boards ins Spiel bringen:
-    Dazu gehe ich in meine Sitzung, rufe die Einstellungen auf und dort den Menüpunkt „Fragen“.</p>
-
-
-  <p>Standardmäßig ist die Moderation aktiviert und alle Fragen der Studierenden werden direkt veröffentlicht.
-    Wenn die Freigabe einer Frage durch den Moderator erfolgen soll, ist der entsprechende Schalter umzulegen.
-    Mit dem Schwellenwert-Schalter kann ich bestimmen, ab welcher negativen Bewertung Fragen überhaupt angezeigt
-    werden
-    sollen.
-    Nun muss ich noch einen Moderator in meine Sitzung aufnehmen:
-    Dazu trage ich seine Mailadresse ein, mit der er sich bei frag.jetzt registriert hat.
-    Ich melde mich nun als Moderator an der App an und gehe in die zu moderierende Sitzung.
-    In der Vorlesung gehe ich auf das Fragen-Board der Sitzung in der Rolle des Moderators
-    und in der Rolle des Dozenten und warte auf Fragen seitens der Studierenden.
-    Als Moderator kann ich unerwünschte oder nicht zielführende Fragen vom Fragen-Board verbannen.
-    Ich könnte auch geschlossene Fragen (auf die ich mit Ja oder Nein antworten kann) mit den entsprechenden Icons
-    auszeichnen
-    und besonders interessante Fragen mit einem Stern hervorheben.
-    Alle Teilnehmerinnen und Teilnehmer sehen diese Bewertungen.</p>
-
-  <p>Als Dozent kann ich die von den Studierenden mehrheitlich hoch bewerteten Fragen am Ende der Vorlesung
-    besprechen.
-    Dazu klicke ich auf die Frage.
-    Diese wird in Vollansicht am Beamer angezeigt und in den Browsern der Teilnehmenden optisch hervorgehoben.
-    Ein Moderator kann Fragen nur vom Fragen-Board verbannen, nicht aber löschen. Das kann nur der Dozent.</p>
-
-  <p>Alle weiteren Funktionen, wie das Sortieren und Filtern von Fragen oder das Anhalten des Fragen-Streams,
-    können Sie spielerisch herausfinden, indem Sie selbst zwei oder drei Browser auf Ihrem Laptop nebeneinander
-    stellen
-    und das Nutzungs-Szenario in verschiedenen Rollen durchspielen.
-    Wie Sie frag.jetzt in Ihrer Vorlesung oder in Ihrem Kurs über das Semester einsetzen können, beschreibe ich weiter
-    unten.</p>
-
-  <p>Ich danke Ihnen für Ihr Interesse an frag.jetzt und freue mich über Ihr Feedback. Meine Mailadresse finden Sie im
-    Impressum.</p>
-</div>
-
-<h2 tabindex="0">Feedback an die Entwickler</h2>
-
-<p tabindex="0">
-  Gehe in den Raum »Feedback« für Fragen, Anregungen, Lob und Kritik.
-    Weitere Informationen findest du im <a class="info" href="https://arsnova.thm.de/blog/frag-jetzt/" target="_blank">ARSnova-Blog<span>Öffnet neue Seite</span></a>.
-</p>
 
 <h2 tabindex="0">Screen Reader und »Gender«-gerechte Sprache</h2>
 

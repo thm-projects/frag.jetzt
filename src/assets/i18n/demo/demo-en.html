@@ -85,6 +85,27 @@
        tag »Question to Mr. Biden«, tag »Question to Mr. Trump« …
   </p>
   <p>
+    <strong>Analyzing questions with AI support</strong><br><br>
+                                                              Using NLP (Natural Language Processing), all questions are grammatically analyzed.
+                                                              The recognised nouns are brought into their basic form (lemmatized)
+                                                              and suggested to the questioner as keywords.
+                                                              We use the NLP software
+    <a class="info"
+       href="https://spacy.io/"
+       target="_blank"
+       rel="noreferrer">»spaCy«
+      <span>Opens new page</span>
+    </a>.
+                                                              A word cloud can be created from the analyzed keywords or the keywords you have assigned yourself,
+                                                              called a topic cloud in »frag.jetzt«.
+                                                              It visualizes the frequency of the keywords:
+                                                              The larger the font, the more questions refer to the keyword.
+                                                              The rating of the questions is also included in the font size.
+                                                              The topic cloud also serves as a navigator to all questions of a selected keyword:
+                                                              Clicking on a word in the cloud takes you to all questions with that keyword.
+  </p>
+
+  <p>
     <strong>Presenting questions in a focused way</strong><br><br>For the discussion of the questions on the beamer, they can be presented individually in full view.
     To move on to the next question, simply press the space bar.
     You can also activate the display in "kiosk mode":
@@ -152,12 +173,6 @@
     But until then, hundreds of computer science students of THM will be engaged and continuously working on all aspects of software development
     (user experience, high availability and security) —not for money, but for credit points and good grades.
   </p>
-  <p>
-    <strong>Outlook</strong><br><br>
-    We will integrate »frag.jetzt« into the free video conferencing system »Big&shy;Blue&shy;Button« (BBB) as a plugin in the near future.
-    So we will be able to offer all advantages of our feedback app in BBB without switching between browser tabs.
-    Stay tuned!
-  </p>
 </div>
 
 <h2 tabindex="0">Activate students online</h2>
@@ -220,176 +235,6 @@
     </li>
   </ol>
 </div>
-
-<h2 tabindex=0>Icons and buttons</h2>
-
-<img tabindex=-1 src="/assets/images/poster.webp"
-class="screenshot"
-width="850"
-height="1200"
-alt="Info poster about frag. jetzt">
-
-<h2 tabindex="0">Question board from the view of a participant</h2>
-
-<img tabindex=-1 src="/assets/images/participant.webp"
-     class="screenshot"
-     width="400"
-     height="805"
-     alt="Question board from the view of a participant">
-
-<p tabindex="0">Header of the question list</p>
-<div tabindex="0">
-  <ol>
-    <li>Back to previous page</li>
-    <li>Session is moderated</li>
-    <li>QR code of the session</li>
-    <li>Sessions attended and bonus tokens received</li>
-  </ol>
-</div>
-
-<p tabindex="0">Toolbar of the question list</p>
-<ol tabindex="0">
-  <li>Number of incoming questions</li>
-  <li>Browse question list</li>
-  <li>Sort questions</li>
-  <li>Filter questions</li>
-  <li>Stop question stream</li>
-  <li>Ask a question</li>
-</ol>
-
-<p tabindex="0">Top toolbar of a question card</p>
-<ol tabindex="0">
-  <li>Time stamp of question</li>
-  <li>Lecturer has discussed the question (beamer icon)</li>
-  <li>Lecturer has commented on the question</li>
-  <li>Lecturer has affirmed the question</li>
-  <li>The question was marked by the lecturer or moderator (star icon)</li>
-</ol>
-
-<p tabindex="0">Bottom toolbar of a question card</p>
-<ol tabindex="0">
-  <li>Filter questions by category (tag icon)</li>
-  <li>Filter questions of a certain person (user icon)</li>
-</ol>
-
-<h2 tabindex="0">Session management</h2>
-
-<img tabindex=-1 src="/assets/images/lecturer.webp"
-     class="screenshot"
-     width="800"
-     height="600"
-     alt="Screenshot of the session management options">
-
-<p tabindex="0">Click on the gearwheel icon to open the management options:</p>
-<ol tabindex="0">
-  <li>Session: Here you can change the name of the session and add a description.
-      You can use <a class="info" href="https://en.wikipedia.org/wiki/Markdown" target="_blank">Markdown <span>Opens new window</span></a> for text formatting.
-    This is also the place to delete the session with all questions and ratings.
-  </li>
-  <li><p>Questions:</p>
-    <p>You can set a threshold for publishing a question,
-      that is, the negative rating at which a question is displayed. The value is between -100 and 0.</p>
-
-    <p>You also specify whether new questions are to be displayed before being moderated.
-      This is also the place to export all questions with their ratings to an Excel spreadsheet.
-      Furthermore you can delete all questions to use the session again.</p>
-  </li>
-  <li><p>Moderators:</p>
-    <p>You can only accept registered users as moderators.
-      For this you need the email address with which he or she registered.</p>
-  </li>
-  <li><p>Tokens for bonus stars:</p>
-    <p>If you annotate a question with a star,
-      an 8-digit number code (»token«) is generated for the question and listed here.
-      The author of the question will find the token in his account and can use it to redeem the bonus.</p>
-  </li>
-  <li><p>Tags:</p>
-    <p>Here you can define session-specific categories that your listeners can use to tag their questions.
-      The tag will then appear next to each question.
-      With a click on it, all questions will be filtered with this tag.</p>
-  </li>
-</ol>
-
-<h2 tabindex="0">Role concept of »frag.jetzt«</h2>
-
-
-<div tabindex=0 class="video">
-  <div class="videoWrapper">
-    <iframe tabindex="0"
-            width="560" height="315"
-            src="https://www.youtube.com/embed/qHRC6z9VtWs?autoplay=0" frameborder="0"
-            allowfullscreen
-    ></iframe>
-  </div>
-</div>
-
-<div id="demoContentTranscript" class="overflow_hide" tabindex="2">
-  <h2>Welcome to the demo of frag.jetzt!</h2>
-
-
-  <p>My name is Klaus Quibeldey-Cirkel. I am a professor of computer science at the Technical University
-    Mittelhessen
-    and
-    Project manager of frag.jetzt.
-    In the imprint of the app you can find a detailed description of the project.</p>
-
-  <p>Now for the demo:
-    In frag.jetzt there are three roles: the teacher, the student and the moderator.
-    Correspondingly, you see three browsers in which I play in the respective role the usage scenario of frag.jetzt
-    I will demonstrate.</p>
-
-  <p>Create a session by clicking the plus button.
-    You give your session a name
-    and that's it!
-    You tell your students the room code or the link to the session.</p>
-
-
-  <p>As a student I now enter the room code or the link to the session.
-    I could ask a question right away. But first I want to bring the moderator of the question list into the game:
-    I go to my session, open the settings and select the menu item "Questions".</p>
-
-
-  <p>By default, moderation is activated and all student questions are published directly.
-    If a question is to be released by the moderator, the corresponding switch must be flipped.
-    With the threshold value switch I can determine the negative rating above which questions are displayed.
-    should.
-    Now I have to add a moderator to my session:
-    To do this, I enter the email address with which he registered himself at frag.jetzt.
-    I register now as a moderator at the app and go into the session to be moderated.
-    In the lecture I go to the question list of the session in the role of moderator.
-    and in the role of lecturer, waiting for questions from students.
-    As a moderator, I can ban unwanted or inappropriate questions from the question list.
-    I could also ban closed questions (to which I can answer yes or no) with the corresponding icons.
-    mark
-    and highlight particularly interesting questions with a star.
-    All participants will see these ratings.</p>
-
-  <p>As a lecturer I can discuss the questions at the end of the lecture, which are mostly highly rated by the
-    students.
-    I click on the question to do this.
-    The question is displayed in full view on the beamer and highlighted in the participants' browsers.
-    A moderator can only ban questions from the question list, not delete them. Only the lecturer can do that.</p>
-
-  <p>All other functions, such as sorting and filtering questions or stopping the question stream,
-    you can find out in a playful way by placing two or three browsers next to each other on your laptop yourself
-    and play through the usage scenario in different roles.
-    How you can use frag.jetzt in your lecture or in your course during the semester, I describe further
-    below.</p>
-
-  <p>I thank you for your interest in frag.jetzt and look forward to your feedback. You can find my e-mail address
-    in
-    the
-    Imprint.</p>
-</div>
-
-<h2 tabindex="0">Feedback to the developers</h2>
-
-<p tabindex="0">
-  Go to the »Feedback« room for questions, suggestions, praise and criticism.
-  For further information please visit the <a class="info" href="https://arsnova.thm.de/blog/frag-jetzt/" target="_blank">ARSnova
-  blog <span>Opens new window</span></a>.
-
-</p>
 
 <h2 tabindex="0">Screen Readers </h2>
 
