@@ -22,6 +22,7 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
   onDestroyListener: (() => void)[]=[];
   onValueChangeListener: ((user: number) => void)[]=[];
   deviceType;
+  showByComponent: boolean;
 
   constructor(
     private activeUserService: ActiveUserService,
@@ -32,9 +33,12 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
 
   ngOnInit(): void{
     if(this.deviceType&&(this.deviceType==='mobile'||this.alwaysShowInHeader)){
+      this.showByComponent=false;
       this.headerService.toggleCurrentUserActivity(true);
       this.onDestroyListener.push(()=>this.headerService.toggleCurrentUserActivity(false));
       this.onValueChangeListener.push(num=>this.headerService.setCurrentUserActivity(num));
+    } else{
+      this.showByComponent=true;
     }
     this.onDestroyListener.push(
       this.activeUserService.observeUserActivity(this.room,user=>{
