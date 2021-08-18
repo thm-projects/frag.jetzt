@@ -1,0 +1,139 @@
+<ars-row>
+  <ng-container [ngTemplateOutlet]="additionalTemplate"></ng-container>
+  <div class="lang-selection" *ngIf="enabled">
+    <button class="lang-btn"
+            mat-button
+            (click)="select.open()"
+            matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+            matTooltipShowDelay="750">
+      <mat-icon id="langSymbol">language</mat-icon>
+      <span *ngIf="!(grammarChecker.selectedLang === 'auto')">
+          {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(grammarChecker.selectedLang)) | translate}}
+        </span>
+      <span *ngIf="(grammarChecker.selectedLang === 'auto')"
+            #langSelect>
+         auto
+        </span>
+      <mat-select class="select-list"
+                  #select
+                  [(ngModel)]="grammarChecker.selectedLang">
+        <mat-option *ngFor="let lang of grammarChecker.languages"
+                    [value]="lang">
+          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+          <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+        </mat-option>
+      </mat-select>
+    </button>
+  </div>
+  <div class="anchor-wrp" *ngIf="enabled">
+    <div class="anchor-right">
+      <mat-form-field *ngIf="tags"
+                      class="tag-form-field">
+        <mat-label>
+          <mat-icon class="icon-svg"
+                    svgIcon="comment_tag"></mat-icon>
+          {{'comment-page.tag' | translate}}
+        </mat-label>
+        <label for="tagSelect">{{selectedTag}}</label>
+        <mat-select [(ngModel)]="selectedTag"
+                    class="tag-select"
+                    id="tagSelect">
+          <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
+          <mat-option *ngFor="let tag of tags"
+                      value="{{tag}}">{{tag}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-tab-group (selectedTabChange)="onTabChange()" *ngIf="enabled">
+    <mat-tab label="{{ 'comment-page.write-comment' | translate }}">
+      <ars-row [height]="12"></ars-row>
+      <ars-row>
+
+      </ars-row>
+      <ars-row [height]="12"></ars-row>
+      <ars-row [overflow]="'visible'"
+               class="comment-write-container">
+        <mat-form-field class="full-width">
+          <input [disabled]="true"
+                 matInput>
+          <div
+            (document:click)="grammarChecker.onDocumentClick($event)"
+            [contentEditable]="true"
+            (paste)="grammarChecker.onPaste($event); grammarChecker.maxLength(commentBody, user.role === 3 ? 1000 : 500)"
+            [spellcheck]="false"
+            (focus)="eventService.makeFocusOnInputTrue()"
+            (blur)="eventService.makeFocusOnInputFalse()"
+            #commentBody
+            aria-labelledby="ask-question-description"
+            autofocus
+            (input)="grammarChecker.maxLength(commentBody, user.role === 3 ? 1000 : 500)"
+            id="answer-input">
+          </div>
+          <mat-placeholder class="placeholder">
+            {{ 'comment-page.enter-comment' | translate }}
+          </mat-placeholder>
+          <mat-hint align="start">
+              <span aria-hidden="true">
+                {{ 'comment-page.Markdown-hint' | translate }}
+              </span>
+          </mat-hint>
+          <mat-hint align="end">
+              <span aria-hidden="true">
+                {{commentBody.innerText.length}} / {{user.role === 3 ? 1000 : 500}}
+              </span>
+          </mat-hint>
+          <span *ngIf="!grammarChecker.hasSpellcheckConfidence">
+              <p class="lang-confidence">{{ 'spacy-dialog.force-language-selection' | translate }}</p>
+            </span>
+
+        </mat-form-field>
+      </ars-row>
+    </mat-tab>
+    <mat-tab label="{{ 'comment-page.preview-comment' | translate }}"
+             [disabled]="!commentBody.innerText">
+      <ars-row [height]="12"></ars-row>
+      <ars-row>
+
+      </ars-row>
+      <ars-row [height]="12"></ars-row>
+      <ars-row>
+        <app-custom-markdown [data]="tempEditView"></app-custom-markdown>
+      </ars-row>
+    </mat-tab>
+  </mat-tab-group>
+</ars-row>
+<ars-row class="filler-row">
+
+</ars-row>
+<ars-row ars-flex-box
+         *ngIf="enabled"
+         class="spellcheck">
+  <ars-col>
+    <button
+      [disabled]="this.commentBody && this.commentBody.nativeElement.innerHTML.length < 4 "
+      mat-flat-button
+      class="spell-button"
+      (click)="grammarChecker.grammarCheck(commentBody.nativeElement)">
+      {{ 'comment-page.grammar-check' | translate}}
+      <mat-icon *ngIf="grammarChecker.isSpellchecking"
+                class="spinner-container">
+        <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
+      </mat-icon>
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      buttonsLabelSection="comment-page"
+      [confirmButtonLabel]="confirmLabel"
+      [cancelButtonLabel]="cancelLabel"
+      [showLoadingCycle]="isSpinning"
+      [showDivider]="false"
+      [spacing]="false"
+      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+      [confirmButtonClickAction]="buildCreateCommentActionCallback()"
+    ></app-dialog-action-buttons>
+  </ars-col>
+</ars-row>

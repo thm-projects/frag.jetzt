@@ -4,12 +4,9 @@
      fxFill>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading"
-                          color="primary"
-                          mode="indeterminate"></mat-progress-spinner>
+    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
       <div fxLayout="row">
-        <span class="corner-icons"></span>
         <span class="fill-remaining-space"></span>
         <mat-card-header fxLayoutAlign="center"
                          fxLayout="row">
@@ -25,7 +22,7 @@
                     (click)="copyShortId()"
                     aria-labelledby="cloud_download">
               <mat-icon class="copy"
-                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">content_paste
+                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">share
               </mat-icon>
             </button>
           </mat-card-subtitle>
@@ -65,19 +62,10 @@
             {{ 'room-page.tags' | translate}}
           </button>
         </mat-menu>
-        <button id="settings-menu"
-                mat-icon-button
-                class="corner-icons"
-                [matMenuTriggerFor]="settingsMenu"
-                aria-labelledby="settings">
-          <mat-icon class="corner-icon"
-                    matTooltip="{{ 'room-page.session-settings' | translate}}">settings
-          </mat-icon>
-        </button>
       </div>
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <markdown [data]="room.description.trim()"></markdown>
+        <app-custom-markdown class="images" [data]="room.description.trim()"></app-custom-markdown>
       </mat-card-content>
       <div fxLayout="column"
            fxLayoutAlign="center"
@@ -109,7 +97,7 @@
                         class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">visibility_off
-                        </mat-icon>
+              </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>
           </mat-grid-tile>
@@ -138,6 +126,9 @@
           (click)="announce()"
           class="visually-hidden">{{ 'room-page.live-announcer' | translate }}</button>
 </div>
+
+<app-active-user *ngIf="room"
+                 [room]="room"></app-active-user>
 
 <div class="visually-hidden">
   <div id="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>

@@ -66,6 +66,7 @@ mat-icon {
   width: 100%!important;
   background-color: var(--dialog);
   color: var(--on-dialog);
+  min-width: unset !important;
 }
 
 ::ng-deep .mat-menu-item {
@@ -86,9 +87,7 @@ mat-icon {
 }
 
 ::ng-deep .color-menu{
-  min-width:280px!important;
-  max-width:280px!important;
-  width:280px!important;
+  width:170px!important;
 }
 
 @media (max-width: 500px){
@@ -106,14 +105,13 @@ mat-icon {
   outline:none;
   background-color:transparent;
   float:left;
-  border:none;
   margin:0px;
   padding:0px;
   cursor:pointer;
 }
 
 ::ng-deep .color-menu button:last-child{
-  margin-bottom:5px;
+  margin-bottom:10px;
 }
 
 .btnContent{
@@ -121,7 +119,6 @@ mat-icon {
   height:50px;
   float:left;
   margin-bottom:5px;
-  border-radius:2px;
 }
 
 .btnContent>.btnColorIcon{
@@ -130,6 +127,7 @@ mat-icon {
   float:left;
   margin:5px;
   padding:0px;
+  border-radius: 20px;
 }
 
 .checked{
@@ -139,6 +137,8 @@ mat-icon {
   float:left;
   border-radius:100%;
   transition:all 0.1s;
+  border-color: var(--red) !important;
+  border-width: thick !important;
 }
 
 .checked.checked_true{
@@ -193,13 +193,10 @@ mat-icon {
   white-space: nowrap;
   float:left;
   padding:0px;
-  margin:0px;
   margin-left:15px;
-  color:var(--on-dialog);
 }
 
 .title_bold{
-  color:rgba(0,0,0,0.9);
   font-weight:500;
 }
 

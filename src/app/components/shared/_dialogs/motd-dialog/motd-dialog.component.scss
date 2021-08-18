@@ -34,3 +34,8 @@
     padding: 0 !important;
   }
 }
+
+.mat-flat-button {
+  color: var(--on-dialog);
+  background-color: var(--dialog);
+}

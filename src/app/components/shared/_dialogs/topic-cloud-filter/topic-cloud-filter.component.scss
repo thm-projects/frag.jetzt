@@ -1,12 +1,51 @@
-mat-radio-button{
+mat-radio-button {
     margin: 5px;
-
 }
 
-
-
 mat-radio-group {
-    display: flex;
+  display: flex;
   flex-direction: column;
-  margin: 15px 0;
+}
+
+::ng-deep .mat-radio-label-content {
+  width: 100%;
+}
+
+::ng-deep mat-form-field > .mat-form-field-wrapper {
+  margin-bottom: -1.34375em;
+}
+
+.elementRow {
+  display: flex;
+  flex-direction: row;
+  width: 100% !important;
+}
+
+.elementText {
+  align-content: flex-start;
+  margin-right: 10px;
+}
+
+.elementIcons {
+  margin-left: auto;
+}
+
+.comment_tag-icon {
+  height: 18px !important;
+}
+
+.mat-dialog-content {
+  padding: 0px 15px;
+  margin: 0;
+}
+
+.noKeywords {
+  background: var(--surface);
+  color: var(--on-surface);
+  margin-top: 20px;
+}
+
+.secondary-confirm-button {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }

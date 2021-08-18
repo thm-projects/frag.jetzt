@@ -1,30 +1,36 @@
-import {Component, OnInit, ViewChild, Input} from '@angular/core';
+import { AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {
   CloudData,
   CloudOptions,
   Position,
-  ZoomOnHoverOptions,
-  TagCloudComponent as TCloudComponent
+  TagCloudComponent as TCloudComponent,
+  ZoomOnHoverOptions
 } from 'angular-tag-cloud-module';
-import {CommentService} from '../../../services/http/comment.service';
-import {Result, SpacyService} from '../../../services/http/spacy.service';
-import {Comment} from '../../../models/comment';
-import {LanguageService} from '../../../services/util/language.service';
-import {TranslateService} from '@ngx-translate/core';
-import {CreateCommentComponent} from '../_dialogs/create-comment/create-comment.component';
-import {MatDialog} from '@angular/material/dialog';
-import {User} from '../../../models/user';
-import {Room} from '../../../models/room';
-import {NotificationService} from '../../../services/util/notification.service';
-import {EventService} from '../../../services/util/event.service';
-import {AuthenticationService} from '../../../services/http/authentication.service';
-import {ActivatedRoute} from '@angular/router';
-import {UserRole} from '../../../models/user-roles.enum';
-import {RoomService} from '../../../services/http/room.service';
-import {ThemeService} from '../../../../theme/theme.service';
-import {CloudParameters} from './tag-cloud.interface';
+import { CommentService } from '../../../services/http/comment.service';
+import { LanguageService } from '../../../services/util/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { MatDialog } from '@angular/material/dialog';
+import { User } from '../../../models/user';
+import { Room } from '../../../models/room';
+import { NotificationService } from '../../../services/util/notification.service';
+import { EventService } from '../../../services/util/event.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserRole } from '../../../models/user-roles.enum';
+import { RoomService } from '../../../services/http/room.service';
+import { ThemeService } from '../../../../theme/theme.service';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
+import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
+import { WsRoomService } from '../../../services/websockets/ws-room.service';
+import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
+import { SmartDebounce } from '../../../utils/smart-debounce';
+import { Theme } from '../../../../theme/Theme';
+import { MatDrawer } from '@angular/material/sidenav';
 
 class CustomPosition implements Position {
   left: number;
@@ -34,150 +40,77 @@ class CustomPosition implements Position {
               public relativeTop: number) {
   }
 
-  updatePosition(width: number, height: number, text: string, style: CSSStyleDeclaration) {
-    const offsetY = parseFloat(style.height) / 2;
-    const offsetX = parseFloat(style.width) / 2;
+  updatePosition(width: number, height: number, metrics: TextMetrics) {
+    const offsetY = (metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent) / 2;
+    const offsetX = metrics.width / 2;
     this.left = width * this.relativeLeft - offsetX;
     this.top = height * this.relativeTop - offsetY;
   }
 }
 
 class TagComment implements CloudData {
-  constructor(public color: string,
-              public external: boolean,
-              public link: string,
-              public position: Position,
+
+  constructor(public text: string,
               public rotate: number,
-              public text: string,
-              public tooltip: string,
-              public weight: number) {
+              public weight: number,
+              public tagData: TagCloudDataTagEntry,
+              public index: number,
+              public color: string = null,
+              public external: boolean = false,
+              public link: string = null,
+              public position: Position = null,
+              public tooltip: string = null) {
   }
 }
 
-//CSS styles Array
-type TagCloudStyleData = [
-  string, // hover
-  string, // w1
-  string, // w2
-  string, // w3
-  string, // w4
-  string, // w5
-  string, // w6
-  string, // w7
-  string, // w8
-  string, // w9
-  string, // w10
-  string // background
-];
-
-const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
-const defaultColors: string[] = [
-  // variable, fallback
-  'var(--secondary, greenyellow)', // hover
-  'var(--moderator, lightblue)', // w1
-  'var(--blue, green)', // w2
-  'var(--grey, yellow)', // w3
-  'var(--red, orange)', // w4
-  'var(--primary, pink)', // w5
-  'var(--yellow, gray)', // w6
-  'var(--on-background, lightgreen)', // w7
-  'var(--purple, tomato)', // w8
-  'var(--magenta, white)', // w9
-  'var(--light-green, brown)', // w10
-  'var(--background, black)' //background
-];
-
-const getResolvedDefaultColors = (): string[] => {
-  const elem = document.createElement('p');
-  elem.style.display = 'none';
-  document.body.appendChild(elem);
-  const results = [];
-  for (const color of defaultColors) {
-    elem.style.backgroundColor = 'rgb(0, 0, 0)'; // fallback
-    elem.style.backgroundColor = color;
-    const result = window.getComputedStyle(elem).backgroundColor.match(colorRegex);
-    const r = parseInt(result[1], 10);
-    const g = parseInt(result[2], 10);
-    const b = parseInt(result[3], 10);
-    results.push(`#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`);
-  }
-  elem.remove();
-  return results;
-};
-
-const setGlobalStyles = (styles: TagCloudStyleData): void => {
-  let customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
-  if (!customTagCloudStyles) {
-    customTagCloudStyles = document.createElement('style');
-    customTagCloudStyles.id = 'tagCloudStyles';
-    document.head.appendChild(customTagCloudStyles);
-  }
-  const rules = customTagCloudStyles.sheet.cssRules;
-  for (let i = rules.length - 1; i >= 0; i--) {
-    customTagCloudStyles.sheet.deleteRule(i);
-  }
-  for (let i = 1; i <= 10; i++) {
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ' { ' + styles[i] + ' }', rules.length);
-    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ' > a { ' + styles[i] + ' }', rules.length);
-  }
-  customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover { ' + styles[0] + ' }', rules.length);
-  customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover > a { ' + styles[0] + ' }', rules.length);
-  customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer {' + styles[11] + '}', rules.length);
-};
-
-const getDefaultCloudParameters = (): CloudParameters => {
-  const resDefaultColors = getResolvedDefaultColors();
-  return {
-    backgroundColor: resDefaultColors[11],
-    fontColor: resDefaultColors[0],
-    fontSizeMin: 100,
-    fontSizeMax: 380,
-    hoverScale: 1.3,
-    hoverTime: 0.6,
-    hoverDelay: 0.4,
-    delayWord: 0,
-    randomAngles: false
-  }
-};
+const transformationScaleKiller = /scale\([^)]*\)/;
+const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
 @Component({
   selector: 'app-tag-cloud',
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
-  @ViewChild(TCloudComponent, {static: false}) child: TCloudComponent;
+  @ViewChild(TCloudComponent, { static: false }) child: TCloudComponent;
+  @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
+  @ViewChild(MatDrawer) drawer: MatDrawer;
+
   @Input() user: User;
   @Input() roomId: string;
   room: Room;
-  headerInterface = null;
   directSend = true;
   shortId: string;
   options: CloudOptions = {
-    // if width is between 0 and 1 it will be set to the width of the upper element multiplied by the value
-    width: 0.99,
-    // if height is between 0 and 1 it will be set to the height of the upper element multiplied by the value
-    height: 0.99,
+    width: 1,
+    height: 1,
     overflow: false,
-    font: 'Georgia', // not working
+    font: 'Not used',
     delay: 0
   };
   zoomOnHoverOptions: ZoomOnHoverOptions = {
-    scale: 1.3, // Elements will become 130 % of current size on hover
-    transitionTime: 0.6, // it will take 0.6 seconds until the zoom level defined in scale property has been reached
-    delay: 0.4 // Zoom will take affect after 0.4 seconds
+    scale: 1.3,
+    transitionTime: 0.6,
+    delay: 0.4
   };
   userRole: UserRole;
-  data: CloudData[] = [];
-  sorted = false;
-  debounceTimer = 0;
-  lastDebounceTime = 0;
-  configurationOpen = false;
-  randomizeAngle = false;
+  data: TagComment[] = [];
+  isLoading = true;
+  headerInterface = null;
+  themeSubscription = null;
+  createCommentWrapper: CreateCommentWrapper = null;
+  question = '';
+  private _currentSettings: CloudParameters;
+  private _subscriptionCommentlist = null;
+  private _subscriptionRoom = null;
+  private _calcCanvas: HTMLCanvasElement = null;
+  private _calcRenderContext: CanvasRenderingContext2D = null;
+  private _calcFont: string = null;
+  private readonly _smartDebounce = new SmartDebounce(50, 1_000);
+  private _currentTheme: Theme;
 
   constructor(private commentService: CommentService,
-              private spacyService: SpacyService,
               private langService: LanguageService,
               private translateService: TranslateService,
               public dialog: MatDialog,
@@ -186,24 +119,67 @@ export class TagCloudComponent implements OnInit {
               private authenticationService: AuthenticationService,
               private route: ActivatedRoute,
               protected roomService: RoomService,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private wsCommentService: WsCommentService,
+              private topicCloudAdmin: TopicCloudAdminService,
+              private router: Router,
+              public dataManager: TagCloudDataService,
+              private wsRoomService: WsRoomService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
+    this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
+    this.question = localStorage.getItem('tag-cloud-question');
+    this._calcCanvas = document.createElement('canvas');
+    this._calcRenderContext = this._calcCanvas.getContext('2d');
+  }
+
+  private static getCurrentCloudParameters(): CloudParameters {
+    return CloudParameters.currentParameters;
+  }
+
+  private static invertHex(hexStr: string) {
+    const r = 255 - parseInt(hexStr.substr(1, 2), 16);
+    const g = 255 - parseInt(hexStr.substr(3, 2), 16);
+    const b = 255 - parseInt(hexStr.substr(5, 2), 16);
+    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 
   ngOnInit(): void {
+    this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this.openCreateDialog();
+        this.createCommentWrapper.openCreateDialog(this.user);
       } else if (e === 'topicCloudConfig') {
-        this.configurationOpen = !this.configurationOpen;
-      } else if (e === 'topicCloudAdministration') {
-          this.dialog.open(TopicCloudAdministrationComponent, {
-            minWidth: '50%'
-          });
+        if (this.drawer.opened) {
+          this.drawer.close();
+        } else {
+          this.drawer.open();
         }
+      } else if (e === 'topicCloudAdministration') {
+        this.dialog.open(TopicCloudAdministrationComponent, {
+          minWidth: '50%',
+          maxHeight: '95%',
+          data: {
+            user: this.user
+          }
+        });
+      } else if (e === 'questionBoard') {
+        this.router.navigate(['../'], { relativeTo: this.route });
+      }
+    });
+    this.dataManager.getData().subscribe(data => {
+      if (!data) {
+        return;
+      }
+      this.rebuildData();
+    });
+    this.dataManager.getMetaData().subscribe(data => {
+      if (!data) {
+        return;
+      }
+      this.eventService.broadcast('tagCloudHeaderDataOverview', data);
     });
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
@@ -213,11 +189,21 @@ export class TagCloudComponent implements OnInit {
     this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
+      this.authenticationService.checkAccess(this.shortId);
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
           this.roomId = room.id;
+          this._subscriptionRoom = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
+            const message = JSON.parse(msg.body);
+            if (message.type === 'RoomPatched') {
+              this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+              this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
+            }
+          });
           this.directSend = this.room.directSend;
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
+            this.notificationService, this.commentService, this.dialog, this.room);
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
@@ -226,189 +212,278 @@ export class TagCloudComponent implements OnInit {
       });
     });
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.commentService.getFilteredComments(this.roomId).subscribe((comments: Comment[]) => {
-      this.analyse(comments);
-    });
-    this.themeService.getTheme().subscribe(() => {
+    this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
+      this._currentTheme = this.themeService.getThemeByKey(themeName);
       if (this.child) {
         setTimeout(() => {
-          this.setCloudParameters(this.getCurrentCloudParameters(), false);
-          this.updateTagCloud();
+          this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
         }, 1);
       }
     });
   }
 
-  initTagCloud() {
-    setTimeout(() => {
-      this.setCloudParameters(this.getCurrentCloudParameters(), false);
-    });
+  ngAfterContentInit() {
+    this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
+    setTimeout(() => this.dataManager.bindToRoom(this.roomId, this.userRole));
+    this.dataManager.updateDemoData(this.translateService);
+    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
+  }
+
+  ngOnDestroy() {
+    const customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
+    if (customTagCloudStyles) {
+      customTagCloudStyles.sheet.disabled = true;
+    }
+    this.headerInterface.unsubscribe();
+    this.themeSubscription.unsubscribe();
+    this.dataManager.unbindRoom();
+    if (this._subscriptionRoom) {
+      this._subscriptionRoom.unsubscribe();
+    }
+  }
+
+  get tagCloudDataManager(): TagCloudDataService {
+    return this.dataManager;
+  }
+
+  get currentCloudParameters(): CloudParameters {
+    return new CloudParameters(this._currentSettings);
+  }
+
+  setCloudParameters(parameters: CloudParameters, save = true): void {
+    parameters = new CloudParameters(parameters);
+    const updateIntensity = this.calcUpdateIntensity(parameters);
+    this._currentSettings = parameters;
+    this.zoomOnHoverOptions.delay = parameters.hoverDelay;
+    this.zoomOnHoverOptions.scale = parameters.hoverScale;
+    this.zoomOnHoverOptions.transitionTime = parameters.hoverTime;
+    if (updateIntensity >= 1) {
+      this.updateGlobalStyles();
+    }
+    if (updateIntensity >= 2) {
+      if (!this.dataManager.updateConfig(parameters)) {
+        this.rebuildData();
+      }
+    }
+    if (save) {
+      CloudParameters.currentParameters = parameters;
+    }
   }
 
   resetColorsToTheme() {
-    this.setCloudParameters(getDefaultCloudParameters());
-  }
-
-  getCurrentCloudParameters(): CloudParameters {
-    const jsonData = localStorage.getItem('tagCloudConfiguration');
-    const elem: CloudParameters = jsonData != null ? JSON.parse(jsonData) : null;
-    return elem || getDefaultCloudParameters();
-  }
-
-  setCloudParameters(data: CloudParameters, save = true): void {
-    const arr = getResolvedDefaultColors();
-    arr[0] = data.fontColor;
-    arr[11] = data.backgroundColor;
-    const fontRange = (data.fontSizeMax - data.fontSizeMin) / 10;
-    const styles = arr.map((e, i) => {
-      if (i > 10) {
-        return 'background-color: ' + e + ';';
-      } else if (i > 0) {
-        return 'color: ' + e + '; font-size: ' + (data.fontSizeMin + fontRange * i).toFixed(0) + '%;';
-      } else {
-        return 'color: ' + e + ';';
-      }
-    });
-    setGlobalStyles(styles as TagCloudStyleData);
-    this.zoomOnHoverOptions.delay = data.hoverDelay;
-    this.zoomOnHoverOptions.scale = data.hoverScale;
-    this.zoomOnHoverOptions.transitionTime = data.hoverTime;
-    this.options.delay = data.delayWord;
-    this.randomizeAngle = data.randomAngles;
-    if (this.randomizeAngle) {
-      this.data.forEach(e => e.rotate = Math.floor(Math.random() * 30 - 15));
-    } else {
-      this.data.forEach(e => e.rotate = 0);
-    }
-    this.updateTagCloud();
-    if (save) {
-      localStorage.setItem('tagCloudConfiguration', JSON.stringify(data));
-    }
+    const param = new CloudParameters();
+    param.resetToDefault(this._currentTheme.isDark);
+    this.setCloudParameters(param, false);
+    CloudParameters.removeParameters();
   }
 
   onResize(event: UIEvent): any {
     this.updateTagCloud();
   }
 
-  sortPositionsAlphabetically(sort: boolean): void {
-    if (!sort) {
-      this.sorted = false;
-      this.data.forEach(e => e.position = null);
+  rebuildData() {
+    if (!this.child || !this.dataManager.currentData) {
       return;
     }
-    this.sorted = true;
-    if (!this.data.length) {
-      return;
+    const newElements = [];
+    const data = this.dataManager.currentData;
+    const countFiler = [];
+    for (let i = 0; i < 10; i++) {
+      countFiler.push(this._currentSettings.cloudWeightSettings[i].maxVisibleElements);
     }
-    this.data.sort((a, b) => a.text.localeCompare(b.text));
-    const lines = Math.floor(Math.sqrt(this.data.length - 1) + 1);
-    const divided = Math.floor(this.data.length / lines);
-    let remainder = this.data.length - divided * lines;
-    for (let i = 0, line = 0; line < lines; line++) {
-      const size = divided + (--remainder >= 0 ? 1 : 0);
-      for (let k = 0; k < size; k++, i++) {
-        this.data[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
+    for (const [tag, tagData] of data) {
+      const amount = this.dataManager.demoActive ? 10 - tagData.adjustedWeight : 1;
+      for (let i = 0; i < amount; i++) {
+        const remaining = countFiler[tagData.adjustedWeight];
+        if (remaining !== 0) {
+          if (remaining > 0) {
+            --countFiler[tagData.adjustedWeight];
+          }
+          let rotation = this._currentSettings.cloudWeightSettings[tagData.adjustedWeight].rotation;
+          if (rotation === null || this._currentSettings.randomAngles) {
+            rotation = Math.floor(Math.random() * 30 - 15);
+          }
+          newElements.push(new TagComment(tag, rotation, tagData.weight, tagData, newElements.length));
+        }
       }
     }
+    if (this._currentSettings.sortAlphabetically) {
+      const lines = Math.floor(Math.sqrt(newElements.length - 1) + 1);
+      const divided = Math.floor(newElements.length / lines);
+      let remainder = newElements.length - divided * lines;
+      for (let i = 0, line = 0; line < lines; line++) {
+        const size = divided + (--remainder >= 0 ? 1 : 0);
+        for (let k = 0; k < size; k++, i++) {
+          newElements[i].position = new CustomPosition((k + 1) / (size + 1), (line + 1) / (lines + 1));
+        }
+      }
+      this.updateAlphabeticalPosition(newElements);
+    }
+    this.data = newElements;
+    setTimeout(() => {
+      this.updateTagCloud(true);
+    }, 2);
   }
 
-  analyse(comments: Comment[]) {
-    const commentsConcatenated = comments.map(c => c.body).join(' ');
+  updateTagCloud(dataUpdated = false) {
+    this.isLoading = true;
+    if (this._currentSettings.sortAlphabetically && this.data.length) {
+      this.updateAlphabeticalPosition(this.data);
+    }
+    this._smartDebounce.call(() => this.redraw(dataUpdated));
+  }
 
-    this.spacyService.analyse(commentsConcatenated, 'de').subscribe((res: Result) => {
-      const map = new Map<string, number>();
-      res.words.filter(w => ['NE', 'NN', 'NMP', 'NNE'].indexOf(w.tag) >= 0).forEach(elem => {
-        const count = (map.get(elem.text) || 0) + 1;
-        map.set(elem.text, count);
-      });
-      map.forEach((val, key) => {
-          this.data.push(new TagComment(null,
-            true, null, null,
-            this.randomizeAngle ? Math.floor(Math.random() * 30 - 15) : 0, key,
-            'TODO', val));
-        }
-      );
-      this.sortPositionsAlphabetically(this.sorted);
-      this.updateTagCloud();
+  openTags(tag: CloudData): void {
+    if (this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
+      return;
+    }
+    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
+      this.eventService.broadcast('setTagConfig', tag.text);
+      this._subscriptionCommentlist.unsubscribe();
+    });
+    this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  private updateAlphabeticalPosition(elements: TagComment[]): void {
+    const sizes = new Array(10);
+    const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
+    for (let i = 1; i <= 10; i++) {
+      sizes[i - 1] = (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%';
+    }
+    const width = this.child.calculatedWidth;
+    const height = this.child.calculatedHeight;
+    elements.forEach((e, i) => {
+      this._calcRenderContext.font = sizes[e.tagData.adjustedWeight] + ' ' + this._calcFont;
+      (e.position as CustomPosition).updatePosition(width, height, this._calcRenderContext.measureText(e.text));
     });
   }
 
-  updateTagCloud() {
-    if (this.sorted && this.data.length) {
-      if (!this.child.cloudDataHtmlElements || !this.child.cloudDataHtmlElements.length) {
-        this.child.reDraw();
-      }
-      const width = this.child.calculatedWidth;
-      const height = this.child.calculatedHeight;
-      this.data.forEach((e, i) => {
-        (e.position as CustomPosition).updatePosition(width, height, e.text,
-          window.getComputedStyle(this.child.cloudDataHtmlElements[i]));
-      });
+  private redraw(dataUpdate: boolean): void {
+    if (this.child === undefined) {
+      return;
     }
-    const debounceTime = 1_000;
-    const current = new Date().getTime();
-    const diff = current - this.lastDebounceTime;
-    if (diff >= debounceTime) {
-      this.lastDebounceTime = current;
+    this.isLoading = false;
+    if (!dataUpdate) {
       this.child.reDraw();
-    } else {
-      clearTimeout(this.debounceTimer);
-      this.debounceTimer = setTimeout(() => {
-        this.lastDebounceTime = new Date().getTime();
-        this.child.reDraw();
-      }, debounceTime - diff);
     }
-  }
-
-  openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
+    if (this.dataManager.currentData === null) {
+      return;
+    }
+    this.child.cloudDataHtmlElements.forEach((elem, i) => {
+      const dataElement = this.data[i];
+      elem.addEventListener('mouseleave', () => {
+        elem.style.transform = elem.style.transform.replace(transformationScaleKiller, '').trim() +
+          ' rotate(' + (elem.dataset['tempRotation'] || '0deg') + ')';
+        this.popup.leave();
+      });
+      elem.addEventListener('mouseenter', () => {
+        const transformMatch = elem.style.transform.match(transformationRotationKiller);
+        elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
+        elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
+        this.popup.enter(elem, dataElement.text, dataElement.tagData,
+          (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
+          this.room && this.room.blacklistIsActive);
+      });
     });
-    dialogRef.componentInstance.user = this.user;
-    dialogRef.componentInstance.roomId = this.roomId;
-    let tags;
-    tags = [];
-    if (this.room.tags) {
-      tags = this.room.tags;
+  }
+
+  private updateGlobalStyles(): void {
+    let customTagCloudStyles = document.getElementById('tagCloudStyles') as HTMLStyleElement;
+    if (!customTagCloudStyles) {
+      customTagCloudStyles = document.createElement('style');
+      customTagCloudStyles.id = 'tagCloudStyles';
+      document.head.appendChild(customTagCloudStyles);
     }
-    dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.send(result);
-        } else {
-          return;
+    customTagCloudStyles.sheet.disabled = false;
+    const rules = customTagCloudStyles.sheet.cssRules;
+    for (let i = rules.length - 1; i >= 0; i--) {
+      customTagCloudStyles.sheet.deleteRule(i);
+    }
+    let textTransform = '';
+    let plainTextTransform = 'unset';
+    if (this._currentSettings.textTransform === CloudTextStyle.capitalized) {
+      textTransform = 'text-transform: capitalize;';
+      plainTextTransform = 'capitalize';
+    } else if (this._currentSettings.textTransform === CloudTextStyle.lowercase) {
+      textTransform = 'text-transform: lowercase;';
+      plainTextTransform = 'lowercase';
+    } else if (this._currentSettings.textTransform === CloudTextStyle.uppercase) {
+      textTransform = 'text-transform: uppercase;';
+      plainTextTransform = 'uppercase';
+    }
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span, .spacyTagCloud > span > a { ' +
+      textTransform + ' font-family: ' + this._currentSettings.fontFamily + '; ' +
+      'font-size: ' + this._currentSettings.fontSize + '; ' +
+      'font-weight: ' + this._currentSettings.fontWeight + '; ' +
+      'font-style:' + this._currentSettings.fontStyle + '; }');
+    const fontRange = (this._currentSettings.fontSizeMax - this._currentSettings.fontSizeMin) / 10;
+    for (let i = 1; i <= 10; i++) {
+      customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span.w' + i + ', ' +
+        '.spacyTagCloud > span.w' + i + ' > a { ' +
+        'color: ' + this._currentSettings.cloudWeightSettings[i - 1].color + '; ' +
+        'font-size: ' + (this._currentSettings.fontSizeMin + fontRange * i).toFixed(0) + '%; }');
+    }
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloud > span:hover, .spacyTagCloud > span:hover > a { ' +
+      'color: ' + this._currentSettings.fontColor + ' !important; ' +
+      'background-color: ' + this._currentSettings.backgroundColor + '; }');
+    customTagCloudStyles.sheet.insertRule('.spacyTagCloudContainer { ' +
+      'background-color: ' + this._currentSettings.backgroundColor + '; }');
+    const invertedBackground = TagCloudComponent.invertHex(this._currentSettings.backgroundColor);
+    customTagCloudStyles.sheet.insertRule(':root { ' +
+      '--tag-cloud-inverted-background: ' + invertedBackground + ';' +
+      '--tag-cloud-transform: ' + plainTextTransform + ';' +
+      '--tag-cloud-background-color: ' + this._currentSettings.backgroundColor + ';' +
+      '--tag-cloud-font-weight: ' + this._currentSettings.fontWeight + ';' +
+      '--tag-cloud-font-style: ' + this._currentSettings.fontStyle + ';' +
+      '--tag-cloud-font-family: ' + this._currentSettings.fontFamily + '; }');
+    customTagCloudStyles.sheet.insertRule('.header-icons { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }');
+    customTagCloudStyles.sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
+      'color: var(--tag-cloud-inverted-background) !important; }');
+    customTagCloudStyles.sheet.insertRule('#footer_rescale {' +
+      'display: none; }');
+    customTagCloudStyles.sheet.insertRule('div.main_container {' +
+      'background-color: var(--tag-cloud-background-color) !important; }');
+  }
+
+  /**
+   * 0 = update nothing,
+   * 1 = update css,
+   * 2 = update data
+   */
+  private calcUpdateIntensity(parameters: CloudParameters): number {
+    if (!this._currentSettings) {
+      return 2;
+    }
+    const cssUpdates = ['backgroundColor', 'fontColor'];
+    const dataUpdates = ['randomAngles', 'sortAlphabetically',
+      'fontSizeMin', 'fontSizeMax', 'textTransform', 'fontStyle', 'fontWeight', 'fontFamily', 'fontSize'];
+    const cssWeightUpdates = ['color'];
+    const dataWeightUpdates = ['maxVisibleElements', 'rotation'];
+    for (const key of dataUpdates) {
+      if (this._currentSettings[key] !== parameters[key]) {
+        return 2;
+      }
+    }
+    for (let i = 0; i < 10; i++) {
+      for (const key of dataWeightUpdates) {
+        if (this._currentSettings.cloudWeightSettings[i][key] !== parameters.cloudWeightSettings[i][key]) {
+          return 2;
         }
-      });
-  }
-
-  send(comment: Comment): void {
-    if (this.directSend) {
-      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-        this.notificationService.show(msg);
-      });
-      comment.ack = true;
-    } else {
-      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
-        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
-        comment.ack = true;
-      }
-      if (this.userRole === 0) {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-          this.notificationService.show(msg);
-        });
       }
     }
-    this.commentService.addComment(comment).subscribe();
+    for (const key of cssUpdates) {
+      if (this._currentSettings[key] !== parameters[key]) {
+        return 1;
+      }
+    }
+    for (let i = 0; i < 10; i++) {
+      for (const key of cssWeightUpdates) {
+        if (this._currentSettings.cloudWeightSettings[i][key] !== parameters.cloudWeightSettings[i][key]) {
+          return 1;
+        }
+      }
+    }
+    return 0;
   }
-
-  openCloudConfiguration() {
-    this.configurationOpen = true;
-  }
-
 }

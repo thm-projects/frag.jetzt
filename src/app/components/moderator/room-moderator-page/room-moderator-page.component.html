@@ -4,8 +4,7 @@
      fxFill>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading"
-                          mode="indeterminate"></mat-progress-spinner>
+    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
       <div fxLayout="row">
         <span class="fill-remaining-space"></span>
@@ -25,17 +24,17 @@
                     mat-icon-button
                     (click)="copyShortId()">
               <mat-icon class="copy"
-                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">content_paste
+                        matTooltip="{{ 'room-page.copy-session-id' | translate}}">share
               </mat-icon>
             </button>
           </mat-card-subtitle>
         </mat-card-header>
         <span class="fill-remaining-space"></span>
       </div>
-      <mat-divider></mat-divider>
+
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <markdown [data]="room.description.trim()"></markdown>
+        <app-custom-markdown class="images" [data]="room.description.trim()"></app-custom-markdown>
       </mat-card-content>
       <div fxLayout="column"
            fxLayoutAlign="center"

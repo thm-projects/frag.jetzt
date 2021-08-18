@@ -21,3 +21,7 @@ form {
   margin: 10px 0;
   text-align: center;
 }
+
+::ng-deep .mat-form-field .mat-form-field-infix {
+  max-width: 400px;
+}

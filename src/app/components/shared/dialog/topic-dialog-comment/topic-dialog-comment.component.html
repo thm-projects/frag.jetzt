@@ -1,11 +1,11 @@
 <div>
   <p>
-    <!--{{(isCollapsed) ? question : question | slice:0:maxShowedCharachters}}{{question.length > maxShowedCharachters && !isCollapsed? "..." : ""}} -->
-    <span *ngFor="let part Of partsOfQuestion; let i = index">{{part}}<mark *ngIf="i < partsOfQuestion.length -1">{{keyword}}</mark></span>
+    <span *ngFor="let part Of (isCollapsed?partsOfQuestion:partsOfShortQuestion); let i = index">{{part}}<mark
+      *ngIf="i < (isCollapsed?partsOfQuestion:partsOfShortQuestion).length-1">{{keyword}}</mark></span><span *ngIf="!isCollapsed && question.length > maxShowedCharachters">..</span>
     <button
           *ngIf = "question.length > maxShowedCharachters"
-          (click)="isCollapsed = !isCollapsed">
-          {{"dialog-comment.read-" + (!isCollapsed ? 'more': 'less') | translate}}
-    </button>
+          (click)="isCollapsed = !isCollapsed">{{"dialog-comment.read-"+(!isCollapsed?'more':'less') | translate}}</button>
   </p>
 </div>
+
+

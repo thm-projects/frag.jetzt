@@ -6,7 +6,7 @@ import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { LoginComponent } from '../login/login.component';
 import { DeleteAccountComponent } from '../_dialogs/delete-account/delete-account.component';
 import { UserService } from '../../../services/http/user.service';
@@ -20,9 +20,15 @@ import { RemindOfTokensComponent } from '../../participant/_dialogs/remind-of-to
 import { QrCodeDialogComponent } from '../_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { MotdService } from '../../../services/http/motd.service';
-import { RoomService } from '../../../services/http/room.service';
-//import {CloudConfigurationComponent} from "../_dialogs/cloud-configuration/cloud-configuration.component";
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { RoomService } from '../../../services/http/room.service';
+import { Room } from '../../../models/room';
+import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
+import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
+import { WsRoomService } from '../../../services/websockets/ws-room.service';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { HeaderService } from '../../../services/util/header.service';
+import { OnboardingService } from '../../../services/util/onboarding.service';
 
 @Component({
   selector: 'app-header',
@@ -33,10 +39,18 @@ export class HeaderComponent implements OnInit {
   user: User;
   cTime: string;
   shortId: string;
-  deviceType: string;
   isSafari = 'false';
   moderationEnabled: boolean;
   motdState = false;
+  room: Room;
+  commentsCountQuestions = 0;
+  commentsCountUsers = 0;
+  commentsCountKeywords = 0;
+  isAdminConfigEnabled = false;
+  private _subscriptionRoomService = null;
+  toggleUserActivity = false;
+  userActivity = 0;
+  deviceType = localStorage.getItem('deviceType');
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -49,21 +63,33 @@ export class HeaderComponent implements OnInit {
               private bonusTokenService: BonusTokenService,
               private _r: Renderer2,
               private motdService: MotdService,
-              private confirmDialog: MatDialog
+              private confirmDialog: MatDialog,
+              private roomService: RoomService,
+              private wsRoomService: WsRoomService,
+              private topicCloudAdminService: TopicCloudAdminService,
+              private headerService: HeaderService,
+              private onboardingService: OnboardingService
   ) {
   }
 
   ngOnInit() {
+    this.topicCloudAdminService.getAdminData.subscribe(data => {
+      this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
+    });
     this.eventService.on('userLogin').subscribe(e => {
       this.motdService.checkNewMessage(() => {
         this.motdService.requestDialog();
       });
     });
+    this.eventService.on<TagCloudMetaData>('tagCloudHeaderDataOverview').subscribe(data => {
+      this.commentsCountQuestions = data.commentCount;
+      this.commentsCountUsers = data.userCount;
+      this.commentsCountKeywords = data.tagCount;
+    });
     if (localStorage.getItem('loggedin') !== null && localStorage.getItem('loggedin') === 'true') {
       this.authenticationService.refreshLogin();
     }
     const userAgent = navigator.userAgent;
-    console.log(userAgent);
     // Check if mobile device
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
       // Check if IOS device
@@ -105,15 +131,33 @@ export class HeaderComponent implements OnInit {
       if (val instanceof NavigationEnd) {
         /* segments gets all parts of the url */
         const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
+        this.shortId = '';
+        this.room = null;
+        if (this._subscriptionRoomService) {
+          this._subscriptionRoomService.unsubscribe();
+          this._subscriptionRoomService = null;
+        }
+
         if (segments && segments.length > 2) {
           if (!segments[2].path.includes('%')) {
             this.shortId = segments[2].path;
             localStorage.setItem('shortId', this.shortId);
+            this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
+              this.room = room;
+              this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
+                const message = JSON.parse(msg.body);
+                if (message.type === 'RoomPatched') {
+                  this.room.questionsBlocked = message.payload.changes.questionsBlocked;
+                  this.moderationEnabled = message.payload.changes.moderated;
+                }
+              });
+            });
           }
         }
       }
     });
     this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+
 
     this._r.listen(document, 'keyup', (event) => {
       if (
@@ -133,6 +177,13 @@ export class HeaderComponent implements OnInit {
     this.motdService.onNewMessage().subscribe(state => {
       this.motdState = state;
     });
+
+    this.headerService.onActivityChange(e => {
+      this.toggleUserActivity = e;
+    });
+    this.headerService.onUserChange(e => {
+      this.userActivity = e;
+    });
   }
 
   showMotdDialog() {
@@ -148,7 +199,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     // ToDo: Fix this madness.
     if (this.user.authProvider === 'ARSNOVA_GUEST') {
-      this.bonusTokenService.getTokensByUserId(this.user.id).subscribe( list => {
+      this.bonusTokenService.getTokensByUserId(this.user.id).subscribe(list => {
         if (list && list.length > 0) {
           const dialogRef = this.dialog.open(RemindOfTokensComponent, {
             width: '600px'
@@ -182,6 +233,9 @@ export class HeaderComponent implements OnInit {
     this.location.back();
   }
 
+  startTour() {
+    this.onboardingService.startDefaultTour(true);
+  }
 
   login(isLecturer: boolean) {
     const dialogRef = this.dialog.open(LoginComponent, {
@@ -286,10 +340,28 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'createQuestion');
   }
 
+  public navigateDeleteRoom() {
+    this.eventService.broadcast('navigate', 'deleteRoom');
+  }
+
+  public navigateProfanityFilter() {
+    this.eventService.broadcast('navigate', 'profanityFilter');
+  }
+
+  public navigateEditSessionDescription() {
+    this.eventService.broadcast('navigate', 'editSessionDescription');
+  }
+
+  public navigateModeratorSettings() {
+    this.eventService.broadcast('navigate', 'moderatorSettings');
+  }
+
   public navigateTopicCloud() {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
       autoFocus: false
     });
+    confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
+    confirmDialogRef.componentInstance.user = this.user;
   }
 
   public navigateTopicCloudConfig() {
@@ -300,4 +372,13 @@ export class HeaderComponent implements OnInit {
     this.eventService.broadcast('navigate', 'topicCloudAdministration');
   }
 
+  public blockQuestions() {
+    // flip state if clicked
+    this.room.questionsBlocked = !this.room.questionsBlocked;
+    this.roomService.updateRoom(this.room).subscribe();
+  }
+
+  public startWorkerDialog() {
+    WorkerDialogComponent.addWorkTask(this.dialog, this.room);
+  }
 }

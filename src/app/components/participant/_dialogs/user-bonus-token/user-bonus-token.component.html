@@ -1,7 +1,6 @@
 <div mat-dialog-content>
   <h2 class="oldtypo-h2"
       tabindex="0">{{'user-bonus-token.header' | translate }}</h2>
-  <mat-divider></mat-divider>
   <div *ngIf="bonusTokensMixin.length >= 1">
     <div fxLayout="column"
          class="tokens"
@@ -11,7 +10,7 @@
           tabindex="1">{{bonusToken.token}}</h2>
       <h2 class="roomName">&raquo;{{bonusToken.roomName}}&laquo;</h2>
     </div>
-    <mat-divider></mat-divider>
+
     <div fxLayout="column">
       <form class="example-form">
         <mat-form-field class="example-full-width">

@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
@@ -59,12 +59,16 @@ import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dial
 import { MatIconModule } from '@angular/material/icon';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
 import { MatomoModule } from 'ngx-matomo-v9';
-import { TagCloudComponent } from './components/shared/tag-cloud/tag-cloud.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import {TagCloudModule} from 'angular-tag-cloud-module';
-import {SpacyService} from './services/http/spacy.service';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { SpacyService } from './services/http/spacy.service';
+import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
+import { JoyrideModule } from 'ngx-joyride';
 
-
+import 'prismjs';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
+import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
+import 'katex/dist/katex.min.js';
+import 'emoji-toolkit/lib/js/joypixels.min.js';
 export function dialogClose(dialogResult: any) {
 }
 
@@ -100,7 +104,7 @@ export function initializeApp(appConfig: AppConfig) {
     DemoEnComponent,
     HelpEnComponent,
     OverlayComponent,
-    TagCloudComponent
+    QuizNowComponent
   ],
   imports: [
     MatomoModule,
@@ -120,7 +124,13 @@ export function initializeApp(appConfig: AppConfig) {
       markedOptions: {
         provide: MarkedOptions,
         useValue: {
-          sanitize: true
+          pedantic: false,
+          gfm: true,
+          breaks: true,
+          sanitize: false,
+          smartLists: true,
+          smartypants: true,
+          xhtml: false
         }
       }
     }),
@@ -134,7 +144,8 @@ export function initializeApp(appConfig: AppConfig) {
       isolate: true
     }),
     ArsModule,
-    TagCloudModule
+    TagCloudModule,
+    JoyrideModule.forRoot()
   ],
   providers: [
     /*AppConfig,

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { Room } from '../../../../models/room';
@@ -8,19 +8,29 @@ import { BonusDeleteComponent } from '../bonus-delete/bonus-delete.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { Subject, Subscription } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { isNumeric } from 'rxjs/internal-compatibility';
+import { EventService } from '../../../../services/util/event.service';
 
 @Component({
   selector: 'app-bonus-token',
   templateUrl: './bonus-token.component.html',
   styleUrls: ['./bonus-token.component.scss']
 })
-export class BonusTokenComponent implements OnInit {
+export class BonusTokenComponent implements OnInit, OnDestroy {
+  value: any = '';
+  valid = false;
   room: Room;
   bonusTokens: BonusToken[] = [];
   lang: string;
+  private modelChanged: Subject<string> = new Subject<string>();
+  private subscription: Subscription;
+  private debounceTime = 500;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
+              public eventService: EventService,
               protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private translationService: TranslateService,
@@ -29,11 +39,16 @@ export class BonusTokenComponent implements OnInit {
 
   ngOnInit() {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
-      this.bonusTokens = list.sort((a, b) => {
-        return (a.token > b.token) ? 1 : -1;
-      });
+      this.bonusTokens = list.sort((a, b) => (a.token > b.token) ? 1 : -1);
     });
     this.lang = localStorage.getItem('currentLang');
+    this.subscription = this.modelChanged
+      .pipe(
+        debounceTime(this.debounceTime),
+      )
+      .subscribe(_ => {
+        this.inputToken();
+      });
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
@@ -89,10 +104,63 @@ export class BonusTokenComponent implements OnInit {
     this.router.navigate([commentURL]);
   }
 
+  navToCommentByValue() {
+    if(this.valid) {
+      this.bonusTokens.map(b => {
+        if(b.token === this.value) {
+          this.navToComment(b.commentId);
+        }
+      });
+    } else {
+      this.translationService.get('token-validator.cant-find-comment').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+    }
+  }
+
   /**
    * Returns a lambda which closes the dialog on call.
    */
   buildDeclineActionCallback(): () => void {
     return () => this.dialogRef.close();
+  }
+
+  inputChanged(event: any) {
+    event.cancelBubble = true;
+    this.value = event.target.value;
+    this.modelChanged.next(event);
+  }
+
+  inputToken() {
+    const index = this.validateTokenInput(this.value);
+    if(index) {
+      this.translationService.get('token-validator.valid').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+      this.valid = true;
+    } else {
+      this.translationService.get('token-validator.invalid').subscribe(msg => {
+        this.notificationService.show(msg);
+      });
+      this.valid = false;
+    }
+  }
+
+  validateTokenInput(input: any) {
+    if(input.length === 8 && isNumeric(input)) {
+      return this.bonusTokens.map((c, index) => {
+        if (c.token === input) {
+          return index;
+        }
+      });
+    }
+  }
+
+  valueEqual(token: string) {
+    return token.trim() === this.value;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

@@ -3,10 +3,7 @@ import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { Message } from '@stomp/stompjs';
-import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
 import { MatDialog } from '@angular/material/dialog';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { User } from '../../../models/user';
 import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -17,11 +14,10 @@ import { NotificationService } from '../../../services/util/notification.service
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
-import { Title } from '@angular/platform-browser';
 import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
@@ -29,16 +25,18 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { CommentFilter, Period } from '../../../utils/filter-options';
+import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
+import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { WsRoomService } from '../../../services/websockets/ws-room.service';
+import { ActiveUserService } from '../../../services/http/active-user.service';
+import { OnboardingService } from '../../../services/util/onboarding.service';
 
-export enum Period {
-  FROMNOW    = 'from-now',
-  ONEHOUR    = 'time-1h',
-  THREEHOURS = 'time-3h',
-  ONEDAY     = 'time-1d',
-  ONEWEEK    = 'time-1w',
-  TWOWEEKS   = 'time-2w',
-  ALL        = 'time-all'
+export interface CommentListData {
+  comments: Comment[];
+  currentFilter: CommentFilter;
+  room: Room;
 }
 
 @Component({
@@ -46,7 +44,6 @@ export enum Period {
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
 })
-
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
@@ -76,11 +73,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   moderator = 'moderator';
   lecturer = 'lecturer';
   tag = 'tag';
+  selectedTag = '';
   userNumber = 'userNumber';
+  keyword = 'keyword';
+  selectedKeyword = '';
   answer = 'answer';
   unanswered = 'unanswered';
   owner = 'owner';
   currentFilter = '';
+  currentFilterCompare: any = null;
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
@@ -95,16 +96,23 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentStream: Subscription;
   periodsList = Object.values(Period);
   headerInterface = null;
-  period: Period = Period.TWOWEEKS;
+  period: Period = Period.twoWeeks;
   fromNow: number;
   moderatorIds: string[];
+  commentsEnabled: boolean;
+  userNumberSelection = 0;
+  createCommentWrapper: CreateCommentWrapper = null;
+  isJoyrideActive = false;
+  private _subscriptionEventServiceTagConfig = null;
+  private _subscriptionEventServiceRoomData = null;
+  private _subscriptionRoomService = null;
+  activeUsers = 0;
 
   constructor(
     private commentService: CommentService,
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService,
     protected roomService: RoomService,
     protected voteService: VoteService,
     private authenticationService: AuthenticationService,
@@ -117,14 +125,35 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private translationService: TranslateService,
     private bonusTokenService: BonusTokenService,
     private moderatorService: ModeratorService,
+    private topicCloudAdminService: TopicCloudAdminService,
+    private roomDataService: RoomDataService,
+    private wsRoomService: WsRoomService,
+    private activeUserService: ActiveUserService,
+    private onboardingService: OnboardingService
   ) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.langEmitter.subscribe(lang => {
+      translateService.use(lang);
+      this.translateService.get('comment-list.search').subscribe(msg => {
+        this.searchPlaceholder = msg;
+      });
+    });
   }
 
   initNavigation() {
+    this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
+      this.setTimePeriod(Period.all);
+      this.clickedOnKeyword(tag);
+    });
+    this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
+      this.eventService.broadcast('currentRoomData', {
+        currentFilter: this.getCurrentFilter(),
+        comments: this.comments,
+        room: this.room
+      } as CommentListData);
+    });
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this.openCreateDialog());
+    nav('createQuestion', () => this.createCommentWrapper.openCreateDialog(this.user));
     nav('moderator', () => {
       const dialogRef = this.dialog.open(ModeratorsComponent, {
         width: '400px',
@@ -211,24 +240,46 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
+      this.authenticationService.checkAccess(this.shortId);
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
           this.roomId = room.id;
+          this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
+            const message = JSON.parse(msg.body);
+            if (message.type === 'RoomPatched') {
+              this.room = message.payload.changes;
+              this.roomId = this.room.id;
+              this.moderationEnabled = this.room.moderated;
+              this.directSend = this.room.directSend;
+              this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+            }
+          });
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
+          this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
+            this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
           if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
-          this.getModeratorIds();
-          this.subscribeCommentStream();
-          this.commentService.getAckComments(this.room.id)
-            .subscribe(comments => {
+          this.moderatorService.get(this.roomId).subscribe(list => {
+            this.moderatorIds = list.map(m => m.accountId);
+            this.moderatorIds.push(this.room.ownerId);
+
+            this.roomDataService.getRoomData(this.room.id).subscribe(comments => {
+              if (comments === null) {
+                return;
+              }
               this.comments = comments;
               this.getComments();
+              this.eventService.broadcast('commentListCreated', null);
+              this.isJoyrideActive = this.onboardingService.startDefaultTour();
             });
+            this.subscribeCommentStream();
+          });
           /**
            if (this.userRole === UserRole.PARTICIPANT) {
             this.openCreateDialog();
@@ -245,26 +296,24 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });
-
-    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
-  }
-
-  getModeratorIds() {
-    this.moderatorService.get(this.roomId).subscribe(list => {
-      this.moderatorIds = list.map(m => m.accountId);
-      this.moderatorIds.push(this.room.ownerId);
-    });
   }
 
   ngOnDestroy() {
     if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
+    if (this._subscriptionRoomService) {
+      this._subscriptionRoomService.unsubscribe();
+    }
     this.titleService.resetTitle();
     if (this.headerInterface) {
       this.headerInterface.unsubscribe();
+    }
+    if (this._subscriptionEventServiceRoomData) {
+      this._subscriptionEventServiceRoomData.unsubscribe();
+    }
+    if (this._subscriptionEventServiceTagConfig) {
+      this._subscriptionEventServiceTagConfig.unsubscribe();
     }
   }
 
@@ -285,7 +334,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.hideCommentsList = true;
         this.filteredComments = this.comments
           .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
-                       || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
+            || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
       }
     } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
@@ -297,9 +346,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   activateSearch() {
-    this.translateService.get('comment-list.search').subscribe(msg => {
-      this.searchPlaceholder = msg;
-    });
     this.search = true;
     this.searchField.nativeElement.focus();
   }
@@ -329,154 +375,20 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }
   }
 
-  parseIncomingMessage(message: Message) {
-    const msg = JSON.parse(message.body);
-    const payload = msg.payload;
-    switch (msg.type) {
-      case 'CommentCreated':
-        const c = new Comment();
-        c.roomId = this.roomId;
-        c.body = payload.body;
-        c.id = payload.id;
-        c.timestamp = payload.timestamp;
-        c.tag = payload.tag;
-        c.creatorId = payload.creatorId;
-        c.userNumber = this.commentService.hashCode(c.creatorId);
-        this.commentService.getComment(c.id).subscribe(e => {
-          c.number = e.number;
-        });
-
-        this.announceNewComment(c.body);
-        this.comments = this.comments.concat(c);
-        this.setComments(this.comments);
-        break;
-      case 'CommentPatched':
-        // ToDo: Use a map for comments w/ key = commentId
-        for (let i = 0; i < this.comments.length; i++) {
-          if (payload.id === this.comments[i].id) {
-            for (const [key, value] of Object.entries(payload.changes)) {
-              switch (key) {
-                case this.read:
-                  this.comments[i].read = <boolean>value;
-                  break;
-                case this.correct:
-                  this.comments[i].correct = <CorrectWrong>value;
-                  break;
-                case this.favorite:
-                  this.comments[i].favorite = <boolean>value;
-                  if (this.user.id === this.comments[i].creatorId && <boolean>value) {
-                    this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
-                      this.notificationService.show(ret);
-                    });
-                  }
-                  break;
-                case this.bookmark:
-                  this.comments[i].bookmark = <boolean>value;
-                  break;
-                case 'score':
-                  this.comments[i].score = <number>value;
-                  this.getComments();
-                  break;
-                case this.ack:
-                  const isNowAck = <boolean>value;
-                  if (!isNowAck) {
-                    this.comments = this.comments.filter(function (el) {
-                      return el.id !== payload.id;
-                    });
-                    this.setTimePeriod();
-                  }
-                  break;
-                case this.tag:
-                  this.comments[i].tag = <string>value;
-                  break;
-                case this.answer:
-                  this.comments[i].answer = <string>value;
-                  break;
-              }
-            }
-          }
-        }
-        break;
-      case 'CommentHighlighted':
-        // ToDo: Use a map for comments w/ key = commentId
-        for (let i = 0; i < this.comments.length; i++) {
-          if (payload.id === this.comments[i].id) {
-            this.comments[i].highlighted = <boolean>payload.lights;
-          }
-        }
-        break;
-      case 'CommentDeleted':
-        for (let i = 0; i < this.comments.length; i++) {
-          this.comments = this.comments.filter(function (el) {
-            return el.id !== payload.id;
-          });
-        }
-        break;
-    }
-    this.setTimePeriod();
-    if (this.hideCommentsList) {
-      this.searchComments();
-    }
-  }
   closeDialog() {
     this.dialog.closeAll();
-  }
-  openCreateDialog(): void {
-    const dialogRef = this.dialog.open(CreateCommentComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false,
-    });
-    dialogRef.componentInstance.user = this.user;
-    dialogRef.componentInstance.roomId = this.roomId;
-    let tags;
-    tags = [];
-    if (this.room.tags) {
-      tags = this.room.tags;
-    }
-    dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.send(result);
-        } else {
-          return;
-        }
-      });
-  }
-
-
-  send(comment: Comment): void {
-    let message;
-    if (this.directSend) {
-      this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-        message = msg;
-      });
-      comment.ack = true;
-    } else {
-      if (this.userRole === 1 || this.userRole === 2 || this.userRole === 3) {
-        this.translateService.get('comment-list.comment-sent').subscribe(msg => {
-          message = msg;
-        });
-        comment.ack = true;
-      }
-      if (this.userRole === 0) {
-        this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
-          message = msg;
-        });
-      }
-    }
-    this.commentService.addComment(comment).subscribe();
-    this.notificationService.show(message);
   }
 
   filterComments(type: string, compare?: any): void {
     this.currentFilter = type;
+    this.currentFilterCompare = compare;
     if (type === '') {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
       this.currentFilter = '';
+      this.selectedTag = '';
+      this.selectedKeyword = '';
+      this.userNumberSelection = 0;
       this.sortComments(this.currentSort);
       return;
     }
@@ -495,9 +407,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
         case this.unread:
           return !c.read;
         case this.tag:
+          this.selectedTag = compare;
           return c.tag === compare;
         case this.userNumber:
           return c.userNumber === compare;
+        case this.keyword:
+          this.selectedKeyword = compare;
+          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.findIndex(k => k.lemma === compare) >= 0 : false;
+          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.findIndex(k => k.lemma === compare) >= 0 : false;
+          return isInQuestioner || isInSpacy;
         case this.answer:
           return c.answer;
         case this.unanswered:
@@ -505,16 +423,29 @@ export class CommentListComponent implements OnInit, OnDestroy {
         case this.owner:
           return c.creatorId === this.user.id;
         case this.moderator:
-          return c.creatorId === this.user.id && (this.user.role === 2 || this.user.role === 1);
+          return this.moderatorIds.includes(c.creatorId);
         case this.lecturer:
-          return c.creatorId === this.user.id && this.user.role === 3;
+          return c.createdFromLecturer;
       }
     });
+    const testForModerator=()=>{
+      this.comments.forEach(e=>{
+        this.commentService.role(e).subscribe(i=>{
+          console.log(e,i);
+        });
+      });
+    };
+    if(type==='moderator'){
+      console.log(
+        'TEST moderator',
+        this.moderatorIds,
+        this.user,
+        this.room
+      );
+      testForModerator();
+    }
     this.hideCommentsList = true;
     this.sortComments(this.currentSort);
-
-    // set current filters to local storage for later use
-    localStorage.setItem('currentFilters', JSON.stringify(this.currentFilter));
   }
 
   sort(array: any[], type: string): any[] {
@@ -524,13 +455,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
       } else if (type === this.votedesc) {
         return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
       } else if (type === this.time) {
-        const dateA = new Date(a.timestamp), dateB = new Date(b.timestamp);
+        const dateA = new Date(a.timestamp);
+        const dateB = new Date(b.timestamp);
         return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
       }
     });
-    return sortedArray.sort((a, b) => {
-      return this.isCreatedByModeratorOrCreator(a) ? -1 : this.isCreatedByModeratorOrCreator(b) ? 1 : 0;
-    });
+    return sortedArray.sort((a, b) => this.isCreatedByModeratorOrCreator(a) ? -1 : this.isCreatedByModeratorOrCreator(b) ? 1 : 0);
   }
 
   isCreatedByModeratorOrCreator(comment: Comment): boolean {
@@ -550,12 +480,25 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.filterComments(this.tag, tag);
   }
 
+  clickedOnKeyword(keyword: string): void {
+    this.filterComments(this.keyword, keyword);
+  }
+
   clickedUserNumber(usrNumber: number): void {
+    this.userNumberSelection = usrNumber;
     this.filterComments(this.userNumber, usrNumber);
   }
 
   pauseCommentStream() {
     this.freeze = true;
+    this.roomDataService.getRoomData(this.roomId, true).subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
+      this.comments = comments;
+      this.setComments(comments);
+      this.getComments();
+    });
     this.commentStream.unsubscribe();
     this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
       this.notificationService.show(msg);
@@ -564,12 +507,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   playCommentStream() {
     this.freeze = false;
-    this.commentService.getAckComments(this.roomId)
-      .subscribe(comments => {
-        this.comments = comments;
-        this.setComments(comments);
-        this.getComments();
-      });
+    this.roomDataService.getRoomData(this.roomId).subscribe(comments => {
+      if (comments === null) {
+        return;
+      }
+      this.comments = comments;
+      this.setComments(comments);
+      this.getComments();
+    });
     this.subscribeCommentStream();
     this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
       this.notificationService.show(msg);
@@ -577,8 +522,32 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   subscribeCommentStream() {
-    this.commentStream = this.wsCommentService.getCommentStream(this.room.id).subscribe((message: Message) => {
-      this.parseIncomingMessage(message);
+    this.commentStream = this.roomDataService.receiveUpdates([
+      { type: 'CommentCreated', finished: true },
+      { type: 'CommentPatched', subtype: this.favorite },
+      { type: 'CommentPatched', subtype: 'score' },
+      { finished: true }
+    ]).subscribe(update => {
+      if (update.type === 'CommentCreated') {
+        this.announceNewComment(update.comment.body);
+        this.setComments(this.comments);
+      } else if (update.type === 'CommentPatched') {
+        if (update.subtype === 'score') {
+          this.getComments();
+        } else if (update.subtype === this.favorite) {
+          if (this.user.id === update.comment.creatorId && update.comment.favorite) {
+            this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
+              this.notificationService.show(ret);
+            });
+          }
+        }
+      }
+      if (update.finished) {
+        this.setTimePeriod();
+        if (this.hideCommentsList) {
+          this.searchComments();
+        }
+      }
     });
   }
 
@@ -606,7 +575,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
       // current live announcer content must be cleared before next read
       this.liveAnnouncer.clear();
 
-      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */ });
+      this.liveAnnouncer.announce(newCommentText).catch(err => { /* TODO error handling */
+      });
     }, 450);
   }
 
@@ -618,40 +588,53 @@ export class CommentListComponent implements OnInit, OnDestroy {
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (this.period !== Period.ALL) {
+    if (this.period !== Period.all) {
       switch (this.period) {
-        case Period.FROMNOW:
+        case Period.fromNow:
           if (!this.fromNow) {
             this.fromNow = new Date().getTime();
           }
           break;
-        case Period.ONEHOUR:
+        case Period.oneHour:
           periodInSeconds = hourInSeconds;
           break;
-        case Period.THREEHOURS:
+        case Period.threeHours:
           periodInSeconds = hourInSeconds * 2;
           break;
-        case Period.ONEDAY:
+        case Period.oneDay:
           periodInSeconds = hourInSeconds * 24;
           break;
-        case Period.ONEWEEK:
+        case Period.oneWeek:
           periodInSeconds = hourInSeconds * 168;
           break;
-        case Period.TWOWEEKS:
+        case Period.twoWeeks:
           periodInSeconds = hourInSeconds * 336;
           break;
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >=
-                     (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
+          (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
       this.commentsFilteredByTime = this.comments;
     }
 
-    localStorage.setItem('currentPeriod', JSON.stringify(this.period));
-    localStorage.setItem('currentFromNowTimestamp', JSON.stringify(this.fromNow)); // can be null
-    
-    this.filterComments(this.currentFilter);
+    this.filterComments(this.currentFilter, this.currentFilterCompare);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+  }
+
+  private getCurrentFilter(): CommentFilter {
+    const filter = new CommentFilter();
+    filter.filterSelected = this.currentFilter;
+    filter.paused = this.freeze;
+    filter.periodSet = this.period;
+    filter.keywordSelected = this.selectedKeyword;
+    filter.tagSelected = this.selectedTag;
+    filter.userNumberSelected = this.userNumberSelection;
+
+    if (filter.periodSet === Period.fromNow) {
+      filter.timeStampNow = new Date().getTime();
+    }
+
+    return filter;
   }
 }

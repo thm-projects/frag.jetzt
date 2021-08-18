@@ -29,13 +29,25 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
 import { TagCloudModule } from 'angular-tag-cloud-module';
-import { CloudConfigurationComponent } from "./_dialogs/cloud-configuration/cloud-configuration.component";
+import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
 import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
+import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ActiveUserComponent } from './overlay/active-user/active-user.component';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
+import { JoyrideModule } from 'ngx-joyride';
+import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-template.component';
+import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
+import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
+import { WriteCommentComponent } from './write-comment/write-comment.component';
+import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
 
 @NgModule({
   imports: [
@@ -47,7 +59,9 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     MarkdownModule,
     QRCodeModule,
     TagCloudModule,
-    ColorPickerModule
+    ColorPickerModule,
+    DragDropModule,
+    JoyrideModule.forChild()
   ],
   declarations: [
     RoomJoinComponent,
@@ -77,24 +91,40 @@ import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.compo
     TopicCloudAdministrationComponent,
     TopicDialogCommentComponent,
     TopicCloudFilterComponent,
-    SpacyDialogComponent
+    SpacyDialogComponent,
+    TagCloudComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent,
+    WorkerDialogComponent,
+    AutofocusDirective,
+    JoyrideTemplateComponent,
+    JoyrideTemplateDirective,
+    MatSpinnerOverlayComponent,
+    WriteCommentComponent,
+    CustomMarkdownComponent
   ],
-    exports: [
-        RoomJoinComponent,
-        PageNotFoundComponent,
-        RoomPageComponent,
-        RoomListComponent,
-        HeaderComponent,
-        FooterComponent,
-        CommentPageComponent,
-        CommentListComponent,
-        CreateCommentComponent,
-        PresentCommentComponent,
-        CommentComponent,
-        DialogActionButtonsComponent,
-        UserBonusTokenComponent,
-        CloudConfigurationComponent
-    ]
+  exports: [
+    RoomJoinComponent,
+    PageNotFoundComponent,
+    RoomPageComponent,
+    RoomListComponent,
+    HeaderComponent,
+    FooterComponent,
+    CommentPageComponent,
+    CommentListComponent,
+    CreateCommentComponent,
+    PresentCommentComponent,
+    CommentComponent,
+    DialogActionButtonsComponent,
+    UserBonusTokenComponent,
+    CloudConfigurationComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent,
+    JoyrideTemplateDirective,
+    AutofocusDirective,
+    CustomMarkdownComponent
+  ]
 })
 export class SharedModule {
 }

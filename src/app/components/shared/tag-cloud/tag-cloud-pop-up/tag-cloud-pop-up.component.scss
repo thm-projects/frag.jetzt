@@ -1,0 +1,179 @@
+$popup-arrow-size: 20px;
+$popup-arrow-border-size: 2px;
+$popup-arrow-half-size: $popup-arrow-size / 2;
+$popup-arrow-offset: $popup-arrow-half-size + $popup-arrow-border-size;
+$header-size: 67px;
+
+.popupContainer {
+  visibility: hidden;
+  border-radius: 25px;
+  border: 2px solid #000;
+  background-color: var(--dialog);
+  padding: $popup-arrow-half-size;
+  position: absolute;
+  box-shadow: 0 0 10px var(--dialog);
+  box-sizing: border-box;
+  z-index: 3;
+  color: var(--on-dialog);
+  transform: translateY(-$header-size);
+  min-width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & > div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow: hidden;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &::after {
+    position: absolute;
+    content: '';
+    width: $popup-arrow-size;
+    height: $popup-arrow-size;
+    background-color: var(--dialog);
+    border-top: 0 solid #000;
+    border-right: $popup-arrow-border-size solid #000;
+    border-left: 0 solid #000;
+    border-bottom: $popup-arrow-border-size solid #000;
+  }
+
+  &.down {
+    visibility: unset;
+    transform: translate(-50%, calc(-100% - #{$header-size + $popup-arrow-offset}));
+
+    &::after {
+      top: 100%;
+      left: 50%;
+      margin-top: -$popup-arrow-half-size;
+      margin-left: -$popup-arrow-half-size;
+      transform: rotate(45deg);
+    }
+  }
+
+  &.left {
+    visibility: unset;
+    transform: translate($popup-arrow-offset, calc(-50% - #{$header-size}));
+
+    &::after {
+      top: 50%;
+      right: 100%;
+      margin-top: -$popup-arrow-half-size;
+      margin-right: -$popup-arrow-half-size;
+      transform: rotate(135deg);
+    }
+  }
+
+  &.up {
+    visibility: unset;
+    transform: translate(-50%, $popup-arrow-offset - $header-size);
+
+    &::after {
+      bottom: 100%;
+      left: 50%;
+      margin-bottom: -$popup-arrow-half-size;
+      margin-left: -$popup-arrow-half-size;
+      transform: rotate(225deg);
+    }
+  }
+
+  &.right {
+    visibility: unset;
+    transform: translate(calc(-100% - #{$popup-arrow-offset}), calc(-50% - #{$header-size}));
+
+    &::after {
+      top: 50%;
+      left: 100%;
+      margin-top: -$popup-arrow-half-size;
+      margin-left: -$popup-arrow-half-size;
+      transform: rotate(315deg);
+    }
+  }
+}
+
+div > p {
+  margin-bottom: 1px;
+}
+
+span {
+  margin-right: 5px;
+
+  & > mat-icon {
+    margin: -1px 0px 0px 12px;
+    vertical-align: middle;
+  }
+
+  & > p {
+    display: inline;
+    font-weight: 600;
+    vertical-align: middle;
+  }
+}
+
+ul {
+  margin: 0;
+}
+
+button {
+  color: var(--red);
+  min-width: unset;
+  margin-left: 0;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.replace-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  min-width: 30px !important;
+  min-height: 10px !important;
+  width: 100%;
+  z-index: 3;
+}
+
+::ng-deep .replacementContainer {
+  align-self: center;
+
+  .mat-form-field-infix {
+    min-width: 150px;
+    width: min-content;
+  }
+
+  .mat-form-field-wrapper {
+    margin-bottom: -0.8em;
+  }
+}
+
+mat-form-field {
+  border-radius: 5px;
+  line-height: 80%;
+  caret-color: var(--on-surface);
+  -webkit-appearance: textarea;
+  min-height: 30px;
+  min-width: 140px;
+  cursor: text;
+  color: var(--on-dialog);
+  background-color: var(--dialog);
+  margin-top: 0.2em;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+#replacement {
+  color: var(--on-dialog);
+  background-color: var(--dialog);
+  border-radius: 5px;
+}
+
+.mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled, .mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled, .mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled, .mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled, .mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled, .mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled, .mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled, .mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
+  display: none;
+}

@@ -2,6 +2,11 @@
 @import 'theme/dark-theme/dark-theme';
 @import 'theme/blue-theme/blue-theme';
 @import 'theme/purple-theme/purple-theme';
+
+@import '~katex/dist/katex.min.css';
+@import '~prismjs/plugins/line-numbers/prism-line-numbers.css';
+@import '~prismjs/plugins/line-highlight/prism-line-highlight.css';
+
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -134,6 +139,7 @@ address {
 
 .mat-card {
   line-height: 1.5 !important;
+  color: var(--on-surface) !important;
 }
 
 a.info {
@@ -184,12 +190,8 @@ a {
   outline: none !important;
 }
 
-.mat-dialog-content {
-  max-height: 40vh !important;
-}
-
 .mat-dialog-container {
-  max-width: 600px !important;
+  max-width: 650px !important;
   margin: 0 auto;
   line-height: 1.5 !important;
 }
@@ -200,6 +202,14 @@ a {
 
 .star {
   color: var(--yellow) !important;
+}
+
+.faq {
+  color: var(--on-dialog) !important;
+}
+
+.fullscreen {
+  color: var(--on-dialog) !important;
 }
 
 .mat-icon-button i, .mat-icon-button .mat-icon {
@@ -231,7 +241,10 @@ a {
   height: 3px !important;
 }
 
-.mat-divider {
-  height: 1px !important;
-  border-top-color: rgba(0, 0, 0, 0.12) !important;
+.mat-error {
+  color: var(--red);
+}
+
+.mat-spinner circle {
+  stroke: var(--on-background);
 }

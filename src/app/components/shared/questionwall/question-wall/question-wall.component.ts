@@ -3,7 +3,7 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
 import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
-import { WsCommentServiceService } from '../../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../../services/websockets/ws-comment.service';
 import { QuestionWallComment } from '../QuestionWallComment';
 import { ColComponent } from '../../../../../../projects/ars/src/lib/components/layout/frame/col/col.component';
 import { Router } from '@angular/router';
@@ -12,9 +12,9 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
-import { CorrectWrong } from '../../../../models/correct-wrong.enum';
 import { MatSliderChange } from '@angular/material/slider';
-import { Period } from '../../comment-list/comment-list.component';
+import { Period } from '../../../../utils/filter-options';
+import { RoomDataService } from '../../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-question-wall',
@@ -47,9 +47,31 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   userList = [];
   userSelection = false;
   tags;
-  fontSize = 250;
+  fontSize = 180;
   periodsList = Object.values(Period);
-  period: Period = Period.ALL;
+  period: Period = Period.all;
+  isLoading = true;
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private commentService: CommentService,
+    private roomService: RoomService,
+    private wsCommentService: WsCommentService,
+    private langService: LanguageService,
+    private translateService: TranslateService,
+    private roomDataService: RoomDataService
+    ) {
+    this.keySupport = new QuestionWallKeyEventSupport();
+    this.roomId = localStorage.getItem('roomId');
+    this.timeUpdateInterval = setInterval(() => {
+      this.comments.forEach(e => e.updateTimeAgo());
+    }, 15000);
+    this.langService.langEmitter.subscribe(lang => {
+      this.translateService.use(lang);
+      QuestionWallComment.updateTimeFormat(lang);
+    });
+  }
 
   public wrap<E>(e: E, action: (e: E) => void) {
     action(e);
@@ -63,32 +85,17 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  constructor(
-    private authenticationService: AuthenticationService,
-    private router: Router,
-    private commentService: CommentService,
-    private roomService: RoomService,
-    private wsCommentService: WsCommentServiceService,
-    private langService: LanguageService,
-    private translateService: TranslateService
-  ) {
-    this.keySupport = new QuestionWallKeyEventSupport();
-    this.roomId = localStorage.getItem('roomId');
-    this.timeUpdateInterval = setInterval(() => {
-      this.comments.forEach(e => e.updateTimeAgo());
-    }, 15000);
-    this.langService.langEmitter.subscribe(lang => {
-      this.translateService.use(lang);
-      QuestionWallComment.updateTimeFormat(lang);
-    });
-  }
-
   ngOnInit(): void {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.commentService.getAckComments(this.roomId).subscribe(e => {
+    this.roomDataService.getRoomData(this.roomId).subscribe(e => {
+      if (e === null) {
+        return;
+      }
       e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+      this.isLoading = false;
       e.forEach(c => {
+        this.roomDataService.checkProfanity(c);
         const comment = new QuestionWallComment(c, true);
         this.comments.push(comment);
         this.setTimePeriod(this.period);
@@ -99,20 +106,28 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.room = e;
       this.tags = e.tags;
     });
-    this.wsCommentService.getCommentStream(this.roomId).subscribe(e => {
-      this.commentService.getComment(JSON.parse(e.body).payload.id).subscribe(comment => {
-        this.notUndefined(this.comments.find(f => f.comment.id === comment.id), qwComment => {
-          qwComment.comment = comment;
-        }, () => {
-          this.wrap(this.pushIncommingComment(comment), qwComment => {
-            if (this.focusIncommingComments) {
-              setTimeout(() => this.focusComment(qwComment), 5);
-            }
-          });
-        });
-      });
-    });
+    this.subscribeCommentStream();
     this.initKeySupport();
+  }
+
+  subscribeCommentStream() {
+    this.roomDataService.receiveUpdates([
+      { type: 'CommentCreated', finished: true},
+      { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
+      { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
+      {finished: true}
+    ]).subscribe(update => {
+      if (update.type === 'CommentCreated') {
+        this.wrap(this.pushIncommingComment(update.comment), qwComment => {
+          if (this.focusIncommingComments) {
+            setTimeout(() => this.focusComment(qwComment), 5);
+          }
+        });
+      } else if (update.type === 'CommentPatched') {
+        const qwComment = this.comments.find(f => f.comment.id === update.comment.id);
+        qwComment.comment = update.comment;
+      }
+    });
   }
 
   updateCommentsCountOverview(): void {
@@ -183,6 +198,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
+    this.roomDataService.checkProfanity(comment);
+    console.log(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
@@ -355,21 +372,21 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (period !== Period.ALL) {
+    if (period !== Period.all) {
       switch (period) {
-        case Period.ONEHOUR:
+        case Period.oneHour:
           periodInSeconds = hourInSeconds;
           break;
-        case Period.THREEHOURS:
+        case Period.threeHours:
           periodInSeconds = hourInSeconds * 2;
           break;
-        case Period.ONEDAY:
+        case Period.oneDay:
           periodInSeconds = hourInSeconds * 24;
           break;
-        case Period.ONEWEEK:
+        case Period.oneWeek:
           periodInSeconds = hourInSeconds * 168;
           break;
-        case Period.TWOWEEKS:
+        case Period.twoWeeks:
           periodInSeconds = hourInSeconds * 336;
           break;
       }

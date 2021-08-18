@@ -84,10 +84,6 @@ th, tr {
   margin-right: 10px;
 }
 
-.delete-text {
-  color: var(--on-dialog);
-}
-
 .export {
   color: var(--green);
   margin-right: 10px;
@@ -99,4 +95,11 @@ th, tr {
 
 .list-entries {
   width: 100%;
+}
+
+.warn {
+  color: var(--red) !important;
+  font-size: large ;
+  font-weight: bold;
+  padding-left: 3px;
 }

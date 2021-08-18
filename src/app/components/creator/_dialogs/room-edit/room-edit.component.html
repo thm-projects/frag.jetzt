@@ -2,7 +2,7 @@
      *ngIf="editRoom">
   <!--Sitzung-->
   <h2 class="oldtypo-h2">{{ 'room-page.general' | translate }}</h2>
-  <mat-divider></mat-divider>
+
   <div fxLayout="column">
     <mat-form-field class="input-block">
       <input (focus)="eventService.makeFocusOnInputTrue()"
@@ -51,16 +51,34 @@
       </mat-tab>
       <mat-tab label="{{'session.preview' | translate}}"
                [disabled]="!editRoom.description">
-        <markdown [data]="editRoom.description"></markdown>
+        <app-custom-markdown class="images" [data]="editRoom.description"></app-custom-markdown>
       </mat-tab>
     </mat-tab-group>
+    <div fxLayout="column">
+      <mat-slide-toggle [(ngModel)]= "check">{{ 'room-page.block' | translate }}</mat-slide-toggle>
+    </div>
+    <div fxLayout="column">
+      <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)" [(ngModel)]= "profanityCheck">
+        {{ 'room-page.profanity-filter' | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle *ngIf="profanityCheck" (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)" [(ngModel)]= "censorLanguageSpecificCheck">
+        {{ 'room-page.language-specific-filter' | translate }}
+      </mat-slide-toggle>
+      <mat-slide-toggle *ngIf="profanityCheck" (change)="showMessage('partial-words-will-be-filtered', $event.checked)" [(ngModel)]= "censorPartialWordsCheck">
+        {{ 'room-page.partial-words-filter' | translate }}
+      </mat-slide-toggle>
+    </div>
     <div fxLayoutAlign="center center">
+      <!-- <input type="checkbox" id= "myCheck" [(ngModel)]= "check" > -->
+   <!-- <mat-label for="myCheck" ><mat-icon>block</mat-icon>{{ 'room-page.block' | translate }} </mat-label> -->
+
       <button mat-raised-button
               class="delete"
               (click)="openDeleteRoomDialog()"
               aria-labelledby="delete-room">
-        <mat-icon>delete</mat-icon>
+        <mat-icon>delete_forever</mat-icon>
         {{ 'room-page.delete-room' | translate }}</button>
+
     </div>
   </div>
 </div>
@@ -68,6 +86,7 @@
 <app-dialog-action-buttons
   buttonsLabelSection="room-page"
   confirmButtonLabel="update"
+
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildSaveActionCallback()"
 ></app-dialog-action-buttons>

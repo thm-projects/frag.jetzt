@@ -18,7 +18,7 @@ export const dark = {
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': '#000000',
 
   '--green': 'lightgreen',
   '--red': 'red',
@@ -42,12 +42,9 @@ export const dark_meta = {
       en: 'Dark Mode',
       de: 'Dark Mode'
     },
-    description: {
-      en: '',
-      de: ''
-    }
   },
   isDark: true,
+  availableOnMobile: true,
   order: 2,
   scale_desktop: 1,
   scale_mobile: 1,

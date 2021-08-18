@@ -1,69 +1,83 @@
 <ars-row>
   <div class="anchor-wrp">
-    <ars-row class="content-container">
-      <ars-row class="dialog-header">
-      <div class="lang-selection">
-        <mat-icon>more_vert</mat-icon>
-        <mat-select class="select-list" [(ngModel)]="selectedLang" (selectionChange)="evalInput($event.value)">
-          <mat-option *ngFor="let lang of commentLang" [value]="lang.lang">
-            <span *ngIf="lang.lang == 'de'">{{ 'spacy-dialog.german' | translate}}</span>
-            <span *ngIf="lang.lang == 'en'">{{ 'spacy-dialog.english' | translate}}</span>
-            <span *ngIf="lang.lang == 'fr'">{{ 'spacy-dialog.french' | translate}}</span>
-          </mat-option>
-        </mat-select>
+    <span *ngIf="keywords.length > 0">
+        <span>{{ 'spacy-dialog.select-keywords' | translate }}</span>
+      <ars-row class="select-all-section">
+        <mat-checkbox class="select-all-checkbox"
+                      id="checkAll"
+                      (change)="selectAll(checkall.checked)"
+                      #checkall
+                      [checked]="allKeywordsSelected()"
+                      matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
+                      matTooltipShowDelay="750">
+        </mat-checkbox>
+        <mat-label class="select-all-label"
+                   for="checkAll"
+                   (click)="checkall.checked = !checkall.checked;
+                   selectAll(checkall.checked)"
+                   matTooltip="{{ 'spacy-dialog.select-all-hint' | translate }}"
+                   matTooltipShowDelay="750">
+          <mat-icon class="select-all-icon">playlist_add_check</mat-icon>
+          {{ 'spacy-dialog.select-all' | translate }}
+        </mat-label>
+      </ars-row>
+    </span>
+    <ars-row class="list-container">
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill>
+        <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
       </div>
-      <span *ngIf="keywords.length > 0">
-        <ars-row class="select-all-section">
-          <mat-icon>playlist_add_check</mat-icon>
-          <mat-label class="select-all-label" for="checkAll">{{ 'spacy-dialog.select-all' | translate }}</mat-label>
-          <mat-checkbox class="select-all-checkbox" id="checkAll" (change)="selectAll($event.checked)"></mat-checkbox>
-        </ars-row>
-      </span>
-      <span *ngIf="keywords.length > 0"></span>
-      </ars-row>
-      <ars-row ars-flex-box class="list-container">
-        <mat-list dense class="keywords-list">
-          <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even"
-                          [class.keywords-alternate]="odd"
-                          [class.keywords-even]="even"
-                          [ngClass]="{'keyword-selected': keyword.selected}">
-            <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
-            <input  class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
-            <div class="keywords-actions">
-              <mat-checkbox [checked]="keyword.completed"
-                            (change)="keyword.selected = $event.checked">
-              </mat-checkbox>
-              <button *ngIf="!keyword.editing"
-                      (click)="onEdit(keyword)" mat-icon-button
-                      [ngClass]="{'keywords-actions-selected': keyword.selected}">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button *ngIf="keyword.editing"
-                      (click)="onEndEditing(keyword)" mat-icon-button
-                      class = "edit-accept">
-                <mat-icon>check</mat-icon>
-              </button>
-            </div>
-          </mat-list-item>
-        </mat-list>
-      </ars-row>
-      <span *ngIf="keywords.length<=0">
-        <p>{{ 'spacy-dialog.empty-nouns' | translate}}</p>
+      <mat-list dense class="keywords-list">
+        <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"
+                        [class.keywords-alternate]="odd"
+                        [class.keywords-even]="even"
+                        [ngClass]="{'keyword-selected': keyword.selected, 'first-keyword': i === 0}">
+          <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
+          <input  class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
+          <div class="keywords-actions">
+            <mat-checkbox [checked]="keyword.completed"
+                          (change)="keyword.selected = $event.checked"
+                          [(ngModel)]="keyword.completed"
+                          matTooltip="{{ 'spacy-dialog.select-keyword-hint' | translate }}"
+                          matTooltipShowDelay="750">
+            </mat-checkbox>
+            <button *ngIf="!keyword.editing"
+                    (click)="onEdit(keyword); onEditChange(1)" mat-icon-button
+                    [ngClass]="{'keywords-actions-selected': keyword.selected}"
+                    matTooltip="{{ 'spacy-dialog.edit-keyword-hint' | translate }}"
+                    matTooltipShowDelay="750">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button *ngIf="keyword.editing"
+                    (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
+                    class = "edit-accept"
+                    matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}"
+                    matTooltipShowDelay="750">
+              <mat-icon>check</mat-icon>
+            </button>
+          </div>
+        </mat-list-item>
+      </mat-list>
+    </ars-row>
+    <ars-row>
+      <span *ngIf="!isLoading && (!langSupported || !hasKeywordsFromSpacy)">
+        <p class="manual-input-title">{{ 'spacy-dialog.add-manually' | translate }}</p>
+        <textarea class="manual-input" [(ngModel)]="manualKeywords" (input)="manualKeywordsToKeywords()"></textarea>
       </span>
     </ars-row>
   </div>
 </ars-row>
+
 <ars-row ars-flex-box>
-  <ars-fill>
-  </ars-fill>
+  <ars-fill></ars-fill>
   <ars-col>
     <app-dialog-action-buttons
+      #appDialogActionButtons
       buttonsLabelSection="comment-page"
       confirmButtonLabel="send"
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback()">
+      [confirmButtonClickAction]="!isLoading ? buildCreateCommentActionCallback() : undefined">
     </app-dialog-action-buttons>
   </ars-col>
 </ars-row>

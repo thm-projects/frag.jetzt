@@ -28,3 +28,16 @@ a {
   background-color: var(--dialog) !important;
   color: var(--on-dialog) !important;
 }
+
+.mat-menu-panel .mat-menu-item:hover {
+  background-color: gray !important;
+  color: white !important;
+}
+
+.mat-radio-outer-circle {
+  border-color: var(--on-dialog) !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle, .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: var(--on-dialog) !important;
+}

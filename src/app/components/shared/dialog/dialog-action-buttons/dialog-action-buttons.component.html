@@ -2,25 +2,36 @@
   'dialog-action-buttons': true,
   'no-spacing': (spacing === false)
 }">
-  <mat-divider *ngIf="showDivider"></mat-divider>
   <div fxLayoutAlign="end">
-    <div fxLayout="row-reverse" fxLayoutGap="10px" class="buttons">
+    <div fxLayout="row-reverse"
+         fxLayoutGap="10px"
+         class="buttons">
       <button
+        [disabled]="confirmButtonDisabled"
         *ngIf="confirmButtonClickAction !== undefined"
         type="button"
         mat-flat-button
         class="mat-flat-button {{ confirmButtonType }}-confirm-button"
         attr.aria-labelledby="{{ ariaPrefix + 'confirm' | translate }}"
         (click)="performConfirmButtonClickAction()"
-      ><mat-icon *ngIf="buttonIcon" style="margin-right: 5px;">{{buttonIcon}}</mat-icon>{{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}</button>
+      >
+        <mat-icon *ngIf="buttonIcon"
+                  style="margin-right: 5px;">{{buttonIcon}}</mat-icon>
+        {{ buttonsLabelSection + '.' + confirmButtonLabel | translate}}
+        <mat-icon *ngIf="showLoadingCycle" class="spinner-container">
+          <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
+        </mat-icon>
+      </button>
       <button
+        [disabled]="cancelButtonDisabled"
         *ngIf="cancelButtonClickAction !== undefined"
         type="button"
         mat-flat-button
         class="cancel-button"
         attr.aria-labelledby="{{ ariaPrefix + 'cancel' | translate }}"
         (click)="performCancelButtonClickAction()"
-      >{{ buttonsLabelSection + '.cancel' | translate}}</button>
+      >{{ buttonsLabelSection + '.' + cancelButtonLabel | translate}}</button>
+
     </div>
   </div>
   <!--Hidden Div's for a11y-Descriptions-->

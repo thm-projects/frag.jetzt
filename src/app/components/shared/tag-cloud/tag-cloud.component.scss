@@ -1,20 +1,71 @@
-.mat-drawer.mat-drawer-push {
-  background-color: var(--background);
-}
+$header-size: 56px;
+$margin: 15px;
 
-mat-drawer {
-  background-color: var(--dialog);
+mat-drawer,
+.mat-drawer {
+  background-color: var(--background);
+
+  @media (max-width: 450px) {
+    width: 100vw;
+  }
+
 }
 
 ars-fill {
-  width: calc(100% - 30px);
-  height: calc(100% - 30px);
-  margin: 15px;
+  width: calc(100% - #{2 * $margin});
+  height: calc(100% - #{2 * $margin});
+  margin: $margin;
 }
 
 mat-drawer-container {
-  height: 100%;
+  height: calc(100% - #{$header-size});
   width: 100%;
   position: fixed;
+  margin-top: $header-size;
 }
 
+mat-drawer-content {
+  overflow: hidden;
+  height: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+app-tag-cloud-pop-up {
+  width: max-content;
+  height: max-content;
+}
+
+::ng-deep .spacyTagCloud span {
+  user-select: none !important;
+}
+
+::ng-deep .spacyTagCloud span:hover {
+  cursor: pointer;
+}
+
+.fab_add_comment {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  transform: scale(1.4);
+  transition: all 0.1s ease-in-out;
+  z-index: 2;
+}
+
+.tag-cloud-brainstorming-question {
+  position: fixed;
+  top: 80px;
+  left: 20px;
+  z-index: 2;
+  color: var(--tag-cloud-inverted-background, black);
+  text-transform: var(--tag-cloud-transform, unset);
+  font-weight: var(--tag-cloud-font-weight, normal);
+  font-style: var(--tag-cloud-font-style, normal);
+  font-family: var(--tag-cloud-font-family, 'Dancing Script');
+  font-size: 50px;
+}

@@ -1,21 +1,105 @@
-<div mat-dialog-content>
-  <p>{{'content.topic-cloud-content' | translate}}</p>
-</div>
+<mat-dialog-content>
 
-<mat-divider></mat-divider>
-  <mat-radio-group [(ngModel)]="continueFilter" aria-label="Select an option">
-    <mat-radio-button value="continueWithAll">{{'content.continue-with-all-questions' | translate}}</mat-radio-button>
-    <mat-radio-button checked="true" value="continueWithCurr">{{'content.continue-with-current-questions' | translate}}</mat-radio-button>
-    <mat-radio-button value="continueWithAllFromNow">{{'content.continue-with-all-questions-from-now' | translate}}</mat-radio-button>
+  <h3>{{'content.tag-cloud-questions-title' | translate}}</h3>
+
+  <span *ngIf="isTopicRequirementActive">
+    <mat-icon [inline]="true"
+              style="color: var(--red) !important;">warning</mat-icon>
+    {{'header.overview-admin-config-enabled' | translate}}
+  </span>
+
+  <mat-radio-group [(ngModel)]="continueFilter"
+                   aria-label="Select an option">
+    <mat-radio-button checked="true"
+                      value="continueWithAll">
+      <div class="elementRow">
+        <div class="elementText"
+             *ngIf="isMobile()">{{'content.tag-cloud-questions-all-short' | translate}}</div>
+        <div class="elementText"
+             *ngIf="!isMobile()">{{'content.tag-cloud-questions-all' | translate}}</div>
+        <div class="elementIcons"
+             *ngIf="allComments">
+          <mat-icon [inline]="true"
+                    matTooltip="{{'header.overview-question-tooltip' | translate}}">comment
+          </mat-icon>
+          {{allComments.comments}}
+          <mat-icon [inline]="true"
+                    matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person
+          </mat-icon>
+          {{allComments.users}}
+          <mat-icon svgIcon="hashtag"
+                    class="comment_tag-icon"
+                    matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon>
+          {{allComments.keywords}}
+        </div>
+      </div>
+    </mat-radio-button>
+    <mat-radio-button value="continueWithCurr"
+                      *ngIf="!disableCurrentFiltersOptions">
+      <div class="elementRow">
+        <div class="elementText">{{'content.tag-cloud-questions-current-filtered' | translate}}</div>
+        <div class="elementIcons"
+             *ngIf="filteredComments">
+          <mat-icon [inline]="true"
+                    matTooltip="{{'header.overview-question-tooltip' | translate}}">comment
+          </mat-icon>
+          {{filteredComments.comments}}
+          <mat-icon [inline]="true"
+                    matTooltip="{{'header.overview-questioners-tooltip' | translate}}">person
+          </mat-icon>
+          {{filteredComments.users}}
+          <mat-icon svgIcon="hashtag"
+                    class="comment_tag-icon"
+                    matTooltip="{{'header.overview-keywords-tooltip' | translate}}"></mat-icon>
+          {{filteredComments.keywords}}
+        </div>
+      </div>
+    </mat-radio-button>
+    <mat-radio-button #radioButton
+                      value="continueWithAllFromNow">
+      <span *ngIf="isMobile()">{{'content.tag-cloud-questions-brainstorming-short' | translate}}</span>
+      <span *ngIf="!isMobile()">{{'content.tag-cloud-questions-brainstorming' | translate}}</span>
+    </mat-radio-button>
+    <mat-form-field *ngIf="user && user.role > 0 && radioButton.checked"
+                    appearance="fill">
+      <mat-label>{{'content.brainstorming-question' | translate}}</mat-label>
+      <input matInput
+             autofocus
+             autocomplete="off"
+             type="text"
+             (keyup)="checkForEnter($event)"
+             [(ngModel)]="question">
+      <button *ngIf="question"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="question=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </mat-radio-group>
 
+  <mat-card *ngIf="user && user.role > 0 && hasNoKeywords"
+            class="noKeywords">
+    <p>{{'topic-cloud-filter.info-no-keywords' | translate}}</p>
+    <button mat-flat-button
+            type="button"
+            class="mat-flat-button secondary-confirm-button"
+            (click)="onKeywordRefreshClick()">
+      {{'topic-cloud-filter.label-refresh-keywords-start' | translate}}
+    </button>
+  </mat-card>
 
-<app-dialog-action-buttons
-  buttonsLabelSection="content"
-  confirmButtonLabel="continue"
-  buttonIcon="cloud"
+  <app-worker-dialog [inlined]="true"
+                     *ngIf="user && user.role > 0"></app-worker-dialog>
 
-  [cancelButtonClickAction]="cancelButtonActionCallback()"
-  [confirmButtonClickAction]="confirmButtonActionCallback()">
-</app-dialog-action-buttons>
+  <app-dialog-action-buttons
+    buttonsLabelSection="content"
+    confirmButtonLabel="tag-cloud-create"
+    buttonIcon="cloud"
 
+    [cancelButtonClickAction]="cancelButtonActionCallback()"
+    [confirmButtonClickAction]="confirmButtonActionCallback()">
+  </app-dialog-action-buttons>
+
+</mat-dialog-content>

@@ -1,13 +1,15 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { Comment } from '../../../../models/comment';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
-import { FormControl, Validators } from '@angular/forms';
 import { User } from '../../../../models/user';
 import { CommentListComponent } from '../../comment-list/comment-list.component';
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
+import { LanguagetoolService, Language } from '../../../../services/http/languagetool.service';
+import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
+import { GrammarChecker } from '../../../../utils/grammar-checker';
 
 @Component({
   selector: 'app-submit-comment',
@@ -17,31 +19,27 @@ import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 export class CreateCommentComponent implements OnInit {
 
   comment: Comment;
-
   user: User;
   roomId: string;
   tags: string[];
   selectedTag: string;
-
-  bodyForm = new FormControl('', [Validators.required]);
-
-  @ViewChild('commentBody', { static: true })commentBody: HTMLTextAreaElement;
+  isSendingToSpacy = false;
+  grammarChecker: GrammarChecker;
+  tempEditView: string;
 
   constructor(
-              private notification: NotificationService,
-              public dialogRef: MatDialogRef<CommentListComponent>,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              private translationService: TranslateService,
-              public eventService: EventService,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+    private notification: NotificationService,
+    public dialogRef: MatDialogRef<CommentListComponent>,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    public languagetoolService: LanguagetoolService,
+    public eventService: EventService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+    this.grammarChecker = new GrammarChecker(this.languagetoolService);
   }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    setTimeout(() => {
-      document.getElementById('answer-input').focus();
-    }, 0);
   }
 
   onNoClick(): void {
@@ -51,7 +49,7 @@ export class CreateCommentComponent implements OnInit {
   checkInputData(body: string): boolean {
     body = body.trim();
     if (!body) {
-      this.translationService.get('comment-page.error-comment').subscribe(message => {
+      this.translateService.get('comment-page.error-comment').subscribe(message => {
         this.notification.show(message);
       });
       return false;
@@ -67,39 +65,53 @@ export class CreateCommentComponent implements OnInit {
       comment.creatorId = this.user.id;
       comment.createdFromLecturer = this.user.role === 1;
       comment.tag = this.selectedTag;
+      this.isSendingToSpacy = true;
       this.openSpacyDialog(comment);
     }
   }
 
   openSpacyDialog(comment: Comment): void {
-    const dialogRef = this.dialog.open(SpacyDialogComponent, {
-      data: {
-        comment
-      }
-    });
-
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.dialogRef.close(result);
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, comment.body, this.grammarChecker.selectedLang)
+      .subscribe((result) => {
+        if (result.isAcceptable) {
+          const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
+          const selectedLangExtend = this.grammarChecker.selectedLang[2] === '-' ?
+            this.grammarChecker.selectedLang.substr(0, 2) : this.grammarChecker.selectedLang;
+          // Store language if it was auto-detected
+          if (this.grammarChecker.selectedLang === 'auto') {
+            comment.language = Comment.mapModelToLanguage(commentLang);
+          } else if (CommentLanguage[selectedLangExtend]) {
+            comment.language = CommentLanguage[selectedLangExtend];
+          }
+          const dialogRef = this.dialog.open(SpacyDialogComponent, {
+            data: {
+              comment,
+              commentLang,
+              commentBodyChecked: result.text
+            }
+          });
+          dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+              this.dialogRef.close(dialogResult);
+            }
+          });
+        } else {
+          comment.language = CommentLanguage.auto;
+          this.dialogRef.close(comment);
         }
+        this.isSendingToSpacy = false;
+      }, () => {
+        comment.language = CommentLanguage.auto;
+        this.dialogRef.close(comment);
+        this.isSendingToSpacy = false;
       });
-
   }
 
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
   buildCloseDialogActionCallback(): () => void {
     return () => this.onNoClick();
   }
 
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
-  buildCreateCommentActionCallback(text: HTMLInputElement|HTMLTextAreaElement): () => void {
-    return () => this.closeDialog(text.value);
+  buildCreateCommentActionCallback(): (string) => void {
+    return (text: string) => this.closeDialog(text);
   }
 }

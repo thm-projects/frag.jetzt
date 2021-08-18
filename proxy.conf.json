@@ -1,6 +1,15 @@
 {
+  "/languagetool": {
+    "target": "https://lt.frag.jetzt/v2/check",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/languagetool": ""
+    },
+    "logLevel": "debug"
+  },
   "/spacy": {
-    "target": "https://spacy.frag.jetzt/dep",
+    "target": "https://spacy.frag.jetzt/spacy",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -15,6 +24,14 @@
       "^/api": ""
     },
     "ws": true,
+    "logLevel": "debug"
+  },
+  "/api/roomsubscription": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
     "logLevel": "debug"
   },
   "/api": {

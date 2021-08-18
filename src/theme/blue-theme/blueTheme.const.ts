@@ -39,12 +39,9 @@ export const blue_meta = {
       en: 'ENGLISH_NAME',
       de: 'GERMAN_NAME'
     },
-    description: {
-      en: 'ENGLISH_DESCRIPTION',
-      de: 'GERMAN_DESCRIPTION'
-    }
   },
   isDark: false,
+  availableOnMobile: true,
   order: 4,
   scale_desktop: 1,
   scale_mobile: 1,

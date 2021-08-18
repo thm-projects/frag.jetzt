@@ -1,11 +1,11 @@
 <div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner color="primary" mode="indeterminate" diameter="80"></mat-progress-spinner>
+    <app-mat-spinner-overlay diameter="80" strokeWidth="8"></app-mat-spinner-overlay>
   </div>
 </div>
 
 <div *ngIf="roomsWithRole">
-  <mat-divider></mat-divider>
+
   <div *ngIf="tableDataSource.data.length === 0" aria-labelledby="emptySessionHistoryLabel">
     <h3 class="noRoomHistory">{{ 'room-list.no-room-history' | translate }}</h3>
   </div>
@@ -27,12 +27,13 @@
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 35%">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 40px">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before" matBadgeSize="small" matBadgeOverlap="false">
+            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before"
+                  matBadgeSize="small" matBadgeOverlap="false">
               &raquo;{{room.name}}&laquo;
             </span>
           </td>
@@ -40,18 +41,19 @@
 
         <!-- Session ID column -->
         <ng-container matColumnDef="shortId" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 30%">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId }}
+            <mat-icon *ngIf="room.questionsBlocked" class="warn" [inline]="true">block</mat-icon>
           </td>
         </ng-container>
 
         <!-- Role column -->
         <ng-container matColumnDef="role" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 15%">
+          <th mat-header-cell *matHeaderCellDef style="width: 10%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
@@ -74,10 +76,10 @@
 
         <!-- Join button column -->
         <ng-container matColumnDef="button">
-          <th mat-header-cell *matHeaderCellDef style="width: 20%; text-align: end">
+          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
-          <td mat-cell *matCellDef="let room" style="text-align: end"
+          <td mat-cell *matCellDef="let room" style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
             <button mat-icon-button [matMenuTriggerFor]="moreActions">
               <mat-icon>more_vert</mat-icon>
@@ -89,16 +91,16 @@
                   'room-list.delete-room') | translate}}</span>
               </button>
               <button mat-menu-item (click)="exportCsv(room)">
-                <mat-icon class="export">save</mat-icon>
+                <mat-icon class="export">file_download</mat-icon>
                 <span class="delete-text">{{ 'room-list.export-comments' | translate }}</span>
               </button>
             </mat-menu>
             <div class="visually-hidden">
               <div id="{{ 'joinButtonLabel' + room.shortId | translate }}">
                 {{ 'room-list.join-message-template' | translate:{
-                  session: room.name,
-                  id: room.shortId,
-                  role: ( 'room-list.' + roleToString((room.role)) + '-role' | translate )
+                session: room.name,
+                id: room.shortId,
+                role: ('room-list.' + roleToString((room.role)) + '-role' | translate)
               } }}
               </div>
             </div>

@@ -2,64 +2,37 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from './base-http.service';
-import { catchError } from 'rxjs/operators';
+import { catchError, map, tap, timeout } from 'rxjs/operators';
+import { CreateCommentKeywords } from '../../utils/create-comment-keywords';
+import { DEFAULT_NOUN_LABELS, Model } from './spacy.interface';
 
-export class Result {
-  arcs: Arc[];
-  words: Word[];
-
-  constructor(
-    arcs: Arc[] = [],
-    words: Word[] = []
-  ) {
-    this.arcs = arcs;
-    this.words = words;
-  }
-
-  static empty(): Result {
-    return new Result();
-  }
+export interface SpacyKeyword {
+  lemma: string;
+  dep: string[];
 }
 
-export class Word {
+type KeywordType = 'entity' | 'noun';
+
+interface NounKeyword {
+  type: KeywordType;
+  lemma: string;
+  text: string;
+  dep: string;
   tag: string;
-  text: string;
-
-  constructor(
-    tag: string,
-    text: string
-  ) {
-    this.tag = tag;
-    this.text = text;
-  }
+  pos: string;
 }
 
-export class Arc {
-  dir: string;
-  end: number;
-  label: string;
-  start: number;
-  text: string;
-
-  constructor(
-    dir: string,
-    end: number,
-    label: string,
-    start: number,
-    text: string,
-  ) {
-    this.dir = dir;
-    this.end = end;
-    this.label = label;
-    this.start = start;
-    this.text = text;
-  }
-
+interface EntityKeyword extends NounKeyword {
+  entityType: string;
 }
 
+type AbstractKeyword = NounKeyword | EntityKeyword;
+
+type KeywordList = AbstractKeyword[];
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({
@@ -71,11 +44,37 @@ export class SpacyService extends BaseHttpService {
     super();
   }
 
-  analyse(text: string, model: string): Observable<Result> {
+  static getLabelsForModel(model: Model): string[] {
+    return DEFAULT_NOUN_LABELS[model];
+  }
+
+  getKeywords(text: string, model: Model): Observable<SpacyKeyword[]> {
     const url = '/spacy';
-    return this.http.post<Result>(url, {text, model}, httpOptions)
+    return this.checkCanSendRequest('getKeywords') || this.http
+      .post<KeywordList>(url, { text, model }, httpOptions)
       .pipe(
-        catchError(this.handleError<any>('analyse'))
+        tap(_ => ''),
+        timeout(500),
+        catchError(this.handleError<any>('getKeywords')),
+        map((elem: KeywordList) => {
+          const keywordsMap = new Map<string, { lemma: string; dep: Set<string> }>();
+          elem.forEach(e => {
+            const keyword = e.lemma.trim();
+            if (!CreateCommentKeywords.isKeywordAcceptable(keyword)) {
+              return;
+            }
+            let keywordObj = keywordsMap.get(keyword);
+            if (!keywordObj) {
+              keywordObj = {
+                lemma: keyword,
+                dep: new Set<string>()
+              };
+              keywordsMap.set(keyword, keywordObj);
+            }
+            keywordObj.dep.add(e.dep);
+          });
+          return [...keywordsMap.values()].map(e => ({ lemma: e.lemma, dep: [...e.dep] }));
+        })
       );
   }
 }

@@ -1,0 +1,71 @@
+button {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  font-weight: bold;
+  background: none;
+  outline: none;
+  border: none;
+  font-size: large;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+::ng-deep .workerContainer > .mat-dialog-container {
+  padding: 5px !important;
+  box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12), -4px 0 0 0 var(--primary);
+  overflow: hidden !important;
+  position: relative !important;
+}
+
+#worker-content {
+  padding-left: 5px;
+
+  .mat-dialog-content {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  border-bottom: var(--primary) dashed 2px;
+  margin-bottom: 3px;
+  padding-bottom: 3px;
+}
+
+.entryRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+
+span, mat-icon {
+  margin-right: 7px;
+}
+
+details > summary {
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+details[open] > summary {
+  box-shadow: 0 4px 4px -2px #232323;
+  margin-bottom: 7px;
+}
+
+::ng-deep .noKeywords {
+  color: var(--on-surface);
+  background: var(--surface);
+  margin: 0.75em;
+
+  > button {
+    color: var(--on-primary);
+    background: var(--primary);
+    margin-left: 1em;
+  }
+}

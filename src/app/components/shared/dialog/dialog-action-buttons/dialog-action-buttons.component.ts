@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 /**
  * Available confirm button types.
@@ -15,6 +15,16 @@ export enum DialogConfirmActionButtonType {
   styleUrls: ['./dialog-action-buttons.component.scss']
 })
 export class DialogActionButtonsComponent implements OnInit {
+
+  /**
+   * gray out confirm button
+   */
+  @Input() confirmButtonDisabled: boolean = false
+
+  /**
+   * gray out cancel button
+   */
+  @Input() cancelButtonDisabled: boolean = false
 
   @Input() showDivider = true;
 
@@ -34,6 +44,11 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() confirmButtonLabel: string;
 
+  /**
+   * The i18n label identifier of the confirm button.
+   */
+  @Input() cancelButtonLabel = 'cancel';
+
 
   /**
    * The confirm button type.
@@ -52,12 +67,13 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() cancelButtonClickAction: (Function | undefined);
 
-  @Input() resetButtonClickAction: (Function | undefined);
 
   /**
    * TRUE if some spacing will be rendered above the action buttons.
    */
   @Input() spacing = true;
+
+  @Input() showLoadingCycle = false;
 
 
   /**
@@ -83,19 +99,12 @@ export class DialogActionButtonsComponent implements OnInit {
     }
   }
 
-
   /**
    * Performs the cancel button click action.
    */
   public performCancelButtonClickAction(): void {
     if (this.cancelButtonClickAction !== undefined) {
       this.cancelButtonClickAction();
-    }
-  }
-  public filterzu(): void{
-    if (this.resetButtonClickAction !== undefined) {
-      this.resetButtonClickAction();
-      
     }
   }
 }

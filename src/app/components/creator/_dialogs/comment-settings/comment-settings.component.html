@@ -1,7 +1,7 @@
 <div mat-dialog-content>
   <!--questions-->
-  <h2 class="oldtypo-h2">{{'room-page.comments' | translate }}</h2>
-  <mat-divider></mat-divider>
+  <h2 class="oldtypo-h2">{{'room-page.moderation-mode' | translate }}</h2>
+
 
   <div fxLayout="column">
 
@@ -50,24 +50,6 @@
     </div>
   </div>
 
-  <mat-divider></mat-divider>
-
-  <div fxLayoutAlign="center center">
-    <button mat-raised-button
-            class="export"
-            (click)="exportCSV()"
-            aria-labelledby="export-comments">
-      <mat-icon>save</mat-icon>
-      {{ 'room-page.export-comments' | translate }}</button>
-  </div>
-  <div fxLayoutAlign="center center">
-    <button mat-raised-button
-            class="delete"
-            (click)="openDeleteCommentDialog()"
-            aria-labelledby="delete-all-comments">
-      <mat-icon>delete</mat-icon>
-      {{ 'room-page.delete-all-comments' | translate }}</button>
-  </div>
 </div>
 
 <app-dialog-action-buttons

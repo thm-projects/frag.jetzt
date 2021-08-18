@@ -1,9 +1,13 @@
 <div>
 
   <mat-toolbar class="mat-elevation-z24"
-               id="footer-toolbar">
+               id="footer-toolbar"
+               *ngIf="!router.url.endsWith('/quiz')">
 
     <button (click)="showDemo()"
+            [joyrideStep]="'introduction'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
             aria-labelledby="demo-label"
             class="focus_button"
             mat-button>
@@ -27,6 +31,7 @@
 
     <span class="fill-remaining-space"></span>
     <button [matMenuTriggerFor]="langMenu"
+            (menuOpened)="openMenu()"
             aria-labelledby="language-label"
             class="focus_button"
             id="language-menu"
@@ -86,9 +91,6 @@
           <div class="btnAppend">
             <div class="title">
               <p class="title_bold">{{theme.getName(getLanguage())}}</p>
-            </div>
-            <div class="title">
-              <p>{{theme.getDescription(getLanguage())}}</p>
             </div>
           </div>
         </div>

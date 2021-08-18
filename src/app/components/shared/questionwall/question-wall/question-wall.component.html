@@ -1,3 +1,4 @@
+<app-mat-spinner-overlay *ngIf="isLoading" [overlay]="true"></app-mat-spinner-overlay>
 <ars-screen ars-flex-box class="questionwall-screen">
   <ars-row [height]="50" class="questionwall-header">
     <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
@@ -6,6 +7,10 @@
           <button ars-btn (click)="leave()" matRipple aria-labelledby="back-lbl"><i>arrow_back</i></button>
         </ars-col>
       </ars-fill>
+      <ng-container *ngIf="room && room.questionsBlocked && !router.url.includes('/room-list/')">
+        <mat-icon>block</mat-icon>
+        <h2>{{'question-wall.questions-blocked'|translate}}</h2>
+      </ng-container>
       <ars-col>
         <!-- centered col -->
       </ars-col>
@@ -13,29 +18,32 @@
         <ars-fill></ars-fill>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
           <mat-menu #sortMenu>
-            <button mat-menu-item (click)="sortTime(true)" aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
-            <button mat-menu-item (click)="sortTime()" aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
-            <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
+            <button mat-menu-item (click)="sortTime(true)"
+                    aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
+            <button mat-menu-item (click)="sortTime()"
+                    aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
+            <button mat-menu-item (click)="sortScore(true)"
+                    aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
-            <button mat-menu-item (click)="filterFavorites()" aria-labelledby="filter-lbl-favorites">
+            <button mat-menu-item (click)="filterFavorites()" aria-labelledby="filter-lbl-favorites" class="selection">
               <mat-icon class="star">grade</mat-icon>
               <span>{{'question-wall.filter-favorite' | translate}}</span>
             </button>
 
-            <button mat-menu-item (click)="filterBookmark()" aria-labelledby="filter-lbl-bookmark">
+            <button mat-menu-item (click)="filterBookmark()" aria-labelledby="filter-lbl-bookmark" class="selection">
               <mat-icon>bookmark</mat-icon>
               <span>{{'question-wall.filter-bookmark' | translate}}</span>
             </button>
           </mat-menu>
           <mat-menu #filterTagMenu>
-            <button mat-menu-item *ngFor="let tag of tags" (click)="filterTag(tag)">
+            <button mat-menu-item *ngFor="let tag of tags" (click)="filterTag(tag)" class="selection">
               <span>{{tag}}</span>
             </button>
           </mat-menu>
           <mat-menu #timeMenu="matMenu" xPosition="before">
             <div *ngFor="let periodItem of periodsList">
-              <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period"
+              <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period selection"
                       [ngClass]="{'selected': periodItem === period}"
                       aria-labelledby="{{periodItem}}">
                 <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
@@ -81,6 +89,7 @@
             <p>Filter</p>
           </button>
           <button ars-btn
+                  [disabled]="tags.length==0"
                   [mat-menu-trigger-for]="filterTagMenu"
                   [ngClass]="{'selected': hasFilter && filterTitle === '' && filterDesc !== ''}"
                   matRipple
@@ -114,7 +123,9 @@
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
-                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" [data]="commentFocus.comment.body"></markdown>
+                <app-custom-markdown [ngStyle]="{'font-size':fontSize+'%'}"
+                                     class="questionwall-present-markdown images"
+                                     [data]="commentFocus.comment.body"></app-custom-markdown>
               </ars-row>
             </ars-row>
             <ars-row [height]="50">
@@ -208,18 +219,19 @@
                          style="box-sizing:border-box;padding:16px;cursor:pointer">
                   <ars-col class="questionwall-comment-meta">
                     <i class="questionwall-icon">person_pin_circle</i>
-                    <p (click)="filterUser(comment);" class="questionwall-comment-user" matRipple>{{comment.comment.userNumber}}</p>
+                    <p (click)="filterUser(comment);" class="questionwall-comment-user"
+                       matRipple>{{comment.comment.userNumber}}</p>
                     <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
                   </ars-col>
                   <ars-col>
-                    <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
+                    <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
                   </ars-col>
                 </ars-row>
                 <ars-row
                   (click)="focusComment(comment)"
                   style="box-sizing:border-box;padding:0 16px;cursor:pointer">
                   <p class="questionwall-comment-body">
-                    <markdown [data]="comment.comment.body"></markdown>
+                    <app-custom-markdown class="images" [data]="comment.comment.body"></app-custom-markdown>
                   </p>
                 </ars-row>
                 <ars-row [height]="50">
@@ -234,7 +246,7 @@
                       </button>
                     </ars-col>
                     <ars-fill (click)="focusComment(comment)" style="cursor:pointer"></ars-fill>
-                    <ars-col ars-btn-wrp [xp]="16" [extra]="true"*ngIf="comment.comment.tag">
+                    <ars-col ars-btn-wrp [xp]="16" [extra]="true" *ngIf="comment.comment.tag">
                       <button ars-btn (click)="filterTag(comment.comment.tag);" matRipple>
                         <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
                         <p>{{comment.comment.tag}}</p>
@@ -267,7 +279,8 @@
                 <p>{{'question-wall.filter-user-count' | translate}}</p>
               </button>
               <button ars-btn mat-ripple *ngFor="let user of userList" (click)="applyUserMap(user[1])">
-                <p>{{user[1]}}</p><p>{{user[0]}}</p>
+                <p>{{user[1]}}</p>
+                <p>{{user[0]}}</p>
               </button>
             </ars-row>
           </ars-style-btn-material>
@@ -307,7 +320,12 @@
       </ars-col>
     </ars-style-btn-material>
   </ars-row>
+  <app-active-user *ngIf="room" [room]="room"
+                   [iconColor]="'#FFFFFF'"
+                   [backgroundColor]="'#FFFFFF'"
+                   [foregroundColor]="'#000000'"></app-active-user>
 </ars-screen>
+
 
 <div class="visually-hidden">
   <div id="back-lbl">{{'question-wall.back-lbl' | translate}}</div>

@@ -5,7 +5,13 @@
 }
 
 mat-toolbar {
-  background-color: var(--surface);
+  background-color: transparent;
+  box-shadow: none;
+  position: relative;
+}
+
+.mat-toolbar-moderation {
+  background-color: var(--moderator);
   position: relative;
 }
 
@@ -29,13 +35,53 @@ mat-toolbar-row {
   font-weight: bold;
 }
 
+.noOfQuestions {
+  position: absolute !important;
+  right: 130px !important;
+  padding: 10px !important;
+  margin: 0 !important;
+}
+
+.topic-cloud-btns {
+  > ars-col button {
+    margin-right: 0.75em;
+
+    &:hover, &:focus {
+      border: none;
+    }
+  }
+
+  > * {
+    overflow: hidden !important;
+    color: var(--on-surface);
+  }
+}
+
+.comment_tag-icon {
+  height: 18px !important;
+}
+
 .sessions {
-  color: var(--primary);
+  color: var(--primary) !important;
+  transform: scale(1.5);
 }
 
 h2 {
   margin-right: 10px;
   font-size: medium !important;
+}
+
+.header-slogan-desktop {
+  margin-right: 10px;
+  margin-left: 130px;
+  font-size: medium !important;
+  color: var(--on-background);
+}
+
+.header-slogan-mobile {
+  margin-left: 30px;
+  font-size: medium !important;
+  color: var(--on-background);
 }
 
 .label-icon {
@@ -77,7 +123,7 @@ svg {
 }
 
 .beamer-icon {
-  transform: scale(1.5);
+  transform: scale(1.4);
 }
 
 .mat-menu-inner-title {
@@ -95,5 +141,66 @@ svg {
 
   * {
     background-color: transparent !important;
+  }
+
+  *:hover {
+    color: var(--on-secondary) !important;
+    background-color: var(--secondary) !important;
+
+    mat-icon {
+      color: var(--on-secondary) !important;
+      background-color: var(--secondary) !important;
+    }
+  }
+
+}
+
+h1 {
+  color: red;
+}
+
+::ng-deep .mat-menu-item:hover .qrcode svg > path {
+  fill: var(--dialog) !important;
+  color: var(--dialog) !important;
+  background-color: var(--on-dialog) !important;
+}
+
+::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
+  color: white !important;
+  background-color: gray !important;
+}
+
+.userActivityIcon {
+  width: 25px;
+  height: 25px;
+  margin-left: 25px;
+  margin-bottom: 5px;
+  background-color: var(--primary);
+  -webkit-mask-image: url("../../../../assets/icons/activity.svg");
+  mask-image: url("../../../../assets/icons/activity.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: 100% 100%;
+}
+
+.userActivityTxt {
+  color: var(--primary);
+  margin-left: 5px;
+  font-size: 14px;
+}
+
+.focus_button {
+  min-height: 28px;
+  font-size: 16px;
+  padding: unset;
+  color: var(--on-surface);
+
+  &:focus {
+    background: var(--on-surface);
+    color: var(--background);
+
+    mat-icon {
+      color: var(--background);
+    }
   }
 }
