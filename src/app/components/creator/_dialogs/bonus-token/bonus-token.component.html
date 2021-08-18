@@ -2,28 +2,28 @@
   <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
   <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
   <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{ room.shortId }}</h3>
-  <div>
-    <mat-form-field>
-      <input (focus)="eventService.makeFocusOnInputTrue()"
-             (blur)="eventService.makeFocusOnInputFalse()"
-             (keyup)="inputChanged($event)"
-             matInput
-             class="input-block"
-             type="text"
-             maxlength="14"
-             name="roomName"
-             aria-labelledby="room-name-input"/>
-      <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
-      <mat-hint align="end"
-                class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
-    </mat-form-field>
-    <button (click)="navToCommentByValue()"
-            matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-            mat-stroked-button>
-      Go to Question
-    </button>
-  </div>
   <div *ngIf="bonusTokens.length >= 1">
+    <div>
+      <mat-form-field>
+        <input (focus)="eventService.makeFocusOnInputTrue()"
+               (blur)="eventService.makeFocusOnInputFalse()"
+               (keyup)="inputChanged($event)"
+               matInput
+               class="input-block"
+               type="text"
+               maxlength="14"
+               name="roomName"
+               aria-labelledby="room-name-input"/>
+        <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
+        <mat-hint align="end"
+                  class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
+      </mat-form-field>
+      <button (click)="navToCommentByValue()"
+              matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
+              mat-stroked-button>
+        Go to Question
+      </button>
+    </div>
     <mat-list>
       <mat-list-item *ngFor="let bonusToken of bonusTokens; let index = index"
                      [appScrollIntoView]="valueEqual(bonusToken.token)">
