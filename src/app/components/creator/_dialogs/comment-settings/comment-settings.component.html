@@ -5,24 +5,14 @@
 
   <div fxLayout="column">
 
-    <!--moderate questions
-  <div fxLayout="row">
-    <p class="oldtypo-p">{{ 'room-page.settings-comment-moderation' | translate}}&nbsp;
-      <mat-slide-toggle [(ngModel)]="enableCommentModeration"
-                        aria-labelledby="settings-comment-moderation"
-                        matTooltip="{{ 'room-page.settings-comment-moderation-description' | translate }}">
-      </mat-slide-toggle>
-    </p>
-  </div>
-  -->
-
     <div fxLayout="row"
          *ngIf="enableCommentModeration">
       <!--direct send-->
-      <p class="oldtypo-p">{{ 'room-page.settings-direct-send' | translate}}&nbsp;
+      <p class="oldtypo-p">&nbsp;
         <mat-slide-toggle [(ngModel)]="directSend"
                           aria-labelledby="settings-direct-send"
                           matTooltip="{{ 'room-page.settings-direct-send-description' | translate }}">
+          {{ 'room-page.settings-direct-send' | translate}}
         </mat-slide-toggle>
       </p>
     </div>
@@ -31,19 +21,22 @@
   <div fxLayout="column">
     <div fxLayout="row">
       <!--comment threshold-->
-      <p class="oldtypo-p">{{ 'room-page.threshold' | translate}}&nbsp;
+      <p class="oldtypo-p">&nbsp;
         <mat-slide-toggle [(ngModel)]="settingThreshold"
                           aria-labelledby="threshold"
                           matTooltip="{{ 'room-page.threshold-description' | translate }}">
+          {{ 'room-page.threshold' | translate}}
         </mat-slide-toggle>
       </p>
     </div>
     <div fxLayout="row"
          *ngIf="settingThreshold">
+      <mat-icon>gavel</mat-icon>
       <mat-slider id="commentSlider"
+                  invert
                   min="-100"
                   max="0"
-                  step="5"
+                  step="10"
                   [(ngModel)]="commentThreshold"
                   (input)="onSliderChange($event)"></mat-slider>
       <h2 class="oldtypo-h2">&nbsp;{{commentThreshold | number}}</h2>
