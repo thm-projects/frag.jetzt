@@ -14,7 +14,7 @@
             mat-button
             aria-labelledby="tour-label"
             class="focus_button"
-            *ngIf="router.url.endsWith('/home')"
+            *ngIf="router.url.endsWith('/home') && isSafari === 'false'"
             (click)="startTour()">
       <mat-icon class="header-icons">flag</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
