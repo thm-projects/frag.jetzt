@@ -177,7 +177,7 @@
   },
   "joyride": {
     "next": "Next",
-    "prev": "Previous",
+    "prev": "Back",
     "step": "{{step}} / {{total}}",
     "done": "Finish",
     "createQuestion": "Call up the editor with the plus button. An AI will suggest keywords for your question. These will be used to create a topic cloud from all questions of the event.",
