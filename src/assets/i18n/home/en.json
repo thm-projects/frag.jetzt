@@ -167,7 +167,7 @@
   },
   "joyride": {
     "next": "Next",
-    "prev": "Previous",
+    "prev": "Back",
     "step": "{{step}} / {{total}}",
     "done": "Finish",
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
