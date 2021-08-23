@@ -120,6 +120,7 @@
               <i class="questionwall-icon questionwall-present-meta-icon">person_pin_circle</i>
               <h2 class="questionwall-present-meta-user">{{commentFocus.comment.userNumber}}</h2>
               <h2 class="questionwall-present-meta-timestamp">{{commentFocus.timeAgo}}</h2>
+              <h2 class="questionwall-present-meta-number">#{{commentFocus.comment.number}}</h2>
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
@@ -225,6 +226,9 @@
                   </ars-col>
                   <ars-col>
                     <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
+                  </ars-col>
+                  <ars-col>
+                    <p class="questionwall-comment-number">#{{comment.comment.number}}</p>
                   </ars-col>
                 </ars-row>
                 <ars-row

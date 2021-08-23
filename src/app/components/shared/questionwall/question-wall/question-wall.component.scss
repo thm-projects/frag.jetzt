@@ -118,6 +118,15 @@
         font-weight: 600;
         color: #cc4244;
       }
+
+      &-number {
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        line-height: 18px;
+        font-weight: 600;
+        color: #FFFFFF;
+      }
     }
 
     &-list {
@@ -217,6 +226,14 @@
           font-family: Roboto, 'sans-serif';
           font-size: 18px;
           font-weight: 400;
+          color: var(--ars-paragraph-color);
+        }
+
+        &-number {
+          font-family: Roboto, 'sans-serif';
+          font-size: 18px;
+          padding-left:16px;
+          font-weight:bold;
           color: var(--ars-paragraph-color);
         }
       }
