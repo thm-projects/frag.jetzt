@@ -35,7 +35,7 @@
               mat-icon-button
               aria-labelledby="add"
               class="fab_add_comment"
-              (click)="createCommentWrapper.openCreateDialog(this.user)"
+              (click)="createCommentWrapper.openCreateDialog(this.user).subscribe()"
               matTooltip="{{ 'comment-list.add-comment' | translate }}">
         <mat-icon>add</mat-icon>
       </button>

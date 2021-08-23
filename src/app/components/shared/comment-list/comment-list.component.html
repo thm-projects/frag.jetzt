@@ -255,7 +255,7 @@
         mat-icon-button
         aria-labelledby="add"
         class="fab_add_comment"
-        (click)="this.createCommentWrapper.openCreateDialog(this.user)"
+        (click)="writeComment()"
         matTooltip="{{ 'comment-list.add-comment' | translate }}">
   <mat-icon>add</mat-icon>
 </button>
@@ -264,6 +264,7 @@
 
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
+               [appScrollIntoView]="current.id === newCommentId"
                [usesJoyride]="i === 0"
                [comment]="current"
                [parseVote]="getVote(current)"
