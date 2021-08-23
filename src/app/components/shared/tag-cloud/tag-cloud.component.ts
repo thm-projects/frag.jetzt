@@ -150,7 +150,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this.createCommentWrapper.openCreateDialog(this.user);
+        this.createCommentWrapper.openCreateDialog(this.user).subscribe();
       } else if (e === 'topicCloudConfig') {
         if (this.drawer.opened) {
           this.drawer.close();

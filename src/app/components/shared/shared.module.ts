@@ -48,6 +48,7 @@ import { JoyrideTemplateDirective } from '../../directives/joyride-template.dire
 import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
 import { WriteCommentComponent } from './write-comment/write-comment.component';
 import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
+import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
 
 @NgModule({
   imports: [
@@ -101,7 +102,8 @@ import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.compo
     JoyrideTemplateDirective,
     MatSpinnerOverlayComponent,
     WriteCommentComponent,
-    CustomMarkdownComponent
+    CustomMarkdownComponent,
+    ScrollIntoViewDirective
   ],
   exports: [
     RoomJoinComponent,
@@ -123,7 +125,8 @@ import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.compo
     MatSpinnerOverlayComponent,
     JoyrideTemplateDirective,
     AutofocusDirective,
-    CustomMarkdownComponent
+    CustomMarkdownComponent,
+    ScrollIntoViewDirective
   ]
 })
 export class SharedModule {

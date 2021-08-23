@@ -25,7 +25,6 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
 import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-settings/room-description-settings.component';
-import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
 
 @NgModule({
   imports: [
@@ -61,8 +60,7 @@ import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.direc
     DeleteAnswerComponent,
     QuestionWallComponent,
     ProfanitySettingsComponent,
-    RoomDescriptionSettingsComponent,
-    ScrollIntoViewDirective
+    RoomDescriptionSettingsComponent
   ],
   exports: []
 })

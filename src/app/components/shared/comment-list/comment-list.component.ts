@@ -103,6 +103,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
+  newCommentId = '';
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -153,7 +154,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this.createCommentWrapper.openCreateDialog(this.user));
+    nav('createQuestion', () => this.writeComment());
     nav('moderator', () => {
       const dialogRef = this.dialog.open(ModeratorsComponent, {
         width: '400px',
@@ -558,6 +559,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
   setComments(comments: Comment[]) {
     this.commentsFilteredByTime = comments;
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+  }
+
+  writeComment() {
+    this.createCommentWrapper.openCreateDialog(this.user)
+      .subscribe(comment => this.newCommentId = comment && comment.id);
   }
 
   /**

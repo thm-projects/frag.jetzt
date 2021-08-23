@@ -7,6 +7,9 @@ import { Room } from '../models/room';
 import { Comment } from '../models/comment';
 import { NotificationService } from '../services/util/notification.service';
 import { CommentService } from '../services/http/comment.service';
+import { observable, Observable, of } from 'rxjs';
+import { flatMap } from 'rxjs/internal/operators';
+import { tap } from 'rxjs/operators';
 
 export class CreateCommentWrapper {
   constructor(private translateService: TranslateService,
@@ -16,7 +19,7 @@ export class CreateCommentWrapper {
               private room: Room) {
   }
 
-  openCreateDialog(user: User): void {
+  openCreateDialog(user: User): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
       maxWidth: 'calc( 100% - 50px )',
@@ -26,17 +29,12 @@ export class CreateCommentWrapper {
     dialogRef.componentInstance.user = user;
     dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.tags = this.room.tags || [];
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result) {
-          this.send(result);
-        } else {
-          return;
-        }
-      });
+    return dialogRef.afterClosed().pipe(
+      flatMap((comment: Comment) => comment ? this.send(comment) : of<Comment>(null))
+    );
   }
 
-  send(comment: Comment): void {
+  send(comment: Comment): Observable<Comment> {
     let message;
     if (this.room.directSend) {
       this.translateService.get('comment-list.comment-sent').subscribe(msg => {
@@ -48,8 +46,8 @@ export class CreateCommentWrapper {
         message = msg;
       });
     }
-    this.commentService.addComment(comment).subscribe(() => {
-      this.notificationService.show(message);
-    });
+    return this.commentService.addComment(comment).pipe(
+      tap(() => this.notificationService.show(message))
+    );
   }
 }
