@@ -126,7 +126,8 @@ Styling for tag selection
 }
 
 .anchor-wrp {
-  width: 100%;
+  width: calc(100% - 200px);
+  display: inline-block;
   height: 0;
   position: relative;
   left: 0;
@@ -138,16 +139,19 @@ Styling for language select
  */
 
 #langSymbol {
-  margin-right: 18px;
+  margin-right: 12px;
 }
 
 .select-list {
-  width: calc(100% - 24px);
+  width: 18px;
+  margin-left: 12px;
 }
 
 .lang-selection {
   vertical-align: middle;
   margin-right: 0;
+  width: 200px;
+  display: inline-block;
 }
 
 /*
@@ -157,7 +161,6 @@ Styling for tag selection and language selection
 ::ng-deep {
   .mat-select-arrow-wrapper .mat-select-arrow {
     color: var(--on-surface);
-    margin-right: 50px;
   }
 
   .mat-select-value {
@@ -221,6 +224,98 @@ Suggestion classes from Languagetool
       color: black;
       display: block;
       text-align: center;
+    }
+  }
+}
+
+/*
+ For quill
+ */
+
+::ng-deep .ql-editor.ql-blank::before {
+  color: var(--on-surface);
+  filter: opacity(0.6);
+}
+
+::ng-deep .ql-snow {
+  :focus {
+    outline-offset: 0;
+  }
+
+  .ql-stroke {
+    stroke: var(--on-surface);
+  }
+
+  .ql-picker {
+    color: var(--on-surface);
+  }
+
+  .ql-tooltip {
+    color: var(--on-surface);
+    background-color: var(--surface);
+
+    .ql-action::after {
+      padding: 7px !important;
+      background: var(--primary);
+      border-radius: 4px;
+      color: var(--on-primary);
+    }
+
+    .ql-remove::before {
+      padding: 7px !important;
+      background: var(--cancel);
+      border-radius: 4px;
+      color: var(--on-cancel);
+    }
+
+    &.ql-editing input[type=text] {
+      border-color: var(--on-surface);
+      color: var(--on-surface);
+      background-color: var(--dialog);
+    }
+  }
+
+  .ql-fill, .ql-stroke.ql-fill {
+    fill: var(--on-surface);
+  }
+
+  .ql-picker.ql-expanded .ql-picker-label {
+    color: var(--primary);
+
+    .ql-stroke {
+      stroke: var(--primary);
+    }
+  }
+
+  &.ql-container {
+    border-color: var(--on-surface);
+  }
+
+  &.ql-toolbar, .ql-toolbar {
+    border-color: var(--on-surface);
+
+    .ql-picker.ql-expanded {
+      .ql-picker-label {
+        border-color: var(--on-surface);
+      }
+
+      .ql-picker-options {
+        background-color: var(--surface);
+      }
+    }
+
+    button:hover, button:focus, button.ql-active,
+    .ql-picker-label:hover, .ql-picker-label.ql-active,
+    .ql-picker-item:hover, .ql-picker-item.ql-selected {
+      color: var(--primary);
+
+      .ql-stroke {
+        stroke: var(--primary);
+      }
+
+      .ql-fill, .ql-stroke.ql-fill {
+        fill: var(--primary);
+      }
     }
   }
 }

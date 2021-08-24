@@ -80,13 +80,11 @@ export class CommentAnswerComponent implements OnInit {
             this.deleteAnswer();
           }
         });
-    }
+    };
   }
 
   deleteAnswer() {
-    if (this.commentComponent.commentBody) {
-      this.commentComponent.commentBody.nativeElement.innerText = '';
-    }
+    this.commentComponent.clearHTML();
     this.answer = null;
     this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
@@ -96,8 +94,6 @@ export class CommentAnswerComponent implements OnInit {
 
   onEditClick() {
     this.edit = true;
-    setTimeout(() => {
-      this.commentComponent.commentBody.nativeElement.innerText = this.answer;
-    });
+    setTimeout(() => this.commentComponent.setHTML(this.answer));
   }
 }

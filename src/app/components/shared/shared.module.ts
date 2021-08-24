@@ -49,6 +49,7 @@ import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-ov
 import { WriteCommentComponent } from './write-comment/write-comment.component';
 import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   imports: [
@@ -62,7 +63,8 @@ import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.direc
     TagCloudModule,
     ColorPickerModule,
     DragDropModule,
-    JoyrideModule.forChild()
+    JoyrideModule.forChild(),
+    QuillModule
   ],
   declarations: [
     RoomJoinComponent,

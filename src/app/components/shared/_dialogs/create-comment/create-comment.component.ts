@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -9,7 +9,7 @@ import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 import { LanguagetoolService, Language } from '../../../../services/http/languagetool.service';
 import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
-import { GrammarChecker } from '../../../../utils/grammar-checker';
+import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 
 @Component({
   selector: 'app-submit-comment',
@@ -18,13 +18,13 @@ import { GrammarChecker } from '../../../../utils/grammar-checker';
 })
 export class CreateCommentComponent implements OnInit {
 
+  @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
   comment: Comment;
   user: User;
   roomId: string;
   tags: string[];
   selectedTag: string;
   isSendingToSpacy = false;
-  grammarChecker: GrammarChecker;
   tempEditView: string;
 
   constructor(
@@ -35,7 +35,6 @@ export class CreateCommentComponent implements OnInit {
     public languagetoolService: LanguagetoolService,
     public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.grammarChecker = new GrammarChecker(this.languagetoolService);
   }
 
   ngOnInit() {
@@ -71,14 +70,14 @@ export class CreateCommentComponent implements OnInit {
   }
 
   openSpacyDialog(comment: Comment): void {
-    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, comment.body, this.grammarChecker.selectedLang)
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, comment.body, this.commentComponent.selectedLang)
       .subscribe((result) => {
         if (result.isAcceptable) {
           const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
-          const selectedLangExtend = this.grammarChecker.selectedLang[2] === '-' ?
-            this.grammarChecker.selectedLang.substr(0, 2) : this.grammarChecker.selectedLang;
+          const selectedLangExtend = this.commentComponent.selectedLang[2] === '-' ?
+            this.commentComponent.selectedLang.substr(0, 2) : this.commentComponent.selectedLang;
           // Store language if it was auto-detected
-          if (this.grammarChecker.selectedLang === 'auto') {
+          if (this.commentComponent.selectedLang === 'auto') {
             comment.language = Comment.mapModelToLanguage(commentLang);
           } else if (CommentLanguage[selectedLangExtend]) {
             comment.language = CommentLanguage[selectedLangExtend];

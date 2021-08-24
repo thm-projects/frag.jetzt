@@ -26,7 +26,10 @@
               "./node_modules/material-design-icons/iconfont/material-icons.css",
               "node_modules/prismjs/themes/prism-okaidia.css",
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
-              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.bubble.css",
+              "node_modules/quill/dist/quill.snow.css"
             ],
             "scripts": [
               "node_modules/marked/lib/marked.js",
@@ -36,7 +39,8 @@
               "node_modules/prismjs/components/prism-css.min.js",
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.js",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js",
-              "node_modules/katex/dist/katex.min.js"
+              "node_modules/katex/dist/katex.min.js",
+              "node_modules/quill/dist/quill.js"
             ]
           },
           "configurations": {

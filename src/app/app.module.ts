@@ -63,6 +63,7 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
+import { QuillModule } from 'ngx-quill';
 
 import 'prismjs';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
@@ -145,7 +146,27 @@ export function initializeApp(appConfig: AppConfig) {
     }),
     ArsModule,
     TagCloudModule,
-    JoyrideModule.forRoot()
+    JoyrideModule.forRoot(),
+    QuillModule.forRoot({
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ header: 1 }, { header: 2 }],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          [{ script: 'sub' }, { script: 'super' }],
+          [{ indent: '-1' }, { indent: '+1' }],
+          [{ direction: 'rtl' }],
+          [{ size: ['small', false, 'large', 'huge'] }],
+          [{ header: [1, 2, 3, 4, 5, 6, false] }],
+          [{ color: [] }, { background: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          ['clean'],
+          ['link', 'image', 'video']
+        ]
+      }
+    })
   ],
   providers: [
     /*AppConfig,
