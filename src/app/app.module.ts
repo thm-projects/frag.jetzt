@@ -70,6 +70,7 @@ import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
+
 export function dialogClose(dialogResult: any) {
 }
 
@@ -135,7 +136,7 @@ export function initializeApp(appConfig: AppConfig) {
         }
       }
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -147,26 +148,7 @@ export function initializeApp(appConfig: AppConfig) {
     ArsModule,
     TagCloudModule,
     JoyrideModule.forRoot(),
-    QuillModule.forRoot({
-      modules: {
-        toolbar: [
-          ['bold', 'italic', 'underline', 'strike'],
-          ['blockquote', 'code-block'],
-          [{ header: 1 }, { header: 2 }],
-          [{ list: 'ordered' }, { list: 'bullet' }],
-          [{ script: 'sub' }, { script: 'super' }],
-          [{ indent: '-1' }, { indent: '+1' }],
-          [{ direction: 'rtl' }],
-          [{ size: ['small', false, 'large', 'huge'] }],
-          [{ header: [1, 2, 3, 4, 5, 6, false] }],
-          [{ color: [] }, { background: [] }],
-          [{ font: [] }],
-          [{ align: [] }],
-          ['clean'],
-          ['link', 'image', 'video']
-        ]
-      }
-    })
+    QuillModule.forRoot()
   ],
   providers: [
     /*AppConfig,

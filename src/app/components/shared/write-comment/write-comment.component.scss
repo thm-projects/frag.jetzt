@@ -62,7 +62,7 @@ button {
   }
 
   .mat-tab-body-content {
-    max-width: 540px !important;
+    height: auto !important;
     overflow-x: hidden !important;
   }
 }
@@ -188,43 +188,50 @@ Styling for tag selection and language selection
 /*
 Suggestion classes from Languagetool
  */
+$borderWidth: 2px;
+$borderOffset: 2px;
 
-::ng-deep .markUp {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
+::ng-deep #editorErrorLayer {
+  z-index: -1;
 
   > span {
-    text-decoration: underline wavy red;
+    display: inline-block;
+    width: var(--width);
+    margin-right: calc(-1 * var(--width));
+    height: calc(var(--height) - #{$borderWidth + $borderOffset});
+    margin-top: calc(-1 * var(--height) + #{$borderWidth + $borderOffset});
+    transform: translate(var(--left), calc(var(--top) - #{$borderOffset}));
+    border-bottom: $borderWidth solid red;
+  }
+}
+
+::ng-deep .dropdownBlock {
+  display: none;
+  width: 160px;
+  height: fit-content;
+  margin-left: -80px;
+  background-color: var(--surface);
+  border-style: solid;
+  border-color: var(--primary);
+  color: var(--on-surface);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: fixed;
+  z-index: 1000;
+  bottom: 100%;
+
+  > .suggestions {
+    color: var(--on-surface);
+    display: block;
+    text-align: center;
     cursor: pointer;
   }
 
-  > .dropdownBlock {
-    display: none;
-    width: 160px;
-    background-color: white;
-    border-style: solid;
-    border-color: var(--primary);
-    color: #fff;
+  > .error-message {
+    color: var(--on-surface);
+    display: block;
     text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1000;
-    bottom: 100%;
-
-    > .suggestions {
-      color: black;
-      display: block;
-      text-align: center;
-      cursor: pointer;
-    }
-
-    > .error-message {
-      color: black;
-      display: block;
-      text-align: center;
-    }
   }
 }
 
@@ -289,6 +296,7 @@ Suggestion classes from Languagetool
 
   &.ql-container {
     border-color: var(--on-surface);
+    height: 80%;
   }
 
   &.ql-toolbar, .ql-toolbar {
