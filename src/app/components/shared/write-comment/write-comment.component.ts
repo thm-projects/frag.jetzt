@@ -161,7 +161,6 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
         this.isSpellchecking = false;
         return;
       }
-      // Hallo ich bin eine Entee. Ich liebe Gäse.
       if (this.selectedLang === 'auto' &&
         (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
         if (wordsCheck.language.name.includes('German')) {
