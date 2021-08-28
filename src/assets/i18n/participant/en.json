@@ -254,6 +254,20 @@
     "overview-questioners-tooltip": "Number of questioners",
     "questions-blocked": "New questions blocked"
   },
+  "quill": {
+    "tooltip-remove": "Delete",
+    "tooltip-action-save": "Save",
+    "tooltip-action": "Edit",
+    "tooltip-label": "Visit URL:",
+    "tooltip-label-link": "Enter link:",
+    "tooltip-placeholder-link": "https://quilljs.com",
+    "tooltip-label-image": "Enter image:",
+    "tooltip-placeholder-image": "Embed URL",
+    "tooltip-label-video": "Enter video:",
+    "tooltip-placeholder-video": "Embed URL",
+    "tooltip-label-formula": "Enter formula:",
+    "tooltip-placeholder-formula": "e=mc^2"
+  },
   "tag-cloud": {
     "demo-data-topic": "Topic %d",
     "overview-question-topic-tooltip": "Number of questions with this topic",

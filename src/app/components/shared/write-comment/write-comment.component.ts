@@ -8,28 +8,31 @@ import { EventService } from '../../../services/util/event.service';
 import { QuillEditorComponent, QuillModules } from 'ngx-quill';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { Marks } from './write-comment.marks';
+import { LanguageService } from '../../../services/util/language.service';
+import Delta from 'quill-delta';
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module';
+import 'quill-emoji/dist/quill-emoji.js';
 
-const participantOptions: QuillModules = {
-  toolbar: [
-    ['bold', 'strike'],
-    ['blockquote', 'code-block'],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    ['link']
-  ]
-};
+Quill.register('modules/imageResize', ImageResize);
 
-const moderatorOptions: QuillModules = {
-  toolbar: [
-    ['bold', 'strike'],
-    ['blockquote', 'code-block'],
-    [{ header: 1 }, { header: 2 }],
-    [{ list: 'ordered' }, { list: 'bullet' }],
-    [{ indent: '-1' }, { indent: '+1' }],
-    [{ color: [] }],
-    [{ align: [] }],
-    ['link', 'image', 'video']
-  ]
-};
+const participantToolbar = [
+  ['bold', 'strike'],
+  ['blockquote', 'code-block'],
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  ['link', 'formula']
+];
+
+const moderatorToolbar = [
+  ['bold', 'strike'],
+  ['blockquote', 'code-block'],
+  [{ header: 1 }, { header: 2 }],
+  [{ list: 'ordered' }, { list: 'bullet' }],
+  [{ indent: '-1' }, { indent: '+1' }],
+  [{ color: [] }],
+  [{ align: [] }],
+  ['link', 'image', 'video', 'formula']
+];
 
 @Component({
   selector: 'app-write-comment',
@@ -63,17 +66,42 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
   hasSpellcheckConfidence = true;
   newLang = 'auto';
   marks: Marks;
-  quillModules = participantOptions;
+  quillModules: QuillModules = {
+    toolbar: {
+      container: participantToolbar,
+      handlers: {
+        image: () => this.handle('image'),
+        video: () => this.handle('video'),
+        link: () => this.handleLink(),
+        formula: () => this.handle('formula')
+      }
+    },
+    'emoji-toolbar': true,
+    'emoji-textarea': true,
+    'emoji-shortname': true,
+    imageResize: {
+      modules: ['Resize', 'DisplaySize', 'Toolbar']
+    }
+  };
 
   constructor(private notification: NotificationService,
+              private languageService: LanguageService,
               private translateService: TranslateService,
               public eventService: EventService,
               public languagetoolService: LanguagetoolService) {
+    this.languageService.langEmitter.subscribe(lang => {
+      this.translateService.use(lang);
+      this.updateCSSVariables();
+    });
   }
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.quillModules = this.user && this.user.role > 0 ? moderatorOptions : participantOptions;
+    if (this.user && this.user.role > 0) {
+      this.quillModules.toolbar['container'] = moderatorToolbar;
+    }
+    this.translateService.use(localStorage.getItem('currentLang'));
+    this.updateCSSVariables();
   }
 
   ngAfterViewInit() {
@@ -83,12 +111,24 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
       this.currentText = e.text;
     });
     this.editor.onEditorCreated.subscribe(_ => {
-      this.marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement,
-        this.editor.editorElem.firstElementChild as HTMLDivElement);
+      this.marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
       this.syncErrorLayer();
       setTimeout(() => this.syncErrorLayer(), 200); // animations?
     });
     this.editor.onEditorChanged.subscribe(_ => {
+      const elem: HTMLDivElement = document.querySelector('div.ql-tooltip');
+      if (elem) { // fix tooltip
+        setTimeout(() => {
+          const left = parseFloat(elem.style.left);
+          const right = left + elem.getBoundingClientRect().width;
+          const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
+          if (left < 0) {
+            elem.style.left = '0';
+          } else if (right > containerWidth) {
+            elem.style.left = (containerWidth - right + left) + 'px';
+          }
+        });
+      }
       this.syncErrorLayer();
       this.marks.sync();
     });
@@ -132,10 +172,8 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
     if (!this.marks) {
       return;
     }
-    const range = window.getSelection && window.getSelection().rangeCount > 0 ? window.getSelection().getRangeAt(0) : null;
-    const isClick = range && range.startContainer === range.endContainer && range.startOffset === range.endOffset &&
-      (e.target as HTMLElement).contains(range.commonAncestorContainer);
-    this.marks.onClick(isClick ? range : null);
+    const range = this.editor.quillEditor.getSelection(false);
+    this.marks.onClick(range && range.length === 0 ? range.index : null);
   }
 
   maxLength(commentBody: HTMLDivElement, size: number): void {
@@ -204,6 +242,73 @@ export class WriteCommentComponent implements OnInit, AfterViewInit {
       return false;
     }
     return true;
+  }
+
+  private updateCSSVariables() {
+    const variables = [
+      'quill.tooltip-remove', 'quill.tooltip-action-save', 'quill.tooltip-action', 'quill.tooltip-label',
+      'quill.tooltip-label-link', 'quill.tooltip-label-image', 'quill.tooltip-label-video',
+      'quill.tooltip-label-formula'
+    ];
+    for (const variable of variables) {
+      this.translateService.get(variable).subscribe(translation => {
+        document.body.style.setProperty('--' + variable.replace('.', '-'), JSON.stringify(translation));
+      });
+    }
+  }
+
+  private handleLink(): void {
+    const quill = this.editor.quillEditor;
+    const selection = quill.getSelection(false);
+    if (!selection || !selection.length) {
+      return;
+    }
+    const tooltip = quill.theme.tooltip;
+    const originalSave = tooltip.save;
+    const originalHide = tooltip.hide;
+    tooltip.save = () => {
+      const value = tooltip.textbox.value;
+      if (value) {
+        const delta = new Delta()
+          .retain(selection.index)
+          .retain(selection.length, { link: value });
+        quill.updateContents(delta);
+        tooltip.hide();
+      }
+    };
+    // Called on hide and save.
+    tooltip.hide = () => {
+      tooltip.save = originalSave;
+      tooltip.hide = originalHide;
+      tooltip.hide();
+    };
+    tooltip.edit('link');
+    tooltip.textbox.value = quill.getText(selection.index, selection.length);
+    this.translateService.get('quill.tooltip-placeholder-link')
+      .subscribe(translation => tooltip.textbox.placeholder = translation);
+  }
+
+  private handle(type: string): void {
+    const quill = this.editor.quillEditor;
+    const tooltip = quill.theme.tooltip;
+    const originalSave = tooltip.save;
+    const originalHide = tooltip.hide;
+    tooltip.save = () => {
+      const range = quill.getSelection(true);
+      const value = tooltip.textbox.value;
+      if (value) {
+        quill.insertEmbed(range.index, type, value, 'user');
+      }
+    };
+    // Called on hide and save.
+    tooltip.hide = () => {
+      tooltip.save = originalSave;
+      tooltip.hide = originalHide;
+      tooltip.hide();
+    };
+    tooltip.edit(type);
+    this.translateService.get('quill.tooltip-placeholder-' + type)
+      .subscribe(translation => tooltip.textbox.placeholder = translation);
   }
 
 }

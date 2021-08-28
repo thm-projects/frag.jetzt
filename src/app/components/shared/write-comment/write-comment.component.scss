@@ -258,6 +258,22 @@ $borderOffset: 2px;
   }
 
   .ql-tooltip {
+    &[data-mode=formula]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-formula);
+    }
+    &[data-mode=video]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-video);
+    }
+    &[data-mode=image]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-image);
+    }
+    &[data-mode=link]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-link);
+    }
+    &::before {
+      content: var(--quill-tooltip-label) !important;
+    }
+
     color: var(--on-surface);
     background-color: var(--surface);
 
@@ -266,9 +282,15 @@ $borderOffset: 2px;
       background: var(--primary);
       border-radius: 4px;
       color: var(--on-primary);
+      content: var(--quill-tooltip-action) !important;
+    }
+
+    &.ql-editing .ql-action::after {
+      --quill-tooltip-action: var(--quill-tooltip-action-save);
     }
 
     .ql-remove::before {
+      content: var(--quill-tooltip-remove) !important;
       padding: 7px !important;
       background: var(--cancel);
       border-radius: 4px;

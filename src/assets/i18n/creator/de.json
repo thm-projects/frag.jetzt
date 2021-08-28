@@ -238,6 +238,20 @@
     "created-2": "« wurde erstellt.",
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
+  "quill": {
+    "tooltip-remove": "Löschen",
+    "tooltip-action-save": "Speichern",
+    "tooltip-action": "Editieren",
+    "tooltip-label": "URL besuchen:",
+    "tooltip-label-link": "Link eingeben:",
+    "tooltip-placeholder-link": "https://quilljs.com",
+    "tooltip-label-image": "Bild-URL eingeben:",
+    "tooltip-placeholder-image": "URL Adresse",
+    "tooltip-label-video": "Video-URL eingeben:",
+    "tooltip-placeholder-video": "URL Adresse",
+    "tooltip-label-formula": "Formel eingeben:",
+    "tooltip-placeholder-formula": "e=mc^2"
+  },
   "room-page": {
     "a11y-add-moderator": "Fügt den eingegebenen Benutzer als Moderator hinzu.",
     "a11y-cloud_download": "Direktlink zur Sitzung in die Zwischenablage kopieren",
