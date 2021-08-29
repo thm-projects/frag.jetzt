@@ -1,6 +1,40 @@
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { QuillEditorComponent } from 'ngx-quill';
 
+class ContentIndexFinder {
+
+  private opIndex = 0;
+  private contentOffset = 0;
+  private textOffset = 0;
+
+  constructor(private contentOps) {
+  }
+
+  adjustTextIndexes(startIndex: number, length: number): [number, number] {
+    const endIndex = startIndex + length;
+    let textLen = typeof this.contentOps[this.opIndex]['insert'] === 'string' ?
+      this.contentOps[this.opIndex]['insert'].length : 0;
+    while (textLen === 0 || this.textOffset + textLen < startIndex) {
+      this.textOffset += textLen;
+      this.contentOffset += textLen === 0 ? 1 : textLen;
+      ++this.opIndex;
+      textLen = typeof this.contentOps[this.opIndex]['insert'] === 'string' ?
+        this.contentOps[this.opIndex]['insert'].length : 0;
+    }
+    const diff = this.contentOffset - this.textOffset;
+    startIndex += diff;
+    while (this.textOffset + textLen < endIndex) {
+      this.textOffset += textLen;
+      this.contentOffset += textLen === 0 ? 1 : textLen;
+      ++this.opIndex;
+      textLen = typeof this.contentOps[this.opIndex]['insert'] === 'string' ?
+        this.contentOps[this.opIndex]['insert'].length : 0;
+    }
+    length += this.contentOffset - this.textOffset - diff;
+    return [startIndex, length];
+  }
+}
+
 export class Marks {
 
   private textErrors: Mark[] = [];
@@ -31,13 +65,13 @@ export class Marks {
     let index = 0;
     for (const op of delta.ops) {
       if (op['insert']) {
-        const len = op['insert'].length;
+        const len = typeof op['insert'] === 'string' ? op['insert'].length : 1;
         for (const textError of this.textErrors) {
           if (index > textError.startIndex + textError.markLength) {
             continue;
           }
-          textError.markLength += len;
           if (index >= textError.startIndex) {
+            textError.markLength += len;
             continue;
           }
           textError.startIndex += len;
@@ -62,7 +96,6 @@ export class Marks {
           }
           if (endDelete < textError.startIndex) {
             textError.startIndex -= len;
-            textError.markLength -= len;
             return true;
           }
           if (endDelete < textError.startIndex + textError.markLength) {
@@ -82,13 +115,15 @@ export class Marks {
   }
 
   buildErrors(initialText: string, wrongWords: string[], res: LanguagetoolResult): void {
+    const indexFinder = new ContentIndexFinder(this.editor.quillEditor.getContents().ops);
     for (let i = 0; i < res.matches.length; i++) {
       const match = res.matches[i];
       const foundWord = initialText.slice(match.offset, match.offset + match.length);
       if (!wrongWords.includes(foundWord)) {
         continue;
       }
-      const mark = new Mark(match.offset, match.length, this.markContainer, this.tooltipContainer, this.editor.quillEditor);
+      const [start, len] = indexFinder.adjustTextIndexes(match.offset, match.length);
+      const mark = new Mark(start, len, this.markContainer, this.tooltipContainer, this.editor.quillEditor);
       mark.setSuggestions(res, i, () => {
         const index = this.textErrors.findIndex(elem => elem === mark);
         if (index >= 0) {
@@ -207,19 +242,33 @@ class Mark {
   }
 
   private calculateBoundaries(): [start: number, length: number][] {
-    const text: string = this.quillEditor.getText(this.startIndex, this.markLength);
+    const ops = this.quillEditor.getContents(this.startIndex, this.markLength).ops;
     const bounds = [];
-    let i = text.indexOf('\n');
     let currentIndex = 0;
-    while (i >= 0) {
-      if (i > currentIndex) {
-        bounds.push([this.startIndex + currentIndex, i - currentIndex]);
+    for (const op of ops) {
+      if (typeof op['insert'] === 'string') {
+        const text = op['insert'];
+        let i = text.indexOf('\n');
+        let findIndex = 0;
+        while (i >= 0) {
+          if (i > findIndex) {
+            bounds.push([this.startIndex + findIndex + currentIndex, i - findIndex]);
+          }
+          findIndex = i + 1;
+          i = text.indexOf('\n', findIndex);
+        }
+        if (text.length + currentIndex < this.markLength) {
+          if (text.length > findIndex) {
+            bounds.push([this.startIndex + findIndex + currentIndex, text.length - findIndex]);
+          }
+        } else if (this.markLength > findIndex + currentIndex && text.length > findIndex) {
+          bounds.push([this.startIndex + findIndex + currentIndex, this.markLength - findIndex - currentIndex]);
+        }
+        currentIndex += text.length;
+      } else {
+        bounds.push([this.startIndex + currentIndex, 1]);
+        ++currentIndex;
       }
-      currentIndex = i + 1;
-      i = text.indexOf('\n', currentIndex);
-    }
-    if (this.markLength > currentIndex) {
-      bounds.push([this.startIndex + currentIndex, this.markLength - currentIndex]);
     }
     return bounds;
   }

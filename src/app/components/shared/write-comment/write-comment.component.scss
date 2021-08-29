@@ -249,6 +249,10 @@ $borderOffset: 2px;
     outline-offset: 0;
   }
 
+  .ql-editor {
+    min-height: 8.8em;
+  }
+
   .ql-stroke {
     stroke: var(--on-surface);
   }

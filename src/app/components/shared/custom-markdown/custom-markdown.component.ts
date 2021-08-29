@@ -14,7 +14,6 @@ export class CustomMarkdownComponent implements OnChanges {
   @Input() start: number | undefined;
   @Input() line: string | string[] | undefined;
   @Input() lineOffset: number | undefined;
-  @Input() isRawHTML = false;
   @Input() katexOptions: KatexOptions = {
     throwOnError: true
   };
@@ -89,10 +88,6 @@ export class CustomMarkdownComponent implements OnChanges {
   }
 
   private render(markdown: string, decodeHtml = false): void {
-    if (this.isRawHTML) {
-      this.element.nativeElement.innerHTML = this.renderKatex(markdown);
-      return;
-    }
     if (this.katex) {
       markdown = CustomMarkdownComponent.fixKatex(markdown);
     }

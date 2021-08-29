@@ -84,7 +84,7 @@ export class CommentAnswerComponent implements OnInit {
   }
 
   deleteAnswer() {
-    this.commentComponent.clearHTML();
+    this.commentComponent.commentData.clear();
     this.answer = null;
     this.commentService.answer(this.comment, this.answer).subscribe();
     this.translateService.get('comment-page.answer-deleted').subscribe(msg => {
@@ -94,6 +94,6 @@ export class CommentAnswerComponent implements OnInit {
 
   onEditClick() {
     this.edit = true;
-    setTimeout(() => this.commentComponent.setHTML(this.answer));
+    setTimeout(() => this.commentComponent.commentData.set(this.answer));
   }
 }
