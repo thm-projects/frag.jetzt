@@ -266,7 +266,6 @@ class Mark {
         }
         currentIndex += text.length;
       } else {
-        bounds.push([this.startIndex + currentIndex, 1]);
         ++currentIndex;
       }
     }

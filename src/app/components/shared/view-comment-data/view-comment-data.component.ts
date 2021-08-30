@@ -11,23 +11,12 @@ import { TranslateService } from '@ngx-translate/core';
 Quill.register('modules/imageResize', ImageResize);
 
 const participantToolbar = [
-  ['bold', 'strike'],
-  ['blockquote', 'code-block'],
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  ['link', 'formula'],
-  ['emoji']
+  ['bold', 'blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }, 'link', 'formula', 'emoji']
 ];
 
 const moderatorToolbar = [
-  ['bold', 'strike'],
-  ['blockquote', 'code-block'],
-  [{ header: 1 }, { header: 2 }],
-  [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ indent: '-1' }, { indent: '+1' }],
-  [{ color: [] }],
-  [{ align: [] }],
-  ['link', 'image', 'video', 'formula'],
-  ['emoji']
+  ['bold', 'strike', 'blockquote', 'code-block', { header: 1 }, { header: 2 }, { list: 'ordered' }, { list: 'bullet' },
+    { indent: '-1' }, { indent: '+1' }, { color: [] }, { align: [] }, 'link', 'image', 'video', 'formula', 'emoji'],
 ];
 
 @Component({
@@ -51,7 +40,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     onDocumentClick: (e) => void;
   };
   currentText = '';
-
   quillModules: QuillModules = {
     toolbar: {
       container: participantToolbar,
@@ -61,11 +49,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         link: () => this.handleLink(),
         formula: () => this.handle('formula')
       }
-    },
-    'emoji-toolbar': true,
-    'emoji-shortname': true,
-    imageResize: {
-      modules: ['Resize', 'DisplaySize']
     }
   };
 
@@ -107,6 +90,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     if (this.user && this.user.role > 0) {
       this.quillModules.toolbar['container'] = moderatorToolbar;
+    }
+    if (this.isEditor) {
+      this.quillModules['emoji-toolbar'] = true;
+      this.quillModules['emoji-shortname'] = true;
+      this.quillModules.imageResize = {
+        modules: ['Resize', 'DisplaySize']
+      };
     }
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isEditor) {

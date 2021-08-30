@@ -52,7 +52,7 @@
 <ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
   <ars-col>
     <button
-      [disabled]="!commentData || commentData.currentText.length < 4"
+      [disabled]="!commentData || commentData.currentText.length < 5"
       mat-flat-button
       class="spell-button"
       (click)="checkGrammar()">
