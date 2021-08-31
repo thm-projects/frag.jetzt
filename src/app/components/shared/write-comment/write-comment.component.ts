@@ -30,6 +30,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() cancelLabel = 'cancel';
   @Input() additionalTemplate: TemplateRef<any>;
   @Input() enabled = true;
+  @Input() isCommentAnswer = false;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -55,8 +56,12 @@ export class WriteCommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.maxTextCharacters = this.user.role > 0 ? 1000 : 500;
-    this.maxDataCharacters = this.maxTextCharacters * 5;
+    if (this.isCommentAnswer) {
+      this.maxTextCharacters = this.user.role > 0 ? 2000 : 0;
+    } else {
+      this.maxTextCharacters = this.user.role > 0 ? 1000 : 500;
+    }
+    this.maxDataCharacters = this.user.role > 0 ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -102,7 +107,7 @@ export class WriteCommentComponent implements OnInit {
         return;
       }
       if (this.selectedLang === 'auto' &&
-        (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
+          (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
         if (wordsCheck.language.name.includes('German')) {
           this.selectedLang = 'de-DE';
         } else if (wordsCheck.language.name.includes('English')) {

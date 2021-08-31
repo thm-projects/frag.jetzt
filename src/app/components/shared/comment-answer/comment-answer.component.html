@@ -11,6 +11,7 @@
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
       <app-write-comment [user]="user"
+                         [isCommentAnswer]="true"
                          [onClose]="openDeleteAnswerDialog()"
                          [onSubmit]="saveAnswer()"
                          [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
