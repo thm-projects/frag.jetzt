@@ -62,7 +62,7 @@ button {
   }
 
   .mat-tab-body-content {
-    max-width: 540px !important;
+    height: auto !important;
     overflow-x: hidden !important;
   }
 }
@@ -126,7 +126,8 @@ Styling for tag selection
 }
 
 .anchor-wrp {
-  width: 100%;
+  width: calc(100% - 200px);
+  display: inline-block;
   height: 0;
   position: relative;
   left: 0;
@@ -138,16 +139,19 @@ Styling for language select
  */
 
 #langSymbol {
-  margin-right: 18px;
+  margin-right: 12px;
 }
 
 .select-list {
-  width: calc(100% - 24px);
+  width: 18px;
+  margin-left: 12px;
 }
 
 .lang-selection {
   vertical-align: middle;
   margin-right: 0;
+  width: 200px;
+  display: inline-block;
 }
 
 /*
@@ -157,7 +161,6 @@ Styling for tag selection and language selection
 ::ng-deep {
   .mat-select-arrow-wrapper .mat-select-arrow {
     color: var(--on-surface);
-    margin-right: 50px;
   }
 
   .mat-select-value {
@@ -185,42 +188,168 @@ Styling for tag selection and language selection
 /*
 Suggestion classes from Languagetool
  */
+$borderWidth: 2px;
+$borderOffset: 2px;
 
-::ng-deep .markUp {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted black;
+::ng-deep #editorErrorLayer {
+  z-index: -1;
 
   > span {
-    text-decoration: underline wavy red;
+    display: inline-block;
+    width: var(--width);
+    margin-right: calc(-1 * var(--width));
+    height: calc(var(--height) - #{$borderWidth + $borderOffset});
+    margin-top: calc(-1 * var(--height) + #{$borderWidth + $borderOffset});
+    transform: translate(var(--left), calc(var(--top) - #{$borderOffset}));
+    border-bottom: $borderWidth solid red;
+  }
+}
+
+::ng-deep .dropdownBlock {
+  display: none;
+  width: 160px;
+  height: fit-content;
+  margin-left: -80px;
+  background-color: var(--surface);
+  border-style: solid;
+  border-color: var(--primary);
+  color: var(--on-surface);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: fixed;
+  z-index: 1000;
+  bottom: 100%;
+
+  > .suggestions {
+    color: var(--on-surface);
+    display: block;
+    text-align: center;
     cursor: pointer;
   }
 
-  > .dropdownBlock {
-    display: none;
-    width: 160px;
-    background-color: white;
-    border-style: solid;
-    border-color: var(--primary);
-    color: #fff;
+  > .error-message {
+    color: var(--on-surface);
+    display: block;
     text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1000;
-    bottom: 100%;
+  }
+}
 
-    > .suggestions {
-      color: black;
-      display: block;
-      text-align: center;
-      cursor: pointer;
+/*
+ For quill
+ */
+
+::ng-deep .ql-editor.ql-blank::before {
+  color: var(--on-surface);
+  filter: opacity(0.6);
+}
+
+::ng-deep .ql-snow {
+  :focus {
+    outline-offset: 0;
+  }
+
+  .ql-editor {
+    min-height: 8.8em;
+  }
+
+  .ql-stroke {
+    stroke: var(--on-surface);
+  }
+
+  .ql-picker {
+    color: var(--on-surface);
+  }
+
+  .ql-tooltip {
+    &[data-mode=formula]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-formula);
+    }
+    &[data-mode=video]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-video);
+    }
+    &[data-mode=image]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-image);
+    }
+    &[data-mode=link]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-link);
+    }
+    &::before {
+      content: var(--quill-tooltip-label) !important;
     }
 
-    > .error-message {
-      color: black;
-      display: block;
-      text-align: center;
+    color: var(--on-surface);
+    background-color: var(--surface);
+
+    .ql-action::after {
+      padding: 7px !important;
+      background: var(--primary);
+      border-radius: 4px;
+      color: var(--on-primary);
+      content: var(--quill-tooltip-action) !important;
+    }
+
+    &.ql-editing .ql-action::after {
+      --quill-tooltip-action: var(--quill-tooltip-action-save);
+    }
+
+    .ql-remove::before {
+      content: var(--quill-tooltip-remove) !important;
+      padding: 7px !important;
+      background: var(--cancel);
+      border-radius: 4px;
+      color: var(--on-cancel);
+    }
+
+    &.ql-editing input[type=text] {
+      border-color: var(--on-surface);
+      color: var(--on-surface);
+      background-color: var(--dialog);
+    }
+  }
+
+  .ql-fill, .ql-stroke.ql-fill {
+    fill: var(--on-surface);
+  }
+
+  .ql-picker.ql-expanded .ql-picker-label {
+    color: var(--primary);
+
+    .ql-stroke {
+      stroke: var(--primary);
+    }
+  }
+
+  &.ql-container {
+    border-color: var(--on-surface);
+    height: 80%;
+  }
+
+  &.ql-toolbar, .ql-toolbar {
+    border-color: var(--on-surface);
+
+    .ql-picker.ql-expanded {
+      .ql-picker-label {
+        border-color: var(--on-surface);
+      }
+
+      .ql-picker-options {
+        background-color: var(--surface);
+      }
+    }
+
+    button:hover, button:focus, button.ql-active,
+    .ql-picker-label:hover, .ql-picker-label.ql-active,
+    .ql-picker-item:hover, .ql-picker-item.ql-selected {
+      color: var(--primary);
+
+      .ql-stroke {
+        stroke: var(--primary);
+      }
+
+      .ql-fill, .ql-stroke.ql-fill {
+        fill: var(--primary);
+      }
     }
   }
 }

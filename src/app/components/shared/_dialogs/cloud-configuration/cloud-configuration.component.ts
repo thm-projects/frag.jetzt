@@ -188,6 +188,7 @@ export class CloudConfigurationComponent implements OnInit {
 
   cancel() {
     this.parent.setCloudParameters(this.defaultCloudParameters);
+    this.parent.updateTagCloudSettings();
     this.cloudParameters = new CloudParameters(this.defaultCloudParameters);
     this.setStep(0);
     this.closePanel();
@@ -195,6 +196,7 @@ export class CloudConfigurationComponent implements OnInit {
 
   save() {
     this.parent.setCloudParameters(this.cloudParameters);
+    this.parent.updateTagCloudSettings();
     this.defaultCloudParameters = new CloudParameters(this.cloudParameters);
     this.setStep(0);
     this.closePanel();

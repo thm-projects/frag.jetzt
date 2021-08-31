@@ -1,0 +1,129 @@
+::ng-deep .ql-editor.ql-blank::before {
+  color: var(--on-surface);
+  filter: opacity(0.6);
+}
+
+::ng-deep .ql-snow {
+  :focus {
+    outline-offset: 0;
+  }
+
+  .ql-editor {
+    min-height: 8.8em;
+  }
+
+  .ql-stroke {
+    stroke: var(--on-surface);
+  }
+
+  .ql-picker {
+    color: var(--on-surface);
+  }
+
+  .ql-tooltip {
+    &[data-mode=formula]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-formula);
+    }
+
+    &[data-mode=video]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-video);
+    }
+
+    &[data-mode=image]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-image);
+    }
+
+    &[data-mode=link]::before {
+      --quill-tooltip-label: var(--quill-tooltip-label-link);
+    }
+
+    &::before {
+      content: var(--quill-tooltip-label) !important;
+    }
+
+    color: var(--on-surface);
+    background-color: var(--surface);
+
+    .ql-action::after {
+      padding: 7px !important;
+      background: var(--primary);
+      border-radius: 4px;
+      color: var(--on-primary);
+      content: var(--quill-tooltip-action) !important;
+    }
+
+    &.ql-editing .ql-action::after {
+      --quill-tooltip-action: var(--quill-tooltip-action-save);
+    }
+
+    .ql-remove::before {
+      content: var(--quill-tooltip-remove) !important;
+      padding: 7px !important;
+      background: var(--cancel);
+      border-radius: 4px;
+      color: var(--on-cancel);
+    }
+
+    &.ql-editing input[type=text] {
+      border-color: var(--on-surface);
+      color: var(--on-surface);
+      background-color: var(--dialog);
+    }
+  }
+
+  .ql-fill, .ql-stroke.ql-fill {
+    fill: var(--on-surface);
+  }
+
+  .ql-picker.ql-expanded .ql-picker-label {
+    color: var(--primary);
+
+    .ql-stroke {
+      stroke: var(--primary);
+    }
+  }
+
+  &.ql-container {
+    border-color: var(--on-surface);
+    height: 80%;
+  }
+
+  &.ql-toolbar, .ql-toolbar {
+    border-color: var(--on-surface);
+
+    .ql-formats {
+      margin-right: 0;
+
+      > * {
+        @media only screen and (max-device-width: 480px) and (orientation: portrait),
+        only screen and (max-device-height: 480px) and (orientation: landscape) {
+          margin: 10px;
+        }
+      }
+    }
+
+    .ql-picker.ql-expanded {
+      .ql-picker-label {
+        border-color: var(--on-surface);
+      }
+
+      .ql-picker-options {
+        background-color: var(--surface);
+      }
+    }
+
+    button:hover, button:focus, button.ql-active,
+    .ql-picker-label:hover, .ql-picker-label.ql-active,
+    .ql-picker-item:hover, .ql-picker-item.ql-selected {
+      color: var(--primary);
+
+      .ql-stroke {
+        stroke: var(--primary);
+      }
+
+      .ql-fill, .ql-stroke.ql-fill {
+        fill: var(--primary);
+      }
+    }
+  }
+}

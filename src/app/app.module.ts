@@ -63,12 +63,14 @@ import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
+import { QuillModule } from 'ngx-quill';
 
 import 'prismjs';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
 import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
+
 export function dialogClose(dialogResult: any) {
 }
 
@@ -134,7 +136,7 @@ export function initializeApp(appConfig: AppConfig) {
         }
       }
     }),
-    ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     TranslateModule.forChild({
       loader: {
         provide: TranslateLoader,
@@ -145,7 +147,8 @@ export function initializeApp(appConfig: AppConfig) {
     }),
     ArsModule,
     TagCloudModule,
-    JoyrideModule.forRoot()
+    JoyrideModule.forRoot(),
+    QuillModule.forRoot()
   ],
   providers: [
     /*AppConfig,

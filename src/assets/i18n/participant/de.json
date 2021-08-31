@@ -125,10 +125,11 @@
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Deine Frage löschen",
     "enter-comment": "Gib deine Frage ein …",
-    "Markdown-hint": "Formatiere mit Markdown & KaTeX",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",
+    "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
+    "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
     "error-title": "Bitte gib einen Titel ein.",
     "has-answer": "Die Frage wurde kommentiert. Klick hier, um den Kommentar zu lesen.",
     "exit-description": "Präsentationsmodus verlassen",
@@ -247,6 +248,20 @@
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller*innen",
     "questions-blocked": "Neue Fragen deaktiviert "
+  },
+  "quill": {
+    "tooltip-remove": "Löschen",
+    "tooltip-action-save": "Speichern",
+    "tooltip-action": "Editieren",
+    "tooltip-label": "URL besuchen:",
+    "tooltip-label-link": "Link eingeben:",
+    "tooltip-placeholder-link": "https://quilljs.com",
+    "tooltip-label-image": "Bild-URL eingeben:",
+    "tooltip-placeholder-image": "URL Adresse",
+    "tooltip-label-video": "Video-URL eingeben:",
+    "tooltip-placeholder-video": "URL Adresse",
+    "tooltip-label-formula": "Formel eingeben:",
+    "tooltip-placeholder-formula": "e=mc^2"
   },
   "tag-cloud": {
     "demo-data-topic": "Thema %d",

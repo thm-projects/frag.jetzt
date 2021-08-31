@@ -264,7 +264,7 @@
            tabindex="0">
         <ars-row #commentBody>
           <ars-row #commentBodyInner>
-            <app-custom-markdown class="images" [data]="comment.body"></app-custom-markdown>
+            <app-view-comment-data class="images" [currentData]="comment.body"></app-view-comment-data>
           </ars-row>
         </ars-row>
         <span id="comment-{{ comment.id }}"

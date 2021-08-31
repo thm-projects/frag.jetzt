@@ -11,9 +11,10 @@
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
       <app-write-comment [user]="user"
+                         [isCommentAnswer]="true"
                          [onClose]="openDeleteAnswerDialog()"
                          [onSubmit]="saveAnswer()"
-                         [disableCancelButton]="!answer && commentComponent && commentComponent.commentBody && !commentComponent.commentBody.nativeElement.innerText"
+                         [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
                          [confirmLabel]="'save-answer'"
                          [cancelLabel]="'delete-answer'"
                          [additionalTemplate]="editAnswer"
@@ -25,7 +26,7 @@
 
 <ng-template #editAnswer>
   <div *ngIf="(isStudent || !edit) && answer">
-    <app-custom-markdown class="imborder-answerages" [data]="answer"></app-custom-markdown>
+    <app-view-comment-data [currentData]="answer"></app-view-comment-data>
     <div fxLayout="row"
          fxLayoutAlign="end">
       <button mat-raised-button
