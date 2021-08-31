@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
 import { User } from '../../../models/user';
 import { NotificationService } from '../../../services/util/notification.service';
 import { EventService } from '../../../services/util/event.service';
-import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { Marks } from './write-comment.marks';
 import { LanguageService } from '../../../services/util/language.service';
 import { QuillEditorComponent } from 'ngx-quill';
@@ -24,7 +23,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() user: User;
   @Input() tags: string[];
   @Input() onClose: () => any;
-  @Input() onSubmit: (commentText: string, selectedTag: string) => any;
+  @Input() onSubmit: (commentData: string, commentText: string, selectedTag: string) => any;
   @Input() isSpinning = false;
   @Input() disableCancelButton = false;
   @Input() confirmLabel = 'save';
@@ -33,6 +32,8 @@ export class WriteCommentComponent implements OnInit {
   @Input() enabled = true;
   comment: Comment;
   selectedTag: string;
+  maxTextCharacters = 500;
+  maxDataCharacters = 2500;
   // Grammarheck
   languages: Language[] = ['de-DE', 'en-US', 'fr', 'auto'];
   selectedLang: Language = 'auto';
@@ -54,6 +55,8 @@ export class WriteCommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.maxTextCharacters = this.user.role > 0 ? 1000 : 500;
+    this.maxDataCharacters = this.maxTextCharacters * 5;
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -68,8 +71,8 @@ export class WriteCommentComponent implements OnInit {
       return undefined;
     }
     return () => {
-      if (this.checkInputData(this.commentData.currentData)) {
-        this.onSubmit(this.commentData.currentData, this.selectedTag);
+      if (this.checkInputData(this.commentData.currentData, this.commentData.currentText)) {
+        this.onSubmit(this.commentData.currentData, this.commentData.currentText, this.selectedTag);
       }
     };
   }
@@ -92,8 +95,7 @@ export class WriteCommentComponent implements OnInit {
     });
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
-    const text = CreateCommentKeywords.cleaningFunction(rawText, true);
-    this.checkSpellings(text).subscribe((wordsCheck) => {
+    this.checkSpellings(rawText).subscribe((wordsCheck) => {
       if (!this.checkLanguageConfidence(wordsCheck)) {
         this.hasSpellcheckConfidence = false;
         this.isSpellchecking = false;
@@ -113,11 +115,7 @@ export class WriteCommentComponent implements OnInit {
         langSelect.innerHTML = this.newLang;
       }
       this.marks.clear();
-      const wrongWords = wordsCheck.matches.map(err => text.slice(err.offset, err.offset + err.length));
-      if (!wrongWords.length) {
-        return;
-      }
-      this.checkSpellings(rawText).subscribe((res) => this.marks.buildErrors(rawText, wrongWords, res));
+      this.marks.buildErrors(rawText, wordsCheck);
     }, () => {
       this.isSpellchecking = false;
     }, () => {
@@ -142,29 +140,26 @@ export class WriteCommentComponent implements OnInit {
         this.marks.onDataChange(delta);
       },
       onEditorChange: () => {
-        const elem: HTMLDivElement = document.querySelector('div.ql-tooltip');
-        if (elem) { // fix tooltip
-          setTimeout(() => {
-            const left = parseFloat(elem.style.left);
-            const right = left + elem.getBoundingClientRect().width;
-            const containerWidth = this.commentData.editor.editorElem.getBoundingClientRect().width;
-            if (left < 0) {
-              elem.style.left = '0';
-            } else if (right > containerWidth) {
-              elem.style.left = (containerWidth - right + left) + 'px';
-            }
-          });
-        }
         this.marks.sync();
       },
       onDocumentClick: (e) => this.onDocumentClick(e)
     };
   }
 
-  private checkInputData(body: string): boolean {
-    body = body.trim();
-    if (!body) {
+  private checkInputData(data: string, text: string): boolean {
+    text = text.trim();
+    if (!text.length) {
       this.translateService.get('comment-page.error-comment').subscribe(message => {
+        this.notification.show(message);
+      });
+      return false;
+    } else if (text.length > this.maxTextCharacters) {
+      this.translateService.get('comment-page.error-comment-text').subscribe(message => {
+        this.notification.show(message);
+      });
+      return false;
+    } else if (data.length > this.maxDataCharacters) {
+      this.translateService.get('comment-page.error-comment-data').subscribe(message => {
         this.notification.show(message);
       });
       return false;

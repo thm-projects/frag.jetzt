@@ -138,6 +138,8 @@
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please enter a question.",
+    "error-comment-text": "Your text is too long. Please shorten it.",
+    "error-comment-data": "Too much formatting or linked elements. Please remove some.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
     "has-answer": "The question was answered. Click for full view.",

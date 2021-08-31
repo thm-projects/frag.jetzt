@@ -48,6 +48,7 @@
 <app-view-comment-data *ngIf="enabled"
                        [user]="user"
                        [isEditor]="true"
+                       [maxTextCharacters]="maxTextCharacters"
                        [markEvents]="getMarkEvents()"></app-view-comment-data>
 <ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
   <ars-col>

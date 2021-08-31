@@ -33,13 +33,14 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @Input() isEditor = false;
   @Input() user: User;
   @Input() currentData = '';
+  @Input() maxTextCharacters = 500;
   @Input() markEvents?: {
     onCreate: (markContainer: HTMLDivElement, tooltipContainer: HTMLDivElement, editor: QuillEditorComponent) => void;
     onChange: (delta: any) => void;
     onEditorChange: () => void;
     onDocumentClick: (e) => void;
   };
-  currentText = '';
+  currentText = '\n';
   quillModules: QuillModules = {
     toolbar: {
       container: participantToolbar,
@@ -125,6 +126,21 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
           this.markEvents.onEditorChange();
         }
         this.syncErrorLayer();
+        const elem: HTMLDivElement = document.querySelector('div.ql-tooltip');
+        if (elem) {
+          setTimeout(() => {
+            let left = parseFloat(elem.style.left);
+            const containerWidth = this.editor.editorElem.getBoundingClientRect().width;
+            if (left < 0) {
+              elem.style.left = '0';
+              left = 0;
+            }
+            const right = left + elem.getBoundingClientRect().width;
+            if (right > containerWidth) {
+              elem.style.left = (containerWidth - right + left) + 'px';
+            }
+          });
+        }
       });
     } else {
       this.quillView.onEditorCreated.subscribe(_ => {
