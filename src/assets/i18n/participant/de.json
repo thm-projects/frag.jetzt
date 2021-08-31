@@ -125,7 +125,6 @@
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
     "delete": "Deine Frage löschen",
     "enter-comment": "Gib deine Frage ein …",
-    "Markdown-hint": "Formatiere Formeln in LaTeX",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",

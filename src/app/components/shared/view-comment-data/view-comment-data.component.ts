@@ -11,12 +11,12 @@ import { TranslateService } from '@ngx-translate/core';
 Quill.register('modules/imageResize', ImageResize);
 
 const participantToolbar = [
-  ['bold', 'blockquote', 'code-block', { list: 'ordered' }, { list: 'bullet' }, 'link', 'formula', 'emoji']
+  ['bold', { list: 'bullet' }, { list: 'ordered' }, 'blockquote', 'link', 'code-block', 'formula', 'emoji']
 ];
 
 const moderatorToolbar = [
-  ['bold', 'strike', 'blockquote', 'code-block', { header: 1 }, { header: 2 }, { list: 'ordered' }, { list: 'bullet' },
-    { indent: '-1' }, { indent: '+1' }, { color: [] }, { align: [] }, 'link', 'image', 'video', 'formula', 'emoji'],
+  ['bold', { color: [] }, 'strike', { list: 'bullet' }, { list: 'ordered' }, 'blockquote',
+    'link', 'image', 'video', 'code-block', 'formula', 'emoji'],
 ];
 
 @Component({
