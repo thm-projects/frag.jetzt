@@ -201,6 +201,17 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
               this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
               const data = JSON.parse(message.payload.changes.tagCloudSettings);
               if (data) {
+                const admin = TopicCloudAdminService.getDefaultAdminData;
+                admin.considerVotes = data.admin.considerVotes;
+                admin.keywordORfulltext = data.admin.keywordORfulltext;
+                admin.wantedLabels = data.admin.wantedLabels;
+                admin.minQuestioners = data.admin.minQuestioners;
+                admin.minQuestions = data.admin.minQuestions;
+                admin.minUpvotes = data.admin.minUpvotes;
+                admin.startDate = data.admin.startDate;
+                admin.endDate = data.admin.endDate;
+                data.admin = undefined;
+                this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
                 this.setCloudParameters(data as CloudParameters);
               } else {
                 this.resetColorsToTheme();
@@ -356,7 +367,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       throw new Error('user has no rights.');
     }
     this.roomService.getRoom(this.roomId).subscribe(room => {
-      room.tagCloudSettings = JSON.stringify(this._currentSettings);
+      TopicCloudAdminService.applySettingsToRoom(room);
       this.room = room;
       this.roomService.updateRoom(room).subscribe(_ => {
           this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {

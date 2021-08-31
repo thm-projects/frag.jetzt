@@ -13,6 +13,7 @@ import { ProfanityFilterService } from './profanity-filter.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { UserRole } from '../../models/user-roles.enum';
+import { CloudParameters } from '../../utils/cloud-parameters';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,22 @@ export class TopicCloudAdminService {
     this.blacklist = new Subject<string[]>();
     this.blacklistIsActive = new Subject<boolean>();
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
+  }
+
+  static applySettingsToRoom(room: Room) {
+    const settings: any = CloudParameters.currentParameters;
+    const admin = TopicCloudAdminService.getDefaultAdminData;
+    settings.admin = {
+      considerVotes: admin.considerVotes,
+      keywordORfulltext: admin.keywordORfulltext,
+      wantedLabels: admin.wantedLabels,
+      minQuestioners: admin.minQuestioners,
+      minQuestions: admin.minQuestions,
+      minUpvotes: admin.minUpvotes,
+      startDate: admin.startDate,
+      endDate: admin.endDate
+    };
+    room.tagCloudSettings = JSON.stringify(settings);
   }
 
   static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (SpacyKeyword) => void) {
@@ -172,6 +189,7 @@ export class TopicCloudAdminService {
     if (updateRoom && userRole && userRole > UserRole.PARTICIPANT) {
       this.getRoom().subscribe(room => {
         room.blacklistIsActive = _adminData.blacklistIsActive;
+        TopicCloudAdminService.applySettingsToRoom(room);
         this.updateRoom(room);
       });
       return;
