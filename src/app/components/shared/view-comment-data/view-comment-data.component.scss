@@ -95,7 +95,10 @@
       margin-right: 0;
 
       > * {
-        margin: 12px;
+        @media only screen and (max-device-width: 480px) and (orientation: portrait),
+        only screen and (max-device-height: 480px) and (orientation: landscape) {
+          margin: 12px;
+        }
       }
     }
 
