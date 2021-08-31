@@ -113,14 +113,22 @@
     <ars-fill style="overflow:hidden;" ars-flex-box>
       <ars-fill>
       </ars-fill>
-      <ars-row class="questionwall-present-box-outer">
+      <ars-row ars-flex-box height="400">
+        <ars-fill></ars-fill>
+        <ars-col ars-flex-box>
+          <ars-row *ngIf="commentFocus">
+            <p class="questionwall-present-meta-number">{{commentFocus.comment.number}}</p>
+          </ars-row>
+          <ars-fill></ars-fill>
+        </ars-col>
+      </ars-row>
+      <ars-row class="questionwall-present-box-outer" style="margin-top:-400px;">
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
               <i class="questionwall-icon questionwall-present-meta-icon">person_pin_circle</i>
               <h2 class="questionwall-present-meta-user">{{commentFocus.comment.userNumber}}</h2>
               <h2 class="questionwall-present-meta-timestamp">{{commentFocus.timeAgo}}</h2>
-              <h2 class="questionwall-present-meta-number">#{{commentFocus.comment.number}}</h2>
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
@@ -211,7 +219,17 @@
           <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
                    class="questionwall-comment-anchor"
                    style="float:left;">
-            <ars-row style="box-sizing:border-box;padding:8px;">
+            <ars-row ars-flex-box height="170">
+              <ars-fill></ars-fill>
+              <ars-col ars-flex-box>
+                <ars-fill></ars-fill>
+                  <ars-row>
+                    <p class="questionwall-comment-number">{{comment.comment.number}}</p>
+                  </ars-row>
+                <ars-fill></ars-fill>
+              </ars-col>
+            </ars-row>
+            <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
               <ars-row
                 [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
                 style="border-radius:5px">
@@ -226,9 +244,6 @@
                   </ars-col>
                   <ars-col>
                     <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
-                  </ars-col>
-                  <ars-col>
-                    <p class="questionwall-comment-number">#{{comment.comment.number}}</p>
                   </ars-col>
                 </ars-row>
                 <ars-row

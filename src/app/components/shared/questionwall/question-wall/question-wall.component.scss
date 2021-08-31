@@ -120,12 +120,13 @@
       }
 
       &-number {
-        font-size: 14px;
+        font-size: 144px;
         text-transform: uppercase;
         letter-spacing: 2px;
-        line-height: 18px;
+        padding-right:8px;
+        box-sizing:border-box;
         font-weight: 600;
-        color: #FFFFFF;
+        color: #2b2b2b;
       }
     }
 
@@ -231,10 +232,10 @@
 
         &-number {
           font-family: Roboto, 'sans-serif';
-          font-size: 18px;
+          font-size: 256px;
           padding-left:16px;
           font-weight:bold;
-          color: var(--ars-paragraph-color);
+          color: #2b2b2b;
         }
       }
 
