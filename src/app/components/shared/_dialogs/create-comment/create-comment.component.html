@@ -1,7 +1,7 @@
 <ars-row ars-flex-box>
   <app-write-comment [confirmLabel]="'send'"
-                     [onSubmit]="buildCreateCommentActionCallback()"
-                     [onClose]="buildCloseDialogActionCallback()"
+                     [onSubmit]="this.closeDialog.bind(this)"
+                     [onClose]="this.onNoClick.bind(this)"
                      [isSpinning]="isSendingToSpacy"
                      [tags]="tags"
                      [user]="user">

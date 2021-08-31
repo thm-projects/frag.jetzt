@@ -114,14 +114,10 @@ export class Marks {
     this.sync();
   }
 
-  buildErrors(initialText: string, wrongWords: string[], res: LanguagetoolResult): void {
+  buildErrors(initialText: string, res: LanguagetoolResult): void {
     const indexFinder = new ContentIndexFinder(this.editor.quillEditor.getContents().ops);
     for (let i = 0; i < res.matches.length; i++) {
       const match = res.matches[i];
-      const foundWord = initialText.slice(match.offset, match.offset + match.length);
-      if (!wrongWords.includes(foundWord)) {
-        continue;
-      }
       const [start, len] = indexFinder.adjustTextIndexes(match.offset, match.length);
       const mark = new Mark(start, len, this.markContainer, this.tooltipContainer, this.editor.quillEditor);
       mark.setSuggestions(res, i, () => {

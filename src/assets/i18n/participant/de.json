@@ -128,6 +128,8 @@
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib deine Frage ein.",
+    "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
+    "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
     "error-title": "Bitte gib einen Titel ein.",
     "has-answer": "Die Frage wurde kommentiert. Klick hier, um den Kommentar zu lesen.",
     "exit-description": "Präsentationsmodus verlassen",

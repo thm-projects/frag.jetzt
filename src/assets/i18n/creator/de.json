@@ -141,6 +141,8 @@
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
     "error-comment": "Bitte gib eine Frage ein.",
+    "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
+    "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
     "error-title": "Bitte gib einen Titel ein.",
     "exit-description": "Präsentation verlassen",
     "export": "Exportieren",

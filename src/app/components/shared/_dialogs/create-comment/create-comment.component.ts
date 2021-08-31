@@ -23,9 +23,7 @@ export class CreateCommentComponent implements OnInit {
   user: User;
   roomId: string;
   tags: string[];
-  selectedTag: string;
   isSendingToSpacy = false;
-  tempEditView: string;
 
   constructor(
     private notification: NotificationService,
@@ -45,32 +43,19 @@ export class CreateCommentComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  checkInputData(body: string): boolean {
-    body = body.trim();
-    if (!body) {
-      this.translateService.get('comment-page.error-comment').subscribe(message => {
-        this.notification.show(message);
-      });
-      return false;
-    }
-    return true;
+  closeDialog(body: string, text: string, tag: string) {
+    const comment = new Comment();
+    comment.roomId = localStorage.getItem(`roomId`);
+    comment.body = body;
+    comment.creatorId = this.user.id;
+    comment.createdFromLecturer = this.user.role > 0;
+    comment.tag = tag;
+    this.isSendingToSpacy = true;
+    this.openSpacyDialog(comment, text);
   }
 
-  closeDialog(body: string) {
-    if (this.checkInputData(body) === true) {
-      const comment = new Comment();
-      comment.roomId = localStorage.getItem(`roomId`);
-      comment.body = body;
-      comment.creatorId = this.user.id;
-      comment.createdFromLecturer = this.user.role === 1;
-      comment.tag = this.selectedTag;
-      this.isSendingToSpacy = true;
-      this.openSpacyDialog(comment);
-    }
-  }
-
-  openSpacyDialog(comment: Comment): void {
-    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, comment.body, this.commentComponent.selectedLang)
+  openSpacyDialog(comment: Comment, rawText: string): void {
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, rawText, this.commentComponent.selectedLang)
       .subscribe((result) => {
         if (result.isAcceptable) {
           const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.result.language.code as Language);
@@ -104,13 +89,5 @@ export class CreateCommentComponent implements OnInit {
         this.dialogRef.close(comment);
         this.isSendingToSpacy = false;
       });
-  }
-
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.onNoClick();
-  }
-
-  buildCreateCommentActionCallback(): (string) => void {
-    return (text: string) => this.closeDialog(text);
   }
 }
