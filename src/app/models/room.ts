@@ -15,6 +15,7 @@ export class Room {
   questionsBlocked: boolean;
   profanityFilter: ProfanityFilter;
   blacklistIsActive: boolean;
+  tagCloudSettings: string;
 
   constructor(
     ownerId: string = '',
@@ -30,7 +31,8 @@ export class Room {
     tags: string[] = [],
     questionsBlocked: boolean = false,
     profanityFilter: ProfanityFilter = ProfanityFilter.none,
-    blacklistIsActive: boolean = true
+    blacklistIsActive: boolean = true,
+    tagCloudSettings: string = null
   ) {
     this.id = '';
     this.ownerId = ownerId;
@@ -47,6 +49,7 @@ export class Room {
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
     this.blacklistIsActive = blacklistIsActive;
+    this.tagCloudSettings = tagCloudSettings;
   }
 }
 

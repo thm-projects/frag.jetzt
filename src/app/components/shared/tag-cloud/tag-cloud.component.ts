@@ -199,6 +199,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             if (message.type === 'RoomPatched') {
               this.room.questionsBlocked = message.payload.changes.questionsBlocked;
               this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
+              const data = JSON.parse(message.payload.changes.tagCloudSettings);
+              if (data) {
+                this.setCloudParameters(data as CloudParameters);
+              } else {
+                this.resetColorsToTheme();
+                this.setCloudParameters(this.currentCloudParameters);
+              }
             }
           });
           this.directSend = this.room.directSend;
@@ -342,6 +349,26 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this._subscriptionCommentlist.unsubscribe();
     });
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  updateTagCloudSettings() {
+    if (!this.user || this.user.role < 1) {
+      throw new Error('user has no rights.');
+    }
+    this.roomService.getRoom(this.roomId).subscribe(room => {
+      room.tagCloudSettings = JSON.stringify(this._currentSettings);
+      this.room = room;
+      this.roomService.updateRoom(room).subscribe(_ => {
+          this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        },
+        error => {
+          this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
+            this.notificationService.show(msg);
+          });
+        });
+    });
   }
 
   private updateAlphabeticalPosition(elements: TagComment[]): void {
