@@ -192,7 +192,9 @@
     "edit-bookmark-reset": "Markierung zurücksetzen",
     "grammar-check": "Rechtschreibprüfung",
     "show-comment-with-filter": "Vulgäre Wörter ausixen",
-    "show-comment-without-filter": "Vulgäre Wörter anzeigen"
+    "show-comment-without-filter": "Vulgäre Wörter anzeigen",
+    "upvote": "positiv",
+    "downvote": "negativ"
   },
   "content": {
     "abort": "Abbrechen",

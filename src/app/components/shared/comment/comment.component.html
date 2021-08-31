@@ -300,7 +300,10 @@
       <div *ngIf="!isStudent"
            fxLayout="column"
            fxLayoutAlign="center">
-        <span class="scoreCreator">{{comment.score}}</span>
+        <span class="scoreCreator" matTooltip="{{
+        ('comment-page.upvote' | translate) + ' ' + upvotes + ' | ' +
+        ('comment-page.downvote' | translate) + ' ' + downvotes
+        }}">{{comment.score}}</span>
       </div>
     </div>
     <ars-row #commentExpander
