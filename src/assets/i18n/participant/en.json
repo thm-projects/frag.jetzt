@@ -167,7 +167,9 @@
     "show-more": "Show more",
     "show-less": "Show less",
     "delete": "Delete question",
-    "grammar-check": "Spell check"
+    "grammar-check": "Spell check",
+    "upvote": "upvotes",
+    "downvote": "downvotes"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",

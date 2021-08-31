@@ -158,7 +158,9 @@
     "show-more": "Mehr ansehen",
     "show-less": "Weniger anzeigen",
     "sure": "Bist du sicher?",
-    "grammar-check": "Rechtschreibprüfung"
+    "grammar-check": "Rechtschreibprüfung",
+    "upvote": "positiv",
+    "downvote": "negativ"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",

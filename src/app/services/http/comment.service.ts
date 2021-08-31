@@ -235,7 +235,6 @@ export class CommentService extends BaseHttpService {
     comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
                                      JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
     comment.keywordsFromSpacy = comment.keywordsFromSpacy ? JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
-    console.log(comment);
     return comment;
   }
 

@@ -192,7 +192,9 @@
     "edit-bookmark-reset": "Remove marker",
     "grammar-check": "Spell check",
     "show-comment-with-filter": "Hide vulgar words",
-    "show-comment-without-filter": "Show vulgar words"
+    "show-comment-without-filter": "Show vulgar words",
+    "upvote": "upvotes",
+    "downvote": "downvotes"
   },
   "content": {
     "abort": "Abort",
