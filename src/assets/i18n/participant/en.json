@@ -141,6 +141,7 @@
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
+    "format-count": "Formatting characters {{count}}/{{length}}",
     "has-answer": "The question was answered. Click for full view.",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-not-correct": "Marked as correct",
@@ -278,7 +279,9 @@
     "period-since-first-comment":"Period since first comment",
     "upvote-topic": "Upvotes for this topic",
     "downvote-topic": "Downvotes for this topic",
-    "blacklist-topic": "Add topic to blacklist"
+    "blacklist-topic": "Add topic to blacklist",
+    "changes-gone-wrong": "Something went wrong!",
+    "changes-successful": "Successfully updated."
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

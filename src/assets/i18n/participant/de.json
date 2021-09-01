@@ -131,6 +131,7 @@
     "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
     "error-title": "Bitte gib einen Titel ein.",
+    "format-count": "Formatierungszeichen {{count}}/{{length}}",
     "has-answer": "Die Frage wurde kommentiert. Klick hier, um den Kommentar zu lesen.",
     "exit-description": "Präsentationsmodus verlassen",
     "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
@@ -272,7 +273,9 @@
     "period-since-first-comment":"Zeitraum seit der ersten Frage",
     "upvote-topic": "Up-Votes für dieses Thema",
     "downvote-topic": "Down-Votes für dieses Thema",
-    "blacklist-topic": "Thema auf die »Blacklist« setzen"
+    "blacklist-topic": "Thema auf die »Blacklist« setzen",
+    "changes-gone-wrong": "Etwas ist schiefgelaufen!",
+    "changes-successful": "Änderungen gespeichert."
   },
   "tag-cloud-popup": {
     "few-seconds": "wenige Sekunden",

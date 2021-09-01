@@ -148,6 +148,7 @@
     "exit-description": "Exit Presentation Mode",
     "export": "Export",
     "export-description": "Export",
+    "format-count": "Formatting characters {{count}}/{{length}}",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "live-announcer-moderation": "You are now on the moderation page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-correct": "Mark as correct",
@@ -377,7 +378,9 @@
     "period-since-first-comment":"Period since first comment",
     "upvote-topic": "Upvotes for this topic",
     "downvote-topic": "Downvotes for this topic",
-    "blacklist-topic": "Add topic to blacklist"
+    "blacklist-topic": "Add topic to blacklist",
+    "changes-gone-wrong": "Something went wrong!",
+    "changes-successful": "Successfully updated."
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

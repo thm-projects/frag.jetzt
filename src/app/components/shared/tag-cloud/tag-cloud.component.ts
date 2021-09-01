@@ -193,30 +193,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
           this.room = room;
+          this.retrieveTagCloudSettings(room);
           this.roomId = room.id;
           this._subscriptionRoom = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
             const message = JSON.parse(msg.body);
             if (message.type === 'RoomPatched') {
               this.room.questionsBlocked = message.payload.changes.questionsBlocked;
               this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
-              const data = JSON.parse(message.payload.changes.tagCloudSettings);
-              if (data) {
-                const admin = TopicCloudAdminService.getDefaultAdminData;
-                admin.considerVotes = data.admin.considerVotes;
-                admin.keywordORfulltext = data.admin.keywordORfulltext;
-                admin.wantedLabels = data.admin.wantedLabels;
-                admin.minQuestioners = data.admin.minQuestioners;
-                admin.minQuestions = data.admin.minQuestions;
-                admin.minUpvotes = data.admin.minUpvotes;
-                admin.startDate = data.admin.startDate;
-                admin.endDate = data.admin.endDate;
-                data.admin = undefined;
-                this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
-                this.setCloudParameters(data as CloudParameters);
-              } else {
-                this.resetColorsToTheme();
-                this.setCloudParameters(this.currentCloudParameters);
-              }
+              this.retrieveTagCloudSettings(message.payload.changes);
             }
           });
           this.directSend = this.room.directSend;
@@ -370,16 +354,37 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       TopicCloudAdminService.applySettingsToRoom(room);
       this.room = room;
       this.roomService.updateRoom(room).subscribe(_ => {
-          this.translateService.get('topic-cloud.changes-successful').subscribe(msg => {
+          this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
             this.notificationService.show(msg);
           });
         },
         error => {
-          this.translateService.get('topic-cloud.changes-gone-wrong').subscribe(msg => {
+          this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
             this.notificationService.show(msg);
           });
         });
     });
+  }
+
+  private retrieveTagCloudSettings(room: Room) {
+    const data = JSON.parse(room.tagCloudSettings);
+    if (data) {
+      const admin = TopicCloudAdminService.getDefaultAdminData;
+      admin.considerVotes = data.admin.considerVotes;
+      admin.keywordORfulltext = data.admin.keywordORfulltext;
+      admin.wantedLabels = data.admin.wantedLabels;
+      admin.minQuestioners = data.admin.minQuestioners;
+      admin.minQuestions = data.admin.minQuestions;
+      admin.minUpvotes = data.admin.minUpvotes;
+      admin.startDate = data.admin.startDate;
+      admin.endDate = data.admin.endDate;
+      data.admin = undefined;
+      this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
+      this.setCloudParameters(data as CloudParameters);
+    } else {
+      this.resetColorsToTheme();
+      this.setCloudParameters(this.currentCloudParameters);
+    }
   }
 
   private updateAlphabeticalPosition(elements: TagComment[]): void {

@@ -34,6 +34,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @Input() user: User;
   @Input() currentData = '';
   @Input() maxTextCharacters = 500;
+  @Input() maxDataCharacters = 1500;
   @Input() markEvents?: {
     onCreate: (markContainer: HTMLDivElement, tooltipContainer: HTMLDivElement, editor: QuillEditorComponent) => void;
     onChange: (delta: any) => void;

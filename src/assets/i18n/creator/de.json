@@ -147,6 +147,7 @@
     "exit-description": "Präsentation verlassen",
     "export": "Exportieren",
     "export-description": "Exportieren",
+    "format-count": "Formatierungszeichen {{count}}/{{length}}",
     "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-announcer-moderation": "Du befindest dich jetzt auf der Moderations-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "mark-correct": "Frage bejahen",
@@ -468,7 +469,9 @@
     "period-since-first-comment":"Zeitraum seit der ersten Frage",
     "upvote-topic": "Up-Votes für dieses Thema",
     "downvote-topic": "Down-Votes für dieses Thema",
-    "blacklist-topic": "Thema auf die »Blacklist« setzen"
+    "blacklist-topic": "Thema auf die »Blacklist« setzen",
+    "changes-gone-wrong": "Etwas ist schiefgelaufen!",
+    "changes-successful": "Änderungen gespeichert."
   },
   "tag-cloud-config": {
     "general": "Allgemein",

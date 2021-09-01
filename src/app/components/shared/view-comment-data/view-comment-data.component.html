@@ -9,10 +9,10 @@
   <div #tooltipContainer></div>
   <div fxLayout="row" style="justify-content: space-between; padding: 0 5px">
     <span aria-hidden="true" style="font-size: 75%">
-      {{ 'comment-page.Markdown-hint' | translate }}
+      {{currentText.length}} / {{maxTextCharacters}}
     </span>
     <span aria-hidden="true" style="font-size: 75%">
-      {{currentText.length}} / {{maxTextCharacters}}
+      {{'comment-page.format-count' | translate: {count: currentData.length, length: maxDataCharacters} }}
     </span>
   </div>
 </ars-row>
