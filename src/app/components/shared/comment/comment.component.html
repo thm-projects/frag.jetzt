@@ -303,7 +303,7 @@
         <span class="scoreCreator" matTooltip="{{
         ('comment-page.upvote' | translate) + ' ' + upvotes + ' | ' +
         ('comment-page.downvote' | translate) + ' ' + downvotes
-        }}">{{comment.score}}</span>
+        }}">{{score}}</span>
       </div>
     </div>
     <ars-row #commentExpander
@@ -426,7 +426,10 @@
               [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up
     </mat-icon>
   </button>
-  <span class="score">{{comment.score}}</span>
+  <span class="score" matTooltip="{{
+        ('comment-page.upvote' | translate) + ' ' + upvotes + ' | ' +
+        ('comment-page.downvote' | translate) + ' ' + downvotes
+        }}">{{score}}</span>
   <button mat-icon-button
           (click)="voteDown(comment)"
           *ngIf="!disabled"

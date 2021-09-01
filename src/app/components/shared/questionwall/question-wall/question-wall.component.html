@@ -113,7 +113,16 @@
     <ars-fill style="overflow:hidden;" ars-flex-box>
       <ars-fill>
       </ars-fill>
-      <ars-row class="questionwall-present-box-outer">
+      <ars-row ars-flex-box height="400">
+        <ars-fill></ars-fill>
+        <ars-col ars-flex-box>
+          <ars-row *ngIf="commentFocus">
+            <p class="questionwall-present-meta-number">{{commentFocus.comment.number}}</p>
+          </ars-row>
+          <ars-fill></ars-fill>
+        </ars-col>
+      </ars-row>
+      <ars-row class="questionwall-present-box-outer" style="margin-top:-400px;">
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
@@ -133,10 +142,11 @@
                 <ars-col ars-btn-wrp [xp]="32" [extra]="true" class="questionwall-comment-btn">
                   <button ars-btn (click)="likeComment(commentFocus)" matRipple>
                     <i>thumb_up</i>
-                    <p style="padding-left:22px;">{{commentFocus.comment.score}}</p>
+                    <p style="padding-left:22px;">{{commentFocus.comment.upvotes}}</p>
                   </button>
                   <button ars-btn (click)="dislikeComment(commentFocus)" matRipple>
                     <i>thumb_down</i>
+                    <p style="padding-left:22px;">{{commentFocus.comment.downvotes}}</p>
                   </button>
                 </ars-col>
                 <ars-fill></ars-fill>
@@ -210,7 +220,17 @@
           <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
                    class="questionwall-comment-anchor"
                    style="float:left;">
-            <ars-row style="box-sizing:border-box;padding:8px;">
+            <ars-row ars-flex-box height="170">
+              <ars-fill></ars-fill>
+              <ars-col ars-flex-box>
+                <ars-fill></ars-fill>
+                  <ars-row>
+                    <p class="questionwall-comment-number">{{comment.comment.number}}</p>
+                  </ars-row>
+                <ars-fill></ars-fill>
+              </ars-col>
+            </ars-row>
+            <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
               <ars-row
                 [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
                 style="border-radius:5px">
@@ -239,10 +259,11 @@
                     <ars-col ars-btn-wrp [xp]="16" [extra]="true" class="questionwall-comment-btn">
                       <button ars-btn (click)="likeComment(comment)" matRipple>
                         <i>thumb_up</i>
-                        <p style="padding-left:4px;">{{comment.comment.score}}</p>
+                        <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
                       </button>
                       <button ars-btn (click)="dislikeComment(comment)" matRipple>
                         <i>thumb_down</i>
+                        <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
                       </button>
                     </ars-col>
                     <ars-fill (click)="focusComment(comment)" style="cursor:pointer"></ars-fill>
