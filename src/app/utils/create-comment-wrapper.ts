@@ -35,6 +35,11 @@ export class CreateCommentWrapper {
   }
 
   send(comment: Comment): Observable<Comment> {
+    // for(var i=0;i<100;i++){
+    //   this.commentService.addComment(comment).subscribe(e=>{
+    //     console.log(e);
+    //   });
+    // }
     let message;
     if (this.room.directSend) {
       this.translateService.get('comment-list.comment-sent').subscribe(msg => {

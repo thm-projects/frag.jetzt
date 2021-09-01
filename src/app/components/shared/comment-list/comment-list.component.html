@@ -263,20 +263,42 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
-               [appScrollIntoView]="current.id === newCommentId"
-               [usesJoyride]="i === 0"
-               [comment]="current"
-               [parseVote]="getVote(current)"
-               [userRole]="userRole"
-               [moderator]="false"
-               [user]="user"
-               [disabled]="!commentsEnabled"
-               (clickedOnTag)="clickedOnTag($event)"
-               (clickedUserNumber)="clickedUserNumber($event)"
-               (clickedOnKeyword)="clickedOnKeyword($event)">
-  </app-comment>
-
+  <ng-container *ngIf="!hasShortenedCommentList">
+    <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
+                 [appScrollIntoView]="current.id === newCommentId"
+                 [usesJoyride]="i === 0"
+                 [comment]="current"
+                 [parseVote]="getVote(current)"
+                 [userRole]="userRole"
+                 [moderator]="false"
+                 [user]="user"
+                 [disabled]="!commentsEnabled"
+                 (clickedOnTag)="clickedOnTag($event)"
+                 (clickedUserNumber)="clickedUserNumber($event)"
+                 (clickedOnKeyword)="clickedOnKeyword($event)">
+    </app-comment>
+  </ng-container>
+  <ng-container *ngIf="hasShortenedCommentList">
+    <app-comment *ngFor="let current of shortenedCommentList; let i = index"
+                 [appScrollIntoView]="current.id === newCommentId"
+                 [usesJoyride]="i === 0"
+                 [comment]="current"
+                 [parseVote]="getVote(current)"
+                 [userRole]="userRole"
+                 [moderator]="false"
+                 [user]="user"
+                 [disabled]="!commentsEnabled"
+                 (clickedOnTag)="clickedOnTag($event)"
+                 (clickedUserNumber)="clickedUserNumber($event)"
+                 (clickedOnKeyword)="clickedOnKeyword($event)">
+    </app-comment>
+  </ng-container>
+  <p>{{commentListLength}}</p>
+  <ars-row height="1000" style="background-color:orange" *ngIf="hasShortenedCommentList">
+    <ars-row [height]="50" *ngFor="let page of [].constructor(); let i = index">
+      <button>{{i}}</button>
+    </ars-row>
+  </ars-row>
 </div>
 <!-- Active User Overlay -->
 <app-active-user *ngIf="room" [room]="this.room"></app-active-user>

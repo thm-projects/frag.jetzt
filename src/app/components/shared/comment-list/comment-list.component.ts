@@ -32,6 +32,7 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { ActionObserver } from '../../../models/ActionObserver';
 
 export interface CommentListData {
   comments: Comment[];
@@ -45,6 +46,7 @@ export interface CommentListData {
   styleUrls: ['./comment-list.component.scss'],
 })
 export class CommentListComponent implements OnInit, OnDestroy {
+  public static COMMENT_PAGE_SIZE=10;
   @ViewChild('searchBox') searchField: ElementRef;
   @Input() user: User;
   @Input() roomId: string;
@@ -108,6 +110,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
   activeUsers = 0;
+  commentListChangeListener:ActionObserver=new ActionObserver();
+  destroyListener:ActionObserver=new ActionObserver();
+  activeCommentList:Comment[];
+  shortenedCommentList:Comment[];
+  hasShortenedCommentList:boolean;
+  commentListLength:number=0;
+  commentListIndex:number=0;
 
   constructor(
     private commentService: CommentService,
@@ -226,6 +235,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initNavigation();
+    this.destroyListener.subscribe(this.commentListChangeListener.subscribe(()=>{
+      if(this.activeCommentList.length>CommentListComponent.COMMENT_PAGE_SIZE){
+        this.hasShortenedCommentList=true;
+        this.commentListLength=this.activeCommentList.length/CommentListComponent.COMMENT_PAGE_SIZE;
+      }
+      else{
+        this.hasShortenedCommentList=false;
+      }
+      this.updateShortenedCommentList();
+      console.log(this.shortenedCommentList,this.comments,this.activeCommentList);
+    }));
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -274,7 +294,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
               if (comments === null) {
                 return;
               }
-              this.comments = comments;
+              this.setComments(comments);
               this.getComments();
               this.eventService.broadcast('commentListCreated', null);
               this.isJoyrideActive = this.onboardingService.startDefaultTour();
@@ -300,6 +320,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.destroyListener.run();
     if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
@@ -333,9 +354,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this.searchInput) {
       if (this.searchInput.length > 1) {
         this.hideCommentsList = true;
-        this.filteredComments = this.comments
+        const filteredComments = this.comments
           .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
             || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
+        this.setFilteredComments(filteredComments);
       }
     } else if (this.searchInput.length === 0 && this.currentFilter === '') {
       this.hideCommentsList = false;
@@ -384,7 +406,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.currentFilter = type;
     this.currentFilterCompare = compare;
     if (type === '') {
-      this.filteredComments = this.commentsFilteredByTime;
+      this.setFilteredComments(this.commentsFilteredByTime);
       this.hideCommentsList = false;
       this.currentFilter = '';
       this.selectedTag = '';
@@ -393,7 +415,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sortComments(this.currentSort);
       return;
     }
-    this.filteredComments = this.commentsFilteredByTime.filter(c => {
+    const filteredComments = this.commentsFilteredByTime.filter(c => {
       switch (type) {
         case this.correct:
           return c.correct === CorrectWrong.CORRECT ? 1 : 0;
@@ -429,6 +451,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.createdFromLecturer;
       }
     });
+    this.setFilteredComments(filteredComments);
     const testForModerator=()=>{
       this.comments.forEach(e=>{
         this.commentService.role(e).subscribe(i=>{
@@ -470,7 +493,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   sortComments(type: string): void {
     if (this.hideCommentsList === true) {
-      this.filteredComments = this.sort(this.filteredComments, type);
+      this.setFilteredComments(this.sort(this.filteredComments, type));
     } else {
       this.setComments(this.sort(this.commentsFilteredByTime, type));
     }
@@ -496,7 +519,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       if (comments === null) {
         return;
       }
-      this.comments = comments;
       this.setComments(comments);
       this.getComments();
     });
@@ -512,7 +534,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       if (comments === null) {
         return;
       }
-      this.comments = comments;
       this.setComments(comments);
       this.getComments();
     });
@@ -557,7 +578,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   setComments(comments: Comment[]) {
-    this.commentsFilteredByTime = comments;
+    if(!comments||typeof comments === 'undefined'){
+      console.error('NO COMMENTS FOUND');
+    }
+    console.log(comments);
+    this.comments=comments;
+    this.setCommentsFilteredByTime(comments);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
 
@@ -617,15 +643,45 @@ export class CommentListComponent implements OnInit, OnDestroy {
           periodInSeconds = hourInSeconds * 336;
           break;
       }
-      this.commentsFilteredByTime = this.comments
+      const commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >=
           (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
+      this.setCommentsFilteredByTime(commentsFilteredByTime);
     } else {
-      this.commentsFilteredByTime = this.comments;
+      const commentsFilteredByTime = this.comments;
+      this.setCommentsFilteredByTime(commentsFilteredByTime);
     }
 
     this.filterComments(this.currentFilter, this.currentFilterCompare);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+  }
+
+  private setFilteredComments(comments:Comment[]){
+    this.filteredComments=comments;
+    this.setCommentList(comments);
+  }
+
+  private setCommentsFilteredByTime(comments:Comment[]){
+    this.commentsFilteredByTime=comments;
+    this.setCommentList(comments);
+  }
+
+  private setCommentList(comments:Comment[]){
+    this.activeCommentList=comments;
+    this.commentListChangeListener.run();
+  }
+
+  private updateShortenedCommentList(){
+    if(this.hasShortenedCommentList){
+      this.shortenedCommentList=this.activeCommentList.slice(
+        this.commentListIndex*CommentListComponent.COMMENT_PAGE_SIZE,
+        this.commentListIndex*CommentListComponent.COMMENT_PAGE_SIZE+
+        CommentListComponent.COMMENT_PAGE_SIZE);
+    }
+    console.error(
+      this.commentListIndex*CommentListComponent.COMMENT_PAGE_SIZE,
+      this.commentListIndex*CommentListComponent.COMMENT_PAGE_SIZE+
+      CommentListComponent.COMMENT_PAGE_SIZE,this.shortenedCommentList);
   }
 
   private getCurrentFilter(): CommentFilter {
