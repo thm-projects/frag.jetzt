@@ -2,14 +2,13 @@ import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@a
 import { TranslateService } from '@ngx-translate/core';
 import { Language, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
-import { User } from '../../../models/user';
 import { NotificationService } from '../../../services/util/notification.service';
 import { EventService } from '../../../services/util/event.service';
 import { Marks } from './write-comment.marks';
 import { LanguageService } from '../../../services/util/language.service';
 import { QuillEditorComponent } from 'ngx-quill';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
-
+import { DeepLService } from '../../../services/http/deep-l.service';
 
 @Component({
   selector: 'app-write-comment',
@@ -20,7 +19,7 @@ export class WriteCommentComponent implements OnInit {
 
   @ViewChild(ViewCommentDataComponent) commentData: ViewCommentDataComponent;
   @ViewChild('langSelect') langSelect: ElementRef<HTMLDivElement>;
-  @Input() user: User;
+  @Input() isModerator = false;
   @Input() tags: string[];
   @Input() onClose: () => any;
   @Input() onSubmit: (commentData: string, commentText: string, selectedTag: string) => any;
@@ -31,6 +30,8 @@ export class WriteCommentComponent implements OnInit {
   @Input() additionalTemplate: TemplateRef<any>;
   @Input() enabled = true;
   @Input() isCommentAnswer = false;
+  @Input() placeholder = 'comment-page.enter-comment';
+  @Input() i18nSection = 'comment-page';
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -48,7 +49,8 @@ export class WriteCommentComponent implements OnInit {
               private languageService: LanguageService,
               private translateService: TranslateService,
               public eventService: EventService,
-              public languagetoolService: LanguagetoolService) {
+              public languagetoolService: LanguagetoolService,
+              public deepl: DeepLService) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -57,11 +59,11 @@ export class WriteCommentComponent implements OnInit {
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isCommentAnswer) {
-      this.maxTextCharacters = this.user.role > 0 ? 2000 : 0;
+      this.maxTextCharacters = this.isModerator ? 2000 : 0;
     } else {
-      this.maxTextCharacters = this.user.role > 0 ? 1000 : 500;
+      this.maxTextCharacters = this.isModerator ? 1000 : 500;
     }
-    this.maxDataCharacters = this.user.role > 0 ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
+    this.maxDataCharacters = this.isModerator ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -91,6 +93,9 @@ export class WriteCommentComponent implements OnInit {
   }
 
   checkGrammar() {
+    this.deepl.improveTextStyle(this.commentData.currentText).subscribe(str => {
+      console.log(str);
+    });
     this.grammarCheck(this.commentData.currentText, this.langSelect && this.langSelect.nativeElement);
   }
 

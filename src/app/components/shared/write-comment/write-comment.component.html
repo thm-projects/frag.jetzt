@@ -46,10 +46,11 @@
 </ars-row>
 <ars-row [height]="12"></ars-row>
 <app-view-comment-data *ngIf="enabled"
-                       [user]="user"
+                       [isModerator]="isModerator"
                        [isEditor]="true"
                        [maxTextCharacters]="maxTextCharacters"
                        [maxDataCharacters]="maxDataCharacters"
+                       [placeHolderText]="placeholder"
                        [markEvents]="getMarkEvents()"></app-view-comment-data>
 <ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
   <ars-col>
@@ -66,7 +67,7 @@
   </ars-col>
   <ars-col>
     <app-dialog-action-buttons
-      buttonsLabelSection="comment-page"
+      [buttonsLabelSection]="i18nSection"
       [confirmButtonLabel]="confirmLabel"
       [cancelButtonLabel]="cancelLabel"
       [showLoadingCycle]="isSpinning"

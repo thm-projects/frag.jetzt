@@ -3,6 +3,13 @@
   filter: opacity(0.6);
 }
 
+::ng-deep {
+  .images .ql-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+}
+
 ::ng-deep .ql-snow {
   :focus {
     outline-offset: 0;
@@ -12,12 +19,22 @@
     min-height: 8.8em;
   }
 
+  &.ql-disabled {
+    .ql-editor {
+      min-height: unset;
+      padding: unset;
+    }
+  }
+
   .ql-stroke {
     stroke: var(--on-surface);
   }
 
   .ql-picker {
     color: var(--on-surface);
+    font-size: inherit !important;
+    height: 1.5em !important;
+    width: 1.75em !important;
   }
 
   .ql-tooltip {
@@ -86,10 +103,14 @@
   &.ql-container {
     border-color: var(--on-surface);
     height: 80%;
+    font-size: inherit !important;
   }
 
   &.ql-toolbar, .ql-toolbar {
     border-color: var(--on-surface);
+    border-top: unset;
+    border-right: unset;
+    border-left: unset;
 
     .ql-formats {
       margin-right: 0;
@@ -110,6 +131,12 @@
       .ql-picker-options {
         background-color: var(--surface);
       }
+    }
+
+    button {
+      font-size: inherit !important;
+      height: 1.5em !important;
+      width: 1.75em !important;
     }
 
     button:hover, button:focus, button.ql-active,

@@ -1,8 +1,8 @@
 import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
-import {ActivatedRoute,Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
-import {ProfanityFilter,Room} from '../../../models/room';
+import { Room } from '../../../models/room';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -10,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { TSMap } from 'typescript-map';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
@@ -26,14 +25,10 @@ import { DeleteCommentsComponent } from '../_dialogs/delete-comments/delete-comm
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TopicCloudFilterComponent } from '../../shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
-import {HeaderService} from '../../../services/util/header.service';
-import {RoomDeleteComponent} from '../_dialogs/room-delete/room-delete.component';
-import {RoomDeleted} from '../../../models/events/room-deleted';
-import {ProfanitySettingsComponent} from '../_dialogs/profanity-settings/profanity-settings.component';
-import {RoomDescriptionSettingsComponent} from '../_dialogs/room-description-settings/room-description-settings.component';
-import {ModeratorDeleteComponent} from '../_dialogs/moderator-delete/moderator-delete.component';
-import {ModeratorCommentPageComponent} from '../../moderator/moderator-comment-page/moderator-comment-page.component';
-import {ModeratorCommentListComponent} from '../../moderator/moderator-comment-list/moderator-comment-list.component';
+import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
+import { RoomDeleted } from '../../../models/events/room-deleted';
+import { ProfanitySettingsComponent } from '../_dialogs/profanity-settings/profanity-settings.component';
+import { RoomDescriptionSettingsComponent } from '../_dialogs/room-description-settings/room-description-settings.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -110,9 +105,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   editSessionDescription(){
     const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
-      width: '400px'
+      width: '900px',
+      maxWidth: 'calc( 100% - 50px )',
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false
     });
-    dialogRef.componentInstance.editRoom=this.room;
+    dialogRef.componentInstance.editRoom = this.room;
   }
 
   exportQuestions(){

@@ -1,5 +1,4 @@
 import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { User } from '../../../models/user';
 import { QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
 import Delta from 'quill-delta';
 import Quill from 'quill';
@@ -7,6 +6,7 @@ import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -31,10 +31,23 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @ViewChild('editorErrorLayer') editorErrorLayer: ElementRef<HTMLDivElement>;
   @ViewChild('tooltipContainer') tooltipContainer: ElementRef<HTMLDivElement>;
   @Input() isEditor = false;
-  @Input() user: User;
-  @Input() currentData = '';
+  @Input() isModerator = false;
+
+  @Input()
+  set currentData(data: string) {
+    this._currentData = data;
+    if ((this.editor && this.editor.quillEditor) || (this.quillView && this.quillView.quillEditor)) {
+      this.set(this._currentData);
+    }
+  }
+
+  get currentData(): string {
+    return this._currentData;
+  }
+
   @Input() maxTextCharacters = 500;
   @Input() maxDataCharacters = 1500;
+  @Input() placeHolderText = '';
   @Input() markEvents?: {
     onCreate: (markContainer: HTMLDivElement, tooltipContainer: HTMLDivElement, editor: QuillEditorComponent) => void;
     onChange: (delta: any) => void;
@@ -53,9 +66,11 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       }
     }
   };
+  private _currentData = '';
 
   constructor(private languageService: LanguageService,
-              private translateService: TranslateService) {
+              private translateService: TranslateService,
+              private deviceInfo: DeviceInfoService) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
       if (this.isEditor) {
@@ -90,12 +105,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    if (this.user && this.user.role > 0) {
+    if (this.isModerator) {
       this.quillModules.toolbar['container'] = moderatorToolbar;
     }
+    const isMobile = this.deviceInfo.isUserAgentMobile;
     if (this.isEditor) {
-      this.quillModules['emoji-toolbar'] = true;
-      this.quillModules['emoji-shortname'] = true;
+      this.quillModules['emoji-toolbar'] = !isMobile;
+      this.quillModules['emoji-shortname'] = !isMobile;
       this.quillModules.imageResize = {
         modules: ['Resize', 'DisplaySize']
       };
@@ -112,13 +128,15 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         if (this.markEvents && this.markEvents.onChange) {
           this.markEvents.onChange(e.delta);
         }
-        this.currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
+        this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
       });
       this.editor.onEditorCreated.subscribe(_ => {
         if (this.markEvents && this.markEvents.onCreate) {
           this.markEvents.onCreate(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
         }
+        this.set(this._currentData);
+        (this.editor.editorElem.firstElementChild as HTMLElement).focus();
         this.syncErrorLayer();
         setTimeout(() => this.syncErrorLayer(), 200); // animations?
       });
@@ -145,7 +163,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       });
     } else {
       this.quillView.onEditorCreated.subscribe(_ => {
-        this.set(this.currentData);
+        this.set(this._currentData);
       });
     }
   }

@@ -12,6 +12,7 @@ import { NotificationService } from './notification.service';
 import { RoomService } from '../http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './language.service';
+import { DeviceInfoService } from './device-info.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,8 @@ export class OnboardingService {
               private notificationService: NotificationService,
               private roomService: RoomService,
               private translateService: TranslateService,
-              private langService: LanguageService) {
+              private langService: LanguageService,
+              private deviceInfo: DeviceInfoService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -78,6 +80,8 @@ export class OnboardingService {
   private startOnboardingTour(tour: OnboardingTour, ignoreDone = false): boolean {
     if (this._activeTour) {
       this.cleanup();
+      return false;
+    } else if (this.deviceInfo.isSafari) {
       return false;
     }
     if (ignoreDone) {

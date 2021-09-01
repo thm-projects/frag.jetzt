@@ -10,8 +10,9 @@
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
-      <app-write-comment [user]="user"
+      <app-write-comment [isModerator]="user && user.role > 0"
                          [isCommentAnswer]="true"
+                         [placeholder]="'comment-page.your-answer'"
                          [onClose]="openDeleteAnswerDialog()"
                          [onSubmit]="saveAnswer()"
                          [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"

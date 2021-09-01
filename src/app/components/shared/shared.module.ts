@@ -130,7 +130,9 @@ import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.
     JoyrideTemplateDirective,
     AutofocusDirective,
     CustomMarkdownComponent,
-    ScrollIntoViewDirective
+    ScrollIntoViewDirective,
+    ViewCommentDataComponent,
+    WriteCommentComponent
   ]
 })
 export class SharedModule {

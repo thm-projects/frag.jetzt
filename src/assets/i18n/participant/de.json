@@ -131,7 +131,6 @@
     "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
     "error-title": "Bitte gib einen Titel ein.",
-    "format-count": "Formatierungszeichen {{count}}/{{length}}",
     "has-answer": "Die Frage wurde kommentiert. Klick hier, um den Kommentar zu lesen.",
     "exit-description": "Präsentationsmodus verlassen",
     "live-announcer": "Du befindest dich jetzt auf der Fragen-Seite. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",

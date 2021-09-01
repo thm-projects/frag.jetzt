@@ -141,7 +141,6 @@
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
-    "format-count": "Formatting characters {{count}}/{{length}}",
     "has-answer": "The question was answered. Click for full view.",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-not-correct": "Marked as correct",
