@@ -113,7 +113,16 @@
     <ars-fill style="overflow:hidden;" ars-flex-box>
       <ars-fill>
       </ars-fill>
-      <ars-row class="questionwall-present-box-outer">
+      <ars-row ars-flex-box height="400">
+        <ars-fill></ars-fill>
+        <ars-col ars-flex-box>
+          <ars-row *ngIf="commentFocus">
+            <p class="questionwall-present-meta-number">{{commentFocus.comment.number}}</p>
+          </ars-row>
+          <ars-fill></ars-fill>
+        </ars-col>
+      </ars-row>
+      <ars-row class="questionwall-present-box-outer" style="margin-top:-400px;">
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
@@ -210,7 +219,17 @@
           <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
                    class="questionwall-comment-anchor"
                    style="float:left;">
-            <ars-row style="box-sizing:border-box;padding:8px;">
+            <ars-row ars-flex-box height="170">
+              <ars-fill></ars-fill>
+              <ars-col ars-flex-box>
+                <ars-fill></ars-fill>
+                  <ars-row>
+                    <p class="questionwall-comment-number">{{comment.comment.number}}</p>
+                  </ars-row>
+                <ars-fill></ars-fill>
+              </ars-col>
+            </ars-row>
+            <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
               <ars-row
                 [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
                 style="border-radius:5px">
