@@ -51,6 +51,7 @@ import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.compo
 import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
 import { QuillModule } from 'ngx-quill';
 import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
+import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 
 @NgModule({
   imports: [
@@ -107,7 +108,8 @@ import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.
     WriteCommentComponent,
     CustomMarkdownComponent,
     ScrollIntoViewDirective,
-    ViewCommentDataComponent
+    ViewCommentDataComponent,
+    DeepLDialogComponent
   ],
   exports: [
     RoomJoinComponent,

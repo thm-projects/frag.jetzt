@@ -119,6 +119,7 @@
     "abort": "Abbrechen",
     "ask-question-description": "Gib hier deine Frage ein!",
     "save-answer": "Speichern",
+    "continue": "Weiter",
     "delete-answer": "Löschen",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
@@ -162,6 +163,12 @@
     "grammar-check": "Rechtschreibprüfung",
     "upvote": "positiv",
     "downvote": "negativ"
+  },
+  "deepl": {
+    "header": "DeepL Unterstützung",
+    "label": "Wähle einen Text",
+    "option-normal": "Eingegebener Text",
+    "option-improved": "Stilistisch verbesserter Text"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",

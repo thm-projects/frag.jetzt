@@ -93,9 +93,6 @@ export class WriteCommentComponent implements OnInit {
   }
 
   checkGrammar() {
-    this.deepl.improveTextStyle(this.commentData.currentText).subscribe(str => {
-      console.log(str);
-    });
     this.grammarCheck(this.commentData.currentText, this.langSelect && this.langSelect.nativeElement);
   }
 

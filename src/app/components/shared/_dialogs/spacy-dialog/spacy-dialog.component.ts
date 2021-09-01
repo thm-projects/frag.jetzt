@@ -1,7 +1,5 @@
 import { AfterContentInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { CreateCommentComponent } from '../create-comment/create-comment.component';
 import { SpacyService, SpacyKeyword } from '../../../../services/http/spacy.service';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
@@ -39,7 +37,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   constructor(
     protected langService: LanguagetoolService,
     private spacyService: SpacyService,
-    public dialogRef: MatDialogRef<CreateCommentComponent>,
+    public dialogRef: MatDialogRef<SpacyDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
   }
 

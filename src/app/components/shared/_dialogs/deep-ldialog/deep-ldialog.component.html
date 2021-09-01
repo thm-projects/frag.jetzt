@@ -1,0 +1,25 @@
+<h2>{{'deepl.header' | translate}}</h2>
+<div mat-dialog-content>
+  <label id="deepl-radio-group-label">{{'deepl.label' | translate}}</label>
+  <br>
+  <mat-radio-group
+    aria-labelledby="deepl-radio-group-label"
+    [(ngModel)]="radioButtonValue">
+    <mat-radio-button [value]="normalValue">
+      <strong>{{'deepl.option-normal' | translate}}</strong>
+      <app-view-comment-data [currentData]="normalValue.body"></app-view-comment-data>
+    </mat-radio-button>
+    <br>
+    <mat-radio-button [value]="improvedValue">
+      <strong>{{'deepl.option-improved' | translate}}</strong>
+      <app-view-comment-data [currentData]="improvedValue.body"></app-view-comment-data>
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'comment-page'"
+  [confirmButtonLabel]="'continue'"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSubmitBodyActionCallback()">
+</app-dialog-action-buttons>

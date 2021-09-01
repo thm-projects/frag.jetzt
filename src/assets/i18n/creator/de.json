@@ -125,6 +125,7 @@
     "answer": "Frage kommentieren",
     "save-answer": "Speichern",
     "comment-answered": "Antwort wurde gespeichert.",
+    "continue": "Weiter",
     "edit-answer": "Bearbeiten",
     "delete-answer": "Löschen",
     "really-delete-answer": "Willst du deine Antwort wirklich löschen?",
@@ -234,6 +235,12 @@
     "submitted": "Frage erstellt. Bereit für die Erstellung neuer Fragen.",
     "undo": "Rückgängig",
     "yes": "Ja"
+  },
+  "deepl": {
+    "header": "DeepL Unterstützung",
+    "label": "Wähle einen Text",
+    "option-normal": "Eingegebener Text",
+    "option-improved": "Stilistisch verbesserter Text"
   },
   "home-page": {
     "create-session": "Neue Sitzung",

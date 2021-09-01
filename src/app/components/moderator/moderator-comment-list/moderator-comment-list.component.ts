@@ -19,7 +19,6 @@ import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderator
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { Export } from '../../../models/export';
-import { CreateCommentComponent } from '../../shared/_dialogs/create-comment/create-comment.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CommentFilter, Period } from '../../../utils/filter-options';

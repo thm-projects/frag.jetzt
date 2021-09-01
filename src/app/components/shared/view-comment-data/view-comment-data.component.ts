@@ -42,7 +42,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   get currentData(): string {
-    return this._currentData;
+    return this._currentData || '';
   }
 
   @Input() maxTextCharacters = 500;
@@ -66,7 +66,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       }
     }
   };
-  private _currentData = '';
+  private _currentData = null;
 
   constructor(private languageService: LanguageService,
               private translateService: TranslateService,
@@ -79,7 +79,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private static getDataFromDelta(contentDelta) {
+  public static getDataFromDelta(contentDelta) {
     return JSON.stringify(contentDelta.ops.map(op => {
       let hasOnlyInsert = true;
       for (const key in op) {
@@ -92,7 +92,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     }));
   }
 
-  private static getDeltaFromData(jsonData: string) {
+  public static getDeltaFromData(jsonData: string) {
     return {
       ops: JSON.parse(jsonData).map(elem => {
         if (!elem['insert']) {
@@ -135,7 +135,9 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         if (this.markEvents && this.markEvents.onCreate) {
           this.markEvents.onCreate(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
         }
-        this.set(this._currentData);
+        if (this._currentData) {
+          this.set(this._currentData);
+        }
         (this.editor.editorElem.firstElementChild as HTMLElement).focus();
         this.syncErrorLayer();
         setTimeout(() => this.syncErrorLayer(), 200); // animations?
