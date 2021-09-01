@@ -68,6 +68,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   voteInterval;
   upvotes;
   downvotes;
+  score;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -109,6 +110,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.commentService.getComment(this.comment.id).subscribe(e=>{
           this.upvotes=e.upvotes;
           this.downvotes=e.downvotes;
+          this.score=e.score;
         });
       }
     },1000);
