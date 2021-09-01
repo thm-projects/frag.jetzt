@@ -142,10 +142,11 @@
                 <ars-col ars-btn-wrp [xp]="32" [extra]="true" class="questionwall-comment-btn">
                   <button ars-btn (click)="likeComment(commentFocus)" matRipple>
                     <i>thumb_up</i>
-                    <p style="padding-left:22px;">{{commentFocus.comment.score}}</p>
+                    <p style="padding-left:22px;">{{commentFocus.comment.upvotes}}</p>
                   </button>
                   <button ars-btn (click)="dislikeComment(commentFocus)" matRipple>
                     <i>thumb_down</i>
+                    <p style="padding-left:22px;">{{commentFocus.comment.downvotes}}</p>
                   </button>
                 </ars-col>
                 <ars-fill></ars-fill>
@@ -258,10 +259,11 @@
                     <ars-col ars-btn-wrp [xp]="16" [extra]="true" class="questionwall-comment-btn">
                       <button ars-btn (click)="likeComment(comment)" matRipple>
                         <i>thumb_up</i>
-                        <p style="padding-left:4px;">{{comment.comment.score}}</p>
+                        <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
                       </button>
                       <button ars-btn (click)="dislikeComment(comment)" matRipple>
                         <i>thumb_down</i>
+                        <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
                       </button>
                     </ars-col>
                     <ars-fill (click)="focusComment(comment)" style="cursor:pointer"></ars-fill>
