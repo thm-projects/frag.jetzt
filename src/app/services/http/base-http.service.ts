@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, throwError, TimeoutError } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BaseHttpService {
@@ -13,6 +14,10 @@ export class BaseHttpService {
     return (error: any): Observable<T> => {
       if (error instanceof TimeoutError) {
         this.nextRequest = new Date().getTime() + 1_000;
+      } else if (error instanceof HttpErrorResponse) {
+        if (error.status === 429 || error.status === 456) {
+          this.nextRequest = new Date().getTime() + 30_000;
+        }
       }
       console.error(error);
       return throwError(error);

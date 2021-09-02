@@ -132,9 +132,9 @@
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
-                <app-custom-markdown [ngStyle]="{'font-size':fontSize+'%'}"
+                <app-view-comment-data [ngStyle]="{'font-size':fontSize+'%'}"
                                      class="questionwall-present-markdown images"
-                                     [data]="commentFocus.comment.body"></app-custom-markdown>
+                                     [currentData]="commentFocus.comment.body"></app-view-comment-data>
               </ars-row>
             </ars-row>
             <ars-row [height]="50">
@@ -251,7 +251,7 @@
                   (click)="focusComment(comment)"
                   style="box-sizing:border-box;padding:0 16px;cursor:pointer">
                   <p class="questionwall-comment-body">
-                    <app-custom-markdown class="images" [data]="comment.comment.body"></app-custom-markdown>
+                    <app-view-comment-data class="images" [currentData]="comment.comment.body"></app-view-comment-data>
                   </p>
                 </ars-row>
                 <ars-row [height]="50">

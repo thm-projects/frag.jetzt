@@ -125,6 +125,7 @@
     "answer": "Comment this question",
     "save-answer": "Save",
     "comment-answered": "Answer has been sent.",
+    "continue": "Continue",
     "edit-answer": "Edit",
     "delete-answer": "Delete",
     "really-delete-answer": "Do you really want to delete this answer?",
@@ -235,6 +236,12 @@
     "submitted": "Content submitted. Ready for creation of new content.",
     "undo": "Undo",
     "yes": "Yes"
+  },
+  "deepl": {
+    "header": "DeepL Support",
+    "label": "Choose a text",
+    "option-normal": "Entered text",
+    "option-improved": "Stylistically improved text"
   },
   "home-page": {
     "create-session": "New session",
@@ -377,7 +384,9 @@
     "period-since-first-comment":"Period since first comment",
     "upvote-topic": "Upvotes for this topic",
     "downvote-topic": "Downvotes for this topic",
-    "blacklist-topic": "Add topic to blacklist"
+    "blacklist-topic": "Add topic to blacklist",
+    "changes-gone-wrong": "Something went wrong!",
+    "changes-successful": "Successfully updated."
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

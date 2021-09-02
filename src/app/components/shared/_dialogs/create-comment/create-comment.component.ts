@@ -4,12 +4,13 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
-import { CommentListComponent } from '../../comment-list/comment-list.component';
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
 import { LanguagetoolService, Language } from '../../../../services/http/languagetool.service';
 import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
+import { DeepLDialogComponent } from '../deep-ldialog/deep-ldialog.component';
+import { DeepLService } from '../../../../services/http/deep-l.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -19,7 +20,6 @@ import { WriteCommentComponent } from '../../write-comment/write-comment.compone
 export class CreateCommentComponent implements OnInit {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
-  comment: Comment;
   user: User;
   roomId: string;
   tags: string[];
@@ -27,11 +27,12 @@ export class CreateCommentComponent implements OnInit {
 
   constructor(
     private notification: NotificationService,
-    public dialogRef: MatDialogRef<CommentListComponent>,
+    public dialogRef: MatDialogRef<CreateCommentComponent>,
     private translateService: TranslateService,
     public dialog: MatDialog,
     public languagetoolService: LanguagetoolService,
     public eventService: EventService,
+    private deeplService: DeepLService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
@@ -51,7 +52,32 @@ export class CreateCommentComponent implements OnInit {
     comment.createdFromLecturer = this.user.role > 0;
     comment.tag = tag;
     this.isSendingToSpacy = true;
-    this.openSpacyDialog(comment, text);
+    this.openDeeplDialog(body, text, (newBody: string, newText: string) => {
+      comment.body = newBody;
+      this.openSpacyDialog(comment, newText);
+    });
+  }
+
+  openDeeplDialog(body: string, text: string, onClose: (data: string, text: string) => void) {
+    this.deeplService.improveTextStyle(text).subscribe(improvedText => {
+      this.isSendingToSpacy = false;
+      this.dialog.open(DeepLDialogComponent, {
+        width: '900px',
+        maxWidth: '100%',
+        data: {
+          body,
+          text,
+          improvedText
+        }
+      }).afterClosed().subscribe((res) => {
+        if (res) {
+          onClose(res.body, res.text);
+        }
+      });
+    }, (_) => {
+      this.isSendingToSpacy = false;
+      onClose(body, text);
+    });
   }
 
   openSpacyDialog(comment: Comment, rawText: string): void {

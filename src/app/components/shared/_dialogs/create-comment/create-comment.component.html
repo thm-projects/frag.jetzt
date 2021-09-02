@@ -4,6 +4,6 @@
                      [onClose]="this.onNoClick.bind(this)"
                      [isSpinning]="isSendingToSpacy"
                      [tags]="tags"
-                     [user]="user">
+                     [isModerator]="user && user.role > 0">
   </app-write-comment>
 </ars-row>

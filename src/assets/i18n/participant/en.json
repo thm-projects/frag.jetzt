@@ -129,6 +129,7 @@
     "abort": "Cancel",
     "ask-question-description": "Enter your question …",
     "save-answer": "Save",
+    "continue": "Continue",
     "delete-answer": "Delete",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
@@ -171,6 +172,12 @@
     "grammar-check": "Spell check",
     "upvote": "upvotes",
     "downvote": "downvotes"
+  },
+  "deepl": {
+    "header": "DeepL Support",
+    "label": "Choose a text",
+    "option-normal": "Entered text",
+    "option-improved": "Stylistically improved text"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -278,7 +285,9 @@
     "period-since-first-comment":"Period since first comment",
     "upvote-topic": "Upvotes for this topic",
     "downvote-topic": "Downvotes for this topic",
-    "blacklist-topic": "Add topic to blacklist"
+    "blacklist-topic": "Add topic to blacklist",
+    "changes-gone-wrong": "Something went wrong!",
+    "changes-successful": "Successfully updated."
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

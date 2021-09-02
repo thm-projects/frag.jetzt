@@ -21,7 +21,7 @@
       </div>
 
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <app-custom-markdown class="images" [data]="room.description.trim()"></app-custom-markdown>
+        <app-view-comment-data class="images" [currentData]="room.description"></app-view-comment-data>
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>

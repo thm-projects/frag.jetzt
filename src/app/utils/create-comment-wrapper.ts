@@ -22,8 +22,8 @@ export class CreateCommentWrapper {
   openCreateDialog(user: User): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
       autoFocus: false,
     });
     dialogRef.componentInstance.user = user;

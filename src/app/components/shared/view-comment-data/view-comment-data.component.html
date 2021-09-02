@@ -1,16 +1,12 @@
 <ars-row *ngIf="isEditor">
   <div #editorErrorLayer id="editorErrorLayer"></div>
   <quill-editor #editor
-                [maxLength]="user.role === 3 ? 1000 : 500"
-                placeholder="{{ 'comment-page.enter-comment' | translate }}"
+                placeholder="{{ placeHolderText | translate }}"
                 [modules]="quillModules"
                 (document:click)="onDocumentClick($event)">
   </quill-editor>
   <div #tooltipContainer></div>
-  <div fxLayout="row" style="justify-content: space-between; padding: 0 5px">
-    <span aria-hidden="true" style="font-size: 75%">
-      {{ 'comment-page.Markdown-hint' | translate }}
-    </span>
+  <div fxLayout="row" style="justify-content: flex-end; padding: 0 5px">
     <span aria-hidden="true" style="font-size: 75%">
       {{currentText.length}} / {{maxTextCharacters}}
     </span>
