@@ -34,20 +34,17 @@ export const blue = {
 
 export const blue_meta = {
 
-  'translation': {
-    'name': {
-      'en': 'ENGLISH_NAME',
-      'de': 'GERMAN_NAME'
+  translation: {
+    name: {
+      en: 'ENGLISH_NAME',
+      de: 'GERMAN_NAME'
     },
-    'description': {
-      'en': 'ENGLISH_DESCRIPTION',
-      'de': 'GERMAN_DESCRIPTION'
-    }
   },
-  'isDark': false,
-  'order': 4,
-  'scale_desktop': 1,
-  'scale_mobile': 1,
-  'previewColor': 'background'
+  isDark: false,
+  availableOnMobile: true,
+  order: 4,
+  scale_desktop: 1,
+  scale_mobile: 1,
+  previewColor: 'background'
 
 };

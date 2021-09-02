@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { QuestionWallComponent } from './questionwall/question-wall/question-wall.component';
 import { AuthenticationGuard } from '../../guards/authentication.guard';
 import { UserRole } from '../../models/user-roles.enum';
+import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
 
 const routes: Routes = [
   {
@@ -13,7 +14,18 @@ const routes: Routes = [
         UserRole.EDITING_MODERATOR,
         UserRole.EXECUTIVE_MODERATOR,
         UserRole.PARTICIPANT] }
+  },
+
+  {
+    path: 'room/:shortId/comments/tagcloud',
+    component: TagCloudComponent,
+    data: { roles: [
+        UserRole.CREATOR,
+        UserRole.EDITING_MODERATOR,
+        UserRole.EXECUTIVE_MODERATOR,
+        UserRole.PARTICIPANT] }
   }
+
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
 import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Room } from '../../../models/room';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
@@ -10,8 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { TSMap } from 'typescript-map';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { ModeratorsComponent } from '../_dialogs/moderators/moderators.component';
 import { BonusTokenComponent } from '../_dialogs/bonus-token/bonus-token.component';
@@ -25,6 +24,11 @@ import { TitleService } from '../../../services/util/title.service';
 import { DeleteCommentsComponent } from '../_dialogs/delete-comments/delete-comments.component';
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { TopicCloudFilterComponent } from '../../shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
+import { RoomDeleted } from '../../../models/events/room-deleted';
+import { ProfanitySettingsComponent } from '../_dialogs/profanity-settings/profanity-settings.component';
+import { RoomDescriptionSettingsComponent } from '../_dialogs/room-description-settings/room-description-settings.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -51,14 +55,16 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               public dialog: MatDialog,
               private translateService: TranslateService,
               protected langService: LanguageService,
-              protected wsCommentService: WsCommentServiceService,
+              protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
               public eventService: EventService,
               public titleService: TitleService,
               private notificationService: NotificationService,
-              private bonusTokenService: BonusTokenService) {
+              private bonusTokenService: BonusTokenService,
+              public router: Router,
+              public translationService: TranslateService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
@@ -69,37 +75,67 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   initNavigation() {
     const navigation = {};
     const nav = (b, c) => navigation[b] = c;
+    nav('deleteRoom',()=>this.openDeleteRoomDialog());
+    nav('profanityFilter',()=>this.toggleProfanityFilter());
+    nav('editSessionDescription',()=>this.editSessionDescription());
     nav('roomBonusToken', () => this.showBonusTokenDialog());
     nav('moderator', () => this.showModeratorsDialog());
     nav('tags', () => this.showTagsDialog());
-    nav('exportQuestions', () => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translateService,
-        'comment-list',
-        this.notificationService);
-      exp.exportAsCsv();
-    });
-    nav('deleteQuestions', () => {
-      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-        width: '400px'
-      });
-      dialogRef.componentInstance.roomId = this.room.id;
-      dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.translateService.get('room-page.comments-deleted').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-          this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
-        }
-      });
-    });
+    nav('topicCloud', () => this.showTagCloud());
+    nav('exportQuestions', () => this.exportQuestions());
+    nav('deleteQuestions', () => this.deleteQuestions());
+    nav('moderatorSettings', () => this.navigateModeratorSettings());
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
         navigation[e]();
+      }
+    });
+  }
+
+  navigateModeratorSettings(){
+    this.showCommentsDialog();
+  }
+
+  toggleProfanityFilter(){
+    const dialogRef = this.dialog.open(ProfanitySettingsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.editRoom=this.room;
+  }
+
+  editSessionDescription(){
+    const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
+      width: '900px',
+      maxWidth: 'calc( 100% - 50px )',
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false
+    });
+    dialogRef.componentInstance.editRoom = this.room;
+  }
+
+  exportQuestions(){
+    const exp: Export = new Export(
+      this.room,
+      this.commentService,
+      this.bonusTokenService,
+      this.translateService,
+      'comment-list',
+      this.notificationService);
+    exp.exportAsCsv();
+  }
+
+  deleteQuestions(){
+    const dialogRef = this.dialog.open(DeleteCommentsComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.roomId = this.room.id;
+    dialogRef.afterClosed()
+    .subscribe(result => {
+      if (result === 'delete') {
+        this.translateService.get('room-page.comments-deleted').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+        this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
       }
     });
   }
@@ -140,8 +176,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         if (lang === 'de') {
         this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
                                     'Aktueller Raum-Code: ' + this.room.shortId);
-        } else { this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
-          'Current Session Code: ' + this.room.shortId); }
+        } else {
+ this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
+          'Current Session Code: ' + this.room.shortId);
+}
       } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false
@@ -275,6 +313,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     dialogRef.componentInstance.room = this.room;
   }
 
+  showTagCloud(): void {
+    const dialogRef = this.dialog.open(TopicCloudFilterComponent, {
+      width: '400px'
+    });
+  }
+
   showTagsDialog(): void {
     this.updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(TagsComponent, {
@@ -294,6 +338,30 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
           this.saveChanges();
         }
       });
+  }
+
+  openDeleteRoomDialog(): void {
+    const dialogRef = this.dialog.open(RoomDeleteComponent, {
+      width: '400px'
+    });
+    dialogRef.componentInstance.room = this.room;
+    dialogRef.afterClosed()
+    .subscribe(result => {
+      if (result === 'delete') {
+        this.deleteRoom();
+      }
+    });
+  }
+
+  deleteRoom(): void {
+    this.translationService.get('room-page.deleted').subscribe(msg => {
+      this.notificationService.show(this.room.name + msg);
+    });
+    this.roomService.deleteRoom(this.room.id).subscribe(result => {
+      const event = new RoomDeleted(this.room.id);
+      this.eventService.broadcast(event.type, event.payload);
+      this.location.back();
+    });
   }
 
   copyShortId(): void {

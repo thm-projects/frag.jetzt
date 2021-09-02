@@ -1,0 +1,80 @@
+<ars-row>
+  <ng-container [ngTemplateOutlet]="additionalTemplate"></ng-container>
+  <div class="lang-selection" *ngIf="enabled">
+    <button class="lang-btn"
+            mat-button
+            (click)="select.open()"
+            matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+            matTooltipShowDelay="750">
+      <mat-icon id="langSymbol">language</mat-icon>
+      <span *ngIf="selectedLang !== 'auto'">
+        {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
+      </span>
+      <span *ngIf="selectedLang === 'auto'" #langSelect>
+        auto
+      </span>
+      <mat-select class="select-list" #select [(ngModel)]="selectedLang">
+        <mat-option *ngFor="let lang of languages" [value]="lang">
+          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+          <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+        </mat-option>
+      </mat-select>
+    </button>
+  </div>
+  <div class="anchor-wrp" *ngIf="enabled">
+    <div class="anchor-right">
+      <mat-form-field *ngIf="tags"
+                      class="tag-form-field">
+        <mat-label>
+          <mat-icon class="icon-svg"
+                    svgIcon="comment_tag"></mat-icon>
+          {{'comment-page.tag' | translate}}
+        </mat-label>
+        <label for="tagSelect">{{selectedTag}}</label>
+        <mat-select [(ngModel)]="selectedTag"
+                    class="tag-select"
+                    id="tagSelect">
+          <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
+          <mat-option *ngFor="let tag of tags"
+                      value="{{tag}}">{{tag}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</ars-row>
+<ars-row [height]="12"></ars-row>
+<app-view-comment-data *ngIf="enabled"
+                       [isModerator]="isModerator"
+                       [isEditor]="true"
+                       [maxTextCharacters]="maxTextCharacters"
+                       [maxDataCharacters]="maxDataCharacters"
+                       [placeHolderText]="placeholder"
+                       [markEvents]="getMarkEvents()"></app-view-comment-data>
+<ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
+  <ars-col>
+    <button
+      [disabled]="!commentData || commentData.currentText.length < 5"
+      mat-flat-button
+      class="spell-button"
+      (click)="checkGrammar()">
+      {{ 'comment-page.grammar-check' | translate}}
+      <mat-icon *ngIf="isSpellchecking" class="spinner-container">
+        <app-mat-spinner-overlay diameter="20" strokeWidth="2" [color]="'on-primary'"></app-mat-spinner-overlay>
+      </mat-icon>
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      [buttonsLabelSection]="i18nSection"
+      [confirmButtonLabel]="confirmLabel"
+      [cancelButtonLabel]="cancelLabel"
+      [showLoadingCycle]="isSpinning"
+      [showDivider]="false"
+      [spacing]="false"
+      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+      [confirmButtonClickAction]="buildCreateCommentActionCallback()"
+    ></app-dialog-action-buttons>
+  </ars-col>
+</ars-row>

@@ -1,6 +1,9 @@
 mat-form-field {
-  font-size: larger;
   color: var(--on-surface);
+}
+
+.layoutWrapper {
+  padding-left: 15px;
 }
 
 form {
@@ -9,13 +12,7 @@ form {
 
 mat-error {
   font-size: small;
-}
-
-.mat-fab {
-  width: 65px;
-  height: 65px;
-  background-color: var(--primary);
-  color: var(--on-primary);
+  color: var(--red) !important;
 }
 
 input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
@@ -31,31 +28,40 @@ mat-hint {
 }
 
 ::ng-deep .mat-form-field-label {
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface)!important;
+  background-color: var(--on-surface) !important;
 }
 
 ::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface)!important;
+  background-color: var(--on-surface) !important;
 }
 
 input:-webkit-autofill {
-  -webkit-box-shadow:0 0 0 50px var(--surface) inset;
+  -webkit-box-shadow: 0 0 0 50px var(--surface) inset;
   -webkit-text-fill-color: var(--on-surface);
 }
 
-mat-error{
-  color:var(--on-surface);
+mat-error {
+  color: var(--on-surface);
 }
 
-#session_enter-button:focus {
-  background: var(--on-surface);
-  color: var(--background);
+#session_enter-button {
+  width: 100%;
+  height: 60px;
+  font-size: large;
+  background-color: var(--background);
+  color: var(--on-background);
 }
 
 .join-room {
-  transform: scale(1.5);
+  padding-right: 5px;
+  transform: scale(2.0);
+  color: var(--primary);
+}
+
+::ng-deep .mat-form-field .mat-form-field-infix {
+  max-width: 130px;
 }

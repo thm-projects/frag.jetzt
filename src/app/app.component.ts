@@ -4,7 +4,7 @@ import { SwUpdate } from '@angular/service-worker';
 import { NotificationService } from './services/util/notification.service';
 import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
-import { MatomoInjector } from 'ngx-matomo';
+import { MatomoInjector } from 'ngx-matomo-v9';
 import { environment } from '../environments/environment';
 
 @Component({
@@ -14,7 +14,10 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent implements OnInit {
 
+  public static rescale: Rescale = new Rescale();
   private static scrollAnimation = true;
+
+  title = 'frag.jetzt';
 
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
@@ -22,12 +25,10 @@ export class AppComponent implements OnInit {
               public notification: NotificationService,
               private customIconService: CustomIconService) {
     customIconService.init();
-    if (environment.name === 'prod') { this.matomoInjector.init('https://arsnova.thm.de/stats/', 6); }
+    if (environment.name === 'prod') {
+      this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
+    }
   }
-
-  public static rescale: Rescale = new Rescale();
-
-  title = 'frag.jetzt';
 
   public static scrollTop() {
     const sc: HTMLElement = document.getElementById('scroll_container');

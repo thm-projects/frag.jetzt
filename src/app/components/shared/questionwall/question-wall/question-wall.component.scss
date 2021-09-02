@@ -5,6 +5,10 @@
     margin: 0;
   }
 
+  button.selected > * {
+    color: var(--red);
+  }
+
   .test {
     width: 100%;
     height: 250px;
@@ -114,6 +118,16 @@
         font-weight: 600;
         color: #cc4244;
       }
+
+      &-number {
+        font-size: 144px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        padding-right:8px;
+        box-sizing:border-box;
+        font-weight: 600;
+        color: rgba(255,255,255,0.2);
+      }
     }
 
     &-list {
@@ -177,6 +191,7 @@
           justify-content: center;
           hyphens: auto;
           word-break: break-word;
+          color: yellow;
         }
 
         &-inner {
@@ -213,6 +228,14 @@
           font-size: 18px;
           font-weight: 400;
           color: var(--ars-paragraph-color);
+        }
+
+        &-number {
+          font-family: Roboto, 'sans-serif';
+          font-size: 256px;
+          padding-left:16px;
+          font-weight:bold;
+          color: rgba(255,255,255,0.2);
         }
       }
 
@@ -270,10 +293,6 @@
     hr {
       border: 1px solid yellow;
     }
-
-    img {
-      width: 100% !important;
-    }
   }
 
   .questionwall-present-options-slider {
@@ -293,4 +312,14 @@
 
 .selected {
   font-weight: bold;
+}
+
+.selection:focus {
+  background-color: black !important;
+}
+
+h2 {
+  color: red;
+  font-weight: normal !important;
+  padding-top: 10px !important;
 }

@@ -24,11 +24,6 @@ mat-icon {
   margin-right: 10px;
 }
 
-mat-divider {
-  margin-bottom: 10px;
-  color: var(--on-surface) !important;
-}
-
 .abort {
   background-color: var(--cancel);
   color: var(--on-cancel);
@@ -51,3 +46,11 @@ mat-hint {
   color: var(--on-surface) !important;
   margin-right: 1%;
 }
+
+mat-slide-toggle {
+  margin-top: 20px;
+}
+
+
+
+

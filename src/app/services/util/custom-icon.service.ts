@@ -9,6 +9,7 @@ export class CustomIconService {
     'beamer',
     'meeting_room',
     'comment_tag',
+    'hashtag',
     'qrcode'
   ];
 

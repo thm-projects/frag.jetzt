@@ -1,3 +1,4 @@
+<app-mat-spinner-overlay *ngIf="isLoading" [overlay]="true"></app-mat-spinner-overlay>
 <ars-screen ars-flex-box class="questionwall-screen">
   <ars-row [height]="50" class="questionwall-header">
     <ars-style-btn-material *ngIf="room" style="width:100%;height:100%;" ars-flex-box>
@@ -6,6 +7,10 @@
           <button ars-btn (click)="leave()" matRipple aria-labelledby="back-lbl"><i>arrow_back</i></button>
         </ars-col>
       </ars-fill>
+      <ng-container *ngIf="room && room.questionsBlocked && !router.url.includes('/room-list/')">
+        <mat-icon>block</mat-icon>
+        <h2>{{'question-wall.questions-blocked'|translate}}</h2>
+      </ng-container>
       <ars-col>
         <!-- centered col -->
       </ars-col>
@@ -13,52 +18,90 @@
         <ars-fill></ars-fill>
         <ars-col ars-btn-wrp [xp]="16" [extra]="true">
           <mat-menu #sortMenu>
-            <button mat-menu-item (click)="sortTime(true)" aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
-            <button mat-menu-item (click)="sortTime()" aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
-            <button mat-menu-item (click)="sortScore(true)" aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
+            <button mat-menu-item (click)="sortTime(true)"
+                    aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
+            <button mat-menu-item (click)="sortTime()"
+                    aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
+            <button mat-menu-item (click)="sortScore(true)"
+                    aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
-            <button mat-menu-item (click)="filterFavorites()" aria-labelledby="filter-lbl-favorites">
+            <button mat-menu-item (click)="filterFavorites()" aria-labelledby="filter-lbl-favorites" class="selection">
               <mat-icon class="star">grade</mat-icon>
               <span>{{'question-wall.filter-favorite' | translate}}</span>
             </button>
-            
-            <button mat-menu-item (click)="filterBookmark()" aria-labelledby="filter-lbl-bookmark">
+
+            <button mat-menu-item (click)="filterBookmark()" aria-labelledby="filter-lbl-bookmark" class="selection">
               <mat-icon>bookmark</mat-icon>
               <span>{{'question-wall.filter-bookmark' | translate}}</span>
             </button>
           </mat-menu>
           <mat-menu #filterTagMenu>
-            <button mat-menu-item *ngFor="let tag of tags" (click)="filterTag(tag)">
+            <button mat-menu-item *ngFor="let tag of tags" (click)="filterTag(tag)" class="selection">
               <span>{{tag}}</span>
             </button>
           </mat-menu>
           <mat-menu #timeMenu="matMenu" xPosition="before">
             <div *ngFor="let periodItem of periodsList">
-              <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period"
+              <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period selection"
                       [ngClass]="{'selected': periodItem === period}"
                       aria-labelledby="{{periodItem}}">
                 <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
               </button>
             </div>
           </mat-menu>
+          <button ars-btn
+                  class="pseudo-button"
+                  [ngClass]="{'selected': hasFilter || period !== 'time-all'}"
+                  matRipple
+                  matTooltip="{{'question-wall.overview-question-tooltip' | translate}}">
+            <i>comment</i>
+            <p style="margin-left: 0.25em;">{{commentsCountQuestions}}</p>
+          </button>
+          <button ars-btn
+                  class="pseudo-button"
+                  [ngClass]="{'selected': hasFilter || period !== 'time-all'}"
+                  matRipple
+                  matTooltip="{{'question-wall.overview-questioners-tooltip' | translate}}">
+            <i>person</i>
+            <p style="margin-left: 0.25em;">{{commentsCountUsers}}</p>
+          </button>
           <button ars-btn [mat-menu-trigger-for]="sortMenu" matRipple aria-labelledby="sort-lbl">
             <i>sort</i>
             <p>{{'question-wall.sort' | translate}}</p>
           </button>
-          <button ars-btn [mat-menu-trigger-for]="timeMenu" matRipple aria-labelledby="filter-time">
+          <button ars-btn
+                  [mat-menu-trigger-for]="timeMenu"
+                  [ngClass]="{'selected': period !== 'time-all'}"
+                  matRipple
+                  aria-labelledby="filter-time">
             <i>access_time</i>
             <p>{{'question-wall.time-period' | translate}}</p>
           </button>
-          <button ars-btn [mat-menu-trigger-for]="filterMenu" matRipple aria-labelledby="filter-lbl">
+          <button ars-btn
+                  [mat-menu-trigger-for]="filterMenu"
+                  [ngClass]="{'selected': hasFilter &&
+                              (filterTitle === 'question-wall.filter-favorite' ||
+                              filterTitle === 'question-wall.filter-bookmark')}"
+                  matRipple
+                  aria-labelledby="filter-lbl">
             <i>filter_list</i>
             <p>Filter</p>
           </button>
-          <button ars-btn [mat-menu-trigger-for]="filterTagMenu" matRipple aria-labelledby="filter-tags-lbl">
+          <button ars-btn
+                  [disabled]="tags.length==0"
+                  [mat-menu-trigger-for]="filterTagMenu"
+                  [ngClass]="{'selected': hasFilter && filterTitle === '' && filterDesc !== ''}"
+                  matRipple
+                  aria-labelledby="filter-tags-lbl">
             <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
             <p>{{'question-wall.filter-tag' | translate}}</p>
           </button>
-          <button ars-btn (click)="openUserMap()" matRipple aria-labelledby="user-lbl">
+          <button ars-btn
+                  (click)="openUserMap()"
+                  [ngClass]="{'selected': hasFilter && filterTitle === 'question-wall.filter-user'}"
+                  matRipple
+                  aria-labelledby="user-lbl">
             <i>person_pin_circle</i>
             <p>{{'question-wall.filter-user'| translate}}</p>
           </button>
@@ -70,7 +113,16 @@
     <ars-fill style="overflow:hidden;" ars-flex-box>
       <ars-fill>
       </ars-fill>
-      <ars-row class="questionwall-present-box-outer">
+      <ars-row ars-flex-box height="400">
+        <ars-fill></ars-fill>
+        <ars-col ars-flex-box>
+          <ars-row *ngIf="commentFocus">
+            <p class="questionwall-present-meta-number">{{commentFocus.comment.number}}</p>
+          </ars-row>
+          <ars-fill></ars-fill>
+        </ars-col>
+      </ars-row>
+      <ars-row class="questionwall-present-box-outer" style="margin-top:-400px;">
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
@@ -80,7 +132,9 @@
             </ars-row>
             <ars-row>
               <ars-row class="bound" style="padding:16px 32px 16px 32px;box-sizing:border-box;max-width:100%;">
-                <markdown [ngStyle]="{'font-size':fontSize+'%'}" class="questionwall-present-markdown" [data]="commentFocus.comment.body"></markdown>
+                <app-view-comment-data [ngStyle]="{'font-size':fontSize+'%'}"
+                                     class="questionwall-present-markdown images"
+                                     [currentData]="commentFocus.comment.body"></app-view-comment-data>
               </ars-row>
             </ars-row>
             <ars-row [height]="50">
@@ -88,10 +142,11 @@
                 <ars-col ars-btn-wrp [xp]="32" [extra]="true" class="questionwall-comment-btn">
                   <button ars-btn (click)="likeComment(commentFocus)" matRipple>
                     <i>thumb_up</i>
-                    <p style="padding-left:22px;">{{commentFocus.comment.score}}</p>
+                    <p style="padding-left:22px;">{{commentFocus.comment.upvotes}}</p>
                   </button>
                   <button ars-btn (click)="dislikeComment(commentFocus)" matRipple>
                     <i>thumb_down</i>
+                    <p style="padding-left:22px;">{{commentFocus.comment.downvotes}}</p>
                   </button>
                 </ars-col>
                 <ars-fill></ars-fill>
@@ -156,7 +211,7 @@
         <ars-row *ngIf="!userSelection">
 
           <ars-fill *ngIf="(hasFilter?commentsFilter:commentsFilteredByTime).length==0"
-                   style="float:left;">
+                    style="float:left;">
             <p class="questionwall-present-introduction-desc">
               {{'question-wall.no-result' | translate}}
             </p>
@@ -165,7 +220,17 @@
           <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
                    class="questionwall-comment-anchor"
                    style="float:left;">
-            <ars-row style="box-sizing:border-box;padding:8px;">
+            <ars-row ars-flex-box height="170">
+              <ars-fill></ars-fill>
+              <ars-col ars-flex-box>
+                <ars-fill></ars-fill>
+                  <ars-row>
+                    <p class="questionwall-comment-number">{{comment.comment.number}}</p>
+                  </ars-row>
+                <ars-fill></ars-fill>
+              </ars-col>
+            </ars-row>
+            <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
               <ars-row
                 [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
                 style="border-radius:5px">
@@ -174,18 +239,19 @@
                          style="box-sizing:border-box;padding:16px;cursor:pointer">
                   <ars-col class="questionwall-comment-meta">
                     <i class="questionwall-icon">person_pin_circle</i>
-                    <p (click)="filterUser(comment);" class="questionwall-comment-user" matRipple>{{comment.comment.userNumber}}</p>
+                    <p (click)="filterUser(comment);" class="questionwall-comment-user"
+                       matRipple>{{comment.comment.userNumber}}</p>
                     <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
                   </ars-col>
                   <ars-col>
-                    <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
+                    <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
                   </ars-col>
                 </ars-row>
                 <ars-row
                   (click)="focusComment(comment)"
                   style="box-sizing:border-box;padding:0 16px;cursor:pointer">
                   <p class="questionwall-comment-body">
-                    <markdown [data]="comment.comment.body"></markdown>
+                    <app-view-comment-data class="images" [currentData]="comment.comment.body"></app-view-comment-data>
                   </p>
                 </ars-row>
                 <ars-row [height]="50">
@@ -193,14 +259,15 @@
                     <ars-col ars-btn-wrp [xp]="16" [extra]="true" class="questionwall-comment-btn">
                       <button ars-btn (click)="likeComment(comment)" matRipple>
                         <i>thumb_up</i>
-                        <p style="padding-left:4px;">{{comment.comment.score}}</p>
+                        <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
                       </button>
                       <button ars-btn (click)="dislikeComment(comment)" matRipple>
                         <i>thumb_down</i>
+                        <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
                       </button>
                     </ars-col>
                     <ars-fill (click)="focusComment(comment)" style="cursor:pointer"></ars-fill>
-                    <ars-col ars-btn-wrp [xp]="16" [extra]="true"*ngIf="comment.comment.tag">
+                    <ars-col ars-btn-wrp [xp]="16" [extra]="true" *ngIf="comment.comment.tag">
                       <button ars-btn (click)="filterTag(comment.comment.tag);" matRipple>
                         <mat-icon class="icon-svg" svgIcon="comment_tag"></mat-icon>
                         <p>{{comment.comment.tag}}</p>
@@ -233,7 +300,8 @@
                 <p>{{'question-wall.filter-user-count' | translate}}</p>
               </button>
               <button ars-btn mat-ripple *ngFor="let user of userList" (click)="applyUserMap(user[1])">
-                <p>{{user[1]}}</p><p>{{user[0]}}</p>
+                <p>{{user[1]}}</p>
+                <p>{{user[0]}}</p>
               </button>
             </ars-row>
           </ars-style-btn-material>
@@ -243,37 +311,42 @@
 
     </ars-col>
   </ars-fill>
-    <ars-row [height]="50" class="questionwall-footer">
-      <ars-style-btn-material style="width:100%;" ars-flex-box>
-        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-          <button ars-btn (click)="toggleFocusIncommingComments()" matRipple aria-labelledby="autofocus-on-lbl">
-            <ng-container *ngIf="focusIncommingComments">
-              <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
-              <p>{{'question-wall.auto-renew-off' | translate}}</p>
-            </ng-container>
-            <ng-container *ngIf="!focusIncommingComments">
-              <i>{{'question-wall.auto-renew-on-icon' | translate}}</i>
-              <p>{{'question-wall.auto-renew-on' | translate}}</p>
-            </ng-container>
-          </button>
-        </ars-col>
-        <ars-fill></ars-fill>
-        <ars-col style="display:flex;flex-direction:column;justify-content:center">
-          <p *ngIf="unreadComments" style="line-height:18px;" class="questionwall-text-color">{{unreadComments}}</p>
-        </ars-col>
-        <ars-col ars-btn-wrp [xp]="16" [extra]="true">
-          <button ars-btn (click)="prevComment()" matRipple aria-labelledby="prev-comment-lbl">
-            <i>{{'question-wall.prev-comment-icon' | translate}}</i>
-            <p>{{'question-wall.prev-comment' | translate}}</p>
-          </button>
-          <button ars-btn (click)="nextComment()" matRipple aria-labelledby="next-comment-lbl">
-            <i>{{'question-wall.next-comment-icon' | translate}}</i>
-            <p>{{'question-wall.next-comment' | translate}}</p>
-          </button>
-        </ars-col>
-      </ars-style-btn-material>
-    </ars-row>
+  <ars-row [height]="50" class="questionwall-footer">
+    <ars-style-btn-material style="width:100%;" ars-flex-box>
+      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+        <button ars-btn (click)="toggleFocusIncommingComments()" matRipple aria-labelledby="autofocus-on-lbl">
+          <ng-container *ngIf="focusIncommingComments">
+            <i>{{'question-wall.auto-renew-off-icon' | translate}}</i>
+            <p>{{'question-wall.auto-renew-off' | translate}}</p>
+          </ng-container>
+          <ng-container *ngIf="!focusIncommingComments">
+            <i>{{'question-wall.auto-renew-on-icon' | translate}}</i>
+            <p>{{'question-wall.auto-renew-on' | translate}}</p>
+          </ng-container>
+        </button>
+      </ars-col>
+      <ars-fill></ars-fill>
+      <ars-col style="display:flex;flex-direction:column;justify-content:center">
+        <p *ngIf="unreadComments" style="line-height:18px;" class="questionwall-text-color">{{unreadComments}}</p>
+      </ars-col>
+      <ars-col ars-btn-wrp [xp]="16" [extra]="true">
+        <button ars-btn (click)="prevComment()" matRipple aria-labelledby="prev-comment-lbl">
+          <i>{{'question-wall.prev-comment-icon' | translate}}</i>
+          <p>{{'question-wall.prev-comment' | translate}}</p>
+        </button>
+        <button ars-btn (click)="nextComment()" matRipple aria-labelledby="next-comment-lbl">
+          <i>{{'question-wall.next-comment-icon' | translate}}</i>
+          <p>{{'question-wall.next-comment' | translate}}</p>
+        </button>
+      </ars-col>
+    </ars-style-btn-material>
+  </ars-row>
+  <app-active-user *ngIf="room" [room]="room"
+                   [iconColor]="'#FFFFFF'"
+                   [backgroundColor]="'#FFFFFF'"
+                   [foregroundColor]="'#000000'"></app-active-user>
 </ars-screen>
+
 
 <div class="visually-hidden">
   <div id="back-lbl">{{'question-wall.back-lbl' | translate}}</div>

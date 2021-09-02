@@ -1,0 +1,127 @@
+@startuml
+'https://plantuml.com/activity-diagram-beta
+
+start
+partition "Comment List"
+    :create\nquestion;
+    partition "Create question dialog"
+        :Input;
+        repeat
+            switch (options)
+                case ()
+                    :   select\nlanguage;
+                case ()
+                    :select\n  tag;
+                case ()
+                    switch (suggestions\n    active?)
+                        case( no)
+                            :spellcheck;
+                            switch ()
+                                case ()
+                                    :     use\nsuggestion;
+                                case ()
+                            endswitch
+                        case ( yes)
+                          :     use\nsuggestion;
+                    endswitch
+                case ()
+                    switch ()
+                        case ()
+                            :cancel;
+                        case ()
+                            :    click\noutside of\n  window;
+                    endswitch
+                    stop
+                case (\n\n\n\n\n\n if\n preview\n selected)
+                    :input;
+                case ( if text\n added\n and\n input view\n selected)
+                    :preview;
+                case ()
+                    switch (empty\ntext\nfield?)
+                        case ( yes)
+                            :add\ntext;
+
+                        case ( no)
+                            switch ()
+                                case ()
+                                    :add\ntext;
+                                case ()
+                                    :edit\ntext;
+                                case ()
+                            endswitch
+                    endswitch
+                case ()
+            endswitch
+        repeat while (continue\n editing)
+
+        :send;
+        note left
+        only if text is added
+        end note
+        partition "SpaCy dialog" {
+            if(    supported\n     language\ndetected or set) then (yes)
+                if (nouns included?) then (yes)
+                    repeat
+                        switch(options)
+                            case ()
+                                :select\deselect\na keyword;
+                            case ()
+                                :select\deselect\n all keywords;
+                            case ()
+                                :     edit\n a keyword;
+                                :save;
+                            case ()
+                        endswitch
+                    repeat while (continue\n setting)
+                else (no)
+                endif
+            else (no)
+                if(add keyword manually?)
+                    repeat
+                        :add keyword;
+                        switch (options)
+                            case ()
+                                :select\deselect\na keyword;
+                            case ()
+                                :select\deselect\n all keywords;
+                            case ()
+                                :      edit\n a keyword;
+                                :save;
+                            case()
+                        endswitch
+                    repeat while (continue\n setting)
+                else
+                endif
+            endif
+            if(options)
+                :   send\n(publish\nquestion);
+            else
+                :cancel;
+            endif
+            stop
+        }
+    }
+}
+
+legend right
+  |<img:https://git.thm.de/arsnova/arsnova-lite/raw/staging/src/assets/icons/Logo_frag_jetzt_128x128.png> |= \n\n »frag.jetzt« |
+  | Produktion | [[https://frag.jetzt]] |
+  | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+  | Staging Server | [[https://staging.frag.jetzt]] |
+  | UML-Tool| PlantUML v5.5.1|
+  | Ersteller| Lujain Abou Assali, Dario Gloc|
+  | Letzte Änderung| 20.06.2021 |
+end legend
+/'
+legend right
+ |= \n          <img:https://git.thm.de/arsnova/frag.jetzt/-/raw/staging/src/assets/icons/favicon-32x32.png> |= \n [[https://git.thm.de/arsnova/frag.jetzt frag.jetzt]] \n\n Technische Hochschule Mittelhessen |
+ | Repository | [[https://git.thm.de/arsnova/frag.jetzt]] |
+ | Staging Server | [[https://staging.frag.jetzt]] |
+ | UML-Tool| PlantUML v5.5.1|
+ | Modellversion| 1.0|
+ | Erstelldatum| 17.06.2021|
+ | Ersteller| Lujain Abou Assali, Dario Gloc|
+ | Letzte Änderung| 17.06.2021|
+end legend
+'/
+@enduml

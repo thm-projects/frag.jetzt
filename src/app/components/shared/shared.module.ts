@@ -28,6 +28,30 @@ import { MatRippleModule } from '@angular/material/core';
 import { QRCodeModule } from 'angularx-qrcode';
 import { MotdDialogComponent } from './_dialogs/motd-dialog/motd-dialog.component';
 import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-message.component';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { CloudConfigurationComponent } from './_dialogs/cloud-configuration/cloud-configuration.component';
+import { ColorPickerModule } from 'ngx-color-picker';
+import { TopicCloudConfirmDialogComponent } from './_dialogs/topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
+import { TopicCloudAdministrationComponent } from './_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import { TopicDialogCommentComponent } from './dialog/topic-dialog-comment/topic-dialog-comment.component';
+import { TopicCloudFilterComponent } from './_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { SpacyDialogComponent } from './_dialogs/spacy-dialog/spacy-dialog.component';
+import { TagCloudPopUpComponent } from './tag-cloud/tag-cloud-pop-up/tag-cloud-pop-up.component';
+import { WorkerDialogComponent } from './_dialogs/worker-dialog/worker-dialog.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ActiveUserComponent } from './overlay/active-user/active-user.component';
+import { AutofocusDirective } from '../../directives/autofocus.directive';
+import { JoyrideModule } from 'ngx-joyride';
+import { TagCloudComponent } from './tag-cloud/tag-cloud.component';
+import { JoyrideTemplateComponent } from './_dialogs/joyride-template/joyride-template.component';
+import { JoyrideTemplateDirective } from '../../directives/joyride-template.directive';
+import { MatSpinnerOverlayComponent } from './mat-spinner-overlay/mat-spinner-overlay.component';
+import { WriteCommentComponent } from './write-comment/write-comment.component';
+import { CustomMarkdownComponent } from './custom-markdown/custom-markdown.component';
+import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.directive';
+import { QuillModule } from 'ngx-quill';
+import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
+import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 
 @NgModule({
   imports: [
@@ -37,7 +61,12 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
     MatRippleModule,
     ArsModule,
     MarkdownModule,
-    QRCodeModule
+    QRCodeModule,
+    TagCloudModule,
+    ColorPickerModule,
+    DragDropModule,
+    JoyrideModule.forChild(),
+    QuillModule
   ],
   declarations: [
     RoomJoinComponent,
@@ -52,6 +81,7 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
     UserBonusTokenComponent,
     RemindOfTokensComponent,
     LoginComponent,
+    CloudConfigurationComponent,
     CommentComponent,
     CreateCommentComponent,
     PresentCommentComponent,
@@ -61,7 +91,25 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
     RemoveFromHistoryComponent,
     CommentAnswerComponent,
     MotdDialogComponent,
-    MotdMessageComponent
+    MotdMessageComponent,
+    TopicCloudConfirmDialogComponent,
+    TopicCloudAdministrationComponent,
+    TopicDialogCommentComponent,
+    TopicCloudFilterComponent,
+    SpacyDialogComponent,
+    TagCloudComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent,
+    WorkerDialogComponent,
+    AutofocusDirective,
+    JoyrideTemplateComponent,
+    JoyrideTemplateDirective,
+    MatSpinnerOverlayComponent,
+    WriteCommentComponent,
+    CustomMarkdownComponent,
+    ScrollIntoViewDirective,
+    ViewCommentDataComponent,
+    DeepLDialogComponent
   ],
   exports: [
     RoomJoinComponent,
@@ -76,7 +124,17 @@ import { MotdMessageComponent } from './_dialogs/motd-dialog/motd-message/motd-m
     PresentCommentComponent,
     CommentComponent,
     DialogActionButtonsComponent,
-    UserBonusTokenComponent
+    UserBonusTokenComponent,
+    CloudConfigurationComponent,
+    TagCloudPopUpComponent,
+    ActiveUserComponent,
+    MatSpinnerOverlayComponent,
+    JoyrideTemplateDirective,
+    AutofocusDirective,
+    CustomMarkdownComponent,
+    ScrollIntoViewDirective,
+    ViewCommentDataComponent,
+    WriteCommentComponent
   ]
 })
 export class SharedModule {

@@ -1,0 +1,45 @@
+<div mat-dialog-content
+     *ngIf="editRoom">
+  <h2 class="oldtypo-h2">{{'room-page.profanity-heading' | translate }}</h2>
+
+  <div fxLayout="column">
+
+    <div fxLayout="row">
+      <p class="oldtypo-p">
+        <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)"
+                          [(ngModel)]="profanityCheck">
+          {{ 'room-page.profanity-filter' | translate }}
+        </mat-slide-toggle>
+      </p>
+    </div>
+
+    <div fxLayout="row">
+      <p class="oldtypo-p">
+        <mat-slide-toggle *ngIf="profanityCheck"
+                          (change)="showMessage('only-specific-language-will-be-filtered', $event.checked)"
+                          [(ngModel)]="censorLanguageSpecificCheck">
+          {{ 'room-page.language-specific-filter' | translate }}
+        </mat-slide-toggle>
+      </p>
+    </div>
+
+    <div fxLayout="row">
+      <p class="oldtypo-p">
+        <mat-slide-toggle *ngIf="profanityCheck"
+                          (change)="showMessage('partial-words-will-be-filtered', $event.checked)"
+                          [(ngModel)]="censorPartialWordsCheck">
+          {{ 'room-page.partial-words-filter' | translate }}
+        </mat-slide-toggle>
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="room-page"
+  confirmButtonLabel="update"
+
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>

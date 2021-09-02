@@ -4,10 +4,10 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: 350px;
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
 }
 
-mat-card-content>:first-child {
+mat-card-content > :first-child {
   margin-top: 5%;
 }
 
@@ -16,14 +16,14 @@ mat-card-content>:first-child {
   height: 75%;
   margin-bottom: 3%;
   border-radius: 0;
-  color: var(--primary)!important;
+  color: var(--primary) !important;
 }
 
 .main-icon {
   font-size: 80px;
   height: 80px;
   width: 80px;
-  line-height: 100%!important;
+  line-height: 100% !important;
 }
 
 .desktop {
@@ -42,30 +42,29 @@ button {
 }
 
 
-
 h3 {
   margin: 5% 0 5% 0;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-card-header {
-  min-height: 80px!important;
-  height: 12%!important;
+  min-height: 80px !important;
+  height: 12% !important;
 }
 
 mat-card-title {
   height: 40%;
   min-width: 200px;
-  color: var(--on-surface)!important;
+  color: var(--on-surface) !important;
 }
 
 mat-card-subtitle {
   height: 20%;
-  color: var(-on--surface)!important;
+  color: var(-on--surface) !important;
 }
 
 mat-expansion-panel {
-  background-color: var(--surface)!important;
+  background-color: var(--surface) !important;
   min-width: 200px;
   hyphens: auto;
 }

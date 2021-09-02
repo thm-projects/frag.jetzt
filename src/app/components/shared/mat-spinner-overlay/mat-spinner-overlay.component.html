@@ -1,0 +1,18 @@
+<ng-container *ngIf="overlay;else progressSpinner">
+  <div class="overlay {{color}}">
+    <div class="center">
+      <ng-template [ngTemplateOutlet]="progressSpinner"></ng-template>
+    </div>
+  </div>
+</ng-container>
+<ng-template #progressSpinner>
+  <mat-progress-spinner
+    #containerRef
+    [ngClass]="{'inline-spinner': !overlay}"
+    class="{{color}}-spinner"
+    [diameter]="diameter"
+    [mode]="mode"
+    [strokeWidth]="strokeWidth"
+    [value]="value">
+  </mat-progress-spinner>
+</ng-template>

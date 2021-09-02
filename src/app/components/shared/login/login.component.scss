@@ -101,3 +101,7 @@ h3 {
 .or {
   height: 30px;
 }
+
+::ng-deep .mat-form-field .mat-form-field-infix {
+  max-width: 500px;
+}

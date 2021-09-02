@@ -1,0 +1,236 @@
+button {
+  min-width: 80px;
+}
+
+.mat-flat-button.mat-primary.mat-button-disabled, .mat-flat-button.mat-accent.mat-button-disabled,
+.mat-flat-button.mat-warn.mat-button-disabled, .mat-flat-button.mat-button-disabled.mat-button-disabled,
+.mat-raised-button.mat-primary.mat-button-disabled, .mat-raised-button.mat-accent.mat-button-disabled,
+.mat-raised-button.mat-warn.mat-button-disabled, .mat-raised-button.mat-button-disabled.mat-button-disabled,
+.mat-fab.mat-primary.mat-button-disabled, .mat-fab.mat-accent.mat-button-disabled,
+.mat-fab.mat-warn.mat-button-disabled, .mat-fab.mat-button-disabled.mat-button-disabled,
+.mat-mini-fab.mat-primary.mat-button-disabled, .mat-mini-fab.mat-accent.mat-button-disabled,
+.mat-mini-fab.mat-warn.mat-button-disabled, .mat-mini-fab.mat-button-disabled.mat-button-disabled {
+  display: none;
+}
+
+.spell-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-top: 1rem;
+  animation: shake 1.5s;
+}
+
+.spellcheck {
+  @media screen and (max-width: 500px) {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.spinner-container {
+  font-size: 14px;
+  margin-top: -2px;
+}
+
+#answer-input {
+  line-height: 120%;
+  color: var(--on-surface);
+  caret-color: var(--on-surface);
+  -webkit-appearance: textarea;
+  min-height: 50px;
+  cursor: text;
+  word-wrap: break-word;
+  margin-top: 15px;
+  width: 100%;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+::ng-deep {
+  .mat-form-field-label {
+    color: var(--on-surface) !important;
+  }
+
+  .mat-form-field-underline, .mat-form-field-ripple {
+    background-color: var(--on-surface) !important;
+  }
+
+  .mat-tab-body-content {
+    height: auto !important;
+    overflow-x: hidden !important;
+  }
+}
+
+mat-hint {
+  color: var(--on-surface) !important;
+}
+
+.placeholder {
+  color: var(--on-surface);
+}
+
+.lang-confidence {
+  color: var(--on-cancel);
+  background-color: var(--cancel);
+  font-size: 16px;
+  padding: 5px;
+}
+
+::ng-deep .mat-form-field .mat-form-field-infix {
+  max-width: 500px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.comment-write-container {
+  max-height: calc(100vh - 250px);
+}
+
+.filler-row {
+  margin-top: 8px;
+}
+
+/*
+Styling for tag selection
+ */
+
+#tagSelect {
+  display: inline;
+}
+
+.tag-form-field {
+  @media screen and (max-width: 500px) {
+    width: 70px;
+  }
+  z-index: 10000;
+}
+
+.anchor-right {
+  @media screen and (max-width: 500px) {
+    width: 70px;
+    left: calc(100% - 70px);
+  }
+  width: 200px;
+  height: 50px;
+  position: relative;
+  left: calc(100% - 200px);
+  top: 0;
+}
+
+.anchor-wrp {
+  width: calc(100% - 200px);
+  display: inline-block;
+  height: 0;
+  position: relative;
+  left: 0;
+  top: 0;
+}
+
+/*
+Styling for language select
+ */
+
+#langSymbol {
+  margin-right: 12px;
+}
+
+.select-list {
+  width: 18px;
+  margin-left: 12px;
+}
+
+.lang-selection {
+  vertical-align: middle;
+  margin-right: 0;
+  width: 200px;
+  display: inline-block;
+}
+
+/*
+Styling for tag selection and language selection
+ */
+
+::ng-deep {
+  .mat-select-arrow-wrapper .mat-select-arrow {
+    color: var(--on-surface);
+  }
+
+  .mat-select-value {
+    width: auto !important;
+  }
+
+  .mat-select-value-text {
+    color: var(--on-surface);
+    caret-color: var(--on-surface);
+  }
+
+  .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: var(--primary);
+  }
+
+  .mat-select-panel {
+    background: var(--dialog);
+  }
+}
+
+.mat-option {
+  color: var(--on-surface);
+}
+
+/*
+Suggestion classes from Languagetool
+ */
+$borderWidth: 2px;
+$borderOffset: 2px;
+
+::ng-deep #editorErrorLayer {
+  z-index: -1;
+
+  > span {
+    display: inline-block;
+    width: var(--width);
+    margin-right: calc(-1 * var(--width));
+    height: calc(var(--height) - #{$borderWidth + $borderOffset});
+    margin-top: calc(-1 * var(--height) + #{$borderWidth + $borderOffset});
+    transform: translate(var(--left), calc(var(--top) - #{$borderOffset}));
+    border-bottom: $borderWidth solid red;
+  }
+}
+
+::ng-deep .dropdownBlock {
+  display: none;
+  width: 160px;
+  height: fit-content;
+  margin-left: -80px;
+  background-color: var(--surface);
+  border-style: solid;
+  border-color: var(--primary);
+  color: var(--on-surface);
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: fixed;
+  z-index: 1000;
+  bottom: 100%;
+
+  > .suggestions {
+    color: var(--on-surface);
+    display: block;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  > .error-message {
+    color: var(--on-surface);
+    display: block;
+    text-align: center;
+  }
+}

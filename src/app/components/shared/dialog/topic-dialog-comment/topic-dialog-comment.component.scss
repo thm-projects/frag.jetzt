@@ -1,0 +1,38 @@
+mat-panel-description, mat-panel-title, p, input {
+  color: var(--on-background);
+}
+
+mat-icon {
+  fill: currentColor;
+}
+
+label {
+color: var(--on-surface)
+}
+
+button{
+  color: var(--primary);
+  background: none;
+  font-weight: bold;
+  border: 0px solid;
+  padding: 0%;
+}
+
+button:focus{
+  outline: none;
+}
+
+button:hover{
+  text-decoration: underline;
+}
+
+span {
+  margin-left: 0px;
+  padding-left: 0px;
+}
+
+mark {
+  background: none;
+  color: var(--primary);
+}
+

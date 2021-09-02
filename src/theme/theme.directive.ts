@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 
 export class ThemeDirective implements OnInit, OnDestroy {
 
-  private themeName = 'dark';
+  private themeName;
   private themServiceSubscription: Subscription;
 
   constructor(private elementRef: ElementRef,
@@ -20,7 +20,6 @@ export class ThemeDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.updateTheme(this.themeName);
     this.themService.getTheme()
       .subscribe(themeName => {
         this.themeName = themeName;
@@ -29,7 +28,7 @@ export class ThemeDirective implements OnInit, OnDestroy {
   }
 
   updateTheme(themeName: string) {
-    const them = themes[ themeName ];
+    const them = themes[themeName];
     for (const key in them) {
       if (them.hasOwnProperty(key)) {
         this.renderer.setProperty(this.elementRef.nativeElement, key, them[key]);

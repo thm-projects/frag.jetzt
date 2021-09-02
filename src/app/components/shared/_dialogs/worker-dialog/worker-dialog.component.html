@@ -1,0 +1,65 @@
+<div id="worker-content">
+  <div id="header" (window:beforeunload)="checkTasks($event)">
+    <details *ngIf="!inlined">
+      <summary>
+        <span>{{'worker-dialog.running' | translate}} # {{getActiveRoomCount()}}</span>
+        <span><button id="btn_hide" (click)="close()">x</button></span>
+      </summary>
+      <div mat-dialog-content>
+        <div class="entry" *ngFor="let task of getRooms().values()">
+          <div class="entryRow">
+            <mat-icon svgIcon="meeting_room" matTooltip="{{'worker-dialog.room-name' | translate}}"></mat-icon>
+            <span>{{ task.room.name }}</span>
+            <span *ngIf="task.error" style="color: var(--red)">{{task.error}}</span>
+          </div>
+          <div *ngIf="!task.error" class="entryRow">
+            <mat-icon matTooltip="{{'worker-dialog.comments' | translate}}">comment</mat-icon>
+            <span>{{task.statistics.succeeded}}/{{ task.statistics.length}}</span>
+            <mat-icon *ngIf="task.statistics.badSpelled" style="color: darkorange"
+                      matTooltip="{{'worker-dialog.bad-spelled' | translate}}">warning
+            </mat-icon>
+            <span *ngIf="task.statistics.badSpelled">
+              {{task.statistics.badSpelled}}
+            </span>
+          </div>
+          <div *ngIf="!task.error && task.statistics.failed" class="entryRow">
+            <mat-icon style="color: var(--red)"
+                      matTooltip="{{'worker-dialog.failed' | translate}}">error
+            </mat-icon>
+            <span>
+              {{task.statistics.failed}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </details>
+    <div mat-dialog-content style="padding-top: 0.75em;" *ngIf="inlined">
+      <h4 *ngIf="getRooms().length">{{'worker-dialog.inline-header' | translate}} ({{getActiveRoomCount()}}):</h4>
+      <div class="entry" *ngFor="let task of getRooms().values()">
+        <div class="entryRow">
+          <mat-icon svgIcon="meeting_room" matTooltip="{{'worker-dialog.room-name' | translate}}"></mat-icon>
+          <span>{{ task.room.name }}</span>
+          <span *ngIf="task.error" style="color: var(--red)">{{task.error}}</span>
+        </div>
+        <div *ngIf="!task.error" class="entryRow">
+          <mat-icon matTooltip="{{'worker-dialog.comments' | translate}}">comment</mat-icon>
+          <span>{{task.statistics.succeeded}}/{{ task.statistics.length}}</span>
+          <mat-icon *ngIf="task.statistics.badSpelled" style="color: darkorange"
+                    matTooltip="{{'worker-dialog.bad-spelled' | translate}}">warning
+          </mat-icon>
+          <span *ngIf="task.statistics.badSpelled">
+              {{task.statistics.badSpelled}}
+            </span>
+        </div>
+        <div *ngIf="!task.error && task.statistics.failed" class="entryRow">
+          <mat-icon style="color: var(--red)"
+                    matTooltip="{{'worker-dialog.failed' | translate}}">error
+          </mat-icon>
+          <span>
+              {{task.statistics.failed}}
+            </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

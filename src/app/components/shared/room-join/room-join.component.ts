@@ -74,7 +74,7 @@ export class RoomJoinComponent implements OnInit {
   joinRoom(id: string): void {
     if (!this.sessionCodeFormControl.hasError('required') && !this.sessionCodeFormControl.hasError('minlength')) {
       if (!this.user) {
-        this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
+        this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => {
           this.getRoom(id);
         });
       } else {
@@ -93,6 +93,7 @@ export class RoomJoinComponent implements OnInit {
 
   addAndNavigate() {
     if (this.user.id === this.room.ownerId) {
+      this.authenticationService.setAccess(this.room.shortId, UserRole.CREATOR);
       this.router.navigate([`/creator/room/${this.room.shortId}/comments`]);
     } else {
       this.roomService.addToHistory(this.room.id);

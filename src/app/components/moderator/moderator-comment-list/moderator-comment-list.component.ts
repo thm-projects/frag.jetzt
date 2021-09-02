@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { Message } from '@stomp/stompjs';
 import { MatDialog } from '@angular/material/dialog';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
+import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { User } from '../../../models/user';
 import { Vote } from '../../../models/vote';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -15,14 +15,14 @@ import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { EventService } from '../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { AppComponent } from '../../../app.component';
-import { Period } from '../../shared/comment-list/comment-list.component';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
 import { Export } from '../../../models/export';
-import { CreateCommentComponent } from '../../shared/_dialogs/create-comment/create-comment.component';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { CommentFilter, Period } from '../../../utils/filter-options';
+
 
 @Component({
   selector: 'app-moderator-comment-list',
@@ -63,7 +63,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   search = false;
   searchPlaceholder = '';
   periodsList = Object.values(Period);
-  period: Period = Period.TWOWEEKS;
+  period: Period = Period.twoWeeks;
   fromNow: number;
   headerInterface = null;
 
@@ -72,7 +72,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     public dialog: MatDialog,
     protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService,
+    private wsCommentService: WsCommentService,
     protected roomService: RoomService,
     public eventService: EventService,
     private router: Router,
@@ -189,6 +189,18 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
   }
 
+  private getCurrentFilter() {
+    const filter = new CommentFilter();
+    filter.filterSelected = this.currentFilter;
+    filter.periodSet = this.period;
+
+    if (filter.periodSet === Period.fromNow) {
+      filter.timeStampNow = new Date().getTime();
+    }
+
+    CommentFilter.currentFilter = filter;
+  }
+
   checkScroll(): void {
     const currentScroll = document.documentElement.scrollTop;
     this.scroll = currentScroll >= 65;
@@ -275,7 +287,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
                     this.comments[i].score = <number>value;
                     break;
                   case this.ack:
-                    // tslint:disable-next-line:no-shadowed-variable
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
                     const isNowAck = <boolean>value;
                     if (isNowAck) {
                       this.comments = this.comments.filter(function (el) {
@@ -313,6 +325,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         c.id = payload.id;
         c.timestamp = payload.timestamp;
         c.creatorId = payload.creatorId;
+        c.keywordsFromQuestioner = payload.keywordsFromQuestioner ?
+                                   JSON.parse(payload.keywordsFromQuestioner as unknown as string) : null;
         c.userNumber = this.commentService.hashCode(c.creatorId);
         this.comments = this.comments.concat(c);
         break;
@@ -395,35 +409,36 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
-    if (this.period !== Period.ALL) {
+    if (this.period !== Period.all) {
       switch (this.period) {
-        case Period.FROMNOW:
+        case Period.fromNow:
           if (!this.fromNow) {
             this.fromNow = new Date().getTime();
           }
           break;
-        case Period.ONEHOUR:
+        case Period.oneHour:
           periodInSeconds = hourInSeconds;
           break;
-        case Period.THREEHOURS:
+        case Period.threeHours:
           periodInSeconds = hourInSeconds * 2;
           break;
-        case Period.ONEDAY:
+        case Period.oneDay:
           periodInSeconds = hourInSeconds * 24;
           break;
-        case Period.ONEWEEK:
+        case Period.oneWeek:
           periodInSeconds = hourInSeconds * 168;
           break;
-        case Period.TWOWEEKS:
+        case Period.twoWeeks:
           periodInSeconds = hourInSeconds * 336;
           break;
       }
       this.commentsFilteredByTime = this.comments
         .filter(c => new Date(c.timestamp).getTime() >=
-          (this.period === Period.FROMNOW ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
+          (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
       this.commentsFilteredByTime = this.comments;
     }
+
     this.filterComments(this.currentFilter);
   }
 }

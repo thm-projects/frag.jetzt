@@ -5,6 +5,7 @@ import { HomePageComponent } from './components/home/home-page/home-page.compone
 import { UserHomeComponent } from './components/home/user-home/user-home.component';
 import { ImprintComponent } from './components/home/_dialogs/imprint/imprint.component';
 import { DataProtectionComponent } from './components/home/_dialogs/data-protection/data-protection.component';
+import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 
 const routes: Routes = [
   {
@@ -29,6 +30,10 @@ const routes: Routes = [
     component: DataProtectionComponent
   },
   {
+    path: 'quiz',
+    component: QuizNowComponent
+  },
+  {
     path: 'creator',
     loadChildren: () => import('./components/creator/creator.module').then(m => m.CreatorModule)
   },
@@ -49,7 +54,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })
   ],
   exports: [
     RouterModule

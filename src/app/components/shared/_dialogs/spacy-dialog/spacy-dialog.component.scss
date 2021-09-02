@@ -1,0 +1,140 @@
+.mat-list-base[dense] .mat-list-item, .list-item {
+  font-size: 13px;
+  height: 40px !important;
+}
+
+.keywords-list {
+  max-height: 340px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  overflow: auto;
+  padding-top: 0 !important;
+}
+
+.first-keyword {
+  border-top: 1px solid var(--surface);
+  box-sizing: border-box;
+}
+
+.keywords-even, .keywords-alternate {
+  background-color: var(--dialog);
+  border-bottom: 1px solid var(--surface);
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-left: 3px solid var(--primary);
+  border-right: 1px solid var(--primary);
+  box-sizing: border-box;
+}
+
+.keyword-selected {
+  background: var(--surface);
+  box-shadow: inset -2px 0 0 1px var(--primary);
+}
+
+.keyword-span {
+  color: var(--on-surface) !important;
+  opacity: 1 !important;
+}
+
+::ng-deep .mat-checkbox-checked .mat-checkbox-background {
+  background: var(--primary) !important;
+}
+
+.mat-checkbox-frame {
+  color: var(--secondary);
+}
+
+:focus {
+  outline: none;
+  outline-offset: 8px;
+}
+
+.lang-selection {
+  vertical-align: middle;
+  margin-right: 0;
+}
+
+.select-all-label {
+  padding-left: 15px;
+  cursor: pointer;
+}
+
+.manual-input {
+  background-color: transparent;
+  border: 1px solid var(--on-dialog);
+  padding: 5px;
+  border-radius: 5px;
+  color: var(--on-dialog);
+  width: 100%
+}
+
+.manual-input-title {
+  margin-top: 15px;
+}
+
+.select-list {
+  width: calc(100% - 24px);
+}
+
+.keywords-actions {
+  white-space: nowrap;
+  padding-left: 5px;
+  margin-left: auto;
+  color: var(--on-surface);
+}
+
+.lang-btn {
+  width: 100%;
+}
+
+.keywords-actions-selected {
+  color: var(--on-surface);
+}
+
+.isEditing {
+  background: var(--primary);
+  height: 22px;
+  border-radius: 5px;
+  color: var(--on-primary);
+  border: 1px solid var(--on-primary);
+}
+
+.edit-accept {
+  color: var(--on-surface);
+}
+
+.select-all-section {
+  vertical-align: middle;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.select-all-label {
+  padding-left: 15px;
+}
+
+.select-all-icon {
+  float: left;
+  padding-left: 16px;
+}
+
+.select-all-checkbox {
+  float: right;
+  padding-right: 3px;
+}
+
+.mat-select {
+  padding-left: 14px;
+}
+
+::ng-deep .mat-select-panel {
+  background: var(--dialog);
+}
+
+.mat-option.mat-active {
+  color: var(--primary);
+}
+
+.mat-option {
+  color: var(--on-surface);
+}

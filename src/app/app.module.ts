@@ -3,8 +3,8 @@ import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
 import { AppRoutingModule } from './app-routing.module';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/http/user.service';
 import { NotificationService } from './services/util/notification.service';
 import { AuthenticationService } from './services/http/authentication.service';
@@ -33,7 +33,6 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { ModeratorService } from './services/http/moderator.service';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { DemoVideoComponent } from './components/home/_dialogs/demo-video/demo-video.component';
 import { HomeCreatorPageComponent } from './components/home/home-creator-page/home-creator-page.component';
@@ -58,9 +57,19 @@ import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
 import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
-import { HttpClientModule } from '@angular/common/http';
 import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
-import { MatomoModule } from 'ngx-matomo';
+import { MatomoModule } from 'ngx-matomo-v9';
+import { TagCloudModule } from 'angular-tag-cloud-module';
+import { SpacyService } from './services/http/spacy.service';
+import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
+import { JoyrideModule } from 'ngx-joyride';
+import { QuillModule } from 'ngx-quill';
+
+import 'prismjs';
+import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
+import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
+import 'katex/dist/katex.min.js';
+import 'emoji-toolkit/lib/js/joypixels.min.js';
 
 export function dialogClose(dialogResult: any) {
 }
@@ -96,7 +105,8 @@ export function initializeApp(appConfig: AppConfig) {
     DemoDeComponent,
     DemoEnComponent,
     HelpEnComponent,
-    OverlayComponent
+    OverlayComponent,
+    QuizNowComponent
   ],
   imports: [
     MatomoModule,
@@ -107,6 +117,7 @@ export function initializeApp(appConfig: AppConfig) {
     SharedModule,
     ThemeModule,
     MatIconModule,
+    MatDialogModule,
     HttpClientModule,
     CreatorModule,
     ModeratorModule,
@@ -115,7 +126,13 @@ export function initializeApp(appConfig: AppConfig) {
       markedOptions: {
         provide: MarkedOptions,
         useValue: {
-          sanitize: true
+          pedantic: false,
+          gfm: true,
+          breaks: true,
+          sanitize: false,
+          smartLists: true,
+          smartypants: true,
+          xhtml: false
         }
       }
     }),
@@ -128,7 +145,10 @@ export function initializeApp(appConfig: AppConfig) {
       },
       isolate: true
     }),
-    ArsModule
+    ArsModule,
+    TagCloudModule,
+    JoyrideModule.forRoot(),
+    QuillModule.forRoot()
   ],
   providers: [
     /*AppConfig,
@@ -158,6 +178,7 @@ export function initializeApp(appConfig: AppConfig) {
     BonusTokenService,
     CustomIconService,
     WsConnectorService,
+    SpacyService,
     {
       provide: MatDialogRef,
       useValue: {

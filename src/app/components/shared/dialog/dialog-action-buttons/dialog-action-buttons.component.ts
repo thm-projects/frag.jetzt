@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 /**
  * Available confirm button types.
@@ -16,6 +16,16 @@ export enum DialogConfirmActionButtonType {
 })
 export class DialogActionButtonsComponent implements OnInit {
 
+  /**
+   * gray out confirm button
+   */
+  @Input() confirmButtonDisabled: boolean = false
+
+  /**
+   * gray out cancel button
+   */
+  @Input() cancelButtonDisabled: boolean = false
+
   @Input() showDivider = true;
 
   /**
@@ -23,11 +33,21 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() buttonsLabelSection: string;
 
+  /**
+   * Icon for confirm.
+   */
+  @Input() buttonIcon: string;
+
 
   /**
    * The i18n label identifier of the confirm button.
    */
   @Input() confirmButtonLabel: string;
+
+  /**
+   * The i18n label identifier of the confirm button.
+   */
+  @Input() cancelButtonLabel = 'cancel';
 
 
   /**
@@ -53,6 +73,8 @@ export class DialogActionButtonsComponent implements OnInit {
    */
   @Input() spacing = true;
 
+  @Input() showLoadingCycle = false;
+
 
   /**
    * The ARIA identifier prefix.
@@ -76,7 +98,6 @@ export class DialogActionButtonsComponent implements OnInit {
       this.confirmButtonClickAction();
     }
   }
-
 
   /**
    * Performs the cancel button click action.

@@ -1,6 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px" fxFill>
   <div fxLayout="row" fxLayoutAlign="center">
-    <mat-progress-spinner *ngIf="isLoading" mode="indeterminate"></mat-progress-spinner>
+    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
       <div fxLayout="row">
         <span class="fill-remaining-space"></span>
@@ -19,9 +19,9 @@
         </mat-card-header>
         <span class="fill-remaining-space"></span>
       </div>
-      <mat-divider></mat-divider>
+
       <mat-card-content *ngIf="room.description" fxLayoutAlign="center">
-        <markdown [data]="room.description.trim()"></markdown>
+        <app-view-comment-data class="images" [currentData]="room.description"></app-view-comment-data>
       </mat-card-content>
       <mat-grid-list cols="1" rowHeight="2:1">
         <mat-grid-tile>

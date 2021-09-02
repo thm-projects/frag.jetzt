@@ -1,0 +1,44 @@
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link
+  href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Dancing+Script&family=Indie+Flower&family=Permanent+Marker&display=swap"
+  rel="stylesheet">
+<ars-screen ars-flex-box>
+  <mat-drawer-container class="spacyTagCloudContainer" [hasBackdrop]="true">
+    <mat-drawer position="end" mode="over" (closed)="cloudComponent.closePanel()" (opened)="cloudComponent.openPanel()">
+      <app-cloud-configuration #cloudComponent [parent]="this"></app-cloud-configuration>
+    </mat-drawer>
+    <mat-drawer-content>
+      <h1 *ngIf="user && user.role > 0 && question" class="tag-cloud-brainstorming-question mat-display-1">
+        {{question}}
+      </h1>
+      <ars-fill ars-flex-box>
+        <app-tag-cloud-pop-up></app-tag-cloud-pop-up>
+        <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
+        <angular-tag-cloud
+          id="tagCloudComponent"
+          class="spacyTagCloud"
+          (window:resize)="onResize($event)"
+          (clicked)="openTags($event)"
+          [data]="data"
+          [width]="options.width"
+          [height]="options.height"
+          [overflow]="options.overflow"
+          [delay]="currentCloudParameters.delayWord"
+          [randomizeAngle]="false"
+          [zoomOnHover]="zoomOnHoverOptions"
+          [realignOnResize]="false">
+        </angular-tag-cloud>
+        <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
+      </ars-fill>
+      <button *ngIf="((user && user.role > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
+              mat-fab
+              mat-icon-button
+              aria-labelledby="add"
+              class="fab_add_comment"
+              (click)="createCommentWrapper.openCreateDialog(this.user).subscribe()"
+              matTooltip="{{ 'comment-list.add-comment' | translate }}">
+        <mat-icon>add</mat-icon>
+      </button>
+    </mat-drawer-content>
+  </mat-drawer-container>
+</ars-screen>

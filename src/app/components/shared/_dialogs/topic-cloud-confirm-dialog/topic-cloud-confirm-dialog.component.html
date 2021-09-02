@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{'topic-cloud-confirm-dialog.confirm' | translate}}</h2>
+<p>{{ data.message | translate}} '{{data.topic}}'.</p>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="topic-cloud-confirm-dialog"
+  [confirmButtonLabel]= data.confirmLabel
+  [confirmButtonType]=confirmButtonType
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildDeleteAccountActionCallback()"
+></app-dialog-action-buttons>

@@ -40,6 +40,15 @@
       <span class="fill-remaining-space"></span>
       <ng-container>
         <button mat-icon-button
+                *ngIf="(isCreator || isModerator)"
+                (click)="changeProfanityShowForModerators(comment)">
+          <mat-icon class="not-marked"
+                    [matTooltip]="filterProfanityForModerators ? ('comment-page.show-comment-with-filter' | translate) :
+            ('comment-page.show-comment-without-filter' | translate)">
+            {{filterProfanityForModerators ? 'visibility' : 'visibility_off'}}
+          </mat-icon>
+        </button>
+        <button mat-icon-button
                 *ngIf="(isCreator || isModerator || comment.answer) && !inAnswerView"
                 (click)="answerComment()"
                 tabindex="0"
@@ -76,9 +85,28 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="(!isStudent || comment.favorite) && !moderator"
+                *ngIf="!isStudent && !moderator"
                 [disabled]="isStudent"
                 (click)="setFavorite(comment)"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                 : ('comment-page.mark-not-favorite' | translate)">grade
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
+                tabindex="0"
+                attr.aria-labelledby="comment_grade{{ comment.id }}">
+          <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+                    [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
+                                                 : ('comment-page.mark-not-favorite' | translate)">grade
+          </mat-icon>
+        </button>
+        <button mat-icon-button
+                *ngIf="(comment.favorite && isStudent && (comment.creatorId && user && comment.creatorId === user.id))"
+                (click)="openBonusStarDialog()"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
           <mat-icon [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
@@ -107,7 +135,7 @@
               attr.aria-labelledby="comment_delete{{ comment.id }}"
       >
         <mat-icon>
-          delete
+          delete_sweep
         </mat-icon>
       </button>
 
@@ -217,7 +245,7 @@
                   attr.aria-labelledby="comment_delete{{ comment.id }}"
           >
             <mat-icon class="not-marked">
-              delete
+              delete_sweep
             </mat-icon>
             <span>
               {{
@@ -236,8 +264,7 @@
            tabindex="0">
         <ars-row #commentBody>
           <ars-row #commentBodyInner>
-            <markdown class="images"
-                      [data]="comment.body"></markdown>
+            <app-view-comment-data class="images" [currentData]="comment.body"></app-view-comment-data>
           </ars-row>
         </ars-row>
         <span id="comment-{{ comment.id }}"
@@ -254,34 +281,29 @@
           }}</span>
       </div>
       <div
+        [joyrideStep]="'voting'"
+        [stepPosition]="'left'"
+        appJoyrideTemplate
         fxLayout="column"
         fxLayoutAlign="center"
-        *ngIf="isStudent"
+        *ngIf="isStudent && usesJoyride"
         [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
-        <button mat-icon-button
-                (click)="voteUp(comment)"
-                matTooltip="{{ 'comment-page.vote-up' | translate }}"
-                tabindex="0"
-                attr.aria-labelledby="comment_vote_up{{ comment.id }}">
-          <mat-icon class="voting-icon"
-                    [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up
-          </mat-icon>
-        </button>
-        <span class="score">{{comment.score}}</span>
-        <button mat-icon-button
-                (click)="voteDown(comment)"
-                matTooltip="{{ 'comment-page.vote-down' | translate }}"
-                tabindex="0"
-                attr.aria-labelledby="comment_vote_down{{ comment.id }}">
-          <mat-icon class="voting-icon"
-                    [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down
-          </mat-icon>
-        </button>
+        <ng-container [ngTemplateOutlet]="voting"></ng-container>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="center"
+        *ngIf="isStudent && !usesJoyride"
+        [ngClass]="{ '1': 'voteUp', '-1': 'voteDown', '0': 'reset'}[currentVote]">
+        <ng-container [ngTemplateOutlet]="voting"></ng-container>
       </div>
       <div *ngIf="!isStudent"
            fxLayout="column"
            fxLayoutAlign="center">
-        <span class="scoreCreator">{{comment.score}}</span>
+        <span class="scoreCreator" matTooltip="{{
+        ('comment-page.upvote' | translate) + ' ' + upvotes + ' | ' +
+        ('comment-page.downvote' | translate) + ' ' + downvotes
+        }}">{{score}}</span>
       </div>
     </div>
     <ars-row #commentExpander
@@ -308,7 +330,11 @@
           &nbsp;{{comment.tag}}
         </span>
       </div>
-      <div class="user-number"
+      <div class="user-number joyrideActive"
+           *ngIf="usesJoyride"
+           [joyrideStep]="'commentUserNumber'"
+           [stepPosition]="'right'"
+           appJoyrideTemplate
            fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.userNumber)">
@@ -317,6 +343,38 @@
           {{comment.userNumber}}
         </strong>
       </div>
+      <div class="user-number"
+           *ngIf="!usesJoyride"
+           fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.user-number' | translate }}"
+           (click)="this.clickedUserNumber.emit(comment.userNumber)">
+        <mat-icon class="user-icon">person_pin_circle</mat-icon>
+        <strong>
+          {{comment.userNumber}}
+        </strong>
+      </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
+           [mat-menu-trigger-for]="keywordsMenu"
+           *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
+           class="comment-keywords">
+        <mat-icon svgIcon="hashtag" class="keyword-icon"></mat-icon>
+        <span matBadge="{{comment.keywordsFromQuestioner.length}}" matBadgeSize="small" matBadgeOverlap="false">
+          {{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate) : this.selectedKeyword}}
+        </span>
+        <mat-menu #keywordsMenu>
+
+          <mat-list dense class="keywords-list">
+            <mat-list-item
+              *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
+              [class.keywords-alternate]="odd"
+              [class.keywords-even]="even">
+              <span (click)="this.clickedOnKeyword.emit(keyword.lemma)" class="keyword-span">{{keyword.lemma}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-menu>
+      </div>
+
       <span class="fill-remaining-space"></span>
       <button mat-icon-button
               class="moderate-button"
@@ -338,10 +396,12 @@
   <div id="comment_answer{{ comment.id }}">{{comment.answer ? ('comment-page.a11y-comment-answer' | translate) :
     ('comment-page.a11y-comment-answer-not' | translate)}}
   </div>
-  <div id="comment_correct{{ comment.id }}">{{comment.correct != 1 ? ('comment-page.a11y-comment_not_marked_correct' | translate)
+  <div
+    id="comment_correct{{ comment.id }}">{{comment.correct != 1 ? ('comment-page.a11y-comment_not_marked_correct' | translate)
     : ('comment-page.a11y-comment_marked_correct' | translate) }}
   </div>
-  <div id="comment_not_correct{{ comment.id }}">{{comment.correct != 2 ? ('comment-page.a11y-comment_not_marked_wrong' | translate)
+  <div
+    id="comment_not_correct{{ comment.id }}">{{comment.correct != 2 ? ('comment-page.a11y-comment_not_marked_wrong' | translate)
     : ('comment-page.a11y-comment_marked_wrong' | translate) }}
   </div>
   <div id="comment_grade{{ comment.id }}">{{ !comment.favorite ? ('comment-page.a11y-comment_grade' | translate)
@@ -354,3 +414,30 @@
   <div *ngIf="isStudent"
        id="comment_vote_down{{ comment.id }}">{{'comment-page.a11y-comment_vote_down' | translate}}</div>
 </div>
+
+<ng-template #voting>
+  <button mat-icon-button
+          (click)="voteUp(comment)"
+          *ngIf="!disabled"
+          matTooltip="{{ 'comment-page.vote-up' | translate }}"
+          tabindex="0"
+          attr.aria-labelledby="comment_vote_up{{ comment.id }}">
+    <mat-icon class="voting-icon"
+              [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up
+    </mat-icon>
+  </button>
+  <span class="score" matTooltip="{{
+        ('comment-page.upvote' | translate) + ' ' + upvotes + ' | ' +
+        ('comment-page.downvote' | translate) + ' ' + downvotes
+        }}">{{score}}</span>
+  <button mat-icon-button
+          (click)="voteDown(comment)"
+          *ngIf="!disabled"
+          matTooltip="{{ 'comment-page.vote-down' | translate }}"
+          tabindex="0"
+          attr.aria-labelledby="comment_vote_down{{ comment.id }}">
+    <mat-icon class="voting-icon"
+              [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down
+    </mat-icon>
+  </button>
+</ng-template>

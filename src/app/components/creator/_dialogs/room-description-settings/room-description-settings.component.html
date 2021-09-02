@@ -1,0 +1,11 @@
+<div mat-dialog-content
+     *ngIf="editRoom">
+  <h2 class="oldtypo-h2">{{ 'room-page.description' | translate }}</h2>
+  <app-write-comment [isModerator]="true"
+                     [placeholder]="''"
+                     [onClose]="buildCloseDialogActionCallback()"
+                     [onSubmit]="buildSaveActionCallback()"
+                     [i18nSection]="'room-page'"
+                     [confirmLabel]="'update'">
+  </app-write-comment>
+</div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { themes, themes_meta } from './arsnova-theme.const';
-import { Theme, ThemeTranslationList } from './Theme';
+import { Theme } from './Theme';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,12 @@ export class ThemeService {
   private themes: Theme[] = [];
 
   constructor() {
-    // tslint:disable-next-line:forin
+    const isMobile = window.matchMedia && window.matchMedia('(max-width: 499px)').matches;
+    // eslint-disable-next-line guard-for-in
     for (const k in themes) {
+      if (!themes_meta[k].availableOnMobile && isMobile) {
+        continue;
+      }
       this.themes.push(new Theme(
         k,
         themes[k],
@@ -21,9 +25,25 @@ export class ThemeService {
       );
     }
     this.themes.sort((a, b) => {
-      if (a.order < b.order) {return -1; } else if (a.order > b.order) {return 1; }
+      if (a.order < b.order) {
+        return -1;
+      } else if (a.order > b.order) {
+        return 1;
+      }
       return 0;
     });
+    const isDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : true;
+    const selectedTheme = this.themes.find(elem => elem.key === this.themeName);
+    if (!this.themeName || !selectedTheme || selectedTheme.isDark !== isDark) {
+      for (let i = this.themes.length - 1; i > 0; i--) {
+        const theme = this.themes[i];
+        if (theme.isDark === isDark) {
+          this.themeName = theme.key;
+          break;
+        }
+      }
+      this.activate(this.themeName);
+    }
   }
 
   public getTheme() {
@@ -40,8 +60,10 @@ export class ThemeService {
   }
 
   public getThemeByKey(key: string): Theme {
-    for (let i = 0; i < this.themes.length; i++) {
-      if (this.themes[i].key === key) {return this.themes[i]; }
+    for (const theme of this.themes) {
+      if (theme.key === key) {
+        return theme;
+      }
     }
     return null;
   }

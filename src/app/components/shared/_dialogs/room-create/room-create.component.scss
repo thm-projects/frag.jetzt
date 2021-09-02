@@ -37,3 +37,8 @@ mat-form-field {
   overflow: hidden;
   left: -10000px;
 }
+
+::ng-deep .mat-form-field .mat-form-field-infix {
+  max-width: 500px;
+}
+

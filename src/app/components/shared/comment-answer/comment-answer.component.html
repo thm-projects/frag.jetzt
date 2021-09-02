@@ -10,64 +10,33 @@
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
-      <div *ngIf="(isStudent || !edit) && answer">
-        <markdown [data]="answer"></markdown>
-        <div fxLayout="row"
-             fxLayoutAlign="end">
-          <button mat-raised-button
-                  *ngIf="!isStudent && !edit"
-                  class="save"
-                  (click)="edit = true">
-            <mat-icon>edit</mat-icon>
-            {{'comment-page.edit-answer' | translate}}
-          </button>
-        </div>
-      </div>
-      <mat-tab-group *ngIf="!isStudent && (edit || !answer)"
-                     [dynamicHeight]="false">
-        <mat-tab label="{{'comment-page.your-answer' | translate}}">
-          <mat-form-field class="input-block">
-            <textarea [(ngModel)]="answer"
-                      (input)="edit = true"
-                      (keyup)="$event.cancelBubble=true"
-                      matInput
-                      matTextareaAutosize
-                      matAutosizeMinRows="3"
-                      matAutosizeMaxRows="10"
-                      maxlength="2000"
-                      name="answer"
-                      autofocus>
-            </textarea>
-            <mat-hint align="start">
-              <span aria-hidden="true">
-                {{ 'comment-page.Markdown-hint' | translate }}
-              </span>
-            </mat-hint>
-            <mat-hint align="end">
-            <span aria-hidden="true">
-              {{ answer ? answer.length : 0 }} / 2000
-            </span>
-            </mat-hint>
-          </mat-form-field>
-        </mat-tab>
-        <mat-tab label="{{'session.preview' | translate}}"
-                 [disabled]="!answer">
-          <markdown [data]="answer"></markdown>
-        </mat-tab>
-      </mat-tab-group>
-      <div fxLayout="row"
-           fxLayoutAlign="end">
-        <button mat-raised-button
-                *ngIf="!isStudent && answer && edit"
-                class="delete"
-                (click)="openDeleteAnswerDialog()">
-          {{'comment-page.delete-answer' | translate}}</button>
-        <button mat-raised-button
-                *ngIf="!isStudent && (edit || !answer)"
-                class="save"
-                (click)="saveAnswer()">
-          {{'comment-page.save-answer' | translate}}</button>
-      </div>
+      <app-write-comment [isModerator]="user && user.role > 0"
+                         [isCommentAnswer]="true"
+                         [placeholder]="'comment-page.your-answer'"
+                         [onClose]="openDeleteAnswerDialog()"
+                         [onSubmit]="saveAnswer()"
+                         [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
+                         [confirmLabel]="'save-answer'"
+                         [cancelLabel]="'delete-answer'"
+                         [additionalTemplate]="editAnswer"
+                         [enabled]="!isStudent && (edit || !answer)">
+      </app-write-comment>
     </mat-card>
   </div>
 </div>
+
+<ng-template #editAnswer>
+  <div *ngIf="(isStudent || !edit) && answer">
+    <app-view-comment-data [currentData]="answer"></app-view-comment-data>
+    <div fxLayout="row"
+         fxLayoutAlign="end">
+      <button mat-raised-button
+              *ngIf="!isStudent && !edit"
+              class="save"
+              (click)="onEditClick()">
+        <mat-icon>edit</mat-icon>
+        {{'comment-page.edit-answer' | translate}}
+      </button>
+    </div>
+  </div>
+</ng-template>

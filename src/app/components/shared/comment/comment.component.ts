@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit, Renderer2 } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -8,7 +8,6 @@ import { CommentService } from '../../../services/http/comment.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentServiceService } from '../../../services/websockets/ws-comment-service.service';
 import { PresentCommentComponent } from '../_dialogs/present-comment/present-comment.component';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -18,6 +17,9 @@ import { UserRole } from '../../../models/user-roles.enum';
 import { Rescale } from '../../../models/rescale';
 import { RowComponent } from '../../../../../projects/ars/src/lib/components/layout/frame/row/row.component';
 import { User } from '../../../models/user';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { SpacyKeyword } from '../../../services/http/spacy.service';
+import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
 
 @Component({
   selector: 'app-comment',
@@ -32,7 +34,7 @@ import { User } from '../../../models/user';
   ]
 })
 
-export class CommentComponent implements OnInit, AfterViewInit {
+export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   static COMMENT_MAX_HEIGHT = 200;
 
@@ -40,8 +42,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() moderator: boolean;
   @Input() userRole: UserRole;
   @Input() user: User;
+  @Input() disabled = false;
+  @Input() usesJoyride = false;
   @Output() clickedOnTag = new EventEmitter<string>();
+  @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
+  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
+  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
+  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isStudent = false;
   isCreator = false;
   isModerator = false;
@@ -52,11 +60,15 @@ export class CommentComponent implements OnInit, AfterViewInit {
   currentVote: string;
   slideAnimationState = 'hidden';
   roleString: string;
-  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
-  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
-  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
   isExpanded = false;
   isExpandable = false;
+  selectedKeyword = '';
+  filterProfanityForModerators = false;
+  createdBy;
+  voteInterval;
+  upvotes;
+  downvotes;
+  score;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -65,9 +77,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
     private commentService: CommentService,
     private notification: NotificationService,
     private translateService: TranslateService,
+    private roomDataService: RoomDataService,
     public dialog: MatDialog,
-    protected langService: LanguageService,
-    private wsCommentService: WsCommentServiceService) {
+    protected langService: LanguageService) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
@@ -75,6 +87,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.checkProfanity();
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():
         this.isStudent = true;
@@ -92,6 +105,38 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.translateService.use(this.language);
     this.deviceType = localStorage.getItem('deviceType');
     this.inAnswerView = !this.router.url.includes('comments');
+    this.voteInterval=setInterval(()=>{
+      if(this.comment){
+        this.commentService.getComment(this.comment.id).subscribe(e=>{
+          this.upvotes=e.upvotes;
+          this.downvotes=e.downvotes;
+          this.score=e.score;
+        });
+      }
+    },1000);
+  }
+
+  ngOnDestroy(){
+    clearInterval(this.voteInterval);
+  }
+
+  checkProfanity(){
+    if (!this.router.url.includes('moderator/comments')) {
+      this.roomDataService.checkProfanity(this.comment);
+    }
+  }
+
+  changeProfanityShowForModerators(comment: Comment) {
+    let newBody: string;
+    if (this.filterProfanityForModerators) {
+      newBody = this.roomDataService.getFilteredBody(comment.id);
+    } else {
+      newBody = this.roomDataService.getUnFilteredBody(comment.id);
+    }
+    if (newBody) {
+      comment.body = newBody;
+    }
+    this.filterProfanityForModerators = !this.filterProfanityForModerators;
   }
 
   ngAfterViewInit(): void {
@@ -102,6 +147,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
       this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
       this.commentBody.setOverflow('hidden');
     }
+  }
+
+  sortKeywords(keywords: SpacyKeyword[]){
+    return keywords.sort((a,b) => a.lemma.localeCompare(b.lemma));
   }
 
   toggleExpand(evt: MouseEvent) {
@@ -127,7 +176,10 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setRead(comment: Comment): void {
-    this.commentService.toggleRead(comment).subscribe(c => this.comment = c);
+    this.commentService.toggleRead(comment).subscribe(c => {
+      this.comment = c;
+      this.checkProfanity();
+    });
   }
 
   markCorrect(comment: Comment, type: CorrectWrong): void {
@@ -136,11 +188,18 @@ export class CommentComponent implements OnInit, AfterViewInit {
       } else {
         comment.correct = type;
       }
-    this.commentService.markCorrect(comment).subscribe(c => this.comment = c);
+    this.commentService.markCorrect(comment).subscribe(c => {
+      this.comment = c;
+      this.checkProfanity();
+    });
   }
 
+
   setFavorite(comment: Comment): void {
-    this.commentService.toggleFavorite(comment).subscribe(c => this.comment = c);
+    this.commentService.toggleFavorite(comment).subscribe(c => {
+      this.comment = c;
+      this.checkProfanity();
+    });
   }
 
   voteUp(comment: Comment): void {
@@ -207,11 +266,17 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   setAck(comment: Comment): void {
-    this.commentService.toggleAck(comment).subscribe(c => this.comment = c);
+    this.commentService.toggleAck(comment).subscribe(c => {
+      this.comment = c;
+      this.checkProfanity();
+    });
   }
 
   setBookmark(comment: Comment): void {
-    this.commentService.toggleBookmark(comment).subscribe(c => this.comment = c);
+    this.commentService.toggleBookmark(comment).subscribe(c => {
+      this.comment = c;
+      this.checkProfanity();
+    });
   }
 
   goToFullScreen(element: Element): void {
@@ -246,5 +311,12 @@ export class CommentComponent implements OnInit, AfterViewInit {
         this.exitFullScreen();
 
       });
+  }
+
+  openBonusStarDialog() {
+      const dialogRef = this.dialog.open(UserBonusTokenComponent, {
+        width: '600px'
+      });
+      dialogRef.componentInstance.userId = this.user.id;
   }
 }

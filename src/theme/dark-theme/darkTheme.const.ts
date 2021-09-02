@@ -18,7 +18,7 @@ export const dark = {
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': '#000000',
 
   '--green': 'lightgreen',
   '--red': 'red',
@@ -37,20 +37,17 @@ export const dark = {
 
 export const dark_meta = {
 
-  'translation': {
-    'name': {
-      'en': 'Dark Mode',
-      'de': 'Dark Mode'
+  translation: {
+    name: {
+      en: 'Dark Mode',
+      de: 'Dark Mode'
     },
-    'description': {
-      'en': '',
-      'de': ''
-    }
   },
-  'isDark': true,
-  'order': 2,
-  'scale_desktop': 1,
-  'scale_mobile': 1,
-  'previewColor': 'background'
+  isDark: true,
+  availableOnMobile: true,
+  order: 2,
+  scale_desktop: 1,
+  scale_mobile: 1,
+  previewColor: 'background'
 
 };

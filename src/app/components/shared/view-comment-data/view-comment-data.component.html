@@ -1,0 +1,18 @@
+<ars-row *ngIf="isEditor">
+  <div #editorErrorLayer id="editorErrorLayer"></div>
+  <quill-editor #editor
+                placeholder="{{ placeHolderText | translate }}"
+                [modules]="quillModules"
+                (document:click)="onDocumentClick($event)">
+  </quill-editor>
+  <div #tooltipContainer></div>
+  <div fxLayout="row" style="justify-content: flex-end; padding: 0 5px">
+    <span aria-hidden="true" style="font-size: 75%">
+      {{currentText.length}} / {{maxTextCharacters}}
+    </span>
+  </div>
+</ars-row>
+<div *ngIf="!isEditor">
+  <quill-view #quillView [modules]="quillModules">
+  </quill-view>
+</div>

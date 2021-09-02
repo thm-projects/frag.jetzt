@@ -1,23 +1,22 @@
 import { Comment } from '../../../models/comment';
 
 export class QuestionWallComment {
-
   public static readonly TIME_FORMAT_DE: string[][] =
-    [
-      ['vor % Jahr', 'vor % Jahren'],
-      ['vor % Monat', 'vor % Monaten'],
-      ['vor % Tag', 'vor % Tagen'],
-      ['vor % Stunde', 'vor % Stunden'],
-      ['vor % Minute', 'vor % Minuten'],
-      ['vor % Sekunde', 'vor % Sekunden']
-    ];
+  [
+    ['vor % Jahr', 'vor % Jahren'],
+    ['vor % Monat', 'vor % Monaten'],
+    ['vor % Tag', 'vor % Tagen'],
+    ['vor % Stunde', 'vor % Stunden'],
+    ['vor % Minute', 'vor % Minuten'],
+    ['vor % Sekunde', 'vor % Sekunden']
+  ];
   public static readonly TIME_FORMAT_EN: string[][] = [
-      ['% year ago', '% years ago'],
-      ['% month ago', '% months ago'],
-      ['% day ago', '% days ago'],
-      ['% hour ago', '% hours ago'],
-      ['% minute ago', '% minutes ago'],
-      ['% second ago', '% seconds ago'],
+    ['% year ago', '% years ago'],
+    ['% month ago', '% months ago'],
+    ['% day ago', '% days ago'],
+    ['% hour ago', '% hours ago'],
+    ['% minute ago', '% minutes ago'],
+    ['% second ago', '% seconds ago'],
   ];
 
   public static currentTimeFormat: string[][] = QuestionWallComment.TIME_FORMAT_EN;
@@ -25,16 +24,16 @@ export class QuestionWallComment {
   public date: Date;
   public timeAgo: string;
 
-  public static updateTimeFormat(lang: string) {
-    this.currentTimeFormat = this['TIME_FORMAT_' + lang.toUpperCase()];
-  }
-
   constructor(
     public comment: Comment,
     public old: boolean
-  ) {
+    ) {
     this.date = new Date(comment.timestamp);
     this.updateTimeAgo();
+  }
+
+  public static updateTimeFormat(lang: string) {
+    this.currentTimeFormat = this['TIME_FORMAT_' + lang.toUpperCase()];
   }
 
   public update() {
