@@ -68,7 +68,7 @@ export class TopicCloudAdminService {
         continue;
       }
       let isProfanity = false;
-      const lowerCasedKeyword = keyword.lemma.toLowerCase();
+      const lowerCasedKeyword = keyword.text.toLowerCase();
       for (const word of config.blacklist) {
         if (lowerCasedKeyword.includes(word)) {
           isProfanity = true;

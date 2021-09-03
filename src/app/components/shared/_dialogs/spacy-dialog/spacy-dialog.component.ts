@@ -66,7 +66,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   buildCreateCommentActionCallback() {
     return () => {
       this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => ({
-        lemma: kw.word,
+        text: kw.word,
         dep: kw.dep
       } as SpacyKeyword));
       this.comment.keywordsFromSpacy = this.keywordsOriginal;
@@ -82,7 +82,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
       .subscribe(words => {
         this.keywordsOriginal = words;
         this.keywords = words.map(keyword => ({
-          word: keyword.lemma,
+          word: keyword.text,
           dep: [...keyword.dep],
           completed: false,
           editing: false,

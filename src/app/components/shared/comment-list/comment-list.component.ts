@@ -414,8 +414,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.userNumber === compare;
         case this.keyword:
           this.selectedKeyword = compare;
-          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.findIndex(k => k.lemma === compare) >= 0 : false;
-          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.findIndex(k => k.lemma === compare) >= 0 : false;
+          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.findIndex(k => k.text === compare) >= 0 : false;
+          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.findIndex(k => k.text === compare) >= 0 : false;
           return isInQuestioner || isInSpacy;
         case this.answer:
           return c.answer;
