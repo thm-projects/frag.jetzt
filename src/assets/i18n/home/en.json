@@ -173,7 +173,7 @@
     "cantAccessRoute": "This route is not available. The tour will be cancelled.",
     "greeting": "We guide you to the most important places in our audience response system »frag.jetzt«. The tour will only take a few minutes.",
     "greetingTitle": "Welcome!",
-    "loginButtonHeader": "Not necessary, unless you want to store your visited or self-created rooms on our server. An account is also advisable for managing bonus points.",
+    "loginButtonHeader": "No, unless you want to store your visited or self-created rooms on our server. An account is also advisable for managing bonus points.",
     "loginButtonHeaderTitle": "Do I have to register?",
     "roomJoin": "Enter the access code for the room where the event you want to attend is taking place.",
     "roomJoinTitle": "Join an event",
