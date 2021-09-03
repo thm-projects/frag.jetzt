@@ -183,7 +183,7 @@
     "done": "Fertig",
     "createQuestion": "Mit dem Plus-Button rufst du den Editor auf. Eine KI schlägt dir Stichwörter für deine Frage vor. Diese dienen dem Erstellen einer Themenwolke aus allen Fragen der Veranstaltung.",
     "createQuestionTitle": "Eine Frage stellen",
-    "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an der Frage oder seine Zustimmung oder Ablehnung bekunden.",
+    "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an einer Beantwortung der Frage oder seine Zustimmung oder Ablehnung bekunden. Angezeigt wird die Bewertungsdifferenz.",
     "votingTitle": "Eine Frage bewerten",
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Fragenliste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
     "commentFilterTitle": "Fragenliste verwalten",
