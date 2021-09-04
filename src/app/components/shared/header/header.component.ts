@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -29,6 +29,10 @@ import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { ComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/compose-host.directive';
+import { ComposeService } from '../../../../../projects/ars/src/lib/service/compose.service';
+import { MatMenuItemComponent } from '../../../../../projects/ars/src/lib/compose/elements/mat-menu-item/mat-menu-item.component';
+import { ARS_MAT_MENU_ITEM_DATA } from '../../../../../projects/ars/src/lib/compose/elements/mat-menu-item/ars-mat-menu-item-config';
 
 @Component({
   selector: 'app-header',
@@ -51,6 +55,7 @@ export class HeaderComponent implements OnInit {
   toggleUserActivity = false;
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
+  @ViewChild(ComposeHostDirective)host:ComposeHostDirective;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -68,7 +73,8 @@ export class HeaderComponent implements OnInit {
               private wsRoomService: WsRoomService,
               private topicCloudAdminService: TopicCloudAdminService,
               private headerService: HeaderService,
-              private onboardingService: OnboardingService
+              private onboardingService: OnboardingService,
+              private composeService:ComposeService
   ) {
   }
 
@@ -380,5 +386,21 @@ export class HeaderComponent implements OnInit {
 
   public startWorkerDialog() {
     WorkerDialogComponent.addWorkTask(this.dialog, this.room);
+  }
+
+  createOption(){
+    this.composeService.create(
+      this.host.viewContainerRef,
+      MatMenuItemComponent,
+      this.composeService.createMap(ARS_MAT_MENU_ITEM_DATA,{
+        translate:this.translationService,
+        icon:'face',
+        text:'test',
+        color:'red',
+        callback:()=>{
+          console.log('ok');
+        }
+      })
+    );
   }
 }

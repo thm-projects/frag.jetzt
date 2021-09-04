@@ -17,6 +17,10 @@ import { ButtonBaseDirective } from './components/content/menu/ButtonBase.direct
 import { MaterialBtnComponent } from './components/style/menu/material-btn/material-btn.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ComposeHostDirective } from './compose/compose-host.directive';
+import { MatMenuItemComponent } from './compose/elements/mat-menu-item/mat-menu-item.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -35,28 +39,33 @@ import { MatIconModule } from '@angular/material/icon';
     MenuWrapperDirective,
     ButtonWrapperDirective,
     ButtonBaseDirective,
-    MaterialBtnComponent
+    MaterialBtnComponent,
+    ComposeHostDirective,
+    MatMenuItemComponent
   ],
-  imports: [
+  imports:[
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule,
+    TranslateModule
   ],
-  exports: [
-    ArsComponent,
-    FullScreenOverlayComponent,
-    WrapperDirective,
-    FrameTestComponent,
-    ScrollDirective,
-    MaterialTypographyComponent,
-    RowComponent,
-    ColComponent,
-    FillComponent,
-    ThemeTestComponent,
-    BaseTestComponent,
-    MenuWrapperDirective,
-    ButtonWrapperDirective,
-    ButtonBaseDirective,
-    MaterialBtnComponent
-  ]
+    exports:[
+        ArsComponent,
+        FullScreenOverlayComponent,
+        WrapperDirective,
+        FrameTestComponent,
+        ScrollDirective,
+        MaterialTypographyComponent,
+        RowComponent,
+        ColComponent,
+        FillComponent,
+        ThemeTestComponent,
+        BaseTestComponent,
+        MenuWrapperDirective,
+        ButtonWrapperDirective,
+        ButtonBaseDirective,
+        MaterialBtnComponent,
+        ComposeHostDirective
+    ]
 })
 export class ArsModule { }
