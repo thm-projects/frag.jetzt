@@ -165,10 +165,10 @@
     "downvote": "negativ"
   },
   "deepl": {
-    "header": "DeepL Unterstützung",
-    "label": "Wähle einen Text",
-    "option-normal": "Eingegebener Text",
-    "option-improved": "Stilistisch verbesserter Text"
+    "header": "Text prüfen",
+    "label": "Welcher Text soll gesendet werden?",
+    "option-normal": "Deine Eingabe:",
+    "option-improved": "KI-Vorschlag:"
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",

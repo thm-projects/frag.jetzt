@@ -238,10 +238,10 @@
     "yes": "Yes"
   },
   "deepl": {
-    "header": "DeepL Support",
-    "label": "Choose a text",
-    "option-normal": "Entered text",
-    "option-improved": "Stylistically improved text"
+    "header": "Check text",
+    "label": " Which text to send?",
+    "option-normal": "Your input:",
+    "option-improved": "AI suggestion:"
   },
   "home-page": {
     "create-session": "New session",
