@@ -4,11 +4,12 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: 350px;
+  padding: 0 10% 5% 10%;
   background-color: var(--surface) !important;
 }
 
 mat-card-content > :first-child {
-  margin-top: 5%;
+  margin: 3% 0 3% 0;
 }
 
 .mat-icon-button {
@@ -74,7 +75,7 @@ mat-grid-list {
 }
 
 mat-grid-tile {
-  height: 100% !important;
+  height: 70% !important;
   padding: 10% 0 !important;
 }
 

@@ -423,7 +423,7 @@
           tabindex="0"
           attr.aria-labelledby="comment_vote_up{{ comment.id }}">
     <mat-icon class="voting-icon"
-              [ngClass]="{'upVoted' : hasVoted === 1}">keyboard_arrow_up
+              [ngClass]="{'upVoted' : hasVoted === 1}">thumb_up
     </mat-icon>
   </button>
   <span class="score" matTooltip="{{
@@ -437,7 +437,7 @@
           tabindex="0"
           attr.aria-labelledby="comment_vote_down{{ comment.id }}">
     <mat-icon class="voting-icon"
-              [ngClass]="{'downVoted' : hasVoted === -1}">keyboard_arrow_down
+              [ngClass]="{'downVoted' : hasVoted === -1}">thumb_down
     </mat-icon>
   </button>
 </ng-template>

@@ -135,14 +135,14 @@
     <button mat-menu-item
             (click)="sortComments(votedesc)"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">keyboard_arrow_up</mat-icon>
+      <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">thumb_up</mat-icon>
       <span [ngClass]="{votedesc: 'up'}[currentSort]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
     <button mat-menu-item
             (click)="sortComments(voteasc)"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">keyboard_arrow_down</mat-icon>
+      <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">thumb_down</mat-icon>
       <span [ngClass]="{voteasc: 'down'}[currentSort]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
@@ -202,6 +202,7 @@
         <span [ngClass]="{owner: 'owner-icon'}[currentFilter]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
 
+      <!--
       <button mat-menu-item
               *ngIf="userRole !== 3"
               (click)="filterComments(lecturer)"
@@ -222,6 +223,7 @@
         <span
           [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
       </button>
+      -->
 
 
       <button mat-menu-item

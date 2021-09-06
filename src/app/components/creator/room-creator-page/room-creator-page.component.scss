@@ -4,7 +4,7 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: 350px;
-  max-height: 700px;
+  padding: 0 10% 5% 10%;
   background-color: var(--surface) !important;
 }
 
@@ -83,7 +83,7 @@ mat-card-subtitle {
 }
 
 mat-grid-tile {
-  height: 100% !important;
+  height: 70% !important;
   padding: 10% 0 !important;
 }
 

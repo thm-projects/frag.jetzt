@@ -129,6 +129,7 @@
     "abort": "Cancel",
     "ask-question-description": "Enter your question …",
     "save-answer": "Save",
+    "continue": "Continue",
     "delete-answer": "Delete",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
@@ -172,6 +173,12 @@
     "upvote": "upvotes",
     "downvote": "downvotes"
   },
+  "deepl": {
+    "header": "Check text",
+    "label": " Which text to send?",
+    "option-normal": "Your input:",
+    "option-improved": "AI suggestion:"
+  },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
     "no-room-found": "No session found with this key",
@@ -185,7 +192,7 @@
     "done": "Finish",
     "createQuestion": "Call up the editor with the plus button. An AI will suggest keywords for your question. These will be used to create a topic cloud from all questions of the event.",
     "createQuestionTitle": "Ask a question",
-    "voting": "The audience can rank questions up or down., indicating their interest in the question or their agreement or disagreement with it.",
+    "voting": "The audience can rate questions up or down., indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
     "votingTitle": "Rate a question",
     "commentFilter": "There are numerous sorting and filtering options for the question list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
     "commentFilterTitle": "Manage question list",
@@ -278,7 +285,9 @@
     "period-since-first-comment":"Period since first comment",
     "upvote-topic": "Upvotes for this topic",
     "downvote-topic": "Downvotes for this topic",
-    "blacklist-topic": "Add topic to blacklist"
+    "blacklist-topic": "Add topic to blacklist",
+    "changes-gone-wrong": "Something went wrong!",
+    "changes-successful": "Successfully updated."
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

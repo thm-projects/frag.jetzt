@@ -46,7 +46,7 @@
       </mat-tab>
       <mat-tab label="{{'session.preview' | translate}}"
                [disabled]="!editRoom.description">
-        <app-custom-markdown class="images" [data]="editRoom.description"></app-custom-markdown>
+        <app-view-comment-data class="images" [currentData]="editRoom.description"></app-view-comment-data>
       </mat-tab>
     </mat-tab-group>
     <div fxLayout="column">

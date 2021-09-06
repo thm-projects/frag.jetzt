@@ -119,6 +119,7 @@
     "abort": "Abbrechen",
     "ask-question-description": "Gib hier deine Frage ein!",
     "save-answer": "Speichern",
+    "continue": "Weiter",
     "delete-answer": "Löschen",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
@@ -163,6 +164,12 @@
     "upvote": "positiv",
     "downvote": "negativ"
   },
+  "deepl": {
+    "header": "Text prüfen",
+    "label": "Welcher Text soll gesendet werden?",
+    "option-normal": "Deine Eingabe:",
+    "option-improved": "KI-Vorschlag:"
+  },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
     "no-room-found": "Es wurde kein Raum mit diesem Raum-Code gefunden.",
@@ -176,7 +183,7 @@
     "done": "Fertig",
     "createQuestion": "Mit dem Plus-Button rufst du den Editor auf. Eine KI schlägt dir Stichwörter für deine Frage vor. Diese dienen dem Erstellen einer Themenwolke aus allen Fragen der Veranstaltung.",
     "createQuestionTitle": "Eine Frage stellen",
-    "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an der Frage oder seine Zustimmung oder Ablehnung bekunden.",
+    "voting": "Das Publikum kann Fragen auf- oder abwerten und so sein Interesse an einer Beantwortung der Frage oder seine Zustimmung oder Ablehnung bekunden. Angezeigt wird die Bewertungsdifferenz.",
     "votingTitle": "Eine Frage bewerten",
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Fragenliste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
     "commentFilterTitle": "Fragenliste verwalten",
@@ -272,7 +279,9 @@
     "period-since-first-comment":"Zeitraum seit der ersten Frage",
     "upvote-topic": "Up-Votes für dieses Thema",
     "downvote-topic": "Down-Votes für dieses Thema",
-    "blacklist-topic": "Thema auf die »Blacklist« setzen"
+    "blacklist-topic": "Thema auf die »Blacklist« setzen",
+    "changes-gone-wrong": "Etwas ist schiefgelaufen!",
+    "changes-successful": "Änderungen gespeichert."
   },
   "tag-cloud-popup": {
     "few-seconds": "wenige Sekunden",

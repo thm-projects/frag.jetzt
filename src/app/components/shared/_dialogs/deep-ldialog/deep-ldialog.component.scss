@@ -1,0 +1,20 @@
+::ng-deep {
+
+  mat-radio-button {
+    width: 100%;
+  }
+
+  .mat-radio-label {
+    width: calc(100% - 16px) !important;
+  }
+
+  .mat-radio-label-content {
+    width: 100%;
+  }
+
+  app-view-comment-data > div {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 7px;
+  }
+}
