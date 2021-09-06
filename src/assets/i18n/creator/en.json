@@ -139,7 +139,7 @@
     "delete": "Delete question",
     "delimiter": "Please choose a format!",
     "edit-menu": "Answer, mark or delete question",
-    "enter-comment": "Your entry will be fixed at the top of the list.",
+    "enter-comment": "Your post will be placed at the top of the list.",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
     "error-comment": "Please ask a question.",
