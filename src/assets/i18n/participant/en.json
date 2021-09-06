@@ -174,10 +174,10 @@
     "downvote": "downvotes"
   },
   "deepl": {
-    "header": "DeepL Support",
-    "label": "Choose a text",
-    "option-normal": "Entered text",
-    "option-improved": "Stylistically improved text"
+    "header": "Check text",
+    "label": " Which text to send?",
+    "option-normal": "Your input:",
+    "option-improved": "AI suggestion:"
   },
   "home-page": {
     "exactly-8": "A key is a combination of 8 digits.",
@@ -192,7 +192,7 @@
     "done": "Finish",
     "createQuestion": "Call up the editor with the plus button. An AI will suggest keywords for your question. These will be used to create a topic cloud from all questions of the event.",
     "createQuestionTitle": "Ask a question",
-    "voting": "The audience can rank questions up or down., indicating their interest in the question or their agreement or disagreement with it.",
+    "voting": "The audience can rate questions up or down., indicating their interest in answering a question or their agreement or disagreement with it. The rating difference is displayed.",
     "votingTitle": "Rate a question",
     "commentFilter": "There are numerous sorting and filtering options for the question list. An active filter is shown in red. For better readability, the question stream can also be paused if it is very dynamic.",
     "commentFilterTitle": "Manage question list",

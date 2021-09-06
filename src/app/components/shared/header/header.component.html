@@ -194,7 +194,7 @@
 
               <button mat-menu-item
                       tabindex="0"
-                      *ngIf="user && user.role >0 && deviceType !== 'mobile' && !router.url.endsWith('moderator/comments')"
+                      *ngIf="deviceType !== 'mobile' && !router.url.endsWith('moderator/comments')"
                       routerLink="participant/room/{{shortId}}/comments/questionwall">
                 <mat-icon class="beamer-icon"
                           svgIcon="beamer">

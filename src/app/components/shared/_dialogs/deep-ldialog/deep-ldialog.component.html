@@ -6,7 +6,7 @@
     aria-labelledby="deepl-radio-group-label"
     [(ngModel)]="radioButtonValue">
     <mat-radio-button [value]="normalValue">
-      <strong>{{'deepl.option-normal' | translate}}</strong>
+      <small>{{'deepl.option-normal' | translate}}</small>
     </mat-radio-button>
     <app-view-comment-data #normal
                            class="deepl-view-comment"
@@ -17,7 +17,7 @@
                            [currentData]="normalValue.body"></app-view-comment-data>
     <br>
     <mat-radio-button [value]="improvedValue">
-      <strong>{{'deepl.option-improved' | translate}}</strong>
+      <small>{{'deepl.option-improved' | translate}}</small>
     </mat-radio-button>
     <app-view-comment-data #improved
                            class="deepl-view-comment"
