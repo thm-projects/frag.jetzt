@@ -3,7 +3,8 @@
   <quill-editor #editor
                 placeholder="{{ placeHolderText | translate }}"
                 [modules]="quillModules"
-                (document:click)="onDocumentClick($event)">
+                (document:click)="onDocumentClick($event)"
+                (window:resize)="recalcAspectRatio()">
   </quill-editor>
   <div #tooltipContainer></div>
   <div fxLayout="row" style="justify-content: flex-end; padding: 0 5px">
@@ -13,6 +14,6 @@
   </div>
 </ars-row>
 <div *ngIf="!isEditor">
-  <quill-view #quillView [modules]="quillModules">
+  <quill-view #quillView [modules]="quillModules" (window:resize)="recalcAspectRatio()">
   </quill-view>
 </div>
