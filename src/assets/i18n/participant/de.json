@@ -170,6 +170,13 @@
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
   },
+  "explanation": {
+    "label": "Erklärung",
+    "close": "Schließen",
+    "deepl": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
+    "spacy": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
+    "topic-cloud": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+  },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
     "no-room-found": "Es wurde kein Raum mit diesem Raum-Code gefunden.",

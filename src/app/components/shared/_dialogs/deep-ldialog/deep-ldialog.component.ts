@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 interface ResultValue {
   body: string;
@@ -29,7 +30,8 @@ export class DeepLDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private notificationService: NotificationService,
     private languageService: LanguageService,
-    private translateService: TranslateService) {
+    private translateService: TranslateService,
+    private dialog: MatDialog) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
@@ -69,6 +71,11 @@ export class DeepLDialogComponent implements OnInit {
         this.dialogRef.close(this.radioButtonValue);
       }
     };
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent);
+    ref.componentInstance.translateKey = 'explanation.deepl';
   }
 
 }
