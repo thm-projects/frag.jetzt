@@ -223,7 +223,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   recalcAspectRatio() {
     const elem = this.isEditor ? this.editor.editorElem.firstElementChild : this.quillView.editorElem.firstElementChild;
     elem.querySelectorAll('.images .ql-video').forEach((e: HTMLElement) => {
-      e.addEventListener('resize', () => console.log(e));
       const width = parseFloat(window.getComputedStyle(e).width);
       e.style.height = (width * 9 / 16) + 'px';
     });
