@@ -9,6 +9,7 @@
       <strong>{{'deepl.option-normal' | translate}}</strong>
     </mat-radio-button>
     <app-view-comment-data #normal
+                           class="deepl-view-comment"
                            [maxTextCharacters]="data.maxTextCharacters"
                            [maxDataCharacters]="data.maxDataCharacters"
                            [isModerator]="data.isModerator"
@@ -19,6 +20,7 @@
       <strong>{{'deepl.option-improved' | translate}}</strong>
     </mat-radio-button>
     <app-view-comment-data #improved
+                           class="deepl-view-comment"
                            [maxTextCharacters]="data.maxTextCharacters"
                            [maxDataCharacters]="data.maxDataCharacters"
                            [isModerator]="data.isModerator"
