@@ -104,6 +104,18 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     };
   }
 
+  public static getTextFromData(jsonData: string): string {
+    return JSON.parse(jsonData).reduce((acc, e) => {
+      if (typeof e['insert'] === 'string') {
+        return acc + e['insert'];
+      } else if (typeof e === 'string') {
+        return acc + e;
+      }
+      return acc;
+    }, '');
+  }
+
+
   ngOnInit(): void {
     if (this.isModerator) {
       this.quillModules.toolbar['container'] = moderatorToolbar;
@@ -130,6 +142,19 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         }
         this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
+        // remove background
+        const data = e.content;
+        let changed = false;
+        data.ops.forEach(op => {
+          if (op.attributes && op.attributes.background) {
+            changed = true;
+            op.attributes.background = null;
+            delete op.attributes.background;
+          }
+        });
+        if (changed) {
+          this.editor.quillEditor.setContents(data);
+        }
       });
       this.editor.onEditorCreated.subscribe(_ => {
         if (this.markEvents && this.markEvents.onCreate) {

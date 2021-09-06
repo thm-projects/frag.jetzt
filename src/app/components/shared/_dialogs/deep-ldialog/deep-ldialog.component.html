@@ -7,13 +7,23 @@
     [(ngModel)]="radioButtonValue">
     <mat-radio-button [value]="normalValue">
       <strong>{{'deepl.option-normal' | translate}}</strong>
-      <app-view-comment-data [currentData]="normalValue.body"></app-view-comment-data>
     </mat-radio-button>
+    <app-view-comment-data #normal
+                           [maxTextCharacters]="data.maxTextCharacters"
+                           [maxDataCharacters]="data.maxDataCharacters"
+                           [isModerator]="data.isModerator"
+                           [isEditor]="true"
+                           [currentData]="normalValue.body"></app-view-comment-data>
     <br>
     <mat-radio-button [value]="improvedValue">
       <strong>{{'deepl.option-improved' | translate}}</strong>
-      <app-view-comment-data [currentData]="improvedValue.body"></app-view-comment-data>
     </mat-radio-button>
+    <app-view-comment-data #improved
+                           [maxTextCharacters]="data.maxTextCharacters"
+                           [maxDataCharacters]="data.maxDataCharacters"
+                           [isModerator]="data.isModerator"
+                           [isEditor]="true"
+                           [currentData]="improvedValue.body"></app-view-comment-data>
   </mat-radio-group>
 </div>
 

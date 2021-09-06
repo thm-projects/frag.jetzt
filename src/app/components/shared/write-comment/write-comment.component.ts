@@ -56,6 +56,32 @@ export class WriteCommentComponent implements OnInit {
     });
   }
 
+  public static checkInputData(data: string,
+                               text: string,
+                               translateService: TranslateService,
+                               notificationService: NotificationService,
+                               maxTextCharacters: number,
+                               maxDataCharacters: number): boolean {
+    text = text.trim();
+    if (!text.length) {
+      translateService.get('comment-page.error-comment').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (text.length > maxTextCharacters) {
+      translateService.get('comment-page.error-comment-text').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (data.length > maxDataCharacters) {
+      translateService.get('comment-page.error-comment-data').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    }
+    return true;
+  }
+
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isCommentAnswer) {
@@ -78,7 +104,8 @@ export class WriteCommentComponent implements OnInit {
       return undefined;
     }
     return () => {
-      if (this.checkInputData(this.commentData.currentData, this.commentData.currentText)) {
+      if (WriteCommentComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
+        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters)) {
         this.onSubmit(this.commentData.currentData, this.commentData.currentText, this.selectedTag);
       }
     };
@@ -109,7 +136,7 @@ export class WriteCommentComponent implements OnInit {
         return;
       }
       if (this.selectedLang === 'auto' &&
-          (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
+        (langSelect.innerText.includes(this.newLang) || langSelect.innerText.includes('auto'))) {
         if (wordsCheck.language.name.includes('German')) {
           this.selectedLang = 'de-DE';
         } else if (wordsCheck.language.name.includes('English')) {
@@ -151,27 +178,6 @@ export class WriteCommentComponent implements OnInit {
       },
       onDocumentClick: (e) => this.onDocumentClick(e)
     };
-  }
-
-  private checkInputData(data: string, text: string): boolean {
-    text = text.trim();
-    if (!text.length) {
-      this.translateService.get('comment-page.error-comment').subscribe(message => {
-        this.notification.show(message);
-      });
-      return false;
-    } else if (text.length > this.maxTextCharacters) {
-      this.translateService.get('comment-page.error-comment-text').subscribe(message => {
-        this.notification.show(message);
-      });
-      return false;
-    } else if (data.length > this.maxDataCharacters) {
-      this.translateService.get('comment-page.error-comment-data').subscribe(message => {
-        this.notification.show(message);
-      });
-      return false;
-    }
-    return true;
   }
 
 }

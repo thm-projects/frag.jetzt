@@ -7,6 +7,7 @@ import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
 import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../../../../services/http/spacy.interface';
+import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 
 const concurrentCallsPerTask = 4;
 
@@ -59,7 +60,8 @@ export class WorkerDialogTask {
       return;
     }
     const currentComment = this._comments[currentIndex];
-    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, currentComment.body)
+    const text = ViewCommentDataComponent.getTextFromData(currentComment.body);
+    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, text)
       .subscribe(result => {
         if (!result.isAcceptable) {
           this.finishSpacyCall(FinishType.badSpelled, currentIndex);
