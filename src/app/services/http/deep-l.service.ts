@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map, tap, timeout } from 'rxjs/operators';
 import { flatMap } from 'rxjs/internal/operators';
 
 const httpOptions = {
@@ -12,10 +12,17 @@ const httpOptions = {
 
 interface DeepLResult {
   translations: {
-    detected_source_language: string;
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    detected_source_language: SourceLang;
     text: string;
   }[];
 }
+
+type SourceLang = 'BG' | 'CS' | 'DA' | 'DE' | 'EL' | 'EN' | 'ES' | 'ET' | 'FI' | 'FR' | 'HU' | 'IT' | 'JA' | 'LT'
+  | 'LV' | 'NL' | 'PL' | 'PT' | 'RO' | 'RU' | 'SK' | 'SL' | 'SV' | 'ZH';
+
+type TargetLang = 'BG' | 'CS' | 'DA' | 'DE' | 'EL' | 'EN-GB' | 'EN-US' | 'ES' | 'ET' | 'FI' | 'FR' | 'HU' | 'IT' |
+  'JA' | 'LT' | 'LV' | 'NL' | 'PL' | 'PT-PT' | 'PT-BR' | 'RO' | 'RU' | 'SK' | 'SL' | 'SV' | 'ZH';
 
 @Injectable({
   providedIn: 'root'
@@ -26,24 +33,56 @@ export class DeepLService extends BaseHttpService {
     super();
   }
 
+  private static transformSourceToTarget(lang: SourceLang): TargetLang {
+    switch (lang) {
+      case 'EN':
+        return 'EN-US';
+      case 'PT':
+        return 'PT-PT';
+      default:
+        return lang;
+    }
+  }
+
+  private static supportsFormality(lang: TargetLang): boolean {
+    switch (lang) {
+      case 'DE':
+      case 'ES':
+      case 'FR':
+      case 'IT':
+      case 'NL':
+      case 'PL':
+      case 'PT-BR':
+      case 'PT-PT':
+      case 'RU':
+        return true;
+      default:
+        return false;
+    }
+  }
+
   improveTextStyle(text: string): Observable<string> {
-    return this.makeTranslateRequest([text], 'EN-US').pipe(
+    return this.makeXMLTranslateRequest(text, 'EN-US').pipe(
       flatMap(result =>
-        this.makeTranslateRequest([result.translations[0].text], result.translations[0].detected_source_language)),
+        this.makeXMLTranslateRequest(
+          result.translations[0].text,
+          DeepLService.transformSourceToTarget(result.translations[0].detected_source_language)
+        )),
       map(result => result.translations[0].text)
     );
   }
 
-  private makeTranslateRequest(text: string[], targetLang: string): Observable<DeepLResult> {
+  private makeXMLTranslateRequest(text: string, targetLang: TargetLang): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    console.assert(text.length > 0, 'You need at least one text entry.');
-    console.assert(text.length <= 50, 'Maximum 50 text entries are allowed');
+    const formality = DeepLService.supportsFormality(targetLang) ? '&formality=more' : '';
     const additional = '?target_lang=' + encodeURIComponent(targetLang) +
-      '&text=' + text.map(e => encodeURIComponent(e)).join('&text=');
+      '&tag_handling=xml' + formality +
+      '&text=' + encodeURIComponent(text);
     return this.http.get<string>(url + additional, httpOptions)
       .pipe(
         tap(_ => ''),
-        catchError(this.handleError<any>('makeTranslateRequest')),
+        timeout(5000),
+        catchError(this.handleError<any>('makeXMLTranslateRequest')),
       );
   }
 }

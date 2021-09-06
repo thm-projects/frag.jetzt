@@ -138,3 +138,25 @@
 .mat-option {
   color: var(--on-surface);
 }
+
+.help-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-top: 1rem;
+
+  .mat-icon {
+    font-size: 18px;
+    margin-top: 3px;
+  }
+}
+
+.action-button-container {
+  @media screen and (max-width: 500px) {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}

@@ -46,6 +46,13 @@
     "motd-title-new": "Latest",
     "motd-mark-read": "Mark as read"
   },
+  "explanation": {
+    "label": "Explanation",
+    "close": "Close",
+    "deepl": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
+    "spacy": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
+    "topic-cloud": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+  },
   "header": {
     "abort": "Cancel",
     "accessibility-back": "Go back to the previous page",

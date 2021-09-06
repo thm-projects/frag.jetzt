@@ -67,8 +67,16 @@
   </div>
 </ars-row>
 
-<ars-row ars-flex-box>
-  <ars-fill></ars-fill>
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>help</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
   <ars-col>
     <app-dialog-action-buttons
       #appDialogActionButtons

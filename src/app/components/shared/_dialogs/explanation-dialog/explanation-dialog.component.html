@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <app-custom-markdown [data]="data"></app-custom-markdown>
+</div>
+<app-dialog-action-buttons [buttonsLabelSection]="'explanation'"
+                           [confirmButtonLabel]="'close'"
+                           [confirmButtonClickAction]="buildConfirmAction()">
+</app-dialog-action-buttons>
