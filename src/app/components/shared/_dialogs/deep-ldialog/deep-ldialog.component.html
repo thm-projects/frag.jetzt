@@ -7,19 +7,44 @@
     [(ngModel)]="radioButtonValue">
     <mat-radio-button [value]="normalValue">
       <small>{{'deepl.option-normal' | translate}}</small>
-      <app-view-comment-data [currentData]="normalValue.body"></app-view-comment-data>
     </mat-radio-button>
+    <app-view-comment-data #normal
+                           [maxTextCharacters]="data.maxTextCharacters"
+                           [maxDataCharacters]="data.maxDataCharacters"
+                           [isModerator]="data.isModerator"
+                           [isEditor]="true"
+                           [currentData]="normalValue.body"></app-view-comment-data>
     <br>
     <mat-radio-button [value]="improvedValue">
       <small>{{'deepl.option-improved' | translate}}</small>
-      <app-view-comment-data [currentData]="improvedValue.body"></app-view-comment-data>
     </mat-radio-button>
+    <app-view-comment-data #improved
+                           [maxTextCharacters]="data.maxTextCharacters"
+                           [maxDataCharacters]="data.maxDataCharacters"
+                           [isModerator]="data.isModerator"
+                           [isEditor]="true"
+                           [currentData]="improvedValue.body"></app-view-comment-data>
   </mat-radio-group>
 </div>
 
-<app-dialog-action-buttons
-  [buttonsLabelSection]="'comment-page'"
-  [confirmButtonLabel]="'continue'"
-  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  [confirmButtonClickAction]="buildSubmitBodyActionCallback()">
-</app-dialog-action-buttons>
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>help</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      [buttonsLabelSection]="'comment-page'"
+      [confirmButtonLabel]="'continue'"
+      [showDivider]="false"
+      [spacing]="false"
+      [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+      [confirmButtonClickAction]="buildSubmitBodyActionCallback()">
+    </app-dialog-action-buttons>
+  </ars-col>
+</ars-row>

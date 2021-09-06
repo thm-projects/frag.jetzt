@@ -60,7 +60,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       container: participantToolbar,
       handlers: {
         image: () => this.handle('image'),
-        video: () => this.handle('video'),
+        video: () => this.handleVideo(),
         link: () => this.handleLink(),
         formula: () => this.handle('formula')
       }
@@ -104,6 +104,18 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     };
   }
 
+  public static getTextFromData(jsonData: string): string {
+    return JSON.parse(jsonData).reduce((acc, e) => {
+      if (typeof e['insert'] === 'string') {
+        return acc + e['insert'];
+      } else if (typeof e === 'string') {
+        return acc + e;
+      }
+      return acc;
+    }, '');
+  }
+
+
   ngOnInit(): void {
     if (this.isModerator) {
       this.quillModules.toolbar['container'] = moderatorToolbar;
@@ -130,6 +142,19 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         }
         this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
+        // remove background
+        const data = e.content;
+        let changed = false;
+        data.ops.forEach(op => {
+          if (op.attributes && op.attributes.background) {
+            changed = true;
+            op.attributes.background = null;
+            delete op.attributes.background;
+          }
+        });
+        if (changed) {
+          this.editor.quillEditor.setContents(data);
+        }
       });
       this.editor.onEditorCreated.subscribe(_ => {
         if (this.markEvents && this.markEvents.onCreate) {
@@ -192,6 +217,15 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     } else {
       this.quillView.quillEditor.setContents(delta);
     }
+    this.recalcAspectRatio();
+  }
+
+  recalcAspectRatio() {
+    const elem = this.isEditor ? this.editor.editorElem.firstElementChild : this.quillView.editorElem.firstElementChild;
+    elem.querySelectorAll('.images .ql-video').forEach((e: HTMLElement) => {
+      const width = parseFloat(window.getComputedStyle(e).width);
+      e.style.height = (width * 9 / 16) + 'px';
+    });
   }
 
   private syncErrorLayer(): void {
@@ -232,6 +266,44 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     this.translateService.get('quill.tooltip-placeholder-link')
       .subscribe(translation => tooltip.textbox.placeholder = translation);
   }
+
+  private handleVideo(): void {
+    const quill = this.editor.quillEditor;
+    const tooltip = quill.theme.tooltip;
+    const originalSave = tooltip.save;
+    const originalHide = tooltip.hide;
+    tooltip.save = () => {
+      const range = quill.getSelection(true);
+      const value = this.getVideoUrl(tooltip.textbox.value);
+      if (value) {
+        quill.insertEmbed(range.index, 'video', value, 'user');
+      }
+    };
+    // Called on hide and save.
+    tooltip.hide = () => {
+      tooltip.save = originalSave;
+      tooltip.hide = originalHide;
+      tooltip.hide();
+    };
+    tooltip.edit('video');
+    this.translateService.get('quill.tooltip-placeholder-video')
+      .subscribe(translation => tooltip.textbox.placeholder = translation);
+  }
+
+  private getVideoUrl(url) {
+    let match = url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) ||
+      url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtu\.be\/([a-zA-Z0-9_-]+)/) ||
+      url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/);
+    if (match && match[2].length === 11) {
+      return 'https://www.youtube-nocookie.com/embed/' + match[2] + '?showinfo=0';
+    }
+    match = url.match(/^(?:(https?):\/\/)?(?:www\.)?vimeo\.com\/(\d+)/);
+    if (match) {
+      return (match[1] || 'https') + '://player.vimeo.com/video/' + match[2] + '/';
+    }
+    return null;
+  }
+
 
   private handle(type: string): void {
     const quill = this.editor.quillEditor;

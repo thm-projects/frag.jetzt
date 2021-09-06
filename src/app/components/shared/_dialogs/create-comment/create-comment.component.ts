@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -11,6 +11,9 @@ import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { DeepLDialogComponent } from '../deep-ldialog/deep-ldialog.component';
 import { DeepLService } from '../../../../services/http/deep-l.service';
+import { Observable } from 'rxjs';
+import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-submit-comment',
@@ -20,10 +23,13 @@ import { DeepLService } from '../../../../services/http/deep-l.service';
 export class CreateCommentComponent implements OnInit {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
-  user: User;
-  roomId: string;
-  tags: string[];
+  @Input() user: User;
+  @Input() roomId: string;
+  @Input() tags: string[];
+  maxTextCharacters = 500;
+  maxDataCharacters = 1500;
   isSendingToSpacy = false;
+  isModerator = false;
 
   constructor(
     private notification: NotificationService,
@@ -36,8 +42,27 @@ export class CreateCommentComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
+  private static encodeHTML(str: string): string {
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  private static decodeHTML(str: string): string {
+    return str.replace(/&apos;/g, '\'')
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&');
+  }
+
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.isModerator = this.user && this.user.role > 0;
+    this.maxTextCharacters = this.isModerator ? 1000 : 500;
+    this.maxDataCharacters = this.isModerator ? this.maxTextCharacters * 5 : this.maxTextCharacters * 3;
   }
 
   onNoClick(): void {
@@ -59,7 +84,7 @@ export class CreateCommentComponent implements OnInit {
   }
 
   openDeeplDialog(body: string, text: string, onClose: (data: string, text: string) => void) {
-    this.deeplService.improveTextStyle(text).subscribe(improvedText => {
+    this.generateDeeplDelta(body).subscribe(([improvedBody, improvedText]) => {
       this.isSendingToSpacy = false;
       this.dialog.open(DeepLDialogComponent, {
         width: '900px',
@@ -67,7 +92,11 @@ export class CreateCommentComponent implements OnInit {
         data: {
           body,
           text,
-          improvedText
+          improvedBody,
+          improvedText,
+          maxTextCharacters: this.maxTextCharacters,
+          maxDataCharacters: this.maxDataCharacters,
+          isModerator: this.isModerator
         }
       }).afterClosed().subscribe((res) => {
         if (res) {
@@ -115,5 +144,27 @@ export class CreateCommentComponent implements OnInit {
         this.dialogRef.close(comment);
         this.isSendingToSpacy = false;
       });
+  }
+
+  private generateDeeplDelta(body: string): Observable<[string, string]> {
+    const delta = ViewCommentDataComponent.getDeltaFromData(body);
+    const xml = delta.ops.reduce((acc, e, i) => {
+      if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
+        acc += '<x i="' + i + '">' + CreateCommentComponent.encodeHTML(e['insert']) + '</x>';
+        e['insert'] = '';
+      }
+      return acc;
+    }, '');
+    return this.deeplService.improveTextStyle(xml).pipe(
+      map(str => {
+        const regex = /<x i="(\d+)">([^<]+)<\/x>/gm;
+        let m;
+        while ((m = regex.exec(str)) !== null) {
+          delta.ops[+m[1]]['insert'] += CreateCommentComponent.decodeHTML(m[2]);
+        }
+        const text = delta.ops.reduce((acc, el) => acc + (typeof el['insert'] === 'string' ? el['insert'] : ''), '');
+        return [ViewCommentDataComponent.getDataFromDelta(delta), text];
+      })
+    );
   }
 }

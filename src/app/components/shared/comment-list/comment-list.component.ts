@@ -103,7 +103,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
-  newCommentId = '';
+  focusCommentId = '';
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -429,14 +429,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.createdFromLecturer;
       }
     });
-    const testForModerator=()=>{
-      this.comments.forEach(e=>{
-        this.commentService.role(e).subscribe(i=>{
-          console.log(e,i);
+    const testForModerator = () => {
+      this.comments.forEach(e => {
+        this.commentService.role(e).subscribe(i => {
+          console.log(e, i);
         });
       });
     };
-    if(type==='moderator'){
+    if (type === 'moderator') {
       console.log(
         'TEST moderator',
         this.moderatorIds,
@@ -488,6 +488,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   clickedUserNumber(usrNumber: number): void {
     this.userNumberSelection = usrNumber;
     this.filterComments(this.userNumber, usrNumber);
+  }
+
+  votedComment(voteInfo: string) {
+    setTimeout(() => this.focusCommentId = voteInfo, 100);
   }
 
   pauseCommentStream() {
@@ -563,7 +567,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper.openCreateDialog(this.user)
-      .subscribe(comment => this.newCommentId = comment && comment.id);
+      .subscribe(comment => this.focusCommentId = comment && comment.id);
   }
 
   /**

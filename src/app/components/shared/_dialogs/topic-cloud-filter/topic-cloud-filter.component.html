@@ -93,13 +93,26 @@
   <app-worker-dialog [inlined]="true"
                      *ngIf="user && user.role > 0"></app-worker-dialog>
 
-  <app-dialog-action-buttons
-    buttonsLabelSection="content"
-    confirmButtonLabel="tag-cloud-create"
-    buttonIcon="cloud"
-
-    [cancelButtonClickAction]="cancelButtonActionCallback()"
-    [confirmButtonClickAction]="confirmButtonActionCallback()">
-  </app-dialog-action-buttons>
+  <ars-row ars-flex-box class="action-button-container">
+    <ars-col>
+      <button
+        mat-flat-button
+        class="help-button"
+        (click)="openHelp()">
+        <mat-icon>help</mat-icon>
+        {{ 'explanation.label' | translate}}
+      </button>
+    </ars-col>
+    <ars-col>
+      <app-dialog-action-buttons
+        buttonsLabelSection="content"
+        confirmButtonLabel="tag-cloud-create"
+        buttonIcon="cloud"
+        [spacing]="false"
+        [cancelButtonClickAction]="cancelButtonActionCallback()"
+        [confirmButtonClickAction]="confirmButtonActionCallback()">
+      </app-dialog-action-buttons>
+    </ars-col>
+  </ars-row>
 
 </mat-dialog-content>

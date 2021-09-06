@@ -266,7 +266,7 @@
 
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
-               [appScrollIntoView]="current.id === newCommentId"
+               [appScrollIntoView]="current.id === focusCommentId"
                [usesJoyride]="i === 0"
                [comment]="current"
                [parseVote]="getVote(current)"
@@ -276,7 +276,8 @@
                [disabled]="!commentsEnabled"
                (clickedOnTag)="clickedOnTag($event)"
                (clickedUserNumber)="clickedUserNumber($event)"
-               (clickedOnKeyword)="clickedOnKeyword($event)">
+               (clickedOnKeyword)="clickedOnKeyword($event)"
+               (votedComment)="votedComment($event)">
   </app-comment>
 
 </div>
