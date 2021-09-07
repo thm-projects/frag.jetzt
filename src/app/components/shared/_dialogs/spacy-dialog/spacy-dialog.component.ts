@@ -136,7 +136,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   manualKeywordsToKeywords() {
-    const tempKeywords = this.manualKeywords.replace(/\s/g, '');
+    const tempKeywords = this.manualKeywords.replace(/\s+/g, ' ');
     if (tempKeywords.length) {
       this.keywords = tempKeywords.split(',').map((keyword) => (
         {

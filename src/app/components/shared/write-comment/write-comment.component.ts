@@ -63,7 +63,7 @@ export class WriteCommentComponent implements OnInit {
                                maxTextCharacters: number,
                                maxDataCharacters: number): boolean {
     text = text.trim();
-    if (!text.length) {
+    if (text.length < 1 && data.length < 1) {
       translateService.get('comment-page.error-comment').subscribe(message => {
         notificationService.show(message);
       });
