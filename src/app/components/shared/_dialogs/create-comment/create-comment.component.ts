@@ -85,7 +85,10 @@ export class CreateCommentComponent implements OnInit {
 
   openDeeplDialog(body: string, text: string, onClose: (data: string, text: string) => void) {
     this.generateDeeplDelta(body).subscribe(([improvedBody, improvedText]) => {
-      this.isSendingToSpacy = false;
+      if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+        onClose(body, text);
+        return;
+      }
       this.dialog.open(DeepLDialogComponent, {
         width: '900px',
         maxWidth: '100%',
@@ -101,6 +104,8 @@ export class CreateCommentComponent implements OnInit {
       }).afterClosed().subscribe((res) => {
         if (res) {
           onClose(res.body, res.text);
+        } else {
+          this.isSendingToSpacy = false;
         }
       });
     }, (_) => {
