@@ -95,7 +95,7 @@
     "editing-done-hint": "Editieren beenden",
     "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "select-keywords": "Die Textanalyse schlägt dir Stichwörter vor. Welche beschreiben deine Frage am besten?"
+    "select-keywords": "Welche Stichwörter beschreiben deine Frage am besten?"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
@@ -245,9 +245,9 @@
   "explanation": {
     "label": "Erklärung",
     "close": "Schließen",
-    "deepl": "## Textoptimierung\n\nUm deine Frage so lesbar und verständlich wie möglich zu machen, lassen wir sie mit dem Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
-    "spacy": "## Textanalyse\n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
-    "topic-cloud": "## Themenwolke\n\nDie Themenwolke visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als Navigator zu allen Fragen zu einem ausgewählten Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
+    "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
+    "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
+    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem ausgewählten Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
   },
   "home-page": {
     "create-session": "Neue Sitzung",
