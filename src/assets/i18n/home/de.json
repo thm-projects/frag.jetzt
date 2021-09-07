@@ -62,9 +62,9 @@
   "explanation": {
     "label": "Erklärung",
     "close": "Schließen",
-    "deepl": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
-    "spacy": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
-    "topic-cloud": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+    "deepl": "## Textoptimierung\n\nUm deine Frage so lesbar und verständlich wie möglich zu machen, lassen wir sie mit dem Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
+    "spacy": "## Textanalyse\n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
+    "topic-cloud": "## Themenwolke\n\nDie Themenwolke visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als Navigator zu allen Fragen zu einem ausgewählten Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
   },
   "header": {
     "abort": "Abbrechen",
@@ -92,7 +92,7 @@
     "my-sessions": "Zu den Räumen",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "sure": "Bist du sicher?",
-    "user-bonus-token": "Bonus-Sterne",
+    "user-bonus-token": "Meine Bonus-Sterne",
     "user-got-tokens": "Du hast noch Sterne für Bonuspunkte, die verloren gehen!",
     "users-online": "Aktuell eingeloggte User",
     "visited-sessions": "Sitzungen",
@@ -304,7 +304,7 @@
     "panel-join-button": "",
     "panel-remove-button": "Eintrag entfernen",
     "delete-room": "Raum löschen",
-    "panel-session-id": "Raum",
+    "panel-session-id": "Raum-Code",
     "panel-session-name": "Veranstaltung",
     "panel-user-role": "Rolle",
     "participant-role": "Du bist Teilnehmer*in in diesem Raum.",
@@ -361,7 +361,7 @@
     "please-choose": "Bitte wähle zuerst eine Sitzung aus!"
   },
   "qr-dialog": {
-    "session": "Raum"
+    "session": "Raum-Code"
   },
   "topic-cloud": {
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
