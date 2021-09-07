@@ -141,87 +141,88 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   initNavigation() {
-    this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
-      this.setTimePeriod(Period.all);
-      this.clickedOnKeyword(tag);
-    });
-    this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
-      this.eventService.broadcast('currentRoomData', {
-        currentFilter: this.getCurrentFilter(),
-        comments: this.comments,
-        room: this.room
-      } as CommentListData);
-    });
-    const navigation = {};
-    const nav = (b, c) => navigation[b] = c;
-    nav('createQuestion', () => this.writeComment());
-    nav('moderator', () => {
-      const dialogRef = this.dialog.open(ModeratorsComponent, {
-        width: '400px',
-      });
-      dialogRef.componentInstance.roomId = this.room.id;
-    });
-    nav('tags', () => {
-      const updRoom = JSON.parse(JSON.stringify(this.room));
-      const dialogRef = this.dialog.open(TagsComponent, {
-        width: '400px',
-      });
-      let tags = [];
-      if (this.room.tags !== undefined) {
-        tags = this.room.tags;
-      }
-      dialogRef.componentInstance.tags = tags;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (!result || result === 'abort') {
-            return;
-          } else {
-            updRoom.tags = result;
-            this.roomService.updateRoom(updRoom)
-              .subscribe((room) => {
-                  this.room = room;
-                  this.translateService.get('room-page.changes-successful').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                },
-                error => {
-                  this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-                    this.notificationService.show(msg);
-                  });
-                });
-          }
-        });
-    });
-    nav('deleteQuestions', () => {
-      const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-        width: '400px',
-      });
-      dialogRef.componentInstance.roomId = this.roomId;
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          if (result === 'delete') {
-            this.translationService.get('room-page.comments-deleted').subscribe(msg => {
-              this.notificationService.show(msg);
-            });
-            this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
-          }
-        });
-    });
-    nav('exportQuestions', () => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translationService,
-        'comment-list',
-        this.notificationService);
-      exp.exportAsCsv();
-    });
-    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
-      if (navigation.hasOwnProperty(e)) {
-        navigation[e]();
-      }
-    });
+    // this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
+    //   this.setTimePeriod(Period.all);
+    //   this.clickedOnKeyword(tag);
+    // });
+    // this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
+    //   this.eventService.broadcast('currentRoomData', {
+    //     currentFilter: this.getCurrentFilter(),
+    //     comments: this.comments,
+    //     room: this.room
+    //   } as CommentListData);
+    // });
+    // const navigation = {};
+    // const nav = (b, c) => navigation[b] = c;
+    // nav('createQuestion', () => this.writeComment());
+    // nav('moderator', () => {
+    //   const dialogRef = this.dialog.open(ModeratorsComponent, {
+    //     width: '400px',
+    //   });
+    //   dialogRef.componentInstance.roomId = this.room.id;
+    // });
+    // nav('tags', () => {
+    //   const updRoom = JSON.parse(JSON.stringify(this.room));
+    //   const dialogRef = this.dialog.open(TagsComponent, {
+    //     width: '400px',
+    //   });
+    //   let tags = [];
+    //   if (this.room.tags !== undefined) {
+    //     tags = this.room.tags;
+    //   }
+    //   dialogRef.componentInstance.tags = tags;
+    //   dialogRef.afterClosed()
+    //     .subscribe(result => {
+    //       if (!result || result === 'abort') {
+    //         return;
+    //       } else {
+    //         updRoom.tags = result;
+    //         this.roomService.updateRoom(updRoom)
+    //           .subscribe((room) => {
+    //               this.room = room;
+    //               this.translateService.get('room-page.changes-successful').subscribe(msg => {
+    //                 this.notificationService.show(msg);
+    //               });
+    //             },
+    //             error => {
+    //               this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+    //                 this.notificationService.show(msg);
+    //               });
+    //             });
+    //       }
+    //     });
+    // });
+    // nav('deleteQuestions', () => {
+    //   const dialogRef = this.dialog.open(DeleteCommentsComponent, {
+    //     width: '400px',
+    //   });
+    //   dialogRef.componentInstance.roomId = this.roomId;
+    //   dialogRef.afterClosed()
+    //     .subscribe(result => {
+    //       if (result === 'delete') {
+    //         this.translationService.get('room-page.comments-deleted').subscribe(msg => {
+    //           this.notificationService.show(msg);
+    //         });
+    //         this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
+    //       }
+    //     });
+    // });
+    // nav('exportQuestions', () => {
+    //   const exp: Export = new Export(
+    //     this.room,
+    //     this.commentService,
+    //     this.bonusTokenService,
+    //     this.translationService,
+    //     'comment-list',
+    //     this.notificationService);
+    //   exp.exportAsCsv();
+    // });
+    // this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
+    //   if (navigation.hasOwnProperty(e)) {
+    //     navigation[e]();
+    //   }
+    // });
+
   }
 
   ngOnInit() {

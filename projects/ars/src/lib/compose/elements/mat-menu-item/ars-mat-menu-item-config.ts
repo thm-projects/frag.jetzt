@@ -1,12 +1,16 @@
 import { TranslateService } from '@ngx-translate/core';
-import { InjectionToken, ViewContainerRef } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-export interface ArsMatMenuItemConfig{
+export interface ArsMatMenuItemConfig {
   translate:TranslateService;
   icon:string;
+  isSVGIcon?:boolean;
   text:string;
-  color:string;
-  callback:()=>void;
+  color?:string;
+  iconColor?:string;
+  callback?:(e?:MouseEvent)=>void;
+  condition?:()=>boolean;
+  routerLink?:string;
 }
 
 export const ARS_MAT_MENU_ITEM_DATA=new InjectionToken('ARS_MAT_MENU_ITEM_DATA');

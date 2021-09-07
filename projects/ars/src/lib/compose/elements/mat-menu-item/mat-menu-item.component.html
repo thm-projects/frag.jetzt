@@ -1,8 +1,15 @@
 <button mat-menu-item
-        (click)="data.callback()"
-        tabindex="0">
-  <mat-icon>{{data.icon}}</mat-icon>
-  <p>{{data.color}}</p>
-  <p>{{data.text}}</p>
+        tabindex="0"
+        (click)="action($event)"
+        *ngIf="data.condition()">
+  <ng-container *ngIf="data.isSVGIcon">
+    <mat-icon svgIcon="{{data.icon}}">
+    </mat-icon>
+  </ng-container>
+  <ng-container *ngIf="!data.isSVGIcon">
+    <mat-icon [ngStyle]="{'color':data.iconColor}">
+      {{data.icon}}
+    </mat-icon>
+  </ng-container>
   <span>{{data.text | translate}}</span>
 </button>

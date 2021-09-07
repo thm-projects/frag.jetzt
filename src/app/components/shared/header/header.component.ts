@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -32,14 +32,22 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 import { ComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/compose-host.directive';
 import { ComposeService } from '../../../../../projects/ars/src/lib/service/compose.service';
 import { MatMenuItemComponent } from '../../../../../projects/ars/src/lib/compose/elements/mat-menu-item/mat-menu-item.component';
-import { ARS_MAT_MENU_ITEM_DATA } from '../../../../../projects/ars/src/lib/compose/elements/mat-menu-item/ars-mat-menu-item-config';
+import {
+  ARS_MAT_MENU_ITEM_DATA,
+  ArsMatMenuItemConfig
+} from '../../../../../projects/ars/src/lib/compose/elements/mat-menu-item/ars-mat-menu-item-config';
+import {
+  ARS_MAT_TOGGLE_CONFIG,
+  ArsMatToggleConfig
+} from '../../../../../projects/ars/src/lib/compose/elements/mat-toggle/ars-mat-toggle-config';
+import { MatToggleComponent } from '../../../../../projects/ars/src/lib/compose/elements/mat-toggle/mat-toggle.component';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit,AfterViewInit {
   user: User;
   cTime: string;
   shortId: string;
@@ -190,6 +198,10 @@ export class HeaderComponent implements OnInit {
     this.headerService.onUserChange(e => {
       this.userActivity = e;
     });
+  }
+
+  ngAfterViewInit(){
+    this.headerService.initHeader(()=>this);
   }
 
   showMotdDialog() {
@@ -388,19 +400,30 @@ export class HeaderComponent implements OnInit {
     WorkerDialogComponent.addWorkTask(this.dialog, this.room);
   }
 
-  createOption(){
-    this.composeService.create(
+  /**
+   * @see HeaderService
+   */
+  createOption(a:ArsMatMenuItemConfig):ComponentRef<any>{
+    return this.composeService.create(
       this.host.viewContainerRef,
       MatMenuItemComponent,
-      this.composeService.createMap(ARS_MAT_MENU_ITEM_DATA,{
-        translate:this.translationService,
-        icon:'face',
-        text:'test',
-        color:'red',
-        callback:()=>{
-          console.log('ok');
-        }
-      })
+      this.composeService.createMap(ARS_MAT_MENU_ITEM_DATA,a)
     );
   }
+
+  /**
+   * @see HeaderService
+   */
+  createToggle(a:ArsMatToggleConfig):ComponentRef<any>{
+    return this.composeService.create(
+      this.host.viewContainerRef,
+      MatToggleComponent,
+      this.composeService.createMap(ARS_MAT_TOGGLE_CONFIG,a)
+    );
+  }
+
+  public getTranslate():TranslateService{
+    return this.translationService;
+  }
+
 }

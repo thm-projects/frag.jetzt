@@ -21,6 +21,12 @@ import { ComposeHostDirective } from './compose/compose-host.directive';
 import { MatMenuItemComponent } from './compose/elements/mat-menu-item/mat-menu-item.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
+import { RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToggleComponent } from './compose/elements/mat-toggle/mat-toggle.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -41,13 +47,18 @@ import { TranslateModule } from '@ngx-translate/core';
     ButtonBaseDirective,
     MaterialBtnComponent,
     ComposeHostDirective,
-    MatMenuItemComponent
+    MatMenuItemComponent,
+    MatToggleComponent
   ],
   imports:[
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
-    TranslateModule
+    MatSliderModule,
+    TranslateModule,
+    RouterModule,
+    CommonModule,
+    MatSlideToggleModule
   ],
     exports:[
         ArsComponent,
@@ -65,7 +76,8 @@ import { TranslateModule } from '@ngx-translate/core';
         ButtonWrapperDirective,
         ButtonBaseDirective,
         MaterialBtnComponent,
-        ComposeHostDirective
+        ComposeHostDirective,
+        MatButtonToggleModule
     ]
 })
 export class ArsModule { }

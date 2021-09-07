@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
+import { AfterContentInit, Component, EventEmitter, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
@@ -29,6 +29,11 @@ import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.compone
 import { RoomDeleted } from '../../../models/events/room-deleted';
 import { ProfanitySettingsComponent } from '../_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from '../_dialogs/room-description-settings/room-description-settings.component';
+import { HeaderService } from '../../../services/util/header.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/user';
+import { UserRole } from '../../../models/user-roles.enum';
+import { Palette } from '../../../../theme/Theme';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -47,6 +52,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
   headerInterface = null;
+  user:User;
+  private onDestroy:EventEmitter<any>=new EventEmitter<any>();
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -64,7 +71,9 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private notificationService: NotificationService,
               private bonusTokenService: BonusTokenService,
               public router: Router,
-              public translationService: TranslateService) {
+              public translationService: TranslateService,
+              public headerService:HeaderService,
+              public authenticationService:AuthenticationService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
@@ -73,23 +82,119 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   initNavigation() {
-    const navigation = {};
-    const nav = (b, c) => navigation[b] = c;
-    nav('deleteRoom',()=>this.openDeleteRoomDialog());
-    nav('profanityFilter',()=>this.toggleProfanityFilter());
-    nav('editSessionDescription',()=>this.editSessionDescription());
-    nav('roomBonusToken', () => this.showBonusTokenDialog());
-    nav('moderator', () => this.showModeratorsDialog());
-    nav('tags', () => this.showTagsDialog());
-    nav('topicCloud', () => this.showTagCloud());
-    nav('exportQuestions', () => this.exportQuestions());
-    nav('deleteQuestions', () => this.deleteQuestions());
-    nav('moderatorSettings', () => this.navigateModeratorSettings());
-    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
-      if (navigation.hasOwnProperty(e)) {
-        navigation[e]();
-      }
+    // const navigation = {};
+    // const nav = (b, c) => navigation[b] = c;
+    // nav('deleteRoom',()=>this.openDeleteRoomDialog());
+    // nav('profanityFilter',()=>this.toggleProfanityFilter());
+    // nav('editSessionDescription',()=>this.editSessionDescription());
+    // nav('roomBonusToken', () => this.showBonusTokenDialog());
+    // nav('moderator', () => this.showModeratorsDialog());
+    // nav('tags', () => this.showTagsDialog());
+    // nav('topicCloud', () => this.showTagCloud());
+    // nav('exportQuestions', () => this.exportQuestions());
+    // nav('deleteQuestions', () => this.deleteQuestions());
+    // nav('moderatorSettings', () => this.navigateModeratorSettings());
+    // this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
+    //   if (navigation.hasOwnProperty(e)) {
+    //     navigation[e]();
+    //   }
+    // });
+
+    this.authenticationService.watchUser.subscribe(user=>{
+      this.user=user;
     });
+    this.headerService.buildHeader(e=>{
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'flag',
+        text:'header.edit-session-description',
+        callback:()=>this.editSessionDescription(),
+        condition:()=>this.user.role>UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'visibility_off',
+        isSVGIcon:false,
+        text:'header.moderation-mode',
+        callback:()=>this.showCommentsDialog(),
+        condition:()=>this.user.role>UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'gavel',
+        text:'header.edit-moderator',
+        callback:()=>this.showModeratorsDialog(),
+        condition:()=>this.user.role>UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'comment_tag',
+        isSVGIcon:true,
+        text:'header.edit-tags',
+        callback:()=>this.showTagsDialog(),
+        condition:()=>this.user.role>UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'grade',
+        iconColor:Palette.YELLOW,
+        text:'header.bonustoken',
+        callback:()=>this.showBonusTokenDialog(),
+        condition:()=>this.user.role>=UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'file_download',
+        text:'header.export-questions',
+        callback:()=>this.exportQuestions(),
+        condition:()=>this.user.role>=UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'clear',
+        text:'header.profanity-filter',
+        callback:()=>this.toggleProfanityFilter(),
+        condition:()=>this.user.role>UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'block',
+        iconColor:Palette.RED,
+        text:'header.block',
+        callback:()=>this.toggleProfanityFilter(),
+        condition:()=>this.user.role>UserRole.PARTICIPANT
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'delete_sweep',
+        iconColor:Palette.RED,
+        text:'header.delete-questions',
+        callback:()=>this.openDeleteRoomDialog(),
+        condition:()=>this.user.role==UserRole.CREATOR
+      });
+      e.button({
+        translate:this.headerService.getTranslate(),
+        icon:'delete',
+        iconColor:Palette.RED,
+        isSVGIcon:false,
+        text:'header.delete-room',
+        callback:()=>this.openDeleteRoomDialog(),
+        condition:()=>this.user.role==UserRole.CREATOR
+      });
+      e.toggle({
+        translate:this.headerService.getTranslate(),
+        textActivated:'header.delete-room',
+        textDeactivated:'header.delete-room',
+        callback:()=>this.openDeleteRoomDialog(),
+        condition:()=>this.user.role==UserRole.CREATOR
+      })
+    },this.onDestroy);
+  }
+
+  public blockQuestions() {
+    // flip state if clicked
+    this.room.questionsBlocked = !this.room.questionsBlocked;
+    this.roomService.updateRoom(this.room).subscribe();
   }
 
   navigateModeratorSettings(){
@@ -147,6 +252,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     if (this.headerInterface) {
       this.headerInterface.unsubscribe();
     }
+    this.onDestroy.emit();
   }
 
   ngAfterContentInit(): void {
@@ -156,7 +262,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   ngOnInit() {
-    this.initNavigation();
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
@@ -189,6 +294,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         this.eventService.makeFocusOnInputFalse();
       }
     });
+    this.initNavigation();
   }
 
   public announce() {

@@ -10,11 +10,31 @@
       <mat-icon class="header-icons">arrow_back</mat-icon>
     </button>
 
-    <button (click)="createOption();"><p>create Option</p></button>
-
-    <div arsComposeHost>
-
-    </div>
+    <mat-menu #test [overlapTrigger]="false">
+    </mat-menu>
+    <button [disabled]="cookiesDisabled()"
+            mat-button
+            [joyrideStep]="'optionHeader'"
+            [stepPosition]="'center'"
+            appJoyrideTemplate
+            *ngIf="user && deviceType === 'desktop'"
+            [matMenuTriggerFor]="test"
+            aria-labelledby="session-label"
+            id="session-button2">
+      <div class="label-icon">
+        <mat-icon *ngIf="!user.isGuest"
+                  class="header-icons">more_vert
+        </mat-icon>
+        <mat-icon *ngIf="user.isGuest"
+                  svgIcon="meeting_room"
+                  class="header-icons"></mat-icon>
+        <h2 class="oldtypo-h2"
+            *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h2>
+        <!--Guest Account-->
+        <h2 class="oldtypo-h2"
+            *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h2>
+      </div>
+    </button>
 
     <button id="tour-button"
             mat-button
@@ -119,14 +139,7 @@
       <!--      <p class="mat-menu-inner-title">Account</p>-->
 
       <div class="mat-menu-inner-box">
-
-        <!-- Home -->
-        <ng-container *ngIf="router.url.endsWith('/home')">
-        </ng-container>
-
-        <!-- Session list -->
-        <ng-container *ngIf="router.url.endsWith('/user')">
-        </ng-container>
+        <ng-container arsComposeHost></ng-container>
 
         <!-- Room -->
         <ng-container *ngIf="router.url.includes('/room/')">
@@ -227,24 +240,11 @@
               </button>
 
             </ng-container>
-            <ng-container *ngIf="router.url.includes('/participant/room/')">
-            </ng-container>
-            <ng-container *ngIf="router.url.includes('/moderator/room/')">
-            </ng-container>
-            <ng-container *ngIf="router.url.includes('/creator/room/')">
-            </ng-container>
 
           </ng-container>
 
           <!-- Session -->
           <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
-
-            <!-- app-room-participant-page -->
-            <ng-container *ngIf="router.url.includes('/participant/room/')">
-            </ng-container>
-            <!-- app-room-creator-page -->
-            <ng-container *ngIf="router.url.includes('/moderator/room/')">
-            </ng-container>
 
             <!-- app-room-creator-page -->
 
