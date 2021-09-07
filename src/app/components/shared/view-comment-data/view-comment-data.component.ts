@@ -142,19 +142,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         }
         this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
-        // remove background
-        const data = e.content;
-        let changed = false;
-        data.ops.forEach(op => {
-          if (op.attributes && op.attributes.background) {
-            changed = true;
-            op.attributes.background = null;
-            delete op.attributes.background;
-          }
-        });
-        if (changed) {
-          this.editor.quillEditor.setContents(data);
-        }
       });
       this.editor.onEditorCreated.subscribe(_ => {
         if (this.markEvents && this.markEvents.onCreate) {
@@ -163,7 +150,11 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         if (this._currentData) {
           this.set(this._currentData);
         }
-        (this.editor.editorElem.firstElementChild as HTMLElement).focus();
+        const elem = this.editor.editorElem.firstElementChild as HTMLElement;
+        elem.focus();
+        elem.addEventListener('paste', (e) => {
+          setTimeout(this.cleanContentOnPaste.bind(this));
+        });
         this.syncErrorLayer();
         setTimeout(() => this.syncErrorLayer(), 200); // animations?
       });
@@ -226,6 +217,29 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       const width = parseFloat(window.getComputedStyle(e).width);
       e.style.height = (width * 9 / 16) + 'px';
     });
+  }
+
+  private cleanContentOnPaste() {
+    const data = this.editor.quillEditor.getContents();
+    let changed = false;
+    data.ops.forEach(op => {
+      if (!op.attributes) {
+        return;
+      }
+      if (op.attributes.background) {
+        changed = true;
+        op.attributes.background = null;
+        delete op.attributes.background;
+      }
+      if (op.attributes.color) {
+        changed = true;
+        op.attributes.color = null;
+        delete op.attributes.color;
+      }
+    });
+    if (changed) {
+      this.editor.quillEditor.setContents(data);
+    }
   }
 
   private syncErrorLayer(): void {

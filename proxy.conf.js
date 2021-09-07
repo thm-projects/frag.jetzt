@@ -4,10 +4,11 @@ const PROXY_CONFIG = {
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug",
-    "router": function (req) {
-      const DEEPL_API_KEY = 'DEEPL_API_KEY';
-      req.url = req.url.substr(6) + '&auth_key=' + DEEPL_API_KEY;
-      return 'https://api-free.deepl.com/v2';
+    "pathRewrite": {
+      "^/deepl": ""
+    },
+    "onProxyReq": function (proxyRes, req, res) {
+      proxyRes.setHeader('Authorization', 'DeepL-Auth-Key DEEPL_API_KEY');
     }
   },
   "/languagetool": {

@@ -54,7 +54,7 @@ export class SpacyService extends BaseHttpService {
       .post<KeywordList>(url, { text, model }, httpOptions)
       .pipe(
         tap(_ => ''),
-        timeout(500),
+        timeout(2500),
         catchError(this.handleError<any>('getKeywords')),
         map((elem: KeywordList) => {
           const keywordsMap = new Map<string, { lemma: string; dep: Set<string> }>();
