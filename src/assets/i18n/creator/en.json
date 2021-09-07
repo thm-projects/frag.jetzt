@@ -96,7 +96,7 @@
     "editing-done-hint": "Finish editing",
     "force-language-selection": "The language of the text input could not be detected automatically.",
     "add-manually": "Enter a keyword for your question. Separate several keywords with a comma.",
-    "select-keywords": "The text analysis suggests the following keywords. Which best characterise your question?"
+    "select-keywords": "The text analysis suggests keywords. Which best describe your question?"
   },
   "comment-page": {
     "a11y-comment_delete": "Deletes this question",
@@ -246,9 +246,9 @@
   "explanation": {
     "label": "Explanation",
     "close": "Close",
-    "deepl": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
-    "spacy": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem.",
-    "topic-cloud": "# Lorem ipsum\nLorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,\nmolestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum\nnumquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium\noptio, eaque rerum! Provident similique accusantium nemo autem."
+    "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into German and back into English using the translation program [DeepL](https://www.deepl.com/translator).\n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style.",
+    "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy](https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
+    "topic-cloud": "## Topic cloud\n\nThe topic cloud visualizes the frequency of the keywords: the larger the font, the more questions refer to the keyword. The rating of the questions is included in the font size.\n\nThe topic cloud serves as a navigator to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword."
   },
   "home-page": {
     "create-session": "New session",
@@ -300,7 +300,7 @@
     "changes-successful": "Successfully updated.",
     "comments": "Public questions",
     "comments-deleted": "All questions have been deleted.",
-    "copy-session-id": "Copy the link to this session to the clipboard and pass it on to the session participants.",
+    "copy-session-id": "Share the link to this room with your participants.",
     "create-content": "Create content",
     "default-content-group": "Default",
     "delete-all-comments": "Delete questions",
@@ -334,7 +334,7 @@
     "reallyContent": "Do you really want to delete content ",
     "reallySession": "Do you really want to delete session ",
     "room-not-found": "Session not found :(",
-    "session-id": "Key",
+    "session-id": "Key code",
     "session-id-copied": "Session link was copied to the clipboard.",
     "session-settings": "Session administration",
     "session-question-board": "To the public question list",
