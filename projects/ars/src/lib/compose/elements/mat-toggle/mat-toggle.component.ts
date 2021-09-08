@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ARS_MAT_TOGGLE_CONFIG, ArsMatToggleConfig } from './ars-mat-toggle-config';
 import { MatButtonToggleChange } from '@angular/material/button-toggle/button-toggle';
+import { ArsAnchor } from '../../../models/util/ArsObserver';
 
 @Component({
   selector: 'ars-mat-toggle',
@@ -11,17 +12,21 @@ import { MatButtonToggleChange } from '@angular/material/button-toggle/button-to
 export class MatToggleComponent implements OnInit {
 
   public translate:TranslateService;
+  public state:ArsAnchor<boolean>;
   constructor(
     @Inject(ARS_MAT_TOGGLE_CONFIG) public data:ArsMatToggleConfig
   ) {
     this.translate=data.translate;
+    this.state=data.checked.createAnchor();
   }
 
   ngOnInit(){
   }
 
-  public action(e:MatButtonToggleChange){
-
+  public action(e:MouseEvent){
+    if(this.data.checkAsToggle)
+      this.data.checked.set(!this.data.checked.get());
+    if(this.data.callback)this.data.callback(e);
   }
 
 }

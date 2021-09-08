@@ -34,27 +34,23 @@ export class ArsAnchor<E> {
  */
 export class ArsObserver<E> {
 
+  public static build<E>(e:(a:ArsObserver<E>)=>void):ArsObserver<E>{
+    const obs=new ArsObserver<E>();
+    e(obs);
+    return obs;
+  }
+
   private previous:E;
   private current:E;
-  private listener:((e:ArsObserver<E>)=>void)[];
-  private compare:(a:E,b:E)=>boolean;//a current b new value
+  private listener:((e:ArsObserver<E>)=>void)[]=[];
   constructor(e?:E){
     if(e)this.current=e;
-    this.compare=(a,b)=>a===b;
   }
 
-  public setPredicate(compare:(a:E,b:E)=>boolean) {
-    this.compare=compare;
-  }
-
-  public set(e:E):boolean{
-    if(this.compare(this.current,e)){
-      this.previous=this.current;
-      this.current=e;
-      this.listener.forEach(listener=>listener(this));
-      return true;
-    }
-    return false;
+  public set(e:E){
+    this.previous=this.current;
+    this.current=e;
+    this.listener.forEach(listener=>listener(this));
   }
 
   public get():E{
@@ -69,8 +65,9 @@ export class ArsObserver<E> {
     return this.current == null;
   }
 
-  public onChange(consumer:(e:ArsObserver<E>)=>void):()=>void {
+  public onChange(consumer:(e:ArsObserver<E>)=>void,run?:boolean):()=>void {
     this.listener.push(consumer);
+    if(run)consumer(this);
     return ()=>this.listener
       =this.listener.splice(this.listener.indexOf(consumer));
   }

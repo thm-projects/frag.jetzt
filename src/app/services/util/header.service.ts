@@ -5,6 +5,7 @@ import { Destroyable } from '../../../../projects/ars/src/lib/models/util/Destro
 import { TranslateService } from '@ngx-translate/core';
 import { ArsMatToggleConfig } from '../../../../projects/ars/src/lib/compose/elements/mat-toggle/ars-mat-toggle-config';
 import { HeaderBuildable, HeaderBuilder } from '../../models/compose/header-builder';
+import { NotificationService } from './notification.service';
 
 @Injectable({
   providedIn: 'root'
@@ -85,6 +86,10 @@ export class HeaderService {
 
   public getTranslate():TranslateService{
     return this.headerComponent().getTranslate();
+  }
+
+  public getNotificationService():NotificationService{
+    return this.headerComponent().getNotificationService();
   }
 
   public buildHeader(e:(a:HeaderBuildable)=>void,

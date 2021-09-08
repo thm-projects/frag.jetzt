@@ -426,4 +426,8 @@ export class HeaderComponent implements OnInit,AfterViewInit {
     return this.translationService;
   }
 
+  public getNotificationService():NotificationService{
+    return this.notificationService;
+  }
+
 }

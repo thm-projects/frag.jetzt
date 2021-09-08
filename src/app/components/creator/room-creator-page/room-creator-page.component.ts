@@ -34,6 +34,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Palette } from '../../../../theme/Theme';
+import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ArsObserver';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -158,14 +159,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       });
       e.button({
         translate:this.headerService.getTranslate(),
-        icon:'block',
-        iconColor:Palette.RED,
-        text:'header.block',
-        callback:()=>this.toggleProfanityFilter(),
-        condition:()=>this.user.role>UserRole.PARTICIPANT
-      });
-      e.button({
-        translate:this.headerService.getTranslate(),
         icon:'delete_sweep',
         iconColor:Palette.RED,
         text:'header.delete-questions',
@@ -183,11 +176,24 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       });
       e.toggle({
         translate:this.headerService.getTranslate(),
-        textActivated:'header.delete-room',
-        textDeactivated:'header.delete-room',
-        callback:()=>this.openDeleteRoomDialog(),
-        condition:()=>this.user.role==UserRole.CREATOR
-      })
+        textActivated:'header.unlock',
+        textDeactivated:'header.block',
+        colorDeactivated:Palette.RED,
+        condition:()=>this.user.role>UserRole.PARTICIPANT,
+        checked:ArsObserver.build(e=>{
+          e.set(this.room.questionsBlocked);
+          e.onChange(a=>{
+            this.room.questionsBlocked = a.get();
+            this.roomService.updateRoom(this.room).subscribe();
+            if(a.get()){
+              this.headerService.getTranslate().get('header.questions-blocked').subscribe(msg=>{
+                this.headerService.getNotificationService().show(msg);
+              });
+            }
+          });
+        }),
+        checkAsToggle:true
+      });
     },this.onDestroy);
   }
 
@@ -265,6 +271,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
+      console.log(params);
       this.initializeRoom(params['shortId']);
       this.encodedShortId = params['shortId'];
     });
@@ -294,7 +301,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         this.eventService.makeFocusOnInputFalse();
       }
     });
-    this.initNavigation();
+    this.roomService.getRoomByShortId(this.encodedShortId).subscribe(e=>{
+      this.room=e;
+      this.initNavigation();
+    });
   }
 
   public announce() {
