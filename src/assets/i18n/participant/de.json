@@ -160,7 +160,7 @@
     "show-more": "Mehr ansehen",
     "show-less": "Weniger anzeigen",
     "sure": "Bist du sicher?",
-    "grammar-check": "Rechtschreibprüfung",
+    "grammar-check": "Text prüfen",
     "upvote": "positiv",
     "downvote": "negativ"
   },
@@ -266,6 +266,8 @@
     "questions-blocked": "Neue Fragen deaktiviert "
   },
   "quill": {
+    "cancel": "Abbrechen",
+    "heading": "Quill Input",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",

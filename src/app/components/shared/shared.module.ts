@@ -53,6 +53,7 @@ import { QuillModule } from 'ngx-quill';
 import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
+import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
 
 @NgModule({
   imports: [
@@ -111,7 +112,8 @@ import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explan
     ScrollIntoViewDirective,
     ViewCommentDataComponent,
     DeepLDialogComponent,
-    ExplanationDialogComponent
+    ExplanationDialogComponent,
+    QuillInputDialogComponent
   ],
   exports: [
     RoomJoinComponent,
