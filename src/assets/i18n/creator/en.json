@@ -192,7 +192,7 @@
     "edit-favorite-reset": "Remove marker",
     "edit-bookmark": "Bookmark",
     "edit-bookmark-reset": "Remove marker",
-    "grammar-check": "Spell check",
+    "grammar-check": "Check text",
     "show-comment-with-filter": "Hide vulgar words",
     "show-comment-without-filter": "Show vulgar words",
     "upvote": "upvotes",
@@ -257,6 +257,8 @@
     "no-empty-name": "Please enter a name."
   },
   "quill": {
+    "cancel": "Cancel",
+    "heading": "Quill Input",
     "tooltip-remove": "Delete",
     "tooltip-action-save": "Save",
     "tooltip-action": "Edit",

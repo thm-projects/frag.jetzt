@@ -42,22 +42,6 @@
   }
 
   .ql-tooltip {
-    &[data-mode=formula]::before {
-      --quill-tooltip-label: var(--quill-tooltip-label-formula);
-    }
-
-    &[data-mode=video]::before {
-      --quill-tooltip-label: var(--quill-tooltip-label-video);
-    }
-
-    &[data-mode=image]::before {
-      --quill-tooltip-label: var(--quill-tooltip-label-image);
-    }
-
-    &[data-mode=link]::before {
-      --quill-tooltip-label: var(--quill-tooltip-label-link);
-    }
-
     &::before {
       content: var(--quill-tooltip-label) !important;
     }

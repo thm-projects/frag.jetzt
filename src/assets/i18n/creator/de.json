@@ -191,7 +191,7 @@
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
-    "grammar-check": "Rechtschreibprüfung",
+    "grammar-check": "Text prüfen",
     "show-comment-with-filter": "Vulgäre Wörter ausixen",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv",
@@ -256,6 +256,8 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "quill": {
+    "cancel": "Abbrechen",
+    "heading": "Quill Input",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",
