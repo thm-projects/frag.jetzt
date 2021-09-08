@@ -164,7 +164,6 @@ export class WriteCommentComponent implements OnInit {
             this.commentData.currentData = data;
             this.commentData.copyMarks(view);
           }
-          this.isSpellchecking = false;
         });
     }, () => {
       this.isSpellchecking = false;
@@ -188,6 +187,7 @@ export class WriteCommentComponent implements OnInit {
       target = TargetLang.DE;
     }
     this.generateDeeplDelta(body, target).subscribe(([improvedBody, improvedText]) => {
+      this.isSpellchecking = false;
       if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
         onClose(body, text, this.commentData);
         return;
@@ -208,6 +208,7 @@ export class WriteCommentComponent implements OnInit {
         }
       });
     }, (_) => {
+      this.isSpellchecking = false;
       onClose(body, text, this.commentData);
     });
   }
