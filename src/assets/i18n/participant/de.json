@@ -101,7 +101,7 @@
     "editing-done-hint": "Editieren beenden",
     "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "select-keywords": "Die Textanalyse schlägt dir Stichwörter vor. Welche beschreiben deine Frage am besten?"
+    "select-keywords": "Welche Stichwörter beschreiben deine Frage am besten?"
   },
   "comment-page": {
     "a11y-comment_input": "Gib deine Frage ein",
