@@ -552,5 +552,13 @@
     "valid": "VALID",
     "invalid": "INVALID",
     "cant-find-comment": "Die Frage kann nicht gefunden werden"
+  },
+  "worker-dialog": {
+    "running": "Laufend",
+    "room-name" : "Raum",
+    "comments" : "Abgearbeitete Fragen",
+    "bad-spelled" : "Zu schlechte Rechtschreibung",
+    "failed" : "Fehler aufgetreten",
+    "inline-header": "Laufende Stichwort-Aktualisierungen"
   }
 }

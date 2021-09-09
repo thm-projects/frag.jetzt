@@ -32,6 +32,7 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 
 export interface CommentListData {
   comments: Comment[];
@@ -275,6 +276,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 return;
               }
               this.comments = comments;
+              this.generateKeywordsIfEmpty();
               this.getComments();
               this.eventService.broadcast('commentListCreated', null);
               this.isJoyrideActive = this.onboardingService.startDefaultTour();
@@ -646,5 +648,16 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }
 
     return filter;
+  }
+
+  private generateKeywordsIfEmpty() {
+    if (this.comments.length > 0) {
+      const count = this.comments.reduce((acc, comment) =>
+        acc + (comment.keywordsFromQuestioner && comment.keywordsFromQuestioner.length) +
+        (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length), 0);
+      if (count < 1) {
+        WorkerDialogComponent.addWorkTask(this.dialog, this.room);
+      }
+    }
   }
 }
