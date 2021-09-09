@@ -158,7 +158,9 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   openHelp() {
-    const ref = this.dialog.open(ExplanationDialogComponent);
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
     ref.componentInstance.translateKey = 'explanation.spacy';
   }
 }

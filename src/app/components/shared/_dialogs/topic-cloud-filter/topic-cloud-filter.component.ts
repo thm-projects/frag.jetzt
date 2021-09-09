@@ -158,7 +158,9 @@ export class TopicCloudFilterComponent implements OnInit {
   }
 
   openHelp() {
-    const ref = this.dialog.open(ExplanationDialogComponent);
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
     ref.componentInstance.translateKey = 'explanation.topic-cloud';
   }
 
