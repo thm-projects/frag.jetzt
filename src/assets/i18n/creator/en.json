@@ -550,5 +550,13 @@
     "valid": "VALID",
     "invalid": "INVALID",
     "cant-find-comment": "Can't find comment"
+  },
+  "worker-dialog": {
+    "running": "Running",
+    "room-name": "Session name",
+    "comments": "Questions",
+    "bad-spelled": "Spelling too bad",
+    "failed": "Error occurred",
+    "inline-header": "Ongoing keyword updates"
   }
 }
