@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import Delta from 'quill-delta';
+import { KatexOptions } from 'ngx-markdown';
 
 interface DialogData {
   type: string;
@@ -17,7 +18,10 @@ interface DialogData {
 })
 export class QuillInputDialogComponent implements OnInit {
 
-  value: string;
+  value = '';
+  katexOptions: KatexOptions = {
+    throwOnError: false
+  };
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,
               private dialogRef: MatDialogRef<QuillInputDialogComponent>) {
@@ -38,7 +42,7 @@ export class QuillInputDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.value = this.data.meta;
+    this.value = this.data.meta || '';
   }
 
   getKatex(): string {
