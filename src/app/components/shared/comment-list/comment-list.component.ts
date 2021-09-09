@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
@@ -651,7 +651,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   private generateKeywordsIfEmpty() {
-    if (this.comments.length > 0) {
+    if (this.comments.length > 0 && this.userRole === UserRole.CREATOR) {
       const count = this.comments.reduce((acc, comment) =>
         acc + (comment.keywordsFromQuestioner && comment.keywordsFromQuestioner.length) +
         (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length), 0);
