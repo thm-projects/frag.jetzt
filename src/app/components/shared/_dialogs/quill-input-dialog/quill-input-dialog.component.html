@@ -4,10 +4,13 @@
     <mat-label>{{'quill.tooltip-label-' + data.type | translate}}</mat-label>
     <input type="text"
            matInput
+           autofocus
            placeholder="{{'quill.tooltip-placeholder-' + data.type | translate}}"
            [(ngModel)]="value">
   </mat-form-field>
-  <app-custom-markdown [data]="getKatex()" *ngIf="data.type === 'formula'">
+  <app-custom-markdown [data]="getKatex()"
+                       *ngIf="data.type === 'formula'"
+                       [katexOptions]="katexOptions">
   </app-custom-markdown>
 </mat-dialog-content>
 <app-dialog-action-buttons
