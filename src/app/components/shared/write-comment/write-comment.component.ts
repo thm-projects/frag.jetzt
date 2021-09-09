@@ -206,7 +206,7 @@ export class WriteCommentComponent implements OnInit {
           result,
           onClose
         }
-      });
+      }).afterClosed().subscribe(() => this.buildCreateCommentActionCallback()());
     }, (_) => {
       this.isSpellchecking = false;
       onClose(body, text, this.commentData);

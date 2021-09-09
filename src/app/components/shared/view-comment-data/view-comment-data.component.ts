@@ -299,7 +299,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       if (!selection || !selection.length) {
         return;
       }
-      meta = quill.getText(selection.index, selection.length);
     }
     this.dialog.open(QuillInputDialogComponent, {
       width: '900px',
