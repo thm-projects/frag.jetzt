@@ -267,7 +267,7 @@
   },
   "quill": {
     "cancel": "Abbrechen",
-    "heading": "Quill Input",
+    "heading": "Eingabe",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",
