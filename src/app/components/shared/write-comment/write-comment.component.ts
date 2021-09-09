@@ -1,14 +1,16 @@
 import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { Language, LanguagetoolService } from '../../../services/http/languagetool.service';
+import { Language, LanguagetoolResult, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
 import { NotificationService } from '../../../services/util/notification.service';
 import { EventService } from '../../../services/util/event.service';
-import { Marks } from './write-comment.marks';
 import { LanguageService } from '../../../services/util/language.service';
-import { QuillEditorComponent } from 'ngx-quill';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
-import { DeepLService } from '../../../services/http/deep-l.service';
+import { DeepLService, SourceLang, TargetLang } from '../../../services/http/deep-l.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { DeepLDialogComponent } from '../_dialogs/deep-ldialog/deep-ldialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-write-comment',
@@ -42,14 +44,14 @@ export class WriteCommentComponent implements OnInit {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
   newLang = 'auto';
-  // Marks
-  marks: Marks;
 
   constructor(private notification: NotificationService,
               private languageService: LanguageService,
               private translateService: TranslateService,
               public eventService: EventService,
               public languagetoolService: LanguagetoolService,
+              private deeplService: DeepLService,
+              private dialog: MatDialog,
               public deepl: DeepLService) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -82,6 +84,22 @@ export class WriteCommentComponent implements OnInit {
     return true;
   }
 
+  private static encodeHTML(str: string): string {
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  private static decodeHTML(str: string): string {
+    return str.replace(/&apos;/g, '\'')
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&');
+  }
+
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isCommentAnswer) {
@@ -111,22 +129,11 @@ export class WriteCommentComponent implements OnInit {
     };
   }
 
-  onDocumentClick(e) {
-    if (!this.marks) {
-      return;
-    }
-    const range = this.commentData.editor.quillEditor.getSelection(false);
-    this.marks.onClick(range && range.length === 0 ? range.index : null);
-  }
-
   checkGrammar() {
     this.grammarCheck(this.commentData.currentText, this.langSelect && this.langSelect.nativeElement);
   }
 
   grammarCheck(rawText: string, langSelect: HTMLSpanElement): void {
-    this.onDocumentClick({
-      target: document
-    });
     this.isSpellchecking = true;
     this.hasSpellcheckConfidence = true;
     this.checkSpellings(rawText).subscribe((wordsCheck) => {
@@ -148,10 +155,16 @@ export class WriteCommentComponent implements OnInit {
         }
         langSelect.innerHTML = this.newLang;
       }
-      this.marks.clear();
-      this.marks.buildErrors(rawText, wordsCheck);
-    }, () => {
-      this.isSpellchecking = false;
+      const previous = this.commentData.currentData;
+      this.openDeeplDialog(previous, rawText, wordsCheck,
+        (data: string, text: string, view: ViewCommentDataComponent) => {
+          if (view === this.commentData) {
+            this.commentData.buildMarks(rawText, wordsCheck);
+          } else {
+            this.commentData.currentData = data;
+            this.commentData.copyMarks(view);
+          }
+        });
     }, () => {
       this.isSpellchecking = false;
     });
@@ -165,19 +178,61 @@ export class WriteCommentComponent implements OnInit {
     return this.languagetoolService.checkSpellings(text, language);
   }
 
-  getMarkEvents() {
-    return {
-      onCreate: (markContainer: HTMLDivElement, tooltipContainer: HTMLDivElement, editor: QuillEditorComponent) => {
-        this.marks = new Marks(markContainer, tooltipContainer, editor);
-      },
-      onChange: (delta: any) => {
-        this.marks.onDataChange(delta);
-      },
-      onEditorChange: () => {
-        this.marks.sync();
-      },
-      onDocumentClick: (e) => this.onDocumentClick(e)
-    };
+  private openDeeplDialog(body: string,
+                          text: string,
+                          result: LanguagetoolResult,
+                          onClose: (data: string, text: string, view: ViewCommentDataComponent) => void) {
+    let target = TargetLang.EN_US;
+    if (result.language.detectedLanguage.code.toUpperCase().startsWith(SourceLang.EN)) {
+      target = TargetLang.DE;
+    }
+    this.generateDeeplDelta(body, target).subscribe(([improvedBody, improvedText]) => {
+      this.isSpellchecking = false;
+      if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+        onClose(body, text, this.commentData);
+        return;
+      }
+      this.dialog.open(DeepLDialogComponent, {
+        width: '900px',
+        maxWidth: '100%',
+        data: {
+          body,
+          text,
+          improvedBody,
+          improvedText,
+          maxTextCharacters: this.maxTextCharacters,
+          maxDataCharacters: this.maxDataCharacters,
+          isModerator: this.isModerator,
+          result,
+          onClose
+        }
+      });
+    }, (_) => {
+      this.isSpellchecking = false;
+      onClose(body, text, this.commentData);
+    });
+  }
+
+  private generateDeeplDelta(body: string, targetLang: TargetLang): Observable<[string, string]> {
+    const delta = ViewCommentDataComponent.getDeltaFromData(body);
+    const xml = delta.ops.reduce((acc, e, i) => {
+      if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
+        acc += '<x i="' + i + '">' + WriteCommentComponent.encodeHTML(e['insert']) + '</x>';
+        e['insert'] = '';
+      }
+      return acc;
+    }, '');
+    return this.deeplService.improveTextStyle(xml, targetLang).pipe(
+      map(str => {
+        const regex = /<x i="(\d+)">([^<]+)<\/x>/gm;
+        let m;
+        while ((m = regex.exec(str)) !== null) {
+          delta.ops[+m[1]]['insert'] += WriteCommentComponent.decodeHTML(m[2]);
+        }
+        const text = delta.ops.reduce((acc, el) => acc + (typeof el['insert'] === 'string' ? el['insert'] : ''), '');
+        return [ViewCommentDataComponent.getDataFromDelta(delta), text];
+      })
+    );
   }
 
 }

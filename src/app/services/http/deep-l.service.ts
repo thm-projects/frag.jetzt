@@ -18,11 +18,61 @@ interface DeepLResult {
   }[];
 }
 
-type SourceLang = 'BG' | 'CS' | 'DA' | 'DE' | 'EL' | 'EN' | 'ES' | 'ET' | 'FI' | 'FR' | 'HU' | 'IT' | 'JA' | 'LT'
-  | 'LV' | 'NL' | 'PL' | 'PT' | 'RO' | 'RU' | 'SK' | 'SL' | 'SV' | 'ZH';
+export enum SourceLang {
+  BG = 'BG',
+  CS = 'CS',
+  DA = 'DA',
+  DE = 'DE',
+  EL = 'EL',
+  EN = 'EN',
+  ES = 'ES',
+  ET = 'ET',
+  FI = 'FI',
+  FR = 'FR',
+  HU = 'HU',
+  IT = 'IT',
+  JA = 'JA',
+  LT = 'LT',
+  LV = 'LV',
+  NL = 'NL',
+  PL = 'PL',
+  PT = 'PT',
+  RO = 'RO',
+  RU = 'RU',
+  SK = 'SK',
+  SL = 'SL',
+  SV = 'SV',
+  ZH = 'ZH'
+}
 
-type TargetLang = 'BG' | 'CS' | 'DA' | 'DE' | 'EL' | 'EN-GB' | 'EN-US' | 'ES' | 'ET' | 'FI' | 'FR' | 'HU' | 'IT' |
-  'JA' | 'LT' | 'LV' | 'NL' | 'PL' | 'PT-PT' | 'PT-BR' | 'RO' | 'RU' | 'SK' | 'SL' | 'SV' | 'ZH';
+export enum TargetLang {
+  BG = 'BG',
+  CS = 'CS',
+  DA = 'DA',
+  DE = 'DE',
+  EL = 'EL',
+  EN_GB = 'EN-GB',
+  EN_US = 'EN-US',
+  ES = 'ES',
+  ET = 'ET',
+  FI = 'FI',
+  FR = 'FR',
+  HU = 'HU',
+  IT = 'IT',
+  JA = 'JA',
+  LT = 'LT',
+  LV = 'LV',
+  NL = 'NL',
+  PL = 'PL',
+  PT_PT = 'PT-PT',
+  PT_BR = 'PT-BR',
+  RO = 'RO',
+  RU = 'RU',
+  SK = 'SK',
+  SL = 'SL',
+  SV = 'SV',
+  ZH = 'ZH'
+}
 
 @Injectable({
   providedIn: 'root'
@@ -38,36 +88,36 @@ export class DeepLService extends BaseHttpService {
     });
   }
 
-  private static transformSourceToTarget(lang: SourceLang): TargetLang {
+  public static transformSourceToTarget(lang: SourceLang): TargetLang {
     switch (lang) {
-      case 'EN':
-        return 'EN-US';
-      case 'PT':
-        return 'PT-PT';
+      case SourceLang.EN:
+        return TargetLang.EN_US;
+      case SourceLang.PT:
+        return TargetLang.PT_PT;
       default:
-        return lang;
+        return TargetLang[lang];
     }
   }
 
-  private static supportsFormality(lang: TargetLang): boolean {
+  public static supportsFormality(lang: TargetLang): boolean {
     switch (lang) {
-      case 'DE':
-      case 'ES':
-      case 'FR':
-      case 'IT':
-      case 'NL':
-      case 'PL':
-      case 'PT-BR':
-      case 'PT-PT':
-      case 'RU':
+      case TargetLang.DE:
+      case TargetLang.ES:
+      case TargetLang.FR:
+      case TargetLang.IT:
+      case TargetLang.NL:
+      case TargetLang.PL:
+      case TargetLang.PT_BR:
+      case TargetLang.PT_PT:
+      case TargetLang.RU:
         return true;
       default:
         return false;
     }
   }
 
-  improveTextStyle(text: string): Observable<string> {
-    return this.makeXMLTranslateRequest(text, 'EN-US').pipe(
+  improveTextStyle(text: string, temTargetLang: TargetLang): Observable<string> {
+    return this.makeXMLTranslateRequest(text, temTargetLang).pipe(
       flatMap(result =>
         this.makeXMLTranslateRequest(
           result.translations[0].text,
@@ -90,7 +140,7 @@ export class DeepLService extends BaseHttpService {
 
   private makeXMLTranslateRequest(text: string, targetLang: TargetLang): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    const formality = DeepLService.supportsFormality(targetLang) ? '&formality=more' : '';
+    const formality = DeepLService.supportsFormality(targetLang) ? '&formality=less' : '';
     const data = 'target_lang=' + encodeURIComponent(targetLang) +
       '&tag_handling=xml' + formality +
       '&text=' + encodeURIComponent(text);

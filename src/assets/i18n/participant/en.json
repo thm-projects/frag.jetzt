@@ -169,7 +169,7 @@
     "show-more": "Show more",
     "show-less": "Show less",
     "delete": "Delete question",
-    "grammar-check": "Spell check",
+    "grammar-check": "Check text",
     "upvote": "upvotes",
     "downvote": "downvotes"
   },
@@ -272,6 +272,8 @@
     "questions-blocked": "New questions blocked"
   },
   "quill": {
+    "cancel": "Cancel",
+    "heading": "Input",
     "tooltip-remove": "Delete",
     "tooltip-action-save": "Save",
     "tooltip-action": "Edit",

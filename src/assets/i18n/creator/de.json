@@ -191,7 +191,7 @@
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
-    "grammar-check": "Rechtschreibprüfung",
+    "grammar-check": "Text prüfen",
     "show-comment-with-filter": "Vulgäre Wörter ausixen",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv",
@@ -247,7 +247,7 @@
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
-    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem ausgewählten Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
+    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
   },
   "home-page": {
     "create-session": "Neue Sitzung",
@@ -256,6 +256,8 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "quill": {
+    "cancel": "Abbrechen",
+    "heading": "Eingabe",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",

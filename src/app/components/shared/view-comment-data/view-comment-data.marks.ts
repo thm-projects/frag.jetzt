@@ -1,5 +1,6 @@
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { QuillEditorComponent } from 'ngx-quill';
+import { mark } from '@angular/compiler-cli/src/ngtsc/perf/src/clock';
 
 class ContentIndexFinder {
 
@@ -115,19 +116,12 @@ export class Marks {
   }
 
   buildErrors(initialText: string, res: LanguagetoolResult): void {
+    this.onClick(null);
+    this.clear();
     const indexFinder = new ContentIndexFinder(this.editor.quillEditor.getContents().ops);
-    for (let i = 0; i < res.matches.length; i++) {
-      const match = res.matches[i];
+    for (const match of res.matches) {
       const [start, len] = indexFinder.adjustTextIndexes(match.offset, match.length);
-      const mark = new Mark(start, len, this.markContainer, this.tooltipContainer, this.editor.quillEditor);
-      mark.setSuggestions(res, i, () => {
-        const index = this.textErrors.findIndex(elem => elem === mark);
-        if (index >= 0) {
-          this.textErrors.splice(index, 1);
-        }
-        mark.remove();
-      });
-      this.textErrors.push(mark);
+      this.createMark(start, len, match);
     }
     this.sync();
   }
@@ -139,10 +133,33 @@ export class Marks {
       error.syncMark(parentRect, editorRect.y - parentRect.y);
     }
   }
+
+  copy(marks: Marks) {
+    this.onClick(null);
+    this.clear();
+    for (const oldMark of marks.textErrors) {
+      this.createMark(oldMark.startIndex, oldMark.markLength, oldMark);
+    }
+    this.sync();
+  }
+
+  private createMark(start: number, len: number, dataObject: any) {
+    const newMark = new Mark(start, len, this.markContainer, this.tooltipContainer, this.editor.quillEditor);
+    newMark.setSuggestions(dataObject.replacements, dataObject.message, () => {
+      const index = this.textErrors.findIndex(elem => elem === newMark);
+      if (index >= 0) {
+        this.textErrors.splice(index, 1);
+      }
+      newMark.remove();
+    });
+    this.textErrors.push(newMark);
+  }
 }
 
 class Mark {
 
+  public replacements: { value?: string }[];
+  public message: string;
   private marks: HTMLSpanElement[] = [];
   private dropdown: HTMLDivElement;
 
@@ -165,12 +182,12 @@ class Mark {
     }
     this.marks.length = boundaries.length;
     for (let i = 0; i < this.marks.length; i++) {
-      const mark = this.marks[i];
+      const current = this.marks[i];
       const rect = this.quillEditor.getBounds(boundaries[i][0], boundaries[i][1]);
-      mark.style.setProperty('--width', rect.width + 'px');
-      mark.style.setProperty('--height', rect.height + 'px');
-      mark.style.setProperty('--left', rect.left + 'px');
-      mark.style.setProperty('--top', (rect.top + offset) + 'px');
+      current.style.setProperty('--width', rect.width + 'px');
+      current.style.setProperty('--height', rect.height + 'px');
+      current.style.setProperty('--left', rect.left + 'px');
+      current.style.setProperty('--top', (rect.top + offset) + 'px');
     }
   }
 
@@ -200,21 +217,23 @@ class Mark {
   }
 
   remove() {
-    for (const mark of this.marks) {
-      mark.remove();
+    for (const current of this.marks) {
+      current.remove();
     }
     this.marks.length = 0;
     this.dropdown.remove();
   }
 
-  setSuggestions(result: LanguagetoolResult, index: number, removeMark: () => void): void {
+  setSuggestions(replacements: { value?: string }[], message: string, removeMark: () => void): void {
+    this.replacements = replacements;
+    this.message = message;
     this.dropdown = document.createElement('div');
     this.dropdown.classList.add('dropdownBlock');
-    const suggestions = result.matches[index].replacements;
+    const suggestions = replacements;
     if (!suggestions.length) {
       const dropdownElem = document.createElement('span');
       dropdownElem.classList.add('error-message');
-      dropdownElem.append(result.matches[index].message);
+      dropdownElem.append(message);
       this.dropdown.append(dropdownElem);
     } else {
       const length = suggestions.length > 3 ? 3 : suggestions.length;
