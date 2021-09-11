@@ -8,7 +8,7 @@ interface DialogData {
   meta: string;
   quill: any;
   selection: any;
-  overrideAction?: (value: string) => void;
+  overrideAction?: (value: string, selection: any) => void;
 }
 
 @Component({
@@ -52,7 +52,7 @@ export class QuillInputDialogComponent implements OnInit {
   buildConfirmAction() {
     return () => {
       if (this.data.overrideAction) {
-        this.data.overrideAction(this.value);
+        this.data.overrideAction(this.value, this.data.selection);
         this.dialogRef.close();
         return;
       }
