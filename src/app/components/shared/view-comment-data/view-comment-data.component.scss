@@ -102,6 +102,7 @@
 
     .ql-formats {
       margin-right: 0;
+      width: 100%;
 
       > * {
         @media only screen and (max-device-width: 480px) and (orientation: portrait),
@@ -149,22 +150,29 @@
 
 .deepl-form-field {
   @media screen and (max-width: 500px) {
-    width: 70px;
+    width: 100px;
   }
   z-index: 10000;
   height: 1em;
+  float: right;
+  margin-right: 0 !important;
 }
 
-::ng-deep .deepl-form-field .mat-form-field-wrapper {
-  position: absolute;
-  top: -1.35em;
-  left: 10px;
+::ng-deep .deepl-form-field {
+  .mat-form-field-wrapper {
+    position: absolute;
+    top: -1.35em;
+    width: fit-content;
+    right: 0;
 
-  @media only screen and (max-device-width: 480px) and (orientation: portrait),
-  only screen and (max-device-height: 480px) and (orientation: landscape) {
-    width: 70px;
-    top: -1em;
-    left: 0;
+    @media only screen and (max-device-width: 480px) and (orientation: portrait),
+    only screen and (max-device-height: 480px) and (orientation: landscape) {
+      top: -1em;
+    }
+  }
+
+  .mat-form-field-infix {
+    width: max-content;
   }
 }
 
