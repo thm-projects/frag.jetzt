@@ -242,6 +242,13 @@
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
   },
+  "deepl-formality-select": {
+    "error": "Text konnte nicht geupdatet werden.",
+    "name": "Formalität",
+    "default": "Automatisch",
+    "less": "Informal",
+    "more": "Formal"
+  },
   "explanation": {
     "label": "Erklärung",
     "close": "Schließen",

@@ -23,7 +23,10 @@
                            [maxDataCharacters]="data.maxDataCharacters"
                            [isModerator]="data.isModerator"
                            [isEditor]="true"
-                           [currentData]="improvedValue.body"></app-view-comment-data>
+                           [currentData]="improvedValue.body"
+                           [usesFormality]="true"
+                           [formalityEmitter]="onFormalityChange.bind(this)"
+                           [selectedFormality]="'less'"></app-view-comment-data>
   </mat-radio-group>
 </div>
 

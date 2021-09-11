@@ -142,3 +142,49 @@
     }
   }
 }
+
+#deeplFormality {
+  display: inline;
+}
+
+.deepl-form-field {
+  @media screen and (max-width: 500px) {
+    width: 70px;
+  }
+  z-index: 10000;
+  height: 1em;
+}
+
+::ng-deep .deepl-form-field .mat-form-field-wrapper {
+  position: absolute;
+  top: -1.35em;
+  left: 10px;
+
+  @media only screen and (max-device-width: 480px) and (orientation: portrait),
+  only screen and (max-device-height: 480px) and (orientation: landscape) {
+    width: 70px;
+    top: -1em;
+    left: 0;
+  }
+}
+
+.anchor-right {
+  @media screen and (max-width: 500px) {
+    width: 70px;
+    left: calc(100% - 70px);
+  }
+  width: 200px;
+  height: 50px;
+  position: relative;
+  left: calc(100% - 200px);
+  top: 0;
+}
+
+.anchor-wrp {
+  width: calc(100% - 200px);
+  display: inline-block;
+  height: 0;
+  position: relative;
+  left: 0;
+  top: 0;
+}

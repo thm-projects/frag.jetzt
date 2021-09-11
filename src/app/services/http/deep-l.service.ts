@@ -4,7 +4,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { catchError, map, tap, timeout } from 'rxjs/operators';
 import { flatMap } from 'rxjs/internal/operators';
-import { LanguagetoolService } from './languagetool.service';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -75,6 +74,12 @@ export enum TargetLang {
   ZH = 'ZH'
 }
 
+export enum FormalityType {
+  default = '',
+  less = 'less',
+  more = 'more'
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -112,22 +117,23 @@ export class DeepLService extends BaseHttpService {
     }
   }
 
-  improveTextStyle(text: string, temTargetLang: TargetLang): Observable<string> {
-    return this.makeXMLTranslateRequest(text, temTargetLang).pipe(
+  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.default): Observable<string> {
+    return this.makeXMLTranslateRequest(text, temTargetLang, formality).pipe(
       flatMap(result =>
         this.makeXMLTranslateRequest(
           result.translations[0].text,
-          DeepLService.transformSourceToTarget(result.translations[0].detected_source_language)
+          DeepLService.transformSourceToTarget(result.translations[0].detected_source_language),
+          formality
         )),
       map(result => result.translations[0].text)
     );
   }
 
-  private makeXMLTranslateRequest(text: string, targetLang: TargetLang): Observable<DeepLResult> {
+  private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    const formality = DeepLService.supportsFormality(targetLang) ? '&formality=less' : '';
+    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.default ? '&formality=' + formality : '';
     const additional = '?target_lang=' + encodeURIComponent(targetLang) +
-      '&tag_handling=xml' + formality +
+      '&tag_handling=xml' + tagFormality +
       '&text=' + encodeURIComponent(text);
     return this.http.get<string>(url + additional, httpOptions)
       .pipe(
