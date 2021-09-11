@@ -1,7 +1,5 @@
 import { TranslateService } from '@ngx-translate/core';
 import { InjectionToken } from '@angular/core';
-import { MatButtonToggleChange } from '@angular/material/button-toggle';
-import { Observable } from 'rxjs';
 import { ArsObserver } from '../../../models/util/ArsObserver';
 
 export interface ArsMatToggleConfig {
@@ -14,6 +12,7 @@ export interface ArsMatToggleConfig {
   condition?:()=>boolean;
   checked:ArsObserver<boolean>;
   checkAsToggle?:boolean;
+  height?:number;
 }
 
 export const ARS_MAT_TOGGLE_CONFIG=new InjectionToken('ARS_MAT_TOGGLE_DATA');

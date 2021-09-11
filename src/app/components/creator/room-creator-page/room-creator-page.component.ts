@@ -53,8 +53,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
   headerInterface = null;
-  user:User;
-  private onDestroy:EventEmitter<any>=new EventEmitter<any>();
+  user: User;
+  private onDestroy: EventEmitter<any>=new EventEmitter<any>();
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -73,8 +73,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private bonusTokenService: BonusTokenService,
               public router: Router,
               public translationService: TranslateService,
-              public headerService:HeaderService,
-              public authenticationService:AuthenticationService) {
+              public headerService: HeaderService,
+              public authenticationService: AuthenticationService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
