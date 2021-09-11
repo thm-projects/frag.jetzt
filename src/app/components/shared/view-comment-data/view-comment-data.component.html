@@ -5,6 +5,10 @@
                 [modules]="quillModules"
                 (document:click)="onDocumentClick($event)"
                 (window:resize)="recalcAspectRatio()">
+    <div quill-editor-toolbar>
+      <ng-container [ngTemplateOutlet]="isModerator ? moderatorToolbar : participantToolbar">
+      </ng-container>
+    </div>
   </quill-editor>
   <div #tooltipContainer></div>
   <div fxLayout="row" style="justify-content: flex-end; padding: 0 5px">
@@ -17,3 +21,64 @@
   <quill-view #quillView [modules]="quillModules" (window:resize)="recalcAspectRatio()">
   </quill-view>
 </div>
+
+<ng-template #participantToolbar>
+  <span class="ql-formats">
+    <button type="button" class="ql-bold"></button>
+    <button type="button" class="ql-list" value="bullet"></button>
+    <button type="button" class="ql-list" value="ordered"></button>
+    <button type="button" class="ql-blockquote"></button>
+    <button type="button" class="ql-link" (click)="onClick($event, 'link')"></button>
+    <button type="button" class="ql-code-block"></button>
+    <button type="button" class="ql-formula" (click)="onClick($event, 'formula')"></button>
+    <button type="button" class="ql-emoji" *ngIf="hasEmoji"></button>
+    <mat-form-field class="deepl-form-field" *ngIf="usesFormality">
+      <mat-label>
+        <mat-icon class="icon-svg"></mat-icon>
+        {{'deepl-formality-select.name' | translate}}
+      </mat-label>
+      <label for="deeplFormality">
+        {{selectedFormality && ('deepl-formality-select.' + selectedFormality | translate)}}
+      </label>
+      <mat-select id="deeplFormality" [(ngModel)]="selectedFormality"
+                  (selectionChange)="formalityEmitter && formalityEmitter(selectedFormality)">
+        <mat-option>{{'deepl-formality-select.reset' | translate}}</mat-option>
+        <mat-option value="default">{{'deepl-formality-select.default' | translate}}</mat-option>
+        <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
+        <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+</ng-template>
+
+<ng-template #moderatorToolbar>
+  <span class="ql-formats">
+    <button type="button" class="ql-bold"></button>
+    <select class="ql-color"></select>
+    <button type="button" class="ql-strike"></button>
+    <button type="button" class="ql-list" value="bullet"></button>
+    <button type="button" class="ql-list" value="ordered"></button>
+    <button type="button" class="ql-blockquote"></button>
+    <button type="button" class="ql-link" (click)="onClick($event, 'link')"></button>
+    <button type="button" class="ql-image" (click)="onClick($event, 'image')"></button>
+    <button type="button" class="ql-video" (click)="onClick($event, 'video')"></button>
+    <button type="button" class="ql-code-block"></button>
+    <button type="button" class="ql-formula" (click)="onClick($event, 'formula')"></button>
+    <button type="button" class="ql-emoji" *ngIf="hasEmoji"></button>
+    <mat-form-field class="deepl-form-field" *ngIf="usesFormality">
+      <mat-label>
+        <mat-icon class="icon-svg"></mat-icon>
+        {{'deepl-formality-select.name' | translate}}
+      </mat-label>
+      <label for="deeplFormality">
+        {{selectedFormality && ('deepl-formality-select.' + selectedFormality | translate)}}
+      </label>
+      <mat-select id="deeplFormality" [(ngModel)]="selectedFormality"
+                  (selectionChange)="formalityEmitter && formalityEmitter(selectedFormality)">
+        <mat-option value="default">{{'deepl-formality-select.default' | translate}}</mat-option>
+        <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
+        <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </span>
+</ng-template>

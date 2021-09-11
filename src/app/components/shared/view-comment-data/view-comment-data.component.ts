@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
 import Delta from 'quill-delta';
 import Quill from 'quill';
@@ -13,15 +20,6 @@ import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 
 Quill.register('modules/imageResize', ImageResize);
-
-const participantToolbar = [
-  ['bold', { list: 'bullet' }, { list: 'ordered' }, 'blockquote', 'link', 'code-block', 'formula', 'emoji']
-];
-
-const moderatorToolbar = [
-  ['bold', { color: [] }, 'strike', { list: 'bullet' }, { list: 'ordered' }, 'blockquote',
-    'link', 'image', 'video', 'code-block', 'formula', 'emoji'],
-];
 
 @Component({
   selector: 'app-view-comment-data',
@@ -53,18 +51,12 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @Input() maxDataCharacters = 1500;
   @Input() placeHolderText = '';
   @Input() afterEditorInit?: () => void;
+  @Input() usesFormality = false;
+  @Input() formalityEmitter: (string) => void;
+  @Input() selectedFormality = 'default';
   currentText = '\n';
-  quillModules: QuillModules = {
-    toolbar: {
-      container: participantToolbar,
-      handlers: {
-        image: () => this.handle('image'),
-        video: () => this.handle('video'),
-        link: () => this.handle('link'),
-        formula: () => this.handle('formula')
-      }
-    }
-  };
+  quillModules: QuillModules = {};
+  hasEmoji = true;
   private _currentData = null;
   private _marks: Marks;
 
@@ -118,9 +110,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    if (this.isModerator) {
-      this.quillModules.toolbar['container'] = moderatorToolbar;
-    }
     const isMobile = this.deviceInfo.isUserAgentMobile;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
@@ -128,6 +117,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       this.quillModules.imageResize = {
         modules: ['Resize', 'DisplaySize']
       };
+      this.hasEmoji = !isMobile;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isEditor) {
@@ -242,9 +232,16 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     this._marks.copy(viewCommentData._marks);
   }
 
+  public onClick(e: MouseEvent, type) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.handle(type);
+    return false;
+  }
+
   private overrideQuillTooltip() {
     const tooltip = this.editor.quillEditor.theme.tooltip;
-    const prev = tooltip.show;
+    const prev = tooltip.show.bind(tooltip);
     let range;
     tooltip.show = () => {
       const sel = this.editor.quillEditor.getSelection(false);
@@ -263,7 +260,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
           currentSize += 1;
         }
       }
-      prev.bind(tooltip)();
+      prev();
     };
     tooltip.edit = (type: string, value: string) => {
       this.handle(type, value, (val: string) => {
