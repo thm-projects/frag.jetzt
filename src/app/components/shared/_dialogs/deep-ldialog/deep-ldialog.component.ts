@@ -9,7 +9,6 @@ import { ExplanationDialogComponent } from '../explanation-dialog/explanation-di
 import { DeepLService, FormalityType, TargetLang } from '../../../../services/http/deep-l.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Target } from '@angular/compiler';
 
 interface ResultValue {
   body: string;
@@ -123,7 +122,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
         this.improvedValue.view = this.improved;
         current = this.improvedValue;
       }
-      if (WriteCommentComponent.checkInputData(current.body, current.text,
+      if (ViewCommentDataComponent.checkInputData(current.body, current.text,
         this.translateService, this.notificationService, this.data.maxTextCharacters, this.data.maxDataCharacters)) {
         this.data.onClose(current.body, current.text, current.view);
         this.dialogRef.close(true);
@@ -141,7 +140,6 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
   onFormalityChange(formality: string) {
     DeepLDialogComponent.generateDeeplDelta(this.deeplService, this.data.body, this.data.usedTarget, formality as FormalityType)
       .subscribe(([improvedBody, improvedText]) => {
-        console.log(improvedBody, improvedText);
         this.improvedValue.body = improvedBody;
         this.improvedValue.text = improvedText;
         this.improved.currentData = improvedBody;
