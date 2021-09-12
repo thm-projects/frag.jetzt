@@ -34,7 +34,6 @@
     <button type="button" class="ql-emoji" *ngIf="hasEmoji"></button>
     <mat-form-field class="deepl-form-field" *ngIf="usesFormality">
       <mat-label>
-        <mat-icon class="icon-svg"></mat-icon>
         {{'deepl-formality-select.name' | translate}}
       </mat-label>
       <label for="deeplFormality">
@@ -42,7 +41,6 @@
       </label>
       <mat-select id="deeplFormality" [(ngModel)]="selectedFormality"
                   (selectionChange)="formalityEmitter && formalityEmitter(selectedFormality)">
-        <mat-option>{{'deepl-formality-select.reset' | translate}}</mat-option>
         <mat-option value="default">{{'deepl-formality-select.default' | translate}}</mat-option>
         <mat-option value="less">{{'deepl-formality-select.less' | translate}}</mat-option>
         <mat-option value="more">{{'deepl-formality-select.more' | translate}}</mat-option>
@@ -67,7 +65,6 @@
     <button type="button" class="ql-emoji" *ngIf="hasEmoji"></button>
     <mat-form-field class="deepl-form-field" *ngIf="usesFormality">
       <mat-label>
-        <mat-icon class="icon-svg"></mat-icon>
         {{'deepl-formality-select.name' | translate}}
       </mat-label>
       <label for="deeplFormality">
