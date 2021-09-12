@@ -332,7 +332,7 @@ export class TagCloudDataService {
   private calculateWeight(tagData: TagCloudDataTagEntry): number {
     const value = Math.max(tagData.cachedVoteCount, 0);
     const additional = (tagData.distinctUsers.size - 1) * 0.5 +
-      tagData.comments.reduce((acc, comment) => acc + +comment.createdFromLecturer, 0) +
+      tagData.comments.reduce((acc, comment) => acc + +!!comment.createdFromLecturer, 0) +
       tagData.generatedByQuestionerCount +
       tagData.taggedCommentsCount +
       tagData.answeredCommentsCount;

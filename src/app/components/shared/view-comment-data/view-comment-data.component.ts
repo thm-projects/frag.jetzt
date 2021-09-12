@@ -18,6 +18,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
+import { NotificationService } from '../../../services/util/notification.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -70,6 +71,32 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         this.updateCSSVariables();
       }
     });
+  }
+
+  public static checkInputData(data: string,
+                               text: string,
+                               translateService: TranslateService,
+                               notificationService: NotificationService,
+                               maxTextCharacters: number,
+                               maxDataCharacters: number): boolean {
+    text = text.trim();
+    if (text.length < 1 && data.length < 1) {
+      translateService.get('comment-page.error-comment').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (text.length > maxTextCharacters) {
+      translateService.get('comment-page.error-comment-text').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (data.length > maxDataCharacters) {
+      translateService.get('comment-page.error-comment-data').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    }
+    return true;
   }
 
   public static getDataFromDelta(contentDelta) {
