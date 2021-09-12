@@ -180,11 +180,11 @@
     "option-improved": "AI suggestion:"
   },
   "deepl-formality-select": {
-    "error": "Could not update Text.",
-    "name": "Formality",
-    "default": "Automatically",
-    "less": "Informally",
-    "more": "Formally"
+    "error": "The text could not be updated.",
+    "name": "Style",
+    "default": "Automatic",
+    "less": "Informal",
+    "more": "Formal"
   },
   "explanation": {
     "label": "Explanation",
