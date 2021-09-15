@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
 import Delta from 'quill-delta';
 import Quill from 'quill';
@@ -11,17 +18,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
+import { NotificationService } from '../../../services/util/notification.service';
 
 Quill.register('modules/imageResize', ImageResize);
-
-const participantToolbar = [
-  ['bold', { list: 'bullet' }, { list: 'ordered' }, 'blockquote', 'link', 'code-block', 'formula', 'emoji']
-];
-
-const moderatorToolbar = [
-  ['bold', { color: [] }, 'strike', { list: 'bullet' }, { list: 'ordered' }, 'blockquote',
-    'link', 'image', 'video', 'code-block', 'formula', 'emoji'],
-];
 
 @Component({
   selector: 'app-view-comment-data',
@@ -53,18 +52,12 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @Input() maxDataCharacters = 1500;
   @Input() placeHolderText = '';
   @Input() afterEditorInit?: () => void;
+  @Input() usesFormality = false;
+  @Input() formalityEmitter: (string) => void;
+  @Input() selectedFormality = 'default';
   currentText = '\n';
-  quillModules: QuillModules = {
-    toolbar: {
-      container: participantToolbar,
-      handlers: {
-        image: () => this.handle('image'),
-        video: () => this.handle('video'),
-        link: () => this.handle('link'),
-        formula: () => this.handle('formula')
-      }
-    }
-  };
+  quillModules: QuillModules = {};
+  hasEmoji = true;
   private _currentData = null;
   private _marks: Marks;
 
@@ -78,6 +71,32 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         this.updateCSSVariables();
       }
     });
+  }
+
+  public static checkInputData(data: string,
+                               text: string,
+                               translateService: TranslateService,
+                               notificationService: NotificationService,
+                               maxTextCharacters: number,
+                               maxDataCharacters: number): boolean {
+    text = text.trim();
+    if (text.length < 1 && data.length < 1) {
+      translateService.get('comment-page.error-comment').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (text.length > maxTextCharacters) {
+      translateService.get('comment-page.error-comment-text').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (data.length > maxDataCharacters) {
+      translateService.get('comment-page.error-comment-data').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    }
+    return true;
   }
 
   public static getDataFromDelta(contentDelta) {
@@ -118,9 +137,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-    if (this.isModerator) {
-      this.quillModules.toolbar['container'] = moderatorToolbar;
-    }
     const isMobile = this.deviceInfo.isUserAgentMobile;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
@@ -128,6 +144,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       this.quillModules.imageResize = {
         modules: ['Resize', 'DisplaySize']
       };
+      this.hasEmoji = !isMobile;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isEditor) {
@@ -233,6 +250,13 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     this._marks.copy(viewCommentData._marks);
   }
 
+  public onClick(e: MouseEvent, type) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.handle(type);
+    return false;
+  }
+
   private cleanContentOnPaste() {
     const data = this.editor.quillEditor.getContents();
     let changed = false;
@@ -258,7 +282,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
 
   private overrideQuillTooltip() {
     const tooltip = this.editor.quillEditor.theme.tooltip;
-    const prev = tooltip.show;
+    const prev = tooltip.show.bind(tooltip);
     let range;
     tooltip.show = () => {
       const sel = this.editor.quillEditor.getSelection(false);
@@ -277,7 +301,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
           currentSize += 1;
         }
       }
-      prev.bind(tooltip)();
+      prev();
     };
     tooltip.edit = (type: string, value: string) => {
       this.handle(type, value, (val: string) => {

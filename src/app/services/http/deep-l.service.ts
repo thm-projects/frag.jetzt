@@ -74,6 +74,12 @@ export enum TargetLang {
   ZH = 'ZH'
 }
 
+export enum FormalityType {
+  default = '',
+  less = 'less',
+  more = 'more'
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -116,12 +122,13 @@ export class DeepLService extends BaseHttpService {
     }
   }
 
-  improveTextStyle(text: string, temTargetLang: TargetLang): Observable<string> {
-    return this.makeXMLTranslateRequest(text, temTargetLang).pipe(
+  improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.default): Observable<string> {
+    return this.makeXMLTranslateRequest(text, temTargetLang, formality).pipe(
       flatMap(result =>
         this.makeXMLTranslateRequest(
           result.translations[0].text,
-          DeepLService.transformSourceToTarget(result.translations[0].detected_source_language)
+          DeepLService.transformSourceToTarget(result.translations[0].detected_source_language),
+          formality
         )),
       map(result => result.translations[0].text)
     );
@@ -138,11 +145,11 @@ export class DeepLService extends BaseHttpService {
       );
   }
 
-  private makeXMLTranslateRequest(text: string, targetLang: TargetLang): Observable<DeepLResult> {
+  private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
     const url = '/deepl/translate';
-    const formality = DeepLService.supportsFormality(targetLang) ? '&formality=less' : '';
-    const data = 'target_lang=' + encodeURIComponent(targetLang) +
-      '&tag_handling=xml' + formality +
+    const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.default ? '&formality=' + formality : '';
+    const additional = 'target_lang=' + encodeURIComponent(targetLang) +
+      '&tag_handling=xml' + tagFormality +
       '&text=' + encodeURIComponent(text);
     return this.http.post<DeepLResult>(url, data, httpOptions)
       .pipe(

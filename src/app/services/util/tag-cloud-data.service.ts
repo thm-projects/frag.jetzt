@@ -23,6 +23,9 @@ export interface TagCloudDataTagEntry {
   categories: Set<string>;
   dependencies: Set<string>;
   comments: Comment[];
+  generatedByQuestionerCount: number;
+  taggedCommentsCount: number;
+  answeredCommentsCount: number;
 }
 
 export interface TagCloudMetaData {
@@ -99,43 +102,50 @@ export class TagCloudDataService {
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of comments) {
-      TopicCloudAdminService.approveKeywordsOfComment(comment, adminData, (keyword: SpacyKeyword) => {
-        let current: TagCloudDataTagEntry = data.get(keyword.lemma);
-        const commentDate = new Date(comment.timestamp);
-        if (current === undefined) {
-          current = {
-            cachedVoteCount: 0,
-            cachedUpVotes: 0,
-            cachedDownVotes: 0,
-            comments: [],
-            weight: 0,
-            adjustedWeight: 0,
-            distinctUsers: new Set<number>(),
-            categories: new Set<string>(),
-            dependencies: new Set<string>([...keyword.dep]),
-            firstTimeStamp: commentDate,
-            lastTimeStamp: commentDate
-          };
-          data.set(keyword.lemma, current);
-        }
-        keyword.dep.forEach(dependency => current.dependencies.add(dependency));
-        current.cachedVoteCount += comment.score;
-        current.cachedUpVotes += comment.upvotes;
-        current.cachedDownVotes += comment.downvotes;
-        current.distinctUsers.add(comment.userNumber);
-        if (comment.tag) {
-          current.categories.add(comment.tag);
-        }
-        // @ts-ignore
-        if (current.firstTimeStamp - commentDate > 0) {
-          current.firstTimeStamp = commentDate;
-        }
-        // @ts-ignore
-        if (current.lastTimeStamp - commentDate < 0) {
-          current.lastTimeStamp = commentDate;
-        }
-        current.comments.push(comment);
-      });
+      TopicCloudAdminService.approveKeywordsOfComment(comment, adminData,
+        (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
+          let current: TagCloudDataTagEntry = data.get(keyword.lemma);
+          const commentDate = new Date(comment.timestamp);
+          if (current === undefined) {
+            current = {
+              cachedVoteCount: 0,
+              cachedUpVotes: 0,
+              cachedDownVotes: 0,
+              comments: [],
+              weight: 0,
+              adjustedWeight: 0,
+              distinctUsers: new Set<number>(),
+              categories: new Set<string>(),
+              dependencies: new Set<string>([...keyword.dep]),
+              firstTimeStamp: commentDate,
+              lastTimeStamp: commentDate,
+              generatedByQuestionerCount: 0,
+              taggedCommentsCount: 0,
+              answeredCommentsCount: 0
+            };
+            data.set(keyword.lemma, current);
+          }
+          keyword.dep.forEach(dependency => current.dependencies.add(dependency));
+          current.cachedVoteCount += comment.score;
+          current.cachedUpVotes += comment.upvotes;
+          current.cachedDownVotes += comment.downvotes;
+          current.distinctUsers.add(comment.userNumber);
+          current.generatedByQuestionerCount += +isFromQuestioner;
+          current.taggedCommentsCount += +!!comment.tag;
+          current.answeredCommentsCount += +!!comment.answer;
+          if (comment.tag) {
+            current.categories.add(comment.tag);
+          }
+          // @ts-ignore
+          if (current.firstTimeStamp - commentDate > 0) {
+            current.firstTimeStamp = commentDate;
+          }
+          // @ts-ignore
+          if (current.lastTimeStamp - commentDate < 0) {
+            current.lastTimeStamp = commentDate;
+          }
+          current.comments.push(comment);
+        });
       users.add(comment.userNumber);
     }
     return [
@@ -199,7 +209,10 @@ export class TagCloudDataService {
           distinctUsers: new Set<number>(),
           dependencies: new Set<string>(),
           firstTimeStamp: new Date(),
-          lastTimeStamp: new Date()
+          lastTimeStamp: new Date(),
+          generatedByQuestionerCount: 0,
+          taggedCommentsCount: 0,
+          answeredCommentsCount: 0
         });
       }
     });
@@ -317,13 +330,19 @@ export class TagCloudDataService {
   }
 
   private calculateWeight(tagData: TagCloudDataTagEntry): number {
+    const value = Math.max(tagData.cachedVoteCount, 0);
+    const additional = (tagData.distinctUsers.size - 1) * 0.5 +
+      tagData.comments.reduce((acc, comment) => acc + +!!comment.createdFromLecturer, 0) +
+      tagData.generatedByQuestionerCount +
+      tagData.taggedCommentsCount +
+      tagData.answeredCommentsCount;
     switch (this._calcWeightType) {
       case TagCloudCalcWeightType.byVotes:
-        return tagData.cachedVoteCount;
+        return value + additional;
       case TagCloudCalcWeightType.byLengthAndVotes:
-        return tagData.cachedVoteCount / 10.0 + tagData.comments.length;
+        return value / 10.0 + tagData.comments.length + additional;
       default:
-        return tagData.comments.length;
+        return tagData.comments.length + additional;
     }
   }
 

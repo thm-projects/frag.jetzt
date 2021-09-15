@@ -242,8 +242,15 @@
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
   },
+  "deepl-formality-select": {
+    "error": "Der Text konnte nicht aktualisiert werden.",
+    "name": "Stil",
+    "default": "Automatisch",
+    "less": "Informell",
+    "more": "Formell"
+  },
   "explanation": {
-    "label": "Erklärung",
+    "label": "Warum?",
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
@@ -552,5 +559,13 @@
     "valid": "VALID",
     "invalid": "INVALID",
     "cant-find-comment": "Die Frage kann nicht gefunden werden"
+  },
+  "worker-dialog": {
+    "running": "Laufend",
+    "room-name" : "Raum",
+    "comments" : "Abgearbeitete Fragen",
+    "bad-spelled" : "Zu schlechte Rechtschreibung",
+    "failed" : "Fehler aufgetreten",
+    "inline-header": "Laufende Stichwort-Aktualisierungen"
   }
 }

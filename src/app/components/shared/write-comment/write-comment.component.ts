@@ -7,8 +7,6 @@ import { EventService } from '../../../services/util/event.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { DeepLService, SourceLang, TargetLang } from '../../../services/http/deep-l.service';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { DeepLDialogComponent } from '../_dialogs/deep-ldialog/deep-ldialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -51,53 +49,10 @@ export class WriteCommentComponent implements OnInit {
               public eventService: EventService,
               public languagetoolService: LanguagetoolService,
               private deeplService: DeepLService,
-              private dialog: MatDialog,
-              public deepl: DeepLService) {
+              private dialog: MatDialog) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-  }
-
-  public static checkInputData(data: string,
-                               text: string,
-                               translateService: TranslateService,
-                               notificationService: NotificationService,
-                               maxTextCharacters: number,
-                               maxDataCharacters: number): boolean {
-    text = text.trim();
-    if (text.length < 1 && data.length < 1) {
-      translateService.get('comment-page.error-comment').subscribe(message => {
-        notificationService.show(message);
-      });
-      return false;
-    } else if (text.length > maxTextCharacters) {
-      translateService.get('comment-page.error-comment-text').subscribe(message => {
-        notificationService.show(message);
-      });
-      return false;
-    } else if (data.length > maxDataCharacters) {
-      translateService.get('comment-page.error-comment-data').subscribe(message => {
-        notificationService.show(message);
-      });
-      return false;
-    }
-    return true;
-  }
-
-  private static encodeHTML(str: string): string {
-    return str.replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&apos;');
-  }
-
-  private static decodeHTML(str: string): string {
-    return str.replace(/&apos;/g, '\'')
-      .replace(/&quot;/g, '"')
-      .replace(/&gt;/g, '>')
-      .replace(/&lt;/g, '<')
-      .replace(/&amp;/g, '&');
   }
 
   ngOnInit(): void {
@@ -122,7 +77,7 @@ export class WriteCommentComponent implements OnInit {
       return undefined;
     }
     return () => {
-      if (WriteCommentComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
+      if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
         this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters)) {
         this.onSubmit(this.commentData.currentData, this.commentData.currentText, this.selectedTag);
       }
@@ -183,56 +138,43 @@ export class WriteCommentComponent implements OnInit {
                           result: LanguagetoolResult,
                           onClose: (data: string, text: string, view: ViewCommentDataComponent) => void) {
     let target = TargetLang.EN_US;
-    if (result.language.detectedLanguage.code.toUpperCase().startsWith(SourceLang.EN)) {
+    const code = result.language.detectedLanguage.code.toUpperCase().split('-')[0];
+    const source = code in SourceLang ? SourceLang[code] : null;
+    if (code.startsWith(SourceLang.EN)) {
       target = TargetLang.DE;
     }
-    this.generateDeeplDelta(body, target).subscribe(([improvedBody, improvedText]) => {
-      this.isSpellchecking = false;
-      if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+    DeepLDialogComponent.generateDeeplDelta(this.deeplService, body, target)
+      .subscribe(([improvedBody, improvedText]) => {
+        this.isSpellchecking = false;
+        if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
+          onClose(body, text, this.commentData);
+          return;
+        }
+        this.dialog.open(DeepLDialogComponent, {
+          width: '900px',
+          maxWidth: '100%',
+          data: {
+            body,
+            text,
+            improvedBody,
+            improvedText,
+            maxTextCharacters: this.maxTextCharacters,
+            maxDataCharacters: this.maxDataCharacters,
+            isModerator: this.isModerator,
+            result,
+            onClose,
+            target: DeepLService.transformSourceToTarget(source),
+            usedTarget: target
+          }
+        }).afterClosed().subscribe((val) => {
+          if (val) {
+            this.buildCreateCommentActionCallback()();
+          }
+        });
+      }, (_) => {
+        this.isSpellchecking = false;
         onClose(body, text, this.commentData);
-        return;
-      }
-      this.dialog.open(DeepLDialogComponent, {
-        width: '900px',
-        maxWidth: '100%',
-        data: {
-          body,
-          text,
-          improvedBody,
-          improvedText,
-          maxTextCharacters: this.maxTextCharacters,
-          maxDataCharacters: this.maxDataCharacters,
-          isModerator: this.isModerator,
-          result,
-          onClose
-        }
-      }).afterClosed().subscribe(() => this.buildCreateCommentActionCallback()());
-    }, (_) => {
-      this.isSpellchecking = false;
-      onClose(body, text, this.commentData);
-    });
-  }
-
-  private generateDeeplDelta(body: string, targetLang: TargetLang): Observable<[string, string]> {
-    const delta = ViewCommentDataComponent.getDeltaFromData(body);
-    const xml = delta.ops.reduce((acc, e, i) => {
-      if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
-        acc += '<x i="' + i + '">' + WriteCommentComponent.encodeHTML(e['insert']) + '</x>';
-        e['insert'] = '';
-      }
-      return acc;
-    }, '');
-    return this.deeplService.improveTextStyle(xml, targetLang).pipe(
-      map(str => {
-        const regex = /<x i="(\d+)">([^<]+)<\/x>/gm;
-        let m;
-        while ((m = regex.exec(str)) !== null) {
-          delta.ops[+m[1]]['insert'] += WriteCommentComponent.decodeHTML(m[2]);
-        }
-        const text = delta.ops.reduce((acc, el) => acc + (typeof el['insert'] === 'string' ? el['insert'] : ''), '');
-        return [ViewCommentDataComponent.getDataFromDelta(delta), text];
-      })
-    );
+      });
   }
 
 }

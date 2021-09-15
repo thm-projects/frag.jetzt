@@ -170,8 +170,15 @@
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
   },
+  "deepl-formality-select": {
+    "error": "Der Text konnte nicht aktualisiert werden.",
+    "name": "Stil",
+    "default": "Automatisch",
+    "less": "Informell",
+    "more": "Formell"
+  },
   "explanation": {
-    "label": "Erklärung",
+    "label": "Warum?",
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
@@ -285,7 +292,7 @@
     "demo-data-topic": "Thema %d",
     "overview-question-topic-tooltip": "Anzahl Fragen mit diesem Thema",
     "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
-    "period-since-first-comment":"Zeitraum seit der ersten Frage",
+    "period-since-first-comment": "Zeitraum seit der ersten Frage",
     "upvote-topic": "Up-Votes für dieses Thema",
     "downvote-topic": "Down-Votes für dieses Thema",
     "blacklist-topic": "Thema auf die »Blacklist« setzen",
@@ -417,12 +424,12 @@
     "highestWeight-tooltip": "x Themen mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
     "rotate-weight-tooltip": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
-    "font":"Schrift",
+    "font": "Schrift",
     "reset-btn": "Auf Standardwerte setzen",
     "font-family-tooltip": "Schrift auswählen …",
     "bold-notation-tooltip": "Schrift fett setzen",
-    "font-style-bold" : "Fette Schrift",
-    "font-family":"Schriftart",
+    "font-style-bold": "Fette Schrift",
+    "font-family": "Schriftart",
     "manual-weight-number": "Anzahl Themen beschränken",
     "manual-weight-number-tooltip": "Anzahl Themen der Häufigkeitsgruppe",
     "manual-weight-number-note": "Begrenzt die Anzahl Themen einer Häufigkeitsgruppe auf den eingestellten Wert"
