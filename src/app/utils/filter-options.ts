@@ -164,7 +164,7 @@ export class CommentFilter {
     }
 
     if (this.keywordSelected !== '') {
-      return com.keywordsFromQuestioner.findIndex(e => e.lemma === this.keywordSelected) >= 0;
+      return com.keywordsFromQuestioner.findIndex(e => e.text === this.keywordSelected) >= 0;
     }
 
     if (this.tagSelected !== '') {

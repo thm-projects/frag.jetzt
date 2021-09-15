@@ -157,7 +157,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       keywords = [];
     }
     keywords.forEach(_keyword => {
-      const existingKey = this.checkIfKeywordExists(_keyword.lemma);
+      const existingKey = this.checkIfKeywordExists(_keyword.text);
       if (existingKey) {
         existingKey.vote += comment.score;
         _keyword.dep.forEach(dep => existingKey.keywordDeps.add(dep));
@@ -166,26 +166,26 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         }
       } else {
         if (this.keywordORfulltext === KeywordOrFulltext[KeywordOrFulltext.both]) {
-          const includedFromQuestioner = comment.keywordsFromQuestioner.findIndex(e => e.lemma === _keyword.lemma) >= 0;
-          if (includedFromQuestioner && comment.keywordsFromSpacy.findIndex(e => e.lemma === _keyword.lemma) >= 0) {
+          const includedFromQuestioner = comment.keywordsFromQuestioner.findIndex(e => e.text === _keyword.text) >= 0;
+          if (includedFromQuestioner && comment.keywordsFromSpacy.findIndex(e => e.text === _keyword.text) >= 0) {
             _keywordType = KeywordType.fromBoth;
           } else {
             _keywordType = includedFromQuestioner ? KeywordType.fromQuestioner : KeywordType.fromSpacy;
           }
         }
         const entry = {
-          keyword: _keyword.lemma,
+          keyword: _keyword.text,
           keywordDeps: new Set<string>(_keyword.dep),
           keywordType: _keywordType,
-          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword.lemma, comment.language),
+          keywordWithoutProfanity: this.getKeywordWithoutProfanity(_keyword.text, comment.language),
           comments: [comment],
           vote: comment.score
         };
 
-        if (this.blacklistIncludesKeyword(_keyword.lemma) && this.blacklistIsActive) {
+        if (this.blacklistIncludesKeyword(_keyword.text) && this.blacklistIsActive) {
           this.blacklistKeywords.push(entry);
         } else {
-          this.keywords.set(_keyword.lemma, entry as Keyword);
+          this.keywords.set(_keyword.text, entry as Keyword);
         }
       }
     });
@@ -388,10 +388,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     key.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
       let keywords = comment.keywordsFromQuestioner;
-      keywords.splice(keywords.findIndex(e => e.lemma === key.keyword), 1);
+      keywords.splice(keywords.findIndex(e => e.text === key.keyword), 1);
       changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
       keywords = comment.keywordsFromSpacy;
-      keywords.splice(keywords.findIndex(e => e.lemma === key.keyword), 1);
+      keywords.splice(keywords.findIndex(e => e.text === key.keyword), 1);
       changes.set('keywordsFromSpacy', JSON.stringify(keywords));
       this.updateComment(comment, changes, message);
     });
@@ -434,15 +434,15 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         let keywords = comment.keywordsFromQuestioner;
         const lowerCaseKeyword = key.keyword.toLowerCase();
         for (const keyword of keywords) {
-          if (keyword.lemma.toLowerCase() === lowerCaseKeyword) {
-            keyword.lemma = this.newKeyword.trim();
+          if (keyword.text.toLowerCase() === lowerCaseKeyword) {
+            keyword.text = this.newKeyword.trim();
           }
         }
         changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
         keywords = comment.keywordsFromSpacy;
         for (const keyword of keywords) {
-          if (keyword.lemma.toLowerCase() === lowerCaseKeyword) {
-            keyword.lemma = this.newKeyword.trim();
+          if (keyword.text.toLowerCase() === lowerCaseKeyword) {
+            keyword.text = this.newKeyword.trim();
           }
         }
         changes.set('keywordsFromSpacy', JSON.stringify(keywords));
@@ -499,13 +499,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
           const lowerKey1 = key1.keyword.toLowerCase();
 
           let keywords = comment.keywordsFromQuestioner;
-          let index = keywords.findIndex(k => k.lemma.toLowerCase() === lowerKey1);
-          keywords[index].lemma = key2.keyword;
+          let index = keywords.findIndex(k => k.text.toLowerCase() === lowerKey1);
+          keywords[index].text = key2.keyword;
           changes.set('keywordsFromQuestioner', JSON.stringify(keywords));
 
           keywords = comment.keywordsFromSpacy;
-          index = keywords.findIndex(k => k.lemma.toLowerCase() === lowerKey1);
-          keywords[index].lemma = key2.keyword;
+          index = keywords.findIndex(k => k.text.toLowerCase() === lowerKey1);
+          keywords[index].text = key2.keyword;
           changes.set('keywordsFromSpacy', JSON.stringify(keywords));
 
           this.updateComment(comment, changes);
