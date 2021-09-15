@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { CommentService } from '../../../services/http/comment.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +16,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
 import { AppComponent } from '../../../app.component';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
@@ -32,6 +32,7 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 
 export interface CommentListData {
   comments: Comment[];
@@ -103,7 +104,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
-  newCommentId = '';
+  focusCommentId = '';
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -275,6 +276,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 return;
               }
               this.comments = comments;
+              this.generateKeywordsIfEmpty();
               this.getComments();
               this.eventService.broadcast('commentListCreated', null);
               this.isJoyrideActive = this.onboardingService.startDefaultTour();
@@ -429,14 +431,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
           return c.createdFromLecturer;
       }
     });
-    const testForModerator=()=>{
-      this.comments.forEach(e=>{
-        this.commentService.role(e).subscribe(i=>{
-          console.log(e,i);
+    const testForModerator = () => {
+      this.comments.forEach(e => {
+        this.commentService.role(e).subscribe(i => {
+          console.log(e, i);
         });
       });
     };
-    if(type==='moderator'){
+    if (type === 'moderator') {
       console.log(
         'TEST moderator',
         this.moderatorIds,
@@ -488,6 +490,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   clickedUserNumber(usrNumber: number): void {
     this.userNumberSelection = usrNumber;
     this.filterComments(this.userNumber, usrNumber);
+  }
+
+  votedComment(voteInfo: string) {
+    setTimeout(() => this.focusCommentId = voteInfo, 100);
   }
 
   pauseCommentStream() {
@@ -563,7 +569,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper.openCreateDialog(this.user)
-      .subscribe(comment => this.newCommentId = comment && comment.id);
+      .subscribe(comment => this.focusCommentId = comment && comment.id);
   }
 
   /**
@@ -642,5 +648,16 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }
 
     return filter;
+  }
+
+  private generateKeywordsIfEmpty() {
+    if (this.comments.length > 0 && this.userRole === UserRole.CREATOR) {
+      const count = this.comments.reduce((acc, comment) =>
+        acc + (comment.keywordsFromQuestioner && comment.keywordsFromQuestioner.length) +
+        (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length), 0);
+      if (count < 1) {
+        WorkerDialogComponent.addWorkTask(this.dialog, this.room);
+      }
+    }
   }
 }

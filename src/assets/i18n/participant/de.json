@@ -101,7 +101,7 @@
     "editing-done-hint": "Editieren beenden",
     "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "select-keywords": "Die Textanalyse schlägt folgende Stichwörter vor. Welche kennzeichnen deine Frage am besten?"
+    "select-keywords": "Welche Stichwörter beschreiben deine Frage am besten?"
   },
   "comment-page": {
     "a11y-comment_input": "Gib deine Frage ein",
@@ -160,7 +160,7 @@
     "show-more": "Mehr ansehen",
     "show-less": "Weniger anzeigen",
     "sure": "Bist du sicher?",
-    "grammar-check": "Rechtschreibprüfung",
+    "grammar-check": "Text prüfen",
     "upvote": "positiv",
     "downvote": "negativ"
   },
@@ -169,6 +169,20 @@
     "label": "Welcher Text soll gesendet werden?",
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
+  },
+  "deepl-formality-select": {
+    "error": "Der Text konnte nicht aktualisiert werden.",
+    "name": "Stil",
+    "default": "Automatisch",
+    "less": "Informell",
+    "more": "Formell"
+  },
+  "explanation": {
+    "label": "Warum?",
+    "close": "Schließen",
+    "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
+    "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
+    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -194,14 +208,14 @@
     "a11y-announcer": "Du befindest dich nun in der Sitzung mit dem von dir eingegebenen Raum-Code.",
     "a11y-question_answer": "Öffnet die Fragen-Seite und bietet dir die Möglichkeit, Fragen zu stellen.",
     "comments": "Fragen",
-    "create-comment": "Stell deine Frage!",
+    "create-comment": "Stell deine Fragen!",
     "default-content-group": "Standard",
     "description": "Beschreibung der Sitzung",
     "give-feedback": "Feedback geben",
     "learn": "Lernen",
     "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-feedback": "Live Feedback",
-    "session-id": "Raum",
+    "session-id": "Raum-Code",
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
     "delete": "Frage löschen",
@@ -259,6 +273,8 @@
     "questions-blocked": "Neue Fragen deaktiviert "
   },
   "quill": {
+    "cancel": "Abbrechen",
+    "heading": "Eingabe",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",
@@ -276,7 +292,7 @@
     "demo-data-topic": "Thema %d",
     "overview-question-topic-tooltip": "Anzahl Fragen mit diesem Thema",
     "overview-questioners-topic-tooltip": "Anzahl Fragensteller*innen mit diesem Thema",
-    "period-since-first-comment":"Zeitraum seit der ersten Frage",
+    "period-since-first-comment": "Zeitraum seit der ersten Frage",
     "upvote-topic": "Up-Votes für dieses Thema",
     "downvote-topic": "Down-Votes für dieses Thema",
     "blacklist-topic": "Thema auf die »Blacklist« setzen",
@@ -408,12 +424,12 @@
     "highestWeight-tooltip": "x Themen mit der höchsten Gewichtung anzeigen",
     "rotate-weight": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
     "rotate-weight-tooltip": "Themen dieser Häufigkeitsgruppe um x Grad drehen",
-    "font":"Schrift",
+    "font": "Schrift",
     "reset-btn": "Auf Standardwerte setzen",
     "font-family-tooltip": "Schrift auswählen …",
     "bold-notation-tooltip": "Schrift fett setzen",
-    "font-style-bold" : "Fette Schrift",
-    "font-family":"Schriftart",
+    "font-style-bold": "Fette Schrift",
+    "font-family": "Schriftart",
     "manual-weight-number": "Anzahl Themen beschränken",
     "manual-weight-number-tooltip": "Anzahl Themen der Häufigkeitsgruppe",
     "manual-weight-number-note": "Begrenzt die Anzahl Themen einer Häufigkeitsgruppe auf den eingestellten Wert"

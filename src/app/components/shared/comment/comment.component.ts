@@ -47,6 +47,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
+  @Output() votedComment = new EventEmitter<string>();
   @ViewChild('commentBody', { static: true })commentBody: RowComponent;
   @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
@@ -205,11 +206,11 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   voteUp(comment: Comment): void {
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== 1) {
-      this.commentService.voteUp(comment, userId).subscribe();
+      this.commentService.voteUp(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
       this.hasVoted = 1;
       this.currentVote = '1';
     } else {
-      this.commentService.resetVote(comment, userId).subscribe();
+      this.commentService.resetVote(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }
@@ -219,11 +220,11 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   voteDown(comment: Comment): void {
     const userId = this.authenticationService.getUser().id;
     if (this.hasVoted !== -1) {
-      this.commentService.voteDown(comment, userId).subscribe();
+      this.commentService.voteDown(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
       this.hasVoted = -1;
       this.currentVote = '-1';
     } else {
-      this.commentService.resetVote(comment, userId).subscribe();
+      this.commentService.resetVote(comment, userId).subscribe(_ => this.votedComment.emit(this.comment.id));
       this.hasVoted = 0;
       this.currentVote = '0';
     }

@@ -1,10 +1,19 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AfterViewInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
+import { NotificationService } from '../../../../services/util/notification.service';
+import { LanguageService } from '../../../../services/util/language.service';
+import { TranslateService } from '@ngx-translate/core';
+import { WriteCommentComponent } from '../../write-comment/write-comment.component';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { DeepLService, FormalityType, TargetLang } from '../../../../services/http/deep-l.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 interface ResultValue {
   body: string;
   text: string;
+  view: ViewCommentDataComponent;
 }
 
 @Component({
@@ -12,71 +21,87 @@ interface ResultValue {
   templateUrl: './deep-ldialog.component.html',
   styleUrls: ['./deep-ldialog.component.scss']
 })
-export class DeepLDialogComponent implements OnInit {
+export class DeepLDialogComponent implements OnInit, AfterViewInit {
 
+  @ViewChild('normal') normal: ViewCommentDataComponent;
+  @ViewChild('improved') improved: ViewCommentDataComponent;
   radioButtonValue: ResultValue;
   normalValue: ResultValue;
   improvedValue: ResultValue;
+  supportsFormality: boolean;
 
   constructor(
     private dialogRef: MatDialogRef<DeepLDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private notificationService: NotificationService,
+    private languageService: LanguageService,
+    private translateService: TranslateService,
+    private deeplService: DeepLService,
+    private dialog: MatDialog) {
+    this.languageService.langEmitter.subscribe(lang => {
+      this.translateService.use(lang);
+    });
+    this.supportsFormality = DeepLService.supportsFormality(this.data.target);
+  }
+
+  public static generateDeeplDelta(deepl: DeepLService, body: string, targetLang: TargetLang,
+                                   formality = FormalityType.less): Observable<[string, string]> {
+    const delta = ViewCommentDataComponent.getDeltaFromData(body);
+    const xml = delta.ops.reduce((acc, e, i) => {
+      if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
+        acc += '<x i="' + i + '">' + this.encodeHTML(e['insert']) + '</x>';
+        e['insert'] = '';
+      }
+      return acc;
+    }, '');
+    return deepl.improveTextStyle(xml, targetLang, formality).pipe(
+      map(str => {
+        const regex = /<x i="(\d+)">([^<]+)<\/x>/gm;
+        let m;
+        while ((m = regex.exec(str)) !== null) {
+          delta.ops[+m[1]]['insert'] += this.decodeHTML(m[2]);
+        }
+        const text = delta.ops.reduce((acc, el) => acc + (typeof el['insert'] === 'string' ? el['insert'] : ''), '');
+        return [ViewCommentDataComponent.getDataFromDelta(delta), text];
+      })
+    );
+  }
+
+  private static encodeHTML(str: string): string {
+    return str.replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&apos;');
+  }
+
+  private static decodeHTML(str: string): string {
+    return str.replace(/&apos;/g, '\'')
+      .replace(/&quot;/g, '"')
+      .replace(/&gt;/g, '>')
+      .replace(/&lt;/g, '<')
+      .replace(/&amp;/g, '&');
   }
 
   ngOnInit(): void {
+    this.translateService.use(localStorage.getItem('currentLang'));
     this.normalValue = {
       body: this.data.body,
-      text: this.data.text
+      text: this.data.text,
+      view: this.normal
     };
-    const sentences = this.data.improvedText.split('\n').filter(sent => sent.length > 0);
-    const delta = ViewCommentDataComponent.getDeltaFromData(this.data.body);
-    if (delta === null) {
-      setTimeout(() => this.dialogRef.close(this.normalValue));
-      return;
-    }
-    const ops = delta.ops;
-    let i = 0;
-    let sentenceIndex = 0;
-    let lastFoundIndex = -1;
-    for (; i < ops.length && sentenceIndex < sentences.length; i++) {
-      const data = ops[i]['insert'];
-      if (typeof data !== 'string') {
-        continue;
-      }
-      if (data === '\n') {
-        continue;
-      }
-      const endsNewline = data.endsWith('\n');
-      const mod = (endsNewline ? -1 : 0) + (data.startsWith('\n') ? -1 : 0);
-      const occurrence = data.split('\n').length + mod;
-      ops[i]['insert'] = sentences.slice(sentenceIndex, sentenceIndex + occurrence).join('\n') +
-        (endsNewline ? '\n' : '');
-      sentenceIndex += occurrence;
-      lastFoundIndex = i;
-    }
-    for (let j = ops.length - 1; j >= i; j--) {
-      const data = ops[i]['insert'];
-      if (data === 'string' && data.trim().length) {
-        ops.splice(j, 1);
-      }
-    }
-    if (sentenceIndex < sentences.length) {
-      if (lastFoundIndex < 0) {
-        setTimeout(() => this.dialogRef.close(this.normalValue));
-        return;
-      }
-      let data = ops[i]['insert'];
-      const endsNewline = data.endsWith('\n');
-      if (endsNewline) {
-        data = data.substring(0, data.length - 1);
-      }
-      ops[i]['insert'] = data + sentences.slice(sentenceIndex).join('\n') + (endsNewline ? '\n' : '');
-    }
     this.improvedValue = {
-      body: ViewCommentDataComponent.getDataFromDelta(delta),
-      text: this.data.improvedText
+      body: this.data.improvedBody,
+      text: this.data.improvedText,
+      view: this.improved
     };
     this.radioButtonValue = this.normalValue;
+  }
+
+  ngAfterViewInit() {
+    this.normal.afterEditorInit = () => {
+      this.normal.buildMarks(this.data.text, this.data.result);
+    };
   }
 
   buildCloseDialogActionCallback(): () => void {
@@ -84,7 +109,45 @@ export class DeepLDialogComponent implements OnInit {
   }
 
   buildSubmitBodyActionCallback(): () => void {
-    return () => this.dialogRef.close(this.radioButtonValue);
+    return () => {
+      let current: ResultValue;
+      if (this.radioButtonValue === this.normalValue) {
+        this.normalValue.body = this.normal.currentData;
+        this.normalValue.text = this.normal.currentText;
+        this.normalValue.view = this.normal;
+        current = this.normalValue;
+      } else {
+        this.improvedValue.body = this.improved.currentData;
+        this.improvedValue.text = this.improved.currentText;
+        this.improvedValue.view = this.improved;
+        current = this.improvedValue;
+      }
+      if (ViewCommentDataComponent.checkInputData(current.body, current.text,
+        this.translateService, this.notificationService, this.data.maxTextCharacters, this.data.maxDataCharacters)) {
+        this.data.onClose(current.body, current.text, current.view);
+        this.dialogRef.close(true);
+      }
+    };
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.deepl';
+  }
+
+  onFormalityChange(formality: string) {
+    DeepLDialogComponent.generateDeeplDelta(this.deeplService, this.data.body, this.data.usedTarget, formality as FormalityType)
+      .subscribe(([improvedBody, improvedText]) => {
+        this.improvedValue.body = improvedBody;
+        this.improvedValue.text = improvedText;
+        this.improved.currentData = improvedBody;
+      }, (_) => {
+        this.translateService.get('deepl-formality-select.error').subscribe(str => {
+          this.notificationService.show(str);
+        });
+      });
   }
 
 }

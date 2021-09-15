@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Language } from '../../../../models/comment';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
+import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
 
 @Component({
   selector: 'app-topic-dialog-comment',
@@ -49,6 +50,7 @@ export class TopicDialogCommentComponent implements OnInit {
     if (!this.language) {
       return;
     }
+    this.question = ViewCommentDataComponent.getTextFromData(this.question);
     this.questionWithoutProfanity = this.profanityFilterService.
                                     filterProfanityWords(this.question, this.partialWords, this.languageSpecific, this.language);
     this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);

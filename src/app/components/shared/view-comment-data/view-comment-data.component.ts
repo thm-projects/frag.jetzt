@@ -1,4 +1,11 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
 import Delta from 'quill-delta';
 import Quill from 'quill';
@@ -7,17 +14,13 @@ import 'quill-emoji/dist/quill-emoji.js';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { MatDialog } from '@angular/material/dialog';
+import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-input-dialog.component';
+import { Marks } from './view-comment-data.marks';
+import { LanguagetoolResult } from '../../../services/http/languagetool.service';
+import { NotificationService } from '../../../services/util/notification.service';
 
 Quill.register('modules/imageResize', ImageResize);
-
-const participantToolbar = [
-  ['bold', { list: 'bullet' }, { list: 'ordered' }, 'blockquote', 'link', 'code-block', 'formula', 'emoji']
-];
-
-const moderatorToolbar = [
-  ['bold', { color: [] }, 'strike', { list: 'bullet' }, { list: 'ordered' }, 'blockquote',
-    'link', 'image', 'video', 'code-block', 'formula', 'emoji'],
-];
 
 @Component({
   selector: 'app-view-comment-data',
@@ -48,35 +51,52 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   @Input() maxTextCharacters = 500;
   @Input() maxDataCharacters = 1500;
   @Input() placeHolderText = '';
-  @Input() markEvents?: {
-    onCreate: (markContainer: HTMLDivElement, tooltipContainer: HTMLDivElement, editor: QuillEditorComponent) => void;
-    onChange: (delta: any) => void;
-    onEditorChange: () => void;
-    onDocumentClick: (e) => void;
-  };
+  @Input() afterEditorInit?: () => void;
+  @Input() usesFormality = false;
+  @Input() formalityEmitter: (string) => void;
+  @Input() selectedFormality = 'default';
   currentText = '\n';
-  quillModules: QuillModules = {
-    toolbar: {
-      container: participantToolbar,
-      handlers: {
-        image: () => this.handle('image'),
-        video: () => this.handle('video'),
-        link: () => this.handleLink(),
-        formula: () => this.handle('formula')
-      }
-    }
-  };
+  quillModules: QuillModules = {};
+  hasEmoji = true;
   private _currentData = null;
+  private _marks: Marks;
 
   constructor(private languageService: LanguageService,
               private translateService: TranslateService,
-              private deviceInfo: DeviceInfoService) {
+              private deviceInfo: DeviceInfoService,
+              private dialog: MatDialog) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
       if (this.isEditor) {
         this.updateCSSVariables();
       }
     });
+  }
+
+  public static checkInputData(data: string,
+                               text: string,
+                               translateService: TranslateService,
+                               notificationService: NotificationService,
+                               maxTextCharacters: number,
+                               maxDataCharacters: number): boolean {
+    text = text.trim();
+    if (text.length < 1 && data.length < 1) {
+      translateService.get('comment-page.error-comment').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (text.length > maxTextCharacters) {
+      translateService.get('comment-page.error-comment-text').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    } else if (data.length > maxDataCharacters) {
+      translateService.get('comment-page.error-comment-data').subscribe(message => {
+        notificationService.show(message);
+      });
+      return false;
+    }
+    return true;
   }
 
   public static getDataFromDelta(contentDelta) {
@@ -104,10 +124,19 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     };
   }
 
+  public static getTextFromData(jsonData: string): string {
+    return JSON.parse(jsonData).reduce((acc, e) => {
+      if (typeof e['insert'] === 'string') {
+        return acc + e['insert'];
+      } else if (typeof e === 'string') {
+        return acc + e;
+      }
+      return acc;
+    }, '');
+  }
+
+
   ngOnInit(): void {
-    if (this.isModerator) {
-      this.quillModules.toolbar['container'] = moderatorToolbar;
-    }
     const isMobile = this.deviceInfo.isUserAgentMobile;
     if (this.isEditor) {
       this.quillModules['emoji-toolbar'] = !isMobile;
@@ -115,6 +144,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       this.quillModules.imageResize = {
         modules: ['Resize', 'DisplaySize']
       };
+      this.hasEmoji = !isMobile;
     }
     this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isEditor) {
@@ -125,27 +155,40 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     if (this.isEditor) {
       this.editor.onContentChanged.subscribe(e => {
-        if (this.markEvents && this.markEvents.onChange) {
-          this.markEvents.onChange(e.delta);
-        }
+        this._marks.onDataChange(e.delta);
         this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
+        // remove background
+        const data = e.content;
+        let changed = false;
+        data.ops.forEach(op => {
+          if (op.attributes && op.attributes.background) {
+            changed = true;
+            op.attributes.background = null;
+            delete op.attributes.background;
+          }
+        });
+        if (changed) {
+          this.editor.quillEditor.setContents(data);
+        }
       });
       this.editor.onEditorCreated.subscribe(_ => {
-        if (this.markEvents && this.markEvents.onCreate) {
-          this.markEvents.onCreate(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
-        }
+        this._marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
         if (this._currentData) {
           this.set(this._currentData);
         }
         (this.editor.editorElem.firstElementChild as HTMLElement).focus();
+        this.overrideQuillTooltip();
         this.syncErrorLayer();
-        setTimeout(() => this.syncErrorLayer(), 200); // animations?
+        setTimeout(() => {
+          this.syncErrorLayer();
+          if (this.afterEditorInit) {
+            this.afterEditorInit();
+          }
+        }, 200); // animations?
       });
       this.editor.onEditorChanged.subscribe(_ => {
-        if (this.markEvents && this.markEvents.onEditorChange) {
-          this.markEvents.onEditorChange();
-        }
+        this._marks.sync();
         this.syncErrorLayer();
         const elem: HTMLDivElement = document.querySelector('div.ql-tooltip');
         if (elem) {
@@ -171,9 +214,11 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   onDocumentClick(e) {
-    if (this.markEvents && this.markEvents.onDocumentClick) {
-      this.markEvents.onDocumentClick(e);
+    if (!this._marks) {
+      return;
     }
+    const range = this.editor.quillEditor.getSelection(false);
+    this._marks.onClick(range && range.length === 0 ? range.index : null);
   }
 
   clear(): void {
@@ -192,6 +237,92 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     } else {
       this.quillView.quillEditor.setContents(delta);
     }
+    this.recalcAspectRatio();
+  }
+
+  recalcAspectRatio() {
+    const elem = this.isEditor ? this.editor.editorElem.firstElementChild : this.quillView.editorElem.firstElementChild;
+    elem.querySelectorAll('.images .ql-video').forEach((e: HTMLElement) => {
+      const width = parseFloat(window.getComputedStyle(e).width);
+      e.style.height = (width * 9 / 16) + 'px';
+    });
+  }
+
+  buildMarks(text: string, result: LanguagetoolResult) {
+    this._marks.buildErrors(text, result);
+  }
+
+  copyMarks(viewCommentData: ViewCommentDataComponent) {
+    if (viewCommentData === this) {
+      return;
+    }
+    this._marks.copy(viewCommentData._marks);
+  }
+
+  public onClick(e: MouseEvent, type) {
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    this.handle(type);
+    return false;
+  }
+
+  private overrideQuillTooltip() {
+    const tooltip = this.editor.quillEditor.theme.tooltip;
+    const prev = tooltip.show.bind(tooltip);
+    let range;
+    tooltip.show = () => {
+      const sel = this.editor.quillEditor.getSelection(false);
+      const delta = this.editor.quillEditor.getContents();
+      let currentSize = 0;
+      for (const op of delta.ops) {
+        if (typeof op['insert'] === 'string') {
+          const start = currentSize;
+          const len = op['insert'].length;
+          currentSize += len;
+          if (sel.index < currentSize) {
+            range = { index: start, length: len };
+            break;
+          }
+        } else {
+          currentSize += 1;
+        }
+      }
+      prev();
+    };
+    tooltip.edit = (type: string, value: string) => {
+      this.handle(type, value, (val: string) => {
+        const delta = new Delta()
+          .retain(range.index)
+          .retain(range.length, { link: val });
+        this.editor.quillEditor.updateContents(delta);
+      });
+    };
+  }
+
+  private handle(type: string, overrideMeta = '', overrideAction = null) {
+    const quill = this.editor.quillEditor;
+    let meta: any = null;
+    const selection = quill.getSelection(false);
+    if (overrideMeta) {
+      meta = overrideMeta;
+    } else if (type === 'link') {
+      if (!selection || !selection.length) {
+        return;
+      }
+    }
+    this.dialog.open(QuillInputDialogComponent, {
+      width: '900px',
+      maxWidth: '100%',
+      maxHeight: 'calc( 100vh - 20px )',
+      autoFocus: false,
+      data: {
+        type,
+        selection,
+        quill,
+        meta,
+        overrideAction
+      }
+    });
   }
 
   private syncErrorLayer(): void {
@@ -202,66 +333,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     elem.style.marginBottom = '-' + elem.style.height;
   }
 
-  private handleLink(): void {
-    const quill = this.editor.quillEditor;
-    const selection = quill.getSelection(false);
-    if (!selection || !selection.length) {
-      return;
-    }
-    const tooltip = quill.theme.tooltip;
-    const originalSave = tooltip.save;
-    const originalHide = tooltip.hide;
-    tooltip.save = () => {
-      const value = tooltip.textbox.value;
-      if (value) {
-        const delta = new Delta()
-          .retain(selection.index)
-          .retain(selection.length, { link: value });
-        quill.updateContents(delta);
-        tooltip.hide();
-      }
-    };
-    // Called on hide and save.
-    tooltip.hide = () => {
-      tooltip.save = originalSave;
-      tooltip.hide = originalHide;
-      tooltip.hide();
-    };
-    tooltip.edit('link');
-    tooltip.textbox.value = quill.getText(selection.index, selection.length);
-    this.translateService.get('quill.tooltip-placeholder-link')
-      .subscribe(translation => tooltip.textbox.placeholder = translation);
-  }
-
-  private handle(type: string): void {
-    const quill = this.editor.quillEditor;
-    const tooltip = quill.theme.tooltip;
-    const originalSave = tooltip.save;
-    const originalHide = tooltip.hide;
-    tooltip.save = () => {
-      const range = quill.getSelection(true);
-      const value = tooltip.textbox.value;
-      if (value) {
-        quill.insertEmbed(range.index, type, value, 'user');
-      }
-    };
-    // Called on hide and save.
-    tooltip.hide = () => {
-      tooltip.save = originalSave;
-      tooltip.hide = originalHide;
-      tooltip.hide();
-    };
-    tooltip.edit(type);
-    this.translateService.get('quill.tooltip-placeholder-' + type)
-      .subscribe(translation => tooltip.textbox.placeholder = translation);
-  }
-
   private updateCSSVariables() {
-    const variables = [
-      'quill.tooltip-remove', 'quill.tooltip-action-save', 'quill.tooltip-action', 'quill.tooltip-label',
-      'quill.tooltip-label-link', 'quill.tooltip-label-image', 'quill.tooltip-label-video',
-      'quill.tooltip-label-formula'
-    ];
+    const variables = ['quill.tooltip-remove', 'quill.tooltip-action', 'quill.tooltip-label'];
     for (const variable of variables) {
       this.translateService.get(variable).subscribe(translation => {
         document.body.style.setProperty('--' + variable.replace('.', '-'), JSON.stringify(translation));

@@ -95,7 +95,7 @@
     "editing-done-hint": "Editieren beenden",
     "force-language-selection": "Die Sprache der Eingabe konnte nicht automatisch erkannt werden.",
     "add-manually": "Gib ein Stichwort zu deiner Frage ein. Trenne mehrere Stichwörter mit einem Komma.",
-    "select-keywords": "Die Textanalyse schlägt folgende Stichwörter vor. Welche kennzeichnen deine Frage am besten?"
+    "select-keywords": "Welche Stichwörter beschreiben deine Frage am besten?"
   },
   "comment-page": {
     "a11y-comment_delete": "Löscht diese Frage",
@@ -191,7 +191,7 @@
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
-    "grammar-check": "Rechtschreibprüfung",
+    "grammar-check": "Text prüfen",
     "show-comment-with-filter": "Vulgäre Wörter ausixen",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv",
@@ -242,6 +242,20 @@
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
   },
+  "deepl-formality-select": {
+    "error": "Der Text konnte nicht aktualisiert werden.",
+    "name": "Stil",
+    "default": "Automatisch",
+    "less": "Informell",
+    "more": "Formell"
+  },
+  "explanation": {
+    "label": "Warum?",
+    "close": "Schließen",
+    "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
+    "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
+    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
+  },
   "home-page": {
     "create-session": "Neue Sitzung",
     "created-1": "Die Sitzung »",
@@ -249,6 +263,8 @@
     "no-empty-name": "Gib einen Namen ein. Der Raum-Code wird generiert."
   },
   "quill": {
+    "cancel": "Abbrechen",
+    "heading": "Eingabe",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",
@@ -292,7 +308,7 @@
     "changes-successful": "Änderungen gespeichert.",
     "comments": "Öffentliche Fragen",
     "comments-deleted": "Alle Fragen wurden gelöscht.",
-    "copy-session-id": "Kopiert den Link zu diesem Raum in die Zwischenablage.",
+    "copy-session-id": "Gib den Link zu diesem Raum an die Teilnehmer weiter.",
     "create-content": "Frage stellen",
     "default-content-group": "Standard",
     "delete-all-comments": "Fragen löschen",
@@ -326,7 +342,7 @@
     "reallyContent": "Willst du die Frage ",
     "reallySession": "Willst du die Sitzung ",
     "room-not-found": "Sitzung wurde nicht gefunden (",
-    "session-id": "Raum",
+    "session-id": "Raum-Code",
     "session-id-copied": "Direktlink wurde in die Zwischenablage kopiert.",
     "session-settings": "Sitzungsverwaltung",
     "session-question-board": "Zur öffentlichen Fragenliste",
@@ -543,5 +559,13 @@
     "valid": "VALID",
     "invalid": "INVALID",
     "cant-find-comment": "Die Frage kann nicht gefunden werden"
+  },
+  "worker-dialog": {
+    "running": "Laufend",
+    "room-name" : "Raum",
+    "comments" : "Abgearbeitete Fragen",
+    "bad-spelled" : "Zu schlechte Rechtschreibung",
+    "failed" : "Fehler aufgetreten",
+    "inline-header": "Laufende Stichwort-Aktualisierungen"
   }
 }

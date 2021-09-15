@@ -11,14 +11,14 @@ import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
-import { KeywordOrFulltext, TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
+import { TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
 import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
 import { User } from '../../../../models/user';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
 import { Room } from '../../../../models/room';
-import { CloudParameters } from '../../../../utils/cloud-parameters';
 import { ThemeService } from '../../../../../theme/theme.service';
 import { Theme } from '../../../../../theme/Theme';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 class CommentsCount {
   comments: number;
@@ -155,6 +155,13 @@ export class TopicCloudFilterComponent implements OnInit {
     if (e.key === 'Enter') {
       this.confirmButtonActionCallback()();
     }
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.topic-cloud';
   }
 
   private isUpdatable(): boolean {

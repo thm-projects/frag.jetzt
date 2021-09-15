@@ -52,11 +52,16 @@ export class TopicCloudAdminService {
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
-  static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (SpacyKeyword) => void) {
+  static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (SpacyKeyword, boolean) => void) {
     let source = comment.keywordsFromQuestioner;
+    let isFromQuestioner = true;
     if (config.keywordORfulltext === KeywordOrFulltext.both) {
-      source = !source || !source.length ? comment.keywordsFromSpacy : source;
+      if (!source || !source.length) {
+        source = comment.keywordsFromSpacy;
+        isFromQuestioner = false;
+      }
     } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
+      isFromQuestioner = false;
       source = comment.keywordsFromSpacy;
     }
     if (!source) {
@@ -76,7 +81,7 @@ export class TopicCloudAdminService {
         }
       }
       if (!isProfanity) {
-        keywordFunc(keyword);
+        keywordFunc(keyword, isFromQuestioner);
       }
     }
   }

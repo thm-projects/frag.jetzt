@@ -1,7 +1,6 @@
 import {
   ComponentFactoryResolver,
   Directive,
-  Input,
   OnInit,
   ViewContainerRef
 } from '@angular/core';

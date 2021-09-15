@@ -27,12 +27,12 @@
         <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
       </div>
       <mat-list dense class="keywords-list">
-        <mat-list-item  *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"
-                        [class.keywords-alternate]="odd"
-                        [class.keywords-even]="even"
-                        [ngClass]="{'keyword-selected': keyword.selected, 'first-keyword': i === 0}">
+        <mat-list-item *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"
+                       [class.keywords-alternate]="odd"
+                       [class.keywords-even]="even"
+                       [ngClass]="{'keyword-selected': keyword.selected, 'first-keyword': i === 0}">
           <span class="keyword-span" *ngIf="!keyword.editing">{{keyword.word}}</span>
-          <input  class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
+          <input class="keyword-span, isEditing" *ngIf="keyword.editing" [(ngModel)]="keyword.word"/>
           <div class="keywords-actions">
             <mat-checkbox [checked]="keyword.completed"
                           (change)="keyword.selected = $event.checked"
@@ -49,7 +49,7 @@
             </button>
             <button *ngIf="keyword.editing"
                     (click)="onEndEditing(keyword); onEditChange(-1)" mat-icon-button
-                    class = "edit-accept"
+                    class="edit-accept"
                     matTooltip="{{ 'spacy-dialog.editing-done-hint' | translate }}"
                     matTooltipShowDelay="750">
               <mat-icon>check</mat-icon>
@@ -67,8 +67,18 @@
   </div>
 </ars-row>
 
-<ars-row ars-flex-box>
-  <ars-fill></ars-fill>
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col *ngIf="!isLoading && langSupported && hasKeywordsFromSpacy">
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>help</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
+  <ars-fill *ngIf="isLoading || !langSupported || !hasKeywordsFromSpacy">
+  </ars-fill>
   <ars-col>
     <app-dialog-action-buttons
       #appDialogActionButtons

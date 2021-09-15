@@ -1,10 +1,11 @@
 import { AfterContentInit, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { SpacyService, SpacyKeyword } from '../../../../services/http/spacy.service';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { Comment } from '../../../../models/comment';
 import { DialogActionButtonsComponent } from '../../dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { Model } from '../../../../services/http/spacy.interface';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 export interface Keyword {
   word: string;
@@ -38,6 +39,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
     protected langService: LanguagetoolService,
     private spacyService: SpacyService,
     public dialogRef: MatDialogRef<SpacyDialogComponent>,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data) {
   }
 
@@ -134,7 +136,7 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   }
 
   manualKeywordsToKeywords() {
-    const tempKeywords = this.manualKeywords.replace(/\s/g, '');
+    const tempKeywords = this.manualKeywords.replace(/\s+/g, ' ');
     if (tempKeywords.length) {
       this.keywords = tempKeywords.split(',').map((keyword) => (
         {
@@ -153,5 +155,12 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   onEditChange(change: number) {
     this._concurrentEdits += change;
     this.appDialogActionButtons.confirmButtonDisabled = (this._concurrentEdits > 0);
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.spacy';
   }
 }
