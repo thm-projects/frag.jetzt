@@ -158,26 +158,17 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         this._marks.onDataChange(e.delta);
         this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
-        // remove background
-        const data = e.content;
-        let changed = false;
-        data.ops.forEach(op => {
-          if (op.attributes && op.attributes.background) {
-            changed = true;
-            op.attributes.background = null;
-            delete op.attributes.background;
-          }
-        });
-        if (changed) {
-          this.editor.quillEditor.setContents(data);
-        }
       });
       this.editor.onEditorCreated.subscribe(_ => {
         this._marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
         if (this._currentData) {
           this.set(this._currentData);
         }
-        (this.editor.editorElem.firstElementChild as HTMLElement).focus();
+        const elem = this.editor.editorElem.firstElementChild as HTMLElement;
+        elem.focus();
+        elem.addEventListener('paste', (e) => {
+          setTimeout(this.cleanContentOnPaste.bind(this));
+        });
         this.overrideQuillTooltip();
         this.syncErrorLayer();
         setTimeout(() => {
@@ -264,6 +255,29 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     e.stopImmediatePropagation();
     this.handle(type);
     return false;
+  }
+
+  private cleanContentOnPaste() {
+    const data = this.editor.quillEditor.getContents();
+    let changed = false;
+    data.ops.forEach(op => {
+      if (!op.attributes) {
+        return;
+      }
+      if (op.attributes.background) {
+        changed = true;
+        op.attributes.background = null;
+        delete op.attributes.background;
+      }
+      if (op.attributes.color) {
+        changed = true;
+        op.attributes.color = null;
+        delete op.attributes.color;
+      }
+    });
+    if (changed) {
+      this.editor.quillEditor.setContents(data);
+    }
   }
 
   private overrideQuillTooltip() {

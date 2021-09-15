@@ -15,13 +15,19 @@ export class BaseHttpService {
       if (error instanceof TimeoutError) {
         this.nextRequest = new Date().getTime() + 1_000;
       } else if (error instanceof HttpErrorResponse) {
-        if (error.status === 429 || error.status === 456) {
+        if (error.status === 429) {
           this.nextRequest = new Date().getTime() + 30_000;
+        } else if (error.status === 456) {
+          this.nextRequest = new Date().getTime() + 86_400_000;
         }
       }
       console.error(error);
       return throwError(error);
     };
+  }
+
+  protected setTimeout(ms: number): void {
+    this.nextRequest = new Date().getTime() + ms;
   }
 
   protected checkCanSendRequest(operation = 'operation'): Observable<any> {

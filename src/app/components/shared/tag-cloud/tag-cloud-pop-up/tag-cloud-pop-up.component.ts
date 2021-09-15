@@ -150,21 +150,21 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     }
     const tagReplacementInput = this.replacementInput.value.trim();
     const renameKeyword = (elem: SpacyKeyword) => {
-      if (elem.lemma === this.tag) {
-        elem.lemma = tagReplacementInput;
+      if (elem.text === this.tag) {
+        elem.text = tagReplacementInput;
       }
     };
     const tagReplacementInputLower = tagReplacementInput.toLowerCase();
     this.tagData.comments.forEach(comment => {
       const changes = new TSMap<string, any>();
-      if (comment.keywordsFromQuestioner.findIndex(e => e.lemma.toLowerCase() === tagReplacementInputLower) >= 0) {
-        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(e => e.lemma !== this.tag);
+      if (comment.keywordsFromQuestioner.findIndex(e => e.text.toLowerCase() === tagReplacementInputLower) >= 0) {
+        comment.keywordsFromQuestioner = comment.keywordsFromQuestioner.filter(e => e.text !== this.tag);
       } else {
         comment.keywordsFromQuestioner.forEach(renameKeyword);
       }
       changes.set('keywordsFromQuestioner', JSON.stringify(comment.keywordsFromQuestioner));
-      if (comment.keywordsFromSpacy.findIndex(e => e.lemma.toLowerCase() === tagReplacementInputLower) >= 0) {
-        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(e => e.lemma !== this.tag);
+      if (comment.keywordsFromSpacy.findIndex(e => e.text.toLowerCase() === tagReplacementInputLower) >= 0) {
+        comment.keywordsFromSpacy = comment.keywordsFromSpacy.filter(e => e.text !== this.tag);
       } else {
         comment.keywordsFromSpacy.forEach(renameKeyword);
       }

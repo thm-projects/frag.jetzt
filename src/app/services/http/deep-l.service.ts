@@ -87,6 +87,11 @@ export class DeepLService extends BaseHttpService {
 
   constructor(private http: HttpClient) {
     super();
+    this.checkAPIStatus().subscribe(hasQuota => {
+      if (!hasQuota) {
+        this.setTimeout(86_400_000);
+      }
+    });
   }
 
   public static transformSourceToTarget(lang: SourceLang): TargetLang {
@@ -129,16 +134,27 @@ export class DeepLService extends BaseHttpService {
     );
   }
 
+  private checkAPIStatus(): Observable<boolean> {
+    const url = '/deepl/usage';
+    return this.http.post<any>(url, '', httpOptions)
+      .pipe(
+        tap(_ => ''),
+        timeout(1500),
+        map(obj => obj.character_count < obj.character_limit),
+        catchError(this.handleError<any>('checkAPIStatus')),
+      );
+  }
+
   private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
     const url = '/deepl/translate';
     const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.default ? '&formality=' + formality : '';
-    const additional = '?target_lang=' + encodeURIComponent(targetLang) +
+    const data = 'target_lang=' + encodeURIComponent(targetLang) +
       '&tag_handling=xml' + tagFormality +
       '&text=' + encodeURIComponent(text);
-    return this.http.get<string>(url + additional, httpOptions)
+    return this.http.post<DeepLResult>(url, data, httpOptions)
       .pipe(
         tap(_ => ''),
-        timeout(5000),
+        timeout(4500),
         catchError(this.handleError<any>('makeXMLTranslateRequest')),
       );
   }

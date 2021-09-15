@@ -151,7 +151,7 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sortKeywords(keywords: SpacyKeyword[]){
-    return keywords.sort((a,b) => a.lemma.localeCompare(b.lemma));
+    return keywords.sort((a,b) => a.text.localeCompare(b.text));
   }
 
   toggleExpand(evt: MouseEvent) {
