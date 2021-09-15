@@ -27,6 +27,9 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToggleComponent } from './compose/elements/mat-toggle/mat-toggle.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { LayerPaneComponent } from './components/layout/misc/layer-pane/layer-pane.component';
+import { MatChipListComponent } from './compose/elements/mat-chip-list/mat-chip-list.component';
+import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MaterialBtnComponent,
     ComposeHostDirective,
     MatMenuItemComponent,
-    MatToggleComponent
+    MatToggleComponent,
+    LayerPaneComponent,
+    MatChipListComponent
   ],
   imports:[
     MatIconModule,
@@ -58,26 +63,28 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     TranslateModule,
     RouterModule,
     CommonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatChipsModule
   ],
-    exports:[
-        ArsComponent,
-        FullScreenOverlayComponent,
-        WrapperDirective,
-        FrameTestComponent,
-        ScrollDirective,
-        MaterialTypographyComponent,
-        RowComponent,
-        ColComponent,
-        FillComponent,
-        ThemeTestComponent,
-        BaseTestComponent,
-        MenuWrapperDirective,
-        ButtonWrapperDirective,
-        ButtonBaseDirective,
-        MaterialBtnComponent,
-        ComposeHostDirective,
-        MatButtonToggleModule
-    ]
+  exports:[
+    ArsComponent,
+    FullScreenOverlayComponent,
+    WrapperDirective,
+    FrameTestComponent,
+    ScrollDirective,
+    MaterialTypographyComponent,
+    RowComponent,
+    ColComponent,
+    FillComponent,
+    ThemeTestComponent,
+    BaseTestComponent,
+    MenuWrapperDirective,
+    ButtonWrapperDirective,
+    ButtonBaseDirective,
+    MaterialBtnComponent,
+    ComposeHostDirective,
+    MatButtonToggleModule,
+    LayerPaneComponent
+  ]
 })
 export class ArsModule { }

@@ -15,6 +15,7 @@ import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
 import { Period } from '../../../../utils/filter-options';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { ArsObserver } from '../../../../../../projects/ars/src/lib/models/util/ArsObserver';
 
 @Component({
   selector: 'app-question-wall',
@@ -51,6 +52,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   periodsList = Object.values(Period);
   period: Period = Period.all;
   isLoading = true;
+  menuState=false;
+
+  tagObserver:ArsObserver<string[]>=new ArsObserver<string[]>();
+  userListObserver:ArsObserver<string[]>=new ArsObserver<string[]>();
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -59,7 +64,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomService: RoomService,
     private wsCommentService: WsCommentService,
     private langService: LanguageService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private roomDataService: RoomDataService
     ) {
     this.keySupport = new QuestionWallKeyEventSupport();
@@ -105,9 +110,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
       this.tags = e.tags;
+      this.tagObserver.set(e.tags);
     });
     this.subscribeCommentStream();
     this.initKeySupport();
+    this.createUserMap();
   }
 
   subscribeCommentStream() {
@@ -251,6 +258,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.createUserMap();
     this.userSelection = true;
     this.updateCommentsCountOverview();
+    this.userListObserver.set(this.userList);
   }
 
   cancelUserMap() {

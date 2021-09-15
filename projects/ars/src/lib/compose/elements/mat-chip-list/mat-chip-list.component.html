@@ -1,0 +1,5 @@
+<ars-row class="chip-list-wrp">
+  <mat-chip-list class="chip-list">
+    <mat-chip *ngFor="let chip of data.list.get()" (click)="data.onSelect(chip)">{{chip}}</mat-chip>
+  </mat-chip-list>
+</ars-row>

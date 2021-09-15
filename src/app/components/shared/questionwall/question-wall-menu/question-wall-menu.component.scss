@@ -1,0 +1,78 @@
+
+:host{
+
+  .expand_animator{
+    &-dot{
+      width:0px;
+      height:0px;
+      left:100%;
+      top:0;
+      position:relative;
+      border-radius:100%;
+      background-color:rgba(255,255,255,1);
+      transform:translate3d(-50%,-50%,0);
+      animation:expand 1.5s cubic-bezier(1,0,.54,1.01) both;
+    }
+    &-wrapper{
+      position:absolute;
+      width:100%;
+      height:100%;
+      max-width:100%;
+      max-height:100%;
+      left:0px;
+      top:0px;
+      overflow:hidden;
+    }
+  }
+
+  @keyframes expand {
+    0% {
+      width:0%;
+      height:0%;
+      background-color:rgba(255,255,255,1);
+      box-shadow:0px 0px 0px black;
+    }
+    50% {
+      width:200vw;
+      height:200vw;
+      background-color:rgba(255,255,255,1);
+      box-shadow:0px 0px 0px black;
+    }
+    100% {
+      width:200vw;
+      height:200vw;
+      background-color:rgba(255,255,255,1);
+      box-shadow:0px 0px 32px black;
+    }
+  }
+
+  .option_wrp{
+    @for $i from 1 through 10 {
+      :nth-child(#{$i}n) {
+        animation:fade-bot 1s ease-in-out both;
+        animation-delay: #{$i * 0.1 + 0.5}s;
+      }
+    }
+    //overflow: -moz-scrollbars-vertical;
+    //overflow-y: scroll;
+  }
+
+  .option{
+    >p{
+      padding:16px;
+    }
+    margin-bottom:8px;
+    animation:fade-bot 1s ease-in-out both;
+  }
+
+  @keyframes fade-bot {
+    0% {
+      margin-top:265px;
+      opacity:0;
+    }
+    100% {
+      margin-top:0px;
+      opacity:1;
+    }
+  }
+}

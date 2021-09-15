@@ -1,0 +1,25 @@
+<ng-container *ngIf="menuStateAnchor.value">
+  <ars-style-btn-material style="width:100%;height:100%;position:relative;">
+    <ars-style-typography-material style="width:100%;height:100%;position:relative;">
+      <ars-screen ars-flex-box>
+        <ars-fill (click)="toggle()"></ars-fill>
+        <ars-col [width]="350">
+          <ars-layer-pane>
+            <div ars-flex-box ars-layer-pane-foreground arsComposeHost>
+<!--              <ars-row class="option" [height]="100" style="background-color:green"></ars-row>-->
+<!--              <ars-row class="option" [height]="100" style="background-color:pink"></ars-row>-->
+<!--              <ars-row class="option" [height]="100" style="background-color:green"></ars-row>-->
+<!--              <ars-row class="option" [height]="100" style="background-color:pink"></ars-row>-->
+            </div>
+            <div ars-layer-pane-background>
+              <div class="expand_animator-wrapper">
+                <div class="expand_animator-dot">
+                </div>
+              </div>
+            </div>
+          </ars-layer-pane>
+        </ars-col>
+      </ars-screen>
+    </ars-style-typography-material>
+  </ars-style-btn-material>
+</ng-container>

@@ -52,6 +52,9 @@ import { ScrollIntoViewDirective } from '../../directives/scroll-into-view.direc
 import { QuillModule } from 'ngx-quill';
 import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.component';
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
+import { QuestionWallMenuComponent } from './questionwall/question-wall-menu/question-wall-menu.component';
+import { QuestionWallMenuTriggerDirective } from './questionwall/question-wall-menu/question-wall-menu-trigger.directive';
+import { QuestionWallOptionComponent } from './questionwall/question-wall-menu/build/question-wall-option/question-wall-option.component';
 
 @NgModule({
   imports: [
@@ -109,9 +112,12 @@ import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.compo
     CustomMarkdownComponent,
     ScrollIntoViewDirective,
     ViewCommentDataComponent,
-    DeepLDialogComponent
+    DeepLDialogComponent,
+    QuestionWallMenuComponent,
+    QuestionWallMenuTriggerDirective,
+    QuestionWallOptionComponent
   ],
-  exports: [
+  exports:[
     RoomJoinComponent,
     PageNotFoundComponent,
     RoomPageComponent,
@@ -134,7 +140,9 @@ import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.compo
     CustomMarkdownComponent,
     ScrollIntoViewDirective,
     ViewCommentDataComponent,
-    WriteCommentComponent
+    WriteCommentComponent,
+    QuestionWallMenuComponent,
+    QuestionWallMenuTriggerDirective
   ]
 })
 export class SharedModule {

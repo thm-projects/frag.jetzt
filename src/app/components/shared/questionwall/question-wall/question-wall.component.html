@@ -105,6 +105,10 @@
             <i>person_pin_circle</i>
             <p>{{'question-wall.filter-user'| translate}}</p>
           </button>
+          <button ars-btn [questionwallMenuTriggerFor]="questionwallMenu">
+            <i>menu</i>
+            <p>Menu</p>
+          </button>
         </ars-col>
       </ars-fill>
     </ars-style-btn-material>
@@ -346,6 +350,123 @@
                    [foregroundColor]="'#FFFFFF'"></app-active-user>
 </ars-screen>
 
+<!--<ars-screen *ngIf="menuState">-->
+<!--  <ars-style-btn-material ars-flex-box style="width:100%;height:100%;position:fixed;">-->
+
+<!--  <ars-fill (click)="menuState=false"></ars-fill>-->
+<!--  <ars-col [width]="400">-->
+<!--    <ars-layer-pane>-->
+<!--      <ars-row ars-layer-pane-foreground ars-flex-box class="fade_wrp option_wrp">-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <div class="option" ars-flex-box>-->
+<!--          <ars-row ars-flex-box>-->
+<!--            <ars-col>-->
+<!--              <mat-icon style="padding:16px;">sort</mat-icon>-->
+<!--            </ars-col>-->
+<!--            <ars-col>-->
+<!--              <p style="padding:16px;margin-top:2px;">{{'question-wall.sort' | translate}}</p>-->
+<!--            </ars-col>-->
+<!--            <ars-fill></ars-fill>-->
+<!--          </ars-row>-->
+<!--          <ars-row [height]="50" ars-flex-box ars-menu>-->
+<!--            <mat-button-toggle-group style="padding:2px;" name="fontStyle" aria-label="Font Style">-->
+<!--              <mat-button-toggle value="bold">Bold</mat-button-toggle>-->
+<!--              <mat-button-toggle value="italic">Italic</mat-button-toggle>-->
+<!--              <mat-button-toggle value="underline">Underline</mat-button-toggle>-->
+<!--          </mat-button-toggle-group>-->
+<!--          </ars-row>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <div class="option" ars-flex-box>-->
+<!--          <ars-row ars-flex-box>-->
+<!--            <ars-col>-->
+<!--              <mat-icon style="padding:16px;">access_time</mat-icon>-->
+<!--            </ars-col>-->
+<!--            <ars-col>-->
+<!--              <p style="padding:16px;margin-top:2px;">{{'question-wall.time-period' | translate}}</p>-->
+<!--            </ars-col>-->
+<!--            <ars-fill></ars-fill>-->
+<!--          </ars-row>-->
+<!--          <ars-row [height]="50" ars-flex-box ars-menu>-->
+<!--            <mat-button-toggle-group style="padding:2px;" name="fontStyle" aria-label="Font Style">-->
+<!--              <mat-button-toggle value="bold">Bold</mat-button-toggle>-->
+<!--              <mat-button-toggle value="italic">Italic</mat-button-toggle>-->
+<!--              <mat-button-toggle value="underline">Underline</mat-button-toggle>-->
+<!--          </mat-button-toggle-group>-->
+<!--          </ars-row>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <div class="option" ars-flex-box>-->
+<!--          <ars-row ars-flex-box>-->
+<!--            <ars-col>-->
+<!--              <mat-icon style="padding:16px;" svgIcon="comment_tag"></mat-icon>-->
+<!--            </ars-col>-->
+<!--            <ars-col>-->
+<!--              <p style="padding:16px;margin-top:2px;">Kategorie</p>-->
+<!--            </ars-col>-->
+<!--            <ars-fill></ars-fill>-->
+<!--          </ars-row>-->
+<!--          <ars-row [height]="50" ars-flex-box ars-menu>-->
+<!--            <mat-button-toggle-group style="padding:2px;" name="fontStyle" aria-label="Font Style">-->
+<!--              <mat-button-toggle value="bold">Bold</mat-button-toggle>-->
+<!--              <mat-button-toggle value="italic">Italic</mat-button-toggle>-->
+<!--              <mat-button-toggle value="underline">Underline</mat-button-toggle>-->
+<!--            </mat-button-toggle-group>-->
+<!--          </ars-row>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <div class="option" ars-flex-box>-->
+<!--          <ars-row ars-flex-box>-->
+<!--            <ars-col>-->
+<!--              <mat-icon style="padding:16px;">filter_list</mat-icon>-->
+<!--            </ars-col>-->
+<!--            <ars-col>-->
+<!--              <p style="padding:16px;margin-top:2px;">Filter</p>-->
+<!--            </ars-col>-->
+<!--            <ars-fill></ars-fill>-->
+<!--          </ars-row>-->
+<!--          <ars-row [height]="50" ars-flex-box ars-menu>-->
+<!--            <mat-button-toggle-group style="padding:2px;" name="fontStyle" aria-label="Font Style">-->
+<!--              <mat-button-toggle value="bold">Bold</mat-button-toggle>-->
+<!--              <mat-button-toggle value="italic">Italic</mat-button-toggle>-->
+<!--              <mat-button-toggle value="underline">Underline</mat-button-toggle>-->
+<!--            </mat-button-toggle-group>-->
+<!--          </ars-row>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--        <div class="option" ars-flex-box>-->
+<!--          <ars-row ars-flex-box>-->
+<!--            <ars-col>-->
+<!--              <mat-icon style="padding:16px;">person_pin_circle</mat-icon>-->
+<!--            </ars-col>-->
+<!--            <ars-col>-->
+<!--              <p style="padding:16px;margin-top:2px;">{{'question-wall.filter-user'| translate}}</p>-->
+<!--            </ars-col>-->
+<!--            <ars-fill></ars-fill>-->
+<!--          </ars-row>-->
+<!--          <ars-row [height]="50" ars-flex-box ars-menu>-->
+<!--            <mat-button-toggle-group style="padding:2px;" name="fontStyle" aria-label="Font Style">-->
+<!--              <mat-button-toggle value="bold">Bold</mat-button-toggle>-->
+<!--              <mat-button-toggle value="italic">Italic</mat-button-toggle>-->
+<!--              <mat-button-toggle value="underline">Underline</mat-button-toggle>-->
+<!--            </mat-button-toggle-group>-->
+<!--          </ars-row>-->
+<!--        </div>-->
+<!--        &lt;!&ndash; &ndash;&gt;-->
+<!--      </ars-row>-->
+<!--      <app-question-wall-menu ars-layer-pane-foreground>-->
+<!--      </app-question-wall-menu>-->
+<!--      <div class="underlay" ars-layer-pane-background>-->
+<!--        <div class="innerUnderlay">-->
+<!--          <div class="questionwall-animation-dot-in-right"></div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </ars-layer-pane>-->
+<!--  </ars-col>-->
+<!--  </ars-style-btn-material>-->
+<!--</ars-screen>-->
+
+<app-question-wall-menu #questionwallMenu [questionwall]="this"></app-question-wall-menu>
 
 <div class="visually-hidden">
   <div id="back-lbl">{{'question-wall.back-lbl' | translate}}</div>
