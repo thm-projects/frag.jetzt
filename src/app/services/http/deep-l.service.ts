@@ -148,7 +148,7 @@ export class DeepLService extends BaseHttpService {
   private makeXMLTranslateRequest(text: string, targetLang: TargetLang, formality: FormalityType): Observable<DeepLResult> {
     const url = '/deepl/translate';
     const tagFormality = DeepLService.supportsFormality(targetLang) && formality !== FormalityType.default ? '&formality=' + formality : '';
-    const additional = 'target_lang=' + encodeURIComponent(targetLang) +
+    const data = 'target_lang=' + encodeURIComponent(targetLang) +
       '&tag_handling=xml' + tagFormality +
       '&text=' + encodeURIComponent(text);
     return this.http.post<DeepLResult>(url, data, httpOptions)
