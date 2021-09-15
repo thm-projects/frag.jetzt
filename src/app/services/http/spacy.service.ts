@@ -35,7 +35,7 @@ export class SpacyService extends BaseHttpService {
       .post<SpacyKeyword[]>(url, { text, model }, httpOptions)
       .pipe(
         tap(_ => ''),
-        timeout(1500),
+        timeout(2500),
         catchError(this.handleError<any>('getKeywords')),
         map((elem: SpacyKeyword[]) => elem.filter(e => CreateCommentKeywords.isKeywordAcceptable(e.text)))
       );
