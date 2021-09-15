@@ -104,7 +104,7 @@ export class TagCloudDataService {
     for (const comment of comments) {
       TopicCloudAdminService.approveKeywordsOfComment(comment, adminData,
         (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
-          let current: TagCloudDataTagEntry = data.get(keyword.lemma);
+          let current: TagCloudDataTagEntry = data.get(keyword.text);
           const commentDate = new Date(comment.timestamp);
           if (current === undefined) {
             current = {
@@ -123,7 +123,7 @@ export class TagCloudDataService {
               taggedCommentsCount: 0,
               answeredCommentsCount: 0
             };
-            data.set(keyword.lemma, current);
+            data.set(keyword.text, current);
           }
           keyword.dep.forEach(dependency => current.dependencies.add(dependency));
           current.cachedVoteCount += comment.score;
