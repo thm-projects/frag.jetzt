@@ -13,6 +13,8 @@ export class ProfanityFilterService {
 
   constructor() {
     this.customProfanityWords = new Subject<string[]>();
+    const badNL = BadWords['nl'];
+    badNL.splice(badNL.indexOf('nicht'), 1);
     this.profanityWords = BadWords['en']
       .concat(BadWords['de'])
       .concat(BadWords['fr'])
@@ -20,7 +22,7 @@ export class ProfanityFilterService {
       .concat(BadWords['ru'])
       .concat(BadWords['es'])
       .concat(BadWords['it'])
-      .concat(BadWords['nl'])
+      .concat(badNL)
       .concat(BadWords['pt'])
       .concat(BadWords['tr']);
   }
