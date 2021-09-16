@@ -369,7 +369,7 @@
               *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
               [class.keywords-alternate]="odd"
               [class.keywords-even]="even">
-              <span (click)="this.clickedOnKeyword.emit(keyword.lemma)" class="keyword-span">{{keyword.lemma}}</span>
+              <span (click)="this.clickedOnKeyword.emit(keyword.text)" class="keyword-span">{{keyword.text}}</span>
             </mat-list-item>
           </mat-list>
         </mat-menu>
