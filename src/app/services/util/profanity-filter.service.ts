@@ -15,8 +15,10 @@ export class ProfanityFilterService {
     this.customProfanityWords = new Subject<string[]>();
     const badNL = BadWords['nl'];
     badNL.splice(badNL.indexOf('nicht'), 1);
+    const badDE = BadWords['de'];
+    badDE.splice(badDE.indexOf('ische'), 1);
     this.profanityWords = BadWords['en']
-      .concat(BadWords['de'])
+      .concat(badDE)
       .concat(BadWords['fr'])
       .concat(BadWords['ar'])
       .concat(BadWords['ru'])
