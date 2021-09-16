@@ -493,6 +493,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   votedComment(voteInfo: string) {
+    this.focusCommentId = null;
     setTimeout(() => this.focusCommentId = voteInfo, 100);
   }
 
