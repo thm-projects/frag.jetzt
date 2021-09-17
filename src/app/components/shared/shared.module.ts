@@ -55,6 +55,7 @@ import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.compo
 import { QuestionWallMenuComponent } from './questionwall/question-wall-menu/question-wall-menu.component';
 import { QuestionWallMenuTriggerDirective } from './questionwall/question-wall-menu/question-wall-menu-trigger.directive';
 import { QuestionWallOptionComponent } from './questionwall/question-wall-menu/build/question-wall-option/question-wall-option.component';
+import { QuestionWallMenuDropDownComponent } from './questionwall/question-wall-menu/build/question-wall-menu-drop-down/question-wall-menu-drop-down.component';
 
 @NgModule({
   imports: [
@@ -115,7 +116,8 @@ import { QuestionWallOptionComponent } from './questionwall/question-wall-menu/b
     DeepLDialogComponent,
     QuestionWallMenuComponent,
     QuestionWallMenuTriggerDirective,
-    QuestionWallOptionComponent
+    QuestionWallOptionComponent,
+    QuestionWallMenuDropDownComponent
   ],
   exports:[
     RoomJoinComponent,

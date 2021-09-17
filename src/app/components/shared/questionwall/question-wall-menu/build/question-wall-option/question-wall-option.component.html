@@ -1,11 +1,11 @@
-<ars-row class="questionwall-option">
+<ars-row class="questionwall-option" *ngIf="(data.condition&&data.condition())||!data.condition">
   <ars-row ars-flex-box>
     <ars-col>
       <mat-icon style="padding:16px;" *ngIf="!data.isSVGIcon">{{data.icon}}</mat-icon>
       <mat-icon style="padding:16px;" *ngIf="data.isSVGIcon" [svgIcon]="data.icon"></mat-icon>
     </ars-col>
     <ars-col>
-      <p style="padding:16px;margin-top:2px;">{{data.title}}</p>
+      <p style="padding-top:16px;margin-top:4px;">{{data.title}}</p>
     </ars-col>
     <ars-fill></ars-fill>
   </ars-row>

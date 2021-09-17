@@ -1,0 +1,15 @@
+:host{
+  .questionwall-dnd{
+    animation:questionwall-dnd-animation 1s ease-in-out both;
+  }
+  @keyframes question-dnd-animation {
+    0% {
+      margin-top:128px;
+      opacity:0;
+    }
+    100% {
+      margin-top:0px;
+      opacity:1;
+    }
+  }
+}

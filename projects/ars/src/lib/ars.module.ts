@@ -30,6 +30,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LayerPaneComponent } from './components/layout/misc/layer-pane/layer-pane.component';
 import { MatChipListComponent } from './compose/elements/mat-chip-list/mat-chip-list.component';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatDatePickerComponent } from './compose/elements/mat-date-picker/mat-date-picker.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -53,7 +58,8 @@ import { MatChipsModule } from '@angular/material/chips';
     MatMenuItemComponent,
     MatToggleComponent,
     LayerPaneComponent,
-    MatChipListComponent
+    MatChipListComponent,
+    MatDatePickerComponent
   ],
   imports:[
     MatIconModule,
@@ -64,7 +70,11 @@ import { MatChipsModule } from '@angular/material/chips';
     RouterModule,
     CommonModule,
     MatSlideToggleModule,
-    MatChipsModule
+    MatChipsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatNativeDateModule
   ],
   exports:[
     ArsComponent,

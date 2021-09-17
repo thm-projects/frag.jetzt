@@ -9,6 +9,7 @@ export interface QuestionWallOptionConfig{
   isSVGIcon?:boolean;
   title:string;
   compose:(e:ComposeHostDirective)=>void;
+  condition?:()=>boolean;
 
 }
 

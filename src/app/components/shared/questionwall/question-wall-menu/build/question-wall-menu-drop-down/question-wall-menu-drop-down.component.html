@@ -1,0 +1,13 @@
+<ars-row ars-flex-box role="button" (click)="toggle()">
+  <ars-col>
+    <mat-icon style="padding:16px;">{{expandedAnchor.value?'expand_less':'expand_more'}}</mat-icon>
+  </ars-col>
+  <ars-fill></ars-fill>
+  <ars-col>
+    <p style="padding:16px;margin-top:4px;">{{data.title}}</p>
+  </ars-col>
+</ars-row>
+<ng-container *ngIf="expandedAnchor.value">
+  <ars-row arsComposeHost class="qw-drop-down-wrp">
+  </ars-row>
+</ng-container>
