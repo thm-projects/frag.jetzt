@@ -72,7 +72,10 @@ export class TopicCloudAdminService {
       if (wantedLabels && !keyword.dep.some(e => wantedLabels.includes(e))) {
         continue;
       }
-      let isProfanity = false;
+      let isProfanity = !!keyword.text.match(/\*/);
+      if (isProfanity) {
+        continue;
+      }
       const lowerCasedKeyword = keyword.text.toLowerCase();
       for (const word of config.blacklist) {
         if (lowerCasedKeyword.includes(word)) {
@@ -194,6 +197,7 @@ export class TopicCloudAdminService {
     if (updateRoom && userRole && userRole > UserRole.PARTICIPANT) {
       this.getRoom().subscribe(room => {
         room.blacklistIsActive = _adminData.blacklistIsActive;
+        room.profanityFilter = _adminData.profanityFilter;
         TopicCloudAdminService.applySettingsToRoom(room);
         this.updateRoom(room);
       });
