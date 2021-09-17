@@ -69,7 +69,7 @@ export class TopicCloudAdminService {
     }
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
     for (const keyword of source) {
-      if (wantedLabels && !keyword.dep.some(e => wantedLabels.includes(e))) {
+      if (wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
         continue;
       }
       let isProfanity = false;
