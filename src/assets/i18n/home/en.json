@@ -371,6 +371,14 @@
     "add-successful": "Word added",
     "remove-successful": "Word removed"
   },
+  "worker-config": {
+    "heading": "Analyze questions",
+    "label": "Choose an analysis mode",
+    "normal": "All",
+    "only-failed": "Not analysed questions",
+    "continue": "Continue",
+    "cancel": "Cancel"
+  },
   "worker-dialog": {
     "running": "Running",
     "room-name": "Session name",
