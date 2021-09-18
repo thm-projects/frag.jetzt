@@ -38,6 +38,7 @@ export class QuestionWallMenuBuilder {
 
   build(compose:ComposeHostDirective){
     this.compose=compose;
+    /*
     this.createOption({
       translate:this.questionwall.translateService,
       icon:"sort",
@@ -71,7 +72,7 @@ export class QuestionWallMenuBuilder {
           expanded:ArsObserver.build(obs=>{
             obs.set(false);
           }),
-          title:'title',
+          title:'ADVANCED',
           compose:e2=>{
             this.createDatePicker(e2,{
               translate:this.questionwall.translateService,
@@ -130,6 +131,40 @@ export class QuestionWallMenuBuilder {
         });
       }
     });
+     */
+    this.createOption({
+      translate:this.questionwall.translateService,
+      icon:"person",
+      title:"user",
+      compose:e=>{
+        this.createChips(e,{
+          list:ArsObserver.build(a=>{
+            a.set([
+              {
+                title:"Neuste",
+                onSelect:el=>{
+                  console.log('sort by time');
+                }
+              },
+              {
+                title:"Älteste",
+                onSelect:el=>{
+                  console.log('sort by time');
+                }
+              },
+              {
+                title:"Bewertung",
+                onSelect:el=>{
+                  console.log('sort by time');
+                }
+              },
+            ]);
+          }),
+          onSelect:s=>{
+          }
+        });
+      }
+    })
   }
 
   private createOption(config:QuestionWallOptionConfig):ComponentRef<any>{

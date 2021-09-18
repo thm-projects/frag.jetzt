@@ -1,10 +1,18 @@
 import { InjectionToken } from '@angular/core';
 import { ArsObserver } from '../../../models/util/ArsObserver';
 
+export interface ArsMatChipConfig {
+  title:string;
+  icon?:string;
+  isSVGIcon?:boolean;
+  color?:string;
+  onSelect?:(e:ArsMatChipConfig)=>void;
+}
+
 export interface ArsMatChipListConfig {
-  list:ArsObserver<string[]>;
+  list:ArsObserver<ArsMatChipConfig[]>;
   def?:string[];
-  onSelect:(e:string[])=>void;
+  onSelect:(e:ArsMatChipConfig[])=>void;
   type?:ArsMatChipListType;
 }
 

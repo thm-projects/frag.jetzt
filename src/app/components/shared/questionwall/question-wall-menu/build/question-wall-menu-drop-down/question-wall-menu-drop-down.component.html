@@ -1,10 +1,10 @@
-<ars-row ars-flex-box role="button" (click)="toggle()">
+<ars-row ars-flex-box role="button" style="cursor:pointer;" (click)="toggle()">
   <ars-col>
     <mat-icon style="padding:16px;">{{expandedAnchor.value?'expand_less':'expand_more'}}</mat-icon>
   </ars-col>
   <ars-fill></ars-fill>
   <ars-col>
-    <p style="padding:16px;margin-top:4px;">{{data.title}}</p>
+    <p style="padding:16px;margin-top:4px;font-size:14px;letter-spacing:1.25px;">{{data.title}}</p>
   </ars-col>
 </ars-row>
 <ng-container *ngIf="expandedAnchor.value">

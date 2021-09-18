@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { ARS_MAT_MENU_ITEM_DATA, ArsMatMenuItemConfig } from '../mat-menu-item/ars-mat-menu-item-config';
-import { ARS_MAT_CHIP_LIST_CONFIG, ArsMatChipListConfig } from './mat-chip-list-config';
+import { ARS_MAT_CHIP_LIST_CONFIG, ArsMatChipConfig, ArsMatChipListConfig } from './mat-chip-list-config';
 import { ArsAnchor } from '../../../models/util/ArsObserver';
 
 @Component({
@@ -10,7 +9,7 @@ import { ArsAnchor } from '../../../models/util/ArsObserver';
 })
 export class MatChipListComponent implements OnInit {
 
-  elementAnchor:ArsAnchor<string[]>;
+  elementAnchor:ArsAnchor<ArsMatChipConfig[]>;
 
   constructor(
     @Inject(ARS_MAT_CHIP_LIST_CONFIG) public data:ArsMatChipListConfig
