@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { WsCommentService } from '../websockets/ws-comment.service';
 import { Message } from '@stomp/stompjs';
 import { Comment } from '../../models/comment';
@@ -9,6 +9,7 @@ import { RoomService } from '../http/room.service';
 import { ProfanityFilterService } from './profanity-filter.service';
 import { ProfanityFilter, Room } from '../../models/room';
 import { WsRoomService } from '../websockets/ws-room.service';
+import { SpacyKeyword } from '../http/spacy.service';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -81,6 +82,8 @@ interface FastRoomAccessObject {
   [commentId: string]: Comment;
 }
 
+type CommentFilterData = [body: string, genKeywords: SpacyKeyword[], userKeywords: SpacyKeyword[]];
+
 @Injectable({
   providedIn: 'root'
 })
@@ -92,8 +95,8 @@ export class RoomDataService {
   private _fastCommentAccess: FastRoomAccessObject = null;
   private _wsCommentServiceSubscription: Subscription = null;
   private _currentRoomId: string = null;
-  private _savedCommentsBeforeFilter = new Map();
-  private _savedCommentsAfterFilter = new Map();
+  private _savedCommentsBeforeFilter = new Map<string, CommentFilterData>();
+  private _savedCommentsAfterFilter = new Map<string, CommentFilterData>();
   private room: Room;
 
   constructor(private wsCommentService: WsCommentService,
@@ -101,6 +104,14 @@ export class RoomDataService {
               private roomService: RoomService,
               private profanityFilterService: ProfanityFilterService,
               private wsRoomService: WsRoomService) {
+  }
+
+  private static cloneKeywords(arr: SpacyKeyword[]) {
+    const newArr = [...arr];
+    for (let i = 0; i < newArr.length; i++) {
+      newArr[i] = { text: newArr[i].text, dep: [...newArr[i].dep] };
+    }
+    return newArr;
   }
 
   get currentRoomData() {
@@ -138,9 +149,9 @@ export class RoomDataService {
     const finish = new Subject<boolean>();
     const subscription = finish.asObservable().subscribe(_ => {
       if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
-        comment.body = this._savedCommentsAfterFilter.get(comment.id);
+        [comment.body, comment.keywordsFromSpacy, comment.keywordsFromQuestioner] = this._savedCommentsAfterFilter.get(comment.id);
       } else {
-        comment.body = this._savedCommentsBeforeFilter.get(comment.id);
+        [comment.body, comment.keywordsFromSpacy, comment.keywordsFromQuestioner] = this._savedCommentsBeforeFilter.get(comment.id);
       }
       subscription.unsubscribe();
     });
@@ -162,30 +173,36 @@ export class RoomDataService {
   }
 
   getUnFilteredBody(id: string): string {
-    return this._savedCommentsBeforeFilter.get(id);
+    return this._savedCommentsBeforeFilter.get(id)[0];
   }
 
   getFilteredBody(id: string): string {
-    return this._savedCommentsAfterFilter.get(id);
+    return this._savedCommentsAfterFilter.get(id)[0];
   }
 
   private setCommentBody(comment: Comment) {
-    this._savedCommentsBeforeFilter.set(comment.id, comment.body);
+    const genKeywords = RoomDataService.cloneKeywords(comment.keywordsFromSpacy);
+    const userKeywords = RoomDataService.cloneKeywords(comment.keywordsFromQuestioner);
+    this._savedCommentsBeforeFilter.set(comment.id, [comment.body, genKeywords, userKeywords]);
     this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
   }
 
   private filterAllCommentsBodies() {
     this._currentComments.forEach(comment => {
-      comment.body = this._savedCommentsBeforeFilter.get(comment.id);
+      [comment.body, comment.keywordsFromSpacy, comment.keywordsFromQuestioner] = this._savedCommentsBeforeFilter.get(comment.id);
       this.setCommentBody(comment);
       this.checkProfanity(comment);
     });
   }
 
-  private filterCommentOfProfanity(room: Room, comment: Comment): string {
+  private filterCommentOfProfanity(room: Room, comment: Comment): CommentFilterData {
     const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
     const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
-    return this.profanityFilterService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
+    return [
+      this.profanityFilterService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language),
+      this.checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language),
+      this.checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language)
+    ];
   }
 
   private removeCommentBodies(key: string) {
@@ -421,5 +438,16 @@ export class RoomDataService {
       this.removeCommentBodies(id);
     }
     this._fastCommentAccess[id] = undefined;
+  }
+
+  private checkKeywords(keywords: SpacyKeyword[], partialWords: boolean, languageSpecific: boolean, lang: string): SpacyKeyword[] {
+    const newKeywords = [...keywords];
+    for (let i = 0; i < newKeywords.length; i++) {
+      newKeywords[i] = {
+        text: this.profanityFilterService.filterProfanityWords(newKeywords[i].text, partialWords, languageSpecific, lang),
+        dep: newKeywords[i].dep
+      };
+    }
+    return newKeywords;
   }
 }
