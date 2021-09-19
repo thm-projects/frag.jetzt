@@ -1,7 +1,7 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
@@ -24,11 +24,11 @@ import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
 import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
-import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
+import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -47,10 +47,10 @@ export class HeaderComponent implements OnInit {
   commentsCountUsers = 0;
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
-  private _subscriptionRoomService = null;
   toggleUserActivity = false;
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
+  private _subscriptionRoomService = null;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -156,7 +156,7 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
-    this.moderationEnabled = (localStorage.getItem('moderationEnabled') === 'true') ? true : false;
+    this.moderationEnabled = localStorage.getItem('moderationEnabled') === 'true';
 
 
     this._r.listen(document, 'keyup', (event) => {
@@ -304,8 +304,7 @@ export class HeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(QrCodeDialogComponent, {
       panelClass: 'screenDialog'
     });
-    const url = this.getURL();
-    dialogRef.componentInstance.data = url;
+    dialogRef.componentInstance.data = this.getURL();
     dialogRef.componentInstance.key = this.shortId;
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
@@ -379,6 +378,6 @@ export class HeaderComponent implements OnInit {
   }
 
   public startWorkerDialog() {
-    WorkerDialogComponent.addWorkTask(this.dialog, this.room);
+    WorkerConfigDialogComponent.addTask(this.dialog, this.room);
   }
 }

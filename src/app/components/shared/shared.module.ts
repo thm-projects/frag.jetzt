@@ -54,6 +54,7 @@ import { ViewCommentDataComponent } from './view-comment-data/view-comment-data.
 import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.component';
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
 import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
+import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 
 @NgModule({
   imports: [
@@ -113,7 +114,8 @@ import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-i
     ViewCommentDataComponent,
     DeepLDialogComponent,
     ExplanationDialogComponent,
-    QuillInputDialogComponent
+    QuillInputDialogComponent,
+    WorkerConfigDialogComponent
   ],
   exports: [
     RoomJoinComponent,

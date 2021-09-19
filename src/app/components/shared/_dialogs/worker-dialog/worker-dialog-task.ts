@@ -89,7 +89,7 @@ export class WorkerDialogTask {
       this.patchToServer([], index, Language.auto);
     } else {
       this.statistics.failed++;
-      this.callSpacy(index + concurrentCallsPerTask);
+      this.patchToServer([], index, Language.auto);
     }
   }
 
