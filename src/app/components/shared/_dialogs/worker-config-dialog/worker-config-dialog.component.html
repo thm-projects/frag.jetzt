@@ -1,0 +1,20 @@
+<h3>{{'worker-config.heading' | translate}}</h3>
+<mat-dialog-content>
+  <label id="worker-config-group-label">{{'worker-config.label' | translate}}</label>
+  <br>
+  <mat-radio-group aria-labelledby="worker-config-group-label" [(ngModel)]="selection">
+    <mat-radio-button [value]="'normal'">
+      <small>{{'worker-config.normal' | translate}}</small>
+    </mat-radio-button>
+    <br>
+    <mat-radio-button [value]="'only-failed'">
+      <small>{{'worker-config.only-failed' | translate}}</small>
+    </mat-radio-button>
+  </mat-radio-group>
+</mat-dialog-content>
+<app-dialog-action-buttons
+  [buttonsLabelSection]="'worker-config'"
+  [confirmButtonLabel]="'continue'"
+  [confirmButtonClickAction]="buildConfirmAction()"
+  [cancelButtonClickAction]="buildCancelAction()">
+</app-dialog-action-buttons>

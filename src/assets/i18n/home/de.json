@@ -133,7 +133,7 @@
   "help": {
     "cancel": "Schließen",
     "cancel-description": "Schließt die Hilfe",
-        "title": "Hilfe"
+    "title": "Hilfe"
   },
   "home-page": {
     "accessibility-create": "Erstellt eine neue Sitzung.",
@@ -369,12 +369,20 @@
     "add-successful": "Wort hinzugefügt",
     "remove-successful": "Wort entfernt"
   },
+  "worker-config": {
+    "heading": "Fragen analysieren",
+    "label": "Wähle ein Analysemodus",
+    "normal": "Alle",
+    "only-failed": "Nicht analysierte Fragen",
+    "continue": "Weiter",
+    "cancel": "Abbrechen"
+  },
   "worker-dialog": {
     "running": "Laufend",
-    "room-name" : "Raum",
-    "comments" : "Abgearbeitete Fragen",
-    "bad-spelled" : "Zu schlechte Rechtschreibung",
-    "failed" : "Fehler aufgetreten",
+    "room-name": "Raum",
+    "comments": "Abgearbeitete Fragen",
+    "bad-spelled": "Zu schlechte Rechtschreibung",
+    "failed": "Fehler aufgetreten",
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "topic-cloud-filter": {

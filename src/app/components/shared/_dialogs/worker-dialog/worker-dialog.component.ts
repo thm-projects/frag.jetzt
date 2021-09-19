@@ -8,7 +8,7 @@ import { WorkerDialogTask } from './worker-dialog-task';
 import { LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { Comment } from '../../../../models/comment';
+import { Comment, Language } from '../../../../models/comment';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 
 @Component({
@@ -39,7 +39,7 @@ export class WorkerDialogComponent implements OnInit {
     return this.queuedRooms.has(roomId);
   }
 
-  static addWorkTask(dialog: MatDialog, room: Room): boolean {
+  static addWorkTask(dialog: MatDialog, room: Room, onlyFailed = false): boolean {
     if (!this.dialogRef) {
       this.dialogRef = dialog.open(WorkerDialogComponent, {
         width: '200px',
@@ -61,7 +61,27 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    this.dialogRef.componentInstance.appendRoom(room, this.dialogRef.componentInstance.roomDataService.currentRoomData);
+    let comments = this.dialogRef.componentInstance.roomDataService.currentRoomData;
+    if (onlyFailed) {
+      comments = comments.filter(c => {
+        const isKeywordOkay = c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;
+        const isLanguageDefined = c.language !== Language.auto;
+        let isKeywordWellDefined = false;
+        if (isKeywordOkay) {
+          isKeywordWellDefined = c.keywordsFromSpacy.every(keyword => {
+            const keys = Object.keys(keyword);
+            return keys.length === 2 &&
+              keys.indexOf('dep') >= 0 &&
+              keys.indexOf('text') >= 0 &&
+              Array.isArray(keyword.dep) &&
+              typeof keyword.text === 'string' &&
+              keyword.dep.every(str => typeof str === 'string');
+          });
+        }
+        return !(isKeywordOkay && isKeywordWellDefined && isLanguageDefined);
+      });
+    }
+    this.dialogRef.componentInstance.appendRoom(room, comments);
     return true;
   }
 
