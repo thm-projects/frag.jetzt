@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
@@ -14,13 +14,15 @@ import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/dele
 import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
+import { CorrectWrong } from '../../../models/correct-wrong.enum';
+import { Message } from '@stomp/stompjs';
 
 @Component({
   selector: 'app-comment-answer',
   templateUrl: './comment-answer.component.html',
   styleUrls: ['./comment-answer.component.scss']
 })
-export class CommentAnswerComponent implements OnInit {
+export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
 
@@ -30,6 +32,7 @@ export class CommentAnswerComponent implements OnInit {
   user: User;
   isStudent = true;
   edit = false;
+  private _commentSubscription;
 
   constructor(protected route: ActivatedRoute,
               private notificationService: NotificationService,
@@ -54,8 +57,16 @@ export class CommentAnswerComponent implements OnInit {
         this.answer = this.comment.answer;
         this.edit = !this.answer;
         this.isLoading = false;
+        this._commentSubscription = this.wsCommentService.getCommentStream(comment.roomId)
+          .subscribe(msg => this.onMessageReceive(msg));
       });
     });
+  }
+
+  ngOnDestroy() {
+    if (this._commentSubscription) {
+      this._commentSubscription.unsubscribe();
+    }
   }
 
   saveAnswer(): (string) => void {
@@ -95,5 +106,59 @@ export class CommentAnswerComponent implements OnInit {
   onEditClick() {
     this.edit = true;
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
+  }
+
+  private onMessageReceive(msg: Message) {
+    const message = JSON.parse(msg.body);
+    const payload = message.payload;
+    if (payload.id !== this.comment.id) {
+      return;
+    }
+    if (message.type === 'CommentHighlighted') {
+      this.comment.highlighted = payload.lights as boolean;
+    } else if (message.type === 'CommentPatched') {
+      for (const [key, value] of Object.entries(payload.changes)) {
+        switch (key) {
+          case 'read':
+            this.comment.read = value as boolean;
+            break;
+          case 'correct':
+            this.comment.correct = value as CorrectWrong;
+            break;
+          case 'favorite':
+            this.comment.favorite = value as boolean;
+            break;
+          case 'bookmark':
+            this.comment.bookmark = value as boolean;
+            break;
+          case 'score':
+            this.comment.score = value as number;
+            break;
+          case 'upvotes':
+            this.comment.upvotes = value as number;
+            break;
+          case 'downvotes':
+            this.comment.downvotes = value as number;
+            break;
+          case 'keywordsFromSpacy':
+            this.comment.keywordsFromSpacy = JSON.parse(value as string);
+            break;
+          case 'keywordsFromQuestioner':
+            this.comment.keywordsFromQuestioner = JSON.parse(value as string);
+            break;
+          case 'ack':
+            this.comment.ack = value as boolean;
+            break;
+          case 'tag':
+            this.comment.tag = value as string;
+            break;
+          case 'answer':
+            this.comment.answer = value as string;
+            this.answer = this.comment.answer;
+            this.edit = !this.answer;
+            break;
+        }
+      }
+    }
   }
 }
