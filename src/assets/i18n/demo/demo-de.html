@@ -75,24 +75,45 @@
 
   <p>
     <strong>Fragen KI-gestützt analysieren</strong><br><br>
-    Mittels NLP (Natural Language Processing) werden alle Fragen grammatikalisch analysiert.
-    Die erkannten Nomen werden in ihre Grundform gebracht (lemmatisiert)
-    und dem Fragensteller als Stichwörter vorgeschlagen.
-    Wir verwenden die NLP-Software
+
+    Im Laufe eines Online-Kurses können sich im Rückkanal schnell Hunderte von Fragen ansammeln,
+    die im Nachhinein nur schwer zu überblicken sind.
+    Hier hilft die KI mit NLP (Natural Language Processing),
+    den Überblick zu behalten:
+    Die Substantive in den Texten werden auf ihre grammatische Stellung im Satz analysiert
+    und als Stichwörter dem Fragensteller oder der Fragestellerin zur thematischen Einordnung vorgeschlagen.
+    </p>
+    <p>
+    Wohl wissend, dass die sprachliche Qualität eines anonymen Textes
+    in Bezug auf Rechtschreibung, Grammatik, Zeichensetzung und Stil im Allgemeinen gering ist,
+    wird bei »frag.jetzt« der Text an den Online-Übersetzungsdienst
+    <a class="info"
+       href="https://deepl.com"
+       target="_blank"
+       rel="noreferrer">»DeepL«
+      <span>Öffnet neue Seite</span>
+    </a>
+
+    übermittelt
+    und in eine Fremdsprache übersetzt, zum Beispiel Deutsch in Englisch.
+    Die KI hinter DeepL ignoriert so gut wie alle sprachlichen Defizite.
+    Die anschließende Rückübersetzung in die Ausgangssprache verwandelt einen schlecht geschriebenen Ausgangstext
+    in einen formal korrekten und gut lesbaren generierten Text,
+    ohne den Inhalt zu verfälschen.
+    Der so bereinigte Text wird an die NLP-Software
     <a class="info"
        href="https://spacy.io/"
        target="_blank"
        rel="noreferrer">»spaCy«
       <span>Öffnet neue Seite</span>
-    </a>.
-    Aus den analysierten oder den selbst vergebenen Stichwörtern kann eine Wortwolke erzeugt werden,
-    in »frag.jetzt« als Themenwolke bezeichnet.
-    Sie visualisiert die Häufigkeit der Stichwörter:
-    Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort.
-    Auch die Bewertung der Fragen geht in die Schriftgröße mit ein.
-    Die Themenwolke fungiert zugleich als Navigator zu allen Fragen eines Stichwortes:
-    Klickt man auf ein Wort in der Wolke, gelangt man zu den Fragen mit diesem  Stichwort.
-  </p>
+    </a>
+
+    weitergegeben,
+    um aus diesem die Substantive nach Kasus als Stichwörter zu gewinnen.
+    Das Ergebnis kann sich sehen lassen:
+    Wir erstellen aus den KI-generierten Stichwörtern aller Fragen eine Wortwolke,
+    die wir in »frag.jetzt« treffend »Themenwolke« nennen.
+    </p>
 
   <p>
     <strong>Fragen fokussiert präsentieren</strong><br><br>
