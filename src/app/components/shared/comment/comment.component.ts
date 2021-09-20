@@ -1,4 +1,4 @@
-import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { Comment } from '../../../models/comment';
 import { Vote } from '../../../models/vote';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -34,7 +34,7 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
   ]
 })
 
-export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CommentComponent implements OnInit, AfterViewInit {
 
   static COMMENT_MAX_HEIGHT = 200;
 
@@ -66,10 +66,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
   selectedKeyword = '';
   filterProfanityForModerators = false;
   createdBy;
-  voteInterval;
-  upvotes;
-  downvotes;
-  score;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,
@@ -106,19 +102,6 @@ export class CommentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.translateService.use(this.language);
     this.deviceType = localStorage.getItem('deviceType');
     this.inAnswerView = !this.router.url.includes('comments');
-    this.voteInterval=setInterval(()=>{
-      if(this.comment){
-        this.commentService.getComment(this.comment.id).subscribe(e=>{
-          this.upvotes=e.upvotes;
-          this.downvotes=e.downvotes;
-          this.score=e.score;
-        });
-      }
-    },1000);
-  }
-
-  ngOnDestroy(){
-    clearInterval(this.voteInterval);
   }
 
   checkProfanity(){
