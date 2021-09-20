@@ -84,25 +84,44 @@
        For example, tagging allows the moderator of a panel discussion to filter questions from the audience by topic or addressee:
        tag »Question to Mr. Biden«, tag »Question to Mr. Trump« …
   </p>
+
   <p>
     <strong>Analyzing questions with AI support</strong><br><br>
-                                                              Using NLP (Natural Language Processing), all questions are grammatically analyzed.
-                                                              The recognized nouns are brought into their basic form (lemmatized)
-                                                              and suggested to the questioner as keywords.
-                                                              We use the NLP software
+
+    Over the course of an online course,
+    hundreds of questions can quickly accumulate in the back channel,
+    making it difficult to keep track of them after the fact.
+    This is where AI with NLP (Natural Language Processing) helps to keep track:
+    The nouns in the texts are analyzed for their grammatical position in the sentence
+    and suggested as keywords to the questioner for thematic classification.
+  </p>
+  <p>
+    Well aware that the linguistic quality of an anonymous text is generally low
+    in terms of spelling, grammar, punctuation and style,
+    »frag.jetzt« sends the text to the online translation service
+    <a class="info"
+       href="https://deepl.com"
+       target="_blank"
+       rel="noreferrer">»DeepL«
+      <span>Opens new window</span>
+    </a>
+
+    and translates it into a foreign language, for example German into English.
+    The AI behind DeepL ignores just about any linguistic deficits.
+    The subsequent back translation into the source language
+    transforms a poorly written source text into a formally correct and easily readable generated text
+    without distorting the content.
+    The thus cleaned text is passed on to the NLP software
     <a class="info"
        href="https://spacy.io/"
        target="_blank"
        rel="noreferrer">»spaCy«
-      <span>Opens new page</span>
-    </a>.
-                                                              A word cloud can be created from the analyzed keywords or the keywords you have assigned yourself,
-                                                              called a topic cloud in »frag.jetzt«.
-                                                              It visualizes the frequency of the keywords:
-                                                              The larger the font, the more questions refer to the keyword.
-                                                              The rating of the questions is also included in the font size.
-                                                              The topic cloud also serves as a navigator to all questions of a selected keyword:
-                                                              Clicking on a word in the cloud takes you to the questions with that keyword.
+      <span>Opens new window</span>
+    </a>
+
+    in order to extract nouns by case as keywords from it.
+    The result is impressive: We create a word cloud from the AI-generated keywords of all questions,
+    which we aptly call »topic cloud« in »frag.jetzt«.
   </p>
 
   <p>
