@@ -1,10 +1,10 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { EventService } from '../util/event.service';
 import { AuthenticationService } from './authentication.service';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Motd } from '../../models/motd';
 import { MotdList } from '../../models/motd-list';
 
@@ -26,7 +26,7 @@ export class MotdService extends BaseHttpService {
     super();
     setInterval(() => {
       this.checkNewMessage();
-    }, 30000);
+    }, 1_800_000);
   }
 
   public checkNewMessage(runnable?: () => void): void {
@@ -36,20 +36,6 @@ export class MotdService extends BaseHttpService {
         runnable();
       }
     });
-  }
-
-  private validateNewMessage(list: MotdList): void {
-    if (list.containsUnreadMessage()) {
-      if (!this.hasNewMessages) {
-        this.hasNewMessages = true;
-        this.newMessageTrigger.emit(this.hasNewMessages);
-      }
-    } else {
-      if (this.hasNewMessages) {
-        this.hasNewMessages = false;
-        this.newMessageTrigger.emit(this.hasNewMessages);
-      }
-    }
   }
 
   public onDialogRequest(): Observable<void> {
@@ -118,6 +104,20 @@ export class MotdService extends BaseHttpService {
         });
       });
     });
+  }
+
+  private validateNewMessage(list: MotdList): void {
+    if (list.containsUnreadMessage()) {
+      if (!this.hasNewMessages) {
+        this.hasNewMessages = true;
+        this.newMessageTrigger.emit(this.hasNewMessages);
+      }
+    } else {
+      if (this.hasNewMessages) {
+        this.hasNewMessages = false;
+        this.newMessageTrigger.emit(this.hasNewMessages);
+      }
+    }
   }
 
 }

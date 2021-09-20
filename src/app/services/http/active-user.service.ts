@@ -36,7 +36,7 @@ export class ActiveUserService extends BaseHttpService {
       });
     };
     f();
-    const interval=setInterval(()=>f(),5000);
+    const interval=setInterval(()=>f(),10_000);
     return ()=>clearInterval(interval);
   }
 
