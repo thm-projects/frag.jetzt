@@ -79,7 +79,7 @@
     </mat-form-field>
   </mat-radio-group>
 
-  <mat-card *ngIf="user && user.role > 0 && hasNoKeywords"
+  <mat-card *ngIf="hasNoKeywords"
             class="noKeywords">
     <p>{{'topic-cloud-filter.info-no-keywords' | translate}}</p>
     <button mat-flat-button
@@ -90,8 +90,7 @@
     </button>
   </mat-card>
 
-  <app-worker-dialog [inlined]="true"
-                     *ngIf="user && user.role > 0"></app-worker-dialog>
+  <app-worker-dialog [inlined]="true"></app-worker-dialog>
 
   <ars-row ars-flex-box class="action-button-container">
     <ars-col>

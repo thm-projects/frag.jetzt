@@ -19,6 +19,7 @@ import { Room } from '../../../../models/room';
 import { ThemeService } from '../../../../../theme/theme.service';
 import { Theme } from '../../../../../theme/Theme';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 class CommentsCount {
   comments: number;
@@ -165,9 +166,6 @@ export class TopicCloudFilterComponent implements OnInit {
   }
 
   private isUpdatable(): boolean {
-    if (this.comments.length < 3) {
-      return false;
-    }
     let count = 0;
     let newCount = 0;
     this.comments.forEach(comment => {
@@ -177,6 +175,9 @@ export class TopicCloudFilterComponent implements OnInit {
         count++;
       }
     });
+    if (this.user && this.user.role === UserRole.PARTICIPANT) {
+      return newCount < 1;
+    }
     if (count * 2 / 3 < newCount) {
       return false;
     }
