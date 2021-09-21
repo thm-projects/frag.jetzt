@@ -367,28 +367,28 @@
   },
   "topic-cloud": {
     "changes-gone-wrong": "Something went wrong!",
-    "changes-successful": "Successfully updated.",
+    "changes-successful": "Successfully updated",
     "add-successful": "Word added",
     "remove-successful": "Word removed"
   },
   "worker-config": {
     "heading": "Analyze questions",
     "label": "Choose an analysis mode",
-    "normal": "All",
-    "only-failed": "Not analysed questions",
+    "normal": "All questions",
+    "only-failed": "Questions not analyzed",
     "continue": "Continue",
     "cancel": "Cancel"
   },
   "worker-dialog": {
     "running": "Running",
-    "room-name": "Session name",
-    "comments": "Questions",
+    "room-name": "Room",
+    "comments": "Processed questions",
     "bad-spelled": "Spelling too bad",
-    "failed": "Error occurred",
-    "inline-header": "Ongoing keyword updates"
+    "failed": "Errors occurred",
+    "inline-header": "Running keyword updates"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "There are no keywords. The word cloud will be empty. An AI-based question analysis can create keywords afterwards. Start question analysis?",
+    "info-no-keywords": "There are no keywords. The topic cloud will be empty. An AI-based text analysis can generate keywords afterwards. Start analysis?",
     "label-refresh-keywords-start": "Start"
   }
 }
