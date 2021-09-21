@@ -365,14 +365,14 @@
   },
   "topic-cloud": {
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
-    "changes-successful": "Änderungen gespeichert.",
+    "changes-successful": "Änderungen gespeichert",
     "add-successful": "Wort hinzugefügt",
     "remove-successful": "Wort entfernt"
   },
   "worker-config": {
     "heading": "Fragen analysieren",
     "label": "Wähle ein Analysemodus",
-    "normal": "Alle",
+    "normal": "Alle Fragen",
     "only-failed": "Nicht analysierte Fragen",
     "continue": "Weiter",
     "cancel": "Abbrechen"
@@ -386,7 +386,7 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Es gibt keine Stichwörter. Die Wortwolke wird leer sein. Eine KI-basierte Fragen-Analyse kann Stichwörter nachträglich erstellen. Fragen-Analyse starten?",
+    "info-no-keywords": "Es gibt keine Stichwörter. Die Themenwolke wird leer sein. Eine KI-basierte Textanalyse kann Stichwörter nachträglich erzeugen. Analyse starten?",
     "label-refresh-keywords-start": "Starten"
   }
 }
