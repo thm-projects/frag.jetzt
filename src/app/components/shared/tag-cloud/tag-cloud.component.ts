@@ -51,6 +51,7 @@ class CustomPosition implements Position {
 class TagComment implements CloudData {
 
   constructor(public text: string,
+              public realText: string,
               public rotate: number,
               public weight: number,
               public tagData: TagCloudDataTagEntry,
@@ -65,6 +66,8 @@ class TagComment implements CloudData {
 
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
+
+const quotationMarksRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`]|((?<=\s)(lu|li’u)(?=\s))|(^lu(?=\s))|((?<=\s)li’u$)/gm;
 
 @Component({
   selector: 'app-tag-cloud',
@@ -305,7 +308,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          newElements.push(new TagComment(tag, rotation, tagData.weight, tagData, newElements.length));
+          const filteredTag = tag.replace(quotationMarksRegex, '').trim();
+          newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
         }
       }
     }
@@ -423,7 +427,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         const transformMatch = elem.style.transform.match(transformationRotationKiller);
         elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
         elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
-        this.popup.enter(elem, dataElement.text, dataElement.tagData,
+        this.popup.enter(elem, dataElement.realText, dataElement.tagData,
           (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
           this.room && this.room.blacklistIsActive);
       });
