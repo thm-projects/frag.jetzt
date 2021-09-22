@@ -35,7 +35,6 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 
 export interface CommentListData {
-  comments: Comment[];
   currentFilter: CommentFilter;
   room: Room;
 }
@@ -105,10 +104,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
   focusCommentId = '';
+  activeUsers = 0;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
-  activeUsers = 0;
 
   constructor(
     private commentService: CommentService,
@@ -149,7 +148,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
       this.eventService.broadcast('currentRoomData', {
         currentFilter: this.getCurrentFilter(),
-        comments: this.comments,
         room: this.room
       } as CommentListData);
     });
