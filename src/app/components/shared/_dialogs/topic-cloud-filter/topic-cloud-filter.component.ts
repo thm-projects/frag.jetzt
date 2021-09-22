@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -20,6 +20,8 @@ import { ThemeService } from '../../../../../theme/theme.service';
 import { Theme } from '../../../../../theme/Theme';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
+import { RoomDataService } from '../../../../services/util/room-data.service';
+import { Subscription } from 'rxjs';
 
 class CommentsCount {
   comments: number;
@@ -38,7 +40,7 @@ enum KeywordsSource {
   templateUrl: './topic-cloud-filter.component.html',
   styleUrls: ['./topic-cloud-filter.component.scss']
 })
-export class TopicCloudFilterComponent implements OnInit {
+export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
   @Input() user: User;
 
@@ -54,6 +56,7 @@ export class TopicCloudFilterComponent implements OnInit {
   private readonly _adminData: TopicCloudAdminData;
   private _room: Room;
   private currentTheme: Theme;
+  private _subscriptionCommentUpdates: Subscription;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -65,7 +68,8 @@ export class TopicCloudFilterComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService,
               private topicCloudAdminService: TopicCloudAdminService,
-              private themeService: ThemeService) {
+              private themeService: ThemeService,
+              private roomDataService: RoomDataService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
     this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
@@ -78,22 +82,31 @@ export class TopicCloudFilterComponent implements OnInit {
     this.translationService.use(localStorage.getItem('currentLang'));
     const subscriptionEventService = this.eventService.on<CommentListData>('currentRoomData').subscribe(data => {
       subscriptionEventService.unsubscribe();
-      this.comments = data.comments;
       this.tmpFilter = data.currentFilter;
       this._room = data.room;
-      this.allComments = this.getCommentCounts(this.comments);
-      this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
-      this.commentsLoadedCallback();
-      this.hasNoKeywords = this.isUpdatable();
+      this.roomDataService.getRoomData(data.room.id).subscribe(roomData => {
+        this.comments = roomData;
+        this.commentsLoadedCallback();
+      });
+      this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
+        .subscribe(_ => this.commentsLoadedCallback());
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
 
+  ngOnDestroy() {
+    if (this._subscriptionCommentUpdates) {
+      this._subscriptionCommentUpdates.unsubscribe();
+    }
+  }
+
   commentsLoadedCallback() {
+    this.allComments = this.getCommentCounts(this.comments);
+    this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
+    this.hasNoKeywords = this.isUpdatable();
     this.disableCurrentFiltersOptions = ((this.allComments.comments === this.filteredComments.comments) &&
       (this.allComments.users === this.filteredComments.users) &&
       (this.allComments.keywords === this.filteredComments.keywords));
-
     if (this.disableCurrentFiltersOptions) {
       this.continueFilter = 'continueWithAll';
     }
