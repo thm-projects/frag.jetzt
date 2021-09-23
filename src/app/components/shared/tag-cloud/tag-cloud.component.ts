@@ -68,7 +68,7 @@ class TagComment implements CloudData {
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
-const maskedCharsRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|((?<=\s)(lu|li’u)(?=\s))|(^lu(?=\s))|((?<=\s)li’u$)/gm;
+const maskedCharsRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|(\s(lu|li’u)(?=\s))|(^lu\s)|(\sli’u$)/gm;
 
 @Component({
   selector: 'app-tag-cloud',
