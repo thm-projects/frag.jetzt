@@ -60,31 +60,31 @@
         [xp]="16"
         [extra]="true">
         <button mat-icon-button
+                disableRipple="true"
                 *ngIf="isAdminConfigEnabled"
                 class="pseudo-button"
-                matRipple
                 matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
           <mat-icon class="oldtypo-h2 comment_tag-icon"
                     style="color: red !important;">warning
           </mat-icon>
         </button>
         <button mat-icon-button
+                disableRipple="true"
                 class="pseudo-button"
-                matRipple
                 matTooltip="{{'header.overview-question-tooltip' | translate}}">
           <mat-icon class="oldtypo-h2 comment_tag-icon">comment</mat-icon>
           <span style="margin-left: 0.25em;">{{commentsCountQuestions}}</span>
         </button>
         <button mat-icon-button
+                disableRipple="true"
                 class="pseudo-button"
-                matRipple
                 matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
           <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
           <span style="margin-left: 0.25em;">{{commentsCountUsers}}</span>
         </button>
         <button mat-icon-button
+                disableRipple="true"
                 class="pseudo-button"
-                matRipple
                 matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
           <mat-icon svgIcon="hashtag"
                     class="oldtypo-h2 comment_tag-icon"></mat-icon>
