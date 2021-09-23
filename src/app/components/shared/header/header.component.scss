@@ -46,6 +46,7 @@ mat-toolbar-row {
   > ars-col button {
     margin-right: 0.75em;
     cursor: default;
+    width: auto;
 
     &:hover, &:focus {
       border: none;
