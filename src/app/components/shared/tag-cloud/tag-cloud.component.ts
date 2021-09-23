@@ -31,6 +31,7 @@ import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters
 import { SmartDebounce } from '../../../utils/smart-debounce';
 import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 class CustomPosition implements Position {
   left: number;
@@ -127,7 +128,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
               private topicCloudAdmin: TopicCloudAdminService,
               private router: Router,
               public dataManager: TagCloudDataService,
-              private wsRoomService: WsRoomService) {
+              private wsRoomService: WsRoomService,
+              private deviceInfo: DeviceInfoService) {
     this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -384,6 +386,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       admin.endDate = data.admin.endDate;
       data.admin = undefined;
       this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
+      if (this.deviceInfo.isCurrentlyMobile) {
+        const defaultParams = new CloudParameters();
+        defaultParams.resetToDefault(this.themeService.getThemeByKey(this.themeService.themeName).isDark);
+        data.fontSizeMin = defaultParams.fontSizeMin;
+        data.fontSizeMax = defaultParams.fontSizeMax;
+      }
       this.setCloudParameters(data as CloudParameters);
     } else {
       this.resetColorsToTheme();
