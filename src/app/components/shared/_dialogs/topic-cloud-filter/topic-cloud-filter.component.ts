@@ -86,7 +86,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       this._room = data.room;
       this.roomDataService.getRoomData(data.room.id).subscribe(roomData => {
         this.comments = roomData;
-        this.commentsLoadedCallback();
+        this.commentsLoadedCallback(true);
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
         .subscribe(_ => this.commentsLoadedCallback());
@@ -100,15 +100,29 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     }
   }
 
-  commentsLoadedCallback() {
+  commentsLoadedCallback(isNew = false) {
     this.allComments = this.getCommentCounts(this.comments);
     this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
-    this.hasNoKeywords = this.isUpdatable();
+    if (isNew) {
+      this.hasNoKeywords = this.isUpdatable();
+    }
     this.disableCurrentFiltersOptions = ((this.allComments.comments === this.filteredComments.comments) &&
       (this.allComments.users === this.filteredComments.users) &&
       (this.allComments.keywords === this.filteredComments.keywords));
     if (this.disableCurrentFiltersOptions) {
       this.continueFilter = 'continueWithAll';
+    }
+    if (this.filteredComments.comments === 0 && this.allComments.comments === 0) {
+      if (this.user && this.user.role > UserRole.PARTICIPANT) {
+        setTimeout(() => {
+          this.continueFilter = 'continueWithAllFromNow';
+        });
+      } else {
+        setTimeout(() => {
+          this.continueFilter = 'continueWithAllFromNow';
+          this.confirmButtonActionCallback()();
+        });
+      }
     }
   }
 
@@ -188,6 +202,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         count++;
       }
     });
+    if (newCount + count < 1) {
+      return false;
+    }
     if (this.user && this.user.role === UserRole.PARTICIPANT) {
       return newCount < 1;
     }

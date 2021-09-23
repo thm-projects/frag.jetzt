@@ -45,9 +45,11 @@ mat-toolbar-row {
 .topic-cloud-btns {
   > ars-col button {
     margin-right: 0.75em;
+    cursor: default;
 
     &:hover, &:focus {
       border: none;
+      cursor: default;
     }
   }
 
