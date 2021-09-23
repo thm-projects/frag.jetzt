@@ -67,7 +67,7 @@ class TagComment implements CloudData {
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
-const quotationMarksRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`]|((?<=\s)(lu|li’u)(?=\s))|(^lu(?=\s))|((?<=\s)li’u$)/gm;
+const maskedCharsRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|((?<=\s)(lu|li’u)(?=\s))|(^lu(?=\s))|((?<=\s)li’u$)/gm;
 
 @Component({
   selector: 'app-tag-cloud',
@@ -308,7 +308,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          const filteredTag = tag.replace(quotationMarksRegex, '').trim();
+          const filteredTag = tag.replace(maskedCharsRegex, '').trim();
           newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
         }
       }
