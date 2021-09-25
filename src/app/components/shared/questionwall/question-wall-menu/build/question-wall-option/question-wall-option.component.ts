@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { QUESTION_WALL_OPTION_CONFIG, QuestionWallOptionConfig } from './question-wall-option-config';
 import { ComposeHostDirective } from '../../../../../../../../projects/ars/src/lib/compose/compose-host.directive';
 import { TranslateService } from '@ngx-translate/core';
@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class QuestionWallOptionComponent implements OnInit,AfterViewInit {
 
-  @ViewChild(ComposeHostDirective)compose:ComposeHostDirective;
+  @ViewChildren(ComposeHostDirective)compose:QueryList<ComposeHostDirective>;
   constructor(
     public cdr:ChangeDetectorRef,
     @Inject(QUESTION_WALL_OPTION_CONFIG) public data:QuestionWallOptionConfig
@@ -21,7 +21,10 @@ export class QuestionWallOptionComponent implements OnInit,AfterViewInit {
   }
 
   ngAfterViewInit(){
-    this.data.compose(this.compose);
+    this.data.compose(this.compose.find(f=>f.ident==='content'));
+    if(this.data.composeTitle){
+      this.data.composeTitle(this.compose.find(f=>f.ident==='title'));
+    }
   }
 
 }

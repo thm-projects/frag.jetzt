@@ -35,6 +35,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonComponent } from './compose/elements/mat-button/mat-button.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatToggleComponent,
     LayerPaneComponent,
     MatChipListComponent,
-    MatDatePickerComponent
+    MatDatePickerComponent,
+    MatButtonComponent
   ],
   imports:[
     MatIconModule,

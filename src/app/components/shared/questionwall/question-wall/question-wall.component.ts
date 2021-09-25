@@ -16,6 +16,10 @@ import { MatSliderChange } from '@angular/material/slider';
 import { Period } from '../../../../utils/filter-options';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ArsObserver } from '../../../../../../projects/ars/src/lib/models/util/ArsObserver';
+import { ArsMatChipConfig } from '../../../../../../projects/ars/src/lib/compose/elements/mat-chip-list/mat-chip-list-config';
+import { UserService } from '../../../../services/http/user.service';
+import { User } from '../../../../models/user';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-question-wall',
@@ -53,6 +57,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   period: Period = Period.all;
   isLoading = true;
   menuState=false;
+  user:User;
 
   tagObserver:ArsObserver<string[]>=new ArsObserver<string[]>();
   userListObserver:ArsObserver<string[]>=new ArsObserver<string[]>();
@@ -61,11 +66,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private router: Router,
     private commentService: CommentService,
-    private roomService: RoomService,
+    public roomService: RoomService,
     private wsCommentService: WsCommentService,
     private langService: LanguageService,
     public translateService: TranslateService,
-    private roomDataService: RoomDataService
+    private roomDataService: RoomDataService,
+    private userService: UserService,
+    public dialog: MatDialog
     ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.roomId = localStorage.getItem('roomId');
@@ -111,6 +118,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.room = e;
       this.tags = e.tags;
       this.tagObserver.set(e.tags);
+    });
+    this.authenticationService.watchUser.subscribe(user=>{
+      this.user=user;
     });
     this.subscribeCommentStream();
     this.initKeySupport();
@@ -333,6 +343,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   filterTag(tag: string) {
     this.filter('comment_tag', true, '', tag, x => x.comment.tag === tag);
+  }
+
+  filterA(chip:ArsMatChipConfig,filter:(x: QuestionWallComment)=>boolean){
+    this.filter(
+      chip.icon,
+      chip.isSVGIcon,
+      chip.title,
+      '',
+      filter
+    );
   }
 
   filter(icon: string, isSvgIcon: boolean, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {

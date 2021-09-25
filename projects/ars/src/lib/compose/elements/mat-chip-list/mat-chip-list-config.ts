@@ -7,12 +7,13 @@ export interface ArsMatChipConfig {
   isSVGIcon?:boolean;
   color?:string;
   onSelect?:(e:ArsMatChipConfig)=>void;
+  condition?:()=>boolean;
 }
 
 export interface ArsMatChipListConfig {
   list:ArsObserver<ArsMatChipConfig[]>;
   def?:string[];
-  onSelect:(e:ArsMatChipConfig[])=>void;
+  onSelect?:(e:ArsObserver<ArsMatChipConfig[]>)=>void;
   type?:ArsMatChipListType;
 }
 

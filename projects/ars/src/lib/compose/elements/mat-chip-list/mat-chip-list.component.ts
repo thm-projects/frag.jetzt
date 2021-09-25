@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ARS_MAT_CHIP_LIST_CONFIG, ArsMatChipConfig, ArsMatChipListConfig } from './mat-chip-list-config';
 import { ArsAnchor } from '../../../models/util/ArsObserver';
+import { MatChip } from '@angular/material/chips';
 
 @Component({
   selector: 'app-mat-chip-list',
@@ -17,6 +18,11 @@ export class MatChipListComponent implements OnInit {
 
   ngOnInit(): void {
     this.elementAnchor=this.data.list.createAnchor();
+  }
+
+  select(chip:ArsMatChipConfig){
+    chip.onSelect(chip);
+    if(this.data.onSelect)this.data.onSelect(this.data.list);
   }
 
 }

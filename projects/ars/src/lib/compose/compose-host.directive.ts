@@ -1,10 +1,11 @@
-import { AfterViewInit, Directive, EventEmitter, Output, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Directive, EventEmitter, Input, Output, ViewContainerRef } from '@angular/core';
 
 @Directive({
   selector: '[arsComposeHost]'
 })
 export class ComposeHostDirective implements AfterViewInit{
 
+  @Input('ident') ident:any;
   @Output() onAfterViewInit:EventEmitter<void>=new EventEmitter<void>();
 
   constructor(

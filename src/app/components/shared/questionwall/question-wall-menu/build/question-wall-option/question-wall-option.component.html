@@ -7,9 +7,13 @@
     <ars-col>
       <p style="padding-top:16px;margin-top:4px;">{{data.title}}</p>
     </ars-col>
-    <ars-fill></ars-fill>
+    <ars-fill>
+      <ars-fill></ars-fill>
+      <ars-col arsComposeHost [ident]="'title'">
+      </ars-col>
+    </ars-fill>
   </ars-row>
-  <ars-row arsComposeHost>
+  <ars-row arsComposeHost [ident]="'content'">
   </ars-row>
 </ars-row>
 

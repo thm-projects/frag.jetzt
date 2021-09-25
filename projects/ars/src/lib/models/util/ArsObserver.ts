@@ -79,4 +79,10 @@ export class ArsObserver<E> {
     return anchor;
   }
 
+  public map<A>(consumer:(left:ArsObserver<E>,right?:ArsObserver<A>)=>A,run?:boolean):ArsObserver<A>{
+    const obs=new ArsObserver<A>();
+    this.onChange(e=>obs.set(consumer(e,obs)),run);
+    return obs;
+  }
+
 }

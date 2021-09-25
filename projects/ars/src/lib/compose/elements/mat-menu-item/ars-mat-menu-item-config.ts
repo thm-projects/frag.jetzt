@@ -6,6 +6,7 @@ export interface ArsMatMenuItemConfig {
   icon:string;
   isSVGIcon?:boolean;
   text:string;
+  text2?:string;
   color?:string;
   iconColor?:string;
   callback?:(e?:MouseEvent)=>void;
