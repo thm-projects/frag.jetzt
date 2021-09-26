@@ -170,8 +170,8 @@
     "show-less": "Show less ↑",
     "delete": "Delete question",
     "grammar-check": "Check text",
-    "upvote": "upvotes",
-    "downvote": "downvotes"
+    "upvote": "upvotes:",
+    "downvote": "downvotes:"
   },
   "deepl": {
     "header": "Check text",
