@@ -12,6 +12,7 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { EventService } from '../../../../services/util/event.service';
+import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 
 @Component({
   selector: 'app-bonus-token',
@@ -39,7 +40,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
-      this.bonusTokens = list.sort((a, b) => (a.token > b.token) ? 1 : -1);
+      list.sort((a, b) => (a.token > b.token) ? 1 : -1);
+      this.bonusTokens = list;
     });
     this.lang = localStorage.getItem('currentLang');
     this.subscription = this.modelChanged
@@ -105,9 +107,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToCommentByValue() {
-    if(this.valid) {
-      this.bonusTokens.map(b => {
-        if(b.token === this.value) {
+    if (this.valid) {
+      this.bonusTokens.forEach(b => {
+        if (b.token === this.value) {
           this.navToComment(b.commentId);
         }
       });
@@ -133,7 +135,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   inputToken() {
     const index = this.validateTokenInput(this.value);
-    if(index) {
+    if (index) {
       this.translationService.get('token-validator.valid').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -146,8 +148,15 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     }
   }
 
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.bonus-archive';
+  }
+
   validateTokenInput(input: any) {
-    if(input.length === 8 && isNumeric(input)) {
+    if (input.length === 8 && isNumeric(input)) {
       return this.bonusTokens.map((c, index) => {
         if (c.token === input) {
           return index;

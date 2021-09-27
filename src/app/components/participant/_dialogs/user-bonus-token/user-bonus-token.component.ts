@@ -3,11 +3,12 @@ import { BonusTokenService } from '../../../../services/http/bonus-token.service
 import { RoomService } from '../../../../services/http/room.service';
 import { BonusToken } from '../../../../models/bonus-token';
 import { BonusTokenRoomMixin } from '../../../../models/bonus-token-room-mixin';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatOptionSelectionChange } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 
 export class MinRoom {
   name: string;
@@ -37,18 +38,18 @@ export class UserBonusTokenComponent implements OnInit {
     private dialogRef: MatDialogRef<UserBonusTokenComponent>,
     protected router: Router,
     private translationService: TranslateService,
+    private dialog: MatDialog,
     private notificationService: NotificationService
   ) {
   }
 
   ngOnInit() {
-    this.bonusTokenService.getTokensByUserId(this.userId).subscribe( list => {
-      this.bonusTokens = list.sort((a, b) => {
-        return (a.token > b.token) ? 1 : -1;
-      });
+    this.bonusTokenService.getTokensByUserId(this.userId).subscribe(list => {
+      list.sort((a, b) => (a.token > b.token) ? 1 : -1);
+      this.bonusTokens = list;
       for (const bt of this.bonusTokens) {
         this.roomService.getRoom(bt.roomId).subscribe(room => {
-          const btm = <BonusTokenRoomMixin> bt;
+          const btm = bt as BonusTokenRoomMixin;
           btm.roomShortId = room.shortId;
           btm.roomName = room.name;
           this.bonusTokensMixin.push(btm);
@@ -74,6 +75,13 @@ export class UserBonusTokenComponent implements OnInit {
       }
     }
     return tokens;
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.user-bonus';
   }
 
   setCurrentRoom(event: MatOptionSelectionChange, room: MinRoom) {
