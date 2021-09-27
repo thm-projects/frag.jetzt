@@ -373,9 +373,9 @@
   },
   "worker-config": {
     "heading": "Extract keywords",
-    "label": "Choose from which questions to extract keywords using AI:",
+    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
     "normal": "Reanalyze all questions in the room",
-    "only-failed": "Only questions that have not been analyzed yet",
+    "only-failed": "Only questions that have not been analyzed",
     "continue": "Continue",
     "cancel": "Cancel"
   },
