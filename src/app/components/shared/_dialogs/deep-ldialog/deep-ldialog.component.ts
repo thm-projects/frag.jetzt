@@ -4,7 +4,6 @@ import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-d
 import { NotificationService } from '../../../../services/util/notification.service';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
-import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 import { DeepLService, FormalityType, TargetLang } from '../../../../services/http/deep-l.service';
 import { Observable } from 'rxjs';
@@ -95,7 +94,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       text: this.data.improvedText,
       view: this.improved
     };
-    this.radioButtonValue = this.normalValue;
+    this.radioButtonValue = this.improvedValue;
   }
 
   ngAfterViewInit() {
