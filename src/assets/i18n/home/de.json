@@ -311,7 +311,7 @@
     "really-remove": "Willst du den Eintrag für die Veranstaltung »",
     "really-remove-2": "« wirklich löschen?",
     "really-delete": "Willst du den Raum »",
-    "": "« unwiderruflich löschen?",
+    "really-delete-2": "« unwiderruflich löschen?",
     "room-successfully-removed": "Die Veranstaltung wurde aus der Liste entfernt.",
     "room-successfully-deleted": "Der Raum wurde gelöscht.",
     "canceled-remove": "Vorgang wurde abgebrochen.",
