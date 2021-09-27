@@ -19,6 +19,7 @@ import { Room } from '../../../../models/room';
 import { ThemeService } from '../../../../../theme/theme.service';
 import { Theme } from '../../../../../theme/Theme';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
+import { ModeratorService } from '../../../../services/http/moderator.service';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Subscription } from 'rxjs';
@@ -57,6 +58,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   private _room: Room;
   private currentTheme: Theme;
   private _subscriptionCommentUpdates: Subscription;
+  private _currentModerators: string[];
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -68,6 +70,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService,
               private topicCloudAdminService: TopicCloudAdminService,
+              private moderatorService: ModeratorService,
               private themeService: ThemeService,
               private roomDataService: RoomDataService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
@@ -86,7 +89,10 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       this._room = data.room;
       this.roomDataService.getRoomData(data.room.id).subscribe(roomData => {
         this.comments = roomData;
-        this.commentsLoadedCallback(true);
+        this.moderatorService.get(data.room.id).subscribe(moderators => {
+          this._currentModerators = moderators.map(moderator => moderator.accountId);
+          this.commentsLoadedCallback(true);
+        });
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
         .subscribe(_ => this.commentsLoadedCallback());
@@ -101,6 +107,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   commentsLoadedCallback(isNew = false) {
+    if (!this._currentModerators) {
+      return;
+    }
     this.allComments = this.getCommentCounts(this.comments);
     this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
     if (isNew) {
@@ -136,7 +145,8 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   getCommentCounts(comments: Comment[]): CommentsCount {
-    const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, comments);
+    const [data, users] = TagCloudDataService
+      .buildDataFromComments(this._room.ownerId, this._currentModerators, this._adminData, comments);
     const counts = new CommentsCount();
     counts.comments = comments.length;
     counts.users = users.size;

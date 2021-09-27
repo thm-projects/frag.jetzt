@@ -28,11 +28,43 @@
           </mat-radio-group>
         </mat-card>
 
-        <mat-card style="background: none; margin-bottom: 10px;">
-          <mat-slide-toggle [(ngModel)]="considerVotes">
-            {{'topic-cloud-dialog.consider-votes' | translate}}
-          </mat-slide-toggle>
-        </mat-card>
+        <mat-accordion>
+          <mat-expansion-panel class="color-background margin-top margin-bottom keyword-scoring">
+            <mat-expansion-panel-header class="color-background">
+              <mat-panel-title>
+                {{'topic-cloud-dialog.keyword-scoring-header' | translate}}
+                <mat-icon class="help-explanation"
+                          matTooltip="{{'topic-cloud-dialog.keyword-scoring-header-info' | translate}}">help
+                </mat-icon>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <ng-container *ngFor="let option of scoringOptions">
+              <ars-row fxLayout="row">
+                <label
+                  id="keyword-scoring-{{option}}">{{'topic-cloud-dialog.keyword-scoring-' + option | translate}}</label>
+                <mat-icon class="help-explanation"
+                          matTooltip="{{'topic-cloud-dialog.keyword-scoring-' + option + '-info' | translate}}">help
+                </mat-icon>
+                <ars-fill></ars-fill>
+                <label>{{scorings[option].score}}</label>
+              </ars-row>
+              <mat-slider
+                [min]="scoringMinMax[option].min"
+                [max]="scoringMinMax[option].max"
+                [(ngModel)]="scorings[option].score"
+                [step]="0.1"
+                [thumbLabel]="true"
+                aria-labelledby="keyword-scoring-{{option}}">
+              </mat-slider>
+            </ng-container>
+            <button mat-button class="themeRequirementInput reset"
+                    [disabled]="isDefaultScoring()"
+                    (click)="setDefaultScoring()">
+              {{'topic-cloud-dialog.topic-requirement-reset' | translate}}
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+
         <div *ngIf="isCreatorOrMod">
           <mat-card style="background: none; margin-bottom: 10px;">
             <mat-slide-toggle (change)="showMessage('words-will-be-overwritten', $event.checked)"
@@ -339,7 +371,7 @@
         <p [ngClass]="{'animation-blink': searchMode}"
            matTooltip="{{'topic-cloud-dialog.keyword-counter' | translate}}">
           {{searchMode ? filteredKeywords.length :
-            selectedTabIndex === 0 ? keywords.size : blacklistKeywords.length}}</p>
+          selectedTabIndex === 0 ? keywords.size : blacklistKeywords.length}}</p>
       </div>
       <div class="margin-left vertical-center">
         <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">

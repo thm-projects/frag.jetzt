@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  ensureDefaultScorings,
   KeywordOrFulltext,
   spacyLabels,
   TopicCloudAdminData
@@ -47,7 +48,8 @@ export class TopicCloudAdminService {
       minQuestions: admin.minQuestions,
       minUpvotes: admin.minUpvotes,
       startDate: admin.startDate,
-      endDate: admin.endDate
+      endDate: admin.endDate,
+      scorings: admin.scorings
     };
     room.tagCloudSettings = JSON.stringify(settings);
   }
@@ -120,9 +122,11 @@ export class TopicCloudAdminService {
         minQuestions: 1,
         minUpvotes: 0,
         startDate: null,
-        endDate: null
+        endDate: null,
+        scorings: null
       };
     }
+    ensureDefaultScorings(data);
     return data;
   }
 

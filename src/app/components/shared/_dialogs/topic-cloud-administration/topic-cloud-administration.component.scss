@@ -186,3 +186,19 @@ mat-dialog-content {
     color: var(--on-secondary);
   }
 }
+
+.keyword-scoring {
+  width: 100%;
+
+  mat-slider {
+    width: 100%;
+  }
+}
+
+.help-explanation {
+  width: 1.2em;
+  height: 1.2em;
+  line-height: 1.2em;
+  font-size: 1.2em;
+  margin: auto 0 auto 0.25em;
+}
