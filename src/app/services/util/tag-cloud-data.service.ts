@@ -74,7 +74,6 @@ export class TagCloudDataService {
   private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
   private _commentSubscription = null;
   private _roomId = null;
-  private _calcWeightType = TagCloudCalcWeightType.byLength;
   private _lastFetchedData: TagCloudData = null;
   private _lastFetchedComments: Comment[] = null;
   private _lastMetaData: TagCloudMetaData = null;
@@ -249,17 +248,6 @@ export class TagCloudDataService {
     return this._dataBus.value;
   }
 
-  set weightCalcType(type: TagCloudCalcWeightType) {
-    if (type !== this._calcWeightType) {
-      this._calcWeightType = type;
-      this.rebuildTagData();
-    }
-  }
-
-  get weightCalcType(): TagCloudCalcWeightType {
-    return this._calcWeightType;
-  }
-
   get demoActive(): boolean {
     return this._isDemoActive;
   }
@@ -329,7 +317,6 @@ export class TagCloudDataService {
 
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
     this._adminData = data;
-    this._calcWeightType = this._adminData.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
     if (update) {
       this.rebuildTagData();
     }
@@ -353,21 +340,17 @@ export class TagCloudDataService {
   }
 
   private calculateWeight(tagData: TagCloudDataTagEntry): number {
-    const value = Math.max(tagData.cachedVoteCount, 0);
-    const additional = (tagData.distinctUsers.size - 1) * 0.5 +
-      tagData.commentsByModerators +
-      tagData.commentsByCreator +
-      tagData.generatedByQuestionerCount +
-      tagData.taggedCommentsCount +
-      tagData.answeredCommentsCount;
-    switch (this._calcWeightType) {
-      case TagCloudCalcWeightType.byVotes:
-        return value + additional;
-      case TagCloudCalcWeightType.byLengthAndVotes:
-        return value / 10.0 + tagData.comments.length + additional;
-      default:
-        return tagData.comments.length + additional;
-    }
+    const scorings = this._adminData.scorings;
+    return tagData.comments.length * scorings.countComments.score +
+      tagData.distinctUsers.size * scorings.countUsers.score +
+      tagData.generatedByQuestionerCount * scorings.countSelectedByQuestioner.score +
+      tagData.commentsByModerators * scorings.countKeywordByModerator.score +
+      tagData.commentsByCreator * scorings.countKeywordByCreator.score +
+      tagData.answeredCommentsCount * scorings.countCommentsAnswered.score +
+      tagData.cachedUpVotes * scorings.summedUpvotes.score +
+      tagData.cachedDownVotes * scorings.summedDownvotes.score +
+      tagData.cachedVoteCount * scorings.summedVotes.score +
+      Math.max(tagData.cachedVoteCount, 0) * scorings.cappedSummedVotes.score;
   }
 
   private rebuildTagData() {
@@ -383,8 +366,8 @@ export class TagCloudDataService {
     let maxWeight = null;
     for (const value of data.values()) {
       value.weight = this.calculateWeight(value);
-      minWeight = Math.min(value.weight, minWeight || value.weight);
-      maxWeight = Math.max(value.weight, maxWeight || value.weight);
+      minWeight = Math.min(value.weight, minWeight === null ? value.weight : minWeight);
+      maxWeight = Math.max(value.weight, maxWeight === null ? value.weight : maxWeight);
     }
     //calculate weight counts and adjusted weights
     const same = minWeight === maxWeight;

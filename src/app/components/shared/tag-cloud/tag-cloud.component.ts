@@ -392,6 +392,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       admin.minUpvotes = data.admin.minUpvotes;
       admin.startDate = data.admin.startDate;
       admin.endDate = data.admin.endDate;
+      admin.scorings = data.admin.scorings;
       data.admin = undefined;
       this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
       if (this.deviceInfo.isCurrentlyMobile) {
