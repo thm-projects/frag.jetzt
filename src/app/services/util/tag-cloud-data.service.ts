@@ -10,6 +10,7 @@ import { SpacyKeyword } from '../http/spacy.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
+import { ModeratorService } from '../http/moderator.service';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -26,6 +27,8 @@ export interface TagCloudDataTagEntry {
   generatedByQuestionerCount: number;
   taggedCommentsCount: number;
   answeredCommentsCount: number;
+  commentsByCreator: number;
+  commentsByModerators: number;
 }
 
 export interface TagCloudMetaData {
@@ -71,7 +74,6 @@ export class TagCloudDataService {
   private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
   private _commentSubscription = null;
   private _roomId = null;
-  private _calcWeightType = TagCloudCalcWeightType.byLength;
   private _lastFetchedData: TagCloudData = null;
   private _lastFetchedComments: Comment[] = null;
   private _lastMetaData: TagCloudMetaData = null;
@@ -80,10 +82,13 @@ export class TagCloudDataService {
   private _adminData: TopicCloudAdminData = null;
   private _subscriptionAdminData: Subscription;
   private _currentFilter: CommentFilter;
+  private _currentModerators: string[];
+  private _currentOwner: string;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
 
   constructor(private _tagCloudAdmin: TopicCloudAdminService,
-              private _roomDataService: RoomDataService) {
+              private _roomDataService: RoomDataService,
+              private _moderatorService: ModeratorService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
     this._dataBus = new BehaviorSubject<TagCloudData>(null);
@@ -98,7 +103,10 @@ export class TagCloudDataService {
     this._metaDataBus = new BehaviorSubject<TagCloudMetaData>(null);
   }
 
-  static buildDataFromComments(adminData: TopicCloudAdminData, comments: Comment[]): [TagCloudData, Set<number>] {
+  static buildDataFromComments(roomOwner: string,
+                               moderators: string[],
+                               adminData: TopicCloudAdminData,
+                               comments: Comment[]): [TagCloudData, Set<number>] {
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of comments) {
@@ -121,7 +129,9 @@ export class TagCloudDataService {
               lastTimeStamp: commentDate,
               generatedByQuestionerCount: 0,
               taggedCommentsCount: 0,
-              answeredCommentsCount: 0
+              answeredCommentsCount: 0,
+              commentsByCreator: 0,
+              commentsByModerators: 0
             };
             data.set(keyword.text, current);
           }
@@ -133,6 +143,11 @@ export class TagCloudDataService {
           current.generatedByQuestionerCount += +isFromQuestioner;
           current.taggedCommentsCount += +!!comment.tag;
           current.answeredCommentsCount += +!!comment.answer;
+          if (comment.creatorId === roomOwner) {
+            ++current.commentsByCreator;
+          } else if (moderators.includes(comment.creatorId)) {
+            ++current.commentsByModerators;
+          }
           if (comment.tag) {
             current.categories.add(comment.tag);
           }
@@ -155,12 +170,17 @@ export class TagCloudDataService {
     ];
   }
 
-  bindToRoom(roomId: string, userRole: UserRole): void {
+  bindToRoom(roomId: string, roomOwner: string, userRole: UserRole): void {
     if (this._subscriptionAdminData) {
       throw new Error('Room already bound.');
     }
+    this._currentModerators = null;
     this._currentFilter = CommentFilter.currentFilter;
     this._roomId = roomId;
+    this._currentOwner = roomOwner;
+    this._moderatorService.get(roomId).subscribe(moderators => {
+      this._currentModerators = moderators.map(moderator => moderator.accountId);
+    });
     this._lastFetchedComments = null;
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
@@ -212,7 +232,9 @@ export class TagCloudDataService {
           lastTimeStamp: new Date(),
           generatedByQuestionerCount: 0,
           taggedCommentsCount: 0,
-          answeredCommentsCount: 0
+          answeredCommentsCount: 0,
+          commentsByCreator: 0,
+          commentsByModerators: 0
         });
       }
     });
@@ -224,17 +246,6 @@ export class TagCloudDataService {
 
   get currentData(): TagCloudData {
     return this._dataBus.value;
-  }
-
-  set weightCalcType(type: TagCloudCalcWeightType) {
-    if (type !== this._calcWeightType) {
-      this._calcWeightType = type;
-      this.rebuildTagData();
-    }
-  }
-
-  get weightCalcType(): TagCloudCalcWeightType {
-    return this._calcWeightType;
   }
 
   get demoActive(): boolean {
@@ -306,7 +317,6 @@ export class TagCloudDataService {
 
   private onReceiveAdminData(data: TopicCloudAdminData, update = false) {
     this._adminData = data;
-    this._calcWeightType = this._adminData.considerVotes ? TagCloudCalcWeightType.byLengthAndVotes : TagCloudCalcWeightType.byLength;
     if (update) {
       this.rebuildTagData();
     }
@@ -330,20 +340,17 @@ export class TagCloudDataService {
   }
 
   private calculateWeight(tagData: TagCloudDataTagEntry): number {
-    const value = Math.max(tagData.cachedVoteCount, 0);
-    const additional = (tagData.distinctUsers.size - 1) * 0.5 +
-      tagData.comments.reduce((acc, comment) => acc + +!!comment.createdFromLecturer, 0) +
-      tagData.generatedByQuestionerCount +
-      tagData.taggedCommentsCount +
-      tagData.answeredCommentsCount;
-    switch (this._calcWeightType) {
-      case TagCloudCalcWeightType.byVotes:
-        return value + additional;
-      case TagCloudCalcWeightType.byLengthAndVotes:
-        return value / 10.0 + tagData.comments.length + additional;
-      default:
-        return tagData.comments.length + additional;
-    }
+    const scorings = this._adminData.scorings;
+    return tagData.comments.length * scorings.countComments.score +
+      tagData.distinctUsers.size * scorings.countUsers.score +
+      tagData.generatedByQuestionerCount * scorings.countSelectedByQuestioner.score +
+      tagData.commentsByModerators * scorings.countKeywordByModerator.score +
+      tagData.commentsByCreator * scorings.countKeywordByCreator.score +
+      tagData.answeredCommentsCount * scorings.countCommentsAnswered.score +
+      tagData.cachedUpVotes * scorings.summedUpvotes.score +
+      tagData.cachedDownVotes * scorings.summedDownvotes.score +
+      tagData.cachedVoteCount * scorings.summedVotes.score +
+      Math.max(tagData.cachedVoteCount, 0) * scorings.cappedSummedVotes.score;
   }
 
   private rebuildTagData() {
@@ -353,13 +360,14 @@ export class TagCloudDataService {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const filteredComments = this._lastFetchedComments.filter(comment => this._currentFilter.checkComment(comment));
     currentMeta.commentCount = filteredComments.length;
-    const [data, users] = TagCloudDataService.buildDataFromComments(this._adminData, filteredComments);
+    const [data, users] = TagCloudDataService
+      .buildDataFromComments(this._currentOwner, this._currentModerators, this._adminData, filteredComments);
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {
       value.weight = this.calculateWeight(value);
-      minWeight = Math.min(value.weight, minWeight || value.weight);
-      maxWeight = Math.max(value.weight, maxWeight || value.weight);
+      minWeight = Math.min(value.weight, minWeight === null ? value.weight : minWeight);
+      maxWeight = Math.max(value.weight, maxWeight === null ? value.weight : maxWeight);
     }
     //calculate weight counts and adjusted weights
     const same = minWeight === maxWeight;

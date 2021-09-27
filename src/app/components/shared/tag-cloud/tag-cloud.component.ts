@@ -32,6 +32,7 @@ import { SmartDebounce } from '../../../utils/smart-debounce';
 import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { SyncFence } from '../../../utils/SyncFence';
 
 class CustomPosition implements Position {
   left: number;
@@ -69,6 +70,9 @@ const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
 const maskedCharsRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|(\s(lu|li’u)(?=\s))|(^lu\s)|(\sli’u$)/gm;
+
+const CONDITION_ROOM = 0;
+const CONDITION_BUILT = 1;
 
 @Component({
   selector: 'app-tag-cloud',
@@ -113,6 +117,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _calcFont: string = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private _currentTheme: Theme;
+  private _syncFenceBuildCloud: SyncFence;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -138,6 +143,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.question = localStorage.getItem('tag-cloud-question');
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
+    this._syncFenceBuildCloud = new SyncFence(2,
+      () => this.dataManager.bindToRoom(this.roomId, this.room.ownerId, this.userRole));
   }
 
   private static getCurrentCloudParameters(): CloudParameters {
@@ -215,6 +222,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             this.roomService.addToHistory(this.room.id);
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
+          this._syncFenceBuildCloud.resolveCondition(CONDITION_ROOM);
         });
       });
     });
@@ -231,7 +239,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   ngAfterContentInit() {
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
-    setTimeout(() => this.dataManager.bindToRoom(this.roomId, this.userRole));
+    setTimeout(() => this._syncFenceBuildCloud.resolveCondition(CONDITION_BUILT));
     this.dataManager.updateDemoData(this.translateService);
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
   }
@@ -384,6 +392,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       admin.minUpvotes = data.admin.minUpvotes;
       admin.startDate = data.admin.startDate;
       admin.endDate = data.admin.endDate;
+      admin.scorings = data.admin.scorings;
       data.admin = undefined;
       this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
       if (this.deviceInfo.isCurrentlyMobile) {
