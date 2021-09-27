@@ -215,7 +215,7 @@
                       tabindex="0"
                       *ngIf="!router.url.endsWith('moderator/comments')"
                       routerLink="quiz">
-                <mat-icon>school
+                <mat-icon>timer
                 </mat-icon>
                 <span>{{'header.quiz-now' | translate}}</span>
               </button>
@@ -339,7 +339,7 @@
                   tabindex="0"
                   *ngIf="user && user.role > 0 && router.url.endsWith('/tagcloud')"
                   (click)="startWorkerDialog()">
-            <mat-icon>update
+            <mat-icon>cloud
             </mat-icon>
             <span>{{'header.update-spacy-keywords' | translate}}</span>
           </button>

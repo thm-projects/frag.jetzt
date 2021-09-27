@@ -49,7 +49,7 @@
     "cancel": "Abbrechen",
     "continue": "Weiter",
     "reset": "Zurücksetzen",
-    "brainstorming-question": "Überschrift der Wortwolke",
+    "brainstorming-question": "Überschrift des Brainstorming-Boards",
     "tag-cloud-info": "Je größer die Schrift, desto häufiger wurde das Wort  in den Fragen verwendet oder als Stichwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
     "tag-cloud-questions-title": "Welche Fragen soll die Themenwolke umfassen?",
     "tag-cloud-questions-all": "Alle Fragen",
@@ -60,11 +60,11 @@
     "tag-cloud-create": "Weiter"
   },
   "explanation": {
-    "label": "Warum?",
+    "label": "Erklärung",
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
-    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Häufigkeit der Stichwörter: Je größer die Schrift, desto mehr Fragen beziehen sich auf das Stichwort. Die Bewertung der Fragen geht in die Schriftgröße mit ein. \n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
+    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Bedeutung der Stichwörter. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde.\n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort."
   },
   "header": {
     "abort": "Abbrechen",
@@ -116,7 +116,7 @@
     "create-question": "Frage stellen",
     "questionwall": "Präsentation",
     "tag-cloud": "Themenwolke",
-    "fullscreen": "Vollbild & Text",
+    "fullscreen": "Vollbild & Textgröße",
     "motd": "News & FAQ",
     "tag-cloud-config": "Aussehen & Animation",
     "tag-cloud-administration": "Einstellungen & Suche",
@@ -124,8 +124,8 @@
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller",
     "overview-keywords-tooltip": "Anzahl Stichwörter",
-    "update-spacy-keywords": "Fragen analysieren",
-    "overview-admin-config-enabled": "Themeneinschränkung aktiv",
+    "update-spacy-keywords": "Stichwörter extrahieren",
+    "overview-admin-config-enabled": "Themenbeschränkung aktiv",
     "quiz-now": "Quizzen",
     "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen",
     "tour": "Tour"
@@ -307,11 +307,11 @@
     "panel-session-id": "Raum-Code",
     "panel-session-name": "Veranstaltung",
     "panel-user-role": "Rolle",
-    "participant-role": "Du bist Teilnehmer*in in diesem Raum.",
-    "really-remove": "Willst du die besuchte Veranstaltung »",
-    "really-remove-2": "« wirklich aus der Liste streichen?",
+    "participant-role": "Du bist Teilnehmer in diesem Raum.",
+    "really-remove": "Willst du den Eintrag für die Veranstaltung »",
+    "really-remove-2": "« wirklich löschen?",
     "really-delete": "Willst du den Raum »",
-    "really-delete-2": "« wirklich unwiderruflich löschen?",
+    "really-delete-2": "« unwiderruflich löschen?",
     "room-successfully-removed": "Die Veranstaltung wurde aus der Liste entfernt.",
     "room-successfully-deleted": "Der Raum wurde gelöscht.",
     "canceled-remove": "Vorgang wurde abgebrochen.",
@@ -370,10 +370,10 @@
     "remove-successful": "Wort entfernt"
   },
   "worker-config": {
-    "heading": "Fragen analysieren",
-    "label": "Wähle ein Analysemodus",
-    "normal": "Alle Fragen",
-    "only-failed": "Nicht analysierte Fragen",
+    "heading": "Stichwörter extrahieren",
+    "label": "Wähle, aus welchen Fragen mittels Künstlicher Intelligenz (siehe »Einführung« in der Fußzeile) Stichwörter extrahiert werden sollen:",
+    "normal": "Alle Fragen des Raumes neu analysieren",
+    "only-failed": "Nur Fragen, die nicht analysiert worden sind",
     "continue": "Weiter",
     "cancel": "Abbrechen"
   },
