@@ -17,7 +17,8 @@ export class ProfanityFilterService {
     badNL.splice(badNL.indexOf('nicht'), 1);
     const badDE = BadWords['de'];
     badDE.splice(badDE.indexOf('ische'), 1);
-    this.profanityWords = BadWords['en']
+    const badEN = BadWords['en'];
+    this.profanityWords = badEN
       .concat(badDE)
       .concat(BadWords['fr'])
       .concat(BadWords['ar'])
@@ -65,7 +66,10 @@ export class ProfanityFilterService {
     localStorage.removeItem(this.profanityKey);
   }
 
-  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string){
+  filterProfanityWords(str: string,
+                       censorPartialWordsCheck: boolean,
+                       censorLanguageSpecificCheck: boolean,
+                       lang?: string): [string, boolean] {
     let filteredString = str;
     let profWords = [];
     if (censorLanguageSpecificCheck) {
@@ -75,12 +79,14 @@ export class ProfanityFilterService {
     }
     str = str.replace(new RegExp(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi), '');
     const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(/[\s,.]+/);
+    let censored = false;
     profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
       if (toCensoredString.includes(word)) {
         filteredString = this.replaceString(filteredString, word, this.generateCensoredWord(word.length));
+        censored = true;
       }
     });
-    return filteredString;
+    return [filteredString, censored];
   }
 
   private replaceString(str: string, search: string, replace: string) {

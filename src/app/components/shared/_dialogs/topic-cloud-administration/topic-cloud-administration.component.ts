@@ -359,7 +359,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   getKeywordWithoutProfanity(keyword: string, lang: string): string {
-    return this.profanityFilterService.filterProfanityWords(keyword, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, lang);
+    return this.profanityFilterService.filterProfanityWords(keyword, this.censorPartialWordsCheck,
+      this.censorLanguageSpecificCheck, lang)[0];
   }
 
   sortQuestions(sortMode?: string) {
@@ -605,7 +606,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   getFilteredProfanity(): string {
     if (this.testProfanityWord) {
       // eslint-disable-next-line max-len
-      return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, this.testProfanityLanguage);
+      return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck,
+        this.censorLanguageSpecificCheck, this.testProfanityLanguage)[0];
     } else {
       return '';
     }

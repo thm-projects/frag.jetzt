@@ -16,7 +16,7 @@ export interface UpdateInformation {
   subtype?: string;
   comment: Comment;
   finished?: boolean;
-  updates?: string[];
+  updates?: (keyof Comment)[];
 }
 
 class RoomDataUpdateSubscription {
@@ -82,7 +82,14 @@ interface FastRoomAccessObject {
   [commentId: string]: Comment;
 }
 
-type CommentFilterData = [body: string, genKeywords: SpacyKeyword[], userKeywords: SpacyKeyword[]];
+interface CommentFilterData {
+  body: string;
+  bodyCensored?: boolean;
+  genKeywords: SpacyKeyword[];
+  genKeywordsCensored?: boolean[];
+  userKeywords: SpacyKeyword[];
+  userKeywordsCensored?: boolean[];
+}
 
 @Injectable({
   providedIn: 'root'
@@ -148,11 +155,15 @@ export class RoomDataService {
   public checkProfanity(comment: Comment) {
     const finish = new Subject<boolean>();
     const subscription = finish.asObservable().subscribe(_ => {
+      let obj;
       if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
-        [comment.body, comment.keywordsFromSpacy, comment.keywordsFromQuestioner] = this._savedCommentsAfterFilter.get(comment.id);
+        obj = this._savedCommentsAfterFilter.get(comment.id);
       } else {
-        [comment.body, comment.keywordsFromSpacy, comment.keywordsFromQuestioner] = this._savedCommentsBeforeFilter.get(comment.id);
+        obj = this._savedCommentsBeforeFilter.get(comment.id);
       }
+      comment.body = obj.body;
+      comment.keywordsFromSpacy = obj.genKeywords;
+      comment.keywordsFromQuestioner = obj.userKeywords;
       subscription.unsubscribe();
     });
 
@@ -180,16 +191,27 @@ export class RoomDataService {
     return this._savedCommentsAfterFilter.get(id)[0];
   }
 
+  getCensoredInformation(comment: Comment): CommentFilterData {
+    return this._savedCommentsAfterFilter.get(comment.id);
+  }
+
   private setCommentBody(comment: Comment) {
     const genKeywords = RoomDataService.cloneKeywords(comment.keywordsFromSpacy);
     const userKeywords = RoomDataService.cloneKeywords(comment.keywordsFromQuestioner);
-    this._savedCommentsBeforeFilter.set(comment.id, [comment.body, genKeywords, userKeywords]);
+    this._savedCommentsBeforeFilter.set(comment.id, {
+      body: comment.body,
+      genKeywords,
+      userKeywords
+    });
     this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
   }
 
   private filterAllCommentsBodies() {
     this._currentComments.forEach(comment => {
-      [comment.body, comment.keywordsFromSpacy, comment.keywordsFromQuestioner] = this._savedCommentsBeforeFilter.get(comment.id);
+      const obj = this._savedCommentsBeforeFilter.get(comment.id);
+      comment.body = obj.body;
+      comment.keywordsFromSpacy = obj.genKeywords;
+      comment.keywordsFromQuestioner = obj.userKeywords;
       this.setCommentBody(comment);
       this.checkProfanity(comment);
     });
@@ -198,11 +220,20 @@ export class RoomDataService {
   private filterCommentOfProfanity(room: Room, comment: Comment): CommentFilterData {
     const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
     const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
-    return [
-      this.profanityFilterService.filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language),
-      this.checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language),
-      this.checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language)
-    ];
+    const [body, bodyCensored] = this.profanityFilterService
+      .filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
+    const [genKeywords, genKeywordsCensored] = this
+      .checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language);
+    const [userKeywords, userKeywordsCensored] = this
+      .checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language);
+    return {
+      body,
+      bodyCensored,
+      genKeywords,
+      genKeywordsCensored,
+      userKeywords,
+      userKeywordsCensored
+    };
   }
 
   private removeCommentBodies(key: string) {
@@ -440,14 +471,21 @@ export class RoomDataService {
     this._fastCommentAccess[id] = undefined;
   }
 
-  private checkKeywords(keywords: SpacyKeyword[], partialWords: boolean, languageSpecific: boolean, lang: string): SpacyKeyword[] {
+  private checkKeywords(keywords: SpacyKeyword[],
+                        partialWords: boolean,
+                        languageSpecific: boolean,
+                        lang: string): [SpacyKeyword[], boolean[]] {
     const newKeywords = [...keywords];
+    const censored: boolean[] = new Array(keywords.length);
     for (let i = 0; i < newKeywords.length; i++) {
+      const [text, textCensored] = this.profanityFilterService
+        .filterProfanityWords(newKeywords[i].text, partialWords, languageSpecific, lang);
+      censored[i] = textCensored;
       newKeywords[i] = {
-        text: this.profanityFilterService.filterProfanityWords(newKeywords[i].text, partialWords, languageSpecific, lang),
+        text,
         dep: newKeywords[i].dep
       };
     }
-    return newKeywords;
+    return [newKeywords, censored];
   }
 }
