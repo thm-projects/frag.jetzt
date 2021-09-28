@@ -145,8 +145,8 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   getCommentCounts(comments: Comment[]): CommentsCount {
-    const [data, users] = TagCloudDataService
-      .buildDataFromComments(this._room.ownerId, this._currentModerators, this._adminData, comments);
+    const [data, users] = TagCloudDataService.buildDataFromComments(this._room.ownerId, this._currentModerators,
+      this._adminData, this.roomDataService, comments);
     const counts = new CommentsCount();
     counts.comments = comments.length;
     counts.users = users.size;

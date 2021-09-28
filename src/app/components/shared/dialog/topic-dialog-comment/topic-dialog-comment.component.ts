@@ -12,7 +12,7 @@ export class TopicDialogCommentComponent implements OnInit {
 
   @Input() question: string;
   @Input() language: Language;
-  @Input() keyword: string ;
+  @Input() keyword: string;
   @Input() maxShowedCharachters: number;
   @Input() profanityFilter: boolean;
   @Input() languageSpecific;
@@ -28,21 +28,22 @@ export class TopicDialogCommentComponent implements OnInit {
   public partsShort: string[];
   public partsWithoutProfanityShort: string[];
 
-  constructor(private profanityFilterService: ProfanityFilterService) {}
+  constructor(private profanityFilterService: ProfanityFilterService) {
+  }
 
   get partsOfQuestion() {
     return this.profanityFilter ? this.partsWithoutProfanity : this.parts;
   }
 
-  get partsOfShortQuestion(){
+  get partsOfShortQuestion() {
     return this.profanityFilter ? this.partsWithoutProfanityShort : this.partsShort;
   }
 
-  splitShortQuestion(question: string){
+  splitShortQuestion(question: string) {
     return question.slice(0, this.maxShowedCharachters).split(this.keyword);
   }
 
-  splitQuestion(question: string){
+  splitQuestion(question: string) {
     return question.split(this.keyword);
   }
 
@@ -51,8 +52,8 @@ export class TopicDialogCommentComponent implements OnInit {
       return;
     }
     this.question = ViewCommentDataComponent.getTextFromData(this.question);
-    this.questionWithoutProfanity = this.profanityFilterService.
-                                    filterProfanityWords(this.question, this.partialWords, this.languageSpecific, this.language);
+    this.questionWithoutProfanity = this.profanityFilterService.filterProfanityWords(this.question,
+      this.partialWords, this.languageSpecific, this.language)[0];
     this.partsWithoutProfanity = this.splitQuestion(this.questionWithoutProfanity);
     this.parts = this.splitQuestion(this.question);
     this.partsWithoutProfanityShort = this.splitShortQuestion(this.questionWithoutProfanity);
