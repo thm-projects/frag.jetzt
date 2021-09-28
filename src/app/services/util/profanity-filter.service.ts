@@ -70,34 +70,33 @@ export class ProfanityFilterService {
                        censorPartialWordsCheck: boolean,
                        censorLanguageSpecificCheck: boolean,
                        lang?: string): [string, boolean] {
-    let filteredString = str;
-    let profWords = [];
+    let profWords: any[];
     if (censorLanguageSpecificCheck) {
       profWords = BadWords[(lang !== 'AUTO' ? lang.toLowerCase() : localStorage.getItem('currentLang'))];
     } else {
       profWords = this.profanityWords;
     }
-    str = str.replace(new RegExp(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi), '');
-    const toCensoredString = censorPartialWordsCheck ? str.toLowerCase() : str.toLowerCase().split(/[\s,.]+/);
-    let censored = false;
-    profWords.concat(this.getProfanityListFromStorage()).forEach(word => {
-      if (toCensoredString.includes(word)) {
-        filteredString = this.replaceString(filteredString, word, this.generateCensoredWord(word.length));
-        censored = true;
-      }
-    });
-    return [filteredString, censored];
-  }
-
-  private replaceString(str: string, search: string, replace: string) {
-    return str.replace(new RegExp(search, 'gi'), replace);
-  }
-
-  private generateCensoredWord(count: number) {
-    let res = '';
-    for (let i = 0; i < count; i++) {
-      res += '*';
+    const list = profWords.concat(this.getProfanityListFromStorage());
+    if (list.length < 1) {
+      return [str, false];
     }
-    return res;
+    const escapeRegex = /[.*+\-?^${}()|\[\]\\]/g;
+    const censoredWords = list
+      .reduce((acc, elem) => acc + (acc.length > 1 ? '|' : '') + elem.replace(escapeRegex, '\\$&'), '(') + ')';
+    const regex = new RegExp(censorPartialWordsCheck ? censoredWords : '\\b' + censoredWords + '\\b', 'gmi');
+    let result = '';
+    let censored = false;
+    let m: RegExpExecArray;
+    let lastIndex = 0;
+    while ((m = regex.exec(str)) !== null) {
+      result += str.substring(lastIndex, m.index) + '*'.repeat(regex.lastIndex - m.index);
+      lastIndex = regex.lastIndex;
+      censored = true;
+      if (m.index === regex.lastIndex) {
+        regex.lastIndex++;
+      }
+    }
+    result += str.substring(lastIndex);
+    return [result, censored];
   }
 }
