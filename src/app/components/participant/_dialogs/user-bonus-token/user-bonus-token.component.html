@@ -41,7 +41,21 @@
   </div>
 </div>
 
-<app-dialog-action-buttons
-  buttonsLabelSection="introduction"
-  [cancelButtonClickAction]="buildDeclineActionCallback()">
-</app-dialog-action-buttons>
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>help</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      buttonsLabelSection="introduction"
+      [spacing]="false"
+      [cancelButtonClickAction]="buildDeclineActionCallback()">
+    </app-dialog-action-buttons>
+  </ars-col>
+</ars-row>
