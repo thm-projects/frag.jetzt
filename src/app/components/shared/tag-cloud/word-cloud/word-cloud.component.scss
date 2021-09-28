@@ -1,0 +1,8 @@
+div {
+  height: 100%;
+
+  > span {
+    position: absolute;
+    transition: transform 1s ease;
+  }
+}
