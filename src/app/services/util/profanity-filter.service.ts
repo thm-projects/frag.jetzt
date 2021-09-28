@@ -17,16 +17,7 @@ export class ProfanityFilterService {
     badNL.splice(badNL.indexOf('nicht'), 1);
     const badDE = BadWords['de'];
     badDE.splice(badDE.indexOf('ische'), 1);
-    badDE.push('frage');
-    badDE.push('antwort');
-    badDE.push('aufgabe');
-    badDE.push('hallo');
-    badDE.push('test');
-    badDE.push('bzw');
-    badDE.push('muss');
-    const badEN = BadWords['en'];
-    badEN.push('more to come');
-    this.profanityWords = badEN
+    this.profanityWords = BadWords['en']
       .concat(badDE)
       .concat(BadWords['fr'])
       .concat(BadWords['ar'])
@@ -74,7 +65,7 @@ export class ProfanityFilterService {
     localStorage.removeItem(this.profanityKey);
   }
 
-  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string) {
+  filterProfanityWords(str: string, censorPartialWordsCheck: boolean, censorLanguageSpecificCheck: boolean, lang?: string){
     let filteredString = str;
     let profWords = [];
     if (censorLanguageSpecificCheck) {
