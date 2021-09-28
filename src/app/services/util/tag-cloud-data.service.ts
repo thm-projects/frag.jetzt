@@ -106,11 +106,12 @@ export class TagCloudDataService {
   static buildDataFromComments(roomOwner: string,
                                moderators: string[],
                                adminData: TopicCloudAdminData,
+                               roomDataService: RoomDataService,
                                comments: Comment[]): [TagCloudData, Set<number>] {
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of comments) {
-      TopicCloudAdminService.approveKeywordsOfComment(comment, adminData,
+      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData,
         (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
           let current: TagCloudDataTagEntry = data.get(keyword.text);
           const commentDate = new Date(comment.timestamp);
@@ -360,8 +361,8 @@ export class TagCloudDataService {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const filteredComments = this._lastFetchedComments.filter(comment => this._currentFilter.checkComment(comment));
     currentMeta.commentCount = filteredComments.length;
-    const [data, users] = TagCloudDataService
-      .buildDataFromComments(this._currentOwner, this._currentModerators, this._adminData, filteredComments);
+    const [data, users] = TagCloudDataService.buildDataFromComments(this._currentOwner, this._currentModerators,
+      this._adminData, this._roomDataService, filteredComments);
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {
