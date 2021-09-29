@@ -181,6 +181,7 @@ export class TagCloudDataService {
     this._currentOwner = roomOwner;
     this._moderatorService.get(roomId).subscribe(moderators => {
       this._currentModerators = moderators.map(moderator => moderator.accountId);
+      this.rebuildTagData();
     });
     this._lastFetchedComments = null;
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
@@ -355,7 +356,7 @@ export class TagCloudDataService {
   }
 
   private rebuildTagData() {
-    if (!this._lastFetchedComments) {
+    if (!this._lastFetchedComments || !this._currentModerators) {
       return;
     }
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
