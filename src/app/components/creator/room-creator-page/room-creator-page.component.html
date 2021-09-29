@@ -12,6 +12,12 @@
                          fxLayout="row">
           <mat-card-title fxLayoutAlign="center">
             <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
+            <button mat-icon-button
+                    class="inline-icon-button"
+                    (click)="editSessionName()"
+                    aria-labelledby="edit_session_name">
+              <mat-icon matTooltip="{{ 'session.edit-session-name' | translate}}">edit</mat-icon>
+            </button>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
             <span class="room-short-id">
@@ -131,6 +137,7 @@
                  [room]="room"></app-active-user>
 
 <div class="visually-hidden">
+  <div id="edit_session_name">{{'room-page.a11y-room-name' | translate}}</div>
   <div id="cloud_download">{{'room-page.a11y-cloud_download' | translate}}</div>
   <div id="question_answer">{{'room-page.a11y-question_answer' | translate}}</div>
   <div id="gavel">{{'room-page.a11y-gavel' | translate}}</div>

@@ -393,6 +393,7 @@
     "description": "Description",
     "max-ls": "Max. characters:",
     "session-name": "Session name",
+    "edit-session-name": "Edit session name",
     "preview": "Preview"
   },
   "tag-cloud": {
