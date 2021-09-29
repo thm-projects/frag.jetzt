@@ -17,6 +17,8 @@ import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { RoomDataService } from './room-data.service';
 
+export const regexMaskKeyword = /\b(frage|antwort|aufgabe|hallo|test|bzw|muss|more to come)\b/gmi;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -59,7 +61,6 @@ export class TopicCloudAdminService {
                                   roomDataService: RoomDataService,
                                   config: TopicCloudAdminData,
                                   keywordFunc: (SpacyKeyword, boolean) => void) {
-    const regexMaskKeyword = /\b(frage|antwort|aufgabe|hallo|test|bzw|muss|more to come)\b/gmi;
     let source = comment.keywordsFromQuestioner;
     let censored = roomDataService.getCensoredInformation(comment).userKeywordsCensored;
     let isFromQuestioner = true;
@@ -80,8 +81,7 @@ export class TopicCloudAdminService {
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
     for (let i = 0; i < source.length; i++) {
       const keyword = source[i];
-      keyword.text = keyword.text.replace(regexMaskKeyword, '').replace(/ +/, ' ');
-      if (keyword.text.trim().length < 1) {
+      if (keyword.text.replace(regexMaskKeyword, '').replace(/ +/, ' ').trim().length < 3) {
         continue;
       }
       if (censored[i]) {
