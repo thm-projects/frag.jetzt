@@ -23,7 +23,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { regexMaskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
@@ -318,7 +318,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          const filteredTag = tag.replace(maskedCharsRegex, '').trim();
+          const filteredTag = tag.replace(maskedCharsRegex, '')
+            .replace(regexMaskKeyword, '').replace(/ +/, ' ').trim();
           newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
         }
       }
