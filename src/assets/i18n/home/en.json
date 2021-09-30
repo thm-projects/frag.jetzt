@@ -110,6 +110,7 @@
     "tag-cloud-config": "Modify cloud view",
     "tag-cloud-administration": "Edit cloud topics",
     "questions-blocked": "New questions blocked",
+    "questions-unblocked": "New questions allowed",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
