@@ -29,6 +29,7 @@ import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.compone
 import { RoomDeleted } from '../../../models/events/room-deleted';
 import { ProfanitySettingsComponent } from '../_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from '../_dialogs/room-description-settings/room-description-settings.component';
+import { RoomNameSettingsComponent } from '../_dialogs/room-name-settings/room-name-settings.component';
 
 @Component({
   selector: 'app-room-creator-page',
@@ -101,6 +102,16 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       width: '400px'
     });
     dialogRef.componentInstance.editRoom=this.room;
+  }
+
+  editSessionName() {
+    const dialogRef = this.dialog.open(RoomNameSettingsComponent, {
+      width: '900px',
+      maxWidth: 'calc( 100% - 50px )',
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false
+    });
+    dialogRef.componentInstance.editRoom = this.room;
   }
 
   editSessionDescription(){
