@@ -1,4 +1,8 @@
 
+export class Palette {
+  public static RED:string='var(--red)';
+  public static YELLOW:string='var(--yellow)';
+}
 
 export class ColorElem {
 

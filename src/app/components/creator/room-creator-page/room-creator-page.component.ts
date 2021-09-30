@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, ComponentRef, EventEmitter, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
@@ -29,14 +29,22 @@ import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.compone
 import { RoomDeleted } from '../../../models/events/room-deleted';
 import { ProfanitySettingsComponent } from '../_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from '../_dialogs/room-description-settings/room-description-settings.component';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/user';
+import { HeaderService } from '../../../services/util/header.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { UserRole } from '../../../models/user-roles.enum';
+import { Palette } from '../../../../theme/Theme';
+import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
 
 @Component({
-  selector: 'app-room-creator-page',
-  templateUrl: './room-creator-page.component.html',
-  styleUrls: ['./room-creator-page.component.scss']
+  selector:'app-room-creator-page',
+  templateUrl:'./room-creator-page.component.html',
+  styleUrls:['./room-creator-page.component.scss']
 })
-export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit {
+export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit{
   room: Room;
+  user: User;
   encodedShortId: string;
   updRoom: Room;
   commentThreshold: number;
@@ -47,6 +55,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
   headerInterface = null;
+  onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
@@ -64,7 +73,10 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private notificationService: NotificationService,
               private bonusTokenService: BonusTokenService,
               public router: Router,
-              public translationService: TranslateService) {
+              public translationService: TranslateService,
+              public authenticationService: AuthenticationService,
+              public headerService: HeaderService,
+              public composeService: ArsComposeService){
     super(roomService, route, location, wsCommentService, commentService, eventService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
@@ -72,23 +84,124 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  initNavigation() {
-    const navigation = {};
-    const nav = (b, c) => navigation[b] = c;
-    nav('deleteRoom',()=>this.openDeleteRoomDialog());
-    nav('profanityFilter',()=>this.toggleProfanityFilter());
-    nav('editSessionDescription',()=>this.editSessionDescription());
-    nav('roomBonusToken', () => this.showBonusTokenDialog());
-    nav('moderator', () => this.showModeratorsDialog());
-    nav('tags', () => this.showTagsDialog());
-    nav('topicCloud', () => this.showTagCloud());
-    nav('exportQuestions', () => this.exportQuestions());
-    nav('deleteQuestions', () => this.deleteQuestions());
-    nav('moderatorSettings', () => this.navigateModeratorSettings());
-    this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
-      if (navigation.hasOwnProperty(e)) {
-        navigation[e]();
-      }
+  ngAfterViewInit(){
+    let isBuild = false;
+    this.authenticationService.watchUser.subscribe(user => {
+      this.user = user;
+      this.roomService.getRoomByShortId(this.encodedShortId).subscribe(e => {
+        this.room = e;
+        if (isBuild){
+          return;
+        }
+        this.initNavigation();
+        isBuild = true;
+      });
+    });
+  }
+
+  initNavigation(){
+    const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'flag',
+        text:'header.edit-session-description',
+        callback:() => this.editSessionDescription(),
+        condition:() => this.user.role > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'visibility_off',
+        isSVGIcon:false,
+        text:'header.moderation-mode',
+        callback:() => this.showCommentsDialog(),
+        condition:() => this.user.role > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'gavel',
+        text:'header.edit-moderator',
+        callback:() => this.showModeratorsDialog(),
+        condition:() => this.user.role > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'comment_tag',
+        isSVGIcon:true,
+        text:'header.edit-tags',
+        callback:() => this.showTagsDialog(),
+        condition:() => this.user.role > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'grade',
+        iconColor:Palette.YELLOW,
+        text:'header.bonustoken',
+        callback:() => this.showBonusTokenDialog(),
+        condition:() => this.user.role >= UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'file_download',
+        text:'header.export-questions',
+        callback:() => this.exportQuestions(),
+        condition:() => this.user.role >= UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'clear',
+        text:'header.profanity-filter',
+        callback:() => this.toggleProfanityFilter(),
+        condition:() => this.user.role > UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'delete_sweep',
+        iconColor:Palette.RED,
+        text:'header.delete-questions',
+        callback:() => this.openDeleteRoomDialog(),
+        condition:() => this.user.role === UserRole.CREATOR
+      });
+      e.menuItem({
+        translate:this.headerService.getTranslate(),
+        icon:'delete',
+        iconColor:Palette.RED,
+        isSVGIcon:false,
+        text:'header.delete-room',
+        callback:() => this.openDeleteRoomDialog(),
+        condition:() => this.user.role === UserRole.CREATOR
+      });
+      e.altToggle(
+        {
+          translate:this.headerService.getTranslate(),
+          text:'header.unlock',
+          icon:'block',
+          iconColor:Palette.RED,
+          color:Palette.RED
+        },
+        {
+          translate:this.headerService.getTranslate(),
+          text:'header.block',
+          icon:'block',
+          iconColor:Palette.RED
+        },
+        ArsObserver.build<boolean>(e => {
+          e.set(this.room.questionsBlocked);
+          e.onChange(a => {
+            this.room.questionsBlocked = a.get();
+            this.roomService.updateRoom(this.room).subscribe();
+            if (a.get()){
+              this.headerService.getTranslate().get('header.questions-blocked').subscribe(msg => {
+                this.headerService.getNotificationService().show(msg);
+              });
+            }
+          });
+        })
+        ,
+        () => this.user.role > UserRole.PARTICIPANT
+      );
+    });
+    this.onDestroyListener.subscribe(() => {
+      list.forEach(e => e.destroy());
     });
   }
 
@@ -98,17 +211,17 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   toggleProfanityFilter(){
     const dialogRef = this.dialog.open(ProfanitySettingsComponent, {
-      width: '400px'
+      width:'400px'
     });
-    dialogRef.componentInstance.editRoom=this.room;
+    dialogRef.componentInstance.editRoom = this.room;
   }
 
   editSessionDescription(){
     const dialogRef = this.dialog.open(RoomDescriptionSettingsComponent, {
-      width: '900px',
-      maxWidth: 'calc( 100% - 50px )',
-      maxHeight: 'calc( 100vh - 50px )',
-      autoFocus: false
+      width:'900px',
+      maxWidth:'calc( 100% - 50px )',
+      maxHeight:'calc( 100vh - 50px )',
+      autoFocus:false
     });
     dialogRef.componentInstance.editRoom = this.room;
   }
@@ -126,12 +239,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   deleteQuestions(){
     const dialogRef = this.dialog.open(DeleteCommentsComponent, {
-      width: '400px'
+      width:'400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.afterClosed()
     .subscribe(result => {
-      if (result === 'delete') {
+      if (result === 'delete'){
         this.translateService.get('room-page.comments-deleted').subscribe(msg => {
           this.notificationService.show(msg);
         });
@@ -140,23 +253,23 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(){
     super.ngOnDestroy();
     this.commentCounterEmitSubscription.unsubscribe();
     this.titleService.resetTitle();
-    if (this.headerInterface) {
+    if (this.headerInterface){
       this.headerInterface.unsubscribe();
     }
+    this.onDestroyListener.emit();
   }
 
-  ngAfterContentInit(): void {
-    setTimeout( () => {
+  ngAfterContentInit(): void{
+    setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
   }
 
-  ngOnInit() {
-    this.initNavigation();
+  ngOnInit(){
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
@@ -165,43 +278,43 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       const lang: string = this.translateService.currentLang;
-      if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
+      if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false){
         document.getElementById('question_answer-button').focus();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false) {
+      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false){
         document.getElementById('gavel-button').focus();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit4) === true && this.eventService.focusOnInput === false) {
+      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit4) === true && this.eventService.focusOnInput === false){
         document.getElementById('settings-menu').focus();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
+      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false){
         this.liveAnnouncer.clear();
-        if (lang === 'de') {
-        this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
-                                    'Aktueller Raum-Code: ' + this.room.shortId);
-        } else {
- this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
-          'Current Session Code: ' + this.room.shortId);
-}
-      } else if (
+        if (lang === 'de'){
+          this.liveAnnouncer.announce('Aktueller Sitzungs-Name: ' + this.room.name + '. ' +
+            'Aktueller Raum-Code: ' + this.room.shortId);
+        }else{
+          this.liveAnnouncer.announce('Current Session-Name: ' + this.room.name + '. ' +
+            'Current Session Code: ' + this.room.shortId);
+        }
+      }else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
         this.eventService.focusOnInput === false
-      ) {
+      ){
         this.announce();
-      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true && this.eventService.focusOnInput === true) {
+      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true && this.eventService.focusOnInput === true){
         this.eventService.makeFocusOnInputFalse();
       }
     });
   }
 
-  public announce() {
+  public announce(){
     const lang: string = this.translateService.currentLang;
     this.liveAnnouncer.clear();
-    if (lang === 'de') {
+    if (lang === 'de'){
       this.liveAnnouncer.announce('Du befindest dich in der von dir erstellten Sitzung. ' +
         'Drücke die Taste 1 um auf die Fragen-Übersicht zu gelangen, ' +
         'die Taste 2 um das Sitzungs-Menü zu öffnen, die Taste 3 um in die Moderationsübersicht zu gelangen, ' +
         'die Taste 4 um Einstellungen an der Sitzung vorzunehmen, ' +
         'die Taste 8 um den aktuellen Raum-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
         'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
-    } else {
+    }else{
       this.liveAnnouncer.announce('You are in the session you created. ' +
         'Press key 1 to go to the question overview, ' +
         'Press key 2 to open the session menu, key 3 to go to the moderation overview, ' +
@@ -211,8 +324,8 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     }
   }
 
-  postRoomLoadHook() {
-    if (this.moderationEnabled) {
+  postRoomLoadHook(){
+    if (this.moderationEnabled){
       this.viewModuleCount = this.viewModuleCount + 1;
       this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
         this.moderatorCommentCounter = commentCounter;
@@ -221,12 +334,12 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   }
 
-  updateCommentSettings(settings: CommentSettingsDialog) {
+  updateCommentSettings(settings: CommentSettingsDialog){
     this.room.tags = settings.tags;
 
-    if (this.moderationEnabled && !settings.enableModeration) {
+    if (this.moderationEnabled && !settings.enableModeration){
       this.viewModuleCount = this.viewModuleCount - 1;
-    } else if (!this.moderationEnabled && settings.enableModeration) {
+    }else if (!this.moderationEnabled && settings.enableModeration){
       this.viewModuleCount = this.viewModuleCount + 1;
     }
 
@@ -234,16 +347,16 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
-  resetThreshold(): void {
+  resetThreshold(): void{
     this.room.moderated = undefined;
     this.room.threshold = undefined;
     this.room.directSend = undefined;
     this.room.tags = undefined;
   }
 
-  saveChanges() {
+  saveChanges(){
     this.roomService.updateRoom(this.updRoom)
-      .subscribe((room) => {
+    .subscribe((room) => {
         this.room = room;
         this.translateService.get('room-page.changes-successful').subscribe(msg => {
           this.notification.show(msg);
@@ -256,104 +369,104 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       });
   }
 
-  showSettingsDialog(): void {
+  showSettingsDialog(): void{
     this.updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(RoomEditComponent, {
-      width: '400px'
+      width:'400px'
     });
     dialogRef.componentInstance.editRoom = this.updRoom;
     dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'abort') {
-          return;
-        } else if (result !== 'delete') {
-          this.saveChanges();
-        }
-      });
-    dialogRef.backdropClick().subscribe( res => {
-        dialogRef.close('abort');
+    .subscribe(result => {
+      if (result === 'abort'){
+        return;
+      }else if (result !== 'delete'){
+        this.saveChanges();
+      }
     });
-  }
-
-  showCommentsDialog(): void {
-    this.updRoom = JSON.parse(JSON.stringify(this.room));
-
-    const dialogRef = this.dialog.open(CommentSettingsComponent, {
-      width: '400px'
-    });
-    dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.componentInstance.editRoom = this.updRoom;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'abort') {
-          return;
-        } else {
-          if (result instanceof CommentSettingsDialog) {
-            this.updateCommentSettings(result);
-            this.saveChanges();
-          }
-        }
-      });
-    dialogRef.backdropClick().subscribe( res => {
+    dialogRef.backdropClick().subscribe(res => {
       dialogRef.close('abort');
     });
   }
 
-  showModeratorsDialog(): void {
+  showCommentsDialog(): void{
+    this.updRoom = JSON.parse(JSON.stringify(this.room));
+
+    const dialogRef = this.dialog.open(CommentSettingsComponent, {
+      width:'400px'
+    });
+    dialogRef.componentInstance.roomId = this.room.id;
+    dialogRef.componentInstance.editRoom = this.updRoom;
+    dialogRef.afterClosed()
+    .subscribe(result => {
+      if (result === 'abort'){
+        return;
+      }else{
+        if (result instanceof CommentSettingsDialog){
+          this.updateCommentSettings(result);
+          this.saveChanges();
+        }
+      }
+    });
+    dialogRef.backdropClick().subscribe(res => {
+      dialogRef.close('abort');
+    });
+  }
+
+  showModeratorsDialog(): void{
     const dialogRef = this.dialog.open(ModeratorsComponent, {
-      width: '400px'
+      width:'400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
   }
 
-  showBonusTokenDialog(): void {
+  showBonusTokenDialog(): void{
     const dialogRef = this.dialog.open(BonusTokenComponent, {
-      width: '400px'
+      width:'400px'
     });
     dialogRef.componentInstance.room = this.room;
   }
 
-  showTagCloud(): void {
+  showTagCloud(): void{
     const dialogRef = this.dialog.open(TopicCloudFilterComponent, {
-      width: '400px'
+      width:'400px'
     });
   }
 
-  showTagsDialog(): void {
+  showTagsDialog(): void{
     this.updRoom = JSON.parse(JSON.stringify(this.room));
     const dialogRef = this.dialog.open(TagsComponent, {
-      width: '400px'
+      width:'400px'
     });
     let tags = [];
-    if (this.room.tags !== undefined) {
+    if (this.room.tags !== undefined){
       tags = this.room.tags;
     }
     dialogRef.componentInstance.tags = tags;
     dialogRef.afterClosed()
-      .subscribe(result => {
-        if (!result || result === 'abort') {
-          return;
-        } else {
-          this.updRoom.tags = result;
-          this.saveChanges();
-        }
-      });
+    .subscribe(result => {
+      if (!result || result === 'abort'){
+        return;
+      }else{
+        this.updRoom.tags = result;
+        this.saveChanges();
+      }
+    });
   }
 
-  openDeleteRoomDialog(): void {
+  openDeleteRoomDialog(): void{
     const dialogRef = this.dialog.open(RoomDeleteComponent, {
-      width: '400px'
+      width:'400px'
     });
     dialogRef.componentInstance.room = this.room;
     dialogRef.afterClosed()
     .subscribe(result => {
-      if (result === 'delete') {
+      if (result === 'delete'){
         this.deleteRoom();
       }
     });
   }
 
-  deleteRoom(): void {
+  deleteRoom(): void{
     this.translationService.get('room-page.deleted').subscribe(msg => {
       this.notificationService.show(this.room.name + msg);
     });
@@ -364,7 +477,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     });
   }
 
-  copyShortId(): void {
+  copyShortId(): void{
     const selBox = document.createElement('textarea');
     selBox.style.position = 'fixed';
     selBox.style.left = '0';
@@ -377,7 +490,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     document.execCommand('copy');
     document.body.removeChild(selBox);
     this.translateService.get('room-page.session-id-copied').subscribe(msg => {
-      this.notification.show(msg, '', { duration: 2000 });
+      this.notification.show(msg, '', {duration:2000});
     });
   }
 }

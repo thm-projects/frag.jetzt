@@ -1,0 +1,10 @@
+<button mat-flat-button class="btn" (click)="data.callback($event)">
+  <ng-container *ngIf="data.icon">
+    <mat-icon *ngIf="!data.isSVGIcon" style="padding-right:8px;">
+      {{data.icon}}
+    </mat-icon>
+    <mat-icon *ngIf="data.isSVGIcon" [svgIcon]="data.icon" style="padding-right:8px;">
+    </mat-icon>
+  </ng-container>
+  <span>{{data.title}}</span>
+</button>
