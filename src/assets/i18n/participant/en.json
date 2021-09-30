@@ -171,7 +171,8 @@
     "delete": "Delete question",
     "grammar-check": "Check text",
     "upvote": "upvotes:",
-    "downvote": "downvotes:"
+    "downvote": "downvotes:",
+    "questioner-name": "Name of the questioner"
   },
   "deepl": {
     "header": "Check text",
@@ -479,5 +480,10 @@
     "cancel": "Close",
     "cancel-description": "Close introduction.",
     "title": "Introduction"
+  },
+  "write-comment": {
+    "questioner-name": "Your name, if you want ...",
+    "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
+    "name-length-error": "The name must be between 2 and 20 characters."
   }
 }

@@ -1,5 +1,6 @@
 <ars-row ars-flex-box>
   <app-write-comment [confirmLabel]="'send'"
+                     [isQuestionerNameEnabled]="true"
                      [onSubmit]="this.closeDialog.bind(this)"
                      [onClose]="this.onNoClick.bind(this)"
                      [isSpinning]="isSendingToSpacy"
