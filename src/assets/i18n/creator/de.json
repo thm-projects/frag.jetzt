@@ -394,6 +394,7 @@
     "description": "Text",
     "max-ls": "Maximale Anzahl Zeichen:",
     "session-name": "Name der Sitzung",
+    "edit-session-name": "Name der Sitzung bearbeiten",
     "preview": "Vorschau"
   },
   "tag-cloud-popup": {
