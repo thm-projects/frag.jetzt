@@ -112,15 +112,9 @@
               [overlapTrigger]="false">
       <!--      <p class="mat-menu-inner-title">Account</p>-->
 
+      <ng-container arsComposeHost></ng-container>
+
       <div class="mat-menu-inner-box">
-
-        <!-- Home -->
-        <ng-container *ngIf="router.url.endsWith('/home')">
-        </ng-container>
-
-        <!-- Session list -->
-        <ng-container *ngIf="router.url.endsWith('/user')">
-        </ng-container>
 
         <!-- Room -->
         <ng-container *ngIf="router.url.includes('/room/')">
@@ -221,45 +215,14 @@
               </button>
 
             </ng-container>
-            <ng-container *ngIf="router.url.includes('/participant/room/')">
-            </ng-container>
-            <ng-container *ngIf="router.url.includes('/moderator/room/')">
-            </ng-container>
-            <ng-container *ngIf="router.url.includes('/creator/room/')">
-            </ng-container>
 
           </ng-container>
 
           <!-- Session -->
           <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
-            <!-- app-room-participant-page -->
-            <ng-container *ngIf="router.url.includes('/participant/room/')">
-            </ng-container>
-            <!-- app-room-creator-page -->
-            <ng-container *ngIf="router.url.includes('/moderator/room/')">
-            </ng-container>
-
             <!-- app-room-creator-page -->
 
-            <ng-container *ngIf="router.url.includes('/creator/room/')">
-
-              <button mat-menu-item
-                      (click)="navigateEditSessionDescription()"
-                      tabindex="0">
-                <mat-icon>flag</mat-icon>
-                <span>{{'header.edit-session-description' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      (click)="navigateModeratorSettings()"
-                      *ngIf="user"
-                      tabindex="0">
-                <mat-icon class="gavel">visibility_off</mat-icon>
-                <span>{{'header.moderation-mode' | translate}}</span>
-              </button>
-
-            </ng-container>
 
           </ng-container>
 
@@ -268,41 +231,6 @@
           <ng-container
             *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
-            <button mat-menu-item
-                    (click)="navigateModerator()"
-                    tabindex="0">
-              <mat-icon>gavel</mat-icon>
-              <span>{{'header.edit-moderator' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    (click)="navigateTags()"
-                    tabindex="0">
-              <mat-icon svgIcon="comment_tag"></mat-icon>
-              <span>{{'header.edit-tags' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    *ngIf="user"
-                    (click)="navigateRoomBonusToken()"
-                    tabindex="0">
-              <mat-icon class="star">grade</mat-icon>
-              <span>{{'header.bonustoken' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    (click)="navigateExportQuestions()"
-                    tabindex="0">
-              <mat-icon>file_download</mat-icon>
-              <span>{{'header.export-questions' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    (click)="navigateProfanityFilter()"
-                    tabindex="0">
-              <mat-icon>clear</mat-icon>
-              <span>{{'header.profanity-filter' | translate}}</span>
-            </button>
 
           </ng-container>
 
@@ -350,33 +278,6 @@
                   tabindex="0">
             <mat-icon>file_download</mat-icon>
             <span>{{'header.export-questions' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  tabindex="0"
-                  *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
-                  (click)="blockQuestions()"
-                  [ngClass]="{'color-warn': room && room.questionsBlocked}"
-          >
-            <mat-icon class="color-warn">block</mat-icon>
-            <span *ngIf="room && !room.questionsBlocked">{{'header.block' | translate}}</span>
-            <span *ngIf="room && room.questionsBlocked">{{'header.unlock' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
-                  (click)="navigateDeleteQuestions()"
-                  tabindex="0">
-            <mat-icon class="color-warn">delete_sweep</mat-icon>
-            <span>{{'header.delete-questions' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
-                  (click)="navigateDeleteRoom()"
-                  tabindex="0">
-            <mat-icon class="color-warn">delete</mat-icon>
-            <span>{{'header.delete-room' | translate}}</span>
           </button>
 
         </ng-container>
