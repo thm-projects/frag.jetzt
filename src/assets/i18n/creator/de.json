@@ -195,7 +195,8 @@
     "show-comment-with-filter": "Vulgäre Wörter ausixen",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv:",
-    "downvote": "negativ:"
+    "downvote": "negativ:",
+    "questioner-name": "Name des Fragenstellers"
   },
   "content": {
     "abort": "Abbrechen",
@@ -591,5 +592,10 @@
     "bad-spelled" : "Zu schlechte Rechtschreibung",
     "failed" : "Fehler aufgetreten",
     "inline-header": "Laufende Stichwort-Aktualisierungen"
+  },
+  "write-comment": {
+    "questioner-name": "Dein Name, wenn du willst ...",
+    "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
+    "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
   }
 }

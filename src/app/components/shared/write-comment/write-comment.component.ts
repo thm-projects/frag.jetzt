@@ -9,6 +9,7 @@ import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data
 import { DeepLService, SourceLang, TargetLang } from '../../../services/http/deep-l.service';
 import { DeepLDialogComponent } from '../_dialogs/deep-ldialog/deep-ldialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-write-comment',
@@ -22,7 +23,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() isModerator = false;
   @Input() tags: string[];
   @Input() onClose: () => any;
-  @Input() onSubmit: (commentData: string, commentText: string, selectedTag: string) => any;
+  @Input() onSubmit: (commentData: string, commentText: string, selectedTag: string, name?: string) => any;
   @Input() isSpinning = false;
   @Input() disableCancelButton = false;
   @Input() confirmLabel = 'save';
@@ -32,6 +33,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() isCommentAnswer = false;
   @Input() placeholder = 'comment-page.enter-comment';
   @Input() i18nSection = 'comment-page';
+  @Input() isQuestionerNameEnabled = false;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -42,6 +44,9 @@ export class WriteCommentComponent implements OnInit {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
   newLang = 'auto';
+  questionerNameFormControl = new FormControl('', [
+    Validators.minLength(2), Validators.maxLength(20)
+  ]);
 
   constructor(private notification: NotificationService,
               private languageService: LanguageService,
@@ -77,9 +82,15 @@ export class WriteCommentComponent implements OnInit {
       return undefined;
     }
     return () => {
+      let allowed = true;
+      if (this.isQuestionerNameEnabled) {
+        this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
+        allowed = !this.questionerNameFormControl.hasError('minlength') &&
+          !this.questionerNameFormControl.hasError('maxlength');
+      }
       if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
-        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters)) {
-        this.onSubmit(this.commentData.currentData, this.commentData.currentText, this.selectedTag);
+        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed) {
+        this.onSubmit(this.commentData.currentData, this.commentData.currentText, this.selectedTag, this.questionerNameFormControl.value);
       }
     };
   }

@@ -26,6 +26,7 @@ export class Comment {
   upvotes: number;
   downvotes: number;
   language: Language;
+  questionerName: string;
   createdBy;
 
   constructor(roomId: string = '',
@@ -48,6 +49,7 @@ export class Comment {
               upvotes = 0,
               downvotes = 0,
               language = Language.auto,
+              questionerName: string = null,
               createdBy?: any) {
     this.id = '';
     this.roomId = roomId;
@@ -72,6 +74,7 @@ export class Comment {
     this.downvotes = downvotes;
     this.language = language;
     this.createdBy = createdBy;
+    this.questionerName = questionerName;
   }
 
   static mapModelToLanguage(model: Model): Language {
