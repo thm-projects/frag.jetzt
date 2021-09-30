@@ -74,7 +74,6 @@ export class ArsComposeService{
       },
       altToggle(onFalse: ArsMatMenuItemConfig, onTrue: ArsMatMenuItemConfig,
                 obs: ArsObserver<boolean>, condition: () => boolean): ArsObserver<boolean>{
-        console.log(obs.get());
         onFalse.condition = () => !obs.get() && condition();
         onFalse.callback=() => obs.set(!obs.get());
         onTrue.condition = () => obs.get() && condition();

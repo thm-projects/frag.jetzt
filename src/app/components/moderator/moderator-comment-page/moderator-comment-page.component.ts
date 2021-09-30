@@ -13,11 +13,13 @@ import { RoomService } from '../../../services/http/room.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { RoomPageEdit } from '../../shared/room-page/room-page-edit/room-page-edit';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
+import { DialogActionButtonsComponent } from '../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { throwError } from 'rxjs';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 
