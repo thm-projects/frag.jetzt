@@ -10,7 +10,7 @@
            maxlength="20"
            aria-labelledby="room-name"/>
     <mat-placeholder class="placeholder">{{ 'session.session-name' | translate }}</mat-placeholder>
-    <mat-hint align="end"><span aria-hidden="true">{{ editRoom.name.length }} / 20</span></mat-hint>
+    <mat-hint align="end"><span aria-hidden="true">{{ roomNameFormControl.value.length }} / 20</span></mat-hint>
     <mat-error *ngIf="roomNameFormControl.hasError('required')
           || roomNameFormControl.hasError('minlength')
           || roomNameFormControl.hasError('maxlength')">

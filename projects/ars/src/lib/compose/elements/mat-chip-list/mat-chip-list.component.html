@@ -1,0 +1,11 @@
+<ars-row class="chip-list-wrp">
+  <mat-chip-list class="chip-list">
+    <ng-container *ngFor="let chip of data.list.get()">
+      <mat-chip  *ngIf="!chip.condition||chip.condition()" (click)="select(chip)">
+          <mat-icon *ngIf="chip.icon&&!chip.isSVGIcon" style="padding-right:4px;">{{chip.icon}}</mat-icon>
+          <mat-icon *ngIf="chip.icon&&chip.isSVGIcon" style="padding-right:4px;" [svgIcon]="chip.icon"></mat-icon>
+          <span>{{chip.title}}</span>
+      </mat-chip>
+    </ng-container>
+  </mat-chip-list>
+</ars-row>

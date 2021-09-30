@@ -228,7 +228,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
-        if (this.userRole === 0) {
+        if (this.userRole === UserRole.PARTICIPANT) {
           this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
             for (const v of votes) {
               this.commentVoteMap.set(v.commentId, v);
@@ -252,12 +252,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
               this.roomId = this.room.id;
               this.moderationEnabled = this.room.moderated;
               this.directSend = this.room.directSend;
-              this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+              this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !this.room.questionsBlocked;
             }
           });
           this.moderationEnabled = this.room.moderated;
           this.directSend = this.room.directSend;
-          this.commentsEnabled = (this.userRole > 0) || !this.room.questionsBlocked;
+          this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !this.room.questionsBlocked;
           this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
@@ -281,11 +281,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
             });
             this.subscribeCommentStream();
           });
-          /**
-           if (this.userRole === UserRole.PARTICIPANT) {
-            this.openCreateDialog();
-          }
-           */
         });
       });
     });

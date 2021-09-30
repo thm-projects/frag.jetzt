@@ -1,0 +1,24 @@
+:host {
+  .chip-list-wrp{
+    padding:8px;
+    box-sizing:border-box;
+  }
+  .chip-list {
+    @for $i from 1 through 20 {
+      :nth-child(#{$i}n) {
+        animation-delay: #{$i * 0.1 + 0.5}s;
+      }
+    }
+    mat-chip{
+      animation:fade-bot 1s ease-in-out both;
+    }
+  }
+  @keyframes fade-bot {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+}

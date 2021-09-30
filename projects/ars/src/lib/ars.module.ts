@@ -17,6 +17,20 @@ import { ButtonBaseDirective } from './components/content/menu/ButtonBase.direct
 import { MaterialBtnComponent } from './components/style/menu/material-btn/material-btn.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { ArsComposeHostDirective } from './compose/ars-compose-host.directive';
+import { MatButtonComponent } from './compose/elements/mat-button/mat-button.component';
+import { MatToggleComponent } from './compose/elements/mat-toggle/mat-toggle.component';
+import { MatChipListComponent } from './compose/elements/mat-chip-list/mat-chip-list.component';
+import { MatDatePickerComponent } from './compose/elements/mat-date-picker/mat-date-picker.component';
+import { MatMenuItemComponent } from './compose/elements/mat-menu-item/mat-menu-item.component';
+import { CommonModule } from '@angular/common';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TranslateModule } from '@ngx-translate/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatInputModule } from '@angular/material/input';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -35,13 +49,27 @@ import { MatIconModule } from '@angular/material/icon';
     MenuWrapperDirective,
     ButtonWrapperDirective,
     ButtonBaseDirective,
-    MaterialBtnComponent
+    MaterialBtnComponent,
+    ArsComposeHostDirective,
+    MatButtonComponent,
+    MatToggleComponent,
+    MatChipListComponent,
+    MatDatePickerComponent,
+    MatMenuItemComponent
   ],
-  imports: [
+  imports:[
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule,
+    MatChipsModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    TranslateModule,
+    MatMenuModule,
+    MatInputModule,
+    MatSlideToggleModule
   ],
-  exports: [
+  exports:[
     ArsComponent,
     FullScreenOverlayComponent,
     WrapperDirective,
@@ -56,7 +84,8 @@ import { MatIconModule } from '@angular/material/icon';
     MenuWrapperDirective,
     ButtonWrapperDirective,
     ButtonBaseDirective,
-    MaterialBtnComponent
+    MaterialBtnComponent,
+    ArsComposeHostDirective
   ]
 })
 export class ArsModule { }
