@@ -22,18 +22,18 @@ import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 
 @Component({
-  selector:'app-moderator-comment-page',
-  templateUrl:'./moderator-comment-page.component.html',
-  styleUrls:['./moderator-comment-page.component.scss']
+  selector: 'app-moderator-comment-page',
+  templateUrl: './moderator-comment-page.component.html',
+  styleUrls: ['./moderator-comment-page.component.scss']
 })
-export class ModeratorCommentPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit{
+export class ModeratorCommentPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
   roomId: string;
   user: User;
   room: Room;
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   onAfterViewInitListener: EventEmitter<void> = new EventEmitter<void>();
   onInitListener: EventEmitter<void> = new EventEmitter<void>();
-  roomPageEdit: RoomPageEdit;
+  roomPageEdit:RoomPageEdit;
   viewModuleCount = 1;
 
   listenerFn: () => void;
@@ -44,17 +44,17 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
               public eventService: EventService,
               private _r: Renderer2,
               private liveAnnouncer: LiveAnnouncer,
-              public headerService: HeaderService,
-              public roomService: RoomService,
-              public composeService: ArsComposeService,
-              public dialog: MatDialog,
-              public translationService: TranslateService,
-              public location: Location,
-              public commentService: CommentService,
-              public bonusTokenService: BonusTokenService,
-              public wsCommentService: WsCommentService){
+              public headerService:HeaderService,
+              public roomService:RoomService,
+              public composeService:ArsComposeService,
+              public dialog:MatDialog,
+              public translationService:TranslateService,
+              public location:Location,
+              public commentService:CommentService,
+              public bonusTokenService:BonusTokenService,
+              public wsCommentService:WsCommentService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
-    this.roomPageEdit = new RoomPageEdit(
+    this.roomPageEdit=new RoomPageEdit(
       dialog,
       translationService,
       notification,
@@ -78,39 +78,39 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
     );
   }
 
-  ngAfterContentInit(): void{
-    setTimeout(() => {
+  ngAfterContentInit(): void {
+    setTimeout( () => {
       document.getElementById('live_announcer-button').focus();
     }, 500);
   }
-  
+
   ngAfterViewInit(){
     this.onAfterViewInitListener.emit();
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.roomId = localStorage.getItem('roomId');
     this.user = this.authenticationService.getUser();
     this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
-      if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false){
+      if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('searchBox').focus();
-      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false){
+      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit3) === true && this.eventService.focusOnInput === false) {
         document.getElementById('sort-button').focus();
-      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit4) === true && this.eventService.focusOnInput === false){
+      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit4) === true && this.eventService.focusOnInput === false) {
         document.getElementById('filter-button').focus();
-      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false){
+      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit8) === true && this.eventService.focusOnInput === false) {
         this.liveAnnouncer.announce('Aktueller Sitzungs-' + document.getElementById('shortId-header').textContent);
-      }else if (
+      } else if (
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit9, KeyboardKey.Escape) === true &&
-        this.eventService.focusOnInput === false){
+        this.eventService.focusOnInput === false) {
         this.announce();
-      }else if (
+      } else if (
         document.getElementById('search_close-button') &&
         KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true &&
-        this.eventService.focusOnInput === true){
+        this.eventService.focusOnInput === true) {
         document.getElementById('search_close-button').click();
-      }else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true && this.eventService.focusOnInput === true){
+      } else if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true && this.eventService.focusOnInput === true) {
         this.eventService.makeFocusOnInputFalse();
         document.getElementById('sort-button').focus();
       }
@@ -118,7 +118,7 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
     this.onInitListener.emit();
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
     this.onDestroyListener.emit();
@@ -137,7 +137,7 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
     localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
-  public announce(){
+  public announce() {
     this.liveAnnouncer.clear();
     this.liveAnnouncer.announce('Du befindest dich auf der Moderations-Seite deiner Sitzung. ' +
       'Drücke die Taste 2 um auf das Sitzungs-Menü zu gelangen, ' +

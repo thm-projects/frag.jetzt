@@ -123,6 +123,7 @@
     "tag-cloud-config": "Aussehen & Animation",
     "tag-cloud-administration": "Einstellungen & Suche",
     "questions-blocked": "Neue Fragen deaktiviert ",
+    "questions-unblocked": "Neue Fragen aktiviert",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller",
     "overview-keywords-tooltip": "Anzahl Stichwörter",

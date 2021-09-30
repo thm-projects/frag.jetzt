@@ -117,16 +117,16 @@ export class RoomPageHeader{
       e.altToggle(
         {
           translate:this.config.headerService.getTranslate(),
+          text:'header.block',
+          icon:'block',
+          iconColor:Palette.RED
+        },
+        {
+          translate:this.config.headerService.getTranslate(),
           text:'header.unlock',
           icon:'block',
           iconColor:Palette.RED,
           color:Palette.RED
-        },
-        {
-          translate:this.config.headerService.getTranslate(),
-          text:'header.block',
-          icon:'block',
-          iconColor:Palette.RED
         },
         ArsObserver.build<boolean>(e => {
           e.set(this.config.room().questionsBlocked);
@@ -135,6 +135,11 @@ export class RoomPageHeader{
             this.config.roomService.updateRoom(this.config.room()).subscribe();
             if (a.get()){
               this.config.headerService.getTranslate().get('header.questions-blocked').subscribe(msg => {
+                this.config.headerService.getNotificationService().show(msg);
+              });
+            }
+            else {
+              this.config.headerService.getTranslate().get('header.questions-unblocked').subscribe(msg => {
                 this.config.headerService.getNotificationService().show(msg);
               });
             }

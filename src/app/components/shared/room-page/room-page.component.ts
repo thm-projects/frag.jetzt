@@ -11,11 +11,11 @@ import { Message, IMessage } from '@stomp/stompjs';
 import { Observable, Subscription, of } from 'rxjs';
 
 @Component({
-  selector:'app-room-page',
-  templateUrl:'./room-page.component.html',
-  styleUrls:['./room-page.component.scss']
+  selector: 'app-room-page',
+  templateUrl: './room-page.component.html',
+  styleUrls: ['./room-page.component.scss']
 })
-export class RoomPageComponent implements OnInit, OnDestroy{
+export class RoomPageComponent implements OnInit, OnDestroy {
   room: Room = null;
   isLoading = true;
   commentCounter: number;
@@ -24,7 +24,7 @@ export class RoomPageComponent implements OnInit, OnDestroy{
   protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;
   public commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
-  public encodedShortId: string;
+  public encodedShortId:string;
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -32,33 +32,33 @@ export class RoomPageComponent implements OnInit, OnDestroy{
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               protected eventService: EventService
-  ){
+  ) {
   }
 
-  ngOnInit(){
+  ngOnInit() {
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
       this.encodedShortId = params['shortId'];
     });
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
-    if (this.sub){
+    if (this.sub) {
       this.sub.unsubscribe();
     }
   }
 
-  protected preRoomLoadHook(): Observable<any>{
+  protected preRoomLoadHook(): Observable<any> {
     return of('');
   }
 
-  protected postRoomLoadHook(){
+  protected postRoomLoadHook() {
 
   }
 
-  initializeRoom(id: string): void{
+  initializeRoom(id: string): void {
     this.preRoomLoadHook().subscribe(user => {
       this.roomService.getRoomByShortId(id).subscribe(room => {
         this.room = room;
@@ -66,16 +66,16 @@ export class RoomPageComponent implements OnInit, OnDestroy{
         this.moderationEnabled = !this.room.directSend;
         localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
         this.commentService.countByRoomId(this.room.id, true)
-        .subscribe(commentCounter => {
-          this.setCommentCounter(commentCounter);
-        });
+          .subscribe(commentCounter => {
+            this.setCommentCounter(commentCounter);
+          });
         this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
         this.sub = this.commentWatch.subscribe((message: Message) => {
           const msg = JSON.parse(message.body);
           const payload = msg.payload;
-          if (msg.type === 'CommentCreated'){
+          if (msg.type === 'CommentCreated') {
             this.setCommentCounter(this.commentCounter + 1);
-          }else if (msg.type === 'CommentDeleted'){
+          } else if (msg.type === 'CommentDeleted') {
             this.setCommentCounter(this.commentCounter - 1);
           }
         });
@@ -84,12 +84,12 @@ export class RoomPageComponent implements OnInit, OnDestroy{
     });
   }
 
-  setCommentCounter(commentCounter: number){
+  setCommentCounter(commentCounter: number) {
     this.commentCounter = commentCounter;
     this.commentCounterEmit.emit(this.commentCounter);
   }
 
-  delete(room: Room): void{
+  delete(room: Room): void {
     this.roomService.deleteRoom(room.id).subscribe();
     this.location.back();
   }
