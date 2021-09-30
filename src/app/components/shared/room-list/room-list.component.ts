@@ -15,7 +15,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
 import { MatTableDataSource } from '@angular/material/table';
-import { ExportCsv } from '../../../models/export-csv';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { Export } from '../../../models/export';
 
