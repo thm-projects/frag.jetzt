@@ -47,11 +47,13 @@
     "motd-mark-read": "Mark as read"
   },
   "explanation": {
-    "label": "Explain",
+    "label": "Explanation",
     "close": "Close",
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into English and back into German using the translation program [DeepL] (https://www.deepl.com/translator). \n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy] (https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
-    "topic-cloud": "## Topics as tags in a word cloud\n\nOur **topic cloud** visualizes the significance of the keywords. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword."
+    "topic-cloud": "## Topics as tags in a word cloud\n\nOur **topic cloud** visualizes the significance of the keywords. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword.",
+    "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
+    "bonus-archive": "All questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the token that a participant sent you by mail is valid. \n\nTo find a token quickly, there is a search field. If the token is valid, you can display the corresponding question directly via a link."
   },
   "header": {
     "abort": "Cancel",
@@ -103,7 +105,7 @@
     "create-question": "Ask a question",
     "questionwall": "Presentation",
     "tag-cloud": "Topic cloud",
-    "fullscreen": "Fullscreen & Text",
+    "fullscreen": "Fullscreen & Text size",
     "motd": "News & FAQ",
     "tag-cloud-config": "Modify cloud view",
     "tag-cloud-administration": "Edit cloud topics",
@@ -111,7 +113,7 @@
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
-    "update-spacy-keywords": "Analyze questions",
+    "update-spacy-keywords": "Extract keywords",
     "overview-admin-config-enabled": "Themes requirement active",
     "quiz-now": "Quizzing",
     "moderation-warning": "Moderation board with unreleased questions",
@@ -152,7 +154,7 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "reset": "Reset",
-    "brainstorming-question": "Word cloud heading",
+    "brainstorming-question": "Heading of the brainstorming board",
     "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
     "tag-cloud-questions-title": "Which questions should the topic cloud include?",
     "tag-cloud-questions-all": "All questions",
@@ -372,10 +374,10 @@
     "remove-successful": "Word removed"
   },
   "worker-config": {
-    "heading": "Analyze questions",
-    "label": "Choose an analysis mode",
-    "normal": "All questions",
-    "only-failed": "Questions not analyzed",
+    "heading": "Extract keywords",
+    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
+    "normal": "Reanalyze all questions in the room",
+    "only-failed": "Only questions that have not been analyzed",
     "continue": "Continue",
     "cancel": "Cancel"
   },

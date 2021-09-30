@@ -36,6 +36,7 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { UserRole } from '../../../models/user-roles.enum';
 import { Palette } from '../../../../theme/Theme';
 import { ArsObserver } from '../../../../../projects/ars/src/lib/models/util/ars-observer';
+import { RoomNameSettingsComponent } from '../_dialogs/room-name-settings/room-name-settings.component';
 
 @Component({
   selector:'app-room-creator-page',
@@ -212,6 +213,16 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   toggleProfanityFilter(){
     const dialogRef = this.dialog.open(ProfanitySettingsComponent, {
       width:'400px'
+    });
+    dialogRef.componentInstance.editRoom = this.room;
+  }
+
+  editSessionName() {
+    const dialogRef = this.dialog.open(RoomNameSettingsComponent, {
+      width: '900px',
+      maxWidth: 'calc( 100% - 50px )',
+      maxHeight: 'calc( 100vh - 50px )',
+      autoFocus: false
     });
     dialogRef.componentInstance.editRoom = this.room;
   }

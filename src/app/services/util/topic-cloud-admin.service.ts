@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  ensureDefaultScorings,
   KeywordOrFulltext,
   spacyLabels,
   TopicCloudAdminData
@@ -14,6 +15,9 @@ import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
+import { RoomDataService } from './room-data.service';
+
+export const regexMaskKeyword = /\b(frage|antwort|aufgabe|hallo|test|bzw|muss|more to come)\b/gmi;
 
 @Injectable({
   providedIn: 'root',
@@ -47,36 +51,47 @@ export class TopicCloudAdminService {
       minQuestions: admin.minQuestions,
       minUpvotes: admin.minUpvotes,
       startDate: admin.startDate,
-      endDate: admin.endDate
+      endDate: admin.endDate,
+      scorings: admin.scorings
     };
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
-  static approveKeywordsOfComment(comment: Comment, config: TopicCloudAdminData, keywordFunc: (SpacyKeyword, boolean) => void) {
+  static approveKeywordsOfComment(comment: Comment,
+                                  roomDataService: RoomDataService,
+                                  config: TopicCloudAdminData,
+                                  keywordFunc: (SpacyKeyword, boolean) => void) {
     let source = comment.keywordsFromQuestioner;
+    let censored = roomDataService.getCensoredInformation(comment).userKeywordsCensored;
     let isFromQuestioner = true;
     if (config.keywordORfulltext === KeywordOrFulltext.both) {
       if (!source || !source.length) {
-        source = comment.keywordsFromSpacy;
         isFromQuestioner = false;
+        source = comment.keywordsFromSpacy;
+        censored = roomDataService.getCensoredInformation(comment).genKeywordsCensored;
       }
     } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
       isFromQuestioner = false;
       source = comment.keywordsFromSpacy;
+      censored = roomDataService.getCensoredInformation(comment).genKeywordsCensored;
     }
     if (!source) {
       return;
     }
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
-    for (const keyword of source) {
+    for (let i = 0; i < source.length; i++) {
+      const keyword = source[i];
+      if (keyword.text.replace(regexMaskKeyword, '').replace(/ +/, ' ').trim().length < 3) {
+        continue;
+      }
+      if (censored[i]) {
+        continue;
+      }
       if (wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
         continue;
       }
-      let isProfanity = !!keyword.text.match(/\*/);
-      if (isProfanity) {
-        continue;
-      }
       const lowerCasedKeyword = keyword.text.toLowerCase();
+      let isProfanity = false;
       for (const word of config.blacklist) {
         if (lowerCasedKeyword.includes(word)) {
           isProfanity = true;
@@ -120,9 +135,11 @@ export class TopicCloudAdminService {
         minQuestions: 1,
         minUpvotes: 0,
         startDate: null,
-        endDate: null
+        endDate: null,
+        scorings: null
       };
     }
+    ensureDefaultScorings(data);
     return data;
   }
 

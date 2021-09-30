@@ -195,8 +195,8 @@
     "grammar-check": "Check text",
     "show-comment-with-filter": "Hide vulgar words",
     "show-comment-without-filter": "Show vulgar words",
-    "upvote": "upvotes",
-    "downvote": "downvotes"
+    "upvote": "upvotes:",
+    "downvote": "downvotes:"
   },
   "content": {
     "abort": "Abort",
@@ -255,7 +255,9 @@
     "close": "Close",
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into German and back into English using the translation program [DeepL](https://www.deepl.com/translator).\n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy](https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
-    "topic-cloud": "## Topics as tags in a word cloud\n\nOur **topic cloud** visualizes the significance of the keywords. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category \n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword."
+    "topic-cloud": "## Topics as tags in a word cloud\n\nOur **topic cloud** visualizes the significance of the keywords. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category \n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword.",
+    "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
+    "bonus-archive": "All questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the token that a participant sent you by mail is valid. \n\nTo find a token quickly, there is a search field. If the token is valid, you can display the corresponding question directly via a link."
   },
   "home-page": {
     "create-session": "New session",
@@ -391,6 +393,7 @@
     "description": "Description",
     "max-ls": "Max. characters:",
     "session-name": "Session name",
+    "edit-session-name": "Edit session name",
     "preview": "Preview"
   },
   "tag-cloud": {
@@ -426,7 +429,28 @@
     "question-count-plural": "Questions",
     "edit-keyword-tip": "New topic",
     "no-keywords-note": "There are no topics.",
-    "consider-votes": "Consider Votes",
+    "keyword-scoring-header": "Keyword weighting",
+    "keyword-scoring-header-info": "Adjustable multipliers for the weighting of keywords",
+    "keyword-scoring-countComments": "Number of comments",
+    "keyword-scoring-countComments-info": "Number of comments from which the keywords have been extracted",
+    "keyword-scoring-countUsers": "Number of questioners",
+    "keyword-scoring-countUsers-info": "Number of exclusive questioners who used this keyword",
+    "keyword-scoring-countSelectedByQuestioner": "Number verified",
+    "keyword-scoring-countSelectedByQuestioner-info": "Number of times a keyword has been verified by a questioner",
+    "keyword-scoring-countKeywordByModerator": "Number of keywords from moderators",
+    "keyword-scoring-countKeywordByModerator-info": "Number of times this keyword has been used by moderators",
+    "keyword-scoring-countKeywordByCreator": "Number of keywords from creator",
+    "keyword-scoring-countKeywordByCreator-info": "Number of times this keyword has been used by the creator",
+    "keyword-scoring-countCommentsAnswered": "Number of answered comments",
+    "keyword-scoring-countCommentsAnswered-info": "Number of comments that have this keyword and have been answered",
+    "keyword-scoring-summedUpvotes": "Number of all upvotes",
+    "keyword-scoring-summedUpvotes-info": "Number of all upvotes made on the comments with this keyword",
+    "keyword-scoring-summedDownvotes": "Number of all downvotes",
+    "keyword-scoring-summedDownvotes-info": "Number of all downvotes made on the comments with this keyword",
+    "keyword-scoring-summedVotes": "Sum of all votes",
+    "keyword-scoring-summedVotes-info": "Sum of the upvotes and downvotes made on the comments with this keyword",
+    "keyword-scoring-cappedSummedVotes": "Sum of all votes (>= 0)",
+    "keyword-scoring-cappedSummedVotes-info": "(See the sum of all votes). The sum cannot fall below zero and becomes a minimum of 0",
     "profanity": "Censor profanity",
     "hide-blacklist-words": "Hide blacklist keywords",
     "sort-alpha": "Alphabetically",
@@ -554,9 +578,9 @@
     "manual-weight-number-note": "Limits the respective weight class to a self-defined value"
   },
   "token-validator": {
-    "valid": "VALID",
-    "invalid": "INVALID",
-    "cant-find-comment": "Can't find comment"
+    "valid": "Valid token",
+    "invalid": "Invalid token",
+    "cant-find-comment": "There is no question with this token."
   },
   "worker-dialog": {
     "running": "Running",

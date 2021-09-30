@@ -22,7 +22,6 @@ p {
 }
 
 .mat-stroked-button {
-  margin-left: 30px;
   width: 130px;
   height: 40px;
   margin: auto;
@@ -50,4 +49,26 @@ p {
 .validator .mat-stroked-button {
   float: right;
   margin-left: -40%;
+}
+
+.action-button-container {
+  @media screen and (max-width: 500px) {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column !important;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.help-button {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  margin-top: 1rem;
+
+  .mat-icon {
+    font-size: 18px;
+    margin-top: 3px;
+  }
 }

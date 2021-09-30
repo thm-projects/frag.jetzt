@@ -7,7 +7,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
-import { TopicCloudAdminData, Labels, spacyLabels, KeywordOrFulltext } from './TopicCloudAdminData';
+import {
+  TopicCloudAdminData,
+  Labels,
+  spacyLabels,
+  KeywordOrFulltext,
+  TopicCloudAdminDataScoringObject, TopicCloudAdminDataScoringKey, keywordsScoringMinMax, ensureDefaultScorings
+} from './TopicCloudAdminData';
 import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
@@ -60,8 +66,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   startDate: string;
   endDate: string;
   selectedTabIndex = 0;
+  scorings: TopicCloudAdminDataScoringObject;
+  scoringOptions = Object.keys(TopicCloudAdminDataScoringKey);
+  scoringMinMax = keywordsScoringMinMax;
 
   keywords: Map<string, Keyword> = new Map<string, Keyword>();
+  defaultScorings: TopicCloudAdminDataScoringObject;
   private topicCloudAdminData: TopicCloudAdminData;
   private profanityFilter: boolean;
   private censorPartialWordsCheck: boolean;
@@ -84,6 +94,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
+    const emptyData = {} as TopicCloudAdminData;
+    ensureDefaultScorings(emptyData);
+    this.defaultScorings = emptyData.scorings;
   }
 
   ngOnInit(): void {
@@ -194,14 +207,14 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   /**
    * Returns a lambda which closes the dialog on call.
    */
-   buildCloseDialogActionCallback(): () => void {
+  buildCloseDialogActionCallback(): () => void {
     return () => this.ngOnDestroy();
   }
 
   /**
    * Returns a lambda which executes the dialog dedicated action on call.
    */
-   buildSaveActionCallback(): () => void {
+  buildSaveActionCallback(): () => void {
     return () => this.save();
   }
 
@@ -313,7 +326,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       minQuestions: minQuestionsVerified,
       minUpvotes: minUpvotesVerified,
       startDate: this.startDate.length ? this.startDate : null,
-      endDate: this.endDate.length ? this.endDate : null
+      endDate: this.endDate.length ? this.endDate : null,
+      scorings: this.scorings
     };
     this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true, this.data.user.role);
   }
@@ -340,11 +354,13 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.minUpvotes = String(this.topicCloudAdminData.minUpvotes);
       this.startDate = this.topicCloudAdminData.startDate || '';
       this.endDate = this.topicCloudAdminData.endDate || '';
+      this.scorings = this.topicCloudAdminData.scorings;
     }
   }
 
   getKeywordWithoutProfanity(keyword: string, lang: string): string {
-    return this.profanityFilterService.filterProfanityWords(keyword, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, lang);
+    return this.profanityFilterService.filterProfanityWords(keyword, this.censorPartialWordsCheck,
+      this.censorLanguageSpecificCheck, lang)[0];
   }
 
   sortQuestions(sortMode?: string) {
@@ -480,7 +496,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       if (this.selectedTabIndex === 0) {
         const entries = [...this.keywords.entries()];
         this.filteredKeywords = entries.filter(([_, keyword]) =>
-        keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
+          keyword.keyword.toLowerCase().includes(this.searchedKeyword.toLowerCase())
         ).map(e => e[1]);
       } else {
         this.filteredKeywords = this.blacklistKeywords.filter(keyword =>
@@ -590,9 +606,29 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   getFilteredProfanity(): string {
     if (this.testProfanityWord) {
       // eslint-disable-next-line max-len
-      return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck, this.censorLanguageSpecificCheck, this.testProfanityLanguage);
+      return this.profanityFilterService.filterProfanityWords(this.testProfanityWord, this.censorPartialWordsCheck,
+        this.censorLanguageSpecificCheck, this.testProfanityLanguage)[0];
     } else {
       return '';
+    }
+  }
+
+  isDefaultScoring(): boolean {
+    for (const key of Object.keys(this.defaultScorings)) {
+      const subObject = this.defaultScorings[key];
+      const refSubObject = this.scorings[key];
+      for (const subKey in subObject) {
+        if (subObject[subKey] !== refSubObject[subKey]) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
+  setDefaultScoring() {
+    for (const key of Object.keys(this.defaultScorings)) {
+      this.scorings[key] = { ...this.defaultScorings[key] };
     }
   }
 }

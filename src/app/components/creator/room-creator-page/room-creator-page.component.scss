@@ -143,3 +143,8 @@ markdown {
   background: var(--secondary);
   color: var(--on-secondary);
 }
+
+.inline-icon-button {
+  width: max-content;
+  margin: 0.25em 0.25em 0.25em 0.75em;
+}
