@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -17,30 +17,18 @@ import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
-import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
-import { RoomPageEdit } from '../../shared/room-page/room-page-edit/room-page-edit';
-import { MatDialog } from '@angular/material/dialog';
-import { NotificationService } from '../../../services/util/notification.service';
-import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { HeaderService } from '../../../services/util/header.service';
-import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 
 @Component({
   selector: 'app-room-participant-page',
   templateUrl: './room-participant-page.component.html',
   styleUrls: ['./room-participant-page.component.scss']
 })
-export class RoomParticipantPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+export class RoomParticipantPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit {
 
   room: Room;
   isLoading = true;
   deviceType = localStorage.getItem('deviceType');
   user: User;
-  viewModuleCount = 1;
-  roomPageEdit:RoomPageEdit;
-  onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
-  onAfterViewInitListener: EventEmitter<void> = new EventEmitter<void>();
-  onInitListener: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(protected location: Location,
               protected roomService: RoomService,
@@ -52,51 +40,15 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected authenticationService: AuthenticationService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
-              public eventService: EventService,
-              public dialog:MatDialog,
-              public notification:NotificationService,
-              public bonusTokenService:BonusTokenService,
-              public headerService:HeaderService,
-              public composeService:ArsComposeService) {
+              public eventService: EventService) {
     super(roomService, route, location, wsCommentService, commentService, eventService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
-    this.roomPageEdit=new RoomPageEdit(
-      dialog,
-      translateService,
-      notification,
-      roomService,
-      eventService,
-      location,
-      commentService,
-      bonusTokenService,
-      headerService,
-      composeService,
-      authenticationService,
-      route,
-      {
-        onInitListener:this.onInitListener,
-        onAfterViewInitListener:this.onAfterViewInitListener,
-        onDestroyListener:this.onDestroyListener,
-        updateCommentSettings(settings: CommentSettingsDialog){
-          this.updateCommentSettings(settings);
-        }
-      }
-    );
-  }
-
-  ngOnDestroy(){
-    super.ngOnDestroy();
-    this.onDestroyListener.emit();
   }
 
   ngAfterContentInit(): void {
     setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
-  }
-
-  ngAfterViewInit(){
-    this.onAfterViewInitListener.emit();
   }
 
   ngOnInit() {
@@ -120,7 +72,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         this.eventService.makeFocusOnInputFalse();
       }
     });
-    this.onInitListener.emit();
   }
 
   public announce() {
@@ -150,19 +101,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     } else {
       return of(this.user);
     }
-  }
-
-  updateCommentSettings(settings: CommentSettingsDialog){
-    this.room.tags = settings.tags;
-
-    if (this.moderationEnabled && !settings.enableModeration){
-      this.viewModuleCount = this.viewModuleCount - 1;
-    }else if (!this.moderationEnabled && settings.enableModeration){
-      this.viewModuleCount = this.viewModuleCount + 1;
-    }
-
-    this.moderationEnabled = settings.enableModeration;
-    localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
   postRoomLoadHook() {

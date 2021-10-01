@@ -24,7 +24,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;
   public commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
-  public encodedShortId:string;
 
   constructor(protected roomService: RoomService,
               protected route: ActivatedRoute,
@@ -38,7 +37,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
-      this.encodedShortId = params['shortId'];
     });
   }
 
