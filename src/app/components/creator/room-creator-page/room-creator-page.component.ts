@@ -1,8 +1,9 @@
-import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Room } from '../../../models/room';
+import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
 import { Location } from '@angular/common';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,6 +21,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { User } from '../../../models/user';
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { RoomPageEdit } from '../../shared/room-page/room-page-edit/room-page-edit';
 
 @Component({
   selector:'app-room-creator-page',
@@ -34,54 +36,67 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   commentThreshold: number;
   updCommentThreshold: number;
   deviceType = localStorage.getItem('deviceType');
+  viewModuleCount = 1;
   moderatorCommentCounter: number;
   commentCounterEmitSubscription: any;
   urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
   headerInterface = null;
+  onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
+  onAfterViewInitListener: EventEmitter<void> = new EventEmitter<void>();
+  onInitListener: EventEmitter<void> = new EventEmitter<void>();
+  roomPageEdit:RoomPageEdit;
 
   constructor(protected roomService: RoomService,
               protected notification: NotificationService,
               protected route: ActivatedRoute,
               protected location: Location,
-              protected dialog: MatDialog,
+              public dialog: MatDialog,
               private translateService: TranslateService,
               protected langService: LanguageService,
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2,
-              protected eventService: EventService,
-              protected titleService: TitleService,
-              protected notificationService: NotificationService,
-              protected bonusTokenService: BonusTokenService,
-              protected router: Router,
-              protected translationService: TranslateService,
-              protected authenticationService: AuthenticationService,
-              protected headerService: HeaderService,
-              protected composeService: ArsComposeService){
-    super(
-      roomService,
-      route,
-      location,
-      wsCommentService,
-      commentService,
-      eventService,
-      dialog,
-      translateService,
-      bonusTokenService,
-      headerService,
-      composeService,
-      notification,
-      authenticationService
-    );
+              public eventService: EventService,
+              public titleService: TitleService,
+              private notificationService: NotificationService,
+              private bonusTokenService: BonusTokenService,
+              public router: Router,
+              public translationService: TranslateService,
+              public authenticationService: AuthenticationService,
+              public headerService: HeaderService,
+              public composeService: ArsComposeService){
+    super(roomService, route, location, wsCommentService, commentService, eventService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
     });
     langService.langEmitter.subscribe(lang => translateService.use(lang));
+    this.roomPageEdit=new RoomPageEdit(
+      dialog,
+      translationService,
+      notification,
+      roomService,
+      eventService,
+      location,
+      commentService,
+      bonusTokenService,
+      headerService,
+      composeService,
+      authenticationService,
+      route,
+      {
+        onInitListener:this.onInitListener,
+        onAfterViewInitListener:this.onAfterViewInitListener,
+        onDestroyListener:this.onDestroyListener,
+        updateCommentSettings(settings: CommentSettingsDialog){
+          this.updateCommentSettings(settings);
+        }
+      }
+    );
   }
 
   ngAfterViewInit(){
-    super.ngAfterViewInit();
+    this.onAfterViewInitListener.emit();
   }
 
   ngOnDestroy(){
@@ -91,6 +106,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     if (this.headerInterface){
       this.headerInterface.unsubscribe();
     }
+    this.onDestroyListener.emit();
   }
 
   ngAfterContentInit(): void{
@@ -100,7 +116,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   }
 
   ngOnInit(){
-    super.ngOnInit();
     window.scroll(0, 0);
     this.translateService.use(localStorage.getItem('currentLang'));
     this.route.params.subscribe(params => {
@@ -133,6 +148,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         this.eventService.makeFocusOnInputFalse();
       }
     });
+    this.onInitListener.emit();
   }
 
   public announce(){
@@ -187,6 +203,19 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     this.translateService.get('room-page.session-id-copied').subscribe(msg => {
       this.notification.show(msg, '', {duration:2000});
     });
+  }
+
+  updateCommentSettings(settings: CommentSettingsDialog){
+    this.room.tags = settings.tags;
+
+    if (this.moderationEnabled && !settings.enableModeration){
+      this.viewModuleCount = this.viewModuleCount - 1;
+    }else if (!this.moderationEnabled && settings.enableModeration){
+      this.viewModuleCount = this.viewModuleCount + 1;
+    }
+
+    this.moderationEnabled = settings.enableModeration;
+    localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
 }
