@@ -267,7 +267,7 @@
 <div *ngIf="!isLoading">
   <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
                [appScrollIntoView]="current.id === focusCommentId"
-               [usesJoyride]="i === 0"
+               [usesJoyride]="i === 0 && isJoyrideActive"
                [comment]="current"
                [parseVote]="getVote(current)"
                [userRole]="userRole"
