@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -18,7 +18,6 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { map } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
 import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
-import { RoomPageEdit } from '../../shared/room-page/room-page-edit/room-page-edit';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
@@ -36,11 +35,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   isLoading = true;
   deviceType = localStorage.getItem('deviceType');
   user: User;
-  viewModuleCount = 1;
-  roomPageEdit:RoomPageEdit;
-  onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
-  onAfterViewInitListener: EventEmitter<void> = new EventEmitter<void>();
-  onInitListener: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(protected location: Location,
               protected roomService: RoomService,
@@ -58,35 +52,26 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               public bonusTokenService:BonusTokenService,
               public headerService:HeaderService,
               public composeService:ArsComposeService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService);
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
-    this.roomPageEdit=new RoomPageEdit(
+    super(
+      roomService,
+      route,
+      location,
+      wsCommentService,
+      commentService,
+      eventService,
       dialog,
       translateService,
-      notification,
-      roomService,
-      eventService,
-      location,
-      commentService,
       bonusTokenService,
       headerService,
       composeService,
-      authenticationService,
-      route,
-      {
-        onInitListener:this.onInitListener,
-        onAfterViewInitListener:this.onAfterViewInitListener,
-        onDestroyListener:this.onDestroyListener,
-        updateCommentSettings(settings: CommentSettingsDialog){
-          this.updateCommentSettings(settings);
-        }
-      }
+      notification,
+      authenticationService
     );
+    langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
   ngOnDestroy(){
     super.ngOnDestroy();
-    this.onDestroyListener.emit();
   }
 
   ngAfterContentInit(): void {
@@ -96,10 +81,11 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   }
 
   ngAfterViewInit(){
-    this.onAfterViewInitListener.emit();
+    super.ngAfterViewInit()
   }
 
   ngOnInit() {
+    super.ngOnInit();
     window.scroll(0, 0);
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
@@ -120,7 +106,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         this.eventService.makeFocusOnInputFalse();
       }
     });
-    this.onInitListener.emit();
   }
 
   public announce() {
@@ -150,19 +135,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     } else {
       return of(this.user);
     }
-  }
-
-  updateCommentSettings(settings: CommentSettingsDialog){
-    this.room.tags = settings.tags;
-
-    if (this.moderationEnabled && !settings.enableModeration){
-      this.viewModuleCount = this.viewModuleCount - 1;
-    }else if (!this.moderationEnabled && settings.enableModeration){
-      this.viewModuleCount = this.viewModuleCount + 1;
-    }
-
-    this.moderationEnabled = settings.enableModeration;
-    localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
   postRoomLoadHook() {

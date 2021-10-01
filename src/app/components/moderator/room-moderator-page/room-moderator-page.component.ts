@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
@@ -14,19 +14,23 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { MatDialog } from '@angular/material/dialog';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { HeaderService } from '../../../services/util/header.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 
 @Component({
   selector: 'app-room-moderator-page',
   templateUrl: './room-moderator-page.component.html',
   styleUrls: ['./room-moderator-page.component.scss']
 })
-export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit {
+export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   room: Room;
   isLoading = true;
   deviceType = localStorage.getItem('deviceType');
   moderatorCommentCounter: number;
-  viewModuleCount = 1;
 
   constructor(protected location: Location,
               protected roomService: RoomService,
@@ -38,8 +42,27 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               protected notification: NotificationService,
               public eventService: EventService,
               private liveAnnouncer: LiveAnnouncer,
-              private _r: Renderer2) {
-    super(roomService, route, location, wsCommentService, commentService, eventService);
+              private _r: Renderer2,
+              protected dialog:MatDialog,
+              protected bonusTokenService:BonusTokenService,
+              protected headerService:HeaderService,
+              protected composeService:ArsComposeService,
+              protected authenticationService:AuthenticationService) {
+    super(
+      roomService,
+      route,
+      location,
+      wsCommentService,
+      commentService,
+      eventService,
+      dialog,
+      translateService,
+      bonusTokenService,
+      headerService,
+      composeService,
+      notification,
+      authenticationService
+    );
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
@@ -94,7 +117,16 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     }, 700);
   }
 
+  ngAfterViewInit(){
+    super.ngAfterViewInit();
+  }
+
+  ngOnDestroy(){
+    super.ngOnDestroy();
+  }
+
   ngOnInit() {
+    super.ngOnInit();
     window.scroll(0, 0);
     this.route.params.subscribe(params => {
       this.initializeRoom(params['shortId']);
