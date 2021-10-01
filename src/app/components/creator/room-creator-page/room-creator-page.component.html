@@ -14,7 +14,7 @@
             <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
             <button mat-icon-button
                     class="inline-icon-button"
-                    (click)="roomPageEdit.editSessionName()"
+                    (click)="editSessionName()"
                     aria-labelledby="edit_session_name">
               <mat-icon matTooltip="{{ 'session.edit-session-name' | translate}}">edit</mat-icon>
             </button>
@@ -38,31 +38,31 @@
                   [overlapTrigger]="false"
                   xPosition="before">
           <button mat-menu-item
-                  (click)="roomPageEdit.showSettingsDialog()"
+                  (click)="showSettingsDialog()"
                   aria-labelledby="edit">
             <mat-icon>edit</mat-icon>
             {{ 'room-page.general' | translate}}
           </button>
           <button mat-menu-item
-                  (click)="roomPageEdit.showCommentsDialog()"
+                  (click)="showCommentsDialog()"
                   aria-labelledby="insert_comment">
             <mat-icon>insert_comment</mat-icon>
             {{ 'room-page.comments' | translate}}
           </button>
           <button mat-menu-item
-                  (click)="roomPageEdit.showModeratorsDialog()"
+                  (click)="showModeratorsDialog()"
                   aria-labelledby="person">
             <mat-icon>gavel</mat-icon>
             {{ 'room-page.moderators' | translate}}
           </button>
           <button mat-menu-item
-                  (click)="roomPageEdit.showBonusTokenDialog()"
+                  (click)="showBonusTokenDialog()"
                   aria-labelledby="person">
             <mat-icon class="star">grade</mat-icon>
             {{ 'room-page.bonus-token' | translate}}
           </button>
           <button mat-menu-item
-                  (click)="roomPageEdit.showTagsDialog()"
+                  (click)="showTagsDialog()"
                   aria-labelledby="person">
             <mat-icon svgIcon="comment_tag"></mat-icon>
             {{ 'room-page.tags' | translate}}
