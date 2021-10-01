@@ -105,6 +105,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   isJoyrideActive = false;
   focusCommentId = '';
   activeUsers = 0;
+  commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -557,6 +558,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   setComments(comments: Comment[]) {
+    this.commentsWrittenByUsers.clear();
+    for (const comment of this.comments) {
+      let set = this.commentsWrittenByUsers.get(comment.creatorId);
+      if (!set) {
+        set = new Set<string>();
+        this.commentsWrittenByUsers.set(comment.creatorId, set);
+      }
+      set.add(comment.id);
+    }
     this.commentsFilteredByTime = comments;
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }

@@ -191,7 +191,7 @@ mat-card-content > :first-child {
 .comment-keywords {
   cursor: pointer;
   color: var(--on-surface);
-  margin-left: 10px;
+  margin-right: 25px;
 }
 
 .questioner-name {
@@ -223,13 +223,7 @@ mat-card-content > :first-child {
 }
 
 .keyword-icon {
-  margin-right: -6px;
-}
-
-::ng-deep .keyword-icon {
-  > svg {
-    margin-left: -6px;
-  }
+  margin-right: 2px;
 
   + span {
     transform: scale(1.2);
@@ -243,6 +237,15 @@ mat-card-content > :first-child {
 .user-number {
   cursor: pointer;
   color: var(--on-surface);
+  margin-right: 7px;
+}
+
+.user-number.pin-active {
+  margin-right: 25px;
+
+  > span {
+    transform: scale(1.2);
+  }
 }
 
 .user-number.joyrideActive {
@@ -255,7 +258,7 @@ mat-card-content > :first-child {
 
 
 .user-icon {
-  margin-right: 5px;
+  margin-right: 2px;
   transform: scale(1.3);
 }
 

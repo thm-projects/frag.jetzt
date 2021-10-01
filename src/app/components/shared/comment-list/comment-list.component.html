@@ -274,6 +274,7 @@
                [moderator]="false"
                [user]="user"
                [disabled]="!commentsEnabled"
+               [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
                (clickedOnTag)="clickedOnTag($event)"
                (clickedUserNumber)="clickedUserNumber($event)"
                (clickedOnKeyword)="clickedOnKeyword($event)"
