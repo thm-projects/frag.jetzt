@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../models/user';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -11,16 +11,11 @@ import { Room } from '../../../models/room';
 import { HeaderService } from '../../../services/util/header.service';
 import { RoomService } from '../../../services/http/room.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
-import { RoomPageEdit } from '../../shared/room-page/room-page-edit/room-page-edit';
-import { CommentSettingsDialog } from '../../../models/comment-settings-dialog';
-import { DialogActionButtonsComponent } from '../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { CommentService } from '../../../services/http/comment.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { throwError } from 'rxjs';
-import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 
 @Component({
@@ -28,15 +23,10 @@ import { WsCommentService } from '../../../services/websockets/ws-comment.servic
   templateUrl: './moderator-comment-page.component.html',
   styleUrls: ['./moderator-comment-page.component.scss']
 })
-export class ModeratorCommentPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+export class ModeratorCommentPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
   roomId: string;
   user: User;
   room: Room;
-  onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
-  onAfterViewInitListener: EventEmitter<void> = new EventEmitter<void>();
-  onInitListener: EventEmitter<void> = new EventEmitter<void>();
-  roomPageEdit:RoomPageEdit;
-  viewModuleCount = 1;
 
   listenerFn: () => void;
 
@@ -55,29 +45,6 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
               public commentService:CommentService,
               public bonusTokenService:BonusTokenService,
               public wsCommentService:WsCommentService) {
-    super(roomService, route, location, wsCommentService, commentService, eventService);
-    this.roomPageEdit=new RoomPageEdit(
-      dialog,
-      translationService,
-      notification,
-      roomService,
-      eventService,
-      location,
-      commentService,
-      bonusTokenService,
-      headerService,
-      composeService,
-      authenticationService,
-      route,
-      {
-        onInitListener:this.onInitListener,
-        onAfterViewInitListener:this.onAfterViewInitListener,
-        onDestroyListener:this.onDestroyListener,
-        updateCommentSettings(settings: CommentSettingsDialog){
-          this.updateCommentSettings(settings);
-        }
-      }
-    );
   }
 
   ngAfterContentInit(): void {
@@ -87,7 +54,6 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
   }
 
   ngAfterViewInit(){
-    this.onAfterViewInitListener.emit();
   }
 
   ngOnInit(): void {
@@ -117,26 +83,11 @@ export class ModeratorCommentPageComponent extends RoomPageComponent implements 
         document.getElementById('sort-button').focus();
       }
     });
-    this.onInitListener.emit();
   }
 
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
-    this.onDestroyListener.emit();
-  }
-
-  updateCommentSettings(settings: CommentSettingsDialog){
-    this.room.tags = settings.tags;
-
-    if (this.moderationEnabled && !settings.enableModeration){
-      this.viewModuleCount = this.viewModuleCount - 1;
-    }else if (!this.moderationEnabled && settings.enableModeration){
-      this.viewModuleCount = this.viewModuleCount + 1;
-    }
-
-    this.moderationEnabled = settings.enableModeration;
-    localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
   public announce() {
