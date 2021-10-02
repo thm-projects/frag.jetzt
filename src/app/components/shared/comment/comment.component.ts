@@ -44,6 +44,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() user: User;
   @Input() disabled = false;
   @Input() usesJoyride = false;
+  @Input() commentsWrittenByUser = 1;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
@@ -63,9 +64,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   roleString: string;
   isExpanded = false;
   isExpandable = false;
-  selectedKeyword = '';
   filterProfanityForModerators = false;
-  createdBy;
 
   constructor(protected authenticationService: AuthenticationService,
     private route: ActivatedRoute,

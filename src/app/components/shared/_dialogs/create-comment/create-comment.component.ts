@@ -43,13 +43,14 @@ export class CreateCommentComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  closeDialog(body: string, text: string, tag: string) {
+  closeDialog(body: string, text: string, tag: string, name: string) {
     const comment = new Comment();
     comment.roomId = localStorage.getItem(`roomId`);
     comment.body = body;
     comment.creatorId = this.user.id;
     comment.createdFromLecturer = this.user.role > 0;
     comment.tag = tag;
+    comment.questionerName = name;
     this.isSendingToSpacy = true;
     this.openSpacyDialog(comment, text);
   }

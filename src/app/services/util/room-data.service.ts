@@ -184,11 +184,11 @@ export class RoomDataService {
   }
 
   getUnFilteredBody(id: string): string {
-    return this._savedCommentsBeforeFilter.get(id)[0];
+    return this._savedCommentsBeforeFilter.get(id).body;
   }
 
   getFilteredBody(id: string): string {
-    return this._savedCommentsAfterFilter.get(id)[0];
+    return this._savedCommentsAfterFilter.get(id).body;
   }
 
   getCensoredInformation(comment: Comment): CommentFilterData {
@@ -314,6 +314,7 @@ export class RoomDataService {
     c.userNumber = this.commentService.hashCode(c.creatorId);
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
+    c.questionerName = payload.questionerName;
     this._fastCommentAccess[c.id] = c;
     this._currentComments.push(c);
     this.triggerUpdate(UpdateType.commentStream, {

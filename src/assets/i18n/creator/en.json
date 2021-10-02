@@ -171,9 +171,9 @@
     "send-description": "Send question",
     "tag": "Tag",
     "tag-reset": "Reset",
-    "tag-to-filter": "Click on the question category to filter questions in that category.",
-    "user-number": "Click on the number to filter the questions from this anonymous questioner.",
-    "keywords-per-question": "Click to display the keywords that have been entered for the question.",
+    "tag-to-filter": "Click on the question category to filter all questions in that category.",
+    "user-number": "Click on the pin icon to filter all questions from this questioner.",
+    "keywords-per-question": "Click on the # sign to display the keywords that the questioner has determined or selected from an AI-generated list.",
     "keywords": "Keywords",
     "vote-down": "Vote down",
     "vote-up": "Vote up",
@@ -196,7 +196,8 @@
     "show-comment-with-filter": "Hide vulgar words",
     "show-comment-without-filter": "Show vulgar words",
     "upvote": "upvotes:",
-    "downvote": "downvotes:"
+    "downvote": "downvotes:",
+    "questioner-name": "Self assigned name"
   },
   "content": {
     "abort": "Abort",
@@ -589,5 +590,10 @@
     "bad-spelled": "Spelling too bad",
     "failed": "Error occurred",
     "inline-header": "Ongoing keyword updates"
+  },
+  "write-comment": {
+    "questioner-name": "Your name, if you want ...",
+    "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
+    "name-length-error": "The name must be between 2 and 20 characters."
   }
 }
