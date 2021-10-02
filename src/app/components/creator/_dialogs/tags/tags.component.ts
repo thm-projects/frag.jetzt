@@ -1,10 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { NotificationService } from '../../../../services/util/notification.service';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
-import { EventService } from '../../../../services/util/event.service';
 import { FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
@@ -22,12 +20,8 @@ export class TagsComponent {
   private _closeSubscription: Subscription;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public dialog: MatDialog,
-              public notificationService: NotificationService,
               public translationService: TranslateService,
-              protected langService: LanguageService,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              public eventService: EventService) {
+              protected langService: LanguageService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
     this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
   }

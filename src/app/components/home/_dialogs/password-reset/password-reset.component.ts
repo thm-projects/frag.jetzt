@@ -5,7 +5,6 @@ import { RegisterComponent, validatePassword } from '../register/register.compon
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { EventService } from '../../../../services/util/event.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -39,7 +38,6 @@ export class PasswordResetComponent implements OnInit {
               public notificationService: NotificationService,
               public dialogRef: MatDialogRef<RegisterComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
-              public eventService: EventService,
               private liveAnnouncer: LiveAnnouncer, ) {
   }
 

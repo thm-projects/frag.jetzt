@@ -5,8 +5,7 @@
   <div fxLayout="column">
     <div fxLayout="row">
       <mat-form-field class="input-block">
-        <input (focus)="eventService.makeFocusOnInputTrue()"
-               (blur)="eventService.makeFocusOnInputFalse()"
+        <input appAccessibilityEscapedInput
                matInput
                type="text"
                #tag
