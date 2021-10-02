@@ -6,6 +6,7 @@ import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-p
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tags',
@@ -18,6 +19,7 @@ export class TagsComponent {
   tagFormControl = new FormControl('', [
     Validators.minLength(3), Validators.maxLength(50)
   ]);
+  private _closeSubscription: Subscription;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public dialog: MatDialog,
@@ -27,6 +29,7 @@ export class TagsComponent {
               @Inject(MAT_DIALOG_DATA) public data: any,
               public eventService: EventService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
+    this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
   }
 
   addTag(tag: string) {
@@ -46,19 +49,10 @@ export class TagsComponent {
     this.dialogRef.close(this.tags);
   }
 
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.closeDialog();
-  }
-
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
   buildSaveActionCallback(): () => void {
-    return () => this.closeDialog();
+    return () => {
+      this._closeSubscription.unsubscribe();
+      this.closeDialog();
+    };
   }
 }
