@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,24 +15,26 @@ import { FormControl, Validators } from '@angular/forms';
 export class TagsComponent {
 
   tags: string[];
-
-  tagFormControl = new FormControl('', [Validators.minLength(3), Validators.maxLength(50)]);
-  @ViewChild('tag') redel: ElementRef;
+  tagFormControl = new FormControl('', [
+    Validators.minLength(3), Validators.maxLength(50)
+  ]);
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-    public dialog: MatDialog,
-    public notificationService: NotificationService,
-    public translationService: TranslateService,
-    protected langService: LanguageService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public eventService: EventService) {
-      langService.langEmitter.subscribe(lang => translationService.use(lang));
+              public dialog: MatDialog,
+              public notificationService: NotificationService,
+              public translationService: TranslateService,
+              protected langService: LanguageService,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              public eventService: EventService) {
+    langService.langEmitter.subscribe(lang => translationService.use(lang));
   }
 
   addTag(tag: string) {
-    if (this.tagFormControl.valid && tag.length > 0) {
+    tag = tag.trim();
+    this.tagFormControl.setValue(tag);
+    if (this.tagFormControl.valid && tag.length > 0 && !this.tags.includes(tag)) {
       this.tags.push(tag);
-      this.redel.nativeElement.value = '';
+      this.tagFormControl.setValue('');
     }
   }
 
@@ -49,7 +51,7 @@ export class TagsComponent {
    * Returns a lambda which closes the dialog on call.
    */
   buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
+    return () => this.closeDialog();
   }
 
 
