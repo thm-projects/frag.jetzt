@@ -204,7 +204,7 @@
     "votingTitle": "Eine Frage bewerten",
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Fragenliste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
     "commentFilterTitle": "Fragenliste verwalten",
-    "commentUserNumber": "Alle User stellen ihre Fragen anonym. Jedem User wird eine zufällige Nummer zugewiesen, um alle Fragen dieses Users zu finden. Dies geschieht mit einem Klick auf die Nummer.",
+    "commentUserNumber": "Ein Klick auf das Pin-Icon und es werden dir alle Fragen dieses Users angezeigt.",
     "commentUserNumberTitle": "Fragen eines Users finden"
   },
   "room-page": {
@@ -476,7 +476,7 @@
     "title": "Einführung"
   },
   "write-comment": {
-    "questioner-name": "Dein Name, wenn du willst ...",
+    "questioner-name": "Dein Name, wenn du willst …",
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
   }
