@@ -592,7 +592,7 @@
     "inline-header": "Ongoing keyword updates"
   },
   "write-comment": {
-    "questioner-name": "Your name, if you want ...",
+    "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be between 2 and 20 characters."
   }
