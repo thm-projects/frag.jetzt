@@ -330,8 +330,8 @@
           &nbsp;{{comment.tag}}
         </span>
       </div>
-      <div class="user-number joyrideActive"
-           *ngIf="usesJoyride"
+      <div class="user-number"
+           [ngClass]="{'joyrideActive': usesJoyride, 'pin-active': commentsWrittenByUser > 1}"
            [joyrideStep]="'commentUserNumber'"
            [stepPosition]="'right'"
            appJoyrideTemplate
@@ -339,13 +339,11 @@
            matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.userNumber)">
         <mat-icon class="user-icon">person_pin_circle</mat-icon>
-      </div>
-      <div class="user-number"
-           *ngIf="!usesJoyride"
-           fxLayoutAlign="center center"
-           matTooltip="{{ 'comment-page.user-number' | translate }}"
-           (click)="this.clickedUserNumber.emit(comment.userNumber)">
-        <mat-icon class="user-icon">person_pin_circle</mat-icon>
+        <span *ngIf="commentsWrittenByUser > 1"
+              matBadge="{{commentsWrittenByUser}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+        </span>
       </div>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
