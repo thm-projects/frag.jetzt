@@ -191,9 +191,13 @@ mat-card-content > :first-child {
 .comment-keywords {
   cursor: pointer;
   color: var(--on-surface);
-  margin-left: 10px;
+  margin-right: 25px;
 }
 
+.questioner-name {
+  color: var(--secondary);
+  margin-right: 6px;
+}
 
 ::ng-deep .mat-menu-panel {
   min-height: 56px !important;
@@ -219,16 +223,30 @@ mat-card-content > :first-child {
 }
 
 .keyword-icon {
-  height: 18px !important;
+  margin-right: 2px;
+
+  + span {
+    transform: scale(1.2);
+  }
 }
 
 .mat-badge-content {
-  background: #fb9a1c;
+  background: var(--secondary);
+  color: var(--on-secondary);
 }
 
 .user-number {
   cursor: pointer;
   color: var(--on-surface);
+  margin-right: 7px;
+}
+
+.user-number.pin-active {
+  margin-right: 25px;
+
+  > span {
+    transform: scale(1.2);
+  }
 }
 
 .user-number.joyrideActive {
@@ -241,7 +259,8 @@ mat-card-content > :first-child {
 
 
 .user-icon {
-  margin-right: 5px;
+  margin-right: 2px;
+  transform: scale(1.3);
 }
 
 .voteUp {

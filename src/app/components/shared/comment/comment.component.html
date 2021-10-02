@@ -330,8 +330,8 @@
           &nbsp;{{comment.tag}}
         </span>
       </div>
-      <div class="user-number joyrideActive"
-           *ngIf="usesJoyride"
+      <div class="user-number"
+           [ngClass]="{'joyrideActive': usesJoyride, 'pin-active': commentsWrittenByUser > 1}"
            [joyrideStep]="'commentUserNumber'"
            [stepPosition]="'right'"
            appJoyrideTemplate
@@ -339,19 +339,11 @@
            matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.userNumber)">
         <mat-icon class="user-icon">person_pin_circle</mat-icon>
-        <strong>
-          {{comment.userNumber}}
-        </strong>
-      </div>
-      <div class="user-number"
-           *ngIf="!usesJoyride"
-           fxLayoutAlign="center center"
-           matTooltip="{{ 'comment-page.user-number' | translate }}"
-           (click)="this.clickedUserNumber.emit(comment.userNumber)">
-        <mat-icon class="user-icon">person_pin_circle</mat-icon>
-        <strong>
-          {{comment.userNumber}}
-        </strong>
+        <span *ngIf="commentsWrittenByUser > 1"
+              matBadge="{{commentsWrittenByUser}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+        </span>
       </div>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
@@ -360,10 +352,8 @@
            class="comment-keywords">
         <mat-icon svgIcon="hashtag" class="keyword-icon"></mat-icon>
         <span matBadge="{{comment.keywordsFromQuestioner.length}}" matBadgeSize="small" matBadgeOverlap="false">
-          {{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate) : this.selectedKeyword}}
         </span>
         <mat-menu #keywordsMenu>
-
           <mat-list dense class="keywords-list">
             <mat-list-item
               *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
@@ -376,6 +366,15 @@
       </div>
 
       <span class="fill-remaining-space"></span>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.questioner-name' | translate }}"
+           *ngIf="comment.questionerName"
+           class="questioner-name">
+        <mat-icon>account_circle</mat-icon>
+        <span>
+          &nbsp;{{comment.questionerName}}
+        </span>
+      </div>
       <button mat-icon-button
               class="moderate-button"
               *ngIf="(isCreator || isModerator) && !inAnswerView"

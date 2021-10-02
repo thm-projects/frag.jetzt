@@ -149,9 +149,9 @@
     "send-description": "Frage abschicken",
     "tag": "Tag",
     "tag-reset": "Zurücksetzen",
-    "tag-to-filter": "Klick auf die Fragekategorie, um alle Fragen dieser Kategorie zu filtern.",
-    "user-number": "Klick auf die Nummer, um alle Fragen dieses Fragenstellers zu filtern.",
-    "keywords-per-question": "Klick auf ein Stichwort, um alle Fragen mit diesem Stichwort zu filtern.",
+    "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
+    "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
+    "keywords-per-question": "Klick auf das #-Zeichen, um die  Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
@@ -162,7 +162,8 @@
     "sure": "Bist du sicher?",
     "grammar-check": "Text prüfen",
     "upvote": "positiv:",
-    "downvote": "negativ:"
+    "downvote": "negativ:",
+    "questioner-name": "Selbst vergebener Name"
   },
   "deepl": {
     "header": "Text prüfen",
@@ -473,5 +474,10 @@
     "cancel": "Schließen",
     "cancel-description": "Schließe die Einführung und gehe zurück zur Anmeldung.",
     "title": "Einführung"
+  },
+  "write-comment": {
+    "questioner-name": "Dein Name, wenn du willst ...",
+    "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
+    "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
   }
 }

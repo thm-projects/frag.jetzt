@@ -390,7 +390,7 @@
     "inline-header": "Running keyword updates"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "There are no keywords. The topic cloud will be empty. An AI-based text analysis can generate keywords afterwards. Start analysis?",
+    "info-no-keywords": "An AI-based text analysis can generate keywords afterwards. Start analysis?",
     "label-refresh-keywords-start": "Start"
   }
 }

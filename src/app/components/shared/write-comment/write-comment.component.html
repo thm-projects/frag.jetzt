@@ -50,7 +50,23 @@
                        [isEditor]="true"
                        [maxTextCharacters]="maxTextCharacters"
                        [maxDataCharacters]="maxDataCharacters"
-                       [placeHolderText]="placeholder"></app-view-comment-data>
+                       [placeHolderText]="placeholder">
+</app-view-comment-data>
+<mat-form-field class="questioner-name-input" *ngIf="isQuestionerNameEnabled && enabled">
+  <input (focus)="eventService.makeFocusOnInputTrue()"
+         (blur)="eventService.makeFocusOnInputFalse()"
+         matInput
+         [formControl]="questionerNameFormControl"
+         name="questioner-name"
+         maxlength="20"
+         aria-labelledby="questioner-name"/>
+  <mat-placeholder class="placeholder">{{ 'write-comment.questioner-name' | translate }}</mat-placeholder>
+  <mat-hint align="end"><span aria-hidden="true">{{ questionerNameFormControl.value.length }} / 20</span></mat-hint>
+  <mat-error *ngIf="questionerNameFormControl.hasError('minlength') ||
+                    questionerNameFormControl.hasError('maxlength')">
+    {{ 'write-comment.name-length-error' | translate }}
+  </mat-error>
+</mat-form-field>
 <ars-row ars-flex-box *ngIf="enabled" class="spellcheck">
   <ars-col>
     <button
@@ -77,3 +93,7 @@
     ></app-dialog-action-buttons>
   </ars-col>
 </ars-row>
+
+<div class="visually-hidden">
+  <div id="questioner-name">{{ 'write-comment.a11y-questioner-name' | translate }}</div>
+</div>
