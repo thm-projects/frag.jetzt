@@ -231,7 +231,8 @@ mat-card-content > :first-child {
 }
 
 .mat-badge-content {
-  background: #fb9a1c;
+  background: var(--secondary);
+  color: var(--on-secondary);
 }
 
 .user-number {
