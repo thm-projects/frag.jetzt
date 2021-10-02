@@ -189,7 +189,8 @@ h3 {
 
 ::placeholder {
   color: var(--on-surface);
-  opacity: 1;
+  filter: opacity(0.6);
+  font-style: italic;
 }
 
 .fab-extended {
