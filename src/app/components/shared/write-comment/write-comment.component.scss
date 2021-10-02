@@ -82,6 +82,8 @@ mat-hint {
 
 .placeholder {
   color: var(--on-surface);
+  filter: opacity(0.6);
+  font-style: italic;
 }
 
 .lang-confidence {
