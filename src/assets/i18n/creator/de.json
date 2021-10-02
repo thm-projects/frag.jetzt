@@ -170,9 +170,9 @@
     "send-description": "Frage abschicken",
     "tag": "Tag",
     "tag-reset": "Zurücksetzen",
-    "tag-to-filter": "Klick auf die Fragekategorie, um Fragen dieser Kategorie zu filtern.",
-    "user-number": "Klick auf die Nummer, um die Fragen dieses anonymen Fragenstellers zu filtern.",
-    "keywords-per-question": "Klick auf die Keywords, um die Keywords anzuzeigen die für die Frage hinterlegt wurden.",
+    "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
+    "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
+    "keywords-per-question": "Klick auf das #-Zeichen, um die  Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
@@ -196,7 +196,7 @@
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv:",
     "downvote": "negativ:",
-    "questioner-name": "Name des Fragenstellers"
+    "questioner-name": "Selbst vergebener Name"
   },
   "content": {
     "abort": "Abbrechen",
@@ -355,7 +355,7 @@
     "settings-direct-send": "Alle Fragen veröffentlichen",
     "settings-direct-send-description": "Jede Frage wird sofort veröffentlicht. Schalte diese Option ab, wenn du jede Frage einzeln freigeben willst.",
     "sure": "Bist du sicher?",
-    "tag-new": "Neue Fragekategorie:",
+    "tag-new": "Neue Fragenkategorie:",
     "tag-error": "Muss zwischen 3 und 30 Zeichen lang sein",
     "tags": "Kategorien",
     "threshold": "Schwellenwert der Freigabe",

@@ -105,7 +105,7 @@
     "bonustoken": "Bonus-Archiv",
     "edit-moderator": "Moderatoren",
     "edit-session-description": "Begrüßungstext",
-    "edit-tags": "Fragen-Kategorien",
+    "edit-tags": "Fragenkategorien",
     "profanity-filter": "Vulgäre Wörter ausixen",
     "export-questions": "Fragen speichern",
     "delete-questions": "Fragen löschen",
@@ -119,7 +119,7 @@
     "questionwall": "Präsentation",
     "tag-cloud": "Themenwolke",
     "fullscreen": "Vollbild & Textgröße",
-    "motd": "News & FAQ",
+    "motd": "News",
     "tag-cloud-config": "Aussehen & Animation",
     "tag-cloud-administration": "Einstellungen & Suche",
     "questions-blocked": "Neue Fragen deaktiviert ",
@@ -388,7 +388,7 @@
     "inline-header": "Laufende Stichwort-Aktualisierungen"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "Es gibt keine Stichwörter. Die Themenwolke wird leer sein. Eine KI-basierte Textanalyse kann Stichwörter nachträglich erzeugen. Analyse starten?",
+    "info-no-keywords": "Eine KI-basierte Textanalyse kann Stichwörter nachträglich erzeugen. Analyse starten?",
     "label-refresh-keywords-start": "Starten"
   }
 }
