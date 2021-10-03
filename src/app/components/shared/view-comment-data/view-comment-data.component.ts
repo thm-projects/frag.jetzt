@@ -19,6 +19,8 @@ import { QuillInputDialogComponent } from '../_dialogs/quill-input-dialog/quill-
 import { Marks } from './view-comment-data.marks';
 import { LanguagetoolResult } from '../../../services/http/languagetool.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
+import { EventService } from '../../../services/util/event.service';
 
 Quill.register('modules/imageResize', ImageResize);
 
@@ -64,6 +66,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   constructor(private languageService: LanguageService,
               private translateService: TranslateService,
               private deviceInfo: DeviceInfoService,
+              private eventService: EventService,
               private dialog: MatDialog) {
     this.languageService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -169,6 +172,10 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         elem.addEventListener('paste', (e) => {
           setTimeout(this.cleanContentOnPaste.bind(this));
         });
+        new AccessibilityEscapedInputDirective(
+          new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
+          this.eventService
+        ).ngAfterViewInit();
         this.overrideQuillTooltip();
         this.syncErrorLayer();
         setTimeout(() => {

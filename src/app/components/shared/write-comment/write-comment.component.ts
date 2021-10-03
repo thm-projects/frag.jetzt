@@ -3,7 +3,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Language, LanguagetoolResult, LanguagetoolService } from '../../../services/http/languagetool.service';
 import { Comment } from '../../../models/comment';
 import { NotificationService } from '../../../services/util/notification.service';
-import { EventService } from '../../../services/util/event.service';
 import { LanguageService } from '../../../services/util/language.service';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { DeepLService, SourceLang, TargetLang } from '../../../services/http/deep-l.service';
@@ -51,7 +50,6 @@ export class WriteCommentComponent implements OnInit {
   constructor(private notification: NotificationService,
               private languageService: LanguageService,
               private translateService: TranslateService,
-              public eventService: EventService,
               public languagetoolService: LanguagetoolService,
               private deeplService: DeepLService,
               private dialog: MatDialog) {

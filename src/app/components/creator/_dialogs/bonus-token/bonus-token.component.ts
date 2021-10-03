@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
-import { EventService } from '../../../../services/util/event.service';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 
 @Component({
@@ -31,7 +30,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
-              public eventService: EventService,
               protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private translationService: TranslateService,

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Room } from '../../../../models/room';
 import { FormControl, Validators } from '@angular/forms';
-import { EventService } from '../../../../services/util/event.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { RoomService } from '../../../../services/http/room.service';
@@ -19,7 +18,6 @@ export class RoomNameSettingsComponent implements OnInit {
   ]);
 
   constructor(private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              public eventService: EventService,
               private roomService: RoomService) {
   }
 

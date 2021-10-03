@@ -3,8 +3,7 @@
       fxLayoutAlign="space-around"
       fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input (focus)="eventService.makeFocusOnInputTrue()"
-           (blur)="eventService.makeFocusOnInputFalse()"
+    <input appAccessibilityEscapedInput
            matInput
            #userActivationKey
            type="text"

@@ -53,8 +53,7 @@
                        [placeHolderText]="placeholder">
 </app-view-comment-data>
 <mat-form-field class="questioner-name-input" *ngIf="isQuestionerNameEnabled && enabled">
-  <input (focus)="eventService.makeFocusOnInputTrue()"
-         (blur)="eventService.makeFocusOnInputFalse()"
+  <input appAccessibilityEscapedInput
          matInput
          [formControl]="questionerNameFormControl"
          name="questioner-name"

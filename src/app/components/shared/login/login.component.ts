@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Inject } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -9,7 +9,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { UserActivationComponent } from '../../home/_dialogs/user-activation/user-activation.component';
 import { PasswordResetComponent } from '../../home/_dialogs/password-reset/password-reset.component';
 import { RegisterComponent } from '../../home/_dialogs/register/register.component';
-import { EventService } from '../../../services/util/event.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 export class LoginErrorStateMatcher implements ErrorStateMatcher {
@@ -45,7 +44,6 @@ export class LoginComponent implements OnInit, OnChanges {
     private translationService: TranslateService,
     public notificationService: NotificationService,
     public dialog: MatDialog,
-    public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
   }

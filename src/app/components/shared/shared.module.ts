@@ -55,6 +55,7 @@ import { DeepLDialogComponent } from './_dialogs/deep-ldialog/deep-ldialog.compo
 import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explanation-dialog.component';
 import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
+import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
 
 @NgModule({
   imports: [
@@ -115,7 +116,8 @@ import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/wor
     DeepLDialogComponent,
     ExplanationDialogComponent,
     QuillInputDialogComponent,
-    WorkerConfigDialogComponent
+    WorkerConfigDialogComponent,
+    AccessibilityEscapedInputDirective
   ],
   exports: [
     RoomJoinComponent,
@@ -140,7 +142,8 @@ import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/wor
     CustomMarkdownComponent,
     ScrollIntoViewDirective,
     ViewCommentDataComponent,
-    WriteCommentComponent
+    WriteCommentComponent,
+    AccessibilityEscapedInputDirective
   ]
 })
 export class SharedModule {

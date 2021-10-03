@@ -2,8 +2,7 @@
 <div mat-dialog-content
      *ngIf="editRoom">
   <mat-form-field class="input-block">
-    <input (focus)="eventService.makeFocusOnInputTrue()"
-           (blur)="eventService.makeFocusOnInputFalse()"
+    <input appAccessibilityEscapedInput
            matInput
            [formControl]="roomNameFormControl"
            name="room-name"
