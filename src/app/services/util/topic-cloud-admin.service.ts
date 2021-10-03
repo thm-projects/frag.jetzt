@@ -17,7 +17,12 @@ import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { RoomDataService } from './room-data.service';
 
-export const regexMaskKeyword = /\b(frage|antwort|aufgabe|hallo|test|bzw|muss|more to come)\b/gmi;
+const words = [
+  'frage', 'antwort', 'aufgabe', 'hallo', 'test', 'bzw', 'bzw.', 'muss', 'more to come', 'mal', 'zb', 'zb\\.',
+  'z\\.\\s*b\\.', 'zum beispiel', 'beispiel', 'jeder?', 'jede/r', 'bisschen', 'bißchen', 'okay', 'ok', 'o.k.', '…',
+  '\\\\', '\\/', 'pädagogik', 'medienpädagogik', '\\(medien-?\\)pädagogik'
+];
+export const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b', 'gmi');
 
 @Injectable({
   providedIn: 'root',
