@@ -5,8 +5,7 @@
   <div *ngIf="bonusTokens.length >= 1">
     <div class="validator">
       <mat-form-field>
-        <input (focus)="eventService.makeFocusOnInputTrue()"
-               (blur)="eventService.makeFocusOnInputFalse()"
+        <input appAccessibilityEscapedInput
                (keyup)="inputChanged($event)"
                (input)="inputChanged($event)"
                matInput

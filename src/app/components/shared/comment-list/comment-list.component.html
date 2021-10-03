@@ -16,8 +16,7 @@
              fxLayoutAlign="center center">
     <mat-icon class="search-icon">search</mat-icon>
   </mat-label>
-  <input (focus)="eventService.makeFocusOnInputTrue()"
-         (blur)="eventService.makeFocusOnInputFalse()"
+  <input appAccessibilityEscapedInput
          #searchBox
          id="searchBox"
          [ngClass]="{'desktop-input': deviceType === 'desktop',

@@ -2,7 +2,7 @@
 <form (ngSubmit)="register(userName.value, userPassword1.value)" fxLayout="column"
       fxLayoutAlign="space-around" fxLayoutGap="10px">
   <mat-form-field class="input-block">
-    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+    <input appAccessibilityEscapedInput
            matInput type="email" #userName [formControl]="usernameFormControl"
            [errorStateMatcher]="matcher" aria-labelledby="register-email-description"/>
     <mat-placeholder class="placeholder">{{ 'register.email' | translate }}</mat-placeholder>
@@ -15,7 +15,7 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+    <input appAccessibilityEscapedInput
            matInput type="email" #userName2 [formControl]="username2FormControl"
            [errorStateMatcher]="matcher" aria-labelledby="register-email-description-repeat"/>
     <mat-placeholder class="placeholder">{{ 'register.email-verify' | translate }}</mat-placeholder>
@@ -25,7 +25,7 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+    <input appAccessibilityEscapedInput
            matInput type="password" #userPassword1
            [formControl]="password1FormControl" [errorStateMatcher]="matcher"
            aria-labelledby="register-password-description">
@@ -36,7 +36,7 @@
   </mat-form-field>
 
   <mat-form-field class="input-block">
-    <input (focus)="eventService.makeFocusOnInputTrue()" (blur)="eventService.makeFocusOnInputFalse()"
+    <input appAccessibilityEscapedInput
            matInput type="password" #userPassword2
            [formControl]="password2FormControl" [errorStateMatcher]="matcher"
            aria-labelledby="register-password-description-repeat">

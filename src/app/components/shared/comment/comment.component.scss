@@ -240,10 +240,6 @@ mat-card-content > :first-child {
 .user-number {
   cursor: pointer;
   color: var(--on-surface);
-  margin-right: 7px;
-}
-
-.user-number.pin-active {
   margin-right: 25px;
 
   > span {

@@ -1,11 +1,10 @@
-import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { NotificationService } from '../../../../services/util/notification.service';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
-import { EventService } from '../../../../services/util/event.service';
 import { FormControl, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tags',
@@ -15,24 +14,24 @@ import { FormControl, Validators } from '@angular/forms';
 export class TagsComponent {
 
   tags: string[];
-
-  tagFormControl = new FormControl('', [Validators.minLength(3), Validators.maxLength(50)]);
-  @ViewChild('tag') redel: ElementRef;
+  tagFormControl = new FormControl('', [
+    Validators.minLength(3), Validators.maxLength(50)
+  ]);
+  private _closeSubscription: Subscription;
 
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-    public dialog: MatDialog,
-    public notificationService: NotificationService,
-    public translationService: TranslateService,
-    protected langService: LanguageService,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public eventService: EventService) {
-      langService.langEmitter.subscribe(lang => translationService.use(lang));
+              public translationService: TranslateService,
+              protected langService: LanguageService) {
+    langService.langEmitter.subscribe(lang => translationService.use(lang));
+    this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
   }
 
   addTag(tag: string) {
-    if (this.tagFormControl.valid && tag.length > 0) {
+    tag = tag.trim();
+    this.tagFormControl.setValue(tag);
+    if (this.tagFormControl.valid && tag.length > 0 && !this.tags.includes(tag)) {
       this.tags.push(tag);
-      this.redel.nativeElement.value = '';
+      this.tagFormControl.setValue('');
     }
   }
 
@@ -44,19 +43,10 @@ export class TagsComponent {
     this.dialogRef.close(this.tags);
   }
 
-
-  /**
-   * Returns a lambda which closes the dialog on call.
-   */
-  buildCloseDialogActionCallback(): () => void {
-    return () => this.dialogRef.close('abort');
-  }
-
-
-  /**
-   * Returns a lambda which executes the dialog dedicated action on call.
-   */
   buildSaveActionCallback(): () => void {
-    return () => this.closeDialog();
+    return () => {
+      this._closeSubscription.unsubscribe();
+      this.closeDialog();
+    };
   }
 }

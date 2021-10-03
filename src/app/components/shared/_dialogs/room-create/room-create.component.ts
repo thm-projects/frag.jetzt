@@ -7,7 +7,6 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
-import { EventService } from '../../../../services/util/event.service';
 import { User } from '../../../../models/user';
 
 @Component({
@@ -33,7 +32,6 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private authenticationService: AuthenticationService,
-    public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
   }

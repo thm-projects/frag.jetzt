@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { RegisterComponent } from './components/home/_dialogs/register/register.component';
 import { PasswordResetComponent } from './components/home/_dialogs/password-reset/password-reset.component';
@@ -55,9 +55,7 @@ import { OverlayComponent } from './components/home/_dialogs/overlay/overlay.com
 import { DemoDeComponent } from '../assets/i18n/demo/demo-de';
 import { DemoEnComponent } from '../assets/i18n/demo/demo-en';
 import { ArsModule } from '../../projects/ars/src/lib/ars.module';
-import { QrCodeDialogComponent } from './components/shared/_dialogs/qr-code-dialog/qr-code-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
-import { RemoveFromHistoryComponent } from './components/shared/_dialogs/remove-from-history/remove-from-history.component';
 import { MatomoModule } from 'ngx-matomo-v9';
 import { TagCloudModule } from 'angular-tag-cloud-module';
 import { SpacyService } from './services/http/spacy.service';

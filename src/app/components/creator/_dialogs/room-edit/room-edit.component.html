@@ -5,8 +5,7 @@
 
   <div fxLayout="column">
     <mat-form-field class="input-block">
-      <input (focus)="eventService.makeFocusOnInputTrue()"
-             (blur)="eventService.makeFocusOnInputFalse()"
+      <input appAccessibilityEscapedInput
              [(ngModel)]="editRoom.name"
              matInput
              [formControl]="roomNameFormControl"
@@ -26,8 +25,7 @@
       <mat-tab label="{{'room-page.description' | translate}}">
         <mat-form-field class="input-block">
       <textarea
-        (focus)="eventService.makeFocusOnInputTrue()"
-        (blur)="eventService.makeFocusOnInputFalse()"
+        appAccessibilityEscapedInput
         [(ngModel)]="editRoom.description"
         matInput
         matTextareaAutosize
