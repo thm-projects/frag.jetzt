@@ -15,7 +15,7 @@ export class TagsComponent {
 
   tags: string[];
   tagFormControl = new FormControl('', [
-    Validators.minLength(3), Validators.maxLength(50)
+    Validators.minLength(3), Validators.maxLength(20)
   ]);
   private _closeSubscription: Subscription;
 

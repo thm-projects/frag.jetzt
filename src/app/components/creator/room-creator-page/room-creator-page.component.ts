@@ -174,14 +174,14 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       e.altToggle(
         {
           translate:this.headerService.getTranslate(),
-          text:'header.unlock',
+          text:'header.block',
           icon:'block',
           iconColor:Palette.RED,
           color:Palette.RED
         },
         {
           translate:this.headerService.getTranslate(),
-          text:'header.block',
+          text:'header.unlock',
           icon:'block',
           iconColor:Palette.RED
         },
