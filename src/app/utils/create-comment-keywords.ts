@@ -16,10 +16,32 @@ export class CreateCommentKeywords {
         const hasLessMistakes = (result.matches.length * 100) / wordCount <= 20;
         return {
           isAcceptable: hasConfidence && hasLessMistakes,
-          text,
+          text: this.escapeForSpacy(text),
           result
         };
       })
     );
+  }
+
+  private static escapeForSpacy(text: string) {
+    const upperText = text.toUpperCase();
+    const regex = /\s+|$/gmi;
+    let m: RegExpExecArray;
+    let result = '';
+    let lastAddedIndex = 0;
+    while ((m = regex.exec(upperText)) !== null) {
+      const str = text.substring(lastAddedIndex, m.index);
+      if (m.index - lastAddedIndex >= 2 && str === upperText.substring(lastAddedIndex, m.index)) {
+        result += str.toLowerCase();
+      } else {
+        result += str;
+      }
+      result += text.substring(m.index, regex.lastIndex);
+      lastAddedIndex = regex.lastIndex;
+      if (regex.lastIndex === m.index) {
+        regex.lastIndex++;
+      }
+    }
+    return result;
   }
 }
