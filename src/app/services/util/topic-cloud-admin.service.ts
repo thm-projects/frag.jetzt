@@ -20,7 +20,7 @@ import { RoomDataService } from './room-data.service';
 const words = [
   'frage', 'antwort', 'aufgabe', 'hallo', 'test', 'bzw', 'bzw.', 'muss', 'more to come', 'mal', 'zb', 'zb\\.',
   'z\\.\\s*b\\.', 'zum beispiel', 'beispiel', 'jeder?', 'jede/r', 'bisschen', 'bißchen', 'okay', 'ok', 'o.k.', '…',
-  '\\\\', '\\/', '(medien-)?pädagogik'
+  '\\\\', '\\/'
 ];
 export const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b', 'gmi');
 

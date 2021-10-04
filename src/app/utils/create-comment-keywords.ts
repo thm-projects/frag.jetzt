@@ -30,6 +30,11 @@ export class CreateCommentKeywords {
   }
 
   private static escapeForSpacy(text: string): string {
+    text = this.makeCapslockLowercase(text);
+    return text.replace(/\(([^-\s)]+-)\)([^\s]+)/gmi, '$1$2');
+  }
+
+  private static makeCapslockLowercase(text: string): string {
     const upperText = text.toUpperCase();
     const regex = /\s+|$/gmi;
     let m: RegExpExecArray;
