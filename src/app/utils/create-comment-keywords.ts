@@ -3,9 +3,15 @@ import { map } from 'rxjs/operators';
 
 export class CreateCommentKeywords {
 
-  static isKeywordAcceptable(keyword: string) {
+  static isKeywordAcceptable(keyword: string): boolean {
     const regex = /(^[ -@\[-`{-~]+$)/g;
     return keyword.match(regex) === null && keyword.length > 2;
+  }
+
+  static removeMarkdown(text: string): string {
+    return text.replace(/([*_~]+(?=[^*_~\s]))|(^[ \t]*#+ )|(^[ \t]*>[> ]*)|(`+)/gm, '')
+      .replace(/([^*_~\s])[*_~]+/gm, '$1')
+      .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
   }
 
   static isSpellingAcceptable(languagetoolService: LanguagetoolService, text: string, language: Language = 'auto') {
@@ -23,7 +29,7 @@ export class CreateCommentKeywords {
     );
   }
 
-  private static escapeForSpacy(text: string) {
+  private static escapeForSpacy(text: string): string {
     const upperText = text.toUpperCase();
     const regex = /\s+|$/gmi;
     let m: RegExpExecArray;

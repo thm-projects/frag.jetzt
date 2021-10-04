@@ -8,6 +8,7 @@ import { ExplanationDialogComponent } from '../explanation-dialog/explanation-di
 import { DeepLService, FormalityType, TargetLang } from '../../../../services/http/deep-l.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 
 interface ResultValue {
   body: string;
@@ -48,7 +49,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     const delta = ViewCommentDataComponent.getDeltaFromData(body);
     const xml = delta.ops.reduce((acc, e, i) => {
       if (typeof e['insert'] === 'string' && e['insert'].trim().length) {
-        acc += '<x i="' + i + '">' + this.encodeHTML(e['insert']) + '</x>';
+        acc += '<x i="' + i + '">' + this.encodeHTML(CreateCommentKeywords.removeMarkdown(e['insert'])) + '</x>';
         e['insert'] = '';
       }
       return acc;
