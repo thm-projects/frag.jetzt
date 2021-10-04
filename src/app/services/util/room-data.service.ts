@@ -89,6 +89,8 @@ interface CommentFilterData {
   genKeywordsCensored?: boolean[];
   userKeywords: SpacyKeyword[];
   userKeywordsCensored?: boolean[];
+  questionerName: string;
+  questionerNameCensored?: boolean;
 }
 
 @Injectable({
@@ -152,43 +154,47 @@ export class RoomDataService {
     return tempSubject.asObservable();
   }
 
-  public checkProfanity(comment: Comment) {
-    const finish = new Subject<boolean>();
-    const subscription = finish.asObservable().subscribe(_ => {
-      let obj;
-      if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
-        obj = this._savedCommentsAfterFilter.get(comment.id);
-      } else {
-        obj = this._savedCommentsBeforeFilter.get(comment.id);
-      }
-      comment.body = obj.body;
-      comment.keywordsFromSpacy = obj.genKeywords;
-      comment.keywordsFromQuestioner = obj.userKeywords;
-      subscription.unsubscribe();
-    });
-
+  public checkProfanity(comment: Comment): Observable<boolean> {
+    const subject = new BehaviorSubject<boolean>(null);
     if (!this._savedCommentsAfterFilter.get(comment.id) || !this.room) {
       if (!this.room) {
         this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
           this.room = room;
           this.setCommentBody(comment);
-          finish.next(true);
+          this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
+          subject.next(this.isCommentProfane(comment));
         });
       } else {
         this.setCommentBody(comment);
-        finish.next(true);
+        this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
+        subject.next(this.isCommentProfane(comment));
       }
     } else {
-      finish.next(true);
+      this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
+      subject.next(this.isCommentProfane(comment));
     }
+    return subject;
   }
 
-  getUnFilteredBody(id: string): string {
-    return this._savedCommentsBeforeFilter.get(id).body;
+  applyStateToComment(comment: Comment, beforeFilter: boolean) {
+    let data: CommentFilterData;
+    if (beforeFilter) {
+      data = this._savedCommentsBeforeFilter.get(comment.id);
+    } else {
+      data = this._savedCommentsAfterFilter.get(comment.id);
+    }
+    comment.body = data.body;
+    comment.keywordsFromSpacy = data.genKeywords;
+    comment.keywordsFromQuestioner = data.userKeywords;
+    comment.questionerName = data.questionerName;
   }
 
-  getFilteredBody(id: string): string {
-    return this._savedCommentsAfterFilter.get(id).body;
+  isCommentProfane(comment: Comment): boolean {
+    const data = this._savedCommentsAfterFilter.get(comment.id);
+    return data.bodyCensored ||
+      data.questionerNameCensored ||
+      data.userKeywordsCensored.some(e => e) ||
+      data.genKeywordsCensored.some(e => e);
   }
 
   getCensoredInformation(comment: Comment): CommentFilterData {
@@ -201,7 +207,8 @@ export class RoomDataService {
     this._savedCommentsBeforeFilter.set(comment.id, {
       body: comment.body,
       genKeywords,
-      userKeywords
+      userKeywords,
+      questionerName: comment.questionerName
     });
     this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
   }
@@ -226,13 +233,17 @@ export class RoomDataService {
       .checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language);
     const [userKeywords, userKeywordsCensored] = this
       .checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language);
+    const [questionerName, questionerNameCensored] = this.profanityFilterService
+      .filterProfanityWords(comment.questionerName, partialWords, languageSpecific, comment.language);
     return {
       body,
       bodyCensored,
       genKeywords,
       genKeywordsCensored,
       userKeywords,
-      userKeywordsCensored
+      userKeywordsCensored,
+      questionerName,
+      questionerNameCensored
     };
   }
 
