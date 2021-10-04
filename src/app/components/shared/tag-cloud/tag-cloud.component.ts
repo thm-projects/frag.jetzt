@@ -69,7 +69,9 @@ class TagComment implements CloudData {
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
-const maskedCharsRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|(\s(lu|li’u)(?=\s))|(^lu\s)|(\sli’u$)/gm;
+const maskedCharRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|(\s(lu|li’u)(?=\s))|(^lu\s)|(\sli’u$)/;
+const httpRegex = /(https?:[^\s](\s|$))/;
+const hidelist = new RegExp(maskedCharRegex.source + '|' + httpRegex.source, 'gmi');
 
 const CONDITION_ROOM = 0;
 const CONDITION_BUILT = 1;
@@ -318,7 +320,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          const filteredTag = tag.replace(maskedCharsRegex, '')
+          const filteredTag = tag.replace(hidelist, '')
             .replace(regexMaskKeyword, '').replace(/ +/, ' ').trim();
           newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
         }
