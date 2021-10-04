@@ -77,7 +77,7 @@ export class ProfanityFilterService {
       profWords = this.profanityWords;
     }
     const list = profWords.concat(this.getProfanityListFromStorage());
-    if (list.length < 1) {
+    if (list.length < 1 || !str) {
       return [str, false];
     }
     const escapeRegex = /[.*+\-?^${}()|\[\]\\]/g;
