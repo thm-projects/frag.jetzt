@@ -49,9 +49,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();
   @Output() votedComment = new EventEmitter<string>();
-  @ViewChild('commentBody', { static: true })commentBody: RowComponent;
-  @ViewChild('commentBodyInner', { static: true })commentBodyInner: RowComponent;
-  @ViewChild('commentExpander', { static: true })commentExpander: RowComponent;
+  @ViewChild('commentBody', { static: true }) commentBody: RowComponent;
+  @ViewChild('commentBodyInner', { static: true }) commentBodyInner: RowComponent;
+  @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
   isStudent = false;
   isCreator = false;
   isModerator = false;
@@ -65,21 +65,22 @@ export class CommentComponent implements OnInit, AfterViewInit {
   isExpanded = false;
   isExpandable = false;
   filterProfanityForModerators = false;
+  isProfanity = false;
 
   constructor(protected authenticationService: AuthenticationService,
-    private route: ActivatedRoute,
-    private location: Location,
-    protected router: Router,
-    private commentService: CommentService,
-    private notification: NotificationService,
-    private translateService: TranslateService,
-    private roomDataService: RoomDataService,
-    public dialog: MatDialog,
-    protected langService: LanguageService) {
+              private route: ActivatedRoute,
+              private location: Location,
+              protected router: Router,
+              private commentService: CommentService,
+              private notification: NotificationService,
+              private translateService: TranslateService,
+              private roomDataService: RoomDataService,
+              public dialog: MatDialog,
+              protected langService: LanguageService) {
     langService.langEmitter.subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
-      } );
+    });
   }
 
   ngOnInit() {
@@ -103,22 +104,19 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.inAnswerView = !this.router.url.includes('comments');
   }
 
-  checkProfanity(){
+  checkProfanity() {
     if (!this.router.url.includes('moderator/comments')) {
-      this.roomDataService.checkProfanity(this.comment);
+      const subscription = this.roomDataService.checkProfanity(this.comment).subscribe(e => {
+        if (e !== null) {
+          this.isProfanity = e;
+          subscription.unsubscribe();
+        }
+      });
     }
   }
 
   changeProfanityShowForModerators(comment: Comment) {
-    let newBody: string;
-    if (this.filterProfanityForModerators) {
-      newBody = this.roomDataService.getFilteredBody(comment.id);
-    } else {
-      newBody = this.roomDataService.getUnFilteredBody(comment.id);
-    }
-    if (newBody) {
-      comment.body = newBody;
-    }
+    this.roomDataService.applyStateToComment(comment, !this.filterProfanityForModerators);
     this.filterProfanityForModerators = !this.filterProfanityForModerators;
   }
 
@@ -132,18 +130,18 @@ export class CommentComponent implements OnInit, AfterViewInit {
     }
   }
 
-  sortKeywords(keywords: SpacyKeyword[]){
-    return keywords.sort((a,b) => a.text.localeCompare(b.text));
+  sortKeywords(keywords: SpacyKeyword[]) {
+    return keywords.sort((a, b) => a.text.localeCompare(b.text));
   }
 
   toggleExpand(evt: MouseEvent) {
     this.isExpanded = !this.isExpanded;
     if (this.isExpanded) {
       this.commentBody.setPx(this.commentBodyInner.getRenderedHeight());
-    this.commentBody.setOverflow('visible');
+      this.commentBody.setOverflow('visible');
     } else {
       this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
-    this.commentBody.setOverflow('hidden');
+      this.commentBody.setOverflow('hidden');
     }
   }
 
@@ -166,11 +164,11 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   markCorrect(comment: Comment, type: CorrectWrong): void {
-      if (comment.correct === type) {
-        comment.correct = CorrectWrong.NULL;
-      } else {
-        comment.correct = type;
-      }
+    if (comment.correct === type) {
+      comment.correct = CorrectWrong.NULL;
+    } else {
+      comment.correct = type;
+    }
     this.commentService.markCorrect(comment).subscribe(c => {
       this.comment = c;
       this.checkProfanity();
@@ -218,18 +216,18 @@ export class CommentComponent implements OnInit, AfterViewInit {
       width: '400px'
     });
     dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.delete();
-        }
-      });
+        .subscribe(result => {
+          if (result === 'delete') {
+            this.delete();
+          }
+        });
   }
 
   resetVotingAnimation() {
     setTimeout(() => {
-        this.currentVote = '';
-      },
-      1000);
+          this.currentVote = '';
+        },
+        1000);
   }
 
   answerComment() {
@@ -289,17 +287,17 @@ export class CommentComponent implements OnInit, AfterViewInit {
     });
     dialogRef.componentInstance.body = comment.body;
     dialogRef.afterClosed()
-      .subscribe(result => {
-        this.commentService.lowlight(comment).subscribe();
-        this.exitFullScreen();
+        .subscribe(result => {
+          this.commentService.lowlight(comment).subscribe();
+          this.exitFullScreen();
 
-      });
+        });
   }
 
   openBonusStarDialog() {
-      const dialogRef = this.dialog.open(UserBonusTokenComponent, {
-        width: '600px'
-      });
-      dialogRef.componentInstance.userId = this.user.id;
+    const dialogRef = this.dialog.open(UserBonusTokenComponent, {
+      width: '600px'
+    });
+    dialogRef.componentInstance.userId = this.user.id;
   }
 }
