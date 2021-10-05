@@ -6,9 +6,12 @@ import { NotificationService } from '../../../services/util/notification.service
 import { LanguageService } from '../../../services/util/language.service';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { DeepLService, SourceLang, TargetLang } from '../../../services/http/deep-l.service';
-import { DeepLDialogComponent } from '../_dialogs/deep-ldialog/deep-ldialog.component';
+import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep-ldialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
+
+type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
+                       verifiedWithoutDeepl?: boolean) => any;
 
 @Component({
   selector: 'app-write-comment',
@@ -22,7 +25,8 @@ export class WriteCommentComponent implements OnInit {
   @Input() isModerator = false;
   @Input() tags: string[];
   @Input() onClose: () => any;
-  @Input() onSubmit: (commentData: string, commentText: string, selectedTag: string, name?: string) => any;
+  @Input() onSubmit: SubmitFunction;
+  @Input() onDeeplSubmit: SubmitFunction;
   @Input() isSpinning = false;
   @Input() disableCancelButton = false;
   @Input() confirmLabel = 'save';
@@ -46,6 +50,7 @@ export class WriteCommentComponent implements OnInit {
   questionerNameFormControl = new FormControl('', [
     Validators.minLength(2), Validators.maxLength(20)
   ]);
+  private _wasVerifiedWithoutDeepl = false;
 
   constructor(private notification: NotificationService,
               private languageService: LanguageService,
@@ -75,8 +80,8 @@ export class WriteCommentComponent implements OnInit {
     return () => this.onClose();
   }
 
-  buildCreateCommentActionCallback(): () => void {
-    if (!this.onSubmit) {
+  buildCreateCommentActionCallback(func: SubmitFunction): () => void {
+    if (!func) {
       return undefined;
     }
     return () => {
@@ -88,7 +93,8 @@ export class WriteCommentComponent implements OnInit {
       }
       if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
         this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed) {
-        this.onSubmit(this.commentData.currentData, this.commentData.currentText, this.selectedTag, this.questionerNameFormControl.value);
+        func(this.commentData.currentData, this.commentData.currentText, this.selectedTag,
+          this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
       }
     };
   }
@@ -121,12 +127,13 @@ export class WriteCommentComponent implements OnInit {
       }
       const previous = this.commentData.currentData;
       this.openDeeplDialog(previous, rawText, wordsCheck,
-        (data: string, text: string, view: ViewCommentDataComponent) => {
-          if (view === this.commentData) {
+        (selected) => {
+          if (selected.view === this.commentData) {
+            this._wasVerifiedWithoutDeepl = true;
             this.commentData.buildMarks(rawText, wordsCheck);
           } else {
-            this.commentData.currentData = data;
-            this.commentData.copyMarks(view);
+            this.commentData.currentData = selected.body;
+            this.commentData.copyMarks(selected.view);
           }
         });
     }, () => {
@@ -145,7 +152,7 @@ export class WriteCommentComponent implements OnInit {
   private openDeeplDialog(body: string,
                           text: string,
                           result: LanguagetoolResult,
-                          onClose: (data: string, text: string, view: ViewCommentDataComponent) => void) {
+                          onClose: (selected: ResultValue) => void) {
     let target = TargetLang.EN_US;
     const code = result.language.detectedLanguage.code.toUpperCase().split('-')[0];
     const source = code in SourceLang ? SourceLang[code] : null;
@@ -156,10 +163,10 @@ export class WriteCommentComponent implements OnInit {
       .subscribe(([improvedBody, improvedText]) => {
         this.isSpellchecking = false;
         if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
-          onClose(body, text, this.commentData);
+          onClose({ body, text, view: this.commentData });
           return;
         }
-        this.dialog.open(DeepLDialogComponent, {
+        const instance = this.dialog.open(DeepLDialogComponent, {
           width: '900px',
           maxWidth: '100%',
           data: {
@@ -175,14 +182,17 @@ export class WriteCommentComponent implements OnInit {
             target: DeepLService.transformSourceToTarget(source),
             usedTarget: target
           }
-        }).afterClosed().subscribe((val) => {
+        });
+        instance.afterClosed().subscribe((val) => {
           if (val) {
-            this.buildCreateCommentActionCallback()();
+            this.buildCreateCommentActionCallback(this.onDeeplSubmit)();
+          } else {
+            onClose({ body, text, view: this.commentData });
           }
         });
       }, (_) => {
         this.isSpellchecking = false;
-        onClose(body, text, this.commentData);
+        onClose({ body, text, view: this.commentData });
       });
   }
 

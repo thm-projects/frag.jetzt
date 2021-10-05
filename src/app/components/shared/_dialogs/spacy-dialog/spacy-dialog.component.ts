@@ -53,6 +53,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
   ngAfterContentInit(): void {
     if (this.langSupported) {
       this.evalInput(this.commentLang);
+    } else if (this.data.forward) {
+      this.keywords = [];
+      this.keywordsOriginal = [];
+      setTimeout(() => this.buildCreateCommentActionCallback()());
     }
   }
 
@@ -76,6 +80,11 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
 
   evalInput(model: Model) {
     this.isLoading = true;
+    const afterFinish = () => {
+      if (this.data.forward) {
+        this.buildCreateCommentActionCallback()();
+      }
+    };
 
     // N at first pos = all Nouns(NN de/en) including singular(NN, NNP en), plural (NNPS, NNS en), proper Noun(NNE, NE de)
     this.spacyService.getKeywords(this.commentBodyChecked, model)
@@ -95,8 +104,10 @@ export class SpacyDialogComponent implements OnInit, AfterContentInit {
         this.keywordsOriginal = [];
         this.hasKeywordsFromSpacy = false;
         this.isLoading = false;
+        afterFinish();
       }, () => {
         this.isLoading = false;
+        afterFinish();
       });
   }
 

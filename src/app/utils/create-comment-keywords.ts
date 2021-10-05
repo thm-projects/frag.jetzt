@@ -19,7 +19,7 @@ export class CreateCommentKeywords {
       map(result => {
         const wordCount = text.trim().split(' ').length;
         const hasConfidence = language === 'auto' ? result.language.detectedLanguage.confidence >= 0.5 : true;
-        const hasLessMistakes = (result.matches.length * 100) / wordCount <= 20;
+        const hasLessMistakes = (result.matches.length * 100) / wordCount <= 50;
         return {
           isAcceptable: hasConfidence && hasLessMistakes,
           text: this.escapeForSpacy(text),
@@ -29,7 +29,7 @@ export class CreateCommentKeywords {
     );
   }
 
-  private static escapeForSpacy(text: string): string {
+  static escapeForSpacy(text: string): string {
     text = this.makeCapslockLowercase(text);
     return text.replace(/\(([^-\s)]+-)\)([^\s]+)/gmi, '$1$2');
   }
