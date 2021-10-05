@@ -78,8 +78,8 @@ export class CreateCommentComponent implements OnInit {
         } else {
           comment.language = CommentLanguage.auto;
           this.dialogRef.close(comment);
+          this.isSendingToSpacy = false;
         }
-        this.isSendingToSpacy = false;
       }, () => {
         comment.language = CommentLanguage.auto;
         this.dialogRef.close(comment);
@@ -94,9 +94,8 @@ export class CreateCommentComponent implements OnInit {
       target = TargetLang.DE;
     }
     DeepLDialogComponent.generateDeeplDelta(this.deeplService, comment.body, target)
-      .subscribe(([improvedBody, improvedText]) => {
-        comment.body = improvedBody;
-        this.callSpacy(comment, improvedText, result, true);
+      .subscribe(([_, improvedText]) => {
+        this.callSpacy(comment, CreateCommentKeywords.escapeForSpacy(improvedText), result, true);
       }, () => {
         this.callSpacy(comment, text, result, true);
       });
@@ -112,6 +111,7 @@ export class CreateCommentComponent implements OnInit {
     } else if (CommentLanguage[selectedLangExtend]) {
       comment.language = CommentLanguage[selectedLangExtend];
     }
+    this.isSendingToSpacy = false;
     const dialogRef = this.dialog.open(SpacyDialogComponent, {
       data: {
         comment,

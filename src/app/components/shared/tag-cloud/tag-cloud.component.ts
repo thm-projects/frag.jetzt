@@ -357,7 +357,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       return;
     }
     this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
-      this.eventService.broadcast('setTagConfig', tag.text);
+      this.eventService.broadcast('setTagConfig', (tag as TagComment).realText);
       this._subscriptionCommentlist.unsubscribe();
     });
     this.router.navigate(['../'], { relativeTo: this.route });
