@@ -109,7 +109,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
       const subscription = this.roomDataService.checkProfanity(this.comment).subscribe(e => {
         if (e !== null) {
           this.isProfanity = e;
-          subscription.unsubscribe();
+          setTimeout(() => subscription.unsubscribe());
         }
       });
     }

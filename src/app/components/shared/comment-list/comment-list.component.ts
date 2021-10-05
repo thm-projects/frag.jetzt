@@ -348,21 +348,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   getComments(): void {
-    if (this.room.threshold) {
-      this.thresholdEnabled = true;
-    } else {
-      this.thresholdEnabled = false;
-    }
+    this.thresholdEnabled = !!this.room.threshold;
     this.isLoading = false;
-    let commentThreshold;
-    if (this.thresholdEnabled) {
-      commentThreshold = this.room.threshold;
-      if (this.hideCommentsList) {
-        this.filteredComments = this.filteredComments.filter(x => x.score >= commentThreshold);
-      } else {
-        this.setComments(this.comments.filter(x => x.score >= commentThreshold));
-      }
-    }
     this.setTimePeriod();
   }
 
@@ -601,6 +588,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.period = period;
       this.fromNow = null;
     }
+    const comments = this.thresholdEnabled ? this.comments.filter(x => x.score >= this.room.threshold) : this.comments;
     const currentTime = new Date();
     const hourInSeconds = 3600000;
     let periodInSeconds;
@@ -627,11 +615,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
           periodInSeconds = hourInSeconds * 336;
           break;
       }
-      this.commentsFilteredByTime = this.comments
+      this.commentsFilteredByTime = comments
         .filter(c => new Date(c.timestamp).getTime() >=
           (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
     } else {
-      this.commentsFilteredByTime = this.comments;
+      this.commentsFilteredByTime = comments;
     }
 
     this.filterComments(this.currentFilter, this.currentFilterCompare);
