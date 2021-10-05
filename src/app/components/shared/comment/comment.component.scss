@@ -285,6 +285,10 @@ mat-card-content > :first-child {
   color: var(--on-surface);
 }
 
+.commentBody{
+  transition:height ease-in-out 0.2s;
+}
+
 @keyframes upVote {
   0% {
     transform: scale3d(1, 1, 1);

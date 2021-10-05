@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
 
-interface ResultValue {
+export interface ResultValue {
   body: string;
   text: string;
   view: ViewCommentDataComponent;
@@ -95,7 +95,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       text: this.data.improvedText,
       view: this.improved
     };
-    this.radioButtonValue = this.improvedValue;
+    this.radioButtonValue = this.normalValue;
   }
 
   ngAfterViewInit() {
@@ -124,7 +124,7 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
       }
       if (ViewCommentDataComponent.checkInputData(current.body, current.text,
         this.translateService, this.notificationService, this.data.maxTextCharacters, this.data.maxDataCharacters)) {
-        this.data.onClose(current.body, current.text, current.view);
+        this.data.onClose(current);
         this.dialogRef.close(true);
       }
     };

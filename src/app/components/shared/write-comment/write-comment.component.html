@@ -88,7 +88,7 @@
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="buildCreateCommentActionCallback()"
+      [confirmButtonClickAction]="buildCreateCommentActionCallback(this.onSubmit)"
     ></app-dialog-action-buttons>
   </ars-col>
 </ars-row>

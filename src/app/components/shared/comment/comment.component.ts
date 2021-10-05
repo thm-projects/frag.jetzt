@@ -36,7 +36,7 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 
 export class CommentComponent implements OnInit, AfterViewInit {
 
-  static COMMENT_MAX_HEIGHT = 200;
+  static COMMENT_MAX_HEIGHT = 150;
 
   @Input() comment: Comment;
   @Input() moderator: boolean;
@@ -109,7 +109,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
       const subscription = this.roomDataService.checkProfanity(this.comment).subscribe(e => {
         if (e !== null) {
           this.isProfanity = e;
-          subscription.unsubscribe();
+          setTimeout(() => subscription.unsubscribe());
         }
       });
     }
@@ -121,13 +121,15 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
-    if (!this.isExpandable) {
-      this.commentExpander.ref.nativeElement.style.display = 'none';
-    } else {
-      this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
-      this.commentBody.setOverflow('hidden');
-    }
+    setTimeout(()=>{
+      this.isExpandable = this.commentBody.getRenderedHeight() > CommentComponent.COMMENT_MAX_HEIGHT;
+      if (!this.isExpandable) {
+        this.commentExpander.ref.nativeElement.style.display = 'none';
+      } else {
+        this.commentBody.setPx(CommentComponent.COMMENT_MAX_HEIGHT);
+        this.commentBody.setOverflow('hidden');
+      }
+    });
   }
 
   sortKeywords(keywords: SpacyKeyword[]) {
