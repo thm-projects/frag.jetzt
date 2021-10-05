@@ -9,10 +9,8 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { BonusTokenService } from '../../../../services/http/bonus-token.service';
 import { DeleteCommentsComponent } from '../delete-comments/delete-comments.component';
 import { Room } from '../../../../models/room';
-import { CommentBonusTokenMixin } from '../../../../models/comment-bonus-token-mixin';
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
-import { ExportCsv } from '../../../../models/export-csv';
 import { Export } from '../../../../models/export';
 
 @Component({
@@ -47,7 +45,7 @@ export class CommentSettingsComponent implements OnInit {
   ngOnInit() {
     if (this.editRoom.threshold !== null) {
       this.commentThreshold = this.editRoom.threshold;
-      this.settingThreshold = true;
+      this.settingThreshold = !!this.editRoom.threshold;
     }
     this.tags = [];
     this.enableCommentModeration = this.editRoom.moderated;
