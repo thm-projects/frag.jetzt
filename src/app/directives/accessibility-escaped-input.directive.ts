@@ -14,7 +14,7 @@ export class AccessibilityEscapedInputDirective implements AfterViewInit {
     const elem = this.reference.nativeElement;
     elem.addEventListener('focus', this.focus.bind(this));
     elem.addEventListener('blur', this.blur.bind(this));
-    if (document.activeElement && document.activeElement.contains(elem)) {
+    if (elem && document.activeElement && elem.contains(document.activeElement)) {
       this.focus();
     }
   }

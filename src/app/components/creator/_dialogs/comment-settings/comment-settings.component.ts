@@ -101,13 +101,12 @@ export class CommentSettingsComponent implements OnInit {
     const settingsReturn = new CommentSettingsDialog();
 
     this.editRoom.directSend = this.directSend;
-    this.editRoom.threshold = this.commentThreshold;
+    this.editRoom.threshold = this.settingThreshold ? this.commentThreshold : 0;
     this.editRoom.moderated = this.enableCommentModeration;
 
     // If moderation isn't enabled, the direct send is of no interest and shouldn't be updated to avoid confusion about missing comments
     if ((this.enableCommentModeration && !this.directSend) || this.directSend) {
-      this.roomService.updateRoom(this.editRoom).subscribe(x => {
-      });
+      this.roomService.updateRoom(this.editRoom).subscribe();
       settingsReturn.directSend = this.directSend;
     }
     settingsReturn.enableModeration = this.enableCommentModeration;
