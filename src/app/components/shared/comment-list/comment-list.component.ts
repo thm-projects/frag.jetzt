@@ -109,6 +109,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
+  page=0;
 
   constructor(
     private commentService: CommentService,
@@ -139,6 +140,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.searchPlaceholder = msg;
       });
     });
+  }
+
+  setPage(e:any){
+    this.page=e.pageIndex;
   }
 
   initNavigation() {
