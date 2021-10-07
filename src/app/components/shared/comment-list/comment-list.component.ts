@@ -33,6 +33,7 @@ import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
+import { PageEvent } from '@angular/material/paginator';
 
 export interface CommentListData {
   currentFilter: CommentFilter;
@@ -109,7 +110,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
-  page=0;
+  pageIndex = 0;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25];
+  showFirstLastButtons = true;
 
   constructor(
     private commentService: CommentService,
@@ -142,8 +146,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
   }
 
-  setPage(e:any){
-    this.page=e.pageIndex;
+  handlePageEvent(e:PageEvent){
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
   }
 
   initNavigation() {
@@ -369,6 +374,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   filterComments(type: string, compare?: any): void {
+    this.pageIndex=0;
     this.currentFilter = type;
     this.currentFilterCompare = compare;
     if (type === '') {
