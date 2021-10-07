@@ -44,6 +44,17 @@
     </h2>
 
     <span class="fill-remaining-space"
+          *ngIf="moderationEnabled && deviceType === 'desktop' && router.url.includes('comments')"></span>
+    <span
+      *ngIf="moderationEnabled && router.url.includes('comments')"
+      class="moderation-enabled"
+      fxLayoutAlign="center center">
+      <mat-icon matTooltip="{{ 'header.moderation-enabled' | translate }}">
+        gavel
+      </mat-icon>
+    </span>
+
+    <span class="fill-remaining-space"
           *ngIf="room && room.questionsBlocked"></span>
 
     <h1
@@ -219,7 +230,8 @@
           </ng-container>
 
           <!-- Session -->
-          <ng-container *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
+          <ng-container
+            *ngIf="!router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
             <!-- app-room-creator-page -->
 
