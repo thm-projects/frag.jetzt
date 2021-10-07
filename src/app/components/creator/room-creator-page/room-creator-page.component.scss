@@ -50,10 +50,10 @@ mat-card-content > :first-child {
 }
 
 .room-short-id {
-  font-size: 14px;
+  font-size: larger;
   font-weight: bold;
   color: var(--on-surface) !important;
-  margin-top: 10%;
+  margin: 1em;
 }
 
 mat-grid-list {
@@ -99,9 +99,8 @@ mat-expansion-panel {
 }
 
 #copy {
-  margin-left: 10px;
-  width: 50px;
-  height: 55px;
+  width: 24px;
+  height: 24px;
 }
 
 .copy {
@@ -111,7 +110,7 @@ mat-expansion-panel {
 }
 
 .gavel {
-  margin: 5% 2% 0 0;
+  margin: 0.9em 0.25em 0 0;
   color: var(--on-surface);
 }
 
