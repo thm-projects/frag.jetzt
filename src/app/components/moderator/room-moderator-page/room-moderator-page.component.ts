@@ -47,7 +47,7 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
     this.roomService.getRoomByShortId(id).subscribe(room => {
       this.room = room;
       this.isLoading = false;
-      this.moderationEnabled = this.room.moderated;
+      this.moderationEnabled = !this.room.directSend;
       if (this.moderationEnabled) {
         this.viewModuleCount = this.viewModuleCount + 1;
       }
