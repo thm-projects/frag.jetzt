@@ -264,7 +264,8 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of (hideCommentsList ? filteredComments : commentsFilteredByTime).slice(page*5,(page*5)+5); let i = index"
+  <app-comment *ngFor="let current of (hideCommentsList ?
+  filteredComments : commentsFilteredByTime).slice(pageIndex*pageSize,(pageIndex*pageSize)+pageSize); let i = index"
                [appScrollIntoView]="current.id === focusCommentId"
                [usesJoyride]="i === 0 && isJoyrideActive"
                [comment]="current"
@@ -279,7 +280,13 @@
                (clickedOnKeyword)="clickedOnKeyword($event)"
                (votedComment)="votedComment($event)">
   </app-comment>
-  <mat-paginator [pageSize]="5" (page)="setPage($event)"
+  <mat-paginator class="mat-paginator"
+                 [pageSize]="5"
+                 (page)="handlePageEvent($event)"
+                 [showFirstLastButtons]="showFirstLastButtons"
+                 [pageSizeOptions]="pageSizeOptions"
+                 [pageIndex]="pageIndex"
+                 [color]="'primary'"
                  [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></mat-paginator>
   <ars-row [height]="64">
   </ars-row>
