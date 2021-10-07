@@ -149,7 +149,7 @@ export class HeaderComponent implements OnInit,AfterViewInit {
                 const message = JSON.parse(msg.body);
                 if (message.type === 'RoomPatched') {
                   this.room.questionsBlocked = message.payload.changes.questionsBlocked;
-                  this.moderationEnabled = message.payload.changes.moderated;
+                  this.moderationEnabled = !message.payload.changes.directSend;
                 }
               });
             });

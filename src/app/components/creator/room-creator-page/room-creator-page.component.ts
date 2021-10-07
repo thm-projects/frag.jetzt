@@ -348,13 +348,13 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
   updateCommentSettings(settings: CommentSettingsDialog){
     this.room.tags = settings.tags;
 
-    if (this.moderationEnabled && !settings.enableModeration){
+    if (this.moderationEnabled && settings.directSend){
       this.viewModuleCount = this.viewModuleCount - 1;
-    }else if (!this.moderationEnabled && settings.enableModeration){
+    }else if (!this.moderationEnabled && !settings.directSend){
       this.viewModuleCount = this.viewModuleCount + 1;
     }
 
-    this.moderationEnabled = settings.enableModeration;
+    this.moderationEnabled = !settings.directSend;
     localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
