@@ -82,11 +82,6 @@ export class HeaderComponent implements OnInit,AfterViewInit {
     this.topicCloudAdminService.getAdminData.subscribe(data => {
       this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
     });
-    this.eventService.on('userLogin').subscribe(e => {
-      this.motdService.checkNewMessage(() => {
-        this.motdService.requestDialog();
-      });
-    });
     this.eventService.on<TagCloudMetaData>('tagCloudHeaderDataOverview').subscribe(data => {
       this.commentsCountQuestions = data.commentCount;
       this.commentsCountUsers = data.userCount;
