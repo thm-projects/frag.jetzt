@@ -91,8 +91,15 @@ mat-grid-tile {
 }
 
 .gavel {
-  margin: 5% 2% 0 0;
+  margin: 0.9em 0.25em 0 0;
   color: var(--on-surface);
+}
+
+.room-short-id {
+  font-size: larger;
+  font-weight: bold;
+  color: var(--on-surface) !important;
+  margin: 1em;
 }
 
 ::ng-deep .mat-badge-content {
