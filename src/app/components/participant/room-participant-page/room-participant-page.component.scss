@@ -92,7 +92,8 @@ mat-grid-tile {
 
 .gavel {
   margin: 0.9em 0.25em 0 0;
-  color: var(--on-surface);
+  color: var(--red);
+  transform: scale(1.8);
 }
 
 .room-short-id {

@@ -230,7 +230,7 @@
     "session-id": "Key code",
     "bonus-token": "Tokens for bonus stars",
     "bonus-token-header": "Tokens for bonus stars",
-    "moderation-enabled": "The Session will be moderated.",
+    "moderation-enabled": "The question list will be moderated.",
     "sure": "Are you sure?"
   },
   "question-wall": {

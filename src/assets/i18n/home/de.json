@@ -87,7 +87,7 @@
     "logout": "Abmelden",
     "block": "Fragenstellen sperren",
     "unlock": "Fragenstellen freigeben",
-    "moderation-enabled": "Die Sitzung wird moderiert.",
+    "moderation-enabled": "Die Fragenliste wird moderiert.",
     "QR": "QR-Code der Sitzung in Vollansicht",
     "my-account": "Optionen",
     "my-guest-account": "Gastkonto",
@@ -191,7 +191,7 @@
     "introductionTitle": "Einführung in »frag.jetzt«",
     "feedbackLink": "Du hast einen Bug gefunden? Du hättest gern ein weiteres Feature? Der Link führt dich in den Feedback-Raum. Die Tour wird in diesem Raum fortgesetzt.",
     "feedbackLinkTitle": "Raum für Feedback",
-    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die FAQ.",
+    "optionHeader": "Hier befindet sich das Hauptmenü von »frag.jetzt«. Neben den Optionen der aktuellen Seite findest du hier auch allgemeine Funktionen, darunter die Raumübersicht.",
     "optionHeaderTitle": "Optionen"
   },
   "login": {

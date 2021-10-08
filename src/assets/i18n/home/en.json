@@ -74,7 +74,7 @@
     "logged-out": "You are logged out now.",
     "login": "Log in",
     "logout": "Log out",
-    "moderation-enabled": "The session will be moderated.",
+    "moderation-enabled": "The question list will be moderated.",
     "QR": "QR code of the session in full view",
     "my-account": "Options",
     "my-guest-account": "Guest Account",
@@ -192,7 +192,7 @@
     "introductionTitle": "Introduction to »frag.jetzt«",
     "feedbackLink": "You found a bug? You would like to have another feature? The link leads you to the feedback room. The tour will continue in this room.",
     "feedbackLinkTitle": "Feedback room",
-    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the FAQ.",
+    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list.",
     "optionHeaderTitle": "Options"
   },
   "login": {

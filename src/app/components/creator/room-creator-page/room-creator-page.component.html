@@ -20,9 +20,6 @@
             </button>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
-            <mat-icon *ngIf="moderationEnabled" class="gavel">
-              gavel
-            </mat-icon>
             <span class="room-short-id">
               {{ 'room-page.session-id' | translate}}: {{ room.shortId }}
             </span>
@@ -105,7 +102,7 @@
               <mat-icon matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
-                        matTooltip="{{ 'room-page.session-moderation-board' | translate}}">visibility_off
+                        matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
               </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>

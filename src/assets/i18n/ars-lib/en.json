@@ -1,6 +1,6 @@
 {
   "paginator": {
-    "itemsPerPageLabel": "Number of Comments",
+    "itemsPerPageLabel": "Questions per page",
     "nextPageLabel": "Next",
     "previousPageLabel": "Previous",
     "firstPageLabel": "First",

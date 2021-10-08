@@ -49,7 +49,7 @@
       *ngIf="moderationEnabled && router.url.includes('comments')"
       class="moderation-enabled"
       fxLayoutAlign="center center">
-      <mat-icon matTooltip="{{ 'header.moderation-enabled' | translate }}">
+      <mat-icon style="color: red" matTooltip="{{ 'header.moderation-enabled' | translate }}">
         gavel
       </mat-icon>
     </span>

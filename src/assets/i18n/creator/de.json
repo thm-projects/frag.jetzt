@@ -352,7 +352,7 @@
     "session-moderation-board": "Zum Moderationsboard",
     "settings-comment-moderation": "Fragen moderieren",
     "settings-comment-moderation-description": "Du oder einer deiner Moderatoren können Fragen aus der Anzeige verbannen.",
-    "settings-direct-send": "Alle Fragen veröffentlichen",
+    "settings-direct-send": "Fragen unmoderiert veröffentlichen",
     "settings-direct-send-description": "Jede Frage wird sofort veröffentlicht. Schalte diese Option ab, wenn du jede Frage einzeln freigeben willst.",
     "sure": "Bist du sicher?",
     "tag-new": "Neue Fragenkategorie:",

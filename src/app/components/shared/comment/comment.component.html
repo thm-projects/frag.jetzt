@@ -324,8 +324,8 @@
            *ngIf="comment.tag && comment.tag !== ''"
            class="comment-tags">
         <mat-icon svgIcon="comment_tag"></mat-icon>
-        <span>
-          &nbsp;{{comment.tag}}
+        <span style="padding-left: 5px">
+          {{comment.tag}}
         </span>
       </div>
       <div class="user-number"
@@ -369,8 +369,8 @@
            *ngIf="comment.questionerName"
            class="questioner-name">
         <mat-icon>account_circle</mat-icon>
-        <span>
-          &nbsp;{{comment.questionerName}}
+        <span style="padding-left: 5px">
+          {{comment.questionerName}}
         </span>
       </div>
       <button mat-icon-button
