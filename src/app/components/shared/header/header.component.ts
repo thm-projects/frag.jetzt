@@ -145,6 +145,7 @@ export class HeaderComponent implements OnInit,AfterViewInit {
             localStorage.setItem('shortId', this.shortId);
             this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
               this.room = room;
+              this.moderationEnabled = !room.directSend;
               this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
                 const message = JSON.parse(msg.body);
                 if (message.type === 'RoomPatched') {

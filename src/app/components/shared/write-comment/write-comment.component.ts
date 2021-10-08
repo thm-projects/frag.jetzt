@@ -9,6 +9,7 @@ import { DeepLService, SourceLang, TargetLang } from '../../../services/http/dee
 import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep-ldialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
+import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -159,7 +160,7 @@ export class WriteCommentComponent implements OnInit {
     if (code.startsWith(SourceLang.EN)) {
       target = TargetLang.DE;
     }
-    DeepLDialogComponent.generateDeeplDelta(this.deeplService, body, target)
+    CreateCommentKeywords.generateDeeplDelta(this.deeplService, body, target)
       .subscribe(([improvedBody, improvedText]) => {
         this.isSpellchecking = false;
         if (improvedText.replace(/\s+/g, '') === text.replace(/\s+/g, '')) {
