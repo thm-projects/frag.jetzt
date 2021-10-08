@@ -22,6 +22,7 @@ import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { CommentFilter, Period } from '../../../utils/filter-options';
+import { PageEvent } from '@angular/material/paginator';
 
 
 @Component({
@@ -66,6 +67,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   period: Period = Period.twoWeeks;
   fromNow: number;
   headerInterface = null;
+  pageIndex = 0;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25];
+  showFirstLastButtons = true;
 
   constructor(
     private commentService: CommentService,
@@ -81,6 +86,11 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private bonusTokenService: BonusTokenService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
+  }
+
+  handlePageEvent(e:PageEvent){
+    this.pageIndex = e.pageIndex;
+    this.pageSize = e.pageSize;
   }
 
   initNavigation() {

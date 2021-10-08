@@ -31,6 +31,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat-paginator/ars-mat-paginator.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -55,20 +57,22 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatToggleComponent,
     MatChipListComponent,
     MatDatePickerComponent,
-    MatMenuItemComponent
+    MatMenuItemComponent,
+    ArsMatPaginatorComponent
   ],
-  imports:[
-    MatIconModule,
-    MatButtonModule,
-    CommonModule,
-    MatChipsModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    TranslateModule,
-    MatMenuModule,
-    MatInputModule,
-    MatSlideToggleModule
-  ],
+    imports:[
+        MatIconModule,
+        MatButtonModule,
+        CommonModule,
+        MatChipsModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        TranslateModule,
+        MatMenuModule,
+        MatInputModule,
+        MatSlideToggleModule,
+        MatPaginatorModule
+    ],
   exports:[
     ArsComponent,
     FullScreenOverlayComponent,
@@ -85,7 +89,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     ButtonWrapperDirective,
     ButtonBaseDirective,
     MaterialBtnComponent,
-    ArsComposeHostDirective
+    ArsComposeHostDirective,
+    ArsMatPaginatorComponent
   ]
 })
 export class ArsModule { }

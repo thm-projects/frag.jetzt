@@ -1,0 +1,25 @@
+:host ::ng-deep{
+  .mat-icon-button.mat-button-disabled.mat-button-disabled{
+    color:var(--on-background);
+    opacity:0.2;//recommend the use of rgba instead of hex in theme config to avoid this
+  }
+  .mat-icon-button{
+    color:var(--on-background);
+  }
+  .mat-select-arrow{
+    color:var(--on-background);
+  }
+  .mat-select-value-text{
+    color:var(--on-background);
+  }
+  .mat-form-field-underline{
+     background-color:var(--on-background);
+  }
+  .mat-paginator-outer-container{
+    color:var(--on-background);
+  }
+  .mat-paginator{
+    background-color:transparent;
+  }
+}
+
