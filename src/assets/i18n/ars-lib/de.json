@@ -1,0 +1,11 @@
+{
+  "paginator": {
+    "itemsPerPageLabel": "Anzahl Kommentare",
+    "nextPageLabel": "Nächste",
+    "previousPageLabel": "Vorherige",
+    "firstPageLabel": "Erste",
+    "lastPageLabel": "Letzte",
+    "rangePageLabel1": "null",
+    "rangePageLabel2": "%start - %end von %length"
+  }
+}

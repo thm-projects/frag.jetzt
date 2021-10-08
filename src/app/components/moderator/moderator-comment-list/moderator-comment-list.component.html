@@ -125,6 +125,16 @@
                (clickedUserNumber)="clickedUserNumber($event)">
   </app-comment>
 </div>
+<ars-mat-paginator
+  *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
+  [pageSize]="5"
+  (page)="handlePageEvent($event)"
+  [showFirstLastButtons]="showFirstLastButtons"
+  [pageSizeOptions]="pageSizeOptions"
+  [pageIndex]="pageIndex"
+  [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
+<ars-row [height]="64">
+</ars-row>
 
 <div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"

@@ -280,14 +280,14 @@
                (clickedOnKeyword)="clickedOnKeyword($event)"
                (votedComment)="votedComment($event)">
   </app-comment>
-  <mat-paginator class="mat-paginator"
-                 [pageSize]="5"
-                 (page)="handlePageEvent($event)"
-                 [showFirstLastButtons]="showFirstLastButtons"
-                 [pageSizeOptions]="pageSizeOptions"
-                 [pageIndex]="pageIndex"
-                 [color]="'primary'"
-                 [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></mat-paginator>
+  <ars-mat-paginator
+                     *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
+                     [pageSize]="5"
+                     (page)="handlePageEvent($event)"
+                     [showFirstLastButtons]="showFirstLastButtons"
+                     [pageSizeOptions]="pageSizeOptions"
+                     [pageIndex]="pageIndex"
+                     [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
   <ars-row [height]="64">
   </ars-row>
 
