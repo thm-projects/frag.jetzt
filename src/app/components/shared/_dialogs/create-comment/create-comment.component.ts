@@ -1,16 +1,16 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { Comment, Language as CommentLanguage } from '../../../../models/comment';
+import { Comment } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
-import { LanguagetoolService, Language, LanguagetoolResult } from '../../../../services/http/languagetool.service';
-import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
+import { LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { CreateCommentKeywords, KeywordsResultType } from '../../../../utils/create-comment-keywords';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
-import { DeepLDialogComponent } from '../deep-ldialog/deep-ldialog.component';
-import { DeepLService, SourceLang, TargetLang } from '../../../../services/http/deep-l.service';
+import { DeepLService } from '../../../../services/http/deep-l.service';
+import { SpacyService } from '../../../../services/http/spacy.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -33,6 +33,7 @@ export class CreateCommentComponent implements OnInit {
     public dialog: MatDialog,
     public languagetoolService: LanguagetoolService,
     private deeplService: DeepLService,
+    private spacyService: SpacyService,
     public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
   }
@@ -67,63 +68,30 @@ export class CreateCommentComponent implements OnInit {
   }
 
   openSpacyDialog(comment: Comment, rawText: string, forward: boolean): void {
-    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, rawText, this.commentComponent.selectedLang)
-      .subscribe((result) => {
-        if (result.isAcceptable) {
-          if (forward) {
-            this.callDeepL(comment, result.text, result.result);
-          } else {
-            this.callSpacy(comment, result.text, result.result);
-          }
-        } else {
-          comment.language = CommentLanguage.auto;
-          this.dialogRef.close(comment);
-          this.isSendingToSpacy = false;
-        }
-      }, () => {
-        comment.language = CommentLanguage.auto;
-        this.dialogRef.close(comment);
+    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService,
+      this.spacyService, comment.body, forward, this.commentComponent.selectedLang)
+      .subscribe(result => {
         this.isSendingToSpacy = false;
+        comment.language = result.language;
+        comment.keywordsFromSpacy = result.keywords;
+        comment.keywordsFromQuestioner = [];
+        if (forward ||
+          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
+          result.resultType === KeywordsResultType.badSpelled) {
+          this.dialogRef.close(comment);
+        } else {
+          const dialogRef = this.dialog.open(SpacyDialogComponent, {
+            data: {
+              result: result.resultType,
+              comment
+            }
+          });
+          dialogRef.afterClosed().subscribe(dialogResult => {
+            if (dialogResult) {
+              this.dialogRef.close(dialogResult);
+            }
+          });
+        }
       });
-  }
-
-  private callDeepL(comment: Comment, text: string, result: LanguagetoolResult) {
-    let target = TargetLang.EN_US;
-    const code = result.language.detectedLanguage.code.toUpperCase().split('-')[0];
-    if (code.startsWith(SourceLang.EN)) {
-      target = TargetLang.DE;
-    }
-    DeepLDialogComponent.generateDeeplDelta(this.deeplService, comment.body, target)
-      .subscribe(([_, improvedText]) => {
-        this.callSpacy(comment, CreateCommentKeywords.escapeForSpacy(improvedText), result, true);
-      }, () => {
-        this.callSpacy(comment, text, result, true);
-      });
-  }
-
-  private callSpacy(comment: Comment, text: string, result: LanguagetoolResult, forward = false) {
-    const commentLang = this.languagetoolService.mapLanguageToSpacyModel(result.language.code as Language);
-    const selectedLangExtend = this.commentComponent.selectedLang[2] === '-' ?
-      this.commentComponent.selectedLang.substr(0, 2) : this.commentComponent.selectedLang;
-    // Store language if it was auto-detected
-    if (this.commentComponent.selectedLang === 'auto') {
-      comment.language = Comment.mapModelToLanguage(commentLang);
-    } else if (CommentLanguage[selectedLangExtend]) {
-      comment.language = CommentLanguage[selectedLangExtend];
-    }
-    this.isSendingToSpacy = false;
-    const dialogRef = this.dialog.open(SpacyDialogComponent, {
-      data: {
-        comment,
-        commentLang,
-        commentBodyChecked: text,
-        forward
-      }
-    });
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      if (dialogResult) {
-        this.dialogRef.close(dialogResult);
-      }
-    });
   }
 }
