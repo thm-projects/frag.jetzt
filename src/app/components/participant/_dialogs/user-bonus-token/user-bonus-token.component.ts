@@ -104,14 +104,14 @@ export class UserBonusTokenComponent implements OnInit {
                   .pipe(
                     map((users) => {
                       users.sort((a, b) => userIds.indexOf(a.id) - userIds.indexOf(b.id));
-                      return users.map((user) => (user as any).email as string);
+                      return users.map((user) => (user as any).email as string).filter(e => e);
                     })
                   );
               })
             ))
         )
         .subscribe(ids => {
-          this.send(ids.find(e => e) || 'null', ids.slice(1).filter(e => e));
+          this.send(ids[0] || '', ids.slice(1));
         });
     } else {
       this.translationService.get('user-bonus-token.please-choose').subscribe(msg => {
