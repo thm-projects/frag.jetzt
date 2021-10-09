@@ -10,6 +10,7 @@ import { CommentService } from '../services/http/comment.service';
 import { observable, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/internal/operators';
 import { tap } from 'rxjs/operators';
+import { MatSnackBarConfig } from '@angular/material/snack-bar';
 
 export class CreateCommentWrapper {
   constructor(private translateService: TranslateService,
@@ -36,6 +37,9 @@ export class CreateCommentWrapper {
 
   send(comment: Comment): Observable<Comment> {
     let message;
+    const config: MatSnackBarConfig = {
+      panelClass: ['snackbar']
+    };
     if (this.room.directSend) {
       this.translateService.get('comment-list.comment-sent').subscribe(msg => {
         message = msg;
@@ -44,10 +48,11 @@ export class CreateCommentWrapper {
     } else {
       this.translateService.get('comment-list.comment-sent-to-moderator').subscribe(msg => {
         message = msg;
+        (config.panelClass as string[]).push('important');
       });
     }
     return this.commentService.addComment(comment).pipe(
-      tap(() => this.notificationService.show(message))
+      tap(() => this.notificationService.show(message, null, config))
     );
   }
 }
