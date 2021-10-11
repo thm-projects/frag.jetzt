@@ -11,7 +11,6 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { VoteService } from '../../../services/http/vote.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { Subscription } from 'rxjs';
@@ -34,6 +33,7 @@ import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
+import { CommentListFilter, FilterType, FilterTypeKey, SortType, SortTypeKey } from './comment-list.filter';
 
 export interface CommentListData {
   currentFilter: CommentFilter;
@@ -60,33 +60,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
   deviceType: string;
   isSafari: string;
   isLoading = true;
-  voteasc = 'voteasc';
-  votedesc = 'votedesc';
-  time = 'time';
-  currentSort: string;
-  read = 'read';
-  unread = 'unread';
-  favorite = 'favorite';
-  correct = 'correct';
-  wrong = 'wrong';
-  ack = 'ack';
-  bookmark = 'bookmark';
-  moderator = 'moderator';
-  lecturer = 'lecturer';
-  tag = 'tag';
-  selectedTag = '';
-  userNumber = 'userNumber';
-  keyword = 'keyword';
-  selectedKeyword = '';
-  answer = 'answer';
-  unanswered = 'unanswered';
-  owner = 'owner';
-  currentFilter = '';
-  currentFilterCompare: any = null;
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
-  searchInput = '';
   search = false;
   searchPlaceholder = '';
   moderationEnabled = true;
@@ -97,16 +73,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentStream: Subscription;
   periodsList = Object.values(Period);
   headerInterface = null;
-  period: Period = Period.twoWeeks;
-  fromNow: number;
-  moderatorIds: string[];
   commentsEnabled: boolean;
-  userNumberSelection = 0;
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
   focusCommentId = '';
   activeUsers = 0;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
+  filter: CommentListFilter;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -144,9 +117,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.searchPlaceholder = msg;
       });
     });
+    this.filter = CommentListFilter.loadCurrentFilter();
   }
 
-  handlePageEvent(e:PageEvent){
+  handlePageEvent(e: PageEvent) {
     this.pageIndex = e.pageIndex;
     this.pageSize = e.pageSize;
   }
@@ -239,6 +213,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
+        this.filter.updateUserId(this.user.id);
         if (this.userRole === UserRole.PARTICIPANT) {
           this.voteService.getByRoomIdAndUserID(this.roomId, this.user.id).subscribe(votes => {
             for (const v of votes) {
@@ -254,21 +229,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.authenticationService.checkAccess(this.shortId);
       this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
         this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-          this.room = room;
-          this.roomId = room.id;
+          this.receiveRoom(room);
           this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
             const message = JSON.parse(msg.body);
             if (message.type === 'RoomPatched') {
-              this.room = message.payload.changes;
-              this.roomId = this.room.id;
-              this.moderationEnabled = this.room.moderated;
-              this.directSend = this.room.directSend;
-              this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !this.room.questionsBlocked;
+              this.receiveRoom(message.payload.changes);
             }
           });
-          this.moderationEnabled = this.room.moderated;
-          this.directSend = this.room.directSend;
-          this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !this.room.questionsBlocked;
           this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
             this.notificationService, this.commentService, this.dialog, this.room);
           localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
@@ -277,8 +244,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
             this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
           }
           this.moderatorService.get(this.roomId).subscribe(list => {
-            this.moderatorIds = list.map(m => m.accountId);
-            this.moderatorIds.push(this.room.ownerId);
+            this.filter.updateModerators(list.map(m => m.accountId));
 
             this.roomDataService.getRoomData(this.room.id).subscribe(comments => {
               if (comments === null) {
@@ -295,7 +261,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
       });
     });
-    this.currentSort = this.votedesc;
     this.hideCommentsList = false;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
@@ -306,6 +271,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.filter.save();
     if (!this.freeze && this.commentStream) {
       this.commentStream.unsubscribe();
     }
@@ -336,25 +302,24 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   searchComments(): void {
     this.search = true;
-    if (this.searchInput) {
-      if (this.searchInput.length > 1) {
-        this.hideCommentsList = true;
-        this.filteredComments = this.comments
-          .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
-            || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
-      }
-    } else if (this.searchInput.length === 0 && this.currentFilter === '') {
+    if (this.filter.currentSearch) {
+      this.hideCommentsList = true;
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+    } else if (!this.filter.filterType) {
       this.hideCommentsList = false;
     }
-  }
-
-  checkIfIncludesKeyWord(body: string, keyword: string) {
-    return body.toLowerCase().includes(keyword.toLowerCase());
   }
 
   activateSearch() {
     this.search = true;
     this.searchField.nativeElement.focus();
+  }
+
+  abortSearch() {
+    this.hideCommentsList = false;
+    this.filter.currentSearch = '';
+    this.search = false;
+    this.filterComments(this.filter.filterType, this.filter.filterCompare);
   }
 
   getComments(): void {
@@ -373,115 +338,53 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.dialog.closeAll();
   }
 
-  filterComments(type: string, compare?: any): void {
-    this.pageIndex=0;
-    this.currentFilter = type;
-    this.currentFilterCompare = compare;
-    if (type === '') {
+  filterCommentsByKey(type: FilterTypeKey, compare?: any): void {
+    this.filterComments(FilterType[type], compare);
+  }
+
+  filterComments(type: FilterType, compare?: any): void {
+    this.pageIndex = 0;
+    this.filter.filterType = type;
+    this.filter.filterCompare = compare;
+    if (!type) {
       this.filteredComments = this.commentsFilteredByTime;
       this.hideCommentsList = false;
-      this.currentFilter = '';
-      this.selectedTag = '';
-      this.selectedKeyword = '';
-      this.userNumberSelection = 0;
-      this.sortComments(this.currentSort);
+      this.sortComments(this.filter.sortType);
       return;
     }
-    this.filteredComments = this.commentsFilteredByTime.filter(c => {
-      switch (type) {
-        case this.correct:
-          return c.correct === CorrectWrong.CORRECT ? 1 : 0;
-        case this.wrong:
-          return c.correct === CorrectWrong.WRONG ? 1 : 0;
-        case this.favorite:
-          return c.favorite;
-        case this.bookmark:
-          return c.bookmark;
-        case this.read:
-          return c.read;
-        case this.unread:
-          return !c.read;
-        case this.tag:
-          this.selectedTag = compare;
-          return c.tag === compare;
-        case this.userNumber:
-          return c.userNumber === compare;
-        case this.keyword:
-          this.selectedKeyword = compare;
-          const isInQuestioner = c.keywordsFromQuestioner ? c.keywordsFromQuestioner.findIndex(k => k.text === compare) >= 0 : false;
-          const isInSpacy = c.keywordsFromSpacy ? c.keywordsFromSpacy.findIndex(k => k.text === compare) >= 0 : false;
-          return isInQuestioner || isInSpacy;
-        case this.answer:
-          return c.answer;
-        case this.unanswered:
-          return !c.answer;
-        case this.owner:
-          return c.creatorId === this.user.id;
-        case this.moderator:
-          return this.moderatorIds.includes(c.creatorId);
-        case this.lecturer:
-          return c.createdFromLecturer;
-      }
-    });
-    const testForModerator = () => {
-      this.comments.forEach(e => {
-        this.commentService.role(e).subscribe(i => {
-          console.log(e, i);
-        });
-      });
-    };
-    if (type === 'moderator') {
-      console.log(
-        'TEST moderator',
-        this.moderatorIds,
-        this.user,
-        this.room
-      );
-      testForModerator();
-    }
+    this.filteredComments = this.filter.filterCommentsByType(this.commentsFilteredByTime);
     this.hideCommentsList = true;
-    this.sortComments(this.currentSort);
+    this.sortComments(this.filter.sortType);
   }
 
-  sort(array: any[], type: string): any[] {
-    const sortedArray = array.sort((a, b) => {
-      if (type === this.voteasc) {
-        return (a.score > b.score) ? 1 : (b.score > a.score) ? -1 : 0;
-      } else if (type === this.votedesc) {
-        return (b.score > a.score) ? 1 : (a.score > b.score) ? -1 : 0;
-      } else if (type === this.time) {
-        const dateA = new Date(a.timestamp);
-        const dateB = new Date(b.timestamp);
-        return (+dateB > +dateA) ? 1 : (+dateA > +dateB) ? -1 : 0;
-      }
-    });
-    return sortedArray.sort((a, b) => this.isCreatedByModeratorOrCreator(a) ? -1 : this.isCreatedByModeratorOrCreator(b) ? 1 : 0);
+  sort(array: Comment[], type: SortType): any[] {
+    this.filter.sortType = type;
+    this.filter.sortCommentsBySortType(array);
+    return array;
   }
 
-  isCreatedByModeratorOrCreator(comment: Comment): boolean {
-    return this.moderatorIds.indexOf(comment.creatorId) > -1;
+  sortCommentsByKey(type: SortTypeKey) {
+    this.sortComments(SortType[type]);
   }
 
-  sortComments(type: string): void {
+  sortComments(type: SortType): void {
     if (this.hideCommentsList === true) {
       this.filteredComments = this.sort(this.filteredComments, type);
     } else {
       this.setComments(this.sort(this.commentsFilteredByTime, type));
     }
-    this.currentSort = type;
   }
 
   clickedOnTag(tag: string): void {
-    this.filterComments(this.tag, tag);
+    this.filterComments(FilterType.tag, tag);
   }
 
   clickedOnKeyword(keyword: string): void {
-    this.filterComments(this.keyword, keyword);
+    this.filterComments(FilterType.keyword, keyword);
   }
 
   clickedUserNumber(usrNumber: number): void {
-    this.userNumberSelection = usrNumber;
-    this.filterComments(this.userNumber, usrNumber);
+    this.filterComments(FilterType.userNumber, usrNumber);
   }
 
   votedComment(voteInfo: string) {
@@ -489,9 +392,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     setTimeout(() => this.focusCommentId = voteInfo, 100);
   }
 
-  pauseCommentStream() {
-    this.freeze = true;
-    this.roomDataService.getRoomData(this.roomId, true).subscribe(comments => {
+  activateCommentStream(freezed: boolean) {
+    this.freeze = freezed;
+    this.roomDataService.getRoomData(this.roomId, freezed).subscribe(comments => {
       if (comments === null) {
         return;
       }
@@ -499,24 +402,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.setComments(comments);
       this.getComments();
     });
-    this.commentStream.unsubscribe();
-    this.translateService.get('comment-list.comment-stream-stopped').subscribe(msg => {
-      this.notificationService.show(msg);
-    });
-  }
-
-  playCommentStream() {
-    this.freeze = false;
-    this.roomDataService.getRoomData(this.roomId).subscribe(comments => {
-      if (comments === null) {
-        return;
-      }
-      this.comments = comments;
-      this.setComments(comments);
-      this.getComments();
-    });
-    this.subscribeCommentStream();
-    this.translateService.get('comment-list.comment-stream-started').subscribe(msg => {
+    let message: string;
+    if (freezed) {
+      this.commentStream?.unsubscribe();
+      message = 'comment-list.comment-stream-stopped';
+    } else {
+      this.subscribeCommentStream();
+      message = 'comment-list.comment-stream-started';
+    }
+    this.translateService.get(message).subscribe(msg => {
       this.notificationService.show(msg);
     });
   }
@@ -524,7 +418,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   subscribeCommentStream() {
     this.commentStream = this.roomDataService.receiveUpdates([
       { type: 'CommentCreated', finished: true },
-      { type: 'CommentPatched', subtype: this.favorite },
+      { type: 'CommentPatched', subtype: 'favorite' },
       { type: 'CommentPatched', subtype: 'score' },
       { finished: true }
     ]).subscribe(update => {
@@ -534,7 +428,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       } else if (update.type === 'CommentPatched') {
         if (update.subtype === 'score') {
           this.getComments();
-        } else if (update.subtype === this.favorite) {
+        } else if (update.subtype === 'favorite') {
           if (this.user.id === update.comment.creatorId && update.comment.favorite) {
             this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
               this.notificationService.show(ret);
@@ -594,57 +488,34 @@ export class CommentListComponent implements OnInit, OnDestroy {
     }, 450);
   }
 
-  public setTimePeriod(period?: Period) {
+  setTimePeriod(period?: Period) {
     if (period) {
-      this.period = period;
-      this.fromNow = null;
+      this.filter.period = period;
+      this.filter.fromNow = null;
     }
-    const comments = this.thresholdEnabled ? this.comments.filter(x => x.score >= this.room.threshold) : this.comments;
-    const currentTime = new Date();
-    const hourInSeconds = 3600000;
-    let periodInSeconds;
-    if (this.period !== Period.all) {
-      switch (this.period) {
-        case Period.fromNow:
-          if (!this.fromNow) {
-            this.fromNow = new Date().getTime();
-          }
-          break;
-        case Period.oneHour:
-          periodInSeconds = hourInSeconds;
-          break;
-        case Period.threeHours:
-          periodInSeconds = hourInSeconds * 2;
-          break;
-        case Period.oneDay:
-          periodInSeconds = hourInSeconds * 24;
-          break;
-        case Period.oneWeek:
-          periodInSeconds = hourInSeconds * 168;
-          break;
-        case Period.twoWeeks:
-          periodInSeconds = hourInSeconds * 336;
-          break;
-      }
-      this.commentsFilteredByTime = comments
-        .filter(c => new Date(c.timestamp).getTime() >=
-          (this.period === Period.fromNow ? this.fromNow : (currentTime.getTime() - periodInSeconds)));
-    } else {
-      this.commentsFilteredByTime = comments;
-    }
+    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
 
-    this.filterComments(this.currentFilter, this.currentFilterCompare);
+    this.filterComments(this.filter.filterType, this.filter.filterCompare);
     this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+  }
+
+  private receiveRoom(room: Room) {
+    this.room = room;
+    this.filter.updateRoom(room);
+    this.roomId = room.id;
+    this.moderationEnabled = room.moderated;
+    this.directSend = room.directSend;
+    this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !room.questionsBlocked;
   }
 
   private getCurrentFilter(): CommentFilter {
     const filter = new CommentFilter();
-    filter.filterSelected = this.currentFilter;
+    filter.filterSelected = this.filter.filterType;
     filter.paused = this.freeze;
-    filter.periodSet = this.period;
-    filter.keywordSelected = this.selectedKeyword;
-    filter.tagSelected = this.selectedTag;
-    filter.userNumberSelected = this.userNumberSelection;
+    filter.periodSet = this.filter.period;
+    filter.keywordSelected = this.filter.filterCompare;
+    filter.tagSelected = this.filter.filterCompare;
+    filter.userNumberSelected = this.filter.filterCompare;
 
     if (filter.periodSet === Period.fromNow) {
       filter.timeStampNow = new Date().getTime();

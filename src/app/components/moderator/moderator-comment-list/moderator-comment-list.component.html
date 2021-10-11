@@ -55,7 +55,7 @@
             aria-labelledby="time_settings"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="timeMenu"
-            [ngClass]="{'active-filter': period !== 'time-all'}"
+            [ngClass]="{'active-filter': filter.period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
       <mat-icon class="searchBarIcon">history</mat-icon>
     </button>
@@ -73,25 +73,25 @@
             xPosition="before">
     <button mat-menu-item
             matTooltip="{{ 'comment-list.time' | translate }}"
-            (click)="sortComments(time)"
+            (click)="sortCommentsByKey('time')"
             aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'unread-icon'}[currentSort]">update</mat-icon>
-      <span>{{ 'comment-list.sort-list-time' | translate }}</span>
+      <mat-icon [ngClass]="{time: 'timesort'}[filter.sortType]">update</mat-icon>
+      <span [ngClass]="{time: 'timesort'}[filter.sortType]">{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
 
     <button mat-menu-item
             matTooltip="{{ 'comment-list.vote-asc' | translate }}"
-            (click)="sortComments(votedesc)"
+            (click)="sortCommentsByKey('votedesc')"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">thumb_up</mat-icon>
+      <mat-icon [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
       <span>{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
     <button mat-menu-item
             matTooltip="{{ 'comment-list.vote-desc' | translate }}"
-            (click)="sortComments(voteasc)"
+            (click)="sortCommentsByKey('voteasc')"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">thumb_down</mat-icon>
+      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]">thumb_down</mat-icon>
       <span>{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
   </mat-menu>
@@ -99,7 +99,7 @@
   <mat-menu #timeMenu="matMenu" xPosition="before">
     <div *ngFor="let periodItem of periodsList">
       <button mat-menu-item (click)="setTimePeriod(periodItem)" class="period"
-              [ngClass]="{'selected': periodItem === period}"
+              [ngClass]="{'selected': periodItem === filter.period}"
               aria-labelledby="{{periodItem}}">
         <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
       </button>
@@ -136,7 +136,7 @@
 <ars-row [height]="64">
 </ars-row>
 
-<div *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
+<div *ngIf="comments && (commentsFilteredByTime.length < 1 && filter.period === 'time-all' || comments.length === 0) && !isLoading"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">
@@ -145,7 +145,7 @@
 </div>
 
 <div *ngIf="(filteredComments && filteredComments.length === 0 && hideCommentsList)
-            || (comments && commentsFilteredByTime.length === 0 && period !== 'time-all') && !isLoading && comments.length > 0"
+            || (comments && commentsFilteredByTime.length === 0 && filter.period !== 'time-all') && !isLoading && comments.length > 0"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">

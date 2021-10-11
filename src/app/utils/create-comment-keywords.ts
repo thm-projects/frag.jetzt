@@ -91,7 +91,6 @@ export class CreateCommentKeywords {
     const wordCount = text.trim().split(' ').length;
     const hasConfidence = selectedLanguage === 'auto' ? result.language.detectedLanguage.confidence >= 0.5 : true;
     const errorQuotient = (result.matches.length * 100) / wordCount;
-    console.log(errorQuotient);
     if (!hasConfidence ||
       errorQuotient > ERROR_QUOTIENT_USE_DEEPL ||
       (!useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED)) {
