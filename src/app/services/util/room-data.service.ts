@@ -13,7 +13,7 @@ import { SpacyKeyword } from '../http/spacy.service';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
-  subtype?: string;
+  subtype?: (keyof Comment);
   comment: Comment;
   finished?: boolean;
   updates?: (keyof Comment)[];
@@ -100,7 +100,7 @@ export class RoomDataService {
 
   private _currentSubscriptions: RoomDataUpdateSubscription[] = [];
   private _currentComments: Comment[] = null;
-  private _commentUpdates: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
+  private _currentRoomComments: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
   private _fastCommentAccess: FastRoomAccessObject = null;
   private _wsCommentServiceSubscription: Subscription = null;
   private _currentRoomId: string = null;
@@ -140,10 +140,10 @@ export class RoomDataService {
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
     const tempSubject = new BehaviorSubject<Comment[]>(null);
     if (this._currentRoomId !== roomId) {
-      this._commentUpdates.next(null);
+      this._currentRoomComments.next(null);
     }
     let subscription: Subscription = null;
-    subscription = this._commentUpdates.subscribe(comments => {
+    subscription = this._currentRoomComments.subscribe(comments => {
       if (comments === null) {
         return;
       }
@@ -287,7 +287,7 @@ export class RoomDataService {
 
   private triggerUpdate(type: UpdateType, additionalInformation: UpdateInformation) {
     if (type === UpdateType.force) {
-      this._commentUpdates.next(this._currentComments);
+      this._currentRoomComments.next(this._currentComments);
     } else if (type === UpdateType.commentStream) {
       for (const subscription of this._currentSubscriptions) {
         subscription.onUpdate(additionalInformation);
