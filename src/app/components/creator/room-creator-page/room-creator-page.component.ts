@@ -159,7 +159,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
         icon:'delete_sweep',
         iconColor:Palette.RED,
         text:'header.delete-questions',
-        callback:() => this.openDeleteRoomDialog(),
+        callback:() => this.deleteQuestions(),
         condition:() => this.user.role === UserRole.CREATOR
       });
       e.menuItem({
