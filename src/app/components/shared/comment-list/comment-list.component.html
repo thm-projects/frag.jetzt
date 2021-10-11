@@ -288,7 +288,7 @@
                      [pageSizeOptions]="pageSizeOptions"
                      [pageIndex]="pageIndex"
                      [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
-  <ars-row [height]="64">
+  <ars-row [height]="64" *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0">
   </ars-row>
 
 </div>
