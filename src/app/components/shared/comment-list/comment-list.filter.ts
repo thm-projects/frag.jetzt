@@ -113,6 +113,10 @@ export class CommentListFilter {
     return !!this.threshold;
   }
 
+  get moderatorAccountIds() {
+    return this.moderatorIds;
+  }
+
   filterCommentsBySearch(comments: Comment[]): Comment[] {
     const search = this.currentSearch.toLowerCase();
     return comments

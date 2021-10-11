@@ -272,7 +272,7 @@
                [parseVote]="getVote(current)"
                [userRole]="userRole"
                [moderator]="false"
-               [isFromModerator]="moderatorIds.includes(current.creatorId)"
+               [isFromModerator]="filter.moderatorAccountIds.has(current.creatorId)"
                [isFromOwner]="room.ownerId === current.creatorId"
                [user]="user"
                [disabled]="!commentsEnabled"
