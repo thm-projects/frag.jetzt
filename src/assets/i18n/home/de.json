@@ -354,11 +354,8 @@
     "header": "Sterne für Bonuspunkte einlösen",
     "no-bonus": "Du hast noch keinen Stern für eine gute Frage erhalten.",
     "redeem-tokens": "Sterne per Mail einlösen",
-    "mail-subject": "Bitte%20um%20Einl%C3%B6sung%20meiner%20Tokens%20aus%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
-    "mail-body-1": "Hallo%2C%0D%0A%0D%0Aich%20habe%20heute%20in%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
-    "mail-body-2": "%C2%AB%20mit%20dem%20Raum-Code%20%C2%BB",
-    "mail-body-3": "%C2%AB%20die%20folgenden%20Tokens%20erhalten%3A%0D%0A%0D%0A",
-    "mail-body-4": "%0D%0A%0D%0AIch%20bitte%20um%20die%20Einl%C3%B6sung%20in%20Bonuspunkte.%0D%0A%0D%0ADanke%20f%C3%BCr%20%C2%BBfrag.jetzt%C2%AB!%0D%0A%0D%0A---",
+    "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
+    "mail-body": "Hallo,\n\nich habe heute in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n\n{{tokens}}\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
     "choose-session": "Wähle eine Sitzung aus",
     "please-choose": "Bitte wähle zuerst eine Sitzung aus!"
   },
