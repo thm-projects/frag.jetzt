@@ -21,9 +21,15 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { CommentFilter, Period } from '../../../utils/filter-options';
+import { Period } from '../../../utils/filter-options';
 import { PageEvent } from '@angular/material/paginator';
-import { CommentListFilter, FilterType, SortType, SortTypeKey } from '../../shared/comment-list/comment-list.filter';
+import {
+  CommentListFilter,
+  FilterType,
+  FilterTypeKey,
+  SortType,
+  SortTypeKey
+} from '../../shared/comment-list/comment-list.filter';
 import { ModeratorService } from '../../../services/http/moderator.service';
 
 
@@ -60,7 +66,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
   scrollExtended = false;
-  searchInput = '';
   search = false;
   searchPlaceholder = '';
   periodsList = Object.values(Period);
@@ -69,6 +74,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   pageSize = 10;
   pageSizeOptions = [5, 10, 25];
   showFirstLastButtons = true;
+  commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
 
   constructor(
@@ -222,16 +228,12 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
 
   searchComments(): void {
     this.search = true;
-    if (this.searchInput && this.searchInput.length > 1) {
+    if (this.filter.currentSearch) {
       this.hideCommentsList = true;
-      this.filteredComments = this.comments
-        .filter(c => this.checkIfIncludesKeyWord(c.body, this.searchInput)
-          || (!!c.answer ? this.checkIfIncludesKeyWord(c.answer, this.searchInput) : false));
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+    } else if (!this.filter.filterType) {
+      this.hideCommentsList = false;
     }
-  }
-
-  checkIfIncludesKeyWord(body: string, keyword: string) {
-    return body.toLowerCase().includes(keyword.toLowerCase());
   }
 
   activateSearch() {
@@ -240,6 +242,13 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this.search = true;
     this.searchField.nativeElement.focus();
+  }
+
+  abortSearch() {
+    this.hideCommentsList = false;
+    this.filter.currentSearch = '';
+    this.search = false;
+    this.refreshFiltering();
   }
 
   getComments(): void {
@@ -346,40 +355,38 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     }
   }
 
-  filterComments(type: FilterType, compare?: any): void {
-    this.pageIndex = 0;
-    this.filter.filterType = type;
-    this.filter.filterCompare = compare;
-    if (!type) {
-      this.filteredComments = this.commentsFilteredByTime;
-      this.hideCommentsList = false;
-      this.sortComments(this.filter.sortType);
+  refreshFiltering(): void {
+    this.commentsWrittenByUsers.clear();
+    for (const comment of this.comments) {
+      let set = this.commentsWrittenByUsers.get(comment.creatorId);
+      if (!set) {
+        set = new Set<string>();
+        this.commentsWrittenByUsers.set(comment.creatorId, set);
+      }
+      set.add(comment.id);
+    }
+    this.isLoading = false;
+    if (this.search) {
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
       return;
     }
-    this.filteredComments = this.filter.filterCommentsByType(this.commentsFilteredByTime);
-    this.hideCommentsList = true;
-    this.sortComments(this.filter.sortType);
+    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
+    this.hideCommentsList = !!this.filter.filterType;
+    this.filteredComments = this.hideCommentsList ?
+      this.filter.filterCommentsByType(this.commentsFilteredByTime) : this.commentsFilteredByTime;
+    this.filter.sortCommentsBySortType(this.filteredComments);
   }
 
-  clickedUserNumber(usrNumber: number): void {
-    this.filterComments(FilterType.userNumber, usrNumber);
+  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
+    this.pageIndex = 0;
+    this.filter.filterType = FilterType[type];
+    this.filter.filterCompare = compare;
+    this.refreshFiltering();
   }
 
-  sort(array: Comment[], type: SortType): void {
-    this.filter.sortType = type;
-    this.filter.sortCommentsBySortType(array);
-  }
-
-  sortCommentsByKey(type: SortTypeKey) {
-    this.sortComments(SortType[type]);
-  }
-
-  sortComments(type: SortType): void {
-    if (this.hideCommentsList === true) {
-      this.sort(this.filteredComments, type);
-    } else {
-      this.sort(this.commentsFilteredByTime, type);
-    }
+  applySortingByKey(type: SortTypeKey) {
+    this.filter.sortType = SortType[type];
+    this.refreshFiltering();
   }
 
   switchToCommentList(): void {
@@ -397,19 +404,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
       this.filter.period = period;
       this.filter.fromNow = null;
     }
-    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments, true);
-    this.filterComments(this.filter.filterType, this.filter.filterCompare);
-  }
-
-  private getCurrentFilter() {
-    const filter = new CommentFilter();
-    filter.filterSelected = this.filter.filterType;
-    filter.periodSet = this.filter.period;
-
-    if (filter.periodSet === Period.fromNow) {
-      filter.timeStampNow = new Date().getTime();
-    }
-
-    CommentFilter.currentFilter = filter;
+    this.refreshFiltering();
   }
 }

@@ -67,7 +67,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   searchPlaceholder = '';
   moderationEnabled = true;
   directSend = true;
-  thresholdEnabled = false;
   newestComment: string;
   freeze = false;
   commentStream: Subscription;
@@ -78,15 +77,15 @@ export class CommentListComponent implements OnInit, OnDestroy {
   isJoyrideActive = false;
   focusCommentId = '';
   activeUsers = 0;
+  pageIndex = 0;
+  pageSize = 10;
+  pageSizeOptions = [5, 10, 25];
+  showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
-  pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
-  showFirstLastButtons = true;
 
   constructor(
     private commentService: CommentService,
@@ -128,7 +127,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   initNavigation() {
     this._subscriptionEventServiceTagConfig = this.eventService.on<string>('setTagConfig').subscribe(tag => {
       this.setTimePeriod(Period.all);
-      this.clickedOnKeyword(tag);
+      this.applyFilterByKey('keyword', tag);
     });
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
       this.eventService.broadcast('currentRoomData', {
@@ -252,7 +251,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
               }
               this.comments = comments;
               this.generateKeywordsIfEmpty();
-              this.getComments();
+              if (this.filter.currentSearch) {
+                this.search = true;
+                this.hideCommentsList = true;
+              }
+              this.refreshFiltering();
               this.eventService.broadcast('commentListCreated', null);
               this.isJoyrideActive = this.onboardingService.startDefaultTour();
             });
@@ -319,13 +322,30 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.hideCommentsList = false;
     this.filter.currentSearch = '';
     this.search = false;
-    this.filterComments(this.filter.filterType, this.filter.filterCompare);
+    this.refreshFiltering();
   }
 
-  getComments(): void {
-    this.thresholdEnabled = !!this.room.threshold;
+  refreshFiltering(): void {
+    this.commentsWrittenByUsers.clear();
+    for (const comment of this.comments) {
+      let set = this.commentsWrittenByUsers.get(comment.creatorId);
+      if (!set) {
+        set = new Set<string>();
+        this.commentsWrittenByUsers.set(comment.creatorId, set);
+      }
+      set.add(comment.id);
+    }
     this.isLoading = false;
-    this.setTimePeriod();
+    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
+    this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+    if (this.search) {
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+      return;
+    }
+    this.hideCommentsList = !!this.filter.filterType;
+    this.filteredComments = this.hideCommentsList ?
+      this.filter.filterCommentsByType(this.commentsFilteredByTime) : this.commentsFilteredByTime;
+    this.filter.sortCommentsBySortType(this.filteredComments);
   }
 
   getVote(comment: Comment): Vote {
@@ -338,53 +358,16 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.dialog.closeAll();
   }
 
-  filterCommentsByKey(type: FilterTypeKey, compare?: any): void {
-    this.filterComments(FilterType[type], compare);
-  }
-
-  filterComments(type: FilterType, compare?: any): void {
+  applyFilterByKey(type: FilterTypeKey, compare?: any): void {
     this.pageIndex = 0;
-    this.filter.filterType = type;
+    this.filter.filterType = FilterType[type];
     this.filter.filterCompare = compare;
-    if (!type) {
-      this.filteredComments = this.commentsFilteredByTime;
-      this.hideCommentsList = false;
-      this.sortComments(this.filter.sortType);
-      return;
-    }
-    this.filteredComments = this.filter.filterCommentsByType(this.commentsFilteredByTime);
-    this.hideCommentsList = true;
-    this.sortComments(this.filter.sortType);
+    this.refreshFiltering();
   }
 
-  sort(array: Comment[], type: SortType): any[] {
-    this.filter.sortType = type;
-    this.filter.sortCommentsBySortType(array);
-    return array;
-  }
-
-  sortCommentsByKey(type: SortTypeKey) {
-    this.sortComments(SortType[type]);
-  }
-
-  sortComments(type: SortType): void {
-    if (this.hideCommentsList === true) {
-      this.filteredComments = this.sort(this.filteredComments, type);
-    } else {
-      this.setComments(this.sort(this.commentsFilteredByTime, type));
-    }
-  }
-
-  clickedOnTag(tag: string): void {
-    this.filterComments(FilterType.tag, tag);
-  }
-
-  clickedOnKeyword(keyword: string): void {
-    this.filterComments(FilterType.keyword, keyword);
-  }
-
-  clickedUserNumber(usrNumber: number): void {
-    this.filterComments(FilterType.userNumber, usrNumber);
+  applySortingByKey(type: SortTypeKey) {
+    this.filter.sortType = SortType[type];
+    this.refreshFiltering();
   }
 
   votedComment(voteInfo: string) {
@@ -399,8 +382,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         return;
       }
       this.comments = comments;
-      this.setComments(comments);
-      this.getComments();
+      this.refreshFiltering();
     });
     let message: string;
     if (freezed) {
@@ -419,16 +401,12 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.commentStream = this.roomDataService.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentPatched', subtype: 'favorite' },
-      { type: 'CommentPatched', subtype: 'score' },
       { finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.announceNewComment(update.comment.body);
-        this.setComments(this.comments);
       } else if (update.type === 'CommentPatched') {
-        if (update.subtype === 'score') {
-          this.getComments();
-        } else if (update.subtype === 'favorite') {
+        if (update.subtype === 'favorite') {
           if (this.user.id === update.comment.creatorId && update.comment.favorite) {
             this.translateService.get('comment-list.comment-got-favorited').subscribe(ret => {
               this.notificationService.show(ret);
@@ -437,30 +415,13 @@ export class CommentListComponent implements OnInit, OnDestroy {
         }
       }
       if (update.finished) {
-        this.setTimePeriod();
-        if (this.hideCommentsList) {
-          this.searchComments();
-        }
+        this.refreshFiltering();
       }
     });
   }
 
   switchToModerationList(): void {
     this.router.navigate([`/moderator/room/${this.room.shortId}/moderator/comments`]);
-  }
-
-  setComments(comments: Comment[]) {
-    this.commentsWrittenByUsers.clear();
-    for (const comment of this.comments) {
-      let set = this.commentsWrittenByUsers.get(comment.creatorId);
-      if (!set) {
-        set = new Set<string>();
-        this.commentsWrittenByUsers.set(comment.creatorId, set);
-      }
-      set.add(comment.id);
-    }
-    this.commentsFilteredByTime = comments;
-    this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
   }
 
   writeComment() {
@@ -493,10 +454,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.filter.period = period;
       this.filter.fromNow = null;
     }
-    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
-
-    this.filterComments(this.filter.filterType, this.filter.filterCompare);
-    this.titleService.attachTitle('(' + this.commentsFilteredByTime.length + ')');
+    this.refreshFiltering();
   }
 
   private receiveRoom(room: Room) {

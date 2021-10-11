@@ -63,6 +63,7 @@ export class CommentListFilter {
     this.filterCompare = obj.filterCompare;
     this.sortType = obj.sortType;
     this.currentSearch = obj.currentSearch;
+    this.lastRoomId = obj.lastRoomId;
   }
 
   static loadCurrentFilter(): CommentListFilter {
