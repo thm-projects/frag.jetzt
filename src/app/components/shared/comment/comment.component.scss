@@ -180,6 +180,14 @@ mat-card-content > :first-child {
   &-mergeSelect {
     @include card-box-shadow(var(--cyan));
   }
+
+  &-fromModerator {
+    @include card-box-shadow(var(--red));
+  }
+
+  &-fromOwner {
+    @include card-box-shadow(var(--red));
+  }
 }
 
 .comment-tags {

@@ -8,7 +8,9 @@
           'border-wrong': comment.correct === 2,
           'border-answer': comment.answer && comment.bookmark === false && comment.favorite === false,
           'border-bookmark': comment.bookmark === true,
-          'border-favorite': comment.favorite === true
+          'border-favorite': comment.favorite === true,
+          'border-fromModerator': isFromModerator,
+          'border-fromOwner': isFromOwner
           }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
