@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { NavigationEnd, Router } from '@angular/router';
@@ -29,13 +29,14 @@ import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin
 import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
+import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit,AfterViewInit {
   user: User;
   cTime: string;
   shortId: string;
@@ -51,12 +52,13 @@ export class HeaderComponent implements OnInit {
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
   private _subscriptionRoomService = null;
+  @ViewChild(ArsComposeHostDirective)host:ArsComposeHostDirective;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
-              private notificationService: NotificationService,
+              public notificationService: NotificationService,
               public router: Router,
-              private translationService: TranslateService,
+              public translationService: TranslateService,
               public dialog: MatDialog,
               private userService: UserService,
               public eventService: EventService,
@@ -72,14 +74,13 @@ export class HeaderComponent implements OnInit {
   ) {
   }
 
+  ngAfterViewInit(){
+    this.headerService.initHeader(()=>this);
+  }
+
   ngOnInit() {
     this.topicCloudAdminService.getAdminData.subscribe(data => {
       this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
-    });
-    this.eventService.on('userLogin').subscribe(e => {
-      this.motdService.checkNewMessage(() => {
-        this.motdService.requestDialog();
-      });
     });
     this.eventService.on<TagCloudMetaData>('tagCloudHeaderDataOverview').subscribe(data => {
       this.commentsCountQuestions = data.commentCount;
@@ -144,11 +145,12 @@ export class HeaderComponent implements OnInit {
             localStorage.setItem('shortId', this.shortId);
             this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
               this.room = room;
+              this.moderationEnabled = !room.directSend;
               this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
                 const message = JSON.parse(msg.body);
                 if (message.type === 'RoomPatched') {
                   this.room.questionsBlocked = message.payload.changes.questionsBlocked;
-                  this.moderationEnabled = message.payload.changes.moderated;
+                  this.moderationEnabled = !message.payload.changes.directSend;
                 }
               });
             });

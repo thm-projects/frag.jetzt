@@ -15,8 +15,7 @@
           id="session_id-input"
           matInput
           #sessionCode
-          (focus)="eventService.makeFocusOnInputTrue()"
-          (blur)="eventService.makeFocusOnInputFalse()"
+          appAccessibilityEscapedInput
           type="text"
           maxlength="30"
           [formControl]="sessionCodeFormControl"

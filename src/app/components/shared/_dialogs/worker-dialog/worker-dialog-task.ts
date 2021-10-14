@@ -3,19 +3,12 @@ import { SpacyKeyword, SpacyService } from '../../../../services/http/spacy.serv
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment, Language } from '../../../../models/comment';
 import { Language as Lang, LanguagetoolService } from '../../../../services/http/languagetool.service';
-import { CreateCommentKeywords } from '../../../../utils/create-comment-keywords';
+import { CreateCommentKeywords, KeywordsResult, KeywordsResultType } from '../../../../utils/create-comment-keywords';
 import { TSMap } from 'typescript-map';
 import { HttpErrorResponse } from '@angular/common/http';
-import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../../../../services/http/spacy.interface';
-import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
+import { DeepLService } from '../../../../services/http/deep-l.service';
 
 const concurrentCallsPerTask = 4;
-
-enum FinishType {
-  completed,
-  badSpelled,
-  failed
-}
 
 export class WorkerDialogTask {
 
@@ -23,6 +16,7 @@ export class WorkerDialogTask {
   readonly statistics = {
     succeeded: 0,
     badSpelled: 0,
+    notSupported: 0,
     failed: 0,
     length: 0
   };
@@ -32,6 +26,7 @@ export class WorkerDialogTask {
   constructor(public readonly room: Room,
               private comments: Comment[],
               private spacyService: SpacyService,
+              private deeplService: DeepLService,
               private commentService: CommentService,
               private languagetoolService: LanguagetoolService,
               private finished: () => void) {
@@ -60,48 +55,43 @@ export class WorkerDialogTask {
       return;
     }
     const currentComment = this._comments[currentIndex];
-    const text = ViewCommentDataComponent.getTextFromData(currentComment.body);
-    CreateCommentKeywords.isSpellingAcceptable(this.languagetoolService, text)
-      .subscribe(result => {
-        if (!result.isAcceptable) {
-          this.finishSpacyCall(FinishType.badSpelled, currentIndex);
-          return;
-        }
-        const commentModel = currentComment.language.toLowerCase();
-        const model = commentModel !== 'auto' ? commentModel.toLowerCase() as Model :
-          this.languagetoolService.mapLanguageToSpacyModel(result.result.language.detectedLanguage.code as Lang);
-        if (model === 'auto' || !CURRENT_SUPPORTED_LANGUAGES.includes(model)) {
-          this.finishSpacyCall(FinishType.badSpelled, currentIndex);
-          return;
-        }
-        this.spacyService.getKeywords(result.text, model)
-          .subscribe(newKeywords =>
-              this.finishSpacyCall(FinishType.completed, currentIndex, newKeywords, model.toUpperCase() as Language),
-            __ => this.finishSpacyCall(FinishType.failed, currentIndex));
-      }, _ => this.finishSpacyCall(FinishType.failed, currentIndex));
+    CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService, this.spacyService,
+      currentComment.body,
+      !currentComment.keywordsFromQuestioner || currentComment.keywordsFromQuestioner.length === 0,
+      currentComment.language.toLowerCase() as Lang)
+      .subscribe((result) => this.finishSpacyCall(currentIndex, result, currentComment.language));
   }
 
-  private finishSpacyCall(finishType: FinishType, index: number, tags?: SpacyKeyword[], lang?: Language): void {
-    if (finishType === FinishType.completed) {
-      this.patchToServer(tags, index, lang);
-    } else if (finishType === FinishType.badSpelled) {
+  private finishSpacyCall(index: number, result: KeywordsResult, previous: Language): void {
+    let undo: () => any = () => '';
+    if (result.resultType === KeywordsResultType.badSpelled) {
       this.statistics.badSpelled++;
-      this.patchToServer([], index, Language.auto);
-    } else {
+      undo = () => this.statistics.badSpelled--;
+    } else if (result.resultType === KeywordsResultType.languageNotSupported) {
+      this.statistics.notSupported++;
+      undo = () => this.statistics.notSupported--;
+    } else if (result.resultType === KeywordsResultType.failure) {
       this.statistics.failed++;
-      this.patchToServer([], index, Language.auto);
+      undo = () => this.statistics.failed--;
     }
+    if (result.language === Language.auto) {
+      result.language = null;
+    }
+    this.patchToServer(result.keywords, index, result.language, undo);
   }
 
-  private patchToServer(tags: SpacyKeyword[], index: number, language: Language) {
+  private patchToServer(tags: SpacyKeyword[], index: number, language: Language, undo: () => any) {
     const changes = new TSMap<string, string>();
     changes.set('keywordsFromSpacy', JSON.stringify(tags));
-    changes.set('language', language);
+    if (language !== null) {
+      changes.set('language', language);
+    }
     this.commentService.patchComment(this._comments[index], changes).subscribe(_ => {
         this.statistics.succeeded++;
         this.callSpacy(index + concurrentCallsPerTask);
       },
       patchError => {
+        undo();
         this.statistics.failed++;
         if (patchError instanceof HttpErrorResponse && patchError.status === 403) {
           this.error = 'forbidden';

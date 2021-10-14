@@ -149,9 +149,9 @@
     "send-description": "Frage abschicken",
     "tag": "Tag",
     "tag-reset": "Zurücksetzen",
-    "tag-to-filter": "Klick auf die Fragekategorie, um alle Fragen dieser Kategorie zu filtern.",
-    "user-number": "Klick auf die Nummer, um alle Fragen dieses Fragenstellers zu filtern.",
-    "keywords-per-question": "Klick auf ein Stichwort, um alle Fragen mit diesem Stichwort zu filtern.",
+    "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
+    "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
+    "keywords-per-question": "Klick auf das #-Zeichen, um die  Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
     "keywords": "Stichwörter",
     "vote-down": "Frage abwerten",
     "vote-up": "Frage aufwerten",
@@ -162,7 +162,8 @@
     "sure": "Bist du sicher?",
     "grammar-check": "Text prüfen",
     "upvote": "positiv:",
-    "downvote": "negativ:"
+    "downvote": "negativ:",
+    "questioner-name": "Selbst vergebener Name"
   },
   "deepl": {
     "header": "Text prüfen",
@@ -182,9 +183,9 @@
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
-    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Bedeutung der Stichwörter. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde.\n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort.",
-    "user-bonus": "Lorem ipsum",
-    "bonus-archive": "Lorem ipsum"
+    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Bedeutung der Stichwörter. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde.\n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nDer Raumersteller kann das Aussehen der Themenwolke in den Optionen nach seinen Wünschen anpassen. Er kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
+    "user-bonus": "Die Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Token des Sterns per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen.",
+    "bonus-archive": "Hier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Token, den dir ein Teilnehmer per Mail geschickt hat, gültig ist. \n\nUm einen Token schnell zu finden, gibt es ein Suchfeld. Ist der Token gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen."
   },
   "home-page": {
     "exactly-8": "Ein Raum-Code hat genau 8 Ziffern.",
@@ -203,7 +204,7 @@
     "votingTitle": "Eine Frage bewerten",
     "commentFilter": "Es gibt zahlreiche Sortier- und Filteroptionen für die Fragenliste. Ein aktiver Filter wird rot angezeigt. Für eine bessere Lesbarkeit bei großer Dynamik kann der Fragenstrom auch angehalten werden.",
     "commentFilterTitle": "Fragenliste verwalten",
-    "commentUserNumber": "Alle User stellen ihre Fragen anonym. Jedem User wird eine zufällige Nummer zugewiesen, um alle Fragen dieses Users zu finden. Dies geschieht mit einem Klick auf die Nummer.",
+    "commentUserNumber": "Ein Klick auf das Pin-Icon und es werden dir alle Fragen dieses Users angezeigt.",
     "commentUserNumberTitle": "Fragen eines Users finden"
   },
   "room-page": {
@@ -221,7 +222,7 @@
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
     "delete": "Frage löschen",
-    "moderation-enabled": "Die Sitzung wird moderiert.",
+    "moderation-enabled": "Alle Fragen werden moderiert.",
     "sure": "Bist du sicher?"
   },
   "question-wall": {
@@ -461,11 +462,8 @@
     "header": "Sterne für Bonuspunkte einlösen",
     "no-bonus": "Du hast noch keinen Stern für eine gute Frage erhalten.",
     "redeem-tokens": "Sterne per Mail einlösen",
-    "mail-subject": "Bitte%20um%20Einl%C3%B6sung%20meiner%20Tokens%20aus%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
-    "mail-body-1": "Hallo%2C%0D%0A%0D%0Aich%20habe%20heute%20in%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
-    "mail-body-2": "%C2%AB%20mit%20dem%20Raum-Code%20%C2%BB",
-    "mail-body-3": "%C2%AB%20die%20folgenden%20Tokens%20erhalten%3A%0D%0A%0D%0A",
-    "mail-body-4": "%0D%0A%0D%0AIch%20bitte%20um%20die%20Einl%C3%B6sung%20in%20Bonuspunkte.%0D%0A%0D%0ADanke%20f%C3%BCr%20%C2%BBfrag.jetzt%C2%AB!%0D%0A%0D%0A---",
+    "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
+    "mail-body": "Hallo,\n\nich habe heute in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n\n{{tokens}}\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
     "choose-session": "Wähle eine Sitzung aus",
     "please-choose": "Bitte wähle zuerst eine Sitzung aus!"
   },
@@ -473,5 +471,10 @@
     "cancel": "Schließen",
     "cancel-description": "Schließe die Einführung und gehe zurück zur Anmeldung.",
     "title": "Einführung"
+  },
+  "write-comment": {
+    "questioner-name": "Dein Name, wenn du willst …",
+    "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
+    "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
   }
 }

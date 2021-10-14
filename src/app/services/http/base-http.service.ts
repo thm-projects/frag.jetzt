@@ -21,7 +21,7 @@ export class BaseHttpService {
           this.nextRequest = new Date().getTime() + 86_400_000;
         }
       }
-      console.error(error);
+      console.error(operation, error);
       return throwError(error);
     };
   }

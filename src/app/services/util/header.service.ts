@@ -1,4 +1,8 @@
 import {Injectable} from '@angular/core';
+import { HeaderComponent } from '../../components/shared/header/header.component';
+import { TranslateService } from '@ngx-translate/core';
+import { NotificationService } from './notification.service';
+import { ArsComposeHostDirective } from '../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +13,13 @@ export class HeaderService {
   private userActivityListener:((v:number)=>void)[]=[];
   private userActivityToggle:boolean;
   private userActivityToggleListener:((v:boolean)=>void)[]=[];
-
+  private headerComponent:()=>HeaderComponent;
 
   constructor() {}
+
+  public initHeader(headerComponent:()=>HeaderComponent){
+    this.headerComponent=headerComponent;
+  }
 
   public setCurrentUserActivity(e:number){
     if(this.userActivity!=e){
@@ -35,6 +43,18 @@ export class HeaderService {
 
   public onActivityChange(f:(v:boolean)=>void){
     this.userActivityToggleListener.push(f);
+  }
+
+  public getTranslate():TranslateService{
+    return this.headerComponent().translationService;
+  }
+
+  public getNotificationService():NotificationService{
+    return this.headerComponent().notificationService;
+  }
+
+  public getHost():ArsComposeHostDirective{
+    return this.headerComponent().host;
   }
 
 }

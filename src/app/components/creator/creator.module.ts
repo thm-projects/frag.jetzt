@@ -25,6 +25,7 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 import { MatRippleModule } from '@angular/material/core';
 import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-settings/room-description-settings.component';
+import { RoomNameSettingsComponent } from './_dialogs/room-name-settings/room-name-settings.component';
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-se
     DeleteAnswerComponent,
     QuestionWallComponent,
     ProfanitySettingsComponent,
-    RoomDescriptionSettingsComponent
+    RoomDescriptionSettingsComponent,
+    RoomNameSettingsComponent
   ],
   exports: []
 })

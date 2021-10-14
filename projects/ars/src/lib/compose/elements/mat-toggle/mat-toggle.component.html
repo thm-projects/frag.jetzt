@@ -1,0 +1,11 @@
+<button mat-menu-item
+        tabindex="0"
+        (click)="action($event)"
+        *ngIf="data.condition()">
+  <mat-slide-toggle
+    (click)="action($event)"
+    style="margin-left:-5px;margin-right:9px;" [checked]="state.value">
+  </mat-slide-toggle>
+  <span *ngIf="state.value">{{data.textActivated | translate}}</span>
+  <span *ngIf="!state.value">{{data.textDeactivated | translate}}</span>
+</button>

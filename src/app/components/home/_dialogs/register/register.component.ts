@@ -66,8 +66,7 @@ export class RegisterComponent implements OnInit {
               public authenticationService: AuthenticationService,
               public notificationService: NotificationService,
               public dialogRef: MatDialogRef<RegisterComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any,
-              public eventService: EventService) {
+              @Inject(MAT_DIALOG_DATA) public data: any) {
   }
 
 

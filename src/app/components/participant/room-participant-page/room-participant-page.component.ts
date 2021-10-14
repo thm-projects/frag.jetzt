@@ -46,7 +46,7 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   }
 
   ngAfterContentInit(): void {
-    setTimeout( () => {
+    setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
   }
@@ -85,15 +85,15 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
         'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
     } else {
       this.liveAnnouncer.announce('You have entered the session' + this.room.name + 'with the room code' + this.room.shortId
-      + '.' + 'Press 0 to go back to the previous page, ' +
+        + '.' + 'Press 0 to go back to the previous page, ' +
         '1 to ask a question, 2 for the session menu' +
-      '8 to hear the current sesion code or 9 to repeat this announcement.');
+        '8 to hear the current sesion code or 9 to repeat this announcement.');
     }
 
   }
 
   preRoomLoadHook(): Observable<any> {
-    this.authenticationService.watchUser.subscribe( user => this.user = user);
+    this.authenticationService.watchUser.subscribe(user => this.user = user);
     if (!this.user) {
       return this.authenticationService.guestLogin(UserRole.PARTICIPANT).pipe(map((user) => {
         return user;
@@ -104,8 +104,10 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   }
 
   postRoomLoadHook() {
-    this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
+    if (!this.authenticationService.hasAccess(this.room.shortId, UserRole.PARTICIPANT)) {
+      this.authenticationService.setAccess(this.room.shortId, UserRole.PARTICIPANT);
+      this.roomService.addToHistory(this.room.id);
+    }
     this.authenticationService.checkAccess(this.room.shortId);
-    this.roomService.addToHistory(this.room.id);
   }
 }

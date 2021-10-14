@@ -5,7 +5,7 @@ import { EventService } from './event.service';
 import { AuthenticationService } from '../http/authentication.service';
 import { Router } from '@angular/router';
 import { DataStoreService } from './data-store.service';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { initDefaultTour, OnboardingTour, OnboardingTourStepInteraction } from './onboarding.tours';
 import { JoyrideStepInfo } from 'ngx-joyride/lib/models/joyride-step-info.class';
 import { NotificationService } from './notification.service';
@@ -23,6 +23,7 @@ export class OnboardingService {
   private _eventServiceSubscription: Subscription;
   private _tourSubscription: Subscription;
   private _currentStep: number;
+  private _finishedTours: BehaviorSubject<string[]>;
 
   constructor(private joyrideService: JoyrideService,
               private eventService: EventService,
@@ -34,10 +35,27 @@ export class OnboardingService {
               private translateService: TranslateService,
               private langService: LanguageService,
               private deviceInfo: DeviceInfoService) {
+    this._finishedTours = new BehaviorSubject<string[]>([]);
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
+  }
+
+  onFinishTour(name = 'default'): Observable<any> {
+    const obj = JSON.parse(this.dataStoreService.get('onboarding_' + name));
+    if (obj && obj.state !== 'running') {
+      return of(obj.state);
+    }
+    return new Observable<any>(e => {
+      const subscription = this._finishedTours.subscribe(tours => {
+        if (tours.includes(name)) {
+          e.next(true);
+          e.complete();
+          subscription.unsubscribe();
+        }
+      });
+    });
   }
 
   startDefaultTour(ignoreDone = false): boolean {
@@ -111,7 +129,10 @@ export class OnboardingService {
       startWith: this._activeTour.tour[this._currentStep - 1]
     }).subscribe(step => this.afterStepMade(step));
     this._eventServiceSubscription = this.eventService.on<string>('onboarding')
-      .subscribe(action => this.checkTourEnding(action));
+      .subscribe(action => {
+        this.checkTourEnding(action);
+        this._finishedTours.next(this._finishedTours.value.concat(tour.name));
+      });
     return true;
   }
 

@@ -48,6 +48,7 @@
         <input type="text"
                aria-label="{{'tag-cloud-popup.tag-correction-placeholder' | translate}}"
                matInput
+               appAccessibilityEscapedInput
                (keyup)="checkEnter($event)"
                [formControl]="replacementInput"
                [matAutocomplete]="auto">

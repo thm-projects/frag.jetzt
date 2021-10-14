@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { Comment, Language } from '../../../../models/comment';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { DeepLService } from '../../../../services/http/deep-l.service';
 
 @Component({
   selector: 'app-worker-dialog',
@@ -27,6 +28,7 @@ export class WorkerDialogComponent implements OnInit {
               private languagetoolService: LanguagetoolService,
               private spacyService: SpacyService,
               protected langService: LanguageService,
+              private deepLService: DeepLService,
               private translateService: TranslateService,
               private roomDataService: RoomDataService) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
@@ -112,14 +114,15 @@ export class WorkerDialogComponent implements OnInit {
 
   appendRoom(room: Room, comments: Comment[]) {
     WorkerDialogComponent.queuedRooms.set(room.id,
-      new WorkerDialogTask(room, comments, this.spacyService, this.commentService, this.languagetoolService, () => {
-        setTimeout(() => {
-          WorkerDialogComponent.queuedRooms.delete(room.id);
-          if (WorkerDialogComponent.queuedRooms.length === 0) {
-            this.close();
-          }
-        }, 10_000);
-      })
+      new WorkerDialogTask(room, comments, this.spacyService, this.deepLService, this.commentService,
+        this.languagetoolService, () => {
+          setTimeout(() => {
+            WorkerDialogComponent.queuedRooms.delete(room.id);
+            if (WorkerDialogComponent.queuedRooms.length === 0) {
+              this.close();
+            }
+          }, 10_000);
+        })
     );
   }
 

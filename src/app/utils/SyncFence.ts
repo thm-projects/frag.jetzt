@@ -14,4 +14,8 @@ export class SyncFence {
       }
     }
   }
+
+  unresolveCondition(index: number) {
+    this._conditions[index] = false;
+  }
 }

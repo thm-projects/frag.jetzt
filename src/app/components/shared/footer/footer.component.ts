@@ -64,9 +64,6 @@ export class FooterComponent implements OnInit {
           minHeight: '95%',
           height: '95%',
         });
-        dialogRef.componentInstance.onClose.subscribe(() => {
-          this.motdService.checkNewMessage();
-        });
         dialogRef.componentInstance.motdsList = e;
       });
     });

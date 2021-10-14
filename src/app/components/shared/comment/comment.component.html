@@ -8,7 +8,9 @@
           'border-wrong': comment.correct === 2,
           'border-answer': comment.answer && comment.bookmark === false && comment.favorite === false,
           'border-bookmark': comment.bookmark === true,
-          'border-favorite': comment.favorite === true
+          'border-favorite': comment.favorite === true,
+          'border-fromModerator': isFromModerator,
+          'border-fromOwner': isFromOwner
           }"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
@@ -40,7 +42,7 @@
       <span class="fill-remaining-space"></span>
       <ng-container>
         <button mat-icon-button
-                *ngIf="(isCreator || isModerator)"
+                *ngIf="(isCreator || isModerator) && isProfanity"
                 (click)="changeProfanityShowForModerators(comment)">
           <mat-icon class="not-marked"
                     [matTooltip]="filterProfanityForModerators ? ('comment-page.show-comment-with-filter' | translate) :
@@ -262,7 +264,7 @@
            role="button"
            style="width:100%;"
            tabindex="0">
-        <ars-row #commentBody>
+        <ars-row #commentBody class="commentBody">
           <ars-row #commentBodyInner>
             <app-view-comment-data class="images" [currentData]="comment.body"></app-view-comment-data>
           </ars-row>
@@ -306,17 +308,15 @@
         }}">{{comment.score}}</span>
       </div>
     </div>
-    <ars-row #commentExpander
-             ars-flex-box
-             [height]="37">
-      <ars-fill></ars-fill>
-      <ars-col>
-        <button mat-button
+    <ars-row ars-flex-box #commentExpander>
+      <ars-fill>
+        <button mat-button style="width:100%;"
                 (click)="toggleExpand($event)"><span class="commentExpanderButton">
-          {{ isExpanded ? ('comment-page.show-less' | translate) : ('comment-page.show-more' | translate) }}
-        </span></button>
+            {{ isExpanded ? ('comment-page.show-less' | translate) : ('comment-page.show-more' | translate) }}
+          </span></button>
+      </ars-fill>
+      <ars-col [width]="16">
       </ars-col>
-      <ars-fill></ars-fill>
     </ars-row>
     <div fxLayout="row"
          fxLayoutAlign="start center">
@@ -326,12 +326,13 @@
            *ngIf="comment.tag && comment.tag !== ''"
            class="comment-tags">
         <mat-icon svgIcon="comment_tag"></mat-icon>
-        <span>
-          &nbsp;{{comment.tag}}
+        <span style="padding-left: 5px">
+          {{comment.tag}}
         </span>
       </div>
-      <div class="user-number joyrideActive"
-           *ngIf="usesJoyride"
+      <div class="user-number"
+           *ngIf="commentsWrittenByUser > 1"
+           [ngClass]="{'joyrideActive': usesJoyride}"
            [joyrideStep]="'commentUserNumber'"
            [stepPosition]="'right'"
            appJoyrideTemplate
@@ -339,19 +340,10 @@
            matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.userNumber)">
         <mat-icon class="user-icon">person_pin_circle</mat-icon>
-        <strong>
-          {{comment.userNumber}}
-        </strong>
-      </div>
-      <div class="user-number"
-           *ngIf="!usesJoyride"
-           fxLayoutAlign="center center"
-           matTooltip="{{ 'comment-page.user-number' | translate }}"
-           (click)="this.clickedUserNumber.emit(comment.userNumber)">
-        <mat-icon class="user-icon">person_pin_circle</mat-icon>
-        <strong>
-          {{comment.userNumber}}
-        </strong>
+        <span matBadge="{{commentsWrittenByUser}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+        </span>
       </div>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
@@ -360,10 +352,8 @@
            class="comment-keywords">
         <mat-icon svgIcon="hashtag" class="keyword-icon"></mat-icon>
         <span matBadge="{{comment.keywordsFromQuestioner.length}}" matBadgeSize="small" matBadgeOverlap="false">
-          {{ this.selectedKeyword === '' ? ('comment-page.keywords' | translate) : this.selectedKeyword}}
         </span>
         <mat-menu #keywordsMenu>
-
           <mat-list dense class="keywords-list">
             <mat-list-item
               *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
@@ -376,6 +366,15 @@
       </div>
 
       <span class="fill-remaining-space"></span>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.questioner-name' | translate }}"
+           *ngIf="comment.questionerName"
+           class="questioner-name">
+        <mat-icon>account_circle</mat-icon>
+        <span style="padding-left: 5px">
+          {{comment.questionerName}}
+        </span>
+      </div>
       <button mat-icon-button
               class="moderate-button"
               *ngIf="(isCreator || isModerator) && !inAnswerView"

@@ -13,7 +13,7 @@ import { SpacyKeyword } from '../http/spacy.service';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
-  subtype?: string;
+  subtype?: (keyof Comment);
   comment: Comment;
   finished?: boolean;
   updates?: (keyof Comment)[];
@@ -89,6 +89,8 @@ interface CommentFilterData {
   genKeywordsCensored?: boolean[];
   userKeywords: SpacyKeyword[];
   userKeywordsCensored?: boolean[];
+  questionerName: string;
+  questionerNameCensored?: boolean;
 }
 
 @Injectable({
@@ -98,7 +100,7 @@ export class RoomDataService {
 
   private _currentSubscriptions: RoomDataUpdateSubscription[] = [];
   private _currentComments: Comment[] = null;
-  private _commentUpdates: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
+  private _currentRoomComments: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
   private _fastCommentAccess: FastRoomAccessObject = null;
   private _wsCommentServiceSubscription: Subscription = null;
   private _currentRoomId: string = null;
@@ -138,10 +140,10 @@ export class RoomDataService {
   getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
     const tempSubject = new BehaviorSubject<Comment[]>(null);
     if (this._currentRoomId !== roomId) {
-      this._commentUpdates.next(null);
+      this._currentRoomComments.next(null);
     }
     let subscription: Subscription = null;
-    subscription = this._commentUpdates.subscribe(comments => {
+    subscription = this._currentRoomComments.subscribe(comments => {
       if (comments === null) {
         return;
       }
@@ -152,43 +154,47 @@ export class RoomDataService {
     return tempSubject.asObservable();
   }
 
-  public checkProfanity(comment: Comment) {
-    const finish = new Subject<boolean>();
-    const subscription = finish.asObservable().subscribe(_ => {
-      let obj;
-      if (this.room.profanityFilter !== ProfanityFilter.deactivated) {
-        obj = this._savedCommentsAfterFilter.get(comment.id);
-      } else {
-        obj = this._savedCommentsBeforeFilter.get(comment.id);
-      }
-      comment.body = obj.body;
-      comment.keywordsFromSpacy = obj.genKeywords;
-      comment.keywordsFromQuestioner = obj.userKeywords;
-      subscription.unsubscribe();
-    });
-
+  public checkProfanity(comment: Comment): Observable<boolean> {
+    const subject = new BehaviorSubject<boolean>(null);
     if (!this._savedCommentsAfterFilter.get(comment.id) || !this.room) {
       if (!this.room) {
         this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
           this.room = room;
           this.setCommentBody(comment);
-          finish.next(true);
+          this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
+          subject.next(this.isCommentProfane(comment));
         });
       } else {
         this.setCommentBody(comment);
-        finish.next(true);
+        this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
+        subject.next(this.isCommentProfane(comment));
       }
     } else {
-      finish.next(true);
+      this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
+      subject.next(this.isCommentProfane(comment));
     }
+    return subject;
   }
 
-  getUnFilteredBody(id: string): string {
-    return this._savedCommentsBeforeFilter.get(id)[0];
+  applyStateToComment(comment: Comment, beforeFilter: boolean) {
+    let data: CommentFilterData;
+    if (beforeFilter) {
+      data = this._savedCommentsBeforeFilter.get(comment.id);
+    } else {
+      data = this._savedCommentsAfterFilter.get(comment.id);
+    }
+    comment.body = data.body;
+    comment.keywordsFromSpacy = data.genKeywords;
+    comment.keywordsFromQuestioner = data.userKeywords;
+    comment.questionerName = data.questionerName;
   }
 
-  getFilteredBody(id: string): string {
-    return this._savedCommentsAfterFilter.get(id)[0];
+  isCommentProfane(comment: Comment): boolean {
+    const data = this._savedCommentsAfterFilter.get(comment.id);
+    return data.bodyCensored ||
+      data.questionerNameCensored ||
+      data.userKeywordsCensored.some(e => e) ||
+      data.genKeywordsCensored.some(e => e);
   }
 
   getCensoredInformation(comment: Comment): CommentFilterData {
@@ -201,7 +207,8 @@ export class RoomDataService {
     this._savedCommentsBeforeFilter.set(comment.id, {
       body: comment.body,
       genKeywords,
-      userKeywords
+      userKeywords,
+      questionerName: comment.questionerName
     });
     this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
   }
@@ -226,13 +233,17 @@ export class RoomDataService {
       .checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language);
     const [userKeywords, userKeywordsCensored] = this
       .checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language);
+    const [questionerName, questionerNameCensored] = this.profanityFilterService
+      .filterProfanityWords(comment.questionerName, partialWords, languageSpecific, comment.language);
     return {
       body,
       bodyCensored,
       genKeywords,
       genKeywordsCensored,
       userKeywords,
-      userKeywordsCensored
+      userKeywordsCensored,
+      questionerName,
+      questionerNameCensored
     };
   }
 
@@ -276,7 +287,7 @@ export class RoomDataService {
 
   private triggerUpdate(type: UpdateType, additionalInformation: UpdateInformation) {
     if (type === UpdateType.force) {
-      this._commentUpdates.next(this._currentComments);
+      this._currentRoomComments.next(this._currentComments);
     } else if (type === UpdateType.commentStream) {
       for (const subscription of this._currentSubscriptions) {
         subscription.onUpdate(additionalInformation);
@@ -314,6 +325,7 @@ export class RoomDataService {
     c.userNumber = this.commentService.hashCode(c.creatorId);
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
+    c.questionerName = payload.questionerName;
     this._fastCommentAccess[c.id] = c;
     this._currentComments.push(c);
     this.triggerUpdate(UpdateType.commentStream, {
