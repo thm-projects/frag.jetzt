@@ -21,7 +21,7 @@ export class Matrix {
     ]);
   }
 
-  static translateIn3D(x: number, y: number, z: number = 0) {
+  static translateIn3D(x: number, y: number = 0, z: number = 0) {
     return new Matrix(4, 4, [
       1, 0, 0, x,
       0, 1, 0, y,
