@@ -33,6 +33,7 @@ import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { SyncFence } from '../../../utils/SyncFence';
+import { WordMeta } from './word-cloud/word-cloud.component';
 
 class CustomPosition implements Position {
   left: number;
@@ -50,7 +51,7 @@ class CustomPosition implements Position {
   }
 }
 
-class TagComment implements CloudData {
+class TagComment implements CloudData, WordMeta {
 
   constructor(public text: string,
               public realText: string,

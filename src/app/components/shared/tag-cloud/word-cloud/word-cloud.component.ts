@@ -8,8 +8,7 @@ import {
   SimpleChanges,
   ViewChild
 } from '@angular/core';
-import { CloudData } from 'angular-tag-cloud-module';
-import { Matrix } from '../../../../utils/Matrix';
+import { FontInfoService } from '../../../../services/util/font-info.service';
 
 export interface WordMeta {
   text: string;
@@ -17,7 +16,8 @@ export interface WordMeta {
 }
 
 interface BuildInformation {
-  position: [x: number, y: number, width: number, height: number, midX: number, midY: number];
+  position: [x: number, y: number, width: number, height: number];
+  hasNeighbour: [top: boolean, bottom: boolean, right: boolean, left: boolean];
 }
 
 export interface ActiveWord<T extends WordMeta> {
@@ -41,14 +41,15 @@ export enum WeightClassType {
 export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges, OnDestroy {
 
   @ViewChild('wordCloud') wordCloud: ElementRef<HTMLDivElement>;
-  @Input() keywords: CloudData[];
+  @Input() keywords: T[];
   @Input() weightClasses = 10;
   @Input() maxRotationInDegrees = 90;
   @Input() weightClassType = WeightClassType.lowest;
   private _elements: ActiveWord<T>[] = [];
   private _cssStyleElement: HTMLStyleElement;
 
-  constructor(private renderer2: Renderer2) {
+  constructor(private renderer2: Renderer2,
+              private fontInfoService: FontInfoService) {
   }
 
   private static getIndexForSortedArray<K>(array: K[], value: number, valueMapper: (x: K) => number) {
@@ -56,7 +57,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     let high = array.length;
     while (low < high) {
       const mid = (low + high) >>> 1;
-      if (valueMapper(array[mid]) < value) {
+      if (valueMapper(array[mid]) >= value) {
         low = mid + 1;
       } else {
         high = mid;
@@ -68,6 +69,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   ngOnInit() {
     this._cssStyleElement = this.renderer2.createElement('style');
     this.renderer2.appendChild(document.head, this._cssStyleElement);
+    this.fontInfoService.waitTillFontLoaded('Dancing Script').subscribe(font => console.log(font));
   }
 
   ngOnDestroy() {
@@ -75,162 +77,183 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    const changeKeywords = changes.keywords;
-    // rebuilt entire cloud
-    /*for (const activeWord of this._elements) {
-      activeWord.element.remove();
-    }*/
-    //this._elements.length = 0;
-    const data = changeKeywords.currentValue as CloudData[];
-    if (data.length < 1) {
+    this.redraw();
+  }
+
+  redraw() {
+    if (!this.wordCloud || !this.wordCloud.nativeElement) {
       return;
     }
-    let min = data[0].weight;
-    let max = data[0].weight;
-    for (const dataEntry of data) {
-      min = Math.min(min, dataEntry.weight);
-      max = Math.max(max, dataEntry.weight);
-    }
+    const [min, max] = this.calculateChanges(this.keywords);
     const isSame = Math.abs(max - min) <= Number.EPSILON;
     let defaultWeightClass;
     if (this.weightClassType === WeightClassType.lowest) {
       defaultWeightClass = 0;
     } else if (this.weightClassType === WeightClassType.highest) {
-      defaultWeightClass = this.weightClasses;
+      defaultWeightClass = this.weightClasses - 1;
     } else {
       defaultWeightClass = Math.round(this.weightClasses / 2);
     }
-    for (const dataEntry of data) {
-      this.addKeyword({
-          weight: dataEntry.weight,
-          text: dataEntry.text
-        } as T,
-        isSame ? defaultWeightClass : Math.round((dataEntry.weight - min) * this.weightClasses / (max - min)));
-    }
-  }
-
-  private addKeyword(data: T, weightClass: number): void {
-    const index = WordCloudComponent.getIndexForSortedArray(this._elements, data.weight, x => x.meta.weight);
-    const elem = this.renderer2.createElement('span');
-    elem.innerText = data.text;
-    elem.classList.add('test-' + weightClass);
-    elem.dataset.index = index;
-    const newValue = {
-      element: elem,
-      meta: data,
-      weightClass,
-      buildInformation: {
-        position: [0, 0, 0, 0, 0, 0]
+    const parentRect = this.wordCloud.nativeElement.getBoundingClientRect();
+    const parentWidth = parentRect.width / 2;
+    const parentHeight = parentRect.height / 2;
+    this._elements = this._elements.filter((word, i) => {
+      const weightClass = isSame ?
+        defaultWeightClass :
+        Math.round((max - word.meta.weight) * (this.weightClasses - 1) / (max - min));
+      word.element.classList.value = 'test-' + weightClass;
+      word.weightClass = weightClass;
+      if (this.findPlaceInCloud(i, parentWidth, parentHeight)) {
+        return true;
       }
-    } as ActiveWord<T>;
-    this._elements.splice(index, 0, newValue);
-    this.wordCloud.nativeElement.appendChild(elem);
-    this.findPlaceInCloud(index);
-    for (let i = index + 1; i < this._elements.length; ++i) {
-      this.findPlaceInCloud(i);
+      word.element.remove();
+      return false;
+    });
+    this._elements.forEach(e => {
+      const [x, y] = e.buildInformation.position;
+      e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
+      e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
+    });
+  }
+
+  private calculateChanges(data: T[]): [min: number, max: number] {
+    let min = null;
+    let max = null;
+    let first = true;
+    const obsoleteElements = this._elements.map((word, index) => ({ word, index }));
+    const newElements: ActiveWord<T>[] = [];
+    for (const dataEntry of data) {
+      if (!first) {
+        min = Math.min(min, dataEntry.weight);
+        max = Math.max(max, dataEntry.weight);
+      } else {
+        first = false;
+        min = max = dataEntry.weight;
+      }
+      let fallback = null;
+      const index = obsoleteElements.findIndex((buildElem, wordIndex) => {
+        if (buildElem.word.meta === dataEntry) {
+          return true;
+        } else if (buildElem.word.meta.text === dataEntry.text) {
+          const dist = Math.abs(buildElem.word.meta.weight - dataEntry.weight);
+          if (!fallback || dist < fallback[1]) {
+            fallback = [wordIndex, dist];
+          }
+        }
+      });
+      if (index >= 0) {
+        obsoleteElements.splice(index, 1);
+        continue;
+      } else if (fallback) {
+        obsoleteElements.splice(fallback[0], 1)[0].word.meta = dataEntry;
+        continue;
+      }
+      const elem = this.renderer2.createElement('span');
+      elem.innerText = dataEntry.text;
+      elem.dataset.index = index;
+      this.wordCloud.nativeElement.appendChild(elem);
+      newElements.push({
+        element: elem,
+        meta: dataEntry,
+        weightClass: null,
+        buildInformation: {
+          position: [0, 0, 0, 0],
+          hasNeighbour: [false, false, false, false]
+        }
+      });
     }
+    this._elements = this._elements.filter((word, index) => {
+      if (obsoleteElements.length && index === obsoleteElements[0].index) {
+        word.element.remove();
+        obsoleteElements.shift();
+        return false;
+      }
+      word.buildInformation.hasNeighbour.fill(false);
+      return true;
+    });
+    newElements.forEach(e => this._elements.splice(
+      WordCloudComponent.getIndexForSortedArray(this._elements, e.meta.weight, x => x.meta.weight), 0, e));
+    return [min, max];
   }
 
-  private positionElement(word: ActiveWord<T>, parentWidthHalf: number, parentHeightHalf: number) {
-    const [x, y] = word.buildInformation.position;
-    const angle = Math.atan2(y, x);
-    const matrix = Matrix.translateIn3D(parentWidthHalf, parentHeightHalf)
-      .multiply(Matrix.rotateAroundZin3D(-angle))
-      .multiply(Matrix.translateIn3D(Math.sqrt(x * x + y * y)))
-      .multiply(Matrix.rotateAroundZin3D(angle));
-    word.element.style.transform = 'matrix3d(' + matrix.transpose().data.join() + ')';
-  }
-
-  private findPlaceInCloud(index: number): boolean {
+  private findPlaceInCloud(index: number, parentWidth: number, parentHeight: number): boolean {
     const computed = this._elements[index].element.getBoundingClientRect();
     const elemWidth = computed.width;
     const elemWidthHalf = computed.width / 2;
     const elemHeight = computed.height;
     const elemHeightHalf = computed.height / 2;
-    const parentRect = this.wordCloud.nativeElement.getBoundingClientRect();
-    const parentWidth = parentRect.width / 2;
-    const parentHeight = parentRect.height / 2;
     if (index === 0) {
-      this._elements[0].buildInformation.position = [-elemWidthHalf, -elemHeightHalf, elemWidth, elemHeight, 0, 0];
-      this.positionElement(this._elements[0], parentWidth, parentHeight);
+      this._elements[0].buildInformation.position = [-elemWidthHalf, -elemHeightHalf, elemWidth, elemHeight];
       return true;
     }
     let bestPos = [0, 0];
     let bestDistSquared = null;
+    let currentIndex = null;
+    const aspectSquared = Math.pow(parentHeight / parentWidth, 2);
+    const checkBetter = (x: number, y: number): boolean => {
+      if (!this.isColliding(x, y, elemWidth, elemHeight, index, parentWidth, parentHeight)) {
+        const newMid = [x + elemWidthHalf, y + elemHeightHalf];
+        const size = newMid[0] * newMid[0] * aspectSquared + newMid[1] * newMid[1];
+        if (!bestDistSquared || size < bestDistSquared) {
+          bestPos = newMid;
+          bestDistSquared = size;
+          return true;
+        }
+      }
+      return false;
+    };
     for (let i = 0; i < index; ++i) {
-      const [x, y, width, height, midX, midY] = this._elements[i].buildInformation.position;
+      const { hasNeighbour, position } = this._elements[i].buildInformation;
+      const [x, y, width, height] = position;
+      const midX = x + width / 2;
+      const midY = y + height / 2;
       //top
       let newX = midX - elemWidthHalf;
       let newY = y - elemHeight;
-      if (newY >= -parentHeight && !this.isColliding(newX, newY, elemWidth, elemHeight, index)) {
-        const newMid = [midX, midY - elemHeight];
-        const size = newMid[0] * newMid[0] + newMid[1] * newMid[1];
-        if (!bestDistSquared || size < bestDistSquared) {
-          bestPos = newMid;
-          bestDistSquared = size;
-        }
+      if (!hasNeighbour[0] && checkBetter(newX, newY)) {
+        currentIndex = [i, 0];
       }
       //bottom
       newY = y + height;
-      if (newY + elemHeight <= parentHeight && !this.isColliding(newX, newY, elemWidth, elemHeight, index)) {
-        const newMid = [midX, midY + elemHeight];
-        const size = newMid[0] * newMid[0] + newMid[1] * newMid[1];
-        if (!bestDistSquared || size < bestDistSquared) {
-          bestPos = newMid;
-          bestDistSquared = size;
-        }
+      if (!hasNeighbour[1] && checkBetter(newX, newY)) {
+        currentIndex = [i, 1];
       }
       //right
       newX = x + width;
       newY = midY - elemHeightHalf;
-      if (newX + elemWidth <= parentWidth && !this.isColliding(newX, newY, elemWidth, elemHeight, index)) {
-        const newMid = [newX + elemWidthHalf, midY];
-        const size = newMid[0] * newMid[0] + newMid[1] * newMid[1];
-        if (!bestDistSquared || size < bestDistSquared) {
-          bestPos = newMid;
-          bestDistSquared = size;
-        }
+      if (!hasNeighbour[2] && checkBetter(newX, newY)) {
+        currentIndex = [i, 2];
       }
       //left
       newX = x - elemWidth;
-      if (newX >= -parentWidth && !this.isColliding(newX, newY, elemWidth, elemHeight, index)) {
-        const newMid = [newX + elemWidthHalf, midY];
-        const size = newMid[0] * newMid[0] + newMid[1] * newMid[1];
-        if (!bestDistSquared || size < bestDistSquared) {
-          bestPos = newMid;
-          bestDistSquared = size;
-        }
+      if (!hasNeighbour[3] && checkBetter(newX, newY)) {
+        currentIndex = [i, 3];
       }
     }
-    if (bestDistSquared !== null) {
-      this._elements[index].buildInformation.position = [
-        bestPos[0] - elemWidthHalf, bestPos[1] - elemHeightHalf, elemWidth, elemHeight, bestPos[0], bestPos[1]
-      ];
-      this.positionElement(this._elements[index], parentWidth, parentHeight);
-      return true;
+    if (bestDistSquared === null) {
+      return false;
     }
-    return false;
+    this._elements[index].buildInformation.position = [
+      bestPos[0] - elemWidthHalf, bestPos[1] - elemHeightHalf, elemWidth, elemHeight
+    ];
+    this._elements[currentIndex[0]].buildInformation.hasNeighbour[currentIndex[1]] = true;
+    return true;
   }
 
-  private isColliding(x: number, y: number, width: number, height: number, endIndex: number): boolean {
+  private isColliding(x: number, y: number, width: number, height: number, endIndex: number,
+                      parentWidth: number, parentHeight: number): boolean {
     const endX = x + width;
     const endY = y + height;
+    if (x < -parentWidth || endX > parentWidth || y < -parentHeight || endY > parentHeight) {
+      return true;
+    }
     for (let i = 0; i < endIndex; ++i) {
       const [elemX, elemY, elemWidth, elemHeight] = this._elements[i].buildInformation.position;
-      const collidesInX = elemX <= x && elemX + elemWidth > x || elemX > x && elemX < endX;
-      const collidesInY = elemY <= y && elemY + elemHeight > y || elemY > y && elemY < endY;
-      if (collidesInX && collidesInY) {
+      if (elemX < endX && elemX + elemWidth > x && elemY < endY && elemY + elemHeight > y) {
         return true;
       }
     }
     return false;
   }
-
-  /*
-  changed weighting/changed name => remove & add
-  add => search place and add
-  remove => remove and redraw
-  min/max change => rebuilt cloud? => scale cloud and continue
-   */
 
 }

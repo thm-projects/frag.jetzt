@@ -1,8 +1,9 @@
-div {
+.word-cloud {
   height: 100%;
 
   > span {
     position: absolute;
-    transition: transform 1s ease;
+    padding: 0.25em;
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg));
   }
 }
