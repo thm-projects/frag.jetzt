@@ -4,6 +4,8 @@
   > span {
     position: absolute;
     padding: 0.25em;
+    transition: opacity ease var(--fadeInTime, 0ms);
+    opacity: 0;
     transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg));
   }
 }

@@ -43,7 +43,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   @ViewChild('wordCloud') wordCloud: ElementRef<HTMLDivElement>;
   @Input() keywords: T[];
   @Input() weightClasses = 10;
-  @Input() maxRotationInDegrees = 90;
   @Input() weightClassType = WeightClassType.lowest;
   private _elements: ActiveWord<T>[] = [];
   private _cssStyleElement: HTMLStyleElement;
@@ -94,7 +93,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     } else {
       defaultWeightClass = Math.round(this.weightClasses / 2);
     }
-    const parentRect = this.wordCloud.nativeElement.getBoundingClientRect();
+    const parentElement = this.wordCloud.nativeElement;
+    const parentRect = parentElement.getBoundingClientRect();
     const parentWidth = parentRect.width / 2;
     const parentHeight = parentRect.height / 2;
     this._elements = this._elements.filter((word, i) => {
@@ -109,14 +109,27 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       word.element.remove();
       return false;
     });
+    const timeInMs = 500;
+    parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
     this._elements.forEach(e => {
       const [x, y] = e.buildInformation.position;
       e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
       e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
     });
+    const newElements = this._elements.filter(e => e.element.style.opacity !== '1');
+    let index = 0;
+    const intervalId = setInterval(() => {
+      if (index >= newElements.length) {
+        clearInterval(intervalId);
+        return;
+      }
+      newElements[index++].element.style.opacity = '1';
+    }, timeInMs);
   }
 
-  private calculateChanges(data: T[]): [min: number, max: number] {
+  private calculateObsoleteAndNewElements(data: T[]): [
+    min: number, max: number, obsolete: { word: ActiveWord<T>; index: number }[], newElements: ActiveWord<T>[]
+  ] {
     let min = null;
     let max = null;
     let first = true;
@@ -152,16 +165,22 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       elem.innerText = dataEntry.text;
       elem.dataset.index = index;
       this.wordCloud.nativeElement.appendChild(elem);
+      const rect = elem.getBoundingClientRect() as DOMRect;
       newElements.push({
         element: elem,
         meta: dataEntry,
         weightClass: null,
         buildInformation: {
-          position: [0, 0, 0, 0],
+          position: [0, 0, rect.width, rect.height],
           hasNeighbour: [false, false, false, false]
         }
       });
     }
+    return [min, max, obsoleteElements, newElements];
+  }
+
+  private calculateChanges(data: T[]): [min: number, max: number] {
+    const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements(data);
     this._elements = this._elements.filter((word, index) => {
       if (obsoleteElements.length && index === obsoleteElements[0].index) {
         word.element.remove();
@@ -177,11 +196,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   private findPlaceInCloud(index: number, parentWidth: number, parentHeight: number): boolean {
-    const computed = this._elements[index].element.getBoundingClientRect();
-    const elemWidth = computed.width;
-    const elemWidthHalf = computed.width / 2;
-    const elemHeight = computed.height;
-    const elemHeightHalf = computed.height / 2;
+    const [_, __, elemWidth, elemHeight] = this._elements[index].buildInformation.position;
+    const elemWidthHalf = elemWidth / 2;
+    const elemHeightHalf = elemHeight / 2;
     if (index === 0) {
       this._elements[0].buildInformation.position = [-elemWidthHalf, -elemHeightHalf, elemWidth, elemHeight];
       return true;
@@ -190,17 +207,16 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     let bestDistSquared = null;
     let currentIndex = null;
     const aspectSquared = Math.pow(parentHeight / parentWidth, 2);
-    const checkBetter = (x: number, y: number): boolean => {
-      if (!this.isColliding(x, y, elemWidth, elemHeight, index, parentWidth, parentHeight)) {
+    const checkBetter = (x: number, y: number, hasNeighbour: boolean[], dir: number, elemIndex: number) => {
+      if (!hasNeighbour[dir] && !this.isColliding(x, y, elemWidth, elemHeight, index, parentWidth, parentHeight)) {
         const newMid = [x + elemWidthHalf, y + elemHeightHalf];
         const size = newMid[0] * newMid[0] * aspectSquared + newMid[1] * newMid[1];
         if (!bestDistSquared || size < bestDistSquared) {
           bestPos = newMid;
           bestDistSquared = size;
-          return true;
+          currentIndex = [elemIndex, 0];
         }
       }
-      return false;
     };
     for (let i = 0; i < index; ++i) {
       const { hasNeighbour, position } = this._elements[i].buildInformation;
@@ -210,25 +226,17 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       //top
       let newX = midX - elemWidthHalf;
       let newY = y - elemHeight;
-      if (!hasNeighbour[0] && checkBetter(newX, newY)) {
-        currentIndex = [i, 0];
-      }
+      checkBetter(newX, newY, hasNeighbour, 0, i);
       //bottom
       newY = y + height;
-      if (!hasNeighbour[1] && checkBetter(newX, newY)) {
-        currentIndex = [i, 1];
-      }
+      checkBetter(newX, newY, hasNeighbour, 1, i);
       //right
       newX = x + width;
       newY = midY - elemHeightHalf;
-      if (!hasNeighbour[2] && checkBetter(newX, newY)) {
-        currentIndex = [i, 2];
-      }
+      checkBetter(newX, newY, hasNeighbour, 2, i);
       //left
       newX = x - elemWidth;
-      if (!hasNeighbour[3] && checkBetter(newX, newY)) {
-        currentIndex = [i, 3];
-      }
+      checkBetter(newX, newY, hasNeighbour, 3, i);
     }
     if (bestDistSquared === null) {
       return false;
