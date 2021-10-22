@@ -2,13 +2,15 @@ import {
   Component,
   ElementRef,
   Input,
-  OnChanges, OnDestroy,
+  OnChanges,
+  OnDestroy,
   OnInit,
   Renderer2,
   SimpleChanges,
   ViewChild
 } from '@angular/core';
 import { FontInfoService } from '../../../../services/util/font-info.service';
+import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-parameters';
 
 export interface WordMeta {
   text: string;
@@ -33,6 +35,11 @@ export enum WeightClassType {
   highest
 }
 
+interface StyleDeclarations {
+  root: number;
+  weights: number[];
+}
+
 @Component({
   selector: 'app-word-cloud',
   templateUrl: './word-cloud.component.html',
@@ -44,11 +51,20 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   @Input() keywords: T[];
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.lowest;
+  @Input() parameters: CloudParameters = CloudParameters.currentParameters;
   private _elements: ActiveWord<T>[] = [];
   private _cssStyleElement: HTMLStyleElement;
+  private _styleIndexes: StyleDeclarations;
 
   constructor(private renderer2: Renderer2,
               private fontInfoService: FontInfoService) {
+  }
+
+  private static invertHex(hexStr: string) {
+    const r = 255 - parseInt(hexStr.substr(1, 2), 16);
+    const g = 255 - parseInt(hexStr.substr(3, 2), 16);
+    const b = 255 - parseInt(hexStr.substr(5, 2), 16);
+    return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 
   private static getIndexForSortedArray<K>(array: K[], value: number, valueMapper: (x: K) => number) {
@@ -68,7 +84,21 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   ngOnInit() {
     this._cssStyleElement = this.renderer2.createElement('style');
     this.renderer2.appendChild(document.head, this._cssStyleElement);
-    this.fontInfoService.waitTillFontLoaded('Dancing Script').subscribe(font => console.log(font));
+    const sheet = this._cssStyleElement.sheet;
+    this._styleIndexes = {
+      root: sheet.insertRule(':root {}', sheet.cssRules.length),
+      weights: [],
+    };
+    sheet.insertRule('.spacyTagCloudContainer { background-color: var(--tag-cloud-background-color, unset); }',
+        sheet.cssRules.length);
+    sheet.insertRule('.header-icons { color: var(--tag-cloud-inverted-background) !important; }',
+        sheet.cssRules.length);
+    sheet.insertRule('.header .oldtypo-h2, .header .oldtypo-h2 + span { ' +
+        'color: var(--tag-cloud-inverted-background) !important; }', sheet.cssRules.length);
+    sheet.insertRule('#footer_rescale { display: none; }', sheet.cssRules.length);
+    sheet.insertRule('div.main_container { background-color: var(--tag-cloud-background-color) !important; }',
+        sheet.cssRules.length);
+    this.updateStyles();
   }
 
   ngOnDestroy() {
@@ -76,13 +106,99 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.redraw();
+    if (changes.keywords) {
+      this.redraw();
+    }
+    if (changes.parameters) {
+      this.updateParameters(changes.parameters.previousValue);
+    }
+  }
+
+  updateParameters(previousValue: CloudParameters) {
+    if (this.needsRedraw(previousValue)) {
+      this.updateStyles();
+      this.redraw();
+    } else if (this.needsStyleUpdate(previousValue)) {
+      this.updateStyles();
+    }
+  }
+
+  needsRedraw(previous: CloudParameters): boolean {
+    if (previous === null) {
+      return true;
+    }
+    const current = this.parameters;
+    return (previous.randomAngles !== current.randomAngles) ||
+        (previous.sortAlphabetically !== current.sortAlphabetically) ||
+        (previous.fontSizeMin !== current.fontSizeMin) ||
+        (previous.fontSizeMax !== current.fontSizeMax) ||
+        (previous.textTransform !== current.textTransform) ||
+        (previous.fontStyle !== current.fontStyle) ||
+        (previous.fontWeight !== current.fontWeight) ||
+        (previous.fontFamily !== current.fontFamily) ||
+        (previous.fontSize !== current.fontSize) ||
+        previous.cloudWeightSettings.some((setting, i) => {
+          const currentSetting = current.cloudWeightSettings[i];
+          return (setting.maxVisibleElements !== currentSetting.maxVisibleElements) ||
+              (setting.rotation !== currentSetting.rotation);
+        });
+  }
+
+  needsStyleUpdate(previous: CloudParameters): boolean {
+    const current = this.parameters;
+    return (previous.backgroundColor !== current.backgroundColor) ||
+        (previous.fontColor !== current.fontColor) ||
+        previous.cloudWeightSettings.some((setting, i) =>
+            setting.color !== current.cloudWeightSettings[i].color);
+  }
+
+  updateStyles() {
+    /* eslint-disable @typescript-eslint/naming-convention */
+    const transform = this.parameters.textTransform || CloudTextStyle.normal;
+    const sheet = this._cssStyleElement.sheet;
+    const { root, weights } = this._styleIndexes;
+    const invertedBackground = WordCloudComponent.invertHex(this.parameters.backgroundColor);
+    this.transformObjectToCSS(sheet, root, {
+      TagCloudFontColor: this.parameters.fontColor,
+      TagCloudBackgroundColor: this.parameters.backgroundColor,
+      TagCloudInvertedBackground: invertedBackground,
+      TagCloudTransform: transform,
+      TagCloudFontFamily: this.parameters.fontFamily,
+      TagCloudFontSize: this.parameters.fontSize,
+      TagCloudFontWeight: this.parameters.fontWeight,
+      TagCloudFontStyle: this.parameters.fontStyle,
+    });
+    for (let i = this._styleIndexes.weights.length; i < this.weightClasses; i++) {
+      weights.push(sheet.insertRule('.word-cloud > .weight-class-' + i + ' {}', sheet.cssRules.length));
+    }
+    const fontRange = (this.parameters.fontSizeMax - this.parameters.fontSizeMin) / this.weightClasses;
+    for (let i = 0; i < this.weightClasses; i++) {
+      this.transformObjectToCSS(sheet, weights[i], {
+        color: this.parameters.cloudWeightSettings[i].color,
+        fontSize: (this.parameters.fontSizeMin + fontRange * i).toFixed(0) + '%'
+      });
+    }
+    /* eslint-enable @typescript-eslint/naming-convention */
+  }
+
+  transformObjectToCSS(sheet: CSSStyleSheet, index: number, object: any) {
+    const upper = /[A-Z]/gm;
+    const replacer = (x: string, ...args: any) => (args[1] === 0 ? '--' : '-') + x.toLowerCase();
+    let str = '{';
+    for (const key of Object.keys(object)) {
+      str += `\n${key.replace(upper, replacer)}: ${object[key]};`;
+    }
+    str = str + (str.length > 1 ? '\n}' : '}');
+    const text = sheet.cssRules[index].cssText;
+    sheet.deleteRule(index);
+    sheet.insertRule(text.substr(0, text.indexOf('{')) + str);
   }
 
   redraw() {
     if (!this.wordCloud || !this.wordCloud.nativeElement) {
       return;
     }
+    //TODO: this.fontInfoService.waitTillFontLoaded('Dancing Script').subscribe(font => console.log(font));
     const [min, max] = this.calculateChanges(this.keywords);
     const isSame = Math.abs(max - min) <= Number.EPSILON;
     let defaultWeightClass;
@@ -99,9 +215,9 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     const parentHeight = parentRect.height / 2;
     this._elements = this._elements.filter((word, i) => {
       const weightClass = isSame ?
-        defaultWeightClass :
-        Math.round((max - word.meta.weight) * (this.weightClasses - 1) / (max - min));
-      word.element.classList.value = 'test-' + weightClass;
+          defaultWeightClass :
+          Math.round((max - word.meta.weight) * (this.weightClasses - 1) / (max - min));
+      word.element.classList.value = 'weight-class-' + weightClass;
       word.weightClass = weightClass;
       if (this.findPlaceInCloud(i, parentWidth, parentHeight)) {
         return true;
@@ -191,7 +307,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       return true;
     });
     newElements.forEach(e => this._elements.splice(
-      WordCloudComponent.getIndexForSortedArray(this._elements, e.meta.weight, x => x.meta.weight), 0, e));
+        WordCloudComponent.getIndexForSortedArray(this._elements, e.meta.weight, x => x.meta.weight), 0, e));
     return [min, max];
   }
 

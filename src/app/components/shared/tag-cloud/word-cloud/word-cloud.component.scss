@@ -1,5 +1,6 @@
 .word-cloud {
   height: 100%;
+  font-size: var(--tag-cloud-font-size, unset);
 
   > span {
     position: absolute;
@@ -7,5 +8,15 @@
     transition: opacity ease var(--fadeInTime, 0ms);
     opacity: 0;
     transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg));
+    user-select: none;
+    text-transform: var(--tag-cloud-transform, unset);
+    font-family: var(--tag-cloud-font-family, unset);
+    font-weight: var(--tag-cloud-font-weight, unset);
+    font-style: var(--tag-cloud-font-style, unset);
+
+    &:hover {
+      color: var(--tag-cloud-font-color, unset);
+      background-color: var(--tag-cloud-background-color, unset);
+    }
   }
 }

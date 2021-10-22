@@ -22,39 +22,15 @@ export type CloudWeightSettings = [
 ];
 
 export enum CloudTextStyle {
-  normal,
-  lowercase,
-  capitalized,
-  uppercase
+  normal = 'unset',
+  lowercase = 'lowercase',
+  capitalized = 'capitalize',
+  uppercase = 'uppercase'
 }
 
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 
 export class CloudParameters {
-
-  static get currentParameters(): CloudParameters {
-    const jsonData = localStorage.getItem('tagCloudConfiguration');
-    const temp = jsonData != null ? JSON.parse(jsonData) : null;
-    const elem = new CloudParameters();
-    elem.resetToDefault(this.isThemeDark());
-    if (temp != null) {
-      for (const key of Object.keys(elem)) {
-        if (temp[key] !== undefined) {
-          elem[key] = temp[key];
-        }
-      }
-    }
-    return elem;
-  }
-
-  static set currentParameters(parameters: CloudParameters) {
-    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
-  }
-
-  static removeParameters() {
-    localStorage.removeItem('tagCloudConfiguration');
-  }
-
   fontFamily: string;
   fontStyle: string;
   fontWeight: string;
@@ -102,6 +78,29 @@ export class CloudParameters {
         { ...obj.cloudWeightSettings[9] }
       ];
     }
+  }
+
+  static get currentParameters(): CloudParameters {
+    const jsonData = localStorage.getItem('tagCloudConfiguration');
+    const temp = jsonData != null ? JSON.parse(jsonData) : null;
+    const elem = new CloudParameters();
+    elem.resetToDefault(this.isThemeDark());
+    if (temp != null) {
+      for (const key of Object.keys(elem)) {
+        if (temp[key] !== undefined) {
+          elem[key] = temp[key];
+        }
+      }
+    }
+    return elem;
+  }
+
+  static set currentParameters(parameters: CloudParameters) {
+    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
+  }
+
+  static removeParameters() {
+    localStorage.removeItem('tagCloudConfiguration');
   }
 
   private static isThemeDark() {
