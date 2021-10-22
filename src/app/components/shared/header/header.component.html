@@ -22,102 +22,122 @@
       </span>
     </button>
 
-    <ng-container *ngIf="toggleUserActivity">
-      <div class="userActivityIcon"
-           matTooltip="{{'header.users-online' | translate}}"></div>
-      <p class="userActivityTxt">{{userActivity}}</p>
-    </ng-container>
+    <div class="header-content-container">
+      <div *ngIf="toggleUserActivity">
+        <div class="userActivityIcon"
+             matTooltip="{{'header.users-online' | translate}}"></div>
+        <p class="userActivityTxt">{{userActivity}}</p>
+      </div>
 
-    <span class="fill-remaining-space"
-          *ngIf="router.url.endsWith('/moderator/comments')"></span>
+      <h2 class="oldtypo-h2"
+          *ngIf="router.url.endsWith('/moderator/comments') && deviceType === 'desktop'">
+        {{'header.moderation-warning'|translate}}
+      </h2>
 
-    <h2 class="oldtypo-h2"
-        *ngIf="router.url.endsWith('/moderator/comments') && deviceType === 'desktop'">
-      {{'header.moderation-warning'|translate}}
-    </h2>
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="deviceType !== 'mobile' && !router.url.endsWith('moderator/comments') && isSafari === 'false' && router.url.endsWith('/comments')"
+              routerLink="participant/room/{{shortId}}/comments/questionwall">
+        <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
+        <span>{{'header.questionwall' | translate}}</span>
+      </button>
 
-    <span class="fill-remaining-space"></span>
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments')"
+              (click)="navigateTopicCloud()">
+        <mat-icon>cloud</mat-icon>
+        <span>{{'header.tag-cloud' | translate}}</span>
+      </button>
 
-    <h2 class="oldtypo-h2"
-        *ngIf="deviceType === 'desktop' && router.url !== '/home'">
-      {{cTime}}
-    </h2>
+      <h2 class="oldtypo-h2"
+          *ngIf="deviceType === 'desktop' && router.url !== '/home'">
+        {{cTime}}
+      </h2>
 
-    <span class="fill-remaining-space"
-          *ngIf="moderationEnabled && deviceType === 'desktop' && router.url.includes('comments')"></span>
-    <span
-      *ngIf="moderationEnabled && router.url.includes('comments')"
-      class="moderation-enabled"
-      fxLayoutAlign="center center">
-      <mat-icon style="color: red" matTooltip="{{ 'header.moderation-enabled' | translate }}">
-        gavel
-      </mat-icon>
-    </span>
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments')"
+              routerLink="quiz">
+        <mat-icon>timer</mat-icon>
+        <span>{{'header.quiz-now' | translate}}</span>
+      </button>
 
-    <span class="fill-remaining-space"
-          *ngIf="room && room.questionsBlocked"></span>
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="user && user.role > 0 && !router.url.includes('/participant/') &&
+                     !router.url.endsWith('moderator/comments') && router.url.endsWith('/comments')"
+              routerLink="moderator/room/{{shortId}}/moderator/comments">
+        <mat-icon>visibility_off</mat-icon>
+        <span>{{'header.moderationboard' | translate}}</span>
+      </button>
 
-    <h1
-      *ngIf="room && room.questionsBlocked">
-      {{'header.questions-blocked'|translate}}
-    </h1>
+      <span
+        *ngIf="moderationEnabled && router.url.includes('comments')"
+        class="moderation-enabled"
+        fxLayoutAlign="center center">
+        <mat-icon style="color: red" matTooltip="{{ 'header.moderation-enabled' | translate }}">
+          gavel
+        </mat-icon>
+      </span>
 
-    <!--Topic Cloud-->
-    <div class="topic-cloud-btns"
-         [ngClass]="{'noOfQuestions': deviceType === 'desktop'}"
-         *ngIf="router.url.includes('tagcloud')"
-         ars-flex-box>
-      <ars-col
-        [xp]="16"
-        [extra]="true">
-        <button mat-icon-button
-                disableRipple="true"
-                *ngIf="isAdminConfigEnabled"
-                class="pseudo-button"
-                matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
-          <mat-icon class="oldtypo-h2 comment_tag-icon"
-                    style="color: red !important;">warning
-          </mat-icon>
-        </button>
-        <button mat-icon-button
-                disableRipple="true"
-                class="pseudo-button"
-                matTooltip="{{'header.overview-question-tooltip' | translate}}">
-          <mat-icon class="oldtypo-h2 comment_tag-icon">comment</mat-icon>
-          <span style="margin-left: 0.25em;">{{commentsCountQuestions}}</span>
-        </button>
-        <button mat-icon-button
-                disableRipple="true"
-                class="pseudo-button"
-                matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
-          <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
-          <span style="margin-left: 0.25em;">{{commentsCountUsers}}</span>
-        </button>
-        <button mat-icon-button
-                disableRipple="true"
-                class="pseudo-button"
-                matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
-          <mat-icon svgIcon="hashtag"
-                    class="oldtypo-h2 comment_tag-icon"></mat-icon>
-          <span style="margin-left: 0.25em;">{{commentsCountKeywords}}</span>
-        </button>
-      </ars-col>
+      <!--Feedback im Hörsaal-->
+      <h2 class="header-slogan-mobile"
+          *ngIf="router.url.includes('home') && deviceType === 'mobile'"
+          fxLayoutAlign="center center">
+        {{ 'header.home-header-mobile' | translate }}
+      </h2>
+
+      <h2 class="header-slogan-desktop"
+          *ngIf="router.url.includes('home') && deviceType === 'desktop'"
+          fxLayoutAlign="center center">
+        {{ 'header.home-header' | translate }}
+      </h2>
+
+      <h1
+        *ngIf="room && room.questionsBlocked">
+        {{'header.questions-blocked'|translate}}
+      </h1>
+
+      <!--Topic Cloud-->
+      <div class="topic-cloud-btns"
+           *ngIf="router.url.includes('tagcloud')"
+           ars-flex-box>
+        <ars-col>
+          <button mat-icon-button
+                  disableRipple="true"
+                  *ngIf="isAdminConfigEnabled"
+                  class="pseudo-button"
+                  matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
+            <mat-icon class="oldtypo-h2 comment_tag-icon"
+                      style="color: red !important;">warning
+            </mat-icon>
+          </button>
+          <button mat-icon-button
+                  disableRipple="true"
+                  class="pseudo-button"
+                  matTooltip="{{'header.overview-question-tooltip' | translate}}">
+            <mat-icon class="oldtypo-h2 comment_tag-icon">comment</mat-icon>
+            <span style="margin-left: 0.25em;">{{commentsCountQuestions}}</span>
+          </button>
+          <button mat-icon-button
+                  disableRipple="true"
+                  class="pseudo-button"
+                  matTooltip="{{'header.overview-questioners-tooltip' | translate}}">
+            <mat-icon class="oldtypo-h2 comment_tag-icon">person</mat-icon>
+            <span style="margin-left: 0.25em;">{{commentsCountUsers}}</span>
+          </button>
+          <button mat-icon-button
+                  disableRipple="true"
+                  class="pseudo-button"
+                  matTooltip="{{'header.overview-keywords-tooltip' | translate}}">
+            <mat-icon svgIcon="hashtag"
+                      class="oldtypo-h2 comment_tag-icon"></mat-icon>
+            <span style="margin-left: 0.25em;">{{commentsCountKeywords}}</span>
+          </button>
+        </ars-col>
+      </div>
     </div>
-
-    <!--Feedback im Hörsaal-->
-    <h2 class="header-slogan-mobile"
-        *ngIf="router.url.includes('home') && deviceType === 'mobile'"
-        fxLayoutAlign="center center">
-      {{ 'header.home-header-mobile' | translate }}
-    </h2>
-
-    <h2 class="header-slogan-desktop"
-        *ngIf="router.url.includes('home') && deviceType === 'desktop'"
-        fxLayoutAlign="center center">
-      {{ 'header.home-header' | translate }}
-    </h2>
-
-    <span class="fill-remaining-space"></span>
 
     <mat-menu #userMenu="matMenu"
               [overlapTrigger]="false">
@@ -175,57 +195,15 @@
           <!-- Question board -->
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
-            <ng-container>
-
-              <button mat-menu-item
-                      *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') && !router.url.endsWith('moderator/comments')"
-                      tabindex="0"
-                      (click)="showQRDialog();">
-                <mat-icon svgIcon="qrcode"
-                          class="header-icons qrcode">
-                </mat-icon>
-                <span>{{'header.room-qr' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="user && user.role > 0 && !router.url.includes('/participant/') && !router.url.endsWith('moderator/comments')"
-                      routerLink="moderator/room/{{shortId}}/moderator/comments">
-                <mat-icon>
-                  visibility_off
-                </mat-icon>
-                <span>{{'header.moderationboard' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="deviceType !== 'mobile' && !router.url.endsWith('moderator/comments') && isSafari === 'false'"
-                      routerLink="participant/room/{{shortId}}/comments/questionwall">
-                <mat-icon class="beamer-icon"
-                          svgIcon="beamer">
-                </mat-icon>
-                <span>{{'header.questionwall' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="!router.url.endsWith('moderator/comments')"
-                      (click)="navigateTopicCloud()">
-                <mat-icon>cloud
-                </mat-icon>
-                <span>{{'header.tag-cloud' | translate}}</span>
-              </button>
-
-              <button mat-menu-item
-                      tabindex="0"
-                      *ngIf="!router.url.endsWith('moderator/comments')"
-                      routerLink="quiz">
-                <mat-icon>timer
-                </mat-icon>
-                <span>{{'header.quiz-now' | translate}}</span>
-              </button>
-
-            </ng-container>
+            <button mat-menu-item
+                    *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') && !router.url.endsWith('moderator/comments')"
+                    tabindex="0"
+                    (click)="showQRDialog();">
+              <mat-icon svgIcon="qrcode"
+                        class="header-icons qrcode">
+              </mat-icon>
+              <span>{{'header.room-qr' | translate}}</span>
+            </button>
 
           </ng-container>
 
