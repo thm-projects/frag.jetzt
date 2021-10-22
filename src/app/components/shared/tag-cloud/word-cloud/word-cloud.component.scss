@@ -4,10 +4,11 @@
 
   > span {
     position: absolute;
-    padding: 0.25em;
-    transition: opacity ease var(--fadeInTime, 0ms);
+    padding: 4px;
+    transition: opacity ease var(--fadeInTime, 0ms), transform 1s ease 0.4s;
     opacity: 0;
-    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg));
+    z-index: 0;
+    transform: translate(var(--pos-x, 0px), var(--pos-y, 0px)) rotate(var(--rot, 0deg)) scale(var(--scale, 1));
     user-select: none;
     text-transform: var(--tag-cloud-transform, unset);
     font-family: var(--tag-cloud-font-family, unset);
@@ -17,6 +18,8 @@
     &:hover {
       color: var(--tag-cloud-font-color, unset);
       background-color: var(--tag-cloud-background-color, unset);
+      z-index: 1;
+      --scale: 1.4;
     }
   }
 }

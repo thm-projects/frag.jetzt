@@ -339,7 +339,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       }
       this.updateAlphabeticalPosition(newElements);
     }
-    this.data = newElements;
+    this.data = new Array(500).fill(null).map(e =>{
+      const str = Math.random().toString(16).substr(2, 6);
+      return new TagComment(str, str, 0, Math.random() * 1000, null, 0);
+    });
     setTimeout(() => {
       this.updateTagCloud(true);
     }, 2);
