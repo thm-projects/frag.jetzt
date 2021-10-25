@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
+import { NotificationService } from '../util/notification.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocalStorageShareService {
 
-  constructor() {
+  constructor(private notficiationService: NotificationService) {
     window.addEventListener('message', this.messageHandler, false);
+
+    this.notficiationService.show("hey");
   }
 
   messageHandler(event) {
