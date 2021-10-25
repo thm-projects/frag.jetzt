@@ -35,11 +35,33 @@ mat-toolbar-row {
   font-weight: bold;
 }
 
-.noOfQuestions {
-  position: absolute !important;
-  right: 130px !important;
-  padding: 10px !important;
-  margin: 0 !important;
+.header-content-container {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: space-evenly;
+  align-items: center;
+  overflow: hidden;
+
+  > button {
+    background-color: var(--primary-variant);
+    border-radius: 5px;
+
+    &:hover {
+      color: var(--on-secondary) !important;
+      background-color: var(--secondary) !important;
+
+      mat-icon {
+        color: var(--on-secondary) !important;
+        background-color: var(--secondary) !important;
+      }
+    }
+  }
+
+  &.darken > button {
+    background-color: var(--dialog);
+    color: var(--on-dialog)
+  }
 }
 
 .topic-cloud-btns {
@@ -127,6 +149,7 @@ svg {
 
 .beamer-icon {
   transform: scale(1.4);
+  margin-right: 5px;
 }
 
 .mat-menu-inner-title {
@@ -174,10 +197,10 @@ h1 {
 }
 
 .userActivityIcon {
+  display: inline-block;
   width: 25px;
   height: 25px;
-  margin-left: 25px;
-  margin-bottom: 5px;
+  margin-bottom: -5px;
   background-color: var(--primary);
   -webkit-mask-image: url("../../../../assets/icons/activity.svg");
   mask-image: url("../../../../assets/icons/activity.svg");
@@ -187,6 +210,7 @@ h1 {
 }
 
 .userActivityTxt {
+  display: inline-block;
   color: var(--primary);
   margin-left: 5px;
   font-size: 14px;
