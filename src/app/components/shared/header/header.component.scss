@@ -39,7 +39,7 @@ mat-toolbar-row {
   display: flex;
   flex-direction: row;
   flex: 1;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   overflow: hidden;
 
@@ -56,6 +56,11 @@ mat-toolbar-row {
         background-color: var(--secondary) !important;
       }
     }
+  }
+
+  &.darken > button {
+    background-color: var(--dialog);
+    color: var(--on-dialog)
   }
 }
 
@@ -195,7 +200,6 @@ h1 {
   display: inline-block;
   width: 25px;
   height: 25px;
-  margin-left: 25px;
   margin-bottom: -5px;
   background-color: var(--primary);
   -webkit-mask-image: url("../../../../assets/icons/activity.svg");

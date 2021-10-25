@@ -22,7 +22,7 @@
       </span>
     </button>
 
-    <div class="header-content-container">
+    <div class="header-content-container" [ngClass]="{'darken': themeService.currentTheme.isDark}">
       <div *ngIf="toggleUserActivity">
         <div class="userActivityIcon"
              matTooltip="{{'header.users-online' | translate}}"></div>
@@ -34,14 +34,14 @@
         {{'header.moderation-warning'|translate}}
       </h2>
 
-      <button mat-flat-button
-              tabindex="0"
-              *ngIf="deviceType === 'desktop' && !router.url.endsWith('moderator/comments') &&
-                     isSafari === 'false' && router.url.endsWith('/comments')"
-              routerLink="participant/room/{{shortId}}/comments/questionwall">
-        <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
-        <span>{{'header.questionwall' | translate}}</span>
-      </button>
+      <span
+        *ngIf="moderationEnabled && router.url.includes('comments')"
+        class="moderation-enabled"
+        fxLayoutAlign="center center">
+        <mat-icon style="color: red" matTooltip="{{ 'header.moderation-enabled' | translate }}">
+          gavel
+        </mat-icon>
+      </span>
 
       <button mat-flat-button
               tabindex="0"
@@ -66,25 +66,6 @@
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
 
-      <button mat-flat-button
-              tabindex="0"
-              *ngIf="user && user.role > 0 && !router.url.includes('/participant/') &&
-                     !router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
-                     deviceType === 'desktop'"
-              routerLink="moderator/room/{{shortId}}/moderator/comments">
-        <mat-icon>visibility_off</mat-icon>
-        <span>{{'header.moderationboard' | translate}}</span>
-      </button>
-
-      <span
-        *ngIf="moderationEnabled && router.url.includes('comments')"
-        class="moderation-enabled"
-        fxLayoutAlign="center center">
-        <mat-icon style="color: red" matTooltip="{{ 'header.moderation-enabled' | translate }}">
-          gavel
-        </mat-icon>
-      </span>
-
       <!--Feedback im Hörsaal-->
       <h2 class="header-slogan-mobile"
           *ngIf="router.url.includes('home') && deviceType === 'mobile'"
@@ -98,10 +79,11 @@
         {{ 'header.home-header' | translate }}
       </h2>
 
-      <h1
-        *ngIf="room && room.questionsBlocked">
-        {{'header.questions-blocked'|translate}}
-      </h1>
+      <span *ngIf="room && room.questionsBlocked">
+        <mat-icon style="color: red;" [matTooltip]="'header.questions-blocked' | translate">
+          block
+        </mat-icon>
+      </span>
 
       <!--Topic Cloud-->
       <div class="topic-cloud-btns"
@@ -212,10 +194,19 @@
             <button mat-menu-item
                     tabindex="0"
                     *ngIf="user && user.role > 0 && !router.url.includes('/participant/') &&
-                           !router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
+                           !router.url.endsWith('moderator/comments')"
                     routerLink="moderator/room/{{shortId}}/moderator/comments">
               <mat-icon>visibility_off</mat-icon>
               <span>{{'header.moderationboard' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    tabindex="0"
+                    *ngIf="deviceType !== 'mobile' && !router.url.endsWith('moderator/comments') &&
+                     isSafari === 'false'"
+                    routerLink="participant/room/{{shortId}}/comments/questionwall">
+              <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
+              <span>{{'header.questionwall' | translate}}</span>
             </button>
 
             <button mat-menu-item
