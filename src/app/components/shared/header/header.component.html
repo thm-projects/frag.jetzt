@@ -59,11 +59,11 @@
 
       <button mat-flat-button
               tabindex="0"
-              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
-                     deviceType === 'desktop'"
-              routerLink="quiz">
-        <mat-icon>timer</mat-icon>
-        <span>{{'header.quiz-now' | translate}}</span>
+              *ngIf="deviceType === 'desktop' && !router.url.endsWith('moderator/comments') &&
+                     isSafari === 'false'"
+              routerLink="participant/room/{{shortId}}/comments/questionwall">
+        <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
+        <span>{{'header.questionwall' | translate}}</span>
       </button>
 
       <!--Feedback im Hörsaal-->
@@ -202,15 +202,6 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="deviceType !== 'mobile' && !router.url.endsWith('moderator/comments') &&
-                     isSafari === 'false'"
-                    routerLink="participant/room/{{shortId}}/comments/questionwall">
-              <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
-              <span>{{'header.questionwall' | translate}}</span>
-            </button>
-
-            <button mat-menu-item
-                    tabindex="0"
                     *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
                     (click)="navigateTopicCloud()">
               <mat-icon>cloud</mat-icon>
@@ -219,7 +210,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
+                    *ngIf="!router.url.endsWith('moderator/comments')"
                     routerLink="quiz">
               <mat-icon>timer</mat-icon>
               <span>{{'header.quiz-now' | translate}}</span>
