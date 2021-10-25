@@ -23,26 +23,22 @@
       </mat-select>
     </button>
   </div>
-  <div class="anchor-wrp" *ngIf="enabled">
-    <div class="anchor-right">
-      <mat-form-field *ngIf="tags"
-                      class="tag-form-field">
-        <mat-label>
-          <mat-icon class="icon-svg"
-                    svgIcon="comment_tag"></mat-icon>
-          {{'comment-page.tag' | translate}}
-        </mat-label>
-        <label for="tagSelect">{{selectedTag}}</label>
-        <mat-select [(ngModel)]="selectedTag"
-                    class="tag-select"
-                    id="tagSelect">
-          <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
-          <mat-option *ngFor="let tag of tags"
-                      value="{{tag}}">{{tag}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-  </div>
+  <mat-form-field *ngIf="tags"
+                  class="tag-form-field">
+    <mat-label>
+      <mat-icon class="icon-svg"
+                svgIcon="comment_tag"></mat-icon>
+      {{'comment-page.tag' | translate}}
+    </mat-label>
+    <label for="tagSelect">{{selectedTag}}</label>
+    <mat-select [(ngModel)]="selectedTag"
+                class="tag-select"
+                id="tagSelect">
+      <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
+      <mat-option *ngFor="let tag of tags"
+                  value="{{tag}}">{{tag}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 </ars-row>
 <ars-row [height]="12"></ars-row>
 <app-view-comment-data *ngIf="enabled"

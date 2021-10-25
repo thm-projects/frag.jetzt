@@ -118,22 +118,14 @@ Styling for tag selection
 }
 
 .tag-form-field {
-  @media screen and (max-width: 500px) {
-    width: 70px;
-  }
   z-index: 10000;
-}
+  float: right;
 
-.anchor-right {
-  @media screen and (max-width: 500px) {
-    width: 70px;
-    left: calc(100% - 70px);
+  @media screen and (max-width: 480px) {
+    float: unset;
+    width: max-content;
+    margin: 5px 16px;
   }
-  width: 200px;
-  height: 50px;
-  position: relative;
-  left: calc(100% - 200px);
-  top: 0;
 }
 
 .anchor-wrp {
@@ -163,6 +155,11 @@ Styling for language select
   margin-right: 0;
   width: 200px;
   display: inline-block;
+
+  > button {
+    padding: 0 0 0 2px;
+    margin-left: 16px;
+  }
 }
 
 /*
