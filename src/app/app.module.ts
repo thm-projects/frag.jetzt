@@ -153,7 +153,7 @@ export function initializeApp(appConfig: AppConfig) {
     AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [LocalStorageShareService], multi: true
+      deps: [AppConfig, LocalStorageShareService], multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
