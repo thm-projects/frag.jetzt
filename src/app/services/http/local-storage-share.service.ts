@@ -11,14 +11,17 @@ export class LocalStorageShareService {
 
   messageHandler(event) {
     const { action, key, value} = event.data;
-    if (action == 'save') {
+    if (action === 'save') {
       window.localStorage.setItem(key, JSON.stringify(value));
-    } else if (action == 'get') {
-      event.source.postMessage({
-        action: 'returnData',
-        key,
-        JSON.parse(window.localStorage.getItem(key))
-      }, '*')
+    } else if (action === 'get') {
+      const obj = JSON.parse(window.localStorage.getItem(key));
+      if(obj !== null) {
+        event.source.postMessage({
+          action: 'returnData',
+          key,
+          obj
+        }, '*');
+      }
     }
   }
 }
