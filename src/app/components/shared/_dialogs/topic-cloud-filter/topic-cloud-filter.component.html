@@ -60,7 +60,7 @@
       <span *ngIf="isMobile()">{{'content.tag-cloud-questions-brainstorming-short' | translate}}</span>
       <span *ngIf="!isMobile()">{{'content.tag-cloud-questions-brainstorming' | translate}}</span>
     </mat-radio-button>
-    <mat-form-field *ngIf="user && user.role > 0 && radioButton.checked"
+    <mat-form-field *ngIf="userRole > 0 && radioButton.checked"
                     appearance="fill">
       <mat-label>{{'content.brainstorming-question' | translate}}</mat-label>
       <input matInput

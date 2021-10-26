@@ -161,10 +161,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit(): void {
+    this.userRole = this.route.snapshot.data.roles[0];
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this.createCommentWrapper.openCreateDialog(this.user).subscribe();
+        this.createCommentWrapper.openCreateDialog(this.user, this.userRole).subscribe();
       } else if (e === 'topicCloudConfig') {
         if (this.drawer.opened) {
           this.drawer.close();
@@ -176,7 +177,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           minWidth: '50%',
           maxHeight: '95%',
           data: {
-            user: this.user
+            userRole: this.userRole
           }
         });
       } else if (e === 'questionBoard') {
@@ -200,7 +201,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
-    this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
       this.authenticationService.checkAccess(this.shortId);

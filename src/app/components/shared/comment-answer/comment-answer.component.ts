@@ -5,13 +5,10 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Comment } from '../../../models/comment';
-import { User } from '../../../models/user';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
-import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
@@ -29,7 +26,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   comment: Comment;
   answer: string;
   isLoading = true;
-  user: User;
+  userRole: UserRole;
   isStudent = true;
   edit = false;
   private _commentSubscription;
@@ -40,15 +37,13 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
               protected langService: LanguageService,
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
-              private authenticationService: AuthenticationService,
-              public languagetoolService: LanguagetoolService,
               public dialog: MatDialog,
               public eventService: EventService) {
   }
 
   ngOnInit() {
-    this.user = this.authenticationService.getUser();
-    if (this.user.role !== UserRole.PARTICIPANT) {
+    this.userRole = this.route.snapshot.data.roles[0];
+    if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
     }
     this.route.params.subscribe(params => {
