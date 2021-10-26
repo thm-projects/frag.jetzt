@@ -13,7 +13,6 @@ import { CommentListData } from '../../comment-list/comment-list.component';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
 import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
-import { User } from '../../../../models/user';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
 import { Room } from '../../../../models/room';
 import { ThemeService } from '../../../../../theme/theme.service';
@@ -43,7 +42,7 @@ enum KeywordsSource {
 })
 export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
-  @Input() user: User;
+  @Input() userRole: UserRole;
 
   question = '';
   continueFilter = 'continueWithAll';
@@ -122,7 +121,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       this.continueFilter = 'continueWithAll';
     }
     if (this.filteredComments.comments === 0 && this.allComments.comments === 0) {
-      if (this.user && this.user.role > UserRole.PARTICIPANT) {
+      if (this.userRole > UserRole.PARTICIPANT) {
         setTimeout(() => {
           this.continueFilter = 'continueWithAllFromNow';
         });
@@ -215,7 +214,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     if (newCount + count < 1) {
       return false;
     }
-    if (this.user && this.user.role === UserRole.PARTICIPANT) {
+    if (this.userRole === UserRole.PARTICIPANT) {
       return newCount < 1;
     }
     if (count * 2 / 3 < newCount) {
