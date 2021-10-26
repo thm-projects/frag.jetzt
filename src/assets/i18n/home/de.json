@@ -130,7 +130,10 @@
     "overview-admin-config-enabled": "Themenbeschränkung aktiv",
     "quiz-now": "antworte✦jetzt",
     "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen",
-    "tour": "Tour"
+    "tour": "Tour",
+    "own-view": "Zur eigenen Ansicht",
+    "regular-user-view": "Zur normalen Benutzeransicht",
+    "not-in-own-view": "Die aktuelle Ansicht bietet nicht alle Funktionen. Wechsle in den Optionen zu deiner Ansicht."
   },
   "help": {
     "cancel": "Schließen",

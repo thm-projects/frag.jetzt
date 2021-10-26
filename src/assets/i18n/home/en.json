@@ -117,7 +117,10 @@
     "overview-admin-config-enabled": "Themes requirement active",
     "quiz-now": "antworte✦jetzt",
     "moderation-warning": "Moderation board with unreleased questions",
-    "tour": "Tour"
+    "tour": "Tour",
+    "own-view": "To own view",
+    "regular-user-view": "To the regular user view",
+    "not-in-own-view": "The current view does not offer all functions. Switch to your view in the options."
   },
   "help": {
     "cancel": "Close",
