@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
@@ -74,7 +74,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
               private headerService: HeaderService,
               private onboardingService: OnboardingService,
               public themeService: ThemeService,
-              private route: ActivatedRoute,
   ) {
   }
 
