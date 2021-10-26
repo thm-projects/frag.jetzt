@@ -92,7 +92,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         } else if (url.startsWith('/creator/')) {
           this.userRole = UserRole.CREATOR;
         } else {
-          this.userRole = this.user ? this.userRole : UserRole.PARTICIPANT;
+          this.userRole = this.user ? this.user.role : UserRole.PARTICIPANT;
         }
       }
     });
