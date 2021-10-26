@@ -91,10 +91,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
           this.isInRouteWithRoles = true;
         } else if (url.startsWith('/moderator/')) {
           this.userRole = UserRole.EXECUTIVE_MODERATOR;
-          this.isInRouteWithRoles = true;
+          this.isInRouteWithRoles = !url.endsWith('/moderator/comments');
         } else if (url.startsWith('/creator/')) {
           this.userRole = UserRole.CREATOR;
-          this.isInRouteWithRoles = true;
+          this.isInRouteWithRoles = !url.endsWith('/moderator/comments');
         } else {
           this.userRole = this.user ? this.user.role : UserRole.PARTICIPANT;
           this.isInRouteWithRoles = false;
