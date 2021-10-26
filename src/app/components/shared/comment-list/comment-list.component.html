@@ -7,8 +7,8 @@
   <button id="filter-close-button"
           mat-icon-button
           class="searchBarButton"
-          *ngIf="currentFilter !== ''"
-          (click)="filterComments('');"
+          *ngIf="filter.filterType"
+          (click)="applyFilterByKey(null)"
           aria-labelledby="close_filter">
     <mat-icon class="searchBarIcon red">close</mat-icon>
   </button>
@@ -22,14 +22,14 @@
          [ngClass]="{'desktop-input': deviceType === 'desktop',
    'mobile-input': deviceType === 'mobile' && !search, 'mobile-input-2': deviceType === 'mobile' && search }"
          (input)="searchComments()"
-         [(ngModel)]="searchInput"
+         [(ngModel)]="filter.currentSearch"
          [placeholder]="searchPlaceholder"
          aria-labelledby="search-box-input-description">
   <button id="search_close-button"
           mat-icon-button
           class="searchBarButton close red"
-          *ngIf="searchInput !== '' || search"
-          (click)="hideCommentsList=false; searchInput = ''; search = false;"
+          *ngIf="filter.currentSearch || search"
+          (click)="abortSearch()"
           aria-labelledby="close_search">
     <mat-icon>close</mat-icon>
   </button>
@@ -49,7 +49,7 @@
 
     <button mat-icon-button
             class="searchBarButton"
-            (click)="activateSearch(); filterComments('')"
+            (click)="activateSearch(); applyFilterByKey(null)"
             *ngIf="deviceType === 'mobile' && !search && comments && comments.length > 0">
       <mat-icon class="searchBarIcon">search</mat-icon>
     </button>
@@ -81,7 +81,7 @@
             aria-labelledby="time_settings"
             *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
             [matMenuTriggerFor]="timeMenu"
-            [ngClass]="{'active-filter': period !== 'time-all'}"
+            [ngClass]="{'active-filter': filter.period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
       <mat-icon class="searchBarIcon">history</mat-icon>
     </button>
@@ -91,7 +91,7 @@
             aria-labelledby="pause"
             class="freezeButton"
             *ngIf="!searchBox.value && !search && !freeze && comments.length > 2"
-            (click)="pauseCommentStream()"
+            (click)="activateCommentStream(true)"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
       <mat-icon class="freezeIcon">pause</mat-icon>
     </button>
@@ -101,7 +101,7 @@
             aria-labelledby="play"
             class="freezeButton"
             *ngIf="!searchBox.value && !search && freeze"
-            (click)="playCommentStream()"
+            (click)="activateCommentStream(false)"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
       <mat-icon class="playIcon">play_arrow</mat-icon>
     </button>
@@ -114,7 +114,7 @@
       <button mat-menu-item
               (click)="setTimePeriod(periodItem)"
               class="period"
-              [ngClass]="{'selected': periodItem === period}"
+              [ngClass]="{'selected': periodItem === filter.period}"
               aria-labelledby="{{periodItem}}">
         <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
       </button>
@@ -125,24 +125,24 @@
             xPosition="before">
 
     <button mat-menu-item
-            (click)="sortComments(time)"
+            (click)="applySortingByKey('time')"
             aria-labelledby="access_time">
-      <mat-icon [ngClass]="{time: 'timesort'}[currentSort]">update</mat-icon>
-      <span [ngClass]="{time: 'timesort'}[currentSort]">{{ 'comment-list.sort-list-time' | translate }}</span>
+      <mat-icon [ngClass]="{time: 'timesort'}[filter.sortType]">update</mat-icon>
+      <span [ngClass]="{time: 'timesort'}[filter.sortType]">{{ 'comment-list.sort-list-time' | translate }}</span>
     </button>
 
     <button mat-menu-item
-            (click)="sortComments(votedesc)"
+            (click)="applySortingByKey('votedesc')"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">thumb_up</mat-icon>
-      <span [ngClass]="{votedesc: 'up'}[currentSort]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
+      <mat-icon [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
+      <span [ngClass]="{votedesc: 'up'}[filter.sortType]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
     <button mat-menu-item
-            (click)="sortComments(voteasc)"
+            (click)="applySortingByKey('voteasc')"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">thumb_down</mat-icon>
-      <span [ngClass]="{voteasc: 'down'}[currentSort]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
+      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]">thumb_down</mat-icon>
+      <span [ngClass]="{voteasc: 'down'}[filter.sortType]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
   </mat-menu>
@@ -152,53 +152,53 @@
     <div>
 
       <button mat-menu-item
-              (click)="filterComments(favorite)"
+              (click)="applyFilterByKey('favorite')"
               aria-labelledby="grade">
         <mat-icon class="star"
-                  [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">grade
+                  [ngClass]="{favorite: 'favorite-icon'}[filter.filterType]">grade
         </mat-icon>
         <span
-          [ngClass]="{favorite: 'favorite-icon'}[currentFilter]">{{ 'comment-list.filter-favorite' | translate }}</span>
+          [ngClass]="{favorite: 'favorite-icon'}[filter.filterType]">{{ 'comment-list.filter-favorite' | translate }}</span>
       </button>
 
       <button mat-menu-item
-              (click)="filterComments(bookmark)"
+              (click)="applyFilterByKey('bookmark')"
               aria-labelledby="bookmark">
         <mat-icon class="bookmark"
-                  [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">bookmark
+                  [ngClass]="{bookmark: 'bookmark-icon'}[filter.filterType]">bookmark
         </mat-icon>
         <span
-          [ngClass]="{bookmark: 'bookmark-icon'}[currentFilter]">{{ 'comment-list.filter-bookmark' | translate }}</span>
+          [ngClass]="{bookmark: 'bookmark-icon'}[filter.filterType]">{{ 'comment-list.filter-bookmark' | translate }}</span>
       </button>
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
-              (click)="filterComments(answer)"
+              (click)="applyFilterByKey('answer')"
               aria-labelledby="comment">
         <mat-icon class="answer"
-                  [ngClass]="{answer: 'answered-icon'}[currentFilter]">comment
+                  [ngClass]="{answer: 'answered-icon'}[filter.filterType]">comment
         </mat-icon>
         <span
-          [ngClass]="{answer: 'answered-icon'}[currentFilter]">{{ 'comment-list.filter-answered' | translate }}</span>
+          [ngClass]="{answer: 'answered-icon'}[filter.filterType]">{{ 'comment-list.filter-answered' | translate }}</span>
       </button>
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
-              (click)="filterComments(unanswered)"
+              (click)="applyFilterByKey('unanswered')"
               aria-labelledby="comment">
         <mat-icon class="unanswered"
-                  [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">comment
+                  [ngClass]="{unanswered: 'unanswered-icon'}[filter.filterType]">comment
         </mat-icon>
         <span
-          [ngClass]="{unanswered: 'unanswered-icon'}[currentFilter]">{{ 'comment-list.filter-unanswered' | translate }}</span>
+          [ngClass]="{unanswered: 'unanswered-icon'}[filter.filterType]">{{ 'comment-list.filter-unanswered' | translate }}</span>
       </button>
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
-              (click)="filterComments(owner)"
+              (click)="applyFilterByKey('owner')"
               aria-labelledby="comment">
-        <mat-icon [ngClass]="{owner: 'owner-icon'}[currentFilter]">person_pin_circle</mat-icon>
-        <span [ngClass]="{owner: 'owner-icon'}[currentFilter]">{{ 'comment-list.filter-owner' | translate }}</span>
+        <mat-icon [ngClass]="{owner: 'owner-icon'}[filter.filterType]">person_pin_circle</mat-icon>
+        <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
 
       <!--
@@ -227,7 +227,7 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=false"
-              (click)="sortComments(currentSort); filterComments('')"
+              (click)="applyFilterByKey(null)"
               aria-labelledby="close">
         <mat-icon>close</mat-icon>
         <span>{{ 'comment-list.filter-reset' | translate }}</span>
@@ -264,21 +264,34 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of hideCommentsList ? filteredComments : commentsFilteredByTime; let i = index"
+  <app-comment *ngFor="let current of (hideCommentsList ?
+  filteredComments : commentsFilteredByTime).slice(pageIndex*pageSize,(pageIndex*pageSize)+pageSize); let i = index"
                [appScrollIntoView]="current.id === focusCommentId"
                [usesJoyride]="i === 0 && isJoyrideActive"
                [comment]="current"
                [parseVote]="getVote(current)"
                [userRole]="userRole"
                [moderator]="false"
+               [isFromModerator]="filter.moderatorAccountIds.has(current.creatorId)"
+               [isFromOwner]="room.ownerId === current.creatorId"
                [user]="user"
                [disabled]="!commentsEnabled"
                [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
-               (clickedOnTag)="clickedOnTag($event)"
-               (clickedUserNumber)="clickedUserNumber($event)"
-               (clickedOnKeyword)="clickedOnKeyword($event)"
+               (clickedOnTag)="applyFilterByKey('tag', $event)"
+               (clickedUserNumber)="applyFilterByKey('userNumber', $event)"
+               (clickedOnKeyword)="applyFilterByKey('keyword', $event)"
                (votedComment)="votedComment($event)">
   </app-comment>
+  <ars-mat-paginator
+                     *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
+                     [pageSize]="5"
+                     (page)="handlePageEvent($event)"
+                     [showFirstLastButtons]="showFirstLastButtons"
+                     [pageSizeOptions]="pageSizeOptions"
+                     [pageIndex]="pageIndex"
+                     [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
+  <ars-row [height]="64" *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0">
+  </ars-row>
 
 </div>
 <!-- Active User Overlay -->
@@ -286,7 +299,7 @@
 
 <!-- No Questions Present -->
 <div
-  *ngIf="comments && (commentsFilteredByTime.length < 1 && period === 'time-all' || comments.length === 0) && !isLoading"
+  *ngIf="comments && (commentsFilteredByTime.length < 1 && filter.period === 'time-all' || comments.length === 0) && !isLoading"
   fxLayout="row"
   fxLayoutAlign="center center"
   class="no-comments">
@@ -294,7 +307,7 @@
 </div>
 
 <div *ngIf="(filteredComments && filteredComments.length === 0 && hideCommentsList)
-            || (comments && commentsFilteredByTime.length === 0 && period !== 'time-all') && !isLoading && comments.length > 0"
+            || (comments && commentsFilteredByTime.length === 0 && filter.period !== 'time-all') && !isLoading && comments.length > 0"
      fxLayout="row"
      fxLayoutAlign="center center"
      class="no-comments">

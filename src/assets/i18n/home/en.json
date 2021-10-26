@@ -47,7 +47,7 @@
     "motd-mark-read": "Mark as read"
   },
   "explanation": {
-    "label": "Explanation",
+    "label": "Explain",
     "close": "Close",
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into English and back into German using the translation program [DeepL] (https://www.deepl.com/translator). \n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy] (https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
@@ -74,7 +74,7 @@
     "logged-out": "You are logged out now.",
     "login": "Log in",
     "logout": "Log out",
-    "moderation-enabled": "The session will be moderated.",
+    "moderation-enabled": "All questions will be moderated.",
     "QR": "QR code of the session in full view",
     "my-account": "Options",
     "my-guest-account": "Guest Account",
@@ -159,7 +159,7 @@
     "tag-cloud-questions-title": "Which questions should the topic cloud include?",
     "tag-cloud-questions-all": "All questions",
     "tag-cloud-questions-all-short": "All",
-    "tag-cloud-questions-current-filtered": "Question list",
+    "tag-cloud-questions-current-filtered": "List",
     "tag-cloud-questions-brainstorming": "Brain storming session: questions from now on",
     "tag-cloud-questions-brainstorming-short": "Brain storming session",
     "tag-cloud-create": "Create"
@@ -192,7 +192,7 @@
     "introductionTitle": "Introduction to »frag.jetzt«",
     "feedbackLink": "You found a bug? You would like to have another feature? The link leads you to the feedback room. The tour will continue in this room.",
     "feedbackLinkTitle": "Feedback room",
-    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the FAQ.",
+    "optionHeader": "This is the main menu of »frag.jetzt«. In addition to the options of the current page, you will also find general functions here such as the room list.",
     "optionHeaderTitle": "Options"
   },
   "login": {
@@ -356,11 +356,8 @@
     "header": "Redeem stars for bonus",
     "no-bonus": "You haven't received a bonus star for a good question yet.",
     "redeem-tokens": "Redeem stars by mail",
-    "mail-subject": "Request%20to%20redeem%20my%20tokens%20from%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
-    "mail-body-1": "Hello%2C%0D%0A%0D%0Ai%20have%20received%20the%20following%20tokens%20today%20in%20the%20%C2%BBfrag.jetzt%C2%AB-session%20%C2%BB",
-    "mail-body-2": "%C2%AB%20with%20the%20session%20code%20%C2%BB",
-    "mail-body-3": "%C2%AB%3A%0D%0A%0D%0A",
-    "mail-body-4": "%0D%0A%0D%0AI%20ask%20for%20the%20redemption%20in%20bonus%20points.%0D%0A%0D%0AThanks%20for%20%C2%BBfrag.jetzt%C2%AB!%0D%0A%0D%0A---",
+    "mail-subject": "Request to redeem my tokens from the »frag.jetzt«-session »{{sessionName}}«",
+    "mail-body": "Hello,\n\nI have received the following tokens today in the »frag.jetzt«-session »{{sessionName}}« with the session code »{{sessionId}}«:\n\n{{tokens}}\n\n\nI ask for the redemption in bonus points.\n\nThanks for »frag.jetzt«!\n\n---",
     "choose-session": "Choose a session",
     "please-choose": "Please select a session first!"
   },

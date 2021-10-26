@@ -1,7 +1,6 @@
 import { AuthenticationService } from '../http/authentication.service';
 import { UserRole } from '../../models/user-roles.enum';
 import { DataStoreService } from './data-store.service';
-import { Router } from '@angular/router';
 import { RoomService } from '../http/room.service';
 import { Observable, of, Subject } from 'rxjs';
 
@@ -36,7 +35,6 @@ const roomChecker = (roomService: RoomService, roomUrl: string): Observable<bool
 
 export const initDefaultTour = (authenticationService: AuthenticationService,
                                 dataStoreService: DataStoreService,
-                                router: Router,
                                 roomService: RoomService): OnboardingTour => ({
   name: 'default',
   tour: [
@@ -76,7 +74,6 @@ export const initDefaultTour = (authenticationService: AuthenticationService,
       authenticationService.logout();
     }
     dataStoreService.remove('onboarding-default-meta');
-    router.navigate(['/home']);
   },
   startupAction: () => {
     dataStoreService.set('onboarding-default-meta', String(authenticationService.isLoggedIn()));

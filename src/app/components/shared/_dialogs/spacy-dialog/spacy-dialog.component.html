@@ -23,9 +23,6 @@
       </ars-row>
     </span>
     <ars-row class="list-container">
-      <div fxLayout="row" fxLayoutAlign="center center" fxFill>
-        <app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
-      </div>
       <mat-list dense class="keywords-list">
         <mat-list-item *ngFor="let keyword of keywords; let odd = odd; let even = even; let i = index"
                        [class.keywords-alternate]="odd"
@@ -59,7 +56,7 @@
       </mat-list>
     </ars-row>
     <ars-row>
-      <span *ngIf="!isLoading && (!langSupported || !hasKeywordsFromSpacy)">
+      <span *ngIf="!langSupported || !hasKeywordsFromSpacy">
         <p class="manual-input-title">{{ 'spacy-dialog.add-manually' | translate }}</p>
         <textarea class="manual-input" [(ngModel)]="manualKeywords" (input)="manualKeywordsToKeywords()"></textarea>
       </span>
@@ -68,7 +65,7 @@
 </ars-row>
 
 <ars-row ars-flex-box class="action-button-container">
-  <ars-col *ngIf="!isLoading && langSupported && hasKeywordsFromSpacy">
+  <ars-col *ngIf="langSupported && hasKeywordsFromSpacy">
     <button
       mat-flat-button
       class="help-button"
@@ -77,7 +74,7 @@
       {{ 'explanation.label' | translate}}
     </button>
   </ars-col>
-  <ars-fill *ngIf="isLoading || !langSupported || !hasKeywordsFromSpacy">
+  <ars-fill *ngIf="!langSupported || !hasKeywordsFromSpacy">
   </ars-fill>
   <ars-col>
     <app-dialog-action-buttons
@@ -87,7 +84,7 @@
       [showDivider]="false"
       [spacing]="false"
       [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-      [confirmButtonClickAction]="!isLoading ? buildCreateCommentActionCallback() : undefined">
+      [confirmButtonClickAction]="buildCreateCommentActionCallback()">
     </app-dialog-action-buttons>
   </ars-col>
 </ars-row>

@@ -80,9 +80,10 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Neue Fragen deaktiviert"
+    "questions-blocked": "Weitere Fragen deaktiviert"
   },
   "spacy-dialog": {
+    "language": "Sprache",
     "auto": "auto",
     "de": "Deutsch",
     "en": "Englisch",
@@ -168,7 +169,7 @@
     "semicolon": "CSV-Format (.csv)",
     "send": "Senden",
     "send-description": "Frage abschicken",
-    "tag": "Tag",
+    "tag": "Kategorie",
     "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
@@ -191,7 +192,7 @@
     "edit-favorite-reset": "Markierung zurücksetzen",
     "edit-bookmark": "Lesezeichen setzen",
     "edit-bookmark-reset": "Markierung zurücksetzen",
-    "grammar-check": "Text prüfen",
+    "grammar-check": "Text optimieren",
     "show-comment-with-filter": "Vulgäre Wörter ausixen",
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv:",
@@ -251,7 +252,7 @@
     "more": "Formell"
   },
   "explanation": {
-    "label": "Erklärung",
+    "label": "Erklären",
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
@@ -326,7 +327,7 @@
     "general": "Sitzung",
     "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
     "live-feedback": "Live Feedback",
-    "moderating-stream": "Moderation",
+    "moderating-stream": "In Moderation",
     "moderation-mode": "Moderationsmodus",
     "moderator-added": "Moderator wurde hinzugefügt.",
     "moderator-email": "Mail-Adresse",
@@ -352,7 +353,7 @@
     "session-moderation-board": "Zum Moderationsboard",
     "settings-comment-moderation": "Fragen moderieren",
     "settings-comment-moderation-description": "Du oder einer deiner Moderatoren können Fragen aus der Anzeige verbannen.",
-    "settings-direct-send": "Alle Fragen veröffentlichen",
+    "settings-direct-send": "Fragen unmoderiert veröffentlichen",
     "settings-direct-send-description": "Jede Frage wird sofort veröffentlicht. Schalte diese Option ab, wenn du jede Frage einzeln freigeben willst.",
     "sure": "Bist du sicher?",
     "tag-new": "Neue Fragenkategorie:",

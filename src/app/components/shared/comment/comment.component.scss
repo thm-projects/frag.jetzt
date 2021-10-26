@@ -127,7 +127,8 @@ mat-card-content > :first-child {
 
 .gavel {
   color: var(--primary) !important;
-  transform: scale(1.5) !important;
+  margin: 0 10px 0 10px;
+  transform: scale(1.3) !important;
 }
 
 .moderator {
@@ -179,6 +180,14 @@ mat-card-content > :first-child {
 
   &-mergeSelect {
     @include card-box-shadow(var(--cyan));
+  }
+
+  &-fromModerator {
+    @include card-box-shadow(var(--red));
+  }
+
+  &-fromOwner {
+    @include card-box-shadow(var(--red));
   }
 }
 

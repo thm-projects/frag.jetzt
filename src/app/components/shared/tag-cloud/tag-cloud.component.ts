@@ -400,7 +400,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
       if (this.deviceInfo.isCurrentlyMobile) {
         const defaultParams = new CloudParameters();
-        defaultParams.resetToDefault(this.themeService.getThemeByKey(this.themeService.themeName).isDark);
+        defaultParams.resetToDefault(this.themeService.currentTheme.isDark);
         data.fontSizeMin = defaultParams.fontSizeMin;
         data.fontSizeMax = defaultParams.fontSizeMax;
       }

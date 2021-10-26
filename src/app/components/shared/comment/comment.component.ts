@@ -36,7 +36,7 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 
 export class CommentComponent implements OnInit, AfterViewInit {
 
-  static COMMENT_MAX_HEIGHT = 150;
+  static COMMENT_MAX_HEIGHT = 250;
 
   @Input() comment: Comment;
   @Input() moderator: boolean;
@@ -45,6 +45,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @Input() disabled = false;
   @Input() usesJoyride = false;
   @Input() commentsWrittenByUser = 1;
+  @Input() isFromModerator = false;
+  @Input() isFromOwner = false;
   @Output() clickedOnTag = new EventEmitter<string>();
   @Output() clickedOnKeyword = new EventEmitter<string>();
   @Output() clickedUserNumber = new EventEmitter<number>();

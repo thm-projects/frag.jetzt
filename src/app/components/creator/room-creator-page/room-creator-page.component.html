@@ -99,10 +99,10 @@
                     [disableRipple]="true"
                     routerLink="/moderator/room/{{ encodedShortId }}/moderator/comments"
                     aria-labelledby="gavel">
-              <mat-icon matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
+              <mat-icon style="color: red" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
-                        matTooltip="{{ 'room-page.session-moderation-board' | translate}}">visibility_off
+                        matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
               </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
             </button>

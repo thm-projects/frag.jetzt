@@ -57,7 +57,7 @@
     "sort-vote-asc": "Höchste Bewertung zuerst",
     "sort-vote-desc": "Niedrigste Bewertung zuerst",
     "sort-list-time": "Neueste Frage zuerst",
-    "tag": "Tag",
+    "tag": "Kategorie",
     "time": "Zeit",
     "unread": "Nicht vom Vortragenden besprochen",
     "vote-asc": "Aufsteigende Bewertungen",
@@ -82,13 +82,14 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Neue Fragen deaktiviert "
+    "questions-blocked": "Weitere Fragen deaktiviert "
   },
   "content": {
     "cancel": "Abbrechen",
     "delete": "Löschen"
   },
   "spacy-dialog": {
+    "language": "Sprache",
     "auto": "auto",
     "de": "Deutsch",
     "en": "Englisch",
@@ -147,7 +148,7 @@
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Senden",
     "send-description": "Frage abschicken",
-    "tag": "Tag",
+    "tag": "Kategorie",
     "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
@@ -160,7 +161,7 @@
     "show-more": "Mehr anzeigen ↓",
     "show-less": "Weniger anzeigen ↑",
     "sure": "Bist du sicher?",
-    "grammar-check": "Text prüfen",
+    "grammar-check": "Text optimieren",
     "upvote": "positiv:",
     "downvote": "negativ:",
     "questioner-name": "Selbst vergebener Name"
@@ -179,7 +180,7 @@
     "more": "Formell"
   },
   "explanation": {
-    "label": "Erklärung",
+    "label": "Erklären",
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
@@ -222,7 +223,7 @@
     "bonus-token": "Tokens für Bonuspunkte",
     "bonus-token-header": "Tokens für Bonuspunkte",
     "delete": "Frage löschen",
-    "moderation-enabled": "Die Sitzung wird moderiert.",
+    "moderation-enabled": "Alle Fragen werden moderiert.",
     "sure": "Bist du sicher?"
   },
   "question-wall": {
@@ -273,7 +274,7 @@
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller",
-    "questions-blocked": "Neue Fragen deaktiviert "
+    "questions-blocked": "Weitere Fragen deaktiviert "
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -462,11 +463,8 @@
     "header": "Sterne für Bonuspunkte einlösen",
     "no-bonus": "Du hast noch keinen Stern für eine gute Frage erhalten.",
     "redeem-tokens": "Sterne per Mail einlösen",
-    "mail-subject": "Bitte%20um%20Einl%C3%B6sung%20meiner%20Tokens%20aus%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
-    "mail-body-1": "Hallo%2C%0D%0A%0D%0Aich%20habe%20heute%20in%20der%20%C2%BBfrag.jetzt%C2%AB-Sitzung%20%C2%BB",
-    "mail-body-2": "%C2%AB%20mit%20dem%20Raum-Code%20%C2%BB",
-    "mail-body-3": "%C2%AB%20die%20folgenden%20Tokens%20erhalten%3A%0D%0A%0D%0A",
-    "mail-body-4": "%0D%0A%0D%0AIch%20bitte%20um%20die%20Einl%C3%B6sung%20in%20Bonuspunkte.%0D%0A%0D%0ADanke%20f%C3%BCr%20%C2%BBfrag.jetzt%C2%AB!%0D%0A%0D%0A---",
+    "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
+    "mail-body": "Hallo,\n\nich habe heute in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n\n{{tokens}}\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
     "choose-session": "Wähle eine Sitzung aus",
     "please-choose": "Bitte wähle zuerst eine Sitzung aus!"
   },
