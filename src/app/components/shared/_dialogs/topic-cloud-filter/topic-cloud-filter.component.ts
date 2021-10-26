@@ -5,7 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/room-creator-page.component';
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CommentFilter, Period } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
@@ -42,8 +42,8 @@ enum KeywordsSource {
 })
 export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
+  @Input() userRole: UserRole;
 
-  userRole: UserRole;
   question = '';
   continueFilter = 'continueWithAll';
   comments: Comment[];
@@ -70,7 +70,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
               public eventService: EventService,
               private topicCloudAdminService: TopicCloudAdminService,
               private moderatorService: ModeratorService,
-              private route: ActivatedRoute,
               private themeService: ThemeService,
               private roomDataService: RoomDataService) {
     langService.langEmitter.subscribe(lang => translationService.use(lang));
@@ -79,7 +78,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.userRole = this.route.snapshot.data.roles[0];
     this.themeService.getTheme().subscribe((themeName) => {
       this.currentTheme = this.themeService.getThemeByKey(themeName);
     });
