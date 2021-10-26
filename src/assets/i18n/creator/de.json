@@ -80,9 +80,10 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Neue Fragen deaktiviert"
+    "questions-blocked": "Weitere Fragen deaktiviert"
   },
   "spacy-dialog": {
+    "language": "Sprache",
     "auto": "auto",
     "de": "Deutsch",
     "en": "Englisch",
@@ -168,7 +169,7 @@
     "semicolon": "CSV-Format (.csv)",
     "send": "Senden",
     "send-description": "Frage abschicken",
-    "tag": "Tag",
+    "tag": "Kategorie",
     "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",

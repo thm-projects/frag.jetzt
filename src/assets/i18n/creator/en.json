@@ -84,6 +84,7 @@
     "questions-blocked": "New questions blocked"
   },
   "spacy-dialog": {
+    "language": "Language",
     "auto": "auto",
     "de": "German",
     "en": "English",

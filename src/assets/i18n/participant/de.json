@@ -57,7 +57,7 @@
     "sort-vote-asc": "Höchste Bewertung zuerst",
     "sort-vote-desc": "Niedrigste Bewertung zuerst",
     "sort-list-time": "Neueste Frage zuerst",
-    "tag": "Tag",
+    "tag": "Kategorie",
     "time": "Zeit",
     "unread": "Nicht vom Vortragenden besprochen",
     "vote-asc": "Aufsteigende Bewertungen",
@@ -82,13 +82,14 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "questions-blocked": "Neue Fragen deaktiviert "
+    "questions-blocked": "Weitere Fragen deaktiviert "
   },
   "content": {
     "cancel": "Abbrechen",
     "delete": "Löschen"
   },
   "spacy-dialog": {
+    "language": "Sprache",
     "auto": "auto",
     "de": "Deutsch",
     "en": "Englisch",
@@ -147,7 +148,7 @@
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "send": "Senden",
     "send-description": "Frage abschicken",
-    "tag": "Tag",
+    "tag": "Kategorie",
     "tag-reset": "Zurücksetzen",
     "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
@@ -273,7 +274,7 @@
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller",
-    "questions-blocked": "Neue Fragen deaktiviert "
+    "questions-blocked": "Weitere Fragen deaktiviert "
   },
   "quill": {
     "cancel": "Abbrechen",

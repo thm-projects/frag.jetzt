@@ -48,7 +48,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceType === 'desktop'"
               (click)="navigateTopicCloud()">
-        <mat-icon>cloud</mat-icon>
+        <mat-icon style="margin-right: 15px">cloud</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -59,8 +59,10 @@
 
       <button mat-flat-button
               tabindex="0"
-              *ngIf="deviceType === 'desktop' && !router.url.endsWith('moderator/comments') &&
-                     isSafari === 'false'"
+              *ngIf="deviceType === 'desktop' &&
+              !router.url.endsWith('moderator/comments') &&
+              router.url.endsWith('/comments') &&
+              isSafari === 'false'"
               routerLink="participant/room/{{shortId}}/comments/questionwall">
         <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
         <span>{{'header.questionwall' | translate}}</span>
@@ -80,7 +82,7 @@
       </h2>
 
       <span *ngIf="room && room.questionsBlocked">
-        <mat-icon style="color: red;" [matTooltip]="'header.questions-blocked' | translate">
+        <mat-icon style="color: red; margin-top: 8px" [matTooltip]="'header.questions-blocked' | translate">
           block
         </mat-icon>
       </span>

@@ -11,7 +11,7 @@
         {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
       </span>
       <span *ngIf="selectedLang === 'auto'" #langSelect>
-        auto
+        {{'spacy-dialog.language' | translate}}
       </span>
       <mat-select class="select-list" #select [(ngModel)]="selectedLang">
         <mat-option *ngFor="let lang of languages" [value]="lang">
