@@ -380,7 +380,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   public navigateToOtherView() {
-    const url = this.router.url;
+    const url = decodeURI(this.router.url);
     let newRoute = '/participant/';
     if (this.userRole !== this.user.role) {
       newRoute = this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
