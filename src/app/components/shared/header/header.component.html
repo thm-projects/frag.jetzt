@@ -29,6 +29,12 @@
         <p class="userActivityTxt">{{userActivity}}</p>
       </div>
 
+      <span *ngIf="isInRouteWithRoles && user && user.role !== userRole">
+        <mat-icon style="color: red; margin-top: 8px" [matTooltip]="'header.not-in-own-view' | translate">
+          group
+        </mat-icon>
+      </span>
+
       <h2 class="oldtypo-h2"
           *ngIf="router.url.endsWith('/moderator/comments') && deviceType === 'desktop'">
         {{'header.moderation-warning'|translate}}
@@ -290,6 +296,15 @@
       </div>
 
       <!-- General Options -->
+
+      <button mat-menu-item
+              *ngIf="isInRouteWithRoles && user && user.role > 0"
+              (click)="navigateToOtherView()"
+              tabindex="0">
+        <mat-icon>group</mat-icon>
+        <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
+        <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
+      </button>
 
       <button mat-menu-item
               *ngIf="userRole == 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"

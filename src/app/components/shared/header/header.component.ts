@@ -54,6 +54,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   toggleUserActivity = false;
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
+  isInRouteWithRoles = false;
   private _subscriptionRoomService = null;
 
   constructor(public location: Location,
@@ -87,12 +88,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         const url = e.url.toLowerCase();
         if (url.startsWith('/participant/')) {
           this.userRole = UserRole.PARTICIPANT;
+          this.isInRouteWithRoles = true;
         } else if (url.startsWith('/moderator/')) {
           this.userRole = UserRole.EXECUTIVE_MODERATOR;
+          this.isInRouteWithRoles = true;
         } else if (url.startsWith('/creator/')) {
           this.userRole = UserRole.CREATOR;
+          this.isInRouteWithRoles = true;
         } else {
           this.userRole = this.user ? this.user.role : UserRole.PARTICIPANT;
+          this.isInRouteWithRoles = false;
         }
       }
     });
@@ -372,6 +377,15 @@ export class HeaderComponent implements OnInit, AfterViewInit {
 
   public navigateModeratorSettings() {
     this.eventService.broadcast('navigate', 'moderatorSettings');
+  }
+
+  public navigateToOtherView() {
+    const url = this.router.url;
+    let newRoute = '/participant/';
+    if (this.userRole !== this.user.role) {
+      newRoute = this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
+    }
+    this.router.navigate([url.replace(/^\/[^\/]+\//gmi, newRoute)]);
   }
 
   public navigateTopicCloud() {
