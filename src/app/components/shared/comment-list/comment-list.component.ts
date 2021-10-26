@@ -425,7 +425,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   writeComment() {
-    this.createCommentWrapper.openCreateDialog(this.user)
+    this.createCommentWrapper.openCreateDialog(this.user, this.userRole)
       .subscribe(comment => this.focusCommentId = comment && comment.id);
   }
 

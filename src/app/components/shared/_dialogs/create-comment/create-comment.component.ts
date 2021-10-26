@@ -11,6 +11,7 @@ import { CreateCommentKeywords, KeywordsResultType } from '../../../../utils/cre
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { DeepLService } from '../../../../services/http/deep-l.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-submit-comment',
@@ -21,6 +22,7 @@ export class CreateCommentComponent implements OnInit {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
   @Input() user: User;
+  @Input() userRole: UserRole;
   @Input() roomId: string;
   @Input() tags: string[];
   isSendingToSpacy = false;
@@ -40,7 +42,7 @@ export class CreateCommentComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.isModerator = this.user && this.user.role > 0;
+    this.isModerator = this.userRole > 0;
   }
 
   onNoClick(): void {
@@ -60,7 +62,7 @@ export class CreateCommentComponent implements OnInit {
     comment.roomId = localStorage.getItem(`roomId`);
     comment.body = body;
     comment.creatorId = this.user.id;
-    comment.createdFromLecturer = this.user.role > 0;
+    comment.createdFromLecturer = this.userRole > 0;
     comment.tag = tag;
     comment.questionerName = name;
     this.isSendingToSpacy = true;

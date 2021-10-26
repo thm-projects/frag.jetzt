@@ -16,7 +16,7 @@
           {{tagData && tagData.distinctUsers.size}}
         </p>
       </span>
-      <button *ngIf="user && user.role >= 1 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
+      <button *ngIf="userRole > 0 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
         <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
       </button>
     </div>
@@ -42,7 +42,7 @@
         </p>
       </span>
     </div>
-    <div class="replacementContainer" *ngIf="user && user.role >= 1">
+    <div class="replacementContainer" *ngIf="userRole > 0">
       <mat-form-field>
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"

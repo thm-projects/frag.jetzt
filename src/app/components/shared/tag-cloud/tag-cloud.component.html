@@ -30,12 +30,12 @@
         </angular-tag-cloud>
         <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
-      <button *ngIf="((user && user.role > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
+      <button *ngIf="((userRole > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
               mat-fab
               mat-icon-button
               aria-labelledby="add"
               class="fab_add_comment"
-              (click)="createCommentWrapper.openCreateDialog(this.user).subscribe()"
+              (click)="createCommentWrapper.openCreateDialog(user, userRole).subscribe()"
               matTooltip="{{ 'comment-list.add-comment' | translate }}">
         <mat-icon>add</mat-icon>
       </button>

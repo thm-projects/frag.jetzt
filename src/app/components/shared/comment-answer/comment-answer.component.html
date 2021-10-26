@@ -4,13 +4,13 @@
   <div fxLayout="row"
        fxLayoutAlign="center">
     <app-comment [comment]="comment"
-                 [userRole]="user.role"></app-comment>
+                 [userRole]="userRole"></app-comment>
   </div>
   <div fxLayout="row"
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
-      <app-write-comment [isModerator]="user && user.role > 0"
+      <app-write-comment [isModerator]="userRole > 0"
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
                          [onClose]="openDeleteAnswerDialog()"

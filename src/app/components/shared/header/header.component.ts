@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
@@ -40,6 +40,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 export class HeaderComponent implements OnInit, AfterViewInit {
   @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
   user: User;
+  userRole: UserRole;
   cTime: string;
   shortId: string;
   isSafari = 'false';
@@ -72,7 +73,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
               private topicCloudAdminService: TopicCloudAdminService,
               private headerService: HeaderService,
               private onboardingService: OnboardingService,
-              public themeService: ThemeService
+              public themeService: ThemeService,
+              private route: ActivatedRoute,
   ) {
   }
 
@@ -81,6 +83,20 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        const url = e.url.toLowerCase();
+        if (url.startsWith('/participant/')) {
+          this.userRole = UserRole.PARTICIPANT;
+        } else if (url.startsWith('/moderator/')) {
+          this.userRole = UserRole.EXECUTIVE_MODERATOR;
+        } else if (url.startsWith('/creator/')) {
+          this.userRole = UserRole.CREATOR;
+        } else {
+          this.userRole = this.user ? this.userRole : UserRole.PARTICIPANT;
+        }
+      }
+    });
     this.topicCloudAdminService.getAdminData.subscribe(data => {
       this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
     });
@@ -364,7 +380,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       autoFocus: false
     });
     confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
-    confirmDialogRef.componentInstance.user = this.user;
   }
 
   public navigateTopicCloudConfig() {

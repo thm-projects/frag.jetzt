@@ -24,7 +24,6 @@ import { TitleService } from '../../../services/util/title.service';
 import { DeleteCommentsComponent } from '../_dialogs/delete-comments/delete-comments.component';
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { TopicCloudFilterComponent } from '../../shared/_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomDeleteComponent } from '../_dialogs/room-delete/room-delete.component';
 import { RoomDeleted } from '../../../models/events/room-deleted';
 import { ProfanitySettingsComponent } from '../_dialogs/profanity-settings/profanity-settings.component';
@@ -435,12 +434,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
       width:'400px'
     });
     dialogRef.componentInstance.room = this.room;
-  }
-
-  showTagCloud(): void{
-    const dialogRef = this.dialog.open(TopicCloudFilterComponent, {
-      width:'400px'
-    });
   }
 
   showTagsDialog(): void{

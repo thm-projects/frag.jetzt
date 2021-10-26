@@ -143,11 +143,11 @@
           <!-- Moderator board / index -->
 
           <ng-container
-            *ngIf="user && user.role > 0 && (router.url.endsWith('/moderator/comments') || router.url.includes('/comment/'))">
+            *ngIf="userRole > 0 && (router.url.endsWith('/moderator/comments') || router.url.includes('/comment/'))">
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="user.role == 3"
+                    *ngIf="userRole == 3"
                     routerLink="creator/room/{{shortId}}/comments">
               <mat-icon>
                 forum
@@ -157,7 +157,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="user.role > 0 && user.role < 3"
+                    *ngIf="userRole > 0 && userRole < 3"
                     routerLink="moderator/room/{{shortId}}/comments">
               <mat-icon>
                 forum
@@ -167,7 +167,7 @@
 
           </ng-container>
 
-          <ng-container *ngIf="user && user.role == 0 && router.url.includes('/comment/')">
+          <ng-container *ngIf="userRole == 0 && router.url.includes('/comment/')">
 
             <button mat-menu-item
                     tabindex="0"
@@ -184,7 +184,8 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
-                    *ngIf="user && user.role > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') && !router.url.endsWith('moderator/comments')"
+                    *ngIf="userRole > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
+                           !router.url.endsWith('moderator/comments')"
                     tabindex="0"
                     (click)="showQRDialog();">
               <mat-icon svgIcon="qrcode"
@@ -195,7 +196,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="user && user.role > 0 && !router.url.includes('/participant/') &&
+                    *ngIf="userRole > 0 && !router.url.includes('/participant/') &&
                            !router.url.endsWith('moderator/comments')"
                     routerLink="moderator/room/{{shortId}}/moderator/comments">
               <mat-icon>visibility_off</mat-icon>
@@ -232,7 +233,8 @@
           <!-- Room General Options - bot -->
 
           <ng-container
-            *ngIf="user && user.role == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
+            *ngIf="userRole == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') &&
+                   !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
 
           </ng-container>
@@ -248,7 +250,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="user && user.role >0 && router.url.endsWith('/tagcloud')"
+                  *ngIf="userRole > 0 && router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudConfig()">
             <mat-icon aria-label="Configuration Icon">cloud</mat-icon>
@@ -256,7 +258,7 @@
           </button>
 
           <button mat-menu-item
-                  *ngIf="user && user.role >0 && router.url.endsWith('/tagcloud')"
+                  *ngIf="userRole > 0 && router.url.endsWith('/tagcloud')"
                   tabindex="0"
                   (click)="navigateTopicCloudAdministration()">
             <mat-icon aria-hidden="false"
@@ -268,7 +270,7 @@
 
           <button mat-menu-item
                   tabindex="0"
-                  *ngIf="user && user.role > 0 && router.url.endsWith('/tagcloud')"
+                  *ngIf="userRole > 0 && router.url.endsWith('/tagcloud')"
                   (click)="startWorkerDialog()">
             <mat-icon>cloud
             </mat-icon>
@@ -290,7 +292,7 @@
       <!-- General Options -->
 
       <button mat-menu-item
-              *ngIf="user && user.role == 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
+              *ngIf="userRole == 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
               (click)="openUserBonusTokenDialog()"
               tabindex="0">
         <mat-icon class="star">grade</mat-icon>
@@ -301,7 +303,7 @@
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
         <button mat-menu-item
-                *ngIf="user && user.role == 0"
+                *ngIf="userRole == 0"
                 tabindex="0"
                 routerLink="participant/room/{{shortId}}">
           <mat-icon>
@@ -311,7 +313,7 @@
         </button>
 
         <button mat-menu-item
-                *ngIf="user && user.role == 3"
+                *ngIf="userRole == 3"
                 tabindex="0"
                 routerLink="creator/room/{{shortId}}">
           <mat-icon>
@@ -321,7 +323,7 @@
         </button>
 
         <button mat-menu-item
-                *ngIf="user && user.role == 2"
+                *ngIf="userRole == 2"
                 tabindex="0"
                 routerLink="moderator/room/{{shortId}}">
           <mat-icon>
