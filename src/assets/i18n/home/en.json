@@ -118,9 +118,9 @@
     "quiz-now": "antworte✦jetzt",
     "moderation-warning": "Moderation board with unreleased questions",
     "tour": "Tour",
-    "own-view": "To own view",
-    "regular-user-view": "To the regular user view",
-    "not-in-own-view": "The current view does not offer all functions. Switch to your view in the options."
+    "own-view": "Back to own view",
+    "regular-user-view": "To the participant view",
+    "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view."
   },
   "help": {
     "cancel": "Close",
