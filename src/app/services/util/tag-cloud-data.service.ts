@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { TopicCloudAdminData } from '../../components/shared/_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { TopicCloudAdminService } from './topic-cloud-admin.service';
-import { CommentFilter } from '../../utils/filter-options';
 import { TranslateService } from '@ngx-translate/core';
 import { Comment } from '../../models/comment';
 import { RoomDataService } from './room-data.service';
@@ -11,6 +10,8 @@ import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { ModeratorService } from '../http/moderator.service';
+import { CommentListFilter } from '../../components/shared/comment-list/comment-list.filter';
+import { Room } from '../../models/room';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -81,7 +82,7 @@ export class TagCloudDataService {
   private _demoData: TagCloudData = null;
   private _adminData: TopicCloudAdminData = null;
   private _subscriptionAdminData: Subscription;
-  private _currentFilter: CommentFilter;
+  private _currentFilter: CommentListFilter;
   private _currentModerators: string[];
   private _currentOwner: string;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
@@ -171,26 +172,29 @@ export class TagCloudDataService {
     ];
   }
 
-  bindToRoom(roomId: string, roomOwner: string, userRole: UserRole): void {
+  bindToRoom(room: Room, userRole: UserRole, userId: string): void {
     if (this._subscriptionAdminData) {
       throw new Error('Room already bound.');
     }
     this._currentModerators = null;
-    this._currentFilter = CommentFilter.currentFilter;
-    this._roomId = roomId;
-    this._currentOwner = roomOwner;
-    this._moderatorService.get(roomId).subscribe(moderators => {
+    this._currentFilter = CommentListFilter.loadCurrentFilter();
+    this._currentFilter.updateRoom(room);
+    this._roomId = room.id;
+    this._currentOwner = room.ownerId;
+    this._currentFilter.updateUserId(userId);
+    this._moderatorService.get(room.id).subscribe(moderators => {
       this._currentModerators = moderators.map(moderator => moderator.accountId);
+      this._currentFilter.updateModerators(this._currentModerators);
       this.rebuildTagData();
     });
     this._lastFetchedComments = null;
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
-    this._tagCloudAdmin.ensureRoomBound(roomId, userRole);
+    this._tagCloudAdmin.ensureRoomBound(room.id, userRole);
 
     this.fetchData();
-    if (!this._currentFilter.paused) {
+    if (!this._currentFilter.freezedAt) {
       this._commentSubscription = this._roomDataService.receiveUpdates([
         { type: 'CommentCreated', finished: true },
         { type: 'CommentDeleted' },
@@ -360,7 +364,7 @@ export class TagCloudDataService {
       return;
     }
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
-    const filteredComments = this._lastFetchedComments.filter(comment => this._currentFilter.checkComment(comment));
+    const filteredComments = this._currentFilter.checkAll(this._lastFetchedComments);
     currentMeta.commentCount = filteredComments.length;
     const [data, users] = TagCloudDataService.buildDataFromComments(this._currentOwner, this._currentModerators,
       this._adminData, this._roomDataService, filteredComments);

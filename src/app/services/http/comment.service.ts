@@ -6,7 +6,6 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { CommentFilter } from '../../utils/filter-options';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention

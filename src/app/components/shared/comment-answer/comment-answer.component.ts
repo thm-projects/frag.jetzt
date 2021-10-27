@@ -13,6 +13,8 @@ import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { Message } from '@stomp/stompjs';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-comment-answer',
@@ -27,6 +29,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   answer: string;
   isLoading = true;
   userRole: UserRole;
+  user: User;
   isStudent = true;
   edit = false;
   private _commentSubscription;
@@ -35,6 +38,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               private translateService: TranslateService,
               protected langService: LanguageService,
+              private authenticationService: AuthenticationService,
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               public dialog: MatDialog,
@@ -43,6 +47,11 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userRole = this.route.snapshot.data.roles[0];
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
     if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
     }

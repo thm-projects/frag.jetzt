@@ -182,6 +182,7 @@
                                       ars-flex-box>
                 <ars-col ars-btn-wrp
                          [xp]="32"
+                         *ngIf="user && commentFocus.comment.creatorId !== user.id"
                          [extra]="true"
                          class="questionwall-comment-btn">
                   <button ars-btn
@@ -334,6 +335,7 @@
                     <ars-col ars-btn-wrp
                              [xp]="16"
                              [extra]="true"
+                             *ngIf="user && comment.comment.creatorId !== user.id"
                              class="questionwall-comment-btn">
                       <button ars-btn
                               (click)="likeComment(comment)"

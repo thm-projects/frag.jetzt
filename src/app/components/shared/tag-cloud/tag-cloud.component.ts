@@ -87,8 +87,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @ViewChild(MatDrawer) drawer: MatDrawer;
 
-  @Input() user: User;
-  @Input() roomId: string;
+  roomId: string;
+  user: User;
   room: Room;
   directSend = true;
   shortId: string;
@@ -146,7 +146,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
     this._syncFenceBuildCloud = new SyncFence(2,
-      () => this.dataManager.bindToRoom(this.roomId, this.room.ownerId, this.userRole));
+      () => this.dataManager.bindToRoom(this.room, this.userRole, this.user.id));
   }
 
   private static getCurrentCloudParameters(): CloudParameters {

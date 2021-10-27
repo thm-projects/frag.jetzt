@@ -13,8 +13,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
-import { Period } from '../../../../utils/filter-options';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { Period } from '../../comment-list/comment-list.filter';
+import { User } from '../../../../models/user';
 
 @Component({
   selector: 'app-question-wall',
@@ -51,6 +52,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   periodsList = Object.values(Period);
   period: Period = Period.all;
   isLoading = true;
+  user: User;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -88,6 +90,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
     this.roomDataService.getRoomData(this.roomId).subscribe(e => {
       if (e === null) {
         return;
@@ -263,11 +270,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   likeComment(comment: QuestionWallComment) {
-    this.commentService.voteUp(comment.comment, this.authenticationService.getUser().id).subscribe();
+    this.commentService.voteUp(comment.comment, this.user.id).subscribe();
   }
 
   dislikeComment(comment: QuestionWallComment) {
-    this.commentService.voteDown(comment.comment, this.authenticationService.getUser().id).subscribe();
+    this.commentService.voteDown(comment.comment, this.user.id).subscribe();
   }
 
   sortScore(reverse?: boolean) {
