@@ -21,12 +21,11 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { Period } from '../../../utils/filter-options';
 import { PageEvent } from '@angular/material/paginator';
 import {
   CommentListFilter,
   FilterType,
-  FilterTypeKey,
+  FilterTypeKey, Period,
   SortType,
   SortTypeKey
 } from '../../shared/comment-list/comment-list.filter';

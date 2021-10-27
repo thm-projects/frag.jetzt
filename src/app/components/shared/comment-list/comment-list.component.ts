@@ -24,7 +24,6 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
-import { CommentFilter, Period } from '../../../utils/filter-options';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
@@ -33,10 +32,10 @@ import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
-import { CommentListFilter, FilterType, FilterTypeKey, SortType, SortTypeKey } from './comment-list.filter';
+import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
 
 export interface CommentListData {
-  currentFilter: CommentFilter;
+  currentFilter: CommentListFilter;
   room: Room;
 }
 
@@ -131,7 +130,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     });
     this._subscriptionEventServiceRoomData = this.eventService.on<string>('pushCurrentRoomData').subscribe(_ => {
       this.eventService.broadcast('currentRoomData', {
-        currentFilter: this.getCurrentFilter(),
+        currentFilter: this.filter,
         room: this.room
       } as CommentListData);
     });
@@ -377,6 +376,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   activateCommentStream(freezed: boolean) {
     this.freeze = freezed;
+    this.filter.freezedAt = freezed ? new Date().getTime() : null;
     this.roomDataService.getRoomData(this.roomId, freezed).subscribe(comments => {
       if (comments === null) {
         return;
@@ -464,22 +464,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.moderationEnabled = room.moderated;
     this.directSend = room.directSend;
     this.commentsEnabled = (this.userRole > UserRole.PARTICIPANT) || !room.questionsBlocked;
-  }
-
-  private getCurrentFilter(): CommentFilter {
-    const filter = new CommentFilter();
-    filter.filterSelected = this.filter.filterType;
-    filter.paused = this.freeze;
-    filter.periodSet = this.filter.period;
-    filter.keywordSelected = this.filter.filterCompare;
-    filter.tagSelected = this.filter.filterCompare;
-    filter.userNumberSelected = this.filter.filterCompare;
-
-    if (filter.periodSet === Period.fromNow) {
-      filter.timeStampNow = new Date().getTime();
-    }
-
-    return filter;
   }
 
   private generateKeywordsIfEmpty() {
