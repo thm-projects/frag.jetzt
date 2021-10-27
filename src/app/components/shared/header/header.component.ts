@@ -31,6 +31,7 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { ThemeService } from '../../../../theme/theme.service';
+import { RoleChecker } from '../../../utils/RoleChecker';
 
 @Component({
   selector: 'app-header',
@@ -85,20 +86,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.router.events.subscribe(e => {
       if (e instanceof NavigationEnd) {
-        const url = e.url.toLowerCase();
-        if (url.startsWith('/participant/')) {
-          this.userRole = UserRole.PARTICIPANT;
-          this.isInRouteWithRoles = true;
-        } else if (url.startsWith('/moderator/')) {
-          this.userRole = UserRole.EXECUTIVE_MODERATOR;
-          this.isInRouteWithRoles = !url.endsWith('/moderator/comments');
-        } else if (url.startsWith('/creator/')) {
-          this.userRole = UserRole.CREATOR;
-          this.isInRouteWithRoles = !url.endsWith('/moderator/comments');
-        } else {
-          this.userRole = this.user ? this.user.role : UserRole.PARTICIPANT;
-          this.isInRouteWithRoles = false;
-        }
+        [this.userRole, this.isInRouteWithRoles] = RoleChecker.checkRole(e.url, this.user?.role);
       }
     });
     this.topicCloudAdminService.getAdminData.subscribe(data => {
