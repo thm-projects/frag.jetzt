@@ -109,6 +109,10 @@ mat-hint {
   margin-top: 8px;
 }
 
+.btn-icon {
+  margin-right: 5px;
+}
+
 /*
 Styling for tag selection
  */
@@ -117,15 +121,8 @@ Styling for tag selection
   display: inline;
 }
 
-.tag-form-field {
-  z-index: 10000;
+.tag-btn {
   float: right;
-
-  @media screen and (max-width: 480px) {
-    float: unset;
-    width: max-content;
-    margin: 5px 16px;
-  }
 }
 
 .anchor-wrp {
@@ -141,25 +138,13 @@ Styling for tag selection
 Styling for language select
  */
 
-#langSymbol {
-  margin-right: 5px;
-}
-
 .select-list {
   width: 18px;
   margin-left: 12px;
 }
 
-.lang-selection {
-  vertical-align: middle;
-  margin-right: 0;
-  width: 200px;
-  display: inline-block;
-
-  > button {
-    padding: 0;
-    margin-left: 12px;
-  }
+.lang-btn {
+  margin-left: 12px;
 }
 
 /*
