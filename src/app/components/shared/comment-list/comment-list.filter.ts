@@ -190,7 +190,7 @@ export class CommentListFilter {
     const filterTime = (this.period === Period.fromNow ? this.fromNow : currentTime - periodInSeconds);
     return thresholdComments.filter(c => {
       const time = new Date(c.timestamp).getTime();
-      return time >= filterTime && time < this.freezedAt;
+      return time >= filterTime && (!this.freezedAt || time < this.freezedAt);
     });
   }
 
