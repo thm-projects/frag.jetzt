@@ -1,44 +1,44 @@
 <ars-row>
   <ng-container [ngTemplateOutlet]="additionalTemplate"></ng-container>
   <div class="lang-selection" *ngIf="enabled">
-    <button class="lang-btn"
-            mat-button
-            (click)="select.open()"
-            matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
-            matTooltipShowDelay="750">
-      <mat-icon id="langSymbol">language</mat-icon>
-      <span *ngIf="selectedLang !== 'auto'">
+
+  </div>
+  <button class="lang-btn"
+          mat-button
+          *ngIf="enabled"
+          (click)="select.open()"
+          matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+          matTooltipShowDelay="750">
+    <mat-icon class="btn-icon">language</mat-icon>
+    <span *ngIf="selectedLang !== 'auto'">
         {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
       </span>
-      <span *ngIf="selectedLang === 'auto'" #langSelect>
+    <span *ngIf="selectedLang === 'auto'" #langSelect>
         {{'spacy-dialog.language' | translate}}
       </span>
-      <mat-select class="select-list" #select [(ngModel)]="selectedLang">
-        <mat-option *ngFor="let lang of languages" [value]="lang">
-          <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
-          <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
-          <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
-          <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
-        </mat-option>
-      </mat-select>
-    </button>
-  </div>
-  <mat-form-field *ngIf="tags"
-                  class="tag-form-field">
-    <mat-label>
-      <mat-icon class="icon-svg"
-                svgIcon="comment_tag"></mat-icon>
-      {{'comment-page.tag' | translate}}
-    </mat-label>
-    <label for="tagSelect">{{selectedTag}}</label>
-    <mat-select [(ngModel)]="selectedTag"
-                class="tag-select"
-                id="tagSelect">
-      <mat-option>{{'comment-page.tag-reset' | translate}}</mat-option>
-      <mat-option *ngFor="let tag of tags"
-                  value="{{tag}}">{{tag}}</mat-option>
+    <mat-select class="select-list" #select [(ngModel)]="selectedLang">
+      <mat-option *ngFor="let lang of languages" [value]="lang">
+        <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
+        <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
+        <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
+        <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+      </mat-option>
     </mat-select>
-  </mat-form-field>
+  </button>
+  <button class="tag-btn"
+          mat-button
+          *ngIf="enabled && tags && tags.length"
+          (click)="tagSelect.open()"
+          matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+          matTooltipShowDelay="750">
+    <mat-icon class="btn-icon" svgIcon="comment_tag"></mat-icon>
+    <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
+    <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>
+    <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
+      <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
+      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
+    </mat-select>
+  </button>
 </ars-row>
 <ars-row [height]="12"></ars-row>
 <app-view-comment-data *ngIf="enabled"
