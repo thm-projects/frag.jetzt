@@ -11,14 +11,14 @@
         {{'spacy-dialog.' + (languagetoolService.mapLanguageToSpacyModel(selectedLang)) | translate}}
       </span>
     <span *ngIf="selectedLang === 'auto'" #langSelect>
-        {{'spacy-dialog.language' | translate}}
+      <em>{{'spacy-dialog.language' | translate}}</em>
       </span>
     <mat-select class="select-list" #select [(ngModel)]="selectedLang">
       <mat-option *ngFor="let lang of languages" [value]="lang">
         <span *ngIf="lang == 'de-DE'">{{ 'spacy-dialog.de' | translate }}</span>
         <span *ngIf="lang == 'en-US'">{{ 'spacy-dialog.en' | translate }}</span>
         <span *ngIf="lang == 'fr'">{{ 'spacy-dialog.fr' | translate }}</span>
-        <span *ngIf="lang == 'auto'">{{ 'spacy-dialog.auto' | translate }}</span>
+        <span *ngIf="lang == 'auto'"><em>{{ 'spacy-dialog.auto' | translate }}</em></span>
       </mat-option>
     </mat-select>
   </button>
@@ -26,7 +26,7 @@
           mat-button
           *ngIf="enabled && tags && tags.length"
           (click)="tagSelect.open()"
-          matTooltip="{{ 'spacy-dialog.lang-button-hint' | translate }}"
+          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}"
           matTooltipShowDelay="750">
     <mat-icon class="btn-icon" svgIcon="comment_tag"></mat-icon>
     <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
