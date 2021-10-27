@@ -21,12 +21,11 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { Period } from '../../../utils/filter-options';
 import { PageEvent } from '@angular/material/paginator';
 import {
   CommentListFilter,
   FilterType,
-  FilterTypeKey,
+  FilterTypeKey, Period,
   SortType,
   SortTypeKey
 } from '../../shared/comment-list/comment-list.filter';
@@ -199,7 +198,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
     this.isSafari = localStorage.getItem('isSafari');
-    this.filter.sortType = SortType.votedesc;
     this.moderationService.get(this.roomId)
       .subscribe((mods) => {
         this.filter.updateModerators(mods.map(mod => mod.accountId));

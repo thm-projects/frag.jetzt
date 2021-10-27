@@ -13,8 +13,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
-import { Period } from '../../../../utils/filter-options';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { Period } from '../../comment-list/comment-list.filter';
 
 @Component({
   selector: 'app-question-wall',
