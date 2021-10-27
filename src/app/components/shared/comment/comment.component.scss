@@ -68,6 +68,7 @@ mat-card-content > :first-child {
 }
 
 .score {
+  min-width: 40px;
   text-align: center;
   margin: 0;
   color: var(--on-surface);
