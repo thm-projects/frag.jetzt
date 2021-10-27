@@ -131,9 +131,9 @@
     "quiz-now": "antworte✦jetzt",
     "moderation-warning": "Moderationsboard mit nicht freigegebenen Fragen",
     "tour": "Tour",
-    "own-view": "Zur eigenen Ansicht",
-    "regular-user-view": "Zur normalen Benutzeransicht",
-    "not-in-own-view": "Die aktuelle Ansicht bietet nicht alle Funktionen. Wechsle in den Optionen zu deiner Ansicht."
+    "own-view": "Zurück zur eigenen Ansicht",
+    "regular-user-view": "Zur Teilnehmeransicht",
+    "not-in-own-view": "Du befindest dich gerade in der Teilnehmeransicht. In den Optionen kannst du zurück zu deiner Ansicht wechseln."
   },
   "help": {
     "cancel": "Schließen",
