@@ -51,7 +51,7 @@
     "close": "Close",
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into English and back into German using the translation program [DeepL] (https://www.deepl.com/translator). \n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy] (https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
-    "topic-cloud": "## Topics as tags in a word cloud\n\nOur **topic cloud** visualizes the significance of the keywords. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
+    "topic-cloud": "## Topics as tags in a word cloud\n\nThe **topic cloud** visualizes the distribution of the keywords. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
     "bonus-archive": "All questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the token that a participant sent you by mail is valid. \n\nTo find a token quickly, there is a search field. If the token is valid, you can display the corresponding question directly via a link."
   },
@@ -119,7 +119,7 @@
     "moderation-warning": "Moderation board with unreleased questions",
     "tour": "Tour",
     "own-view": "Back to own view",
-    "regular-user-view": "To the participant view",
+    "regular-user-view": "Switch to participant view",
     "not-in-own-view": "You are currently in the participant view. In the options you can switch back to your view."
   },
   "help": {
@@ -163,8 +163,8 @@
     "tag-cloud-questions-all": "All questions",
     "tag-cloud-questions-all-short": "All",
     "tag-cloud-questions-current-filtered": "List",
-    "tag-cloud-questions-brainstorming": "Brain storming session: questions from now on",
-    "tag-cloud-questions-brainstorming-short": "Brain storming session",
+    "tag-cloud-questions-brainstorming": "Brainstorming: New questions from now on",
+    "tag-cloud-questions-brainstorming-short": "Brainstorming",
     "tag-cloud-create": "Create"
   },
   "imprint": {
@@ -342,7 +342,7 @@
     "description": "Session description",
     "join": "Join session",
     "max-ls": "Max. characters:",
-    "session-name": "Session name",
+    "session-name": "Meeting name",
     "session-name-with-key-code-generated": "Name of the meeting (key code will be generated)"
   },
   "user-activation": {
@@ -390,7 +390,7 @@
     "inline-header": "Running keyword updates"
   },
   "topic-cloud-filter": {
-    "info-no-keywords": "An AI-based text analysis can generate keywords afterwards. Start analysis?",
+    "info-no-keywords": "Our AI-based text analysis can identify keywords. Start analysis?",
     "label-refresh-keywords-start": "Start"
   }
 }

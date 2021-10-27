@@ -171,7 +171,7 @@
     "send": "Senden",
     "send-description": "Frage abschicken",
     "tag": "Kategorie",
-    "tag-reset": "Zurücksetzen",
+    "tag-reset": "ohne",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
     "user-number": "Klick auf das Pin-Icon, um alle Fragen dieses Fragenstellers zu filtern.",
     "keywords-per-question": "Klick auf das #-Zeichen, um die  Stichwörter anzuzeigen, die der Fragensteller bestimmt oder aus einer KI-generierten Liste ausgewählt hat.",
@@ -257,7 +257,7 @@
     "close": "Schließen",
     "deepl": "## Text optimieren \n\nUm deine Frage optimal lesbar und verständlich zu präsentieren, lassen wir sie mit dem KI-Übersetzungsprogramm [DeepL](https://www.deepl.com/translator) ins Englische und zurück ins Deutsche übersetzen. \n\nDie Rückübersetzung ist in fast allen Fällen besser als das Original in Bezug auf Rechtschreibung, Grammatik, Interpunktion und Sprachstil.",
     "spacy": "## Stichwörter \n\nMittels NLP (Natural Language Processing) wird deine Frage grammatikalisch analysiert. Die erkannten Substantive werden in ihre Grundform gebracht, d. h. lemmatisiert, und dir als Stichwörter vorgeschlagen. Für die Textanalyse verwenden wir die freie NLP-Software [spaCy](https://spacy.io/). \n\nDie Stichwörter können verwendet werden, um die Liste der Fragen zu filtern oder um eine Wortwolke zu erstellen.",
-    "topic-cloud": "## Themen als Wortwolke \n\nUnsere **Themenwolke** visualisiert die Bedeutung der Stichwörter. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde.\n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nDer Raumersteller kann das Aussehen der Themenwolke in den Optionen nach seinen Wünschen anpassen. Er kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
+    "topic-cloud": "## Themen als Wortwolke \n\nDie **Themenwolke** visualisiert die Verteilung der Stichwörter. \n\n  In die Berechnung der Schriftgröße gehen ein:\n\n* die Differenz zwischen Up- und Down-Votes, wenn sie positiv ist,\n* die Anzahl der Fragen mit diesem Stichwort,\n* die Anzahl der Fragensteller mit diesem Stichwort,\n* die Rolle des Fragenstellers: Raumersteller, Moderator oder Teilnehmer,\n* ob der Fragensteller eine Fragenkategorie ausgewählt hat,\n* ob das Stichwort generiert oder vom Fragensteller vergeben wurde,\n* ob die Frage vom Raumersteller oder einem Moderator beantwortet wurde.\n\nDie Themenwolke dient als **Navigator** zu allen Fragen zu einem Stichwort: Wenn du auf ein Wort in der Wolke klickst, gelangst du zu den Fragen mit diesem Stichwort. \n\nDer Raumersteller kann das Aussehen der Themenwolke in den Optionen nach seinen Wünschen anpassen. Er kann auch mit den Parametern für die Stichwortgenerierung experimentieren, um die **semantische Trennschärfe** zu optimieren.",
     "user-bonus": "Die Lehrperson kann »gute« Fragen für einen Bonus markieren. Deine Fragen aus allen Kursen (Räumen), die einen Stern erhalten haben, werden hier aufgelistet.\n\nJe nach Vereinbarung kannst du den Token des Sterns per E-Mail an die Lehrperson schicken, um ihn gegen einen Bonus einzulösen.",
     "bonus-archive": "Hier werden alle Fragen aufgelistet, die du in deinen Räumen mit einem Stern markiert hast. Anhand der Liste kannst du überprüfen, ob der Token, den dir ein Teilnehmer per Mail geschickt hat, gültig ist. \n\nUm einen Token schnell zu finden, gibt es ein Suchfeld. Ist der Token gültig, kannst du dir die entsprechende Frage direkt über einen Link anzeigen lassen."
   },
@@ -338,7 +338,7 @@
     "name-length-error": "Titel muss zwischen 3 und 20 Zeichen liegen.",
     "no-moderators": "",
     "present": "Präsentieren",
-    "public-stream": "Öffentliche Fragenliste",
+    "public-stream": "Öffentliche Fragen",
     "really-delete-comments": "Willst du wirklich alle Fragen in diesem Raum löschen? Die Aktion kann nicht rückgängig gemacht werden.",
     "really-delete-comments-hint": "Es gibt Fragen in diesem Raum, die du für einen Bonus markiert hast. Entferne die Sterne, um alle Fragen zu löschen.",
     "delete-comments-alt-header": "Achtung!",
@@ -396,8 +396,8 @@
     "create-session": "Speichern",
     "description": "Text",
     "max-ls": "Maximale Anzahl Zeichen:",
-    "session-name": "Name der Sitzung",
-    "edit-session-name": "Name der Sitzung bearbeiten",
+    "session-name": "Name der Veranstaltung",
+    "edit-session-name": "Name der Veranstaltung bearbeiten",
     "preview": "Vorschau"
   },
   "tag-cloud-popup": {
