@@ -11,6 +11,7 @@ import { CloudParameters } from '../../utils/cloud-parameters';
 import { SmartDebounce } from '../../utils/smart-debounce';
 import { ModeratorService } from '../http/moderator.service';
 import { CommentListFilter } from '../../components/shared/comment-list/comment-list.filter';
+import { Room } from '../../models/room';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -171,23 +172,26 @@ export class TagCloudDataService {
     ];
   }
 
-  bindToRoom(roomId: string, roomOwner: string, userRole: UserRole): void {
+  bindToRoom(room: Room, userRole: UserRole, userId: string): void {
     if (this._subscriptionAdminData) {
       throw new Error('Room already bound.');
     }
     this._currentModerators = null;
     this._currentFilter = CommentListFilter.loadCurrentFilter();
-    this._roomId = roomId;
-    this._currentOwner = roomOwner;
-    this._moderatorService.get(roomId).subscribe(moderators => {
+    this._currentFilter.updateRoom(room);
+    this._roomId = room.id;
+    this._currentOwner = room.ownerId;
+    this._currentFilter.updateUserId(userId);
+    this._moderatorService.get(room.id).subscribe(moderators => {
       this._currentModerators = moderators.map(moderator => moderator.accountId);
+      this._currentFilter.updateModerators(this._currentModerators);
       this.rebuildTagData();
     });
     this._lastFetchedComments = null;
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
-    this._tagCloudAdmin.ensureRoomBound(roomId, userRole);
+    this._tagCloudAdmin.ensureRoomBound(room.id, userRole);
 
     this.fetchData();
     if (!this._currentFilter.freezedAt) {
