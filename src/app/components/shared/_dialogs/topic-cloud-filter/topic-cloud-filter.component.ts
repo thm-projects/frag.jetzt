@@ -165,11 +165,13 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
-          filter = new CommentListFilter(null);
+          filter = new CommentListFilter(this.tmpFilter);
+          filter.resetToDefault();
           break;
 
         case 'continueWithAllFromNow':
-          filter = new CommentListFilter(null);
+          filter = new CommentListFilter(this.tmpFilter);
+          filter.resetToDefault();
           filter.period = Period.fromNow;
           filter.fromNow = new Date().getTime();
           break;
@@ -183,10 +185,10 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       }
 
       localStorage.setItem('tag-cloud-question', this.question);
-
-      filter.save();
-
-      this.dialogRef.close(this.router.navigateByUrl(this.target));
+      this.dialogRef.close();
+      this.router.navigateByUrl(this.target).then(() => {
+        filter.save();
+      });
     };
   }
 
