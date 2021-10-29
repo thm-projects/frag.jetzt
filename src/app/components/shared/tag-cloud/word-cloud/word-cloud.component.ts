@@ -67,20 +67,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     return `#${((r * 256 + g) * 256 + b).toString(16).padStart(6, '0')}`;
   }
 
-  private static getIndexForSortedArray<K>(array: K[], value: number, valueMapper: (x: K) => number) {
-    let low = 0;
-    let high = array.length;
-    while (low < high) {
-      const mid = (low + high) >>> 1;
-      if (valueMapper(array[mid]) >= value) {
-        low = mid + 1;
-      } else {
-        high = mid;
-      }
-    }
-    return low;
-  }
-
   ngOnInit() {
     this._cssStyleElement = this.renderer2.createElement('style');
     this.renderer2.appendChild(document.head, this._cssStyleElement);
@@ -198,53 +184,31 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     if (!this.wordCloud || !this.wordCloud.nativeElement) {
       return;
     }
-    //TODO: this.fontInfoService.waitTillFontLoaded('Dancing Script').subscribe(font => console.log(font));
-    const [min, max] = this.calculateChanges(this.keywords);
-    const isSame = Math.abs(max - min) <= Number.EPSILON;
-    let defaultWeightClass;
-    if (this.weightClassType === WeightClassType.lowest) {
-      defaultWeightClass = 0;
-    } else if (this.weightClassType === WeightClassType.highest) {
-      defaultWeightClass = this.weightClasses - 1;
-    } else {
-      defaultWeightClass = Math.round(this.weightClasses / 2);
-    }
+    this.calculateChanges(this.keywords);
     const parentElement = this.wordCloud.nativeElement;
     const parentRect = parentElement.getBoundingClientRect();
     const parentWidth = parentRect.width / 2;
     const parentHeight = parentRect.height / 2;
+    const toDelete = [];
     this._elements = this._elements.filter((word, i) => {
-      const weightClass = isSame ?
-        defaultWeightClass :
-        Math.round((word.meta.weight - min) * (this.weightClasses - 1) / (max - min));
-      word.element.classList.value = 'weight-class-' + weightClass;
-      word.weightClass = weightClass;
       const rect = word.element.getBoundingClientRect() as DOMRect;
       word.buildInformation.position[2] = rect.width;
       word.buildInformation.position[3] = rect.height;
       if (this.findPlaceInCloud(i, parentWidth, parentHeight)) {
         return true;
       }
-      word.element.remove();
+      toDelete.push(word.element);
       return false;
     });
-    const timeInMs = 500;
-    const interval = 50;
-    parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
-    this._elements.forEach(e => {
-      const [x, y] = e.buildInformation.position;
-      e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
-      e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
+    for (const elem of toDelete) {
+      elem.remove();
+    }
+    if (this._elements.length === 0) {
+      return;
+    }
+    this.fontInfoService.waitTillFontLoaded(this.parameters.fontFamily).subscribe(_ => {
+      this.doDraw(parentElement, parentWidth, parentHeight);
     });
-    const newElements = this._elements.filter(e => e.element.style.opacity !== '1');
-    let index = 0;
-    const intervalId = setInterval(() => {
-      if (index >= newElements.length) {
-        clearInterval(intervalId);
-        return;
-      }
-      newElements[index++].element.style.opacity = '1';
-    }, interval);
   }
 
   private calculateObsoleteAndNewElements(data: T[]): [
@@ -281,12 +245,8 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         obsoleteElements.splice(fallback[0], 1)[0].word.meta = dataEntry;
         continue;
       }
-      const elem = this.renderer2.createElement('span');
-      elem.innerText = dataEntry.text;
-      elem.dataset.index = index;
-      this.wordCloud.nativeElement.appendChild(elem);
       newElements.push({
-        element: elem,
+        element: null,
         meta: dataEntry,
         weightClass: null,
         buildInformation: {
@@ -298,20 +258,50 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     return [min, max, obsoleteElements, newElements];
   }
 
-  private calculateChanges(data: T[]): [min: number, max: number] {
+  private calculateChanges(data: T[]) {
     const [min, max, obsoleteElements, newElements] = this.calculateObsoleteAndNewElements(data);
+    const toDeleteElement = [];
+    const isSame = Math.abs(max - min) <= Number.EPSILON;
+    let defaultWeightClass;
+    if (this.weightClassType === WeightClassType.lowest) {
+      defaultWeightClass = 0;
+    } else if (this.weightClassType === WeightClassType.highest) {
+      defaultWeightClass = this.weightClasses - 1;
+    } else {
+      defaultWeightClass = Math.round(this.weightClasses / 2);
+    }
     this._elements = this._elements.filter((word, index) => {
       if (obsoleteElements.length && index === obsoleteElements[0].index) {
-        word.element.remove();
+        toDeleteElement.push(word.element);
         obsoleteElements.shift();
         return false;
       }
+      const weightClass = isSame ?
+        defaultWeightClass :
+        Math.round((word.meta.weight - min) * (this.weightClasses - 1) / (max - min));
+      word.element.classList.value = 'weight-class-' + weightClass;
+      word.weightClass = weightClass;
       word.buildInformation.hasNeighbour.fill(false);
       return true;
     });
-    newElements.forEach(e => this._elements.splice(
-      WordCloudComponent.getIndexForSortedArray(this._elements, e.meta.weight, x => x.meta.weight), 0, e));
-    return [min, max];
+    newElements.forEach((word) => {
+      word.element = toDeleteElement.pop();
+      if (!word.element) {
+        word.element = this.renderer2.createElement('span');
+        this.wordCloud.nativeElement.appendChild(word.element);
+      }
+      word.element.innerText = word.meta.text;
+      const weightClass = isSame ?
+        defaultWeightClass :
+        Math.round((word.meta.weight - min) * (this.weightClasses - 1) / (max - min));
+      word.element.classList.value = 'weight-class-' + weightClass;
+      word.weightClass = weightClass;
+    });
+    this._elements.push(...newElements);
+    this._elements.sort((a, b) => b.meta.weight - a.meta.weight);
+    for (const elem of toDeleteElement) {
+      elem.remove();
+    }
   }
 
   private findPlaceInCloud(index: number, parentWidth: number, parentHeight: number): boolean {
@@ -381,6 +371,27 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       }
     }
     return false;
+  }
+
+  private doDraw(parentElement: HTMLDivElement, parentWidth: number, parentHeight: number) {
+    const timeInMs = 500;
+    console.log(this.parameters.delayWord);
+    const interval = this.parameters.delayWord;
+    parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
+    this._elements.forEach(e => {
+      const [x, y] = e.buildInformation.position;
+      e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
+      e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
+    });
+    const newElements = this._elements.filter(e => e.element.style.opacity !== '1');
+    let index = 0;
+    const intervalId = setInterval(() => {
+      if (index >= newElements.length) {
+        clearInterval(intervalId);
+        return;
+      }
+      newElements[index++].element.style.opacity = '1';
+    }, interval);
   }
 
 }
