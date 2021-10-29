@@ -1,10 +1,12 @@
 import {
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   Renderer2,
   SimpleChanges,
   ViewChild
@@ -47,7 +49,10 @@ interface StyleDeclarations {
 })
 export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges, OnDestroy {
 
-  @ViewChild('wordCloud') wordCloud: ElementRef<HTMLDivElement>;
+  @ViewChild('wordCloud', { static: true }) wordCloud: ElementRef<HTMLDivElement>;
+  @Output() clicked = new EventEmitter<T>();
+  @Output() entered = new EventEmitter<ActiveWord<T>>();
+  @Output() left = new EventEmitter<ActiveWord<T>>();
   @Input() keywords: T[];
   @Input() weightClasses = 10;
   @Input() weightClassType = WeightClassType.lowest;
@@ -189,6 +194,83 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     const parentRect = parentElement.getBoundingClientRect();
     const parentWidth = parentRect.width / 2;
     const parentHeight = parentRect.height / 2;
+    if (this.parameters.sortAlphabetically) {
+      this.redrawGrid(parentWidth, parentHeight);
+    } else {
+      this.redrawCloud(parentWidth, parentHeight);
+    }
+    if (this._elements.length === 0) {
+      return;
+    }
+    this.fontInfoService.waitTillFontLoaded(this.parameters.fontFamily).subscribe(_ => {
+      this.doDraw(parentElement, parentWidth, parentHeight);
+    });
+  }
+
+  onMouseEvent(event: MouseEvent) {
+    const parent = this.wordCloud && this.wordCloud.nativeElement;
+    const elem = event.target as HTMLSpanElement;
+    if (!parent || elem === parent || !parent.contains(elem)) {
+      return;
+    }
+    const activeWord = this._elements[+elem.dataset.index];
+    if (event.type === 'click') {
+      this.clicked.emit(activeWord.meta);
+      return;
+    }
+    if (event.type === 'mouseover') {
+      this.entered.emit(activeWord);
+      return;
+    }
+    this.left.emit(activeWord);
+  }
+
+  private redrawGrid(parentWidth: number, parentHeight: number) {
+    const fullwidth = parentWidth * 2;
+    let lines = 1;
+    let counter = 0;
+    const drawIndices = [];
+    let heightAcc = 0;
+    let maxHeight = 0;
+    for (let i = 0, lastIndex = 0; i < this._elements.length; i++) {
+      const word = this._elements[i];
+      const rect = word.element.getBoundingClientRect() as DOMRect;
+      word.buildInformation.position[2] = rect.width;
+      word.buildInformation.position[3] = rect.height;
+      maxHeight = Math.max(maxHeight, rect.height);
+      if (i > lastIndex && counter + rect.width > fullwidth) {
+        lastIndex = i;
+        ++lines;
+        heightAcc += maxHeight;
+        drawIndices.push([i, counter, maxHeight]);
+        maxHeight = 0;
+        counter = rect.width;
+      } else {
+        counter += rect.width;
+      }
+    }
+    drawIndices.push([this._elements.length, counter, maxHeight]);
+    const fullheight = parentHeight * 2;
+    const ySpace = (fullheight - heightAcc) / (lines + 1);
+    let lastElemIndex = drawIndices[0][0];
+    let xSpace = (fullwidth - drawIndices[0][1]) / (lastElemIndex + 1);
+    let xOffset = xSpace;
+    for (let i = 0, yOffset = ySpace; i < this._elements.length; i++, xOffset += xSpace) {
+      if (i === lastElemIndex) {
+        drawIndices.shift();
+        xSpace = (fullwidth - drawIndices[0][1]) / (drawIndices[0][0] - lastElemIndex + 1);
+        xOffset = xSpace;
+        lastElemIndex = drawIndices[0][0];
+        yOffset += ySpace;
+      }
+      const info = this._elements[i].buildInformation;
+      info.position[0] = -parentWidth + xOffset;
+      xOffset += info.position[2];
+      info.position[1] = -parentHeight + yOffset + info.position[3] / 2;
+    }
+  }
+
+  private redrawCloud(parentWidth: number, parentHeight: number) {
     const toDelete = [];
     this._elements = this._elements.filter((word, i) => {
       const rect = word.element.getBoundingClientRect() as DOMRect;
@@ -203,12 +285,6 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     for (const elem of toDelete) {
       elem.remove();
     }
-    if (this._elements.length === 0) {
-      return;
-    }
-    this.fontInfoService.waitTillFontLoaded(this.parameters.fontFamily).subscribe(_ => {
-      this.doDraw(parentElement, parentWidth, parentHeight);
-    });
   }
 
   private calculateObsoleteAndNewElements(data: T[]): [
@@ -298,7 +374,11 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       word.weightClass = weightClass;
     });
     this._elements.push(...newElements);
-    this._elements.sort((a, b) => b.meta.weight - a.meta.weight);
+    if (this.parameters.sortAlphabetically) {
+      this._elements.sort((a, b) => a.meta.text.localeCompare(b.meta.text, undefined, { sensitivity: 'base' }));
+    } else {
+      this._elements.sort((a, b) => b.meta.weight - a.meta.weight);
+    }
     for (const elem of toDeleteElement) {
       elem.remove();
     }
@@ -375,13 +455,13 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
 
   private doDraw(parentElement: HTMLDivElement, parentWidth: number, parentHeight: number) {
     const timeInMs = 500;
-    console.log(this.parameters.delayWord);
     const interval = this.parameters.delayWord;
     parentElement.style.setProperty('--fadeInTime', timeInMs + 'ms');
-    this._elements.forEach(e => {
+    this._elements.forEach((e, i) => {
       const [x, y] = e.buildInformation.position;
       e.element.style.setProperty('--pos-x', (x + parentWidth) + 'px');
       e.element.style.setProperty('--pos-y', (y + parentHeight) + 'px');
+      e.element.dataset.index = String(i);
     });
     const newElements = this._elements.filter(e => e.element.style.opacity !== '1');
     let index = 0;
