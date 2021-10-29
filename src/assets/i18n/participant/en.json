@@ -185,7 +185,7 @@
   "deepl-formality-select": {
     "error": "The text could not be updated.",
     "name": "Style",
-    "default": "Automatic",
+    "default": "Default",
     "less": "Informal",
     "more": "Formal"
   },

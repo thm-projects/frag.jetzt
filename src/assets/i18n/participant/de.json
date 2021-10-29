@@ -176,7 +176,7 @@
   "deepl-formality-select": {
     "error": "Der Text konnte nicht aktualisiert werden.",
     "name": "Stil",
-    "default": "Automatisch",
+    "default": "Voreinstellung",
     "less": "Informell",
     "more": "Formell"
   },
@@ -333,7 +333,7 @@
     "keyword-scoring-countUsers": "Anzahl Fragensteller*innen",
     "keyword-scoring-countUsers-info": "Anzahl exklusiver Fragensteller*innen, die dieses Schlüsselwort verwendet haben",
     "keyword-scoring-countSelectedByQuestioner": "Anzahl verifiziert",
-    "keyword-scoring-countSelectedByQuestioner-info": "Anzahl der Verifizierungen eines Schlüsselworts durch einen Fragesteller*in",
+    "keyword-scoring-countSelectedByQuestioner-info": "Anzahl der Verifizierungen eines Schlüsselworts durch einen Fragensteller*in",
     "keyword-scoring-countKeywordByModerator": "Anzahl Schlüsselwörter von Moderatoren",
     "keyword-scoring-countKeywordByModerator-info": "Anzahl der Verwendungen dieses Schlüsselworts durch Moderatoren",
     "keyword-scoring-countKeywordByCreator": "Anzahl Schlüsselwörter vom Ersteller",
