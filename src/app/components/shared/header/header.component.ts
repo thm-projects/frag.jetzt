@@ -30,14 +30,18 @@ import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
+import { ThemeService } from '../../../../theme/theme.service';
+import { RoleChecker } from '../../../utils/RoleChecker';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit,AfterViewInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
+  @ViewChild(ArsComposeHostDirective) host: ArsComposeHostDirective;
   user: User;
+  userRole: UserRole;
   cTime: string;
   shortId: string;
   isSafari = 'false';
@@ -51,8 +55,8 @@ export class HeaderComponent implements OnInit,AfterViewInit {
   toggleUserActivity = false;
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
+  isInRouteWithRoles = false;
   private _subscriptionRoomService = null;
-  @ViewChild(ArsComposeHostDirective)host:ArsComposeHostDirective;
 
   constructor(public location: Location,
               private authenticationService: AuthenticationService,
@@ -70,15 +74,21 @@ export class HeaderComponent implements OnInit,AfterViewInit {
               private wsRoomService: WsRoomService,
               private topicCloudAdminService: TopicCloudAdminService,
               private headerService: HeaderService,
-              private onboardingService: OnboardingService
+              private onboardingService: OnboardingService,
+              public themeService: ThemeService,
   ) {
   }
 
-  ngAfterViewInit(){
-    this.headerService.initHeader(()=>this);
+  ngAfterViewInit() {
+    this.headerService.initHeader(() => this);
   }
 
   ngOnInit() {
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        [this.userRole, this.isInRouteWithRoles] = RoleChecker.checkRole(e.url, this.user?.role);
+      }
+    });
     this.topicCloudAdminService.getAdminData.subscribe(data => {
       this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
     });
@@ -357,12 +367,21 @@ export class HeaderComponent implements OnInit,AfterViewInit {
     this.eventService.broadcast('navigate', 'moderatorSettings');
   }
 
+  public navigateToOtherView() {
+    const url = decodeURI(this.router.url);
+    let newRoute = '/participant/';
+    if (this.userRole !== this.user.role) {
+      newRoute = this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
+    }
+    this.router.navigate([url.replace(/^\/[^\/]+\//gmi, newRoute)]);
+  }
+
   public navigateTopicCloud() {
     const confirmDialogRef = this.confirmDialog.open(TopicCloudFilterComponent, {
       autoFocus: false
     });
     confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
-    confirmDialogRef.componentInstance.user = this.user;
+    confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 
   public navigateTopicCloudConfig() {

@@ -11,6 +11,7 @@ import { observable, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/internal/operators';
 import { tap } from 'rxjs/operators';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { UserRole } from '../models/user-roles.enum';
 
 export class CreateCommentWrapper {
   constructor(private translateService: TranslateService,
@@ -20,7 +21,7 @@ export class CreateCommentWrapper {
               private room: Room) {
   }
 
-  openCreateDialog(user: User): Observable<Comment> {
+  openCreateDialog(user: User, userRole: UserRole): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
       maxWidth: '100%',
@@ -28,6 +29,7 @@ export class CreateCommentWrapper {
       autoFocus: false,
     });
     dialogRef.componentInstance.user = user;
+    dialogRef.componentInstance.userRole = userRole;
     dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.tags = this.room.tags || [];
     return dialogRef.afterClosed().pipe(

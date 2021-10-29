@@ -32,7 +32,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl('https://antworte.jetzt/');
+    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl('https://staging.antworte.jetzt/');
     this._headerSubscription = this.eventService.on<string>('navigate').subscribe(action => {
       if (action === 'questionBoard') {
         this.router.navigate(['/' + this.roleString + '/room/' + this.shortId + '/comments']);

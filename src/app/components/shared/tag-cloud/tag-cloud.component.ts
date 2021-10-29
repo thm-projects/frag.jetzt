@@ -88,8 +88,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
   @ViewChild(MatDrawer) drawer: MatDrawer;
 
-  @Input() user: User;
-  @Input() roomId: string;
+  roomId: string;
+  user: User;
   room: Room;
   directSend = true;
   shortId: string;
@@ -147,7 +147,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
     this._syncFenceBuildCloud = new SyncFence(2,
-      () => this.dataManager.bindToRoom(this.roomId, this.room.ownerId, this.userRole));
+      () => this.dataManager.bindToRoom(this.room, this.userRole, this.user.id));
   }
 
   private static getCurrentCloudParameters(): CloudParameters {
@@ -162,10 +162,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit(): void {
+    this.userRole = this.route.snapshot.data.roles[0];
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (e === 'createQuestion') {
-        this.createCommentWrapper.openCreateDialog(this.user).subscribe();
+        this.createCommentWrapper.openCreateDialog(this.user, this.userRole).subscribe();
       } else if (e === 'topicCloudConfig') {
         if (this.drawer.opened) {
           this.drawer.close();
@@ -177,7 +178,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           minWidth: '50%',
           maxHeight: '95%',
           data: {
-            user: this.user
+            userRole: this.userRole
           }
         });
       } else if (e === 'questionBoard') {
@@ -201,7 +202,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
-    this.userRole = this.route.snapshot.data.roles[0];
     this.route.params.subscribe(params => {
       this.shortId = params['shortId'];
       this.authenticationService.checkAccess(this.shortId);
@@ -404,7 +404,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
       if (this.deviceInfo.isCurrentlyMobile) {
         const defaultParams = new CloudParameters();
-        defaultParams.resetToDefault(this.themeService.getThemeByKey(this.themeService.themeName).isDark);
+        defaultParams.resetToDefault(this.themeService.currentTheme.isDark);
         data.fontSizeMin = defaultParams.fontSizeMin;
         data.fontSizeMax = defaultParams.fontSizeMax;
       }

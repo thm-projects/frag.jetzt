@@ -1,8 +1,6 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
-import { AuthenticationService } from '../../../../services/http/authentication.service';
-import { User } from '../../../../models/user';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
 import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { FormControl } from '@angular/forms';
@@ -12,6 +10,8 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
+import { Router } from '@angular/router';
+import { RoleChecker } from '../../../../utils/RoleChecker';
 
 const CLOSE_TIME = 1500;
 
@@ -29,7 +29,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
-  user: User;
+  userRole: UserRole;
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
   isBlacklistActive = true;
@@ -39,10 +39,10 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   constructor(private langService: LanguageService,
               private translateService: TranslateService,
-              private authenticationService: AuthenticationService,
               private tagCloudDataService: TagCloudDataService,
               private languagetoolService: LanguagetoolService,
               private commentService: CommentService,
+              private router: Router,
               private notificationService: NotificationService) {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
@@ -50,12 +50,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
     this.timePeriodText = '...';
-    this.authenticationService.watchUser.subscribe(newUser => {
-      if (newUser) {
-        this.user = newUser;
-      }
-    });
   }
 
   ngAfterViewInit() {
@@ -84,7 +80,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
       return;
     }
     this.spellingData = [];
-    if (this.user && this.user.role > UserRole.PARTICIPANT) {
+    if (this.userRole > UserRole.PARTICIPANT) {
       this.languagetoolService.checkSpellings(tag, 'auto').subscribe(correction => {
         const langKey = correction.language.code.split('-')[0].toUpperCase();
         if (['DE', 'FR', 'EN'].indexOf(langKey) < 0) {

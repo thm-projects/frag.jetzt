@@ -7,8 +7,7 @@ import { Theme } from './Theme';
   providedIn: 'root'
 })
 export class ThemeService {
-  themeName = localStorage.getItem('theme');
-  private activeThem = new BehaviorSubject(this.themeName);
+  private activeThem = new BehaviorSubject(localStorage.getItem('theme'));
   private themes: Theme[] = [];
 
   constructor() {
@@ -33,17 +32,26 @@ export class ThemeService {
       return 0;
     });
     const isDark = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)').matches : true;
-    const selectedTheme = this.themes.find(elem => elem.key === this.themeName);
-    if (!this.themeName || !selectedTheme || selectedTheme.isDark !== isDark) {
+    let currentTheme = this.currentThemeName;
+    const selectedTheme = this.themes.find(elem => elem.key === currentTheme);
+    if (!currentTheme || !selectedTheme || selectedTheme.isDark !== isDark) {
       for (let i = this.themes.length - 1; i > 0; i--) {
         const theme = this.themes[i];
         if (theme.isDark === isDark) {
-          this.themeName = theme.key;
+          currentTheme = theme.key;
           break;
         }
       }
-      this.activate(this.themeName);
+      this.activate(currentTheme);
     }
+  }
+
+  get currentThemeName(): string {
+    return this.activeThem.value;
+  }
+
+  get currentTheme(): Theme {
+    return this.getThemeByKey(this.currentThemeName);
   }
 
   public getTheme() {

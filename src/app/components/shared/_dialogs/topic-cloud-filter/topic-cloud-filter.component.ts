@@ -6,14 +6,12 @@ import { RoomCreatorPageComponent } from '../../../creator/room-creator-page/roo
 import { LanguageService } from '../../../../services/util/language.service';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
-import { CommentFilter, Period } from '../../../../utils/filter-options';
 import { RoomService } from '../../../../services/http/room.service';
 import { Comment } from '../../../../models/comment';
 import { CommentListData } from '../../comment-list/comment-list.component';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { TopicCloudAdminData } from '../topic-cloud-administration/TopicCloudAdminData';
 import { TagCloudDataService } from '../../../../services/util/tag-cloud-data.service';
-import { User } from '../../../../models/user';
 import { WorkerDialogComponent } from '../worker-dialog/worker-dialog.component';
 import { Room } from '../../../../models/room';
 import { ThemeService } from '../../../../../theme/theme.service';
@@ -23,6 +21,7 @@ import { ModeratorService } from '../../../../services/http/moderator.service';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Subscription } from 'rxjs';
+import { CommentListFilter, Period } from '../../comment-list/comment-list.filter';
 
 class CommentsCount {
   comments: number;
@@ -43,12 +42,12 @@ enum KeywordsSource {
 })
 export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
-  @Input() user: User;
+  @Input() userRole: UserRole;
 
   question = '';
   continueFilter = 'continueWithAll';
   comments: Comment[];
-  tmpFilter: CommentFilter;
+  tmpFilter: CommentListFilter;
   allComments: CommentsCount;
   filteredComments: CommentsCount;
   disableCurrentFiltersOptions = false;
@@ -85,6 +84,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.translationService.use(localStorage.getItem('currentLang'));
     const subscriptionEventService = this.eventService.on<CommentListData>('currentRoomData').subscribe(data => {
       subscriptionEventService.unsubscribe();
+      console.log(data.currentFilter);
       this.tmpFilter = data.currentFilter;
       this._room = data.room;
       this.roomDataService.getRoomData(data.room.id).subscribe(roomData => {
@@ -111,7 +111,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       return;
     }
     this.allComments = this.getCommentCounts(this.comments);
-    this.filteredComments = this.getCommentCounts(this.comments.filter(comment => this.tmpFilter.checkComment(comment)));
+    this.filteredComments = this.getCommentCounts(this.tmpFilter.checkAll(this.comments));
     if (isNew) {
       this.hasNoKeywords = this.isUpdatable();
     }
@@ -122,7 +122,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
       this.continueFilter = 'continueWithAll';
     }
     if (this.filteredComments.comments === 0 && this.allComments.comments === 0) {
-      if (this.user && this.user.role > UserRole.PARTICIPANT) {
+      if (this.userRole > UserRole.PARTICIPANT) {
         setTimeout(() => {
           this.continueFilter = 'continueWithAllFromNow';
         });
@@ -160,17 +160,18 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   confirmButtonActionCallback() {
     return () => {
-      let filter: CommentFilter;
+      let filter: CommentListFilter;
 
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
-          filter = new CommentFilter();
-          filter.periodSet = Period.all;
+          filter = new CommentListFilter(null);
           break;
 
         case 'continueWithAllFromNow':
-          filter = CommentFilter.generateFilterNow(this.tmpFilter.filterSelected);
+          filter = new CommentListFilter(null);
+          filter.period = Period.fromNow;
+          filter.fromNow = new Date().getTime();
           break;
 
         case 'continueWithCurr':
@@ -183,7 +184,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
       localStorage.setItem('tag-cloud-question', this.question);
 
-      CommentFilter.currentFilter = filter;
+      filter.save();
 
       this.dialogRef.close(this.router.navigateByUrl(this.target));
     };
@@ -215,7 +216,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     if (newCount + count < 1) {
       return false;
     }
-    if (this.user && this.user.role === UserRole.PARTICIPANT) {
+    if (this.userRole === UserRole.PARTICIPANT) {
       return newCount < 1;
     }
     if (count * 2 / 3 < newCount) {

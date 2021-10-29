@@ -14,7 +14,6 @@ import {
   KeywordOrFulltext,
   TopicCloudAdminDataScoringObject, TopicCloudAdminDataScoringKey, keywordsScoringMinMax, ensureDefaultScorings
 } from './TopicCloudAdminData';
-import { User } from '../../../../models/user';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
@@ -114,7 +113,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanitywordlist = list;
       this.refreshKeywords();
     });
-    this.isCreatorOrMod = this.data.user.role !== UserRole.PARTICIPANT;
+    this.isCreatorOrMod = this.data.userRole > UserRole.PARTICIPANT;
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
@@ -329,7 +328,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       endDate: this.endDate.length ? this.endDate : null,
       scorings: this.scorings
     };
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true, this.data.user.role);
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true, this.data.userRole);
   }
 
   setDefaultAdminData() {
@@ -643,7 +642,7 @@ interface Keyword {
 }
 
 export interface Data {
-  user: User;
+  userRole: UserRole;
 }
 
 enum KeywordType {

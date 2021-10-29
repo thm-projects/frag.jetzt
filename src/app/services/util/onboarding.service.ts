@@ -60,7 +60,7 @@ export class OnboardingService {
 
   startDefaultTour(ignoreDone = false): boolean {
     return this.startOnboardingTour(
-      initDefaultTour(this.authenticationService, this.dataStoreService, this.router, this.roomService), ignoreDone);
+      initDefaultTour(this.authenticationService, this.dataStoreService, this.roomService), ignoreDone);
   }
 
   doStep(stepDirection: number): boolean {
@@ -108,6 +108,9 @@ export class OnboardingService {
     const tourInfo = JSON.parse(this.dataStoreService.get('onboarding_' + tour.name));
     if (tourInfo && tourInfo.state !== 'running') {
       return false;
+    }
+    if (!this.dataStoreService.has('onboarding_' + tour.name + '_redirect')) {
+      this.dataStoreService.set('onboarding_' + tour.name + '_redirect', this.router.url);
     }
     AppComponent.rescale.setDefaultScale(1);
     this._currentStep = tourInfo && tourInfo.step ? tourInfo.step : 1;
@@ -212,11 +215,15 @@ export class OnboardingService {
   }
 
   private cleanup(finished = false) {
+    const redirectKey = 'onboarding_' + this._activeTour.name + '_redirect';
+    const redirect = this.dataStoreService.get(redirectKey);
     this._eventServiceSubscription.unsubscribe();
     this._activeTour = null;
     if (finished) {
       this._tourSubscription.unsubscribe();
       window.removeEventListener('keyup', this._keyUpWrapper);
+      this.dataStoreService.remove(redirectKey);
+      this.router.navigate([redirect]);
     }
   }
 

@@ -417,9 +417,10 @@
 <ng-template #voting>
   <button mat-icon-button
           (click)="voteUp(comment)"
-          *ngIf="!disabled"
+          *ngIf="!disabled && user && comment.creatorId !== user.id"
           matTooltip="{{ 'comment-page.vote-up' | translate }}"
           tabindex="0"
+          [disabled]="!user || comment.creatorId === user.id"
           attr.aria-labelledby="comment_vote_up{{ comment.id }}">
     <mat-icon class="voting-icon"
               [ngClass]="{'upVoted' : hasVoted === 1}">thumb_up
@@ -431,7 +432,7 @@
         }}">{{comment.score}}</span>
   <button mat-icon-button
           (click)="voteDown(comment)"
-          *ngIf="!disabled"
+          *ngIf="!disabled && user && comment.creatorId !== user.id"
           matTooltip="{{ 'comment-page.vote-down' | translate }}"
           tabindex="0"
           attr.aria-labelledby="comment_vote_down{{ comment.id }}">

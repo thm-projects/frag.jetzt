@@ -5,17 +5,16 @@ import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Comment } from '../../../models/comment';
-import { User } from '../../../models/user';
-import { AuthenticationService } from '../../../services/http/authentication.service';
 import { UserRole } from '../../../models/user-roles.enum';
 import { NotificationService } from '../../../services/util/notification.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
-import { LanguagetoolService } from '../../../services/http/languagetool.service';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { Message } from '@stomp/stompjs';
+import { AuthenticationService } from '../../../services/http/authentication.service';
+import { User } from '../../../models/user';
 
 @Component({
   selector: 'app-comment-answer',
@@ -29,6 +28,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   comment: Comment;
   answer: string;
   isLoading = true;
+  userRole: UserRole;
   user: User;
   isStudent = true;
   edit = false;
@@ -38,17 +38,21 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
               private notificationService: NotificationService,
               private translateService: TranslateService,
               protected langService: LanguageService,
+              private authenticationService: AuthenticationService,
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
-              private authenticationService: AuthenticationService,
-              public languagetoolService: LanguagetoolService,
               public dialog: MatDialog,
               public eventService: EventService) {
   }
 
   ngOnInit() {
-    this.user = this.authenticationService.getUser();
-    if (this.user.role !== UserRole.PARTICIPANT) {
+    this.userRole = this.route.snapshot.data.roles[0];
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
+    if (this.userRole !== UserRole.PARTICIPANT) {
       this.isStudent = false;
     }
     this.route.params.subscribe(params => {

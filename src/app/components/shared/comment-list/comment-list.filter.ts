@@ -1,7 +1,16 @@
-import { Period } from '../../../utils/filter-options';
 import { Comment } from '../../../models/comment';
 import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { Room } from '../../../models/room';
+
+export enum Period {
+  fromNow = 'from-now',
+  oneHour = 'time-1h',
+  threeHours = 'time-3h',
+  oneDay = 'time-1d',
+  oneWeek = 'time-1w',
+  twoWeeks = 'time-2w',
+  all = 'time-all'
+}
 
 export enum FilterType {
   voteasc = 'voteasc',
@@ -41,6 +50,7 @@ export class CommentListFilter {
   //own properties
   period: Period;
   fromNow: number;
+  freezedAt: number;
   filterType: FilterType;
   filterCompare: any;
   sortType: SortType;
@@ -59,6 +69,7 @@ export class CommentListFilter {
     }
     this.period = obj.period;
     this.fromNow = obj.fromNow;
+    this.freezedAt = obj.freezedAt;
     this.filterType = obj.filterType;
     this.filterCompare = obj.filterCompare;
     this.sortType = obj.sortType;
@@ -73,6 +84,7 @@ export class CommentListFilter {
   resetToDefault() {
     this.period = DEFAULT_PERIOD;
     this.fromNow = null;
+    this.freezedAt = null;
     this.filterType = null;
     this.filterCompare = null;
     this.sortType = DEFAULT_SORT;
@@ -117,6 +129,14 @@ export class CommentListFilter {
     return this.moderatorIds;
   }
 
+  checkAll(comments: Comment[], moderation = false): Comment[] {
+    const filterComments = this.filterCommentsByTime(comments, moderation);
+    if (this.currentSearch) {
+      return this.filterCommentsBySearch(filterComments);
+    }
+    return this.sortCommentsBySortType(this.filterCommentsByType(filterComments));
+  }
+
   filterCommentsBySearch(comments: Comment[]): Comment[] {
     const search = this.currentSearch.toLowerCase();
     return comments
@@ -136,7 +156,9 @@ export class CommentListFilter {
       this.period = DEFAULT_PERIOD;
     }
     if (this.period === Period.all) {
-      return thresholdComments;
+      return this.freezedAt ?
+        thresholdComments.filter(c => new Date(c.timestamp).getTime() < this.freezedAt) :
+        thresholdComments;
     }
     const currentTime = new Date().getTime();
     let periodInSeconds;
@@ -166,7 +188,10 @@ export class CommentListFilter {
         throw new Error('Time period is invalid.');
     }
     const filterTime = (this.period === Period.fromNow ? this.fromNow : currentTime - periodInSeconds);
-    return thresholdComments.filter(c => new Date(c.timestamp).getTime() >= filterTime);
+    return thresholdComments.filter(c => {
+      const time = new Date(c.timestamp).getTime();
+      return time >= filterTime && (!this.freezedAt || time < this.freezedAt);
+    });
   }
 
   filterCommentsByType(comment: Comment[]): Comment[] {
