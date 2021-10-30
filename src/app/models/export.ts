@@ -6,6 +6,11 @@ import { BonusToken } from './bonus-token';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from './user';
 import { NotificationService } from '../services/util/notification.service';
+import { ViewCommentDataComponent } from '../components/shared/view-comment-data/view-comment-data.component';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Comment } from './comment';
+import { UserRole } from './user-roles.enum';
 
 class ExportMapper<E> {
 
@@ -36,7 +41,9 @@ class ExportMapper<E> {
   }
 
   public parse(delimiter: string, map?: Map<string, string>): string {
-    if (this.list.length <= 0) { return 'd'; }
+    if (this.list.length <= 0) {
+      return 'd';
+    }
     let parse = '';
     if (!map) {
       map = new Map<string, string>();
@@ -70,19 +77,52 @@ export class Export {
     private translateService: TranslateService,
     private translationPath: string,
     private notificationService: NotificationService,
-    private user?: User
+    private moderatorIds: Set<string>,
+    private user: User
   ) {
     this.mapper = new ExportMapper<CommentBonusTokenMixin>();
-    this.bonusTokenMask = !this.user || this.user.role >= 2;
+    this.bonusTokenMask = this.user && this.user.role >= UserRole.PARTICIPANT;
   }
 
   public exportAsCsv() {
+    let correct = this.translationPath + '.comment-correct';
+    let wrong = this.translationPath + '.comment-wrong';
+    let acked = this.translationPath + '.comment-acked';
+    let refused = this.translationPath + '.comment-refused';
+    let bookmarked = this.translationPath + '.comment-bookmarked';
+    let notBookmarked = this.translationPath + '.comment-not-bookmarked';
+    const roles: [string, string, string] = [
+      this.translationPath + '.comment-user-role-participant',
+      this.translationPath + '.comment-user-role-moderator',
+      this.translationPath + '.comment-user-role-creator'
+    ];
+    this.translateService.get([
+      correct, wrong, acked, refused, bookmarked, notBookmarked, roles[0], roles[1], roles[2]
+    ]).subscribe(obj => {
+      correct = obj[correct];
+      wrong = obj[wrong];
+      acked = obj[acked];
+      refused = obj[refused];
+      bookmarked = obj[bookmarked];
+      notBookmarked = obj[notBookmarked];
+      roles[0] = obj[roles[0]];
+      roles[1] = obj[roles[1]];
+      roles[2] = obj[roles[2]];
+    });
     this.mapper.add(m => {
       m('question', e => this.parseBody(e.body));
       m('timestamp', e => this.parseDate(e.timestamp));
-      m('presented', e => e.read);
-      m('correct/wrong', e => e.correct);
+      m('correct/wrong', e => e.correct ? correct : wrong);
+      m('author-role', e => this.getUserString(e.creatorId, roles));
+      m('user-name', e => e.questionerName);
+      m('user-number', e => e.userNumber);
+      m('question-number', e => e.number);
+      m('chosen-category', e => e.tag || '');
+      m('upvotes', e => e.upvotes);
+      m('downvotes', e => e.downvotes);
       m('score', e => e.score);
+      m('public/moderated', e => e.ack ? acked : refused);
+      m('bookmark', e => e.bookmark ? bookmarked : notBookmarked);
       m('answer', e => this.parseBody(e.answer));
       m('token', e => this.checkUser(e) && e.bonusToken ? e.bonusToken : '');
       m('token-time', e => this.checkUser(e) ? this.parseDate(e.bonusTimeStamp) : '');
@@ -109,13 +149,28 @@ export class Export {
     return this.bonusTokenMask || e.creatorId === this.user.id;
   }
 
+  private getUserString(id: string, roles: [participant: string, moderator: string, creator: string]): string {
+    if (id === this.room.ownerId) {
+      return roles[2];
+    }
+    if (this.moderatorIds.has(id)) {
+      return roles[1];
+    }
+    return roles[0];
+  }
+
   private parseBody(body: string): string {
-    if (!body) {return ''; }
+    if (!body) {
+      return '';
+    }
+    body = ViewCommentDataComponent.getTextFromData(body);
     return '"' + body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
   }
 
   private parseDate(date: Date): string {
-    if (!date) {return ''; }
+    if (!date) {
+      return '';
+    }
     const d = new Date(date);
     return d.toLocaleDateString() + ' ' + d.toLocaleTimeString();
   }
@@ -129,7 +184,13 @@ export class Export {
   }
 
   private getCommentBonusTokenMixin(comments: (comments: CommentBonusTokenMixin[]) => void) {
-    this.commentService.getAckComments(this.room.id).subscribe(data => {
+    let source: Observable<Comment[]> = this.commentService.getAckComments(this.room.id);
+    if (this.bonusTokenMask) {
+      source = forkJoin(source, this.commentService.getRejectedComments(this.room.id)).pipe(
+        map(res => res[0].concat(res[1]))
+      );
+    }
+    source.subscribe(data => {
       this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
         const c = data.map(comment => {
           const bt: BonusToken = list.find(e => e.accountId === comment.creatorId && comment.id === e.commentId);

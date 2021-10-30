@@ -32,6 +32,7 @@ import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
 import { SyncFence } from '../../../utils/SyncFence';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 @Component({
   selector: 'app-room-page',
@@ -68,7 +69,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
                      protected bonusTokenService: BonusTokenService,
                      protected translateService: TranslateService,
                      protected notificationService: NotificationService,
-                     protected authenticationService: AuthenticationService
+                     protected authenticationService: AuthenticationService,
+                     protected moderatorService: ModeratorService
   ) {
   }
 
@@ -175,14 +177,19 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   exportQuestions() {
-    const exp: Export = new Export(
-      this.room,
-      this.commentService,
-      this.bonusTokenService,
-      this.translateService,
-      'comment-list',
-      this.notificationService);
-    exp.exportAsCsv();
+    this.moderatorService.get(this.room.id).subscribe(mods => {
+      const exp: Export = new Export(
+        this.room,
+        this.commentService,
+        this.bonusTokenService,
+        this.translateService,
+        'comment-list',
+        this.notificationService,
+        new Set<string>(mods.map(mod => mod.accountId)),
+        this.user
+      );
+      exp.exportAsCsv();
+    });
   }
 
   deleteQuestions() {

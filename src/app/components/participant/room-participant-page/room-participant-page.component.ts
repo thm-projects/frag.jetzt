@@ -20,6 +20,7 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { MatDialog } from '@angular/material/dialog';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { NotificationService } from '../../../services/util/notification.service';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -41,11 +42,12 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
               protected composeService: ArsComposeService,
               protected bonusTokenService: BonusTokenService,
               protected notificationService: NotificationService,
+              protected moderatorService: ModeratorService,
               protected dialog: MatDialog,
               private _r: Renderer2,
               public eventService: EventService) {
     super(roomService, route, location, wsCommentService, commentService, eventService, headerService, composeService,
-      dialog, bonusTokenService, translateService, notificationService, authenticationService);
+      dialog, bonusTokenService, translateService, notificationService, authenticationService, moderatorService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 

@@ -17,6 +17,7 @@ import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 @Component({
   selector: 'app-room-moderator-page',
@@ -38,11 +39,12 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
               protected composeService: ArsComposeService,
               protected bonusTokenService: BonusTokenService,
               protected authenticationService: AuthenticationService,
+              protected moderatorService: ModeratorService,
               public eventService: EventService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2) {
     super(roomService, route, location, wsCommentService, commentService, eventService, headerService, composeService,
-      dialog, bonusTokenService, translateService, notification, authenticationService);
+      dialog, bonusTokenService, translateService, notification, authenticationService, moderatorService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
