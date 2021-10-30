@@ -333,7 +333,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "room-not-exist": "Sorry, aber der Raum existiert nicht.\nBitte informiere die Person, die dir den Direktlink gegeben hat."
+    "room-not-exist": "Der Raum existiert nicht.\nBitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {
     "create-session": "Speichern",

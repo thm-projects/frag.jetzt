@@ -89,7 +89,7 @@
     "room-qr": "Key code",
     "question-board": "Question list",
     "moderation-mode": "Moderation mode",
-    "bonustoken": "Assigned bonus stars",
+    "bonustoken": "Bonus archive",
     "edit-moderator": "Moderators",
     "edit-session-description": "Welcome text",
     "edit-tags": "Question tags",
@@ -335,7 +335,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "room-not-exist": "Sorry, but the room does not exist.\nPlease inform the person who gave you the direct link."
+    "room-not-exist": "The room does not exist.\nPlease inform the person who gave you the direct link."
   },
   "session": {
     "create-session": "Save",
