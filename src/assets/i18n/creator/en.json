@@ -241,7 +241,7 @@
     "yes": "Yes"
   },
   "deepl": {
-    "header": "Check text",
+    "header": "Optimize text",
     "label": " Which text to send?",
     "option-normal": "Your input:",
     "option-improved": "AI suggestion:"
