@@ -1,5 +1,4 @@
-import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
-import { Room } from '../../../models/room';
+import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit, AfterViewInit } from '@angular/core';
 import { RoomPageComponent } from '../../shared/room-page/room-page.component';
 import { Location } from '@angular/common';
 import { RoomService } from '../../../services/http/room.service';
@@ -8,88 +7,51 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
-import { Message } from '@stomp/stompjs';
 import { NotificationService } from '../../../services/util/notification.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { MatDialog } from '@angular/material/dialog';
+import { HeaderService } from '../../../services/util/header.service';
+import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
+import { BonusTokenService } from '../../../services/http/bonus-token.service';
+import { AuthenticationService } from '../../../services/http/authentication.service';
 
 @Component({
   selector: 'app-room-moderator-page',
   templateUrl: './room-moderator-page.component.html',
   styleUrls: ['./room-moderator-page.component.scss']
 })
-export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit {
-
-  room: Room;
-  isLoading = true;
-  deviceType = localStorage.getItem('deviceType');
-  moderatorCommentCounter: number;
-  viewModuleCount = 1;
+export class RoomModeratorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   constructor(protected location: Location,
               protected roomService: RoomService,
               protected route: ActivatedRoute,
-              private translateService: TranslateService,
+              protected translateService: TranslateService,
+              protected dialog: MatDialog,
               protected langService: LanguageService,
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               protected notification: NotificationService,
+              protected headerService: HeaderService,
+              protected composeService: ArsComposeService,
+              protected bonusTokenService: BonusTokenService,
+              protected authenticationService: AuthenticationService,
               public eventService: EventService,
               private liveAnnouncer: LiveAnnouncer,
               private _r: Renderer2) {
-    super(roomService, route, location, wsCommentService, commentService, eventService);
+    super(roomService, route, location, wsCommentService, commentService, eventService, headerService, composeService,
+      dialog, bonusTokenService, translateService, notification, authenticationService);
     langService.langEmitter.subscribe(lang => translateService.use(lang));
   }
 
-  initializeRoom(id: string): void {
-    this.roomService.getRoomByShortId(id).subscribe(room => {
-      this.room = room;
-      this.isLoading = false;
-      this.moderationEnabled = !this.room.directSend;
-      if (this.moderationEnabled) {
-        this.viewModuleCount = this.viewModuleCount + 1;
-      }
-      this.commentService.countByRoomId(this.room.id, true).subscribe(commentCounter => {
-          this.commentCounter = commentCounter;
-      });
-      if (this.moderationEnabled) {
-        this.commentService.countByRoomId(this.room.id, false).subscribe(commentCounter => {
-          this.moderatorCommentCounter = commentCounter;
-        });
-      }
-
-      this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
-      this.sub = this.commentWatch.subscribe((message: Message) => {
-        const msg = JSON.parse(message.body);
-        const payload = msg.payload;
-        if (msg.type === 'CommentCreated') {
-          this.commentCounter = this.commentCounter + 1;
-        } else if (msg.type === 'CommentDeleted') {
-          this.commentCounter = this.commentCounter - 1;
-        } else if (msg.type === 'CommentPatched') {
-          for (const [key, value] of Object.entries(payload.changes)) {
-            switch (key) {
-              case 'ack':
-                const isNowAck = <boolean>value;
-                if (isNowAck) {
-                  this.commentCounter = this.commentCounter + 1;
-                  this.moderatorCommentCounter = this.moderatorCommentCounter - 1;
-                } else {
-                  this.commentCounter = this.commentCounter - 1;
-                  this.moderatorCommentCounter = this.moderatorCommentCounter + 1;
-                }
-                break;
-            }
-          }
-        }
-      });
-    });
+  ngAfterViewInit() {
+    this.tryInitNavigation();
   }
 
   ngAfterContentInit(): void {
-    setTimeout( () => {
+    setTimeout(() => {
       document.getElementById('live_announcer-button').focus();
     }, 700);
   }
@@ -127,22 +89,5 @@ export class RoomModeratorPageComponent extends RoomPageComponent implements OnI
       'die Taste 4 um Einstellungen an der Sitzung vorzunehmen, ' +
       'die Taste 8 um den aktuellen Raum-Code zu hören, die Taste 0 um auf den Zurück-Button zu gelangen, ' +
       'oder die Taste 9 um diese Ansage zu wiederholen.', 'assertive');
-  }
-
-  copyShortId(): void {
-    const selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = this.room.shortId;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
-    this.translateService.get('room-page.session-id-copied').subscribe(msg => {
-      this.notification.show(msg, '', { duration: 2000 });
-    });
   }
 }
