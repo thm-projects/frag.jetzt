@@ -202,12 +202,12 @@
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "email": "E-Mail",
-    "email-description": "Gib hier deine E-Mail Adresse ein.",
+    "email-description": "Gib hier deine E-Mail-Adresse ein.",
     "email-invalid": "E-Mail-Adresse ungültig",
     "email-required": "E-Mail-Adresse erforderlich",
     "guest-login": "Anmelden als Gast",
     "guest-login-description": "Als Gast anmelden",
-    "guest-login-tooltip": "Als Gast erstellte Sitzungen werden nach Verlassen der Sitzung wieder gelöscht. Mit einem Konto erstellte Sitzungen werden nach dem letzten Besuch für 180 Tage gespeichert.",
+    "guest-login-tooltip": "Als Gast erstellte Räume werden nach Verlassen des Raums wieder gelöscht. Mit einem Konto erstellte Räume werden nach dem letzten Besuch für 180 Tage gespeichert.",
     "header": "Anmelden",
     "input-incorrect": "Bitte prüfe deine Eingaben.",
     "login": "Anmelden mit Konto",
@@ -244,7 +244,7 @@
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "email": "E-Mail",
-    "email-description": "Gib hier deine E-Mail Adresse ein, um dein Passwort zurückzusetzen.",
+    "email-description": "Gib hier deine E-Mail-Adresse ein, um dein Passwort zurückzusetzen.",
     "email-invalid": "E-Mail-Adresse ungültig",
     "email-required": "E-Mail-Adresse erforderlich",
     "forgot-password": "Passwort vergessen?",
@@ -333,7 +333,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "room-not-exist": "Es tut uns leid, aber die Sitzung, der du beitreten möchtest, existiert nicht.\nBitte informiere die Person, die dir diesen Link gegeben hat."
+    "room-not-exist": "Sorry, aber der Raum existiert nicht.\nBitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {
     "create-session": "Speichern",

@@ -168,7 +168,7 @@
     "questioner-name": "Selbst vergebener Name"
   },
   "deepl": {
-    "header": "Text prüfen",
+    "header": "Text optimieren",
     "label": "Welcher Text soll gesendet werden?",
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"

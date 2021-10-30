@@ -208,7 +208,7 @@
     "email-required": "E-mail required",
     "guest-login": "Log in as a guest",
     "guest-login-description": "Log in as a guest",
-    "guest-login-tooltip": "Created sessions will be deleted after logout. Sessions created with an account are saved for 180 days after the last visit.",
+    "guest-login-tooltip": "Created rooms will be deleted after logout. Rooms created with an account are saved for 180 days after the last visit.",
     "header": "Log in",
     "input-incorrect": "Please check your data.",
     "login": "Log in with account",
@@ -335,7 +335,7 @@
     "token-time": "Token timestamp",
     "no-comments": "There are no questions yet.",
     "export-comments": "Save questions",
-    "room-not-exist": "We are sorry, but the session you want to join does not exist.\nPlease inform the person who gave you this direct link."
+    "room-not-exist": "Sorry, but the room does not exist.\nPlease inform the person who gave you the direct link."
   },
   "session": {
     "create-session": "Save",
