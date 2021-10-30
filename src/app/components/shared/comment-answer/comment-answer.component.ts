@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
@@ -15,6 +15,8 @@ import { CorrectWrong } from '../../../models/correct-wrong.enum';
 import { Message } from '@stomp/stompjs';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
+import { KeyboardUtils } from '../../../utils/keyboard';
+import { KeyboardKey } from '../../../utils/keyboard/keys';
 
 @Component({
   selector: 'app-comment-answer',
@@ -42,6 +44,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
               protected wsCommentService: WsCommentService,
               protected commentService: CommentService,
               public dialog: MatDialog,
+              private router: Router,
               public eventService: EventService) {
   }
 
@@ -71,6 +74,29 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     if (this._commentSubscription) {
       this._commentSubscription.unsubscribe();
     }
+  }
+
+  checkForEscape(event: KeyboardEvent) {
+    if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape)) {
+      if (this.eventService.focusOnInput) {
+        this.eventService.makeFocusOnInputFalse();
+        (document.activeElement as HTMLElement).blur();
+        return;
+      }
+      this.goBackToCommentList();
+    }
+  }
+
+  checkForBackDropClick(event: PointerEvent, element: HTMLElement) {
+    if (event.target && !element.contains(event.target as Node)) {
+      this.goBackToCommentList();
+    }
+  }
+
+  goBackToCommentList() {
+    const str = this.router.url;
+    const newUrl = str.substr(0, str.lastIndexOf('/', str.lastIndexOf('/') - 1)) + '/comments';
+    this.router.navigate([newUrl]);
   }
 
   saveAnswer(): (string) => void {
