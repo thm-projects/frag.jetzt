@@ -19,6 +19,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
+import { ModeratorService } from '../../../services/http/moderator.service';
 
 @Component({
   selector:'app-room-creator-page',
@@ -41,15 +42,14 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
               private _r: Renderer2,
               public eventService: EventService,
               public titleService: TitleService,
-              protected notificationService: NotificationService,
               protected bonusTokenService: BonusTokenService,
+              protected moderatorService: ModeratorService,
               public router: Router,
-              public translationService: TranslateService,
               public authenticationService: AuthenticationService,
               public headerService: HeaderService,
               public composeService: ArsComposeService){
     super(roomService, route, location, wsCommentService, commentService, eventService, headerService, composeService,
-      dialog, bonusTokenService, translateService, notificationService, authenticationService);
+      dialog, bonusTokenService, translateService, notification, authenticationService, moderatorService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
     });
