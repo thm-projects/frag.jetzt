@@ -24,6 +24,7 @@ export class RoomCreateComponent implements OnInit {
   roomId: string;
   user: User;
   hasCustomShortId = false;
+  isLoading = false;
 
   constructor(
     private roomService: RoomService,
@@ -52,6 +53,10 @@ export class RoomCreateComponent implements OnInit {
   }
 
   checkLogin(longRoomName: string) {
+    if (this.isLoading) {
+      return;
+    }
+    this.isLoading = true;
     if (!this.user) {
       this.authenticationService.guestLogin(UserRole.CREATOR).subscribe(() => {
         this.addRoom(longRoomName);
@@ -88,12 +93,13 @@ export class RoomCreateComponent implements OnInit {
     }
     this.roomService.addRoom(newRoom, () => {
       this.shortIdAlreadyUsed = true;
+      this.isLoading = false;
     }).subscribe(room => {
       const encoded = encodeURIComponent(room.shortId)
-      .replace('\~', '%7E')
-      .replace('\.', '%2E')
-      .replace('\_', '%5F')
-      .replace('\-', '%2D');
+        .replace('\~', '%7E')
+        .replace('\.', '%2E')
+        .replace('\_', '%5F')
+        .replace('\-', '%2D');
       this.room = room;
       let msg1: string;
       let msg2: string;
@@ -102,7 +108,7 @@ export class RoomCreateComponent implements OnInit {
       this.notification.show(msg1 + longRoomName + msg2);
       this.authenticationService.setAccess(encoded, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
-      this.router.navigate(['/creator/room/' + encoded ]);
+      this.router.navigate(['/creator/room/' + encoded]);
       this.closeDialog();
     });
   }

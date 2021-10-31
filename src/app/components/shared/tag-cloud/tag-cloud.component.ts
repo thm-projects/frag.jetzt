@@ -1,4 +1,4 @@
-import { AfterContentInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterContentInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import {
   CloudData,
@@ -23,7 +23,7 @@ import { ThemeService } from '../../../../theme/theme.service';
 import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
-import { regexMaskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
+import { maskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
@@ -68,10 +68,6 @@ class TagComment implements CloudData {
 
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
-
-const maskedCharRegex = /[“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉'`#&]|(\s(lu|li’u)(?=\s))|(^lu\s)|(\sli’u$)/;
-const httpRegex = /(https?:[^\s](\s|$))/;
-const hidelist = new RegExp(maskedCharRegex.source + '|' + httpRegex.source, 'gmi');
 
 const CONDITION_ROOM = 0;
 const CONDITION_BUILT = 1;
@@ -320,8 +316,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           if (rotation === null || this._currentSettings.randomAngles) {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
-          const filteredTag = tag.replace(hidelist, '')
-            .replace(regexMaskKeyword, '').replace(/ +/, ' ').trim();
+          const filteredTag = maskKeyword(tag);
           newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
         }
       }
