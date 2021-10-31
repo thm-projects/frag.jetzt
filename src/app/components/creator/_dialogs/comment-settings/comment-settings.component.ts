@@ -81,17 +81,6 @@ export class CommentSettingsComponent implements OnInit {
     this.commentService.deleteCommentsByRoomId(this.roomId).subscribe();
   }
 
-  exportCSV(): void {
-    const exp: Export = new Export(
-      this.editRoom,
-      this.commentService,
-      this.bonusTokenService,
-      this.translationService,
-      'room-page',
-      this.notificationService);
-    exp.exportAsCsv();
-  }
-
   closeDialog(): void {
     const commentSettings = new CommentSettings();
     commentSettings.roomId = this.roomId;

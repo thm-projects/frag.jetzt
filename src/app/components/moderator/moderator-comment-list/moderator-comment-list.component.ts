@@ -161,7 +161,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         this.bonusTokenService,
         this.translationService,
         'comment-list',
-        this.notificationService);
+        this.notificationService,
+        this.filter.moderatorAccountIds,
+        this.user);
       exp.exportAsCsv();
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
