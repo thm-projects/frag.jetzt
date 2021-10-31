@@ -55,6 +55,7 @@ const parseBody = (body: string): string => {
     }
     return acc;
   }, '');
+  body = body.replace(/\r\n|\n/g, '{type=newline;}');
   return parseStringEntry(body);
 };
 
