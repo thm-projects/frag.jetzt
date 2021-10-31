@@ -11,6 +11,52 @@ import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Comment } from './comment';
 import { UserRole } from './user-roles.enum';
+import { SpacyKeyword } from '../services/http/spacy.service';
+import { CorrectWrong } from './correct-wrong.enum';
+
+interface RoomExportVariables {
+  empty: string;
+  roomName: string;
+  roomCode: string;
+  exportDate: string;
+  welcomeText: string;
+  questionCategories: string;
+}
+
+const parseStringEntry = (str: string): string => '"' + str.replace(/[\r\n]/g, ' ')
+  .replace(/ +/g, ' ')
+  .replace(/"/g, '""') + '"';
+
+const parseStringArray = (strings: string[]): string => parseStringEntry(strings
+  .map(str => str.replace(/\\/g, '\\\\').replace(/,/g, '\\,')).join(', '));
+
+const parseBody = (body: string): string => {
+  if (!body) {
+    return '';
+  }
+  const verify = (str: string) => str.replace(/{/g, '{{').replace(/}/g, '}}');
+  body = JSON.parse(body).reduce((acc, e) => {
+    if (typeof e['insert'] === 'string') {
+      if (e.attributes) {
+        const str = JSON.stringify(e.attributes).replace(/\\/g, '\\\\').replace(/;/g, '\\;');
+        return acc + '{attr=' + str + ';' + verify(e['insert']) + '}';
+      }
+      return acc + verify(e['insert']);
+    } else if (typeof e === 'string') {
+      return acc + verify(e);
+    } else if (e.image) {
+      return acc + '{type=image;' + verify(e.image) + '}';
+    } else if (e.video) {
+      return acc + '{type=video;' + verify(e.video) + '}';
+    } else if (e.formula) {
+      return acc + '{type=formula;' + verify(e.formula) + '}';
+    } else if (e.emoji) {
+      return acc + '{type=emoji;' + verify(e.emoji) + '}';
+    }
+    return acc;
+  }, '');
+  return parseStringEntry(body);
+};
 
 class ExportMapper<E> {
 
@@ -40,21 +86,33 @@ class ExportMapper<E> {
     this.list.push(row);
   }
 
-  public parse(delimiter: string, map?: Map<string, string>): string {
+  public parse(delimiter: string,
+               keyTranslations: Map<string, string>,
+               roomTranslations: RoomExportVariables,
+               room: Room,
+               exportDate: string): string {
     if (this.list.length <= 0) {
       return 'd';
     }
     let parse = '';
-    if (!map) {
-      map = new Map<string, string>();
-      this.keys().forEach(e => map.set(e, e));
+    const newLine = '\r\n';
+    // room
+    parse += roomTranslations.roomName + delimiter + parseStringEntry(room.name) + delimiter;
+    parse += newLine + roomTranslations.roomCode + delimiter + parseStringEntry(room.shortId) + delimiter;
+    parse += newLine + roomTranslations.exportDate + delimiter + exportDate + delimiter;
+    parse += newLine + roomTranslations.welcomeText + delimiter +
+      (room.description ? parseBody(room.description) : roomTranslations.empty) + delimiter;
+    parse += newLine + roomTranslations.questionCategories + delimiter + (room.tags && room.tags.length ?
+      parseStringArray(room.tags) : roomTranslations.empty) + delimiter;
+    parse += newLine + delimiter + newLine;
+    // comments
+    if (!keyTranslations) {
+      keyTranslations = new Map<string, string>();
+      this.keys().forEach(e => keyTranslations.set(e, e));
     }
-    this.keys().forEach(e => parse += map.get(e) + delimiter);
+    parse += this.keys().map(e => keyTranslations.get(e)).join(delimiter) + delimiter;
     this.list.forEach(e => {
-      parse += '\r\n';
-      this.keys().forEach(k => {
-        parse += e.get(k) + delimiter;
-      });
+      parse += newLine + this.keys().map(k => e.get(k)).join(delimiter) + delimiter;
     });
     return parse;
   }
@@ -96,8 +154,18 @@ export class Export {
       this.translationPath + '.comment-user-role-moderator',
       this.translationPath + '.comment-user-role-creator'
     ];
+    const roomTranslations: RoomExportVariables = {
+      empty: this.translationPath + '.export-empty',
+      exportDate: this.translationPath + '.room-export-date',
+      roomCode: this.translationPath + '.room-code',
+      roomName: this.translationPath + '.room-name',
+      questionCategories: this.translationPath + '.room-categories',
+      welcomeText: this.translationPath + '.room-welcome'
+    };
+    const roomKeys = Object.keys(roomTranslations);
+    const roomValues = roomKeys.map(key => roomTranslations[key]);
     this.translateService.get([
-      correct, wrong, acked, refused, bookmarked, notBookmarked, roles[0], roles[1], roles[2]
+      correct, wrong, acked, refused, bookmarked, notBookmarked, roles[0], roles[1], roles[2], ...roomValues
     ]).subscribe(obj => {
       correct = obj[correct];
       wrong = obj[wrong];
@@ -108,22 +176,26 @@ export class Export {
       roles[0] = obj[roles[0]];
       roles[1] = obj[roles[1]];
       roles[2] = obj[roles[2]];
+      for (let i = 0; i < roomKeys.length; i++) {
+        roomTranslations[roomKeys[i]] = obj[roomValues[i]];
+      }
     });
     this.mapper.add(m => {
-      m('question', e => this.parseBody(e.body));
+      m('question-number', e => e.number);
       m('timestamp', e => this.parseDate(e.timestamp));
-      m('correct/wrong', e => e.correct ? correct : wrong);
+      m('question', e => parseBody(e.body));
+      m('chosen-category', e => e.tag || '');
+      m('chosen-keywords', e => this.parseKeywords(e.keywordsFromQuestioner) || roomTranslations.empty);
+      m('answer', e => parseBody(e.answer));
       m('author-role', e => this.getUserString(e.creatorId, roles));
       m('user-name', e => e.questionerName);
       m('user-number', e => e.userNumber);
-      m('question-number', e => e.number);
-      m('chosen-category', e => e.tag || '');
       m('upvotes', e => e.upvotes);
       m('downvotes', e => e.downvotes);
       m('score', e => e.score);
       m('public/moderated', e => e.ack ? acked : refused);
+      m('correct/wrong', e => this.parseCorrectOrWrong(e.correct, correct, wrong));
       m('bookmark', e => e.bookmark ? bookmarked : notBookmarked);
-      m('answer', e => this.parseBody(e.answer));
       m('token', e => this.checkUser(e) && e.bonusToken ? e.bonusToken : '');
       m('token-time', e => this.checkUser(e) ? this.parseDate(e.bonusTimeStamp) : '');
     });
@@ -137,12 +209,22 @@ export class Export {
           this.mapper.acceptAll(comments);
           const date = new Date();
           const dateString = date.toLocaleDateString();
-          const data = this.mapper.parse(';', translationMap);
+          const data = this.mapper.parse(';', translationMap, roomTranslations, this.room, dateString);
           const fileName = this.room.name + '-' + this.room.shortId + '-' + dateString + '.csv';
           this.exportData(data, fileName);
         }
       });
     });
+  }
+
+  private parseCorrectOrWrong(value: CorrectWrong, correct: string, wrong: string): string {
+    if (value === CorrectWrong.NULL) {
+      return '';
+    }
+    if (value === CorrectWrong.CORRECT) {
+      return correct;
+    }
+    return wrong;
   }
 
   private checkUser(e: CommentBonusTokenMixin): boolean {
@@ -159,12 +241,11 @@ export class Export {
     return roles[0];
   }
 
-  private parseBody(body: string): string {
-    if (!body) {
-      return '';
+  private parseKeywords(keywords: SpacyKeyword[]): string {
+    if (!keywords || keywords.length < 1) {
+      return null;
     }
-    body = ViewCommentDataComponent.getTextFromData(body);
-    return '"' + body.replace(/[\r\n]/g, ' ').replace(/ +/g, ' ').replace(/"/g, '""') + '"';
+    return parseStringArray(keywords.map(keyword => keyword.text));
   }
 
   private parseDate(date: Date): string {
@@ -187,34 +268,34 @@ export class Export {
     let source: Observable<Comment[]> = this.commentService.getAckComments(this.room.id);
     if (this.bonusTokenMask) {
       source = forkJoin(source, this.commentService.getRejectedComments(this.room.id)).pipe(
-        map(res => res[0].concat(res[1]))
+        map(res => res[0].concat(res[1]).sort((a, b) => a.number - b.number))
       );
     }
     source.subscribe(data => {
       this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
         const c = data.map(comment => {
           const bt: BonusToken = list.find(e => e.accountId === comment.creatorId && comment.id === e.commentId);
-          const commentWithToken: CommentBonusTokenMixin = <CommentBonusTokenMixin>comment;
+          const commentWithToken: CommentBonusTokenMixin = comment as CommentBonusTokenMixin;
           if (bt) {
             commentWithToken.bonusToken = bt.token;
             commentWithToken.bonusTimeStamp = bt.timestamp;
           }
           return commentWithToken;
-        }).sort(e => e.bonusToken ? -1 : 1);
+        });
         comments(c);
       });
     });
 
   }
 
-  private createTranslationMap(ar: string[], map: ((m: Map<string, string>) => void)): void {
+  private createTranslationMap(ar: string[], translateMapping: ((m: Map<string, string>) => void)): void {
     const fields = this.addTranslationPath(ar);
     const tm: Map<string, string> = new Map<string, string>();
     this.translateService.get(fields).subscribe(msgs => {
       Object.entries(msgs).forEach((e, i) => {
-        tm.set(ar[i], <string>e[1]);
+        tm.set(ar[i], e[1] as string);
       });
-      map(tm);
+      translateMapping(tm);
     });
   }
 
