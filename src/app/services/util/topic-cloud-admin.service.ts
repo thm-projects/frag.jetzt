@@ -16,12 +16,16 @@ import { Comment } from '../../models/comment';
 import { UserRole } from '../../models/user-roles.enum';
 import { CloudParameters } from '../../utils/cloud-parameters';
 import { RoomDataService } from './room-data.service';
+import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
+import { escapeForRegex } from '../../utils/regex-escape';
 
-const words = [
-  'frage', 'antwort', 'aufgabe', 'hallo', 'test', 'bzw', 'bzw.', 'muss', 'more to come', 'mal', 'zb', 'zb\\.',
-  'z\\.\\s*b\\.', 'zum beispiel', 'beispiel', 'jeder?', 'jede/r', 'bisschen', 'bißchen', 'okay', 'ok', 'o.k.'
-];
-export const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|…|\\\\|\\/', 'gmi');
+const words = stopWords.map(word => escapeForRegex(word).replace(/\s+/, '\\s*'));
+const httpRegex = /(https?:[^\s]+(\s|$))/;
+const specialCharacters = '[' + escapeForRegex(superfluousSpecialCharacters) + ']+';
+const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|' +
+  httpRegex.source + '|' + specialCharacters, 'gmi');
+export const maskKeyword = (keyword: string): string =>
+  keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +89,7 @@ export class TopicCloudAdminService {
     const wantedLabels = config.wantedLabels[comment.language.toLowerCase()];
     for (let i = 0; i < source.length; i++) {
       const keyword = source[i];
-      if (keyword.text.replace(regexMaskKeyword, '').replace(/ +/, ' ').trim().length < 3) {
+      if (maskKeyword(keyword.text).length < 3) {
         continue;
       }
       if (censored[i]) {

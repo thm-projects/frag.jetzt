@@ -6,7 +6,6 @@ import { BonusToken } from './bonus-token';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from './user';
 import { NotificationService } from '../services/util/notification.service';
-import { ViewCommentDataComponent } from '../components/shared/view-comment-data/view-comment-data.component';
 import { forkJoin, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Comment } from './comment';
@@ -140,7 +139,7 @@ export class Export {
     private user: User
   ) {
     this.mapper = new ExportMapper<CommentBonusTokenMixin>();
-    this.bonusTokenMask = this.user && this.user.role >= UserRole.PARTICIPANT;
+    this.bonusTokenMask = this.user && this.user.role > UserRole.PARTICIPANT;
   }
 
   public exportAsCsv() {
