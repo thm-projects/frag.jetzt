@@ -1,6 +1,9 @@
 <div fxLayout="column"
      fxLayoutAlign="center"
-     *ngIf="!isLoading">
+     *ngIf="!isLoading"
+     #container
+     (document:keyup)="checkForEscape($event)"
+     (document:click)="checkForBackDropClick($event, container)">
   <div fxLayout="row"
        fxLayoutAlign="center">
     <app-comment [comment]="comment"
