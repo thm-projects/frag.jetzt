@@ -306,7 +306,9 @@
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
-    "questions-blocked": "New questions blocked"
+    "questions-blocked": "New questions blocked",
+    "side-list-on": "Show Comments",
+    "side-list-off": "Hide Comments"
   },
   "quill": {
     "cancel": "Cancel",

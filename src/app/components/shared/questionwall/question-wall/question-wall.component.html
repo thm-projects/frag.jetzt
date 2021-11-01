@@ -242,182 +242,202 @@
         </ars-col>
       </div>
     </div>
-    <ars-col ars-flex-box
-             [width]="450"
-             class="questionwall-list"
-             #colComponent>
-
+    <ars-col [width]="50" ars-flex-box>
       <ars-row>
-        <ars-row *ngIf="hasFilter"
-                 class="questionwall-list-border-bottom"
-                 [height]="50">
-          <ars-style-btn-material style="width:100%;height:100%;"
-                                  ars-flex-box>
-            <ars-col ars-btn-wrp
-                     [xp]="48">
-              <button ars-btn
-                      matRipple>
-                <mat-icon *ngIf="isSvgIcon"
-                          class="icon-svg"
-                          [svgIcon]="filterIcon"></mat-icon>
-                <i *ngIf="!isSvgIcon">{{filterIcon}}</i>
-                <p>{{filterTitle | translate}} {{filterDesc}}</p>
-              </button>
-            </ars-col>
-            <ars-fill></ars-fill>
-            <ars-col ars-btn-wrp
-                     [xp]="48">
-              <button ars-btn
-                      (click)="deactivateFilter()"
-                      matRipple>
-                <i>remove_circle</i>
-                <p>{{'question-wall.filter-remove' | translate}}</p>
-              </button>
-            </ars-col>
-          </ars-style-btn-material>
-        </ars-row>
+        <button mat-icon-button style="margin-top:18px; transform: scale(1.8)" (click)="toggleSideList()">
+          <mat-icon style="color: yellow" class="icon-color" *ngIf="sidelistExpanded" aria-describedby="side-list-off"
+                    matTooltip="{{'question-wall.side-list-off' | translate}}">
+            keyboard_double_arrow_right
+          </mat-icon>
+          <mat-icon style="color: yellow" class="icon-color" *ngIf="!sidelistExpanded" aria-describedby="side-list-on"
+                    matTooltip="{{'question-wall.side-list-on' | translate}}">
+            keyboard_double_arrow_left
+          </mat-icon>
+        </button>
       </ars-row>
+      <ars-fill></ars-fill>
+    </ars-col>
+    <ars-col [width]="450" [overflow]="'hidden'" #sidelist class="side-list">
+      <ars-col [width]="450">
 
-      <ars-fill class="questionwall-list-comments">
+        <ars-col ars-flex-box
+                 [width]="450"
+                 class="questionwall-list"
+                 #colComponent>
 
-        <ars-row *ngIf="!userSelection">
-
-          <ars-fill *ngIf="(hasFilter?commentsFilter:commentsFilteredByTime).length==0"
-                    style="float:left;">
-            <p class="questionwall-present-introduction-desc">
-              {{'question-wall.no-result' | translate}}
-            </p>
-          </ars-fill>
-
-          <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
-                   class="questionwall-comment-anchor"
-                   style="float:left;">
-            <ars-row ars-flex-box
-                     height="170">
-              <ars-fill></ars-fill>
-              <ars-col ars-flex-box>
+          <ars-row>
+            <ars-row *ngIf="hasFilter"
+                     class="questionwall-list-border-bottom"
+                     [height]="50">
+              <ars-style-btn-material style="width:100%;height:100%;"
+                                      ars-flex-box>
+                <ars-col ars-btn-wrp
+                         [xp]="48">
+                  <button ars-btn
+                          matRipple>
+                    <mat-icon *ngIf="isSvgIcon"
+                              class="icon-svg"
+                              [svgIcon]="filterIcon"></mat-icon>
+                    <i *ngIf="!isSvgIcon">{{filterIcon}}</i>
+                    <p>{{filterTitle | translate}} {{filterDesc}}</p>
+                  </button>
+                </ars-col>
                 <ars-fill></ars-fill>
-                <ars-row>
-                  <p class="questionwall-comment-number">{{comment.comment.number}}</p>
-                </ars-row>
-                <ars-fill></ars-fill>
-              </ars-col>
-            </ars-row>
-            <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
-              <ars-row
-                [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
-                style="border-radius:5px">
-                <ars-row ars-flex-box
-                         (click)="focusComment(comment)"
-                         style="box-sizing:border-box;padding:16px;cursor:pointer">
-                  <ars-col class="questionwall-comment-meta">
-                    <i class="questionwall-icon">person_pin_circle</i>
-                    <p (click)="filterUser(comment);"
-                       class="questionwall-comment-user"
-                       matRipple>{{comment.comment.userNumber}}</p>
-                    <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
-                  </ars-col>
-                  <ars-col>
-                    <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
-                  </ars-col>
-                </ars-row>
-                <ars-row
-                  (click)="focusComment(comment)"
-                  style="box-sizing:border-box;padding:0 16px;cursor:pointer">
-                  <p class="questionwall-comment-body">
-                    <app-view-comment-data class="images"
-                                           [currentData]="comment.comment.body"></app-view-comment-data>
-                  </p>
-                </ars-row>
-                <ars-row [height]="50">
-                  <ars-style-btn-material style="width:100%;height:100%;"
-                                          ars-flex-box>
-                    <ars-col ars-btn-wrp
-                             [xp]="16"
-                             [extra]="true"
-                             *ngIf="user && comment.comment.creatorId !== user.id"
-                             class="questionwall-comment-btn">
-                      <button ars-btn
-                              (click)="likeComment(comment)"
-                              matRipple>
-                        <i>thumb_up</i>
-                        <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
-                      </button>
-                      <button ars-btn
-                              (click)="dislikeComment(comment)"
-                              matRipple>
-                        <i>thumb_down</i>
-                        <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
-                      </button>
-                    </ars-col>
-                    <ars-fill (click)="focusComment(comment)"
-                              style="cursor:pointer"></ars-fill>
-                    <ars-col ars-btn-wrp
-                             [xp]="16"
-                             [extra]="true"
-                             *ngIf="comment.comment.tag">
-                      <button ars-btn
-                              (click)="filterTag(comment.comment.tag);"
-                              matRipple>
-                        <mat-icon class="icon-svg"
-                                  svgIcon="comment_tag"></mat-icon>
-                        <p>{{comment.comment.tag}}</p>
-                      </button>
-                    </ars-col>
-                  </ars-style-btn-material>
-                </ars-row>
-              </ars-row>
+                <ars-col ars-btn-wrp
+                         [xp]="48">
+                  <button ars-btn
+                          (click)="deactivateFilter()"
+                          matRipple>
+                    <i>remove_circle</i>
+                    <p>{{'question-wall.filter-remove' | translate}}</p>
+                  </button>
+                </ars-col>
+              </ars-style-btn-material>
             </ars-row>
           </ars-row>
 
-        </ars-row>
+          <ars-fill class="questionwall-list-comments">
 
-        <ars-row *ngIf="userSelection">
-          <ars-style-btn-material style="width:100%">
-            <ars-row [height]="50"
-                     ars-flex-box
-                     class="questionwall-list-border-bottom">
-              <ars-col ars-btn-wrp
-                       [xp]="24"
-                       [extra]="true">
-                <button ars-btn
-                        (click)="cancelUserMap()"
-                        matRipple>
-                  <i>arrow_back</i>
-                </button>
-              </ars-col>
-              <ars-col ars-btn-wrp
-                       [xp]="24"
-                       [extra]="true">
-                <button ars-btn
-                        class="pseudo-button">
-                  <i>person_pin_circle</i>
-                  <p>{{'question-wall.filter-user' | translate}}</p>
-                </button>
-              </ars-col>
+            <ars-row *ngIf="!userSelection">
+
+              <ars-fill *ngIf="(hasFilter?commentsFilter:commentsFilteredByTime).length==0"
+                        style="float:left;">
+                <p class="questionwall-present-introduction-desc">
+                  {{'question-wall.no-result' | translate}}
+                </p>
+              </ars-fill>
+
+              <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
+                       class="questionwall-comment-anchor"
+                       style="float:left;">
+                <ars-row ars-flex-box
+                         height="170">
+                  <ars-fill></ars-fill>
+                  <ars-col ars-flex-box>
+                    <ars-fill></ars-fill>
+                    <ars-row>
+                      <p class="questionwall-comment-number">{{comment.comment.number}}</p>
+                    </ars-row>
+                    <ars-fill></ars-fill>
+                  </ars-col>
+                </ars-row>
+                <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
+                  <ars-row
+                    [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
+                    style="border-radius:5px">
+                    <ars-row ars-flex-box
+                             (click)="focusComment(comment)"
+                             style="box-sizing:border-box;padding:16px;cursor:pointer">
+                      <ars-col class="questionwall-comment-meta">
+                        <i class="questionwall-icon">person_pin_circle</i>
+                        <p (click)="filterUser(comment);"
+                           class="questionwall-comment-user"
+                           matRipple>{{comment.comment.userNumber}}</p>
+                        <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
+                      </ars-col>
+                      <ars-col>
+                        <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
+                      </ars-col>
+                    </ars-row>
+                    <ars-row
+                      (click)="focusComment(comment)"
+                      style="box-sizing:border-box;padding:0 16px;cursor:pointer">
+                      <p class="questionwall-comment-body">
+                        <app-view-comment-data class="images"
+                                               [currentData]="comment.comment.body"></app-view-comment-data>
+                      </p>
+                    </ars-row>
+                    <ars-row [height]="50">
+                      <ars-style-btn-material style="width:100%;height:100%;"
+                                              ars-flex-box>
+                        <ars-col ars-btn-wrp
+                                 [xp]="16"
+                                 [extra]="true"
+                                 *ngIf="user && comment.comment.creatorId !== user.id"
+                                 class="questionwall-comment-btn">
+                          <button ars-btn
+                                  (click)="likeComment(comment)"
+                                  matRipple>
+                            <i>thumb_up</i>
+                            <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
+                          </button>
+                          <button ars-btn
+                                  (click)="dislikeComment(comment)"
+                                  matRipple>
+                            <i>thumb_down</i>
+                            <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
+                          </button>
+                        </ars-col>
+                        <ars-fill (click)="focusComment(comment)"
+                                  style="cursor:pointer"></ars-fill>
+                        <ars-col ars-btn-wrp
+                                 [xp]="16"
+                                 [extra]="true"
+                                 *ngIf="comment.comment.tag">
+                          <button ars-btn
+                                  (click)="filterTag(comment.comment.tag);"
+                                  matRipple>
+                            <mat-icon class="icon-svg"
+                                      svgIcon="comment_tag"></mat-icon>
+                            <p>{{comment.comment.tag}}</p>
+                          </button>
+                        </ars-col>
+                      </ars-style-btn-material>
+                    </ars-row>
+                  </ars-row>
+                </ars-row>
+              </ars-row>
+
             </ars-row>
-            <ars-row ars-btn-wrp
-                     [xp]="48"
-                     [yp]="32">
-              <button ars-btn
-                      disabled
-                      class="questionwall-list-border-bottom pseudo-button">
-                <p>{{'question-wall.filter-user' | translate}}-ID</p>
-                <p>{{'question-wall.filter-user-count' | translate}}</p>
-              </button>
-              <button ars-btn
-                      mat-ripple
-                      *ngFor="let user of userList"
-                      (click)="applyUserMap(user[1])">
-                <p>{{user[1]}}</p>
-                <p>{{user[0]}}</p>
-              </button>
+
+            <ars-row *ngIf="userSelection">
+              <ars-style-btn-material style="width:100%">
+                <ars-row [height]="50"
+                         ars-flex-box
+                         class="questionwall-list-border-bottom">
+                  <ars-col ars-btn-wrp
+                           [xp]="24"
+                           [extra]="true">
+                    <button ars-btn
+                            (click)="cancelUserMap()"
+                            matRipple>
+                      <i>arrow_back</i>
+                    </button>
+                  </ars-col>
+                  <ars-col ars-btn-wrp
+                           [xp]="24"
+                           [extra]="true">
+                    <button ars-btn
+                            class="pseudo-button">
+                      <i>person_pin_circle</i>
+                      <p>{{'question-wall.filter-user' | translate}}</p>
+                    </button>
+                  </ars-col>
+                </ars-row>
+                <ars-row ars-btn-wrp
+                         [xp]="48"
+                         [yp]="32">
+                  <button ars-btn
+                          disabled
+                          class="questionwall-list-border-bottom pseudo-button">
+                    <p>{{'question-wall.filter-user' | translate}}-ID</p>
+                    <p>{{'question-wall.filter-user-count' | translate}}</p>
+                  </button>
+                  <button ars-btn
+                          mat-ripple
+                          *ngFor="let user of userList"
+                          (click)="applyUserMap(user[1])">
+                    <p>{{user[1]}}</p>
+                    <p>{{user[0]}}</p>
+                  </button>
+                </ars-row>
+              </ars-style-btn-material>
             </ars-row>
-          </ars-style-btn-material>
-        </ars-row>
 
-      </ars-fill>
+          </ars-fill>
 
+        </ars-col>
+      </ars-col>
     </ars-col>
   </ars-fill>
   <ars-row [height]="50"
@@ -476,6 +496,8 @@
 
 
 <div class="visually-hidden">
+  <div id="side-list-off">{{'question-wall.side-list-off' | translate}}</div>
+  <div id="side-list-on">{{'question-wall.side-list-on' | translate}}</div>
   <div id="back-lbl">{{'question-wall.back-lbl' | translate}}</div>
   <div id="sort-lbl">{{'question-wall.sort-lbl' | translate}}</div>
   <div id="sort-lbl-new">{{'question-wall.sort-lbl-new' | translate}}</div>
