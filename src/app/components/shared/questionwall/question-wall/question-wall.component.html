@@ -244,14 +244,14 @@
     </div>
     <ars-col [width]="50" ars-flex-box>
       <ars-row>
-        <button mat-icon-button style="margin:5px;" (click)="toggleSideList()">
-          <mat-icon class="icon-color" *ngIf="sidelistExpanded" aria-describedby="side-list-off"
+        <button mat-icon-button style="margin-top:18px; transform: scale(1.8)" (click)="toggleSideList()">
+          <mat-icon style="color: yellow" class="icon-color" *ngIf="sidelistExpanded" aria-describedby="side-list-off"
                     matTooltip="{{'question-wall.side-list-off' | translate}}">
-            arrow_right
+            keyboard_double_arrow_right
           </mat-icon>
-          <mat-icon class="icon-color" *ngIf="!sidelistExpanded" aria-describedby="side-list-on"
+          <mat-icon style="color: yellow" class="icon-color" *ngIf="!sidelistExpanded" aria-describedby="side-list-on"
                     matTooltip="{{'question-wall.side-list-on' | translate}}">
-            list
+            keyboard_double_arrow_left
           </mat-icon>
         </button>
       </ars-row>
