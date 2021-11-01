@@ -25,7 +25,9 @@ import { User } from '../../../../models/user';
 export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(ColComponent) colComponent: ColComponent;
+  @ViewChild('sidelist') sidelist: ColComponent;
 
+  sidelistExpanded: boolean = true;
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
@@ -84,6 +86,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       action(e);
     } else if (elsePart) {
       elsePart();
+    }
+  }
+
+  toggleSideList(){
+    this.sidelistExpanded=!this.sidelistExpanded;
+    if(this.sidelistExpanded){
+      this.sidelist.setPx(450);
+    }
+    else{
+      this.sidelist.setPx(0);
     }
   }
 
@@ -159,6 +171,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       Rescale.requestFullscreen();
     }, 10);
+    console.log(this.sidelist);
   }
 
   ngOnDestroy(): void {
