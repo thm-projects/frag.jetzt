@@ -300,7 +300,9 @@
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl Fragen",
     "overview-questioners-tooltip": "Anzahl Fragensteller",
-    "questions-blocked": "Weitere Fragen deaktiviert "
+    "questions-blocked": "Weitere Fragen deaktiviert ",
+    "side-list-on": "Fragenliste anzeigen",
+    "side-list-off": "Fragenliste ausblenden"
   },
   "quill": {
     "cancel": "Abbrechen",
