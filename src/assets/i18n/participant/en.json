@@ -307,8 +307,8 @@
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
     "questions-blocked": "New questions blocked",
-    "side-list-on": "Show Comments",
-    "side-list-off": "Hide Comments"
+    "side-list-on": "Show question list",
+    "side-list-off": "Hide question list"
   },
   "quill": {
     "cancel": "Cancel",
