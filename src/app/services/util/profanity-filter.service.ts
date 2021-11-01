@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import * as BadWords from 'naughty-words';
+import { escapeForRegex } from '../../utils/regex-escape';
 
 @Injectable({
   providedIn: 'root'
@@ -80,9 +81,7 @@ export class ProfanityFilterService {
     if (list.length < 1 || !str) {
       return [str, false];
     }
-    const escapeRegex = /[.*+\-?^${}()|\[\]\\]/g;
-    const censoredWords = list
-      .reduce((acc, elem) => acc + (acc.length > 1 ? '|' : '') + elem.replace(escapeRegex, '\\$&'), '(') + ')';
+    const censoredWords = list.reduce((acc, elem) => acc + (acc.length > 1 ? '|' : '') + escapeForRegex(elem), '(') + ')';
     const regex = new RegExp(censorPartialWordsCheck ? censoredWords : '\\b' + censoredWords + '\\b', 'gmi');
     let result = '';
     let censored = false;
