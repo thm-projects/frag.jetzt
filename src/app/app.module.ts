@@ -62,7 +62,6 @@ import { SpacyService } from './services/http/spacy.service';
 import { QuizNowComponent } from './components/shared/quiz-now/quiz-now.component';
 import { JoyrideModule } from 'ngx-joyride';
 import { QuillModule } from 'ngx-quill';
-import { LocalStorageShareService } from './services/http/local-storage-share.service';
 
 import 'prismjs';
 import 'prismjs/plugins/line-numbers/prism-line-numbers.js';
@@ -153,7 +152,7 @@ export function initializeApp(appConfig: AppConfig) {
     /*AppConfig,
     { provide: APP_INITIALIZER,
       useFactory: initializeApp,
-      deps: [AppConfig, LocalStorageShareService], multi: true
+      deps: [AppConfig], multi: true
     },
     {
       provide: HTTP_INTERCEPTORS,
