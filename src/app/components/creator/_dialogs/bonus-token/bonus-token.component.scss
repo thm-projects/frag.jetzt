@@ -35,15 +35,15 @@ p {
 
 .navComment {
   color: var(--secondary);
-  position: absolute;
-  left: 85%;
-  transform: translate(-85%, 0);
+  display: flex;
+  justify-content:right;
+  align-items: center;
 }
 
 .delComment {
-  position: absolute;
-  left: 70%;
-  transform: translate(-70%, 0);
+  display: flex;
+  justify-content:right;
+  align-items: center;
 }
 
 .selected {
