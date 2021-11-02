@@ -89,7 +89,14 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  toggleSideList(){
+  stopBubble(keyEvent:KeyboardEvent){
+    keyEvent.cancelBubble=true;
+  }
+
+  toggleSideList(event:MouseEvent){
+    if(event.detail===0){
+      return;
+    }
     this.sidelistExpanded=!this.sidelistExpanded;
     if(this.sidelistExpanded){
       this.sidelist.setPx(450);
