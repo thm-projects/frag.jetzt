@@ -91,6 +91,7 @@
     "bookmark": "Bookmark",
     "comment-bookmarked": "Yes",
     "comment-not-bookmarked": "No",
+    "comment-got-favorited": "The author of this good question is happy to receive a bonus.",
     "upvotes": "Upvotes",
     "downvotes": "Downvotes",
     "score": "Score",
