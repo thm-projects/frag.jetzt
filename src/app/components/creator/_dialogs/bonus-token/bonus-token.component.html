@@ -38,10 +38,10 @@
         <p>
           {{ bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
         </p>
-        <button mat-icon-button (click)="navToComment(bonusToken.commentId)">
+        <button [ngClass]="'navComment'" mat-icon-button (click)="navToComment(bonusToken.commentId)">
           <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
         </button>
-        <button mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, index)">
+        <button [ngClass]="'delComment'" mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, index)">
           <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}" class="delete-icon">close</mat-icon>
         </button>
       </mat-list-item>
