@@ -46,6 +46,12 @@ p {
   align-items: center;
 }
 
+.mat-list .p {
+  display: flex;
+  justify-content:center;
+  align-items: center;
+} 
+
 .selected {
   color: var(--red);
 }
