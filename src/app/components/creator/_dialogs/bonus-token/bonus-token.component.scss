@@ -33,6 +33,19 @@ p {
   cursor: pointer;
 }
 
+.navComment {
+  color: var(--secondary);
+  position: absolute;
+  left: 85%;
+  transform: translate(-85%, 0);
+}
+
+.delComment {
+  position: absolute;
+  left: 70%;
+  transform: translate(-70%, 0);
+}
+
 .selected {
   color: var(--red);
 }
