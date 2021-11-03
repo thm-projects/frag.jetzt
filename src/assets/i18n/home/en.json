@@ -158,6 +158,12 @@
     "continue": "Continue",
     "reset": "Reset",
     "brainstorming-question": "Heading of the brainstorming board",
+    "brainstorming-word-count": "Maximum number of words",
+    "brainstorming-word-length": "Maximum word length",
+    "field-required": "This field is required",
+    "field-hint-number": "Input between {{min}} and {{max}}",
+    "field-too-low": "Your input is too low. It must be at least {{min}}.",
+    "field-too-high": "Your input is too high. It may be at most {{max}}.",
     "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
     "tag-cloud-questions-title": "Which questions should the topic cloud include?",
     "tag-cloud-questions-all": "All questions",
@@ -397,14 +403,6 @@
     "changes-successful": "Successfully updated",
     "add-successful": "Word added",
     "remove-successful": "Word removed"
-  },
-  "worker-config": {
-    "heading": "Extract keywords",
-    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
-    "normal": "Reanalyze all questions in the room",
-    "only-failed": "Only questions that have not been analyzed",
-    "continue": "Continue",
-    "cancel": "Cancel"
   },
   "worker-dialog": {
     "running": "Running",

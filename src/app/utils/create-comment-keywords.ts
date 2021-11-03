@@ -65,12 +65,13 @@ export class CreateCommentKeywords {
                           deeplService: DeepLService,
                           spacyService: SpacyService,
                           body: string,
+                          brainstorming: boolean,
                           useDeepl: boolean = false,
                           language: Language = 'auto'): Observable<KeywordsResult> {
     const text = ViewCommentDataComponent.getTextFromData(body);
     return languagetoolService.checkSpellings(text, language).pipe(
       switchMap(result => this.spacyKeywordsFromLanguagetoolResult(languagetoolService, deeplService,
-        spacyService, text, body, language, result, useDeepl)),
+        spacyService, text, body, language, result, useDeepl, brainstorming)),
       catchError((err) => of({
         keywords: [],
         language: CommentLanguage.auto,
@@ -87,13 +88,14 @@ export class CreateCommentKeywords {
                                                      body: string,
                                                      selectedLanguage: Language,
                                                      result: LanguagetoolResult,
-                                                     useDeepl: boolean): Observable<KeywordsResult> {
+                                                     useDeepl: boolean,
+                                                     brainstorming: boolean): Observable<KeywordsResult> {
     const wordCount = text.trim().split(' ').length;
     const hasConfidence = selectedLanguage === 'auto' ? result.language.detectedLanguage.confidence >= 0.5 : true;
     const errorQuotient = (result.matches.length * 100) / wordCount;
-    if (!hasConfidence ||
+    if (!brainstorming && (!hasConfidence ||
       errorQuotient > ERROR_QUOTIENT_USE_DEEPL ||
-      (!useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED)) {
+      (!useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED))) {
       return of({
         keywords: [],
         language: CommentLanguage.auto,
@@ -102,7 +104,7 @@ export class CreateCommentKeywords {
     }
     const escapedText = this.escapeForSpacy(text);
     let textLangObservable = of(escapedText);
-    if (useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED) {
+    if (!brainstorming && useDeepl && errorQuotient > ERROR_QUOTIENT_WELL_SPELLED) {
       let target = TargetLang.EN_US;
       const code = result.language.detectedLanguage.code.toUpperCase().split('-')[0];
       if (code.startsWith(SourceLang.EN)) {
@@ -116,7 +118,7 @@ export class CreateCommentKeywords {
     return textLangObservable.pipe(
       switchMap((textForSpacy) => this.callSpacy(spacyService, textForSpacy,
         languagetoolService.isSupportedLanguage(result.language.code as Language), selectedLanguage,
-        languagetoolService.mapLanguageToSpacyModel(result.language.code as Language)))
+        languagetoolService.mapLanguageToSpacyModel(result.language.code as Language), brainstorming))
     );
   }
 
@@ -124,7 +126,8 @@ export class CreateCommentKeywords {
                            text: string,
                            isResultLangSupported: boolean,
                            selectedLanguage: Language,
-                           commentModel: Model): Observable<KeywordsResult> {
+                           commentModel: Model,
+                           brainstorming: boolean): Observable<KeywordsResult> {
     const selectedLangExtend =
       selectedLanguage[2] === '-' ? selectedLanguage.substr(0, 2) : selectedLanguage;
     let finalLanguage: CommentLanguage;
@@ -134,13 +137,23 @@ export class CreateCommentKeywords {
       finalLanguage = CommentLanguage[selectedLangExtend];
     }
     if (!isResultLangSupported || !CURRENT_SUPPORTED_LANGUAGES.includes(commentModel)) {
+      if (brainstorming) {
+        return of({
+          keywords: text.split(/\s+/g).filter(e => e.length).map(newText => ({
+            dep: ['ROOT'],
+            text: newText
+          })),
+          language: finalLanguage,
+          resultType: KeywordsResultType.successful
+        });
+      }
       return of({
         keywords: [],
         language: finalLanguage,
         resultType: KeywordsResultType.languageNotSupported
       } as KeywordsResult);
     }
-    return spacyService.getKeywords(text, commentModel).pipe(
+    return spacyService.getKeywords(text, commentModel, brainstorming).pipe(
       map(keywords => ({
         keywords,
         language: finalLanguage,

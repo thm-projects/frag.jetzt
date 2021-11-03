@@ -1,10 +1,10 @@
 <div fxLayout="column"
      fxLayoutAlign="center"
      *ngIf="!isLoading"
-     #container
      (document:keyup)="checkForEscape($event)"
-     (document:click)="checkForBackDropClick($event, container)">
+     (document:click)="checkForBackDropClick($event, container.firstChild, writeCommentCard)">
   <div fxLayout="row"
+       #container
        fxLayoutAlign="center">
     <app-comment [comment]="comment"
                  [user]="user"
@@ -12,20 +12,22 @@
   </div>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <mat-card class="answer border-answer"
-              *ngIf="!isStudent || answer">
-      <app-write-comment [isModerator]="userRole > 0"
-                         [isCommentAnswer]="true"
-                         [placeholder]="'comment-page.your-answer'"
-                         [onClose]="openDeleteAnswerDialog()"
-                         [onSubmit]="saveAnswer()"
-                         [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
-                         [confirmLabel]="'save-answer'"
-                         [cancelLabel]="'delete-answer'"
-                         [additionalTemplate]="editAnswer"
-                         [enabled]="!isStudent && (edit || !answer)">
-      </app-write-comment>
-    </mat-card>
+    <div #writeCommentCard fxLayout="row">
+      <mat-card class="answer border-answer"
+                *ngIf="!isStudent || answer">
+        <app-write-comment [isModerator]="userRole > 0"
+                           [isCommentAnswer]="true"
+                           [placeholder]="'comment-page.your-answer'"
+                           [onClose]="openDeleteAnswerDialog()"
+                           [onSubmit]="saveAnswer()"
+                           [disableCancelButton]="!answer && commentComponent && commentComponent.commentData.currentText.length > 0"
+                           [confirmLabel]="'save-answer'"
+                           [cancelLabel]="'delete-answer'"
+                           [additionalTemplate]="editAnswer"
+                           [enabled]="!isStudent && (edit || !answer)">
+        </app-write-comment>
+      </mat-card>
+    </div>
   </div>
 </div>
 
