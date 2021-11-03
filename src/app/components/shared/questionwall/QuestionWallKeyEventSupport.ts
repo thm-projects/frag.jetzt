@@ -8,7 +8,7 @@ export class QuestionWallKeyEventSupport {
     window.addEventListener('keyup', this.windowEvent = e => {
       if (this.keyMap.has(e.key)) {
         this.keyMap.get(e.key)();
-        e.cancelBubble = true;
+        e.preventDefault();
       }
     });
   }

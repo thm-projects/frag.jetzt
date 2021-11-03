@@ -28,6 +28,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('sidelist') sidelist: ColComponent;
 
   sidelistExpanded: boolean = true;
+  qrCodeExpanded: boolean = false;
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
@@ -89,14 +90,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  stopBubble(keyEvent:KeyboardEvent){
-    keyEvent.cancelBubble=true;
-  }
-
-  toggleSideList(event:MouseEvent){
-    if(event.detail===0){
-      return;
-    }
+  toggleSideList(){
     this.sidelistExpanded=!this.sidelistExpanded;
     if(this.sidelistExpanded){
       this.sidelist.setPx(450);
@@ -104,6 +98,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     else{
       this.sidelist.setPx(0);
     }
+  }
+
+  getURL(){
+    if(!this.room)return '';
+    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room.shortId}`;
+  }
+
+  toggleQRCode(){
+    this.qrCodeExpanded=!this.qrCodeExpanded;
   }
 
   ngOnInit(): void {
@@ -166,9 +169,19 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initKeySupport() {
     this.wrap(this.keySupport, key => {
-      key.addKeyEvent('ArrowRight', () => this.nextComment());
-      key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent(' ', () => this.nextComment());
+      const checkSideList=()=>{
+        if(!this.sidelistExpanded){
+          this.toggleSideList();
+        }
+      }
+      const zip=(a,b)=>{
+        a();
+        b();
+      }
+      const zipSideList=a=>()=>zip(()=>checkSideList(),()=>a());
+      key.addKeyEvent('ArrowRight', zipSideList(() => this.nextComment()));
+      key.addKeyEvent('ArrowLeft', zipSideList(() => this.prevComment()));
+      key.addKeyEvent(' ', zipSideList(() => this.nextComment()));
     });
   }
 
