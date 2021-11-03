@@ -153,6 +153,9 @@ export class CreateCommentKeywords {
         resultType: KeywordsResultType.languageNotSupported
       } as KeywordsResult);
     }
+    if (brainstorming) {
+      text = text.trim();
+    }
     return spacyService.getKeywords(text, commentModel, brainstorming).pipe(
       map(keywords => ({
         keywords,
