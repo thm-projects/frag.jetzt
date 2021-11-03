@@ -22,6 +22,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Subscription } from 'rxjs';
 import { CommentListFilter, Period } from '../../comment-list/comment-list.filter';
+import { FormControl, Validators } from '@angular/forms';
 
 class CommentsCount {
   comments: number;
@@ -44,6 +45,16 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
   @Input() userRole: UserRole;
 
+  maxWordCountMin = 1;
+  maxWordCountMax = 5;
+  maxWordCount = new FormControl(1, [
+    Validators.required, Validators.min(this.maxWordCountMin), Validators.max(this.maxWordCountMax),
+  ]);
+  maxWordLengthMin = 3;
+  maxWordLengthMax = 30;
+  maxWordLength = new FormControl(12, [
+    Validators.required, Validators.min(this.maxWordLengthMin), Validators.max(this.maxWordLengthMax)
+  ]);
   question = '';
   continueFilter = 'continueWithAll';
   comments: Comment[];
