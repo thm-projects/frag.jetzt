@@ -91,7 +91,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private moderationService: ModeratorService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
-    this.filter = CommentListFilter.loadCurrentFilter();
+    this.filter = CommentListFilter.loadFilter();
   }
 
   handlePageEvent(e: PageEvent) {

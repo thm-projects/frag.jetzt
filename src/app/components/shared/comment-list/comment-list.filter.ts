@@ -77,8 +77,8 @@ export class CommentListFilter {
     this.lastRoomId = obj.lastRoomId;
   }
 
-  static loadCurrentFilter(): CommentListFilter {
-    return new CommentListFilter(JSON.parse(localStorage.getItem('currentFilter')));
+  static loadFilter(name = 'currentFilter'): CommentListFilter {
+    return new CommentListFilter(JSON.parse(localStorage.getItem(name)));
   }
 
   resetToDefault() {
@@ -108,13 +108,13 @@ export class CommentListFilter {
     this.moderatorIds = new Set<string>([...moderators]);
   }
 
-  save() {
+  save(name = 'currentFilter') {
     const ownerId = this.ownerId;
     const threshold = this.threshold;
     const userId = this.userId;
     const moderatorIds = this.moderatorIds;
     this.ownerId = this.threshold = this.userId = this.moderatorIds = undefined;
-    localStorage.setItem('currentFilter', JSON.stringify(this));
+    localStorage.setItem(name, JSON.stringify(this));
     this.ownerId = ownerId;
     this.threshold = threshold;
     this.userId = userId;

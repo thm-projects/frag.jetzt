@@ -95,7 +95,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.translationService.use(localStorage.getItem('currentLang'));
     const subscriptionEventService = this.eventService.on<CommentListData>('currentRoomData').subscribe(data => {
       subscriptionEventService.unsubscribe();
-      console.log(data.currentFilter);
       this.tmpFilter = data.currentFilter;
       this._room = data.room;
       this.roomDataService.getRoomData(data.room.id).subscribe(roomData => {
@@ -106,7 +105,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         });
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
-        .subscribe(_ => this.commentsLoadedCallback());
+                                             .subscribe(_ => this.commentsLoadedCallback());
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -173,6 +172,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     return () => {
       let filter: CommentListFilter;
 
+      let brainstorming: any = {
+        brainstormingActive: false
+      };
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
@@ -181,10 +183,19 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
           break;
 
         case 'continueWithAllFromNow':
+          if (!this.maxWordCount.valid || !this.maxWordLength.valid) {
+            return;
+          }
           filter = new CommentListFilter(this.tmpFilter);
           filter.resetToDefault();
           filter.period = Period.fromNow;
           filter.fromNow = new Date().getTime();
+          brainstorming = {
+            brainstormingActive: true,
+            question: this.question,
+            maxWordCount: this.maxWordCount.value,
+            maxWordLength: this.maxWordLength.value
+          };
           break;
 
         case 'continueWithCurr':
@@ -195,11 +206,15 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
           return;
       }
 
-      localStorage.setItem('tag-cloud-question', this.question);
-      this.dialogRef.close();
-      this.router.navigateByUrl(this.target).then(() => {
-        filter.save();
+      const subscription = this.eventService.on('tagCloudInit').subscribe(() => {
+        this.eventService.broadcast('tagCloudPassFilterData', {
+          brainstorming,
+          filter
+        });
+        subscription.unsubscribe();
       });
+      this.dialogRef.close();
+      this.router.navigateByUrl(this.target);
     };
   }
 

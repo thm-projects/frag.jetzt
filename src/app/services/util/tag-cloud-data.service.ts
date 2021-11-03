@@ -177,7 +177,7 @@ export class TagCloudDataService {
       throw new Error('Room already bound.');
     }
     this._currentModerators = null;
-    this._currentFilter = CommentListFilter.loadCurrentFilter();
+    this._currentFilter = CommentListFilter.loadFilter();
     this._currentFilter.updateRoom(room);
     this._roomId = room.id;
     this._currentOwner = room.ownerId;

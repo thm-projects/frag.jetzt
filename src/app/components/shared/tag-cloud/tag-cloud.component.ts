@@ -33,6 +33,8 @@ import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { SyncFence } from '../../../utils/SyncFence';
+import { Subscription } from 'rxjs';
+import { CommentListFilter } from '../comment-list/comment-list.filter';
 
 class CustomPosition implements Position {
   left: number;
@@ -107,6 +109,9 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   themeSubscription = null;
   createCommentWrapper: CreateCommentWrapper = null;
   question = '';
+  maxWordCount: number;
+  maxWordLength: number;
+  brainstormingActive: boolean;
   private _currentSettings: CloudParameters;
   private _subscriptionCommentlist = null;
   private _subscriptionRoom = null;
@@ -116,6 +121,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private _currentTheme: Theme;
   private _syncFenceBuildCloud: SyncFence;
+  private _eventFilterSubscription: Subscription;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -138,11 +144,24 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this.translateService.use(lang);
     });
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
-    this.question = localStorage.getItem('tag-cloud-question');
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
     this._syncFenceBuildCloud = new SyncFence(2,
       () => this.dataManager.bindToRoom(this.room, this.userRole, this.user.id));
+    this._eventFilterSubscription = eventService.on('tagCloudPassFilterData').subscribe((data: any) => {
+      if (data.brainstorming) {
+        this.brainstormingActive = true;
+        this.question = data.brainstorming.question as string;
+        this.maxWordCount = data.brainstorming.maxWordCount as number;
+        this.maxWordLength = data.brainstorming.maxWordLength as number;
+      } else {
+        this.brainstormingActive = false;
+      }
+      localStorage.setItem('brainstormingActive', this.brainstormingActive ? 'true' : 'false');
+      (data.filter as CommentListFilter).save('cloudFilter');
+      this._eventFilterSubscription.unsubscribe();
+    });
+    eventService.broadcast('tagCloudInit');
   }
 
   private static getCurrentCloudParameters(): CloudParameters {
@@ -157,6 +176,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit(): void {
+    if (!this._eventFilterSubscription.closed) {
+      this._eventFilterSubscription.unsubscribe();
+      this.brainstormingActive = localStorage.getItem('brainstormingActive') === 'true';
+    }
     this.userRole = this.route.snapshot.data.roles[0];
     this.updateGlobalStyles();
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
@@ -392,6 +415,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       admin.endDate = data.admin.endDate;
       admin.scorings = data.admin.scorings;
       data.admin = undefined;
+      this.question = data.brainstorming?.question;
+      this.maxWordLength = data.brainstorming?.maxWordLength;
+      this.maxWordCount = data.brainstorming?.maxWordCount;
+      data.brainstorming = undefined;
       this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
       if (this.deviceInfo.isCurrentlyMobile) {
         const defaultParams = new CloudParameters();
