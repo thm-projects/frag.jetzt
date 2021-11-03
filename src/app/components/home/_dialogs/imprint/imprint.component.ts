@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { DomSanitizer, SafeScript } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-imprint',
@@ -10,7 +10,7 @@ import { DomSanitizer, SafeScript } from '@angular/platform-browser';
 export class ImprintComponent implements OnInit {
   deviceType: string;
   currentLang: string;
-  safeURL: SafeScript;
+  safeURL: SafeResourceUrl;
 
 
   constructor(private dialogRef: MatDialogRef<ImprintComponent>,
