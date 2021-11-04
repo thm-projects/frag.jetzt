@@ -1,5 +1,6 @@
 <ars-row ars-flex-box>
   <app-write-comment [confirmLabel]="'send'"
+                     [brainstormingData]="brainstormingData"
                      [isQuestionerNameEnabled]="true"
                      [onSubmit]="this.forwardComment.bind(this)"
                      [onDeeplSubmit]="this.closeDialog.bind(this)"

@@ -199,7 +199,9 @@
     "grammar-check": "Optimize text",
     "upvote": "upvotes:",
     "downvote": "downvotes:",
-    "questioner-name": "Self assigned name"
+    "questioner-name": "Self assigned name",
+    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
   },
   "deepl": {
     "header": "Optimize text",
@@ -511,5 +513,13 @@
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be between 2 and 20 characters."
+  },
+  "worker-config": {
+    "heading": "Extract keywords",
+    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
+    "normal": "Reanalyze all questions in the room",
+    "only-failed": "Only questions that have not been analyzed",
+    "continue": "Continue",
+    "cancel": "Cancel"
   }
 }

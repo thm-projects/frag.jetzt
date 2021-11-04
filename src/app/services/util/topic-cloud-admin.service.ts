@@ -62,6 +62,7 @@ export class TopicCloudAdminService {
       endDate: admin.endDate,
       scorings: admin.scorings
     };
+    settings.brainstorming = JSON.parse(room.tagCloudSettings)?.brainstorming;
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
