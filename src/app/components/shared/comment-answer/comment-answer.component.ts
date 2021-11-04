@@ -89,7 +89,8 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
 
   checkForBackDropClick(event: PointerEvent, ...elements: Node[]) {
     const target = event.target as Node;
-    if (event.target && !elements.some(e => e.contains(target))) {
+    const parent = document.querySelector('.main_container');
+    if (event.target && parent.contains(target) && !elements.some(e => e && e.contains(target))) {
       this.goBackToCommentList();
     }
   }
