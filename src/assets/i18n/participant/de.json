@@ -264,7 +264,7 @@
     "auto-renew-off": "Autofokus für neue Fragen beenden",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Fragen-Fokus",
-    "intro-desc": "Klick auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück.",
+    "intro-desc": "Klick auf eine Frage oder navigiere mit den Pfeiltasten vor und zurück.",
     "intro-autofocus": "Tipp für Live Sessions: Der »Autofokus« unten links zeigt zeitnah die neueste Frage an.",
     "sort": "Sortieren",
     "sort-time": "Zeit",
@@ -306,7 +306,8 @@
     "side-list-on": "Fragenliste anzeigen",
     "side-list-off": "Fragenliste ausblenden",
     "qrCodeExpanded-on": "QR-Code anzeigen",
-    "qrCodeExpanded-off": "QR-Code ausblenden"
+    "qrCodeExpanded-off": "QR-Code ausblenden",
+    "leave": "Zurück zur Fragenliste"
   },
   "quill": {
     "cancel": "Abbrechen",

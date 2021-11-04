@@ -272,7 +272,7 @@
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
-    "intro-desc": "Click on a question or navigate forwards with the space bar or backwards and forwards with the arrow keys.",
+    "intro-desc": "Click on a question or navigate backwards and forwards with the arrow keys.",
     "intro-autofocus": "Tip for live sessions: The »Autofocus« at the bottom left promptly displays the latest question.",
     "sort": "Sort",
     "sort-time": "Time",
@@ -312,7 +312,8 @@
     "side-list-on": "Show question list",
     "side-list-off": "Hide question list",
     "qrCodeExpanded-on": "Show QR-Code",
-    "qrCodeExpanded-off": "Hide QR-Code"
+    "qrCodeExpanded-off": "Hide QR-Code",
+    "leave": "Back to Question-List"
   },
   "quill": {
     "cancel": "Cancel",

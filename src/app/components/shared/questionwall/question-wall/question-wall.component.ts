@@ -173,7 +173,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wrap(this.keySupport, key => {
       key.addKeyEvent('ArrowRight', () => this.nextComment());
       key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent('e', () => this.toggleSideList());
+      key.addKeyEvent('l', () => this.toggleSideList());
       key.addKeyEvent('q', () => this.toggleQRCode());
     });
   }
@@ -238,7 +238,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
     this.roomDataService.checkProfanity(comment);
-    console.log(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
@@ -307,14 +306,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         default: return 'participant'
       }
     }
-    console.log(resolveUserRole(),'/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments');
-    // let newRoute = '/participant/';
-    // if (this.user.role !== this.user.role) {
-    //   newRoute = this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
-    // }
-    // console.log(url,newRoute);
     this.router.navigate(['/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments']);
-    // document.getElementById('back-button').click();
   }
 
   likeComment(comment: QuestionWallComment) {
