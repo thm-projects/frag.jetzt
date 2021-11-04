@@ -23,6 +23,9 @@ export const stopWords = [
   'bißchen',
   'okay',
   'ok',
-  'o.k.'
+  'o.k.',
+  'Mir',
+  'Sorry',
+  'Was'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';
