@@ -222,9 +222,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveComment(fx: number) {
-    if(!this.sidelistExpanded){
-      this.toggleSideList();
-    }
     if (this.getCurrentCommentList().length === 0) {
       return;
     } else if (!this.commentFocus) {
