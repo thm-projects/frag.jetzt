@@ -26,6 +26,7 @@ export const stopWords = [
   'o.k.',
   'Mir',
   'Sorry',
-  'Was'
+  'Was',
+  'Warum'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';
