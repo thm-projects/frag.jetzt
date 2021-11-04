@@ -16,6 +16,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Period } from '../../comment-list/comment-list.filter';
 import { User } from '../../../../models/user';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-question-wall',
@@ -172,8 +173,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wrap(this.keySupport, key => {
       key.addKeyEvent('ArrowRight', () => this.nextComment());
       key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent(' ', () => this.nextComment());
-      key.addKeyEvent('e', () => this.toggleSideList());
+      key.addKeyEvent('l', () => this.toggleSideList());
       key.addKeyEvent('q', () => this.toggleQRCode());
     });
   }
@@ -222,9 +222,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveComment(fx: number) {
-    if(!this.sidelistExpanded){
-      this.toggleSideList();
-    }
     if (this.getCurrentCommentList().length === 0) {
       return;
     } else if (!this.commentFocus) {
@@ -241,7 +238,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
     this.roomDataService.checkProfanity(comment);
-    console.log(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
@@ -301,7 +297,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   leave() {
-    document.getElementById('back-button').click();
+    const resolveUserRole:()=>string=()=>{
+      switch(this.user?this.user.role:-1){
+        case UserRole.PARTICIPANT:return 'participant';
+        case UserRole.EDITING_MODERATOR:return 'moderator';
+        case UserRole.EXECUTIVE_MODERATOR:return 'moderator';
+        case UserRole.CREATOR:return 'creator';
+        default: return 'participant'
+      }
+    }
+    this.router.navigate(['/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments']);
   }
 
   likeComment(comment: QuestionWallComment) {
