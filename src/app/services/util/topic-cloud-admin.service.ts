@@ -100,8 +100,17 @@ export class TopicCloudAdminService {
       if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
         continue;
       }
-      //TODO ensure profanity safety
-      keywordFunc(keyword, isFromQuestioner);
+      const lowerCasedKeyword = keyword.text.toLowerCase();
+      let isProfanity = false;
+      for (const word of config.blacklist) {
+        if (lowerCasedKeyword.includes(word)) {
+          isProfanity = true;
+          break;
+        }
+      }
+      if (!isProfanity) {
+        keywordFunc(keyword, isFromQuestioner);
+      }
     }
   }
 
