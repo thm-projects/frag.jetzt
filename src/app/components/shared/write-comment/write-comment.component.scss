@@ -86,6 +86,10 @@ mat-hint {
   font-style: italic;
 }
 
+::ng-deep .placeholder .mat-radio-label-content {
+  width: 100%;
+}
+
 .lang-confidence {
   color: var(--on-cancel);
   background-color: var(--cancel);

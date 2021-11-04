@@ -224,7 +224,9 @@
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv:",
     "downvote": "negativ:",
-    "questioner-name": "Selbst vergebener Name"
+    "questioner-name": "Selbst vergebener Name",
+    "brainstorming-placeholder": "Schreibe deine Wörter für das Brainstorming. Maximal {{maxWordCount}} Wörter mit jeweils maximal {{maxWordLength}} Zeichen.",
+    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter"
   },
   "content": {
     "abort": "Abbrechen",
@@ -625,5 +627,13 @@
     "questioner-name": "Dein Name, wenn du willst …",
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
+  },
+  "worker-config": {
+    "heading": "Stichwörter extrahieren",
+    "label": "Wähle, aus welchen Fragen mittels Künstlicher Intelligenz (siehe »Einführung« in der Fußzeile) Stichwörter extrahiert werden sollen:",
+    "normal": "Alle Fragen des Raumes neu analysieren",
+    "only-failed": "Nur Fragen, die nicht analysiert worden sind",
+    "continue": "Weiter",
+    "cancel": "Abbrechen"
   }
 }

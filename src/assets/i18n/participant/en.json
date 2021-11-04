@@ -199,7 +199,9 @@
     "grammar-check": "Optimize text",
     "upvote": "upvotes:",
     "downvote": "downvotes:",
-    "questioner-name": "Self assigned name"
+    "questioner-name": "Self assigned name",
+    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
   },
   "deepl": {
     "header": "Optimize text",
@@ -270,7 +272,7 @@
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
-    "intro-desc": "Click on a question or navigate forwards with the space bar or backwards and forwards with the arrow keys.",
+    "intro-desc": "Click on a question or navigate backwards and forwards with the arrow keys.",
     "intro-autofocus": "Tip for live sessions: The »Autofocus« at the bottom left promptly displays the latest question.",
     "sort": "Sort",
     "sort-time": "Time",
@@ -308,7 +310,10 @@
     "overview-questioners-tooltip": "Number of questioners",
     "questions-blocked": "New questions blocked",
     "side-list-on": "Show question list",
-    "side-list-off": "Hide question list"
+    "side-list-off": "Hide question list",
+    "qrCodeExpanded-on": "Show QR-Code",
+    "qrCodeExpanded-off": "Hide QR-Code",
+    "leave": "Back to Question-List"
   },
   "quill": {
     "cancel": "Cancel",
@@ -511,5 +516,13 @@
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be between 2 and 20 characters."
+  },
+  "worker-config": {
+    "heading": "Extract keywords",
+    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
+    "normal": "Reanalyze all questions in the room",
+    "only-failed": "Only questions that have not been analyzed",
+    "continue": "Continue",
+    "cancel": "Cancel"
   }
 }

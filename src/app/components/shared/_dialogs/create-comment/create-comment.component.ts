@@ -25,6 +25,7 @@ export class CreateCommentComponent implements OnInit {
   @Input() userRole: UserRole;
   @Input() roomId: string;
   @Input() tags: string[];
+  @Input() brainstormingData: any;
   isSendingToSpacy = false;
   isModerator = false;
 
@@ -65,13 +66,14 @@ export class CreateCommentComponent implements OnInit {
     comment.createdFromLecturer = this.userRole > 0;
     comment.tag = tag;
     comment.questionerName = name;
+    comment.brainstormingQuestion = !!this.brainstormingData;
     this.isSendingToSpacy = true;
-    this.openSpacyDialog(comment, text, forward);
+    this.openSpacyDialog(comment, text, forward, comment.brainstormingQuestion);
   }
 
-  openSpacyDialog(comment: Comment, rawText: string, forward: boolean): void {
+  openSpacyDialog(comment: Comment, rawText: string, forward: boolean, brainstorming: boolean): void {
     CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService,
-      this.spacyService, comment.body, forward, this.commentComponent.selectedLang)
+      this.spacyService, comment.body, brainstorming, forward, this.commentComponent.selectedLang)
       .subscribe(result => {
         this.isSendingToSpacy = false;
         comment.language = result.language;

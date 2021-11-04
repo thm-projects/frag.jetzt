@@ -16,6 +16,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Period } from '../../comment-list/comment-list.filter';
 import { User } from '../../../../models/user';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-question-wall',
@@ -28,11 +29,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('sidelist') sidelist: ColComponent;
 
   sidelistExpanded: boolean = true;
+  qrCodeExpanded: boolean = false;
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
   commentsFilteredByTime: QuestionWallComment[] = [];
   commentsFilter: QuestionWallComment[] = [];
+  currentCommentList: QuestionWallComponent[] = [];
   commentFocus: QuestionWallComment;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
@@ -89,14 +92,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  stopBubble(keyEvent:KeyboardEvent){
-    keyEvent.cancelBubble=true;
-  }
-
-  toggleSideList(event:MouseEvent){
-    if(event.detail===0){
-      return;
-    }
+  toggleSideList(){
     this.sidelistExpanded=!this.sidelistExpanded;
     if(this.sidelistExpanded){
       this.sidelist.setPx(450);
@@ -104,6 +100,15 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     else{
       this.sidelist.setPx(0);
     }
+  }
+
+  getURL(){
+    if(!this.room)return '';
+    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room.shortId}`;
+  }
+
+  toggleQRCode(){
+    this.qrCodeExpanded=!this.qrCodeExpanded;
   }
 
   ngOnInit(): void {
@@ -168,7 +173,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wrap(this.keySupport, key => {
       key.addKeyEvent('ArrowRight', () => this.nextComment());
       key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent(' ', () => this.nextComment());
+      key.addKeyEvent('l', () => this.toggleSideList());
+      key.addKeyEvent('q', () => this.toggleQRCode());
     });
   }
 
@@ -178,7 +184,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       Rescale.requestFullscreen();
     }, 10);
-    console.log(this.sidelist);
+    setTimeout(() => {
+      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e=>{
+        e.addEventListener('keydown',e=>{
+          e.preventDefault();
+        });
+      });
+    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -210,23 +222,22 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveComment(fx: number) {
-    if (this.commentsFilteredByTime.length === 0) {
+    if (this.getCurrentCommentList().length === 0) {
       return;
     } else if (!this.commentFocus) {
-      this.focusComment(this.commentsFilteredByTime[0]);
+      this.focusComment(this.getCurrentCommentList()[0]);
     } else {
       const cursor = this.getCommentFocusIndex();
-      if (cursor + fx >= this.commentsFilteredByTime.length || cursor + fx < 0) {
+      if (cursor + fx >= this.getCurrentCommentList().length || cursor + fx < 0) {
         return;
       } else {
-        this.focusComment(this.commentsFilteredByTime[cursor + fx]);
+        this.focusComment(this.getCurrentCommentList()[cursor + fx]);
       }
     }
   }
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
     this.roomDataService.checkProfanity(comment);
-    console.log(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
@@ -286,7 +297,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   leave() {
-    document.getElementById('back-button').click();
+    const resolveUserRole:()=>string=()=>{
+      switch(this.user?this.user.role:-1){
+        case UserRole.PARTICIPANT:return 'participant';
+        case UserRole.EDITING_MODERATOR:return 'moderator';
+        case UserRole.EXECUTIVE_MODERATOR:return 'moderator';
+        case UserRole.CREATOR:return 'creator';
+        default: return 'participant'
+      }
+    }
+    this.router.navigate(['/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments']);
   }
 
   likeComment(comment: QuestionWallComment) {
@@ -355,6 +375,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filter(icon: string, isSvgIcon: boolean, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
+    if(!this.sidelistExpanded){
+      this.toggleSideList();
+    }
     this.cancelUserMap();
     this.filterIcon = icon;
     this.isSvgIcon = isSvgIcon;

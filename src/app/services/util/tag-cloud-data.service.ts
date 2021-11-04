@@ -86,6 +86,7 @@ export class TagCloudDataService {
   private _currentModerators: string[];
   private _currentOwner: string;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
+  private _isBrainstorming: boolean;
 
   constructor(private _tagCloudAdmin: TopicCloudAdminService,
               private _roomDataService: RoomDataService,
@@ -108,10 +109,14 @@ export class TagCloudDataService {
                                moderators: string[],
                                adminData: TopicCloudAdminData,
                                roomDataService: RoomDataService,
-                               comments: Comment[]): [TagCloudData, Set<number>] {
+                               comments: Comment[],
+                               brainstorming: boolean): [TagCloudData, Set<number>] {
     const data: TagCloudData = new Map<string, TagCloudDataTagEntry>();
     const users = new Set<number>();
     for (const comment of comments) {
+      if (brainstorming !== comment.brainstormingQuestion) {
+        continue;
+      }
       TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData,
         (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
           let current: TagCloudDataTagEntry = data.get(keyword.text);
@@ -166,18 +171,20 @@ export class TagCloudDataService {
       users.add(comment.userNumber);
     }
     return [
-      new Map<string, TagCloudDataTagEntry>([...data].filter(v => TopicCloudAdminService.isTopicAllowed(adminData,
-        v[1].comments.length, v[1].distinctUsers.size, v[1].cachedUpVotes, v[1].firstTimeStamp, v[1].lastTimeStamp))),
+      new Map<string, TagCloudDataTagEntry>([...data].filter(v => brainstorming ||
+        TopicCloudAdminService.isTopicAllowed(adminData, v[1].comments.length, v[1].distinctUsers.size,
+          v[1].cachedUpVotes, v[1].firstTimeStamp, v[1].lastTimeStamp))),
       users
     ];
   }
 
-  bindToRoom(room: Room, userRole: UserRole, userId: string): void {
+  bindToRoom(room: Room, userRole: UserRole, userId: string, isBrainstorming: boolean): void {
     if (this._subscriptionAdminData) {
       throw new Error('Room already bound.');
     }
     this._currentModerators = null;
-    this._currentFilter = CommentListFilter.loadCurrentFilter();
+    this._isBrainstorming = isBrainstorming;
+    this._currentFilter = CommentListFilter.loadFilter('cloudFilter');
     this._currentFilter.updateRoom(room);
     this._roomId = room.id;
     this._currentOwner = room.ownerId;
@@ -347,6 +354,12 @@ export class TagCloudDataService {
 
   private calculateWeight(tagData: TagCloudDataTagEntry): number {
     const scorings = this._adminData.scorings;
+    if (this._isBrainstorming) {
+      return tagData.comments.length * scorings.countComments.score +
+        tagData.distinctUsers.size * scorings.countUsers.score +
+        tagData.commentsByModerators * scorings.countKeywordByModerator.score +
+        tagData.commentsByCreator * scorings.countKeywordByCreator.score;
+    }
     return tagData.comments.length * scorings.countComments.score +
       tagData.distinctUsers.size * scorings.countUsers.score +
       tagData.generatedByQuestionerCount * scorings.countSelectedByQuestioner.score +
@@ -367,7 +380,7 @@ export class TagCloudDataService {
     const filteredComments = this._currentFilter.checkAll(this._lastFetchedComments);
     currentMeta.commentCount = filteredComments.length;
     const [data, users] = TagCloudDataService.buildDataFromComments(this._currentOwner, this._currentModerators,
-      this._adminData, this._roomDataService, filteredComments);
+      this._adminData, this._roomDataService, filteredComments, this._isBrainstorming);
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {

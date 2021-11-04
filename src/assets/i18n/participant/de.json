@@ -190,7 +190,9 @@
     "grammar-check": "Text optimieren",
     "upvote": "positiv:",
     "downvote": "negativ:",
-    "questioner-name": "Selbst vergebener Name"
+    "questioner-name": "Selbst vergebener Name",
+    "brainstorming-placeholder": "Schreibe deine Wörter für das Brainstorming. Maximal {{maxWordCount}} Wörter mit jeweils maximal {{maxWordLength}} Zeichen.",
+    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter"
   },
   "deepl": {
     "header": "Text optimieren",
@@ -262,7 +264,7 @@
     "auto-renew-off": "Autofokus für neue Fragen beenden",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Fragen-Fokus",
-    "intro-desc": "Klick auf eine Frage oder navigiere mit der Leertaste vorwärts oder mit den Pfeiltasten vor und zurück.",
+    "intro-desc": "Klick auf eine Frage oder navigiere mit den Pfeiltasten vor und zurück.",
     "intro-autofocus": "Tipp für Live Sessions: Der »Autofokus« unten links zeigt zeitnah die neueste Frage an.",
     "sort": "Sortieren",
     "sort-time": "Zeit",
@@ -302,7 +304,10 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller",
     "questions-blocked": "Weitere Fragen deaktiviert ",
     "side-list-on": "Fragenliste anzeigen",
-    "side-list-off": "Fragenliste ausblenden"
+    "side-list-off": "Fragenliste ausblenden",
+    "qrCodeExpanded-on": "QR-Code anzeigen",
+    "qrCodeExpanded-off": "QR-Code ausblenden",
+    "leave": "Zurück zur Fragenliste"
   },
   "quill": {
     "cancel": "Abbrechen",
@@ -505,5 +510,13 @@
     "questioner-name": "Dein Name, wenn du willst …",
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
+  },
+  "worker-config": {
+    "heading": "Stichwörter extrahieren",
+    "label": "Wähle, aus welchen Fragen mittels Künstlicher Intelligenz (siehe »Einführung« in der Fußzeile) Stichwörter extrahiert werden sollen:",
+    "normal": "Alle Fragen des Raumes neu analysieren",
+    "only-failed": "Nur Fragen, die nicht analysiert worden sind",
+    "continue": "Weiter",
+    "cancel": "Abbrechen"
   }
 }
