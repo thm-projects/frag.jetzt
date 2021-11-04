@@ -172,7 +172,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wrap(this.keySupport, key => {
       key.addKeyEvent('ArrowRight', () => this.nextComment());
       key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent(' ', () => this.nextComment());
       key.addKeyEvent('e', () => this.toggleSideList());
       key.addKeyEvent('q', () => this.toggleQRCode());
     });
