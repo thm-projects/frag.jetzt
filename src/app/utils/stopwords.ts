@@ -27,6 +27,7 @@ export const stopWords = [
   'Mir',
   'Sorry',
   'Was',
-  'Warum'
+  'Warum',
+  'Inwiefern'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';
