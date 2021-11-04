@@ -169,19 +169,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   initKeySupport() {
     this.wrap(this.keySupport, key => {
-      const checkSideList=()=>{
-        if(!this.sidelistExpanded){
-          this.toggleSideList();
-        }
-      }
-      const zip=(a,b)=>{
-        a();
-        b();
-      }
-      const zipSideList=a=>()=>zip(()=>checkSideList(),()=>a());
-      key.addKeyEvent('ArrowRight', zipSideList(() => this.nextComment()));
-      key.addKeyEvent('ArrowLeft', zipSideList(() => this.prevComment()));
-      key.addKeyEvent(' ', zipSideList(() => this.nextComment()));
+      key.addKeyEvent('ArrowRight', () => this.nextComment());
+      key.addKeyEvent('ArrowLeft', () => this.prevComment());
+      key.addKeyEvent(' ', () => this.nextComment());
     });
   }
 
