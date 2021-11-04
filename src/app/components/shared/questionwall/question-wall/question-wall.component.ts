@@ -16,6 +16,7 @@ import { MatSliderChange } from '@angular/material/slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { Period } from '../../comment-list/comment-list.filter';
 import { User } from '../../../../models/user';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-question-wall',
@@ -297,7 +298,23 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   leave() {
-    document.getElementById('back-button').click();
+    const resolveUserRole:()=>string=()=>{
+      switch(this.user?this.user.role:-1){
+        case UserRole.PARTICIPANT:return 'participant';
+        case UserRole.EDITING_MODERATOR:return 'moderator';
+        case UserRole.EXECUTIVE_MODERATOR:return 'moderator';
+        case UserRole.CREATOR:return 'creator';
+        default: return 'participant'
+      }
+    }
+    console.log(resolveUserRole(),'/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments');
+    // let newRoute = '/participant/';
+    // if (this.user.role !== this.user.role) {
+    //   newRoute = this.user.role === UserRole.CREATOR ? '/creator/' : '/moderator/';
+    // }
+    // console.log(url,newRoute);
+    this.router.navigate(['/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments']);
+    // document.getElementById('back-button').click();
   }
 
   likeComment(comment: QuestionWallComment) {
