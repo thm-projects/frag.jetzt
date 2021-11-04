@@ -29,7 +29,7 @@ import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/uti
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
-import { Palette, Theme } from '../../../../theme/Theme';
+import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { SyncFence } from '../../../utils/SyncFence';
@@ -39,6 +39,7 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { KeywordOrFulltext } from '../_dialogs/topic-cloud-administration/TopicCloudAdminData';
+import { RoleChecker } from '../../../utils/RoleChecker';
 
 class CustomPosition implements Position {
   left: number;
@@ -107,7 +108,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     transitionTime: 0.6,
     delay: 0.4
   };
-  userRole: UserRole;
+  readonly userRole: UserRole;
   data: TagComment[] = [];
   isLoading = true;
   themeSubscription = null;
@@ -150,7 +151,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.userRole = this.route.snapshot.data.roles[0];
+    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');

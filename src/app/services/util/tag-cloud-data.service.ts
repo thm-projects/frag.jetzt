@@ -117,7 +117,7 @@ export class TagCloudDataService {
       if (brainstorming !== comment.brainstormingQuestion) {
         continue;
       }
-      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData,
+      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, brainstorming,
         (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
           let current: TagCloudDataTagEntry = data.get(keyword.text);
           const commentDate = new Date(comment.timestamp);
