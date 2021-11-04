@@ -304,7 +304,9 @@
     "overview-questioners-tooltip": "Anzahl Fragensteller",
     "questions-blocked": "Weitere Fragen deaktiviert ",
     "side-list-on": "Fragenliste anzeigen",
-    "side-list-off": "Fragenliste ausblenden"
+    "side-list-off": "Fragenliste ausblenden",
+    "qrCodeExpanded-on": "QR-Code anzeigen",
+    "qrCodeExpanded-off": "QR-Code ausblenden"
   },
   "quill": {
     "cancel": "Abbrechen",

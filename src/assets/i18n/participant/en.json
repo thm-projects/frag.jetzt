@@ -310,7 +310,9 @@
     "overview-questioners-tooltip": "Number of questioners",
     "questions-blocked": "New questions blocked",
     "side-list-on": "Show question list",
-    "side-list-off": "Hide question list"
+    "side-list-off": "Hide question list",
+    "qrCodeExpanded-on": "Show QR-Code",
+    "qrCodeExpanded-off": "Hide QR-Code"
   },
   "quill": {
     "cancel": "Cancel",

@@ -78,7 +78,7 @@
                       class="period selection"
                       [ngClass]="{'selected': periodItem === period}"
                       aria-labelledby="{{periodItem}}">
-                <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
+                <span>{{ ('comment-list.select-'+periodItem) | translate }}</span>
               </button>
             </div>
           </mat-menu>
@@ -244,7 +244,7 @@
     </div>
     <ars-col [width]="50" ars-flex-box>
       <ars-row>
-        <button mat-icon-button style="margin-top:18px" (click)="toggleSideList($event)">
+        <button mat-icon-button style="margin-top:18px" (click)="toggleSideList()">
           <mat-icon class="icon-color-yellow" *ngIf="sidelistExpanded" aria-describedby="side-list-off"
                     matTooltip="{{'question-wall.side-list-off' | translate}}">
             keyboard_double_arrow_right
@@ -336,7 +336,7 @@
                         <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
                       </ars-col>
                       <ars-col>
-                        <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
+                        <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
                       </ars-col>
                     </ars-row>
                     <ars-row
@@ -460,6 +460,18 @@
             <p>{{'question-wall.auto-renew-on' | translate}}</p>
           </ng-container>
         </button>
+        <button ars-btn
+                matRipple
+                (click)="toggleQRCode()">
+          <ng-container *ngIf="qrCodeExpanded">
+            <i>qr_code</i>
+            <p>{{'question-wall.qrCodeExpanded-off' | translate}}</p>
+          </ng-container>
+          <ng-container *ngIf="!qrCodeExpanded">
+            <i>qr_code</i>
+            <p>{{'question-wall.qrCodeExpanded-on' | translate}}</p>
+          </ng-container>
+        </button>
       </ars-col>
       <ars-fill></ars-fill>
       <ars-col style="display:flex;flex-direction:column;justify-content:center">
@@ -492,6 +504,9 @@
                    [iconColor]="'#FFFFFF'"
                    [backgroundColor]="'#FFFFFF'"
                    [foregroundColor]="'#000000'"></app-active-user>
+  <div class="qr-overlay" *ngIf="qrCodeExpanded">
+    <qrcode [qrdata]="getURL()" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+  </div>
 </ars-screen>
 
 
