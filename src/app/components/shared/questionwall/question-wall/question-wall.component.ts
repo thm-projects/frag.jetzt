@@ -34,6 +34,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   comments: QuestionWallComment[] = [];
   commentsFilteredByTime: QuestionWallComment[] = [];
   commentsFilter: QuestionWallComment[] = [];
+  currentCommentList: QuestionWallComponent[] = [];
   commentFocus: QuestionWallComment;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
@@ -172,6 +173,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       key.addKeyEvent('ArrowRight', () => this.nextComment());
       key.addKeyEvent('ArrowLeft', () => this.prevComment());
       key.addKeyEvent(' ', () => this.nextComment());
+      key.addKeyEvent('e', () => this.toggleSideList());
+      key.addKeyEvent('q', () => this.toggleQRCode());
     });
   }
 
@@ -181,7 +184,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       Rescale.requestFullscreen();
     }, 10);
-    console.log(this.sidelist);
+    setTimeout(() => {
+      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e=>{
+        e.addEventListener('keydown',e=>{
+          e.preventDefault();
+        });
+      });
+    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -213,16 +222,19 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveComment(fx: number) {
-    if (this.commentsFilteredByTime.length === 0) {
+    if(!this.sidelistExpanded){
+      this.toggleSideList();
+    }
+    if (this.getCurrentCommentList().length === 0) {
       return;
     } else if (!this.commentFocus) {
-      this.focusComment(this.commentsFilteredByTime[0]);
+      this.focusComment(this.getCurrentCommentList()[0]);
     } else {
       const cursor = this.getCommentFocusIndex();
-      if (cursor + fx >= this.commentsFilteredByTime.length || cursor + fx < 0) {
+      if (cursor + fx >= this.getCurrentCommentList().length || cursor + fx < 0) {
         return;
       } else {
-        this.focusComment(this.commentsFilteredByTime[cursor + fx]);
+        this.focusComment(this.getCurrentCommentList()[cursor + fx]);
       }
     }
   }
@@ -358,6 +370,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filter(icon: string, isSvgIcon: boolean, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
+    if(!this.sidelistExpanded){
+      this.toggleSideList();
+    }
     this.cancelUserMap();
     this.filterIcon = icon;
     this.isSvgIcon = isSvgIcon;
