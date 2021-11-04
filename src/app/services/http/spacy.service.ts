@@ -29,10 +29,10 @@ export class SpacyService extends BaseHttpService {
     return DEFAULT_NOUN_LABELS[model];
   }
 
-  getKeywords(text: string, model: Model): Observable<SpacyKeyword[]> {
+  getKeywords(text: string, model: Model, brainstorming: boolean): Observable<SpacyKeyword[]> {
     const url = '/spacy';
     return this.checkCanSendRequest('getKeywords') || this.http
-      .post<SpacyKeyword[]>(url, { text, model }, httpOptions)
+      .post<SpacyKeyword[]>(url, { text, model, brainstorming: String(!!brainstorming) }, httpOptions)
       .pipe(
         tap(_ => ''),
         timeout(2500),

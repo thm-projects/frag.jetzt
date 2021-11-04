@@ -384,21 +384,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 
-  public navigateTopicCloudConfig() {
-    this.eventService.broadcast('navigate', 'topicCloudConfig');
-  }
-
-  public navigateTopicCloudAdministration() {
-    this.eventService.broadcast('navigate', 'topicCloudAdministration');
-  }
-
   public blockQuestions() {
     // flip state if clicked
     this.room.questionsBlocked = !this.room.questionsBlocked;
     this.roomService.updateRoom(this.room).subscribe();
-  }
-
-  public startWorkerDialog() {
-    WorkerConfigDialogComponent.addTask(this.dialog, this.room);
   }
 }

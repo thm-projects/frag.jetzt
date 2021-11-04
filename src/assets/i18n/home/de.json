@@ -50,6 +50,12 @@
     "continue": "Weiter",
     "reset": "Zurücksetzen",
     "brainstorming-question": "Überschrift des Brainstorming-Boards",
+    "brainstorming-word-count": "Maximale Anzahl Wörter",
+    "brainstorming-word-length": "Maximale Wortlänge",
+    "field-required": "Dieses Feld wird benötigt",
+    "field-hint-number": "Eingabe zwischen {{min}} und {{max}}",
+    "field-too-low": "Deine Eingabe ist zu niedrig. Sie muss mindestens {{min}} sein.",
+    "field-too-high": "Deine Eingabe ist zu hoch. Sie darf maximal {{max}} sein.",
     "tag-cloud-info": "Je größer die Schrift, desto häufiger wurde das Wort  in den Fragen verwendet oder als Stichwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
     "tag-cloud-questions-title": "Welche Fragen soll die Themenwolke umfassen?",
     "tag-cloud-questions-all": "Alle Fragen",
@@ -395,14 +401,6 @@
     "changes-successful": "Änderungen gespeichert",
     "add-successful": "Wort hinzugefügt",
     "remove-successful": "Wort entfernt"
-  },
-  "worker-config": {
-    "heading": "Stichwörter extrahieren",
-    "label": "Wähle, aus welchen Fragen mittels Künstlicher Intelligenz (siehe »Einführung« in der Fußzeile) Stichwörter extrahiert werden sollen:",
-    "normal": "Alle Fragen des Raumes neu analysieren",
-    "only-failed": "Nur Fragen, die nicht analysiert worden sind",
-    "continue": "Weiter",
-    "cancel": "Abbrechen"
   },
   "worker-dialog": {
     "running": "Laufend",

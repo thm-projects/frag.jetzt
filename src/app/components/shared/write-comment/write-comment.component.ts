@@ -38,6 +38,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() placeholder = 'comment-page.enter-comment';
   @Input() i18nSection = 'comment-page';
   @Input() isQuestionerNameEnabled = false;
+  @Input() brainstormingData: any;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -66,6 +67,10 @@ export class WriteCommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.translateService.use(localStorage.getItem('currentLang'));
+    if (this.brainstormingData) {
+      this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
+        .subscribe(msg => this.placeholder = msg);
+    }
     if (this.isCommentAnswer) {
       this.maxTextCharacters = this.isModerator ? 2000 : 0;
     } else {
@@ -91,6 +96,12 @@ export class WriteCommentComponent implements OnInit {
         this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
         allowed = !this.questionerNameFormControl.hasError('minlength') &&
           !this.questionerNameFormControl.hasError('maxlength');
+      }
+      if (this.brainstormingData && this.commentData.currentText.split(/\s+/g).length - 1 >
+        this.brainstormingData.maxWordCount) {
+        this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
+          .subscribe(msg => this.notification.show(msg));
+        allowed = false;
       }
       if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
         this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed) {

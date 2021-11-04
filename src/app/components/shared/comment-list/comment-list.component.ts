@@ -115,7 +115,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.searchPlaceholder = msg;
       });
     });
-    this.filter = CommentListFilter.loadCurrentFilter();
+    this.filter = CommentListFilter.loadFilter();
   }
 
   handlePageEvent(e: PageEvent) {

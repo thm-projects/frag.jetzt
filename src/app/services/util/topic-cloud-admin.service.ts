@@ -62,12 +62,14 @@ export class TopicCloudAdminService {
       endDate: admin.endDate,
       scorings: admin.scorings
     };
+    settings.brainstorming = JSON.parse(room.tagCloudSettings)?.brainstorming;
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
   static approveKeywordsOfComment(comment: Comment,
                                   roomDataService: RoomDataService,
                                   config: TopicCloudAdminData,
+                                  brainstorming: boolean,
                                   keywordFunc: (SpacyKeyword, boolean) => void) {
     let source = comment.keywordsFromQuestioner;
     let censored = roomDataService.getCensoredInformation(comment).userKeywordsCensored;
@@ -95,7 +97,7 @@ export class TopicCloudAdminService {
       if (censored[i]) {
         continue;
       }
-      if (wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
+      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
         continue;
       }
       const lowerCasedKeyword = keyword.text.toLowerCase();
