@@ -7,6 +7,11 @@
 <mat-dialog-content tabindex="0">
   <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
   <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
+  <iframe [src]="safeURL"
+          scrolling="no"
+          marginHeight="0"
+          marginWidth="0"
+          style="height: 220px; width: 370px; border: none"></iframe>
 </mat-dialog-content>
 
 <app-dialog-action-buttons

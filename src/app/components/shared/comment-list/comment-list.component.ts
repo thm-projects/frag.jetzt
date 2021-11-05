@@ -115,7 +115,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.searchPlaceholder = msg;
       });
     });
-    this.filter = CommentListFilter.loadCurrentFilter();
+    this.filter = CommentListFilter.loadFilter();
   }
 
   handlePageEvent(e: PageEvent) {
@@ -196,7 +196,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.bonusTokenService,
         this.translationService,
         'comment-list',
-        this.notificationService);
+        this.notificationService,
+        this.filter.moderatorAccountIds,
+        this.user);
       exp.exportAsCsv();
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {

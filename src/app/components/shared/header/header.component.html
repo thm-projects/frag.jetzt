@@ -246,44 +246,6 @@
           </ng-container>
 
           <button mat-menu-item
-                  tabindex="0"
-                  *ngIf="router.url.endsWith('/tagcloud')"
-                  (click)="navigateQuestionBoard()">
-            <mat-icon>
-              forum
-            </mat-icon>
-            <span>{{'header.back-to-questionboard' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  *ngIf="userRole > 0 && router.url.endsWith('/tagcloud')"
-                  tabindex="0"
-                  (click)="navigateTopicCloudConfig()">
-            <mat-icon aria-label="Configuration Icon">cloud</mat-icon>
-            <span>{{'header.tag-cloud-config' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
-                  *ngIf="userRole > 0 && router.url.endsWith('/tagcloud')"
-                  tabindex="0"
-                  (click)="navigateTopicCloudAdministration()">
-            <mat-icon aria-hidden="false"
-                      aria-label="Control Icon">cloud
-            </mat-icon>
-            <span>{{'header.tag-cloud-administration' | translate}}</span>
-          </button>
-
-
-          <button mat-menu-item
-                  tabindex="0"
-                  *ngIf="userRole > 0 && router.url.endsWith('/tagcloud')"
-                  (click)="startWorkerDialog()">
-            <mat-icon>cloud
-            </mat-icon>
-            <span>{{'header.update-spacy-keywords' | translate}}</span>
-          </button>
-
-          <button mat-menu-item
                   *ngIf="router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateExportQuestions()"
                   tabindex="0">

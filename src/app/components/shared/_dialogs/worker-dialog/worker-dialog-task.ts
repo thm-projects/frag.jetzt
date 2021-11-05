@@ -57,6 +57,7 @@ export class WorkerDialogTask {
     const currentComment = this._comments[currentIndex];
     CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService, this.spacyService,
       currentComment.body,
+      currentComment.brainstormingQuestion,
       !currentComment.keywordsFromQuestioner || currentComment.keywordsFromQuestioner.length === 0,
       currentComment.language.toLowerCase() as Lang)
       .subscribe((result) => this.finishSpacyCall(currentIndex, result, currentComment.language));

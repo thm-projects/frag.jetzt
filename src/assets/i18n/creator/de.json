@@ -74,7 +74,33 @@
     "timestamp": "Zeitstempel",
     "presented": "Präsentiert",
     "correct/wrong": "Richtig/Falsch",
+    "comment-correct": "Richtig",
+    "comment-wrong": "Falsch",
+    "author-role": "Autorenrolle",
+    "comment-user-role-participant": "Teilnehmer*in",
+    "comment-user-role-moderator": "Moderator*in",
+    "comment-user-role-creator": "Ersteller*in",
+    "user-name": "Name des Fragenstellers",
+    "user-number": "Benutzernummer",
+    "question-number": "Fragennummer",
+    "chosen-category": "Kategorie",
+    "public/moderated": "Öffentlich/Moderiert",
+    "comment-acked": "Öffentlich",
+    "comment-refused": "Moderiert",
+    "bookmark": "Lesezeichen",
+    "comment-bookmarked": "Ja",
+    "comment-not-bookmarked": "Nein",
+    "comment-got-favorited": "Der Autor dieser guten Frage freut sich über einen Bonus.",
+    "upvotes": "Upvotes",
+    "downvotes": "Downvotes",
     "score": "Score",
+    "export-empty": "(Leer)",
+    "room-export-date": "Exportdatum",
+    "room-code": "Raumcode",
+    "room-name": "Veranstaltungsname",
+    "room-categories": "Fragenkategorien",
+    "room-welcome": "Begrüßungstext",
+    "chosen-keywords": "Gewählte Stichwörter",
     "answer": "Antwort",
     "token": "Bonus-Token",
     "token-time": "Token-Zeitstempel",
@@ -198,7 +224,9 @@
     "show-comment-without-filter": "Vulgäre Wörter anzeigen",
     "upvote": "positiv:",
     "downvote": "negativ:",
-    "questioner-name": "Selbst vergebener Name"
+    "questioner-name": "Selbst vergebener Name",
+    "brainstorming-placeholder": "Schreibe deine Wörter für das Brainstorming. Maximal {{maxWordCount}} Wörter mit jeweils maximal {{maxWordLength}} Zeichen.",
+    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter"
   },
   "content": {
     "abort": "Abbrechen",
@@ -240,7 +268,7 @@
     "yes": "Ja"
   },
   "deepl": {
-    "header": "Text prüfen",
+    "header": "Text optimieren",
     "label": "Welcher Text soll gesendet werden?",
     "option-normal": "Deine Eingabe:",
     "option-improved": "KI-Vorschlag:"
@@ -599,5 +627,13 @@
     "questioner-name": "Dein Name, wenn du willst …",
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
     "name-length-error": "Der Name muss zwischen 2 und 20 Zeichen lang sein."
+  },
+  "worker-config": {
+    "heading": "Stichwörter extrahieren",
+    "label": "Wähle, aus welchen Fragen mittels Künstlicher Intelligenz (siehe »Einführung« in der Fußzeile) Stichwörter extrahiert werden sollen:",
+    "normal": "Alle Fragen des Raumes neu analysieren",
+    "only-failed": "Nur Fragen, die nicht analysiert worden sind",
+    "continue": "Weiter",
+    "cancel": "Abbrechen"
   }
 }

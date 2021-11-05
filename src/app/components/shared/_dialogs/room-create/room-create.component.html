@@ -54,6 +54,7 @@
 <app-dialog-action-buttons
   buttonsLabelSection="room-create"
   confirmButtonLabel="create-room"
+  [showLoadingCycle]="isLoading"
   [cancelButtonClickAction]="buildCloseDialogActionCallback()"
   [confirmButtonClickAction]="buildRoomCreateActionCallback(roomName)"
 ></app-dialog-action-buttons>

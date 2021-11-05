@@ -26,26 +26,28 @@ import { MatRippleModule } from '@angular/material/core';
 import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profanity-settings.component';
 import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-settings/room-description-settings.component';
 import { RoomNameSettingsComponent } from './_dialogs/room-name-settings/room-name-settings.component';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    CreatorRoutingModule,
-    EssentialsModule,
-    SharedModule,
-    ModeratorModule,
-    TranslateModule.forChild({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: (HttpLoaderFactory),
-        deps: [HttpClient]
-      },
-      isolate: true
-    }),
-    MarkdownModule,
-    ArsModule,
-    MatRippleModule
-  ],
+    imports:[
+        CommonModule,
+        CreatorRoutingModule,
+        EssentialsModule,
+        SharedModule,
+        ModeratorModule,
+        TranslateModule.forChild({
+            loader:{
+                provide:TranslateLoader,
+                useFactory:(HttpLoaderFactory),
+                deps:[HttpClient]
+            },
+            isolate:true
+        }),
+        MarkdownModule,
+        ArsModule,
+        MatRippleModule,
+        QRCodeModule
+    ],
   declarations: [
     RoomCreatorPageComponent,
     RoomDeleteComponent,

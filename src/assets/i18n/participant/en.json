@@ -86,7 +86,32 @@
     "timestamp": "Timestamp",
     "presented": "Presented",
     "correct/wrong": "Correct/Wrong",
+    "comment-correct": "Correct",
+    "comment-wrong": "Wrong",
+    "author-role": "Author role",
+    "comment-user-role-participant": "Participant",
+    "comment-user-role-moderator": "Moderator",
+    "comment-user-role-creator": "Creator",
+    "user-name": "Questioner name",
+    "user-number": "User number",
+    "question-number": "Question number",
+    "chosen-category": "Category",
+    "public/moderated": "Public/Moderated",
+    "comment-acked": "Public",
+    "comment-refused": "Moderated",
+    "bookmark": "Bookmark",
+    "comment-bookmarked": "Yes",
+    "comment-not-bookmarked": "No",
+    "upvotes": "Upvotes",
+    "downvotes": "Downvotes",
     "score": "Score",
+    "export-empty": "(None)",
+    "room-export-date": "Export date",
+    "room-code": "Room code",
+    "room-name": "Event name",
+    "room-categories": "Question categories",
+    "room-welcome": "Welcome text",
+    "chosen-keywords": "Chosen keywords",
     "answer": "Answer",
     "token": "Bonus token",
     "token-time": "Token timestamp",
@@ -174,10 +199,12 @@
     "grammar-check": "Optimize text",
     "upvote": "upvotes:",
     "downvote": "downvotes:",
-    "questioner-name": "Self assigned name"
+    "questioner-name": "Self assigned name",
+    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
   },
   "deepl": {
-    "header": "Check text",
+    "header": "Optimize text",
     "label": " Which text to send?",
     "option-normal": "Your input:",
     "option-improved": "AI suggestion:"
@@ -245,7 +272,7 @@
     "auto-renew-off": "Exit autofocus for new questions",
     "auto-renew-off-icon": "cancel",
     "intro-title": "Question Focus",
-    "intro-desc": "Click on a question or navigate forwards with the space bar or backwards and forwards with the arrow keys.",
+    "intro-desc": "Click on a question or navigate backwards and forwards with the arrow keys.",
     "intro-autofocus": "Tip for live sessions: The »Autofocus« at the bottom left promptly displays the latest question.",
     "sort": "Sort",
     "sort-time": "Time",
@@ -281,7 +308,12 @@
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",
     "overview-questioners-tooltip": "Number of questioners",
-    "questions-blocked": "New questions blocked"
+    "questions-blocked": "New questions blocked",
+    "side-list-on": "Show question list",
+    "side-list-off": "Hide question list",
+    "qrCodeExpanded-on": "Show QR-Code",
+    "qrCodeExpanded-off": "Hide QR-Code",
+    "leave": "Back to Question-List"
   },
   "quill": {
     "cancel": "Cancel",
@@ -484,5 +516,13 @@
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be between 2 and 20 characters."
+  },
+  "worker-config": {
+    "heading": "Extract keywords",
+    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
+    "normal": "Reanalyze all questions in the room",
+    "only-failed": "Only questions that have not been analyzed",
+    "continue": "Continue",
+    "cancel": "Cancel"
   }
 }

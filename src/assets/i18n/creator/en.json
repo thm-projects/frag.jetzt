@@ -75,7 +75,33 @@
     "timestamp": "Timestamp",
     "presented": "Presented",
     "correct/wrong": "Correct/Wrong",
+    "comment-correct": "Correct",
+    "comment-wrong": "Wrong",
+    "author-role": "Author role",
+    "comment-user-role-participant": "Participant",
+    "comment-user-role-moderator": "Moderator",
+    "comment-user-role-creator": "Creator",
+    "user-name": "Questioner name",
+    "user-number": "User number",
+    "question-number": "Question number",
+    "chosen-category": "Category",
+    "public/moderated": "Public/Moderated",
+    "comment-acked": "Public",
+    "comment-refused": "Moderated",
+    "bookmark": "Bookmark",
+    "comment-bookmarked": "Yes",
+    "comment-not-bookmarked": "No",
+    "comment-got-favorited": "The author of this good question is happy to receive a bonus.",
+    "upvotes": "Upvotes",
+    "downvotes": "Downvotes",
     "score": "Score",
+    "export-empty": "(None)",
+    "room-export-date": "Export date",
+    "room-code": "Room code",
+    "room-name": "Event name",
+    "room-categories": "Question categories",
+    "room-welcome": "Welcome text",
+    "chosen-keywords": "Chosen keywords",
     "answer": "Answer",
     "token": "Bonus token",
     "token-time": "Token timestamp",
@@ -199,7 +225,9 @@
     "show-comment-without-filter": "Show vulgar words",
     "upvote": "upvotes:",
     "downvote": "downvotes:",
-    "questioner-name": "Self assigned name"
+    "questioner-name": "Self assigned name",
+    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
   },
   "content": {
     "abort": "Abort",
@@ -241,7 +269,7 @@
     "yes": "Yes"
   },
   "deepl": {
-    "header": "Check text",
+    "header": "Optimize text",
     "label": " Which text to send?",
     "option-normal": "Your input:",
     "option-improved": "AI suggestion:"
@@ -597,5 +625,13 @@
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
     "name-length-error": "The name must be between 2 and 20 characters."
+  },
+  "worker-config": {
+    "heading": "Extract keywords",
+    "label": "Choose from which questions to extract keywords using Artificial Intelligence (see »Introduction« in the footer):",
+    "normal": "Reanalyze all questions in the room",
+    "only-failed": "Only questions that have not been analyzed",
+    "continue": "Continue",
+    "cancel": "Cancel"
   }
 }

@@ -146,6 +146,10 @@
       &-comments {
       }
 
+      &-hide {
+        background-color:orange;
+      }
+
       &-scroll {
         width: 100%;
         height: 100%;
@@ -281,6 +285,10 @@
 
   .icon-color {
     color: var(--ars-button-color);
+    &-yellow{
+      color:yellow;
+      transform:scale(1.5);
+    }
   }
 
 }
@@ -308,6 +316,30 @@
       background-color: var(--ars-button-color);
     }
   }
+
+  .side-list{
+    transition:width ease-in-out 0.1s;
+  }
+
+  .qr-overlay {
+    position: fixed;
+    left: 32px;
+    bottom: 64px;
+    width: 200px;
+    height: 200px;
+    animation:popin-qr-overlay 0.2s cubic-bezier(0,.04,0,1) both;
+  }
+
+  @keyframes popin-qr-overlay {
+    0% {
+      transform: scale(0);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+
 }
 
 .selected {
