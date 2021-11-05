@@ -48,12 +48,13 @@ export class TopicCloudAdminService {
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
   }
 
-  static applySettingsToRoom(room: Room) {
+  static applySettingsToRoom(room: Room, brainstorming: any = undefined) {
     const settings: any = CloudParameters.currentParameters;
     const admin = TopicCloudAdminService.getDefaultAdminData;
     settings.admin = {
       considerVotes: admin.considerVotes,
-      keywordORfulltext: admin.keywordORfulltext,
+      keywordORfulltext: brainstorming && admin.keywordORfulltext === KeywordOrFulltext.keyword ?
+        KeywordOrFulltext.both : admin.keywordORfulltext,
       wantedLabels: admin.wantedLabels,
       minQuestioners: admin.minQuestioners,
       minQuestions: admin.minQuestions,
@@ -62,7 +63,11 @@ export class TopicCloudAdminService {
       endDate: admin.endDate,
       scorings: admin.scorings
     };
-    settings.brainstorming = JSON.parse(room.tagCloudSettings)?.brainstorming;
+    if (brainstorming === null) {
+      settings.brainstorming = undefined;
+    } else {
+      settings.brainstorming = brainstorming || JSON.parse(room.tagCloudSettings)?.brainstorming;
+    }
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
