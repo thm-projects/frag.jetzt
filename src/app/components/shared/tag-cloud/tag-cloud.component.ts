@@ -226,16 +226,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             }
           });
           if (this._pushCurrentBrainstorming) {
-            const data = JSON.parse(room.tagCloudSettings) || {};
-            if (data.admin?.keywordORfulltext === KeywordOrFulltext.keyword) {
-              data.admin.keywordORfulltext = KeywordOrFulltext.both;
-            }
-            data.brainstorming = this.brainstormingActive ? {
+            TopicCloudAdminService.applySettingsToRoom(room, this.brainstormingActive ? {
               question: this.question,
               maxWordLength: this.maxWordLength,
               maxWordCount: this.maxWordCount
-            } : undefined;
-            room.tagCloudSettings = JSON.stringify(data);
+            } : null);
             this.roomService.updateRoom(room).subscribe();
           }
           this.retrieveTagCloudSettings(room);
