@@ -38,12 +38,7 @@ import { CommentListFilter } from '../comment-list/comment-list.filter';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
-import { KeywordOrFulltext } from '../_dialogs/topic-cloud-administration/TopicCloudAdminData';
 import { RoleChecker } from '../../../utils/RoleChecker';
-
-class CustomPosition implements Position {
-  left: number;
-  top: number;
 
 class TagComment implements CloudData, WordMeta {
 
