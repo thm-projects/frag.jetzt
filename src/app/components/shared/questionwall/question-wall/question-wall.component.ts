@@ -58,6 +58,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   period: Period = Period.all;
   isLoading = true;
   user: User;
+  animationTrigger:boolean=true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -247,15 +248,19 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   focusComment(comment: QuestionWallComment) {
-    this.commentFocus = comment;
-    if (!comment.old) {
-      comment.old = true;
-      this.unreadComments--;
-    }
-    this.getDOMCommentFocus().scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
+    if(this.commentFocus === comment)return;
+    this.commentFocus = null;
+    setTimeout(()=>{
+      this.commentFocus = comment;
+      if (!comment.old) {
+        comment.old = true;
+        this.unreadComments--;
+      }
+      this.getDOMCommentFocus().scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    },1);
   }
 
   toggleFocusIncommingComments() {
@@ -325,6 +330,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.sort((a, b) => new Date(a.comment.timestamp).getTime() - new Date(b.comment.timestamp).getTime(), reverse);
   }
 
+  notifyCommentListChange(){
+    this.animationTrigger=false;
+    setTimeout(()=>{
+      this.animationTrigger=true;
+    },1);
+  }
+
   sort(fun: (a, b) => number, reverse: boolean) {
     const commentList = this.getCurrentCommentList();
     if (reverse) {
@@ -337,6 +349,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.focusComment(commentList[0]);
       }
     }, 0);
+    this.notifyCommentListChange();
   }
 
   getCurrentCommentList() {
@@ -394,6 +407,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }, 0);
     this.updateCommentsCountOverview();
+    this.notifyCommentListChange();
   }
 
   focusFirstComment() {
