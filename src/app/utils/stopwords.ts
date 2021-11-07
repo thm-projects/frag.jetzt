@@ -28,6 +28,11 @@ export const stopWords = [
   'Sorry',
   'Was',
   'Warum',
-  'Inwiefern'
+  'Inwiefern',
+  'Seite',
+  'Klick',
+  'Anzahl',
+  'Erzählt',
+  'Reicht'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';
