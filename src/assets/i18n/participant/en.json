@@ -311,9 +311,9 @@
     "questions-blocked": "New questions blocked",
     "side-list-on": "Show question list",
     "side-list-off": "Hide question list",
-    "qrCodeExpanded-on": "Show QR-Code",
-    "qrCodeExpanded-off": "Hide QR-Code",
-    "leave": "Back to Question-List"
+    "qrCodeExpanded-on": "Show QR code",
+    "qrCodeExpanded-off": "Hide QR code",
+    "leave": "Back to question list"
   },
   "quill": {
     "cancel": "Cancel",
