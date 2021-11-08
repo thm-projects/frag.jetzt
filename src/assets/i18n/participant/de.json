@@ -308,9 +308,9 @@
     "qrCodeExpanded-on": "QR-Code anzeigen",
     "qrCodeExpanded-off": "QR-Code ausblenden",
     "leave": "Zurück zur Fragenliste",
-    "no-questions-title": "Es hat noch niemand eine Frage gestellt",
+    "no-questions-title": "Keine Fragen zurzeit",
     "no-questions-text": "",
-    "no-filtered-questions-title": "Es wurden keine Fragen unter diesem Filter gefunden",
+    "no-filtered-questions-title": "Keine Fragen mit diesem Filter",
     "no-filtered-questions-text": ""
   },
   "quill": {

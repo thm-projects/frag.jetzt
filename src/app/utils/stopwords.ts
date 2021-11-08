@@ -42,6 +42,7 @@ export const stopWords = [
   'Teste',
   'Falls',
   'Nächstes',
-  'Gib'
+  'Gib',
+  'Guten Tag'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';

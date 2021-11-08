@@ -314,9 +314,9 @@
     "qrCodeExpanded-on": "Show QR code",
     "qrCodeExpanded-off": "Hide QR code",
     "leave": "Back to question list",
-    "no-questions-title": "No one asked a question yet",
+    "no-questions-title": "No questions at present",
     "no-questions-text": "",
-    "no-filtered-questions-title": "Could not find any questions with the selected filter",
+    "no-filtered-questions-title": "No questions with this filter",
     "no-filtered-questions-text": ""
   },
   "quill": {

@@ -79,7 +79,7 @@
                       class="period selection"
                       [ngClass]="{'selected': periodItem === period}"
                       aria-labelledby="{{periodItem}}">
-                <span>{{ ('comment-list.select-'+periodItem) | translate }}</span>
+                <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
               </button>
             </div>
           </mat-menu>
@@ -152,7 +152,8 @@
     </ars-style-btn-material>
   </ars-row>
   <ars-fill ars-flex-box>
-    <ars-fill style="overflow:hidden;" [ngStyle]="{'height':(!commentFocus&&!firstPassIntroduction?0+'px':'auto')}"
+    <ars-fill style="overflow:hidden;"
+              [ngStyle]="{'height':(!commentFocus&&!firstPassIntroduction?0+'px':'auto')}"
               ars-flex-box>
       <ars-fill>
       </ars-fill>
@@ -251,14 +252,21 @@
         </ars-col>
       </div>
     </div>
-    <ars-col [width]="50" ars-flex-box>
+    <ars-col [width]="50"
+             ars-flex-box>
       <ars-row>
-        <button mat-icon-button style="margin-top:18px" (click)="toggleSideList()">
-          <mat-icon class="icon-color-yellow" *ngIf="sidelistExpanded" aria-describedby="side-list-off"
+        <button mat-icon-button
+                style="margin-top:18px"
+                (click)="toggleSideList()">
+          <mat-icon class="icon-color-yellow"
+                    *ngIf="sidelistExpanded"
+                    aria-describedby="side-list-off"
                     matTooltip="{{'question-wall.side-list-off' | translate}}">
             keyboard_double_arrow_right
           </mat-icon>
-          <mat-icon class="icon-color-yellow" *ngIf="!sidelistExpanded" aria-describedby="side-list-on"
+          <mat-icon class="icon-color-yellow"
+                    *ngIf="!sidelistExpanded"
+                    aria-describedby="side-list-on"
                     matTooltip="{{'question-wall.side-list-on' | translate}}">
             keyboard_double_arrow_left
           </mat-icon>
@@ -269,11 +277,14 @@
         </ars-fill>
         <ars-row>
           <ng-container *ngIf="!sidelistExpanded">
-            <ars-row role="button" [height]="50"
+            <ars-row role="button"
+                     [height]="50"
                      (click)="focusComment(comment)"
                      [ngClass]="(comment===commentFocus)?'sln-on':'sln-off'"
-                     class="side-list-numbers" *ngFor="let comment of getCurrentCommentList()">
-              <div class="side-list-numbers-indicator" [ngClass]="(comment===commentFocus)?'sln-indicator-on':'sln-indicator-off'">
+                     class="side-list-numbers"
+                     *ngFor="let comment of getCurrentCommentList()">
+              <div class="side-list-numbers-indicator"
+                   [ngClass]="(comment===commentFocus)?'sln-indicator-on':'sln-indicator-off'">
               </div>
             </ars-row>
           </ng-container>
@@ -282,7 +293,10 @@
         </ars-fill>
       </ars-fill>
     </ars-col>
-    <ars-col [width]="450" [overflow]="'hidden'" #sidelist class="side-list">
+    <ars-col [width]="450"
+             [overflow]="'hidden'"
+             #sidelist
+             class="side-list">
       <ars-col [width]="450">
 
         <ars-col ars-flex-box
@@ -327,16 +341,18 @@
 
             <ars-row *ngIf="!userSelection">
 
-              <ars-row ars-flex-box style="margin-top:16px;" *ngIf="!isLoading&&getCurrentCommentList().length<=0">
+              <ars-row ars-flex-box
+                       style="margin-top:16px;"
+                       *ngIf="!isLoading&&getCurrentCommentList().length<=0">
                 <ars-row class="qw-fade-animation">
-                  <h1 *ngIf="!hasFilter"
+                  <h2 *ngIf="!hasFilter"
                       class="qw-center-text qw-text-heading">
                     {{'question-wall.no-questions-title' | translate}}
-                  </h1>
-                  <h1 *ngIf="hasFilter"
+                  </h2>
+                  <h2 *ngIf="hasFilter"
                       class="qw-center-text qw-text-heading">
                     {{'question-wall.no-filtered-questions-title' | translate}}
-                  </h1>
+                  </h2>
                 </ars-row>
                 <ars-row class="qw-fade-animation">
                   <p *ngIf="!hasFilter"
@@ -348,101 +364,96 @@
                     {{'question-wall.no-filtered-questions-text' | translate}}
                   </p>
                 </ars-row>
-                <ars-row *ngIf="hasFilter" ars-flex-box style="box-sizing:border-box" class="qw-fade-animation">
-                  <ars-fill></ars-fill>
-                  <ars-col class="qw-mat-button-wrapper">
-                    <button mat-button (click)="deactivateFilter();">
-                      <mat-icon>remove_circle</mat-icon>
-                      <span>{{'question-wall.filter-remove' | translate}}</span>
-                    </button>
-                  </ars-col>
-                  <ars-fill></ars-fill>
+                <ars-row *ngIf="hasFilter"
+                         ars-flex-box
+                         style="box-sizing:border-box"
+                         class="qw-fade-animation">
                 </ars-row>
               </ars-row>
 
               <ng-container *ngIf="animationTrigger">
 
 
-              <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
-                       class="questionwall-comment-anchor qw-comment-fade-animation"
-                       style="float:left;">
-                <ars-row ars-flex-box
-                         height="170">
-                  <ars-fill></ars-fill>
-                  <ars-col ars-flex-box>
+                <ars-row *ngFor="let comment of hasFilter?commentsFilter:commentsFilteredByTime"
+                         class="questionwall-comment-anchor qw-comment-fade-animation"
+                         style="float:left;">
+                  <ars-row ars-flex-box
+                           height="170">
                     <ars-fill></ars-fill>
-                    <ars-row>
-                      <p class="questionwall-comment-number">{{comment.comment.number}}</p>
-                    </ars-row>
-                    <ars-fill></ars-fill>
-                  </ars-col>
-                </ars-row>
-                <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
-                  <ars-row
-                    [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
-                    style="border-radius:5px">
-                    <ars-row ars-flex-box
-                             (click)="focusComment(comment)"
-                             style="box-sizing:border-box;padding:16px;cursor:pointer">
-                      <ars-col class="questionwall-comment-meta">
-                        <i class="questionwall-icon">person_pin_circle</i>
-                        <p (click)="filterUser(comment);"
-                           class="questionwall-comment-user"
-                           matRipple>{{comment.comment.userNumber}}</p>
-                        <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
-                      </ars-col>
-                      <ars-col>
-                        <p class="questionwall-comment-notification">{{comment.old?'':'NEW'}}</p>
-                      </ars-col>
-                    </ars-row>
+                    <ars-col ars-flex-box>
+                      <ars-fill></ars-fill>
+                      <ars-row>
+                        <p class="questionwall-comment-number">{{comment.comment.number}}</p>
+                      </ars-row>
+                      <ars-fill></ars-fill>
+                    </ars-col>
+                  </ars-row>
+                  <ars-row style="box-sizing:border-box;padding:8px;margin-top:-170px;">
                     <ars-row
-                      (click)="focusComment(comment)"
-                      style="box-sizing:border-box;padding:0 16px;cursor:pointer">
-                      <p class="questionwall-comment-body">
-                        <app-view-comment-data class="images"
-                                               [currentData]="comment.comment.body"></app-view-comment-data>
-                      </p>
-                    </ars-row>
-                    <ars-row [height]="50">
-                      <ars-style-btn-material style="width:100%;height:100%;"
-                                              ars-flex-box>
-                        <ars-col ars-btn-wrp
-                                 [xp]="16"
-                                 [extra]="true"
-                                 *ngIf="user && comment.comment.creatorId !== user.id"
-                                 class="questionwall-comment-btn">
-                          <button ars-btn
-                                  (click)="likeComment(comment)"
-                                  matRipple>
-                            <i>thumb_up</i>
-                            <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
-                          </button>
-                          <button ars-btn
-                                  (click)="dislikeComment(comment)"
-                                  matRipple>
-                            <i>thumb_down</i>
-                            <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
-                          </button>
+                      [ngClass]="comment===commentFocus?'questionwall-comment-border-on':'questionwall-comment-border-off'"
+                      style="border-radius:5px">
+                      <ars-row ars-flex-box
+                               (click)="focusComment(comment)"
+                               style="box-sizing:border-box;padding:16px;cursor:pointer">
+                        <ars-col class="questionwall-comment-meta">
+                          <i class="questionwall-icon">person_pin_circle</i>
+                          <p (click)="filterUser(comment);"
+                             class="questionwall-comment-user"
+                             matRipple>{{comment.comment.userNumber}}</p>
+                          <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
                         </ars-col>
-                        <ars-fill (click)="focusComment(comment)"
-                                  style="cursor:pointer"></ars-fill>
-                        <ars-col ars-btn-wrp
-                                 [xp]="16"
-                                 [extra]="true"
-                                 *ngIf="comment.comment.tag">
-                          <button ars-btn
-                                  (click)="filterTag(comment.comment.tag);"
-                                  matRipple>
-                            <mat-icon class="icon-svg"
-                                      svgIcon="comment_tag"></mat-icon>
-                            <p>{{comment.comment.tag}}</p>
-                          </button>
+                        <ars-col>
+                          <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
                         </ars-col>
-                      </ars-style-btn-material>
+                      </ars-row>
+                      <ars-row
+                        (click)="focusComment(comment)"
+                        style="box-sizing:border-box;padding:0 16px;cursor:pointer">
+                        <p class="questionwall-comment-body">
+                          <app-view-comment-data class="images"
+                                                 [currentData]="comment.comment.body"></app-view-comment-data>
+                        </p>
+                      </ars-row>
+                      <ars-row [height]="50">
+                        <ars-style-btn-material style="width:100%;height:100%;"
+                                                ars-flex-box>
+                          <ars-col ars-btn-wrp
+                                   [xp]="16"
+                                   [extra]="true"
+                                   *ngIf="user && comment.comment.creatorId !== user.id"
+                                   class="questionwall-comment-btn">
+                            <button ars-btn
+                                    (click)="likeComment(comment)"
+                                    matRipple>
+                              <i>thumb_up</i>
+                              <p style="padding-left:4px;">{{comment.comment.upvotes}}</p>
+                            </button>
+                            <button ars-btn
+                                    (click)="dislikeComment(comment)"
+                                    matRipple>
+                              <i>thumb_down</i>
+                              <p style="padding-left:4px;">{{comment.comment.downvotes}}</p>
+                            </button>
+                          </ars-col>
+                          <ars-fill (click)="focusComment(comment)"
+                                    style="cursor:pointer"></ars-fill>
+                          <ars-col ars-btn-wrp
+                                   [xp]="16"
+                                   [extra]="true"
+                                   *ngIf="comment.comment.tag">
+                            <button ars-btn
+                                    (click)="filterTag(comment.comment.tag);"
+                                    matRipple>
+                              <mat-icon class="icon-svg"
+                                        svgIcon="comment_tag"></mat-icon>
+                              <p>{{comment.comment.tag}}</p>
+                            </button>
+                          </ars-col>
+                        </ars-style-btn-material>
+                      </ars-row>
                     </ars-row>
                   </ars-row>
                 </ars-row>
-              </ars-row>
 
               </ng-container>
 
@@ -564,8 +575,11 @@
                    [iconColor]="'#FFFFFF'"
                    [backgroundColor]="'#FFFFFF'"
                    [foregroundColor]="'#000000'"></app-active-user>
-  <div class="qr-overlay" *ngIf="qrCodeExpanded">
-    <qrcode [qrdata]="getURL()" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+  <div class="qr-overlay"
+       *ngIf="qrCodeExpanded">
+    <qrcode [qrdata]="getURL()"
+            [width]="200"
+            [errorCorrectionLevel]="'M'"></qrcode>
   </div>
 </ars-screen>
 
