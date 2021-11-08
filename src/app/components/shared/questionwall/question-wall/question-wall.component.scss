@@ -317,6 +317,47 @@
     }
   }
 
+  .side-list-numbers{
+    border-radius:100%;
+    padding:8px;
+    box-sizing:border-box;
+    >p{
+      text-align:center;
+      color:#FFFFFF;
+    }
+    &-indicator{
+      width:10px;
+      height:10px;
+      background-color:#FFFFFF;
+      border-radius:2px;
+      position:relative;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      transition:all 0.1s ease-in-out;
+    }
+  }
+
+  .sln-indicator{
+    &-on{
+      width:15px;
+      height:15px;
+    }
+    &-off{
+      width:10px;
+      height:10px;
+    }
+  }
+
+  .sln{
+    &-on{
+      cursor:default;
+    }
+    &-off{
+      cursor:pointer;
+    }
+  }
+
   .side-list{
     transition:width ease-in-out 0.1s;
   }
@@ -339,6 +380,97 @@
     }
   }
 
+  @for $i from 1 through 100 {
+    .qw-fade-animation:nth-child(#{$i}n) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+
+  @for $i from 1 through 100 {
+    .qw-comment-fade-animation:nth-child(#{$i}n) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+
+  @for $i from 1 through 100 {
+    .qw-opening-fade-animation:nth-child(#{$i}n) {
+      animation-delay: #{$i * 0.1}s;
+    }
+  }
+
+  .qw-comment-fade-animation{
+    animation:qw-comment-fade 0.2s ease-in-out both;
+  }
+
+  .qw-opening-fade-animation{
+    animation:qw-opening-fade 0.1s ease-in-out both;
+  }
+
+  .qw-fade-animation{
+    animation:qw-fade 0.2s ease-in-out both;
+  }
+
+  @keyframes qw-fade {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+
+  @keyframes qw-opening-fade {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+  }
+
+  @keyframes qw-comment-fade {
+    0% {
+      opacity:0;
+      margin-top:32px;
+    }
+    100% {
+      opacity:1;
+      margin-top:0px;
+    }
+  }
+
+  .qw-loading{
+    width:640px;
+    height:360px;
+    position:fixed;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    z-index:10000;
+  }
+
+  .qw-center-text{
+    text-align:center;
+  }
+
+  .qw-mat-button-wrapper{
+    box-sizing:border-box;
+    padding:16px;
+    >button>span>mat-icon{
+      margin-right:8px;
+    }
+    >*{
+      color: var(--ars-header-color);
+    }
+  }
+
+  .qw-text-heading{
+    color: var(--ars-header-color);
+  }
+
+  .qw-text-paragraph{
+    color: var(--ars-header-color);
+  }
 
 }
 
