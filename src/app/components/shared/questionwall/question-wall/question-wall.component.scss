@@ -449,6 +449,29 @@
     z-index:10000;
   }
 
+  .qw-center-text{
+    text-align:center;
+  }
+
+  .qw-mat-button-wrapper{
+    box-sizing:border-box;
+    padding:16px;
+    >button>span>mat-icon{
+      margin-right:8px;
+    }
+    >*{
+      color: var(--ars-header-color);
+    }
+  }
+
+  .qw-text-heading{
+    color: var(--ars-header-color);
+  }
+
+  .qw-text-paragraph{
+    color: var(--ars-header-color);
+  }
+
 }
 
 .selected {

@@ -59,6 +59,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   isLoading = true;
   user: User;
   animationTrigger:boolean=true;
+  firstPassIntroduction:boolean=true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -248,6 +249,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   focusComment(comment: QuestionWallComment) {
+    this.firstPassIntroduction=false;
     if(this.commentFocus === comment)return;
     this.commentFocus = null;
     setTimeout(()=>{
