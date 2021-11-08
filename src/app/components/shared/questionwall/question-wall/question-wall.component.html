@@ -152,7 +152,7 @@
     </ars-style-btn-material>
   </ars-row>
   <ars-fill ars-flex-box>
-    <ars-fill style="overflow:hidden;" [ngStyle]="{'height':(!commentFocus?0+'px':'auto')}"
+    <ars-fill style="overflow:hidden;" [ngStyle]="{'height':(!commentFocus&&!firstPassIntroduction?0+'px':'auto')}"
               ars-flex-box>
       <ars-fill>
       </ars-fill>
@@ -223,11 +223,11 @@
               </ars-style-btn-material>
             </ars-row>
           </ng-container>
-<!--          <ng-container *ngIf="!commentFocus&&">-->
-<!--            <p class="questionwall-present-introduction-title">{{'question-wall.intro-title' | translate}}</p>-->
-<!--            <p class="questionwall-present-introduction-desc">{{'question-wall.intro-desc' | translate}}</p>-->
-<!--            <p class="questionwall-present-introduction-desc">{{'question-wall.intro-autofocus' | translate}}</p>-->
-<!--          </ng-container>-->
+          <ng-container *ngIf="!commentFocus&&firstPassIntroduction">
+            <p class="questionwall-present-introduction-title">{{'question-wall.intro-title' | translate}}</p>
+            <p class="questionwall-present-introduction-desc">{{'question-wall.intro-desc' | translate}}</p>
+            <p class="questionwall-present-introduction-desc">{{'question-wall.intro-autofocus' | translate}}</p>
+          </ng-container>
         </div>
       </ars-row>
       <ars-fill>
@@ -327,12 +327,38 @@
 
             <ars-row *ngIf="!userSelection">
 
-              <ars-fill *ngIf="(hasFilter?commentsFilter:commentsFilteredByTime).length==0"
-                        style="float:left;">
-                <p class="questionwall-present-introduction-desc">
-                  {{'question-wall.no-result' | translate}}
-                </p>
-              </ars-fill>
+              <ars-row ars-flex-box style="margin-top:16px;" *ngIf="!isLoading&&getCurrentCommentList().length<=0">
+                <ars-row class="qw-fade-animation">
+                  <h1 *ngIf="!hasFilter"
+                      class="qw-center-text qw-text-heading">
+                    {{'question-wall.no-questions-title' | translate}}
+                  </h1>
+                  <h1 *ngIf="hasFilter"
+                      class="qw-center-text qw-text-heading">
+                    {{'question-wall.no-filtered-questions-title' | translate}}
+                  </h1>
+                </ars-row>
+                <ars-row class="qw-fade-animation">
+                  <p *ngIf="!hasFilter"
+                     class="qw-center-text qw-text-paragraph">
+                    {{'question-wall.no-questions-text' | translate}}
+                  </p>
+                  <p *ngIf="hasFilter"
+                     class="qw-center-text qw-text-paragraph">
+                    {{'question-wall.no-filtered-questions-text' | translate}}
+                  </p>
+                </ars-row>
+                <ars-row *ngIf="hasFilter" ars-flex-box style="box-sizing:border-box" class="qw-fade-animation">
+                  <ars-fill></ars-fill>
+                  <ars-col class="qw-mat-button-wrapper">
+                    <button mat-button (click)="deactivateFilter();">
+                      <mat-icon>remove_circle</mat-icon>
+                      <span>{{'question-wall.filter-remove' | translate}}</span>
+                    </button>
+                  </ars-col>
+                  <ars-fill></ars-fill>
+                </ars-row>
+              </ars-row>
 
               <ng-container *ngIf="animationTrigger">
 

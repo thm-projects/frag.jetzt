@@ -307,7 +307,11 @@
     "side-list-off": "Fragenliste ausblenden",
     "qrCodeExpanded-on": "QR-Code anzeigen",
     "qrCodeExpanded-off": "QR-Code ausblenden",
-    "leave": "Zurück zur Fragenliste"
+    "leave": "Zurück zur Fragenliste",
+    "no-questions-title": "Es hat noch niemand eine Frage gestellt",
+    "no-questions-text": "",
+    "no-filtered-questions-title": "Es wurden keine Fragen unter diesem Filter gefunden",
+    "no-filtered-questions-text": ""
   },
   "quill": {
     "cancel": "Abbrechen",
