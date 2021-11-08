@@ -2,6 +2,7 @@
 // all words are case insensitive
 export const stopWords = [
   'Frage',
+  'Fragen',
   'Antwort',
   'Aufgabe',
   'Hallo',
@@ -9,7 +10,6 @@ export const stopWords = [
   'bzw',
   'bzw.',
   'muss',
-  'more to come',
   'mal',
   'zb.',
   'zb',
@@ -34,6 +34,10 @@ export const stopWords = [
   'Erzählt',
   'Reicht',
   'Möglichkeit',
-  'Nenne'
+  'Nenne',
+  'Siehst du',
+  'Du musst',
+  'Das heißt',
+  'Denkst du'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';
