@@ -38,6 +38,10 @@ export const stopWords = [
   'Siehst du',
   'Du musst',
   'Das heißt',
-  'Denkst du'
+  'Denkst du',
+  'Teste',
+  'Falls',
+  'Nächstes',
+  'Gib'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';
