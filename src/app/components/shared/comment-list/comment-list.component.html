@@ -173,6 +173,17 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
+              (click)="applyFilterByKey('not_bookmarked')"
+              aria-labelledby="comment">
+        <mat-icon class="not_bookmarked"
+                  [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">bookmark
+        </mat-icon>
+        <span
+          [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">{{ 'comment-list.filter-not_bookmarked' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('answer')"
               aria-labelledby="comment">
         <mat-icon class="answer"

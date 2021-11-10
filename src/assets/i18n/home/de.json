@@ -348,7 +348,7 @@
     "comment-refused": "Moderiert",
     "bookmark": "Lesezeichen",
     "comment-bookmarked": "Ja",
-    "comment-not-bookmarked": "Nein",
+    "comment-not_bookmarked": "Nein",
     "upvotes": "Upvotes",
     "downvotes": "Downvotes",
     "score": "Score",
