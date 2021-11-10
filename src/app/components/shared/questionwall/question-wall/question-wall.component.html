@@ -45,6 +45,9 @@
             <button mat-menu-item
                     (click)="sortScore(true)"
                     aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
+            <button mat-menu-item
+                    (click)="sortControversy(true)"
+                    aria-labelledby="sort-lbl-controversy">{{'question-wall.sort-controversy' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
             <button mat-menu-item
@@ -591,6 +594,7 @@
   <div id="sort-lbl-new">{{'question-wall.sort-lbl-new' | translate}}</div>
   <div id="sort-lbl-old">{{'question-wall.sort-lbl-old' | translate}}</div>
   <div id="sort-lbl-rating">{{'question-wall.sort-lbl-rating' | translate}}</div>
+  <div id="sort-lbl-controversy">{{'question-wall.sort-lbl-controversy' | translate}}</div>
   <div id="filter-lbl">{{'question-wall.filter-lbl' | translate}}</div>
   <div id="filter-time">{{'question-wall.filter-time' | translate}}</div>
   <div id="filter-lbl-favorites">{{'question-wall.filter-lbl-favorites' | translate}}</div>

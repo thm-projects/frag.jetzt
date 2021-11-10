@@ -14,7 +14,7 @@ import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { Period } from '../../comment-list/comment-list.filter';
+import { CommentListFilter, Period } from '../../comment-list/comment-list.filter';
 import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
 
@@ -330,6 +330,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sortTime(reverse?: boolean) {
     this.sort((a, b) => new Date(a.comment.timestamp).getTime() - new Date(b.comment.timestamp).getTime(), reverse);
+  }
+
+  sortControversy(reverse?: boolean) {
+    this.sort((a, b) => CommentListFilter.calculateControversy(a.upvotes, a.downvotes) -
+      CommentListFilter.calculateControversy(b.upvotes, b.downvotes), reverse);
   }
 
   notifyCommentListChange(){
