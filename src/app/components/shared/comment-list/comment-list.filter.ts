@@ -23,6 +23,7 @@ export enum FilterType {
   wrong = 'wrong',
   ack = 'ack',
   bookmark = 'bookmark',
+  notBookmark = 'notBookmark',
   moderator = 'moderator',
   lecturer = 'lecturer',
   tag = 'tag',
@@ -38,7 +39,8 @@ export type FilterTypeKey = keyof typeof FilterType;
 export enum SortType {
   voteasc = 'voteasc',
   votedesc = 'votedesc',
-  time = 'time'
+  time = 'time',
+  controversy = 'controversy',
 }
 
 export type SortTypeKey = keyof typeof SortType;
@@ -79,6 +81,19 @@ export class CommentListFilter {
 
   static loadFilter(name = 'currentFilter'): CommentListFilter {
     return new CommentListFilter(JSON.parse(localStorage.getItem(name)));
+  }
+
+  static calculateControversy(up = 0, down = 0, normalized = true): number {
+    const summed = up + down;
+    const stretch = 10;
+    if (normalized) {
+      if (summed === 0) {
+        return 0;
+      }
+      return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch)) / summed;
+    } else {
+      return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch));
+    }
   }
 
   resetToDefault() {
@@ -209,6 +224,9 @@ export class CommentListFilter {
       case FilterType.bookmark:
         filterFunc = (c) => c.bookmark;
         break;
+      case FilterType.notBookmark:
+        filterFunc = (c) => !c.bookmark;
+        break;
       case FilterType.read:
         filterFunc = (c) => c.read;
         break;
@@ -258,6 +276,9 @@ export class CommentListFilter {
       case SortType.time:
         sortFunc = (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
         break;
+      case SortType.controversy:
+        sortFunc = (a, b) => CommentListFilter.calculateControversy(b.upvotes, b.downvotes) -
+          CommentListFilter.calculateControversy(a.upvotes, a.downvotes);
     }
     if (sortFunc) {
       comments.sort(sortFunc);
