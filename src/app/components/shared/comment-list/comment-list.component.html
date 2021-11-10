@@ -145,6 +145,13 @@
       <span [ngClass]="{voteasc: 'down'}[filter.sortType]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
+    <button mat-menu-item
+            (click)="applySortingByKey('controversy')"
+            aria-labelledby="controversy">
+      <mat-icon [ngClass]="{controversy: 'controversy'}[filter.sortType]">quickreply</mat-icon>
+      <span [ngClass]="{controversy: 'controversy'}[filter.sortType]">{{ 'comment-list.sort-controversy' | translate }}</span>
+    </button>
+
   </mat-menu>
 
   <mat-menu #filterMenu="matMenu"
@@ -174,9 +181,9 @@
       <button mat-menu-item
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('not_bookmarked')"
-              aria-labelledby="comment">
+              aria-labelledby="not-bookmark">
         <mat-icon class="not_bookmarked"
-                  [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">bookmark
+                  [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">bookmark_border
         </mat-icon>
         <span
           [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">{{ 'comment-list.filter-not_bookmarked' | translate }}</span>
@@ -335,6 +342,7 @@
   <div id="keyboard_arrow_up">{{'comment-list.a11y-keyboard_arrow_up' | translate}}</div>
   <div id="keyboard_arrow_down">{{'comment-list.a11y-keyboard_arrow_down' | translate}}</div>
   <div id="access_time">{{'comment-list.a11y-access_time' | translate}}</div>
+  <div id="controversy">{{'comment-list.a11y-controversy' | translate}}</div>
   <div id="filter_list">{{'comment-list.a11y-filter_list' | translate}}</div>
   <div id="check_circle">{{'comment-list.a11y-check_circle' | translate}}</div>
   <div id="not_interested">{{'comment-list.a11y-not_interested' | translate}}</div>
@@ -342,6 +350,7 @@
   <div id="moderator">{{'comment-list.a11y-moderator' | translate}}</div>
   <div id="lecturer">{{'comment-list.a11y-lecturer' | translate}}</div>
   <div id="bookmark">{{'comment-list.a11y-bookmark' | translate}}</div>
+  <div id="not-bookmark">{{'comment-list.a11y-not-bookmark' | translate}}</div>
   <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
   <div id="close">{{'comment-list.a11y-close' | translate}}</div>
   <div id="add">{{'comment-list.a11y-add' | translate}}</div>

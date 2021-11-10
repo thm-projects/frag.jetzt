@@ -369,6 +369,7 @@ export class TagCloudDataService {
       tagData.cachedUpVotes * scorings.summedUpvotes.score +
       tagData.cachedDownVotes * scorings.summedDownvotes.score +
       tagData.cachedVoteCount * scorings.summedVotes.score +
+      CommentListFilter.calculateControversy(tagData.cachedUpVotes, tagData.cachedDownVotes, false) * scorings.controversy.score +
       Math.max(tagData.cachedVoteCount, 0) * scorings.cappedSummedVotes.score;
   }
 

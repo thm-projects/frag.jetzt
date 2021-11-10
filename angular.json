@@ -23,7 +23,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/material-design-icons/iconfont/material-icons.css",
+              "./node_modules/material-icons/iconfont/material-icons.css",
               "node_modules/prismjs/themes/prism-okaidia.css",
               "node_modules/prismjs/plugins/line-highlight/prism-line-highlight.css",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css",
