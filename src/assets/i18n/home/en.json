@@ -350,7 +350,7 @@
     "comment-refused": "Moderated",
     "bookmark": "Bookmark",
     "comment-bookmarked": "Yes",
-    "comment-not-bookmarked": "No",
+    "comment-not_bookmarked": "No",
     "upvotes": "Upvotes",
     "downvotes": "Downvotes",
     "score": "Score",

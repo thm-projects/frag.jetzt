@@ -147,7 +147,11 @@ app-comment {
 }
 
 .bookmark-icon {
-  color: var(--red);
+  color: var(--magenta);
+}
+
+.not_bookmarked-icon {
+  color: slategray;
 }
 
 .owner-icon {
@@ -185,6 +189,10 @@ h3 {
 
 .down {
   color: var(--red);
+}
+
+.controversy {
+  color: var(--primary);
 }
 
 ::placeholder {

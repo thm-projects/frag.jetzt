@@ -14,7 +14,8 @@ export enum TopicCloudAdminDataScoringKey {
   summedUpvotes = 'summedUpvotes',
   summedDownvotes = 'summedDownvotes',
   summedVotes = 'summedVotes',
-  cappedSummedVotes = 'cappedSummedVotes'
+  cappedSummedVotes = 'cappedSummedVotes',
+  controversy = 'controversy'
 }
 
 export type TopicCloudAdminDataScoringObject = {
@@ -92,7 +93,8 @@ export const keywordsScoringMinMax: TopicCloudAdminDataScoringPreset = {
   summedUpvotes: { min: -5, max: 5 },
   summedDownvotes: { min: -5, max: 5 },
   summedVotes: { min: -5, max: 5 },
-  cappedSummedVotes: { min: -5, max: 5 }
+  cappedSummedVotes: { min: -5, max: 5 },
+  controversy: { min: -5, max: 5 }
 };
 
 export enum KeywordOrFulltext {
