@@ -148,7 +148,7 @@ export class Export {
     let acked = this.translationPath + '.comment-acked';
     let refused = this.translationPath + '.comment-refused';
     let bookmarked = this.translationPath + '.comment-bookmarked';
-    let notBookmarked = this.translationPath + '.comment-not-bookmarked';
+    let notBookmarked = this.translationPath + '.comment-not_bookmarked';
     const roles: [string, string, string] = [
       this.translationPath + '.comment-user-role-participant',
       this.translationPath + '.comment-user-role-moderator',

@@ -23,7 +23,7 @@ export enum FilterType {
   wrong = 'wrong',
   ack = 'ack',
   bookmark = 'bookmark',
-  notBookmark = 'notBookmark',
+  not_bookmarked = 'not_bookmarked',
   moderator = 'moderator',
   lecturer = 'lecturer',
   tag = 'tag',
@@ -224,7 +224,7 @@ export class CommentListFilter {
       case FilterType.bookmark:
         filterFunc = (c) => c.bookmark;
         break;
-      case FilterType.notBookmark:
+      case FilterType.not_bookmarked:
         filterFunc = (c) => !c.bookmark;
         break;
       case FilterType.read:

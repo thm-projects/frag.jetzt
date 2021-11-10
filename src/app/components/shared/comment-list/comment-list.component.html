@@ -180,10 +180,13 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
-              (click)="applyFilterByKey('notBookmark')"
-              aria-labelledby="not-bookmark">
-        <mat-icon [ngClass]="{notBookmark: 'bookmark-icon'}[filter.filterType]">bookmark_border</mat-icon>
-        <span [ngClass]="{notBookmark: 'bookmark-icon'}[filter.filterType]">{{ 'comment-list.filter-not-bookmark' | translate }}</span>
+              (click)="applyFilterByKey('not_bookmarked')"
+              aria-labelledby="comment">
+        <mat-icon class="not_bookmarked"
+                  [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">bookmark_border
+        </mat-icon>
+        <span
+          [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">{{ 'comment-list.filter-not_bookmarked' | translate }}</span>
       </button>
 
       <button mat-menu-item
