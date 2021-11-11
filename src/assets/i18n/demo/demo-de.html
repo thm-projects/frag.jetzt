@@ -132,9 +132,19 @@
     <strong>Fragen durchsuchen, sortieren und filtern</strong><br><br>
     Das schnelle Auffinden bestimmter Fragen wird durch Such-, Sortier- und Filteroptionen ermöglicht.
     Die Volltextsuche schließt auch die Antworten mit ein.
-    Das Sortieren ist nach der Zeit und Bewertung möglich.
+    Das Sortieren ist nach der Zeit, Bewertung und Kontroversität möglich.<br><br>
+    Um kontroverse Fragen zu identifizieren, d. h. Fragen,
+    bei denen sich die positiven und negativen Stimmen die Waage halten und die in der Fragenliste einen Wert nahe null haben,
+    führen wir ein innovatives Sortierkriterium ein: den Grad der Kontroverse oder des Widerspruchs.
+    Zunächst bilden wir die Differenz zwischen positiven und negativen Stimmen und ziehen sie von der Gesamtzahl der Stimmen ab.
+    Was übrig bleibt, ist die absolute Anzahl der kontroversen Stimmen.
+    Wir teilen diesen Wert durch die Gesamtzahl der Stimmen, um den Prozentsatz zu erhalten.
+    Schließlich strecken wir den Prozentsatz mit einem empirischen Term,
+    damit Fragen mit sehr wenigen kontroversen Stimmen nicht als kontroverser eingestuft werden als Fragen mit vielen Stimmen.
+    Eine einfache Berechnung mit großer Aussagekraft für Fragenrunden mit kontroversen Themen.<br><br>
     Als Filterkriterien stehen zur Auswahl:
-    ausgezeichnete (Bonus-Stern), markierte (Lesezeichen), beantwortete, unbeantwortete und eigene Fragen.
+    ausgezeichnete (Bonus-Stern), markierte (Lesezeichen), nicht markierte, beantwortete, unbeantwortete und eigene Fragen.
+    <br><br>
     Mit Klick auf das Tag-Icon an einer Frage werden alle Fragen dieser Kategorie angezeigt.
     Mit Klick auf das User-Icon an einer Frage werden alle Fragen dieses Users angezeigt.
     So lässt sich die Verteilung der Fragen unter den Fragenstellern beurteilen:
@@ -202,7 +212,7 @@
   <div class="videoWrapper">
     <iframe tabindex="0"
             width="560" height="315"
-            src="https://www.youtube.com/embed/lj1HMvZ73xY?autoplay=0" frameborder="0"
+            src="https://www.youtube.com/embed/lj1HMvZ73xY?autoplay=0"
             allowfullscreen
     ></iframe>
   </div>
@@ -266,13 +276,13 @@
 
   Windows-Rechner:
   <a class="info"
-     href="http://nvda.bhvd.de/"
+     href="https://nvda.bhvd.de/"
      rel="noreferrer"
      target="_blank">NVDA<span>Öffnet neue Seite</span></a>
   <br>
   Linux-Rechner:
   <a class="info"
-     href="http://www.chromevox.com/installing.html"
+     href="https://support.google.com/chromebook/answer/7031755?hl=de"
      rel="noreferrer"
      target="_blank">ChromeVox<span>Öffnet neue Seite</span></a>
   <br>

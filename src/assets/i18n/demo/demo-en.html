@@ -141,8 +141,19 @@
     <strong>Search, sort and filter questions</strong><br><br>
     The quick location of specific questions is made possible by search, sort and filter options.
     The full text search also includes the answers.
-    Sorting is possible by time and rating.
-    The following filter criteria can be selected: Bonus-awarded, bookmarked, not bookmarked, answered, unanswered, and own questions.
+    Sorting is possible by time, rating and the degree of controversy.<br><br>
+
+    To identify controversial questions, i.e.,
+    questions where the positive and negative votes balance each other and have a value close to zero in the question list,
+    we introduce an innovative sorting criterion: the degree of controversy or contradiction.
+    First, we form the difference between positive and negative votes and subtract it from the total number of votes.
+    What remains is the absolute number of controversial votes.
+    We divide this value by the total number of votes to get the percentage.
+    Finally, we stretch the percentage with an empirical term
+    so that questions with very few controversial votes are not classified as more controversial than questions with many votes.
+    A simple calculation with great power for question rounds with controversial topics.<br><br>
+
+    The following filter criteria can be selected: Bonus-awarded, bookmarked, not bookmarked, answered, unanswered, and own questions.<br><br>
     By clicking on the tag icon of a question, all questions of this category are displayed.
     By clicking on the user icon of a question, all questions of this user will be displayed.
     This allows you to assess the distribution of questions among the question posers:
@@ -208,7 +219,7 @@
   <div class="videoWrapper">
     <iframe tabindex="0"
             width="560" height="315"
-            src="https://www.youtube.com/embed/lj1HMvZ73xY?autoplay=0" frameborder="0"
+            src="https://www.youtube.com/embed/lj1HMvZ73xY?autoplay=0"
             allowfullscreen
     ></iframe>
   </div>
@@ -273,7 +284,7 @@
 
   Linux computer:
   <a class="info"
-     href="http://www.chromevox.com/installing.html"
+     href="https://support.google.com/chromebook/answer/7031755?hl=en"
      rel="noreferrer"
      target="_blank">ChromeVox<span> Opens new page</span></a>
   <br>
