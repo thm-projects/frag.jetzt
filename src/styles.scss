@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import 'theme/light-theme/_variables.scss';
 @import 'theme/dark-theme/dark-theme';
 @import 'theme/blue-theme/blue-theme';
@@ -12,12 +13,12 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($arsnova-theme);
+@include mat.all-component-themes($arsnova-theme);
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -28,15 +29,15 @@ body {
 }
 
 .dark {
-  @include angular-material-theme($dark-theme);
+  @include mat.all-component-themes($dark-theme);
 }
 
 .blue {
-  @include angular-material-theme($blue-theme);
+  @include mat.all-component-themes($blue-theme);
 }
 
 .purple {
-  @include angular-material-theme($purple-theme);
+  @include mat.all-component-themes($purple-theme);
 }
 
 @import 'theme/light-theme/theme';

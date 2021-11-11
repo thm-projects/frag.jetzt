@@ -50,7 +50,7 @@ class CustomPosition implements Position {
   }
 
   updatePosition(width: number, height: number, metrics: TextMetrics) {
-    const offsetY = (metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent) / 2;
+    const offsetY = (metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent) / 2;
     const offsetX = metrics.width / 2;
     this.left = width * this.relativeLeft - offsetX;
     this.top = height * this.relativeTop - offsetY;
