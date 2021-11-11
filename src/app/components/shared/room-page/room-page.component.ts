@@ -364,7 +364,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'flag',
+        icon: 'article',
         text: 'header.edit-session-description',
         callback: () => this.editSessionDescription(),
         condition: () => this.userRole > UserRole.PARTICIPANT
