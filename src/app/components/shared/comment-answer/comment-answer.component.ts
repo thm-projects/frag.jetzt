@@ -96,7 +96,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   goBackToCommentList() {
-    const str = this.router.url;
+    const str = decodeURI(this.router.url);
     const newUrl = str.substr(0, str.lastIndexOf('/', str.lastIndexOf('/') - 1)) + '/comments';
     this.router.navigate([newUrl]);
   }
@@ -143,7 +143,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   private onMessageReceive(msg: Message) {
     const message = JSON.parse(msg.body);
     const payload = message.payload;
-    if (payload.id !== this.comment.id) {
+    if (!payload || payload.id !== this.comment.id) {
       return;
     }
     if (message.type === 'CommentHighlighted') {

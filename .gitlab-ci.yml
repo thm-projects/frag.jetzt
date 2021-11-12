@@ -15,25 +15,27 @@ cache:
 eslint:
   stage: codestyle
   tags:
-    - nodejs
+    - angular
+  image: local-angular:13
   allow_failure: true
   dependencies: []
   script:
-    - npm install
+    - npm ci
     - node_modules/eslint/bin/eslint.js -c .eslintrc.json --ext .ts ./src
 
 unit_tests:
- stage: test
- tags:
-   - nodejs
- allow_failure: false
- dependencies: []
- artifacts:
-   paths:
-     - coverage
- script:
-   - npm i
-   - npm test
+  stage: test
+  tags:
+    - angular
+  image: local-angular:13
+  allow_failure: false
+  dependencies: []
+  artifacts:
+    paths:
+      - coverage
+  script:
+    - npm ci
+    - npm test
 
 sonar:
   stage: codestyle
@@ -52,11 +54,11 @@ ngbuild:
   stage: build
   tags:
     - angular
+  image: local-angular:13
   allow_failure: false
   dependencies: []
   script:
-    - npm install -g @angular/cli
-    - npm install
+    - npm ci
     - ng build --prod --aot
   artifacts:
     paths:

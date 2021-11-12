@@ -6,6 +6,12 @@ import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
 import { MatomoInjector } from 'ngx-matomo-v9';
 import { environment } from '../environments/environment';
+import { filter } from 'rxjs/operators';
+
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module';
+import 'quill-emoji/dist/quill-emoji.js';
+Quill.register('modules/imageResize', ImageResize);
 
 @Component({
   selector: 'app-root',
@@ -44,7 +50,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.update.available.subscribe(update => {
+    this.update.versionUpdates.pipe(
+      filter(e => e.type === 'VERSION_READY' )
+    ).subscribe(update => {
       let install: string;
       this.translationService.get('home-page.install').subscribe(msg => {
         install = msg;

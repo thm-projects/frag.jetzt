@@ -28,6 +28,9 @@ import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-se
 import { RoomNameSettingsComponent } from './_dialogs/room-name-settings/room-name-settings.component';
 import { QRCodeModule } from 'angularx-qrcode';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
+
 @NgModule({
     imports:[
         CommonModule,
@@ -69,8 +72,4 @@ import { QRCodeModule } from 'angularx-qrcode';
   exports: []
 })
 export class CreatorModule {
-}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
 }

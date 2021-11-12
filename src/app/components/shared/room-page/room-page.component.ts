@@ -44,7 +44,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   user: User = null;
   isLoading = true;
   commentCounter: number;
-  urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
+  urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
   commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   viewModuleCount = 1;
@@ -198,15 +198,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.translateService.get('room-page.comments-deleted').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-          this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.translateService.get('room-page.comments-deleted').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+        this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
+      }
+    });
   }
 
   openDeleteRoomDialog(): void {
@@ -215,12 +214,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.room = this.room;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteRoom();
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.deleteRoom();
+      }
+    });
   }
 
   deleteRoom(): void {
@@ -237,20 +235,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   copyShortId(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    const selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = `${this.urlToCopy}${this.room.shortId}`;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
-    this.translateService.get('room-page.session-id-copied').subscribe(msg => {
-      this.notificationService.show(msg, '', { duration: 2000 });
+    navigator.clipboard.writeText(`${this.urlToCopy}${this.room.shortId}`).then(() => {
+      this.translateService.get('room-page.session-id-copied').subscribe(msg => {
+        this.notificationService.show(msg, '', { duration: 2000 });
+      });
+    }, () => {
+      console.log('Clipboard write failed.');
     });
+
   }
 
   showModeratorsDialog(): void {
@@ -278,17 +270,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.editRoom = updRoom;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'abort') {
-          return;
-        } else {
-          if (result instanceof CommentSettingsDialog) {
-            this.updateCommentSettings(result);
-            this.saveChanges(updRoom);
-          }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'abort') {
+        return;
+      } else {
+        if (result instanceof CommentSettingsDialog) {
+          this.updateCommentSettings(result);
+          this.saveChanges(updRoom);
         }
-      });
+      }
+    });
     dialogRef.backdropClick().subscribe(res => {
       dialogRef.close('abort');
     });
@@ -318,15 +309,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       tags = this.room.tags;
     }
     dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (!result || result === 'abort') {
-          return;
-        } else {
-          updRoom.tags = result;
-          this.saveChanges(updRoom);
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result || result === 'abort') {
+        return;
+      } else {
+        updRoom.tags = result;
+        this.saveChanges(updRoom);
+      }
+    });
   }
 
   toggleProfanityFilter() {
@@ -345,18 +335,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   protected saveChanges(updRoom: Room) {
-    this.roomService.updateRoom(updRoom)
-      .subscribe((room) => {
-          this.room = room;
-          this.translateService.get('room-page.changes-successful').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        },
-        error => {
-          this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
+    this.roomService.updateRoom(updRoom).subscribe((room) => {
+        this.room = room;
+        this.translateService.get('room-page.changes-successful').subscribe(msg => {
+          this.notificationService.show(msg);
         });
+      },
+      error => {
+        this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      });
   }
 
   private initNavigation() {

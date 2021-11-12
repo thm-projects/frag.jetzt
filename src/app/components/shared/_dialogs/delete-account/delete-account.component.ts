@@ -27,14 +27,13 @@ export class DeleteAccountComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: any,
               private roomService: RoomService,
               private liveAnnouncer: LiveAnnouncer,
-              private translationService: TranslateService, ) { }
+              private translationService: TranslateService) {
+  }
 
   ngOnInit() {
     this.announce();
     this.roomService.getCreatorRooms().subscribe(rooms => {
-      this.rooms = rooms.sort((a, b) => {
-        return a.name.toLowerCase() > b.name.toLowerCase() ? 1 : -1;
-      });
+      this.rooms = rooms.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
     });
   }
 

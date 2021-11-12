@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Room } from '../../models/room';
 import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, ObservableInput, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
@@ -75,12 +75,7 @@ export class RoomService extends BaseHttpService {
       tap(returnedRoom => {
         this.authService.setAccess(returnedRoom.shortId, UserRole.PARTICIPANT);
       }),
-      catchError(err => {
-        if (exc) {
-          exc();
-        }
-        return this.handleError<Room>(`add Room ${ room }`);
-      })
+      catchError(this.buildErrorExecutionCallback(`add Room ${ room }`, exc))
     );
   }
 
@@ -104,10 +99,7 @@ export class RoomService extends BaseHttpService {
     const connectionUrl = `${ this.apiUrl.base + this.apiUrl.rooms }/~${ shortId }`;
     return this.http.get<Room>(connectionUrl).pipe(
       tap(room => this.setRoomId(room)),
-      catchError(() => {
-        err();
-        return this.handleError<Room>(`getRoom shortId=${ shortId }`);
-      })
+      catchError(this.buildErrorExecutionCallback(`getRoom shortId=${ shortId }`, err))
     );
   }
 
@@ -156,4 +148,14 @@ export class RoomService extends BaseHttpService {
       return throwError(error);
     };
   }
+
+  private buildErrorExecutionCallback(data: string, exc: () => void) {
+    return (error: any) => {
+      if (exc) {
+        exc();
+      }
+      return this.handleError<Room>(data)(error);
+    };
+  }
+
 }

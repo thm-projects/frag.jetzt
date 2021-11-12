@@ -8,8 +8,7 @@ import { Comment } from '../models/comment';
 import { NotificationService } from '../services/util/notification.service';
 import { CommentService } from '../services/http/comment.service';
 import { Observable, of } from 'rxjs';
-import { flatMap } from 'rxjs/internal/operators';
-import { tap } from 'rxjs/operators';
+import { tap, mergeMap } from 'rxjs/operators';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 import { UserRole } from '../models/user-roles.enum';
 
@@ -34,7 +33,7 @@ export class CreateCommentWrapper {
     dialogRef.componentInstance.tags = (!brainstormingData && this.room.tags) || [];
     dialogRef.componentInstance.brainstormingData = brainstormingData;
     return dialogRef.afterClosed().pipe(
-      flatMap((comment: Comment) => comment ? this.send(comment) : of<Comment>(null))
+      mergeMap((comment: Comment) => comment ? this.send(comment) : of<Comment>(null))
     );
   }
 

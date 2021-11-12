@@ -1,3 +1,7 @@
+#editorRow {
+  overflow-x: hidden !important;
+}
+
 ::ng-deep .ql-editor.ql-blank::before {
   color: var(--on-surface);
   filter: opacity(0.6);
