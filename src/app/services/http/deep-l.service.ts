@@ -2,17 +2,15 @@ import { Injectable } from '@angular/core';
 import { BaseHttpService } from './base-http.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { catchError, map, tap, timeout } from 'rxjs/operators';
-import { flatMap } from 'rxjs/internal/operators';
+import { catchError, map, tap, timeout, mergeMap } from 'rxjs/operators';
 
+/* eslint-disable @typescript-eslint/naming-convention */
 const httpOptions = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' })
 };
 
 interface DeepLResult {
   translations: {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     detected_source_language: SourceLang;
     text: string;
   }[];
@@ -74,6 +72,8 @@ export enum TargetLang {
   ZH = 'ZH'
 }
 
+/* eslint-enable @typescript-eslint/naming-convention */
+
 export enum FormalityType {
   default = '',
   less = 'less',
@@ -124,7 +124,7 @@ export class DeepLService extends BaseHttpService {
 
   improveTextStyle(text: string, temTargetLang: TargetLang, formality = FormalityType.default): Observable<string> {
     return this.makeXMLTranslateRequest(text, temTargetLang, formality).pipe(
-      flatMap(result =>
+      mergeMap(result =>
         this.makeXMLTranslateRequest(
           result.translations[0].text,
           DeepLService.transformSourceToTarget(result.translations[0].detected_source_language),
