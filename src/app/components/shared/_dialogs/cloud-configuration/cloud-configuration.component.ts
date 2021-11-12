@@ -13,10 +13,8 @@ import { AppComponent } from '../../../../app.component';
 })
 export class CloudConfigurationComponent implements OnInit {
   @Input() parent: TagCloudComponent;
-  CloudTextStyle: CloudTextStyle;
   cloudParameters: CloudParameters;
   defaultCloudParameters: CloudParameters;
-  oldCloudParameters: CloudParameters;
   countPerWeight: TagCloudMetaDataCount;
   extendedView: boolean;
   cleanUpView: boolean;
@@ -27,7 +25,7 @@ export class CloudConfigurationComponent implements OnInit {
   alphabeticalSorting: boolean;
   rotation: number;
   highestWeight: number;
-  step: number = 10;
+  step = 10;
   weightClasses: WeightClass[] = [
     {
       maxTagNumber: 20,
@@ -100,8 +98,8 @@ export class CloudConfigurationComponent implements OnInit {
       allowManualTagNumber: false
     },
   ];
-  MinFont: number;
-  MaxFont: number;
+  minFont: number;
+  maxFont: number;
 
   isTestCloud = false;
 
@@ -146,7 +144,8 @@ export class CloudConfigurationComponent implements OnInit {
       this.weightClasses[i].tagColor = element.color;
       this.weightClasses[i].actualTagNumber = this.countPerWeight[i];
       this.weightClasses[i].rotationAngle = element.rotation;
-      this.weightClasses[i].maxTagNumber = (element.maxVisibleElements == -1 || element.maxVisibleElements == 0) ? this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
+      this.weightClasses[i].maxTagNumber = (element.maxVisibleElements === -1 || element.maxVisibleElements === 0) ?
+        this.weightClasses[i].actualTagNumber : element.maxVisibleElements;
       this.weightClasses[i].allowManualTagNumber = element.allowManualTagNumber;
     });
   }
@@ -154,8 +153,8 @@ export class CloudConfigurationComponent implements OnInit {
   parseJsonToArrayWeightClasses() {
     this.weightClasses.forEach((element, i) => {
       this.cloudParameters.cloudWeightSettings[i].allowManualTagNumber = element.allowManualTagNumber;
-      if (element.allowManualTagNumber == true) {
-        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber == 0 ? -1 : element.maxTagNumber;
+      if (element.allowManualTagNumber) {
+        this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = element.maxTagNumber === 0 ? -1 : element.maxTagNumber;
       } else {
         this.cloudParameters.cloudWeightSettings[i].maxVisibleElements = -1;
       }
@@ -256,20 +255,20 @@ export class CloudConfigurationComponent implements OnInit {
   }
 
   readMaxFont() {
-    let valMax: number = this.cloudParameters.fontSizeMax;
-    let valMin: number = this.cloudParameters.fontSizeMin;
-    this.MaxFont = Math.floor(valMax / valMin);
+    const valMax: number = this.cloudParameters.fontSizeMax;
+    const valMin: number = this.cloudParameters.fontSizeMin;
+    this.maxFont = Math.floor(valMax / valMin);
   }
 
-  calcMaxFont(event, setMin: Boolean) {
-    let val: number = Number(event.target.value);
+  calcMaxFont(event, setMin: boolean) {
+    const val = Number(event.target.value);
     if (val > 0 && val <= 10 && !setMin) {
       this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * val;
-      this.MaxFont = val;
+      this.maxFont = val;
       this.valueChanged();
     }
     if (setMin) {
-      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * this.MaxFont;
+      this.cloudParameters.fontSizeMax = this.cloudParameters.fontSizeMin * this.maxFont;
       this.valueChanged();
     }
   }

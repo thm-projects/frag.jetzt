@@ -23,8 +23,8 @@ export class DemoVideoComponent implements OnInit, OnDestroy {
     document.getElementById('setFocus').focus();
     window.addEventListener('keydown', this.keyEvent = e => {
       if (KeyboardUtils.isKeyEvent(e, KeyboardKey.Digit1)) {
-        const iframe = <HTMLElement>document.getElementsByClassName('videoWrapper')[0].children[0];
-        const player = <HTMLIFrameElement>iframe;
+        const iframe = document.getElementsByClassName('videoWrapper')[0].children[0] as HTMLElement;
+        const player = iframe as HTMLIFrameElement;
         if (player.src.charAt(player.src.length - 1) === '0') {
           player.src = player.src.split('?')[0] + '?autoplay=1';
         } else {
@@ -41,12 +41,6 @@ export class DemoVideoComponent implements OnInit, OnDestroy {
     });
   }
 
-  private focusElement(element: HTMLElement) {
-    setTimeout(() => {
-      element.focus();
-    }, 100);
-  }
-
   /**
    * Returns a lambda which closes the dialog on call.
    */
@@ -56,5 +50,11 @@ export class DemoVideoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('keydown', this.keyEvent);
+  }
+
+  private focusElement(element: HTMLElement) {
+    setTimeout(() => {
+      element.focus();
+    }, 100);
   }
 }
