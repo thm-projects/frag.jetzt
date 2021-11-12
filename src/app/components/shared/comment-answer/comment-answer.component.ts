@@ -143,7 +143,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   private onMessageReceive(msg: Message) {
     const message = JSON.parse(msg.body);
     const payload = message.payload;
-    if (payload.id !== this.comment.id) {
+    if (!payload || payload.id !== this.comment.id) {
       return;
     }
     if (message.type === 'CommentHighlighted') {
