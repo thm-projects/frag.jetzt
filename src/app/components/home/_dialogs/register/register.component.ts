@@ -4,7 +4,6 @@ import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/fo
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
-import { EventService } from '../../../../services/util/event.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 
 export class RegisterErrorStateMatcher implements ErrorStateMatcher {
@@ -14,8 +13,8 @@ export class RegisterErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-export function validatePassword(password1: FormControl) {
-  return (formControl: FormControl) => {
+export const validatePassword = (password1: FormControl) =>
+  (formControl: FormControl) => {
     const password1Value = password1.value;
     const password2Value = formControl.value;
 
@@ -29,10 +28,8 @@ export function validatePassword(password1: FormControl) {
       return null;
     }
   };
-}
 
-function validateEmail(email1: FormControl) {
-  return (formControl: FormControl) => {
+const validateEmail = (email1: FormControl) => (formControl: FormControl) => {
     const email1Value = email1.value;
     const email2Value = formControl.value;
 
@@ -46,7 +43,6 @@ function validateEmail(email1: FormControl) {
       return null;
     }
   };
-}
 
 @Component({
   selector: 'app-register',
@@ -82,7 +78,7 @@ export class RegisterComponent implements OnInit {
    * @inheritDoc
    */
   ngOnInit() {
-      // nothing special yet
+    // nothing special yet
   }
 
   register(username: string, password: string): void {
@@ -91,13 +87,13 @@ export class RegisterComponent implements OnInit {
       !this.password1FormControl.hasError('required') &&
       !this.password2FormControl.hasError('required') && !this.password2FormControl.hasError('passwordIsEqual')) {
       this.authenticationService.register(username, password).subscribe(
-        (result) => {
+        () => {
           this.translationService.get('register.register-successful').subscribe(message => {
             this.notificationService.show(message);
           });
-          this.dialogRef.close({ username: username, password: password });
+          this.dialogRef.close({ username, password });
         },
-        err => {
+        () => {
           this.translationService.get('register.register-request-error').subscribe(message => {
             this.notificationService.show(message);
           });

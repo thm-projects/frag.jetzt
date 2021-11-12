@@ -8,6 +8,11 @@ import { MatomoInjector } from 'ngx-matomo-v9';
 import { environment } from '../environments/environment';
 import { filter } from 'rxjs/operators';
 
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module';
+import 'quill-emoji/dist/quill-emoji.js';
+Quill.register('modules/imageResize', ImageResize);
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

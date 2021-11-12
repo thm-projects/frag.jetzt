@@ -240,16 +240,15 @@ class Mark {
       for (let j = 0; j < length; j++) {
         const dropdownElem = document.createElement('span');
         dropdownElem.classList.add('suggestions');
-        dropdownElem.innerText = suggestions[j].value;
+        if (suggestions[j].value.trim().length < 1) {
+          dropdownElem.innerHTML = '<em>\'' + suggestions[j].value + '\'</em>';
+        } else {
+          dropdownElem.innerText = suggestions[j].value;
+        }
         this.dropdown.append(dropdownElem);
         dropdownElem.addEventListener('click', () => {
-          if (document.queryCommandSupported('insertText')) {
-            this.quillEditor.setSelection(this.startIndex, this.markLength, 'user');
-            document.execCommand('insertText', false, suggestions[j].value);
-          } else {
-            this.quillEditor.deleteText(this.startIndex, this.markLength, 'user');
-            this.quillEditor.insertText(this.startIndex, suggestions[j].value, 'user');
-          }
+          this.quillEditor.deleteText(this.startIndex, this.markLength, 'user');
+          this.quillEditor.insertText(this.startIndex, suggestions[j].value, 'user');
           removeMark();
         });
       }

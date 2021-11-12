@@ -7,10 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
-import Delta from 'quill-delta';
-import Quill from 'quill';
-import ImageResize from 'quill-image-resize-module';
-import 'quill-emoji/dist/quill-emoji.js';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
@@ -21,8 +17,6 @@ import { LanguagetoolResult } from '../../../services/http/languagetool.service'
 import { NotificationService } from '../../../services/util/notification.service';
 import { AccessibilityEscapedInputDirective } from '../../../directives/accessibility-escaped-input.directive';
 import { EventService } from '../../../services/util/event.service';
-
-Quill.register('modules/imageResize', ImageResize);
 
 @Component({
   selector: 'app-view-comment-data',
@@ -220,11 +214,10 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
   }
 
   clear(): void {
-    const delta = new Delta();
     if (this.isEditor) {
-      this.editor.quillEditor.setContents(delta);
+      this.editor.quillEditor.setContents({ ops: [] });
     } else {
-      this.quillView.quillEditor.setContents(delta);
+      this.quillView.quillEditor.setContents({ ops: [] });
     }
   }
 
@@ -312,10 +305,16 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     };
     tooltip.edit = (type: string, value: string) => {
       this.handle(type, value, (val: string) => {
-        const delta = new Delta()
-          .retain(range.index)
-          .retain(range.length, { link: val });
-        this.editor.quillEditor.updateContents(delta);
+        const ops = [];
+        const startIndex = range.index;
+        if (startIndex > 0) {
+          ops.push({ retain: startIndex });
+        }
+        ops.push({
+          retain: range.length,
+          attributes: { link: val },
+        });
+        this.editor.quillEditor.updateContents({ ops });
       });
     };
   }

@@ -9,6 +9,9 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/participant/', '.json');
+
 @NgModule({
   imports: [
     CommonModule,
@@ -30,8 +33,4 @@ import { MarkdownModule } from 'ngx-markdown';
   ]
 })
 export class ParticipantModule {
-}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../../assets/i18n/participant/', '.json');
 }
