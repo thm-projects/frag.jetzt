@@ -150,10 +150,12 @@ export class RoomService extends BaseHttpService {
   }
 
   private buildErrorExecutionCallback(data: string, exc: () => void) {
-    if (exc) {
-      exc();
-    }
-    return this.handleError<Room>(data);
+    return (error: any) => {
+      if (exc) {
+        exc();
+      }
+      return this.handleError<Room>(data)(error);
+    };
   }
 
 }
