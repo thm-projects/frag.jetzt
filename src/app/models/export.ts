@@ -267,7 +267,7 @@ export class Export {
   private getCommentBonusTokenMixin(comments: (comments: CommentBonusTokenMixin[]) => void) {
     let source: Observable<Comment[]> = this.commentService.getAckComments(this.room.id);
     if (this.bonusTokenMask) {
-      source = forkJoin(source, this.commentService.getRejectedComments(this.room.id)).pipe(
+      source = forkJoin([source, this.commentService.getRejectedComments(this.room.id)]).pipe(
         map(res => res[0].concat(res[1]).sort((a, b) => a.number - b.number))
       );
     }
