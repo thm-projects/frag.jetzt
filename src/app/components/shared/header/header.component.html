@@ -344,7 +344,7 @@
               *ngIf="user"
               (click)="showMotdDialog()">
         <mat-icon class="faq">
-          {{ motdState ? 'notifications_active' : 'help' }}
+          {{ motdState ? 'notifications_active' : 'notifications_none' }}
         </mat-icon>
         <span>{{'header.motd' | translate}}</span>
       </button>

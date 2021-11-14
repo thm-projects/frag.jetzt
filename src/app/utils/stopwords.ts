@@ -49,6 +49,7 @@ export const stopWords = [
   'Guten Tag',
   'Moin',
   'Satz',
-  'Question'
+  'Question',
+  'uns'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\/';

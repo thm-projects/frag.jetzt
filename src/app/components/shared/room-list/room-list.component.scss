@@ -80,12 +80,12 @@ th, tr {
 }
 
 .delete {
-  color: var(--red);
+  color: var(--red) !important;
   margin-right: 10px;
 }
 
 .export {
-  color: var(--green);
+  color: var(--green) !important;
   margin-right: 10px;
 }
 
