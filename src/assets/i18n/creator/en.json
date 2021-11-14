@@ -418,8 +418,8 @@
     "language-specific-filter": "Censor in all languages",
     "partial-words-filter": "Censor even within a word",
     "words-will-be-overwritten": "Profane words will be overwritten with '***'.",
-    "only-specific-language-will-be-filtered": "Only profane words in the language of the question are filtered.",
-    "partial-words-will-be-filtered": "Profane partial words are also filtered.",
+    "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
+    "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
     "hint": "Filter by token"
   },
   "session": {
