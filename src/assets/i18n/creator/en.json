@@ -417,7 +417,7 @@
     "profanity-filter": "Activate profanity filter",
     "language-specific-filter": "Censor in all languages",
     "partial-words-filter": "Censor even within a word",
-    "words-will-be-overwritten": "Profane words will be overwritten with '***'.",
+    "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
     "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
     "hint": "Filter by token"
@@ -519,7 +519,7 @@
     "sort": "Sort",
     "language-specific filter": "Censor in all languages",
     "Partial word filter": "Censor even within a word",
-    "words-will-be-overwritten": "Profane words will be overwritten with '***'-",
+    "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Only the language of the question will be filtered",
     "partial-words-will-be-filtered": "Profane partial words will be also filtered",
     "keyword-from-spacy": "Keyword from spaCy",
