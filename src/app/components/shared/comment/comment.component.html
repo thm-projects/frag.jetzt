@@ -303,7 +303,7 @@
            fxLayout="column"
            fxLayoutAlign="center">
         <span class="scoreCreator" matTooltip="{{
-        ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' | ' +
+        ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
         ('comment-page.downvote' | translate) + ' ' + comment.downvotes
         }}">{{comment.score}}</span>
       </div>
@@ -427,7 +427,7 @@
     </mat-icon>
   </button>
   <span class="score" matTooltip="{{
-        ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' | ' +
+        ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
         ('comment-page.downvote' | translate) + ' ' + comment.downvotes
         }}">{{comment.score}}</span>
   <button mat-icon-button

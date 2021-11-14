@@ -417,8 +417,8 @@
     "language-specific-filter": "In allen Sprachen zensieren",
     "partial-words-filter": "Auch innerhalb eines Wortes zensieren",
     "words-will-be-overwritten": "Vulgäre Wörter werden mit '***' überschrieben.",
-    "only-specific-language-will-be-filtered": "Nur Vulgärausdrücke in der Sprache der Frage werden zensiert.",
-    "partial-words-will-be-filtered": "Vulgäre Teilwörter werden auch zensiert.",
+    "only-specific-language-will-be-filtered": "Jetzt werden Vulgärausdrücke auch aus anderen Sprachen zensiert.",
+    "partial-words-will-be-filtered": "Jetzt werden Vulgärausdrücke auch innerhalb eines Wortes zensiert.",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragensteller",
     "hint": "Nach Token filtern"
