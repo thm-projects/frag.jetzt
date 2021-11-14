@@ -50,9 +50,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   maxWordCount = new FormControl(1, [
     Validators.required, Validators.min(this.maxWordCountMin), Validators.max(this.maxWordCountMax),
   ]);
-  maxWordLengthMin = 3;
+  maxWordLengthMin = 2;
   maxWordLengthMax = 30;
-  maxWordLength = new FormControl(12, [
+  maxWordLength = new FormControl(20, [
     Validators.required, Validators.min(this.maxWordLengthMin), Validators.max(this.maxWordLengthMax)
   ]);
   question = '';
