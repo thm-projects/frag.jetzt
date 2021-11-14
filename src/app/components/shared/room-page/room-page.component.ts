@@ -398,7 +398,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'clear',
+        icon: 'password',
         text: 'header.profanity-filter',
         callback: () => this.toggleProfanityFilter(),
         condition: () => this.userRole > UserRole.PARTICIPANT
