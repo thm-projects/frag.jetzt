@@ -23,7 +23,7 @@ export const highcontrast = {
   '--green': '#3ce933',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': '#e9d533',
+  '--yellow': '#fb9a1c',
   '--blue': '#3833e9',
   '--purple': '#e933e2',
   '--magenta': '#ea0a8e',
