@@ -50,6 +50,7 @@ export const stopWords = [
   'Moin',
   'Satz',
   'Question',
-  'uns'
+  'uns',
+  'liest'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';
