@@ -41,6 +41,7 @@ export const stopWords = [
   'Das heißt',
   'Denkst du',
   'Kannst du',
+  'Könntest du',
   'Nochmal',
   'Teste',
   'Falls',
