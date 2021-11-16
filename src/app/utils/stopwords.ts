@@ -14,6 +14,8 @@ export const stopWords = [
   'zb.',
   'zb',
   'z. b.',
+  'd.h.',
+  'd. h.',
   'Zum Beispiel',
   'Beispiel',
   'Bsp',
@@ -41,6 +43,7 @@ export const stopWords = [
   'Das heißt',
   'Denkst du',
   'Kannst du',
+  'Könntest du',
   'Nochmal',
   'Teste',
   'Falls',
@@ -50,6 +53,7 @@ export const stopWords = [
   'Moin',
   'Satz',
   'Question',
-  'uns'
+  'uns',
+  'liest'
 ];
 export const superfluousSpecialCharacters = '“”‘’„‚«»‹›『』﹃﹄「」﹁﹂",《》〈〉\'`#&…\\';
