@@ -1,17 +1,17 @@
 {
   "cookies": {
     "accept": "Akzeptieren",
-    "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei.",
+    "accept-description": "Bestätigt die Verwendung der Web-Storage-Technik und schaltet die Anwendung frei",
     "cancel": "Ablehnen",
-    "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung.",
-    "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt.",
+    "cancel-description": "Lehnt die Verwendung der Web-Storage-Technik ab und sperrt die Anwendung",
+    "info-label": "Öffnet ein Dialogfenster mit der Datenschutzerklärung zu frag.jetzt",
     "title": "Datenschutz"
   },
   "data-protection": {
     "cancel": "Ablehnen",
-    "cancel-description": "Lehnt die Datenschutzerklärung ab.",
+    "cancel-description": "Lehnt die Datenschutzerklärung ab",
     "consent": "Akzeptieren",
-    "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung.",
+    "consent-description": "Akzeptiert die Datenschutzerklärung der Anwendung",
     "title": "Datenschutzerklärung"
   },
   "demo": {
@@ -25,12 +25,12 @@
     "delete-description": "Konto löschen"
   },
   "footer": {
-    "accessibility-data_protection": "Öffnet die Datenschutzerklärung.",
-    "accessibility-demo": "Öffnet die Einführung zu frag.jetzt.",
-    "accessibility-help": "Öffnet die Hilfe.",
-    "accessibility-imprint": "Öffnet das Impressum.",
-    "accessibility-language": "Öffnet die Sprachauswahl.",
-    "accessibility-style": "Öffnet die Anzeigeoptionen für hohen Kontrast, Hörsaal-Projektion, heller und dunkler Hintergrund.",
+    "accessibility-data_protection": "Öffnet die Datenschutzerklärung",
+    "accessibility-demo": "Öffnet die Einführung zu »frag.jetzt«",
+    "accessibility-help": "Öffnet die Hilfe",
+    "accessibility-imprint": "Öffnet das Impressum",
+    "accessibility-language": "Öffnet die Sprachauswahl",
+    "accessibility-style": "Öffnet die Anzeigeoptionen für hohen Kontrast, Hörsaal-Projektion, heller und dunkler Hintergrund",
     "demo": "Einführung",
     "dsgvo": "Datenschutz",
     "english": "Englisch",
@@ -49,13 +49,13 @@
     "cancel": "Abbrechen",
     "continue": "Weiter",
     "reset": "Zurücksetzen",
-    "brainstorming-question": "Überschrift des Brainstorming-Boards",
+    "brainstorming-question": "Thema des Brainstormings",
     "brainstorming-word-count": "Maximale Anzahl Wörter",
     "brainstorming-word-length": "Maximale Wortlänge",
     "field-required": "Dieses Feld wird benötigt",
     "field-hint-number": "Eingabe zwischen {{min}} und {{max}}",
-    "field-too-low": "Deine Eingabe ist zu niedrig, sie muss mindestens {{min}} sein.",
-    "field-too-high": "Deine Eingabe ist zu hoch, sie darf maximal {{max}} sein.",
+    "field-too-low": "Deine Eingabe ist zu kurz, sie muss mindestens {{min}} sein.",
+    "field-too-high": "Deine Eingabe ist zu lang, sie darf maximal {{max}} sein.",
     "tag-cloud-info": "Je größer die Schrift, desto häufiger wurde das Wort in den Fragen verwendet oder als Stichwort vergeben. Auch die Bewertungen der Fragen beeinflussen die Schriftgröße.",
     "tag-cloud-questions-title": "Welche Fragen soll die Themenwolke umfassen?",
     "tag-cloud-questions-all": "Alle Fragen",
@@ -97,7 +97,7 @@
     "QR": "QR-Code der Sitzung in Vollansicht",
     "my-account": "Optionen",
     "my-guest-account": "Gastkonto",
-    "my-sessions": "Zu den Räumen",
+    "my-sessions": "Meine Räume",
     "really-delete-account": "Willst du dein Konto mit allen Sitzungen unwiderruflich löschen? Falls du Boni vergeben hast (Sterne), exportiere die Fragen, damit du eingereichte Bonus-Tokens überprüfen kannst.",
     "sure": "Bist du sicher?",
     "user-bonus-token": "Meine Bonus-Sterne",
@@ -169,13 +169,15 @@
     "update-available": "Eine neue Version ist verfügbar.",
     "custom-shortid": "Raum-Code festlegen",
     "custom-shortid-placeholder": "Code aus: a-z A-Z 0-9 - _ ~ .",
-    "invalid-shortid": "Der eingegebene Raum-Code ist nicht verfügbar.",
+    "invalid-shortid": "Der eingegebene Raum-Code ist unzulässig.",
     "invalid-char-shortid": "Der Raum-Code enthält unzulässige Zeichen."
   },
   "imprint": {
     "cancel": "Schließen",
     "cancel-description": "Schließt das Impressum.",
-    "title": "Impressum"
+    "title": "Impressum",
+    "frontend": "Projekt-Statistik des Frontends:",
+    "backend": "Projekt-Statistik des Backends:"
   },
   "introduction": {
     "cancel": "Schließen",
@@ -241,12 +243,12 @@
     "title": "Nutzung nicht möglich"
   },
   "password-reset": {
-    "a11y-new_password1": "Gib hier dein neues Passwort ein",
-    "a11y-new_password2": "Gib hier erneut dein neues Passwort ein",
+    "a11y-new_password1": "Gib hier dein neues Passwort ein.",
+    "a11y-new_password2": "Gib hier erneut dein neues Passwort ein.",
     "a11y-password_reset_button": "Sendet an die eingegebene E-Mail ein Passwortrücksetz-Schlüssel, mit dem ein neues Passwort gesetzt werden kann",
-    "a11y-password_reset_key": "Gib hier den Passwortrücksetz-Schlüssel ein, den du per E-Mail erhalten hast",
+    "a11y-password_reset_key": "Gib hier den Passwortrücksetz-Schlüssel ein, den du per E-Mail erhalten hast.",
     "a11y-password_set_button": "Setzt das neue Passwort",
-    "a11y-password_set_email": "Gib hier deine E-Mail Adresse ein, um ein neues Passwort zu setzten",
+    "a11y-password_set_email": "Gib hier deine E-Mail Adresse ein, um ein neues Passwort zu setzten.",
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "email": "E-Mail",
@@ -261,8 +263,8 @@
     "new-password-successful": "Dein neues Passwort wurde gesetzt.",
     "new-password-key-expired": "Der Key ist abgelaufen, der Prozess muss neugestartet werden.",
     "new-password-key-invalid": "Der Key ist ungültig.",
-    "reset-button-description": "Setzt das Passwort des Accounts zurück.",
-    "reset-failed-because-of-activation-process": "Zurücksetzen fehlgeschlagen, Aktivierungsprozess ist im Gange",
+    "reset-button-description": "Setzt das Passwort des Accounts zurück",
+    "reset-failed-because-of-activation-process": "Zurücksetzen fehlgeschlagen, Aktivierungsprozess ist im Gange.",
     "reset-password": "Passwort zurücksetzen",
     "reset-password-description": "Hier kannst du dein Passwort zurücksetzen.",
     "reset-successful": "Wenn ein Konto mit dieser Mailadresse existiert, wurde eine Nachricht versendet.",
@@ -309,7 +311,7 @@
     "executive-moderator-role": "Du bist ein Moderator in diesem Raum.",
     "filter": "In diesem Textfeld kannst du die besuchten Sitzungen nach Name oder Code filtern.",
     "filter-message": "Suchen …",
-    "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen.",
+    "join-message-template": "An der Sitzung {{session}} mit dem Code {{id}} und in der Rolle {{role}} teilnehmen",
     "moderator-role": "Du bist ein Moderator in diesem Raum.",
     "no-room-history": "Deine Raumliste ist leer.",
     "panel-join-button": "",
@@ -364,7 +366,7 @@
     "token-time": "Token-Zeitstempel",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "export-comments": "Fragen speichern",
-    "room-not-exist": "Der Raum existiert nicht.\nBitte informiere die Person, die dir den Direktlink gegeben hat."
+    "room-not-exist": "Der Raum existiert nicht. Bitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {
     "create-session": "Speichern",

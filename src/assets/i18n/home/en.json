@@ -78,7 +78,7 @@
     "QR": "QR code of the session in full view",
     "my-account": "Options",
     "my-guest-account": "Guest Account",
-    "my-sessions": "Room list",
+    "my-sessions": "My rooms",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus tokens.",
     "sure": "Are you sure?",
     "user-bonus-token": "My bonus stars",
@@ -150,20 +150,20 @@
     "update-available": "An update is available.",
     "custom-shortid": "Set key code yourself",
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
-    "invalid-shortid": "This key code is not available.",
+    "invalid-shortid": "This key code is not valid.",
     "invalid-char-shortid": "This key code contains invalid characters."
   },
   "content": {
     "cancel": "Cancel",
     "continue": "Continue",
     "reset": "Reset",
-    "brainstorming-question": "Heading of the brainstorming board",
+    "brainstorming-question": "Subject of the brainstorming",
     "brainstorming-word-count": "Maximum number of words",
     "brainstorming-word-length": "Maximum word length",
     "field-required": "This field is required",
     "field-hint-number": "Input between {{min}} and {{max}}",
-    "field-too-low": "Your input is too low. It must be at least {{min}}.",
-    "field-too-high": "Your input is too high. It may be at most {{max}}.",
+    "field-too-low": "Your input is too short. It must be at least {{min}}.",
+    "field-too-high": "Your input is too long. It may be at most {{max}}.",
     "tag-cloud-info": "The word cloud in »frag.jetzt« serves as a semantic filter: the larger the font, the more often the word was used grammatically in the questions or assigned as a keyword. The ratings of the questions also influence the font size.",
     "tag-cloud-questions-title": "Which questions should the topic cloud include?",
     "tag-cloud-questions-all": "All questions",
@@ -175,12 +175,14 @@
   },
   "imprint": {
     "cancel": "Close",
-    "cancel-description": "Close the imprint dialog.",
-    "title": "Imprint"
+    "cancel-description": "Close the imprint dialog",
+    "title": "Imprint",
+    "frontend": "Project statistics of the frontend:",
+    "backend": "Project statistics of the backend:"
   },
   "introduction": {
     "cancel": "Close",
-    "cancel-description": "Close introduction.",
+    "cancel-description": "Close introduction",
     "title": "Introduction"
   },
   "joyride": {
@@ -234,7 +236,7 @@
     "welcome": "»Any questions?«",
     "welcome-subtitle": "anonymous | in your browser | for free",
     "welcome-feedback": "➜ Feedback to the »frag.jetzt« team",
-    "feedback-aria": "Please use the following Link to offer the developers bugs, features, praise and blame"
+    "feedback-aria": "Please use the following link to offer the developers bugs, features, praise and blame"
   },
   "overlay": {
     "cancel": "Accept after all?",

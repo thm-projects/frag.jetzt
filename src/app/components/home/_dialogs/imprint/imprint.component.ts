@@ -10,7 +10,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 export class ImprintComponent implements OnInit {
   deviceType: string;
   currentLang: string;
-  safeURL: SafeResourceUrl;
+  safeURLfrontend: SafeResourceUrl;
+  safeURLbackend: SafeResourceUrl;
 
 
   constructor(private dialogRef: MatDialogRef<ImprintComponent>,
@@ -19,8 +20,10 @@ export class ImprintComponent implements OnInit {
 
   ngOnInit() {
     this.currentLang = localStorage.getItem('currentLang');
-    this.safeURL = this.sanitizer
-      .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt/widgets/project_factoids_stats');
+    this.safeURLfrontend = this.sanitizer
+      .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt/widgets/project_partner_badge');
+    this.safeURLbackend = this.sanitizer
+      .bypassSecurityTrustResourceUrl('https://www.openhub.net/p/frag-jetzt-backend/widgets/project_partner_badge');
   }
 
   /**
