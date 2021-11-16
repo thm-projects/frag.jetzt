@@ -431,7 +431,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.maxWordCount = data.brainstorming?.maxWordCount;
       }
       data.brainstorming = undefined;
-      this.topicCloudAdmin.setAdminData(admin, false, this.userRole);
+      this.topicCloudAdmin.setAdminData(admin, null, this.userRole);
       if (this.deviceInfo.isCurrentlyMobile) {
         const defaultParams = new CloudParameters();
         defaultParams.resetToDefault(this.themeService.currentTheme.isDark);

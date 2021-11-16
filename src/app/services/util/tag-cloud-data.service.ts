@@ -12,6 +12,7 @@ import { SmartDebounce } from '../../utils/smart-debounce';
 import { ModeratorService } from '../http/moderator.service';
 import { CommentListFilter } from '../../components/shared/comment-list/comment-list.filter';
 import { Room } from '../../models/room';
+import { WsRoomService } from '../websockets/ws-room.service';
 
 export interface TagCloudDataTagEntry {
   weight: number;
@@ -74,7 +75,7 @@ export class TagCloudDataService {
   private _dataBus: BehaviorSubject<TagCloudData>;
   private _metaDataBus: BehaviorSubject<TagCloudMetaData>;
   private _commentSubscription = null;
-  private _roomId = null;
+  private _room: Room = null;
   private _lastFetchedData: TagCloudData = null;
   private _lastFetchedComments: Comment[] = null;
   private _lastMetaData: TagCloudMetaData = null;
@@ -87,9 +88,11 @@ export class TagCloudDataService {
   private _currentOwner: string;
   private readonly _smartDebounce = new SmartDebounce(200, 3_000);
   private _isBrainstorming: boolean;
+  private _subscriptionWsRoom;
 
   constructor(private _tagCloudAdmin: TopicCloudAdminService,
               private _roomDataService: RoomDataService,
+              private _wsRoomService: WsRoomService,
               private _moderatorService: ModeratorService) {
     this._isDemoActive = false;
     this._isAlphabeticallySorted = false;
@@ -107,6 +110,8 @@ export class TagCloudDataService {
 
   static buildDataFromComments(roomOwner: string,
                                moderators: string[],
+                               blacklist: string[],
+                               blacklistEnabled: boolean,
                                adminData: TopicCloudAdminData,
                                roomDataService: RoomDataService,
                                comments: Comment[],
@@ -117,8 +122,8 @@ export class TagCloudDataService {
       if (brainstorming !== comment.brainstormingQuestion) {
         continue;
       }
-      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, brainstorming,
-        (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
+      TopicCloudAdminService.approveKeywordsOfComment(comment, roomDataService, adminData, blacklist, blacklistEnabled,
+        brainstorming, (keyword: SpacyKeyword, isFromQuestioner: boolean) => {
           let current: TagCloudDataTagEntry = data.get(keyword.text);
           const commentDate = new Date(comment.timestamp);
           if (current === undefined) {
@@ -186,7 +191,14 @@ export class TagCloudDataService {
     this._isBrainstorming = isBrainstorming;
     this._currentFilter = CommentListFilter.loadFilter('cloudFilter');
     this._currentFilter.updateRoom(room);
-    this._roomId = room.id;
+    this._room = room;
+    this._subscriptionWsRoom = this._wsRoomService.getRoomStream(room.id).subscribe(msg => {
+      const message = JSON.parse(msg.body);
+      if (message.type === 'RoomPatched') {
+        this._room = message.payload.changes;
+        this.rebuildTagData();
+      }
+    });
     this._currentOwner = room.ownerId;
     this._currentFilter.updateUserId(userId);
     this._moderatorService.get(room.id).subscribe(moderators => {
@@ -198,7 +210,6 @@ export class TagCloudDataService {
     this._subscriptionAdminData = this._tagCloudAdmin.getAdminData.subscribe(adminData => {
       this.onReceiveAdminData(adminData, true);
     });
-    this._tagCloudAdmin.ensureRoomBound(room.id, userRole);
 
     this.fetchData();
     if (!this._currentFilter.freezedAt) {
@@ -221,10 +232,10 @@ export class TagCloudDataService {
   unbindRoom(): void {
     this._subscriptionAdminData.unsubscribe();
     this._subscriptionAdminData = null;
-    if (this._commentSubscription !== null) {
-      this._commentSubscription.unsubscribe();
-      this._commentSubscription = null;
-    }
+    this._commentSubscription?.unsubscribe();
+    this._commentSubscription = null;
+    this._subscriptionWsRoom?.unsubscribe();
+    this._subscriptionWsRoom = null;
   }
 
   updateDemoData(translate: TranslateService): void {
@@ -290,8 +301,8 @@ export class TagCloudDataService {
     return this._isAlphabeticallySorted;
   }
 
-  blockWord(tag: string): void {
-    this._tagCloudAdmin.addWordToBlacklist(tag.toLowerCase());
+  blockWord(tag: string, room: Room): void {
+    this._tagCloudAdmin.addWordToBlacklist(tag.toLowerCase(), room);
   }
 
   updateConfig(parameters: CloudParameters): boolean {
@@ -343,7 +354,7 @@ export class TagCloudDataService {
   }
 
   private fetchData(): void {
-    this._roomDataService.getRoomData(this._roomId).subscribe((comments: Comment[]) => {
+    this._roomDataService.getRoomData(this._room.id).subscribe((comments: Comment[]) => {
       if (comments === null) {
         return;
       }
@@ -380,8 +391,10 @@ export class TagCloudDataService {
     const currentMeta = this._isDemoActive ? this._lastMetaData : this._currentMetaData;
     const filteredComments = this._currentFilter.checkAll(this._lastFetchedComments);
     currentMeta.commentCount = filteredComments.length;
+    const blacklist = this._room.blacklist ? JSON.parse(this._room.blacklist) : [];
     const [data, users] = TagCloudDataService.buildDataFromComments(this._currentOwner, this._currentModerators,
-      this._adminData, this._roomDataService, filteredComments, this._isBrainstorming);
+      blacklist, this._room.blacklistIsActive, this._adminData, this._roomDataService, filteredComments,
+      this._isBrainstorming);
     let minWeight = null;
     let maxWeight = null;
     for (const value of data.values()) {

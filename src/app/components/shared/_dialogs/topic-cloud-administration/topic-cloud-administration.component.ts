@@ -18,7 +18,10 @@ import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { ProfanityFilter } from '../../../../models/room';
+import { ProfanityFilter, Room } from '../../../../models/room';
+import { RoomService } from '../../../../services/http/room.service';
+import { WsRoomService } from '../../../../services/websockets/ws-room.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -31,7 +34,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   public blacklistIsActive: boolean;
   blacklist: string[] = [];
   profanitywordlist: string[] = [];
-  blacklistSubscription = undefined;
   profanitylistSubscription = undefined;
   commentServiceSubscription = undefined;
   keywordOrFulltextENUM = KeywordOrFulltext;
@@ -58,7 +60,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     en: string[];
   };
   spacyLabelsAllSelectedDE = true;
-  isLoading: boolean;
+  isLoading = true;
   minQuestions: string;
   minQuestioners: string;
   minUpvotes: string;
@@ -68,16 +70,18 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   scorings: TopicCloudAdminDataScoringObject;
   scoringOptions = Object.keys(TopicCloudAdminDataScoringKey);
   scoringMinMax = keywordsScoringMinMax;
+  currentRoom: Room;
 
   keywords: Map<string, Keyword> = new Map<string, Keyword>();
   defaultScorings: TopicCloudAdminDataScoringObject;
+  profanityFilter: boolean;
+  censorPartialWordsCheck: boolean;
+  censorLanguageSpecificCheck: boolean;
+  testProfanityWord: string = undefined;
+  testProfanityLanguage = 'de';
+  blacklistKeywords = [];
+  private subscriptionWsRoom = null;
   private topicCloudAdminData: TopicCloudAdminData;
-  private profanityFilter: boolean;
-  private censorPartialWordsCheck: boolean;
-  private censorLanguageSpecificCheck: boolean;
-  private testProfanityWord: string = undefined;
-  private testProfanityLanguage = 'de';
-  private blacklistKeywords = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Data,
@@ -87,6 +91,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
+    private roomService: RoomService,
+    private wsRoomService: WsRoomService,
     private commentService: CommentService,
     private roomDataService: RoomDataService,
     private profanityFilterService: ProfanityFilterService) {
@@ -99,15 +105,24 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.topicCloudAdminService.getBlacklistIsActive().subscribe(isActive => {
-      this.blacklistIsActive = isActive;
-      this.refreshKeywords();
+    const roomId = localStorage.getItem('roomId');
+    this.roomService.getRoom(roomId).subscribe(room => {
+      this.currentRoom = room;
+      this.blacklistIsActive = room.blacklistIsActive;
+      this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
+      this.setDefaultAdminData(room);
+      this.initializeKeywords(room.id);
+      this.subscriptionWsRoom = this.wsRoomService.getRoomStream(room.id).subscribe(msg => {
+        const message = JSON.parse(msg.body);
+        if (message.type === 'RoomPatched') {
+          this.currentRoom = room;
+          this.blacklistIsActive = room.blacklistIsActive;
+          this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
+          this.refreshKeywords();
+        }
+      });
     });
     this.deviceType = localStorage.getItem('deviceType');
-    this.blacklistSubscription = this.topicCloudAdminService.getBlacklist().subscribe(list => {
-      this.blacklist = list;
-      this.refreshKeywords();
-    });
     this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
@@ -117,8 +132,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
-    this.setDefaultAdminData();
-    this.initializeKeywords();
   }
 
   changeTabIndex() {
@@ -218,12 +231,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.blacklistSubscription !== undefined) {
-      this.blacklistSubscription.unsubscribe();
-    }
-    if (this.profanitylistSubscription !== undefined) {
-      this.profanitylistSubscription.unsubscribe();
-    }
+    this.profanitylistSubscription?.unsubscribe();
+    this.subscriptionWsRoom?.unsubscribe();
     this.cloudDialogRef.close();
   }
 
@@ -232,8 +241,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.ngOnDestroy();
   }
 
-  initializeKeywords() {
-    const roomId = localStorage.getItem('roomId');
+  initializeKeywords(roomId: string) {
     this.roomDataService.getRoomData(roomId).subscribe(comments => {
       if (comments === null) {
         return;
@@ -312,14 +320,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       minUpvotesVerified = 0;
     }
     this.topicCloudAdminData = {
-      blacklist: [],
       wantedLabels: {
         de: this.wantedLabels.de,
         en: this.wantedLabels.en
       },
       considerVotes: this.considerVotes,
-      profanityFilter: profFilter,
-      blacklistIsActive: this.blacklistIsActive,
       keywordORfulltext: KeywordOrFulltext[this.keywordORfulltext],
       minQuestioners: minQuestionersVerified,
       minQuestions: minQuestionsVerified,
@@ -328,33 +333,34 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       endDate: this.endDate.length ? this.endDate : null,
       scorings: this.scorings
     };
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, true, this.data.userRole);
+    this.currentRoom.blacklistIsActive = this.blacklistIsActive;
+    this.currentRoom.blacklist = JSON.stringify(this.blacklist);
+    this.currentRoom.profanityFilter = profFilter;
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, this.currentRoom, this.data.userRole);
   }
 
-  setDefaultAdminData() {
+  setDefaultAdminData(room: Room) {
     this.topicCloudAdminData = TopicCloudAdminService.getDefaultAdminData;
-    if (this.topicCloudAdminData) {
-      this.considerVotes = this.topicCloudAdminData.considerVotes;
-      this.profanityFilter = this.topicCloudAdminData.profanityFilter !== ProfanityFilter.deactivated;
-      if (this.topicCloudAdminData.profanityFilter === ProfanityFilter.all) {
-        this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
-      } else if (this.profanityFilter) {
-        this.censorLanguageSpecificCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.languageSpecific;
-        this.censorPartialWordsCheck = this.topicCloudAdminData.profanityFilter === ProfanityFilter.partialWords;
-      }
-      this.blacklistIsActive = this.topicCloudAdminData.blacklistIsActive;
-      this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
-      this.wantedLabels = {
-        de: this.topicCloudAdminData.wantedLabels.de,
-        en: this.topicCloudAdminData.wantedLabels.en
-      };
-      this.minQuestioners = String(this.topicCloudAdminData.minQuestioners);
-      this.minQuestions = String(this.topicCloudAdminData.minQuestions);
-      this.minUpvotes = String(this.topicCloudAdminData.minUpvotes);
-      this.startDate = this.topicCloudAdminData.startDate || '';
-      this.endDate = this.topicCloudAdminData.endDate || '';
-      this.scorings = this.topicCloudAdminData.scorings;
+    this.considerVotes = this.topicCloudAdminData.considerVotes;
+    this.profanityFilter = room.profanityFilter !== ProfanityFilter.deactivated;
+    if (room.profanityFilter === ProfanityFilter.all) {
+      this.censorLanguageSpecificCheck = this.censorPartialWordsCheck = true;
+    } else if (this.profanityFilter) {
+      this.censorLanguageSpecificCheck = room.profanityFilter === ProfanityFilter.languageSpecific;
+      this.censorPartialWordsCheck = room.profanityFilter === ProfanityFilter.partialWords;
     }
+    this.blacklistIsActive = room.blacklistIsActive;
+    this.keywordORfulltext = KeywordOrFulltext[this.topicCloudAdminData.keywordORfulltext];
+    this.wantedLabels = {
+      de: this.topicCloudAdminData.wantedLabels.de,
+      en: this.topicCloudAdminData.wantedLabels.en
+    };
+    this.minQuestioners = String(this.topicCloudAdminData.minQuestioners);
+    this.minQuestions = String(this.topicCloudAdminData.minQuestions);
+    this.minUpvotes = String(this.topicCloudAdminData.minUpvotes);
+    this.startDate = this.topicCloudAdminData.startDate || '';
+    this.endDate = this.topicCloudAdminData.endDate || '';
+    this.scorings = this.topicCloudAdminData.scorings;
   }
 
   getKeywordWithoutProfanity(keyword: string, lang: string): string {
@@ -554,7 +560,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addBlacklistWord() {
-    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord);
+    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord, this.currentRoom);
     this.newBlacklistWord = undefined;
   }
 
@@ -563,7 +569,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeWordFromBlacklist(word: string) {
-    this.topicCloudAdminService.removeWordFromBlacklist(word);
+    this.topicCloudAdminService.removeWordFromBlacklist(word, this.currentRoom);
   }
 
   showMessage(label: string, event: boolean) {

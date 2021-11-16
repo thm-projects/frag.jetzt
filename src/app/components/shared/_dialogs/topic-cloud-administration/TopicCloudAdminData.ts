@@ -1,5 +1,3 @@
-import { ProfanityFilter } from '../../../../models/room';
-
 export interface TopicCloudAdminDataScoring {
   score: number;
 }
@@ -23,14 +21,11 @@ export type TopicCloudAdminDataScoringObject = {
 };
 
 export interface TopicCloudAdminData {
-  blacklist: string[];
   wantedLabels: {
     de: string[];
     en: string[];
   };
   considerVotes: boolean;
-  profanityFilter: ProfanityFilter;
-  blacklistIsActive: boolean;
   keywordORfulltext: KeywordOrFulltext;
   minQuestions: number;
   minQuestioners: number;

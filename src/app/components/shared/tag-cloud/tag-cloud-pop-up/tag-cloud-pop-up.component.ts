@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
@@ -12,6 +12,7 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
 import { RoleChecker } from '../../../../utils/RoleChecker';
+import { Room } from '../../../../models/room';
 
 const CLOSE_TIME = 1500;
 
@@ -24,6 +25,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
+  @Input() room: Room;
   replacementInput = new FormControl();
   tag: string;
   tagData: TagCloudDataTagEntry;
@@ -110,7 +112,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   addBlacklistWord(): void {
-    this.tagCloudDataService.blockWord(this.tag);
+    this.tagCloudDataService.blockWord(this.tag, this.room);
     this.close(false);
   }
 
