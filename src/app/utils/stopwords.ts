@@ -1,12 +1,7 @@
 // all spaces gets replaced with \s* (multiple or none whitespaces)
 // all words are case insensitive
 export const stopWords = [
-  'Frage',
-  'Fragen',
-  'Antwort',
-  'Aufgabe',
   'Hallo',
-  'Test',
   'bzw',
   'bzw.',
   'muss',
@@ -52,7 +47,6 @@ export const stopWords = [
   'Guten Tag',
   'Moin',
   'Satz',
-  'Question',
   'uns',
   'liest'
 ];
