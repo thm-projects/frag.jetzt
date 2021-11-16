@@ -12,7 +12,7 @@
         {{question}}
       </h1>
       <ars-fill ars-flex-box>
-        <app-tag-cloud-pop-up></app-tag-cloud-pop-up>
+        <app-tag-cloud-pop-up [room]="room"></app-tag-cloud-pop-up>
         <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
         <angular-tag-cloud
           id="tagCloudComponent"
