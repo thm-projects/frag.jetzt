@@ -227,8 +227,8 @@
     "grammar-check": "Optimize text",
     "show-comment-with-filter": "Hide profane words",
     "show-comment-without-filter": "Show profane words",
-    "upvote": "upvotes:",
-    "downvote": "downvotes:",
+    "upvote": "up votes:",
+    "downvote": "down votes:",
     "questioner-name": "Self assigned name",
     "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
     "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"

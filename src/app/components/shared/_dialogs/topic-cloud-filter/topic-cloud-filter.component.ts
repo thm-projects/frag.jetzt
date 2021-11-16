@@ -105,7 +105,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         });
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
-                                             .subscribe(_ => this.commentsLoadedCallback());
+        .subscribe(_ => this.commentsLoadedCallback());
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -120,8 +120,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     if (!this._currentModerators) {
       return;
     }
-    this.allComments = this.getCommentCounts(this.comments);
-    this.filteredComments = this.getCommentCounts(this.tmpFilter.checkAll(this.comments));
+    const blacklist = this._room.blacklist ? JSON.parse(this._room.blacklist) : [];
+    this.allComments = this.getCommentCounts(this.comments, blacklist, this._room.blacklistIsActive);
+    this.filteredComments = this.getCommentCounts(this.tmpFilter.checkAll(this.comments), blacklist, this._room.blacklistIsActive);
     if (isNew) {
       this.hasNoKeywords = this.isUpdatable();
     }
@@ -154,9 +155,9 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     WorkerDialogComponent.addWorkTask(this.dialog, this._room);
   }
 
-  getCommentCounts(comments: Comment[]): CommentsCount {
+  getCommentCounts(comments: Comment[], blacklist: string[], blacklistEnabled: boolean): CommentsCount {
     const [data, users] = TagCloudDataService.buildDataFromComments(this._room.ownerId, this._currentModerators,
-      this._adminData, this.roomDataService, comments, false);
+      blacklist, blacklistEnabled, this._adminData, this.roomDataService, comments, false);
     const counts = new CommentsCount();
     counts.comments = comments.length;
     counts.users = users.size;
