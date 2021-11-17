@@ -340,8 +340,9 @@
 
   .sln-indicator{
     &-on{
-      width:15px;
-      height:15px;
+      width:20px;
+      height:20px;
+      background-color: yellow;
     }
     &-off{
       width:10px;
