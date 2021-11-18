@@ -98,7 +98,7 @@
     "delete-questions": "Delete questions",
     "delete-room": "Delete room",
     "back-to-questionboard": "Question list",
-    "back-to-room": "Welcoming",
+    "back-to-room": "Reception",
     "back-to-room-creator": "Room management",
     "back-to-room-moderator": "Entrance",
     "moderationboard": "Moderation",
@@ -394,7 +394,7 @@
     "redeem-tokens": "Redeem stars by mail",
     "mail-subject": "Request to redeem my tokens from the »frag.jetzt« session »{{sessionName}}«",
     "mail-body": "Hello,\n\nI have received the following tokens today in the »frag.jetzt« session »{{sessionName}}« with the key code »{{sessionId}}«:\n\n{{tokens}}\n\n\nI ask for the redemption in bonus points.\n\nThanks for »frag.jetzt«!\n\n---",
-    "choose-session": "Choose a session",
+    "choose-session": "Choose a session …",
     "please-choose": "Please select a session first."
   },
   "qr-dialog": {

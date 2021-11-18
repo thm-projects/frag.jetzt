@@ -16,7 +16,7 @@
             class="focus_button"
             *ngIf="router.url.endsWith('/home') && isSafari === 'false'"
             (click)="startTour()">
-      <mat-icon class="header-icons">flag</mat-icon>
+      <mat-icon class="header-icons">tour</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'header.tour' | translate }}
       </span>
@@ -284,7 +284,7 @@
                 tabindex="0"
                 routerLink="participant/room/{{shortId}}">
           <mat-icon>
-            flag
+            checkroom
           </mat-icon>
           <span>{{'header.back-to-room' | translate}}</span>
         </button>

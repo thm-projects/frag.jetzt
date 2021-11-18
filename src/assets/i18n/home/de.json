@@ -117,7 +117,7 @@
     "delete-questions": "Fragen löschen",
     "delete-room": "Raum löschen",
     "back-to-questionboard": "Fragenliste",
-    "back-to-room": "Begrüßung",
+    "back-to-room": "Empfang",
     "back-to-room-creator": "Raumverwaltung",
     "back-to-room-moderator": "Raumverwaltung",
     "moderationboard": "Moderation",
@@ -392,8 +392,8 @@
     "redeem-tokens": "Sterne per Mail einlösen",
     "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
     "mail-body": "Hallo,\n\nich habe heute in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n\n{{tokens}}\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
-    "choose-session": "Wähle eine Sitzung aus",
-    "please-choose": "Bitte wähle zuerst eine Sitzung aus."
+    "choose-session": "Wähle eine Sitzung …",
+    "please-choose": "Bitte wähle zuerst eine Sitzung."
   },
   "qr-dialog": {
     "session": "Raum-Code"
