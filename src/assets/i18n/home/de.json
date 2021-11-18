@@ -105,7 +105,7 @@
     "users-online": "Aktuell eingeloggte User",
     "visited-sessions": "Sitzungen",
     "question-wall": "Fragen präsentieren",
-    "room-qr": "QR-Zugang",
+    "room-qr": "QR-Code",
     "question-board": "Fragenliste",
     "moderation-mode": "Moderationsmodus",
     "bonustoken": "Bonus-Archiv",
@@ -388,12 +388,12 @@
   },
   "user-bonus-token": {
     "header": "Sterne für Bonuspunkte einlösen",
-    "no-bonus": "Du hast noch keinen Stern für eine gute Frage erhalten.",
+    "no-bonus": "Du hast noch keinen Stern für eine »gute« Frage erhalten.",
     "redeem-tokens": "Sterne per Mail einlösen",
     "mail-subject": "Bitte um Einlösung meiner Tokens aus der »frag.jetzt«-Sitzung »{{sessionName}}«",
     "mail-body": "Hallo,\n\nich habe heute in der »frag.jetzt«-Sitzung »{{sessionName}}« mit dem Raum-Code »{{sessionId}}« die folgenden Tokens erhalten:\n\n{{tokens}}\n\n\nIch bitte um die Einlösung in Bonuspunkte.\n\nDanke für »frag.jetzt«!\n\n---",
     "choose-session": "Wähle eine Sitzung aus",
-    "please-choose": "Bitte wähle zuerst eine Sitzung aus!"
+    "please-choose": "Bitte wähle zuerst eine Sitzung aus."
   },
   "qr-dialog": {
     "session": "Raum-Code"

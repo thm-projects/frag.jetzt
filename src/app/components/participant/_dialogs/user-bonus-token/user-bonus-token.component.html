@@ -6,9 +6,9 @@
          class="tokens"
          *ngFor="let bonusToken of bonusTokensMixin; let i = index"
          (click)="navToComment(i)">
-      <h2 class="token"
-          tabindex="1">{{bonusToken.token}}</h2>
-      <h2 class="roomName">&raquo;{{bonusToken.roomName}}&laquo;</h2>
+      <h3 class="token"
+          tabindex="1">{{bonusToken.token}}</h3>
+      <h3 class="roomName">&raquo;{{bonusToken.roomName}}&laquo;</h3>
     </div>
 
     <div fxLayout="column">
@@ -41,7 +41,8 @@
   </div>
 </div>
 
-<ars-row ars-flex-box class="action-button-container">
+<ars-row ars-flex-box
+         class="action-button-container">
   <ars-col>
     <button
       mat-flat-button
