@@ -263,8 +263,8 @@
               *ngIf="isInRouteWithRoles && user && user.role > 0"
               (click)="navigateToOtherView()"
               tabindex="0">
-        <mat-icon *ngIf="userRole == 3 && userRole !== user.role">mic</mat-icon>
-        <mat-icon *ngIf="userRole == 2 && userRole !== user.role">gavel</mat-icon>
+        <mat-icon *ngIf="user && user.role == 3 && userRole !== user.role">mic</mat-icon>
+        <mat-icon *ngIf="user && user.role == 2 && userRole !== user.role">gavel</mat-icon>
         <mat-icon *ngIf="userRole === user.role">groups</mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
