@@ -261,7 +261,7 @@
 
                   <mat-option class="color-on-surface" (click)="selectAllDE()">
                     <mat-label class="color-on-surface">
-                      <mat-icon>playlist_add_check</mat-icon>
+                      <mat-icon>checklist_rtl</mat-icon>
                       {{'topic-cloud-dialog.select-all' | translate}}
                     </mat-label>
                     <mat-checkbox style="vertical-align: middle;float: right;"
@@ -278,7 +278,7 @@
 
                   <mat-option class="color-on-surface" (click)="selectAllEN()">
                     <mat-label class="color-on-surface">
-                      <mat-icon>playlist_add_check</mat-icon>
+                      <mat-icon>checklist_rtl</mat-icon>
                       {{'topic-cloud-dialog.select-all' | translate}}
                     </mat-label>
                     <mat-checkbox style="vertical-align: middle;float: right;"
@@ -375,7 +375,7 @@
       </div>
       <div class="margin-left vertical-center">
         <button [ngClass]="{'animation-blink': sortMode!=='alphabetic'}" mat-icon-button [matMenuTriggerFor]="sortMenu">
-          <mat-icon matTooltip="{{'topic-cloud-dialog.sort' | translate}}">filter_list</mat-icon>
+          <mat-icon matTooltip="{{'topic-cloud-dialog.sort' | translate}}">swap_vert</mat-icon>
         </button>
       </div>
     </div>
@@ -388,12 +388,12 @@
       </button>
       <button [ngClass]="{'animation-blink': sortMode==='questionsCount'}" mat-menu-item
               (click)="sortQuestions('questionsCount')">
-        <mat-icon>swap_vert</mat-icon>
+        <mat-icon>comment</mat-icon>
         {{'topic-cloud-dialog.sort-count' | translate}}
       </button>
       <button [ngClass]="{'animation-blink': sortMode==='voteCount'}" mat-menu-item
               (click)="sortQuestions('voteCount')">
-        <mat-icon>swap_vert</mat-icon>
+        <mat-icon>thumb_up</mat-icon>
         {{'topic-cloud-dialog.sort-vote' | translate}}
       </button>
     </mat-menu>
