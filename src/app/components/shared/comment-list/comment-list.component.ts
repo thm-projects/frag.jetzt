@@ -33,6 +33,7 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -469,13 +470,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   private generateKeywordsIfEmpty() {
-    if (this.comments.length > 0 && this.userRole === UserRole.CREATOR) {
-      const count = this.comments.reduce((acc, comment) =>
-        acc + (comment.keywordsFromQuestioner && comment.keywordsFromQuestioner.length) +
-        (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length), 0);
-      if (count < 1) {
-        WorkerDialogComponent.addWorkTask(this.dialog, this.room);
-      }
+    if (TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this.roomId)) {
+      TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
   }
 }

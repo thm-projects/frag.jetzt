@@ -88,6 +88,42 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
 
+  public static isUpdatable(comments: Comment[], userRole: UserRole, roomId: string): boolean {
+    const data = localStorage.getItem('commentListKeywordGen');
+    const set = new Set<string>(data ? JSON.parse(data) : []);
+    let count = 0;
+    let newCount = 0;
+    comments.forEach(comment => {
+      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
+        newCount++;
+      } else {
+        count++;
+      }
+    });
+    if (newCount + count < 1) {
+      return false;
+    }
+    if (userRole === UserRole.PARTICIPANT) {
+      return newCount < 1 && !set.has(roomId) && !WorkerDialogComponent.isWorkingOnRoom(roomId);
+    }
+    if (count * 2 / 3 < newCount) {
+      return false;
+    }
+    return !WorkerDialogComponent.isWorkingOnRoom(roomId);
+  }
+
+  public static startUpdate(dialog: MatDialog, room: Room, userRole: UserRole) {
+    const data = localStorage.getItem('commentListKeywordGen');
+    const set = new Set<string>(data ? JSON.parse(data) : []);
+    if (userRole === UserRole.PARTICIPANT && set.has(room.id)) {
+      return;
+    }
+    WorkerDialogComponent.addWorkTask(dialog, room);
+    if (userRole === UserRole.PARTICIPANT) {
+      localStorage.setItem('commentListKeywordGen', JSON.stringify([...set, room.id]));
+    }
+  }
+
   ngOnInit() {
     this.themeService.getTheme().subscribe((themeName) => {
       this.currentTheme = this.themeService.getThemeByKey(themeName);
@@ -105,7 +141,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         });
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
-        .subscribe(_ => this.commentsLoadedCallback());
+                                             .subscribe(_ => this.commentsLoadedCallback());
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -124,7 +160,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.allComments = this.getCommentCounts(this.comments, blacklist, this._room.blacklistIsActive);
     this.filteredComments = this.getCommentCounts(this.tmpFilter.checkAll(this.comments), blacklist, this._room.blacklistIsActive);
     if (isNew) {
-      this.hasNoKeywords = this.isUpdatable();
+      this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this._room.id);
     }
     this.disableCurrentFiltersOptions = ((this.allComments.comments === this.filteredComments.comments) &&
       (this.allComments.users === this.filteredComments.users) &&
@@ -152,7 +188,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   onKeywordRefreshClick() {
     this.hasNoKeywords = false;
-    WorkerDialogComponent.addWorkTask(this.dialog, this._room);
+    TopicCloudFilterComponent.startUpdate(this.dialog, this._room, this.userRole);
   }
 
   getCommentCounts(comments: Comment[], blacklist: string[], blacklistEnabled: boolean): CommentsCount {
@@ -232,25 +268,4 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     ref.componentInstance.translateKey = 'explanation.topic-cloud';
   }
 
-  private isUpdatable(): boolean {
-    let count = 0;
-    let newCount = 0;
-    this.comments.forEach(comment => {
-      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
-        newCount++;
-      } else {
-        count++;
-      }
-    });
-    if (newCount + count < 1) {
-      return false;
-    }
-    if (this.userRole === UserRole.PARTICIPANT) {
-      return newCount < 1;
-    }
-    if (count * 2 / 3 < newCount) {
-      return false;
-    }
-    return !WorkerDialogComponent.isWorkingOnRoom(this._room.id);
-  }
 }

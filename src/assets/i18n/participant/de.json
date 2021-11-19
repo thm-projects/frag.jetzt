@@ -530,5 +530,13 @@
     "only-failed": "Nur Fragen, die nicht analysiert worden sind",
     "continue": "Weiter",
     "cancel": "Abbrechen"
+  },
+  "worker-dialog": {
+    "running": "Laufend",
+    "room-name": "Raum",
+    "comments": "Abgearbeitete Fragen",
+    "bad-spelled": "Zu schlechte Rechtschreibung",
+    "failed": "Fehler aufgetreten",
+    "inline-header": "Laufende Stichwort-Aktualisierungen"
   }
 }

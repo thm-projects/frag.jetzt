@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
+import { defaultCategories } from '../../../../utils/defaultCategories';
 
 @Component({
   selector: 'app-room-create',
@@ -78,7 +79,8 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.profanityFilter = ProfanityFilter.languageSpecific;
+    newRoom.tags = defaultCategories[localStorage.getItem('currentLang')] || defaultCategories.default;
+    newRoom.profanityFilter = ProfanityFilter.none;
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       if (!new RegExp('[1-9a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)
         || this.customShortIdName.startsWith(' ') || this.customShortIdName.endsWith(' ')) {
