@@ -190,6 +190,17 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
+                    *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
+                           !router.url.endsWith('moderator/comments') && deviceType === 'desktop'"
+                    tabindex="0"
+                    (click)="navigateCreateQuestion();">
+              <mat-icon class="header-icons">
+                rate_review
+              </mat-icon>
+              <span>{{'header.create-question' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
                     *ngIf="userRole > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
                            !router.url.endsWith('moderator/comments')"
                     tabindex="0"
@@ -239,7 +250,7 @@
           <!-- Room General Options - bot -->
 
           <ng-container
-            *ngIf="userRole == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') &&
+            *ngIf="userRole === 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') &&
                    !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
 
@@ -263,8 +274,8 @@
               *ngIf="isInRouteWithRoles && user && user.role > 0"
               (click)="navigateToOtherView()"
               tabindex="0">
-        <mat-icon *ngIf="user && user.role == 3 && userRole !== user.role">mic</mat-icon>
-        <mat-icon *ngIf="user && user.role == 2 && userRole !== user.role">gavel</mat-icon>
+        <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role">mic</mat-icon>
+        <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role">gavel</mat-icon>
         <mat-icon *ngIf="userRole === user.role">groups</mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
@@ -282,7 +293,7 @@
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
         <button mat-menu-item
-                *ngIf="userRole == 0"
+                *ngIf="userRole === 0"
                 tabindex="0"
                 routerLink="participant/room/{{shortId}}">
           <mat-icon>
@@ -292,7 +303,7 @@
         </button>
 
         <button mat-menu-item
-                *ngIf="userRole == 3"
+                *ngIf="userRole === 3"
                 tabindex="0"
                 routerLink="creator/room/{{shortId}}">
           <mat-icon>
@@ -302,7 +313,7 @@
         </button>
 
         <button mat-menu-item
-                *ngIf="userRole == 2"
+                *ngIf="userRole === 2"
                 tabindex="0"
                 routerLink="moderator/room/{{shortId}}">
           <mat-icon>
