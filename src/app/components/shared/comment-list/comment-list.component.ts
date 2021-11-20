@@ -79,8 +79,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   sendCommentId = '';
   activeUsers = 0;
   pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
+  pageSize = 25;
+  pageSizeOptions = [5, 10, 25, 50, 100];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
