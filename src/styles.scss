@@ -257,3 +257,28 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.mat-option {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+.mat-option:hover {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
+
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: var(--red);
+  color: var(--white);
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+  border-bottom-width: 2px;
+}
+
+.mat-header-row .mat-header-cell {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
