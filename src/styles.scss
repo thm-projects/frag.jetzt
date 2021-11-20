@@ -277,3 +277,8 @@ a {
   border-color: currentColor;
   border-bottom-width: 2px;
 }
+
+.mat-header-row .mat-header-cell {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
