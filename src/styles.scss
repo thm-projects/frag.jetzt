@@ -272,3 +272,8 @@ a {
   background-color: var(--red);
   color: var(--white);
 }
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+  border-bottom-width: 2px;
+}
