@@ -251,3 +251,9 @@ a {
 .mat-spinner circle {
   stroke: var(--on-background);
 }
+
+.mat-radio-label-content {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
