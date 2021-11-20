@@ -204,7 +204,7 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('unanswered')"
               aria-labelledby="comment">
-        <mat-icon class="unanswered"
+        <mat-icon class="unanswered material-icons-outlined"
                   [ngClass]="{unanswered: 'unanswered-icon'}[filter.filterType]">comment
         </mat-icon>
         <span
@@ -282,8 +282,7 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of (hideCommentsList ?
-  filteredComments : commentsFilteredByTime).slice(pageIndex*pageSize,(pageIndex*pageSize)+pageSize); let i = index"
+  <app-comment *ngFor="let current of getComments().slice(pageIndex * pageSize, (pageIndex * pageSize) + pageSize); let i = index"
                [appScrollIntoView]="current.id === focusCommentId"
                [usesJoyride]="i === 0 && isJoyrideActive"
                [comment]="current"
@@ -302,7 +301,7 @@
   </app-comment>
   <ars-mat-paginator
                      *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
-                     [pageSize]="5"
+                     [pageSize]="this.pageSize"
                      (page)="handlePageEvent($event)"
                      [showFirstLastButtons]="showFirstLastButtons"
                      [pageSizeOptions]="pageSizeOptions"
