@@ -114,7 +114,7 @@
     "overview-questioners-tooltip": "Number of questioners",
     "overview-keywords-tooltip": "Number of Keywords",
     "update-spacy-keywords": "Extract keywords",
-    "overview-admin-config-enabled": "Themes requirement active",
+    "overview-admin-config-enabled": "Thresholds for displaying topics active",
     "quiz-now": "Quizzing",
     "moderation-warning": "Moderation board with unreleased questions",
     "tour": "Tour",
