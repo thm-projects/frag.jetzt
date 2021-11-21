@@ -50,10 +50,10 @@
          matInput
          [formControl]="questionerNameFormControl"
          name="questioner-name"
-         maxlength="30"
+         maxlength="20"
          aria-labelledby="questioner-name"/>
   <mat-placeholder class="placeholder">{{ 'write-comment.questioner-name' | translate }}</mat-placeholder>
-  <mat-hint align="end"><span aria-hidden="true">{{ questionerNameFormControl.value.length }} / 30</span></mat-hint>
+  <mat-hint align="end"><span aria-hidden="true">{{ questionerNameFormControl.value.length }} / 20</span></mat-hint>
   <mat-error *ngIf="questionerNameFormControl.hasError('minlength') ||
                     questionerNameFormControl.hasError('maxlength')">
     {{ 'write-comment.name-length-error' | translate }}
