@@ -39,7 +39,7 @@ export const arsnova_meta = {
 
   translation: {
     name: {
-      en: 'Light Mode',
+      en: 'Light mode',
       de: 'Light Mode'
     },
   },

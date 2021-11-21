@@ -39,7 +39,7 @@ export const dark_meta = {
 
   translation: {
     name: {
-      en: 'Dark Mode',
+      en: 'Dark mode',
       de: 'Dark Mode'
     },
   },
