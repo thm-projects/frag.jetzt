@@ -306,7 +306,7 @@
                 *ngIf="userRole === 3"
                 tabindex="0"
                 routerLink="creator/room/{{shortId}}">
-          <mat-icon>
+          <mat-icon class="material-icons-outlined">
             room_preferences
           </mat-icon>
           <span>{{'header.back-to-room-creator' | translate}}</span>
@@ -316,7 +316,7 @@
                 *ngIf="userRole === 2"
                 tabindex="0"
                 routerLink="moderator/room/{{shortId}}">
-          <mat-icon>
+          <mat-icon class="material-icons-outlined">
             room_preferences
           </mat-icon>
           <span>{{'header.back-to-room-moderator' | translate}}</span>
@@ -337,7 +337,7 @@
               routerLink="/user"
               tabindex="0">
         <mat-icon
-                  class="sessions">door_sliding</mat-icon>
+                  class="sessions material-icons-outlined">door_front</mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
@@ -430,7 +430,7 @@
             (click)=login(false)
             aria-labelledby="login-label">
       <div class="label-icon">
-        <mat-icon class="header-icons">person</mat-icon>
+        <mat-icon class="header-icons" style="padding-right: 10px">login</mat-icon>
         <h2 class="oldtypo-h2"
             *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
@@ -444,7 +444,7 @@
             *ngIf="!user && deviceType === 'mobile'"
             (click)=login(false)
             aria-labelledby="login-label">
-      <mat-icon class="header-icons">person</mat-icon>
+      <mat-icon class="header-icons">login</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>
