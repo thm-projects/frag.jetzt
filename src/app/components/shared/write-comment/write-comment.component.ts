@@ -50,7 +50,7 @@ export class WriteCommentComponent implements OnInit {
   hasSpellcheckConfidence = true;
   newLang = 'auto';
   questionerNameFormControl = new FormControl('', [
-    Validators.minLength(2), Validators.maxLength(20)
+    Validators.minLength(2), Validators.maxLength(30)
   ]);
   private _wasVerifiedWithoutDeepl = false;
 

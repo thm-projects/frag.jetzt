@@ -270,7 +270,7 @@ a {
 
 .mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
   background-color: var(--primary);
-  color: var(--on-primary);
+  color: var(--on-primary) !important;
 }
 
 .mat-row:hover .mat-cell {
