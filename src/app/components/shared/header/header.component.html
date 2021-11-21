@@ -54,7 +54,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceType === 'desktop'"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 15px">cloud</mat-icon>
+        <mat-icon style="margin-right: 15px">cloud_queue</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -195,7 +195,7 @@
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon class="header-icons">
-                rate_review
+                add_comment
               </mat-icon>
               <span>{{'header.create-question' | translate}}</span>
             </button>
@@ -224,7 +224,7 @@
                     tabindex="0"
                     *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
                     (click)="navigateTopicCloud()">
-              <mat-icon>cloud</mat-icon>
+              <mat-icon>cloud_queue</mat-icon>
               <span>{{'header.tag-cloud' | translate}}</span>
             </button>
 

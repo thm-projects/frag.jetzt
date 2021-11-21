@@ -27,7 +27,7 @@
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 40px">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 35px">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
@@ -41,7 +41,7 @@
 
         <!-- Session ID column -->
         <ng-container matColumnDef="shortId" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 45%">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
@@ -53,7 +53,7 @@
 
         <!-- Role column -->
         <ng-container matColumnDef="role" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 10%">
+          <th mat-header-cell *matHeaderCellDef style="width: 15%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
