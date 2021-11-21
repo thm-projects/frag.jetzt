@@ -469,7 +469,7 @@
     "keyword-scoring-countComments": "Number of questions",
     "keyword-scoring-countComments-info": "Number of questions from which the keywords have been extracted",
     "keyword-scoring-countUsers": "Number of questioners",
-    "keyword-scoring-countUsers-info": "Number of exclusive questioners who used this keyword",
+    "keyword-scoring-countUsers-info": "Number of questioners who used this keyword",
     "keyword-scoring-countSelectedByQuestioner": "Number verified",
     "keyword-scoring-countSelectedByQuestioner-info": "Number of times a keyword has been verified by a questioner",
     "keyword-scoring-countKeywordByModerator": "Number of keywords from moderators",
