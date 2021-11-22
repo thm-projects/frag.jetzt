@@ -254,9 +254,11 @@ a {
 }
 
 .mat-radio-label-content {
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal !important;
+}
+
+.mat-slide-toggle-content {
+  white-space: normal !important;
 }
 
 .mat-option {
