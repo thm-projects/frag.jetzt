@@ -176,10 +176,11 @@ a.info:hover span, a.info:focus span, a.info:active span {
   text-align: center;
 }
 
-:focus {
-  outline: 1px solid var(--on-surface);
-  outline-offset: 8px;
-}
+//TODO: a13y must be revised
+//:focus {
+//  outline: 1px solid var(--on-surface);
+//  outline-offset: 8px;
+//}
 
 a {
   word-break: break-all;
@@ -250,4 +251,35 @@ a {
 
 .mat-spinner circle {
   stroke: var(--on-background);
+}
+
+.mat-radio-label-content {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-option {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+.mat-option:hover {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
+
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: var(--primary);
+  color: var(--on-primary) !important;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+  border-bottom-width: 1px;
+}
+
+.mat-header-row .mat-header-cell {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
 }

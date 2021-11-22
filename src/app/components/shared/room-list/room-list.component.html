@@ -27,7 +27,7 @@
 
         <!-- Room / Session name column -->
         <ng-container matColumnDef="name" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 40px">
+          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 35px">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
@@ -41,7 +41,7 @@
 
         <!-- Session ID column -->
         <ng-container matColumnDef="shortId" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 45%">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
@@ -53,21 +53,21 @@
 
         <!-- Role column -->
         <ng-container matColumnDef="role" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 10%">
+          <th mat-header-cell *matHeaderCellDef style="width: 15%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
           <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
               (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <mat-icon mat-list-icon *ngSwitchCase="creatorRole"
+            <mat-icon class="material-icons-outlined" mat-list-icon *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
-              mic
+              mic_external_on
             </mat-icon>
             <mat-icon mat-list-icon *ngSwitchCase="participantRole"
                       title="{{ 'room-list.participant-role' | translate }}">
-              groups
+              group
             </mat-icon>
-            <mat-icon mat-list-icon *ngSwitchCase="executiveModeratorRole"
+            <mat-icon class="material-icons-round" mat-list-icon *ngSwitchCase="executiveModeratorRole"
                       title="{{ 'room-list.executive-moderator-role' | translate }}">
               gavel
             </mat-icon>
@@ -91,7 +91,7 @@
                   'room-list.delete-room') | translate}}</span>
               </button>
               <button mat-menu-item (click)="exportCsv(room)">
-                <mat-icon class="export">file_download</mat-icon>
+                <mat-icon class="export material-icons-outlined">file_download</mat-icon>
                 <span class="delete-text">{{ 'room-list.export-comments' | translate }}</span>
               </button>
             </mat-menu>

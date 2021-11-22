@@ -22,7 +22,8 @@
       </span>
     </button>
 
-    <div class="header-content-container" [ngClass]="{'darken': themeService.currentTheme.isDark}">
+    <div class="header-content-container"
+         [ngClass]="{'darken': themeService.currentTheme.isDark}">
       <div *ngIf="toggleUserActivity">
         <div class="userActivityIcon"
              matTooltip="{{'header.users-online' | translate}}"></div>
@@ -30,8 +31,9 @@
       </div>
 
       <span *ngIf="isInRouteWithRoles && user && user.role !== userRole">
-        <mat-icon style="color: red; margin-top: 8px" [matTooltip]="'header.not-in-own-view' | translate">
-          groups
+        <mat-icon style="color: red; margin-top: 8px"
+                  [matTooltip]="'header.not-in-own-view' | translate">
+          group
         </mat-icon>
       </span>
 
@@ -44,7 +46,8 @@
         *ngIf="moderationEnabled && router.url.includes('comments')"
         class="moderation-enabled"
         fxLayoutAlign="center center">
-        <mat-icon style="color: red" matTooltip="{{ 'header.moderation-enabled' | translate }}">
+        <mat-icon class="material-icons-round" style="color: red"
+                  matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
       </span>
@@ -54,7 +57,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceType === 'desktop'"
               (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 15px">cloud</mat-icon>
+        <mat-icon style="margin-right: 15px">cloud_queue</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
       </button>
 
@@ -70,7 +73,8 @@
               router.url.endsWith('/comments') &&
               isSafari === 'false'"
               routerLink="participant/room/{{shortId}}/comments/questionwall">
-        <mat-icon class="beamer-icon" svgIcon="beamer"></mat-icon>
+        <mat-icon class="beamer-icon"
+                  svgIcon="beamer"></mat-icon>
         <span>{{'header.questionwall' | translate}}</span>
       </button>
 
@@ -88,7 +92,8 @@
       </h2>
 
       <span *ngIf="room && room.questionsBlocked">
-        <mat-icon style="color: red; margin-top: 8px" [matTooltip]="'header.questions-blocked' | translate">
+        <mat-icon style="color: red; margin-top: 8px"
+                  [matTooltip]="'header.questions-blocked' | translate">
           block
         </mat-icon>
       </span>
@@ -104,7 +109,8 @@
                   class="pseudo-button"
                   matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
             <mat-icon class="oldtypo-h2 comment_tag-icon"
-                      style="color: red !important;">warning
+                      style="color: red !important; font-size: 24px !important; margin-top: -8px;">
+              cloud_queue
             </mat-icon>
           </button>
           <button mat-icon-button
@@ -190,6 +196,17 @@
           <ng-container *ngIf="router.url.endsWith('/comments')">
 
             <button mat-menu-item
+                    *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
+                           !router.url.endsWith('moderator/comments') && deviceType === 'desktop'"
+                    tabindex="0"
+                    (click)="navigateCreateQuestion();">
+              <mat-icon class="header-icons material-icons-outlined">
+                rate_review
+              </mat-icon>
+              <span>{{'header.create-question' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
                     *ngIf="userRole > 0 && !router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
                            !router.url.endsWith('moderator/comments')"
                     tabindex="0"
@@ -205,7 +222,7 @@
                     *ngIf="userRole > 0 && !router.url.includes('/participant/') &&
                            !router.url.endsWith('moderator/comments')"
                     [routerLink]="(userRole === 3 ? 'creator' : 'moderator') + '/room/' + shortId + '/moderator/comments'">
-              <mat-icon>visibility_off</mat-icon>
+              <mat-icon class="material-icons-outlined">visibility_off</mat-icon>
               <span>{{'header.moderationboard' | translate}}</span>
             </button>
 
@@ -213,7 +230,7 @@
                     tabindex="0"
                     *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
                     (click)="navigateTopicCloud()">
-              <mat-icon>cloud</mat-icon>
+              <mat-icon>cloud_queue</mat-icon>
               <span>{{'header.tag-cloud' | translate}}</span>
             </button>
 
@@ -239,7 +256,7 @@
           <!-- Room General Options - bot -->
 
           <ng-container
-            *ngIf="userRole == 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') &&
+            *ngIf="userRole === 3 && !router.url.includes('/participant') && !router.url.endsWith('/comments') &&
                    !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')">
 
 
@@ -249,7 +266,7 @@
                   *ngIf="router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateExportQuestions()"
                   tabindex="0">
-            <mat-icon>file_download</mat-icon>
+            <mat-icon class="material-icons-outlined">file_download</mat-icon>
             <span>{{'header.export-questions' | translate}}</span>
           </button>
 
@@ -263,9 +280,9 @@
               *ngIf="isInRouteWithRoles && user && user.role > 0"
               (click)="navigateToOtherView()"
               tabindex="0">
-        <mat-icon *ngIf="user && user.role == 3 && userRole !== user.role">mic</mat-icon>
-        <mat-icon *ngIf="user && user.role == 2 && userRole !== user.role">gavel</mat-icon>
-        <mat-icon *ngIf="userRole === user.role">groups</mat-icon>
+        <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role" class="material-icons-outlined">mic_external_on</mat-icon>
+        <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role" class="material-icons-round">gavel</mat-icon>
+        <mat-icon *ngIf="userRole === user.role">group</mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
       </button>
@@ -282,7 +299,7 @@
       <ng-container *ngIf="router.url.endsWith('/comments') || router.url.endsWith('/tagcloud')">
 
         <button mat-menu-item
-                *ngIf="userRole == 0"
+                *ngIf="userRole === 0"
                 tabindex="0"
                 routerLink="participant/room/{{shortId}}">
           <mat-icon>
@@ -292,20 +309,20 @@
         </button>
 
         <button mat-menu-item
-                *ngIf="userRole == 3"
+                *ngIf="userRole === 3"
                 tabindex="0"
                 routerLink="creator/room/{{shortId}}">
-          <mat-icon>
+          <mat-icon class="material-icons-outlined">
             room_preferences
           </mat-icon>
           <span>{{'header.back-to-room-creator' | translate}}</span>
         </button>
 
         <button mat-menu-item
-                *ngIf="userRole == 2"
+                *ngIf="userRole === 2"
                 tabindex="0"
                 routerLink="moderator/room/{{shortId}}">
-          <mat-icon>
+          <mat-icon class="material-icons-outlined">
             room_preferences
           </mat-icon>
           <span>{{'header.back-to-room-moderator' | translate}}</span>
@@ -326,7 +343,8 @@
               routerLink="/user"
               tabindex="0">
         <mat-icon
-                  class="sessions">door_sliding</mat-icon>
+          class="sessions material-icons-outlined">door_front
+        </mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
         <span *ngIf="user.isGuest"
               svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
@@ -346,7 +364,7 @@
               *ngIf="user"
               (click)="showMotdDialog()">
         <mat-icon class="faq">
-          {{ motdState ? 'notifications_active' : 'notifications_none' }}
+          {{ motdState ? 'notifications_active' : 'campaign' }}
         </mat-icon>
         <span>{{'header.motd' | translate}}</span>
       </button>
@@ -419,7 +437,9 @@
             (click)=login(false)
             aria-labelledby="login-label">
       <div class="label-icon">
-        <mat-icon class="header-icons">person</mat-icon>
+        <mat-icon class="header-icons"
+                  style="padding-right: 10px">login
+        </mat-icon>
         <h2 class="oldtypo-h2"
             *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
       </div>
@@ -433,7 +453,7 @@
             *ngIf="!user && deviceType === 'mobile'"
             (click)=login(false)
             aria-labelledby="login-label">
-      <mat-icon class="header-icons">person</mat-icon>
+      <mat-icon class="header-icons">login</mat-icon>
     </button>
   </mat-toolbar-row>
 </mat-toolbar>

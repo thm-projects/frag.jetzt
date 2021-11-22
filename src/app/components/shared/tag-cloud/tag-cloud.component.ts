@@ -471,14 +471,14 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud',
+        icon: 'cloud_queue',
         text: 'header.tag-cloud-config',
         callback: () => this.drawer.toggle(),
         condition: () => this.userRole > UserRole.PARTICIPANT
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud',
+        icon: 'handyman',
         text: 'header.tag-cloud-administration',
         callback: () => this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
@@ -491,7 +491,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'cloud',
+        icon: 'auto_fix_high',
         text: 'header.update-spacy-keywords',
         callback: () => WorkerConfigDialogComponent.addTask(this.dialog, this.room),
         condition: () => this.userRole > UserRole.PARTICIPANT && !this.brainstormingActive

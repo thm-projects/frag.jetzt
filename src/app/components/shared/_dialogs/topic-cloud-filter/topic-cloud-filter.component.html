@@ -4,7 +4,9 @@
 
   <span *ngIf="isTopicRequirementActive">
     <mat-icon [inline]="true"
-              style="color: var(--red) !important;">warning</mat-icon>
+              style="color: red !important; font-size: x-large; padding-right: 10px;">
+      cloud_queue
+    </mat-icon>
     {{'header.overview-admin-config-enabled' | translate}}
   </span>
 
@@ -60,7 +62,8 @@
       <span *ngIf="isMobile()">{{'content.tag-cloud-questions-brainstorming-short' | translate}}</span>
       <span *ngIf="!isMobile()">{{'content.tag-cloud-questions-brainstorming' | translate}}</span>
     </mat-radio-button>
-    <mat-card class="brainstorm-container" *ngIf="userRole > 0 && radioButton.checked">
+    <mat-card class="brainstorm-container"
+              *ngIf="userRole > 0 && radioButton.checked">
       <mat-form-field appearance="fill">
         <mat-label>{{'content.brainstorming-question' | translate}}</mat-label>
         <input matInput
@@ -88,16 +91,16 @@
                [max]="maxWordCountMax"
                [formControl]="maxWordCount">
         <mat-hint>
-          {{'content.field-hint-number' | translate: { min: maxWordCountMin, max: maxWordCountMax } }}
+          {{'content.field-hint-number' | translate: {min: maxWordCountMin, max: maxWordCountMax} }}
         </mat-hint>
         <mat-error *ngIf="maxWordCount.hasError('required')">
           {{'content.field-required' | translate}}
         </mat-error>
         <mat-error *ngIf="maxWordCount.hasError('min')">
-          {{'content.field-too-low' | translate: { min: maxWordCountMin } }}
+          {{'content.field-too-low' | translate: {min: maxWordCountMin} }}
         </mat-error>
         <mat-error *ngIf="maxWordCount.hasError('max')">
-          {{'content.field-too-high' | translate: { max: maxWordCountMax } }}
+          {{'content.field-too-high' | translate: {max: maxWordCountMax} }}
         </mat-error>
       </mat-form-field>
       <mat-form-field appearance="fill">
@@ -110,16 +113,16 @@
                [max]="maxWordLengthMax"
                [formControl]="maxWordLength">
         <mat-hint>
-          {{'content.field-hint-number' | translate: { min: maxWordLengthMin, max: maxWordLengthMax } }}
+          {{'content.field-hint-number' | translate: {min: maxWordLengthMin, max: maxWordLengthMax} }}
         </mat-hint>
         <mat-error *ngIf="maxWordLength.hasError('required')">
           {{'content.field-required' | translate}}
         </mat-error>
         <mat-error *ngIf="maxWordLength.hasError('min')">
-          {{'content.field-too-low' | translate: { min: maxWordLengthMin } }}
+          {{'content.field-too-low' | translate: {min: maxWordLengthMin} }}
         </mat-error>
         <mat-error *ngIf="maxWordLength.hasError('max')">
-          {{'content.field-too-high' | translate: { max: maxWordLengthMax } }}
+          {{'content.field-too-high' | translate: {max: maxWordLengthMax} }}
         </mat-error>
       </mat-form-field>
     </mat-card>
@@ -138,7 +141,8 @@
 
   <app-worker-dialog [inlined]="true"></app-worker-dialog>
 
-  <ars-row ars-flex-box class="action-button-container">
+  <ars-row ars-flex-box
+           class="action-button-container">
     <ars-col>
       <button
         mat-flat-button

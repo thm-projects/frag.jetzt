@@ -133,7 +133,7 @@ markdown {
   color: var(--on-dialog);
 }
 
-::ng-deep .mat-menu-item .mat-icon {
+.mat-menu-item .mat-icon {
   background-color: var(--dialog);
   color: var(--on-dialog);
 }

@@ -70,8 +70,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   periodsList = Object.values(Period);
   headerInterface = null;
   pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
+  pageSize = 25;
+  pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;

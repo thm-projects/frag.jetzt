@@ -33,6 +33,7 @@ import { OnboardingService } from '../../../services/util/onboarding.service';
 import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
+import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 
 export interface CommentListData {
@@ -76,10 +77,11 @@ export class CommentListComponent implements OnInit, OnDestroy {
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
   focusCommentId = '';
+  sendCommentId = '';
   activeUsers = 0;
   pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
+  pageSize = 25;
+  pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
@@ -211,6 +213,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initNavigation();
+    const data = localStorage.getItem('commentListPageSize');
+    this.pageSize = data ? +data || this.pageSize : this.pageSize;
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -258,6 +262,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 this.hideCommentsList = true;
               }
               this.refreshFiltering();
+              this.setFocusedComment(localStorage.getItem('answeringQuestion'));
               this.eventService.broadcast('commentListCreated', null);
               this.isJoyrideActive = this.onboardingService.startDefaultTour();
             });
@@ -293,6 +298,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this._subscriptionEventServiceTagConfig) {
       this._subscriptionEventServiceTagConfig.unsubscribe();
     }
+    localStorage.setItem('commentListPageSize', String(this.pageSize));
   }
 
   checkScroll(): void {
@@ -373,8 +379,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   votedComment(voteInfo: string) {
-    this.focusCommentId = null;
-    setTimeout(() => this.focusCommentId = voteInfo, 100);
+    setTimeout(() => this.setFocusedComment(voteInfo), 100);
   }
 
   activateCommentStream(freezed: boolean) {
@@ -401,6 +406,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   subscribeCommentStream() {
+    let wasUpdate = false;
     this.commentStream = this.roomDataService.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentPatched', subtype: 'favorite' },
@@ -408,6 +414,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.announceNewComment(update.comment.body);
+        if (update.comment.id && update.comment.id === this.sendCommentId) {
+          wasUpdate = true;
+        }
       } else if (update.type === 'CommentPatched') {
         if (update.subtype === 'favorite') {
           if (this.user.id === update.comment.creatorId && update.comment.favorite) {
@@ -419,6 +428,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
       if (update.finished) {
         this.refreshFiltering();
+        if (wasUpdate) {
+          this.setFocusedComment(this.sendCommentId);
+          this.sendCommentId = null;
+        }
       }
     });
   }
@@ -429,7 +442,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper.openCreateDialog(this.user, this.userRole)
-      .subscribe(comment => this.focusCommentId = comment && comment.id);
+        .subscribe(comment => this.sendCommentId = comment?.id);
   }
 
   /**
@@ -437,7 +450,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
    */
   public announceNewComment(comment: string) {
     // update variable so text will be fetched to DOM
-    this.newestComment = comment;
+    this.newestComment = ViewCommentDataComponent.getTextFromData(comment);
 
     // Currently the only possible way to announce the new comment text
     // @see https://github.com/angular/angular/issues/11405
@@ -460,6 +473,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
+  getComments(): Comment[] {
+    return this.hideCommentsList ? this.filteredComments : this.commentsFilteredByTime;
+  }
+
   private receiveRoom(room: Room) {
     this.room = room;
     this.filter.updateRoom(room);
@@ -473,5 +490,18 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this.roomId)) {
       TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
+  }
+
+  private setFocusedComment(commentId: string) {
+    this.focusCommentId = null;
+    if (!commentId) {
+      return;
+    }
+    const index = this.getComments().findIndex(e => e.id === commentId);
+    if (index < 0) {
+      return;
+    }
+    this.pageIndex = Math.floor(index / this.pageSize);
+    setTimeout(() => this.focusCommentId = commentId, 100);
   }
 }
