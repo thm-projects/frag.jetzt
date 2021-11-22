@@ -39,8 +39,8 @@ export const purple_meta = {
 
   translation: {
     name: {
-      en: 'Projector',
-      de: 'Beamer',
+      en: 'Lecture room',
+      de: 'Hörsaal',
     },
   },
   isDark: false,
