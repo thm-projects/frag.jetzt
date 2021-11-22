@@ -176,10 +176,11 @@ a.info:hover span, a.info:focus span, a.info:active span {
   text-align: center;
 }
 
-:focus {
-  outline: 1px solid var(--on-surface);
-  outline-offset: 8px;
-}
+//TODO: a13y must be revised
+//:focus {
+//  outline: 1px solid var(--on-surface);
+//  outline-offset: 8px;
+//}
 
 a {
   word-break: break-all;
