@@ -44,7 +44,7 @@
         <button mat-icon-button
                 *ngIf="(isCreator || isModerator) && isProfanity"
                 (click)="changeProfanityShowForModerators(comment)">
-          <mat-icon class="not-marked"
+          <mat-icon class="not-marked material-icons-outlined"
                     [matTooltip]="filterProfanityForModerators ? ('comment-page.show-comment-with-filter' | translate) :
             ('comment-page.show-comment-without-filter' | translate)">
             {{filterProfanityForModerators ? 'visibility' : 'visibility_off'}}
@@ -381,7 +381,7 @@
               (click)="setAck(comment)"
               tabindex="0"
               attr.aria-labelledby="comment_moderation{{ comment.id }}">
-        <mat-icon class="gavel"
+        <mat-icon class="gavel material-icons-round"
                   [matTooltip]="!comment.ack ? ('comment-page.acknowledge' | translate)
                                                         : ('comment-page.reject' | translate)">gavel
         </mat-icon>

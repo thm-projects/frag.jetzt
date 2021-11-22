@@ -46,7 +46,7 @@
         *ngIf="moderationEnabled && router.url.includes('comments')"
         class="moderation-enabled"
         fxLayoutAlign="center center">
-        <mat-icon style="color: red"
+        <mat-icon class="material-icons-round" style="color: red"
                   matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
@@ -200,8 +200,8 @@
                            !router.url.endsWith('moderator/comments') && deviceType === 'desktop'"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
-              <mat-icon class="header-icons">
-                add_comment
+              <mat-icon class="header-icons material-icons-outlined">
+                rate_review
               </mat-icon>
               <span>{{'header.create-question' | translate}}</span>
             </button>
@@ -222,7 +222,7 @@
                     *ngIf="userRole > 0 && !router.url.includes('/participant/') &&
                            !router.url.endsWith('moderator/comments')"
                     [routerLink]="(userRole === 3 ? 'creator' : 'moderator') + '/room/' + shortId + '/moderator/comments'">
-              <mat-icon>visibility_off</mat-icon>
+              <mat-icon class="material-icons-outlined">visibility_off</mat-icon>
               <span>{{'header.moderationboard' | translate}}</span>
             </button>
 
@@ -266,7 +266,7 @@
                   *ngIf="router.url.endsWith('/comments') && !router.url.includes('/comment/') && !router.url.endsWith('tagcloud')"
                   (click)="navigateExportQuestions()"
                   tabindex="0">
-            <mat-icon>file_download</mat-icon>
+            <mat-icon class="material-icons-outlined">file_download</mat-icon>
             <span>{{'header.export-questions' | translate}}</span>
           </button>
 
@@ -281,7 +281,7 @@
               (click)="navigateToOtherView()"
               tabindex="0">
         <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role">mic</mat-icon>
-        <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role">gavel</mat-icon>
+        <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role" class="material-icons-round">gavel</mat-icon>
         <mat-icon *ngIf="userRole === user.role">group</mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
