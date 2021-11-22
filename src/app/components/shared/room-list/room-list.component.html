@@ -59,9 +59,9 @@
           <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
               (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <mat-icon mat-list-icon *ngSwitchCase="creatorRole"
+            <mat-icon class="material-icons-outlined" mat-list-icon *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
-              mic
+              mic_external_on
             </mat-icon>
             <mat-icon mat-list-icon *ngSwitchCase="participantRole"
                       title="{{ 'room-list.participant-role' | translate }}">
