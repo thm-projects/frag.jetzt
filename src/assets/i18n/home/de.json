@@ -39,7 +39,7 @@
     "imprint": "Impressum",
     "language": "Sprache",
     "style": "Anzeige",
-    "motd-title-main": "News",
+    "motd-title-main": "»frag.jetzt« News",
     "motd-mark-all-read": "Alles gelesen",
     "motd-title-old": "Archiv",
     "motd-title-new": "Aktuell",
@@ -125,7 +125,7 @@
     "questionwall": "Präsentation",
     "tag-cloud": "Themenwolke",
     "fullscreen": "Vollbild & Textgröße",
-    "motd": "News",
+    "motd": "»frag.jetzt« News",
     "tag-cloud-config": "Aussehen & Animation",
     "tag-cloud-administration": "KI-Einstellungen",
     "questions-blocked": "Weitere Fragen deaktiviert ",
@@ -233,7 +233,7 @@
     "restart-account-activation-correct": "Der Aktivierungs-Schlüssel wurde erneut gesendet.",
     "restart-account-activation-tooltip": "Sendet den Aktivierungs-Schlüssel erneut an die angegebene Adresse.",
     "welcome": "»Noch Fragen?«",
-    "welcome-feedback": "➜ Feedback an das »frag.jetzt«-Team",
+    "welcome-feedback": "➤ Feedback an das »frag.jetzt«-Team",
     "feedback-aria": "Baggs, Features, Lob und Tadel kannst du über diesen Link in unserer Feedback-Säschen äussern."
   },
   "overlay": {

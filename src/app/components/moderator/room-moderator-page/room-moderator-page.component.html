@@ -53,9 +53,9 @@
                     routerLink="/moderator/room/{{ room.shortId }}/comments"
                     aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
-                        class="main-icon"
+                        class="main-icon material-icons-outlined"
                         [ngClass]="{'desktop' : deviceType === 'desktop'}"
-                        matTooltip="{{ 'room-page.session-question-board' | translate}}">question_answer
+                        matTooltip="{{ 'room-page.session-question-board' | translate}}">forum
               </mat-icon>
               <h3>{{ 'room-page.public-stream' | translate}}</h3>
             </button>
@@ -85,8 +85,8 @@
                   routerLink="/moderator/room/{{ room.shortId }}/comments"
                   aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
-                      class="main-icon"
-                      [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
+                      class="main-icon material-icons-outlined"
+                      [ngClass]="{'desktop' : deviceType === 'desktop'}">forum
             </mat-icon>
             <h3>{{ 'room-page.comments' | translate}}</h3>
           </button>

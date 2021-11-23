@@ -16,7 +16,7 @@
             class="focus_button"
             *ngIf="router.url.endsWith('/home') && isSafari === 'false'"
             (click)="startTour()">
-      <mat-icon class="header-icons">tour</mat-icon>
+      <mat-icon class="header-icons material-icons-outlined">tour</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'header.tour' | translate }}
       </span>
@@ -161,7 +161,7 @@
                     tabindex="0"
                     *ngIf="userRole == 3"
                     routerLink="creator/room/{{shortId}}/comments">
-              <mat-icon>
+              <mat-icon class="material-icons-outlined">
                 forum
               </mat-icon>
               <span>{{'header.back-to-questionboard' | translate}}</span>
@@ -171,7 +171,7 @@
                     tabindex="0"
                     *ngIf="userRole > 0 && userRole < 3"
                     routerLink="moderator/room/{{shortId}}/comments">
-              <mat-icon>
+              <mat-icon class="material-icons-outlined">
                 forum
               </mat-icon>
               <span>{{'header.back-to-questionboard' | translate}}</span>
@@ -184,7 +184,7 @@
             <button mat-menu-item
                     tabindex="0"
                     routerLink="participant/room/{{shortId}}/comments">
-              <mat-icon>
+              <mat-icon class="material-icons-outlined">
                 forum
               </mat-icon>
               <span>{{'header.back-to-questionboard' | translate}}</span>
@@ -334,7 +334,7 @@
               *ngIf="user && router.url.endsWith('/quiz')"
               tabindex="0"
               (click)="navigateQuestionBoard()">
-        <mat-icon class="header-icons">forum</mat-icon>
+        <mat-icon class="header-icons material-icons-outlined">forum</mat-icon>
         <span>{{'header.back-to-questionboard' | translate}}</span>
       </button>
 
@@ -363,7 +363,7 @@
       <button mat-menu-item
               *ngIf="user"
               (click)="showMotdDialog()">
-        <mat-icon class="faq">
+        <mat-icon class="faq material-icons-outlined">
           {{ motdState ? 'notifications_active' : 'campaign' }}
         </mat-icon>
         <span>{{'header.motd' | translate}}</span>

@@ -148,7 +148,7 @@
         mat-flat-button
         class="help-button"
         (click)="openHelp()">
-        <mat-icon>help</mat-icon>
+        <mat-icon>question_mark</mat-icon>
         {{ 'explanation.label' | translate}}
 
       </button>
@@ -157,7 +157,7 @@
       <app-dialog-action-buttons
         buttonsLabelSection="content"
         confirmButtonLabel="tag-cloud-create"
-        buttonIcon="cloud"
+        buttonIcon="cloud_queue"
         [spacing]="false"
         [cancelButtonClickAction]="cancelButtonActionCallback()"
         [confirmButtonClickAction]="confirmButtonActionCallback()">

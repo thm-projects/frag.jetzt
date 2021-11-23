@@ -93,17 +93,17 @@
             *ngIf="!searchBox.value && !search && !freeze && comments.length > 2"
             (click)="activateCommentStream(true)"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
-      <mat-icon class="freezeIcon">pause</mat-icon>
+      <mat-icon class="freezeIcon material-icons-outlined">stop_circle</mat-icon>
     </button>
 
     <button id="play-comments"
             mat-icon-button
             aria-labelledby="play"
-            class="freezeButton"
+            class="freezeButton material-icons-outlined"
             *ngIf="!searchBox.value && !search && freeze"
             (click)="activateCommentStream(false)"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
-      <mat-icon class="playIcon">play_arrow</mat-icon>
+      <mat-icon class="playIcon">play_circle</mat-icon>
     </button>
 
   </div>
@@ -148,7 +148,7 @@
     <button mat-menu-item
             (click)="applySortingByKey('controversy')"
             aria-labelledby="controversy">
-      <mat-icon [ngClass]="{controversy: 'controversy'}[filter.sortType]">quickreply</mat-icon>
+      <mat-icon class="material-icons-outlined" [ngClass]="{controversy: 'controversy'}[filter.sortType]">quickreply</mat-icon>
       <span [ngClass]="{controversy: 'controversy'}[filter.sortType]">{{ 'comment-list.sort-controversy' | translate }}</span>
     </button>
 

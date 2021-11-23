@@ -254,9 +254,11 @@ a {
 }
 
 .mat-radio-label-content {
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal !important;
+}
+
+.mat-slide-toggle-content {
+  white-space: normal !important;
 }
 
 .mat-option {
@@ -277,6 +279,11 @@ a {
 .mat-row:hover .mat-cell {
   border-color: currentColor;
   border-bottom-width: 1px;
+}
+
+.mat-cell {
+  hyphens: auto !important;
+  padding-right: 5px !important;
 }
 
 .mat-header-row .mat-header-cell {
