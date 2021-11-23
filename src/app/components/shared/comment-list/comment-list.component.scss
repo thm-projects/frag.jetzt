@@ -88,13 +88,14 @@ app-comment {
 }
 
 .freezeIcon {
-  transform: scale(1.5);
+  transform: scale(1.7);
   color: var(--secondary);
 }
 
 .playIcon {
   transform: scale(1.7);
   color: var(--red);
+  margin-top: -23px;
 }
 
 .close {

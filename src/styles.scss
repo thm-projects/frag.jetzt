@@ -281,6 +281,11 @@ a {
   border-bottom-width: 1px;
 }
 
+.mat-cell {
+  hyphens: auto !important;
+  padding-right: 5px !important;
+}
+
 .mat-header-row .mat-header-cell {
   background-color: var(--secondary) !important;
   color: var(--on-secondary) !important;
