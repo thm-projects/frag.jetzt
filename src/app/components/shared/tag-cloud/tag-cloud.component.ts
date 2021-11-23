@@ -465,6 +465,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'forum',
+        class: 'material-icons-outlined',
         text: 'header.back-to-questionboard',
         callback: () => this.router.navigate(['../'], { relativeTo: this.route }),
         condition: () => true
@@ -472,6 +473,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'cloud_queue',
+        class: 'material-icons-outlined',
         text: 'header.tag-cloud-config',
         callback: () => this.drawer.toggle(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -479,6 +481,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'handyman',
+        class: 'material-icons-outlined',
         text: 'header.tag-cloud-administration',
         callback: () => this.dialog.open(TopicCloudAdministrationComponent, {
           minWidth: '50%',
@@ -492,6 +495,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'auto_fix_high',
+        class: 'material-icons-outlined',
         text: 'header.update-spacy-keywords',
         callback: () => WorkerConfigDialogComponent.addTask(this.dialog, this.room),
         condition: () => this.userRole > UserRole.PARTICIPANT && !this.brainstormingActive

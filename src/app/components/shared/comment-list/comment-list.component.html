@@ -134,14 +134,14 @@
     <button mat-menu-item
             (click)="applySortingByKey('votedesc')"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
+      <mat-icon class="material-icons-outlined" [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
       <span [ngClass]="{votedesc: 'up'}[filter.sortType]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
     <button mat-menu-item
             (click)="applySortingByKey('voteasc')"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]">thumb_down</mat-icon>
+      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]" class="material-icons-outlined">thumb_down</mat-icon>
       <span [ngClass]="{voteasc: 'down'}[filter.sortType]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
 
@@ -161,7 +161,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('favorite')"
               aria-labelledby="grade">
-        <mat-icon class="star"
+        <mat-icon class="star material-icons-outlined"
                   [ngClass]="{favorite: 'favorite-icon'}[filter.filterType]">grade
         </mat-icon>
         <span
@@ -215,7 +215,7 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('owner')"
               aria-labelledby="comment">
-        <mat-icon [ngClass]="{owner: 'owner-icon'}[filter.filterType]">person_pin_circle</mat-icon>
+        <mat-icon class="material-icons-outlined" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">person_pin_circle</mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
 

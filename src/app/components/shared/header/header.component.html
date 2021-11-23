@@ -92,9 +92,9 @@
       </h2>
 
       <span *ngIf="room && room.questionsBlocked">
-        <mat-icon style="color: red; margin-top: 8px"
+        <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
                   [matTooltip]="'header.questions-blocked' | translate">
-          block
+          comments_disabled
         </mat-icon>
       </span>
 
@@ -291,7 +291,7 @@
               *ngIf="userRole == 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
               (click)="openUserBonusTokenDialog()"
               tabindex="0">
-        <mat-icon class="star">grade</mat-icon>
+        <mat-icon class="star material-icons-outlined">grade</mat-icon>
         <span>{{'header.user-bonus-token' | translate}}</span>
       </button>
 
@@ -374,7 +374,7 @@
               *ngIf="user && !user.isGuest && user.loginId && router.url.endsWith('/user')"
               (click)="openDeleteUserDialog()"
               tabindex="0">
-        <mat-icon class="color-warn">delete_forever</mat-icon>
+        <mat-icon class="color-warn material-icons-outlined">delete</mat-icon>
         <span>{{'header.delete-account' | translate}}</span>
       </button>
 

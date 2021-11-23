@@ -354,6 +354,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'article',
+        class: 'material-icons-outlined',
         text: 'header.edit-session-description',
         callback: () => this.editSessionDescription(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -361,6 +362,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'visibility_off',
+        class: 'material-icons-outlined',
         isSVGIcon: false,
         text: 'header.moderation-mode',
         callback: () => this.showCommentsDialog(),
@@ -369,6 +371,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'gavel',
+        class: 'material-icons-outlined',
         text: 'header.edit-moderator',
         callback: () => this.showModeratorsDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -376,6 +379,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'comment_tag',
+        class: 'material-icons-outlined',
         isSVGIcon: true,
         text: 'header.edit-tags',
         callback: () => this.showTagsDialog(),
@@ -384,6 +388,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'grade',
+        class: 'material-icons-outlined',
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
@@ -392,6 +397,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'file_download',
+        class: 'material-icons-outlined',
         text: 'header.export-questions',
         callback: () => this.exportQuestions(),
         condition: () => this.userRole >= UserRole.PARTICIPANT
@@ -399,6 +405,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'password',
+        class: 'material-icons-outlined',
         text: 'header.profanity-filter',
         callback: () => this.toggleProfanityFilter(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -406,6 +413,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'delete_sweep',
+        class: 'material-icons-outlined',
         iconColor: Palette.RED,
         text: 'header.delete-questions',
         callback: () => this.deleteQuestions(),
@@ -414,6 +422,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'delete',
+        class: 'material-icons-outlined',
         iconColor: Palette.RED,
         isSVGIcon: false,
         text: 'header.delete-room',
@@ -424,14 +433,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         {
           translate: this.headerService.getTranslate(),
           text: 'header.block',
-          icon: 'block',
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
           iconColor: Palette.RED,
           color: Palette.RED
         },
         {
           translate: this.headerService.getTranslate(),
           text: 'header.unlock',
-          icon: 'block',
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
           iconColor: Palette.RED
         },
         ArsObserver.build<boolean>(e => {
