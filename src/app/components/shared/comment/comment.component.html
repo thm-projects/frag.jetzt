@@ -55,7 +55,7 @@
                 (click)="answerComment()"
                 tabindex="0"
                 attr.aria-labelledby="comment_answer{{ comment.id }}">
-          <mat-icon class="not-marked"
+          <mat-icon class="not-marked material-icons-outlined"
                     [ngClass]="{'answered-icon' : comment.answer}"
                     [matTooltip]="comment.answer ? ('comment-page.has-answer' | translate) :
                   ('comment-page.fullscreen' | translate)">
@@ -122,9 +122,9 @@
                 (click)="setBookmark(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}"
+          <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark} "
                     [matTooltip]="!comment.bookmark ? ('comment-page.mark-bookmark' | translate)
-                                                      : ('comment-page.mark-not-bookmark' | translate)">bookmark
+                                                      : ('comment-page.mark-not-bookmark' | translate)">bookmark_border
           </mat-icon>
         </button>
       </ng-container>
@@ -136,7 +136,7 @@
               tabindex="0"
               attr.aria-labelledby="comment_delete{{ comment.id }}"
       >
-        <mat-icon>
+        <mat-icon class="material-icons-outlined">
           delete_sweep
         </mat-icon>
       </button>
@@ -230,7 +230,7 @@
                   attr.aria-labelledby="comment_grade{{ comment.id }}"
           >
             <mat-icon [ngClass]="{'bookmark-icon' : comment.bookmark, 'not-marked' : !comment.bookmark}">
-              bookmark
+              bookmark_border
             </mat-icon>
             <span>
               {{
@@ -339,7 +339,7 @@
            fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.user-number' | translate }}"
            (click)="this.clickedUserNumber.emit(comment.userNumber)">
-        <mat-icon class="user-icon">person_pin_circle</mat-icon>
+        <mat-icon class="user-icon material-icons-outlined">person_pin_circle</mat-icon>
         <span matBadge="{{commentsWrittenByUser}}"
               matBadgeSize="small"
               matBadgeOverlap="false">
@@ -422,7 +422,7 @@
           tabindex="0"
           [disabled]="!user || comment.creatorId === user.id"
           attr.aria-labelledby="comment_vote_up{{ comment.id }}">
-    <mat-icon class="voting-icon"
+    <mat-icon class="voting-icon material-icons-outlined"
               [ngClass]="{'upVoted' : hasVoted === 1}">thumb_up
     </mat-icon>
   </button>
@@ -436,7 +436,7 @@
           matTooltip="{{ 'comment-page.vote-down' | translate }}"
           tabindex="0"
           attr.aria-labelledby="comment_vote_down{{ comment.id }}">
-    <mat-icon class="voting-icon"
+    <mat-icon class="voting-icon material-icons-outlined"
               [ngClass]="{'downVoted' : hasVoted === -1}">thumb_down
     </mat-icon>
   </button>
