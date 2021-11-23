@@ -16,7 +16,7 @@
             class="focus_button"
             *ngIf="router.url.endsWith('/home') && isSafari === 'false'"
             (click)="startTour()">
-      <mat-icon class="header-icons material-icons-outlined">tour</mat-icon>
+      <mat-icon class="header-icons material-icons-outlined">outlined_flag</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'header.tour' | translate }}
       </span>
@@ -238,7 +238,7 @@
                     tabindex="0"
                     *ngIf="!router.url.endsWith('moderator/comments')"
                     routerLink="quiz">
-              <mat-icon class="material-icons-outlined">timer</mat-icon>
+              <mat-icon class="material-icons-outlined">emoji_events</mat-icon>
               <span>{{'header.quiz-now' | translate}}</span>
             </button>
 

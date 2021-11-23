@@ -53,7 +53,7 @@ mat-card-content > :first-child {
   font-size: larger;
   font-weight: bold;
   color: var(--on-surface) !important;
-  margin: 1em;
+  margin-top: 9px;
 }
 
 mat-grid-list {
@@ -99,14 +99,12 @@ mat-expansion-panel {
 }
 
 #copy {
-  width: 24px;
-  height: 24px;
+  width: 40px;
+  height: 40px;
 }
 
 .copy {
-  font-size: 40px;
-  color: var(--secondary);
-  line-height: 100%;
+  color: var(--primary);
 }
 
 .gavel {
