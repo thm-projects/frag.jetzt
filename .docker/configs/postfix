@@ -1,0 +1,7 @@
+postconf -e "smtpd_relay_restrictions = permit_mynetworks, reject"
+postconf -e "mynetworks = 172.0.0.0/8 127.0.0.0/8 fragjetzt-backend fragjetzt"
+postconf -e "smtpd_sasl_auth_enable = no"
+postconf -e "broken_sasl_auth_clients = no"
+postconf -e "smtpd_recipient_restrictions = "
+
+postconf -e "mydestination = localhost.\$mydomain, localhost, \$myhostname"

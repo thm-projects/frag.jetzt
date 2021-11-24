@@ -1,0 +1,70 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:12.1
+    hostname: fragjetzt-postgres
+    container_name: fragjetzt-postgres
+    restart: unless-stopped
+    env_file: .docker/environments/postgres.env
+    volumes:
+      - postgresql_fragjetzt_data:/var/lib/postgresql/data
+    networks:
+      - fragjetzt
+
+  rabbitmq:
+    image: rabbitmq:3.8
+    hostname: fragjetzt-rabbitmq
+    container_name: fragjetzt-rabbitmq
+    restart: unless-stopped
+    env_file: .docker/environments/rabbitmq.env
+    networks:
+      - fragjetzt
+    volumes:
+      - .docker/configs/rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
+
+  postfix:
+    image: danilsmirnov/postfix
+    hostname: fragjetzt-postfix
+    container_name: fragjetzt-postfix
+    restart: unless-stopped
+    env_file: .docker/environments/postfix.env
+    networks:
+      - fragjetzt
+    expose:
+      - '25'
+    volumes:
+      - .docker/configs/postfix:/configure.sh
+
+  backend:
+    image: git-registry.thm.de/arsnova/frag.jetzt-backend:master
+    hostname: fragjetzt-backend
+    container_name: fragjetzt-backend
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+      - postgres
+      - postfix
+    env_file: .docker/environments/backend.env
+    networks:
+      - fragjetzt
+
+  ws-gateway:
+    image: git-registry.thm.de/arsnova/arsnova-ws-gateway:frag-jetzt
+    hostname: fragjetzt-ws-gateway
+    container_name: fragjetzt-ws-gateway
+    restart: unless-stopped
+    depends_on:
+      - rabbitmq
+    env_file: .docker/environments/backend.env
+    command: /jetty/start.jar --module=http-forwarded
+    networks:
+      - fragjetzt
+
+volumes:
+  postgresql_fragjetzt_data:
+
+networks:
+  fragjetzt:
+    name: fragjetzt
+    driver: bridge
