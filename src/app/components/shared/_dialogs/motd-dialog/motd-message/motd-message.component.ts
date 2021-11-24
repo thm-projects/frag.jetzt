@@ -8,10 +8,12 @@ import { Motd } from '../../../../../models/motd';
 })
 export class MotdMessageComponent implements OnInit, AfterViewInit {
 
-  @Input()message: Motd;
+  @Input() message: Motd;
+  @ViewChild('markdown', { static: true }) markdown: any;
   translatedMessage: string;
-  @ViewChild('markdown', { static : true })markdown: any;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit(): void {
     if (localStorage.getItem('currentLang') === 'de') {
@@ -26,9 +28,7 @@ export class MotdMessageComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    Array.from<HTMLElement>(this.markdown.element.nativeElement.children).forEach(e => {
-      e.tabIndex = 0;
-    });
+    Array.from<HTMLElement>(this.markdown.element.nativeElement.children).forEach(e => e.tabIndex = 0);
   }
 
 }

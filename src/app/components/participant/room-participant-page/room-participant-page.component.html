@@ -9,7 +9,7 @@
             <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
-            <mat-icon *ngIf="moderationEnabled" class="gavel" matTooltip="{{ 'room-page.moderation-enabled' | translate }}">
+            <mat-icon *ngIf="moderationEnabled" class="gavel material-icons-round" matTooltip="{{ 'room-page.moderation-enabled' | translate }}">
               gavel
             </mat-icon>
             <h3 class="room-short-id">
@@ -27,8 +27,8 @@
         <mat-grid-tile>
           <button id="question_answer-button" mat-icon-button [disableRipple]="true"
                   routerLink="/participant/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
-            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon"
-                      [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
+            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon material-icons-outlined"
+                      [ngClass]="{'desktop' : deviceType === 'desktop'}">forum
             </mat-icon>
             <h3>{{ 'room-page.create-comment' | translate}}</h3>
           </button>

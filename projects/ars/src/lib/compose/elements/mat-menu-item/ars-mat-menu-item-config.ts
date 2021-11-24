@@ -4,6 +4,7 @@ import { InjectionToken } from '@angular/core';
 export interface ArsMatMenuItemConfig{
   translate: TranslateService;
   icon: string;
+  class: string;
   isSVGIcon?: boolean;
   text: string;
   color?: string;

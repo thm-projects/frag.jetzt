@@ -61,11 +61,11 @@
     </button>
 
     <button mat-icon-button
-            class="searchBarButton"
+            class="searchBarButton material-icons-outlined"
             (click)="switchToCommentList()"
             *ngIf="!searchBox.value && comments && !search"
             matTooltip="{{ 'comment-list.switch-to-comment-list' | translate }}">
-      <mat-icon class="searchBarIcon">question_answer</mat-icon>
+      <mat-icon class="searchBarIcon material-icons-outlined">forum</mat-icon>
     </button>
   </div>
 
@@ -83,7 +83,7 @@
             matTooltip="{{ 'comment-list.vote-asc' | translate }}"
             (click)="sortComments(votedesc)"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon [ngClass]="{votedesc: 'up'}[currentSort]">thumb_up</mat-icon>
+      <mat-icon class="material-icons-outlined" [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
       <span>{{ 'comment-list.sort-vote-asc' | translate }}</span>
     </button>
 
@@ -91,7 +91,7 @@
             matTooltip="{{ 'comment-list.vote-desc' | translate }}"
             (click)="sortComments(voteasc)"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[currentSort]">thumb_down</mat-icon>
+      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]" class="material-icons-outlined">thumb_down</mat-icon>
       <span>{{ 'comment-list.sort-vote-desc' | translate }}</span>
     </button>
   </mat-menu>
@@ -113,7 +113,7 @@
         [ngClass]="{'visible': isScrollButtonVisible()}"
         (click)="AppComponent.scrollTop()"
         tabIndex="-1">
-  <mat-icon>arrow_upward</mat-icon>
+  <mat-icon>vertical_align_top</mat-icon>
 </button>
 
 <div *ngIf="!isLoading">

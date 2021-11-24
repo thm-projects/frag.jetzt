@@ -78,7 +78,7 @@
     If we allowed it, the students would only be busy commenting on their fellow students' questions.
   </p>
   <p>
-    <strong>Categorizing questions</strong><br><br>The session creator can define categories (tags) for questions.
+    <strong>Categorizing questions</strong><br><br>The room creator can define categories (tags) for questions.
        The question poser can assign his or her question to one of the predefined categories.
        Categorized questions can be filtered by clicking on the tag.
        For example, tagging allows the moderator of a panel discussion to filter questions from the audience by topic or addressee:
@@ -125,14 +125,19 @@
   </p>
 
   <p>
-    <strong>Presenting questions in a focused way</strong><br><br>For the discussion of the questions on the beamer, they can be presented individually in full view.
-    To move on to the next question, simply press the space bar.
+    <strong>Presenting questions in a focused way</strong><br><br>For the discussion of the questions on the beamer,
+    they can be presented individually in full view.
+    Advancing to the next or previous question is conveniently done with the arrow keys.
     You can also activate the display in "kiosk mode":
     Then, incoming new questions are automatically shown in full view.
     Switching to the next question is delayed to allow reading.
+  </p>
+  <p>
     On the question list, constantly new questions or ratings can make reading and presenting difficult, as the positions of the questions change.
-    With the pause icon the question stream can be frozen.
+    With the pause button the question stream can be frozen.
     However, new questions or ratings are still possible.
+  </p>
+  <p>
     If the presenter clicks on a question in the question list, it appears in full view.
     At the same time, the question flashes on the end devices of all participants to attract their attention.
   </p>
@@ -141,13 +146,57 @@
     <strong>Search, sort and filter questions</strong><br><br>
     The quick location of specific questions is made possible by search, sort and filter options.
     The full text search also includes the answers.
-    Sorting is possible by time and rating.
-    The following filter criteria can be selected: Bonus-awarded, answered, discussed, affirmed, negated and own questions.
+    Sorting is possible by time, rating and the degree of controversy.<br><br>
+
+    To identify controversial questions, i.e.,
+    questions where the positive and negative votes balance each other and have a value close to zero in the question list,
+    we introduce an innovative sorting criterion: the degree of controversy or contradiction.
+    First, we form the difference between positive and negative votes and subtract it from the total number of votes.
+    What remains is the absolute number of controversial votes.
+    We divide this value by the total number of votes to get the percentage.
+    Finally, we stretch the percentage with an empirical term
+    so that questions with very few controversial votes are not classified as more controversial than questions with many votes.
+    A simple calculation with great power for question rounds with controversial topics.<br><br>
+
+    The following filter criteria can be selected: Bonus-awarded, bookmarked, not bookmarked, answered, unanswered, and own questions.<br><br>
     By clicking on the tag icon of a question, all questions of this category are displayed.
     By clicking on the user icon of a question, all questions of this user will be displayed.
     This allows you to assess the distribution of questions among the question posers:
     How many people participate? Which questions does one and the same person ask?
   </p>
+
+  <p>
+    <strong>Quizzing with
+      <a class="info"
+         href="https://antworte.jetzt/"
+         target="_blank"
+         rel="noreferrer">»antworte.jetzt«
+        <span>Öffnet neues Fenster</span>
+      </a>
+    </strong><br><br>
+
+    <img tabindex="-1"
+         src="/assets/images/antworte_jetzt.webp"
+         class="screenshot"
+         width="640"
+         height="344"
+         alt="antworte.jetzt">
+    »frag.jetzt« has a quizzing option:
+    We have included our popular game-based quiz app »arsnova.click«.
+    The
+    <a class="info"
+       href="https://antworte.jetzt/info/about"
+       target="_blank"
+       rel="noreferrer">info page<span>Opens new window</span>
+    </a>
+    informs you about its features.
+    The score in the ranking is calculated taking into account the difficulty of the quiz question
+    and the brevity of the answer time.
+    If all quiz questions intended for a bonus are answered correctly,
+    the player receives a bonus token, which can be redeemed by sending an e-mail to the teacher with one click.
+  </p>
+
+
 
   <p>
     <strong>Free of charge with full functionality</strong><br><br>Any number of sessions can be created free of charge as a guest or registered user.
@@ -208,7 +257,7 @@
   <div class="videoWrapper">
     <iframe tabindex="0"
             width="560" height="315"
-            src="https://www.youtube.com/embed/lj1HMvZ73xY?autoplay=0" frameborder="0"
+            src="https://www.youtube.com/embed/lj1HMvZ73xY?autoplay=0"
             allowfullscreen
     ></iframe>
   </div>
@@ -239,15 +288,15 @@
         After the break she answers 2-3 top questions.</p>
     </li>
     <li>
-      <p>No mobile phone use during the lecture:</p>
-      <p>The teacher creates a new session at the end of each lecture.
+      <p>No mobile phone use during the lecture (A):</p>
+      <p>The teacher creates a new room at the end of each lecture.
         Students can ask and rate questions at home.
         The question list is moderated by an assistant or the teacher himself.
         In the first 10 minutes of the next lecture the teacher answers 2-3 top questions.</p>
     </li>
     <li>
-      <p>No mobile phone use during the lecture:</p>
-      <p>The teacher creates a session for the entire duration of the course.
+      <p>No mobile phone use during the lecture (B):</p>
+      <p>The teacher creates a room for the entire duration of the course.
         An assistant moderates the question list during the semester.
         The teacher marks the relevant questions and deletes all others.
         The question list thus serves to reflect on the lecture contents and to prepare for the exam.</p>
@@ -273,7 +322,7 @@
 
   Linux computer:
   <a class="info"
-     href="http://www.chromevox.com/installing.html"
+     href="https://support.google.com/chromebook/answer/7031755?hl=en"
      rel="noreferrer"
      target="_blank">ChromeVox<span> Opens new page</span></a>
   <br>

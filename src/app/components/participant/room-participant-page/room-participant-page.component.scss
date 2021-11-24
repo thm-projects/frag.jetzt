@@ -28,9 +28,9 @@ mat-card-content > :first-child {
 }
 
 .desktop {
-  font-size: 70px;
-  height: 70px;
-  width: 70px;
+  font-size: 80px;
+  height: 80px;
+  width: 80px;
 }
 
 button {
@@ -100,7 +100,7 @@ mat-grid-tile {
   font-size: larger;
   font-weight: bold;
   color: var(--on-surface) !important;
-  margin: 1em;
+  margin-top: 9px;
 }
 
 ::ng-deep .mat-badge-content {

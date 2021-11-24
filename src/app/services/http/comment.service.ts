@@ -6,7 +6,6 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
-import { CommentFilter } from '../../utils/filter-options';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -87,7 +86,8 @@ export class CommentService extends BaseHttpService {
         read: comment.read, creationTimestamp: comment.timestamp, tag: comment.tag,
         keywordsFromSpacy: JSON.stringify(comment.keywordsFromSpacy),
         keywordsFromQuestioner: JSON.stringify(comment.keywordsFromQuestioner),
-        language: comment.language, questionerName: comment.questionerName
+        language: comment.language, questionerName: comment.questionerName,
+        brainstormingQuestion: comment.brainstormingQuestion
       }, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<Comment>('addComment'))

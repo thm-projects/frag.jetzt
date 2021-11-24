@@ -1,16 +1,21 @@
 <div fxLayout="column"
      fxLayoutAlign="center"
-     *ngIf="!isLoading">
+     *ngIf="!isLoading"
+     (document:keyup)="checkForEscape($event)"
+     (document:click)="checkForBackDropClick($event, container.firstChild, writeCommentCard.firstChild)">
   <div fxLayout="row"
+       #container
        fxLayoutAlign="center">
     <app-comment [comment]="comment"
-                 [userRole]="user.role"></app-comment>
+                 [user]="user"
+                 [userRole]="userRole"></app-comment>
   </div>
   <div fxLayout="row"
+       #writeCommentCard
        fxLayoutAlign="center">
     <mat-card class="answer border-answer"
               *ngIf="!isStudent || answer">
-      <app-write-comment [isModerator]="user && user.role > 0"
+      <app-write-comment [isModerator]="userRole > 0"
                          [isCommentAnswer]="true"
                          [placeholder]="'comment-page.your-answer'"
                          [onClose]="openDeleteAnswerDialog()"

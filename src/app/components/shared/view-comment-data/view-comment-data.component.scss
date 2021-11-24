@@ -1,3 +1,7 @@
+#editorRow {
+  overflow-x: hidden !important;
+}
+
 ::ng-deep .ql-editor.ql-blank::before {
   color: var(--on-surface);
   filter: opacity(0.6);
@@ -107,7 +111,7 @@
       > * {
         @media only screen and (max-device-width: 480px) and (orientation: portrait),
         only screen and (max-device-height: 480px) and (orientation: landscape) {
-          margin: 10px;
+          margin: 7px;
         }
       }
     }

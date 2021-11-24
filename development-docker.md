@@ -7,12 +7,13 @@ frag.jetzt consists of a variety of backend services. Starting them all individu
 The following software has to be installed on your computer:
 * [Docker](https://docs.docker.com/engine/install/)
 * [Docker-Compose](https://docs.docker.com/compose/install/)
-* [NodeJS](https://nodejs.org/)
-* [Angular CLI](https://cli.angular.io/)
+* [NodeJS](https://nodejs.org/) (LTS v16)
+* [Angular CLI](https://cli.angular.io/) (Version 13)
+  * You can install it with node/npm: `npm install -g @angular/cli@13` 
 
 ### Prerequisite for Windows
 
-Turn of the convertion of line encodings in git:
+Turn off the conversion of line encodings in git:
 * `git config --global core.autocrlf false`
 
 On **Windows 10 Home and older Systems** using the Docker Toolbox you also have to set up port forwarding in your VirtualBox.
@@ -20,7 +21,7 @@ On **Windows 10 Home and older Systems** using the Docker Toolbox you also have 
 Start Docker via the "Docker QuickStart Terminal". In contrast to Docker Desktop, started containers are not accessible via localhost, but via an given IP. In order for frag.jetzt to access the backend in Docker, port forwarding must be set up on the corresponding ports. To do this, the "VirtualBox Manager" must be started. The virtual machine "default" must be configured here.
 
 To set up port forwarding for this VM, proceed as follows:
-* Right click on the VM
+* Right-click on the VM
 * Change
 * Network
 * Advanced
@@ -41,6 +42,8 @@ Clone the frag-jetzt repository and the Docker Orchestration repository:
 * [frag.jetzt](https://git.thm.de/arsnova/frag.jetzt)
 * [Docker Orchestration](https://git.thm.de/arsnova/frag.jetzt-docker-orchestration)
 
+### Install the dependencies
+Inside frag.jetzt use `npm ci` to install all dependencies.
 
 ## Start the Backend
 
@@ -61,7 +64,7 @@ If you are using Webstorm, open the frag.jetzt repository in Webstorm now. Apply
 
 ## Start the Frontend (CLI)
 
-If you are not using Webstorm, you may start your Frontend via Terminal. Inside of the frag.jetzt repository, run `npm run start`.
+If you are not using Webstorm, you may start your Frontend via Terminal. Inside the frag.jetzt repository, run `npm run start`.
 
 ## Access frag.jetzt
 

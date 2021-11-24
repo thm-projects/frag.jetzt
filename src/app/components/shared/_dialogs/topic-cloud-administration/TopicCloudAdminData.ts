@@ -1,5 +1,3 @@
-import { ProfanityFilter } from '../../../../models/room';
-
 export interface TopicCloudAdminDataScoring {
   score: number;
 }
@@ -14,7 +12,8 @@ export enum TopicCloudAdminDataScoringKey {
   summedUpvotes = 'summedUpvotes',
   summedDownvotes = 'summedDownvotes',
   summedVotes = 'summedVotes',
-  cappedSummedVotes = 'cappedSummedVotes'
+  cappedSummedVotes = 'cappedSummedVotes',
+  controversy = 'controversy'
 }
 
 export type TopicCloudAdminDataScoringObject = {
@@ -22,14 +21,11 @@ export type TopicCloudAdminDataScoringObject = {
 };
 
 export interface TopicCloudAdminData {
-  blacklist: string[];
   wantedLabels: {
     de: string[];
     en: string[];
   };
   considerVotes: boolean;
-  profanityFilter: ProfanityFilter;
-  blacklistIsActive: boolean;
   keywordORfulltext: KeywordOrFulltext;
   minQuestions: number;
   minQuestioners: number;
@@ -92,7 +88,8 @@ export const keywordsScoringMinMax: TopicCloudAdminDataScoringPreset = {
   summedUpvotes: { min: -5, max: 5 },
   summedDownvotes: { min: -5, max: 5 },
   summedVotes: { min: -5, max: 5 },
-  cappedSummedVotes: { min: -5, max: 5 }
+  cappedSummedVotes: { min: -5, max: 5 },
+  controversy: { min: -5, max: 5 }
 };
 
 export enum KeywordOrFulltext {

@@ -1,10 +1,11 @@
 .app-component {
-  padding: 0 5% 0;
+  padding: 0 5% 30px;
   z-index: 1;
 }
 
 main {
   height: 100%;
+  max-width: 95%;
   margin-left: auto;
   margin-right: auto;
 }

@@ -1,5 +1,5 @@
 mat-radio-button {
-    margin: 5px;
+  margin: 5px;
 }
 
 mat-radio-group {
@@ -9,10 +9,6 @@ mat-radio-group {
 
 ::ng-deep .mat-radio-label-content {
   width: 100%;
-}
-
-::ng-deep mat-form-field > .mat-form-field-wrapper {
-  margin-bottom: -1.34375em;
 }
 
 .elementRow {
@@ -48,6 +44,15 @@ mat-radio-group {
 .secondary-confirm-button {
   background-color: var(--secondary);
   color: var(--on-secondary);
+}
+
+.brainstorm-container {
+  background-color: var(--surface);
+  margin-top: 10px;
+
+  > mat-form-field {
+    width: 100%;
+  }
 }
 
 .help-button {

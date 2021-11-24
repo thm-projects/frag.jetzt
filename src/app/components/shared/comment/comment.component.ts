@@ -239,6 +239,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     this.route.params.subscribe(params => {
       url = `${this.roleString}/room/${params['shortId']}/comment/${this.comment.id}`;
     });
+    localStorage.setItem('answeringQuestion', this.comment.id);
     this.router.navigate([url]);
   }
 

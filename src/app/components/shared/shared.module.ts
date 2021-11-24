@@ -119,32 +119,32 @@ import { AccessibilityEscapedInputDirective } from '../../directives/accessibili
     WorkerConfigDialogComponent,
     AccessibilityEscapedInputDirective
   ],
-  exports: [
-    RoomJoinComponent,
-    PageNotFoundComponent,
-    RoomPageComponent,
-    RoomListComponent,
-    HeaderComponent,
-    FooterComponent,
-    CommentPageComponent,
-    CommentListComponent,
-    CreateCommentComponent,
-    PresentCommentComponent,
-    CommentComponent,
-    DialogActionButtonsComponent,
-    UserBonusTokenComponent,
-    CloudConfigurationComponent,
-    TagCloudPopUpComponent,
-    ActiveUserComponent,
-    MatSpinnerOverlayComponent,
-    JoyrideTemplateDirective,
-    AutofocusDirective,
-    CustomMarkdownComponent,
-    ScrollIntoViewDirective,
-    ViewCommentDataComponent,
-    WriteCommentComponent,
-    AccessibilityEscapedInputDirective
-  ]
+    exports:[
+        RoomJoinComponent,
+        PageNotFoundComponent,
+        RoomPageComponent,
+        RoomListComponent,
+        HeaderComponent,
+        FooterComponent,
+        CommentPageComponent,
+        CommentListComponent,
+        CreateCommentComponent,
+        PresentCommentComponent,
+        CommentComponent,
+        DialogActionButtonsComponent,
+        UserBonusTokenComponent,
+        CloudConfigurationComponent,
+        TagCloudPopUpComponent,
+        ActiveUserComponent,
+        MatSpinnerOverlayComponent,
+        JoyrideTemplateDirective,
+        AutofocusDirective,
+        CustomMarkdownComponent,
+        ScrollIntoViewDirective,
+        ViewCommentDataComponent,
+        WriteCommentComponent,
+        AccessibilityEscapedInputDirective
+    ]
 })
 export class SharedModule {
 }

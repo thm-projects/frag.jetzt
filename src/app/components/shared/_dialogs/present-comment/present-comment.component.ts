@@ -20,7 +20,16 @@ export class PresentCommentComponent implements OnInit {
     public dialogRef: MatDialogRef<PresentCommentComponent>,
     private translateService: TranslateService,
     public dialog: MatDialog
-  ) { }
+  ) {
+  }
+
+  @HostListener('document:keyup', ['$event'])
+  onKeyUp(event: KeyboardEvent) {
+    // ToDo: migrate from deprecated event api
+    if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true) {
+      this.onCloseClick();
+    }
+  }
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
@@ -34,19 +43,11 @@ export class PresentCommentComponent implements OnInit {
     });
   }
 
-  @HostListener('document:keyup', ['$event'])
-  onKeyUp(event: KeyboardEvent) {
-    // ToDo: migrate from deprecated event api
-    if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Escape) === true) {
-      this.onCloseClick();
-    }
-  }
-
   onCloseClick(): void {
     this.dialogRef.close('close');
   }
 
   updateFontSize(event: any): void {
-     document.getElementById('comment').style.fontSize = (event.value * 2.5) + 'em';
+    document.getElementById('comment').style.fontSize = (event.value * 2.5) + 'em';
   }
 }

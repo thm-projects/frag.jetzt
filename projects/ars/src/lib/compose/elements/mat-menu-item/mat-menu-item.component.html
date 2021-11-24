@@ -7,7 +7,7 @@
     </mat-icon>
   </ng-container>
   <ng-container *ngIf="!data.isSVGIcon">
-    <mat-icon [ngStyle]="{'color':data.iconColor}">
+    <mat-icon class="{{data.class}}" [ngStyle]="{'color':data.iconColor}">
       {{data.icon}}
     </mat-icon>
   </ng-container>

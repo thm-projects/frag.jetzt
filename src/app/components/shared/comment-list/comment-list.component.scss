@@ -88,7 +88,7 @@ app-comment {
 }
 
 .freezeIcon {
-  transform: scale(1.5);
+  transform: scale(1.7);
   color: var(--secondary);
 }
 
@@ -114,7 +114,6 @@ app-comment {
 }
 
 .button-bar {
-  margin-right: 2%;
 }
 
 .button-bar.joyrideActive {
@@ -147,7 +146,11 @@ app-comment {
 }
 
 .bookmark-icon {
-  color: var(--red);
+  color: var(--magenta);
+}
+
+.not_bookmarked-icon {
+  color: slategray;
 }
 
 .owner-icon {
@@ -185,6 +188,10 @@ h3 {
 
 .down {
   color: var(--red);
+}
+
+.controversy {
+  color: var(--primary);
 }
 
 ::placeholder {

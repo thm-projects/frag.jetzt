@@ -13,8 +13,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
-import { Period } from '../../../../utils/filter-options';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { CommentListFilter, Period } from '../../comment-list/comment-list.filter';
+import { User } from '../../../../models/user';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-question-wall',
@@ -24,12 +26,16 @@ import { RoomDataService } from '../../../../services/util/room-data.service';
 export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(ColComponent) colComponent: ColComponent;
+  @ViewChild('sidelist') sidelist: ColComponent;
 
+  sidelistExpanded: boolean = true;
+  qrCodeExpanded: boolean = false;
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
   commentsFilteredByTime: QuestionWallComment[] = [];
   commentsFilter: QuestionWallComment[] = [];
+  currentCommentList: QuestionWallComponent[] = [];
   commentFocus: QuestionWallComment;
   commentsCountQuestions = 0;
   commentsCountUsers = 0;
@@ -51,6 +57,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   periodsList = Object.values(Period);
   period: Period = Period.all;
   isLoading = true;
+  user: User;
+  animationTrigger:boolean=true;
+  firstPassIntroduction:boolean=true;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -85,9 +94,33 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  toggleSideList(){
+    this.sidelistExpanded=!this.sidelistExpanded;
+    if(this.sidelistExpanded){
+      this.sidelist.setPx(450);
+    }
+    else{
+      this.sidelist.setPx(0);
+    }
+  }
+
+  getURL(){
+    if(!this.room)return '';
+    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room.shortId}`;
+  }
+
+  toggleQRCode(){
+    this.qrCodeExpanded=!this.qrCodeExpanded;
+  }
+
   ngOnInit(): void {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.authenticationService.watchUser.subscribe(newUser => {
+      if (newUser) {
+        this.user = newUser;
+      }
+    });
     this.roomDataService.getRoomData(this.roomId).subscribe(e => {
       if (e === null) {
         return;
@@ -142,7 +175,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.wrap(this.keySupport, key => {
       key.addKeyEvent('ArrowRight', () => this.nextComment());
       key.addKeyEvent('ArrowLeft', () => this.prevComment());
-      key.addKeyEvent(' ', () => this.nextComment());
+      key.addKeyEvent('l', () => this.toggleSideList());
+      key.addKeyEvent('q', () => this.toggleQRCode());
     });
   }
 
@@ -152,6 +186,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     setTimeout(() => {
       Rescale.requestFullscreen();
     }, 10);
+    setTimeout(() => {
+      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e=>{
+        e.addEventListener('keydown',e=>{
+          e.preventDefault();
+        });
+      });
+    }, 100);
   }
 
   ngOnDestroy(): void {
@@ -183,23 +224,22 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   moveComment(fx: number) {
-    if (this.commentsFilteredByTime.length === 0) {
+    if (this.getCurrentCommentList().length === 0) {
       return;
     } else if (!this.commentFocus) {
-      this.focusComment(this.commentsFilteredByTime[0]);
+      this.focusComment(this.getCurrentCommentList()[0]);
     } else {
       const cursor = this.getCommentFocusIndex();
-      if (cursor + fx >= this.commentsFilteredByTime.length || cursor + fx < 0) {
+      if (cursor + fx >= this.getCurrentCommentList().length || cursor + fx < 0) {
         return;
       } else {
-        this.focusComment(this.commentsFilteredByTime[cursor + fx]);
+        this.focusComment(this.getCurrentCommentList()[cursor + fx]);
       }
     }
   }
 
   pushIncommingComment(comment: Comment): QuestionWallComment {
     this.roomDataService.checkProfanity(comment);
-    console.log(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
     this.setTimePeriod(this.period);
@@ -209,15 +249,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   focusComment(comment: QuestionWallComment) {
-    this.commentFocus = comment;
-    if (!comment.old) {
-      comment.old = true;
-      this.unreadComments--;
-    }
-    this.getDOMCommentFocus().scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    });
+    this.firstPassIntroduction=false;
+    if(this.commentFocus === comment)return;
+    this.commentFocus = null;
+    setTimeout(()=>{
+      this.commentFocus = comment;
+      if (!comment.old) {
+        comment.old = true;
+        this.unreadComments--;
+      }
+      this.getDOMCommentFocus().scrollIntoView({
+        behavior: 'smooth',
+        block: 'center'
+      });
+    },1);
   }
 
   toggleFocusIncommingComments() {
@@ -259,15 +304,24 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   leave() {
-    document.getElementById('back-button').click();
+    const resolveUserRole:()=>string=()=>{
+      switch(this.user?this.user.role:-1){
+        case UserRole.PARTICIPANT:return 'participant';
+        case UserRole.EDITING_MODERATOR:return 'moderator';
+        case UserRole.EXECUTIVE_MODERATOR:return 'moderator';
+        case UserRole.CREATOR:return 'creator';
+        default: return 'participant'
+      }
+    }
+    this.router.navigate(['/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments']);
   }
 
   likeComment(comment: QuestionWallComment) {
-    this.commentService.voteUp(comment.comment, this.authenticationService.getUser().id).subscribe();
+    this.commentService.voteUp(comment.comment, this.user.id).subscribe();
   }
 
   dislikeComment(comment: QuestionWallComment) {
-    this.commentService.voteDown(comment.comment, this.authenticationService.getUser().id).subscribe();
+    this.commentService.voteDown(comment.comment, this.user.id).subscribe();
   }
 
   sortScore(reverse?: boolean) {
@@ -276,6 +330,18 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sortTime(reverse?: boolean) {
     this.sort((a, b) => new Date(a.comment.timestamp).getTime() - new Date(b.comment.timestamp).getTime(), reverse);
+  }
+
+  sortControversy(reverse?: boolean) {
+    this.sort((a, b) => CommentListFilter.calculateControversy(a.upvotes, a.downvotes) -
+      CommentListFilter.calculateControversy(b.upvotes, b.downvotes), reverse);
+  }
+
+  notifyCommentListChange(){
+    this.animationTrigger=false;
+    setTimeout(()=>{
+      this.animationTrigger=true;
+    },1);
   }
 
   sort(fun: (a, b) => number, reverse: boolean) {
@@ -290,6 +356,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         this.focusComment(commentList[0]);
       }
     }, 0);
+    this.notifyCommentListChange();
   }
 
   getCurrentCommentList() {
@@ -328,6 +395,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filter(icon: string, isSvgIcon: boolean, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
+    if(!this.sidelistExpanded){
+      this.toggleSideList();
+    }
     this.cancelUserMap();
     this.filterIcon = icon;
     this.isSvgIcon = isSvgIcon;
@@ -344,6 +414,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }, 0);
     this.updateCommentsCountOverview();
+    this.notifyCommentListChange();
   }
 
   focusFirstComment() {

@@ -298,6 +298,9 @@ export class RoomDataService {
   private onMessageReceive(message: Message) {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
+    if (!payload) {
+      return;
+    }
     switch (msg.type) {
       case 'CommentCreated':
         this.onCommentCreate(payload);

@@ -171,14 +171,17 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   exportCsv(room: Room) {
-    const exp: Export = new Export(
-      room,
-      this.commentService,
-      this.bonusTokenService,
-      this.translateService,
-      'room-list',
-      this.notificationService,
-      this.user);
-    exp.exportAsCsv();
+    this.moderatorService.get(room.id).subscribe(mods => {
+      const exp: Export = new Export(
+        room,
+        this.commentService,
+        this.bonusTokenService,
+        this.translateService,
+        'room-list',
+        this.notificationService,
+        new Set<string>(mods.map(mod => mod.accountId)),
+        this.user);
+      exp.exportAsCsv();
+    });
   }
 }

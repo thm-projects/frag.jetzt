@@ -7,10 +7,10 @@ import { Room } from '../models/room';
 import { Comment } from '../models/comment';
 import { NotificationService } from '../services/util/notification.service';
 import { CommentService } from '../services/http/comment.service';
-import { observable, Observable, of } from 'rxjs';
-import { flatMap } from 'rxjs/internal/operators';
-import { tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { tap, mergeMap } from 'rxjs/operators';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { UserRole } from '../models/user-roles.enum';
 
 export class CreateCommentWrapper {
   constructor(private translateService: TranslateService,
@@ -20,7 +20,7 @@ export class CreateCommentWrapper {
               private room: Room) {
   }
 
-  openCreateDialog(user: User): Observable<Comment> {
+  openCreateDialog(user: User, userRole: UserRole, brainstormingData: any = undefined): Observable<Comment> {
     const dialogRef = this.dialog.open(CreateCommentComponent, {
       width: '900px',
       maxWidth: '100%',
@@ -28,10 +28,12 @@ export class CreateCommentWrapper {
       autoFocus: false,
     });
     dialogRef.componentInstance.user = user;
+    dialogRef.componentInstance.userRole = userRole;
     dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.componentInstance.tags = this.room.tags || [];
+    dialogRef.componentInstance.tags = (!brainstormingData && this.room.tags) || [];
+    dialogRef.componentInstance.brainstormingData = brainstormingData;
     return dialogRef.afterClosed().pipe(
-      flatMap((comment: Comment) => comment ? this.send(comment) : of<Comment>(null))
+      mergeMap((comment: Comment) => comment ? this.send(comment) : of<Comment>(null))
     );
   }
 

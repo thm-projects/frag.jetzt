@@ -12,6 +12,9 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MarkdownModule } from 'ngx-markdown';
 import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
+
 @NgModule({
     imports:[
         CommonModule,
@@ -36,8 +39,4 @@ import { ArsModule } from '../../../../projects/ars/src/lib/ars.module';
   ]
 })
 export class ModeratorModule {
-}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
 }

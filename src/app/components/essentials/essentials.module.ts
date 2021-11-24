@@ -37,6 +37,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const HttpLoaderFactory = (http: HttpClient) => {
+  return new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
+};
+
 @NgModule({
   imports: [
     TranslateModule.forRoot({
@@ -90,7 +95,3 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
   declarations: []
 })
 export class EssentialsModule { }
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
-}

@@ -1,6 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import Delta from 'quill-delta';
 import { KatexOptions } from 'ngx-markdown';
 
 interface DialogData {
@@ -59,10 +58,16 @@ export class QuillInputDialogComponent implements OnInit {
       switch (this.data.type) {
         case 'link':
           if (this.value) {
-            const delta = new Delta()
-              .retain(this.data.selection.index)
-              .retain(this.data.selection.length, { link: this.value });
-            this.data.quill.updateContents(delta);
+            const ops = [];
+            const startIndex = this.data.selection.index;
+            if (startIndex > 0) {
+              ops.push({ retain: startIndex });
+            }
+            ops.push({
+              retain: this.data.selection.length,
+              attributes: { link: this.value },
+            });
+            this.data.quill.updateContents({ ops });
           }
           break;
         case 'video':

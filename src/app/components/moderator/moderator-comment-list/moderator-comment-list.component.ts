@@ -21,12 +21,11 @@ import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/
 import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { Period } from '../../../utils/filter-options';
 import { PageEvent } from '@angular/material/paginator';
 import {
   CommentListFilter,
   FilterType,
-  FilterTypeKey,
+  FilterTypeKey, Period,
   SortType,
   SortTypeKey
 } from '../../shared/comment-list/comment-list.filter';
@@ -71,8 +70,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   periodsList = Object.values(Period);
   headerInterface = null;
   pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
+  pageSize = 25;
+  pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
@@ -92,7 +91,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private moderationService: ModeratorService
   ) {
     langService.langEmitter.subscribe(lang => translateService.use(lang));
-    this.filter = CommentListFilter.loadCurrentFilter();
+    this.filter = CommentListFilter.loadFilter();
   }
 
   handlePageEvent(e: PageEvent) {
@@ -162,7 +161,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         this.bonusTokenService,
         this.translationService,
         'comment-list',
-        this.notificationService);
+        this.notificationService,
+        this.filter.moderatorAccountIds,
+        this.user);
       exp.exportAsCsv();
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
@@ -199,7 +200,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.translateService.use(localStorage.getItem('currentLang'));
     this.deviceType = localStorage.getItem('deviceType');
     this.isSafari = localStorage.getItem('isSafari');
-    this.filter.sortType = SortType.votedesc;
     this.moderationService.get(this.roomId)
       .subscribe((mods) => {
         this.filter.updateModerators(mods.map(mod => mod.accountId));

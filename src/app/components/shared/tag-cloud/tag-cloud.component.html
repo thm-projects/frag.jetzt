@@ -8,11 +8,11 @@
       <app-cloud-configuration #cloudComponent [parent]="this"></app-cloud-configuration>
     </mat-drawer>
     <mat-drawer-content>
-      <h1 *ngIf="user && user.role > 0 && question" class="tag-cloud-brainstorming-question mat-display-1">
+      <h1 *ngIf="question" class="tag-cloud-brainstorming-question mat-display-1">
         {{question}}
       </h1>
       <ars-fill ars-flex-box>
-        <app-tag-cloud-pop-up></app-tag-cloud-pop-up>
+        <app-tag-cloud-pop-up [room]="room"></app-tag-cloud-pop-up>
         <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
         <angular-tag-cloud
           id="tagCloudComponent"
@@ -30,12 +30,12 @@
         </angular-tag-cloud>
         <app-active-user *ngIf="room" [alwaysShowInHeader]="true" [room]="this.room" [top]="120"></app-active-user>
       </ars-fill>
-      <button *ngIf="((user && user.role > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
+      <button *ngIf="((userRole > 0) || (room && !room.questionsBlocked)) && drawer && !drawer.opened"
               mat-fab
               mat-icon-button
               aria-labelledby="add"
               class="fab_add_comment"
-              (click)="createCommentWrapper.openCreateDialog(this.user).subscribe()"
+              (click)="writeComment()"
               matTooltip="{{ 'comment-list.add-comment' | translate }}">
         <mat-icon>add</mat-icon>
       </button>

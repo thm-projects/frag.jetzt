@@ -16,13 +16,13 @@
           {{tagData && tagData.distinctUsers.size}}
         </p>
       </span>
-      <button *ngIf="user && user.role >= 1 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
-        <mat-icon matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
+      <button *ngIf="userRole > 0 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
+        <mat-icon class="material-icons-round" matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
       </button>
     </div>
     <div>
       <span>
-        <mat-icon matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
         <p>
           {{tagData && tagData.cachedUpVotes}}
         </p>
@@ -42,7 +42,7 @@
         </p>
       </span>
     </div>
-    <div class="replacementContainer" *ngIf="user && user.role >= 1">
+    <div class="replacementContainer" *ngIf="userRole > 0">
       <mat-form-field>
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"

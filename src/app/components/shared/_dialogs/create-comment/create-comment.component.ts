@@ -11,6 +11,7 @@ import { CreateCommentKeywords, KeywordsResultType } from '../../../../utils/cre
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { DeepLService } from '../../../../services/http/deep-l.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
+import { UserRole } from '../../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-submit-comment',
@@ -21,8 +22,10 @@ export class CreateCommentComponent implements OnInit {
 
   @ViewChild(WriteCommentComponent) commentComponent: WriteCommentComponent;
   @Input() user: User;
+  @Input() userRole: UserRole;
   @Input() roomId: string;
   @Input() tags: string[];
+  @Input() brainstormingData: any;
   isSendingToSpacy = false;
   isModerator = false;
 
@@ -40,7 +43,7 @@ export class CreateCommentComponent implements OnInit {
 
   ngOnInit() {
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.isModerator = this.user && this.user.role > 0;
+    this.isModerator = this.userRole > 0;
   }
 
   onNoClick(): void {
@@ -60,16 +63,17 @@ export class CreateCommentComponent implements OnInit {
     comment.roomId = localStorage.getItem(`roomId`);
     comment.body = body;
     comment.creatorId = this.user.id;
-    comment.createdFromLecturer = this.user.role > 0;
+    comment.createdFromLecturer = this.userRole > 0;
     comment.tag = tag;
     comment.questionerName = name;
+    comment.brainstormingQuestion = !!this.brainstormingData;
     this.isSendingToSpacy = true;
-    this.openSpacyDialog(comment, text, forward);
+    this.openSpacyDialog(comment, text, forward, comment.brainstormingQuestion);
   }
 
-  openSpacyDialog(comment: Comment, rawText: string, forward: boolean): void {
+  openSpacyDialog(comment: Comment, rawText: string, forward: boolean, brainstorming: boolean): void {
     CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService,
-      this.spacyService, comment.body, forward, this.commentComponent.selectedLang)
+      this.spacyService, comment.body, brainstorming, forward, this.commentComponent.selectedLang)
       .subscribe(result => {
         this.isSendingToSpacy = false;
         comment.language = result.language;

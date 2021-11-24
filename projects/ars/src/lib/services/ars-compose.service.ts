@@ -1,6 +1,4 @@
 import {
-  ComponentFactory,
-  ComponentFactoryResolver,
   ComponentRef,
   Injectable,
   InjectionToken,
@@ -8,7 +6,6 @@ import {
   Type,
   ViewContainerRef
 } from '@angular/core';
-import { PortalInjector } from '@angular/cdk/portal';
 import { ArsComposeHostDirective } from '../compose/ars-compose-host.directive';
 import { ARS_MAT_MENU_ITEM_DATA, ArsMatMenuItemConfig } from '../compose/elements/mat-menu-item/ars-mat-menu-item-config';
 import { ARS_MAT_CHIP_LIST_CONFIG, ArsMatChipListConfig } from '../compose/elements/mat-chip-list/mat-chip-list-config';
@@ -20,7 +17,7 @@ import { MatChipListComponent } from '../compose/elements/mat-chip-list/mat-chip
 import { MatDatePickerComponent } from '../compose/elements/mat-date-picker/mat-date-picker.component';
 import { MatToggleComponent } from '../compose/elements/mat-toggle/mat-toggle.component';
 import { MatMenuItemComponent } from '../compose/elements/mat-menu-item/mat-menu-item.component';
-import { ArsAnchor, ArsObserver } from '../models/util/ars-observer';
+import { ArsObserver } from '../models/util/ars-observer';
 
 export interface ArsComposeBuilder{
   menuItem(i: ArsMatMenuItemConfig): void;
@@ -43,7 +40,6 @@ export interface ArsComposeBuilder{
 export class ArsComposeService{
 
   constructor(
-    private cfr: ComponentFactoryResolver,
     private injector: Injector
   ){
   }
@@ -90,26 +86,21 @@ export class ArsComposeService{
     return this.create(
       host.viewContainerRef,
       component,
-      this.createMap(token, data)
+      this.createInjector(token, data)
     );
   }
 
-  create<E>(vcr: ViewContainerRef, component: Type<E>, map: WeakMap<any, any>): ComponentRef<E>{
-    return vcr.createComponent(this.resolve(component), null, this.createInjector(map));
+  create<E>(vcr: ViewContainerRef, component: Type<E>, injector: Injector): ComponentRef<E>{
+    return vcr.createComponent(component, { injector });
   }
 
-  private resolve<E>(component: Type<E>): ComponentFactory<E>{
-    return this.cfr.resolveComponentFactory(component);
-  }
-
-  private createInjector(map: WeakMap<any, any>): PortalInjector{
-    return new PortalInjector(this.injector, map);
-  }
-
-  public createMap(key: any, value: any){
-    const map = new WeakMap<any, any>();
-    map.set(key, value);
-    return map;
+  private createInjector(token: InjectionToken<any>, data: any): Injector {
+    return Injector.create({
+      parent: this.injector,
+      providers: [
+        { provide: token, useValue: data }
+      ]
+    });
   }
 
 }

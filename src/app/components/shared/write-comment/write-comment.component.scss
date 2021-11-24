@@ -86,6 +86,10 @@ mat-hint {
   font-style: italic;
 }
 
+::ng-deep .placeholder .mat-radio-label-content {
+  width: 100%;
+}
+
 .lang-confidence {
   color: var(--on-cancel);
   background-color: var(--cancel);
@@ -109,6 +113,10 @@ mat-hint {
   margin-top: 8px;
 }
 
+.btn-icon {
+  margin-right: 5px;
+}
+
 /*
 Styling for tag selection
  */
@@ -117,23 +125,8 @@ Styling for tag selection
   display: inline;
 }
 
-.tag-form-field {
-  @media screen and (max-width: 500px) {
-    width: 70px;
-  }
-  z-index: 10000;
-}
-
-.anchor-right {
-  @media screen and (max-width: 500px) {
-    width: 70px;
-    left: calc(100% - 70px);
-  }
-  width: 200px;
-  height: 50px;
-  position: relative;
-  left: calc(100% - 200px);
-  top: 0;
+.tag-btn {
+  float: right;
 }
 
 .anchor-wrp {
@@ -149,20 +142,13 @@ Styling for tag selection
 Styling for language select
  */
 
-#langSymbol {
-  margin-right: 12px;
-}
-
 .select-list {
   width: 18px;
   margin-left: 12px;
 }
 
-.lang-selection {
-  vertical-align: middle;
-  margin-right: 0;
-  width: 200px;
-  display: inline-block;
+.lang-btn {
+  margin-left: 12px;
 }
 
 /*
