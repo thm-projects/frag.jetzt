@@ -1,9 +1,9 @@
 # rabbitmq
 STOMP_RELAY_HOST=fragjetzt-rabbitmq
-STOMP_RELAY_USER=fragjetzt
+STOMP_RELAY_USER=guest
 STOMP_RELAY_PASSWORD=
 RABBITMQ_HOST=fragjetzt-rabbitmq
-RABBITMQ_USERNAME=fragjetzt
+RABBITMQ_USERNAME=guest
 RABBITMQ_PASSWORD=
 
 # jwt

@@ -56,7 +56,7 @@ services:
     restart: unless-stopped
     depends_on:
       - rabbitmq
-    env_file: .docker/environments/backend.env
+    env_file: .docker/environments/ws-gateway.env
     command: /jetty/start.jar --module=http-forwarded
     networks:
       - fragjetzt
