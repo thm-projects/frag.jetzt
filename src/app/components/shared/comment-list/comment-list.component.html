@@ -99,11 +99,11 @@
     <button id="play-comments"
             mat-icon-button
             aria-labelledby="play"
-            class="freezeButton material-icons-outlined"
+            class="freezeButton"
             *ngIf="!searchBox.value && !search && freeze"
             (click)="activateCommentStream(false)"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
-      <mat-icon class="playIcon">play_circle</mat-icon>
+      <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
     </button>
 
   </div>
