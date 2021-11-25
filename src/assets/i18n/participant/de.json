@@ -32,7 +32,7 @@
     "add-comment": "Stell deine Frage!",
     "pause-comments": "Friert die Anzeige ein, um die Fragen in Ruhe zu lesen. Fragen können weiterhin gestellt und bewertet werden. Die Anzeige aktualisiert sich wieder durch Klicken des Buttons.",
     "play-comments": "Neue Fragen und Bewertungen wieder anzeigen",
-    "comment-got-favorited": "Hey, du hast einen Stern für eine gute Frage bekommen!",
+    "comment-got-favorited": "Hey, du hast einen Stern für eine Frage bekommen!",
     "comment-stream-stopped": "Der Fragen-Strom wurde gestoppt.",
     "comment-stream-started": "Der Fragen-Strom wurde gestartet.",
     "comment-sent": "Die Frage wurde veröffentlicht.",
