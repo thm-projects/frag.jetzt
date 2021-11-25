@@ -522,7 +522,7 @@
   "introduction": {
     "cancel": "Close",
     "cancel-description": "Close introduction.",
-    "title": "Introduction"
+    "title": ""
   },
   "write-comment": {
     "questioner-name": "Your name, if you want …",
