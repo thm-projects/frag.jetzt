@@ -293,7 +293,7 @@
     "password-verify": "Verify password",
     "register": "Register",
     "register-description": "Register User",
-    "register-request-error": "Something went wrong with the registration. Maybe you already made the account?",
+    "register-request-error": "Something went wrong during registration. Maybe you have already created the account?",
     "register-successful": "Successfully registered. Please check your mails.",
     "register-unsuccessful": "Please check your data."
   },
@@ -401,7 +401,7 @@
     "session": "Key code"
   },
   "topic-cloud": {
-    "changes-gone-wrong": "Something went wrong!",
+    "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
     "add-successful": "Word added",
     "remove-successful": "Word removed"
