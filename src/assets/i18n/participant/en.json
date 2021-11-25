@@ -349,8 +349,8 @@
     "upvote-topic": "Up votes for this topic",
     "downvote-topic": "Down votes for this topic",
     "blacklist-topic": "Add topic to blacklist",
-    "changes-gone-wrong": "Something went wrong!",
-    "changes-successful": "Successfully updated."
+    "changes-gone-wrong": "Something has gone wrong!",
+    "changes-successful": "Successfully updated"
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

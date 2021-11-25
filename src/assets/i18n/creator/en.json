@@ -342,8 +342,8 @@
     "no-bonus": "No bonus stars have been given yet.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
-    "changes-gone-wrong": "Something went wrong!",
-    "changes-successful": "Successfully updated.",
+    "changes-gone-wrong": "Something has gone wrong!",
+    "changes-successful": "Successfully updated",
     "comments": "Public questions",
     "comments-deleted": "All questions have been deleted.",
     "copy-session-id": "Share the link to this room with your participants.",
@@ -439,7 +439,7 @@
     "upvote-topic": "Upvotes for this topic",
     "downvote-topic": "Downvotes for this topic",
     "blacklist-topic": "Add topic to blacklist",
-    "changes-gone-wrong": "Something went wrong!",
+    "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated."
   },
   "tag-cloud-popup": {

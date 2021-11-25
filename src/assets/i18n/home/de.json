@@ -291,7 +291,7 @@
     "password-verify": "Passwort wiederholen",
     "register": "Registrieren",
     "register-description": "Registrierung abschließen",
-    "register-request-error": "Etwas ist bei der Registrierung fehlgeschlagen. Hast du dich vielleicht schon registriert?",
+    "register-request-error": "Etwas ist bei der Registrierung schiefgelaufen. Hast du dich vielleicht schon registriert?",
     "register-successful": "Erfolgreich registriert. Bitte prüfe dein Postfach!",
     "register-unsuccessful": "Bitte prüfe deine Eingaben."
   },
