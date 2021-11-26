@@ -30,7 +30,6 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
@@ -373,8 +372,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
-  applySortingByKey(type: SortTypeKey) {
+  applySortingByKey(type: SortTypeKey, reverse = false) {
     this.filter.sortType = SortType[type];
+    this.filter.sortReverse = reverse;
     this.refreshFiltering();
   }
 

@@ -97,20 +97,15 @@ export class RoomCreateComponent implements OnInit {
       this.shortIdAlreadyUsed = true;
       this.isLoading = false;
     }).subscribe(room => {
-      const encoded = encodeURIComponent(room.shortId)
-        .replace('\~', '%7E')
-        .replace('\.', '%2E')
-        .replace('\_', '%5F')
-        .replace('\-', '%2D');
       this.room = room;
       let msg1: string;
       let msg2: string;
       this.translateService.get('home-page.created-1').subscribe(msg => msg1 = msg);
       this.translateService.get('home-page.created-2').subscribe(msg => msg2 = msg);
       this.notification.show(msg1 + longRoomName + msg2);
-      this.authenticationService.setAccess(encoded, UserRole.CREATOR);
+      this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
-      this.router.navigate(['/creator/room/' + encoded]);
+      this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]);
       this.closeDialog();
     });
   }

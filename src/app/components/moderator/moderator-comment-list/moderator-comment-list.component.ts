@@ -384,8 +384,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
-  applySortingByKey(type: SortTypeKey) {
+  applySortingByKey(type: SortTypeKey, reverse = false) {
     this.filter.sortType = SortType[type];
+    this.filter.sortReverse = reverse;
     this.refreshFiltering();
   }
 

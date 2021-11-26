@@ -132,17 +132,27 @@
     </button>
 
     <button mat-menu-item
-            (click)="applySortingByKey('votedesc')"
+            (click)="applySortingByKey('score')"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon class="material-icons-outlined" [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
-      <span [ngClass]="{votedesc: 'up'}[filter.sortType]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
+      <mat-icon class="material-icons-outlined"
+                [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+        thumb_up
+      </mat-icon>
+      <span [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+        {{ 'comment-list.sort-vote-asc' | translate }}
+      </span>
     </button>
 
     <button mat-menu-item
-            (click)="applySortingByKey('voteasc')"
+            (click)="applySortingByKey('score', true)"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]" class="material-icons-outlined">thumb_down</mat-icon>
-      <span [ngClass]="{voteasc: 'down'}[filter.sortType]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
+      <mat-icon [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]"
+                class="material-icons-outlined">
+        thumb_down
+      </mat-icon>
+      <span [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]">
+        {{ 'comment-list.sort-vote-desc' | translate }}
+      </span>
     </button>
 
     <button mat-menu-item
