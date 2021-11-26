@@ -36,6 +36,7 @@ import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -87,6 +88,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
+  questionNumberFormControl = new FormControl();
+  questionNumberOptions: string[] = [];
+  private _allQuestionNumberOptions: string[] = [];
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -121,6 +125,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
     });
     this.filter = CommentListFilter.loadFilter();
+    this.questionNumberFormControl.valueChanges.subscribe((v) => {
+      v = v || '';
+      this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
+    });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -336,6 +344,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   refreshFiltering(): void {
+    this._allQuestionNumberOptions = this.comments.map(c => String(c.number));
+    const value = this.questionNumberFormControl.value || '';
+    this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
       let set = this.commentsWrittenByUsers.get(comment.creatorId);
@@ -480,31 +491,18 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return this.hideCommentsList ? this.filteredComments : this.commentsFilteredByTime;
   }
 
-  getCommentNumbers(): string[] {
-    return this.getComments().map(c => String(c.number));
-  }
-
-  isInCommentNumbers(value: number): boolean {
-    return this.comments.some(c => c.number === value);
+  isInCommentNumbers(value: string): boolean {
+    return this._allQuestionNumberOptions.indexOf(value) >= 0;
   }
 
   useCommentNumber(questionNumber: HTMLInputElement, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
-    const val = +questionNumber.value;
-    if (!this.isInCommentNumbers(val)) {
+    if (!this.isInCommentNumbers(questionNumber.value)) {
       return;
     }
     autoComplete.closePanel();
-    questionNumber.value = '';
+    this.questionNumberFormControl.setValue('');
     menu.closeMenu();
-    this.applyFilterByKey('number', val);
-  }
-
-  tryUseCommentNumber(event: KeyboardEvent, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
-    if (event.key === 'Enter') {
-      event.stopImmediatePropagation();
-      event.preventDefault();
-      this.useCommentNumber(event.target as HTMLInputElement, menu, autoComplete);
-    }
+    this.applyFilterByKey('number', +questionNumber.value);
   }
 
   private receiveRoom(room: Room) {
