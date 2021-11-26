@@ -56,6 +56,7 @@ import { ExplanationDialogComponent } from './_dialogs/explanation-dialog/explan
 import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-input-dialog.component';
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
+import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
 
 @NgModule({
   imports: [
@@ -117,7 +118,8 @@ import { AccessibilityEscapedInputDirective } from '../../directives/accessibili
     ExplanationDialogComponent,
     QuillInputDialogComponent,
     WorkerConfigDialogComponent,
-    AccessibilityEscapedInputDirective
+    AccessibilityEscapedInputDirective,
+    QuestionWallIntroComponent
   ],
     exports:[
         RoomJoinComponent,
@@ -143,7 +145,8 @@ import { AccessibilityEscapedInputDirective } from '../../directives/accessibili
         ScrollIntoViewDirective,
         ViewCommentDataComponent,
         WriteCommentComponent,
-        AccessibilityEscapedInputDirective
+        AccessibilityEscapedInputDirective,
+        QuestionWallIntroComponent
     ]
 })
 export class SharedModule {
