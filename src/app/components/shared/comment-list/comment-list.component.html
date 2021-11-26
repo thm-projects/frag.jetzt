@@ -68,6 +68,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="filter_list"
+            #filterMenuTrigger="matMenuTrigger"
             *ngIf="!searchBox.value && comments && commentsFilteredByTime.length > 2 && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': hideCommentsList}"
@@ -227,6 +228,37 @@
               aria-labelledby="comment">
         <mat-icon class="material-icons-outlined" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">person_pin_circle</mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              role="option"
+              (focus)="hideCommentsList=true"
+              (click)="$event.stopImmediatePropagation()">
+        <mat-form-field>
+          <mat-label [ngClass]="{number: 'number-icon'}[filter.filterType]">
+            <mat-icon class="material-icons-outlined" [ngClass]="{number: 'number-icon'}[filter.filterType]">
+              question_mark
+            </mat-icon>
+            {{'comment-list.filter-question-number' | translate}}
+          </mat-label>
+          <input type="number"
+                 #autoTrigger="matAutocompleteTrigger"
+                 #questionNumber
+                 appAccessibilityEscapedInput
+                 matInput
+                 [matAutocomplete]="auto"
+                 (keydown)="tryUseCommentNumber($event, filterMenuTrigger, autoTrigger)">
+          <mat-icon class="material-icons align-arrow-right"
+                    (click)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger)"
+                    [ngClass]="{number: 'number-icon'}[filter.filterType]">
+            {{isInCommentNumbers(+questionNumber.value) ? 'forward' : 'arrow_drop_down'}}
+          </mat-icon>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let number of getCommentNumbers()" [value]="number">
+              {{number}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </button>
 
       <!--

@@ -30,6 +30,7 @@ export enum FilterType {
   answer = 'answer',
   unanswered = 'unanswered',
   owner = 'owner',
+  number = 'number',
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
@@ -283,6 +284,9 @@ export class CommentListFilter {
         break;
       case FilterType.lecturer:
         filterFunc = (c) => c.creatorId === this.ownerId;
+        break;
+      case FilterType.number:
+        filterFunc = (c) => c.number === this.filterCompare;
         break;
       default:
         return comment;

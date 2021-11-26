@@ -34,6 +34,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -47,6 +49,7 @@ export interface CommentListData {
 })
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   @Input() user: User;
   @Input() roomId: string;
   shortId: string;
@@ -442,7 +445,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper.openCreateDialog(this.user, this.userRole)
-        .subscribe(comment => this.sendCommentId = comment?.id);
+      .subscribe(comment => this.sendCommentId = comment?.id);
   }
 
   /**
@@ -475,6 +478,33 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   getComments(): Comment[] {
     return this.hideCommentsList ? this.filteredComments : this.commentsFilteredByTime;
+  }
+
+  getCommentNumbers(): string[] {
+    return this.getComments().map(c => String(c.number));
+  }
+
+  isInCommentNumbers(value: number): boolean {
+    return this.comments.some(c => c.number === value);
+  }
+
+  useCommentNumber(questionNumber: HTMLInputElement, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
+    const val = +questionNumber.value;
+    if (!this.isInCommentNumbers(val)) {
+      return;
+    }
+    autoComplete.closePanel();
+    questionNumber.value = '';
+    menu.closeMenu();
+    this.applyFilterByKey('number', val);
+  }
+
+  tryUseCommentNumber(event: KeyboardEvent, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
+    if (event.key === 'Enter') {
+      event.stopImmediatePropagation();
+      event.preventDefault();
+      this.useCommentNumber(event.target as HTMLInputElement, menu, autoComplete);
+    }
   }
 
   private receiveRoom(room: Room) {
