@@ -4,6 +4,9 @@
 [ -d node_modules ] && sha1sum --check ../lock-version || npm ci
 sha1sum package-lock.json > ../lock-version
 
+# Use cache on volume
+./node_modules/.bin/ng config cli.cache.path "../.angular"
+
 # Use public interface, because this script is executed in a container!
 # This is no security issue as the container is located in a private network.
 ./node_modules/.bin/ng serve --host 0.0.0.0 --port 4200

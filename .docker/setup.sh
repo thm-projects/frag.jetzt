@@ -7,7 +7,7 @@ set -e
 cd "$(dirname $0)"
 WORKDIR="$(pwd)"
 
-echo "DEV_USER=$(id -u):$(id -g)" > .env
+echo "DEV_USER=$(id -u):$(id -g)" > ../.env
 
 while true; do
   case "$1" in
@@ -17,4 +17,5 @@ while true; do
   esac
 done
 
-[ -z $PROD ] && ln -fs .docker/docker-compose.override.yml docker-compose.override.yml || rm -f docker-compose.override.yml
+[ -z $PROD ] && ln -fs "$(pwd)/docker-compose.override.yml" ../docker-compose.override.yml || rm -f ../docker-compose.override.yml
+ln -fs "$(pwd)/docker-compose.override.yml" ../docker-compose.override.yml
