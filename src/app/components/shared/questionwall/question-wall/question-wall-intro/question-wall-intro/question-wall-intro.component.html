@@ -1,21 +1,24 @@
-<ars-screen class="screen" *ngIf="!resolved">
+<ars-screen class="screen"
+            *ngIf="!resolved">
 
   <div class="background">
   </div>
 
   <div class="particle-container">
-    <div *ngFor="let particle of [].constructor(15)" class="particle-element"></div>
+    <div *ngFor="let particle of [].constructor(15)"
+         class="particle-element"></div>
   </div>
 
   <div class="centered">
     <ars-col>
       <p class="qw-animation-1 qw-text-1">
-        <span *ngFor="let char of toArray('frag.jetzt')">{{char}}</span>
+        <span *ngFor="let char of toArray('»frag.jetzt«')">{{char}}</span>
       </p>
     </ars-col>
     <ars-col>
-      <p class="qw-animation-2 qw-text-2" style="margin-left:15px;">
-        <span *ngFor="let char of toArray('Questionwall')">{{char}}</span>
+      <p class="qw-animation-2 qw-text-2"
+         style="margin-left:15px;">
+        <span *ngFor="let char of toArray('Question Wall')">{{char}}</span>
       </p>
     </ars-col>
   </div>

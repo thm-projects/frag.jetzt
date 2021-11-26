@@ -1,24 +1,24 @@
 import { AfterViewInit, Component, ElementRef, OnInit, Renderer2 } from '@angular/core';
 
 @Component({
-  selector:'app-question-wall-intro',
-  templateUrl:'./question-wall-intro.component.html',
-  styleUrls:['./question-wall-intro.component.scss']
+  selector: 'app-question-wall-intro',
+  templateUrl: './question-wall-intro.component.html',
+  styleUrls: ['./question-wall-intro.component.scss'],
 })
-export class QuestionWallIntroComponent implements OnInit, AfterViewInit{
+export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
 
   resolved: boolean = false;
 
   constructor(
     private r: Renderer2,
-    private ref: ElementRef
-  ){
+    private ref: ElementRef,
+  ) {
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
   }
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.backgroundAnimation();
     this.particleAnimation();
     setTimeout(() => {
@@ -34,7 +34,7 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit{
     }, 2500);
   }
 
-  private backgroundAnimation(){
+  private backgroundAnimation() {
     const background: HTMLElement = this.ref.nativeElement.getElementsByClassName('background')[0];
     background.style.transition = 'all 5s ease-in-out, opacity 1s ease-in-out';
     background.style.filter = 'grayscale(1) brightness(0.5)';
@@ -43,7 +43,7 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit{
     }, 1);
   }
 
-  private particleAnimation(){
+  private particleAnimation() {
     const container = this.ref.nativeElement.getElementsByClassName('particle-container')[0];
     const width = container.offsetWidth;
     const height = container.offsetHeight;
@@ -73,7 +73,7 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit{
     }, 1200);
   }
 
-  toArray(str: string): string[]{
+  toArray(str: string): string[] {
     return Object.assign([], str.split(''));
   }
 
