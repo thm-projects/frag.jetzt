@@ -86,7 +86,7 @@
             </button>
             <mat-menu #moreActions="matMenu" xPosition="before">
               <button mat-menu-item (click)="removeSession(room)">
-                <mat-icon class="delete">delete_forever</mat-icon>
+                <mat-icon class="delete material-icons-outlined">delete</mat-icon>
                 <span class="delete-text"> {{ (room.role < 3 ? 'room-list.panel-remove-button' :
                   'room-list.delete-room') | translate}}</span>
               </button>

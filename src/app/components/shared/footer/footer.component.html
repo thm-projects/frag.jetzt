@@ -11,7 +11,7 @@
             aria-labelledby="demo-label"
             class="focus_button"
             mat-button>
-      <mat-icon>info</mat-icon>
+      <mat-icon class="material-icons-outlined">info</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{ 'footer.demo' | translate }}
       </span>
@@ -48,7 +48,7 @@
             aria-labelledby="data-protection-label"
             class="focus_button"
             mat-button>
-      <mat-icon>security</mat-icon>
+      <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.dsgvo' | translate}}
       </span>
@@ -60,7 +60,7 @@
             aria-labelledby="imprint-label"
             class="focus_button"
             mat-button>
-      <mat-icon>contact_mail</mat-icon>
+      <mat-icon class="material-icons-outlined">contact_mail</mat-icon>
       <span *ngIf="deviceType === 'desktop'">
         {{'footer.imprint' | translate}}
       </span>

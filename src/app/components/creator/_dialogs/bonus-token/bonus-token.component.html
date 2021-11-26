@@ -53,7 +53,7 @@
   </div>
   <div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
     <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
-      <mat-icon>delete_forever</mat-icon>
+      <mat-icon class="material-icons-outlined">delete</mat-icon>
       {{'room-page.delete-all-tokens' | translate}}
     </button>
   </div>
@@ -65,7 +65,7 @@
       mat-flat-button
       class="help-button"
       (click)="openHelp()">
-      <mat-icon>help</mat-icon>
+      <mat-icon>question_mark</mat-icon>
       {{ 'explanation.label' | translate}}
     </button>
   </ars-col>

@@ -233,7 +233,7 @@
                           mat-icon-button
                           class="red"
                           (click)="removeWordFromProfanityList(word)">
-                    <mat-icon mat-list-icon
+                    <mat-icon class="material-icons-outlined" mat-list-icon
                               style="margin-bottom: 6px;">delete_sweep
                     </mat-icon>
                   </button>
@@ -282,7 +282,7 @@
                           mat-icon-button
                           class="red"
                           (click)="removeWordFromBlacklist(word)">
-                    <mat-icon mat-list-icon
+                    <mat-icon class="material-icons-outlined" mat-list-icon
                               style="margin-bottom: 6px;">delete_sweep
                     </mat-icon>
                   </button>
@@ -508,7 +508,7 @@
       <button [ngClass]="{'animation-blink': sortMode==='voteCount'}"
               mat-menu-item
               (click)="sortQuestions('voteCount')">
-        <mat-icon>thumb_up</mat-icon>
+        <mat-icon class="material-icons-outlined">thumb_up</mat-icon>
         {{'topic-cloud-dialog.sort-vote' | translate}}
       </button>
     </mat-menu>
@@ -572,7 +572,7 @@
                           mat-icon-button
                           style="align-self:flex-end;"
                           (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red"
+                    <mat-icon class="red material-icons-outlined"
                               matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep
                     </mat-icon>
                   </button>
@@ -661,7 +661,7 @@
                           mat-icon-button
                           style="align-self:flex-end;"
                           (click)="openConfirmDialog('delete-message','delete',keyword)">
-                    <mat-icon class="red"
+                    <mat-icon class="red material-icons-outlined"
                               matTooltip="{{'topic-cloud-dialog.delete' | translate}}">delete_sweep
                     </mat-icon>
                   </button>

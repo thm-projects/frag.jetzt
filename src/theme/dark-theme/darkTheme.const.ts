@@ -3,7 +3,7 @@ export const dark = {
   '--primary' : 'lightseagreen',
   '--primary-variant': 'teal',
 
-  '--secondary': 'Moccasin',
+  '--secondary': '#f8c362',
   '--secondary-variant': '#6f74dd',
 
   '--background': '#121212',

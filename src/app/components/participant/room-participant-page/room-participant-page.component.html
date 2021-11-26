@@ -27,8 +27,8 @@
         <mat-grid-tile>
           <button id="question_answer-button" mat-icon-button [disableRipple]="true"
                   routerLink="/participant/room/{{ room.shortId }}/comments" aria-labelledby="question_answer">
-            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon"
-                      [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
+            <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}" class="main-icon material-icons-outlined"
+                      [ngClass]="{'desktop' : deviceType === 'desktop'}">forum
             </mat-icon>
             <h3>{{ 'room-page.create-comment' | translate}}</h3>
           </button>

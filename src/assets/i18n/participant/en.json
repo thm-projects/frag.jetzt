@@ -42,7 +42,7 @@
     "add-comment": "Ask a question!",
     "pause-comments": "Freezes the display to read the questions at rest. Questions can still be asked and scored. The display is only updated again by clicking the button.",
     "play-comments": "Start the question stream",
-    "comment-got-favorited": "Hey, you got a star for a good question!",
+    "comment-got-favorited": "Hey, you got a star for a question!",
     "comment-stream-stopped": "Question stream has been stopped.",
     "comment-stream-started": "Question stream has been started.",
     "comment-sent": "The question has been published.",
@@ -225,7 +225,7 @@
     "close": "Close",
     "deepl": "## Text optimization\n\nTo make your question as readable and understandable as possible, we have it translated into German and back into English using the translation program [DeepL](https://www.deepl.com/translator).\n\nThe back translation is in almost all cases better than the original in terms of spelling, grammar, punctuation and language style. Back translation can be done in two ways: informally or formally.",
     "spacy": "## Text analysis\n\nUsing NLP (Natural Language Processing) your question will be analyzed grammatically. The recognized nouns are put into their basic form, i.e. lemmatized, and suggested to you as keywords. For the text analysis we use the free NLP software [spaCy](https://spacy.io/). \n\nThe keywords can be used to filter the list of questions or to create a word cloud.",
-    "topic-cloud": "## Topics as tags in a word cloud\n\nThe **topic cloud** visualizes the distribution of the keywords. These were determined by grammatical analysis of the nouns in the question text or explicitly assigned to the question by the author. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
+    "topic-cloud": "## Topics as tags in a word cloud\n\nThe **topic cloud** visualizes the distribution of the keywords. These were determined by grammatical analysis of the nouns in the question text or explicitly assigned to the question by the author. \n\n The calculation of the font size includes:\n\n* the difference between up- and down-votes, if it is positive\n* the number of questions with this keyword\n* the number of questioners with this keyword.\n* the role of the questioner: room creator, moderator or participant \n* whether the questioner has selected a question category\n* whether the keyword was generated or assigned by the question poser\n* whether the question was answered by the room creator or a moderator\n* the controversy of the question  \n\n The topic cloud serves as a **navigator** to all questions related to a selected keyword: If you click on a word in the cloud, you will get to the questions related to this keyword. \n\nThe room creator can customize the appearance of the topic cloud in the options according to his wishes. He can also experiment with the keyword generation parameters to optimize the **semantic selectivity**.",
     "user-bonus": "The teacher can mark »good« questions for a bonus. Your questions from all courses (rooms) that have received a star will be listed here.\n\nDepending on the agreement, you can email the token of the star to the teacher to redeem it for a bonus.",
     "bonus-archive": "All questions that you have marked with a star in your rooms are listed here. You can use the list to check whether the token that a participant sent you by mail is valid. \n\nTo find a token quickly, there is a search field. If the token is valid, you can display the corresponding question directly via a link."
   },
@@ -349,8 +349,8 @@
     "upvote-topic": "Up votes for this topic",
     "downvote-topic": "Down votes for this topic",
     "blacklist-topic": "Add topic to blacklist",
-    "changes-gone-wrong": "Something went wrong!",
-    "changes-successful": "Successfully updated."
+    "changes-gone-wrong": "Something has gone wrong!",
+    "changes-successful": "Successfully updated"
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",
@@ -515,14 +515,14 @@
     "no-bonus": "You haven't received a bonus star for a »good« question yet.",
     "redeem-tokens": "Redeem stars by mail",
     "mail-subject": "Request to redeem my tokens from the »frag.jetzt« session »{{sessionName}}«",
-    "mail-body": "Hello,\n\nI have received the following tokens today in the »frag.jetzt« session »{{sessionName}}« with the key code »{{sessionId}}«:\n\n{{tokens}}\n\n\nI ask for the redemption in bonus points.\n\nThanks for »frag.jetzt«!\n\n---",
+    "mail-body": "Hello,\n\nI have received the following tokens in the »frag.jetzt« session »{{sessionName}}« with the key code »{{sessionId}}«:\n\n{{tokens}}\n\n\nI ask for the redemption in bonus points.\n\nThanks for »frag.jetzt«!\n\n---",
     "choose-session": "Choose a session …",
     "please-choose": "Please select a session first."
   },
   "introduction": {
     "cancel": "Close",
     "cancel-description": "Close introduction.",
-    "title": "Introduction"
+    "title": ""
   },
   "write-comment": {
     "questioner-name": "Your name, if you want …",
