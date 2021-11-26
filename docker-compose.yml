@@ -20,6 +20,8 @@ services:
     env_file: .docker/environments/rabbitmq.env
     networks:
       - fragjetzt
+    expose:
+      - '61613'
     volumes:
       - .docker/configs/rabbitmq_plugins:/etc/rabbitmq/enabled_plugins
 
@@ -60,6 +62,19 @@ services:
     command: /jetty/start.jar --module=http-forwarded
     networks:
       - fragjetzt
+
+  frontend:
+    image: local-fragjetzt-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: SERVE
+    hostname: fragjetzt-frontend
+    container_name: fragjetzt-frontend
+    networks:
+      - fragjetzt
+    ports:
+      - '80:80'
 
 volumes:
   postgresql_fragjetzt_data:
