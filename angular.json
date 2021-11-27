@@ -20,6 +20,11 @@
               "src/assets",
               "src/robots.txt"
             ],
+            "allowedCommonJsDependencies": [
+              "qrcode",
+              "quill-emoji/dist/quill-emoji.js",
+              "@stomp/rx-stomp"
+            ],
             "styles": [
               "src/styles.scss",
               "./node_modules/material-icons/iconfont/material-icons.css",

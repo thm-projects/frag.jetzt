@@ -7,6 +7,7 @@ import { CustomIconService } from './services/util/custom-icon.service';
 import { MatomoInjector } from 'ngx-matomo-v9';
 import { environment } from '../environments/environment';
 import { filter } from 'rxjs/operators';
+import { SessionService } from './services/util/session.service';
 
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
               private matomoInjector: MatomoInjector,
+              private sessionService: SessionService,
               public notification: NotificationService,
               private customIconService: CustomIconService) {
     customIconService.init();

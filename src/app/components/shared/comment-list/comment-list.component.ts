@@ -30,10 +30,13 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -47,6 +50,7 @@ export interface CommentListData {
 })
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   @Input() user: User;
   @Input() roomId: string;
   shortId: string;
@@ -84,6 +88,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
+  questionNumberFormControl = new FormControl();
+  questionNumberOptions: string[] = [];
+  private _allQuestionNumberOptions: string[] = [];
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -118,6 +125,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
     });
     this.filter = CommentListFilter.loadFilter();
+    this.questionNumberFormControl.valueChanges.subscribe((v) => {
+      v = v || '';
+      this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
+    });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -333,6 +344,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   refreshFiltering(): void {
+    this._allQuestionNumberOptions = this.comments.map(c => String(c.number));
+    const value = this.questionNumberFormControl.value || '';
+    this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
       let set = this.commentsWrittenByUsers.get(comment.creatorId);
@@ -372,8 +386,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
-  applySortingByKey(type: SortTypeKey) {
+  applySortingByKey(type: SortTypeKey, reverse = false) {
     this.filter.sortType = SortType[type];
+    this.filter.sortReverse = reverse;
     this.refreshFiltering();
   }
 
@@ -441,7 +456,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper.openCreateDialog(this.user, this.userRole)
-        .subscribe(comment => this.sendCommentId = comment?.id);
+      .subscribe(comment => this.sendCommentId = comment?.id);
   }
 
   /**
@@ -476,6 +491,20 @@ export class CommentListComponent implements OnInit, OnDestroy {
     return this.hideCommentsList ? this.filteredComments : this.commentsFilteredByTime;
   }
 
+  isInCommentNumbers(value: string): boolean {
+    return this._allQuestionNumberOptions.indexOf(value) >= 0;
+  }
+
+  useCommentNumber(questionNumber: HTMLInputElement, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
+    if (!this.isInCommentNumbers(questionNumber.value)) {
+      return;
+    }
+    autoComplete.closePanel();
+    this.questionNumberFormControl.setValue('');
+    menu.closeMenu();
+    this.applyFilterByKey('number', +questionNumber.value);
+  }
+
   private receiveRoom(room: Room) {
     this.room = room;
     this.filter.updateRoom(room);
@@ -486,13 +515,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   private generateKeywordsIfEmpty() {
-    if (this.comments.length > 0 && this.userRole === UserRole.CREATOR) {
-      const count = this.comments.reduce((acc, comment) =>
-        acc + (comment.keywordsFromQuestioner && comment.keywordsFromQuestioner.length) +
-        (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length), 0);
-      if (count < 1) {
-        WorkerDialogComponent.addWorkTask(this.dialog, this.room);
-      }
+    if (TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this.roomId)) {
+      TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
   }
 

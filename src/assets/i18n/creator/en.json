@@ -48,6 +48,7 @@
     "filter-moderator": "Notes from the moderator",
     "filter-lecturer": "Announcements",
     "filter-owner": "My questions",
+    "filter-question-number": "Question number",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-wrong": "Negated questions",

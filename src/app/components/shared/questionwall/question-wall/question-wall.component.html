@@ -80,7 +80,7 @@
               <button mat-menu-item
                       (click)="setTimePeriod(periodItem)"
                       class="period selection"
-                      [ngClass]="{'selected': periodItem === period}"
+                      [ngClass]="{'selected': periodItem === listFilter.period}"
                       aria-labelledby="{{periodItem}}">
                 <span>{{ ('comment-list.select-' + periodItem) | translate }}</span>
               </button>
@@ -88,7 +88,7 @@
           </mat-menu>
           <button ars-btn
                   class="pseudo-button qw-opening-fade-animation"
-                  [ngClass]="{'selected': hasFilter || period !== 'time-all'}"
+                  [ngClass]="{'selected': hasFilter || listFilter.period !== 'time-all'}"
                   matRipple
                   matTooltip="{{'question-wall.overview-question-tooltip' | translate}}">
             <i>comment</i>
@@ -96,7 +96,7 @@
           </button>
           <button ars-btn
                   class="pseudo-button qw-opening-fade-animation"
-                  [ngClass]="{'selected': hasFilter || period !== 'time-all'}"
+                  [ngClass]="{'selected': hasFilter || listFilter.period !== 'time-all'}"
                   matRipple
                   matTooltip="{{'question-wall.overview-questioners-tooltip' | translate}}">
             <i>person</i>
@@ -112,7 +112,7 @@
           </button>
           <button ars-btn
                   [mat-menu-trigger-for]="timeMenu"
-                  [ngClass]="{'selected': period !== 'time-all'}"
+                  [ngClass]="{'selected': listFilter.period !== 'time-all'}"
                   matRipple
                   class="qw-opening-fade-animation"
                   aria-labelledby="filter-time">
