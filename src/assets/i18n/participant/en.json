@@ -60,6 +60,7 @@
     "filter-moderator": "Notes from the moderator",
     "filter-lecturer": "Announcements",
     "filter-owner": "My questions",
+    "filter-question-number": "Question number",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
     "filter-wrong": "Negated questions",
@@ -536,5 +537,13 @@
     "only-failed": "Only questions that have not been analyzed",
     "continue": "Continue",
     "cancel": "Cancel"
+  },
+  "worker-dialog": {
+    "running": "Running",
+    "room-name": "Room",
+    "comments": "Processed questions",
+    "bad-spelled": "Spelling too bad",
+    "failed": "Errors occurred",
+    "inline-header": "Running keyword updates"
   }
 }

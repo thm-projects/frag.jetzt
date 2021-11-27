@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
+import { defaultCategories } from '../../../../utils/defaultCategories';
 
 @Component({
   selector: 'app-room-create',
@@ -78,7 +79,8 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.profanityFilter = ProfanityFilter.languageSpecific;
+    newRoom.tags = defaultCategories[localStorage.getItem('currentLang')] || defaultCategories.default;
+    newRoom.profanityFilter = ProfanityFilter.none;
     if (this.hasCustomShortId && this.customShortIdName && this.customShortIdName.length > 0) {
       if (!new RegExp('[1-9a-z,A-Z,\s,\-,\.,\_,\~]+').test(this.customShortIdName)
         || this.customShortIdName.startsWith(' ') || this.customShortIdName.endsWith(' ')) {
@@ -95,20 +97,15 @@ export class RoomCreateComponent implements OnInit {
       this.shortIdAlreadyUsed = true;
       this.isLoading = false;
     }).subscribe(room => {
-      const encoded = encodeURIComponent(room.shortId)
-        .replace('\~', '%7E')
-        .replace('\.', '%2E')
-        .replace('\_', '%5F')
-        .replace('\-', '%2D');
       this.room = room;
       let msg1: string;
       let msg2: string;
       this.translateService.get('home-page.created-1').subscribe(msg => msg1 = msg);
       this.translateService.get('home-page.created-2').subscribe(msg => msg2 = msg);
       this.notification.show(msg1 + longRoomName + msg2);
-      this.authenticationService.setAccess(encoded, UserRole.CREATOR);
+      this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
       this.authenticationService.assignRole(UserRole.CREATOR);
-      this.router.navigate(['/creator/room/' + encoded]);
+      this.router.navigate(['/creator/room/' + encodeURIComponent(room.shortId)]);
       this.closeDialog();
     });
   }

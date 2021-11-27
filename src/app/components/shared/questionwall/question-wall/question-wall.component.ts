@@ -14,9 +14,11 @@ import { Rescale } from '../../../../models/rescale';
 import { QuestionWallKeyEventSupport } from '../QuestionWallKeyEventSupport';
 import { MatSliderChange } from '@angular/material/slider';
 import { RoomDataService } from '../../../../services/util/room-data.service';
-import { CommentListFilter, Period } from '../../comment-list/comment-list.filter';
+import { CommentListFilter, FilterType, Period, SortType } from '../../comment-list/comment-list.filter';
 import { User } from '../../../../models/user';
 import { UserRole } from '../../../../models/user-roles.enum';
+import { SessionService } from '../../../../services/util/session.service';
+import { SyncFence } from '../../../../utils/SyncFence';
 
 @Component({
   selector: 'app-question-wall',
@@ -28,8 +30,8 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(ColComponent) colComponent: ColComponent;
   @ViewChild('sidelist') sidelist: ColComponent;
 
-  sidelistExpanded: boolean = true;
-  qrCodeExpanded: boolean = false;
+  sidelistExpanded = true;
+  qrCodeExpanded = false;
   roomId: string;
   room: Room;
   comments: QuestionWallComment[] = [];
@@ -43,23 +45,25 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   focusIncommingComments = true;
   timeUpdateInterval;
   keySupport: QuestionWallKeyEventSupport;
-  hasFilter = false;
   filterTitle = '';
   filterDesc = '';
   filterIcon = '';
   isSvgIcon = false;
-  filterFunction: (x: QuestionWallComment) => boolean;
   userMap: Map<number, number> = new Map<number, number>();
   userList = [];
   userSelection = false;
   tags;
   fontSize = 180;
   periodsList = Object.values(Period);
-  period: Period = Period.all;
   isLoading = true;
   user: User;
-  animationTrigger:boolean=true;
-  firstPassIntroduction:boolean=true;
+  animationTrigger = true;
+  firstPassIntroduction = true;
+  listFilter: CommentListFilter;
+  private fence = new SyncFence(3, () => {
+    this.isLoading = false;
+    this.updateFiltering();
+  });
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -69,8 +73,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private wsCommentService: WsCommentService,
     private langService: LanguageService,
     private translateService: TranslateService,
-    private roomDataService: RoomDataService
-    ) {
+    private roomDataService: RoomDataService,
+    private sessionService: SessionService,
+  ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.roomId = localStorage.getItem('roomId');
     this.timeUpdateInterval = setInterval(() => {
@@ -80,6 +85,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.translateService.use(lang);
       QuestionWallComment.updateTimeFormat(lang);
     });
+    this.listFilter = CommentListFilter.loadFilter('presentation');
   }
 
   public wrap<E>(e: E, action: (e: E) => void) {
@@ -94,50 +100,69 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  toggleSideList(){
-    this.sidelistExpanded=!this.sidelistExpanded;
-    if(this.sidelistExpanded){
+  toggleSideList() {
+    this.sidelistExpanded = !this.sidelistExpanded;
+    if (this.sidelistExpanded) {
       this.sidelist.setPx(450);
-    }
-    else{
+    } else {
       this.sidelist.setPx(0);
     }
   }
 
-  getURL(){
-    if(!this.room)return '';
+  getURL() {
+    if (!this.room) {
+      return '';
+    }
     return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room.shortId}`;
   }
 
-  toggleQRCode(){
-    this.qrCodeExpanded=!this.qrCodeExpanded;
+  toggleQRCode() {
+    this.qrCodeExpanded = !this.qrCodeExpanded;
   }
 
   ngOnInit(): void {
     QuestionWallComment.updateTimeFormat(localStorage.getItem('currentLang'));
     this.translateService.use(localStorage.getItem('currentLang'));
+    this.listFilter.updateUserId(this.authenticationService.getUser()?.id);
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
+        this.listFilter.updateUserId(this.user.id);
       }
     });
     this.roomDataService.getRoomData(this.roomId).subscribe(e => {
       if (e === null) {
         return;
       }
-      e.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-      this.isLoading = false;
       e.forEach(c => {
         this.roomDataService.checkProfanity(c);
         const comment = new QuestionWallComment(c, true);
         this.comments.push(comment);
-        this.setTimePeriod(this.period);
       });
-      this.updateCommentsCountOverview();
+      this.refreshUserMap();
+      this.fence.resolveCondition(0);
     });
     this.roomService.getRoom(this.roomId).subscribe(e => {
       this.room = e;
       this.tags = e.tags;
+    });
+    const subscription = this.sessionService.getRoom().subscribe(room => {
+      if (!room) {
+        return;
+      }
+      setTimeout(() => subscription.unsubscribe());
+      this.room = room;
+      this.tags = room.tags;
+      this.listFilter.updateRoom(room);
+      this.fence.resolveCondition(1);
+    });
+    const moderatorSubscription = this.sessionService.getModerators().subscribe(mods => {
+      if (!mods) {
+        return;
+      }
+      setTimeout(() => moderatorSubscription.unsubscribe());
+      this.listFilter.updateModerators(mods.map(mod => mod.accountId));
+      this.fence.resolveCondition(2);
     });
     this.subscribeCommentStream();
     this.initKeySupport();
@@ -145,10 +170,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   subscribeCommentStream() {
     this.roomDataService.receiveUpdates([
-      { type: 'CommentCreated', finished: true},
+      { type: 'CommentCreated', finished: true },
       { type: 'CommentPatched', finished: true, updates: ['upvotes'] },
       { type: 'CommentPatched', finished: true, updates: ['downvotes'] },
-      {finished: true}
+      { finished: true }
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.wrap(this.pushIncommingComment(update.comment), qwComment => {
@@ -161,14 +186,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         qwComment.comment = update.comment;
       }
     });
-  }
-
-  updateCommentsCountOverview(): void {
-    const tempUserSet = new Set();
-    const comments = this.getCurrentCommentList();
-    comments.forEach((wallComment) => tempUserSet.add(wallComment.comment.userNumber));
-    this.commentsCountQuestions = comments.length;
-    this.commentsCountUsers = tempUserSet.size;
   }
 
   initKeySupport() {
@@ -187,9 +204,9 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       Rescale.requestFullscreen();
     }, 10);
     setTimeout(() => {
-      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e=>{
-        e.addEventListener('keydown',e=>{
-          e.preventDefault();
+      Array.from(document.getElementsByClassName('questionwall-screen')[0].getElementsByTagName('button')).forEach(e => {
+        e.addEventListener('keydown', e1 => {
+          e1.preventDefault();
         });
       });
     }, 100);
@@ -242,17 +259,19 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.roomDataService.checkProfanity(comment);
     const qwComment = new QuestionWallComment(comment, false);
     this.comments = [qwComment, ...this.comments];
-    this.setTimePeriod(this.period);
+    this.refreshUserMap();
     this.unreadComments++;
-    this.updateCommentsCountOverview();
+    this.updateFiltering();
     return qwComment;
   }
 
   focusComment(comment: QuestionWallComment) {
-    this.firstPassIntroduction=false;
-    if(this.commentFocus === comment)return;
+    this.firstPassIntroduction = false;
+    if (this.commentFocus === comment) {
+      return;
+    }
     this.commentFocus = null;
-    setTimeout(()=>{
+    setTimeout(() => {
       this.commentFocus = comment;
       if (!comment.old) {
         comment.old = true;
@@ -262,25 +281,11 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         behavior: 'smooth',
         block: 'center'
       });
-    },1);
+    }, 1);
   }
 
   toggleFocusIncommingComments() {
     this.focusIncommingComments = !this.focusIncommingComments;
-  }
-
-  createUserMap() {
-    this.userMap = new Map();
-    this.commentsFilteredByTime.forEach(c => {
-      if (!this.userMap.has(c.comment.userNumber)) {
-        this.userMap.set(c.comment.userNumber, 0);
-      }
-      this.userMap.set(c.comment.userNumber, this.userMap.get(c.comment.userNumber) + 1);
-    });
-    this.userList = [];
-    this.userMap.forEach((num, user) => {
-      this.userList.push([num, user]);
-    });
   }
 
   applyUserMap(user: number) {
@@ -292,28 +297,31 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.userSelection) {
       return;
     }
-    this.hasFilter = false;
-    this.createUserMap();
     this.userSelection = true;
-    this.updateCommentsCountOverview();
+    this.updateFiltering();
   }
 
   cancelUserMap() {
     this.userSelection = false;
-    this.updateCommentsCountOverview();
+    this.deactivateFilter();
   }
 
   leave() {
-    const resolveUserRole:()=>string=()=>{
-      switch(this.user?this.user.role:-1){
-        case UserRole.PARTICIPANT:return 'participant';
-        case UserRole.EDITING_MODERATOR:return 'moderator';
-        case UserRole.EXECUTIVE_MODERATOR:return 'moderator';
-        case UserRole.CREATOR:return 'creator';
-        default: return 'participant'
+    const resolveUserRole: () => string = () => {
+      switch (this.user ? this.user.role : -1) {
+        case UserRole.PARTICIPANT:
+          return 'participant';
+        case UserRole.EDITING_MODERATOR:
+          return 'moderator';
+        case UserRole.EXECUTIVE_MODERATOR:
+          return 'moderator';
+        case UserRole.CREATOR:
+          return 'creator';
+        default:
+          return 'participant';
       }
-    }
-    this.router.navigate(['/'+resolveUserRole()+'/room/'+this.room.shortId+'/comments']);
+    };
+    this.router.navigate(['/' + resolveUserRole() + '/room/' + this.room.shortId + '/comments']);
   }
 
   likeComment(comment: QuestionWallComment) {
@@ -325,38 +333,21 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   sortScore(reverse?: boolean) {
-    this.sort((a, b) => a.comment.score - b.comment.score, reverse);
+    this.listFilter.sortType = SortType.score;
+    this.listFilter.sortReverse = !!reverse;
+    this.updateFiltering();
   }
 
   sortTime(reverse?: boolean) {
-    this.sort((a, b) => new Date(a.comment.timestamp).getTime() - new Date(b.comment.timestamp).getTime(), reverse);
+    this.listFilter.sortType = SortType.time;
+    this.listFilter.sortReverse = !!reverse;
+    this.updateFiltering();
   }
 
   sortControversy(reverse?: boolean) {
-    this.sort((a, b) => CommentListFilter.calculateControversy(a.upvotes, a.downvotes) -
-      CommentListFilter.calculateControversy(b.upvotes, b.downvotes), reverse);
-  }
-
-  notifyCommentListChange(){
-    this.animationTrigger=false;
-    setTimeout(()=>{
-      this.animationTrigger=true;
-    },1);
-  }
-
-  sort(fun: (a, b) => number, reverse: boolean) {
-    const commentList = this.getCurrentCommentList();
-    if (reverse) {
-      commentList.sort(this.reverse(fun));
-    } else {
-      commentList.sort(fun);
-    }
-    setTimeout(() => {
-      if (commentList.length > 1) {
-        this.focusComment(commentList[0]);
-      }
-    }, 0);
-    this.notifyCommentListChange();
+    this.listFilter.sortType = SortType.controversy;
+    this.listFilter.sortReverse = !!reverse;
+    this.updateFiltering();
   }
 
   getCurrentCommentList() {
@@ -367,13 +358,14 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  reverse(fun: (a, b) => number): (a, b) => number {
-    return (a, b) => fun(b, a);
-  }
-
   filterFavorites() {
-    this.filter('grade', false, 'question-wall.filter-favorite', '',
-      x => x.comment.favorite);
+    this.filterIcon = 'grade';
+    this.isSvgIcon = false;
+    this.filterTitle = 'question-wall.filter-favorite';
+    this.filterDesc = '';
+    this.listFilter.filterCompare = null;
+    this.listFilter.filterType = FilterType.favorite;
+    this.updateFiltering();
   }
 
   filterUser(comment: QuestionWallComment) {
@@ -381,96 +373,88 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   filterUserByNumber(user: number) {
-    this.filter('person_pin_circle', false, 'question-wall.filter-user', user + '',
-      x => x.comment.userNumber === user);
+    this.filterIcon = 'person_pin_circle';
+    this.isSvgIcon = false;
+    this.filterTitle = 'question-wall.filter-user';
+    this.filterDesc = String(user);
+    this.listFilter.filterCompare = user;
+    this.listFilter.filterType = FilterType.userNumber;
+    this.updateFiltering();
   }
 
   filterBookmark() {
-    this.filter('bookmark', false, 'question-wall.filter-bookmark', '',
-      x => x.comment.bookmark);
+    this.filterIcon = 'bookmark';
+    this.isSvgIcon = false;
+    this.filterTitle = 'question-wall.filter-bookmark';
+    this.filterDesc = '';
+    this.listFilter.filterCompare = null;
+    this.listFilter.filterType = FilterType.bookmark;
+    this.updateFiltering();
   }
 
   filterTag(tag: string) {
-    this.filter('comment_tag', true, '', tag, x => x.comment.tag === tag);
-  }
-
-  filter(icon: string, isSvgIcon: boolean, title: string, desc: string, filter: (x: QuestionWallComment) => boolean) {
-    if(!this.sidelistExpanded){
-      this.toggleSideList();
-    }
-    this.cancelUserMap();
-    this.filterIcon = icon;
-    this.isSvgIcon = isSvgIcon;
-    this.filterTitle = title;
-    this.filterDesc = desc;
-    this.filterFunction = filter;
-    this.commentsFilter = this.commentsFilteredByTime.filter(this.filterFunction);
-    this.hasFilter = true;
-    setTimeout(() => {
-      if (this.commentsFilter.length <= 0) {
-        this.commentFocus = null;
-      } else {
-        this.focusFirstComment();
-      }
-    }, 0);
-    this.updateCommentsCountOverview();
-    this.notifyCommentListChange();
-  }
-
-  focusFirstComment() {
-    if (this.getCurrentCommentList().length > 0) {
-      this.commentFocus = this.getCurrentCommentList()[0];
-    }
+    this.filterIcon = 'comment_tag';
+    this.isSvgIcon = true;
+    this.filterTitle = '';
+    this.filterDesc = tag;
+    this.listFilter.filterCompare = tag;
+    this.listFilter.filterType = FilterType.tag;
+    this.updateFiltering();
   }
 
   deactivateFilter() {
-    this.hasFilter = false;
-    this.filterFunction = null;
-    this.updateCommentsCountOverview();
-  }
-
-  toggleFilter() {
-    this.hasFilter = !this.hasFilter;
-    this.updateCommentsCountOverview();
+    this.listFilter.filterType = null;
+    this.listFilter.filterCompare = null;
+    this.updateFiltering();
   }
 
   sliderChange(evt: MatSliderChange) {
     this.fontSize = evt.value;
   }
 
-  setTimePeriod(period: Period) {
-    this.period = period;
-    const currentTime = new Date();
-    const hourInSeconds = 3600000;
-    let periodInSeconds;
-    if (period !== Period.all) {
-      switch (period) {
-        case Period.oneHour:
-          periodInSeconds = hourInSeconds;
-          break;
-        case Period.threeHours:
-          periodInSeconds = hourInSeconds * 2;
-          break;
-        case Period.oneDay:
-          periodInSeconds = hourInSeconds * 24;
-          break;
-        case Period.oneWeek:
-          periodInSeconds = hourInSeconds * 168;
-          break;
-        case Period.twoWeeks:
-          periodInSeconds = hourInSeconds * 336;
-          break;
+  updateFiltering() {
+    if (!this.listFilter.isReady()) {
+      return;
+    }
+    this.commentsFilteredByTime = this.listFilter.filterCommentWrapperByTime(this.comments, c => c.comment);
+    this.listFilter.sortCommentWrapperBySortType(this.commentsFilteredByTime, c => c.comment);
+    this.commentsFilter = this.listFilter.filterCommentWrapperByType(this.commentsFilteredByTime, c => c.comment);
+    const currentComments = this.listFilter.filterType ? this.commentsFilter : this.commentsFilteredByTime;
+    setTimeout(() => {
+      if (currentComments.length <= 0) {
+        this.commentFocus = null;
+      } else {
+        this.commentFocus = currentComments[0];
       }
-      this.commentsFilteredByTime = this.comments
-        .filter(c => new Date(c.date).getTime() >= (currentTime.getTime() - periodInSeconds));
-    } else {
-      this.commentsFilteredByTime = this.comments;
-    }
-    if (this.filterFunction) {
-      this.filter(this.filterIcon, this.isSvgIcon, this.filterTitle, this.filterDesc, this.filterFunction);
-    } else {
-      this.updateCommentsCountOverview();
-    }
+    });
+    const tempUserSet = new Set();
+    currentComments.forEach((wallComment) => tempUserSet.add(wallComment.comment.userNumber));
+    this.commentsCountQuestions = currentComments.length;
+    this.commentsCountUsers = tempUserSet.size;
+    this.animationTrigger = false;
+    setTimeout(() => {
+      this.animationTrigger = true;
+    });
+  }
+
+  setTimePeriod(period: Period) {
+    this.listFilter.period = period;
+    this.updateFiltering();
+  }
+
+  get hasFilter() {
+    return !!this.listFilter.filterType;
+  }
+
+  private refreshUserMap() {
+    this.userMap.clear();
+    this.comments.forEach(({ comment }) => {
+      this.userMap.set(comment.userNumber, (this.userMap.get(comment.userNumber) || 0) + 1);
+    });
+    this.userList.length = 0;
+    this.userMap.forEach((num, user) => {
+      this.userList.push([num, user]);
+    });
   }
 
 }

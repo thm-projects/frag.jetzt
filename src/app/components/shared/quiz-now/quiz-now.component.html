@@ -1,6 +1,8 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 <div class="container">
-  <iframe class="responsive-iframe" [src]="urlSafe"
+  <iframe class="responsive-iframe"
+          title="antworte.jetzt"
+          [src]="urlSafe"
           (load)="isLoading = false"
           (error)="isLoading = false">
   </iframe>

@@ -121,7 +121,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     localStorage.setItem('isSafari', this.isSafari);
     localStorage.setItem('deviceType', this.deviceType);
     if (!localStorage.getItem('currentLang')) {
-      const lang = this.translationService.getBrowserLang();
+      let lang = this.translationService.getBrowserLang();
+      if (lang !== 'en' && lang !== 'de') {
+        lang = 'en';
+      }
       this.translationService.setDefaultLang(lang);
       localStorage.setItem('currentLang', lang);
     } else {

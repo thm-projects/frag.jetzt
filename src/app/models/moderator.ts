@@ -1,4 +1,3 @@
-import { ModeratorRole } from './moderator-roles.enum';
 import { UserRole } from './user-roles.enum';
 
 export class Moderator {

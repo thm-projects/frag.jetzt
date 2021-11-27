@@ -68,6 +68,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="filter_list"
+            #filterMenuTrigger="matMenuTrigger"
             *ngIf="!searchBox.value && comments && commentsFilteredByTime.length > 2 && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': hideCommentsList}"
@@ -132,24 +133,39 @@
     </button>
 
     <button mat-menu-item
-            (click)="applySortingByKey('votedesc')"
+            (click)="applySortingByKey('score')"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon class="material-icons-outlined" [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
-      <span [ngClass]="{votedesc: 'up'}[filter.sortType]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
+      <mat-icon class="material-icons-outlined"
+                [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+        thumb_up
+      </mat-icon>
+      <span [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+        {{ 'comment-list.sort-vote-asc' | translate }}
+      </span>
     </button>
 
     <button mat-menu-item
-            (click)="applySortingByKey('voteasc')"
+            (click)="applySortingByKey('score', true)"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]" class="material-icons-outlined">thumb_down</mat-icon>
-      <span [ngClass]="{voteasc: 'down'}[filter.sortType]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
+      <mat-icon [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]"
+                class="material-icons-outlined">
+        thumb_down
+      </mat-icon>
+      <span [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]">
+        {{ 'comment-list.sort-vote-desc' | translate }}
+      </span>
     </button>
 
     <button mat-menu-item
             (click)="applySortingByKey('controversy')"
             aria-labelledby="controversy">
-      <mat-icon class="material-icons-outlined" [ngClass]="{controversy: 'controversy'}[filter.sortType]">quickreply</mat-icon>
-      <span [ngClass]="{controversy: 'controversy'}[filter.sortType]">{{ 'comment-list.sort-controversy' | translate }}</span>
+      <mat-icon class="material-icons-outlined" [ngClass]="{controversy: 'controversy'}[filter.sortType]">
+        quickreply
+      </mat-icon>
+      <span
+        [ngClass]="{controversy: 'controversy'}[filter.sortType]">
+        {{ 'comment-list.sort-controversy' | translate }}
+      </span>
     </button>
 
   </mat-menu>
@@ -215,8 +231,43 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('owner')"
               aria-labelledby="comment">
-        <mat-icon class="material-icons-outlined" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">person_pin_circle</mat-icon>
+        <mat-icon class="material-icons-outlined" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">
+          person_pin_circle
+        </mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              role="option"
+              (focus)="hideCommentsList=true"
+              (click)="$event.stopImmediatePropagation()">
+        <mat-form-field>
+          <mat-label [ngClass]="{number: 'number-icon'}[filter.filterType]">
+            <mat-icon class="material-icons-outlined" [ngClass]="{number: 'number-icon'}[filter.filterType]">
+              question_mark
+            </mat-icon>
+            {{'comment-list.filter-question-number' | translate}}
+          </mat-label>
+          <input type="text"
+                 #autoTrigger="matAutocompleteTrigger"
+                 #questionNumber
+                 [formControl]="questionNumberFormControl"
+                 appAccessibilityEscapedInput
+                 matInput
+                 [matAutocomplete]="auto"
+                 (keyup.enter)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger)">
+          <mat-icon class="material-icons align-arrow-right"
+                    (click)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger); $event.stopImmediatePropagation()"
+                    [ngClass]="{number: 'number-icon'}[filter.filterType]">
+            {{isInCommentNumbers(questionNumber.value) ? 'forward' : 'arrow_drop_down'}}
+          </mat-icon>
+          <mat-autocomplete #auto="matAutocomplete"
+                            (optionSelected)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger)">
+            <mat-option *ngFor="let number of questionNumberOptions" [value]="number">
+              {{number}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </button>
 
       <!--
@@ -282,31 +333,32 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of getComments().slice(pageIndex * pageSize, (pageIndex * pageSize) + pageSize); let i = index"
-               [appScrollIntoView]="current.id === focusCommentId"
-               [usesJoyride]="i === 0 && isJoyrideActive"
-               [comment]="current"
-               [parseVote]="getVote(current)"
-               [userRole]="userRole"
-               [moderator]="false"
-               [isFromModerator]="filter.moderatorAccountIds.has(current.creatorId)"
-               [isFromOwner]="room.ownerId === current.creatorId"
-               [user]="user"
-               [disabled]="!commentsEnabled"
-               [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
-               (clickedOnTag)="applyFilterByKey('tag', $event)"
-               (clickedUserNumber)="applyFilterByKey('userNumber', $event)"
-               (clickedOnKeyword)="applyFilterByKey('keyword', $event)"
-               (votedComment)="votedComment($event)">
+  <app-comment
+    *ngFor="let current of getComments().slice(pageIndex * pageSize, (pageIndex * pageSize) + pageSize); let i = index"
+    [appScrollIntoView]="current.id === focusCommentId"
+    [usesJoyride]="i === 0 && isJoyrideActive"
+    [comment]="current"
+    [parseVote]="getVote(current)"
+    [userRole]="userRole"
+    [moderator]="false"
+    [isFromModerator]="filter.moderatorAccountIds.has(current.creatorId)"
+    [isFromOwner]="room.ownerId === current.creatorId"
+    [user]="user"
+    [disabled]="!commentsEnabled"
+    [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
+    (clickedOnTag)="applyFilterByKey('tag', $event)"
+    (clickedUserNumber)="applyFilterByKey('userNumber', $event)"
+    (clickedOnKeyword)="applyFilterByKey('keyword', $event)"
+    (votedComment)="votedComment($event)">
   </app-comment>
   <ars-mat-paginator
-                     *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
-                     [pageSize]="this.pageSize"
-                     (page)="handlePageEvent($event)"
-                     [showFirstLastButtons]="showFirstLastButtons"
-                     [pageSizeOptions]="pageSizeOptions"
-                     [pageIndex]="pageIndex"
-                     [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
+    *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
+    [pageSize]="this.pageSize"
+    (page)="handlePageEvent($event)"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex"
+    [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
   <ars-row [height]="64" *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0">
   </ars-row>
 

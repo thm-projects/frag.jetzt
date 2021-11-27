@@ -1,4 +1,18 @@
 const PROXY_CONFIG = {
+  "/antworte-jetzt": {
+    "target": "https://antworte.jetzt",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/antworte-jetzt": ""
+    },
+    "logLevel": "debug",
+    "onProxyRes": function (proxyRes) {
+      proxyRes.statusCode = 307;
+      proxyRes.statusMessage = 'Temporary Redirect';
+      proxyRes.headers['Location'] = 'https://antworte.jetzt';
+    }
+  },
   "/deepl": {
     "target": "https://api-free.deepl.com/v2",
     "secure": true,

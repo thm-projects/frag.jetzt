@@ -114,6 +114,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.initializeKeywords(room.id);
       this.subscriptionWsRoom = this.wsRoomService.getRoomStream(room.id).subscribe(msg => {
         const message = JSON.parse(msg.body);
+        room = message.payload.changes;
         if (message.type === 'RoomPatched') {
           this.currentRoom = room;
           this.blacklistIsActive = room.blacklistIsActive;

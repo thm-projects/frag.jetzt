@@ -50,6 +50,7 @@
     "filter-moderator": "Hinweise des Moderators",
     "filter-lecturer": "Ankündigungen",
     "filter-owner": "Meine Fragen",
+    "filter-question-number": "Fragenummer",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
     "filter-wrong": "Verneinte Fragen",
@@ -530,5 +531,13 @@
     "only-failed": "Nur Fragen, die nicht analysiert worden sind",
     "continue": "Weiter",
     "cancel": "Abbrechen"
+  },
+  "worker-dialog": {
+    "running": "Laufend",
+    "room-name": "Raum",
+    "comments": "Abgearbeitete Fragen",
+    "bad-spelled": "Zu schlechte Rechtschreibung",
+    "failed": "Fehler aufgetreten",
+    "inline-header": "Laufende Stichwort-Aktualisierungen"
   }
 }
