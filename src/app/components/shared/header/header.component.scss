@@ -23,11 +23,6 @@ mat-toolbar-row {
   color: var(--on-surface);
 }
 
-::ng-deep .qrcode svg > path {
-  fill: var(--on-surface);
-  color: var(--on-surface);
-}
-
 .moderation-enabled {
   color: var(--on-surface);
   margin-left: 5px;
@@ -181,12 +176,6 @@ svg {
 
 h1 {
   color: red;
-}
-
-::ng-deep .mat-menu-item:hover .qrcode svg > path {
-  fill: var(--dialog) !important;
-  color: var(--dialog) !important;
-  background-color: var(--on-dialog) !important;
 }
 
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {
