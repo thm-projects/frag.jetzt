@@ -1,7 +1,7 @@
 export const dark = {
 
   '--primary' : 'darkorange',
-  '--primary-variant': 'maroon',
+  '--primary-variant': 'saddlebrown',
 
   '--secondary': 'darkgreen',
   '--secondary-variant': '#6f74dd',
