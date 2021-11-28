@@ -15,6 +15,7 @@ export const arsnova = {
 
   '--on-primary': '#fafad2',
   '--on-secondary': '#fafad2',
+  '--on-primary-variant': '#000000',
   '--on-background': '#000000',
   '--on-surface': '#000000',
   '--on-dialog': '#000000',

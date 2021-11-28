@@ -15,6 +15,7 @@ export const dark = {
 
   '--on-primary': '#000000',
   '--on-secondary': '#eadabf',
+  '--on-primary-variant': '#eadabf',
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',

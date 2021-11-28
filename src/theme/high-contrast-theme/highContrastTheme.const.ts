@@ -15,6 +15,7 @@ export const highcontrast = {
 
   '--on-primary': '#141414',
   '--on-secondary': '#141414',
+  '--on-primary-variant': '#FFFFFF',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
