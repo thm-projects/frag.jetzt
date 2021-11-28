@@ -224,7 +224,7 @@
     "login-description": "Sign in with the entered account data",
     "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",
-    "not-registered": "Don't have an account yet?",
+    "not-registered": "No account?",
     "or": "or",
     "password": "Password",
     "password-required": "Password required",
