@@ -1,5 +1,5 @@
 button {
-  color: var(--secondary);
+  color: var(--on-primary-secondary);
 }
 
 .filterWrapper {
@@ -12,7 +12,7 @@ button {
 
 table, th, tr, td {
   background-color: var(--primary-variant) !important;
-  color: var(--on-surface) !important;
+  color: var(--on-primary-variant) !important;
   hyphens: auto;
   overflow-wrap: anywhere;
 }
