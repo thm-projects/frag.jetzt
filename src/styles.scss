@@ -290,3 +290,7 @@ a {
   background-color: var(--secondary) !important;
   color: var(--on-secondary) !important;
 }
+
+.mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
+  background: var(--green) !important;;
+}
