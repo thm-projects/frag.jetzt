@@ -32,7 +32,7 @@ export const highcontrast = {
   '--grey': '#7e7e7e',
   '--grey-light': '#9c9c9c',
   '--black': 'black',
-  '--moderator': 'darkred',
+  '--moderator': 'black',
 
 };
 

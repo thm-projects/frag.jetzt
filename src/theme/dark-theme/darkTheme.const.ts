@@ -32,7 +32,7 @@ export const dark = {
   '--grey': 'slategrey',
   '--grey-light': '#9E9E9E',
   '--black': 'black',
-  '--moderator': 'maroon'
+  '--moderator': 'black'
 
 };
 
