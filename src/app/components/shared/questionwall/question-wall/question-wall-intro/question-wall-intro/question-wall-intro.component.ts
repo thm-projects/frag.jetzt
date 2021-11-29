@@ -29,9 +29,9 @@ export class QuestionWallIntroComponent implements OnInit, AfterViewInit {
         screen.style.display = 'none';
         setTimeout(() => {
           this.resolved = true;
-        }, 1);
+        }, 2000);
       }, 2000);
-    }, 2500);
+    }, 5000);
   }
 
   private backgroundAnimation() {

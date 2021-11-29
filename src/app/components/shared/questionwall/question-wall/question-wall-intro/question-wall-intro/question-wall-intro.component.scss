@@ -13,9 +13,6 @@ $animation-2-t-span-sum: $animation-g-t-span + $animation-2-t-span;
 $animation-1: keyframes_animation1 ($animation-1-t)+s $velocity-curve both;
 $animation-2: keyframes_animation2 ($animation-2-t)+s $velocity-curve both;
 
-$shadow-on: 1px 3px 0 #000, 1px 13px 5px #000;
-$shadow-off: none;
-
 :host {
 
   .screen {
@@ -28,10 +25,7 @@ $shadow-off: none;
     position: fixed;
     left: 0;
     top: 0;
-    background-color: #09394FFF;
-    background-position: center left;
-    background-size: contain;
-    background-repeat: no-repeat;
+    background-color: white;
   }
 
   .particle {
@@ -120,44 +114,32 @@ $shadow-off: none;
     0% {
       opacity: 0;
       padding: 5px;
-      text-shadow: $shadow-off;
     }
     10% {
       opacity: 1;
       padding: 0px;
-      text-shadow: $shadow-on;
     }
     90% {
       opacity: 1;
       padding: 0px;
-      text-shadow: $shadow-off;
     }
     100% {
       opacity: 0;
       padding: 0px;
-      text-shadow: $shadow-off;
     }
   }
   @keyframes keyframes_animation2 {
-    0% {
-      opacity: 0;
-      text-shadow: $shadow-off;
-      color: yellow;
-    }
-    10% {
+    50% {
       opacity: 1;
-      text-shadow: $shadow-on;
-      filter: hue-rotate(0deg);
+      color: red;
     }
-    90% {
+    80% {
       opacity: 1;
-      text-shadow: $shadow-off;
-      filter: hue-rotate(1360deg);
+      color: darkorange;
     }
     100% {
-      opacity: 0;
-      text-shadow: $shadow-off;
-      filter: hue-rotate(1360deg);
+      opacity: 1;
+      color: yellow;
     }
   }
 }

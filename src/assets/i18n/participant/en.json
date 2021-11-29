@@ -174,7 +174,7 @@
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
     "error-title": "Please enter a title.",
-    "exit-description": "Exit Presentation Mode",
+    "exit-description": "Exit presentation mode",
     "has-answer": "The question was answered. Click for full view.",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
     "mark-not-correct": "Marked as correct",
