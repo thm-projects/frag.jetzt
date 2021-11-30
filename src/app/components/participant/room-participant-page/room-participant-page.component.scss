@@ -4,7 +4,7 @@ mat-card {
   width: 100%;
   max-width: 800px;
   min-height: 350px;
-  padding: 0 10% 5% 10%;
+  padding: 0 10% 20% 10%;
   background-color: var(--surface) !important;
 }
 
@@ -14,8 +14,7 @@ mat-card-content > :first-child {
 
 .mat-icon-button {
   width: 100%;
-  height: 75%;
-  margin-bottom: 3%;
+  height: 100%;
   border-radius: 0;
   color: var(--primary) !important;
 }
@@ -52,13 +51,12 @@ h3 {
 
 h2 {
   font-size: 18px !important;
-  line-height: normal;
   font-weight: normal;
+  margin-top: 35px;
 }
 
 mat-card-header {
-  min-height: 80px !important;
-  height: 12% !important;
+  margin: 0;
 }
 
 mat-card-title {
@@ -80,8 +78,8 @@ mat-grid-list {
 }
 
 mat-grid-tile {
-  height: 70% !important;
-  padding: 10% 0 !important;
+  height: 100% !important;
+  padding: 10% 0 10% 0 !important;
 }
 
 #settings {
@@ -96,7 +94,7 @@ mat-grid-tile {
 }
 
 .gavel {
-  margin: 0.9em 0.25em 0 0;
+  margin-top: 30px;
   color: var(--red);
   transform: scale(1.8);
 }
