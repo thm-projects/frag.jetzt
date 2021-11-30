@@ -54,7 +54,7 @@
                     aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
                         class="main-icon material-icons-outlined"
-                        [ngClass]="{'desktop' : deviceType === 'desktop'}"
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
                         matTooltip="{{ 'room-page.session-question-board' | translate}}">forum
               </mat-icon>
               <h3>{{ 'room-page.public-stream' | translate}}</h3>
@@ -68,7 +68,7 @@
                     aria-labelledby="gavel">
               <mat-icon style="color: red" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon material-icons-round"
-                        [ngClass]="{'desktop' : deviceType === 'desktop'}"
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
               </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
