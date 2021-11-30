@@ -92,7 +92,8 @@
                 (click)="setFavorite(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined" [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+          <mat-icon class="material-icons-outlined"
+                    [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
           </mat-icon>
@@ -101,7 +102,8 @@
                 *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined" [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+          <mat-icon class="material-icons-outlined"
+                    [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
           </mat-icon>
@@ -111,7 +113,8 @@
                 (click)="openBonusStarDialog()"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined" [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
+          <mat-icon class="material-icons-outlined"
+                    [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
           </mat-icon>
@@ -136,7 +139,8 @@
               tabindex="0"
               attr.aria-labelledby="comment_delete{{ comment.id }}"
       >
-        <mat-icon class="material-icons-outlined">
+        <mat-icon class="material-icons-outlined"
+                  matTooltip="{{ 'comment-page.delete-own-question' | translate }}">
           delete_sweep
         </mat-icon>
       </button>
@@ -211,7 +215,8 @@
                   tabindex="0"
                   attr.aria-labelledby="comment_grade{{ comment.id }}"
           >
-            <mat-icon class="material-icons-outlined" [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">
+            <mat-icon class="material-icons-outlined"
+                      [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">
               grade
             </mat-icon>
             <span>
@@ -246,7 +251,8 @@
                   tabindex="0"
                   attr.aria-labelledby="comment_delete{{ comment.id }}"
           >
-            <mat-icon class="not-marked material-icons-outlined">
+            <mat-icon class="not-marked material-icons-outlined"
+                      matTooltip="{{ 'comment-page.delete-own-question' | translate }}">
               delete_sweep
             </mat-icon>
             <span>
@@ -264,9 +270,11 @@
            role="button"
            style="width:100%;"
            tabindex="0">
-        <ars-row #commentBody class="commentBody">
+        <ars-row #commentBody
+                 class="commentBody">
           <ars-row #commentBodyInner>
-            <app-view-comment-data class="images" [currentData]="comment.body"></app-view-comment-data>
+            <app-view-comment-data class="images"
+                                   [currentData]="comment.body"></app-view-comment-data>
           </ars-row>
         </ars-row>
         <span id="comment-{{ comment.id }}"
@@ -302,15 +310,18 @@
       <div *ngIf="!isStudent"
            fxLayout="column"
            fxLayoutAlign="center">
-        <span class="scoreCreator" matTooltip="{{
+        <span class="scoreCreator"
+              matTooltip="{{
         ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
         ('comment-page.downvote' | translate) + ' ' + comment.downvotes
         }}">{{comment.score}}</span>
       </div>
     </div>
-    <ars-row ars-flex-box #commentExpander>
+    <ars-row ars-flex-box
+             #commentExpander>
       <ars-fill>
-        <button mat-button style="width:100%;"
+        <button mat-button
+                style="width:100%;"
                 (click)="toggleExpand($event)"><span class="commentExpanderButton">
             {{ isExpanded ? ('comment-page.show-less' | translate) : ('comment-page.show-more' | translate) }}
           </span></button>
@@ -318,7 +329,8 @@
       <ars-col [width]="16">
       </ars-col>
     </ars-row>
-    <div style="margin-top: 10px" fxLayout="row"
+    <div style="margin-top: 10px"
+         fxLayout="row"
          fxLayoutAlign="start center">
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.tag-to-filter' | translate }}"
@@ -350,16 +362,21 @@
            [mat-menu-trigger-for]="keywordsMenu"
            *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
            class="comment-keywords">
-        <mat-icon svgIcon="hashtag" class="keyword-icon"></mat-icon>
-        <span matBadge="{{comment.keywordsFromQuestioner.length}}" matBadgeSize="small" matBadgeOverlap="false">
+        <mat-icon svgIcon="hashtag"
+                  class="keyword-icon"></mat-icon>
+        <span matBadge="{{comment.keywordsFromQuestioner.length}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
         </span>
         <mat-menu #keywordsMenu>
-          <mat-list dense class="keywords-list">
+          <mat-list dense
+                    class="keywords-list">
             <mat-list-item
               *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
               [class.keywords-alternate]="odd"
               [class.keywords-even]="even">
-              <span (click)="this.clickedOnKeyword.emit(keyword.text)" class="keyword-span">{{keyword.text}}</span>
+              <span (click)="this.clickedOnKeyword.emit(keyword.text)"
+                    class="keyword-span">{{keyword.text}}</span>
             </mat-list-item>
           </mat-list>
         </mat-menu>
@@ -426,7 +443,8 @@
               [ngClass]="{'upVoted' : hasVoted === 1}">thumb_up
     </mat-icon>
   </button>
-  <span class="score" matTooltip="{{
+  <span class="score"
+        matTooltip="{{
         ('comment-page.upvote' | translate) + ' ' + comment.upvotes + ' ' +
         ('comment-page.downvote' | translate) + ' ' + comment.downvotes
         }}">{{comment.score}}</span>

@@ -530,8 +530,8 @@
     "topic-requirement-begin-datetime": "Beginn der Zeitspanne",
     "topic-requirement-end-datetime": "Ende der Zeitspanne",
     "keywords": "Stichwörter",
-    "blacklist-is-active": "Die Blacklist wird verborgen",
-    "blacklist-is-not-active": "Die Blacklist wird nicht verborgen",
+    "blacklist-is-active": "Du hast die folgenden Einträge aus der Themenwolke verbannt:",
+    "blacklist-is-not-active": "Die Blacklist der Themenwolke ist deaktiviert.",
     "topic-requirement-reset": "Zurücksetzen"
   },
   "topic-cloud-confirm-dialog": {

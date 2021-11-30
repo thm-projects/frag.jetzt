@@ -156,7 +156,7 @@
     "cancel": "Abbrechen",
     "cancel-description": "Abbrechen",
     "comment": "Die Frage {{ comment }} wurde um {{ time }} Uhr gestellt und hat derzeitig {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
-    "delete": "Deine Frage löschen",
+    "delete-own-question": "Du kannst eigene Fragen löschen.",
     "enter-comment": "Gib deine Frage ein …",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",

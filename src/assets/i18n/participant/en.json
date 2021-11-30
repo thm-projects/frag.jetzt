@@ -163,6 +163,7 @@
     "save-answer": "Save",
     "continue": "Continue",
     "delete-answer": "Delete",
+    "delete-own-question": "You can delete own questions.",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",
