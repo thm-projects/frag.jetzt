@@ -18,7 +18,7 @@ mat-card-content > :first-child {
 
 .mat-icon-button {
   width: 100%;
-  height: 75%;
+  height: 100%;
   color: var(--primary) !important;
   transition: all 0.3s;
 
@@ -56,10 +56,9 @@ mat-card-content > :first-child {
 }
 
 .room-short-id {
-  font-size: larger;
-  font-weight: bold;
+  font-size: 16px;
   color: var(--on-surface) !important;
-  margin-top: 9px;
+  margin-top: -10px;
 }
 
 mat-grid-list {
@@ -80,23 +79,21 @@ p {
 }
 
 h2 {
-  font-size: larger;
+  font-size: 16px;
+  font-weight: normal;
   color: var(--on-surface) !important;
+  margin-top: 35px;
 }
 
 mat-card-header {
-  min-height: 80px;
-  height: 10% !important;
+  margin: 0;
 }
 
 mat-card-title {
-  height: 40%;
-  min-width: 200px;
   color: var(--on-surface) !important;
 }
 
 mat-card-subtitle {
-  height: 30%;
   color: var(--on-surface) !important;
 }
 
@@ -114,6 +111,7 @@ mat-expansion-panel {
 #copy {
   width: 40px;
   height: 40px;
+  margin-top: -20px;
 }
 
 .copy {
@@ -143,8 +141,7 @@ h3 {
   margin: 5% 0 5% 0;
   color: var(--on-surface) !important;
   font-size: 14px;
-  line-height: normal;
-  font-weight: normal;
+  font-weight: normal ;
 }
 
 .inline-icon-button {
