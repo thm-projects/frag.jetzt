@@ -46,7 +46,12 @@ button {
 h3 {
   margin: 5% 0 5% 0;
   color: var(--on-surface) !important;
-  font-size: 14px;
+  font-size: 16px !important;
+  font-weight: normal;
+}
+
+h2 {
+  font-size: 18px !important;
   line-height: normal;
   font-weight: normal;
 }
@@ -57,13 +62,10 @@ mat-card-header {
 }
 
 mat-card-title {
-  height: 40%;
-  min-width: 200px;
   color: var(--on-surface) !important;
 }
 
 mat-card-subtitle {
-  height: 20%;
   color: var(-on--surface) !important;
 }
 
@@ -100,10 +102,9 @@ mat-grid-tile {
 }
 
 .room-short-id {
-  font-size: larger;
-  font-weight: bold;
+  font-size: 16px;
   color: var(--on-surface) !important;
-  margin-top: 9px;
+  margin-top: -10px;
 }
 
 ::ng-deep .mat-badge-content {
