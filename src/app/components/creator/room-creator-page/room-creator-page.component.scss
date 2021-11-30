@@ -77,7 +77,7 @@ mat-card-subtitle {
 }
 
 mat-grid-tile {
-  height: 70% !important;
+  height: 70% !important;q
   padding: 10% 0 !important;
 }
 
@@ -137,8 +137,9 @@ markdown {
 }
 
 .inline-icon-button {
-  width: max-content;
-  margin: 0.25em 0.25em 0.25em 0.75em;
+  width: 40px;
+  height: 40px;
+  margin-top: 25px;
 }
 
 h3 {

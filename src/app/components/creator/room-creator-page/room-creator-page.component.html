@@ -4,7 +4,8 @@
      fxFill>
   <div fxLayout="row"
        fxLayoutAlign="center">
-    <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
+    <app-mat-spinner-overlay *ngIf="isLoading"
+                             overlay="true"></app-mat-spinner-overlay>
     <mat-card *ngIf="room">
       <div fxLayout="row">
         <span class="fill-remaining-space"></span>
@@ -16,7 +17,9 @@
                     class="inline-icon-button"
                     (click)="editSessionName()"
                     aria-labelledby="edit_session_name">
-              <mat-icon class="material-icons-outlined" matTooltip="{{ 'session.edit-session-name' | translate}}">edit</mat-icon>
+              <mat-icon class="copy material-icons-outlined"
+                        matTooltip="{{ 'session.edit-session-name' | translate}}">edit
+              </mat-icon>
             </button>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
@@ -71,7 +74,8 @@
       </div>
       <mat-card-content *ngIf="room.description"
                         fxLayoutAlign="center">
-        <app-view-comment-data class="images" [currentData]="room.description"></app-view-comment-data>
+        <app-view-comment-data class="images"
+                               [currentData]="room.description"></app-view-comment-data>
       </mat-card-content>
       <div fxLayout="column"
            fxLayoutAlign="center"
@@ -99,7 +103,8 @@
                     [disableRipple]="true"
                     routerLink="/moderator/room/{{ room.shortId }}/moderator/comments"
                     aria-labelledby="gavel">
-              <mat-icon style="color: red" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
+              <mat-icon style="color: red"
+                        matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon material-icons-round"
                         [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
