@@ -21,13 +21,14 @@ import { Export } from '../../../models/export';
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
-  styleUrls: ['./room-list.component.scss']
+  styleUrls: ['./room-list.component.scss'],
 })
 export class RoomListComponent implements OnInit, OnDestroy {
   @Input() user: User;
   rooms: Room[] = [];
   roomsWithRole: RoomRoleMixin[];
   closedRooms: Room[];
+  moderationEnabled: boolean;
   isLoading = true;
   sub: Subscription;
   deviceType: string;
@@ -48,7 +49,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     public notificationService: NotificationService,
     private translateService: TranslateService,
     public dialog: MatDialog,
-    private bonusTokenService: BonusTokenService
+    private bonusTokenService: BonusTokenService,
   ) {
   }
 
@@ -58,6 +59,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
     this.deviceType = localStorage.getItem('deviceType');
+    this.moderationEnabled = localStorage.getItem('moderationEnabled') === 'true';
   }
 
   ngOnDestroy() {
@@ -112,7 +114,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   removeSession(room: RoomRoleMixin) {
     const dialogRef = this.dialog.open(RemoveFromHistoryComponent, {
-      width: '400px'
+      width: '400px',
     });
     dialogRef.componentInstance.roomName = room.name;
     dialogRef.componentInstance.role = room.role;
