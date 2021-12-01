@@ -20,7 +20,7 @@ mat-card-content > :first-child {
 
 .delete-own-comment {
   color: var(--on-surface) !important;
-  margin-top: -23px;
+  margin-top: -23px !important;
 }
 
 .voting-icon {
@@ -382,13 +382,11 @@ button:focus {
 
     > p {
       font-family: 'Roboto', sans-serif;
-      font-size: 150px;
+      font-size: 120px;
       padding: 0;
-      margin: 0;
       font-weight: bold;
       font-style: normal;
-      margin-top: 5px;
-      margin-right: 50px;
+      margin: 25px 75px 0 0;
       color: var(--on-surface);
       opacity: 0.1;
       float: right;
