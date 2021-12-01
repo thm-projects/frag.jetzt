@@ -11,12 +11,14 @@
         <mat-card-header fxLayoutAlign="center"
                          fxLayout="row">
           <mat-card-title fxLayoutAlign="center">
-            <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
+            <h2>&raquo;{{room.name}}&laquo;</h2>
             <button mat-icon-button
                     class="inline-icon-button"
                     (click)="editSessionName()"
                     aria-labelledby="edit_session_name">
-              <mat-icon class="material-icons-outlined" matTooltip="{{ 'session.edit-session-name' | translate}}">edit</mat-icon>
+              <mat-icon class="copy material-icons-outlined"
+                        matTooltip="{{ 'session.edit-session-name' | translate}}">edit
+              </mat-icon>
             </button>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
