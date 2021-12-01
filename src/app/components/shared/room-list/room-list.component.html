@@ -75,12 +75,12 @@
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId }}
             <mat-icon *ngIf="room.questionsBlocked"
-                      class="warn"
+                      class="warn material-icons-outlined"
                       [inline]="true">
               comments_disabled
             </mat-icon>
             <mat-icon *ngIf="moderationEnabled"
-                      class="warn"
+                      class="warn material-icons-outlined"
                       [inline]="true">
               gavel
             </mat-icon>
