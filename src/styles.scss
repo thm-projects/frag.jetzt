@@ -140,6 +140,15 @@ address {
   hyphens: auto !important;
 }
 
+@media only screen and (max-height: 667px) {
+  .mat-dialog-container {
+    max-height: 70vh !important;
+  }
+  .dialog-action-buttons {
+    margin: 10px 0 !important;
+  }
+}
+
 .mat-card {
   line-height: 1.5 !important;
   color: var(--on-surface) !important;
