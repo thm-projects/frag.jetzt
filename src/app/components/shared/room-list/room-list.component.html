@@ -76,12 +76,14 @@
             {{ room.shortId }}
             <mat-icon *ngIf="room.questionsBlocked"
                       class="warn material-icons-outlined"
-                      [inline]="true">
+                      [inline]="true"
+                      matTooltip="{{ 'header.questions-blocked' | translate}}">
               comments_disabled
             </mat-icon>
             <mat-icon *ngIf= "!room.directSend"
                       class="warn material-icons-round"
-                      [inline]="true">
+                      [inline]="true"
+                      matTooltip="{{ 'header.moderation-enabled' | translate}}">
               gavel
             </mat-icon>
           </td>
