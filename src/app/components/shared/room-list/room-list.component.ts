@@ -27,6 +27,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   @Input() user: User;
   rooms: Room[] = [];
   roomsWithRole: RoomRoleMixin[];
+  room: Room;
   closedRooms: Room[];
   moderationEnabled: boolean;
   isLoading = true;
@@ -59,7 +60,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
       this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
     this.deviceType = localStorage.getItem('deviceType');
-    this.moderationEnabled = localStorage.getItem('moderationEnabled') === 'true';
+    this.moderationEnabled = !this.room.directSend;
   }
 
   ngOnDestroy() {

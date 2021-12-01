@@ -79,8 +79,8 @@
                       [inline]="true">
               comments_disabled
             </mat-icon>
-            <mat-icon *ngIf="moderationEnabled"
-                      class="warn material-icons-outlined"
+            <mat-icon *ngIf= "!room.directSend"
+                      class="warn material-icons-round"
                       [inline]="true">
               gavel
             </mat-icon>
