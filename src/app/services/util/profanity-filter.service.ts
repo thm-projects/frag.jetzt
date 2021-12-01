@@ -88,7 +88,7 @@ export class ProfanityFilterService {
     let m: RegExpExecArray;
     let lastIndex = 0;
     while ((m = regex.exec(str)) !== null) {
-      result += str.substring(lastIndex, m.index) + '*'.repeat(regex.lastIndex - m.index);
+      result += str.substring(lastIndex, m.index) + '★'.repeat(regex.lastIndex - m.index);
       lastIndex = regex.lastIndex;
       censored = true;
       if (m.index === regex.lastIndex) {

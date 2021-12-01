@@ -43,9 +43,9 @@ button {
 
 
 h3 {
-  margin: 5% 0 5% 0;
+  margin: 5% 0 0 0;
   color: var(--on-surface) !important;
-  font-size: 16px !important;
+  font-size: 14px !important;
   font-weight: normal;
 }
 
@@ -79,7 +79,7 @@ mat-grid-list {
 
 mat-grid-tile {
   height: 100% !important;
-  padding: 10% 0 10% 0 !important;
+  padding: 15% 0 15% 0 !important;
 }
 
 #settings {
