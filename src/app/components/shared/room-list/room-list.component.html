@@ -1,73 +1,122 @@
-<div *ngIf="isLoading" fxLayout="column" fxLayoutAlign="center" fxFill>
-  <div fxLayout="row" fxLayoutAlign="center">
-    <app-mat-spinner-overlay diameter="80" strokeWidth="8"></app-mat-spinner-overlay>
+<div *ngIf="isLoading"
+     fxLayout="column"
+     fxLayoutAlign="center"
+     fxFill>
+  <div fxLayout="row"
+       fxLayoutAlign="center">
+    <app-mat-spinner-overlay diameter="80"
+                             strokeWidth="8"></app-mat-spinner-overlay>
   </div>
 </div>
 
 <div *ngIf="roomsWithRole">
 
-  <div *ngIf="tableDataSource.data.length === 0" aria-labelledby="emptySessionHistoryLabel">
+  <div *ngIf="tableDataSource.data.length === 0"
+       aria-labelledby="emptySessionHistoryLabel">
     <h3 class="noRoomHistory">{{ 'room-list.no-room-history' | translate }}</h3>
   </div>
 
   <div *ngIf="tableDataSource.data.length > 0">
 
-    <div class="fill-space" *ngIf="this.rooms && this.rooms.length <= 5"></div>
+    <div class="fill-space"
+         *ngIf="this.rooms && this.rooms.length <= 5"></div>
 
     <!-- filter input -->
-    <mat-form-field *ngIf="this.rooms && this.rooms.length > 5" class="filterWrapper">
-      <input appAccessibilityEscapedInput matInput
-             (keyup)="applyFilter($event.target.value)" class="filter"
+    <mat-form-field *ngIf="this.rooms && this.rooms.length > 5"
+                    class="filterWrapper">
+      <input appAccessibilityEscapedInput
+             matInput
+             (keyup)="applyFilter($event.target.value)"
+             class="filter"
              attr.aria-labelledby="sessionHistoryLabel{{ this.rooms.length === 1 ? '1' : '' }}"/>
       <mat-placeholder class="placeholder">{{ 'room-list.filter-message' | translate }}</mat-placeholder>
     </mat-form-field>
 
     <div class="table-container">
-      <table #roomTable mat-table [dataSource]="tableDataSource" class="list-entries">
+      <table #roomTable
+             mat-table
+             [dataSource]="tableDataSource"
+             class="list-entries">
 
         <!-- Room / Session name column -->
-        <ng-container matColumnDef="name" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 45%; padding-right: 35px">
+        <ng-container matColumnDef="name"
+                      aria-hidden="true">
+          <th mat-header-cell
+              *matHeaderCellDef
+              style="width: 45%; padding-right: 35px">
             {{ 'room-list.panel-session-name' | translate }}
           </th>
-          <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
+          <td mat-cell
+              class="clickable"
+              *matCellDef="let room"
+              (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}" matBadgePosition="before"
-                  matBadgeSize="small" matBadgeOverlap="false">
+            <span matBadge="{{room.commentCount > 0 ? room.commentCount : null}}"
+                  matBadgePosition="before"
+                  matBadgeSize="small"
+                  matBadgeOverlap="false">
               &raquo;{{room.name}}&laquo;
             </span>
           </td>
         </ng-container>
 
         <!-- Session ID column -->
-        <ng-container matColumnDef="shortId" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 40%">
+        <ng-container matColumnDef="shortId"
+                      aria-hidden="true">
+          <th mat-header-cell
+              *matHeaderCellDef
+              style="width: 40%">
             {{ 'room-list.panel-session-id' | translate }}
           </th>
-          <td mat-cell class="clickable" *matCellDef="let room" (click)="setCurrentRoom(room.shortId)"
+          <td mat-cell
+              class="clickable"
+              *matCellDef="let room"
+              (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
             {{ room.shortId }}
-            <mat-icon *ngIf="room.questionsBlocked" class="warn" [inline]="true">block</mat-icon>
+            <mat-icon *ngIf="room.questionsBlocked"
+                      class="warn material-icons-outlined"
+                      [inline]="true"
+                      matTooltip="{{ 'header.questions-blocked' | translate}}">
+              comments_disabled
+            </mat-icon>
+            <mat-icon *ngIf= "!room.directSend"
+                      class="warn material-icons-round"
+                      [inline]="true"
+                      matTooltip="{{ 'header.moderation-enabled' | translate}}">
+              gavel
+            </mat-icon>
           </td>
         </ng-container>
 
         <!-- Role column -->
-        <ng-container matColumnDef="role" aria-hidden="true">
-          <th mat-header-cell *matHeaderCellDef style="width: 15%">
+        <ng-container matColumnDef="role"
+                      aria-hidden="true">
+          <th mat-header-cell
+              *matHeaderCellDef
+              style="width: 15%">
             {{ 'room-list.panel-user-role' | translate }}
           </th>
-          <td mat-cell class="clickable" *matCellDef="let room" [ngSwitch]="room.role"
+          <td mat-cell
+              class="clickable"
+              *matCellDef="let room"
+              [ngSwitch]="room.role"
               (click)="setCurrentRoom(room.shortId)"
               routerLink="/{{ roleToString((room.role)) }}/room/{{ room.shortId }}">
-            <mat-icon class="material-icons-outlined" mat-list-icon *ngSwitchCase="creatorRole"
+            <mat-icon class="material-icons-outlined"
+                      mat-list-icon
+                      *ngSwitchCase="creatorRole"
                       title="{{ 'room-list.creator-role' | translate }}">
               mic_external_on
             </mat-icon>
-            <mat-icon mat-list-icon *ngSwitchCase="participantRole"
+            <mat-icon mat-list-icon
+                      *ngSwitchCase="participantRole"
                       title="{{ 'room-list.participant-role' | translate }}">
               group
             </mat-icon>
-            <mat-icon class="material-icons-round" mat-list-icon *ngSwitchCase="executiveModeratorRole"
+            <mat-icon class="material-icons-round"
+                      mat-list-icon
+                      *ngSwitchCase="executiveModeratorRole"
                       title="{{ 'room-list.executive-moderator-role' | translate }}">
               gavel
             </mat-icon>
@@ -76,21 +125,29 @@
 
         <!-- Join button column -->
         <ng-container matColumnDef="button">
-          <th mat-header-cell *matHeaderCellDef style="width: 5%; text-align: end">
+          <th mat-header-cell
+              *matHeaderCellDef
+              style="width: 5%; text-align: end">
             {{ 'room-list.panel-join-button' | translate }}
           </th>
-          <td mat-cell *matCellDef="let room" style="text-align: end; padding-right: 0"
+          <td mat-cell
+              *matCellDef="let room"
+              style="text-align: end; padding-right: 0"
               attr.aria-labelledby="empty">
-            <button mat-icon-button [matMenuTriggerFor]="moreActions">
+            <button mat-icon-button
+                    [matMenuTriggerFor]="moreActions">
               <mat-icon>more_vert</mat-icon>
             </button>
-            <mat-menu #moreActions="matMenu" xPosition="before">
-              <button mat-menu-item (click)="removeSession(room)">
+            <mat-menu #moreActions="matMenu"
+                      xPosition="before">
+              <button mat-menu-item
+                      (click)="removeSession(room)">
                 <mat-icon class="delete material-icons-outlined">delete</mat-icon>
                 <span class="delete-text"> {{ (room.role < 3 ? 'room-list.panel-remove-button' :
                   'room-list.delete-room') | translate}}</span>
               </button>
-              <button mat-menu-item (click)="exportCsv(room)">
+              <button mat-menu-item
+                      (click)="exportCsv(room)">
                 <mat-icon class="export material-icons-outlined">file_download</mat-icon>
                 <span class="delete-text">{{ 'room-list.export-comments' | translate }}</span>
               </button>
@@ -107,8 +164,10 @@
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row
+            *matRowDef="let row; columns: displayedColumns;"></tr>
 
       </table>
 
@@ -121,7 +180,7 @@
   <div id="emptySessionHistoryLabel">{{ 'room-list.no-room-history' | translate }}</div>
   <div id="sessionHistoryLabel">
     {{ 'room-list.session-history-label' | translate }}
-    {{ 'room-list.session-history' | translate:{ count: this.rooms.length } }}
+    {{ 'room-list.session-history' | translate:{count: this.rooms.length} }}
     {{ 'room-list.filter' | translate }}
   </div>
   <div id="sessionHistoryLabel1">
