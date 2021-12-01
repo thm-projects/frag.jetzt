@@ -140,7 +140,7 @@ address {
   hyphens: auto !important;
 }
 
-@media only screen and (max-height: 667px) {
+@media only screen and (max-height: 500px) {
   .mat-dialog-container {
     max-height: 70vh !important;
   }
