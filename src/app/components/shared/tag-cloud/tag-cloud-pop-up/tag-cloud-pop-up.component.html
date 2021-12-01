@@ -5,30 +5,35 @@
   <div>
     <div>
       <span>
-        <mat-icon matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
         <p>
           {{tagData && tagData.comments.length}}
         </p>
       </span>
       <span>
-        <mat-icon matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>
         <p>
           {{tagData && tagData.distinctUsers.size}}
         </p>
       </span>
-      <button *ngIf="userRole > 0 && isBlacklistActive" mat-button (click)="addBlacklistWord()">
-        <mat-icon class="material-icons-round" matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel</mat-icon>
+      <button *ngIf="userRole > 0 && isBlacklistActive"
+              mat-button
+              (click)="addBlacklistWord()">
+        <mat-icon class="material-icons-round"
+                  matTooltip="{{'tag-cloud.blacklist-topic' | translate}}">gavel
+        </mat-icon>
       </button>
     </div>
     <div>
       <span>
-        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
+        <mat-icon class="material-icons-outlined"
+                  matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
         <p>
           {{tagData && tagData.cachedUpVotes}}
         </p>
       </span>
       <span>
-        <mat-icon matTooltip="{{'tag-cloud.downvote-topic' | translate}}">thumb_down</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.downvote-topic' | translate}}">thumb_down</mat-icon>
         <p>
           {{tagData && tagData.cachedDownVotes}}
         </p>
@@ -36,13 +41,14 @@
     </div>
     <div>
       <span>
-        <mat-icon matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
         <p>
           {{timePeriodText}}
         </p>
       </span>
     </div>
-    <div class="replacementContainer" *ngIf="userRole > 0">
+    <div class="replacementContainer"
+         *ngIf="userRole > 0">
       <mat-form-field>
         <mat-label>{{'tag-cloud-popup.tag-correction-placeholder' | translate}}</mat-label>
         <input type="text"
@@ -53,13 +59,16 @@
                [formControl]="replacementInput"
                [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let data of spellingData" [value]="data">
+          <mat-option *ngFor="let data of spellingData"
+                      [value]="data">
             {{data}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       <br>
-      <button mat-flat-button class="replace-button" [disabled]="!isNewTagReady()"
+      <button mat-flat-button
+              class="replace-button"
+              [disabled]="!isNewTagReady()"
               (click)="updateTag()">{{"comment-page.send" | translate}}</button>
     </div>
     <div *ngIf="categories && categories.length">
