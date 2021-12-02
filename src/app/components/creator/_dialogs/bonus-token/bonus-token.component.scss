@@ -96,3 +96,14 @@ p {
     margin-top: 3px;
   }
 }
+
+.export-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  margin-top: 1rem;
+
+  .mat-icon {
+    font-size: 18px;
+    margin-top: 3px;
+  }
+}

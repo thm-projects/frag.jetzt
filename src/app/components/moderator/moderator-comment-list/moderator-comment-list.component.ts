@@ -18,7 +18,6 @@ import { AppComponent } from '../../../app.component';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
-import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { PageEvent } from '@angular/material/paginator';
@@ -30,6 +29,7 @@ import {
   SortTypeKey
 } from '../../shared/comment-list/comment-list.filter';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 
 @Component({
@@ -155,16 +155,17 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         });
     });
     nav('exportQuestions', () => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translationService,
-        'comment-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        this.filter.moderatorAccountIds,
-        this.user);
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        this.filter.moderatorAccountIds
+      ).subscribe(text => {
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {

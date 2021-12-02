@@ -1,5 +1,4 @@
-<div mat-dialog-content
-     xmlns="http://www.w3.org/1999/html">
+<div mat-dialog-content xmlns="http://www.w3.org/1999/html">
   <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
   <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
   <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{ room.shortId }}</h3>
@@ -19,42 +18,31 @@
         <mat-hint align="end"
                   class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
       </mat-form-field>
-      <button *ngIf="!valid"
-              (click)="navToCommentByValue()"
+      <button *ngIf="!valid" (click)="navToCommentByValue()"
               matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-              mat-stroked-button
-              disabled>
+              mat-stroked-button disabled>
         Go to Question
       </button>
-      <button *ngIf="valid"
-              (click)="navToCommentByValue()"
+      <button *ngIf="valid" (click)="navToCommentByValue()"
               matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-              mat-stroked-button
-              class="enabled">
+              mat-stroked-button class="enabled">
         Go to Question
       </button>
     </div>
     <mat-list>
       <mat-list-item *ngFor="let bonusToken of bonusTokens; let index = index"
                      [appScrollIntoView]="valueEqual(bonusToken.token)">
-        <p [ngClass]="{'selected': valueEqual(bonusToken.token)}"
-           tabindex="0">
+        <p [ngClass]="{'selected': valueEqual(bonusToken.token)}" tabindex="0">
           {{ bonusToken.token }}
         </p>
         <p>
           {{ bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
         </p>
-        <button [ngClass]="'navComment'"
-                mat-icon-button
-                (click)="navToComment(bonusToken.commentId)">
+        <button [ngClass]="'navComment'" mat-icon-button (click)="navToComment(bonusToken.commentId)">
           <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
         </button>
-        <button [ngClass]="'delComment'"
-                mat-icon-button
-                (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, index)">
-          <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}"
-                    class="delete-icon">close
-          </mat-icon>
+        <button [ngClass]="'delComment'" mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, index)">
+          <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}" class="delete-icon">close</mat-icon>
         </button>
       </mat-list-item>
     </mat-list>
@@ -63,19 +51,25 @@
     <p>{{'room-page.no-bonus' | translate }}
     </p>
   </div>
-  <div fxLayoutAlign="center center"
-       *ngIf="bonusTokens.length > 1">
-    <button mat-button
-            class="delete"
-            (click)="openDeleteAllBonusDialog()">
+  <div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
+    <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
       <mat-icon class="material-icons-outlined">delete</mat-icon>
       {{'room-page.delete-all-tokens' | translate}}
     </button>
   </div>
 </div>
 
-<ars-row ars-flex-box
-         class="action-button-container">
+<ars-row ars-flex-box>
+  <button
+    mat-flat-button
+    class="export-button"
+    (click)="export()">
+    <mat-icon>file_download</mat-icon>
+    {{ 'room-page.export-bonus-archive' | translate }}
+  </button>
+</ars-row>
+
+<ars-row ars-flex-box class="action-button-container">
   <ars-col>
     <button
       mat-flat-button
