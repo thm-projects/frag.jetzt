@@ -75,6 +75,10 @@ th, tr {
   overflow: auto;
 }
 
+::ng-deep .table-container .mat-sort-header-arrow {
+  color: unset;
+}
+
 .fill-space {
   height: 20px;
 }
