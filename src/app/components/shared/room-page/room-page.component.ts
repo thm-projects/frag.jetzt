@@ -17,7 +17,6 @@ import { User } from '../../../models/user';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDescriptionSettingsComponent } from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
-import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -33,6 +32,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
 import { SyncFence } from '../../../utils/SyncFence';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 @Component({
   selector: 'app-room-page',
@@ -178,17 +178,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   exportQuestions() {
     this.moderatorService.get(this.room.id).subscribe(mods => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translateService,
-        'comment-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        new Set<string>(mods.map(mod => mod.accountId)),
-        this.user
-      );
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        new Set<string>(mods.map(mod => mod.accountId))
+      ).subscribe(text => {
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
   }
 

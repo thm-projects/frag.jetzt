@@ -36,6 +36,16 @@ export class AppComponent implements OnInit {
     if (environment.name === 'prod') {
       this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
     }
+    if (!localStorage.getItem('currentLang')) {
+      let lang = this.translationService.getBrowserLang();
+      if (lang !== 'en' && lang !== 'de') {
+        lang = 'en';
+      }
+      this.translationService.setDefaultLang(lang);
+      localStorage.setItem('currentLang', lang);
+    } else {
+      this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
+    }
   }
 
   public static scrollTop() {
