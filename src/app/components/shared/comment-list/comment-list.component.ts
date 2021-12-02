@@ -37,6 +37,7 @@ import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl } from '@angular/forms';
+import { copyCSVString, exportQuestions, importQuestions } from '../../../utils/ImportExportMethods';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -203,16 +204,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
     });
     nav('exportQuestions', () => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translationService,
-        'comment-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        this.filter.moderatorAccountIds,
-        this.user);
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        this.filter.moderatorAccountIds
+      ).subscribe(text => {
+          copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
@@ -345,6 +347,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   refreshFiltering(): void {
     this._allQuestionNumberOptions = this.comments.map(c => String(c.number));
+    this._allQuestionNumberOptions.sort();
+    this._allQuestionNumberOptions.reverse();
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();

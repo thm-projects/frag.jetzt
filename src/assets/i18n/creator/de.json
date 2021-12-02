@@ -1,4 +1,16 @@
 {
+  "bonus-archive-export": {
+    "no-data": "Es gibt keine Bonus-Tokens.",
+    "empty": "",
+    "date": "Bonus-Archiv",
+    "name": "Veranstaltungsname",
+    "code": "Raum-Code",
+    "entry-token": "Bonus-Token",
+    "entry-timestamp": "Token-Zeitstempel",
+    "entry-question": "Frage",
+    "entry-answer": "Antwort",
+    "file-name": "Bonus-Archiv \"{{roomName}}\" {{date}}.csv"
+  },
   "comment-list": {
     "a11y-access_time": "Sortiert Fragen nach der Uhrzeit",
     "a11y-add": "Option eine Frage zu stellen",
@@ -356,6 +368,7 @@
     "description": "Begrüßungstext",
     "tab1": "Text",
     "email-error": "E-Mail-Adresse ist ungültig.",
+    "export-bonus-archive": "Exportieren",
     "export-comments": "Fragen speichern",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "general": "Sitzung",

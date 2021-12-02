@@ -1,4 +1,16 @@
 {
+  "bonus-archive-export": {
+    "no-data": "There are no bonus tokens.",
+    "empty": "",
+    "date": "Bonus archive",
+    "name": "Meeting room",
+    "code": "Key code",
+    "entry-token": "Bonus token",
+    "entry-timestamp": "Bonus date",
+    "entry-question": "Question text",
+    "entry-answer": "Answer text",
+    "file-name": "Bonus archive \"{{roomName}}\" {{date}}.csv"
+  },
   "comment-list": {
     "a11y-access_time": "Sorts questions by time",
     "a11y-add": "Option to ask a question or to write a message to the audience",
@@ -357,6 +369,7 @@
     "description": "Welcome text",
     "tab1": "Text",
     "email-error": "E-Mail is invalid.",
+    "export-bonus-archive": "Export",
     "export-comments": "Save questions",
     "no-comments": "There are no questions yet.",
     "general": "Session",

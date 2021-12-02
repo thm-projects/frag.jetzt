@@ -12,6 +12,8 @@ import { Subject, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
+import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
+import { CommentService } from '../../../../services/http/comment.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -32,6 +34,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
               public dialog: MatDialog,
               protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+              private commentService: CommentService,
               private translationService: TranslateService,
               private notificationService: NotificationService) {
   }
@@ -151,6 +154,19 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       autoFocus: false
     });
     ref.componentInstance.translateKey = 'explanation.bonus-archive';
+  }
+
+  export() {
+    exportBonusArchive(this.translationService,
+      this.commentService,
+      this.notificationService,
+      this.bonusTokenService,
+      this.room).subscribe(text => {
+        this.translationService.get('bonus-archive-export.file-name', {
+          roomName: this.room.name,
+          date: text[1]
+        }).subscribe(trans => copyCSVString(text[0], trans));
+    });
   }
 
   validateTokenInput(input: any) {

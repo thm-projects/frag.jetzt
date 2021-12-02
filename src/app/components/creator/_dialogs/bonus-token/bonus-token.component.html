@@ -59,6 +59,16 @@
   </div>
 </div>
 
+<ars-row ars-flex-box>
+  <button
+    mat-flat-button
+    class="export-button"
+    (click)="export()">
+    <mat-icon>file_download</mat-icon>
+    {{ 'room-page.export-bonus-archive' | translate }}
+  </button>
+</ars-row>
+
 <ars-row ars-flex-box class="action-button-container">
   <ars-col>
     <button
