@@ -1,3 +1,8 @@
+h3, p {
+  font-size: 14px !important;
+  font-weight: normal !important;
+}
+
 p {
   color: var(--on-surface);
   margin-right: 30px;
@@ -50,7 +55,7 @@ p {
   display: flex;
   justify-content:center;
   align-items: center;
-} 
+}
 
 .selected {
   color: var(--red);
