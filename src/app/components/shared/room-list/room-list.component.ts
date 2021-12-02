@@ -17,6 +17,7 @@ import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remo
 import { MatTableDataSource } from '@angular/material/table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
+import { Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-room-list',
@@ -27,9 +28,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   @Input() user: User;
   rooms: Room[] = [];
   roomsWithRole: RoomRoleMixin[];
-  room: Room;
   closedRooms: Room[];
-  moderationEnabled: boolean;
   isLoading = true;
   sub: Subscription;
   deviceType: string;
@@ -40,6 +39,11 @@ export class RoomListComponent implements OnInit, OnDestroy {
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
   executiveModeratorRole = UserRole.EXECUTIVE_MODERATOR;
+
+  currentSort: Sort = {
+    direction: 'asc',
+    active: 'name'
+  };
 
   constructor(
     private roomService: RoomService,
@@ -60,7 +64,6 @@ export class RoomListComponent implements OnInit, OnDestroy {
       this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
     this.deviceType = localStorage.getItem('deviceType');
-    this.moderationEnabled = !this.room.directSend;
   }
 
   ngOnDestroy() {
@@ -78,7 +81,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
     this.rooms = this.rooms.concat(rooms);
     this.closedRooms = this.rooms.filter(room => room.closed);
     this.roomsWithRole = this.rooms.map(room => {
-      const roomWithRole: RoomRoleMixin = <RoomRoleMixin>room;
+      const roomWithRole: RoomRoleMixin = room as RoomRoleMixin;
       if (this.authenticationService.hasAccess(room.shortId, UserRole.CREATOR)) {
         roomWithRole.role = UserRole.CREATOR;
       } else {
@@ -94,7 +97,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
         });
       }
       return roomWithRole;
-    }).sort((a, b) => 0 - (a.name.toLowerCase() < b.name.toLowerCase() ? 1 : -1));
+    });
     this.isLoading = false;
     for (const room of this.roomsWithRole) {
       this.commentService.countByRoomId(room.id, true).subscribe(count => {
@@ -166,7 +169,31 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   updateTable(): void {
-    this.tableDataSource = new MatTableDataSource(this.roomsWithRole);
+    const data = [...this.roomsWithRole];
+    if (this.currentSort?.direction) {
+      switch (this.currentSort.active) {
+        case 'name':
+          data.sort((a, b) =>
+            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+          break;
+        case 'shortId':
+          data.sort((a, b) =>
+            a.shortId.localeCompare(b.shortId, undefined, { sensitivity: 'base' }));
+          break;
+        case 'role':
+          data.sort((a, b) => a.role - b.role);
+          break;
+      }
+      if(this.currentSort.direction === 'desc'){
+        data.reverse();
+      }
+    }
+    this.tableDataSource = new MatTableDataSource(data);
+  }
+
+  sortData(sort: Sort): void {
+    this.currentSort = sort;
+    this.updateTable();
   }
 
   applyFilter(filterValue: string): void {
@@ -181,10 +208,10 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.commentService,
         'comment-list',
         this.user,
-        this.room,
+        room,
         new Set<string>(mods.map(mod => mod.accountId))
       ).subscribe(text => {
-        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+        copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
       });
     });
   }

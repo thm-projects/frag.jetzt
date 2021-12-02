@@ -38,6 +38,37 @@ export class CreateCommentKeywords {
       .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
   }
 
+  static transformURLtoQuill(data: string): string {
+    const urlRegex = /(www\.|https?:\/\/)\S+/gi;
+    let m;
+    const result = JSON.parse(data).reduce((acc, k) => {
+      let prevObjData;
+      if (typeof k !== 'string') {
+        if (!k.insert || k.attributes?.link) {
+          acc.push(k);
+          return acc;
+        }
+        prevObjData = { ...k };
+      }
+      const str = prevObjData ? k.insert : k;
+      let lastIndex = 0;
+      while ((m = urlRegex.exec(str)) !== null) {
+        if (m.index > lastIndex) {
+          const substring = str.substring(lastIndex, m.index);
+          acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+        }
+        lastIndex = m.index + m[0].length;
+        acc.push({ attributes: { link: m[0] }, insert: m[0] });
+      }
+      if (lastIndex < str.length) {
+        const substring = str.substring(lastIndex);
+        acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+      }
+      return acc;
+    }, []);
+    return JSON.stringify(result);
+  }
+
   public static generateDeeplDelta(deepl: DeepLService, body: string, targetLang: TargetLang,
                                    formality = FormalityType.less): Observable<[string, string]> {
     const delta = ViewCommentDataComponent.getDeltaFromData(body);

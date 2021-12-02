@@ -19,9 +19,11 @@ export class ProfanityFilterService {
     const badDE = BadWords['de'];
     badDE.splice(badDE.indexOf('ische'), 1);
     const badEN = BadWords['en'];
+    const badFr = BadWords['fr'];
+    badFr.splice(badFr.indexOf('bitte'), 1);
     this.profanityWords = badEN
       .concat(badDE)
-      .concat(BadWords['fr'])
+      .concat(badFr)
       .concat(BadWords['ar'])
       .concat(BadWords['ru'])
       .concat(BadWords['es'])
