@@ -393,7 +393,7 @@
     "reallyContent": "Willst du die Frage ",
     "reallySession": "Willst du den Raum ",
     "room-not-found": "Der Raum wurde nicht gefunden (",
-    "session-id": "Raum-Code",
+    "session-id": "Code",
     "session-id-copied": "Direktlink wurde in die Zwischenablage kopiert.",
     "session-settings": "Sitzungsverwaltung",
     "session-question-board": "Zur öffentlichen Fragenliste",
@@ -543,8 +543,8 @@
     "topic-requirement-begin-datetime": "Beginn der Zeitspanne",
     "topic-requirement-end-datetime": "Ende der Zeitspanne",
     "keywords": "Stichwörter",
-    "blacklist-is-active": "Die Blacklist wird verborgen",
-    "blacklist-is-not-active": "Die Blacklist wird nicht verborgen",
+    "blacklist-is-active": "Du hast die folgenden Einträge aus der Themenwolke verbannt:",
+    "blacklist-is-not-active": "Die Blacklist der Themenwolke ist deaktiviert.",
     "topic-requirement-reset": "Zurücksetzen"
   },
   "topic-cloud-confirm-dialog": {
