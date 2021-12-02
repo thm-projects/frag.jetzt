@@ -34,6 +34,8 @@
 
     <div class="table-container">
       <table #roomTable
+             matSort
+             (matSortChange)="sortData($event)"
              mat-table
              [dataSource]="tableDataSource"
              class="list-entries">
@@ -42,6 +44,8 @@
         <ng-container matColumnDef="name"
                       aria-hidden="true">
           <th mat-header-cell
+              mat-sort-header
+              sortActionDescription="Sort by name"
               *matHeaderCellDef
               style="width: 45%; padding-right: 35px">
             {{ 'room-list.panel-session-name' | translate }}
@@ -64,6 +68,8 @@
         <ng-container matColumnDef="shortId"
                       aria-hidden="true">
           <th mat-header-cell
+              mat-sort-header
+              sortActionDescription="Sort by shortId"
               *matHeaderCellDef
               style="width: 40%">
             {{ 'room-list.panel-session-id' | translate }}
@@ -93,6 +99,8 @@
         <ng-container matColumnDef="role"
                       aria-hidden="true">
           <th mat-header-cell
+              mat-sort-header
+              sortActionDescription="Sort by role"
               *matHeaderCellDef
               style="width: 15%">
             {{ 'room-list.panel-user-role' | translate }}

@@ -21,7 +21,6 @@ import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
-import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
@@ -37,7 +36,7 @@ import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { FormControl } from '@angular/forms';
-import { copyCSVString, exportQuestions, importQuestions } from '../../../utils/ImportExportMethods';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -213,7 +212,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.room,
         this.filter.moderatorAccountIds
       ).subscribe(text => {
-          copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
       });
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
@@ -346,9 +345,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   refreshFiltering(): void {
-    this._allQuestionNumberOptions = this.comments.map(c => String(c.number));
-    this._allQuestionNumberOptions.sort();
-    this._allQuestionNumberOptions.reverse();
+    this._allQuestionNumberOptions = this.comments.map(c => c.number)
+      .sort((a, b) => b - a).map(c => String(c));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();

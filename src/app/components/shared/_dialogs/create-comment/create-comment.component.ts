@@ -51,27 +51,27 @@ export class CreateCommentComponent implements OnInit {
   }
 
   forwardComment(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
-    this.createComment(body, text, tag, name, !verifiedWithoutDeepl);
+    this.createComment(body, tag, name, !verifiedWithoutDeepl);
   }
 
   closeDialog(body: string, text: string, tag: string, name: string) {
-    this.createComment(body, text, tag, name);
+    this.createComment(body, tag, name);
   }
 
-  createComment(body: string, text: string, tag: string, name: string, forward = false) {
+  createComment(body: string, tag: string, name: string, forward = false) {
     const comment = new Comment();
     comment.roomId = localStorage.getItem(`roomId`);
-    comment.body = body;
+    comment.body = CreateCommentKeywords.transformURLtoQuill(body);
     comment.creatorId = this.user.id;
     comment.createdFromLecturer = this.userRole > 0;
     comment.tag = tag;
     comment.questionerName = name;
     comment.brainstormingQuestion = !!this.brainstormingData;
     this.isSendingToSpacy = true;
-    this.openSpacyDialog(comment, text, forward, comment.brainstormingQuestion);
+    this.openSpacyDialog(comment, forward, comment.brainstormingQuestion);
   }
 
-  openSpacyDialog(comment: Comment, rawText: string, forward: boolean, brainstorming: boolean): void {
+  openSpacyDialog(comment: Comment, forward: boolean, brainstorming: boolean): void {
     CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deeplService,
       this.spacyService, comment.body, brainstorming, forward, this.commentComponent.selectedLang)
       .subscribe(result => {
