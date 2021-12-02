@@ -1,5 +1,5 @@
-<app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
-<div class="container">
+<app-mat-spinner-overlay *ngIf="isLoading || isURLLoading" overlay="true"></app-mat-spinner-overlay>
+<div *ngIf="!isURLLoading" class="container">
   <iframe class="responsive-iframe"
           title="antworte.jetzt"
           [src]="urlSafe"

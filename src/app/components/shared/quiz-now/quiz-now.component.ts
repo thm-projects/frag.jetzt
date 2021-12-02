@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class QuizNowComponent implements OnInit, OnDestroy {
   urlSafe: SafeResourceUrl;
   isLoading = true;
+  isURLLoading = true;
   shortId: string;
   roleString: string;
   private _headerSubscription;
@@ -49,6 +50,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
     xhr.onreadystatechange = () => {
       if (xhr.responseURL) {
         this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(xhr.responseURL);
+        this.isURLLoading = false;
         xhr.abort();
       }
     };

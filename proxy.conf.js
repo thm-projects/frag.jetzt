@@ -1,6 +1,6 @@
 const PROXY_CONFIG = {
   "/antworte-jetzt": {
-    "target": "https://antworte.jetzt",
+    "target": "https://staging.antworte.jetzt",
     "secure": true,
     "changeOrigin": true,
     "pathRewrite": {
@@ -8,9 +8,9 @@ const PROXY_CONFIG = {
     },
     "logLevel": "debug",
     "onProxyRes": function (proxyRes) {
-      proxyRes.statusCode = 307;
-      proxyRes.statusMessage = 'Temporary Redirect';
-      proxyRes.headers['Location'] = 'https://antworte.jetzt';
+      proxyRes.statusCode = 301;
+      proxyRes.statusMessage = 'Moved Permanently';
+      proxyRes.headers['Location'] = 'https://staging.antworte.jetzt';
     }
   },
   "/deepl": {
