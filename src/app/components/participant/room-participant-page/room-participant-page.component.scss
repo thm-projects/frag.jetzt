@@ -3,7 +3,7 @@
 mat-card {
   width: 100%;
   max-width: 800px;
-  min-height: 350px;
+  min-height: auto;
   padding: 0 10% 10% 15%;
   background-color: var(--surface) !important;
 }
