@@ -16,7 +16,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { Export } from '../../../models/export';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 @Component({
   selector: 'app-room-list',
@@ -175,16 +175,17 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   exportCsv(room: Room) {
     this.moderatorService.get(room.id).subscribe(mods => {
-      const exp: Export = new Export(
-        room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translateService,
-        'room-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        new Set<string>(mods.map(mod => mod.accountId)),
-        this.user);
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        new Set<string>(mods.map(mod => mod.accountId))
+      ).subscribe(text => {
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
   }
 }
