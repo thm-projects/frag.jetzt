@@ -32,14 +32,15 @@
     <mat-list>
       <mat-list-item *ngFor="let bonusToken of bonusTokens; let index = index"
                      [appScrollIntoView]="valueEqual(bonusToken.token)">
+
+        <p>
+          #{{ bonusToken.questionNumber}}
+        </p>
         <p [ngClass]="{'selected': valueEqual(bonusToken.token)}" tabindex="0">
           {{ bonusToken.token }}
         </p>
         <p>
           {{ bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
-        </p>
-        <p>
-          {{ bonusToken.questionNumber}}
         </p>
         <button [ngClass]="'navComment'" mat-icon-button (click)="navToComment(bonusToken.commentId)">
           <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
