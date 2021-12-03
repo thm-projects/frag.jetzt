@@ -1,3 +1,14 @@
+<div *ngIf="isLoading"
+     fxLayout="column"
+     fxLayoutAlign="center"
+     fxFill>
+  <div fxLayout="row"
+       fxLayoutAlign="center">
+    <app-mat-spinner-overlay diameter="80"
+                             strokeWidth="8"></app-mat-spinner-overlay>
+  </div>
+</div>
+
 <div mat-dialog-content xmlns="http://www.w3.org/1999/html">
   <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
   <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
@@ -29,27 +40,87 @@
         Go to Question
       </button>
     </div>
-    <mat-list>
-      <mat-list-item *ngFor="let bonusToken of bonusTokens; let index = index"
-                     [appScrollIntoView]="valueEqual(bonusToken.token)">
 
-        <p>
-          #{{ bonusToken.questionNumber}}
-        </p>
-        <p [ngClass]="{'selected': valueEqual(bonusToken.token)}" tabindex="0">
-          {{ bonusToken.token }}
-        </p>
-        <p>
-          {{ bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
-        </p>
-        <button [ngClass]="'navComment'" mat-icon-button (click)="navToComment(bonusToken.commentId)">
-          <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
-        </button>
-        <button [ngClass]="'delComment'" mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, index)">
-          <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}" class="delete-icon">close</mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-list>
+
+  <div >
+    <div class="table-container">
+      <table #roomTable
+             matSort
+             (matSortChange)="sortData($event)"
+             mat-table
+             [dataSource]="tableDataSource"
+             class="list-entries">
+
+             <!-- number -->
+            <ng-container matColumnDef="questionNumber"
+             aria-hidden="true">
+              <th mat-header-cell
+                mat-sort-header
+                sortActionDescription="Sort by questionNumber"
+                *matHeaderCellDef
+                style="width: 35%">
+                {{ 'token-validator.questionNumber' | translate }}
+              </th>
+              <td mat-cell
+                  class="clickable"
+                  *matCellDef="let bonusToken"
+                  (click)="navToCommentByValue()">
+                <span matBadge
+                  matBadgePosition="before"
+                  matBadgeSize="small"
+                  matBadgeOverlap="false">
+                  &raquo;{{bonusTokens.questionNumber}}&laquo;
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- token -->
+            <ng-container matColumnDef="token"
+                          aria-hidden="true">
+              <th mat-header-cell
+                  mat-sort-header
+                  sortActionDescription="Sort by token"
+                  *matHeaderCellDef
+                  style="width: 35%">
+                {{ 'token-validator.token' | translate }}
+              </th>
+              <td mat-cell
+                  class="clickable"
+                  *matCellDef="let bonusToken"
+                  (click)="navToCommentByValue()">
+                {{bonusToken.token}}
+              </td>
+            </ng-container>
+
+
+            <!-- timestamp -->
+            <ng-container matColumnDef="timestamp"
+            aria-hidden="true">
+              <th mat-header-cell
+                  mat-sort-header
+                  sortActionDescription="Sort by timestamp"
+                  *matHeaderCellDef
+                  style="width: 25%">
+                {{ 'token-validator.timestamp' | translate }}
+              </th>
+              <td mat-cell
+                  class="clickable"
+                  *matCellDef="let bonusToken"
+                  (click)="navToCommentByValue()">
+                {{bonusToken.timestamp}}
+              </td>
+            </ng-container>
+
+
+        <tr mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row
+          *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      </table>
+    </div>
+  </div>
+
   </div>
   <div *ngIf="bonusTokens.length === 0">
     <p>{{'room-page.no-bonus' | translate }}
