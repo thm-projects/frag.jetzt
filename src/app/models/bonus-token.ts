@@ -5,13 +5,15 @@ export class BonusToken {
   userId: string;
   accountId: string;
   token: string;
+  questionNumber: number;
 
   constructor(
     roomId: string,
     commentId: string,
     timestamp: Date,
     userId: string,
-    token: string
+    token: string,
+    questionNumber: number
   ) {
     this.roomId = roomId;
     this.commentId = commentId;
@@ -19,5 +21,6 @@ export class BonusToken {
     this.userId = userId;
     this.token = token;
     this.accountId = this.userId;
+    this.questionNumber = questionNumber;
   }
 }

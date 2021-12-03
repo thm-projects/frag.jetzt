@@ -26,6 +26,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   room: Room;
   bonusTokens: BonusToken[] = [];
   lang: string;
+  commentId: string;
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 500;
