@@ -7,5 +7,13 @@
     "lastPageLabel": "Letzte",
     "rangePageLabel1": "null",
     "rangePageLabel2": "%start - %end von %length"
+  },
+  "date": {
+    "now": "kürzlich",
+    "minute": "vor % Minute*n",
+    "hour": "vor % Stunde*n",
+    "week": "vor % Woche*n",
+    "month": "vor % Monat*en",
+    "year": "vor % Jahr*en"
   }
 }

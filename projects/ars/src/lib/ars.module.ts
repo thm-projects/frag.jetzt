@@ -33,6 +33,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ArsMatPaginatorComponent } from './components/content/paginator/ars-mat-paginator/ars-mat-paginator.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { ArsDateResolveComponent } from './components/content/ars-date-resolve/ars-date-resolve.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +59,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatChipListComponent,
     MatDatePickerComponent,
     MatMenuItemComponent,
-    ArsMatPaginatorComponent
+    ArsMatPaginatorComponent,
+    ArsDateResolveComponent
   ],
     imports:[
         MatIconModule,

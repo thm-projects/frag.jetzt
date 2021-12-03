@@ -7,6 +7,14 @@
     "lastPageLabel": "Last",
     "rangePageLabel1": "null",
     "rangePageLabel2": "%start - %end of %length"
+  },
+  "date": {
+    "now": "now",
+    "minute": "% minute*s ago",
+    "hour": "% hour*s ago",
+    "week": "% week*s ago",
+    "month": "% month*s ago",
+    "year": "% year*s ago"
   }
 }
 
