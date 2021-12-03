@@ -31,7 +31,7 @@
       </div>
 
       <span *ngIf="isInRouteWithRoles && user && user.role !== userRole">
-        <mat-icon style="color: red; margin-top: 8px"
+        <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
                   [matTooltip]="'header.not-in-own-view' | translate">
           group
         </mat-icon>
@@ -282,7 +282,7 @@
               tabindex="0">
         <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role" class="material-icons-outlined">mic_external_on</mat-icon>
         <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role" class="material-icons-round">gavel</mat-icon>
-        <mat-icon *ngIf="userRole === user.role">group</mat-icon>
+        <mat-icon *ngIf="userRole === user.role" class="material-icons-outlined">group</mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
       </button>

@@ -145,13 +145,13 @@
 </div>
 <ars-mat-paginator
   *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
-  [pageSize]="5"
+  [pageSize]="this.pageSize"
   (page)="handlePageEvent($event)"
   [showFirstLastButtons]="showFirstLastButtons"
   [pageSizeOptions]="pageSizeOptions"
   [pageIndex]="pageIndex"
   [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
-<ars-row [height]="64">
+<ars-row [height]="64" *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0">
 </ars-row>
 
 <div *ngIf="comments && (commentsFilteredByTime.length < 1 && filter.period === 'time-all' || comments.length === 0) && !isLoading"
