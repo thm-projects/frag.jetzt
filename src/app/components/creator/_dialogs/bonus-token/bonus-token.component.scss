@@ -8,20 +8,9 @@ p {
   margin-right: 15px;
 }
 
-.delete-icon {
-  color: var(--red);
-}
 
 .delete {
-  background-color: var(--red);
-  color: var(--white);
-}
-
-.tokens {
-  padding-left: 3%;
-  &:nth-child(even) {
-    background-color: var(--alt-dialog);
-  }
+  color: var(--red);
 }
 
 .mat-stroked-button {

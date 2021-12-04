@@ -32,7 +32,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   isLoading = true;
 
   tableDataSource: MatTableDataSource<BonusToken>;
-  displayedColumns: string[] = ['questionNumber', 'token'];
+  displayedColumns: string[] = ['questionNumber', 'token', 'button'];
 
   currentSort: Sort = {
     direction: 'asc',
