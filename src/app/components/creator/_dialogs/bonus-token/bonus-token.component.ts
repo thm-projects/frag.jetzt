@@ -32,7 +32,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   isLoading = true;
 
   tableDataSource: MatTableDataSource<BonusToken>;
-  displayedColumns: string[] = ['questionNumber', 'token', 'timestamp'];
+  displayedColumns: string[] = ['questionNumber', 'token'];
 
   currentSort: Sort = {
     direction: 'asc',
@@ -53,7 +53,11 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.updateTokens();
+    this.getTokens();
+  }
+
+  getTokens(): void {
+    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens))
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
@@ -151,11 +155,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateTokens(): void {
-    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
-      list.sort((a, b) => (a.token > b.token) ? 1 : -1);
-      this.bonusTokens = list;
-    });
+  updateTokens(bonusTokens: BonusToken[]): void {
+    this.bonusTokens = this.bonusTokens.concat(bonusTokens);
     this.lang = localStorage.getItem('currentLang');
     this.subscription = this.modelChanged
       .pipe(
@@ -165,6 +166,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         this.inputToken();
       });
     this.isLoading = false;
+    this.updateTable();
   }
 
   updateTable(): void {
@@ -179,9 +181,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
             a.token.localeCompare(b.token, undefined, { sensitivity: 'base' }));
           break;
         case 'timestamp': 
-          //TODO: throws error on null possibly
-          data.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
-          break
+          data.sort((a, b) => 
+            +a.timestamp - +b.timestamp
+          );
+          break; 
       }
       if(this.currentSort.direction === 'desc'){
         data.reverse();
@@ -197,6 +200,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   applyFilter(filterValue: string): void {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  timestampTimeConversion(date: Date): number {
+    return date.getTime();
   }
 
   openHelp() {

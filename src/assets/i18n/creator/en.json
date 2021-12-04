@@ -634,7 +634,8 @@
     "cant-find-comment": "There is no question with this token.",
     "questionNumber": "Number", 
     "token": "Token", 
-    "timestamp": "Date"
+    "timestamp": "Date", 
+    "token-filter": "token-filter"
   },
   "worker-dialog": {
     "running": "Running",
