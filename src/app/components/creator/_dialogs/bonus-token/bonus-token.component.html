@@ -22,7 +22,6 @@
               mat-table
               [dataSource]="tableDataSource"
               class="list-entries">
-
               <!-- number -->
               <ng-container matColumnDef="questionNumber"
               aria-hidden="true">
@@ -40,7 +39,6 @@
                   {{bonusToken.questionNumber}}
                 </td>
               </ng-container>
-
               <!-- token -->
               <ng-container matColumnDef="token"
                             aria-hidden="true">
@@ -54,71 +52,63 @@
                 <td mat-cell
                     class="clickable"
                     *matCellDef="let bonusToken"
-                    (click)="navToComment(bonusToken.commentId)">
+                    (click)="navToComment(bonusToken.commentId)"
+                    [appScrollIntoView]="valueEqual(bonusToken.token)"
+                    [ngClass]="{'selected': valueEqual(bonusToken.token)}">
                   {{bonusToken.token}}
                 </td>
               </ng-container>
-
-
           <tr mat-header-row
             *matHeaderRowDef="displayedColumns; sticky: true"></tr>
           <tr mat-row
             *matRowDef="let row; columns: displayedColumns;"></tr>
-
         </table>
       </div>
-
-
-      <button *ngIf="!valid" (click)="navToCommentByValue()"
-            matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-            mat-stroked-button disabled>
-      Go to Question
-      </button>
-      <button *ngIf="valid" (click)="navToCommentByValue()"
-            matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-            mat-stroked-button class="enabled">
-      Go to Question
-      </button>
-
-        
     </div>
   </div>
-  <mat-form-field>
-    <input appAccessibilityEscapedInput
-            (keyup)="inputChanged($event)"
-            (input)="inputChanged($event)"
-            matInput
-            class="input-block"
-            type="text"
-            maxlength="14"
-            name="roomName"
-            aria-labelledby="room-name-input"/>
-    <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
-    <mat-hint align="end"
-              class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
-  </mat-form-field>
+  <!--token input field-->
+  <ars-row ars-flex-box>
+    <mat-form-field>
+      <input appAccessibilityEscapedInput
+              (keyup)="inputChanged($event)"
+              (input)="inputChanged($event)"
+              matInput
+              class="input-block"
+              type="text"
+              maxlength="14"
+              name="roomName"
+              aria-labelledby="room-name-input"/>
+      <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
+      <mat-hint align="end"
+                class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
+    </mat-form-field>
+  </ars-row>
+
+  <!-- token delete-->
+  <ars-row ars-flex-box>
+    <button mat-flat-button class="delete" (click)="openDeleteAllBonusDialog()">
+      <mat-icon class="material-icons-outlined">delete</mat-icon>
+      {{'room-page.delete-all-tokens' | translate}}
+    </button>
+  </ars-row>
+  
+  <!-- export -->
+  <ars-row ars-flex-box>
+    <button
+      mat-flat-button
+      class="export-button"
+      (click)="export()">
+      <mat-icon>file_download</mat-icon>
+      {{ 'room-page.export-bonus-archive' | translate }}
+    </button>
+  </ars-row>
 </div>
 
 <div *ngIf="bonusTokens.length === 0">
   <p>{{'room-page.no-bonus' | translate }}
   </p>
 </div>
-<div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
-  <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
-    <mat-icon class="material-icons-outlined">delete</mat-icon>
-    {{'room-page.delete-all-tokens' | translate}}
-  </button>
-</div>
 
-<ars-row ars-flex-box>
-  <button
-    mat-flat-button
-    class="export-button"
-    (click)="export()">
-    <mat-icon>file_download</mat-icon>
-    {{ 'room-page.export-bonus-archive' | translate }}
-  </button>
-</ars-row>
 
 <ars-row ars-flex-box class="action-button-container">
   <ars-col>
