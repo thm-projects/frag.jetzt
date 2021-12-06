@@ -42,6 +42,7 @@ import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/wo
 import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
 import { BrainstormingSettings } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
 
 class CustomPosition implements Position {
   left: number;
@@ -441,6 +442,23 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
+        icon: 'screenshot',
+        class: 'material-icons-outlined',
+        text: 'header.tag-cloud-screenshot',
+        callback: () => {
+          if (!this.child?.cloudDataHtmlElements?.length) {
+            this.translateService.get('tag-cloud.tag-cloud-no-elements')
+              .subscribe(msg => this.notificationService.show(msg));
+            return;
+          }
+          this.translateService.get('tag-cloud.tag-cloud-print-title', { roomName: this.room.name })
+            .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
+              msg, this._currentSettings.backgroundColor));
+        },
+        condition: () => true
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
         icon: 'cloud_queue',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-config',
@@ -498,7 +516,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         const transformMatch = elem.style.transform.match(transformationRotationKiller);
         elem.dataset['tempRotation'] = transformMatch ? transformMatch[1] : '0deg';
         elem.style.transform = elem.style.transform.replace(transformationRotationKiller, '').trim();
-        this.popup.enter(elem, dataElement.realText, dataElement.tagData,
+        this.popup.enter(elem, dataElement.realText, this.brainstormingActive, dataElement.tagData,
           (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
           this.room && this.room.blacklistIsActive);
       });

@@ -28,6 +28,8 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   @Input() room: Room;
   replacementInput = new FormControl();
   tag: string;
+  previousTag: string;
+  elem: HTMLElement;
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
@@ -74,11 +76,15 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   leave(): void {
+    if (this.elem && this.previousTag) {
+      this.elem.innerText = this.previousTag;
+    }
     clearTimeout(this._popupHoverTimer);
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
+  enter(elem: HTMLElement, tag: string, showReal: boolean,
+        tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
     if (!elem) {
       return;
     }
@@ -103,6 +109,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.tag = tag;
+      this.previousTag = showReal && elem.innerText;
+      this.elem = showReal && elem;
+      if (showReal) {
+        elem.innerText = this.tag;
+      }
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
