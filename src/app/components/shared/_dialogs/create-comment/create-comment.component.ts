@@ -61,7 +61,7 @@ export class CreateCommentComponent implements OnInit {
   createComment(body: string, tag: string, name: string, forward = false) {
     const comment = new Comment();
     comment.roomId = localStorage.getItem(`roomId`);
-    comment.body = CreateCommentKeywords.transformURLtoQuill(body);
+    comment.body = CreateCommentKeywords.transformURLtoQuill(body, this.isModerator);
     comment.creatorId = this.user.id;
     comment.createdFromLecturer = this.userRole > 0;
     comment.tag = tag;

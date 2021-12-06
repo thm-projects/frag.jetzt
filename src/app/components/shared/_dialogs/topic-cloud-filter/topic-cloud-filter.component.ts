@@ -45,17 +45,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
   @Input() userRole: UserRole;
 
-  maxWordCountMin = 1;
-  maxWordCountMax = 5;
-  maxWordCount = new FormControl(1, [
-    Validators.required, Validators.min(this.maxWordCountMin), Validators.max(this.maxWordCountMax),
-  ]);
-  maxWordLengthMin = 2;
-  maxWordLengthMax = 30;
-  maxWordLength = new FormControl(20, [
-    Validators.required, Validators.min(this.maxWordLengthMin), Validators.max(this.maxWordLengthMax)
-  ]);
-  question = '';
   continueFilter = 'continueWithAll';
   comments: Comment[];
   tmpFilter: CommentListFilter;
@@ -141,7 +130,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         });
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
-                                             .subscribe(_ => this.commentsLoadedCallback());
+        .subscribe(_ => this.commentsLoadedCallback());
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -208,48 +197,26 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   confirmButtonActionCallback() {
     return () => {
       let filter: CommentListFilter;
-
-      let brainstorming: any = {
-        brainstormingActive: false
-      };
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
           filter = new CommentListFilter(this.tmpFilter);
           filter.resetToDefault();
           break;
-
         case 'continueWithAllFromNow':
-          if (!this.maxWordCount.valid || !this.maxWordLength.valid) {
-            return;
-          }
           filter = new CommentListFilter(this.tmpFilter);
           filter.resetToDefault();
           filter.period = Period.fromNow;
           filter.fromNow = new Date().getTime();
-          brainstorming = {
-            brainstormingActive: true,
-            question: this.question,
-            maxWordCount: this.maxWordCount.value,
-            maxWordLength: this.maxWordLength.value
-          };
           break;
-
         case 'continueWithCurr':
           filter = this.tmpFilter;
           break;
-
         default:
           return;
       }
 
-      const subscription = this.eventService.on('tagCloudInit').subscribe(() => {
-        this.eventService.broadcast('tagCloudPassFilterData', {
-          brainstorming,
-          filter
-        });
-        subscription.unsubscribe();
-      });
+      filter.save('cloudFilter');
       this.dialogRef.close();
       this.router.navigateByUrl(this.target);
     };

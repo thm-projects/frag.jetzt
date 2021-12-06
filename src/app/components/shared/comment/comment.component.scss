@@ -381,6 +381,12 @@ button:focus {
     position: absolute;
 
     > p {
+      > mat-icon {
+        transform: scale(calc(120 / 24));
+        line-height: 10.5px;
+        padding-right: 5px;
+      }
+
       font-family: 'Roboto', sans-serif;
       font-size: 120px;
       padding: 0;

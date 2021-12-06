@@ -231,7 +231,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.search = true;
     if (this.filter.currentSearch) {
       this.hideCommentsList = true;
-      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments, true);
     } else if (!this.filter.filterType) {
       this.hideCommentsList = false;
     }
@@ -368,10 +368,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     }
     this.isLoading = false;
     if (this.search) {
-      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments, true);
       return;
     }
-    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
+    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments, true);
     this.hideCommentsList = !!this.filter.filterType;
     this.filteredComments = this.hideCommentsList ?
       this.filter.filterCommentsByType(this.commentsFilteredByTime) : this.commentsFilteredByTime;

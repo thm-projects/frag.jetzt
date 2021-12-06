@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommentService } from '../../../../services/http/comment.service';
 import { Comment } from '../../../../models/comment';
-import { RoomService } from '../../../../services/http/room.service';
 import { Room } from '../../../../models/room';
 import { WsCommentService } from '../../../../services/websockets/ws-comment.service';
 import { QuestionWallComment } from '../QuestionWallComment';
@@ -69,7 +68,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private router: Router,
     private commentService: CommentService,
-    private roomService: RoomService,
     private wsCommentService: WsCommentService,
     private langService: LanguageService,
     private translateService: TranslateService,
@@ -142,25 +140,13 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       this.refreshUserMap();
       this.fence.resolveCondition(0);
     });
-    this.roomService.getRoom(this.roomId).subscribe(e => {
-      this.room = e;
-      this.tags = e.tags;
-    });
-    const subscription = this.sessionService.getRoom().subscribe(room => {
-      if (!room) {
-        return;
-      }
-      setTimeout(() => subscription.unsubscribe());
+    this.sessionService.getRoomOnce().subscribe(room => {
       this.room = room;
       this.tags = room.tags;
       this.listFilter.updateRoom(room);
       this.fence.resolveCondition(1);
     });
-    const moderatorSubscription = this.sessionService.getModerators().subscribe(mods => {
-      if (!mods) {
-        return;
-      }
-      setTimeout(() => moderatorSubscription.unsubscribe());
+    this.sessionService.getModeratorsOnce().subscribe(mods => {
       this.listFilter.updateModerators(mods.map(mod => mod.accountId));
       this.fence.resolveCondition(2);
     });
@@ -391,6 +377,16 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterDesc = '';
     this.listFilter.filterCompare = null;
     this.listFilter.filterType = FilterType.bookmark;
+    this.updateFiltering();
+  }
+
+  filterBrainstorming() {
+    this.filterIcon = 'tips_and_updates';
+    this.isSvgIcon = false;
+    this.filterTitle = 'question-wall.filter-brainstorm';
+    this.filterDesc = '';
+    this.listFilter.filterCompare = null;
+    this.listFilter.filterType = FilterType.brainstormingQuestion;
     this.updateFiltering();
   }
 

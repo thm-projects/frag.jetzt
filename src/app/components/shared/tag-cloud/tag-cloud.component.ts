@@ -20,7 +20,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
 import { RoomService } from '../../../services/http/room.service';
 import { ThemeService } from '../../../../theme/theme.service';
-import { TopicCloudAdministrationComponent } from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
+import {
+  TopicCloudAdministrationComponent
+} from '../_dialogs/topic-cloud-administration/topic-cloud-administration.component';
 import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { maskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
@@ -33,13 +35,13 @@ import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { SyncFence } from '../../../utils/SyncFence';
-import { Subscription } from 'rxjs';
-import { CommentListFilter } from '../comment-list/comment-list.filter';
+import { CommentListFilter, FilterType, Period } from '../comment-list/comment-list.filter';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
-import { KeywordOrFulltext } from '../_dialogs/topic-cloud-administration/TopicCloudAdminData';
-import { RoleChecker } from '../../../utils/RoleChecker';
+import { TagCloudSettings } from '../../../utils/TagCloudSettings';
+import { SessionService } from '../../../services/util/session.service';
+import { BrainstormingSettings } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 
 class CustomPosition implements Position {
   left: number;
@@ -76,7 +78,7 @@ class TagComment implements CloudData {
 const transformationScaleKiller = /scale\([^)]*\)/;
 const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
-const CONDITION_ROOM = 0;
+const CONDITION_FILTER = 0;
 const CONDITION_BUILT = 1;
 
 @Component({
@@ -108,14 +110,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     transitionTime: 0.6,
     delay: 0.4
   };
-  readonly userRole: UserRole;
+  userRole: UserRole;
   data: TagComment[] = [];
   isLoading = true;
   themeSubscription = null;
   createCommentWrapper: CreateCommentWrapper = null;
-  question = '';
-  maxWordCount: number;
-  maxWordLength: number;
+  brainstormingData: BrainstormingSettings;
   brainstormingActive: boolean;
   private _currentSettings: CloudParameters;
   private _subscriptionCommentlist = null;
@@ -126,8 +126,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
   private _currentTheme: Theme;
   private _syncFenceBuildCloud: SyncFence;
-  private _eventFilterSubscription: Subscription;
-  private _pushCurrentBrainstorming = false;
 
   constructor(private commentService: CommentService,
               private langService: LanguageService,
@@ -143,37 +141,19 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
               private themeService: ThemeService,
               private wsCommentService: WsCommentService,
               private topicCloudAdmin: TopicCloudAdminService,
+              private sessionService: SessionService,
               private router: Router,
               public dataManager: TagCloudDataService,
               private wsRoomService: WsRoomService,
               private deviceInfo: DeviceInfoService) {
-    this.roomId = localStorage.getItem('roomId');
     this.langService.langEmitter.subscribe(lang => {
       this.translateService.use(lang);
     });
-    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
     this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
     this._syncFenceBuildCloud = new SyncFence(2,
       () => this.dataManager.bindToRoom(this.room, this.userRole, this.user.id, this.brainstormingActive));
-    this._eventFilterSubscription = eventService.on('tagCloudPassFilterData').subscribe((data: any) => {
-      if (data.brainstorming.brainstormingActive) {
-        this.brainstormingActive = true;
-        this.question = data.brainstorming.question as string;
-        this.maxWordCount = data.brainstorming.maxWordCount as number;
-        this.maxWordLength = data.brainstorming.maxWordLength as number;
-      } else {
-        this.brainstormingActive = false;
-      }
-      if (this.userRole > 0) {
-        this._pushCurrentBrainstorming = true;
-      }
-      localStorage.setItem('brainstormingActive', this.brainstormingActive ? 'true' : 'false');
-      (data.filter as CommentListFilter).save('cloudFilter');
-      this._eventFilterSubscription.unsubscribe();
-    });
-    eventService.broadcast('tagCloudInit');
   }
 
   private static getCurrentCloudParameters(): CloudParameters {
@@ -188,10 +168,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   ngOnInit(): void {
-    if (!this._eventFilterSubscription.closed) {
-      this._eventFilterSubscription.unsubscribe();
-      this.brainstormingActive = localStorage.getItem('brainstormingActive') === 'true';
-    }
     this.updateGlobalStyles();
     this.dataManager.getData().subscribe(data => {
       if (!data) {
@@ -210,40 +186,31 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.user = newUser;
       }
     });
-    this.route.params.subscribe(params => {
-      this.shortId = params['shortId'];
-      this.authenticationService.checkAccess(this.shortId);
-      this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(r => {
-        this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-          this.room = room;
-          this.roomId = room.id;
-          this._subscriptionRoom = this.wsRoomService.getRoomStream(this.roomId).subscribe(msg => {
-            const message = JSON.parse(msg.body);
-            if (message.type === 'RoomPatched') {
-              this.room.questionsBlocked = message.payload.changes.questionsBlocked;
-              this.room.blacklistIsActive = message.payload.changes.blacklistIsActive;
-              this.retrieveTagCloudSettings(message.payload.changes);
-            }
-          });
-          if (this._pushCurrentBrainstorming) {
-            TopicCloudAdminService.applySettingsToRoom(room, this.brainstormingActive ? {
-              question: this.question,
-              maxWordLength: this.maxWordLength,
-              maxWordCount: this.maxWordCount
-            } : null);
-            this.roomService.updateRoom(room).subscribe();
-          }
-          this.retrieveTagCloudSettings(room);
-          this.directSend = this.room.directSend;
-          this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
-            this.notificationService, this.commentService, this.dialog, this.room);
-          if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
-            this.roomService.addToHistory(this.room.id);
-            this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
-          }
-          this._syncFenceBuildCloud.resolveCondition(CONDITION_ROOM);
-        });
+    this.route.data.subscribe(d => this.brainstormingActive = !!d.brainstorming);
+    this.sessionService.getRoomOnce().subscribe(room => {
+      this.userRole = this.sessionService.currentRole;
+      this.shortId = room.shortId;
+      this.roomId = room.id;
+      this.room = room;
+      this.sessionService.receiveRoomUpdates().subscribe(() => {
+        this.retrieveTagCloudSettings(room);
       });
+      this.retrieveTagCloudSettings(room);
+      this.directSend = this.room.directSend;
+      this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
+        this.notificationService, this.commentService, this.dialog, this.room);
+      if (!this.authenticationService.hasAccess(this.shortId, UserRole.PARTICIPANT)) {
+        this.roomService.addToHistory(this.room.id);
+        this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
+      }
+      if (this.brainstormingActive) {
+        const filter = CommentListFilter.loadFilter();
+        filter.filterType = FilterType.brainstormingQuestion;
+        filter.period = Period.fromNow;
+        filter.fromNow = this.brainstormingData.started;
+        filter.save('cloudFilter');
+      }
+      this._syncFenceBuildCloud.resolveCondition(CONDITION_FILTER);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
     this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
@@ -316,11 +283,21 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.updateTagCloud();
   }
 
+  canWriteComment(): boolean {
+    if ((!this.room || this.room.questionsBlocked) && this.userRole === UserRole.PARTICIPANT) {
+      return false;
+    }
+    return !(this.brainstormingActive && !(this.brainstormingData?.active));
+  }
+
   writeComment() {
+    if (!this.canWriteComment()) {
+      return;
+    }
     this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingActive ? {
-      question: this.question,
-      maxWordLength: this.maxWordLength,
-      maxWordCount: this.maxWordCount
+      question: this.brainstormingData.question,
+      maxWordLength: this.brainstormingData.maxWordLength,
+      maxWordCount: this.brainstormingData.maxWordCount
     } : undefined).subscribe();
   }
 
@@ -347,8 +324,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
             rotation = Math.floor(Math.random() * 30 - 15);
           }
           let filteredTag = maskKeyword(tag);
-          if (this.brainstormingActive && filteredTag.length > this.maxWordLength) {
-            filteredTag = filteredTag.substr(0, this.maxWordLength - 1) + '…';
+          if (this.brainstormingActive && filteredTag.length > this.brainstormingData.maxWordLength) {
+            filteredTag = filteredTag.substr(0, this.brainstormingData.maxWordLength - 1) + '…';
           }
           newElements.push(new TagComment(filteredTag, tag, rotation, tagData.weight, tagData, newElements.length));
         }
@@ -396,7 +373,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       throw new Error('user has no rights.');
     }
     this.roomService.getRoom(this.roomId).subscribe(room => {
-      TopicCloudAdminService.applySettingsToRoom(room);
+      TagCloudSettings.getDefaultByRoom(room).applyToRoom(room);
       this.room = room;
       this.roomService.updateRoom(room).subscribe(_ => {
           this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
@@ -412,37 +389,29 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   private retrieveTagCloudSettings(room: Room) {
-    const data = JSON.parse(room.tagCloudSettings);
-    if (data) {
-      const admin = TopicCloudAdminService.getDefaultAdminData;
-      admin.considerVotes = data.admin.considerVotes;
-      admin.keywordORfulltext = data.admin.keywordORfulltext;
-      admin.wantedLabels = data.admin.wantedLabels;
-      admin.minQuestioners = data.admin.minQuestioners;
-      admin.minQuestions = data.admin.minQuestions;
-      admin.minUpvotes = data.admin.minUpvotes;
-      admin.startDate = data.admin.startDate;
-      admin.endDate = data.admin.endDate;
-      admin.scorings = data.admin.scorings;
-      data.admin = undefined;
-      if (this.brainstormingActive) {
-        this.question = data.brainstorming?.question;
-        this.maxWordLength = data.brainstorming?.maxWordLength;
-        this.maxWordCount = data.brainstorming?.maxWordCount;
-      }
-      data.brainstorming = undefined;
-      this.topicCloudAdmin.setAdminData(admin, null, this.userRole);
-      if (this.deviceInfo.isCurrentlyMobile) {
-        const defaultParams = new CloudParameters();
-        defaultParams.resetToDefault(this.themeService.currentTheme.isDark);
-        data.fontSizeMin = defaultParams.fontSizeMin;
-        data.fontSizeMax = defaultParams.fontSizeMax;
-      }
-      this.setCloudParameters(data as CloudParameters);
-    } else {
+    const settings = TagCloudSettings.getFromRoom(room);
+    if (this.brainstormingActive && (!settings?.brainstorming ||
+      this.brainstormingData && this.brainstormingData.active !== settings.brainstorming.active)) {
+      this.router.navigate(['../'], {
+        relativeTo: this.route
+      });
+      return;
+    }
+    if (!settings) {
       this.resetColorsToTheme();
       this.setCloudParameters(this.currentCloudParameters);
+      return;
     }
+    this.brainstormingData = settings.brainstorming;
+    this.topicCloudAdmin.setAdminData(settings.adminData, null, this.userRole);
+    const data = settings.settings;
+    if (this.deviceInfo.isCurrentlyMobile) {
+      const defaultParams = new CloudParameters();
+      defaultParams.resetToDefault(this.themeService.currentTheme.isDark);
+      data.fontSizeMin = defaultParams.fontSizeMin;
+      data.fontSizeMax = defaultParams.fontSizeMax;
+    }
+    this.setCloudParameters(data);
   }
 
   private updateAlphabeticalPosition(elements: TagComment[]): void {

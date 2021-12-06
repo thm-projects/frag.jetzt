@@ -6,6 +6,9 @@ import { DeepLService, FormalityType, SourceLang, TargetLang } from '../services
 import { Comment, Language as CommentLanguage } from '../models/comment';
 import { ViewCommentDataComponent } from '../components/shared/view-comment-data/view-comment-data.component';
 import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../services/http/spacy.interface';
+import {
+  QuillInputDialogComponent
+} from '../components/shared/_dialogs/quill-input-dialog/quill-input-dialog.component';
 
 export enum KeywordsResultType {
   successful,
@@ -38,7 +41,7 @@ export class CreateCommentKeywords {
       .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
   }
 
-  static transformURLtoQuill(data: string): string {
+  static transformURLtoQuill(data: string, transformToVideo: boolean): string {
     const urlRegex = /(www\.|https?:\/\/)\S+/gi;
     let m;
     const result = JSON.parse(data).reduce((acc, k) => {
@@ -58,7 +61,13 @@ export class CreateCommentKeywords {
           acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
         }
         lastIndex = m.index + m[0].length;
-        acc.push({ attributes: { link: m[0] }, insert: m[0] });
+        const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
+        const videoLink = transformToVideo && QuillInputDialogComponent.getVideoUrl(link);
+        if (videoLink) {
+          acc.push({ video: videoLink });
+        } else {
+          acc.push({ attributes: { ...prevObjData?.attributes, link }, insert: link });
+        }
       }
       if (lastIndex < str.length) {
         const substring = str.substring(lastIndex);

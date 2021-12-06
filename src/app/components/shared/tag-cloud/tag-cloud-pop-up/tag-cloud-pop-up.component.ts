@@ -11,8 +11,8 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
-import { RoleChecker } from '../../../../utils/RoleChecker';
 import { Room } from '../../../../models/room';
+import { SessionService } from '../../../../services/util/session.service';
 
 const CLOSE_TIME = 1500;
 
@@ -44,6 +44,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
               private tagCloudDataService: TagCloudDataService,
               private languagetoolService: LanguagetoolService,
               private commentService: CommentService,
+              private sessionService: SessionService,
               private router: Router,
               private notificationService: NotificationService) {
     this.langService.langEmitter.subscribe(lang => {
@@ -52,7 +53,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
+    this.userRole = this.sessionService.currentRole;
     this.timePeriodText = '...';
   }
 

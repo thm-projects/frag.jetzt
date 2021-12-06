@@ -26,7 +26,7 @@ export class QuillInputDialogComponent implements OnInit {
               private dialogRef: MatDialogRef<QuillInputDialogComponent>) {
   }
 
-  private static getVideoUrl(url) {
+  public static getVideoUrl(url) {
     let match = url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtube\.com\/watch.*v=([a-zA-Z0-9_-]+)/) ||
       url.match(/^(?:(https?):\/\/)?(?:(?:www|m)\.)?youtu\.be\/([a-zA-Z0-9_-]+)/) ||
       url.match(/^.*(youtu.be\/|v\/|e\/|u\/\w+\/|embed\/|v=)([^#&?]*).*/);

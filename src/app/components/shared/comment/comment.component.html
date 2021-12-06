@@ -15,7 +15,10 @@
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
   <div class="runningnum-outer">
-    <p>{{comment.number}}</p>
+    <p>
+      <mat-icon *ngIf="commentIcon">{{commentIcon}}</mat-icon>
+      {{comment.number}}
+    </p>
   </div>
   <div fxLayout="column">
     <div fxLayout="row"
@@ -282,7 +285,7 @@
               aria-hidden="true">{{ 'comment-page.comment' | translate: {
           time: (language === 'de' ? (comment.timestamp | date: ' HH:mm ') : (comment.timestamp | date: 'h:mm a')),
           votes: comment.score === 1 ? ('comment-page.a11y-text_textForOneVote' | translate) : comment.score + ('comment-page.a11y-text_textForVotes' | translate),
-          comment: comment.body.trim(),
+          comment: readableCommentBody,
           correct: comment.correct === 1 ? ('comment-page.a11y-text_correct' | translate) : "",
           wrong: comment.correct === 2 ? ('comment-page.a11y-text_wrong' | translate) : "",
           bonus: comment.favorite ? ('comment-page.a11y-text_grade' | translate) : "",
