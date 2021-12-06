@@ -3,16 +3,25 @@ iframe {
 }
 
 .container {
-  width: auto;
-  height: auto;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .responsive-iframe {
   position: absolute;
-  top: 56px;
-  left: 0;
-  bottom: 0;
-  right: 0;
   width: 100%;
-  height: 100%;
+  top: 64px;
+  height: calc(100% - 64px);
+}
+
+@media only screen and (max-width: 599px) {
+  .responsive-iframe {
+    position: absolute;
+    width: 100%;
+    top: 56px; 
+    height: calc(100% - 56px);
+  }
 }
