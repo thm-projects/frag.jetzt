@@ -12,8 +12,7 @@ export class BonusToken {
     commentId: string,
     timestamp: Date,
     userId: string,
-    token: string,
-    questionNumber: number
+    token: string
   ) {
     this.roomId = roomId;
     this.commentId = commentId;
@@ -21,6 +20,6 @@ export class BonusToken {
     this.userId = userId;
     this.token = token;
     this.accountId = this.userId;
-    this.questionNumber = questionNumber;
+    this.questionNumber = 0;
   }
 }

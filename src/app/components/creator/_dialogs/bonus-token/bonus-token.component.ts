@@ -57,7 +57,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   getTokens(): void {
-    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens))
+    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
@@ -157,6 +157,11 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   updateTokens(bonusTokens: BonusToken[]): void {
     this.bonusTokens = this.bonusTokens.concat(bonusTokens);
+    this.bonusTokens.forEach(element => {
+      this.commentService.getComment(element.commentId).subscribe(comment => {
+        element.questionNumber = comment.number;
+      });
+    })
     this.lang = localStorage.getItem('currentLang');
     this.subscription = this.modelChanged
       .pipe(
