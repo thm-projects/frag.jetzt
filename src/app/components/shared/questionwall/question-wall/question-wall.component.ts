@@ -380,16 +380,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.updateFiltering();
   }
 
-  filterBrainstorming() {
-    this.filterIcon = 'tips_and_updates';
-    this.isSvgIcon = false;
-    this.filterTitle = 'question-wall.filter-brainstorm';
-    this.filterDesc = '';
-    this.listFilter.filterCompare = null;
-    this.listFilter.filterType = FilterType.brainstormingQuestion;
-    this.updateFiltering();
-  }
-
   filterTag(tag: string) {
     this.filterIcon = 'comment_tag';
     this.isSvgIcon = true;
