@@ -28,7 +28,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   room: Room;
   bonusTokens: BonusToken[] = [];
   lang: string;
-  commentId: string;
   isLoading = true;
 
   tableDataSource: MatTableDataSource<BonusToken>;
