@@ -170,28 +170,30 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         this.inputToken();
       });
     this.isLoading = false;
-    this.updateTable();
+    this.updateTable(false);
   }
 
-  updateTable(): void {
+  updateTable(sort: boolean): void {
     const data = [...this.bonusTokens];
-    if (this.currentSort?.direction) {
-      switch (this.currentSort.active) {
-        case 'questionNumber':
-          data.sort((a, b) => a.questionNumber - b.questionNumber);
-          break;
-        case 'token': 
-          data.sort((a, b) => 
-            a.token.localeCompare(b.token, undefined, { sensitivity: 'base' }));
-          break;
-        case 'timestamp': 
-          data.sort((a, b) => 
-            +a.timestamp - +b.timestamp
-          );
-          break; 
-      }
-      if(this.currentSort.direction === 'desc'){
-        data.reverse();
+    if(sort) {
+      if (this.currentSort?.direction) {
+        switch (this.currentSort.active) {
+          case 'questionNumber':
+            data.sort((a, b) => a.questionNumber - b.questionNumber);
+            break;
+          case 'token': 
+            data.sort((a, b) => 
+              a.token.localeCompare(b.token, undefined, { sensitivity: 'base' }));
+            break;
+          case 'timestamp': 
+            data.sort((a, b) => 
+              +a.timestamp - +b.timestamp
+            );
+            break; 
+        }
+        if(this.currentSort.direction === 'desc'){
+          data.reverse();
+        }
       }
     }
     this.tableDataSource = new MatTableDataSource(data);
@@ -199,7 +201,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   sortData(sort: Sort): void {
     this.currentSort = sort;
-    this.updateTable();
+    this.updateTable(true);
   }
 
   applyFilter(filterValue: string): void {

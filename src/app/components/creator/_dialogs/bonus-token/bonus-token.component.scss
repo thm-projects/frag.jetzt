@@ -8,58 +8,32 @@ p {
   margin-right: 15px;
 }
 
-
-.delete {
+.delete, .selected {
   color: var(--red);
 }
 
-.mat-stroked-button {
-  width: 130px;
-  height: 40px;
-  margin: auto;
+.flexbox-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  cursor: pointer;
+  flex-direction: column;
 }
 
-.navComment {
-  color: var(--secondary);
-  display: flex;
-  justify-content:right;
-  align-items: center;
+.flexbox-container h2, .flexbox-container .input, .flexbox-container table{
+  margin-bottom: 20px;
 }
 
-.delComment {
-  display: flex;
-  justify-content:right;
-  align-items: center;
+table, th, tr, td {
+  background-color: var(--primary-variant) !important;
+  color: var(--on-primary-variant) !important;
+  hyphens: auto;
+  overflow-wrap: anywhere;
 }
 
-.mat-list .p {
-  display: flex;
-  justify-content:center;
-  align-items: center;
-}
+th, tr {
+  font-size: small !important;
+} 
 
-.selected {
-  color: var(--red);
-}
-
-.enabled {
-  color: var(--primary);
-  border-color: var(--primary);
-}
-
-.validator {
-  overflow: hidden;
-}
-
-.validator .mat-stroked-button {
-  float: right;
-  margin-left: -40%;
+.table-container {
+  overflow: auto;
 }
 
 .action-button-container {
