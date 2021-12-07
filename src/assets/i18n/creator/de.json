@@ -636,7 +636,13 @@
   "token-validator": {
     "valid": "Gültiger Token",
     "invalid": "Ungültiger Token",
-    "cant-find-comment": "Es gibt keine Frage mit diesem Token."
+    "cant-find-comment": "Es gibt keine Frage mit diesem Token.", 
+    "questionNumber": "Nummer", 
+    "token": "Token", 
+    "timestamp": "Datum", 
+    "token-filter": "token-filter",
+    "go-to": "Gehe zur Frage",
+    "date": "Datum"
   },
   "worker-dialog": {
     "running": "Laufend",
