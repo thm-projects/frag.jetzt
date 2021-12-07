@@ -45,6 +45,7 @@
                 mat-table
                 [dataSource]="tableDataSource"
                 class="list-entries">
+
                 <!-- number -->
                 <ng-container matColumnDef="questionNumber"
                               aria-hidden="true">
@@ -62,6 +63,7 @@
                     {{bonusToken.questionNumber}}
                   </td>
                 </ng-container>
+
                 <!-- token -->
                 <ng-container matColumnDef="token"
                               aria-hidden="true">
@@ -81,6 +83,25 @@
                     {{bonusToken.token}}
                   </td>
                 </ng-container>
+
+                <!-- Date -->
+                <ng-container matColumnDef="date"
+                              aria-hidden="true">
+                  <th mat-header-cell
+                      mat-sort-header
+                      sortActionDescription="Sort by date"
+                      *matHeaderCellDef
+                      style="width: 35%">
+                      {{ 'token-validator.date' | translate }}
+                  </th>
+                  <td mat-cell
+                      class="clickable"
+                      *matCellDef="let bonusToken"
+                      (click)="navToComment(bonusToken.commentId)">
+                    {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
+                  </td>
+                </ng-container>
+
                 <!-- Join button column -->
                 <ng-container matColumnDef="button">
                   <th mat-header-cell

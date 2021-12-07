@@ -31,7 +31,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   isLoading = true;
 
   tableDataSource: MatTableDataSource<BonusToken>;
-  displayedColumns: string[] = ['questionNumber', 'token', 'button'];
+  displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
 
   currentSort: Sort = {
     direction: 'asc',
@@ -185,7 +185,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
             data.sort((a, b) => 
               a.token.localeCompare(b.token, undefined, { sensitivity: 'base' }));
             break;
-          case 'timestamp': 
+          case 'date': 
             data.sort((a, b) => 
               +a.timestamp - +b.timestamp
             );

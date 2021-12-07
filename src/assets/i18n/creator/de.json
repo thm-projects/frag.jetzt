@@ -638,7 +638,8 @@
     "token": "Token", 
     "timestamp": "Datum", 
     "token-filter": "token-filter",
-    "go-to": "Gehe zur Frage"
+    "go-to": "Gehe zur Frage",
+    "date": "Datum"
   },
   "worker-dialog": {
     "running": "Laufend",

@@ -636,7 +636,8 @@
     "token": "Token", 
     "timestamp": "Date", 
     "token-filter": "token-filter",
-    "go-to": "Go to question"
+    "go-to": "Go to question",
+    "date": "Date"
   },
   "worker-dialog": {
     "running": "Running",
