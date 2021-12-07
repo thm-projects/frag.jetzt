@@ -358,46 +358,22 @@ export class RoomDataService {
     const updates = [];
     for (const [key, value] of Object.entries(payload.changes)) {
       updates.push(key);
-      switch (key) {
+      let hadKey = true;
+      switch (key as keyof Comment) {
         case 'read':
           comment.read = value as boolean;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'read',
-            comment
-          });
           break;
         case 'correct':
           comment.correct = value as CorrectWrong;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'correct',
-            comment
-          });
           break;
         case 'favorite':
           comment.favorite = value as boolean;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'favorite',
-            comment
-          });
           break;
         case 'bookmark':
           comment.bookmark = value as boolean;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'bookmark',
-            comment
-          });
           break;
         case 'score':
           comment.score = value as number;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'score',
-            comment
-          });
           break;
         case 'upvotes':
           comment.upvotes = value as number;
@@ -417,28 +393,23 @@ export class RoomDataService {
           if (!isNowAck) {
             this.removeComment(payload.id);
           }
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'ack',
-            comment
-          });
           break;
         case 'tag':
           comment.tag = value as string;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'tag',
-            comment
-          });
           break;
         case 'answer':
           comment.answer = value as string;
-          this.triggerUpdate(UpdateType.commentStream, {
-            type: 'CommentPatched',
-            subtype: 'answer',
-            comment
-          });
           break;
+        default:
+          hadKey = false;
+          break;
+      }
+      if (hadKey) {
+        this.triggerUpdate(UpdateType.commentStream, {
+          type: 'CommentPatched',
+          subtype: key as keyof Comment,
+          comment
+        });
       }
     }
     this.triggerUpdate(UpdateType.commentStream, {

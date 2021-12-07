@@ -28,10 +28,13 @@ import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { ArsComposeHostDirective } from '../../../../../projects/ars/src/lib/compose/ars-compose-host.directive';
 import { ThemeService } from '../../../../theme/theme.service';
-import { RoleChecker } from '../../../utils/RoleChecker';
+import {
+  TopicCloudBrainstormingComponent
+} from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { SessionService } from '../../../services/util/session.service';
+import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 
 @Component({
   selector: 'app-header',
@@ -53,6 +56,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
   toggleUserActivity = false;
+  isBrainstorming = false;
   userActivity = 0;
   deviceType = localStorage.getItem('deviceType');
   isInRouteWithRoles = false;
@@ -76,6 +80,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
               private headerService: HeaderService,
               private onboardingService: OnboardingService,
               public themeService: ThemeService,
+              private sessionService: SessionService,
   ) {
   }
 
@@ -84,10 +89,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.router.events.subscribe(e => {
-      if (e instanceof NavigationEnd) {
-        [this.userRole, this.isInRouteWithRoles] = RoleChecker.checkRole(e.url, this.user?.role);
-      }
+    this.sessionService.getRole().subscribe(role => {
+      this.userRole = role;
+      this.isInRouteWithRoles = this.sessionService.canChangeRoleOnRoute;
     });
     this.topicCloudAdminService.getAdminData.subscribe(data => {
       this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
@@ -149,12 +153,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
             localStorage.setItem('shortId', this.shortId);
             this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
               this.room = room;
+              this.isBrainstorming = !!TagCloudSettings.getFromRoom(room)?.brainstorming?.active;
               this.moderationEnabled = !room.directSend;
               this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
                 const message = JSON.parse(msg.body);
                 if (message.type === 'RoomPatched') {
                   this.room.questionsBlocked = message.payload.changes.questionsBlocked;
                   this.moderationEnabled = !message.payload.changes.directSend;
+                  this.isBrainstorming = !!TagCloudSettings.getFromRoom(message.payload.changes)?.brainstorming?.active;
                 }
               });
             });
@@ -375,6 +381,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       autoFocus: false
     });
     confirmDialogRef.componentInstance.target = this.router.url + '/tagcloud';
+    confirmDialogRef.componentInstance.userRole = this.userRole;
+  }
+
+  public navigateBrainstorming() {
+    const confirmDialogRef = this.confirmDialog.open(TopicCloudBrainstormingComponent, {
+      autoFocus: false
+    });
+    confirmDialogRef.componentInstance.target = this.router.url + '/brainstorming';
     confirmDialogRef.componentInstance.userRole = this.userRole;
   }
 

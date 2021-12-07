@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
+import { EditorChangeContent, QuillEditorComponent, QuillModules, QuillViewComponent } from 'ngx-quill';
 import { LanguageService } from '../../../services/util/language.service';
 import { TranslateService } from '@ngx-translate/core';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
@@ -156,6 +156,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         this._currentData = ViewCommentDataComponent.getDataFromDelta(e.content);
         this.currentText = e.text;
       });
+      let wasLastPaste = false;
       this.editor.onEditorCreated.subscribe(_ => {
         this._marks = new Marks(this.editorErrorLayer.nativeElement, this.tooltipContainer.nativeElement, this.editor);
         if (this._currentData) {
@@ -163,8 +164,8 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
         }
         const elem = this.editor.editorElem.firstElementChild as HTMLElement;
         elem.focus();
-        elem.addEventListener('paste', (e) => {
-          setTimeout(this.cleanContentOnPaste.bind(this));
+        elem.addEventListener('paste', () => {
+          wasLastPaste = true;
         });
         new AccessibilityEscapedInputDirective(
           new ElementRef(this.editor.editorElem.firstElementChild as HTMLElement),
@@ -179,7 +180,11 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
           }
         }, 200); // animations?
       });
-      this.editor.onEditorChanged.subscribe(_ => {
+      this.editor.onEditorChanged.subscribe(e => {
+        if (e.event === 'text-change' && wasLastPaste) {
+          wasLastPaste = false;
+          this.cleanContentOnPaste(e);
+        }
         this._marks.sync();
         this.syncErrorLayer();
         const elem: HTMLDivElement = document.querySelector('div.ql-tooltip');
@@ -257,27 +262,29 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
     return false;
   }
 
-  private cleanContentOnPaste() {
-    const data = this.editor.quillEditor.getContents();
-    let changed = false;
-    data.ops.forEach(op => {
-      if (!op.attributes) {
-        return;
+  private cleanContentOnPaste(event: EditorChangeContent) {
+    const newDelta = { ops: [] };
+    for (const deltaObj of event.delta.ops) {
+      if (deltaObj.retain) {
+        newDelta.ops.push({ retain: deltaObj.retain });
+        continue;
       }
-      if (op.attributes.background) {
-        changed = true;
-        op.attributes.background = null;
-        delete op.attributes.background;
+      if (deltaObj.delete) {
+        newDelta.ops.push({ delete: deltaObj.delete });
+        continue;
       }
-      if (op.attributes.color) {
-        changed = true;
-        op.attributes.color = null;
-        delete op.attributes.color;
+      if (!deltaObj.insert) {
+        continue;
       }
-    });
-    if (changed) {
-      this.editor.quillEditor.setContents(data);
+      const lastObj = newDelta.ops[newDelta.ops.length - 1];
+      if (lastObj?.insert) {
+        lastObj.insert += deltaObj.insert;
+      } else {
+        newDelta.ops.push({ insert: deltaObj.insert });
+      }
     }
+    this.editor.quillEditor.setContents(event.oldDelta);
+    this.editor.quillEditor.updateContents(newDelta);
   }
 
   private overrideQuillTooltip() {

@@ -31,6 +31,7 @@ export enum FilterType {
   unanswered = 'unanswered',
   owner = 'owner',
   number = 'number',
+  brainstormingQuestion = 'brainstormingQuestion'
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
@@ -153,7 +154,7 @@ export class CommentListFilter {
   checkAll(comments: Comment[], moderation = false): Comment[] {
     const filterComments = this.filterCommentsByTime(comments, moderation);
     if (this.currentSearch) {
-      return this.filterCommentsBySearch(filterComments);
+      return this.filterCommentsBySearch(filterComments, moderation);
     }
     return this.sortCommentsBySortType(this.filterCommentsByType(filterComments));
   }
@@ -166,13 +167,13 @@ export class CommentListFilter {
     return this.sortCommentWrapperBySortType(this.filterCommentWrapperByType(filterComments, accessFun), accessFun);
   }
 
-  filterCommentsBySearch(comments: Comment[]): Comment[] {
-    return this.filterCommentWrapperBySearch(comments, c => c);
+  filterCommentsBySearch(comments: Comment[], moderation = false): Comment[] {
+    return this.filterCommentWrapperBySearch(comments, c => c, moderation);
   }
 
-  filterCommentWrapperBySearch<T>(comments: T[], accessFun: (t: T) => Comment): T[] {
+  filterCommentWrapperBySearch<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
     const search = this.currentSearch.toLowerCase();
-    return comments
+    return this.preFilterComments(comments, accessFun, moderation)
       .filter(c => {
         const com = accessFun(c);
         return com.body.toLowerCase().includes(search) ||
@@ -188,15 +189,13 @@ export class CommentListFilter {
   }
 
   filterCommentWrapperByTime<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
-    const thresholdComments = this.thresholdEnabled && !moderation ?
-      comments.filter(comment => accessFun(comment).score >= this.threshold) : comments;
+    const prefiltered = this.preFilterComments(comments, accessFun, moderation);
     if (this.period === null || this.period === undefined) {
       this.period = DEFAULT_PERIOD;
     }
     if (this.period === Period.all) {
       return this.freezedAt ?
-        thresholdComments.filter(c => new Date(accessFun(c).timestamp).getTime() < this.freezedAt) :
-        thresholdComments;
+        prefiltered.filter(c => new Date(accessFun(c).timestamp).getTime() < this.freezedAt) : prefiltered;
     }
     const currentTime = new Date().getTime();
     let periodInSeconds;
@@ -226,7 +225,7 @@ export class CommentListFilter {
         throw new Error('Time period is invalid.');
     }
     const filterTime = (this.period === Period.fromNow ? this.fromNow : currentTime - periodInSeconds);
-    return thresholdComments.filter(c => {
+    return prefiltered.filter(c => {
       const time = new Date(accessFun(c).timestamp).getTime();
       return time >= filterTime && (!this.freezedAt || time < this.freezedAt);
     });
@@ -319,6 +318,14 @@ export class CommentListFilter {
     }
     comments.sort((a, b) => this.getCommentRoleValue(accessFun(b)) - this.getCommentRoleValue(accessFun(a)));
     return comments;
+  }
+
+  private preFilterComments<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
+    const brainstorm = this.filterType === FilterType.brainstormingQuestion;
+    const brainstorming = moderation ? comments :
+      comments.filter(c => accessFun(c).brainstormingQuestion === brainstorm);
+    return this.thresholdEnabled && !moderation ?
+      brainstorming.filter(comment => accessFun(comment).score >= this.threshold) : brainstorming;
   }
 
   private getCommentRoleValue(comment: Comment): number {

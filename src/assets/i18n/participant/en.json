@@ -60,6 +60,7 @@
     "filter-moderator": "Notes from the moderator",
     "filter-lecturer": "Announcements",
     "filter-owner": "My questions",
+    "filter-brainstorm": "Brainstorm questions",
     "filter-question-number": "Question number",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
@@ -352,7 +353,9 @@
     "downvote-topic": "Down votes for this topic",
     "blacklist-topic": "Add topic to blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
-    "changes-successful": "Successfully updated"
+    "changes-successful": "Successfully updated",
+    "no-elements": "The word cloud is empty.",
+    "print-title": "Word cloud from room »{{roomName}}«"
   },
   "tag-cloud-popup": {
     "few-seconds": "few seconds",

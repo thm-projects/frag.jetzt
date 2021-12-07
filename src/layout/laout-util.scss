@@ -1,0 +1,12 @@
+@mixin onMobile {
+  @media only screen and (max-device-width: 480px) and (orientation: portrait),
+  only screen and (max-device-height: 480px) and (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin onSmallWidth($width: 500px) {
+  @media (max-width: $width) {
+    @content;
+  }
+}

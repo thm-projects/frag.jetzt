@@ -295,6 +295,17 @@
 
 
       <button mat-menu-item
+              (focus)="hideCommentsList=true"
+              (click)="applyFilterByKey('brainstormingQuestion')">
+        <mat-icon class="material-icons-outlined" [ngClass]="{brainstormingQuestion: 'brainstorm-icon'}[filter.filterType]">
+          tips_and_updates
+        </mat-icon>
+        <span [ngClass]="{brainstormingQuestion: 'brainstorm-icon'}[filter.filterType]">
+          {{ 'comment-list.filter-brainstorm' | translate }}
+        </span>
+      </button>
+
+      <button mat-menu-item
               (focus)="hideCommentsList=false"
               (click)="applyFilterByKey(null)"
               aria-labelledby="close">

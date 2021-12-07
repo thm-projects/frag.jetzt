@@ -57,6 +57,7 @@ import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-i
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
 import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
+import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 
 @NgModule({
   imports: [
@@ -119,7 +120,8 @@ import { QuestionWallIntroComponent } from './questionwall/question-wall/questio
     QuillInputDialogComponent,
     WorkerConfigDialogComponent,
     AccessibilityEscapedInputDirective,
-    QuestionWallIntroComponent
+    QuestionWallIntroComponent,
+    TopicCloudBrainstormingComponent
   ],
     exports:[
         RoomJoinComponent,

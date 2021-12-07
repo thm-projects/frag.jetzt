@@ -7,6 +7,8 @@ import { RoomService } from '../http/room.service';
 import { WsRoomService } from '../websockets/ws-room.service';
 import { ModeratorService } from '../http/moderator.service';
 import { UserRole } from '../../models/user-roles.enum';
+import { filter, take } from 'rxjs/operators';
+import { AuthenticationService } from '../http/authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class SessionService {
   private readonly _currentRole = new BehaviorSubject<UserRole>(null);
   private readonly _currentRoom = new BehaviorSubject<Room>(null);
   private readonly _currentModerators = new BehaviorSubject<Moderator[]>(null);
-  private _beforeRoomUpdates: Subject<Room>;
+  private _beforeRoomUpdates: Subject<Partial<Room>>;
   private _afterRoomUpdates: Subject<Room>;
   private _roomSubscription: Subscription;
   private _canChangeRoleOnRoute = false;
@@ -26,6 +28,7 @@ export class SessionService {
     private roomService: RoomService,
     private wsRoomService: WsRoomService,
     private moderatorService: ModeratorService,
+    private authenticationService: AuthenticationService,
   ) {
     this.onNavigate();
     this.router.events.subscribe(e => {
@@ -56,7 +59,14 @@ export class SessionService {
     return this._currentRoom.asObservable();
   }
 
-  receiveRoomUpdates(before = false): Observable<Room> {
+  getRoomOnce(): Observable<Room> {
+    return this._currentRoom.pipe(
+      filter(v => !!v),
+      take(1)
+    );
+  }
+
+  receiveRoomUpdates(before = false): Observable<Partial<Room>> | Observable<Room> {
     if (!this.currentRoom) {
       throw new Error('Currently not bound to a room.');
     }
@@ -69,6 +79,13 @@ export class SessionService {
 
   getModerators(): Observable<Moderator[]> {
     return this._currentModerators.asObservable();
+  }
+
+  getModeratorsOnce(): Observable<Moderator[]> {
+    return this._currentModerators.pipe(
+      filter(v => !!v),
+      take(1)
+    );
   }
 
   private onNavigate() {
@@ -120,13 +137,18 @@ export class SessionService {
       return;
     }
     this.clearRoom();
+    this.authenticationService.checkAccess(shortId);
+    this.authenticationService.guestLogin(UserRole.PARTICIPANT).subscribe(() => this.fetchRoom(shortId));
+  }
+
+  private fetchRoom(shortId: string) {
     this.roomService.getRoomByShortId(shortId).subscribe(room => {
-      this._beforeRoomUpdates = new Subject<Room>();
+      this._beforeRoomUpdates = new Subject<Partial<Room>>();
       this._afterRoomUpdates = new Subject<Room>();
-      this.wsRoomService.getRoomStream(room.id).subscribe(msg => {
+      this._roomSubscription = this.wsRoomService.getRoomStream(room.id).subscribe(msg => {
         const message = JSON.parse(msg.body);
         if (message.type === 'RoomPatched') {
-          const updatedRoom = message.payload.changes;
+          const updatedRoom: Partial<Room> = message.payload.changes;
           this._beforeRoomUpdates.next(updatedRoom);
           for (const key of Object.keys(updatedRoom)) {
             room[key] = updatedRoom[key];
