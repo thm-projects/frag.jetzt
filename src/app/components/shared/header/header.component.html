@@ -39,7 +39,7 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceType === 'desktop'"
               (click)="navigateBrainstorming()">
-        <mat-icon style="margin-right: 15px">tips_and_updates</mat-icon>
+        <mat-icon class="material-icons-outlined" style="margin-right: 15px">tips_and_updates</mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
 
@@ -50,7 +50,7 @@
       </div>
 
       <div *ngIf="isBrainstorming">
-        <mat-icon style="color: var(--secondary); margin-top: 8px"
+        <mat-icon class="material-icons-outlined" style="color: var(--secondary); margin-top: 8px"
          [matTooltip]="'header.brainstorm-active' | translate">
           tips_and_updates
         </mat-icon>
@@ -255,7 +255,7 @@
                     tabindex="0"
                     *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
                     (click)="navigateBrainstorming()">
-              <mat-icon>tips_and_updates</mat-icon>
+              <mat-icon class="material-icons-outlined">tips_and_updates</mat-icon>
               <span>{{'header.brainstorming' | translate}}</span>
             </button>
 
