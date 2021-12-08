@@ -2,7 +2,6 @@
 
 # host specific environments
 .env
-.docker/environments/*.env
 docker-compose.override.yml
 
 # compiled output

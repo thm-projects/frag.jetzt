@@ -2,12 +2,24 @@ version: '3'
 
 services:
   frontend:
-    image: local-fragjetzt-prod
+    image: local-fragjetzt-dev
     build:
       context: .
       dockerfile: Dockerfile
-      target: SERVE
+      target: DEV
     hostname: fragjetzt-frontend
     container_name: fragjetzt-frontend
+    networks:
+      - fragjetzt
     ports:
       - '127.0.0.1:4200:4200'
+    volumes:
+      - 'cache:/cache'
+      - './:/app'
+
+networks:
+  fragjetzt:
+    external: true
+
+volumes:
+  cache:

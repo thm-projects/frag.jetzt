@@ -1,11 +1,20 @@
 #!/bin/bash
 
 # Only build node_modules if they do not exist or if package-lock changed
-[ -d node_modules ] && sha1sum --check ../lock-version || npm ci
-sha1sum package-lock.json > ../lock-version
+if [ ! -d node_modules ] || (! sha1sum --check /cache/lock); then
+  echo "cache is invalid, rebuilding..."
 
-# Use cache on volume
-./node_modules/.bin/ng config cli.cache.path "../.angular"
+  echo "clearing angular cache..."
+  rm -rf .angular
+
+  echo "rebuild dependencies..."
+  npm ci
+
+  echo "creating hash for cache validation..."
+  sha1sum package-lock.json > /cache/lock
+else
+  echo "cache is valid, continuing..."
+fi
 
 # Use public interface, because this script is executed in a container!
 # This is no security issue as the container is located in a private network.

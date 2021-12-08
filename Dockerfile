@@ -2,18 +2,22 @@
 FROM node:16 AS DEV
 
 ARG USER='1000:1000'
-ARG BASEDIR=/src
+ARG CACHEDIR=/cache
+ARG APPDIR=/app
 
-RUN mkdir -p ${BASEDIR} && chown -R ${USER} ${BASEDIR}
+RUN mkdir -p ${CACHEDIR} ${APPDIR} && chown -R ${USER} ${CACHEDIR} ${APPDIR}
 
 COPY .docker/entrypoint.sh /entrypoint.sh
 
 USER ${USER}
-VOLUME ${BASEDIR}
-ENV HOME=${BASEDIR}
-WORKDIR ${BASEDIR}/app
+ENV HOME=${CACHEDIR}
+
+VOLUME ${CACHEDIR}
+VOLUME ${APPDIR}
+WORKDIR ${APPDIR}
 
 ENTRYPOINT ["/entrypoint.sh"]
+
 
 # BUILD STAGE
 FROM node:16 AS BUILD
