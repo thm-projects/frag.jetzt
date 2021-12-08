@@ -7,7 +7,10 @@ set -e
 cd "$(dirname $0)"
 WORKDIR="$(pwd)"
 
-echo "DEV_USER=$(id -u):$(id -g)" > ../.env
+COMPOSE_PROJECT_NAME="fragjetzt-frontend"
+
+echo "COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}" > ../.env
+echo "DEV_USER=$(id -u):$(id -g)" >> ../.env
 
 while true; do
   case "$1" in
