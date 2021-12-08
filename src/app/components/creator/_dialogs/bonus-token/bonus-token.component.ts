@@ -149,6 +149,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     event.cancelBubble = true;
     this.value = event.target.value;
     this.modelChanged.next(event);
+    this.selection.clear();
   }
 
   inputToken() {
