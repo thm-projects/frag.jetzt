@@ -9,7 +9,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
@@ -59,7 +59,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
+
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
+    this.notificationService.show(userId);
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -139,9 +141,9 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.modelChanged.next(event);
   }
 
+  //TODO: always returns valid if 8 numbers are inputted
   inputToken() {
-    const index = this.validateTokenInput(this.value);
-    if (index) {
+    if (this.validateTokenInput(this.value)) {
       this.translateService.get('token-validator.valid').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -152,6 +154,19 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
       this.valid = false;
     }
+  }
+
+  //TODO: should return true or false
+  validateTokenInput(input: any): boolean {
+    var res = false;
+    if(input.length === 8 && isNumeric(input)){
+      this.bonusTokens.forEach(bonusToken => {
+        if(bonusToken.token == input) {
+          res = true;
+        }
+      });
+    }
+    return res;
   }
 
   updateTokens(bonusTokens: BonusToken[]): void {
@@ -208,10 +223,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  timestampTimeConversion(date: Date): number {
-    return date.getTime();
-  }
-
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
       autoFocus: false
@@ -230,16 +241,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
           date: text[1]
         }).subscribe(trans => copyCSVString(text[0], trans));
     });
-  }
-
-  validateTokenInput(input: any) {
-    if (input.length === 8 && isNumeric(input)) {
-      return this.bonusTokens.map((c, index) => {
-        if (c.token === input) {
-          return index;
-        }
-      });
-    }
   }
 
   valueEqual(token: string) {
