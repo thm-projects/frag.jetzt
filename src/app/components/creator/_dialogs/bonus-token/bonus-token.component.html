@@ -78,8 +78,7 @@
                       class="clickable"
                       *matCellDef="let bonusToken"
                       (click)="navToComment(bonusToken.commentId)"
-                      [appScrollIntoView]="valueEqual(bonusToken.token)"
-                      [ngClass]="{'selected': valueEqual(bonusToken.token)}">
+                      [ngClass]="{ 'selected': selection.isSelected(bonusToken.token)}">
                     {{bonusToken.token}}
                   </td>
                 </ng-container>

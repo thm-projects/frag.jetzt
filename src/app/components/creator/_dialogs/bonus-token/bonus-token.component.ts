@@ -16,6 +16,7 @@ import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExpor
 import { CommentService } from '../../../../services/http/comment.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-bonus-token',
@@ -38,6 +39,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     active: 'name'
   };
 
+  private selection = new SelectionModel<String>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 800;
@@ -143,6 +145,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   inputToken() {
     if (this.validateTokenInput(this.value)) {
+      this.selection.select(this.value);
       this.translateService.get('token-validator.valid').subscribe(msg => {
         this.notificationService.show(msg);
       });
@@ -165,6 +168,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
     }
     return res;
+  }
+
+  valueEqual(token: string) {
+    return token.trim() === this.value;
   }
 
   updateTokens(bonusTokens: BonusToken[]): void {
@@ -239,10 +246,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
           date: text[1]
         }).subscribe(trans => copyCSVString(text[0], trans));
     });
-  }
-
-  valueEqual(token: string) {
-    return token.trim() === this.value;
   }
 
   ngOnDestroy(): void {
