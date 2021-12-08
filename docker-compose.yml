@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 
 services:
   frontend:
@@ -9,5 +9,11 @@ services:
       target: SERVE
     hostname: fragjetzt-frontend
     container_name: fragjetzt-frontend
+    networks:
+      - fragjetzt
     ports:
       - '127.0.0.1:4200:4200'
+
+networks:
+  fragjetzt:
+    external: true

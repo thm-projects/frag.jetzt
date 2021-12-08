@@ -1,4 +1,4 @@
-version: '3'
+version: '3.6'
 
 services:
   frontend:
@@ -7,19 +7,14 @@ services:
       context: .
       dockerfile: Dockerfile
       target: DEV
-    hostname: fragjetzt-frontend
-    container_name: fragjetzt-frontend
-    networks:
-      - fragjetzt
-    ports:
-      - '127.0.0.1:4200:4200'
+    environment:
+      - WS_GATEWAY_WS_ADDRESS=ws://fragjetzt-ws-gateway:8080
+      - WS_GATEWAY_HTTP_ADDRESS=http://fragjetzt-ws-gateway:8080
+      - BACKEND_ADDRESS=http://fragjetzt-backend:8888
     volumes:
       - 'cache:/cache'
       - './:/app'
 
-networks:
-  fragjetzt:
-    external: true
-
 volumes:
   cache:
+    name: fragjetzt-frontend-cache
