@@ -17,6 +17,8 @@ import { CommentService } from '../../../../services/http/comment.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
 
 @Component({
   selector: 'app-bonus-token',
@@ -50,7 +52,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private commentService: CommentService,
               private translateService: TranslateService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService, 
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -110,9 +113,15 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToComment(commentId: string) {
-    this.dialogRef.close();
-    const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
-    this.router.navigate([commentURL]);
+    if(this.authenticationService.getRole() === UserRole.CREATOR) {
+      this.dialogRef.close();
+      const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
+      this.router.navigate([commentURL]);
+    } else {
+      this.dialogRef.close();
+      const commentURL = `participant/room/${this.room.shortId}/comment/${commentId}`;
+      this.router.navigate([commentURL]);
+    }
   }
 
   navToCommentByValue() {
