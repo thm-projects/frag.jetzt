@@ -40,7 +40,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
-  private debounceTime = 500;
+  private debounceTime = 800;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
@@ -141,7 +141,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.modelChanged.next(event);
   }
 
-  //TODO: always returns valid if 8 numbers are inputted
   inputToken() {
     if (this.validateTokenInput(this.value)) {
       this.translateService.get('token-validator.valid').subscribe(msg => {
@@ -156,7 +155,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     }
   }
 
-  //TODO: should return true or false
   validateTokenInput(input: any): boolean {
     var res = false;
     if(input.length === 8 && isNumeric(input)){
