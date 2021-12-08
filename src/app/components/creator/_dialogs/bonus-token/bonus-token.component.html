@@ -134,11 +134,6 @@
                       <mat-menu #moreActions="matMenu"
                                 xPosition="before">
                         <button mat-menu-item
-                                (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, bonusToken.questionNumber)">
-                          <mat-icon class="delete material-icons-outlined">delete</mat-icon>
-                          <span class="delete-text"> {{ 'room-page.delete-token' | translate}}</span>
-                        </button>
-                        <button mat-menu-item
                                 (click)="navToComment(bonusToken.commentId)">
                           <mat-icon class="export material-icons-outlined">article</mat-icon>
                           <span class="delete-text">{{ 'token-validator.go-to' | translate }}</span>
