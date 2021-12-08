@@ -61,7 +61,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
-
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
     this.notificationService.show(userId);
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
@@ -147,12 +146,12 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     if (this.validateTokenInput(this.value)) {
       this.selection.select(this.value);
       this.translateService.get('token-validator.valid').subscribe(msg => {
-        this.notificationService.show(msg);
+        this.notificationService.show(msg, undefined, undefined, "snackbar-valid");
       });
       this.valid = true;
     } else {
       this.translateService.get('token-validator.invalid').subscribe(msg => {
-        this.notificationService.show(msg);
+        this.notificationService.show(msg, undefined, undefined, "snackbar-invalid");
       });
       this.valid = false;
     }
