@@ -8,71 +8,36 @@ p {
   margin-right: 15px;
 }
 
-.delete-icon {
-  color: var(--red);
-}
-
 .delete {
-  margin: 20px 0 20px 0;
-  min-width: 220px;
-  background-color: var(--red);
-  color: var(--white);
-}
-
-.tokens {
-  padding-left: 3%;
-  &:nth-child(even) {
-    background-color: var(--alt-dialog);
-  }
-}
-
-.mat-stroked-button {
-  width: 130px;
-  height: 40px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  cursor: pointer;
-}
-
-.navComment {
-  color: var(--secondary);
-  display: flex;
-  justify-content:right;
-  align-items: center;
-}
-
-.delComment {
-  display: flex;
-  justify-content:right;
-  align-items: center;
-}
-
-.mat-list .p {
-  display: flex;
-  justify-content:center;
-  align-items: center;
+  color: var(--red);
 }
 
 .selected {
-  color: var(--red);
+  color: var(--red) !important;
 }
 
-.enabled {
-  color: var(--primary);
-  border-color: var(--primary);
+.flexbox-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.validator {
-  overflow: hidden;
+.flexbox-container h2, .flexbox-container .input, .flexbox-container table{
+  margin-bottom: 20px;
 }
 
-.validator .mat-stroked-button {
-  float: right;
-  margin-left: -40%;
+table, th, tr, td {
+  background-color: var(--primary-variant) !important;
+  color: var(--on-primary-variant) !important;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+th, tr {
+  font-size: small !important;
+} 
+
+.table-container {
+  overflow: auto;
 }
 
 .action-button-container {

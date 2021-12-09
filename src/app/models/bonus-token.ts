@@ -5,6 +5,7 @@ export class BonusToken {
   userId: string;
   accountId: string;
   token: string;
+  questionNumber: number;
 
   constructor(
     roomId: string,
@@ -19,5 +20,6 @@ export class BonusToken {
     this.userId = userId;
     this.token = token;
     this.accountId = this.userId;
+    this.questionNumber = 0;
   }
 }

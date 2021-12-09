@@ -9,11 +9,16 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { Sort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
 
 @Component({
   selector: 'app-bonus-token',
@@ -26,35 +31,41 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   room: Room;
   bonusTokens: BonusToken[] = [];
   lang: string;
+  isLoading = true;
+
+  tableDataSource: MatTableDataSource<BonusToken>;
+  displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
+
+  currentSort: Sort = {
+    direction: 'asc',
+    active: 'name'
+  };
+
+  private selection = new SelectionModel<String>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
-  private debounceTime = 500;
+  private debounceTime = 800;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
               protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private commentService: CommentService,
-              private translationService: TranslateService,
-              private notificationService: NotificationService) {
+              private translateService: TranslateService,
+              private notificationService: NotificationService, 
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
-    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(list => {
-      list.sort((a, b) => (a.token > b.token) ? 1 : -1);
-      this.bonusTokens = list;
-    });
-    this.lang = localStorage.getItem('currentLang');
-    this.subscription = this.modelChanged
-      .pipe(
-        debounceTime(this.debounceTime),
-      )
-      .subscribe(_ => {
-        this.inputToken();
-      });
+    this.getTokens();
+  }
+
+  getTokens(): void {
+    this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
+    this.notificationService.show(userId);
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -84,7 +95,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     // Delete bonus via bonus-token-service
     const toDelete = this.bonusTokens[index];
     this.bonusTokenService.deleteToken(toDelete.roomId, toDelete.commentId, toDelete.userId).subscribe(_ => {
-      this.translationService.get('room-page.token-deleted').subscribe(msg => {
+      this.translateService.get('room-page.token-deleted').subscribe(msg => {
         this.bonusTokens.splice(index, 1);
         this.notificationService.show(msg);
       });
@@ -94,7 +105,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   deleteAllBonuses(): void {
     // Delete all bonuses via bonus-token-service with roomId
     this.bonusTokenService.deleteTokensByRoomId(this.room.id).subscribe(_ => {
-      this.translationService.get('room-page.tokens-deleted').subscribe(msg => {
+      this.translateService.get('room-page.tokens-deleted').subscribe(msg => {
         this.dialogRef.close();
         this.notificationService.show(msg);
       });
@@ -102,9 +113,15 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToComment(commentId: string) {
-    this.dialogRef.close();
-    const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
-    this.router.navigate([commentURL]);
+    if(this.authenticationService.getRole() === UserRole.CREATOR) {
+      this.dialogRef.close();
+      const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
+      this.router.navigate([commentURL]);
+    } else {
+      this.dialogRef.close();
+      const commentURL = `participant/room/${this.room.shortId}/comment/${commentId}`;
+      this.router.navigate([commentURL]);
+    }
   }
 
   navToCommentByValue() {
@@ -115,7 +132,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
         }
       });
     } else {
-      this.translationService.get('token-validator.cant-find-comment').subscribe(msg => {
+      this.translateService.get('token-validator.cant-find-comment').subscribe(msg => {
         this.notificationService.show(msg);
       });
     }
@@ -132,21 +149,92 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     event.cancelBubble = true;
     this.value = event.target.value;
     this.modelChanged.next(event);
+    this.selection.clear();
   }
 
   inputToken() {
-    const index = this.validateTokenInput(this.value);
-    if (index) {
-      this.translationService.get('token-validator.valid').subscribe(msg => {
-        this.notificationService.show(msg);
+    if (this.validateTokenInput(this.value)) {
+      this.selection.select(this.value);
+      this.translateService.get('token-validator.valid').subscribe(msg => {
+        this.notificationService.show(msg, undefined, undefined, "snackbar-valid");
       });
       this.valid = true;
     } else {
-      this.translationService.get('token-validator.invalid').subscribe(msg => {
-        this.notificationService.show(msg);
+      this.translateService.get('token-validator.invalid').subscribe(msg => {
+        this.notificationService.show(msg, undefined, undefined, "snackbar-invalid");
       });
       this.valid = false;
     }
+  }
+
+  validateTokenInput(input: any): boolean {
+    var res = false;
+    if(input.length === 8 && isNumeric(input)){
+      this.bonusTokens.forEach(bonusToken => {
+        if(bonusToken.token == input) {
+          res = true;
+        }
+      });
+    }
+    return res;
+  }
+
+  valueEqual(token: string) {
+    return token.trim() === this.value;
+  }
+
+  updateTokens(bonusTokens: BonusToken[]): void {
+    this.bonusTokens = this.bonusTokens.concat(bonusTokens);
+    this.bonusTokens.forEach(element => {
+      this.commentService.getComment(element.commentId).subscribe(comment => {
+        element.questionNumber = comment.number;
+      });
+    })
+    this.lang = localStorage.getItem('currentLang');
+    this.subscription = this.modelChanged
+      .pipe(
+        debounceTime(this.debounceTime),
+      )
+      .subscribe(_ => {
+        this.inputToken();
+      });
+    this.isLoading = false;
+    this.updateTable(false);
+  }
+
+  updateTable(sort: boolean): void {
+    const data = [...this.bonusTokens];
+    if(sort) {
+      if (this.currentSort?.direction) {
+        switch (this.currentSort.active) {
+          case 'questionNumber':
+            data.sort((a, b) => a.questionNumber - b.questionNumber);
+            break;
+          case 'token': 
+            data.sort((a, b) => 
+              a.token.localeCompare(b.token, undefined, { sensitivity: 'base' }));
+            break;
+          case 'date': 
+            data.sort((a, b) => 
+              +a.timestamp - +b.timestamp
+            );
+            break; 
+        }
+        if(this.currentSort.direction === 'desc'){
+          data.reverse();
+        }
+      }
+    }
+    this.tableDataSource = new MatTableDataSource(data);
+  }
+
+  sortData(sort: Sort): void {
+    this.currentSort = sort;
+    this.updateTable(true);
+  }
+
+  applyFilter(filterValue: string): void {
+    this.tableDataSource.filter = filterValue.trim().toLowerCase();
   }
 
   openHelp() {
@@ -157,30 +245,16 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   export() {
-    exportBonusArchive(this.translationService,
+    exportBonusArchive(this.translateService,
       this.commentService,
       this.notificationService,
       this.bonusTokenService,
       this.room).subscribe(text => {
-        this.translationService.get('bonus-archive-export.file-name', {
+        this.translateService.get('bonus-archive-export.file-name', {
           roomName: this.room.name,
           date: text[1]
         }).subscribe(trans => copyCSVString(text[0], trans));
     });
-  }
-
-  validateTokenInput(input: any) {
-    if (input.length === 8 && isNumeric(input)) {
-      return this.bonusTokens.map((c, index) => {
-        if (c.token === input) {
-          return index;
-        }
-      });
-    }
-  }
-
-  valueEqual(token: string) {
-    return token.trim() === this.value;
   }
 
   ngOnDestroy(): void {

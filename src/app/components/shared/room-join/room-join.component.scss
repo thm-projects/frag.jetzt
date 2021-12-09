@@ -29,16 +29,22 @@ mat-hint {
   font-style: italic;
 }
 
-::ng-deep .mat-form-field-label {
-  color: var(--on-surface) !important;
-}
+:host {
+  ::ng-deep .mat-form-field-label {
+    color: var(--on-surface) !important;
+  }
 
-::ng-deep .mat-form-field-underline {
-  background-color: var(--on-surface) !important;
-}
+  ::ng-deep .mat-form-field-underline {
+    background-color: var(--on-surface) !important;
+  }
 
-::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface) !important;
+  ::ng-deep .mat-form-field-ripple {
+    background-color: var(--on-surface) !important;
+  }
+
+  ::ng-deep .mat-form-field .mat-form-field-infix {
+    max-width: 130px;
+  }
 }
 
 input:-webkit-autofill {
@@ -62,8 +68,4 @@ mat-error {
   padding-right: 5px;
   transform: scale(2.0);
   color: var(--primary);
-}
-
-::ng-deep .mat-form-field .mat-form-field-infix {
-  max-width: 130px;
 }

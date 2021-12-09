@@ -17,6 +17,7 @@ import { CloudParameters } from '../../utils/cloud-parameters';
 import { RoomDataService } from './room-data.service';
 import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
 import { escapeForRegex } from '../../utils/regex-escape';
+import { TagCloudSettings } from '../../utils/TagCloudSettings';
 
 const words = stopWords.map(word => escapeForRegex(word).replace(/\s+/, '\\s*'));
 const httpRegex = /(https?:[^\s]+(\s|$))/;
@@ -175,7 +176,7 @@ export class TopicCloudAdminService {
     if (!updateRoom || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
     }
-    TopicCloudAdminService.applySettingsToRoom(updateRoom);
+    TagCloudSettings.getDefaultByRoom(updateRoom).applyToRoom(updateRoom);
     this.updateRoom(updateRoom);
   }
 

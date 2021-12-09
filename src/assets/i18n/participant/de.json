@@ -50,6 +50,7 @@
     "filter-moderator": "Hinweise des Moderators",
     "filter-lecturer": "Ankündigungen",
     "filter-owner": "Meine Fragen",
+    "filter-brainstorm": "Brainstorm-Fragen",
     "filter-question-number": "Fragenummer",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -345,7 +346,9 @@
     "downvote-topic": "Down-Votes für dieses Thema",
     "blacklist-topic": "Thema auf die »Blacklist« setzen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
-    "changes-successful": "Änderungen gespeichert"
+    "changes-successful": "Änderungen gespeichert",
+    "no-elements": "Die Wortwolke ist leer.",
+    "print-title": "Wortwolke aus dem Raum »{{roomName}}«"
   },
   "tag-cloud-popup": {
     "few-seconds": "wenige Sekunden",

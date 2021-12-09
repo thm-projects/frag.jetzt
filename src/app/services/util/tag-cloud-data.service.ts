@@ -230,7 +230,7 @@ export class TagCloudDataService {
   }
 
   unbindRoom(): void {
-    this._subscriptionAdminData.unsubscribe();
+    this._subscriptionAdminData?.unsubscribe();
     this._subscriptionAdminData = null;
     this._commentSubscription?.unsubscribe();
     this._commentSubscription = null;

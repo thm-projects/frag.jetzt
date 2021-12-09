@@ -1,73 +1,162 @@
-<div mat-dialog-content xmlns="http://www.w3.org/1999/html">
-  <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
-  <h3 class="oldtypo-h3">&raquo;{{room.name}}&laquo;</h3>
-  <h3 class="oldtypo-h3">{{ 'room-page.session-id' | translate}}: {{ room.shortId }}</h3>
-  <div *ngIf="bonusTokens.length >= 1">
-    <div class="validator">
-      <mat-form-field>
-        <input appAccessibilityEscapedInput
-               (keyup)="inputChanged($event)"
-               (input)="inputChanged($event)"
-               matInput
-               class="input-block"
-               type="text"
-               maxlength="14"
-               name="roomName"
-               aria-labelledby="room-name-input"/>
-        <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
-        <mat-hint align="end"
-                  class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
-      </mat-form-field>
-      <button *ngIf="!valid" (click)="navToCommentByValue()"
-              matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-              mat-stroked-button disabled>
-        Go to Question
-      </button>
-      <button *ngIf="valid" (click)="navToCommentByValue()"
-              matTooltip="{{ 'room-page.nav-to-comment' | translate }}"
-              mat-stroked-button class="enabled">
-        Go to Question
-      </button>
-    </div>
-    <mat-list>
-      <mat-list-item *ngFor="let bonusToken of bonusTokens; let index = index"
-                     [appScrollIntoView]="valueEqual(bonusToken.token)">
-        <p [ngClass]="{'selected': valueEqual(bonusToken.token)}" tabindex="0">
-          {{ bonusToken.token }}
-        </p>
-        <p>
-          {{ bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
-        </p>
-        <button [ngClass]="'navComment'" mat-icon-button (click)="navToComment(bonusToken.commentId)">
-          <mat-icon matTooltip="{{ 'room-page.nav-to-comment' | translate }}">comment</mat-icon>
-        </button>
-        <button [ngClass]="'delComment'" mat-icon-button (click)="openDeleteSingleBonusDialog(bonusToken.userId, bonusToken.commentId, index)">
-          <mat-icon matTooltip="{{ 'room-page.delete-token' | translate }}" class="delete-icon">close</mat-icon>
-        </button>
-      </mat-list-item>
-    </mat-list>
-  </div>
-  <div *ngIf="bonusTokens.length === 0">
-    <p>{{'room-page.no-bonus' | translate }}
-    </p>
-  </div>
-  <div fxLayoutAlign="center center" *ngIf="bonusTokens.length > 1">
-    <button mat-button class="delete" (click)="openDeleteAllBonusDialog()">
-      <mat-icon class="material-icons-outlined">delete</mat-icon>
-      {{'room-page.delete-all-tokens' | translate}}
-    </button>
+<div *ngIf="isLoading"
+     fxLayout="column"
+     fxLayoutAlign="center"
+     fxFill>
+  <div fxLayout="row"
+       fxLayoutAlign="center">
+    <app-mat-spinner-overlay diameter="80"
+                             strokeWidth="8"></app-mat-spinner-overlay>
   </div>
 </div>
 
-<ars-row ars-flex-box>
-  <button
-    mat-flat-button
-    class="export-button"
-    (click)="export()">
-    <mat-icon>file_download</mat-icon>
-    {{ 'room-page.export-bonus-archive' | translate }}
-  </button>
-</ars-row>
+<div mat-dialog-content xmlns="http://www.w3.org/1999/html">
+  <div class="flexbox-container">
+    <!-- dialog capital -->
+    <div> 
+      <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
+    </div>
+
+    <div *ngIf="bonusTokens.length >= 1">
+      <div *ngIf="tableDataSource.data.length > 0">
+
+        <!--token input field-->
+        <div class="input">
+          <mat-form-field>
+            <input appAccessibilityEscapedInput
+                    (keyup)="inputChanged($event)"
+                    (input)="inputChanged($event)"
+                    matInput
+                    class="input-block"
+                    type="text"
+                    maxlength="20"
+                    name="roomName"
+                    aria-labelledby="room-name-input"/>
+            <mat-placeholder class="placeholder">{{ 'room-page.hint' | translate }}</mat-placeholder>
+            <mat-hint align="end"
+                      class="count"><span aria-hidden="true">{{ value.length }} / 8</span></mat-hint>
+          </mat-form-field>
+        </div>
+
+        <!-- table -->
+        <div class="table-container">
+          <table #roomTable
+                matSort
+                (matSortChange)="sortData($event)"
+                mat-table
+                [dataSource]="tableDataSource"
+                class="list-entries">
+
+                <!-- number -->
+                <ng-container matColumnDef="questionNumber"
+                              aria-hidden="true">
+                  <th mat-header-cell
+                      mat-sort-header
+                      sortActionDescription="Sort by questionNumber"
+                      *matHeaderCellDef
+                      style="width: 30%">
+                      {{ 'token-validator.questionNumber' | translate }}
+                  </th>
+                  <td mat-cell
+                      class="clickable"
+                      *matCellDef="let bonusToken"
+                      (click)="navToComment(bonusToken.commentId)">
+                    {{bonusToken.questionNumber}}
+                  </td>
+                </ng-container>
+
+                <!-- token -->
+                <ng-container matColumnDef="token"
+                              aria-hidden="true">
+                  <th mat-header-cell
+                      mat-sort-header
+                      sortActionDescription="Sort by token"
+                      *matHeaderCellDef
+                      style="width: 30%">
+                    {{ 'token-validator.token' | translate }}
+                  </th>
+                  <td mat-cell
+                      class="clickable"
+                      *matCellDef="let bonusToken"
+                      (click)="navToComment(bonusToken.commentId)"
+                      [ngClass]="{ 'selected': selection.isSelected(bonusToken.token)}">
+                    {{bonusToken.token}}
+                  </td>
+                </ng-container>
+
+                <!-- Date -->
+                <ng-container matColumnDef="date"
+                              aria-hidden="true">
+                  <th mat-header-cell
+                      mat-sort-header
+                      sortActionDescription="Sort by date"
+                      *matHeaderCellDef
+                      style="width: 30%">
+                      {{ 'token-validator.date' | translate }}
+                  </th>
+                  <td mat-cell
+                      class="clickable"
+                      *matCellDef="let bonusToken"
+                      (click)="navToComment(bonusToken.commentId)">
+                    {{bonusToken.timestamp | date: lang === 'de' ? 'dd.MM.yy' : ' M/d/yy'}}
+                  </td>
+                </ng-container>
+
+                <!-- Join button column -->
+                <ng-container matColumnDef="button">
+                  <th mat-header-cell
+                      *matHeaderCellDef
+                      style="width: 5%">
+                      <button mat-icon-button
+                            [matMenuTriggerFor]="moreActions">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #moreActions="matMenu"
+                                xPosition="before">
+                        <button mat-menu-item
+                                (click)="openDeleteAllBonusDialog()">
+                          <mat-icon class="delete material-icons-outlined">delete</mat-icon>
+                          <span class="delete-text"> {{ 'room-page.delete-all-tokens' | translate}}</span>
+                        </button>
+                        <button mat-menu-item
+                                (click)="export()">
+                          <mat-icon class="export material-icons-outlined">file_download</mat-icon>
+                          <span class="delete-text">{{ 'room-page.export-bonus-archive' | translate }}</span>
+                        </button>
+                      </mat-menu>
+                  </th>
+                  <td mat-cell
+                      *matCellDef="let bonusToken"
+                      attr.aria-labelledby="empty">
+                      <button mat-icon-button
+                            [matMenuTriggerFor]="moreActions">
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #moreActions="matMenu"
+                                xPosition="before">
+                        <button mat-menu-item
+                                (click)="navToComment(bonusToken.commentId)">
+                          <mat-icon class="export material-icons-outlined">article</mat-icon>
+                          <span class="delete-text">{{ 'token-validator.go-to' | translate }}</span>
+                        </button>
+                      </mat-menu>
+                  </td>
+                </ng-container>
+            <tr mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row
+              *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="bonusTokens.length === 0">
+  <p>{{'room-page.no-bonus' | translate }}
+  </p>
+</div>
+
 
 <ars-row ars-flex-box class="action-button-container">
   <ars-col>

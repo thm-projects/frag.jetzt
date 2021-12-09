@@ -60,6 +60,7 @@
     "filter-moderator": "Hinweise des Moderators",
     "filter-lecturer": "Ankündigungen",
     "filter-owner": "Meine Fragen",
+    "filter-brainstorm": "Brainstorm-Fragen",
     "filter-question-number": "Fragenummer",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -568,7 +569,9 @@
     "downvote-topic": "Down-Votes für dieses Thema",
     "blacklist-topic": "Thema auf die »Blacklist« setzen",
     "changes-gone-wrong": "Etwas ist schiefgelaufen!",
-    "changes-successful": "Änderungen gespeichert"
+    "changes-successful": "Änderungen gespeichert",
+    "no-elements": "Die Wortwolke ist leer.",
+    "print-title": "Wortwolke aus dem Raum »{{roomName}}«"
   },
   "tag-cloud-config": {
     "general": "Allgemein",
@@ -633,7 +636,13 @@
   "token-validator": {
     "valid": "Gültiger Token",
     "invalid": "Ungültiger Token",
-    "cant-find-comment": "Es gibt keine Frage mit diesem Token."
+    "cant-find-comment": "Es gibt keine Frage mit diesem Token.", 
+    "questionNumber": "Nummer", 
+    "token": "Token", 
+    "timestamp": "Datum", 
+    "token-filter": "token-filter",
+    "go-to": "Gehe zur Frage",
+    "date": "Datum"
   },
   "worker-dialog": {
     "running": "Laufend",

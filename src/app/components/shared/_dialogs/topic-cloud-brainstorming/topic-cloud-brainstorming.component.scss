@@ -1,0 +1,63 @@
+@import "../../../../../layout/laout-util";
+
+.primary-btn {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.secondary-btn {
+  background-color: var(--secondary);
+  color: var(--on-secondary);
+  width: 100%;
+  margin-top: 10px;
+}
+
+.brainstorm-container {
+  background-color: var(--surface);
+  margin: 10px 0;
+
+  > span {
+    display: inline-block;
+    margin-bottom: 8px;
+  }
+
+  > mat-form-field {
+    width: 100%;
+  }
+}
+
+.no-brainstorm-session {
+  background-color: var(--surface);
+  margin: 10px 0;
+}
+
+.brainstorm-session {
+  background-color: var(--surface);
+  margin: 10px 0;
+  display: flex;
+  flex-direction: column;
+
+  > ars-row {
+    display: flex;
+
+    > button {
+      margin-left: 8px;
+      margin-right: 8px;
+    }
+
+    @include onSmallWidth {
+      overflow: auto;
+      justify-content: space-between;
+      flex-direction: column !important;
+      flex-wrap: wrap;
+      align-items: flex-end;
+
+      > button {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  }
+}

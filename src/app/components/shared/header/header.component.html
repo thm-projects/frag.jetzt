@@ -24,10 +24,36 @@
 
     <div class="header-content-container"
          [ngClass]="{'darken': themeService.currentTheme.isDark}">
+
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
+                     deviceType === 'desktop'"
+              (click)="navigateTopicCloud()">
+        <mat-icon style="margin-right: 15px">cloud_queue</mat-icon>
+        <span>{{'header.tag-cloud' | translate}}</span>
+      </button>
+
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
+                     deviceType === 'desktop'"
+              (click)="navigateBrainstorming()">
+        <mat-icon class="material-icons-outlined" style="margin-right: 15px">tips_and_updates</mat-icon>
+        <span>{{'header.brainstorming' | translate}}</span>
+      </button>
+
       <div *ngIf="toggleUserActivity">
         <div class="userActivityIcon"
              matTooltip="{{'header.users-online' | translate}}"></div>
         <p class="userActivityTxt">{{userActivity}}</p>
+      </div>
+
+      <div *ngIf="isBrainstorming">
+        <mat-icon class="material-icons-outlined" style="color: var(--secondary); margin-top: 8px"
+         [matTooltip]="'header.brainstorm-active' | translate">
+          tips_and_updates
+        </mat-icon>
       </div>
 
       <span *ngIf="isInRouteWithRoles && user && user.role !== userRole">
@@ -52,31 +78,10 @@
         </mat-icon>
       </span>
 
-      <button mat-flat-button
-              tabindex="0"
-              *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
-                     deviceType === 'desktop'"
-              (click)="navigateTopicCloud()">
-        <mat-icon style="margin-right: 15px">cloud_queue</mat-icon>
-        <span>{{'header.tag-cloud' | translate}}</span>
-      </button>
-
       <h2 class="oldtypo-h2"
           *ngIf="deviceType === 'desktop' && router.url !== '/home'">
         {{cTime}}
       </h2>
-
-      <button mat-flat-button
-              tabindex="0"
-              *ngIf="deviceType === 'desktop' &&
-              !router.url.endsWith('moderator/comments') &&
-              router.url.endsWith('/comments') &&
-              isSafari === 'false'"
-              routerLink="participant/room/{{shortId}}/comments/questionwall">
-        <mat-icon class="beamer-icon"
-                  svgIcon="beamer"></mat-icon>
-        <span>{{'header.questionwall' | translate}}</span>
-      </button>
 
       <!--Feedback im Hörsaal-->
       <h2 class="header-slogan-mobile"
@@ -97,6 +102,18 @@
           comments_disabled
         </mat-icon>
       </span>
+
+      <button mat-flat-button
+              tabindex="0"
+              *ngIf="deviceType === 'desktop' &&
+              !router.url.endsWith('moderator/comments') &&
+              router.url.endsWith('/comments') &&
+              isSafari === 'false'"
+              routerLink="participant/room/{{shortId}}/comments/questionwall">
+        <mat-icon class="beamer-icon"
+                  svgIcon="beamer"></mat-icon>
+        <span>{{'header.questionwall' | translate}}</span>
+      </button>
 
       <!--Topic Cloud-->
       <div class="topic-cloud-btns"
@@ -232,6 +249,14 @@
                     (click)="navigateTopicCloud()">
               <mat-icon>cloud_queue</mat-icon>
               <span>{{'header.tag-cloud' | translate}}</span>
+            </button>
+
+            <button mat-menu-item
+                    tabindex="0"
+                    *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
+                    (click)="navigateBrainstorming()">
+              <mat-icon class="material-icons-outlined">tips_and_updates</mat-icon>
+              <span>{{'header.brainstorming' | translate}}</span>
             </button>
 
             <button mat-menu-item

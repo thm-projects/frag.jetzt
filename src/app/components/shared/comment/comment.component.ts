@@ -20,6 +20,7 @@ import { User } from '../../../models/user';
 import { RoomDataService } from '../../../services/util/room-data.service';
 import { SpacyKeyword } from '../../../services/http/spacy.service';
 import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-token/user-bonus-token.component';
+import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 
 @Component({
   selector: 'app-comment',
@@ -54,6 +55,8 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @ViewChild('commentBody', { static: true }) commentBody: RowComponent;
   @ViewChild('commentBodyInner', { static: true }) commentBodyInner: RowComponent;
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
+  readableCommentBody: string;
+  commentIcon: string;
   isStudent = false;
   isCreator = false;
   isModerator = false;
@@ -86,6 +89,14 @@ export class CommentComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.readableCommentBody = this.comment?.body ? ViewCommentDataComponent.getTextFromData(this.comment?.body?.trim()) : '';
+    if (this.comment?.brainstormingQuestion) {
+      this.commentIcon = 'tips_and_updates';
+    } else if(this.isFromOwner) {
+      this.commentIcon = ' mic_external_on ';
+    } else if(this.isFromModerator) {
+      this.commentIcon = 'gavel';
+    }
     this.checkProfanity();
     switch (this.userRole) {
       case UserRole.PARTICIPANT.valueOf():
