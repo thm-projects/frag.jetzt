@@ -93,7 +93,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
     if (this.comment?.brainstormingQuestion) {
       this.commentIcon = 'tips_and_updates';
     } else if(this.isFromOwner) {
-      this.commentIcon = 'mic';
+      this.commentIcon = ' mic_external_on ';
     } else if(this.isFromModerator) {
       this.commentIcon = 'gavel';
     }
