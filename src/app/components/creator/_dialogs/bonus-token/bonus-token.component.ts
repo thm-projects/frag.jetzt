@@ -9,13 +9,16 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, delay } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
 import { CommentService } from '../../../../services/http/comment.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
+import { SelectionModel } from '@angular/cdk/collections';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
+import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
 
 @Component({
   selector: 'app-bonus-token',
@@ -38,9 +41,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     active: 'name'
   };
 
+  private selection = new SelectionModel<String>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
-  private debounceTime = 500;
+  private debounceTime = 800;
 
   constructor(private bonusTokenService: BonusTokenService,
               public dialog: MatDialog,
@@ -48,7 +52,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               private commentService: CommentService,
               private translateService: TranslateService,
-              private notificationService: NotificationService) {
+              private notificationService: NotificationService, 
+              private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {
@@ -60,6 +65,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
+    this.notificationService.show(userId);
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -107,9 +113,15 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToComment(commentId: string) {
-    this.dialogRef.close();
-    const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
-    this.router.navigate([commentURL]);
+    if(this.authenticationService.getRole() === UserRole.CREATOR) {
+      this.dialogRef.close();
+      const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
+      this.router.navigate([commentURL]);
+    } else {
+      this.dialogRef.close();
+      const commentURL = `participant/room/${this.room.shortId}/comment/${commentId}`;
+      this.router.navigate([commentURL]);
+    }
   }
 
   navToCommentByValue() {
@@ -137,21 +149,38 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     event.cancelBubble = true;
     this.value = event.target.value;
     this.modelChanged.next(event);
+    this.selection.clear();
   }
 
   inputToken() {
-    const index = this.validateTokenInput(this.value);
-    if (index) {
+    if (this.validateTokenInput(this.value)) {
+      this.selection.select(this.value);
       this.translateService.get('token-validator.valid').subscribe(msg => {
-        this.notificationService.show(msg);
+        this.notificationService.show(msg, undefined, undefined, "snackbar-valid");
       });
       this.valid = true;
     } else {
       this.translateService.get('token-validator.invalid').subscribe(msg => {
-        this.notificationService.show(msg);
+        this.notificationService.show(msg, undefined, undefined, "snackbar-invalid");
       });
       this.valid = false;
     }
+  }
+
+  validateTokenInput(input: any): boolean {
+    var res = false;
+    if(input.length === 8 && isNumeric(input)){
+      this.bonusTokens.forEach(bonusToken => {
+        if(bonusToken.token == input) {
+          res = true;
+        }
+      });
+    }
+    return res;
+  }
+
+  valueEqual(token: string) {
+    return token.trim() === this.value;
   }
 
   updateTokens(bonusTokens: BonusToken[]): void {
@@ -208,10 +237,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.tableDataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  timestampTimeConversion(date: Date): number {
-    return date.getTime();
-  }
-
   openHelp() {
     const ref = this.dialog.open(ExplanationDialogComponent, {
       autoFocus: false
@@ -230,20 +255,6 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
           date: text[1]
         }).subscribe(trans => copyCSVString(text[0], trans));
     });
-  }
-
-  validateTokenInput(input: any) {
-    if (input.length === 8 && isNumeric(input)) {
-      return this.bonusTokens.map((c, index) => {
-        if (c.token === input) {
-          return index;
-        }
-      });
-    }
-  }
-
-  valueEqual(token: string) {
-    return token.trim() === this.value;
   }
 
   ngOnDestroy(): void {

@@ -8,8 +8,12 @@ p {
   margin-right: 15px;
 }
 
-.delete, .selected {
+.delete {
   color: var(--red);
+}
+
+.selected {
+  color: var(--red) !important;
 }
 
 .flexbox-container {
