@@ -8,10 +8,10 @@ export class NotificationService {
   constructor(public snackBar: MatSnackBar) {
   }
 
-  show(message: string, action?: string, config?: MatSnackBarConfig) {
+  show(message: string, action?: string, config?: MatSnackBarConfig, panelClass?: string) {
     const defaultConfig: MatSnackBarConfig = {
       duration: (action ? 25000 : 7000),
-      panelClass: ['snackbar']
+      panelClass: (panelClass ? [panelClass] : ['snackbar'])
     };
 
     // Delegate the message and merge the (optionally) passed config with the default config

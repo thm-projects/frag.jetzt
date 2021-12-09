@@ -19,6 +19,16 @@ mat-form-field.input-block {
   color: var(--on-secondary);
 }
 
+.snackbar-valid {
+  background-color: green;
+  color: var(--white);
+}
+
+.snackbar-invalid {
+  background-color: var(--red);
+  color: var(--white);
+}
+
 .snackbar.important {
   background-color: var(--red);
   color: var(--white);
