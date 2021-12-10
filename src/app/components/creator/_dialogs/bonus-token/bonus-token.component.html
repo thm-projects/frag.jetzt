@@ -138,6 +138,11 @@
                           <mat-icon class="export material-icons-outlined">article</mat-icon>
                           <span class="delete-text">{{ 'token-validator.go-to' | translate }}</span>
                         </button>
+                        <button mat-menu-item
+                                (click)="openDeleteSingleBonusDialog(bonusToken)">
+                          <mat-icon class="delete material-icons-outlined">delete</mat-icon>
+                          <span class="delete-text"> {{ 'room-page.delete-token' | translate}}</span>
+                        </button>
                       </mat-menu>
                   </td>
                 </ng-container>

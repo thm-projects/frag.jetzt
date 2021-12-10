@@ -64,8 +64,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     this.bonusTokenService.getTokensByRoomId(this.room.id).subscribe(bonusTokens => this.updateTokens(bonusTokens));
   }
 
-  openDeleteSingleBonusDialog(userId: string, commentId: string, index: number): void {
-    this.notificationService.show(userId);
+  openDeleteSingleBonusDialog(bonusToken: BonusToken): void {
     const dialogRef = this.dialog.open(BonusDeleteComponent, {
       width: '400px'
     });
@@ -73,7 +72,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed()
       .subscribe(result => {
         if (result === 'delete') {
-          this.deleteBonus(userId, commentId, index);
+          this.deleteBonus(bonusToken);
         }
       });
   }
@@ -91,12 +90,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       });
   }
 
-  deleteBonus(userId: string, commentId: string, index: number): void {
+  deleteBonus(bonusToken: BonusToken): void {
     // Delete bonus via bonus-token-service
-    const toDelete = this.bonusTokens[index];
-    this.bonusTokenService.deleteToken(toDelete.roomId, toDelete.commentId, toDelete.userId).subscribe(_ => {
+    this.bonusTokenService.deleteToken(bonusToken.roomId, bonusToken.commentId, bonusToken.accountId).subscribe(_ => {
       this.translateService.get('room-page.token-deleted').subscribe(msg => {
-        this.bonusTokens.splice(index, 1);
         this.notificationService.show(msg);
       });
     });
