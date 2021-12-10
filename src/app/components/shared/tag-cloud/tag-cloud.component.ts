@@ -295,11 +295,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this.canWriteComment()) {
       return;
     }
-    this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingActive ? {
-      question: this.brainstormingData.question,
-      maxWordLength: this.brainstormingData.maxWordLength,
-      maxWordCount: this.brainstormingData.maxWordCount
-    } : undefined).subscribe();
+    this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingData).subscribe();
   }
 
   rebuildData() {

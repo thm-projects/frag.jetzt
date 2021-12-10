@@ -635,9 +635,9 @@
     "valid": "Valid token",
     "invalid": "Invalid token",
     "cant-find-comment": "There is no question with this token.",
-    "questionNumber": "Number", 
-    "token": "Token", 
-    "timestamp": "Date", 
+    "questionNumber": "Number",
+    "token": "Token",
+    "timestamp": "Date",
     "token-filter": "token-filter",
     "go-to": "Go to question",
     "date": "Date"
