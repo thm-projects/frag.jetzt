@@ -17,7 +17,6 @@ import { User } from '../../../models/user';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
 import { MatDialog } from '@angular/material/dialog';
 import { RoomDescriptionSettingsComponent } from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
-import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -33,6 +32,7 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
 import { SyncFence } from '../../../utils/SyncFence';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 @Component({
   selector: 'app-room-page',
@@ -44,7 +44,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   user: User = null;
   isLoading = true;
   commentCounter: number;
-  urlToCopy = `${window.location.protocol}//${window.location.hostname}/participant/room/`;
+  urlToCopy = `${window.location.protocol}//${window.location.host}/participant/room/`;
   commentCounterEmit: EventEmitter<number> = new EventEmitter<number>();
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   viewModuleCount = 1;
@@ -178,17 +178,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   exportQuestions() {
     this.moderatorService.get(this.room.id).subscribe(mods => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translateService,
-        'comment-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        new Set<string>(mods.map(mod => mod.accountId)),
-        this.user
-      );
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        new Set<string>(mods.map(mod => mod.accountId))
+      ).subscribe(text => {
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
   }
 
@@ -198,15 +198,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.roomId = this.room.id;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.translateService.get('room-page.comments-deleted').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-          this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.translateService.get('room-page.comments-deleted').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+        this.commentService.deleteCommentsByRoomId(this.room.id).subscribe();
+      }
+    });
   }
 
   openDeleteRoomDialog(): void {
@@ -215,12 +214,11 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       width: '400px'
     });
     dialogRef.componentInstance.room = this.room;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'delete') {
-          this.deleteRoom();
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'delete') {
+        this.deleteRoom();
+      }
+    });
   }
 
   deleteRoom(): void {
@@ -237,20 +235,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   copyShortId(): void {
     console.assert(this.userRole > UserRole.PARTICIPANT);
-    const selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = `${this.urlToCopy}${this.room.shortId}`;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand('copy');
-    document.body.removeChild(selBox);
-    this.translateService.get('room-page.session-id-copied').subscribe(msg => {
-      this.notificationService.show(msg, '', { duration: 2000 });
+    navigator.clipboard.writeText(`${this.urlToCopy}${this.room.shortId}`).then(() => {
+      this.translateService.get('room-page.session-id-copied').subscribe(msg => {
+        this.notificationService.show(msg, '', { duration: 2000 });
+      });
+    }, () => {
+      console.log('Clipboard write failed.');
     });
+
   }
 
   showModeratorsDialog(): void {
@@ -278,17 +270,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     });
     dialogRef.componentInstance.roomId = this.room.id;
     dialogRef.componentInstance.editRoom = updRoom;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (result === 'abort') {
-          return;
-        } else {
-          if (result instanceof CommentSettingsDialog) {
-            this.updateCommentSettings(result);
-            this.saveChanges(updRoom);
-          }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'abort') {
+        return;
+      } else {
+        if (result instanceof CommentSettingsDialog) {
+          this.updateCommentSettings(result);
+          this.saveChanges(updRoom);
         }
-      });
+      }
+    });
     dialogRef.backdropClick().subscribe(res => {
       dialogRef.close('abort');
     });
@@ -318,15 +309,14 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       tags = this.room.tags;
     }
     dialogRef.componentInstance.tags = tags;
-    dialogRef.afterClosed()
-      .subscribe(result => {
-        if (!result || result === 'abort') {
-          return;
-        } else {
-          updRoom.tags = result;
-          this.saveChanges(updRoom);
-        }
-      });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result || result === 'abort') {
+        return;
+      } else {
+        updRoom.tags = result;
+        this.saveChanges(updRoom);
+      }
+    });
   }
 
   toggleProfanityFilter() {
@@ -345,18 +335,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   protected saveChanges(updRoom: Room) {
-    this.roomService.updateRoom(updRoom)
-      .subscribe((room) => {
-          this.room = room;
-          this.translateService.get('room-page.changes-successful').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        },
-        error => {
-          this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
+    this.roomService.updateRoom(updRoom).subscribe((room) => {
+        this.room = room;
+        this.translateService.get('room-page.changes-successful').subscribe(msg => {
+          this.notificationService.show(msg);
         });
+      },
+      error => {
+        this.translateService.get('room-page.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      });
   }
 
   private initNavigation() {
@@ -364,7 +353,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'flag',
+        icon: 'article',
+        class: 'material-icons-outlined',
         text: 'header.edit-session-description',
         callback: () => this.editSessionDescription(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -372,6 +362,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'visibility_off',
+        class: 'material-icons-outlined',
         isSVGIcon: false,
         text: 'header.moderation-mode',
         callback: () => this.showCommentsDialog(),
@@ -380,6 +371,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'gavel',
+        class: 'material-icons-outlined',
         text: 'header.edit-moderator',
         callback: () => this.showModeratorsDialog(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -387,6 +379,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'comment_tag',
+        class: 'material-icons-outlined',
         isSVGIcon: true,
         text: 'header.edit-tags',
         callback: () => this.showTagsDialog(),
@@ -395,6 +388,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'grade',
+        class: 'material-icons-outlined',
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
@@ -403,13 +397,15 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'file_download',
+        class: 'material-icons-outlined',
         text: 'header.export-questions',
         callback: () => this.exportQuestions(),
         condition: () => this.userRole >= UserRole.PARTICIPANT
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'clear',
+        icon: 'password',
+        class: 'material-icons-outlined',
         text: 'header.profanity-filter',
         callback: () => this.toggleProfanityFilter(),
         condition: () => this.userRole > UserRole.PARTICIPANT
@@ -417,6 +413,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'delete_sweep',
+        class: 'material-icons-outlined',
         iconColor: Palette.RED,
         text: 'header.delete-questions',
         callback: () => this.deleteQuestions(),
@@ -425,6 +422,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'delete',
+        class: 'material-icons-outlined',
         iconColor: Palette.RED,
         isSVGIcon: false,
         text: 'header.delete-room',
@@ -435,14 +433,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         {
           translate: this.headerService.getTranslate(),
           text: 'header.block',
-          icon: 'block',
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
           iconColor: Palette.RED,
           color: Palette.RED
         },
         {
           translate: this.headerService.getTranslate(),
           text: 'header.unlock',
-          icon: 'block',
+          icon: 'comments_disabled',
+          class: 'material-icons-outlined',
           iconColor: Palette.RED
         },
         ArsObserver.build<boolean>(e => {

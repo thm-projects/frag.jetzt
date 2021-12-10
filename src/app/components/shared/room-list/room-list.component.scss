@@ -1,5 +1,5 @@
 button {
-  color: var(--secondary);
+  color: var(--on-primary-secondary);
 }
 
 .filterWrapper {
@@ -12,7 +12,7 @@ button {
 
 table, th, tr, td {
   background-color: var(--primary-variant) !important;
-  color: var(--on-surface) !important;
+  color: var(--on-primary-variant) !important;
   hyphens: auto;
   overflow-wrap: anywhere;
 }
@@ -75,17 +75,21 @@ th, tr {
   overflow: auto;
 }
 
+::ng-deep .table-container .mat-sort-header-arrow {
+  color: unset;
+}
+
 .fill-space {
   height: 20px;
 }
 
 .delete {
-  color: var(--red);
+  color: var(--red) !important;
   margin-right: 10px;
 }
 
 .export {
-  color: var(--green);
+  color: var(--green) !important;
   margin-right: 10px;
 }
 
@@ -98,8 +102,6 @@ th, tr {
 }
 
 .warn {
-  color: var(--red) !important;
-  font-size: large ;
-  font-weight: bold;
+  color: var(--on-surface) !important;
   padding-left: 3px;
 }

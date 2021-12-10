@@ -29,16 +29,12 @@ export class DeviceInfoService {
       this._userAgentDeviceType = 'desktop';
     }
     this._isSafari = this._isSafari || false;
-    if (window.matchMedia) {
-      const match = window.matchMedia('only screen and (max-device-width: 480px) and (orientation: portrait), ' +
-        'only screen and (max-device-height: 480px) and (orientation: landscape)');
-      this._isMobile.next(match.matches);
-      match.addEventListener('change', (e) => {
-        this._isMobile.next(e.matches);
-      });
-    } else {
-      this._isMobile.next(this.isUserAgentMobile);
-    }
+    const match = window.matchMedia('only screen and (max-device-width: 480px) and (orientation: portrait), ' +
+      'only screen and (max-device-height: 480px) and (orientation: landscape)');
+    this._isMobile.next(match.matches);
+    match.addEventListener('change', (e) => {
+      this._isMobile.next(e.matches);
+    });
   }
 
   get isSafari(): boolean {

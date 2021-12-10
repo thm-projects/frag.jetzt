@@ -6,6 +6,13 @@ import { Rescale } from './models/rescale';
 import { CustomIconService } from './services/util/custom-icon.service';
 import { MatomoInjector } from 'ngx-matomo-v9';
 import { environment } from '../environments/environment';
+import { filter } from 'rxjs/operators';
+import { SessionService } from './services/util/session.service';
+
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module';
+import 'quill-emoji/dist/quill-emoji.js';
+Quill.register('modules/imageResize', ImageResize);
 
 @Component({
   selector: 'app-root',
@@ -22,11 +29,22 @@ export class AppComponent implements OnInit {
   constructor(private translationService: TranslateService,
               private update: SwUpdate,
               private matomoInjector: MatomoInjector,
+              private sessionService: SessionService,
               public notification: NotificationService,
               private customIconService: CustomIconService) {
     customIconService.init();
     if (environment.name === 'prod') {
       this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
+    }
+    if (!localStorage.getItem('currentLang')) {
+      let lang = this.translationService.getBrowserLang();
+      if (lang !== 'en' && lang !== 'de') {
+        lang = 'en';
+      }
+      this.translationService.setDefaultLang(lang);
+      localStorage.setItem('currentLang', lang);
+    } else {
+      this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
     }
   }
 
@@ -44,7 +62,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.update.available.subscribe(update => {
+    this.update.versionUpdates.pipe(
+      filter(e => e.type === 'VERSION_READY' )
+    ).subscribe(update => {
       let install: string;
       this.translationService.get('home-page.install').subscribe(msg => {
         install = msg;

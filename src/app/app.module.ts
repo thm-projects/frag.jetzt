@@ -69,12 +69,13 @@ import 'prismjs/plugins/line-highlight/prism-line-highlight.js';
 import 'katex/dist/katex.min.js';
 import 'emoji-toolkit/lib/js/joypixels.min.js';
 
-export function dialogClose(dialogResult: any) {
-}
+export const dialogClose = (dialogResult: any) => {
+};
 
-export function initializeApp(appConfig: AppConfig) {
-  return () => appConfig.load();
-}
+export const initializeApp = (appConfig: AppConfig) => () => appConfig.load();
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
+export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 
 // @ts-ignore
 @NgModule({
@@ -191,8 +192,4 @@ export function initializeApp(appConfig: AppConfig) {
   bootstrap: [AppComponent]
 })
 export class AppModule {
-}
-
-export function HttpLoaderFactory(http: HttpClient) {
-  return new TranslateHttpLoader(http, '../../assets/i18n/home/', '.json');
 }

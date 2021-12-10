@@ -1,73 +1,43 @@
-p {
-  color: var(--on-surface);
-  margin-right: 30px;
+h3, p {
+  font-size: 14px !important;
+  font-weight: normal !important;
 }
 
-.delete-icon {
-  color: var(--red);
+p {
+  color: var(--on-surface);
+  margin-right: 15px;
 }
 
 .delete {
-  margin: 20px 0 20px 0;
-  min-width: 220px;
-  background-color: var(--red);
-  color: var(--white);
-}
-
-.tokens {
-  padding-left: 3%;
-  &:nth-child(even) {
-    background-color: var(--alt-dialog);
-  }
-}
-
-.mat-stroked-button {
-  width: 130px;
-  height: 40px;
-  margin: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  cursor: pointer;
-}
-
-.navComment {
-  color: var(--secondary);
-  display: flex;
-  justify-content:right;
-  align-items: center;
-}
-
-.delComment {
-  display: flex;
-  justify-content:right;
-  align-items: center;
-}
-
-.mat-list .p {
-  display: flex;
-  justify-content:center;
-  align-items: center;
-} 
-
-.selected {
   color: var(--red);
 }
 
-.enabled {
-  color: var(--primary);
-  border-color: var(--primary);
+.selected {
+  color: var(--red) !important;
 }
 
-.validator {
-  overflow: hidden;
+.flexbox-container {
+  display: flex;
+  flex-direction: column;
 }
 
-.validator .mat-stroked-button {
-  float: right;
-  margin-left: -40%;
+.flexbox-container h2, .flexbox-container .input, .flexbox-container table{
+  margin-bottom: 20px;
+}
+
+table, th, tr, td {
+  background-color: var(--primary-variant) !important;
+  color: var(--on-primary-variant) !important;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+th, tr {
+  font-size: small !important;
+} 
+
+.table-container {
+  overflow: auto;
 }
 
 .action-button-container {
@@ -84,6 +54,17 @@ p {
 .help-button {
   background-color: var(--secondary);
   color: var(--on-secondary);
+  margin-top: 1rem;
+
+  .mat-icon {
+    font-size: 18px;
+    margin-top: 3px;
+  }
+}
+
+.export-button {
+  background-color: var(--primary);
+  color: var(--on-primary);
   margin-top: 1rem;
 
   .mat-icon {

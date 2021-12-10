@@ -18,7 +18,6 @@ import { AppComponent } from '../../../app.component';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
-import { Export } from '../../../models/export';
 import { NotificationService } from '../../../services/util/notification.service';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { PageEvent } from '@angular/material/paginator';
@@ -30,6 +29,7 @@ import {
   SortTypeKey
 } from '../../shared/comment-list/comment-list.filter';
 import { ModeratorService } from '../../../services/http/moderator.service';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 
 @Component({
@@ -70,8 +70,8 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
   periodsList = Object.values(Period);
   headerInterface = null;
   pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
+  pageSize = 25;
+  pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
@@ -155,16 +155,17 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         });
     });
     nav('exportQuestions', () => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translationService,
-        'comment-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        this.filter.moderatorAccountIds,
-        this.user);
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        this.filter.moderatorAccountIds
+      ).subscribe(text => {
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
@@ -230,7 +231,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.search = true;
     if (this.filter.currentSearch) {
       this.hideCommentsList = true;
-      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments, true);
     } else if (!this.filter.filterType) {
       this.hideCommentsList = false;
     }
@@ -367,10 +368,10 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     }
     this.isLoading = false;
     if (this.search) {
-      this.filteredComments = this.filter.filterCommentsBySearch(this.comments);
+      this.filteredComments = this.filter.filterCommentsBySearch(this.comments, true);
       return;
     }
-    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments);
+    this.commentsFilteredByTime = this.filter.filterCommentsByTime(this.comments, true);
     this.hideCommentsList = !!this.filter.filterType;
     this.filteredComments = this.hideCommentsList ?
       this.filter.filterCommentsByType(this.commentsFilteredByTime) : this.commentsFilteredByTime;
@@ -384,8 +385,9 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
-  applySortingByKey(type: SortTypeKey) {
+  applySortingByKey(type: SortTypeKey, reverse = false) {
     this.filter.sortType = SortType[type];
+    this.filter.sortReverse = reverse;
     this.refreshFiltering();
   }
 

@@ -122,7 +122,7 @@
         <div class="input-row" fxLayout="column" fxLayoutGap="5px">
           <mat-form-field fxFlex fxLayout.xs="column">
             <mat-label>{{'tag-cloud-config.font-size-max' | translate}}</mat-label>
-            <input #maxFont matInput type="number" [(ngModel)]="MaxFont" [value]="MaxFont.toString()"
+            <input matInput type="number" [(ngModel)]="maxFont" [value]="maxFont.toString()"
                    [ngModelOptions]="{standalone: true}" (change)="calcMaxFont($event,false)" min="1" max="10" step="1"
                    matTooltip="{{'tag-cloud-config.font-size-max-tooltip' | translate}}"/>
           </mat-form-field>

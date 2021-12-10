@@ -1,0 +1,133 @@
+<h3>{{'content.brainstorm-title' | translate}}</h3>
+<app-mat-spinner-overlay *ngIf="isLoading"></app-mat-spinner-overlay>
+<mat-dialog-content *ngIf="!isLoading">
+  <mat-card class="brainstorm-container"
+            *ngIf="userRole > 0 && !brainstormingData?.active">
+    <span *ngIf="!deviceInfo.isCurrentlyMobile">{{'content.brainstorm-new-session' | translate}}</span>
+    <span *ngIf="deviceInfo.isCurrentlyMobile">{{'content.brainstorm-new-session-short' | translate}}</span>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'content.brainstorming-question' | translate}}</mat-label>
+      <input matInput
+             autofocus
+             autocomplete="off"
+             type="text"
+             appAccessibilityEscapedInput
+             (keyup)="checkForEnter($event)"
+             [(ngModel)]="question">
+      <button *ngIf="question"
+              matSuffix
+              mat-icon-button
+              aria-label="Clear"
+              (click)="question=''">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'content.brainstorming-word-count' | translate}}</mat-label>
+      <input matInput
+             autocomplete="off"
+             type="number"
+             appAccessibilityEscapedInput
+             [min]="maxWordCountMin"
+             [max]="maxWordCountMax"
+             [formControl]="maxWordCount">
+      <mat-hint>
+        {{'content.field-hint-number' | translate: {min: maxWordCountMin, max: maxWordCountMax} }}
+      </mat-hint>
+      <mat-error *ngIf="maxWordCount.hasError('required')">
+        {{'content.field-required' | translate}}
+      </mat-error>
+      <mat-error *ngIf="maxWordCount.hasError('min')">
+        {{'content.field-too-low' | translate: {min: maxWordCountMin} }}
+      </mat-error>
+      <mat-error *ngIf="maxWordCount.hasError('max')">
+        {{'content.field-too-high' | translate: {max: maxWordCountMax} }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{'content.brainstorming-word-length' | translate}}</mat-label>
+      <input matInput
+             autocomplete="off"
+             type="number"
+             appAccessibilityEscapedInput
+             [min]="maxWordLengthMin"
+             [max]="maxWordLengthMax"
+             [formControl]="maxWordLength">
+      <mat-hint>
+        {{'content.field-hint-number' | translate: {min: maxWordLengthMin, max: maxWordLengthMax} }}
+      </mat-hint>
+      <mat-error *ngIf="maxWordLength.hasError('required')">
+        {{'content.field-required' | translate}}
+      </mat-error>
+      <mat-error *ngIf="maxWordLength.hasError('min')">
+        {{'content.field-too-low' | translate: {min: maxWordLengthMin} }}
+      </mat-error>
+      <mat-error *ngIf="maxWordLength.hasError('max')">
+        {{'content.field-too-high' | translate: {max: maxWordLengthMax} }}
+      </mat-error>
+    </mat-form-field>
+    <button mat-flat-button
+            class="primary-btn"
+            [disabled]="!canCreate()"
+            (click)="openNew()">
+      {{'content.brainstorm-start' | translate}}
+      <app-mat-spinner-overlay
+        *ngIf="isCreating"
+        diameter="20"
+        strokeWidth="2"
+        [color]="'on-primary'">
+      </app-mat-spinner-overlay>
+    </button>
+  </mat-card>
+  <mat-card class="brainstorm-session" *ngIf="brainstormingData">
+    <ng-container *ngIf="!brainstormingData?.active">
+      <span *ngIf="!deviceInfo.isCurrentlyMobile">{{'content.brainstorm-old-session-title' | translate}}</span>
+      <span *ngIf="deviceInfo.isCurrentlyMobile">{{'content.brainstorm-old-session-title-short' | translate}}</span>
+      <p>{{'content.brainstorm-old-session-info' | translate: getTranslate() }}</p>
+      <ars-row class="break-row">
+        <button mat-flat-button class="primary-btn" (click)="open()">
+          {{'content.brainstorm-old-session-show' | translate}}
+        </button>
+        <button mat-flat-button
+                class="secondary-btn"
+                *ngIf="userRole > 0"
+                (click)="deleteSession()">
+          {{'content.brainstorm-old-session-delete' | translate}}
+          <app-mat-spinner-overlay
+            *ngIf="isDeleting"
+            diameter="20"
+            strokeWidth="2"
+            [color]="'on-secondary'">
+          </app-mat-spinner-overlay>
+        </button>
+      </ars-row>
+    </ng-container>
+    <ng-container *ngIf="brainstormingData?.active">
+      <span *ngIf="!deviceInfo.isCurrentlyMobile">{{'content.brainstorm-join-session-title' | translate}}</span>
+      <span *ngIf="deviceInfo.isCurrentlyMobile">{{'content.brainstorm-join-session-title-short' | translate}}</span>
+      <p>{{'content.brainstorm-join-session-info' | translate: getTranslate() }}</p>
+      <ars-row class="break-row">
+        <button mat-flat-button class="primary-btn" (click)="open()">
+          {{'content.brainstorm-join-session-join' | translate}}
+        </button>
+        <button mat-flat-button class="secondary-btn" *ngIf="userRole > 0" (click)="closeSession()">
+          {{'content.brainstorm-join-session-close' | translate}}
+          <app-mat-spinner-overlay
+            *ngIf="isClosing"
+            diameter="20"
+            strokeWidth="2"
+            [color]="'on-secondary'">
+          </app-mat-spinner-overlay>
+        </button>
+      </ars-row>
+    </ng-container>
+  </mat-card>
+  <mat-card *ngIf="userRole === 0 && !this.brainstormingData" class="no-brainstorm-session">
+    <span>{{'content.brainstorm-no-session' | translate}}</span>
+  </mat-card>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="content"
+  [cancelButtonClickAction]="cancelButtonActionCallback()">
+</app-dialog-action-buttons>

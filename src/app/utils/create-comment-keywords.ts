@@ -6,6 +6,9 @@ import { DeepLService, FormalityType, SourceLang, TargetLang } from '../services
 import { Comment, Language as CommentLanguage } from '../models/comment';
 import { ViewCommentDataComponent } from '../components/shared/view-comment-data/view-comment-data.component';
 import { CURRENT_SUPPORTED_LANGUAGES, Model } from '../services/http/spacy.interface';
+import {
+  QuillInputDialogComponent
+} from '../components/shared/_dialogs/quill-input-dialog/quill-input-dialog.component';
 
 export enum KeywordsResultType {
   successful,
@@ -36,6 +39,43 @@ export class CreateCommentKeywords {
     return text.replace(/([*_~]+(?=[^*_~\s]))|(^[ \t]*#+ )|(^[ \t]*>[> ]*)|(`+)/gm, '')
       .replace(/([^*_~\s])[*_~]+/gm, '$1')
       .replace(/\[([^\n\[\]]*)\]\(([^()\n]*)\)/gm, '$1 $2');
+  }
+
+  static transformURLtoQuill(data: string, transformToVideo: boolean): string {
+    const urlRegex = /(www\.|https?:\/\/)\S+/gi;
+    let m;
+    const result = JSON.parse(data).reduce((acc, k) => {
+      let prevObjData;
+      if (typeof k !== 'string') {
+        if (!k.insert || k.attributes?.link) {
+          acc.push(k);
+          return acc;
+        }
+        prevObjData = { ...k };
+      }
+      const str = prevObjData ? k.insert : k;
+      let lastIndex = 0;
+      while ((m = urlRegex.exec(str)) !== null) {
+        if (m.index > lastIndex) {
+          const substring = str.substring(lastIndex, m.index);
+          acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+        }
+        lastIndex = m.index + m[0].length;
+        const link = m[1]?.toLowerCase() === 'www.' ? 'https://' + m[0] : m[0];
+        const videoLink = transformToVideo && QuillInputDialogComponent.getVideoUrl(link);
+        if (videoLink) {
+          acc.push({ video: videoLink });
+        } else {
+          acc.push({ attributes: { ...prevObjData?.attributes, link }, insert: link });
+        }
+      }
+      if (lastIndex < str.length) {
+        const substring = str.substring(lastIndex);
+        acc.push(prevObjData ? { ...prevObjData, insert: substring } : substring);
+      }
+      return acc;
+    }, []);
+    return JSON.stringify(result);
   }
 
   public static generateDeeplDelta(deepl: DeepLService, body: string, targetLang: TargetLang,

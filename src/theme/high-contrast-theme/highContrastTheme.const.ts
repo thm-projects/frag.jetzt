@@ -15,6 +15,7 @@ export const highcontrast = {
 
   '--on-primary': '#141414',
   '--on-secondary': '#141414',
+  '--on-primary-variant': '#FFFFFF',
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
@@ -23,7 +24,7 @@ export const highcontrast = {
   '--green': '#3ce933',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': '#e9d533',
+  '--yellow': '#fb9a1c',
   '--blue': '#3833e9',
   '--purple': '#e933e2',
   '--magenta': '#ea0a8e',
@@ -31,7 +32,7 @@ export const highcontrast = {
   '--grey': '#7e7e7e',
   '--grey-light': '#9c9c9c',
   '--black': 'black',
-  '--moderator': 'darkred',
+  '--moderator': 'black',
 
 };
 
@@ -39,8 +40,8 @@ export const highcontrast_meta = {
 
   translation: {
     name: {
-      en: 'High Contrast',
-      de: 'Hoher Kontrast',
+      en: 'Contrast mode',
+      de: 'Kontrastmodus',
     },
   },
   isDark: true,

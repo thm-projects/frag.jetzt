@@ -88,7 +88,7 @@ app-comment {
 }
 
 .freezeIcon {
-  transform: scale(1.5);
+  transform: scale(1.7);
   color: var(--secondary);
 }
 
@@ -114,7 +114,6 @@ app-comment {
 }
 
 .button-bar {
-  margin-right: 2%;
 }
 
 .button-bar.joyrideActive {
@@ -147,11 +146,23 @@ app-comment {
 }
 
 .bookmark-icon {
-  color: var(--red);
+  color: var(--magenta);
+}
+
+.not_bookmarked-icon {
+  color: slategray;
 }
 
 .owner-icon {
   color: var(--purple);
+}
+
+.brainstorm-icon {
+  color: var(--primary);
+}
+
+.number-icon {
+  color: var(--secondary);
 }
 
 .lecturer-icon {
@@ -163,7 +174,7 @@ app-comment {
 }
 
 .counter {
-  color: var(--on-background);
+  color: var(--secondary);
 }
 
 .counter-filtered {
@@ -172,7 +183,7 @@ app-comment {
 
 h3 {
   font-size: 18pt !important;
-  margin: 10px;
+  margin: 10px 0 10px -10px;
 }
 
 .timesort {
@@ -185,6 +196,10 @@ h3 {
 
 .down {
   color: var(--red);
+}
+
+.controversy {
+  color: var(--primary);
 }
 
 ::placeholder {

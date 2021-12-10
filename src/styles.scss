@@ -1,3 +1,4 @@
+@use '@angular/material' as mat;
 @import 'theme/light-theme/_variables.scss';
 @import 'theme/dark-theme/dark-theme';
 @import 'theme/blue-theme/blue-theme';
@@ -12,15 +13,15 @@
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($arsnova-theme);
+@include mat.all-component-themes($arsnova-theme);
 
 body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, sans-serif;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -28,15 +29,15 @@ body {
 }
 
 .dark {
-  @include angular-material-theme($dark-theme);
+  @include mat.all-component-themes($dark-theme);
 }
 
 .blue {
-  @include angular-material-theme($blue-theme);
+  @include mat.all-component-themes($blue-theme);
 }
 
 .purple {
-  @include angular-material-theme($purple-theme);
+  @include mat.all-component-themes($purple-theme);
 }
 
 @import 'theme/light-theme/theme';
@@ -139,6 +140,15 @@ address {
   hyphens: auto !important;
 }
 
+@media only screen and (max-height: 500px) {
+  .mat-dialog-container {
+    max-height: 70vh !important;
+  }
+  .dialog-action-buttons {
+    margin: 10px 0 !important;
+  }
+}
+
 .mat-card {
   line-height: 1.5 !important;
   color: var(--on-surface) !important;
@@ -175,10 +185,11 @@ a.info:hover span, a.info:focus span, a.info:active span {
   text-align: center;
 }
 
-:focus {
-  outline: 1px solid var(--on-surface);
-  outline-offset: 8px;
-}
+//TODO: a13y must be revised
+//:focus {
+//  outline: 1px solid var(--on-surface);
+//  outline-offset: 8px;
+//}
 
 a {
   word-break: break-all;
@@ -249,4 +260,46 @@ a {
 
 .mat-spinner circle {
   stroke: var(--on-background);
+}
+
+.mat-radio-label-content {
+  white-space: normal !important;
+}
+
+.mat-slide-toggle-content {
+  white-space: normal !important;
+}
+
+.mat-option {
+  background-color: var(--dialog);
+  color: var(--on-dialog);
+}
+
+.mat-option:hover {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
+
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: var(--primary);
+  color: var(--on-primary) !important;
+}
+
+.mat-row:hover .mat-cell {
+  border-color: currentColor;
+  border-bottom-width: 1px;
+}
+
+.mat-cell {
+  hyphens: auto !important;
+  padding-right: 5px !important;
+}
+
+.mat-header-row .mat-header-cell {
+  background-color: var(--secondary) !important;
+  color: var(--on-secondary) !important;
+}
+
+.mat-pseudo-checkbox-checked, .mat-pseudo-checkbox-indeterminate, .mat-accent .mat-pseudo-checkbox-checked, .mat-accent .mat-pseudo-checkbox-indeterminate {
+  background: var(--green) !important;;
 }

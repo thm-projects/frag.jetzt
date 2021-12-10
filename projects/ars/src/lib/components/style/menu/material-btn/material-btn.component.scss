@@ -4,58 +4,58 @@
   p, h1, h2, h3, h4, h5 {
     padding: 0;
     margin: 0;
-    font-family:Roboto, 'sans-serif';
+    font-family: Roboto, 'sans-serif';
   }
 
-  button{
-    background-color:transparent;
-    border:none;
-    outline:none;
-    cursor:pointer;
-    float:left;
+  button {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    float: left;
   }
 
-  button > *{
-    float:left;
-    cursor:pointer;
+  button > * {
+    float: left;
+    cursor: pointer;
   }
 
-  button:focus-visible > *:first-child{
-    outline:red 2px solid;
-    outline-offset:2px;
+  button:focus-visible > *:first-child {
+    outline: red 2px solid;
+    outline-offset: 2px;
   }
 
-  ars-col > button > p{
-    font-weight:500;
-    font-size:14px;
-    line-height:18px;
-    padding-top:1px;
-    padding-bottom:3px;
-    color:var(--ars-button-color);
+  ars-col > button > p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    padding-top: 1px;
+    padding-bottom: 3px;
+    color: var(--ars-button-color);
   }
 
-  ars-row > button > p{
-    font-weight:500;
-    font-size:14px;
-    line-height:14px;
-    color:var(--ars-button-color);
+  ars-row > button > p {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 14px;
+    color: var(--ars-button-color);
   }
 
-  ars-row > button > *:nth-child(2){
-    float:right;
+  ars-row > button > *:nth-child(2) {
+    float: right;
   }
 
-  button > *:nth-child(2){
-    margin-left:12px;
+  button > *:nth-child(2) {
+    margin-left: 4px;
   }
 
-  button > i{
-    font-family:'Material Icons', serif;
-    font-weight:normal;
-    font-style:normal;
-    font-size:18px;
-    line-height:18px;
-    color:var(--ars-button-color);
+  button > i {
+    font-family: 'Material Icons', serif;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px;
+    line-height: 18px;
+    color: var(--ars-button-color);
   }
 
 }

@@ -57,6 +57,8 @@ import { QuillInputDialogComponent } from './_dialogs/quill-input-dialog/quill-i
 import { WorkerConfigDialogComponent } from './_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { WordCloudComponent } from './tag-cloud/word-cloud/word-cloud.component';
 import { AccessibilityEscapedInputDirective } from '../../directives/accessibility-escaped-input.directive';
+import { QuestionWallIntroComponent } from './questionwall/question-wall/question-wall-intro/question-wall-intro/question-wall-intro.component';
+import { TopicCloudBrainstormingComponent } from './_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 
 @NgModule({
   imports: [
@@ -119,7 +121,9 @@ import { AccessibilityEscapedInputDirective } from '../../directives/accessibili
     QuillInputDialogComponent,
     WorkerConfigDialogComponent,
     WordCloudComponent,
-    AccessibilityEscapedInputDirective
+    AccessibilityEscapedInputDirective,
+    QuestionWallIntroComponent,
+    TopicCloudBrainstormingComponent
   ],
     exports:[
         RoomJoinComponent,
@@ -145,7 +149,8 @@ import { AccessibilityEscapedInputDirective } from '../../directives/accessibili
         ScrollIntoViewDirective,
         ViewCommentDataComponent,
         WriteCommentComponent,
-        AccessibilityEscapedInputDirective
+        AccessibilityEscapedInputDirective,
+        QuestionWallIntroComponent
     ]
 })
 export class SharedModule {

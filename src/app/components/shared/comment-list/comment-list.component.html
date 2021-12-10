@@ -68,6 +68,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="filter_list"
+            #filterMenuTrigger="matMenuTrigger"
             *ngIf="!searchBox.value && comments && commentsFilteredByTime.length > 2 && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': hideCommentsList}"
@@ -93,7 +94,7 @@
             *ngIf="!searchBox.value && !search && !freeze && comments.length > 2"
             (click)="activateCommentStream(true)"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
-      <mat-icon class="freezeIcon">pause</mat-icon>
+      <mat-icon class="freezeIcon material-icons-outlined">stop_circle</mat-icon>
     </button>
 
     <button id="play-comments"
@@ -103,7 +104,7 @@
             *ngIf="!searchBox.value && !search && freeze"
             (click)="activateCommentStream(false)"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
-      <mat-icon class="playIcon">play_arrow</mat-icon>
+      <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>
     </button>
 
   </div>
@@ -132,17 +133,39 @@
     </button>
 
     <button mat-menu-item
-            (click)="applySortingByKey('votedesc')"
+            (click)="applySortingByKey('score')"
             aria-labelledby="keyboard_arrow_up">
-      <mat-icon [ngClass]="{votedesc: 'up'}[filter.sortType]">thumb_up</mat-icon>
-      <span [ngClass]="{votedesc: 'up'}[filter.sortType]">{{ 'comment-list.sort-vote-asc' | translate }}</span>
+      <mat-icon class="material-icons-outlined"
+                [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+        thumb_up
+      </mat-icon>
+      <span [ngClass]="{score: 'up'}[!filter.sortReverse && filter.sortType]">
+        {{ 'comment-list.sort-vote-asc' | translate }}
+      </span>
     </button>
 
     <button mat-menu-item
-            (click)="applySortingByKey('voteasc')"
+            (click)="applySortingByKey('score', true)"
             aria-labelledby="keyboard_arrow_down">
-      <mat-icon [ngClass]="{voteasc: 'down'}[filter.sortType]">thumb_down</mat-icon>
-      <span [ngClass]="{voteasc: 'down'}[filter.sortType]">{{ 'comment-list.sort-vote-desc' | translate }}</span>
+      <mat-icon [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]"
+                class="material-icons-outlined">
+        thumb_down
+      </mat-icon>
+      <span [ngClass]="{score: 'down'}[filter.sortReverse && filter.sortType]">
+        {{ 'comment-list.sort-vote-desc' | translate }}
+      </span>
+    </button>
+
+    <button mat-menu-item
+            (click)="applySortingByKey('controversy')"
+            aria-labelledby="controversy">
+      <mat-icon class="material-icons-outlined" [ngClass]="{controversy: 'controversy'}[filter.sortType]">
+        quickreply
+      </mat-icon>
+      <span
+        [ngClass]="{controversy: 'controversy'}[filter.sortType]">
+        {{ 'comment-list.sort-controversy' | translate }}
+      </span>
     </button>
 
   </mat-menu>
@@ -154,7 +177,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('favorite')"
               aria-labelledby="grade">
-        <mat-icon class="star"
+        <mat-icon class="star material-icons-outlined"
                   [ngClass]="{favorite: 'favorite-icon'}[filter.filterType]">grade
         </mat-icon>
         <span
@@ -173,6 +196,17 @@
 
       <button mat-menu-item
               (focus)="hideCommentsList=true"
+              (click)="applyFilterByKey('not_bookmarked')"
+              aria-labelledby="not-bookmark">
+        <mat-icon class="not_bookmarked"
+                  [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">bookmark_border
+        </mat-icon>
+        <span
+          [ngClass]="{not_bookmarked: 'not_bookmarked-icon'}[filter.filterType]">{{ 'comment-list.filter-not_bookmarked' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('answer')"
               aria-labelledby="comment">
         <mat-icon class="answer"
@@ -186,7 +220,7 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('unanswered')"
               aria-labelledby="comment">
-        <mat-icon class="unanswered"
+        <mat-icon class="unanswered material-icons-outlined"
                   [ngClass]="{unanswered: 'unanswered-icon'}[filter.filterType]">comment
         </mat-icon>
         <span
@@ -197,8 +231,43 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('owner')"
               aria-labelledby="comment">
-        <mat-icon [ngClass]="{owner: 'owner-icon'}[filter.filterType]">person_pin_circle</mat-icon>
+        <mat-icon class="material-icons-outlined" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">
+          person_pin_circle
+        </mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
+      </button>
+
+      <button mat-menu-item
+              role="option"
+              (focus)="hideCommentsList=true"
+              (click)="$event.stopImmediatePropagation()">
+        <mat-form-field>
+          <mat-label [ngClass]="{number: 'number-icon'}[filter.filterType]">
+            <mat-icon class="material-icons-outlined" [ngClass]="{number: 'number-icon'}[filter.filterType]">
+              question_mark
+            </mat-icon>
+            {{'comment-list.filter-question-number' | translate}}
+          </mat-label>
+          <input type="text"
+                 #autoTrigger="matAutocompleteTrigger"
+                 #questionNumber
+                 [formControl]="questionNumberFormControl"
+                 appAccessibilityEscapedInput
+                 matInput
+                 [matAutocomplete]="auto"
+                 (keyup.enter)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger)">
+          <mat-icon class="material-icons align-arrow-right"
+                    (click)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger); $event.stopImmediatePropagation()"
+                    [ngClass]="{number: 'number-icon'}[filter.filterType]">
+            {{isInCommentNumbers(questionNumber.value) ? 'forward' : 'arrow_drop_down'}}
+          </mat-icon>
+          <mat-autocomplete #auto="matAutocomplete"
+                            (optionSelected)="useCommentNumber(questionNumber, filterMenuTrigger, autoTrigger)">
+            <mat-option *ngFor="let number of questionNumberOptions" [value]="number">
+              {{number}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
       </button>
 
       <!--
@@ -226,6 +295,17 @@
 
 
       <button mat-menu-item
+              (focus)="hideCommentsList=true"
+              (click)="applyFilterByKey('brainstormingQuestion')">
+        <mat-icon class="material-icons-outlined" [ngClass]="{brainstormingQuestion: 'brainstorm-icon'}[filter.filterType]">
+          tips_and_updates
+        </mat-icon>
+        <span [ngClass]="{brainstormingQuestion: 'brainstorm-icon'}[filter.filterType]">
+          {{ 'comment-list.filter-brainstorm' | translate }}
+        </span>
+      </button>
+
+      <button mat-menu-item
               (focus)="hideCommentsList=false"
               (click)="applyFilterByKey(null)"
               aria-labelledby="close">
@@ -242,7 +322,7 @@
         class="scrollTop"
         [ngClass]="{'visible': isScrollButtonVisible()}"
         (click)="AppComponent.scrollTop()">
-  <mat-icon>arrow_upward</mat-icon>
+  <mat-icon>vertical_align_top</mat-icon>
 </button>
 
 <div id="createCommentJoyrideWrapper"
@@ -264,32 +344,32 @@
 <app-mat-spinner-overlay *ngIf="isLoading" overlay="true"></app-mat-spinner-overlay>
 
 <div *ngIf="!isLoading">
-  <app-comment *ngFor="let current of (hideCommentsList ?
-  filteredComments : commentsFilteredByTime).slice(pageIndex*pageSize,(pageIndex*pageSize)+pageSize); let i = index"
-               [appScrollIntoView]="current.id === focusCommentId"
-               [usesJoyride]="i === 0 && isJoyrideActive"
-               [comment]="current"
-               [parseVote]="getVote(current)"
-               [userRole]="userRole"
-               [moderator]="false"
-               [isFromModerator]="filter.moderatorAccountIds.has(current.creatorId)"
-               [isFromOwner]="room.ownerId === current.creatorId"
-               [user]="user"
-               [disabled]="!commentsEnabled"
-               [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
-               (clickedOnTag)="applyFilterByKey('tag', $event)"
-               (clickedUserNumber)="applyFilterByKey('userNumber', $event)"
-               (clickedOnKeyword)="applyFilterByKey('keyword', $event)"
-               (votedComment)="votedComment($event)">
+  <app-comment
+    *ngFor="let current of getComments().slice(pageIndex * pageSize, (pageIndex * pageSize) + pageSize); let i = index"
+    [appScrollIntoView]="current.id === focusCommentId"
+    [usesJoyride]="i === 0 && isJoyrideActive"
+    [comment]="current"
+    [parseVote]="getVote(current)"
+    [userRole]="userRole"
+    [moderator]="false"
+    [isFromModerator]="filter.moderatorAccountIds.has(current.creatorId)"
+    [isFromOwner]="room.ownerId === current.creatorId"
+    [user]="user"
+    [disabled]="!commentsEnabled"
+    [commentsWrittenByUser]="commentsWrittenByUsers.get(current.creatorId).size"
+    (clickedOnTag)="applyFilterByKey('tag', $event)"
+    (clickedUserNumber)="applyFilterByKey('userNumber', $event)"
+    (clickedOnKeyword)="applyFilterByKey('keyword', $event)"
+    (votedComment)="votedComment($event)">
   </app-comment>
   <ars-mat-paginator
-                     *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
-                     [pageSize]="5"
-                     (page)="handlePageEvent($event)"
-                     [showFirstLastButtons]="showFirstLastButtons"
-                     [pageSizeOptions]="pageSizeOptions"
-                     [pageIndex]="pageIndex"
-                     [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
+    *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0"
+    [pageSize]="this.pageSize"
+    (page)="handlePageEvent($event)"
+    [showFirstLastButtons]="showFirstLastButtons"
+    [pageSizeOptions]="pageSizeOptions"
+    [pageIndex]="pageIndex"
+    [length]="(hideCommentsList ? filteredComments : commentsFilteredByTime).length"></ars-mat-paginator>
   <ars-row [height]="64" *ngIf="(hideCommentsList ? filteredComments : commentsFilteredByTime).length>0">
   </ars-row>
 
@@ -324,6 +404,7 @@
   <div id="keyboard_arrow_up">{{'comment-list.a11y-keyboard_arrow_up' | translate}}</div>
   <div id="keyboard_arrow_down">{{'comment-list.a11y-keyboard_arrow_down' | translate}}</div>
   <div id="access_time">{{'comment-list.a11y-access_time' | translate}}</div>
+  <div id="controversy">{{'comment-list.a11y-controversy' | translate}}</div>
   <div id="filter_list">{{'comment-list.a11y-filter_list' | translate}}</div>
   <div id="check_circle">{{'comment-list.a11y-check_circle' | translate}}</div>
   <div id="not_interested">{{'comment-list.a11y-not_interested' | translate}}</div>
@@ -331,6 +412,7 @@
   <div id="moderator">{{'comment-list.a11y-moderator' | translate}}</div>
   <div id="lecturer">{{'comment-list.a11y-lecturer' | translate}}</div>
   <div id="bookmark">{{'comment-list.a11y-bookmark' | translate}}</div>
+  <div id="not-bookmark">{{'comment-list.a11y-not-bookmark' | translate}}</div>
   <div id="beamer_icon">{{'comment-list.a11y-beamer_icon' | translate}}</div>
   <div id="close">{{'comment-list.a11y-close' | translate}}</div>
   <div id="add">{{'comment-list.a11y-add' | translate}}</div>

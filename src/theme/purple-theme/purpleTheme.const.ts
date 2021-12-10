@@ -15,10 +15,11 @@ export const purple = {
 
   '--on-primary': 'white',
   '--on-secondary': 'white',
+  '--on-primary-variant': 'black',
   '--on-background': 'black',
   '--on-surface': 'black',
   '--on-dialog': 'black',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'white',
 
   '--green': 'green',
   '--red': 'red',
@@ -39,8 +40,8 @@ export const purple_meta = {
 
   translation: {
     name: {
-      en: 'Projector',
-      de: 'Beamer',
+      en: 'Lecture room',
+      de: 'Hörsaal',
     },
   },
   isDark: false,

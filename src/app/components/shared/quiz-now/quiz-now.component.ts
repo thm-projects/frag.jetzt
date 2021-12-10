@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class QuizNowComponent implements OnInit, OnDestroy {
   urlSafe: SafeResourceUrl;
   isLoading = true;
+  isURLLoading = true;
   shortId: string;
   roleString: string;
   private _headerSubscription;
@@ -32,7 +33,7 @@ export class QuizNowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl('https://antworte.jetzt/');
+    this.initURL();
     this._headerSubscription = this.eventService.on<string>('navigate').subscribe(action => {
       if (action === 'questionBoard') {
         this.router.navigate(['/' + this.roleString + '/room/' + this.shortId + '/comments']);
@@ -42,5 +43,18 @@ export class QuizNowComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this._headerSubscription.unsubscribe();
+  }
+
+  private initURL() {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = () => {
+      if (xhr.responseURL) {
+        this.urlSafe = this.sanitizer.bypassSecurityTrustResourceUrl(xhr.responseURL);
+        this.isURLLoading = false;
+        xhr.abort();
+      }
+    };
+    xhr.open('OPTIONS', '/antworte-jetzt');
+    xhr.send();
   }
 }

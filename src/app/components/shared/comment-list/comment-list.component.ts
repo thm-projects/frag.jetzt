@@ -21,7 +21,6 @@ import { TitleService } from '../../../services/util/title.service';
 import { ModeratorsComponent } from '../../creator/_dialogs/moderators/moderators.component';
 import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { DeleteCommentsComponent } from '../../creator/_dialogs/delete-comments/delete-comments.component';
-import { Export } from '../../../models/export';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { ModeratorService } from '../../../services/http/moderator.service';
 import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
@@ -30,9 +29,14 @@ import { RoomDataService } from '../../../services/util/room-data.service';
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { ActiveUserService } from '../../../services/http/active-user.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
-import { WorkerDialogComponent } from '../_dialogs/worker-dialog/worker-dialog.component';
 import { PageEvent } from '@angular/material/paginator';
 import { CommentListFilter, FilterType, FilterTypeKey, Period, SortType, SortTypeKey } from './comment-list.filter';
+import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
+import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { FormControl } from '@angular/forms';
+import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
 
 export interface CommentListData {
   currentFilter: CommentListFilter;
@@ -46,6 +50,7 @@ export interface CommentListData {
 })
 export class CommentListComponent implements OnInit, OnDestroy {
   @ViewChild('searchBox') searchField: ElementRef;
+  @ViewChild('filterMenuTrigger') filterMenuTrigger: MatMenuTrigger;
   @Input() user: User;
   @Input() roomId: string;
   shortId: string;
@@ -75,13 +80,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
   createCommentWrapper: CreateCommentWrapper = null;
   isJoyrideActive = false;
   focusCommentId = '';
+  sendCommentId = '';
   activeUsers = 0;
   pageIndex = 0;
-  pageSize = 10;
-  pageSizeOptions = [5, 10, 25];
+  pageSize = 25;
+  pageSizeOptions = [25, 50, 100, 200];
   showFirstLastButtons = true;
   commentsWrittenByUsers: Map<string, Set<string>> = new Map<string, Set<string>>();
   filter: CommentListFilter;
+  questionNumberFormControl = new FormControl();
+  questionNumberOptions: string[] = [];
+  private _allQuestionNumberOptions: string[] = [];
   private _subscriptionEventServiceTagConfig = null;
   private _subscriptionEventServiceRoomData = null;
   private _subscriptionRoomService = null;
@@ -116,6 +125,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
     });
     this.filter = CommentListFilter.loadFilter();
+    this.questionNumberFormControl.valueChanges.subscribe((v) => {
+      v = v || '';
+      this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(v));
+    });
   }
 
   handlePageEvent(e: PageEvent) {
@@ -190,16 +203,17 @@ export class CommentListComponent implements OnInit, OnDestroy {
         });
     });
     nav('exportQuestions', () => {
-      const exp: Export = new Export(
-        this.room,
-        this.commentService,
-        this.bonusTokenService,
-        this.translationService,
-        'comment-list',
+      exportQuestions(this.translateService,
         this.notificationService,
-        this.filter.moderatorAccountIds,
-        this.user);
-      exp.exportAsCsv();
+        this.bonusTokenService,
+        this.commentService,
+        'comment-list',
+        this.user,
+        this.room,
+        this.filter.moderatorAccountIds
+      ).subscribe(text => {
+        copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
+      });
     });
     this.headerInterface = this.eventService.on<string>('navigate').subscribe(e => {
       if (navigation.hasOwnProperty(e)) {
@@ -210,6 +224,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.initNavigation();
+    const data = localStorage.getItem('commentListPageSize');
+    this.pageSize = data ? +data || this.pageSize : this.pageSize;
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -257,6 +273,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
                 this.hideCommentsList = true;
               }
               this.refreshFiltering();
+              this.setFocusedComment(localStorage.getItem('answeringQuestion'));
               this.eventService.broadcast('commentListCreated', null);
               this.isJoyrideActive = this.onboardingService.startDefaultTour();
             });
@@ -292,6 +309,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
     if (this._subscriptionEventServiceTagConfig) {
       this._subscriptionEventServiceTagConfig.unsubscribe();
     }
+    localStorage.setItem('commentListPageSize', String(this.pageSize));
   }
 
   checkScroll(): void {
@@ -327,6 +345,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   refreshFiltering(): void {
+    this._allQuestionNumberOptions = this.comments.map(c => c.number)
+      .sort((a, b) => b - a).map(c => String(c));
+    const value = this.questionNumberFormControl.value || '';
+    this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
     this.commentsWrittenByUsers.clear();
     for (const comment of this.comments) {
       let set = this.commentsWrittenByUsers.get(comment.creatorId);
@@ -366,14 +388,14 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
-  applySortingByKey(type: SortTypeKey) {
+  applySortingByKey(type: SortTypeKey, reverse = false) {
     this.filter.sortType = SortType[type];
+    this.filter.sortReverse = reverse;
     this.refreshFiltering();
   }
 
   votedComment(voteInfo: string) {
-    this.focusCommentId = null;
-    setTimeout(() => this.focusCommentId = voteInfo, 100);
+    setTimeout(() => this.setFocusedComment(voteInfo), 100);
   }
 
   activateCommentStream(freezed: boolean) {
@@ -400,6 +422,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   subscribeCommentStream() {
+    let wasUpdate = false;
     this.commentStream = this.roomDataService.receiveUpdates([
       { type: 'CommentCreated', finished: true },
       { type: 'CommentPatched', subtype: 'favorite' },
@@ -407,6 +430,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     ]).subscribe(update => {
       if (update.type === 'CommentCreated') {
         this.announceNewComment(update.comment.body);
+        if (update.comment.id && update.comment.id === this.sendCommentId) {
+          wasUpdate = true;
+        }
       } else if (update.type === 'CommentPatched') {
         if (update.subtype === 'favorite') {
           if (this.user.id === update.comment.creatorId && update.comment.favorite) {
@@ -418,6 +444,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
       if (update.finished) {
         this.refreshFiltering();
+        if (wasUpdate) {
+          this.setFocusedComment(this.sendCommentId);
+          this.sendCommentId = null;
+        }
       }
     });
   }
@@ -428,7 +458,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   writeComment() {
     this.createCommentWrapper.openCreateDialog(this.user, this.userRole)
-      .subscribe(comment => this.focusCommentId = comment && comment.id);
+      .subscribe(comment => this.sendCommentId = comment?.id);
   }
 
   /**
@@ -436,7 +466,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
    */
   public announceNewComment(comment: string) {
     // update variable so text will be fetched to DOM
-    this.newestComment = comment;
+    this.newestComment = ViewCommentDataComponent.getTextFromData(comment);
 
     // Currently the only possible way to announce the new comment text
     // @see https://github.com/angular/angular/issues/11405
@@ -459,6 +489,24 @@ export class CommentListComponent implements OnInit, OnDestroy {
     this.refreshFiltering();
   }
 
+  getComments(): Comment[] {
+    return this.hideCommentsList ? this.filteredComments : this.commentsFilteredByTime;
+  }
+
+  isInCommentNumbers(value: string): boolean {
+    return this._allQuestionNumberOptions.indexOf(value) >= 0;
+  }
+
+  useCommentNumber(questionNumber: HTMLInputElement, menu: MatMenuTrigger, autoComplete: MatAutocompleteTrigger) {
+    if (!this.isInCommentNumbers(questionNumber.value)) {
+      return;
+    }
+    autoComplete.closePanel();
+    this.questionNumberFormControl.setValue('');
+    menu.closeMenu();
+    this.applyFilterByKey('number', +questionNumber.value);
+  }
+
   private receiveRoom(room: Room) {
     this.room = room;
     this.filter.updateRoom(room);
@@ -469,13 +517,21 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   private generateKeywordsIfEmpty() {
-    if (this.comments.length > 0 && this.userRole === UserRole.CREATOR) {
-      const count = this.comments.reduce((acc, comment) =>
-        acc + (comment.keywordsFromQuestioner && comment.keywordsFromQuestioner.length) +
-        (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length), 0);
-      if (count < 1) {
-        WorkerDialogComponent.addWorkTask(this.dialog, this.room);
-      }
+    if (TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this.roomId)) {
+      TopicCloudFilterComponent.startUpdate(this.dialog, this.room, this.userRole);
     }
+  }
+
+  private setFocusedComment(commentId: string) {
+    this.focusCommentId = null;
+    if (!commentId) {
+      return;
+    }
+    const index = this.getComments().findIndex(e => e.id === commentId);
+    if (index < 0) {
+      return;
+    }
+    this.pageIndex = Math.floor(index / this.pageSize);
+    setTimeout(() => this.focusCommentId = commentId, 100);
   }
 }

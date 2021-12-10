@@ -1,5 +1,4 @@
 import {
-  ComponentFactoryResolver,
   Directive,
   OnInit,
   ViewContainerRef
@@ -15,13 +14,11 @@ export class JoyrideTemplateDirective implements OnInit {
 
   constructor(private viewContainerRef: ViewContainerRef,
               public joyrideDirective: JoyrideDirective,
-              private eventService: EventService,
-              private componentFactory: ComponentFactoryResolver) {
+              private eventService: EventService) {
   }
 
   ngOnInit(): void {
-    const factory = this.componentFactory.resolveComponentFactory(JoyrideTemplateComponent);
-    const templates = this.viewContainerRef.createComponent(factory);
+    const templates = this.viewContainerRef.createComponent(JoyrideTemplateComponent);
     templates.instance.name = this.joyrideDirective.name;
     this.joyrideDirective.doneTemplate = templates.instance.doneButton;
     this.joyrideDirective.nextTemplate = templates.instance.nextButton;

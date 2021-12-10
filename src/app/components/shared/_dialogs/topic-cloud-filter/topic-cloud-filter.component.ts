@@ -45,17 +45,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   @Input() target: string;
   @Input() userRole: UserRole;
 
-  maxWordCountMin = 1;
-  maxWordCountMax = 5;
-  maxWordCount = new FormControl(1, [
-    Validators.required, Validators.min(this.maxWordCountMin), Validators.max(this.maxWordCountMax),
-  ]);
-  maxWordLengthMin = 3;
-  maxWordLengthMax = 30;
-  maxWordLength = new FormControl(12, [
-    Validators.required, Validators.min(this.maxWordLengthMin), Validators.max(this.maxWordLengthMax)
-  ]);
-  question = '';
   continueFilter = 'continueWithAll';
   comments: Comment[];
   tmpFilter: CommentListFilter;
@@ -88,6 +77,42 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
 
+  public static isUpdatable(comments: Comment[], userRole: UserRole, roomId: string): boolean {
+    const data = localStorage.getItem('commentListKeywordGen');
+    const set = new Set<string>(data ? JSON.parse(data) : []);
+    let count = 0;
+    let newCount = 0;
+    comments.forEach(comment => {
+      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
+        newCount++;
+      } else {
+        count++;
+      }
+    });
+    if (newCount + count < 1) {
+      return false;
+    }
+    if (userRole === UserRole.PARTICIPANT) {
+      return newCount < 1 && !set.has(roomId) && !WorkerDialogComponent.isWorkingOnRoom(roomId);
+    }
+    if (count * 2 / 3 < newCount) {
+      return false;
+    }
+    return !WorkerDialogComponent.isWorkingOnRoom(roomId);
+  }
+
+  public static startUpdate(dialog: MatDialog, room: Room, userRole: UserRole) {
+    const data = localStorage.getItem('commentListKeywordGen');
+    const set = new Set<string>(data ? JSON.parse(data) : []);
+    if (userRole === UserRole.PARTICIPANT && set.has(room.id)) {
+      return;
+    }
+    WorkerDialogComponent.addWorkTask(dialog, room);
+    if (userRole === UserRole.PARTICIPANT) {
+      localStorage.setItem('commentListKeywordGen', JSON.stringify([...set, room.id]));
+    }
+  }
+
   ngOnInit() {
     this.themeService.getTheme().subscribe((themeName) => {
       this.currentTheme = this.themeService.getThemeByKey(themeName);
@@ -105,7 +130,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
         });
       });
       this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
-                                             .subscribe(_ => this.commentsLoadedCallback());
+        .subscribe(_ => this.commentsLoadedCallback());
     });
     this.eventService.broadcast('pushCurrentRoomData');
   }
@@ -120,10 +145,11 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     if (!this._currentModerators) {
       return;
     }
-    this.allComments = this.getCommentCounts(this.comments);
-    this.filteredComments = this.getCommentCounts(this.tmpFilter.checkAll(this.comments));
+    const blacklist = this._room.blacklist ? JSON.parse(this._room.blacklist) : [];
+    this.allComments = this.getCommentCounts(this.comments, blacklist, this._room.blacklistIsActive);
+    this.filteredComments = this.getCommentCounts(this.tmpFilter.checkAll(this.comments), blacklist, this._room.blacklistIsActive);
     if (isNew) {
-      this.hasNoKeywords = this.isUpdatable();
+      this.hasNoKeywords = TopicCloudFilterComponent.isUpdatable(this.comments, this.userRole, this._room.id);
     }
     this.disableCurrentFiltersOptions = ((this.allComments.comments === this.filteredComments.comments) &&
       (this.allComments.users === this.filteredComments.users) &&
@@ -151,12 +177,12 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
 
   onKeywordRefreshClick() {
     this.hasNoKeywords = false;
-    WorkerDialogComponent.addWorkTask(this.dialog, this._room);
+    TopicCloudFilterComponent.startUpdate(this.dialog, this._room, this.userRole);
   }
 
-  getCommentCounts(comments: Comment[]): CommentsCount {
+  getCommentCounts(comments: Comment[], blacklist: string[], blacklistEnabled: boolean): CommentsCount {
     const [data, users] = TagCloudDataService.buildDataFromComments(this._room.ownerId, this._currentModerators,
-      this._adminData, this.roomDataService, comments, false);
+      blacklist, blacklistEnabled, this._adminData, this.roomDataService, comments, false);
     const counts = new CommentsCount();
     counts.comments = comments.length;
     counts.users = users.size;
@@ -171,48 +197,26 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   confirmButtonActionCallback() {
     return () => {
       let filter: CommentListFilter;
-
-      let brainstorming: any = {
-        brainstormingActive: false
-      };
       switch (this.continueFilter) {
         case 'continueWithAll':
           // all questions allowed
           filter = new CommentListFilter(this.tmpFilter);
           filter.resetToDefault();
           break;
-
         case 'continueWithAllFromNow':
-          if (!this.maxWordCount.valid || !this.maxWordLength.valid) {
-            return;
-          }
           filter = new CommentListFilter(this.tmpFilter);
           filter.resetToDefault();
           filter.period = Period.fromNow;
           filter.fromNow = new Date().getTime();
-          brainstorming = {
-            brainstormingActive: true,
-            question: this.question,
-            maxWordCount: this.maxWordCount.value,
-            maxWordLength: this.maxWordLength.value
-          };
           break;
-
         case 'continueWithCurr':
           filter = this.tmpFilter;
           break;
-
         default:
           return;
       }
 
-      const subscription = this.eventService.on('tagCloudInit').subscribe(() => {
-        this.eventService.broadcast('tagCloudPassFilterData', {
-          brainstorming,
-          filter
-        });
-        subscription.unsubscribe();
-      });
+      filter.save('cloudFilter');
       this.dialogRef.close();
       this.router.navigateByUrl(this.target);
     };
@@ -231,25 +235,4 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     ref.componentInstance.translateKey = 'explanation.topic-cloud';
   }
 
-  private isUpdatable(): boolean {
-    let count = 0;
-    let newCount = 0;
-    this.comments.forEach(comment => {
-      if (comment.keywordsFromSpacy && comment.keywordsFromSpacy.length) {
-        newCount++;
-      } else {
-        count++;
-      }
-    });
-    if (newCount + count < 1) {
-      return false;
-    }
-    if (this.userRole === UserRole.PARTICIPANT) {
-      return newCount < 1;
-    }
-    if (count * 2 / 3 < newCount) {
-      return false;
-    }
-    return !WorkerDialogComponent.isWorkingOnRoom(this._room.id);
-  }
 }

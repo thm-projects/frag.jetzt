@@ -1,13 +1,14 @@
+@use '@angular/material' as mat;
 @import './../../../node_modules/@angular/material/theming';
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://www.google.com/design/spec/style/color.html
-$arsnova-primary: mat-palette($mat-grey,100);
-$arsnova-accent: mat-palette($mat-orange, 200); //$mat-blue-gray, A200, A100, A400);
+$arsnova-primary: mat.define-palette(mat.$grey-palette,100);
+$arsnova-accent: mat.define-palette(mat.$orange-palette, 200); //$mat-blue-gray, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-$arsnova-warn: mat-palette($mat-red, A100);
+$arsnova-warn: mat.define-palette(mat.$red-palette, A100);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$arsnova-theme: mat-light-theme($arsnova-primary, $arsnova-accent, $arsnova-warn);
+$arsnova-theme: mat.define-light-theme($arsnova-primary, $arsnova-accent, $arsnova-warn);
 

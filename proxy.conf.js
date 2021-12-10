@@ -1,4 +1,18 @@
 const PROXY_CONFIG = {
+  "/antworte-jetzt": {
+    "target": "https://staging.antworte.jetzt",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/antworte-jetzt": ""
+    },
+    "logLevel": "debug",
+    "onProxyRes": function (proxyRes) {
+      proxyRes.statusCode = 301;
+      proxyRes.statusMessage = 'Moved Permanently';
+      proxyRes.headers['Location'] = 'https://staging.antworte.jetzt';
+    }
+  },
   "/deepl": {
     "target": "https://api-free.deepl.com/v2",
     "secure": true,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../../services/util/language.service';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../../services/util/tag-cloud-data.service';
@@ -11,7 +11,8 @@ import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { SpacyKeyword } from '../../../../services/http/spacy.service';
 import { Router } from '@angular/router';
-import { RoleChecker } from '../../../../utils/RoleChecker';
+import { Room } from '../../../../models/room';
+import { SessionService } from '../../../../services/util/session.service';
 
 const CLOSE_TIME = 1500;
 
@@ -24,8 +25,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
 
   @ViewChild('popupContainer') popupContainer: ElementRef;
   @ViewChild(MatAutocompleteTrigger) trigger: MatAutocompleteTrigger;
+  @Input() room: Room;
   replacementInput = new FormControl();
   tag: string;
+  previousTag: string;
+  elem: HTMLElement;
   tagData: TagCloudDataTagEntry;
   categories: string[];
   timePeriodText: string;
@@ -42,6 +46,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
               private tagCloudDataService: TagCloudDataService,
               private languagetoolService: LanguagetoolService,
               private commentService: CommentService,
+              private sessionService: SessionService,
               private router: Router,
               private notificationService: NotificationService) {
     this.langService.langEmitter.subscribe(lang => {
@@ -50,7 +55,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    [this.userRole] = RoleChecker.checkRole(decodeURI(this.router.url));
+    this.userRole = this.sessionService.currentRole;
     this.timePeriodText = '...';
   }
 
@@ -71,11 +76,15 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   leave(): void {
+    if (this.elem && this.previousTag) {
+      this.elem.innerText = this.previousTag;
+    }
     clearTimeout(this._popupHoverTimer);
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
+  enter(elem: HTMLElement, tag: string, showReal: boolean,
+        tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
     if (!elem) {
       return;
     }
@@ -100,6 +109,11 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.tag = tag;
+      this.previousTag = showReal && elem.innerText;
+      this.elem = showReal && elem;
+      if (showReal) {
+        elem.innerText = this.tag;
+      }
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {
@@ -110,7 +124,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   }
 
   addBlacklistWord(): void {
-    this.tagCloudDataService.blockWord(this.tag);
+    this.tagCloudDataService.blockWord(this.tag, this.room);
     this.close(false);
   }
 

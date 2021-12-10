@@ -73,24 +73,25 @@ import { MatPaginatorModule } from '@angular/material/paginator';
         MatSlideToggleModule,
         MatPaginatorModule
     ],
-  exports:[
-    ArsComponent,
-    FullScreenOverlayComponent,
-    WrapperDirective,
-    FrameTestComponent,
-    ScrollDirective,
-    MaterialTypographyComponent,
-    RowComponent,
-    ColComponent,
-    FillComponent,
-    ThemeTestComponent,
-    BaseTestComponent,
-    MenuWrapperDirective,
-    ButtonWrapperDirective,
-    ButtonBaseDirective,
-    MaterialBtnComponent,
-    ArsComposeHostDirective,
-    ArsMatPaginatorComponent
-  ]
+    exports:[
+        ArsComponent,
+        FullScreenOverlayComponent,
+        WrapperDirective,
+        FrameTestComponent,
+        ScrollDirective,
+        MaterialTypographyComponent,
+        RowComponent,
+        ColComponent,
+        FillComponent,
+        ThemeTestComponent,
+        BaseTestComponent,
+        MenuWrapperDirective,
+        ButtonWrapperDirective,
+        ButtonBaseDirective,
+        MaterialBtnComponent,
+        ArsComposeHostDirective,
+        ArsMatPaginatorComponent,
+        MatButtonComponent
+    ]
 })
 export class ArsModule { }

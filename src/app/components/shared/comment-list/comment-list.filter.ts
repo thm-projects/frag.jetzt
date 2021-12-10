@@ -13,8 +13,6 @@ export enum Period {
 }
 
 export enum FilterType {
-  voteasc = 'voteasc',
-  votedesc = 'votedesc',
   time = 'time',
   read = 'read',
   unread = 'unread',
@@ -23,6 +21,7 @@ export enum FilterType {
   wrong = 'wrong',
   ack = 'ack',
   bookmark = 'bookmark',
+  not_bookmarked = 'not_bookmarked',
   moderator = 'moderator',
   lecturer = 'lecturer',
   tag = 'tag',
@@ -31,20 +30,23 @@ export enum FilterType {
   answer = 'answer',
   unanswered = 'unanswered',
   owner = 'owner',
+  number = 'number',
+  brainstormingQuestion = 'brainstormingQuestion'
 }
 
 export type FilterTypeKey = keyof typeof FilterType;
 
 export enum SortType {
-  voteasc = 'voteasc',
-  votedesc = 'votedesc',
-  time = 'time'
+  score = 'score',
+  time = 'time',
+  controversy = 'controversy',
 }
 
 export type SortTypeKey = keyof typeof SortType;
 
 const DEFAULT_PERIOD = Period.all;
 const DEFAULT_SORT = SortType.time;
+const DEFAULT_SORT_REVERSE = false;
 
 export class CommentListFilter {
   //own properties
@@ -54,6 +56,7 @@ export class CommentListFilter {
   filterType: FilterType;
   filterCompare: any;
   sortType: SortType;
+  sortReverse: boolean;
   currentSearch: string;
   //dependencies to other values
   private userId: string;
@@ -73,12 +76,26 @@ export class CommentListFilter {
     this.filterType = obj.filterType;
     this.filterCompare = obj.filterCompare;
     this.sortType = obj.sortType;
+    this.sortReverse = obj.sortReverse;
     this.currentSearch = obj.currentSearch;
     this.lastRoomId = obj.lastRoomId;
   }
 
   static loadFilter(name = 'currentFilter'): CommentListFilter {
     return new CommentListFilter(JSON.parse(localStorage.getItem(name)));
+  }
+
+  static calculateControversy(up = 0, down = 0, normalized = true): number {
+    const summed = up + down;
+    const stretch = 10;
+    if (normalized) {
+      if (summed === 0) {
+        return 0;
+      }
+      return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch)) / summed;
+    } else {
+      return (summed - Math.abs(up - down)) * (1 - stretch / (summed + stretch));
+    }
   }
 
   resetToDefault() {
@@ -88,6 +105,7 @@ export class CommentListFilter {
     this.filterType = null;
     this.filterCompare = null;
     this.sortType = DEFAULT_SORT;
+    this.sortReverse = DEFAULT_SORT_REVERSE;
     this.currentSearch = '';
   }
 
@@ -106,6 +124,10 @@ export class CommentListFilter {
 
   updateModerators(moderators: string[]) {
     this.moderatorIds = new Set<string>([...moderators]);
+  }
+
+  isReady(): boolean {
+    return this.ownerId !== undefined && this.userId !== undefined && this.moderatorIds !== undefined;
   }
 
   save(name = 'currentFilter') {
@@ -132,33 +154,48 @@ export class CommentListFilter {
   checkAll(comments: Comment[], moderation = false): Comment[] {
     const filterComments = this.filterCommentsByTime(comments, moderation);
     if (this.currentSearch) {
-      return this.filterCommentsBySearch(filterComments);
+      return this.filterCommentsBySearch(filterComments, moderation);
     }
     return this.sortCommentsBySortType(this.filterCommentsByType(filterComments));
   }
 
-  filterCommentsBySearch(comments: Comment[]): Comment[] {
+  checkAllWrapper<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
+    const filterComments = this.filterCommentWrapperByTime(comments, accessFun, moderation);
+    if (this.currentSearch) {
+      return this.filterCommentWrapperBySearch(filterComments, accessFun);
+    }
+    return this.sortCommentWrapperBySortType(this.filterCommentWrapperByType(filterComments, accessFun), accessFun);
+  }
+
+  filterCommentsBySearch(comments: Comment[], moderation = false): Comment[] {
+    return this.filterCommentWrapperBySearch(comments, c => c, moderation);
+  }
+
+  filterCommentWrapperBySearch<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
     const search = this.currentSearch.toLowerCase();
-    return comments
-      .filter(c =>
-        c.body.toLowerCase().includes(search) ||
-        c.answer?.toLowerCase().includes(search) ||
-        c.keywordsFromSpacy?.some(e => e.text.toLowerCase().includes(search)) ||
-        c.keywordsFromQuestioner?.some(e => e.text.toLowerCase().includes(search)) ||
-        c.questionerName?.toLowerCase().includes(search)
-      );
+    return this.preFilterComments(comments, accessFun, moderation)
+      .filter(c => {
+        const com = accessFun(c);
+        return com.body.toLowerCase().includes(search) ||
+          com.answer?.toLowerCase().includes(search) ||
+          com.keywordsFromSpacy?.some(e => e.text.toLowerCase().includes(search)) ||
+          com.keywordsFromQuestioner?.some(e => e.text.toLowerCase().includes(search)) ||
+          com.questionerName?.toLowerCase().includes(search);
+      });
   }
 
   filterCommentsByTime(comments: Comment[], moderation = false): Comment[] {
-    const thresholdComments =
-      this.thresholdEnabled && !moderation ? comments.filter(comment => comment.score >= this.threshold) : comments;
+    return this.filterCommentWrapperByTime(comments, c => c, moderation);
+  }
+
+  filterCommentWrapperByTime<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
+    const prefiltered = this.preFilterComments(comments, accessFun, moderation);
     if (this.period === null || this.period === undefined) {
       this.period = DEFAULT_PERIOD;
     }
     if (this.period === Period.all) {
       return this.freezedAt ?
-        thresholdComments.filter(c => new Date(c.timestamp).getTime() < this.freezedAt) :
-        thresholdComments;
+        prefiltered.filter(c => new Date(accessFun(c).timestamp).getTime() < this.freezedAt) : prefiltered;
     }
     const currentTime = new Date().getTime();
     let periodInSeconds;
@@ -188,13 +225,17 @@ export class CommentListFilter {
         throw new Error('Time period is invalid.');
     }
     const filterTime = (this.period === Period.fromNow ? this.fromNow : currentTime - periodInSeconds);
-    return thresholdComments.filter(c => {
-      const time = new Date(c.timestamp).getTime();
+    return prefiltered.filter(c => {
+      const time = new Date(accessFun(c).timestamp).getTime();
       return time >= filterTime && (!this.freezedAt || time < this.freezedAt);
     });
   }
 
   filterCommentsByType(comment: Comment[]): Comment[] {
+    return this.filterCommentWrapperByType(comment, c => c);
+  }
+
+  filterCommentWrapperByType<T>(comment: T[], accessFun: (t: T) => Comment): T[] {
     let filterFunc: (c: Comment) => boolean;
     switch (this.filterType) {
       case FilterType.correct:
@@ -208,6 +249,9 @@ export class CommentListFilter {
         break;
       case FilterType.bookmark:
         filterFunc = (c) => c.bookmark;
+        break;
+      case FilterType.not_bookmarked:
+        filterFunc = (c) => !c.bookmark;
         break;
       case FilterType.read:
         filterFunc = (c) => c.read;
@@ -240,30 +284,48 @@ export class CommentListFilter {
       case FilterType.lecturer:
         filterFunc = (c) => c.creatorId === this.ownerId;
         break;
+      case FilterType.number:
+        filterFunc = (c) => c.number === this.filterCompare;
+        break;
       default:
         return comment;
     }
-    return comment.filter(filterFunc);
+    return comment.filter(c => filterFunc(accessFun(c)));
   }
 
   sortCommentsBySortType(comments: Comment[]): Comment[] {
+    return this.sortCommentWrapperBySortType(comments, c => c);
+  }
+
+  sortCommentWrapperBySortType<T>(comments: T[], accessFun: (t: T) => Comment): T[] {
     let sortFunc: (a: Comment, b: Comment) => number;
     switch (this.sortType) {
-      case SortType.voteasc:
-        sortFunc = (a, b) => a.score - b.score;
-        break;
-      case SortType.votedesc:
+      case SortType.score:
         sortFunc = (a, b) => b.score - a.score;
         break;
       case SortType.time:
         sortFunc = (a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
         break;
+      case SortType.controversy:
+        sortFunc = (a, b) => CommentListFilter.calculateControversy(b.upvotes, b.downvotes) -
+          CommentListFilter.calculateControversy(a.upvotes, a.downvotes);
     }
     if (sortFunc) {
-      comments.sort(sortFunc);
+      comments.sort((a, b) => sortFunc(accessFun(a), accessFun(b)));
     }
-    comments.sort((a, b) => this.getCommentRoleValue(b) - this.getCommentRoleValue(a));
+    if (this.sortReverse) {
+      comments.reverse();
+    }
+    comments.sort((a, b) => this.getCommentRoleValue(accessFun(b)) - this.getCommentRoleValue(accessFun(a)));
     return comments;
+  }
+
+  private preFilterComments<T>(comments: T[], accessFun: (t: T) => Comment, moderation = false): T[] {
+    const brainstorm = this.filterType === FilterType.brainstormingQuestion;
+    const brainstorming = moderation ? comments :
+      comments.filter(c => accessFun(c).brainstormingQuestion === brainstorm);
+    return this.thresholdEnabled && !moderation ?
+      brainstorming.filter(comment => accessFun(comment).score >= this.threshold) : brainstorming;
   }
 
   private getCommentRoleValue(comment: Comment): number {

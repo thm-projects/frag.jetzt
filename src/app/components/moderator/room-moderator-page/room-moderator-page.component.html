@@ -11,12 +11,14 @@
         <mat-card-header fxLayoutAlign="center"
                          fxLayout="row">
           <mat-card-title fxLayoutAlign="center">
-            <h2 class="oldtypo-h2">&raquo;{{room.name}}&laquo;</h2>
+            <h2>&raquo;{{room.name}}&laquo;</h2>
             <button mat-icon-button
                     class="inline-icon-button"
                     (click)="editSessionName()"
                     aria-labelledby="edit_session_name">
-              <mat-icon matTooltip="{{ 'session.edit-session-name' | translate}}">edit</mat-icon>
+              <mat-icon class="copy material-icons-outlined"
+                        matTooltip="{{ 'session.edit-session-name' | translate}}">edit
+              </mat-icon>
             </button>
           </mat-card-title>
           <mat-card-subtitle fxLayoutAlign="center">
@@ -27,7 +29,7 @@
                     mat-icon-button
                     (click)="copyShortId()"
                     aria-labelledby="cloud_download">
-              <mat-icon class="copy"
+              <mat-icon class="copy material-icons-outlined"
                         matTooltip="{{ 'room-page.copy-session-id' | translate}}">share
               </mat-icon>
             </button>
@@ -53,9 +55,9 @@
                     routerLink="/moderator/room/{{ room.shortId }}/comments"
                     aria-labelledby="question_answer">
               <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
-                        class="main-icon"
-                        [ngClass]="{'desktop' : deviceType === 'desktop'}"
-                        matTooltip="{{ 'room-page.session-question-board' | translate}}">question_answer
+                        class="main-icon material-icons-outlined"
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
+                        matTooltip="{{ 'room-page.session-question-board' | translate}}">forum
               </mat-icon>
               <h3>{{ 'room-page.public-stream' | translate}}</h3>
             </button>
@@ -67,8 +69,8 @@
                     routerLink="/moderator/room/{{ room.shortId }}/moderator/comments"
                     aria-labelledby="gavel">
               <mat-icon style="color: red" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
-                        class="main-icon"
-                        [ngClass]="{'desktop' : deviceType === 'desktop'}"
+                        class="main-icon material-icons-round"
+                        [ngClass]="{'smallerIcon' : deviceType === 'mobile'}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel
               </mat-icon>
               <h3>{{ 'room-page.moderating-stream' | translate}}</h3>
@@ -85,8 +87,8 @@
                   routerLink="/moderator/room/{{ room.shortId }}/comments"
                   aria-labelledby="question_answer">
             <mat-icon matBadge="{{commentCounter > 0 ? commentCounter : null}}"
-                      class="main-icon"
-                      [ngClass]="{'desktop' : deviceType === 'desktop'}">question_answer
+                      class="main-icon material-icons-outlined"
+                      [ngClass]="{'desktop' : deviceType === 'desktop'}">forum
             </mat-icon>
             <h3>{{ 'room-page.comments' | translate}}</h3>
           </button>
