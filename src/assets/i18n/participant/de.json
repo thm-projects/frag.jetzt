@@ -198,7 +198,7 @@
     "downvote": "negativ:",
     "questioner-name": "Selbst vergebener Name",
     "brainstorming-placeholder": "Schreibe deine Wörter für das Brainstorming. Maximal {{maxWordCount}} Wörter mit jeweils maximal {{maxWordLength}} Zeichen.",
-    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter mit maximal {{maxWordLength}} Zeichen"
+    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter"
   },
   "deepl": {
     "header": "Text optimieren",

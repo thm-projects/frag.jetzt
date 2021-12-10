@@ -99,10 +99,8 @@ export class WriteCommentComponent implements OnInit {
         allowed = !this.questionerNameFormControl.hasError('minlength') &&
           !this.questionerNameFormControl.hasError('maxlength');
       }
-      if (this.brainstormingData && (
-        CreateCommentComponent.getWords(this.commentData.currentText).length > this.brainstormingData.maxWordCount ||
-        CreateCommentComponent.getTerm(this.commentData.currentText).length > this.brainstormingData.maxWordLength
-      )) {
+      if (this.brainstormingData &&
+        CreateCommentComponent.getWords(this.commentData.currentText).length > this.brainstormingData.maxWordCount) {
         this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
           .subscribe(msg => this.notification.show(msg));
         allowed = false;
