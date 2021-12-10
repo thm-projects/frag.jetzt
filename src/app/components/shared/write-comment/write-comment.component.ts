@@ -10,6 +10,8 @@ import { DeepLDialogComponent, ResultValue } from '../_dialogs/deep-ldialog/deep
 import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
+import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
+import { BrainstormingSettings } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -38,7 +40,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() placeholder = 'comment-page.enter-comment';
   @Input() i18nSection = 'comment-page';
   @Input() isQuestionerNameEnabled = false;
-  @Input() brainstormingData: any;
+  @Input() brainstormingData: BrainstormingSettings;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -97,8 +99,10 @@ export class WriteCommentComponent implements OnInit {
         allowed = !this.questionerNameFormControl.hasError('minlength') &&
           !this.questionerNameFormControl.hasError('maxlength');
       }
-      if (this.brainstormingData && this.commentData.currentText.split(/\s+/g).length - 1 >
-        this.brainstormingData.maxWordCount) {
+      if (this.brainstormingData && (
+        CreateCommentComponent.getWords(this.commentData.currentText).length > this.brainstormingData.maxWordCount ||
+        CreateCommentComponent.getTerm(this.commentData.currentText).length > this.brainstormingData.maxWordLength
+      )) {
         this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
           .subscribe(msg => this.notification.show(msg));
         allowed = false;

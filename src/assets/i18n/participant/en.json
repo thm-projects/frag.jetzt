@@ -208,7 +208,7 @@
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
     "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
-    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words with a maximum of {{maxWordLength}} characters"
   },
   "deepl": {
     "header": "Optimize text",

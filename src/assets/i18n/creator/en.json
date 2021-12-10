@@ -245,7 +245,7 @@
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
     "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
-    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words with a maximum of {{maxWordLength}} characters"
   },
   "content": {
     "abort": "Abort",
@@ -635,9 +635,9 @@
     "valid": "Valid token",
     "invalid": "Invalid token",
     "cant-find-comment": "There is no question with this token.",
-    "questionNumber": "Number", 
-    "token": "Token", 
-    "timestamp": "Date", 
+    "questionNumber": "Number",
+    "token": "Token",
+    "timestamp": "Date",
     "token-filter": "token-filter",
     "go-to": "Go to question",
     "date": "Date"

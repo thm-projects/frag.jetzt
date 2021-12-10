@@ -1,17 +1,20 @@
 import { Component, Inject, Input, OnInit, ViewChild } from '@angular/core';
-import { Comment } from '../../../../models/comment';
+import { Comment, Language as CommentLanguage } from '../../../../models/comment';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { EventService } from '../../../../services/util/event.service';
 import { SpacyDialogComponent } from '../spacy-dialog/spacy-dialog.component';
-import { LanguagetoolService } from '../../../../services/http/languagetool.service';
+import { Language, LanguagetoolService } from '../../../../services/http/languagetool.service';
 import { CreateCommentKeywords, KeywordsResultType } from '../../../../utils/create-comment-keywords';
 import { WriteCommentComponent } from '../../write-comment/write-comment.component';
 import { DeepLService } from '../../../../services/http/deep-l.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
 import { UserRole } from '../../../../models/user-roles.enum';
+import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
+import { BrainstormingSettings } from '../topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { CURRENT_SUPPORTED_LANGUAGES } from '../../../../services/http/spacy.interface';
 
 @Component({
   selector: 'app-submit-comment',
@@ -25,7 +28,7 @@ export class CreateCommentComponent implements OnInit {
   @Input() userRole: UserRole;
   @Input() roomId: string;
   @Input() tags: string[];
-  @Input() brainstormingData: any;
+  @Input() brainstormingData: BrainstormingSettings;
   isSendingToSpacy = false;
   isModerator = false;
 
@@ -39,6 +42,14 @@ export class CreateCommentComponent implements OnInit {
     private spacyService: SpacyService,
     public eventService: EventService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
+
+  static getWords(text: string): string[] {
+    return text.split(/\s+/g).filter(e => e.trim().length);
+  }
+
+  static getTerm(text: string): string {
+    return text.replace(/\s+/g, ' ').trim();
   }
 
   ngOnInit() {
@@ -68,7 +79,55 @@ export class CreateCommentComponent implements OnInit {
     comment.questionerName = name;
     comment.brainstormingQuestion = !!this.brainstormingData;
     this.isSendingToSpacy = true;
-    this.openSpacyDialog(comment, forward, comment.brainstormingQuestion);
+    if (comment.brainstormingQuestion) {
+      this.generateBrainstormingKeywords(comment);
+    } else {
+      this.openSpacyDialog(comment, forward, false);
+    }
+  }
+
+  generateBrainstormingKeywords(comment: Comment) {
+    const text = ViewCommentDataComponent.getTextFromData(comment.body);
+    const term = CreateCommentComponent.getTerm(text);
+    const send = (termText: string) => {
+      comment.keywordsFromSpacy = [{
+        text: termText,
+        dep: ['ROOT']
+      }];
+      this.isSendingToSpacy = false;
+      this.dialogRef.close(comment);
+    };
+    if (CreateCommentComponent.getWords(term).length > 1) {
+      send(term);
+    } else {
+      const selectedLanguage = this.commentComponent.selectedLang;
+      this.languagetoolService.checkSpellings(term, selectedLanguage)
+        .subscribe(result => {
+          if (selectedLanguage === 'auto' && result.language.detectedLanguage.confidence < 0.5) {
+            send(term);
+            return;
+          }
+          const selectedLangExtend =
+            selectedLanguage[2] === '-' ? selectedLanguage.substr(0, 2) : selectedLanguage;
+          let finalLanguage: CommentLanguage;
+          const commentModel = this.languagetoolService.mapLanguageToSpacyModel(result.language.code as Language);
+          if (selectedLanguage === 'auto') {
+            finalLanguage = Comment.mapModelToLanguage(commentModel);
+          } else if (CommentLanguage[selectedLangExtend]) {
+            finalLanguage = CommentLanguage[selectedLangExtend];
+          }
+          comment.language = finalLanguage;
+          const isResultLangSupported = this.languagetoolService.isSupportedLanguage(result.language.code as Language);
+          if (!isResultLangSupported || !CURRENT_SUPPORTED_LANGUAGES.includes(commentModel)) {
+            send(term);
+          }
+          this.spacyService.getKeywords(term, commentModel, true)
+            .subscribe((keywords) => {
+                send(keywords.map(kw => kw.text).join(' '));
+              },
+              () => send(term));
+        });
+    }
   }
 
   openSpacyDialog(comment: Comment, forward: boolean, brainstorming: boolean): void {
