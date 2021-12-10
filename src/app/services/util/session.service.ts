@@ -99,20 +99,20 @@ export class SessionService {
     }
     switch (segments[0].path) {
       case 'participant':
-        this._currentRole.next(UserRole.PARTICIPANT);
         this._canChangeRoleOnRoute = true;
+        this._currentRole.next(UserRole.PARTICIPANT);
         break;
       case 'moderator':
-        this._currentRole.next(UserRole.EXECUTIVE_MODERATOR);
         this._canChangeRoleOnRoute = !url.endsWith('/moderator/comments');
+        this._currentRole.next(UserRole.EXECUTIVE_MODERATOR);
         break;
       case 'creator':
-        this._currentRole.next(UserRole.CREATOR);
         this._canChangeRoleOnRoute = !url.endsWith('/moderator/comments');
+        this._currentRole.next(UserRole.CREATOR);
         break;
       default:
-        this._currentRole.next(null);
         this._canChangeRoleOnRoute = false;
+        this._currentRole.next(null);
         this.clearRoom();
         return;
     }

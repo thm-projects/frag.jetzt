@@ -4,7 +4,7 @@
      tabindex="0">
   <div>
     <div>
-      <span>
+      <span *ngIf="!isBrainstorming">
         <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
         <p>
           {{tagData && tagData.comments.length}}
@@ -24,7 +24,7 @@
         </mat-icon>
       </button>
     </div>
-    <div>
+    <div *ngIf="!isBrainstorming">
       <span>
         <mat-icon class="material-icons-outlined"
                   matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
