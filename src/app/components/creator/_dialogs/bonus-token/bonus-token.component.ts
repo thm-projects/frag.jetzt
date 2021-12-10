@@ -41,7 +41,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     active: 'name'
   };
 
-  private selection = new SelectionModel<String>(false, []);
+  private selection = new SelectionModel<string>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 800;
@@ -92,7 +92,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   deleteBonus(bonusToken: BonusToken): void {
     // Delete bonus via bonus-token-service
-    this.bonusTokenService.deleteToken(bonusToken.roomId, bonusToken.commentId, bonusToken.accountId).subscribe(_ => {
+    this.bonusTokenService.deleteToken(bonusToken.commentId, bonusToken.accountId).subscribe(_ => {
       this.translateService.get('room-page.token-deleted').subscribe(msg => {
         this.notificationService.show(msg);
       });
