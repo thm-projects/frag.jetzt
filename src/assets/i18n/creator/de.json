@@ -212,8 +212,8 @@
     "reject": "Frage in die Moderation verbannen",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
     "semicolon": "CSV-Format (.csv)",
-    "send": "Frage abschicken",
-    "send-description": "Frage abschicken",
+    "send": "Abschicken",
+    "send-description": "Abschicken",
     "tag": "Kategorie",
     "tag-reset": "ohne",
     "tag-to-filter": "Klick auf die Fragenkategorie, um Fragen dieser Kategorie zu filtern.",
@@ -243,8 +243,8 @@
     "upvote": "positiv:",
     "downvote": "negativ:",
     "questioner-name": "Selbst vergebener Name",
-    "brainstorming-placeholder": "Schreibe deine Wörter für das Brainstorming. Maximal {{maxWordCount}} Wörter mit jeweils maximal {{maxWordLength}} Zeichen.",
-    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter"
+    "brainstorming-placeholder": "Schreibe deine Ideen für das Brainstorming. Maximal {{maxWordCount}} Wörter mit insgesamt maximal {{maxWordLength}} Zeichen.",
+    "error-comment-brainstorming": "Die Brainstorming-Session erlaubt nur {{maxWordCount}} Wörter."
   },
   "content": {
     "abort": "Abbrechen",
@@ -436,7 +436,7 @@
     "partial-words-will-be-filtered": "Jetzt werden Vulgärausdrücke auch innerhalb eines Wortes zensiert.",
     "keyword-from-spacy": "Stichwort von spaCy",
     "keyword-from-questioner": "Stichwort vom Fragensteller",
-    "hint": "Nach Token filtern"
+    "hint": "Token prüfen"
   },
   "session": {
     "a11y-description": "Gib eine Beschreibung für die Sitzung ein.",
@@ -636,10 +636,10 @@
   "token-validator": {
     "valid": "Gültiger Token",
     "invalid": "Ungültiger Token",
-    "cant-find-comment": "Es gibt keine Frage mit diesem Token.", 
-    "questionNumber": "Nummer", 
-    "token": "Token", 
-    "timestamp": "Datum", 
+    "cant-find-comment": "Es gibt keine Frage mit diesem Token.",
+    "questionNumber": "Nummer",
+    "token": "Token",
+    "timestamp": "Datum",
     "token-filter": "token-filter",
     "go-to": "Gehe zur Frage",
     "date": "Datum"

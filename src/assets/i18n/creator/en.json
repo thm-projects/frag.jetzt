@@ -213,7 +213,7 @@
     "reject": "Ban the question to moderation",
     "search-box-input-description": "Search for questions",
     "semicolon": "CSV format (.csv)",
-    "send": "Send question",
+    "send": "Send",
     "send-description": "Send question",
     "tag": "Category",
     "tag-reset": "none",
@@ -244,8 +244,8 @@
     "upvote": "up votes:",
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
-    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
-    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
+    "brainstorming-placeholder": "Write your ideas for the brainstorm. Maximum {{maxWordCount}} words, with a total of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words."
   },
   "content": {
     "abort": "Abort",
@@ -435,7 +435,7 @@
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
     "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
-    "hint": "Filter by token"
+    "hint": "Check token"
   },
   "session": {
     "a11y-description": "Enter a description of the session",
@@ -635,9 +635,9 @@
     "valid": "Valid token",
     "invalid": "Invalid token",
     "cant-find-comment": "There is no question with this token.",
-    "questionNumber": "Number", 
-    "token": "Token", 
-    "timestamp": "Date", 
+    "questionNumber": "Number",
+    "token": "Token",
+    "timestamp": "Date",
     "token-filter": "token-filter",
     "go-to": "Go to question",
     "date": "Date"
