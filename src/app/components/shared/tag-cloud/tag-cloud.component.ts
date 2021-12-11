@@ -1,4 +1,13 @@
-import { AfterContentInit, Component, ComponentRef, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ComponentRef,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 
 import {
   CloudData,
@@ -30,12 +39,10 @@ import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/uti
 import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
-import { Theme } from '../../../../theme/Theme';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
 import { SyncFence } from '../../../utils/SyncFence';
 import { ActiveWord, WordCloudComponent, WordMeta } from './word-cloud/word-cloud.component';
-import { Subscription } from 'rxjs';
 import { CommentListFilter, FilterType, Period } from '../comment-list/comment-list.filter';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
@@ -69,7 +76,7 @@ const CONDITION_BUILT = 1;
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
 
   @ViewChild(WordCloudComponent, { static: false }) cloud: WordCloudComponent<TagComment>;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
@@ -96,7 +103,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   userRole: UserRole;
   data: TagComment[] = [];
   isLoading = true;
-  themeSubscription = null;
   createCommentWrapper: CreateCommentWrapper = null;
   brainstormingData: BrainstormingSettings;
   brainstormingActive: boolean;
@@ -104,7 +110,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   private _subscriptionCommentlist = null;
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
-  private _currentTheme: Theme;
   private _syncFenceBuildCloud: SyncFence;
 
   constructor(private commentService: CommentService,
@@ -191,21 +196,16 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       this._syncFenceBuildCloud.resolveCondition(CONDITION_FILTER);
     });
     this.translateService.use(localStorage.getItem('currentLang'));
-    this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
-      this._currentTheme = this.themeService.getThemeByKey(themeName);
-      if (this.cloud) {
-        setTimeout(() => {
-          this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-        }, 1);
-      }
-    });
   }
 
   ngAfterContentInit() {
     this.initNavigation();
-    setTimeout(() => this._syncFenceBuildCloud.resolveCondition(CONDITION_BUILT));
     this.dataManager.updateDemoData(this.translateService);
+  }
+
+  ngAfterViewInit() {
     this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
+    setTimeout(() => this._syncFenceBuildCloud.resolveCondition(CONDITION_BUILT));
   }
 
   ngOnDestroy() {
@@ -213,7 +213,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (customTagCloudStyles) {
       customTagCloudStyles.sheet.disabled = true;
     }
-    this.themeSubscription.unsubscribe();
     this.dataManager.unbindRoom();
     if (this._subscriptionRoom) {
       this._subscriptionRoom.unsubscribe();
@@ -233,7 +232,6 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     parameters = new CloudParameters(parameters);
     const updateIntensity = this.calcUpdateIntensity(parameters);
     this._currentSettings = parameters;
-    this.cloud.parameters = parameters;
     this.zoomOnHoverOptions.delay = parameters.hoverDelay;
     this.zoomOnHoverOptions.scale = parameters.hoverScale;
     this.zoomOnHoverOptions.transitionTime = parameters.hoverTime;
@@ -252,7 +250,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   resetColorsToTheme() {
     const param = new CloudParameters();
-    param.resetToDefault(this._currentTheme.isDark);
+    param.resetToDefault(this.themeService.currentTheme.isDark);
     this.setCloudParameters(param, false);
     CloudParameters.removeParameters();
   }
@@ -272,7 +270,8 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this.canWriteComment()) {
       return;
     }
-    this.createCommentWrapper.openCreateDialog(this.user, this.userRole, this.brainstormingData).subscribe();
+    this.createCommentWrapper.openCreateDialog(this.user, this.userRole,
+      this.brainstormingActive && this.brainstormingData).subscribe();
   }
 
   rebuildData() {
@@ -348,7 +347,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   enter(word: ActiveWord<TagComment>) {
-    this.popup.enter(word.element, word.meta.text, word.meta.tagData,
+    this.popup.enter(word.element, word.meta.text, this.brainstormingActive, word.meta.tagData,
       (this._currentSettings.hoverTime + this._currentSettings.hoverDelay) * 1_000,
       this.room && this.room.blacklistIsActive);
   }
@@ -400,13 +399,13 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-screenshot',
         callback: () => {
-          if (!this.child?.cloudDataHtmlElements?.length) {
+          if (!this.cloud?.wordCloud) {
             this.translateService.get('tag-cloud.tag-cloud-no-elements')
               .subscribe(msg => this.notificationService.show(msg));
             return;
           }
           this.translateService.get('tag-cloud.tag-cloud-print-title', { roomName: this.room.name })
-            .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
+            .subscribe(msg => DOMElementPrinter.printOnce(this.cloud?.wordCloud?.nativeElement,
               msg, this._currentSettings.backgroundColor));
         },
         condition: () => true

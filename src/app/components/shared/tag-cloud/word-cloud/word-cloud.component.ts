@@ -17,9 +17,11 @@ import { CloudParameters, CloudTextStyle } from '../../../../utils/cloud-paramet
 export interface WordMeta {
   text: string;
   weight: number;
+  rotate: number;
 }
 
 interface BuildInformation {
+  //TODO: Rotation
   position: [x: number, y: number, width: number, height: number];
   hasNeighbour: [top: boolean, bottom: boolean, right: boolean, left: boolean];
 }
@@ -182,7 +184,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
     str = str + (str.length > 1 ? '\n}' : '}');
     const text = sheet.cssRules[index].cssText;
     sheet.deleteRule(index);
-    sheet.insertRule(text.substr(0, text.indexOf('{')) + str);
+    sheet.insertRule(text.substr(0, text.indexOf('{')) + str, index);
   }
 
   redraw() {
@@ -355,7 +357,19 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
       const weightClass = isSame ?
         defaultWeightClass :
         Math.round((word.meta.weight - min) * (this.weightClasses - 1) / (max - min));
-      word.element.classList.value = 'weight-class-' + weightClass;
+      const newClass = 'weight-class-' + weightClass;
+      let previous = null;
+      word.element.classList.forEach(clazz => {
+        if (clazz.startsWith('weight-class-')) {
+          previous = clazz;
+        }
+      });
+      if (!previous) {
+        word.element.classList.add(newClass);
+      } else {
+        word.element.classList.replace(previous, newClass);
+      }
+      word.element.style.setProperty('--rot', word.meta.rotate + 'deg');
       word.weightClass = weightClass;
       word.buildInformation.hasNeighbour.fill(false);
       return true;
@@ -470,7 +484,7 @@ export class WordCloudComponent<T extends WordMeta> implements OnInit, OnChanges
         clearInterval(intervalId);
         return;
       }
-      newElements[index++].element.style.opacity = '1';
+      newElements[index++].element.classList.add('visible');
     }, interval);
   }
 

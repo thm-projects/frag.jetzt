@@ -47,6 +47,11 @@ export class FontInfoService {
         if (faceSet.check('1em ' + fontFamily)) {
           sub.next(null);
           sub.complete();
+          return;
+        }
+        if (notLoadedFonts.length < 1) {
+          sub.next(null);
+          sub.complete();
         }
         notLoadedFonts.forEach(font => {
           font.loaded.then(_ => {
