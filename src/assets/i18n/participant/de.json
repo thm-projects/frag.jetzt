@@ -178,8 +178,8 @@
     "no-comments-with-filter": "Keine Fragen mit dem eingestellten Filter",
     "no-comments-with-search": "Keine Fragen mit deiner Suche",
     "search-box-input-description": "Hier kannst du nach Fragen suchen.",
-    "send": "Frage abschicken",
-    "send-description": "Frage abschicken",
+    "send": "Abschicken",
+    "send-description": "Abschicken",
     "tag": "Kategorie",
     "tag-reset": "ohne",
     "tag-to-filter": "Klick auf die Fragenkategorie, um alle Fragen dieser Kategorie zu filtern.",
@@ -197,8 +197,8 @@
     "upvote": "positiv:",
     "downvote": "negativ:",
     "questioner-name": "Selbst vergebener Name",
-    "brainstorming-placeholder": "Schreibe deine Wörter für das Brainstorming. Maximal {{maxWordCount}} Wörter mit jeweils maximal {{maxWordLength}} Zeichen.",
-    "error-comment-brainstorming": "Die Brainstorming Session erlaubt nur {{maxWordCount}} Wörter"
+    "brainstorming-placeholder": "Schreibe deine Ideen für das Brainstorming. Maximal {{maxWordCount}} Wörter mit insgesamt maximal {{maxWordLength}} Zeichen.",
+    "error-comment-brainstorming": "Die Brainstorming-Session erlaubt nur {{maxWordCount}} Wörter."
   },
   "deepl": {
     "header": "Text optimieren",
