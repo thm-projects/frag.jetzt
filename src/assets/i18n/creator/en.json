@@ -191,6 +191,7 @@
     "error-comment": "Please ask a question.",
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
+    "error-brainstorm-duplicate": "You have already submitted this post once.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
     "export": "Export",

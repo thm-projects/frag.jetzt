@@ -190,6 +190,7 @@
     "error-comment": "Bitte gib eine Frage ein.",
     "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
+    "error-brainstorm-duplicate": "Du hast diesen Beitrag bereits einmal eingereicht.",
     "error-title": "Bitte gib einen Titel ein.",
     "exit-description": "Präsentation verlassen",
     "export": "Exportieren",

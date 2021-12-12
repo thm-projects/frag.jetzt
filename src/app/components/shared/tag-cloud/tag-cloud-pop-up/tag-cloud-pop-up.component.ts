@@ -37,6 +37,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
   selectedLang: Language = 'en-US';
   spellingData: string[] = [];
   isBlacklistActive = true;
+  isBrainstorming = false;
   private _popupHoverTimer;
   private _popupCloseTimer;
   private _hasLeft = true;
@@ -83,7 +84,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this.close();
   }
 
-  enter(elem: HTMLElement, tag: string, showReal: boolean,
+  enter(elem: HTMLElement, tag: string, isBrainstorming: boolean,
         tagData: TagCloudDataTagEntry, hoverDelayInMs: number, isBlacklistActive: boolean): void {
     if (!elem) {
       return;
@@ -109,11 +110,12 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     this._hasLeft = true;
     this._popupHoverTimer = setTimeout(() => {
       this.tag = tag;
-      this.previousTag = showReal && elem.innerText;
-      this.elem = showReal && elem;
-      if (showReal) {
+      this.previousTag = isBrainstorming && elem.innerText;
+      this.elem = isBrainstorming && elem;
+      if (isBrainstorming) {
         elem.innerText = this.tag;
       }
+      this.isBrainstorming = isBrainstorming;
       this.tagData = tagData;
       this.categories = Array.from(tagData.categories.keys());
       this.calculateDateText(() => {

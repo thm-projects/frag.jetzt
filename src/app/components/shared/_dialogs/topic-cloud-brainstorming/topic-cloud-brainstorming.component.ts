@@ -6,12 +6,14 @@ import { FormControl, Validators } from '@angular/forms';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
-import { Subscription } from 'rxjs';
+import { forkJoin, Observable, of, Subscription } from 'rxjs';
 import { TagCloudSettings } from '../../../../utils/TagCloudSettings';
 import { Room } from '../../../../models/room';
 import { RoomService } from '../../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
+import { RoomDataService } from '../../../../services/util/room-data.service';
+import { CommentService } from '../../../../services/http/comment.service';
 
 export interface BrainstormingSettings {
   active: boolean;
@@ -57,6 +59,8 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     private eventService: EventService,
     private sessionService: SessionService,
     private roomService: RoomService,
+    private roomDataService: RoomDataService,
+    private commentService: CommentService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private router: Router,
@@ -95,6 +99,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
         this.isCreating = false;
         this.showSomethingWentWrong();
       });
+    this.deleteOldBrainstormingQuestions().subscribe();
   }
 
   checkForEnter(e: KeyboardEvent) {
@@ -149,6 +154,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
         this.isDeleting = false;
         this.showSomethingWentWrong();
       });
+    this.deleteOldBrainstormingQuestions().subscribe();
   }
 
   getTranslate() {
@@ -157,6 +163,15 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       maxWordLength: this.brainstormingData?.maxWordLength,
       question: this.brainstormingData?.question
     };
+  }
+
+  private deleteOldBrainstormingQuestions(): Observable<any> {
+    if (!this.roomDataService.currentRoomData) {
+      return of(null);
+    }
+    const toBeRemoved = this.roomDataService.currentRoomData
+      .filter(comment => comment.brainstormingQuestion && comment.id);
+    return forkJoin(toBeRemoved.map(c => this.commentService.deleteComment(c.id)));
   }
 
   private showSomethingWentWrong() {
