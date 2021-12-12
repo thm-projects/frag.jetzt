@@ -355,7 +355,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
   }
 
   openTags(tag: CloudData): void {
-    if (this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
+    if (this.brainstormingActive || this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
       return;
     }
     this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {

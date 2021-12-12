@@ -366,8 +366,7 @@ export class TagCloudDataService {
   private calculateWeight(tagData: TagCloudDataTagEntry): number {
     const scorings = this._adminData.scorings;
     if (this._isBrainstorming) {
-      return tagData.comments.length * scorings.countComments.score +
-        tagData.distinctUsers.size * scorings.countUsers.score +
+      return tagData.distinctUsers.size * scorings.countUsers.score +
         tagData.commentsByModerators * scorings.countKeywordByModerator.score +
         tagData.commentsByCreator * scorings.countKeywordByCreator.score;
     }

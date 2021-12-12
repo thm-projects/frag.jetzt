@@ -174,6 +174,7 @@
     "error-comment": "Please enter a question.",
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
+    "error-brainstorm-duplicate": "You have already submitted this post once.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
     "has-answer": "The question was answered. Click for full view.",
@@ -188,7 +189,7 @@
     "no-comments-with-filter": "No questions with selected filter settings",
     "no-comments-with-search": "No questions with your search",
     "search-box-input-description": "Here you can search for questions.",
-    "send": "Send question",
+    "send": "Send",
     "send-description": "Send question",
     "tag": "Category",
     "tag-reset": "none",
@@ -207,8 +208,8 @@
     "upvote": "up votes:",
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
-    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
-    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
+    "brainstorming-placeholder": "Write your ideas for the brainstorm. Maximum {{maxWordCount}} words, with a total of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words."
   },
   "deepl": {
     "header": "Optimize text",

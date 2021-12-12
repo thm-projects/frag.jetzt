@@ -51,9 +51,9 @@
     "reset": "Zurücksetzen",
     "brainstorming-question": "Thema des Brainstormings",
     "brainstorming-word-count": "Maximale Anzahl Wörter",
-    "brainstorming-word-length": "Maximale Wortlänge",
+    "brainstorming-word-length": "Maximale Zeichen",
     "brainstorm-title": "Brainstorming",
-    "brainstorm-new-session": "Neue Brainstorming Session",
+    "brainstorm-new-session": "Neue Brainstorming-Session",
     "brainstorm-new-session-short": "Neue Session",
     "brainstorm-start": "Eröffnen",
     "brainstorm-join-session-title": "Laufender Session beitreten",
@@ -158,7 +158,7 @@
     "own-view": "Zurück zur eigenen Ansicht",
     "regular-user-view": "Zur Teilnehmeransicht",
     "not-in-own-view": "Du befindest dich gerade in der Teilnehmeransicht. In den Optionen kannst du zurück zu deiner Ansicht wechseln.",
-    "brainstorm-active": "Derzeit findet eine Brainstorming-Sitzung statt."
+    "brainstorm-active": "Aktuell findet eine Brainstorming-Sitzung statt."
   },
   "help": {
     "cancel": "Schließen",

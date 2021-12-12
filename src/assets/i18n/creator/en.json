@@ -191,6 +191,7 @@
     "error-comment": "Please ask a question.",
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
+    "error-brainstorm-duplicate": "You have already submitted this post once.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
     "export": "Export",
@@ -213,7 +214,7 @@
     "reject": "Ban the question to moderation",
     "search-box-input-description": "Search for questions",
     "semicolon": "CSV format (.csv)",
-    "send": "Send question",
+    "send": "Send",
     "send-description": "Send question",
     "tag": "Category",
     "tag-reset": "none",
@@ -244,8 +245,8 @@
     "upvote": "up votes:",
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
-    "brainstorming-placeholder": "Write your words for the brainstorm. Maximum {{maxWordCount}} words, each with a maximum of {{maxWordLength}} characters.",
-    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words"
+    "brainstorming-placeholder": "Write your ideas for the brainstorm. Maximum {{maxWordCount}} words, with a total of {{maxWordLength}} characters.",
+    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words."
   },
   "content": {
     "abort": "Abort",
@@ -435,7 +436,7 @@
     "words-will-be-overwritten": "Profane words will be overwritten with ★★★★.",
     "only-specific-language-will-be-filtered": "Now profane expressions from other languages will also be censored.",
     "partial-words-will-be-filtered": "Now profane expressions are also censored within a word.",
-    "hint": "Filter by token"
+    "hint": "Check token"
   },
   "session": {
     "a11y-description": "Enter a description of the session",
