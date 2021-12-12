@@ -60,7 +60,7 @@
     "filter-moderator": "Hinweise des Moderators",
     "filter-lecturer": "Ankündigungen",
     "filter-owner": "Meine Fragen",
-    "filter-brainstorm": "Brainstorm-Fragen",
+    "filter-brainstorm": "Brainstorming",
     "filter-question-number": "Fragenummer",
     "filter-read": "Besprochene Fragen",
     "filter-reset": "Zurücksetzen",
@@ -190,7 +190,7 @@
     "error-comment": "Bitte gib eine Frage ein.",
     "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
-    "error-brainstorm-duplicate": "Du hast diesen Beitrag bereits einmal eingereicht.",
+    "error-brainstorm-duplicate": "Du hast diese Idee bereits eingereicht.",
     "error-title": "Bitte gib einen Titel ein.",
     "exit-description": "Präsentation verlassen",
     "export": "Exportieren",
@@ -244,8 +244,8 @@
     "upvote": "positiv:",
     "downvote": "negativ:",
     "questioner-name": "Selbst vergebener Name",
-    "brainstorming-placeholder": "Schreibe deine Ideen für das Brainstorming. Maximal {{maxWordCount}} Wörter mit insgesamt maximal {{maxWordLength}} Zeichen.",
-    "error-comment-brainstorming": "Die Brainstorming-Session erlaubt nur {{maxWordCount}} Wörter."
+    "brainstorming-placeholder": "Jede Idee ist willkommen!\nSchreibe für jede deiner Ideen einen eigenen Eintrag.\nKombinieren und Aufgreifen von bereits geäußerten Ideen ist erwünscht.",
+    "error-comment-brainstorming": "Diese Brainstorming-Session erlaubt nur {{maxWordCount}} Wörter."
   },
   "content": {
     "abort": "Abbrechen",

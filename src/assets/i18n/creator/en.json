@@ -60,7 +60,7 @@
     "filter-moderator": "Notes from the moderator",
     "filter-lecturer": "Announcements",
     "filter-owner": "My questions",
-    "filter-brainstorm": "Brainstorm questions",
+    "filter-brainstorm": "Brainstorming",
     "filter-question-number": "Question number",
     "filter-read": "Questions discussed",
     "filter-reset": "Reset",
@@ -191,7 +191,7 @@
     "error-comment": "Please ask a question.",
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
-    "error-brainstorm-duplicate": "You have already submitted this post once.",
+    "error-brainstorm-duplicate": "You have already submitted this idea.",
     "error-title": "Please enter a title.",
     "exit-description": "Exit Presentation Mode",
     "export": "Export",
@@ -245,8 +245,8 @@
     "upvote": "up votes:",
     "downvote": "down votes:",
     "questioner-name": "Self assigned name",
-    "brainstorming-placeholder": "Write your ideas for the brainstorm. Maximum {{maxWordCount}} words, with a total of {{maxWordLength}} characters.",
-    "error-comment-brainstorming": "The brainstorming session allows only {{maxWordCount}} words."
+    "brainstorming-placeholder": "Every idea is welcome!\nWrite a separate entry for each of your ideas.\nCombining and picking up on ideas already expressed is encouraged.",
+    "error-comment-brainstorming": "This brainstorming session allows only {{maxWordCount}} words."
   },
   "content": {
     "abort": "Abort",
