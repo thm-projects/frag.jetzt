@@ -188,7 +188,7 @@
     "enter-comment": "Your post will be placed at the top of the list.",
     "enter-title": "Title",
     "error-both-fields": "Please fill in all fields.",
-    "error-comment": "Please ask a question.",
+    "error-comment": "You have not entered anything.",
     "error-comment-text": "Your text is too long. Please shorten it.",
     "error-comment-data": "Too much formatting or linked elements. Please remove some.",
     "error-brainstorm-duplicate": "You have already submitted this idea.",

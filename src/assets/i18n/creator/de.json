@@ -187,7 +187,7 @@
     "enter-comment": "Dein Beitrag wird an den Listenanfang gesetzt.",
     "enter-title": "Titel",
     "error-both-fields": "Bitte fülle alle Felder aus.",
-    "error-comment": "Bitte gib eine Frage ein.",
+    "error-comment": "Du hast nichts eingegeben.",
     "error-comment-text": "Dein Text ist zu lang. Bitte kürze ihn.",
     "error-comment-data": "Zu viele Formatierungen oder verknüpfte Elemente. Bitte entferne einige.",
     "error-brainstorm-duplicate": "Du hast diese Idee bereits eingereicht.",
