@@ -438,7 +438,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'screenshot',
+        icon: 'cloud_download',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-screenshot',
         callback: () => {
