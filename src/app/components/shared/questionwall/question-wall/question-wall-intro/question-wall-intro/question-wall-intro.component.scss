@@ -13,7 +13,7 @@ $animation-2-t-span-sum: $animation-g-t-span + $animation-2-t-span;
 $animation-1: keyframes_animation1 ($animation-1-t)+s $velocity-curve both;
 $animation-2: keyframes_animation2 ($animation-2-t)+s $velocity-curve both;
 
-$shadow-on: 1px 3px 0 rgba(0,0,0,0.3), 1px 13px 5px rgba(0,0,0,0.3);
+$shadow-on: 1px 3px 0 rgba(0, 0, 0, 0.3), 1px 13px 5px rgba(0, 0, 0, 0.3);
 $shadow-off: none;
 
 :host {
@@ -28,10 +28,10 @@ $shadow-off: none;
     position: fixed;
     left: 0;
     top: 0;
-    background-color:var(--questionwall-intro-background);
-    background-image:url('~assets/background/Auditorium-original-bw.webp');
-    background-position: center left;
-    background-size: contain;
+    background-color: var(--questionwall-intro-background);
+    background-image: url('~assets/background/Auditorium-original-bw.webp');
+    background-position: center 70%;
+    background-size: 90% auto;
     background-repeat: no-repeat;
   }
 
@@ -48,7 +48,7 @@ $shadow-off: none;
     &-element {
       width: 0px;
       height: 0px;
-      color:var(--questionwall-intro-primary);
+      color: var(--questionwall-intro-primary);
       position: absolute;
     }
   }
@@ -56,7 +56,7 @@ $shadow-off: none;
   .centered {
     position: fixed;
     left: 50%;
-    top: 50%;
+    top: 25%;
     transform: translate(-50%, -50%);
   }
 
@@ -69,16 +69,16 @@ $shadow-off: none;
         font-style: normal;
 
         span {
-          color:var(--questionwall-intro-secondary);
+          color: var(--questionwall-intro-secondary);
         }
       }
 
       &-2 {
         font-family: 'Roboto', sans-serif;
-        font-size: 50px;
-        font-weight: normal;
+        font-size: 70px;
+        font-weight: 500;
         font-style: normal;
-        color:var(--questionwall-intro-primary);
+        color: var(--questionwall-intro-primary);
       }
     }
 
@@ -126,7 +126,7 @@ $shadow-off: none;
     10% {
       opacity: 1;
       padding: 0px;
-      text-shadow: $shadow-on;
+      text-shadow: $shadow-off;
     }
     90% {
       opacity: 1;
@@ -146,7 +146,7 @@ $shadow-off: none;
     }
     10% {
       opacity: 1;
-      text-shadow: $shadow-on;
+      text-shadow: $shadow-off;
     }
     90% {
       opacity: 1;
