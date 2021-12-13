@@ -34,6 +34,10 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'white',
+  '--questionwall-intro-background':'black'
+
 };
 
 export const purple_meta = {

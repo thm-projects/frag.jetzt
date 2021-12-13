@@ -32,7 +32,11 @@ export const arsnova = {
   '--grey': 'slategrey',
   '--grey-light': '#EEEEEE',
   '--black': '#000000',
-  '--moderator': 'lightsalmon'
+  '--moderator': 'lightsalmon',
+
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'white',
+  '--questionwall-intro-background':'black'
 
 };
 

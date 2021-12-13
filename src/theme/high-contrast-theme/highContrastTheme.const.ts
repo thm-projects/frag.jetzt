@@ -34,6 +34,10 @@ export const highcontrast = {
   '--black': 'black',
   '--moderator': 'black',
 
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'white',
+  '--questionwall-intro-background':'black'
+
 };
 
 export const highcontrast_meta = {

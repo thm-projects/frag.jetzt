@@ -32,7 +32,11 @@ export const dark = {
   '--grey': 'slategrey',
   '--grey-light': '#9E9E9E',
   '--black': 'black',
-  '--moderator': 'black'
+  '--moderator': 'black',
+
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'white',
+  '--questionwall-intro-background':'black'
 
 };
 
