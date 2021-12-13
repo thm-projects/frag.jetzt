@@ -13,7 +13,7 @@ $animation-2-t-span-sum: $animation-g-t-span + $animation-2-t-span;
 $animation-1: keyframes_animation1 ($animation-1-t)+s $velocity-curve both;
 $animation-2: keyframes_animation2 ($animation-2-t)+s $velocity-curve both;
 
-$shadow-on: 1px 3px 0 #000, 1px 13px 5px #000;
+$shadow-on: 1px 3px 0 rgba(0,0,0,0.3), 1px 13px 5px rgba(0,0,0,0.3);
 $shadow-off: none;
 
 :host {
@@ -28,7 +28,8 @@ $shadow-off: none;
     position: fixed;
     left: 0;
     top: 0;
-    background-color: #09394FFF;
+    background-color:var(--questionwall-intro-background);
+    background-image:url('~assets/background/Auditorium-original-bw.webp');
     background-position: center left;
     background-size: contain;
     background-repeat: no-repeat;
@@ -47,7 +48,7 @@ $shadow-off: none;
     &-element {
       width: 0px;
       height: 0px;
-      background-color: yellow;
+      color:var(--questionwall-intro-primary);
       position: absolute;
     }
   }
@@ -64,20 +65,20 @@ $shadow-off: none;
       &-1 {
         font-family: 'Roboto', sans-serif;
         font-size: 50px;
-        font-weight: 800;
+        font-weight: normal;
         font-style: normal;
 
         span {
-          color: white;
+          color:var(--questionwall-intro-secondary);
         }
       }
 
       &-2 {
         font-family: 'Roboto', sans-serif;
         font-size: 50px;
-        font-weight: lighter;
+        font-weight: normal;
         font-style: normal;
-        color: yellow;
+        color:var(--questionwall-intro-primary);
       }
     }
 
@@ -142,22 +143,18 @@ $shadow-off: none;
     0% {
       opacity: 0;
       text-shadow: $shadow-off;
-      color: yellow;
     }
     10% {
       opacity: 1;
       text-shadow: $shadow-on;
-      filter: hue-rotate(0deg);
     }
     90% {
       opacity: 1;
       text-shadow: $shadow-off;
-      filter: hue-rotate(1360deg);
     }
     100% {
       opacity: 0;
       text-shadow: $shadow-off;
-      filter: hue-rotate(1360deg);
     }
   }
 }
