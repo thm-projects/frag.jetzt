@@ -34,9 +34,9 @@ export const dark = {
   '--black': 'black',
   '--moderator': 'black',
 
-  '--questionwall-intro-primary':'darkorange',
+  '--questionwall-intro-primary':'yellow',
   '--questionwall-intro-secondary':'white',
-  '--questionwall-intro-background':'#121212'
+  '--questionwall-intro-background':'black'
 
 };
 

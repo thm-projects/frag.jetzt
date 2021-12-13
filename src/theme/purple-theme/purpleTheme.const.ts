@@ -34,9 +34,9 @@ export const purple = {
   '--black': 'black',
   '--moderator': 'lightsalmon',
 
-  '--questionwall-intro-primary':'#073a52',
-  '--questionwall-intro-secondary':'Moccasin',
-  '--questionwall-intro-background':'Navajowhite'
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'white',
+  '--questionwall-intro-background':'black'
 
 };
 

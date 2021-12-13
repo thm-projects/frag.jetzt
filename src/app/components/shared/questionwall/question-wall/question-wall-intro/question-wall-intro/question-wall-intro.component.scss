@@ -29,7 +29,7 @@ $shadow-off: none;
     left: 0;
     top: 0;
     background-color:var(--questionwall-intro-background);
-    background-image:url('~assets/background/auditorium.webp');
+    background-image:url('~assets/background/Auditorium-original-bw.webp');
     background-position: center left;
     background-size: contain;
     background-repeat: no-repeat;
@@ -65,7 +65,7 @@ $shadow-off: none;
       &-1 {
         font-family: 'Roboto', sans-serif;
         font-size: 50px;
-        font-weight: 800;
+        font-weight: normal;
         font-style: normal;
 
         span {
@@ -76,7 +76,7 @@ $shadow-off: none;
       &-2 {
         font-family: 'Roboto', sans-serif;
         font-size: 50px;
-        font-weight: lighter;
+        font-weight: normal;
         font-style: normal;
         color:var(--questionwall-intro-primary);
       }
