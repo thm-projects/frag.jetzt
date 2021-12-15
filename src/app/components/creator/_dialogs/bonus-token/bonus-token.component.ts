@@ -19,6 +19,8 @@ import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
+import { EventService } from '../../../../../../src/app/services/util/event.service';
+import { BonusTokenDeleted } from '../../../../../../src/app/models/events/bonus-token-deleted';
 
 @Component({
   selector: 'app-bonus-token',
@@ -32,6 +34,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   bonusTokens: BonusToken[] = [];
   lang: string;
   isLoading = true;
+  sub: Subscription;
 
   tableDataSource: MatTableDataSource<BonusToken>;
   displayedColumns: string[] = ['questionNumber', 'token', 'date', 'button'];
@@ -47,6 +50,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   private debounceTime = 800;
 
   constructor(private bonusTokenService: BonusTokenService,
+              public eventService: EventService,
               public dialog: MatDialog,
               protected router: Router,
               private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
@@ -58,6 +62,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getTokens();
+    this.sub = this.eventService.on<any>('BonusTokenDeleted').subscribe(payload => {
+      this.bonusTokens = this.bonusTokens.filter(bt => bt.token !== payload.token);
+      this.updateTable(false);
+    });
   }
 
   getTokens(): void {
@@ -96,6 +104,8 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.translateService.get('room-page.token-deleted').subscribe(msg => {
         this.notificationService.show(msg);
       });
+      const event = new BonusTokenDeleted(bonusToken.token);
+      this.eventService.broadcast(event.type, event.payload);
     });
   }
 
@@ -181,7 +191,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   updateTokens(bonusTokens: BonusToken[]): void {
-    this.bonusTokens = this.bonusTokens.concat(bonusTokens);
+    this.bonusTokens = bonusTokens;
     this.bonusTokens.forEach(element => {
       this.commentService.getComment(element.commentId).subscribe(comment => {
         element.questionNumber = comment.number;
