@@ -12,13 +12,12 @@ app-comment {
 
 #searchBox {
   box-sizing: border-box;
-  padding: 0 10px 0 5px;
+  padding: 0 10px 0 10px;
   background-color: var(--background);
   border: none;
   outline: none;
   min-height: 60px;
   font-size: large;
-  border-radius: 5px;
   color: var(--on-surface);
   transition: width 300ms linear;
 }
@@ -37,13 +36,11 @@ app-comment {
 }
 
 .search-container {
-  border-radius: 5px;
   background-color: var(--background);
   margin-bottom: 2%;
 }
 
 .search-container-fixed {
-  border-radius: 5px;
   background-color: var(--background);
   margin-bottom: 2%;
   position: fixed;
@@ -54,7 +51,7 @@ app-comment {
 }
 
 .search-icon {
-  padding: 10px;
+  padding: 10px 0 10px 0;
   color: var(--on-surface);
 }
 
@@ -183,7 +180,8 @@ app-comment {
 
 h3 {
   font-size: 18pt !important;
-  margin: 10px 0 10px -10px;
+  margin: 10px 10px 10px -5px;
+  font-weight: bold;
 }
 
 .timesort {
