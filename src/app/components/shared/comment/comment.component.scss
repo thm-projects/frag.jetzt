@@ -57,7 +57,7 @@ mat-card-content > :first-child {
 }
 
 .bookmark-icon {
-  color: var(--magenta);
+  color: var(--purple);
 }
 
 .wrong-icon {
@@ -151,7 +151,7 @@ mat-card-content > :first-child {
   }
 
   &-bookmark {
-    @include card-box-shadow(var(--magenta));
+    @include card-box-shadow(var(--purple));
   }
 
   &-favorite {
@@ -167,7 +167,7 @@ mat-card-content > :first-child {
   }
 
   &-ownQuestion {
-    @include card-box-shadow(var(--purple));
+    @include card-box-shadow(cyan);
   }
 
   &-bonus {
@@ -187,11 +187,11 @@ mat-card-content > :first-child {
   }
 
   &-fromModerator {
-    @include card-box-shadow(var(--red));
+    //@include card-box-shadow(var(--red));
   }
 
   &-fromOwner {
-    @include card-box-shadow(var(--red));
+    //@include card-box-shadow(var(--red));
   }
 }
 

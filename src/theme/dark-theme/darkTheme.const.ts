@@ -26,7 +26,7 @@ export const dark = {
   '--white': '#ffffff',
   '--yellow': 'yellow',
   '--blue': '#3f51b5',
-  '--purple': '#9c27b0',
+  '--purple': 'purple',
   '--magenta': '#ea0a8e',
   '--light-green': 'lightgreen',
   '--grey': 'slategrey',

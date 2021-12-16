@@ -95,7 +95,7 @@
                 (click)="setFavorite(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined"
+          <mat-icon class="material-icons-round"
                     [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
@@ -105,7 +105,7 @@
                 *ngIf="(comment.favorite && isStudent && !(comment.creatorId && user && comment.creatorId === user.id))"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined"
+          <mat-icon class="material-icons-round"
                     [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
@@ -116,7 +116,7 @@
                 (click)="openBonusStarDialog()"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
-          <mat-icon class="material-icons-outlined"
+          <mat-icon class="material-icons-round"
                     [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}"
                     [matTooltip]="!comment.favorite ? ('comment-page.mark-favorite' | translate)
                                                  : ('comment-page.mark-not-favorite' | translate)">grade
@@ -218,7 +218,7 @@
                   tabindex="0"
                   attr.aria-labelledby="comment_grade{{ comment.id }}"
           >
-            <mat-icon class="material-icons-outlined"
+            <mat-icon class="material-icons-round"
                       [ngClass]="{'favorite-icon' : comment.favorite, 'not-marked' : !comment.favorite}">
               grade
             </mat-icon>
