@@ -231,8 +231,8 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('owner')"
               aria-labelledby="comment">
-        <mat-icon class="material-icons-round" style="color: cyan" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">
-          face
+        <mat-icon class="material-icons-outlined" style="color: mediumslateblue" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">
+          insert_emoticon
         </mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
