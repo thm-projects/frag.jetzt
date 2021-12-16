@@ -177,7 +177,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('favorite')"
               aria-labelledby="grade">
-        <mat-icon class="star material-icons-outlined"
+        <mat-icon class="star material-icons-round"
                   [ngClass]="{favorite: 'favorite-icon'}[filter.filterType]">grade
         </mat-icon>
         <span
@@ -187,7 +187,7 @@
       <button mat-menu-item
               (click)="applyFilterByKey('bookmark')"
               aria-labelledby="bookmark">
-        <mat-icon class="bookmark"
+        <mat-icon class="bookmark"  style="color: purple"
                   [ngClass]="{bookmark: 'bookmark-icon'}[filter.filterType]">bookmark
         </mat-icon>
         <span
@@ -209,7 +209,7 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('answer')"
               aria-labelledby="comment">
-        <mat-icon class="answer"
+        <mat-icon class="answer" style="color: var(--primary)"
                   [ngClass]="{answer: 'answered-icon'}[filter.filterType]">comment
         </mat-icon>
         <span
@@ -231,8 +231,8 @@
               (focus)="hideCommentsList=true"
               (click)="applyFilterByKey('owner')"
               aria-labelledby="comment">
-        <mat-icon class="material-icons-outlined" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">
-          person_pin_circle
+        <mat-icon class="material-icons-round" style="color: cyan" [ngClass]="{owner: 'owner-icon'}[filter.filterType]">
+          face
         </mat-icon>
         <span [ngClass]="{owner: 'owner-icon'}[filter.filterType]">{{ 'comment-list.filter-owner' | translate }}</span>
       </button>
@@ -281,34 +281,11 @@
         </mat-form-field>
       </button>
 
-      <!--
-      <button mat-menu-item
-              *ngIf="userRole !== 3"
-              (click)="filterComments(lecturer)"
-              aria-labelledby="lecturer">
-        <mat-icon class="lecturer"
-                  [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">school
-        </mat-icon>
-        <span
-          [ngClass]="{lecturer: 'lecturer-icon'}[currentFilter]">{{ 'comment-list.filter-lecturer' | translate }}</span>
-      </button>
-
-      <button mat-menu-item
-              (click)="filterComments(moderator)"
-              aria-labelledby="moderator">
-        <mat-icon class="moderator"
-                  [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">gavel
-        </mat-icon>
-        <span
-          [ngClass]="{moderator: 'moderator-icon'}[currentFilter]">{{ 'comment-list.filter-moderator' | translate }}</span>
-      </button>
-      -->
-
       <button mat-menu-item
               (focus)="hideCommentsList=false"
               (click)="applyFilterByKey(null)"
               aria-labelledby="close">
-        <mat-icon>close</mat-icon>
+        <mat-icon  style="color: var(--red)">close</mat-icon>
         <span>{{ 'comment-list.filter-reset' | translate }}</span>
       </button>
 

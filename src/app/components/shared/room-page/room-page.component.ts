@@ -388,7 +388,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'grade',
-        class: 'material-icons-outlined',
+        class: 'material-icons-round',
         iconColor: Palette.YELLOW,
         text: 'header.bonustoken',
         callback: () => this.showBonusTokenDialog(),
