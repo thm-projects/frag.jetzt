@@ -167,7 +167,7 @@ mat-card-content > :first-child {
   }
 
   &-ownQuestion {
-    @include card-box-shadow(cyan);
+    @include card-box-shadow(mediumslateblue);
   }
 
   &-bonus {
