@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { CommentService } from '../../../../services/http/comment.service';
+import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
 
 export interface BrainstormingSettings {
   active: boolean;
@@ -56,6 +57,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   constructor(
     public deviceInfo: DeviceInfoService,
     private dialogRef: MatDialogRef<TopicCloudBrainstormingComponent>,
+    private dialog: MatDialog,
     private eventService: EventService,
     private sessionService: SessionService,
     private roomService: RoomService,
@@ -69,6 +71,13 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
 
   cancelButtonActionCallback(): () => void {
     return () => this.dialogRef.close('abort');
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.brainstorming';
   }
 
   open() {
