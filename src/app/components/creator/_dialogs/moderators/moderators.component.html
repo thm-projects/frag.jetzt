@@ -45,10 +45,24 @@
   </div>
 </div>
 
-  <app-dialog-action-buttons
-    buttonsLabelSection="content"
-    [cancelButtonClickAction]="buildCloseDialogActionCallback()"
-  ></app-dialog-action-buttons>
+<ars-row ars-flex-box class="action-button-container">
+  <ars-col>
+    <button
+      mat-flat-button
+      class="help-button"
+      (click)="openHelp()">
+      <mat-icon>question_mark</mat-icon>
+      {{ 'explanation.label' | translate}}
+    </button>
+  </ars-col>
+  <ars-col>
+    <app-dialog-action-buttons
+      buttonsLabelSection="content"
+      [spacing]="false"
+      [cancelButtonClickAction]="buildCloseDialogActionCallback()">
+    </app-dialog-action-buttons>
+  </ars-col>
+</ars-row>
 
 <div class="visually-hidden">
   <div id="moderator-email">{{'room-page.a11y-moderator-email' | translate}}</div>

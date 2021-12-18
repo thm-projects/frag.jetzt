@@ -57,6 +57,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
   @ViewChild('commentExpander', { static: true }) commentExpander: RowComponent;
   readableCommentBody: string;
   commentIcon: string;
+  commentIconClass: string;
   isStudent = false;
   isCreator = false;
   isModerator = false;
@@ -90,11 +91,15 @@ export class CommentComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.readableCommentBody = this.comment?.body ? ViewCommentDataComponent.getTextFromData(this.comment?.body?.trim()) : '';
+    this.commentIconClass = '';
     if (this.comment?.brainstormingQuestion) {
       this.commentIcon = 'tips_and_updates';
-    } else if(this.isFromOwner) {
+    } else if (this.comment?.answer) {
+      this.commentIcon = 'question_answer';
+      this.commentIconClass = 'material-icons-outlined';
+    } else if (this.isFromOwner) {
       this.commentIcon = 'mic';
-    } else if(this.isFromModerator) {
+    } else if (this.isFromModerator) {
       this.commentIcon = 'gavel';
     }
     this.checkProfanity();

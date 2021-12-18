@@ -19,18 +19,20 @@ export class ProfanityFilterService {
     const badDE = BadWords['de'];
     badDE.splice(badDE.indexOf('ische'), 1);
     const badEN = BadWords['en'];
-    const badFr = BadWords['fr'];
-    badFr.splice(badFr.indexOf('bitte'), 1);
+    const badFR = BadWords['fr'];
+    badFR.splice(badFR.indexOf('bitte'), 1);
+    const badTR = BadWords['tr'];
+    badTR.splice(badTR.indexOf('am'), 1);
     this.profanityWords = badEN
       .concat(badDE)
-      .concat(badFr)
+      .concat(badFR)
       .concat(BadWords['ar'])
       .concat(BadWords['ru'])
       .concat(BadWords['es'])
       .concat(BadWords['it'])
       .concat(badNL)
       .concat(BadWords['pt'])
-      .concat(BadWords['tr']);
+      .concat(badTR);
   }
 
   get getProfanityList(): string[] {

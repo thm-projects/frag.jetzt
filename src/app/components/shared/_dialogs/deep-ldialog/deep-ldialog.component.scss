@@ -1,3 +1,5 @@
+@import "src/layout/laout-util";
+
 ::ng-deep {
   mat-radio-button {
     width: 100%;
@@ -13,7 +15,7 @@
 }
 
 .action-button-container {
-  @media screen and (max-width: 500px) {
+  @include onSmallWidth {
     overflow: auto;
     display: flex;
     justify-content: space-between;

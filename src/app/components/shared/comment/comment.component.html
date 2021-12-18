@@ -16,7 +16,7 @@
           (@slide.done)="changeSlideState()">
   <div class="runningnum-outer">
     <p>
-      <mat-icon *ngIf="commentIcon">{{commentIcon}}</mat-icon>
+      <mat-icon *ngIf="commentIcon" [class]="commentIconClass">{{commentIcon}}</mat-icon>
       {{comment.number}}
     </p>
   </div>

@@ -5,6 +5,7 @@
 .dialog-action-buttons .cancel-button {
   background-color: var(--cancel);
   color: var(--on-cancel);
+  margin-left: 10px;
 }
 
 .primary-confirm-button {
@@ -18,8 +19,9 @@
 }
 
 .dialog-action-buttons .cancel-button:focus {
-  background: var(--secondary);
-  color: var(-on-secondary);
+  background: var(--cancel);
+  color: var(--on-cancel);
+  margin-left: 10px;
 }
 
 .dialog-action-buttons .primary-confirm-button:focus {

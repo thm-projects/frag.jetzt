@@ -77,7 +77,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
                                maxTextCharacters: number,
                                maxDataCharacters: number): boolean {
     text = text.trim();
-    if (text.length < 1 && data.length < 1) {
+    if (text.length < 1 || data.length < 1) {
       translateService.get('comment-page.error-comment').subscribe(message => {
         notificationService.show(message);
       });
