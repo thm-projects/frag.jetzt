@@ -245,7 +245,7 @@
     "login-successful": "You are logged in now.",
     "login-tooltip": "Sessions will be stored for 180 days.",
     "not-registered": "No account?",
-    "or": "or",
+    "or": "",
     "password": "Password",
     "password-required": "Password required",
     "password-reset": "Forgot your password?",
