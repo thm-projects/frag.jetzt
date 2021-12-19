@@ -248,7 +248,7 @@
                     *ngIf="userRole > 0 && !router.url.includes('/participant/') &&
                            !router.url.endsWith('moderator/comments')"
                     [routerLink]="(userRole === 3 ? 'creator' : 'moderator') + '/room/' + shortId + '/moderator/comments'">
-              <mat-icon class="material-icons-outlined">visibility_off</mat-icon>
+              <mat-icon class="material-icons-round">gavel</mat-icon>
               <span>{{'header.moderationboard' | translate}}</span>
             </button>
 

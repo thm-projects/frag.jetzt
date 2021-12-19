@@ -45,7 +45,7 @@ export const highcontrast_meta = {
   translation: {
     name: {
       en: 'Contrast mode',
-      de: 'Kontrastmodus',
+      de: 'Kontrast',
     },
   },
   isDark: true,
