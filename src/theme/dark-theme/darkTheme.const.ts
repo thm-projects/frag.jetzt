@@ -9,7 +9,7 @@ export const dark = {
   '--background': '#121212',
   '--surface': '#052338',
   '--dialog': '#09394f',
-  '--cancel': 'Firebrick',
+  '--cancel': 'firebrick',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',
 
@@ -19,7 +19,7 @@ export const dark = {
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': '#000000',
+  '--on-cancel': '#ffffff',
 
   '--green': 'darkgreen',
   '--red': 'firebrick',
