@@ -12,8 +12,9 @@
   </mat-dialog-content>
 
   <app-dialog-action-buttons
+    confirmButtonLabel="cancel"
     buttonsLabelSection="imprint"
-    [cancelButtonClickAction]="buildConfirmActionCallback()">
+    [confirmButtonClickAction]="buildDeclineActionCallback()">
   </app-dialog-action-buttons>
 
 </div>

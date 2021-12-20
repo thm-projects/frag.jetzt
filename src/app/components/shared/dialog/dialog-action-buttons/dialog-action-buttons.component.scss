@@ -9,12 +9,12 @@
 }
 
 .primary-confirm-button {
-  background-color: var(--primary);
-  color: var(--on-primary);
+  background-color: var(--green);
+  color: var(--white);
 }
 
 .alert-confirm-button {
-  background-color: var(--red);
+  background-color: var(--green);
   color: var(--white);
 }
 
@@ -25,8 +25,8 @@
 }
 
 .dialog-action-buttons .primary-confirm-button:focus {
-  background: var(--secondary);
-  color: var(--on-secondary);
+  background: var(--green);
+  color: var(--white);
 }
 
 .spinner-container {

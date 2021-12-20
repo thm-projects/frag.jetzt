@@ -21,7 +21,7 @@ export const highcontrast = {
   '--on-dialog': '#FFFFFF',
   '--on-cancel': '#ffffff',
 
-  '--green': '#3ce933',
+  '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
   '--yellow': 'yellow',
