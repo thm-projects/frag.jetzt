@@ -30,7 +30,8 @@
            [type]="hide ? 'password' : 'text'"
            aria-labelledby="password-description"/>
 
-    <mat-icon matSuffix class="material-icons-outlined"
+    <mat-icon matSuffix
+              class="material-icons-outlined"
               (click)="hide = !hide"
               [attr.aria-label]="'Hide password'"
               [attr.aria-pressed]="hide">
@@ -42,17 +43,35 @@
 
   </mat-form-field>
 
-  <button id="focus_button_user"
-          class="login"
-          mat-flat-button
-          type="submit"
-          aria-labelledby="login-description">
+  <button
+    class="login"
+    mat-flat-button
+    type="submit"
+    aria-labelledby="login-description">
     {{ 'login.login' | translate }}
   </button>
+
+  <p class="forgot-password">
+    <a
+      href=""
+      (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
+      role="button"
+    >
+      {{ 'login.password-reset' | translate }}
+    </a>
+
+    <span style="padding-left: 20px">
+    <a href=""
+       class="registerBtn"
+       (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">
+      {{ 'login.register' | translate }}</a></span>
+  </p>
+
   <div class="or"
        fxLayoutAlign="center center">
     <span>{{ 'login.or' | translate }}</span>
   </div>
+
   <button id="focus_button_guest"
           (click)="guestLogin()"
           class="guest"
@@ -62,25 +81,9 @@
           matTooltip="{{'login.guest-login-tooltip' | translate}}">
     {{ 'login.guest-login' | translate }}
   </button>
-  <div class="forgot-password">
-    <a
-      href=""
-      (click)="openPasswordDialog(); $event.preventDefault(); $event.stopPropagation();"
-      role="button"
-    >
-      {{ 'login.password-reset' | translate }}
-    </a>
-  </div>
+
 </form>
 
-<div fxLayout="row"
-     class="register">
-  <p>{{ 'login.not-registered' | translate }}</p>
-  <a href=""
-     class="registerBtn"
-     (click)="openRegisterDialog(); $event.preventDefault(); $event.stopPropagation();">
-    {{ 'login.register' | translate }}</a>
-</div>
 <app-dialog-action-buttons
   [spacing]="false"
   buttonsLabelSection="login"
