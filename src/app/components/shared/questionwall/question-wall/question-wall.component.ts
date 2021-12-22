@@ -364,7 +364,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filterIcon = 'person_pin_circle';
     this.isSvgIcon = false;
     this.filterTitle = 'question-wall.filter-user';
-    this.filterDesc = String(user);
+    this.filterDesc = '';
     this.listFilter.filterCompare = user;
     this.listFilter.filterType = FilterType.userNumber;
     this.updateFiltering();
