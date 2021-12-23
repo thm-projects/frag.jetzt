@@ -6,9 +6,9 @@ export const highcontrast = {
   '--secondary': '#fb9a1c',
   '--secondary-variant': '#fb9a1c',
 
-  '--background': '#141414',
+  '--background': '#121212',
   '--surface': '#1e1e1e',
-  '--dialog': '#37474f',
+  '--dialog': '#000000',
   '--cancel': 'Firebrick',
   '--alt-surface': '#323232',
   '--alt-dialog': '#455a64',

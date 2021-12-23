@@ -141,15 +141,15 @@
                       svgIcon="comment_tag"></mat-icon>
             <p>{{'question-wall.filter-tag' | translate}}</p>
           </button>
-          <button ars-btn
-                  (click)="openUserMap()"
-                  class="qw-opening-fade-animation"
-                  [ngClass]="{'selected': hasFilter && filterTitle === 'question-wall.filter-user'}"
-                  matRipple
-                  aria-labelledby="user-lbl">
-            <i>person_pin_circle</i>
-            <p>{{'question-wall.filter-user'| translate}}</p>
-          </button>
+<!--          <button ars-btn-->
+<!--                  (click)="openUserMap()"-->
+<!--                  class="qw-opening-fade-animation"-->
+<!--                  [ngClass]="{'selected': hasFilter && filterTitle === 'question-wall.filter-user'}"-->
+<!--                  matRipple-->
+<!--                  aria-labelledby="user-lbl">-->
+<!--            <i>person_pin_circle</i>-->
+<!--            <p>{{'question-wall.filter-user'| translate}}</p>-->
+<!--          </button>-->
         </ars-col>
       </ars-fill>
     </ars-style-btn-material>
@@ -175,9 +175,13 @@
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
-              <i class="questionwall-icon questionwall-present-meta-icon qw-fade-animation">person_pin_circle</i>
-              <h2 class="questionwall-present-meta-user qw-fade-animation">{{commentFocus.comment.userNumber}}</h2>
-              <h2 class="questionwall-present-meta-timestamp qw-fade-animation">{{commentFocus.timeAgo}}</h2>
+              <i class="questionwall-icon questionwall-present-meta-icon questionwall-present-meta-left qw-fade-animation">person_pin_circle</i>
+              <ars-col>
+                <span matBadge="{{userMap.get(commentFocus.comment.userNumber)}}"
+                      matBadgeSize="small"
+                      matBadgeOverlap="false" style="padding:0;"></span>
+              </ars-col>
+              <h2 class="questionwall-present-meta-timestamp questionwall-present-meta-left qw-fade-animation">{{commentFocus.timeAgo}}</h2>
             </ars-row>
             <ars-row>
               <ars-row class="bound qw-fade-animation"
@@ -399,11 +403,17 @@
                                (click)="focusComment(comment)"
                                style="box-sizing:border-box;padding:16px;cursor:pointer">
                         <ars-col class="questionwall-comment-meta">
-                          <i class="questionwall-icon">person_pin_circle</i>
-                          <p (click)="filterUser(comment);"
-                             class="questionwall-comment-user"
-                             matRipple>{{comment.comment.userNumber}}</p>
-                          <p class="questionwall-comment-timestamp">{{comment.timeAgo}}</p>
+                          <i class="questionwall-icon" (click)="filterUser(comment)">person_pin_circle</i>
+                          <span matBadge="{{userMap.get(comment.comment.userNumber)}}"
+                                matBadgeSize="small"
+                                matBadgeOverlap="false"
+                                (click)="filterUser(comment)">
+                          </span>
+<!--                          commentsWrittenByUsers.get(current.creatorId).size-->
+<!--                          <p (click)="filterUser(comment);"-->
+<!--                             class="questionwall-comment-user"-->
+<!--                             matRipple>{{comment.comment.userNumber}}</p>-->
+                          <p class="questionwall-comment-timestamp" style="margin-left:32px;">{{comment.timeAgo}}</p>
                         </ars-col>
                         <ars-col>
                           <p class="questionwall-comment-notification">{{comment.old ? '' : 'NEW'}}</p>
@@ -577,7 +587,7 @@
                    [room]="room"
                    [iconColor]="'#FFFFFF'"
                    [backgroundColor]="'#FFFFFF'"
-                   [foregroundColor]="'#000000'"></app-active-user>
+                   [foregroundColor]="'#FFFFFF'"></app-active-user>
   <div class="qr-overlay"
        *ngIf="qrCodeExpanded">
     <qrcode [qrdata]="getURL()"

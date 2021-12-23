@@ -210,7 +210,7 @@
         justify-content: flex-start;
         flex-direction: row;
 
-        :first-child {
+        &-left {
           padding-left: 32px;
         }
 
