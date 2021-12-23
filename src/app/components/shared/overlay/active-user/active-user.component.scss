@@ -16,9 +16,9 @@
       font-family: 'Roboto', sans-serif;
       font-size: 24px;
       font-weight: bold;
-      box-shadow: none !important;
+      box-shadow: none;
       right: -75px;
-      background-color: transparent !important;
+      background-color: transparent;
       color: var(--green) !important;
       animation:popin-shadow 0.4s cubic-bezier(0.680, -0.550, 0.265, 1.550) both;
     }
