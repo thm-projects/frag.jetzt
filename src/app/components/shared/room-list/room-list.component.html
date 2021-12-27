@@ -5,7 +5,8 @@
   <div fxLayout="row"
        fxLayoutAlign="center">
     <app-mat-spinner-overlay diameter="80"
-                             strokeWidth="8"></app-mat-spinner-overlay>
+                             strokeWidth="8"
+                             style="color: var(--secondary)"></app-mat-spinner-overlay>
   </div>
 </div>
 
@@ -86,7 +87,7 @@
                       matTooltip="{{ 'header.questions-blocked' | translate}}">
               comments_disabled
             </mat-icon>
-            <mat-icon *ngIf= "!room.directSend"
+            <mat-icon *ngIf="!room.directSend"
                       class="warn material-icons-round"
                       [inline]="true"
                       matTooltip="{{ 'header.moderation-enabled' | translate}}">
@@ -117,7 +118,8 @@
                       title="{{ 'room-list.creator-role' | translate }}">
               mic
             </mat-icon>
-            <mat-icon class="material-icons-outlined" mat-list-icon
+            <mat-icon class="material-icons-outlined"
+                      mat-list-icon
                       *ngSwitchCase="participantRole"
                       title="{{ 'room-list.participant-role' | translate }}">
               group
