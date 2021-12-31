@@ -70,7 +70,7 @@
     </button>
 
     <button mat-icon-button
-            class="searchBarButton material-icons-outlined"
+            class="searchBarButton"
             (click)="switchToCommentList()"
             *ngIf="!searchBox.value && comments && !search"
             matTooltip="{{ 'comment-list.switch-to-comment-list' | translate }}">
