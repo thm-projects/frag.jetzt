@@ -13,9 +13,9 @@ import { DeepLService } from '../../../../services/http/deep-l.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
-import { BrainstormingSettings } from '../topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { CURRENT_SUPPORTED_LANGUAGES } from '../../../../services/http/spacy.interface';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { BrainstormingSession } from '../../../../models/brainstorming-session';
 
 @Component({
   selector: 'app-submit-comment',
@@ -29,7 +29,7 @@ export class CreateCommentComponent implements OnInit {
   @Input() userRole: UserRole;
   @Input() roomId: string;
   @Input() tags: string[];
-  @Input() brainstormingData: BrainstormingSettings;
+  @Input() brainstormingData: BrainstormingSession;
   isSendingToSpacy = false;
   isModerator = false;
 
@@ -167,12 +167,12 @@ export class CreateCommentComponent implements OnInit {
   }
 
   private wasWritten(term: string): boolean {
-    if (!this.roomDataService.currentRoomData) {
+    if (!this.roomDataService.getCurrentRoomData(false)) {
       return true;
     }
     const areEqual = (str1: string, str2: string): boolean =>
       str1.localeCompare(str2, undefined, { sensitivity: 'base' }) === 0;
-    return this.roomDataService.currentRoomData.some(comment => comment.brainstormingQuestion &&
+    return this.roomDataService.getCurrentRoomData(false).some(comment => comment.brainstormingQuestion &&
       comment.creatorId === this.user?.id &&
       comment.keywordsFromSpacy?.some(kw => areEqual(kw.text, term)));
   }

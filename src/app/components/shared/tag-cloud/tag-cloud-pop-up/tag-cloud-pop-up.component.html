@@ -4,14 +4,22 @@
      tabindex="0">
   <div>
     <div>
-      <span *ngIf="!isBrainstorming">
-        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
+      <span>
+        <mat-icon class="material-icons-outlined"
+                  matTooltip="{{'tag-cloud.overview-question-topic-tooltip' | translate}}">comment</mat-icon>
         <p>
           {{tagData && tagData.comments.length}}
         </p>
       </span>
+      <span *ngIf="isBrainstorming">
+        <mat-icon class="material-icons-outlined">thumbs_up_down</mat-icon>
+        <p>
+          {{getBrainstormingVotes()}}
+        </p>
+      </span>
       <span>
-        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>
+        <mat-icon class="material-icons-outlined"
+                  matTooltip="{{'tag-cloud.overview-questioners-topic-tooltip' | translate}}">person</mat-icon>
         <p>
           {{tagData && tagData.distinctUsers.size}}
         </p>
@@ -24,20 +32,27 @@
         </mat-icon>
       </button>
     </div>
-    <div *ngIf="!isBrainstorming">
-      <span>
-        <mat-icon class="material-icons-outlined"
-                  matTooltip="{{'tag-cloud.upvote-topic' | translate}}">thumb_up</mat-icon>
-        <p>
-          {{tagData && tagData.cachedUpVotes}}
-        </p>
-      </span>
-      <span>
-        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.downvote-topic' | translate}}">thumb_down</mat-icon>
-        <p>
-          {{tagData && tagData.cachedDownVotes}}
-        </p>
-      </span>
+    <div>
+      <button *ngIf="isBrainstorming"
+              mat-flat-button
+              class="vote-button"
+              [class.active]="getOwnVote() === 1"
+              (click)="onBrainstormVote(true)">
+        <ng-container [ngTemplateOutlet]="upvotes">
+        </ng-container>
+      </button>
+      <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="upvotes">
+      </ng-container>
+      <button *ngIf="isBrainstorming"
+              mat-flat-button
+              class="vote-button"
+              [class.active]="getOwnVote() === -1"
+              (click)="onBrainstormVote(false)">
+        <ng-container [ngTemplateOutlet]="downvotes">
+        </ng-container>
+      </button>
+      <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="downvotes">
+      </ng-container>
     </div>
     <div>
       <span>
@@ -79,3 +94,21 @@
     </div>
   </div>
 </div>
+
+<ng-template #upvotes>
+  <span>
+    <mat-icon class="material-icons-outlined"
+              matTooltip="{{getTooltip('tag-cloud.upvote-topic') | translate}}">thumb_up</mat-icon>
+    <p *ngIf="!isBrainstorming">{{tagData?.cachedUpVotes}}</p>
+  </span>
+</ng-template>
+
+<ng-template #downvotes>
+  <span>
+    <mat-icon class="material-icons-outlined"
+              matTooltip="{{getTooltip('tag-cloud.downvote-topic') | translate}}">thumb_down</mat-icon>
+    <p *ngIf="!isBrainstorming">
+      {{tagData?.cachedDownVotes}}
+    </p>
+  </span>
+</ng-template>

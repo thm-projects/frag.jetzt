@@ -185,7 +185,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="userRole == 3"
+                    *ngIf="userRole === 3"
                     routerLink="creator/room/{{shortId}}/comments">
               <mat-icon class="material-icons-outlined">
                 forum
@@ -205,7 +205,7 @@
 
           </ng-container>
 
-          <ng-container *ngIf="userRole == 0 && router.url.includes('/comment/')">
+          <ng-container *ngIf="userRole === 0 && router.url.includes('/comment/')">
 
             <button mat-menu-item
                     tabindex="0"
@@ -322,7 +322,7 @@
       </button>
 
       <button mat-menu-item
-              *ngIf="userRole == 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
+              *ngIf="userRole === 0 && !router.url.endsWith('/tagcloud') && !router.url.endsWith('/quiz')"
               (click)="openUserBonusTokenDialog()"
               tabindex="0">
         <mat-icon class="star material-icons-round">grade</mat-icon>

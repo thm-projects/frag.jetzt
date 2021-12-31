@@ -169,6 +169,7 @@
     "acknowledge": "Moves the question back to the public list",
     "your-answer": "Your answer",
     "answer": "Comment this question",
+    "no-comment": "The comment doesn't exist!",
     "save-answer": "Save",
     "comment-answered": "Answer has been sent.",
     "continue": "Continue",
@@ -218,6 +219,7 @@
     "send-description": "Send question",
     "tag": "Category",
     "tag-reset": "none",
+    "tag-title": "Change category",
     "tag-to-filter": "Click on the question category to filter all questions in that category.",
     "user-number": "Click on the pin icon to filter all questions from this questioner.",
     "keywords-per-question": "Click on the # sign to display the keywords that the questioner has determined or selected from an AI-generated list.",
@@ -229,6 +231,7 @@
     "show-more": "Show more ↓",
     "show-less": "Show less ↑",
     "edit-delete": "Delete question",
+    "edit-change-tag": "Change category",
     "edit-correct": "Mark as correct",
     "edit-correct-reset": "Remove marker",
     "edit-wrong": "Mark as wrong",
@@ -385,7 +388,7 @@
     "moderator-not-found": "A user with the entered mail address could not be found. Are you sure that the user has registered at »frag.jetzt« with this address?",
     "moderator-removed": "Moderator has been removed.",
     "moderators": "Moderators",
-    "name-length-error": "Titel must be between 3 and 20 characters.",
+    "name-length-error": "Title must be between {{min}} and {{max}} characters.",
     "no-moderators": "No moderators yet",
     "present": "Present",
     "public-stream": "Questions",
@@ -454,7 +457,9 @@
     "overview-questioners-topic-tooltip": "Number of questioners with this topic",
     "period-since-first-comment":"Period since first comment",
     "upvote-topic": "Upvotes for this topic",
+    "upvote-topic-brainstorming": "Upvote topic",
     "downvote-topic": "Downvotes for this topic",
+    "downvote-topic-brainstorming": "Downvote topic",
     "blacklist-topic": "Add topic to blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated.",
@@ -655,7 +660,7 @@
   "write-comment": {
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
-    "name-length-error": "The name must be between 2 and 20 characters."
+    "name-length-error": "The name must be between {{min}} and {{max}} characters."
   },
   "worker-config": {
     "heading": "Extract keywords",

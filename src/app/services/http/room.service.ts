@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Room } from '../../models/room';
 import { UserRole } from '../../models/user-roles.enum';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, ObservableInput, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AuthenticationService } from './authentication.service';
 import { BaseHttpService } from './base-http.service';
@@ -21,6 +21,7 @@ export class RoomService extends BaseHttpService {
     base: '/api',
     rooms: '/room',
     user: '/user',
+    import: '/import',
     findRooms: '/find'
   };
   private joinDate = new Date(Date.now());
@@ -36,10 +37,10 @@ export class RoomService extends BaseHttpService {
     super();
   }
 
-  getCreatorRooms(): Observable<Room[]> {
+  getCreatorRooms(userId: string): Observable<Room[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
     return this.http.post<Room[]>(connectionUrl, {
-      properties: {ownerId: this.authService.getUser().id},
+      properties: {ownerId: userId},
       externalFilters: {}
     }).pipe(
       tap((rooms) => {
@@ -51,11 +52,11 @@ export class RoomService extends BaseHttpService {
     );
   }
 
-  getParticipantRooms(): Observable<Room[]> {
+  getParticipantRooms(userId: string): Observable<Room[]> {
     const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + this.apiUrl.findRooms;
     return this.http.post<Room[]>(connectionUrl, {
       properties: {},
-      externalFilters: {inHistoryOfUserId: this.authService.getUser().id}
+      externalFilters: {inHistoryOfUserId: userId}
     }).pipe(
       tap((rooms) => {
         for (const r of rooms) {
@@ -129,6 +130,17 @@ export class RoomService extends BaseHttpService {
     return this.http.delete<Room>(connectionUrl, httpOptions).pipe(
       tap(() => ''),
       catchError(this.handleError<Room>('deleteRoom'))
+    );
+  }
+
+  createGuestsForImport(roomId: string, guestCount: number): Observable<string[]> {
+    if (guestCount < 1) {
+      return of([]);
+    }
+    const connectionUrl = this.apiUrl.base + this.apiUrl.rooms + '/' + roomId + this.apiUrl.import + '/' + guestCount;
+    return this.http.post<string[]>(connectionUrl, null, httpOptions).pipe(
+      tap(() => ''),
+      catchError(this.handleError<string[]>('createGuestsForImport'))
     );
   }
 

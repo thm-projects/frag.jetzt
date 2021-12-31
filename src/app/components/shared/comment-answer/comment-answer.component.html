@@ -8,7 +8,12 @@
        fxLayoutAlign="center">
     <app-comment [comment]="comment"
                  [user]="user"
-                 [userRole]="userRole"></app-comment>
+                 [userRole]="userRole"
+                 [parseVote]="vote"
+                 [moderator]="isModerationComment"
+                 [isFromModerator]="mods.has(comment.creatorId)"
+                 [isFromOwner]="room.ownerId === comment.creatorId"
+    ></app-comment>
   </div>
   <div fxLayout="row"
        #writeCommentCard

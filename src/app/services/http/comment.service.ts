@@ -68,6 +68,12 @@ export class CommentService extends BaseHttpService {
     return this.patchComment(comment, changes);
   }
 
+  updateCommentTag(comment: Comment, tag: string): Observable<Comment> {
+    comment.tag = tag;
+    const changes = new TSMap<string, any>();
+    changes.set('tag', tag);
+    return this.patchComment(comment, changes);
+  }
 
   getComment(commentId: string): Observable<Comment> {
     const connectionUrl = `${this.apiUrl.base}${this.apiUrl.comment}/${commentId}`;
@@ -157,7 +163,7 @@ export class CommentService extends BaseHttpService {
 
   highlight(comment: Comment) {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/highlight';
-    return this.http.patch(connectionUrl, httpOptions).pipe(
+    return this.http.post(connectionUrl, null, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('highlightComment'))
     );
@@ -165,7 +171,7 @@ export class CommentService extends BaseHttpService {
 
   lowlight(comment: Comment) {
     const connectionUrl = this.apiUrl.base + this.apiUrl.comment + '/' + comment.id + '/lowlight';
-    return this.http.patch(connectionUrl, httpOptions).pipe(
+    return this.http.post(connectionUrl, null, httpOptions).pipe(
       tap(_ => ''),
       catchError(this.handleError<any>('lowlightComment'))
     );
@@ -228,13 +234,17 @@ export class CommentService extends BaseHttpService {
 
 
   parseComment(comment: Comment): Comment {
-    if (!comment){
+    if (!comment) {
       return;
     }
-    comment.userNumber = this.hashCode(comment.creatorId);
     comment.keywordsFromQuestioner = comment.keywordsFromQuestioner ?
-                                     JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
-    comment.keywordsFromSpacy = comment.keywordsFromSpacy ? JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
+      JSON.parse(comment.keywordsFromQuestioner as unknown as string) : null;
+    comment.keywordsFromSpacy = comment.keywordsFromSpacy ?
+      JSON.parse(comment.keywordsFromSpacy as unknown as string) : null;
+    comment.answerFulltextKeywords = comment.answerFulltextKeywords ?
+      JSON.parse(comment.answerFulltextKeywords as unknown as string) : null;
+    comment.answerQuestionerKeywords = comment.answerQuestionerKeywords ?
+      JSON.parse(comment.answerQuestionerKeywords as unknown as string) : null;
     return comment;
   }
 

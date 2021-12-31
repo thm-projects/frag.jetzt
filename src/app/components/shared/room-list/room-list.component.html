@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<div *ngIf="roomsWithRole">
+<div *ngIf="roomsWithRole && tableDataSource">
 
   <div *ngIf="tableDataSource.data.length === 0"
        aria-labelledby="emptySessionHistoryLabel">

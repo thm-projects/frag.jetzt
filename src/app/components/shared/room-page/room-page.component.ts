@@ -3,10 +3,8 @@ import { Room } from '../../../models/room';
 import { RoomService } from '../../../services/http/room.service';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { EventService } from '../../../services/util/event.service';
-import { IMessage, Message } from '@stomp/stompjs';
 import { Observable, of, Subscription } from 'rxjs';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Palette } from '../../../../theme/Theme';
@@ -16,7 +14,9 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { User } from '../../../models/user';
 import { RoomNameSettingsComponent } from '../../creator/_dialogs/room-name-settings/room-name-settings.component';
 import { MatDialog } from '@angular/material/dialog';
-import { RoomDescriptionSettingsComponent } from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
+import {
+  RoomDescriptionSettingsComponent
+} from '../../creator/_dialogs/room-description-settings/room-description-settings.component';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../services/util/notification.service';
@@ -31,8 +31,9 @@ import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
 import { SyncFence } from '../../../utils/SyncFence';
-import { ModeratorService } from '../../../services/http/moderator.service';
-import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
+import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
+import { SessionService } from '../../../services/util/session.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
 
 @Component({
   selector: 'app-room-page',
@@ -52,55 +53,51 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   deviceType = localStorage.getItem('deviceType');
   userRole: UserRole;
   protected moderationEnabled = true;
-  protected sub: Subscription;
-  protected commentWatch: Observable<IMessage>;
   protected listenerFn: () => void;
-  private _navigationBuild = new SyncFence(3, this.initNavigation.bind(this));
+  private _navigationBuild = new SyncFence(2, this.initNavigation.bind(this));
+  private _sub: Subscription;
+  private _list: ComponentRef<any>[];
 
-  public constructor(protected roomService: RoomService,
-                     protected route: ActivatedRoute,
-                     protected location: Location,
-                     protected wsCommentService: WsCommentService,
-                     protected commentService: CommentService,
-                     protected eventService: EventService,
-                     protected headerService: HeaderService,
-                     protected composeService: ArsComposeService,
-                     protected dialog: MatDialog,
-                     protected bonusTokenService: BonusTokenService,
-                     protected translateService: TranslateService,
-                     protected notificationService: NotificationService,
-                     protected authenticationService: AuthenticationService,
-                     protected moderatorService: ModeratorService
+  public constructor(
+    protected roomService: RoomService,
+    protected route: ActivatedRoute,
+    protected location: Location,
+    protected commentService: CommentService,
+    protected eventService: EventService,
+    protected headerService: HeaderService,
+    protected composeService: ArsComposeService,
+    protected dialog: MatDialog,
+    protected bonusTokenService: BonusTokenService,
+    protected translateService: TranslateService,
+    protected notificationService: NotificationService,
+    protected authenticationService: AuthenticationService,
+    protected sessionService: SessionService,
+    protected roomDataService: RoomDataService,
   ) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      this.initializeRoom(params['shortId']);
-    });
+    this.initializeRoom();
   }
 
   ngOnDestroy() {
     this.listenerFn();
     this.eventService.makeFocusOnInputFalse();
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-    this.onDestroyListener.emit();
+    this._list?.forEach(e => e.destroy());
+    this._sub?.unsubscribe();
   }
 
   tryInitNavigation() {
-    this._navigationBuild.resolveCondition(2);
+    this._navigationBuild.resolveCondition(1);
   }
 
-  initializeRoom(id: string): void {
+  initializeRoom(): void {
     this.authenticationService.watchUser.subscribe(user => {
       this.user = user;
-      this._navigationBuild.resolveCondition(0);
     });
     this.userRole = this.route.snapshot.data.roles[0];
     this.preRoomLoadHook().subscribe(user => {
-      this.roomService.getRoomByShortId(id).subscribe(room => {
+      this.sessionService.getRoomOnce().subscribe(room => {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
@@ -116,20 +113,17 @@ export class RoomPageComponent implements OnInit, OnDestroy {
             this.moderatorCommentCounter = commentCounter;
           });
         }
-        this.commentWatch = this.wsCommentService.getCommentStream(this.room.id);
-        this.sub = this.commentWatch.subscribe((message: Message) => {
-          const msg = JSON.parse(message.body);
-          const payload = msg.payload;
-          if (msg.type === 'CommentCreated') {
+        const sub = this.roomDataService.receiveUpdates([
+          { type: 'CommentCreated', finished: true },
+          { type: 'CommentDeleted', finished: true },
+          { type: 'CommentPatched', finished: true, updates: ['ack'] }
+        ]).subscribe(update => {
+          if (update.type === 'CommentCreated') {
             this.setCommentCounter(this.commentCounter + 1);
-          } else if (msg.type === 'CommentDeleted') {
+          } else if (update.type === 'CommentDeleted') {
             this.setCommentCounter(this.commentCounter - 1);
-          } else if (msg.type === 'CommentPatched' && this.userRole > UserRole.PARTICIPANT) {
-            const ack = payload.changes.ack;
-            if (ack === undefined) {
-              return;
-            }
-            if (ack) {
+          } else if (update.type === 'CommentPatched') {
+            if (update.comment.ack) {
               this.setCommentCounter(this.commentCounter + 1);
               this.moderatorCommentCounter = this.moderatorCommentCounter - 1;
             } else {
@@ -138,8 +132,9 @@ export class RoomPageComponent implements OnInit, OnDestroy {
             }
           }
         });
+        this.onDestroyListener.subscribe(() => sub.unsubscribe());
         this.postRoomLoadHook();
-        this._navigationBuild.resolveCondition(1);
+        this._navigationBuild.resolveCondition(0);
       });
     });
   }
@@ -177,8 +172,8 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   }
 
   exportQuestions() {
-    this.moderatorService.get(this.room.id).subscribe(mods => {
-      exportQuestions(this.translateService,
+    this.sessionService.getModeratorsOnce().subscribe(mods => {
+      exportRoom(this.translateService,
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
@@ -229,6 +224,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     this.roomService.deleteRoom(this.room.id).subscribe(result => {
       const event = new RoomDeleted(this.room.id);
       this.eventService.broadcast(event.type, event.payload);
+      this.authenticationService.removeAccess(this.room.shortId);
       this.location.back();
     });
   }
@@ -350,7 +346,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
 
   private initNavigation() {
     /* eslint-disable @typescript-eslint/no-shadow */
-    const list: ComponentRef<any>[] = this.composeService.builder(this.headerService.getHost(), e => {
+    this._list = this.composeService.builder(this.headerService.getHost(), e => {
       e.menuItem({
         translate: this.headerService.getTranslate(),
         icon: 'article',
@@ -460,9 +456,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         ,
         () => this.userRole > UserRole.PARTICIPANT
       );
-    });
-    this.onDestroyListener.subscribe(() => {
-      list.forEach(e => e.destroy());
     });
     /* eslint-enable @typescript-eslint/no-shadow */
   }

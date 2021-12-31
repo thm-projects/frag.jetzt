@@ -161,6 +161,7 @@
     "fullscreen": "Click for full view.",
     "abort": "Cancel",
     "ask-question-description": "Enter your question …",
+    "no-comment": "The comment doesn't exist!",
     "save-answer": "Save",
     "continue": "Continue",
     "delete-answer": "Delete",
@@ -179,6 +180,7 @@
     "exit-description": "Exit Presentation Mode",
     "has-answer": "The question was answered. Click for full view.",
     "live-announcer": "You are now on the questions page. To get information about key combinations press the Enter key or call the announcement later with the Escape key.",
+    "mark-bookmark": "Bookmark",
     "mark-not-correct": "Marked as correct",
     "mark-not-favorite": "Marked as particularly interesting",
     "mark-not-bookmark": "Bookmark",
@@ -350,8 +352,10 @@
     "overview-question-topic-tooltip": "Number of questions with this topic",
     "overview-questioners-topic-tooltip": "Number of questioners with this topic",
     "period-since-first-comment":"Period since first comment",
-    "upvote-topic": "Up votes for this topic",
-    "downvote-topic": "Down votes for this topic",
+    "upvote-topic": "Upvotes for this topic",
+    "upvote-topic-brainstorming": "Upvote topic",
+    "downvote-topic": "Downvotes for this topic",
+    "downvote-topic-brainstorming": "Downvote topic",
     "blacklist-topic": "Add topic to blacklist",
     "changes-gone-wrong": "Something has gone wrong!",
     "changes-successful": "Successfully updated",
@@ -533,7 +537,7 @@
   "write-comment": {
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
-    "name-length-error": "The name must be between 2 and 20 characters."
+    "name-length-error": "The name must be between {{min}} and {{max}} characters."
   },
   "worker-config": {
     "heading": "Extract keywords",

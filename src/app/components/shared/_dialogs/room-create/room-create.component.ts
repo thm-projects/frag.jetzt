@@ -25,11 +25,15 @@ export class RoomCreateComponent implements OnInit {
   user: User;
   hasCustomShortId = false;
   isLoading = false;
+  readonly roomNameLengthMin = 3;
+  readonly roomNameLengthMax = 30;
   roomNameFormControl = new FormControl('', [
-    Validators.required, Validators.minLength(3), Validators.maxLength(20)
+    Validators.required, Validators.minLength(this.roomNameLengthMin), Validators.maxLength(this.roomNameLengthMax)
   ]);
+  readonly shortIdLengthMin = 3;
+  readonly shortIdLengthMax = 30;
   roomShortIdFormControl = new FormControl('', [
-    Validators.required, Validators.minLength(3), Validators.maxLength(30),
+    Validators.required, Validators.minLength(this.shortIdLengthMin), Validators.maxLength(this.shortIdLengthMax),
     Validators.pattern('[a-zA-Z0-9_\\-.~]+'), this.verifyAlreadyUsed.bind(this)
   ]);
 
@@ -71,10 +75,10 @@ export class RoomCreateComponent implements OnInit {
     if (this.roomNameFormControl.value) {
       this.roomNameFormControl.setValue(this.roomNameFormControl.value.trim());
     }
-    if (this.roomNameFormControl.errors) {
+    if (this.roomNameFormControl.invalid) {
       return;
     }
-    if (this.hasCustomShortId && this.roomShortIdFormControl.errors) {
+    if (this.hasCustomShortId && this.roomShortIdFormControl.invalid) {
       return;
     }
     this.isLoading = true;

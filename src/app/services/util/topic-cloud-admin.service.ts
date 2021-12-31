@@ -9,7 +9,6 @@ import { RoomService } from '../http/room.service';
 import { Room } from '../../models/room';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
-import { WsRoomService } from '../websockets/ws-room.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Comment } from '../../models/comment';
 import { UserRole } from '../../models/user-roles.enum';
@@ -34,19 +33,20 @@ export class TopicCloudAdminService {
   private static readonly adminKey = 'Topic-Cloud-Admin-Data';
   private adminData: BehaviorSubject<TopicCloudAdminData>;
 
-  constructor(private roomService: RoomService,
-              private translateService: TranslateService,
-              private wsRoomService: WsRoomService,
-              private notificationService: NotificationService) {
+  constructor(
+    private roomService: RoomService,
+    private translateService: TranslateService,
+    private notificationService: NotificationService,
+  ) {
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
   }
 
-  static applySettingsToRoom(room: Room, brainstorming: any = undefined) {
+  static applySettingsToRoom(room: Room, brainstormingActive: boolean) {
     const settings: any = CloudParameters.currentParameters;
     const admin = TopicCloudAdminService.getDefaultAdminData;
     settings.admin = {
       considerVotes: admin.considerVotes,
-      keywordORfulltext: brainstorming && admin.keywordORfulltext === KeywordOrFulltext.keyword ?
+      keywordORfulltext: brainstormingActive && admin.keywordORfulltext === KeywordOrFulltext.keyword ?
         KeywordOrFulltext.both : admin.keywordORfulltext,
       wantedLabels: admin.wantedLabels,
       minQuestioners: admin.minQuestioners,
@@ -56,11 +56,6 @@ export class TopicCloudAdminService {
       endDate: admin.endDate,
       scorings: admin.scorings
     };
-    if (brainstorming === null) {
-      settings.brainstorming = undefined;
-    } else {
-      settings.brainstorming = brainstorming || JSON.parse(room.tagCloudSettings)?.brainstorming;
-    }
     room.tagCloudSettings = JSON.stringify(settings);
   }
 
@@ -72,18 +67,18 @@ export class TopicCloudAdminService {
                                   brainstorming: boolean,
                                   keywordFunc: (SpacyKeyword, boolean) => void) {
     let source = comment.keywordsFromQuestioner;
-    let censored = roomDataService.getCensoredInformation(comment).userKeywordsCensored;
+    let censored = roomDataService.getCensoredInformation(comment).keywordsFromQuestionerCensored;
     let isFromQuestioner = true;
     if (config.keywordORfulltext === KeywordOrFulltext.both) {
       if (!source || !source.length) {
         isFromQuestioner = false;
         source = comment.keywordsFromSpacy;
-        censored = roomDataService.getCensoredInformation(comment).genKeywordsCensored;
+        censored = roomDataService.getCensoredInformation(comment).keywordsFromSpacyCensored;
       }
     } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
       isFromQuestioner = false;
       source = comment.keywordsFromSpacy;
-      censored = roomDataService.getCensoredInformation(comment).genKeywordsCensored;
+      censored = roomDataService.getCensoredInformation(comment).keywordsFromSpacyCensored;
     }
     if (!source) {
       return;
@@ -176,7 +171,7 @@ export class TopicCloudAdminService {
     if (!updateRoom || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
     }
-    TagCloudSettings.getDefaultByRoom(updateRoom).applyToRoom(updateRoom);
+    TagCloudSettings.getCurrent().applyToRoom(updateRoom);
     this.updateRoom(updateRoom);
   }
 

@@ -1,7 +1,7 @@
-import {AfterViewInit,Component,Input,OnDestroy,OnInit,ViewChild} from '@angular/core';
+import {Component,Input,OnDestroy,OnInit,ViewChild} from '@angular/core';
 import {Room} from '../../../../models/room';
-import {ActiveUserService} from '../../../../services/http/active-user.service';
 import {HeaderService} from '../../../../services/util/header.service';
+import { RoomDataService } from '../../../../services/util/room-data.service';
 
 @Component({
   selector:'app-active-user',
@@ -18,15 +18,15 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
   @Input() top: number;
   @Input() alwaysShowInHeader: boolean;
   @ViewChild('divElement') elem: HTMLElement;
-  activeUser=0;
+  activeUser = '?';
   onDestroyListener: (() => void)[]=[];
-  onValueChangeListener: ((user: number) => void)[]=[];
+  onValueChangeListener: ((userCount: string) => void)[]=[];
   deviceType;
   showByComponent: boolean;
 
   constructor(
-    private activeUserService: ActiveUserService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private roomDataService: RoomDataService,
   ){
     this.deviceType=localStorage.getItem('deviceType');
   }
@@ -36,22 +36,19 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
       this.showByComponent=false;
       this.headerService.toggleCurrentUserActivity(true);
       this.onDestroyListener.push(()=>this.headerService.toggleCurrentUserActivity(false));
-      this.onValueChangeListener.push(num=>this.headerService.setCurrentUserActivity(num));
+      this.onValueChangeListener.push(userCount => this.headerService.setCurrentUserActivity(userCount));
     } else{
       this.showByComponent=true;
     }
-    this.onDestroyListener.push(
-      this.activeUserService.observeUserActivity(this.room,user=>{
-        if(user!==null){
-          this.activeUser=user;
-          this.onValueChangeListener.forEach(e=>e(user));
-        }
-      })
-    );
+    const sub = this.roomDataService.observeUserCount().subscribe(value => {
+      this.activeUser = value;
+      this.onValueChangeListener.forEach(e => e(value));
+    });
+    this.onDestroyListener.push(() => sub.unsubscribe());
   }
 
   ngOnDestroy(){
-    this.onDestroyListener.forEach(e=>e());
+    this.onDestroyListener.forEach(e => e());
   }
 
 }

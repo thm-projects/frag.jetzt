@@ -63,7 +63,7 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    let comments = this.dialogRef.componentInstance.roomDataService.currentRoomData;
+    let comments = this.dialogRef.componentInstance.roomDataService.getCurrentRoomData(false);
     if (onlyFailed) {
       comments = comments.filter(c => {
         const isKeywordOkay = c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;

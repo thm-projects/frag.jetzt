@@ -9,8 +9,9 @@ import { UserRole } from '../models/user-roles.enum';
 import { CommentBonusTokenMixin } from '../models/comment-bonus-token-mixin';
 import { NotificationService } from '../services/util/notification.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
-import { map, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
+import { RoomService } from '../services/http/room.service';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -139,6 +140,7 @@ const roomImportExport = (translateService: TranslateService,
                           room?: Room,
                           moderatorIds?: Set<string>) => {
   const empty = translatePath + '.export-empty';
+  const bufferedIds = [];
   const isMod = (user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT;
   return new ImportExportManager(translateService, [
     { type: 'value', languageKey: translatePath + '.room-name' },
@@ -254,9 +256,15 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.user-number',
           valueMapper: {
-            export: (cfg, c) => String(c.userNumber),
+            export: (cfg, c) => {
+              let index = bufferedIds.indexOf(c.creatorId);
+              if (index < 0) {
+                index = bufferedIds.push(c.creatorId) - 1;
+              }
+              return String(index);
+            },
             import: (cfg, val, c) => {
-              c.userNumber = parseInt(val, 10);
+              c.creatorId = val;
               return c;
             }
           }
@@ -374,14 +382,14 @@ const roomImportExport = (translateService: TranslateService,
   ]);
 };
 
-export const exportQuestions = (translateService: TranslateService,
-                                notificationService: NotificationService,
-                                bonusTokenService: BonusTokenService,
-                                commentService: CommentService,
-                                translatePath: string,
-                                user: User,
-                                room: Room,
-                                moderatorIds: Set<string>): Observable<[string, string]> =>
+export const exportRoom = (translateService: TranslateService,
+                           notificationService: NotificationService,
+                           bonusTokenService: BonusTokenService,
+                           commentService: CommentService,
+                           translatePath: string,
+                           user: User,
+                           room: Room,
+                           moderatorIds: Set<string>): Observable<[string, string]> =>
   commentService.getAckComments(room.id).pipe(
     switchMap(res => {
       if ((user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT) {
@@ -431,7 +439,67 @@ type ImportQuestionsResult = [
   comments: CommentBonusTokenMixin[]
 ];
 
-export const importQuestions = (translateService: TranslateService,
-                                translatePath: string,
-                                csv: string): Observable<ImportQuestionsResult> =>
-  roomImportExport(translateService, translatePath).importFromCSV(csv) as Observable<ImportQuestionsResult>;
+const generateCommentCreatorIds = (observer: Observable<ImportQuestionsResult>,
+                                   roomService: RoomService,
+                                   roomId: string): Observable<ImportQuestionsResult> => observer.pipe(
+  mergeMap(value => {
+    value[5] = value[5].filter(c => c.creatorId);
+    const userSet = new Set<string>(value[5].map(c => c.creatorId));
+    const fastAccess = {} as any;
+    [...userSet].forEach((user, index) => fastAccess[user] = index);
+    return roomService.createGuestsForImport(roomId, userSet.size).pipe(
+      map(guestIds => {
+        value[5].forEach(c => {
+          c.creatorId = guestIds[fastAccess[c.creatorId]];
+        });
+        return value;
+      })
+    );
+  })
+);
+
+const importRoomSettings = (value: ImportQuestionsResult,
+                            roomService: RoomService,
+                            roomId: string): Observable<ImportQuestionsResult> => roomService.getRoom(roomId)
+  .pipe(
+    mergeMap(room => {
+      room.name = value[0];
+      room.description = value[3];
+      room.tags = value[4];
+      return roomService.updateRoom(room).pipe(map(_ => value));
+    })
+  );
+
+const importComment = (comment: CommentBonusTokenMixin,
+                       commentService: CommentService): Observable<Comment> => {
+  const { bonusToken, bonusTimeStamp, ...realComment } = comment;
+  return commentService.addComment(realComment).pipe(
+    mergeMap(c => {
+      realComment.id = c.id;
+      return commentService.updateComment(realComment);
+    }),
+    mergeMap(_ => {
+      if (bonusToken && bonusTimeStamp) {
+        realComment.favorite = false;
+        return commentService.toggleFavorite(realComment);
+      }
+      return of(realComment);
+    })
+  );
+};
+
+export const importToRoom = (translateService: TranslateService,
+                             roomId: string,
+                             roomService: RoomService,
+                             commentService: CommentService,
+                             translatePath: string,
+                             csv: string): Observable<ImportQuestionsResult> => {
+  const result = roomImportExport(translateService, translatePath)
+    .importFromCSV(csv) as Observable<ImportQuestionsResult>;
+  return generateCommentCreatorIds(result, roomService, roomId)
+    .pipe(
+      mergeMap(value => importRoomSettings(value, roomService, roomId)),
+      mergeMap(value => forkJoin(value[5].map(c => importComment(c, commentService)) as Observable<Comment>[])),
+      mergeMap(_ => result)
+    );
+};
