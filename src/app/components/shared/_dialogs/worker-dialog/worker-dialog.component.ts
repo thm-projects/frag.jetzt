@@ -31,7 +31,7 @@ export class WorkerDialogComponent implements OnInit {
               private deepLService: DeepLService,
               private translateService: TranslateService,
               private roomDataService: RoomDataService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   static isWorkingOnRoom(roomId: string) {
@@ -88,7 +88,6 @@ export class WorkerDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   checkTasks(event: BeforeUnloadEvent) {

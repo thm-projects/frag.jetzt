@@ -31,9 +31,17 @@ import { TagsComponent } from '../../creator/_dialogs/tags/tags.component';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ProfanitySettingsComponent } from '../../creator/_dialogs/profanity-settings/profanity-settings.component';
 import { SyncFence } from '../../../utils/SyncFence';
-import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
+import {
+  copyCSVString,
+  exportRoom,
+  ImportQuestionsResult,
+  importToRoom,
+  uploadCSV
+} from '../../../utils/ImportExportMethods';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
+import { mergeMap } from 'rxjs/operators';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-room-page',
@@ -50,7 +58,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
   onDestroyListener: EventEmitter<void> = new EventEmitter<void>();
   viewModuleCount = 1;
   moderatorCommentCounter: number;
-  deviceType = localStorage.getItem('deviceType');
   userRole: UserRole;
   protected moderationEnabled = true;
   protected listenerFn: () => void;
@@ -101,7 +108,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.room = room;
         this.isLoading = false;
         this.moderationEnabled = !this.room.directSend;
-        localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
         if (this.moderationEnabled) {
           this.viewModuleCount = this.viewModuleCount + 1;
         }
@@ -185,6 +191,22 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         copyCSVString(text[0], this.room.name + '-' + this.room.shortId + '-' + text[1] + '.csv');
       });
     });
+  }
+
+  importQuestions(): Observable<ImportQuestionsResult> {
+    return uploadCSV().pipe(
+      mergeMap(data => {
+        if (!data) {
+          return of(null);
+        }
+        return importToRoom(this.translateService,
+          this.room.id,
+          this.roomService,
+          this.commentService,
+          'comment-list',
+          data);
+      })
+    );
   }
 
   deleteQuestions() {
@@ -291,7 +313,6 @@ export class RoomPageComponent implements OnInit, OnDestroy {
     }
 
     this.moderationEnabled = !settings.directSend;
-    localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
   }
 
   showTagsDialog(): void {
@@ -397,6 +418,16 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         text: 'header.export-questions',
         callback: () => this.exportQuestions(),
         condition: () => this.userRole >= UserRole.PARTICIPANT
+      });
+      e.menuItem({
+        translate: this.headerService.getTranslate(),
+        icon: 'file_upload',
+        class: 'material-icons-outlined',
+        text: 'header.import-questions',
+        callback: () => this.importQuestions().subscribe(),
+        condition: () => (this.roomDataService.getCurrentRoomData()?.length || 0) +
+          (this.roomDataService.getCurrentRoomData(true)?.length || 0) === 0 &&
+          this.user.id === this.room.ownerId,
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),

@@ -21,6 +21,7 @@ import { BonusTokenService } from '../../../services/http/bonus-token.service';
 import { NotificationService } from '../../../services/util/notification.service';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-room-participant-page',
@@ -47,10 +48,11 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
     public eventService: EventService,
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
+    public deviceInfo: DeviceInfoService,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
       bonusTokenService, translateService, notificationService, authenticationService, sessionService, roomDataService);
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterViewInit() {
@@ -66,7 +68,6 @@ export class RoomParticipantPageComponent extends RoomPageComponent implements O
   ngOnInit() {
     window.scroll(0, 0);
     this.initializeRoom();
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         document.getElementById('question_answer-button').focus();

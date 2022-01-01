@@ -17,6 +17,8 @@ import { RoomDataService } from './room-data.service';
 import { stopWords, superfluousSpecialCharacters } from '../../utils/stopwords';
 import { escapeForRegex } from '../../utils/regex-escape';
 import { TagCloudSettings } from '../../utils/TagCloudSettings';
+import { ThemeService } from '../../../theme/theme.service';
+import { SpacyKeyword } from '../http/spacy.service';
 
 const words = stopWords.map(word => escapeForRegex(word).replace(/\s+/, '\\s*'));
 const httpRegex = /(https?:[^\s]+(\s|$))/;
@@ -25,6 +27,8 @@ const regexMaskKeyword = new RegExp('\\b(' + words.join('|') + ')\\b|' +
   httpRegex.source + '|' + specialCharacters, 'gmi');
 export const maskKeyword = (keyword: string): string =>
   keyword.replace(regexMaskKeyword, '').replace(/\s+/, ' ').trim();
+
+export type KeywordConsumer = (keyword: SpacyKeyword, isFromQuestioner: boolean, isFromAnswer: boolean) => void;
 
 @Injectable({
   providedIn: 'root',
@@ -37,12 +41,13 @@ export class TopicCloudAdminService {
     private roomService: RoomService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
+    private themeService: ThemeService,
   ) {
     this.adminData = new BehaviorSubject<TopicCloudAdminData>(TopicCloudAdminService.getDefaultAdminData);
   }
 
-  static applySettingsToRoom(room: Room, brainstormingActive: boolean) {
-    const settings: any = CloudParameters.currentParameters;
+  static applySettingsToRoom(room: Room, brainstormingActive: boolean, isCurrentlyDark: boolean) {
+    const settings: any = CloudParameters.getCurrentParameters(isCurrentlyDark);
     const admin = TopicCloudAdminService.getDefaultAdminData;
     settings.admin = {
       considerVotes: admin.considerVotes,
@@ -65,20 +70,31 @@ export class TopicCloudAdminService {
                                   blacklist: string[],
                                   blacklistEnabled: boolean,
                                   brainstorming: boolean,
-                                  keywordFunc: (SpacyKeyword, boolean) => void) {
+                                  keywordFunc: KeywordConsumer) {
     let source = comment.keywordsFromQuestioner;
-    let censored = roomDataService.getCensoredInformation(comment).keywordsFromQuestionerCensored;
+    let answerSource = comment.answerQuestionerKeywords;
     let isFromQuestioner = true;
+    let censored = roomDataService.getCensoredInformation(comment).keywordsFromQuestionerCensored;
+    let answerCensored = roomDataService.getCensoredInformation(comment).answerQuestionerKeywordsCensored;
+    let isAnswerFromQuestioner = true;
     if (config.keywordORfulltext === KeywordOrFulltext.both) {
       if (!source || !source.length) {
         isFromQuestioner = false;
         source = comment.keywordsFromSpacy;
         censored = roomDataService.getCensoredInformation(comment).keywordsFromSpacyCensored;
       }
+      if(!answerSource || !answerSource.length) {
+        isAnswerFromQuestioner = false;
+        answerSource = comment.answerFulltextKeywords;
+        answerCensored = roomDataService.getCensoredInformation(comment).answerFulltextKeywordsCensored;
+      }
     } else if (config.keywordORfulltext === KeywordOrFulltext.fulltext) {
       isFromQuestioner = false;
+      isAnswerFromQuestioner = false;
       source = comment.keywordsFromSpacy;
       censored = roomDataService.getCensoredInformation(comment).keywordsFromSpacyCensored;
+      answerSource = comment.answerFulltextKeywords;
+      answerCensored = roomDataService.getCensoredInformation(comment).answerFulltextKeywordsCensored;
     }
     if (!source) {
       return;
@@ -96,12 +112,32 @@ export class TopicCloudAdminService {
         continue;
       }
       if (!blacklistEnabled) {
-        keywordFunc(keyword, isFromQuestioner);
+        keywordFunc(keyword, isFromQuestioner, false);
         continue;
       }
       const lowerCasedKeyword = keyword.text.toLowerCase();
       if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
-        keywordFunc(keyword, isFromQuestioner);
+        keywordFunc(keyword, isFromQuestioner, false);
+      }
+    }
+    for (let i = 0; i < answerSource.length; i++) {
+      const keyword = answerSource[i];
+      if (maskKeyword(keyword.text).length < 3) {
+        continue;
+      }
+      if (answerCensored[i]) {
+        continue;
+      }
+      if (!brainstorming && wantedLabels && (!keyword.dep || !keyword.dep.some(e => wantedLabels.includes(e)))) {
+        continue;
+      }
+      if (!blacklistEnabled) {
+        keywordFunc(keyword, isAnswerFromQuestioner, true);
+        continue;
+      }
+      const lowerCasedKeyword = keyword.text.toLowerCase();
+      if (!blacklist.some(word => lowerCasedKeyword.includes(word))) {
+        keywordFunc(keyword, isAnswerFromQuestioner, true);
       }
     }
   }
@@ -171,7 +207,7 @@ export class TopicCloudAdminService {
     if (!updateRoom || !userRole || userRole <= UserRole.PARTICIPANT) {
       return;
     }
-    TagCloudSettings.getCurrent().applyToRoom(updateRoom);
+    TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(updateRoom);
     this.updateRoom(updateRoom);
   }
 

@@ -114,7 +114,6 @@ export class RoomListComponent implements OnInit, OnDestroy {
     for (const r of this.roomsWithRole) {
       if (r.shortId === shortId) {
         this.authenticationService.assignRole(r.role);
-        localStorage.setItem('shortId', shortId);
       }
     }
   }

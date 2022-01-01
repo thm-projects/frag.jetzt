@@ -16,6 +16,8 @@ import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-d
 import { CURRENT_SUPPORTED_LANGUAGES } from '../../../../services/http/spacy.interface';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { BrainstormingSession } from '../../../../models/brainstorming-session';
+import { LanguageService } from '../../../../services/util/language.service';
+import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -43,7 +45,11 @@ export class CreateCommentComponent implements OnInit {
     private deeplService: DeepLService,
     private spacyService: SpacyService,
     public eventService: EventService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private languageService: LanguageService,
+    private sessionService: SessionService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   static getWords(text: string): string[] {
@@ -55,7 +61,6 @@ export class CreateCommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.isModerator = this.userRole > 0;
   }
 
@@ -73,7 +78,7 @@ export class CreateCommentComponent implements OnInit {
 
   createComment(body: string, tag: string, name: string, forward = false) {
     const comment = new Comment();
-    comment.roomId = localStorage.getItem(`roomId`);
+    comment.roomId = this.sessionService.currentRoom.id;
     comment.body = CreateCommentKeywords.transformURLtoQuill(body, this.isModerator);
     comment.creatorId = this.user.id;
     comment.createdFromLecturer = this.userRole > 0;

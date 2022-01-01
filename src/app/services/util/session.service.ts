@@ -24,6 +24,7 @@ export class SessionService {
   private _roomSubscription: Subscription;
   private _canChangeRoleOnRoute = false;
   private _currentLoadingShortId = null;
+  private _lastShortId = null;
 
   constructor(
     private router: Router,
@@ -133,6 +134,10 @@ export class SessionService {
     }
   }
 
+  getLastShortId() {
+    return this._lastShortId;
+  }
+
   private onNavigate() {
     const url = decodeURI(this.router.url);
     const segments = this.router.parseUrl(this.router.url).root.children.primary?.segments;
@@ -188,6 +193,7 @@ export class SessionService {
     if (this._currentLoadingShortId === shortId) {
       return;
     }
+    this._lastShortId = shortId;
     this.clearRoom();
     this._currentLoadingShortId = shortId;
     this.authenticationService.checkAccess(shortId);

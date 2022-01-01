@@ -14,10 +14,10 @@
             mat-button
             aria-labelledby="tour-label"
             class="focus_button"
-            *ngIf="router.url.endsWith('/home') && isSafari === 'false'"
+            *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
       <mat-icon class="header-icons material-icons-outlined">outlined_flag</mat-icon>
-      <span *ngIf="deviceType === 'desktop'">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop">
         {{ 'header.tour' | translate }}
       </span>
     </button>
@@ -28,7 +28,7 @@
       <button mat-flat-button
               tabindex="0"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
-                     deviceType === 'desktop'"
+                     deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
         <mat-icon class="material-icons-outlined" style="margin-right: 15px">emoji_events</mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
@@ -37,7 +37,7 @@
       <button mat-flat-button
               tabindex="0"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
-                     deviceType === 'desktop'"
+                     deviceInfo.isCurrentlyDesktop"
               (click)="navigateTopicCloud()">
         <mat-icon style="margin-right: 15px">cloud_queue</mat-icon>
         <span>{{'header.tag-cloud' | translate}}</span>
@@ -46,7 +46,7 @@
       <button mat-flat-button
               tabindex="0"
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
-                     deviceType === 'desktop'"
+                     deviceInfo.isCurrentlyDesktop"
               (click)="navigateBrainstorming()">
         <mat-icon class="material-icons-outlined" style="margin-right: 15px">tips_and_updates</mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
@@ -58,7 +58,7 @@
         <p class="userActivityTxt">{{userActivity}}</p>
       </div>
 
-      <div *ngIf="isBrainstorming">
+      <div *ngIf="room?.brainstormingSession?.active">
         <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
          [matTooltip]="'header.brainstorm-active' | translate">
           tips_and_updates
@@ -73,12 +73,12 @@
       </span>
 
       <h2 class="oldtypo-h2"
-          *ngIf="router.url.endsWith('/moderator/comments') && deviceType === 'desktop'">
+          *ngIf="router.url.endsWith('/moderator/comments') && deviceInfo.isCurrentlyDesktop">
         {{'header.moderation-warning'|translate}}
       </h2>
 
       <span
-        *ngIf="moderationEnabled && router.url.includes('comments')"
+        *ngIf="room && !room.directSend && router.url.includes('comments')"
         class="moderation-enabled"
         fxLayoutAlign="center center">
         <mat-icon class="material-icons-round" style="color: red"
@@ -89,13 +89,13 @@
 
       <!--Feedback im Hörsaal-->
       <h2 class="header-slogan-mobile"
-          *ngIf="router.url.includes('home') && deviceType === 'mobile'"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyMobile"
           fxLayoutAlign="center center">
         {{ 'header.home-header-mobile' | translate }}
       </h2>
 
       <h2 class="header-slogan-desktop"
-          *ngIf="router.url.includes('home') && deviceType === 'desktop'"
+          *ngIf="router.url.includes('home') && deviceInfo.isCurrentlyDesktop"
           fxLayoutAlign="center center">
         {{ 'header.home-header' | translate }}
       </h2>
@@ -109,18 +109,18 @@
 
       <button mat-flat-button
               tabindex="0"
-              *ngIf="deviceType === 'desktop' &&
+              *ngIf="deviceInfo.isCurrentlyDesktop &&
               !router.url.endsWith('moderator/comments') &&
               router.url.endsWith('/comments') &&
-              isSafari === 'false'"
-              routerLink="participant/room/{{shortId}}/comments/questionwall">
+              !deviceInfo.isSafari"
+              routerLink="participant/room/{{room?.shortId}}/comments/questionwall">
         <mat-icon class="beamer-icon"
                   svgIcon="beamer"></mat-icon>
         <span>{{'header.questionwall' | translate}}</span>
       </button>
 
       <h2 class="oldtypo-h2"
-          *ngIf="deviceType === 'desktop' && router.url !== '/home'">
+          *ngIf="deviceInfo.isCurrentlyDesktop && router.url !== '/home'">
         {{cTime}}
       </h2>
 
@@ -186,7 +186,7 @@
             <button mat-menu-item
                     tabindex="0"
                     *ngIf="userRole === 3"
-                    routerLink="creator/room/{{shortId}}/comments">
+                    routerLink="creator/room/{{room?.shortId}}/comments">
               <mat-icon class="material-icons-outlined">
                 forum
               </mat-icon>
@@ -196,7 +196,7 @@
             <button mat-menu-item
                     tabindex="0"
                     *ngIf="userRole > 0 && userRole < 3"
-                    routerLink="moderator/room/{{shortId}}/comments">
+                    routerLink="moderator/room/{{room?.shortId}}/comments">
               <mat-icon class="material-icons-outlined">
                 forum
               </mat-icon>
@@ -209,7 +209,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    routerLink="participant/room/{{shortId}}/comments">
+                    routerLink="participant/room/{{room?.shortId}}/comments">
               <mat-icon class="material-icons-outlined">
                 forum
               </mat-icon>
@@ -223,7 +223,7 @@
 
             <button mat-menu-item
                     *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
-                           !router.url.endsWith('moderator/comments') && deviceType === 'desktop'"
+                           !router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyDesktop"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon class="header-icons material-icons-outlined">
@@ -247,14 +247,14 @@
                     tabindex="0"
                     *ngIf="userRole > 0 && !router.url.includes('/participant/') &&
                            !router.url.endsWith('moderator/comments')"
-                    [routerLink]="(userRole === 3 ? 'creator' : 'moderator') + '/room/' + shortId + '/moderator/comments'">
+                    [routerLink]="(userRole === 3 ? 'creator' : 'moderator') + '/room/' + room?.shortId + '/moderator/comments'">
               <mat-icon class="material-icons-round">gavel</mat-icon>
               <span>{{'header.moderationboard' | translate}}</span>
             </button>
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
+                    *ngIf="!router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyMobile"
                     (click)="navigateTopicCloud()">
               <mat-icon>cloud_queue</mat-icon>
               <span>{{'header.tag-cloud' | translate}}</span>
@@ -262,7 +262,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
+                    *ngIf="!router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyMobile"
                     (click)="navigateBrainstorming()">
               <mat-icon class="material-icons-outlined">tips_and_updates</mat-icon>
               <span>{{'header.brainstorming' | translate}}</span>
@@ -270,7 +270,7 @@
 
             <button mat-menu-item
                     tabindex="0"
-                    *ngIf="!router.url.endsWith('moderator/comments') && deviceType === 'mobile'"
+                    *ngIf="!router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyMobile"
                     routerLink="quiz">
               <mat-icon class="material-icons-outlined">emoji_events</mat-icon>
               <span>{{'header.quiz-now' | translate}}</span>
@@ -335,7 +335,7 @@
         <button mat-menu-item
                 *ngIf="userRole === 0"
                 tabindex="0"
-                routerLink="participant/room/{{shortId}}">
+                routerLink="participant/room/{{room?.shortId}}">
           <mat-icon>
             checkroom
           </mat-icon>
@@ -345,7 +345,7 @@
         <button mat-menu-item
                 *ngIf="userRole === 3"
                 tabindex="0"
-                routerLink="creator/room/{{shortId}}">
+                routerLink="creator/room/{{room?.shortId}}">
           <mat-icon class="material-icons-outlined">
             settings
           </mat-icon>
@@ -355,7 +355,7 @@
         <button mat-menu-item
                 *ngIf="userRole === 2"
                 tabindex="0"
-                routerLink="moderator/room/{{shortId}}">
+                routerLink="moderator/room/{{room?.shortId}}">
           <mat-icon class="material-icons-outlined">
             settings
           </mat-icon>
@@ -386,7 +386,7 @@
 
       <button mat-menu-item
               aria-hidden="true"
-              *ngIf="isSafari === 'false'  && !router.url.includes('home')  && !router.url.endsWith('/quiz')"
+              *ngIf="!deviceInfo.isSafari && !router.url.includes('home')  && !router.url.endsWith('/quiz')"
               (click)="getRescale().toggleState();">
         <mat-icon class="fullscreen"
                   (click)="getRescale().toggleState();">text_increase
@@ -426,7 +426,7 @@
             [joyrideStep]="'optionHeader'"
             [stepPosition]="'center'"
             appJoyrideTemplate
-            *ngIf="user && deviceType === 'desktop'"
+            *ngIf="user && deviceInfo.isCurrentlyDesktop"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label"
             id="session-button">
@@ -450,7 +450,7 @@
             [joyrideStep]="'optionHeader'"
             [stepPosition]="'center'"
             appJoyrideTemplate
-            *ngIf="user && deviceType === 'mobile'"
+            *ngIf="user && deviceInfo.isCurrentlyMobile"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
       <mat-icon *ngIf="!user.isGuest"
@@ -467,7 +467,7 @@
             [joyrideStep]="'loginButtonHeader'"
             [stepPosition]="'center'"
             appJoyrideTemplate
-            *ngIf="!user && deviceType === 'desktop'"
+            *ngIf="!user && deviceInfo.isCurrentlyDesktop"
             (click)=login(false)
             aria-labelledby="login-label">
       <div class="label-icon">
@@ -475,7 +475,7 @@
                   style="padding-right: 10px">login
         </mat-icon>
         <h2 class="oldtypo-h2"
-            *ngIf="deviceType === 'desktop'">{{'header.login' | translate}}</h2>
+            *ngIf="deviceInfo.isCurrentlyDesktop">{{'header.login' | translate}}</h2>
       </div>
     </button>
 
@@ -484,7 +484,7 @@
             [joyrideStep]="'loginButtonHeader'"
             [stepPosition]="'center'"
             appJoyrideTemplate
-            *ngIf="!user && deviceType === 'mobile'"
+            *ngIf="!user && deviceInfo.isCurrentlyMobile"
             (click)=login(false)
             aria-labelledby="login-label">
       <mat-icon class="header-icons">login</mat-icon>

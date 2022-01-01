@@ -30,7 +30,7 @@ export class ModeratorsComponent implements OnInit {
     protected moderatorService: ModeratorService,
     protected langService: LanguageService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      langService.langEmitter.subscribe(lang => translationService.use(lang));
+      langService.getLanguage().subscribe(lang => translationService.use(lang));
   }
 
   ngOnInit() {

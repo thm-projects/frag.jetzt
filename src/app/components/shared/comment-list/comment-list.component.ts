@@ -43,6 +43,7 @@ import {
   SortType,
   SortTypeKey
 } from '../../../services/util/room-data-filter';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -58,8 +59,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   commentsFilteredByTimeLength: number;
   room: Room;
   userRole: UserRole;
-  deviceType: string;
-  isSafari: string;
   isLoading = true;
   commentVoteMap = new Map<string, Vote>();
   scroll = false;
@@ -115,8 +114,9 @@ export class CommentListComponent implements OnInit, OnDestroy {
     private onboardingService: OnboardingService,
     private brainstormingService: BrainstormingService,
     private sessionService: SessionService,
+    public deviceInfo: DeviceInfoService,
   ) {
-    langService.langEmitter.subscribe(lang => {
+    langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
       this.translateService.get('comment-list.search').subscribe(msg => {
         this.searchPlaceholder = msg;
@@ -235,7 +235,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.sessionService.receiveRoomUpdates().subscribe(_room => this.receiveRoom(_room));
       this.createCommentWrapper = new CreateCommentWrapper(this.translateService,
         this.notificationService, this.commentService, this.dialog, this.sessionService.currentRoom);
-      localStorage.setItem('moderationEnabled', JSON.stringify(this.moderationEnabled));
       this.roomDataService.getRoomDataOnce().subscribe(comments => {
         this.generateKeywordsIfEmpty(comments);
         this._subscriptionComments = this.roomDataFilterService.getData()
@@ -243,9 +242,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
       });
       this.subscribeCommentStream();
     });
-    this.translateService.use(localStorage.getItem('currentLang'));
-    this.deviceType = localStorage.getItem('deviceType');
-    this.isSafari = localStorage.getItem('isSafari');
     this.translateService.get('comment-list.search').subscribe(msg => {
       this.searchPlaceholder = msg;
     });

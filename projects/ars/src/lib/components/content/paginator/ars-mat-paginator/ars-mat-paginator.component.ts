@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatPaginator, MatPaginatorIntl, PageEvent } from '@angular/material/paginator';
 import { LanguageService } from '../../../../../../../../src/app/services/util/language.service';
 import { HttpClient } from '@angular/common/http';
@@ -12,7 +12,7 @@ export interface ArsMatPaginatorTheme{
   templateUrl:'./ars-mat-paginator.component.html',
   styleUrls:['./ars-mat-paginator.component.scss']
 })
-export class ArsMatPaginatorComponent implements OnInit, AfterViewInit{
+export class ArsMatPaginatorComponent implements OnInit{
 
   @Input() pageIndex: number;
   @Input() pageSize: number;
@@ -32,7 +32,7 @@ export class ArsMatPaginatorComponent implements OnInit, AfterViewInit{
     public lang: LanguageService,
     public http: HttpClient
   ){
-    this.lang.langEmitter.subscribe(lang => {
+    this.lang.getLanguage().subscribe(lang => {
       this.setLang(lang);
     });
   }
@@ -53,10 +53,6 @@ export class ArsMatPaginatorComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void{
-  }
-
-  ngAfterViewInit(){
-    this.setLang(localStorage.getItem('currentLang'));
   }
 
   private createRangeLabel(translation: any){

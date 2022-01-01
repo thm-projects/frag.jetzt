@@ -6,6 +6,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { BaseHttpService } from './base-http.service';
 import { TSMap } from 'typescript-map';
 import { Vote } from '../../models/vote';
+import { SpacyKeyword } from './spacy.service';
 
 const httpOptions = {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -27,10 +28,16 @@ export class CommentService extends BaseHttpService {
   }
 
 
-  answer(comment: Comment, answer: string): Observable<Comment> {
+  answer(comment: Comment, answer: string,
+         fulltext: SpacyKeyword[] = [],
+         questioner: SpacyKeyword[] = []): Observable<Comment> {
     comment.answer = answer;
+    comment.answerFulltextKeywords = fulltext;
+    comment.answerQuestionerKeywords = questioner;
     const changes = new TSMap<string, any>();
     changes.set('answer', comment.answer);
+    changes.set('answerFulltextKeywords', JSON.stringify(fulltext));
+    changes.set('answerQuestionerKeywords', JSON.stringify(questioner));
     return this.patchComment(comment, changes);
   }
 

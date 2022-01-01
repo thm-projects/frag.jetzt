@@ -84,7 +84,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sidelistExpanded = true;
   qrCodeExpanded = false;
-  roomId: string;
   comments: Comment[] = [];
   commentFocus: Comment = null;
   commentFocusId: string = null;
@@ -123,7 +122,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataFilterService: RoomDataFilterService,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
-    this.roomId = localStorage.getItem('roomId');
     this.timeUpdateInterval = setInterval(() => {
       const current = new Date().getTime();
       this.comments.forEach(e => {
@@ -131,7 +129,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
         cacheEntry.timeAgo = updateTimeAgo(current, cacheEntry.date.getTime());
       });
     }, 15000);
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
       currentTimeFormat = lang.toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
     });
@@ -173,8 +171,6 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('presentation');
-    currentTimeFormat = localStorage.getItem('currentLang').toUpperCase() === 'DE' ? TIME_FORMAT_DE : TIME_FORMAT_EN;
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;

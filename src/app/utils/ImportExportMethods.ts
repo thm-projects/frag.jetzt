@@ -12,6 +12,8 @@ import { BonusTokenService } from '../services/http/bonus-token.service';
 import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
 import { RoomService } from '../services/http/room.service';
+import { TSMap } from 'typescript-map';
+import { SpacyKeyword } from '../services/http/spacy.service';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -43,6 +45,32 @@ export const copyCSVString = (value: string, fileName: string) => {
   link.href = window.URL.createObjectURL(myBlob);
   link.click();
 };
+
+export const uploadCSV = (): Observable<string> => new Observable<string>(subscriber => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.style.display = 'none';
+  input.click();
+  let hadData = false;
+  input.addEventListener('change', _ => {
+    hadData = true;
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      subscriber.next(event.target.result as string);
+      subscriber.complete();
+    });
+    reader.readAsText(input.files[0]);
+  }, { once: true });
+  window.addEventListener('focus', _ => {
+    input.remove();
+    setTimeout(() => {
+      if (!hadData) {
+        subscriber.next(null);
+        subscriber.complete();
+      }
+    });
+  }, { once: true });
+});
 
 export interface BonusArchiveEntry {
   bonusToken: string;
@@ -430,7 +458,7 @@ export const exportRoom = (translateService: TranslateService,
     })
   );
 
-type ImportQuestionsResult = [
+export type ImportQuestionsResult = [
   roomName: string,
   roomShortId: string,
   exportDate: string,
@@ -470,20 +498,29 @@ const importRoomSettings = (value: ImportQuestionsResult,
     })
   );
 
+const ALLOWED_FIELDS: (keyof Comment)[] = [
+  'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'answer', 'keywordsFromSpacy', 'keywordsFromQuestioner',
+  'language', 'answerQuestionerKeywords', 'answerFulltextKeywords'
+];
+
 const importComment = (comment: CommentBonusTokenMixin,
+                       roomId: string,
                        commentService: CommentService): Observable<Comment> => {
   const { bonusToken, bonusTimeStamp, ...realComment } = comment;
+  realComment.roomId = roomId;
+  if (bonusToken && bonusTimeStamp) {
+    realComment.favorite = true;
+  }
   return commentService.addComment(realComment).pipe(
     mergeMap(c => {
       realComment.id = c.id;
-      return commentService.updateComment(realComment);
-    }),
-    mergeMap(_ => {
-      if (bonusToken && bonusTimeStamp) {
-        realComment.favorite = false;
-        return commentService.toggleFavorite(realComment);
-      }
-      return of(realComment);
+      const changes = new TSMap<string, any>();
+      realComment.keywordsFromSpacy = JSON.stringify(realComment.keywordsFromSpacy || []) as unknown as SpacyKeyword[];
+      realComment.keywordsFromQuestioner = JSON.stringify(realComment.keywordsFromQuestioner || []) as unknown as SpacyKeyword[];
+      realComment.answerFulltextKeywords = JSON.stringify(realComment.answerFulltextKeywords || []) as unknown as SpacyKeyword[];
+      realComment.answerQuestionerKeywords = JSON.stringify(realComment.answerQuestionerKeywords || []) as unknown as SpacyKeyword[];
+      ALLOWED_FIELDS.forEach(key => changes.set(key, realComment[key]));
+      return commentService.patchComment(realComment, changes);
     })
   );
 };
@@ -499,7 +536,7 @@ export const importToRoom = (translateService: TranslateService,
   return generateCommentCreatorIds(result, roomService, roomId)
     .pipe(
       mergeMap(value => importRoomSettings(value, roomService, roomId)),
-      mergeMap(value => forkJoin(value[5].map(c => importComment(c, commentService)) as Observable<Comment>[])),
+      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)) as Observable<Comment>[])),
       mergeMap(_ => result)
     );
 };

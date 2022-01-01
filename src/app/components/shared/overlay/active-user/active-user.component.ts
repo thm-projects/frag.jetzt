@@ -1,14 +1,16 @@
-import {Component,Input,OnDestroy,OnInit,ViewChild} from '@angular/core';
-import {Room} from '../../../../models/room';
-import {HeaderService} from '../../../../services/util/header.service';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Room } from '../../../../models/room';
+import { HeaderService } from '../../../../services/util/header.service';
 import { RoomDataService } from '../../../../services/util/room-data.service';
+import { DeviceInfoService } from '../../../../services/util/device-info.service';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector:'app-active-user',
-  templateUrl:'./active-user.component.html',
-  styleUrls:['./active-user.component.scss']
+  selector: 'app-active-user',
+  templateUrl: './active-user.component.html',
+  styleUrls: ['./active-user.component.scss']
 })
-export class ActiveUserComponent implements OnInit,OnDestroy{
+export class ActiveUserComponent implements OnInit, OnDestroy {
 
   @Input() room: Room;
   @Input() iconColor: string;
@@ -19,36 +21,30 @@ export class ActiveUserComponent implements OnInit,OnDestroy{
   @Input() alwaysShowInHeader: boolean;
   @ViewChild('divElement') elem: HTMLElement;
   activeUser = '?';
-  onDestroyListener: (() => void)[]=[];
-  onValueChangeListener: ((userCount: string) => void)[]=[];
-  deviceType;
   showByComponent: boolean;
+  private _sub: Subscription;
 
   constructor(
     private headerService: HeaderService,
     private roomDataService: RoomDataService,
-  ){
-    this.deviceType=localStorage.getItem('deviceType');
+    private deviceInfo: DeviceInfoService,
+  ) {
   }
 
-  ngOnInit(): void{
-    if(this.deviceType&&(this.deviceType==='mobile'||this.alwaysShowInHeader)){
-      this.showByComponent=false;
-      this.headerService.toggleCurrentUserActivity(true);
-      this.onDestroyListener.push(()=>this.headerService.toggleCurrentUserActivity(false));
-      this.onValueChangeListener.push(userCount => this.headerService.setCurrentUserActivity(userCount));
-    } else{
-      this.showByComponent=true;
-    }
-    const sub = this.roomDataService.observeUserCount().subscribe(value => {
-      this.activeUser = value;
-      this.onValueChangeListener.forEach(e => e(value));
+  ngOnInit(): void {
+    this.deviceInfo.isMobile().subscribe(mobile => {
+      this.showByComponent = !(mobile || this.alwaysShowInHeader);
+      this.headerService.toggleCurrentUserActivity(!this.showByComponent);
     });
-    this.onDestroyListener.push(() => sub.unsubscribe());
+    this._sub = this.roomDataService.observeUserCount().subscribe(value => {
+      this.activeUser = value;
+      this.headerService.setCurrentUserActivity(value);
+    });
   }
 
-  ngOnDestroy(){
-    this.onDestroyListener.forEach(e => e());
+  ngOnDestroy() {
+    this.headerService.toggleCurrentUserActivity(false);
+    this._sub?.unsubscribe();
   }
 
 }

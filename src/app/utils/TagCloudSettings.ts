@@ -26,8 +26,9 @@ export class TagCloudSettings {
     return new TagCloudSettings(admin as TopicCloudAdminData, new CloudParameters(cloud));
   }
 
-  static getCurrent(): TagCloudSettings {
-    return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData, CloudParameters.currentParameters);
+  static getCurrent(isCurrentlyDark: boolean): TagCloudSettings {
+    return new TagCloudSettings(TopicCloudAdminService.getDefaultAdminData,
+      CloudParameters.getCurrentParameters(isCurrentlyDark));
   }
 
   applyToRoom(room: Room) {

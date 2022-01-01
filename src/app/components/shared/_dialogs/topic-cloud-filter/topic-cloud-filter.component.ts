@@ -59,7 +59,7 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
     private roomDataService: RoomDataService,
     private roomDataFilterService: RoomDataFilterService,
   ) {
-    langService.langEmitter.subscribe(lang => translationService.use(lang));
+    langService.getLanguage().subscribe(lang => translationService.use(lang));
     this._adminData = TopicCloudAdminService.getDefaultAdminData;
     this.isTopicRequirementActive = !TopicCloudAdminService.isTopicRequirementDisabled(this._adminData);
   }
@@ -101,7 +101,6 @@ export class TopicCloudFilterComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.translationService.use(localStorage.getItem('currentLang'));
     this.commentsLoadedCallback(true);
     this._subscriptionCommentUpdates = this.roomDataService.receiveUpdates([{ finished: true }])
       .subscribe(_ => this.commentsLoadedCallback());

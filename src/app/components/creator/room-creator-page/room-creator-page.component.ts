@@ -20,6 +20,7 @@ import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
 import { SessionService } from '../../../services/util/session.service';
 import { RoomDataService } from '../../../services/util/room-data.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector:'app-room-creator-page',
@@ -49,13 +50,14 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
     public composeService: ArsComposeService,
     protected sessionService: SessionService,
     protected roomDataService: RoomDataService,
+    public deviceInfo: DeviceInfoService,
   ) {
     super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
       bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
     });
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterViewInit(){
@@ -76,7 +78,6 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   ngOnInit(){
     window.scroll(0, 0);
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       const lang: string = this.translateService.currentLang;

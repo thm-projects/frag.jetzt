@@ -141,16 +141,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     private deviceInfo: DeviceInfoService,
     private roomDataFilterService: RoomDataFilterService,
   ) {
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
-    this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
+    this._currentSettings = this.getCurrentCloudParameters();
     this._calcCanvas = document.createElement('canvas');
     this._calcRenderContext = this._calcCanvas.getContext('2d');
-  }
-
-  private static getCurrentCloudParameters(): CloudParameters {
-    return CloudParameters.currentParameters;
   }
 
   private static invertHex(hexStr: string) {
@@ -202,12 +198,11 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
         this.roomDataFilterService.currentFilter = filter;
       }
     });
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
       this._currentTheme = this.themeService.getThemeByKey(themeName);
       if (this.child) {
         setTimeout(() => {
-          this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
+          this.setCloudParameters(this.getCurrentCloudParameters(), false);
         }, 1);
       }
     });
@@ -217,7 +212,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     this.initNavigation();
     this._calcFont = window.getComputedStyle(document.getElementById('tagCloudComponent')).fontFamily;
     this.dataManager.updateDemoData(this.translateService);
-    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
+    this.setCloudParameters(this.getCurrentCloudParameters(), false);
   }
 
   ngOnDestroy() {
@@ -347,6 +342,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     }
     //Room filter
     const filter = new RoomDataFilter(null);
+    filter.lastRoomId = this.room.id;
     filter.period = Period.all;
     filter.filterType = FilterType.keyword;
     filter.filterCompare = (tag as TagComment).realText;
@@ -358,7 +354,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
     if (!this.user || this.user.role === UserRole.PARTICIPANT) {
       throw new Error('user has no rights.');
     }
-    TagCloudSettings.getCurrent().applyToRoom(this.room);
+    TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(this.room);
     this.roomService.updateRoom(this.room).subscribe(_ => {
         this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
           this.notificationService.show(msg);
@@ -369,6 +365,10 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
           this.notificationService.show(msg);
         });
       });
+  }
+
+  private getCurrentCloudParameters(): CloudParameters {
+    return CloudParameters.getCurrentParameters(this.themeService.currentTheme.isDark);
   }
 
   private retrieveTagCloudSettings(room: Room) {

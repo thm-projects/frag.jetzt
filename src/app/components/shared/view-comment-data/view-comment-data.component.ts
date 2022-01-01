@@ -62,7 +62,7 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
               private deviceInfo: DeviceInfoService,
               private eventService: EventService,
               private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
       if (this.isEditor) {
         this.updateCSSVariables();
@@ -157,7 +157,6 @@ export class ViewCommentDataComponent implements OnInit, AfterViewInit {
       };
       this.hasEmoji = !isMobile;
     }
-    this.translateService.use(localStorage.getItem('currentLang'));
     if (this.isEditor) {
       this.updateCSSVariables();
     }

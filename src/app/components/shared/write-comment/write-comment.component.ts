@@ -64,13 +64,12 @@ export class WriteCommentComponent implements OnInit {
               public languagetoolService: LanguagetoolService,
               private deeplService: DeepLService,
               private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     if (this.brainstormingData) {
       this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
         .subscribe(msg => this.placeholder = msg);

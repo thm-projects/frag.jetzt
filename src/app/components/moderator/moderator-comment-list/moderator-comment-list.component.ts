@@ -95,7 +95,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     private authenticationService: AuthenticationService,
     private deviceInfo: DeviceInfoService,
   ) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
     this._deviceSub = this.deviceInfo.isMobile().subscribe(mobile => this.isMobile = mobile);
   }
 
@@ -199,7 +199,6 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
     });
     this.userRole = this.user.role;
     this.sessionService.getRoomOnce().subscribe(room => this.room = room);
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.sessionService.getModeratorsOnce()
       .subscribe(mods => this.moderatorAccountIds = new Set<string>(mods.map(m => m.accountId)));
     this._commentsSub = this.roomDataFilterService.getData().subscribe(_ => this.onRefreshFiltering());

@@ -23,6 +23,7 @@ import { UserBonusTokenComponent } from '../../participant/_dialogs/user-bonus-t
 import { ViewCommentDataComponent } from '../view-comment-data/view-comment-data.component';
 import { EditCommentTagComponent } from '../../creator/_dialogs/edit-comment-tag/edit-comment-tag.component';
 import { SessionService } from '../../../services/util/session.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-comment',
@@ -63,7 +64,6 @@ export class CommentComponent implements OnInit, AfterViewInit {
   isModerator = false;
   hasVoted = 0;
   language: string;
-  deviceType: string;
   inAnswerView = false;
   currentVote: string;
   slideAnimationState = 'hidden';
@@ -86,8 +86,9 @@ export class CommentComponent implements OnInit, AfterViewInit {
     private roomDataService: RoomDataService,
     public dialog: MatDialog,
     protected langService: LanguageService,
+    public deviceInfo: DeviceInfoService,
   ) {
-    langService.langEmitter.subscribe(lang => {
+    langService.getLanguage().subscribe(lang => {
       translateService.use(lang);
       this.language = lang;
     });
@@ -120,9 +121,7 @@ export class CommentComponent implements OnInit, AfterViewInit {
         this.isModerator = true;
         this.roleString = 'moderator';
     }
-    this.language = localStorage.getItem('currentLang');
     this.translateService.use(this.language);
-    this.deviceType = localStorage.getItem('deviceType');
     this.inAnswerView = !this.router.url.includes('comments');
     this.roomTags = this.sessionService.currentRoom?.tags;
   }

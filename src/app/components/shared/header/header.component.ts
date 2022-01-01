@@ -33,6 +33,8 @@ import {
   TopicCloudBrainstormingComponent
 } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { SessionService } from '../../../services/util/session.service';
+import { LanguageService } from '../../../services/util/language.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-header',
@@ -44,9 +46,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   user: User;
   userRole: UserRole;
   cTime: string;
-  shortId: string;
-  isSafari = 'false';
-  moderationEnabled: boolean;
   motdState = false;
   room: Room;
   commentsCountQuestions = 0;
@@ -54,9 +53,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
   toggleUserActivity = false;
-  isBrainstorming = false;
   userActivity = '?';
-  deviceType = localStorage.getItem('deviceType');
   isInRouteWithRoles = false;
 
   constructor(
@@ -79,7 +76,10 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     public themeService: ThemeService,
     private sessionService: SessionService,
     private tagCloudDataService: TagCloudDataService,
+    private languageService: LanguageService,
+    public deviceInfo: DeviceInfoService,
   ) {
+    this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
 
   ngAfterViewInit() {
@@ -102,27 +102,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    const userAgent = navigator.userAgent;
-    // Check if mobile device
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-      // Check if IOS device
-      if (/iPhone|iPad|iPod/.test(userAgent)) {
-        this.isSafari = 'true';
-      }
-      this.deviceType = 'mobile';
-    } else {
-      // Check if Mac
-      if (/Macintosh|MacIntel|MacPPC|Mac68k/.test(userAgent)) {
-        // Check if Safari browser
-        if (userAgent.indexOf('Safari') !== -1 && userAgent.indexOf('Chrome') === -1) {
-          this.isSafari = 'true';
-        }
-      }
-      this.deviceType = 'desktop';
-    }
-    localStorage.setItem('isSafari', this.isSafari);
-    localStorage.setItem('deviceType', this.deviceType);
-    this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
 
     let time = new Date();
@@ -132,25 +111,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.getTime(time);
     }, 1000);
 
-    this.moderationEnabled = false;
     this.sessionService.getRoom().subscribe(room => {
       this.room = room;
-      if(!room){
-        this.shortId = '';
-        this.isBrainstorming = false;
-        this.moderationEnabled = false;
-        return;
-      }
-      this.shortId = room.shortId;
-      localStorage.setItem('shortId', this.shortId);
-      this.isBrainstorming = !!room.brainstormingSession?.active;
-      this.moderationEnabled = !room.directSend;
-      localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
-      this.sessionService.receiveRoomUpdates().subscribe(_room => {
-        this.isBrainstorming = !!_room.brainstormingSession?.active;
-        this.moderationEnabled = !_room.directSend;
-        localStorage.setItem('moderationEnabled', String(this.moderationEnabled));
-      });
     });
 
     this._r.listen(document, 'keyup', (event) => {
@@ -291,7 +253,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   /*QR*/
 
   public getURL(): string {
-    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.shortId}`;
+    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room?.shortId}`;
   }
 
   public showQRDialog() {
@@ -300,7 +262,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       panelClass: 'screenDialog'
     });
     dialogRef.componentInstance.data = this.getURL();
-    dialogRef.componentInstance.key = this.shortId;
+    dialogRef.componentInstance.key = this.room?.shortId;
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
     });

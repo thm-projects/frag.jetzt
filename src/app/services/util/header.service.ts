@@ -23,19 +23,19 @@ export class HeaderService {
   }
 
   public setCurrentUserActivity(e: string) {
-    if (this.userActivity !== e) {
-      this.userActivity = e;
-      if (this.userActivityToggle) {
-        this.userActivityListener.forEach(f => f(this.userActivity));
-      }
+    if (this.userActivity === e) {
+      return;
     }
+    this.userActivity = e;
+    this.userActivityListener.forEach(f => f(this.userActivity));
   }
 
   public toggleCurrentUserActivity(e: boolean) {
-    if (this.userActivityToggle != e) {
-      this.userActivityToggle = e;
-      this.userActivityToggleListener.forEach(f => f(this.userActivityToggle));
+    if (this.userActivityToggle === e) {
+      return;
     }
+    this.userActivityToggle = e;
+    this.userActivityToggleListener.forEach(f => f(this.userActivityToggle));
   }
 
   public onUserChange(f: (v: string) => void) {

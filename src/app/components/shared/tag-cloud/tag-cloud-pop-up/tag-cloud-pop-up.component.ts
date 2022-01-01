@@ -55,7 +55,7 @@ export class TagCloudPopUpComponent implements OnInit, AfterViewInit {
     private notificationService: NotificationService,
     private brainstormingService: BrainstormingService,
   ) {
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }

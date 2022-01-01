@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { defaultCategories } from '../../../../utils/defaultCategories';
 import { FormControl, Validators } from '@angular/forms';
+import { LanguageService } from '../../../../services/util/language.service';
 
 const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
@@ -44,12 +45,13 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private authenticationService: AuthenticationService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private languageService: LanguageService,
   ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
@@ -103,7 +105,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.tags = defaultCategories[localStorage.getItem('currentLang')] || defaultCategories.default;
+    newRoom.tags = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
     newRoom.profanityFilter = ProfanityFilter.none;
     newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
     this.roomService.addRoom(newRoom, () => {

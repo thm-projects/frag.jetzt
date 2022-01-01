@@ -22,6 +22,11 @@ import { Room } from '../../../models/room';
 import { VoteService } from '../../../services/http/vote.service';
 import { Vote } from '../../../models/vote';
 import { Location } from '@angular/common';
+import { CreateCommentKeywords, KeywordsResultType } from '../../../utils/create-comment-keywords';
+import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
+import { LanguagetoolService } from '../../../services/http/languagetool.service';
+import { DeepLService } from '../../../services/http/deep-l.service';
+import { SpacyService } from '../../../services/http/spacy.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -43,6 +48,7 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   mods: Set<string>;
   vote: Vote;
   isModerationComment = false;
+  isSending = false;
   private _commentSubscription;
 
   constructor(
@@ -59,6 +65,9 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private voteService: VoteService,
     private location: Location,
+    private languagetoolService: LanguagetoolService,
+    private deepLService: DeepLService,
+    private spacyService: SpacyService,
   ) {
   }
 
@@ -122,15 +131,35 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
-  saveAnswer(): (string) => void {
-    return (text: string) => {
-      this.answer = text;
-      this.edit = !this.answer;
-      this.commentService.answer(this.comment, this.answer).subscribe();
-      this.translateService.get('comment-page.comment-answered').subscribe(msg => {
-        this.notificationService.show(msg);
+  receiveFromDeepL(body: string) {
+    this.saveAnswer(body);
+  }
+
+  submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
+    this.saveAnswer(body, !verifiedWithoutDeepl);
+  }
+
+  saveAnswer(data: string, forward = false): void {
+    this.answer = CreateCommentKeywords.transformURLtoQuill(data, true);
+    this.edit = !this.answer;
+    const previous = this.comment.answer;
+    this.comment.answer = this.answer;
+    this.generateKeywords(this.comment, forward).subscribe(result => {
+      if (!result) {
+        this.edit = true;
+        this.comment.answer = previous;
+        setTimeout(() => {
+          this.commentComponent.commentData.currentData = this.answer;
+        });
+        return;
+      }
+      this.commentService.answer(this.comment, this.answer, this.comment.answerFulltextKeywords,
+        this.comment.answerQuestionerKeywords).subscribe(() => {
+        this.translateService.get('comment-page.comment-answered').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
       });
-    };
+    });
   }
 
   openDeleteAnswerDialog(): () => void {
@@ -219,5 +248,33 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     this.translateService.get('comment-page.no-comment')
       .subscribe(msg => this.notificationService.show(msg));
     this.goBackToCommentList();
+  }
+
+  private generateKeywords(comment: Comment, forward: boolean): Observable<boolean> {
+    this.isSending = true;
+    return CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deepLService, this.spacyService,
+      comment.answer, false, forward, this.commentComponent.selectedLang).pipe(
+      mergeMap(result => {
+        this.isSending = false;
+        comment.language = result.language;
+        comment.answerFulltextKeywords = result.keywords;
+        comment.answerQuestionerKeywords = [];
+        if (forward ||
+          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
+          result.resultType === KeywordsResultType.badSpelled) {
+          return of(true);
+        }
+        const dialogRef = this.dialog.open(SpacyDialogComponent, {
+          data: {
+            result: result.resultType,
+            comment,
+            isAnswer: true
+          }
+        });
+        return dialogRef.afterClosed().pipe(
+          map(res => !!res)
+        );
+      })
+    );
   }
 }

@@ -23,6 +23,7 @@ import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ProfanityFilter, Room } from '../../../../models/room';
 import { SessionService } from '../../../../services/util/session.service';
+import { DeviceInfoService } from '../../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -48,7 +49,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
-  deviceType: string;
   filteredKeywords: Keyword[] = [];
   showProfanityList = false;
   showBlacklistWordList = false;
@@ -93,9 +93,10 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     private sessionService: SessionService,
     private commentService: CommentService,
     private roomDataService: RoomDataService,
-    private profanityFilterService: ProfanityFilterService
+    private profanityFilterService: ProfanityFilterService,
+    public deviceInfo: DeviceInfoService,
   ) {
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
     const emptyData = {} as TopicCloudAdminData;
@@ -115,14 +116,12 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
         this.refreshKeywords();
       });
     });
-    this.deviceType = localStorage.getItem('deviceType');
     this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
       this.refreshKeywords();
     });
     this.isCreatorOrMod = this.sessionService.currentRole > UserRole.PARTICIPANT;
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
   }

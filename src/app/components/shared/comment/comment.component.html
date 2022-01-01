@@ -399,7 +399,7 @@
       <span class="fill-remaining-space"></span>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.questioner-name' | translate }}"
-           *ngIf="comment.questionerName && (deviceType !== 'mobile' || comment.questionerName.length < 21)"
+           *ngIf="comment.questionerName && (deviceInfo.isCurrentlyDesktop || comment.questionerName.length < 21)"
            class="questioner-name">
         <mat-icon class="material-icons-outlined">account_circle</mat-icon>
         <span style="padding-left: 5px">
@@ -408,7 +408,7 @@
       </div>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.questioner-name' | translate }} ({{comment.questionerName}})"
-           *ngIf="comment.questionerName && deviceType === 'mobile' && comment.questionerName.length > 20"
+           *ngIf="comment.questionerName && deviceInfo.isCurrentlyMobile && comment.questionerName.length > 20"
            class="questioner-name">
         <mat-icon class="material-icons-outlined">account_circle</mat-icon>
         <span style="padding-left: 5px">

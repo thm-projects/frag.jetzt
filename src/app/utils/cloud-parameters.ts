@@ -1,4 +1,3 @@
-import { themes } from '../../theme/arsnova-theme.const';
 import { DARK_THEME, DefaultCloudParameters, LIGHT_THEME } from './cloud-parameters.const';
 
 export interface CloudWeightSetting {
@@ -31,29 +30,6 @@ export enum CloudTextStyle {
 const colorRegex = /rgba?\((\d+), (\d+), (\d+)(?:, (\d(?:\.\d+)?))?\)/;
 
 export class CloudParameters {
-
-  static get currentParameters(): CloudParameters {
-    const jsonData = localStorage.getItem('tagCloudConfiguration');
-    const temp = jsonData != null ? JSON.parse(jsonData) : null;
-    const elem = new CloudParameters();
-    elem.resetToDefault(this.isThemeDark());
-    if (temp != null) {
-      for (const key of Object.keys(elem)) {
-        if (temp[key] !== undefined) {
-          elem[key] = temp[key];
-        }
-      }
-    }
-    return elem;
-  }
-
-  static set currentParameters(parameters: CloudParameters) {
-    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
-  }
-
-  static removeParameters() {
-    localStorage.removeItem('tagCloudConfiguration');
-  }
 
   fontFamily: string;
   fontStyle: string;
@@ -104,14 +80,27 @@ export class CloudParameters {
     }
   }
 
-  private static isThemeDark() {
-    const currentThemeName = localStorage.getItem('theme');
-    for (const theme in themes) {
-      if (theme === currentThemeName) {
-        return themes[theme].isDark;
+  static getCurrentParameters(isCurrentlyDark: boolean): CloudParameters {
+    const jsonData = localStorage.getItem('tagCloudConfiguration');
+    const temp = jsonData != null ? JSON.parse(jsonData) : null;
+    const elem = new CloudParameters();
+    elem.resetToDefault(isCurrentlyDark);
+    if (temp != null) {
+      for (const key of Object.keys(elem)) {
+        if (temp[key] !== undefined) {
+          elem[key] = temp[key];
+        }
       }
     }
-    return false;
+    return elem;
+  }
+
+  static set currentParameters(parameters: CloudParameters) {
+    localStorage.setItem('tagCloudConfiguration', JSON.stringify(parameters));
+  }
+
+  static removeParameters() {
+    localStorage.removeItem('tagCloudConfiguration');
   }
 
   private static resolveColor(element: HTMLParagraphElement, color: string): string {

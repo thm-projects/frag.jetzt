@@ -243,7 +243,9 @@ export class RoomDataFilterService {
         break;
       case FilterType.keyword:
         filterFunc = (c) => !!(c.keywordsFromQuestioner?.find(k => k.text === filterCompare) ||
-          c.keywordsFromSpacy?.find(k => k.text === filterCompare));
+          c.keywordsFromSpacy?.find(k => k.text === filterCompare) ||
+          c.answerQuestionerKeywords?.find(k => k.text === filterCompare) ||
+          c.answerFulltextKeywords?.find(k => k.text === filterCompare));
         break;
       case FilterType.answer:
         filterFunc = (c) => !!c.answer;
