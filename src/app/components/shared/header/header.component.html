@@ -16,7 +16,7 @@
             class="focus_button"
             *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
-      <mat-icon class="header-icons material-icons-outlined">outlined_flag</mat-icon>
+      <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
       <span *ngIf="deviceInfo.isCurrentlyDesktop">
         {{ 'header.tour' | translate }}
       </span>
@@ -30,7 +30,9 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop"
               routerLink="quiz">
-        <mat-icon class="material-icons-outlined" style="margin-right: 15px">emoji_events</mat-icon>
+        <mat-icon class="material-icons-outlined"
+                  style="margin-right: 15px">emoji_events
+        </mat-icon>
         <span>{{'header.quiz-now' | translate}}</span>
       </button>
 
@@ -48,7 +50,9 @@
               *ngIf="!router.url.endsWith('moderator/comments') && router.url.endsWith('/comments') &&
                      deviceInfo.isCurrentlyDesktop"
               (click)="navigateBrainstorming()">
-        <mat-icon class="material-icons-outlined" style="margin-right: 15px">tips_and_updates</mat-icon>
+        <mat-icon class="material-icons-outlined"
+                  style="margin-right: 15px">tips_and_updates
+        </mat-icon>
         <span>{{'header.brainstorming' | translate}}</span>
       </button>
 
@@ -59,14 +63,16 @@
       </div>
 
       <div *ngIf="room?.brainstormingSession?.active">
-        <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
-         [matTooltip]="'header.brainstorm-active' | translate">
+        <mat-icon class="material-icons-outlined"
+                  style="color: red; margin-top: 8px"
+                  [matTooltip]="'header.brainstorm-active' | translate">
           tips_and_updates
         </mat-icon>
       </div>
 
       <span *ngIf="isInRouteWithRoles && userRole !== null && user && user.role !== userRole">
-        <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
+        <mat-icon class="material-icons-outlined"
+                  style="color: red; margin-top: 8px"
                   [matTooltip]="'header.not-in-own-view' | translate">
           group
         </mat-icon>
@@ -81,7 +87,8 @@
         *ngIf="room && !room.directSend && router.url.includes('comments')"
         class="moderation-enabled"
         fxLayoutAlign="center center">
-        <mat-icon class="material-icons-round" style="color: red"
+        <mat-icon class="material-icons-round"
+                  style="color: red"
                   matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
@@ -101,7 +108,8 @@
       </h2>
 
       <span *ngIf="room && room.questionsBlocked">
-        <mat-icon class="material-icons-outlined" style="color: red; margin-top: 8px"
+        <mat-icon class="material-icons-outlined"
+                  style="color: red; margin-top: 8px"
                   [matTooltip]="'header.questions-blocked' | translate">
           comments_disabled
         </mat-icon>
@@ -123,6 +131,24 @@
           *ngIf="deviceInfo.isCurrentlyDesktop && router.url !== '/home'">
         {{cTime}}
       </h2>
+
+      <div class="label-icon"
+           *ngIf="user.isGuest && deviceInfo.isCurrentlyDesktop">
+        <mat-icon
+          class="header-icons color-warn material-icons-outlined" style="margin-right: 8px"
+          [matTooltip]="'header.guest-account-tooltip' | translate">
+          account_circle
+        </mat-icon>
+        <h2 class="oldtypo-h2 color-warn">{{'header.guest-account' | translate}}</h2>
+      </div>
+
+      <span *ngIf="user.isGuest && !deviceInfo.isCurrentlyDesktop">
+        <mat-icon class="material-icons-outlined"
+                  style="color: red; margin-top: 8px"
+                  [matTooltip]="'header.guest-account-tooltip' | translate">
+          account_circle
+        </mat-icon>
+      </span>
 
       <!--Topic Cloud-->
       <div class="topic-cloud-btns"
@@ -314,9 +340,15 @@
               *ngIf="isInRouteWithRoles && user && user.role > 0"
               (click)="navigateToOtherView()"
               tabindex="0">
-        <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role" class="material-icons-outlined">mic</mat-icon>
-        <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role" class="material-icons-round">gavel</mat-icon>
-        <mat-icon *ngIf="userRole === user.role" class="material-icons-outlined">group</mat-icon>
+        <mat-icon *ngIf="user && user.role === 3 && userRole !== user.role"
+                  class="material-icons-outlined">mic
+        </mat-icon>
+        <mat-icon *ngIf="user && user.role === 2 && userRole !== user.role"
+                  class="material-icons-round">gavel
+        </mat-icon>
+        <mat-icon *ngIf="userRole === user.role"
+                  class="material-icons-outlined">group
+        </mat-icon>
         <span *ngIf="userRole === user.role">{{'header.regular-user-view' | translate}}</span>
         <span *ngIf="userRole !== user.role">{{'header.own-view' | translate}}</span>
       </button>
@@ -376,12 +408,14 @@
               *ngIf="user && !router.url.endsWith('/user')"
               routerLink="/user"
               tabindex="0">
-        <mat-icon
-          class="sessions material-icons-outlined">door_front
+        <mat-icon *ngIf="user.isGuest"
+                  class="sessions material-icons-outlined">groups
+        </mat-icon>
+        <mat-icon *ngIf="!user.isGuest"
+                  class="sessions material-icons-outlined">door_front
         </mat-icon>
         <span *ngIf="!user.isGuest">{{'header.my-sessions' | translate}}</span>
-        <span *ngIf="user.isGuest"
-              svgIcon="meeting_room">{{'header.visited-sessions' | translate}}</span>
+        <span *ngIf="user.isGuest">{{'header.visited-sessions' | translate}}</span>
       </button>
 
       <button mat-menu-item
@@ -430,18 +464,12 @@
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label"
             id="session-button">
-      <div class="label-icon">
-        <mat-icon *ngIf="!user.isGuest"
-                  class="header-icons">more_vert
+      <div class="label-icon"
+           *ngIf="user.isGuest">
+        <mat-icon
+          class="header-icons">more_vert
         </mat-icon>
-        <mat-icon *ngIf="user.isGuest"
-                  svgIcon="meeting_room"
-                  class="header-icons"></mat-icon>
-        <h2 class="oldtypo-h2"
-            *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h2>
-        <!--Guest Account-->
-        <h2 class="oldtypo-h2"
-            *ngIf="user.isGuest">{{'header.my-guest-account' | translate}}</h2>
+        <h2 class="oldtypo-h2">{{'header.my-account' | translate}}</h2>
       </div>
     </button>
 
@@ -453,12 +481,8 @@
             *ngIf="user && deviceInfo.isCurrentlyMobile"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
-      <mat-icon *ngIf="!user.isGuest"
-                class="header-icons">more_vert
+      <mat-icon class="header-icons">more_vert
       </mat-icon>
-      <mat-icon *ngIf="user.isGuest"
-                svgIcon="meeting_room"
-                class="header-icons"></mat-icon>
     </button>
 
     <button id="login-button"

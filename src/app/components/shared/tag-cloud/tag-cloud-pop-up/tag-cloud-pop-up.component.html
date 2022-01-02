@@ -12,7 +12,7 @@
         </p>
       </span>
       <span *ngIf="isBrainstorming">
-        <mat-icon class="material-icons-outlined">thumbs_up_down</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.ups-downs-difference' | translate}}">thumbs_up_down</mat-icon>
         <p>
           {{getBrainstormingVotes()}}
         </p>
@@ -41,7 +41,8 @@
         <ng-container [ngTemplateOutlet]="upvotes">
         </ng-container>
       </button>
-      <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="upvotes">
+      <ng-container *ngIf="!isBrainstorming"
+                    [ngTemplateOutlet]="upvotes">
       </ng-container>
       <button *ngIf="isBrainstorming"
               mat-flat-button
@@ -51,12 +52,14 @@
         <ng-container [ngTemplateOutlet]="downvotes">
         </ng-container>
       </button>
-      <ng-container *ngIf="!isBrainstorming" [ngTemplateOutlet]="downvotes">
+      <ng-container *ngIf="!isBrainstorming"
+                    [ngTemplateOutlet]="downvotes">
       </ng-container>
     </div>
     <div>
       <span>
-        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
+        <mat-icon class="material-icons-outlined"
+                  matTooltip="{{'tag-cloud.period-since-first-comment' | translate}}">date_range</mat-icon>
         <p>
           {{timePeriodText}}
         </p>
@@ -98,6 +101,7 @@
 <ng-template #upvotes>
   <span>
     <mat-icon class="material-icons-outlined"
+              style="background-color: green; color: white"
               matTooltip="{{getTooltip('tag-cloud.upvote-topic') | translate}}">thumb_up</mat-icon>
     <p *ngIf="!isBrainstorming">{{tagData?.cachedUpVotes}}</p>
   </span>
@@ -106,6 +110,7 @@
 <ng-template #downvotes>
   <span>
     <mat-icon class="material-icons-outlined"
+              style="background-color: red; color: white"
               matTooltip="{{getTooltip('tag-cloud.downvote-topic') | translate}}">thumb_down</mat-icon>
     <p *ngIf="!isBrainstorming">
       {{tagData?.cachedDownVotes}}

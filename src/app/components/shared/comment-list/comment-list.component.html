@@ -59,7 +59,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="swap_vert"
-            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 2 && !search"
+            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 1 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -70,7 +70,7 @@
             class="searchBarButton"
             aria-labelledby="filter_list"
             #filterMenuTrigger="matMenuTrigger"
-            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 2 && !search"
+            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 1 && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': !!filterType}"
             matTooltip="{{ 'comment-list.filter-comments' | translate }}">
