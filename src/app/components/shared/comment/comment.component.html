@@ -1,7 +1,8 @@
 <mat-card id="comment-card"
           class="border"
-          [ngClass]="{'highlighted': comment.highlighted, '': !comment.highlighted,
-          'moderator': moderator,
+          [class.highlighted]="comment.highlighted"
+          [ngClass]="{
+          'moderator': moderator && !comment.highlighted,
           'border-notMarked': user !== undefined && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer && comment.creatorId !== user.id,
           'border-ownQuestion': user !== undefined && comment.creatorId === user.id && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer,
           'border-correct': comment.correct === 1,
@@ -16,7 +17,7 @@
           (@slide.done)="changeSlideState()">
   <div class="runningnum-outer">
     <p>
-      <mat-icon *ngIf="commentIcon" [class]="commentIconClass">{{commentIcon}}</mat-icon>
+      <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
       {{comment.number}}
     </p>
   </div>
@@ -123,8 +124,7 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="(!isStudent || comment.bookmark) && !moderator"
-                [disabled]="isStudent"
+                *ngIf="!moderator"
                 (click)="setBookmark(comment)"
                 tabindex="0"
                 attr.aria-labelledby="comment_grade{{ comment.id }}">
@@ -249,6 +249,17 @@
             </span>
           </button>
           <button mat-menu-item
+                  *ngIf="roomTags?.length && (isCreator || isModerator)"
+                  (click)="openChangeCommentTagDialog()"
+                  tabindex="0">
+            <mat-icon class="not-marked material-icons-outlined">
+              style
+            </mat-icon>
+            <span>
+              {{'comment-page.edit-change-tag' | translate}}
+            </span>
+          </button>
+          <button mat-menu-item
                   *ngIf="(isCreator || (comment.creatorId && user && comment.creatorId === user.id)) && !comment.favorite && !inAnswerView"
                   (click)="openDeleteCommentDialog()"
                   tabindex="0"
@@ -353,7 +364,7 @@
            appJoyrideTemplate
            fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.user-number' | translate }}"
-           (click)="this.clickedUserNumber.emit(comment.userNumber)">
+           (click)="this.clickedUserNumber.emit(comment.creatorId)">
         <mat-icon class="user-icon material-icons-outlined">person_pin_circle</mat-icon>
         <span matBadge="{{commentsWrittenByUser}}"
               matBadgeSize="small"
@@ -388,11 +399,20 @@
       <span class="fill-remaining-space"></span>
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.questioner-name' | translate }}"
-           *ngIf="comment.questionerName"
+           *ngIf="comment.questionerName && (deviceInfo.isCurrentlyDesktop || comment.questionerName.length < 21)"
            class="questioner-name">
         <mat-icon class="material-icons-outlined">account_circle</mat-icon>
         <span style="padding-left: 5px">
           {{comment.questionerName}}
+        </span>
+      </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.questioner-name' | translate }} ({{comment.questionerName}})"
+           *ngIf="comment.questionerName && deviceInfo.isCurrentlyMobile && comment.questionerName.length > 20"
+           class="questioner-name">
+        <mat-icon class="material-icons-outlined">account_circle</mat-icon>
+        <span style="padding-left: 5px">
+          {{comment.questionerName.substr(0, 20)}}…
         </span>
       </div>
       <button mat-icon-button

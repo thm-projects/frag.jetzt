@@ -12,6 +12,8 @@ import { SessionService } from './services/util/session.service';
 import Quill from 'quill';
 import ImageResize from 'quill-image-resize-module';
 import 'quill-emoji/dist/quill-emoji.js';
+import { LanguageService } from './services/util/language.service';
+
 Quill.register('modules/imageResize', ImageResize);
 
 @Component({
@@ -26,26 +28,20 @@ export class AppComponent implements OnInit {
 
   title = 'frag.jetzt';
 
-  constructor(private translationService: TranslateService,
-              private update: SwUpdate,
-              private matomoInjector: MatomoInjector,
-              private sessionService: SessionService,
-              public notification: NotificationService,
-              private customIconService: CustomIconService) {
+  constructor(
+    private translationService: TranslateService,
+    private update: SwUpdate,
+    private matomoInjector: MatomoInjector,
+    private sessionService: SessionService,
+    public notification: NotificationService,
+    private customIconService: CustomIconService,
+    private languageService: LanguageService,
+  ) {
     customIconService.init();
     if (environment.name === 'prod') {
       this.matomoInjector.init('https://arsnova.thm.de/stats/', 6);
     }
-    if (!localStorage.getItem('currentLang')) {
-      let lang = this.translationService.getBrowserLang();
-      if (lang !== 'en' && lang !== 'de') {
-        lang = 'en';
-      }
-      this.translationService.setDefaultLang(lang);
-      localStorage.setItem('currentLang', lang);
-    } else {
-      this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
-    }
+    this.translationService.setDefaultLang(this.languageService.currentLanguage());
   }
 
   public static scrollTop() {
@@ -63,7 +59,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.update.versionUpdates.pipe(
-      filter(e => e.type === 'VERSION_READY' )
+      filter(e => e.type === 'VERSION_READY')
     ).subscribe(update => {
       let install: string;
       this.translationService.get('home-page.install').subscribe(msg => {

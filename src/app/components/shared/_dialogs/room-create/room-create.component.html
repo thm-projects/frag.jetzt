@@ -7,7 +7,7 @@
              matInput
              class="input-block"
              type="text"
-             maxlength="20"
+             [maxlength]="roomNameLengthMax"
              [formControl]="roomNameFormControl"
              name="roomName"
              aria-labelledby="room-name-input">
@@ -16,12 +16,14 @@
       <mat-placeholder *ngIf="!hasCustomShortId"
                        class="placeholder">{{ 'session.session-name-with-key-code-generated' | translate }}</mat-placeholder>
       <mat-hint align="end" class="count">
-        <span aria-hidden="true">{{roomNameFormControl.value.length}} / 20</span>
+        <span aria-hidden="true">{{roomNameFormControl.value.length}} / {{roomNameLengthMax}}</span>
       </mat-hint>
       <mat-error *ngIf="roomNameFormControl.hasError('required')
           || roomNameFormControl.hasError('minlength')
           || roomNameFormControl.hasError('maxlength')">
-        <strong>{{ 'home-page.no-empty-name' | translate }}</strong>
+        <strong>
+          {{ 'home-page.name-length-error' | translate: {min: roomNameLengthMin, max: roomNameLengthMax} }}
+        </strong>
       </mat-error>
     </mat-form-field>
     <mat-slide-toggle
@@ -33,17 +35,20 @@
              matInput
              class="input-block"
              type="text"
-             maxlength="30"
+             [maxlength]="shortIdLengthMax"
              [formControl]="roomShortIdFormControl"
              name="customShortId"
              aria-labelledby="room-name-input">
       <mat-placeholder class="placeholder">{{ 'home-page.custom-shortid-placeholder' | translate }}</mat-placeholder>
-      <mat-hint align="end"
-                class="count"><span aria-hidden="true">{{roomShortIdFormControl.value.length}} / 30</span></mat-hint>
+      <mat-hint align="end" class="count">
+        <span aria-hidden="true">{{roomShortIdFormControl.value.length}} / {{shortIdLengthMax}}</span>
+      </mat-hint>
       <mat-error *ngIf="roomShortIdFormControl.hasError('required')
           || roomShortIdFormControl.hasError('minlength')
           || roomShortIdFormControl.hasError('maxlength')">
-        <strong>{{ 'home-page.no-empty-key-code' | translate }}</strong>
+        <strong>
+          {{ 'home-page.key-code-length-error' | translate: {min: shortIdLengthMin, max: shortIdLengthMax} }}
+        </strong>
       </mat-error>
       <mat-error *ngIf="roomShortIdFormControl.hasError('pattern')">
         <strong>{{ 'home-page.invalid-char-shortid' | translate }}</strong>

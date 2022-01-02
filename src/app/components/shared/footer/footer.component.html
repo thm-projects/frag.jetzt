@@ -12,7 +12,7 @@
             class="focus_button"
             mat-button>
       <mat-icon class="material-icons-outlined">info</mat-icon>
-      <span *ngIf="deviceType === 'desktop' && router.url.endsWith('/home')">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{ 'footer.demo' | translate }}
       </span>
     </button>
@@ -24,7 +24,7 @@
             class="focus_button"
             mat-button>
       <mat-icon>format_paint</mat-icon>
-      <span *ngIf="deviceType === 'desktop' && router.url.endsWith('/home')">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
           {{'footer.style' | translate}}
         </span>
     </button>
@@ -37,7 +37,7 @@
             id="language-menu"
             mat-button>
       <mat-icon>language</mat-icon>
-      <span *ngIf="deviceType === 'desktop' && router.url.endsWith('/home')">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
           {{'footer.language' | translate}}
         </span>
     </button>
@@ -49,7 +49,7 @@
             class="focus_button"
             mat-button>
       <mat-icon class="material-icons-outlined">privacy_tip</mat-icon>
-      <span *ngIf="deviceType === 'desktop' && router.url.endsWith('/home')">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{'footer.dsgvo' | translate}}
       </span>
     </button>
@@ -61,7 +61,7 @@
             class="focus_button"
             mat-button>
       <mat-icon class="material-icons-outlined">contact_mail</mat-icon>
-      <span *ngIf="deviceType === 'desktop' && router.url.endsWith('/home')">
+      <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{'footer.imprint' | translate}}
       </span>
     </button>
@@ -80,8 +80,8 @@
 'background-color':theme.getPreviewColor()}"
                class="btnColorIcon">
             <div [ngClass]="{
-'checked_true':theme.key===themeClass,
-'checked_false':theme.key!==themeClass}"
+'checked_true':theme.key===themeService.currentThemeName,
+'checked_false':theme.key!==themeService.currentThemeName}"
                  class="checked">
               <mat-icon [ngStyle]="{'color':theme.getOnPreviewColor()}">
                 checked
@@ -90,7 +90,7 @@
           </div>
           <div class="btnAppend">
             <div class="title">
-              <p class="title_bold">{{theme.getName(getLanguage())}}</p>
+              <p class="title_bold">{{theme.getName(langService.currentLanguage())}}</p>
             </div>
           </div>
         </div>

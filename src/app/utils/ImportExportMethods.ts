@@ -9,8 +9,11 @@ import { UserRole } from '../models/user-roles.enum';
 import { CommentBonusTokenMixin } from '../models/comment-bonus-token-mixin';
 import { NotificationService } from '../services/util/notification.service';
 import { BonusTokenService } from '../services/http/bonus-token.service';
-import { map, switchMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { CommentService } from '../services/http/comment.service';
+import { RoomService } from '../services/http/room.service';
+import { TSMap } from 'typescript-map';
+import { SpacyKeyword } from '../services/http/spacy.service';
 
 const serializeDate = (str: string | number | Date) => {
   if (!str) {
@@ -42,6 +45,32 @@ export const copyCSVString = (value: string, fileName: string) => {
   link.href = window.URL.createObjectURL(myBlob);
   link.click();
 };
+
+export const uploadCSV = (): Observable<string> => new Observable<string>(subscriber => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.style.display = 'none';
+  input.click();
+  let hadData = false;
+  input.addEventListener('change', _ => {
+    hadData = true;
+    const reader = new FileReader();
+    reader.addEventListener('load', (event) => {
+      subscriber.next(event.target.result as string);
+      subscriber.complete();
+    });
+    reader.readAsText(input.files[0]);
+  }, { once: true });
+  window.addEventListener('focus', _ => {
+    input.remove();
+    setTimeout(() => {
+      if (!hadData) {
+        subscriber.next(null);
+        subscriber.complete();
+      }
+    });
+  }, { once: true });
+});
 
 export interface BonusArchiveEntry {
   bonusToken: string;
@@ -139,6 +168,7 @@ const roomImportExport = (translateService: TranslateService,
                           room?: Room,
                           moderatorIds?: Set<string>) => {
   const empty = translatePath + '.export-empty';
+  const bufferedIds = [];
   const isMod = (user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT;
   return new ImportExportManager(translateService, [
     { type: 'value', languageKey: translatePath + '.room-name' },
@@ -254,9 +284,15 @@ const roomImportExport = (translateService: TranslateService,
         {
           languageKey: translatePath + '.user-number',
           valueMapper: {
-            export: (cfg, c) => String(c.userNumber),
+            export: (cfg, c) => {
+              let index = bufferedIds.indexOf(c.creatorId);
+              if (index < 0) {
+                index = bufferedIds.push(c.creatorId) - 1;
+              }
+              return String(index);
+            },
             import: (cfg, val, c) => {
-              c.userNumber = parseInt(val, 10);
+              c.creatorId = val;
               return c;
             }
           }
@@ -374,14 +410,14 @@ const roomImportExport = (translateService: TranslateService,
   ]);
 };
 
-export const exportQuestions = (translateService: TranslateService,
-                                notificationService: NotificationService,
-                                bonusTokenService: BonusTokenService,
-                                commentService: CommentService,
-                                translatePath: string,
-                                user: User,
-                                room: Room,
-                                moderatorIds: Set<string>): Observable<[string, string]> =>
+export const exportRoom = (translateService: TranslateService,
+                           notificationService: NotificationService,
+                           bonusTokenService: BonusTokenService,
+                           commentService: CommentService,
+                           translatePath: string,
+                           user: User,
+                           room: Room,
+                           moderatorIds: Set<string>): Observable<[string, string]> =>
   commentService.getAckComments(room.id).pipe(
     switchMap(res => {
       if ((user?.role || UserRole.PARTICIPANT) > UserRole.PARTICIPANT) {
@@ -422,7 +458,7 @@ export const exportQuestions = (translateService: TranslateService,
     })
   );
 
-type ImportQuestionsResult = [
+export type ImportQuestionsResult = [
   roomName: string,
   roomShortId: string,
   exportDate: string,
@@ -431,7 +467,76 @@ type ImportQuestionsResult = [
   comments: CommentBonusTokenMixin[]
 ];
 
-export const importQuestions = (translateService: TranslateService,
-                                translatePath: string,
-                                csv: string): Observable<ImportQuestionsResult> =>
-  roomImportExport(translateService, translatePath).importFromCSV(csv) as Observable<ImportQuestionsResult>;
+const generateCommentCreatorIds = (observer: Observable<ImportQuestionsResult>,
+                                   roomService: RoomService,
+                                   roomId: string): Observable<ImportQuestionsResult> => observer.pipe(
+  mergeMap(value => {
+    value[5] = value[5].filter(c => c.creatorId);
+    const userSet = new Set<string>(value[5].map(c => c.creatorId));
+    const fastAccess = {} as any;
+    [...userSet].forEach((user, index) => fastAccess[user] = index);
+    return roomService.createGuestsForImport(roomId, userSet.size).pipe(
+      map(guestIds => {
+        value[5].forEach(c => {
+          c.creatorId = guestIds[fastAccess[c.creatorId]];
+        });
+        return value;
+      })
+    );
+  })
+);
+
+const importRoomSettings = (value: ImportQuestionsResult,
+                            roomService: RoomService,
+                            roomId: string): Observable<ImportQuestionsResult> => roomService.getRoom(roomId)
+  .pipe(
+    mergeMap(room => {
+      room.name = value[0];
+      room.description = value[3];
+      room.tags = value[4];
+      return roomService.updateRoom(room).pipe(map(_ => value));
+    })
+  );
+
+const ALLOWED_FIELDS: (keyof Comment)[] = [
+  'body', 'favorite', 'bookmark', 'correct', 'ack', 'tag', 'answer', 'keywordsFromSpacy', 'keywordsFromQuestioner',
+  'language', 'answerQuestionerKeywords', 'answerFulltextKeywords'
+];
+
+const importComment = (comment: CommentBonusTokenMixin,
+                       roomId: string,
+                       commentService: CommentService): Observable<Comment> => {
+  const { bonusToken, bonusTimeStamp, ...realComment } = comment;
+  realComment.roomId = roomId;
+  if (bonusToken && bonusTimeStamp) {
+    realComment.favorite = true;
+  }
+  return commentService.addComment(realComment).pipe(
+    mergeMap(c => {
+      realComment.id = c.id;
+      const changes = new TSMap<string, any>();
+      realComment.keywordsFromSpacy = JSON.stringify(realComment.keywordsFromSpacy || []) as unknown as SpacyKeyword[];
+      realComment.keywordsFromQuestioner = JSON.stringify(realComment.keywordsFromQuestioner || []) as unknown as SpacyKeyword[];
+      realComment.answerFulltextKeywords = JSON.stringify(realComment.answerFulltextKeywords || []) as unknown as SpacyKeyword[];
+      realComment.answerQuestionerKeywords = JSON.stringify(realComment.answerQuestionerKeywords || []) as unknown as SpacyKeyword[];
+      ALLOWED_FIELDS.forEach(key => changes.set(key, realComment[key]));
+      return commentService.patchComment(realComment, changes);
+    })
+  );
+};
+
+export const importToRoom = (translateService: TranslateService,
+                             roomId: string,
+                             roomService: RoomService,
+                             commentService: CommentService,
+                             translatePath: string,
+                             csv: string): Observable<ImportQuestionsResult> => {
+  const result = roomImportExport(translateService, translatePath)
+    .importFromCSV(csv) as Observable<ImportQuestionsResult>;
+  return generateCommentCreatorIds(result, roomService, roomId)
+    .pipe(
+      mergeMap(value => importRoomSettings(value, roomService, roomId)),
+      mergeMap(value => forkJoin(value[5].map(c => importComment(c, roomId, commentService)) as Observable<Comment>[])),
+      mergeMap(_ => result)
+    );
+};

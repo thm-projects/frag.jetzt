@@ -7,7 +7,6 @@ import { NotificationService } from '../../../services/util/notification.service
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { EventService } from '../../../services/util/event.service';
@@ -19,7 +18,9 @@ import { AuthenticationService } from '../../../services/http/authentication.ser
 import { HeaderService } from '../../../services/util/header.service';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { RoomEditComponent } from '../_dialogs/room-edit/room-edit.component';
-import { ModeratorService } from '../../../services/http/moderator.service';
+import { SessionService } from '../../../services/util/session.service';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector:'app-room-creator-page',
@@ -29,31 +30,34 @@ import { ModeratorService } from '../../../services/http/moderator.service';
 export class RoomCreatorPageComponent extends RoomPageComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit{
   commentCounterEmitSubscription: any;
 
-  constructor(protected roomService: RoomService,
-              protected notification: NotificationService,
-              protected route: ActivatedRoute,
-              protected location: Location,
-              public dialog: MatDialog,
-              protected translateService: TranslateService,
-              protected langService: LanguageService,
-              protected wsCommentService: WsCommentService,
-              protected commentService: CommentService,
-              private liveAnnouncer: LiveAnnouncer,
-              private _r: Renderer2,
-              public eventService: EventService,
-              public titleService: TitleService,
-              protected bonusTokenService: BonusTokenService,
-              protected moderatorService: ModeratorService,
-              public router: Router,
-              public authenticationService: AuthenticationService,
-              public headerService: HeaderService,
-              public composeService: ArsComposeService){
-    super(roomService, route, location, wsCommentService, commentService, eventService, headerService, composeService,
-      dialog, bonusTokenService, translateService, notification, authenticationService, moderatorService);
+  constructor(
+    protected roomService: RoomService,
+    protected notification: NotificationService,
+    protected route: ActivatedRoute,
+    protected location: Location,
+    public dialog: MatDialog,
+    protected translateService: TranslateService,
+    protected langService: LanguageService,
+    protected commentService: CommentService,
+    private liveAnnouncer: LiveAnnouncer,
+    private _r: Renderer2,
+    public eventService: EventService,
+    public titleService: TitleService,
+    protected bonusTokenService: BonusTokenService,
+    public router: Router,
+    public authenticationService: AuthenticationService,
+    public headerService: HeaderService,
+    public composeService: ArsComposeService,
+    protected sessionService: SessionService,
+    protected roomDataService: RoomDataService,
+    public deviceInfo: DeviceInfoService,
+  ) {
+    super(roomService, route, location, commentService, eventService, headerService, composeService, dialog,
+      bonusTokenService, translateService, notification, authenticationService, sessionService, roomDataService);
     this.commentCounterEmitSubscription = this.commentCounterEmit.subscribe(e => {
       this.titleService.attachTitle('(' + e + ')');
     });
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterViewInit(){
@@ -74,10 +78,7 @@ export class RoomCreatorPageComponent extends RoomPageComponent implements OnIni
 
   ngOnInit(){
     window.scroll(0, 0);
-    this.translateService.use(localStorage.getItem('currentLang'));
-    this.route.params.subscribe(params => {
-      this.initializeRoom(params['shortId']);
-    });
+    this.initializeRoom();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       const lang: string = this.translateService.currentLang;
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false){

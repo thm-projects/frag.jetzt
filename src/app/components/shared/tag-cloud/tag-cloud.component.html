@@ -8,9 +8,9 @@
       <app-cloud-configuration #cloudComponent [parent]="this"></app-cloud-configuration>
     </mat-drawer>
     <mat-drawer-content>
-      <h1 *ngIf="brainstormingActive &&brainstormingData?.question"
+      <h1 *ngIf="brainstormingActive && brainstormingData?.title"
           class="tag-cloud-brainstorming-question mat-display-1">
-        {{brainstormingData?.question}}
+        {{brainstormingData?.title}}
       </h1>
       <ars-fill ars-flex-box>
         <app-tag-cloud-pop-up [room]="room"></app-tag-cloud-pop-up>

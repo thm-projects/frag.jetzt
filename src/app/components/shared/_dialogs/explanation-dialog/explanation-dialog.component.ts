@@ -16,13 +16,12 @@ export class ExplanationDialogComponent implements OnInit {
   constructor(private translateService: TranslateService,
               private languageService: LanguageService,
               private dialogRef: MatDialogRef<ExplanationDialogComponent>) {
-    languageService.langEmitter.subscribe(lang => {
+    languageService.getLanguage().subscribe(lang => {
       translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.translateService.get(this.translateKey).subscribe(text => this.data = text);
   }
 

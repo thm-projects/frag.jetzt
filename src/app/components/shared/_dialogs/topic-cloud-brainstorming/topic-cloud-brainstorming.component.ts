@@ -3,27 +3,17 @@ import { UserRole } from '../../../../models/user-roles.enum';
 import { DeviceInfoService } from '../../../../services/util/device-info.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
-import { EventService } from '../../../../services/util/event.service';
 import { Router } from '@angular/router';
 import { SessionService } from '../../../../services/util/session.service';
 import { forkJoin, Observable, of, Subscription } from 'rxjs';
-import { TagCloudSettings } from '../../../../utils/TagCloudSettings';
 import { Room } from '../../../../models/room';
-import { RoomService } from '../../../../services/http/room.service';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { CommentService } from '../../../../services/http/comment.service';
 import { ExplanationDialogComponent } from '../explanation-dialog/explanation-dialog.component';
-
-export interface BrainstormingSettings {
-  active: boolean;
-  /** as DateTime */
-  started: number;
-  question: string;
-  maxWordLength: number;
-  maxWordCount: number;
-}
+import { BrainstormingService } from '../../../../services/http/brainstorming.service';
+import { BrainstormingSession } from '../../../../models/brainstorming-session';
 
 @Component({
   selector: 'app-topic-cloud-brainstorming',
@@ -47,7 +37,7 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
   ]);
   question = '';
   roomSubscription: Subscription;
-  brainstormingData: BrainstormingSettings;
+  brainstormingData: BrainstormingSession;
   isLoading = true;
   isDeleting = false;
   isClosing = false;
@@ -58,14 +48,13 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     public deviceInfo: DeviceInfoService,
     private dialogRef: MatDialogRef<TopicCloudBrainstormingComponent>,
     private dialog: MatDialog,
-    private eventService: EventService,
     private sessionService: SessionService,
-    private roomService: RoomService,
     private roomDataService: RoomDataService,
     private commentService: CommentService,
     private translateService: TranslateService,
     private notificationService: NotificationService,
     private router: Router,
+    private brainstormingService: BrainstormingService,
   ) {
   }
 
@@ -93,22 +82,24 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isCreating = true;
-    TagCloudSettings.getDefault({
+    this.brainstormingService.createSession({
+      roomId: this._room.id,
       active: true,
-      started: new Date().getTime(),
-      question: this.question,
+      started: new Date(),
+      title: this.question,
       maxWordCount: this.maxWordCount.value,
       maxWordLength: this.maxWordLength.value
-    }).applyToRoom(this._room);
-    this.roomService.updateRoom(this._room)
-      .subscribe(() => {
+    }).subscribe({
+      next: session => {
         this.isCreating = false;
+        this._room.brainstormingSession = session;
         this.open();
-      }, () => {
+      },
+      error: _ => {
         this.isCreating = false;
         this.showSomethingWentWrong();
-      });
-    this.deleteOldBrainstormingQuestions().subscribe();
+      }
+    });
   }
 
   checkForEnter(e: KeyboardEvent) {
@@ -121,9 +112,9 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     this.sessionService.getRoomOnce().subscribe(room => {
       this._room = room;
       this.isLoading = false;
-      this.brainstormingData = TagCloudSettings.getFromRoom(room)?.brainstorming;
+      this.brainstormingData = room.brainstormingSession;
       this.roomSubscription = this.sessionService.receiveRoomUpdates().subscribe(() => {
-        this.brainstormingData = TagCloudSettings.getFromRoom(room)?.brainstorming;
+        this.brainstormingData = room.brainstormingSession;
       });
     });
   }
@@ -141,14 +132,13 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isClosing = true;
-    TagCloudSettings.getDefault({
-      ...this.brainstormingData,
-      active: false
-    }).applyToRoom(this._room);
-    this.roomService.updateRoom(this._room)
-      .subscribe(() => this.isClosing = false, () => {
-        this.isClosing = false;
-        this.showSomethingWentWrong();
+    this.brainstormingService.closeSession(this.brainstormingData.id)
+      .subscribe({
+        next: _ => this.isClosing = false,
+        error: () => {
+          this.isClosing = false;
+          this.showSomethingWentWrong();
+        }
       });
   }
 
@@ -157,29 +147,32 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
       return;
     }
     this.isDeleting = true;
-    TagCloudSettings.getDefault().applyToRoom(this._room);
-    this.roomService.updateRoom(this._room)
-      .subscribe(() => this.isDeleting = false, () => {
+    this.deleteOld().subscribe({
+      next: _ => this.isDeleting = false,
+      error: () => {
         this.isDeleting = false;
         this.showSomethingWentWrong();
-      });
-    this.deleteOldBrainstormingQuestions().subscribe();
+      }
+    });
   }
 
-  getTranslate() {
-    return {
-      maxWordCount: this.brainstormingData?.maxWordCount,
-      maxWordLength: this.brainstormingData?.maxWordLength,
-      question: this.brainstormingData?.question
-    };
+  private deleteOld() {
+    return forkJoin([
+      this.deleteOldBrainstormingQuestions(),
+      this.brainstormingService.deleteSession(this._room.brainstormingSession.id)
+    ]);
   }
 
   private deleteOldBrainstormingQuestions(): Observable<any> {
-    if (!this.roomDataService.currentRoomData) {
+    if (!this.roomDataService.getCurrentRoomData()) {
       return of(null);
     }
-    const toBeRemoved = this.roomDataService.currentRoomData
-      .filter(comment => comment.brainstormingQuestion && comment.id);
+    const toBeRemoved = this.roomDataService.getCurrentRoomData()
+      .filter(comment => comment.brainstormingQuestion && comment.id)
+      .concat(this.roomDataService.getCurrentRoomData(true).filter(c => c.brainstormingQuestion && c.id));
+    if (toBeRemoved.length < 1) {
+      return of(null);
+    }
     return forkJoin(toBeRemoved.map(c => this.commentService.deleteComment(c.id)));
   }
 

@@ -17,7 +17,7 @@ export class WorkerConfigDialogComponent implements OnInit {
   constructor(private dialogRef: MatDialogRef<WorkerConfigDialogComponent>,
               protected langService: LanguageService,
               private translateService: TranslateService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   public static addTask(dialog: MatDialog, room: Room) {
@@ -33,7 +33,6 @@ export class WorkerConfigDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   buildConfirmAction() {

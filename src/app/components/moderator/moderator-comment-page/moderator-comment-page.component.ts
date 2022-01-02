@@ -1,6 +1,5 @@
 import { Component, OnInit, Renderer2, OnDestroy, AfterContentInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../../models/user';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -14,8 +13,6 @@ import { KeyboardKey } from '../../../utils/keyboard/keys';
   styleUrls: ['./moderator-comment-page.component.scss']
 })
 export class ModeratorCommentPageComponent implements OnInit, OnDestroy, AfterContentInit {
-  roomId: string;
-  user: User;
 
   listenerFn: () => void;
 
@@ -32,8 +29,6 @@ export class ModeratorCommentPageComponent implements OnInit, OnDestroy, AfterCo
     }, 500);
   }
   ngOnInit(): void {
-    this.roomId = localStorage.getItem('roomId');
-    this.user = this.authenticationService.getUser();
     this.announce();
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
