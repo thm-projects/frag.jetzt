@@ -92,7 +92,7 @@
             mat-icon-button
             aria-labelledby="pause"
             class="freezeButton"
-            *ngIf="!searchBox.value && !search && !freeze && comments.length > 2"
+            *ngIf="!searchBox.value && !search && !freeze && comments.length > 0"
             (click)="activateCommentStream(true)"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
       <mat-icon class="freezeIcon material-icons-outlined">stop_circle</mat-icon>
@@ -102,7 +102,7 @@
             mat-icon-button
             aria-labelledby="play"
             class="freezeButton"
-            *ngIf="!searchBox.value && !search && freeze"
+            *ngIf="!searchBox.value && !search && freeze && comments.length > 0"
             (click)="activateCommentStream(false)"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
       <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>

@@ -12,7 +12,7 @@
         </p>
       </span>
       <span *ngIf="isBrainstorming">
-        <mat-icon class="material-icons-outlined">thumbs_up_down</mat-icon>
+        <mat-icon class="material-icons-outlined" matTooltip="{{'tag-cloud.ups-downs-difference' | translate}}">thumbs_up_down</mat-icon>
         <p>
           {{getBrainstormingVotes()}}
         </p>

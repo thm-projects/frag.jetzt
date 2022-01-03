@@ -16,7 +16,7 @@
             class="focus_button"
             *ngIf="router.url.endsWith('/home') && !deviceInfo.isSafari"
             (click)="startTour()">
-      <mat-icon class="header-icons material-icons-outlined">outlined_flag</mat-icon>
+      <mat-icon class="header-icons material-icons-outlined">flag</mat-icon>
       <span *ngIf="deviceInfo.isCurrentlyDesktop">
         {{ 'header.tour' | translate }}
       </span>
