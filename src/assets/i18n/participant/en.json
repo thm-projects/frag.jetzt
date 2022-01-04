@@ -538,7 +538,7 @@
   "write-comment": {
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
-    "name-length-error": "The name must be between {{min}} and {{max}} characters."
+    "name-length-error": "The name must be {{min}} to {{max}} characters long."
   },
   "worker-config": {
     "heading": "Extract keywords",

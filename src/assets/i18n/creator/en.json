@@ -388,7 +388,7 @@
     "moderator-not-found": "A user with the entered mail address could not be found. Are you sure that the user has registered at »frag.jetzt« with this address?",
     "moderator-removed": "Moderator has been removed.",
     "moderators": "Moderators",
-    "name-length-error": "Title must be between {{min}} and {{max}} characters.",
+    "name-length-error": "The name must be {{min}} to {{max}} characters long.",
     "no-moderators": "No moderators yet",
     "present": "Present",
     "public-stream": "Questions",
@@ -411,7 +411,7 @@
     "settings-direct-send-description": "Every question is published immediately. Disable this option if you want to publish each question individually.",
     "sure": "Are you sure?",
     "tag-new": "New category:",
-    "tag-error": "Must be between 3 and 30 characters long",
+    "tag-error": "The name must be 3 to 30 characters long.",
     "tags": "Question categories",
     "threshold": "Release threshold",
     "threshold-description": "Set the threshold value above which a negatively rated question should be displayed.",
@@ -661,7 +661,7 @@
   "write-comment": {
     "questioner-name": "Your name, if you want …",
     "a11y-questioner-name": "Here you can enter your name if you want. This is visible for everyone at this comment.",
-    "name-length-error": "The name must be between {{min}} and {{max}} characters."
+    "name-length-error": "The name must be {{min}} to {{max}} characters long."
   },
   "worker-config": {
     "heading": "Extract keywords",

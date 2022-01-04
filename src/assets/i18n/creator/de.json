@@ -387,7 +387,7 @@
     "moderator-not-found": "Ein User mit der angegebenen Mail-Adresse konnte nicht gefunden werden. Bist du sicher, dass sich der User bei »frag.jetzt« mit dieser Adresse registriert hat?",
     "moderator-removed": "Moderator wurde entfernt.",
     "moderators": "Moderatoren",
-    "name-length-error": "Titel muss zwischen {{min}} und {{max}} Zeichen liegen.",
+    "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein.",
     "no-moderators": "",
     "present": "Präsentieren",
     "public-stream": "Öffentliche Fragen",
@@ -410,7 +410,7 @@
     "settings-direct-send-description": "Jede Frage wird sofort veröffentlicht. Schalte diese Option ab, wenn du jede Frage einzeln freigeben willst.",
     "sure": "Bist du sicher?",
     "tag-new": "Neue Kategorie:",
-    "tag-error": "Muss zwischen 3 und 30 Zeichen lang sein",
+    "tag-error": "Der Name muss 3 bis 30 Zeichen lang sein.",
     "tags": "Fragenkategorien",
     "threshold": "Schwellenwert der Freigabe",
     "threshold-description": "Lege den Schwellenwert fest, ab dem eine negativ bewertete Frage angezeigt werden soll.",
@@ -663,7 +663,7 @@
   "write-comment": {
     "questioner-name": "Dein Name, wenn du willst …",
     "a11y-questioner-name": "Hier kannst du, wenn du willst, deinen Namen eingeben. Dieser ist für alle an diesem Kommentar sichtbar.",
-    "name-length-error": "Der Name muss zwischen {{min}} und {{max}} Zeichen lang sein."
+    "name-length-error": "Der Name muss {{min}} bis {{max}} Zeichen lang sein."
   },
   "worker-config": {
     "heading": "Stichwörter extrahieren",
