@@ -3,8 +3,8 @@
     mat-dialog-title>{{ 'imprint.title' | translate }} </h1>
 
 <mat-dialog-content tabindex="0">
-  <app-imprint-en *ngIf="currentLang=='en'"></app-imprint-en>
-  <app-imprint-de *ngIf="currentLang=='de'"></app-imprint-de>
+  <app-imprint-en *ngIf="languageService.currentLanguage() === 'en'"></app-imprint-en>
+  <app-imprint-de *ngIf="languageService.currentLanguage() === 'de'"></app-imprint-de>
   <P>{{ 'imprint.frontend' | translate }}</P>
   <iframe [src]="safeURLfrontend"
           style="height: 60px; width: 240px; border: none"></iframe>

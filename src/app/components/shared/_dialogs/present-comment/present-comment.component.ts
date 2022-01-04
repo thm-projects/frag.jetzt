@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { DOCUMENT } from '@angular/common';
 import { KeyboardUtils } from '../../../../utils/keyboard';
 import { KeyboardKey } from '../../../../utils/keyboard/keys';
+import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-present-comment',
@@ -19,8 +20,10 @@ export class PresentCommentComponent implements OnInit {
     @Inject(DOCUMENT) private document: Document,
     public dialogRef: MatDialogRef<PresentCommentComponent>,
     private translateService: TranslateService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private languageService: LanguageService,
   ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   @HostListener('document:keyup', ['$event'])
@@ -32,7 +35,6 @@ export class PresentCommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     /*  if document is in fullscreen and user presses ESC, it doesn't trigger a keyup event */
     this.document.addEventListener('fullscreenchange', () => {
       if (this.fs && this.document.exitFullscreen) {

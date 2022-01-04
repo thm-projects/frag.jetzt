@@ -7,9 +7,9 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { RoomService } from '../../../../services/http/room.service';
 import { Router } from '@angular/router';
-import { RoomCreatorPageComponent } from '../../room-creator-page/room-creator-page.component';
-import { EventService } from '../../../../services/util/event.service';
+import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { RoomDeleted } from '../../../../models/events/room-deleted';
+import { EventService } from '../../../../services/util/event.service';
 
 
 @Component({
@@ -26,11 +26,12 @@ export class RoomEditComponent implements OnInit {
 
   roomNameFormControl = new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)]);
 
-  constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+  constructor(public dialogRef: MatDialogRef<RoomEditComponent>,
               public dialog: MatDialog,
               public notificationService: NotificationService,
               public translationService: TranslateService,
               protected roomService: RoomService,
+              private authenticationService: AuthenticationService,
               public router: Router,
               public eventService: EventService,
               @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -67,6 +68,7 @@ export class RoomEditComponent implements OnInit {
     this.roomService.deleteRoom(room.id).subscribe(result => {
       const event = new RoomDeleted(room.id);
       this.eventService.broadcast(event.type, event.payload);
+      this.authenticationService.removeAccess(room.shortId);
       this.closeDialog('delete');
       this.router.navigate([`/user`]);
     });

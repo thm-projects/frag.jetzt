@@ -1,19 +1,19 @@
 <div class="visually-hidden" tabindex="-1" id="selection" mat-dialog-title>
-  <ng-container *ngIf="currentLang=='en'">You're on the frag.jetzt-introduction page. Press 1 to start a demonstration
+  <ng-container *ngIf="languageService.currentLanguage() === 'en'">You're on the frag.jetzt-introduction page. Press 1 to start a demonstration
     video, 2 for a transcript of the video, press 3 to get information about the frag.jetzt.
     project or 4 to repeat this dialog.
   </ng-container>
-  <ng-container *ngIf="currentLang=='de'">Du befindest dich auf der frag.jetzt-Einführungsseite. Drücke die 1 um ein
+  <ng-container *ngIf="languageService.currentLanguage() === 'de'">Du befindest dich auf der frag.jetzt-Einführungsseite. Drücke die 1 um ein
     Demonstrationsvideo zu starten, die 2 für ein Transskript des Videos, die 3 um Informationen über das
     frag.jetzt-Projekt zu erhalten oder die 4 um diesen Dialog nocheinmal zu hören.
   </ng-container>
 </div>
 <!--frag.jetzt-->
 
-<mat-dialog-content>
+<mat-dialog-content (window:keydown)="onKeyDown($event)">
   <div id="setFocus" class="intro-text" tabindex="-1">
-    <app-demo-en *ngIf="currentLang=='en'"></app-demo-en>
-    <app-demo-de *ngIf="currentLang=='de'"></app-demo-de>
+    <app-demo-en *ngIf="languageService.currentLanguage() === 'en'"></app-demo-en>
+    <app-demo-de *ngIf="languageService.currentLanguage() === 'de'"></app-demo-de>
   </div>
 </mat-dialog-content>
 <app-dialog-action-buttons

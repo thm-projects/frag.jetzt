@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { dark, light } from './style.const';
+import { ThemeService } from '../../../../../src/theme/theme.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,10 @@ export class StyleService {
 
   private colors: any;
 
-  constructor() {
-    this.colors = light;
-    this.initColor();
+  constructor(
+    private themeService: ThemeService
+  ) {
+    this.themeService.getTheme().subscribe(_ => this.setColor(themeService.currentTheme.isDark));
   }
 
   public setColor(isDark: boolean) {

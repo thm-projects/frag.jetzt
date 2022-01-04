@@ -36,10 +36,9 @@ export class OnboardingService {
               private langService: LanguageService,
               private deviceInfo: DeviceInfoService) {
     this._finishedTours = new BehaviorSubject<string[]>([]);
-    this.langService.langEmitter.subscribe(lang => {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
-    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   onFinishTour(name = 'default'): Observable<any> {

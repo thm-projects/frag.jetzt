@@ -10,6 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { User } from '../../../../models/user';
 import { defaultCategories } from '../../../../utils/defaultCategories';
 import { FormControl, Validators } from '@angular/forms';
+import { LanguageService } from '../../../../services/util/language.service';
 
 const invalidRegex = /[^A-Z0-9_\-.~]+/gi;
 
@@ -25,11 +26,15 @@ export class RoomCreateComponent implements OnInit {
   user: User;
   hasCustomShortId = false;
   isLoading = false;
+  readonly roomNameLengthMin = 3;
+  readonly roomNameLengthMax = 30;
   roomNameFormControl = new FormControl('', [
-    Validators.required, Validators.minLength(3), Validators.maxLength(20)
+    Validators.required, Validators.minLength(this.roomNameLengthMin), Validators.maxLength(this.roomNameLengthMax)
   ]);
+  readonly shortIdLengthMin = 3;
+  readonly shortIdLengthMax = 30;
   roomShortIdFormControl = new FormControl('', [
-    Validators.required, Validators.minLength(3), Validators.maxLength(30),
+    Validators.required, Validators.minLength(this.shortIdLengthMin), Validators.maxLength(this.shortIdLengthMax),
     Validators.pattern('[a-zA-Z0-9_\\-.~]+'), this.verifyAlreadyUsed.bind(this)
   ]);
 
@@ -40,12 +45,13 @@ export class RoomCreateComponent implements OnInit {
     public dialogRef: MatDialogRef<RoomCreateComponent>,
     private translateService: TranslateService,
     private authenticationService: AuthenticationService,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private languageService: LanguageService,
   ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
   }
 
@@ -71,10 +77,10 @@ export class RoomCreateComponent implements OnInit {
     if (this.roomNameFormControl.value) {
       this.roomNameFormControl.setValue(this.roomNameFormControl.value.trim());
     }
-    if (this.roomNameFormControl.errors) {
+    if (this.roomNameFormControl.invalid) {
       return;
     }
-    if (this.hasCustomShortId && this.roomShortIdFormControl.errors) {
+    if (this.hasCustomShortId && this.roomShortIdFormControl.invalid) {
       return;
     }
     this.isLoading = true;
@@ -99,7 +105,7 @@ export class RoomCreateComponent implements OnInit {
     newRoom.description = '';
     newRoom.blacklist = '[]';
     newRoom.questionsBlocked = false;
-    newRoom.tags = defaultCategories[localStorage.getItem('currentLang')] || defaultCategories.default;
+    newRoom.tags = defaultCategories[this.languageService.currentLanguage()] || defaultCategories.default;
     newRoom.profanityFilter = ProfanityFilter.none;
     newRoom.shortId = this.hasCustomShortId ? this.roomShortIdFormControl.value : undefined;
     this.roomService.addRoom(newRoom, () => {

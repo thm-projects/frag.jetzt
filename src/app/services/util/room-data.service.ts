@@ -5,11 +5,16 @@ import { Message } from '@stomp/stompjs';
 import { Comment } from '../../models/comment';
 import { CommentService } from '../http/comment.service';
 import { CorrectWrong } from '../../models/correct-wrong.enum';
-import { RoomService } from '../http/room.service';
 import { ProfanityFilterService } from './profanity-filter.service';
 import { ProfanityFilter, Room } from '../../models/room';
-import { WsRoomService } from '../websockets/ws-room.service';
-import { SpacyKeyword } from '../http/spacy.service';
+import { SessionService } from './session.service';
+import { UserRole } from '../../models/user-roles.enum';
+import { AuthenticationService } from '../http/authentication.service';
+import { CommentFilterData, RoomDataProfanityFilter } from './room-data.profanity-filter';
+import { filter, map, take } from 'rxjs/operators';
+import { ActiveUserService } from '../http/active-user.service';
+import { BookmarkService } from '../http/bookmark.service';
+import { Bookmark } from '../../models/bookmark';
 
 export interface UpdateInformation {
   type: 'CommentCreated' | 'CommentPatched' | 'CommentHighlighted' | 'CommentDeleted';
@@ -28,8 +33,8 @@ class RoomDataUpdateSubscription {
   }
 
   onUpdate(event: UpdateInformation): void {
-    for (const filter of this._filters) {
-      if (this.ensureEqual(filter, event)) {
+    for (const updateFilter of this._filters) {
+      if (this.ensureEqual(updateFilter, event)) {
         this.updateSubject.next(event);
         break;
       }
@@ -73,24 +78,18 @@ class RoomDataUpdateSubscription {
   }
 }
 
-enum UpdateType {
-  force,
-  commentStream
-}
-
 interface FastRoomAccessObject {
-  [commentId: string]: Comment;
+  [commentId: string]: {
+    comment: Comment;
+    beforeFiltering: CommentFilterData;
+    afterFiltering: CommentFilterData;
+    hasProfanity: boolean;
+    filtered: boolean;
+  };
 }
 
-interface CommentFilterData {
-  body: string;
-  bodyCensored?: boolean;
-  genKeywords: SpacyKeyword[];
-  genKeywordsCensored?: boolean[];
-  userKeywords: SpacyKeyword[];
-  userKeywordsCensored?: boolean[];
-  questionerName: string;
-  questionerNameCensored?: boolean;
+interface BookmarkAccess {
+  [commentId: string]: Bookmark;
 }
 
 @Injectable({
@@ -99,262 +98,317 @@ interface CommentFilterData {
 export class RoomDataService {
 
   private _currentSubscriptions: RoomDataUpdateSubscription[] = [];
-  private _currentComments: Comment[] = null;
   private _currentRoomComments: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
   private _fastCommentAccess: FastRoomAccessObject = null;
-  private _wsCommentServiceSubscription: Subscription = null;
-  private _currentRoomId: string = null;
-  private _savedCommentsBeforeFilter = new Map<string, CommentFilterData>();
-  private _savedCommentsAfterFilter = new Map<string, CommentFilterData>();
-  private room: Room;
+  private _commentServiceSubscription: Subscription = null;
+  private _canAccessModerator = false;
+  private _currentNackSubscriptions: RoomDataUpdateSubscription[] = [];
+  private _currentNackRoomComments: BehaviorSubject<Comment[]> = new BehaviorSubject<Comment[]>(null);
+  private _fastNackCommentAccess: FastRoomAccessObject = null;
+  private _nackCommentServiceSubscription: Subscription = null;
+  private readonly _filter: RoomDataProfanityFilter;
+  private _currentUserCount = new BehaviorSubject<string>('?');
+  private _userBookmarks: BookmarkAccess = {};
 
-  constructor(private wsCommentService: WsCommentService,
-              private commentService: CommentService,
-              private roomService: RoomService,
-              private profanityFilterService: ProfanityFilterService,
-              private wsRoomService: WsRoomService) {
+  constructor(
+    private wsCommentService: WsCommentService,
+    private commentService: CommentService,
+    private sessionService: SessionService,
+    private profanityFilterService: ProfanityFilterService,
+    private authenticationService: AuthenticationService,
+    private activeUserService: ActiveUserService,
+    private bookmarkService: BookmarkService,
+  ) {
+    this._filter = new RoomDataProfanityFilter(profanityFilterService);
+    this.sessionService.getRoom().subscribe(room => this.onRoomUpdate(room));
+    this.authenticationService.watchUser.subscribe(_ => this.updateBookmarks());
+    this.sessionService.getRole().subscribe(role => {
+      const comments = this._currentRoomComments.value;
+      if (!comments) {
+        return;
+      }
+      if (role === UserRole.PARTICIPANT) {
+        comments.forEach(c => {
+          c['globalBookmark'] = c.bookmark;
+          c.bookmark = !!this._userBookmarks[c.id];
+        });
+        return;
+      }
+      comments.forEach(c => {
+        c.bookmark = c['globalBookmark'];
+      });
+    });
   }
 
-  private static cloneKeywords(arr: SpacyKeyword[]) {
-    const newArr = [...arr];
-    for (let i = 0; i < newArr.length; i++) {
-      newArr[i] = { text: newArr[i].text, dep: [...newArr[i].dep] };
-    }
-    return newArr;
+  get canAccessModerator() {
+    return this._canAccessModerator;
   }
 
-  get currentRoomData() {
-    return this._currentComments;
+  observeUserCount(): Observable<string> {
+    return this._currentUserCount.asObservable();
   }
 
-  receiveUpdates(updateFilter: Partial<UpdateInformation>[]): Observable<UpdateInformation> {
-    if (!this._currentRoomId) {
+  getCurrentRoomData(isModeration = false): Comment[] {
+    const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
+    return source.getValue();
+  }
+
+  receiveUpdates(updateFilter: Partial<UpdateInformation>[], isModeration = false): Observable<UpdateInformation> {
+    if (!this.sessionService.currentRoom) {
       console.error('Update Subscription got not registered, room is not bound!');
       return null;
     }
+    const source = isModeration ? this._currentNackSubscriptions : this._currentSubscriptions;
     const subscription = new RoomDataUpdateSubscription(updateFilter);
-    this._currentSubscriptions.push(subscription);
+    source.push(subscription);
     return subscription.updateSubject.asObservable();
   }
 
-  getRoomData(roomId: string, freezed: boolean = false): Observable<Comment[]> {
-    const tempSubject = new BehaviorSubject<Comment[]>(null);
-    if (this._currentRoomId !== roomId) {
-      this._currentRoomComments.next(null);
-    }
-    let subscription: Subscription = null;
-    subscription = this._currentRoomComments.subscribe(comments => {
-      if (comments === null) {
-        return;
-      }
-      tempSubject.next(freezed ? [...comments] : comments);
-      setTimeout(() => subscription.unsubscribe());
-    });
-    this.ensureRoomBinding(roomId);
-    return tempSubject.asObservable();
+  getRoomData(isModeration = false): Observable<Comment[]> {
+    const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
+    return source.asObservable();
   }
 
-  public checkProfanity(comment: Comment): Observable<boolean> {
-    const subject = new BehaviorSubject<boolean>(null);
-    if (!this._savedCommentsAfterFilter.get(comment.id) || !this.room) {
-      if (!this.room) {
-        this.roomService.getRoom(localStorage.getItem('roomId')).subscribe(room => {
-          this.room = room;
-          this.setCommentBody(comment);
-          this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
-          subject.next(this.isCommentProfane(comment));
-        });
-      } else {
-        this.setCommentBody(comment);
-        this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
-        subject.next(this.isCommentProfane(comment));
-      }
-    } else {
-      this.applyStateToComment(comment, this.room.profanityFilter === ProfanityFilter.deactivated);
-      subject.next(this.isCommentProfane(comment));
-    }
-    return subject;
+  getRoomDataOnce(freezed = false, isModeration = false): Observable<Comment[]> {
+    const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
+    return source.asObservable().pipe(
+      filter(v => !!v),
+      take(1),
+      map(data => freezed ? [...data] : data)
+    );
   }
 
-  applyStateToComment(comment: Comment, beforeFilter: boolean) {
-    let data: CommentFilterData;
-    if (beforeFilter) {
-      data = this._savedCommentsBeforeFilter.get(comment.id);
-    } else {
-      data = this._savedCommentsAfterFilter.get(comment.id);
-    }
-    comment.body = data.body;
-    comment.keywordsFromSpacy = data.genKeywords;
-    comment.keywordsFromQuestioner = data.userKeywords;
-    comment.questionerName = data.questionerName;
+  applyStateToComment(comment: Comment, beforeFilter: boolean, isModeration = false) {
+    const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
+    const data = beforeFilter ? source.beforeFiltering : source.afterFiltering;
+    this._filter.applyToComment(comment, data);
+    source.filtered = !beforeFilter;
   }
 
-  isCommentProfane(comment: Comment): boolean {
-    const data = this._savedCommentsAfterFilter.get(comment.id);
-    return data.bodyCensored ||
-      data.questionerNameCensored ||
-      data.userKeywordsCensored.some(e => e) ||
-      data.genKeywordsCensored.some(e => e);
+  isCommentProfane(comment: Comment, isModeration = false): boolean {
+    const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
+    return source.hasProfanity;
   }
 
-  getCensoredInformation(comment: Comment): CommentFilterData {
-    return this._savedCommentsAfterFilter.get(comment.id);
+  isCommentCensored(comment: Comment, isModeration = false): boolean {
+    const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
+    return source.filtered;
   }
 
-  private setCommentBody(comment: Comment) {
-    const genKeywords = RoomDataService.cloneKeywords(comment.keywordsFromSpacy);
-    const userKeywords = RoomDataService.cloneKeywords(comment.keywordsFromQuestioner);
-    this._savedCommentsBeforeFilter.set(comment.id, {
-      body: comment.body,
-      genKeywords,
-      userKeywords,
-      questionerName: comment.questionerName
-    });
-    this._savedCommentsAfterFilter.set(comment.id, this.filterCommentOfProfanity(this.room, comment));
+  getCensoredInformation(comment: Comment, isModeration = false): CommentFilterData {
+    const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
+    return source.afterFiltering;
   }
 
-  private filterAllCommentsBodies() {
-    this._currentComments.forEach(comment => {
-      const obj = this._savedCommentsBeforeFilter.get(comment.id);
-      comment.body = obj.body;
-      comment.keywordsFromSpacy = obj.genKeywords;
-      comment.keywordsFromQuestioner = obj.userKeywords;
-      this.setCommentBody(comment);
-      this.checkProfanity(comment);
-    });
-  }
-
-  private filterCommentOfProfanity(room: Room, comment: Comment): CommentFilterData {
-    const partialWords = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.partialWords;
-    const languageSpecific = room.profanityFilter === ProfanityFilter.all || room.profanityFilter === ProfanityFilter.languageSpecific;
-    const [body, bodyCensored] = this.profanityFilterService
-      .filterProfanityWords(comment.body, partialWords, languageSpecific, comment.language);
-    const [genKeywords, genKeywordsCensored] = this
-      .checkKeywords(comment.keywordsFromSpacy, partialWords, languageSpecific, comment.language);
-    const [userKeywords, userKeywordsCensored] = this
-      .checkKeywords(comment.keywordsFromQuestioner, partialWords, languageSpecific, comment.language);
-    const [questionerName, questionerNameCensored] = this.profanityFilterService
-      .filterProfanityWords(comment.questionerName, partialWords, languageSpecific, comment.language);
-    return {
-      body,
-      bodyCensored,
-      genKeywords,
-      genKeywordsCensored,
-      userKeywords,
-      userKeywordsCensored,
-      questionerName,
-      questionerNameCensored
-    };
-  }
-
-  private removeCommentBodies(key: string) {
-    this._savedCommentsBeforeFilter.delete(key);
-    this._savedCommentsAfterFilter.delete(key);
-  }
-
-  private ensureRoomBinding(roomId: string) {
-    if (!roomId || roomId === this._currentRoomId) {
+  toggleBookmark(comment: Comment) {
+    comment.bookmark = !comment.bookmark;
+    if (comment.bookmark) {
+      this.bookmarkService.create({ commentId: comment.id }).subscribe({
+        next: bookmark => this._userBookmarks[comment.id] = bookmark,
+        error: _ => comment.bookmark = !comment.bookmark
+      });
       return;
     }
+    const id = this._userBookmarks[comment.id]?.id;
+    if (!id) {
+      return;
+    }
+    this.bookmarkService.delete(id).subscribe({
+      next: _ => this._userBookmarks[comment.id] = undefined,
+      error: _ => comment.bookmark = !comment.bookmark
+    });
+  }
+
+  private updateBookmarks() {
+    if (!this.sessionService.currentRoom) {
+      return;
+    }
+    this.bookmarkService.getByRoomId(this.sessionService.currentRoom.id).subscribe(bookmarks => {
+      bookmarks.forEach(b => this._userBookmarks[b.commentId] = b);
+      const comments = this._currentRoomComments.value;
+      if (!comments) {
+        return;
+      }
+      for (const comment of comments) {
+        comment.bookmark = !!this._userBookmarks[comment.id];
+      }
+    });
+  }
+
+  private refilterComment(comment: Comment, isModeration: boolean) {
+    const source = isModeration ? this._fastNackCommentAccess[comment.id] : this._fastCommentAccess[comment.id];
+    if (source.filtered) {
+      this._filter.applyToComment(comment, source.beforeFiltering);
+    }
+    const [beforeFiltering, afterFiltering, hasProfanity] = this._filter
+      .filterCommentBody(this.sessionService.currentRoom, comment);
+    source.beforeFiltering = beforeFiltering;
+    source.afterFiltering = afterFiltering;
+    if (!hasProfanity) {
+      source.hasProfanity = false;
+      source.filtered = false;
+    } else if (hasProfanity !== source.hasProfanity) {
+      source.hasProfanity = true;
+      source.filtered = true;
+      this._filter.applyToComment(comment, source.afterFiltering);
+    } else if (source.filtered) {
+      this._filter.applyToComment(comment, source.afterFiltering);
+    }
+  }
+
+  private onRoomUpdate(room: Room) {
+    this._currentSubscriptions.forEach(sub => sub.updateSubject.complete());
     this._currentSubscriptions.length = 0;
-    this._currentRoomId = roomId;
-    this._currentComments = null;
+    this._currentNackSubscriptions.forEach(sub => sub.updateSubject.complete());
+    this._currentNackSubscriptions.length = 0;
     this._fastCommentAccess = {};
-    if (this._wsCommentServiceSubscription) {
-      this._wsCommentServiceSubscription.unsubscribe();
+    this._fastNackCommentAccess = {};
+    this._currentRoomComments.next(null);
+    this._currentNackRoomComments.next(null);
+    this._commentServiceSubscription?.unsubscribe();
+    this._nackCommentServiceSubscription?.unsubscribe();
+    this._currentUserCount.next('?');
+    this._userBookmarks = {};
+    if (!room) {
+      return;
     }
-    this.roomService.getRoom(roomId).subscribe(room => {
-      this.room = room;
-      this._wsCommentServiceSubscription = this.wsCommentService.getCommentStream(roomId)
-        .subscribe(msg => this.onMessageReceive(msg));
-      this.commentService.getAckComments(roomId).subscribe(comments => {
-        this._currentComments = comments;
-        for (const comment of comments) {
-          this.setCommentBody(comment);
-          this._fastCommentAccess[comment.id] = comment;
+    this.updateBookmarks();
+    this.activeUserService.getActiveUser(room)
+      .subscribe(([count]) => this._currentUserCount.next(String(count || 0)));
+    const filtered = room.profanityFilter === ProfanityFilter.deactivated;
+    this._commentServiceSubscription = this.wsCommentService.getCommentStream(room.id)
+      .subscribe(msg => this.onMessageReceive(msg, false));
+    const isUser = this.sessionService.currentRole === UserRole.PARTICIPANT;
+    this.commentService.getAckComments(room.id).subscribe(comments => {
+      for (const comment of comments) {
+        const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
+        this._fastCommentAccess[comment.id] = {
+          comment,
+          beforeFiltering,
+          afterFiltering,
+          hasProfanity,
+          filtered
+        };
+        if (filtered) {
+          this.applyStateToComment(comment, filtered);
         }
-        this.triggerUpdate(UpdateType.force, null);
+      }
+      if (isUser) {
+        comments.forEach(c => {
+          c['globalBookmark'] = c.bookmark;
+          c.bookmark = !!this._userBookmarks[c.id];
+        });
+      }
+      this._currentRoomComments.next(comments);
+    });
+    const userRole = this.authenticationService.getUser()?.role || UserRole.PARTICIPANT;
+    this._canAccessModerator = userRole > UserRole.PARTICIPANT;
+    if (this._canAccessModerator) {
+      this._nackCommentServiceSubscription = this.wsCommentService.getModeratorCommentStream(room.id)
+        .subscribe(msg => this.onMessageReceive(msg, true));
+      this.commentService.getRejectedComments(room.id).subscribe(comments => {
+        for (const comment of comments) {
+          const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, comment);
+          this._fastNackCommentAccess[comment.id] = {
+            comment,
+            beforeFiltering,
+            afterFiltering,
+            hasProfanity,
+            filtered
+          };
+          if (filtered) {
+            this.applyStateToComment(comment, filtered, true);
+          }
+        }
+        this._currentNackRoomComments.next(comments);
       });
-    });
-    this.wsRoomService.getRoomStream(roomId).subscribe(msg => {
-      const message = JSON.parse(msg.body);
-      if (message.type === 'RoomPatched') {
-        this.room = message.payload.changes;
-        this.filterAllCommentsBodies();
-      }
-    });
-  }
-
-  private triggerUpdate(type: UpdateType, additionalInformation: UpdateInformation) {
-    if (type === UpdateType.force) {
-      this._currentRoomComments.next(this._currentComments);
-    } else if (type === UpdateType.commentStream) {
-      for (const subscription of this._currentSubscriptions) {
-        subscription.onUpdate(additionalInformation);
-      }
     }
+    this.sessionService.receiveRoomUpdates().subscribe(() => {
+      this._currentRoomComments.getValue().forEach(comment => this.refilterComment(comment, false));
+      if (this._canAccessModerator) {
+        this._currentNackRoomComments.getValue().forEach(comment => this.refilterComment(comment, true));
+      }
+    });
   }
 
-  private onMessageReceive(message: Message) {
+  private triggerUpdate(information: UpdateInformation, isModeration: boolean) {
+    const source = isModeration ? this._currentNackSubscriptions : this._currentSubscriptions;
+    source.forEach(sub => sub.onUpdate(information));
+  }
+
+  private onMessageReceive(message: Message, isModeration: boolean) {
     const msg = JSON.parse(message.body);
     const payload = msg.payload;
     if (!payload) {
+      this._currentUserCount.next(String(msg['UserCountChanged'].userCount));
       return;
     }
     switch (msg.type) {
       case 'CommentCreated':
-        this.onCommentCreate(payload);
+        this.onCommentCreate(payload, isModeration);
         break;
       case 'CommentPatched':
-        this.onCommentPatched(payload);
+        this.onCommentPatched(payload, isModeration);
         break;
       case 'CommentHighlighted':
-        this.onCommentHighlighted(payload);
+        this.onCommentHighlighted(payload, isModeration);
         break;
       case 'CommentDeleted':
-        this.onCommentDeleted(payload);
+        this.onCommentDeleted(payload, isModeration);
         break;
     }
   }
 
-  private onCommentCreate(payload: any) {
+  private onCommentCreate(payload: any, isModeration: boolean) {
+    const room = this.sessionService.currentRoom;
     const c = new Comment();
-    c.roomId = this._currentRoomId;
+    c.roomId = room.id;
     c.body = payload.body;
     c.id = payload.id;
     c.timestamp = payload.timestamp;
     c.tag = payload.tag;
     c.creatorId = payload.creatorId;
-    c.userNumber = this.commentService.hashCode(c.creatorId);
     c.keywordsFromQuestioner = JSON.parse(payload.keywordsFromQuestioner);
     c.language = payload.language;
     c.questionerName = payload.questionerName;
-    this._fastCommentAccess[c.id] = c;
-    this._currentComments.push(c);
-    this.triggerUpdate(UpdateType.commentStream, {
+    const filtered = room.profanityFilter === ProfanityFilter.deactivated;
+    const source = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
+    const [beforeFiltering, afterFiltering, hasProfanity] = this._filter.filterCommentBody(room, c);
+    source[c.id] = { comment: c, beforeFiltering, afterFiltering, hasProfanity, filtered };
+    if (filtered) {
+      this.applyStateToComment(c, filtered, isModeration);
+    }
+    const commentSource = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
+    commentSource.getValue().push(c);
+    this.triggerUpdate({
       type: 'CommentCreated',
       finished: false,
       comment: c
-    });
+    }, isModeration);
     this.commentService.getComment(c.id).subscribe(comment => {
       for (const key of Object.keys(comment)) {
         c[key] = comment[key];
       }
-      this.setCommentBody(c);
-      this.triggerUpdate(UpdateType.commentStream, {
+      if (this.sessionService.currentRole === UserRole.PARTICIPANT) {
+        c['globalBookmark'] = c.bookmark;
+        c.bookmark = !!this._userBookmarks[c.id];
+      }
+      this.refilterComment(c, isModeration);
+      this.triggerUpdate({
         type: 'CommentCreated',
         finished: true,
         comment: c
-      });
+      }, isModeration);
     });
   }
 
-  private onCommentPatched(payload: any) {
-    const comment = this._fastCommentAccess[payload.id];
-    if (!comment) {
+  private onCommentPatched(payload: any, isModeration: boolean) {
+    const data = isModeration ? this._fastNackCommentAccess[payload.id] : this._fastCommentAccess[payload.id];
+    if (!data) {
       console.error('comment ' + payload.id + ' was not found!');
       return;
     }
+    const comment = data.comment;
     const updates = [];
     for (const [key, value] of Object.entries(payload.changes)) {
       updates.push(key);
@@ -370,7 +424,12 @@ export class RoomDataService {
           comment.favorite = value as boolean;
           break;
         case 'bookmark':
-          comment.bookmark = value as boolean;
+          if (this.sessionService.currentRole > UserRole.PARTICIPANT) {
+            comment.bookmark = value as boolean;
+          } else {
+            comment['globalBookmark'] = value as boolean;
+            hadKey = false;
+          }
           break;
         case 'score':
           comment.score = value as number;
@@ -390,8 +449,8 @@ export class RoomDataService {
         case 'ack':
           const isNowAck = value as boolean;
           comment.ack = isNowAck;
-          if (!isNowAck) {
-            this.removeComment(payload.id);
+          if (isNowAck === isModeration) {
+            this.removeComment(payload.id, isModeration);
           }
           break;
         case 'tag':
@@ -405,73 +464,58 @@ export class RoomDataService {
           break;
       }
       if (hadKey) {
-        this.triggerUpdate(UpdateType.commentStream, {
+        this.triggerUpdate({
           type: 'CommentPatched',
           subtype: key as keyof Comment,
           comment
-        });
+        }, isModeration);
       }
     }
-    this.triggerUpdate(UpdateType.commentStream, {
+    this.triggerUpdate({
       type: 'CommentPatched',
       finished: true,
       updates,
       comment
-    });
+    }, isModeration);
   }
 
-  private onCommentHighlighted(payload: any) {
-    const comment = this._fastCommentAccess[payload.id];
-    if (!comment) {
+  private onCommentHighlighted(payload: any, isModeration: boolean) {
+    const data = isModeration ? this._fastNackCommentAccess[payload.id] : this._fastCommentAccess[payload.id];
+    if (!data) {
       console.error('comment ' + payload.id + ' was not found!');
       return;
     }
-    comment.highlighted = payload.lights as boolean;
-    this.triggerUpdate(UpdateType.commentStream, {
+    data.comment.highlighted = payload.lights as boolean;
+    this.triggerUpdate({
       type: 'CommentHighlighted',
       finished: true,
-      comment
-    });
+      comment: data.comment
+    }, isModeration);
   }
 
-  private onCommentDeleted(payload: any) {
-    const comment = this._fastCommentAccess[payload.id];
-    if (!comment) {
+  private onCommentDeleted(payload: any, isModeration: boolean) {
+    const data = isModeration ? this._fastNackCommentAccess[payload.id] : this._fastCommentAccess[payload.id];
+    if (!data) {
       console.error('comment ' + payload.id + ' was not found!');
       return;
     }
-    this.removeComment(payload.id);
-    this.triggerUpdate(UpdateType.commentStream, {
+    this.removeComment(payload.id, isModeration);
+    this.triggerUpdate({
       type: 'CommentDeleted',
       finished: true,
-      comment
-    });
+      comment: data.comment
+    }, isModeration);
   }
 
-  private removeComment(id: string) {
-    const index = this._currentComments.findIndex(el => el.id === id);
+  private removeComment(id: string, isModeration: boolean) {
+    const source = isModeration ? this._currentNackRoomComments : this._currentRoomComments;
+    const index = source.getValue().findIndex(el => el.id === id);
     if (index >= 0) {
-      this._currentComments.splice(index, 1);
-      this.removeCommentBodies(id);
+      source.getValue().splice(index, 1);
+    } else {
+      console.error('comment ' + id + ' was not found!');
     }
-    this._fastCommentAccess[id] = undefined;
-  }
-
-  private checkKeywords(keywords: SpacyKeyword[],
-                        partialWords: boolean,
-                        languageSpecific: boolean,
-                        lang: string): [SpacyKeyword[], boolean[]] {
-    const newKeywords = [...keywords];
-    const censored: boolean[] = new Array(keywords.length);
-    for (let i = 0; i < newKeywords.length; i++) {
-      const [text, textCensored] = this.profanityFilterService
-        .filterProfanityWords(newKeywords[i].text, partialWords, languageSpecific, lang);
-      censored[i] = textCensored;
-      newKeywords[i] = {
-        text,
-        dep: newKeywords[i].dep
-      };
-    }
-    return [newKeywords, censored];
+    const fastSource = isModeration ? this._fastNackCommentAccess : this._fastCommentAccess;
+    fastSource[id] = undefined;
   }
 }

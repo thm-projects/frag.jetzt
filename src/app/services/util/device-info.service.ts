@@ -57,6 +57,10 @@ export class DeviceInfoService {
     return this._isMobile.value;
   }
 
+  get isCurrentlyDesktop(): boolean {
+    return !this._isMobile.value;
+  }
+
   public isMobile(): Observable<boolean> {
     return this._isMobile.asObservable();
   }

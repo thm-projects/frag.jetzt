@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Room } from '../../../models/room';
 import { RoomRoleMixin } from '../../../models/room-role-mixin';
 import { User } from '../../../models/user';
@@ -16,8 +16,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { RemoveFromHistoryComponent } from '../_dialogs/remove-from-history/remove-from-history.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { BonusTokenService } from '../../../services/http/bonus-token.service';
-import { copyCSVString, exportQuestions } from '../../../utils/ImportExportMethods';
+import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-room-list',
@@ -25,13 +26,11 @@ import { Sort } from '@angular/material/sort';
   styleUrls: ['./room-list.component.scss'],
 })
 export class RoomListComponent implements OnInit, OnDestroy {
-  @Input() user: User;
+  user: User;
   rooms: Room[] = [];
-  roomsWithRole: RoomRoleMixin[];
-  closedRooms: Room[];
+  roomsWithRole: RoomRoleMixin[] = [];
   isLoading = true;
   sub: Subscription;
-  deviceType: string;
 
   tableDataSource: MatTableDataSource<Room>;
   displayedColumns: string[] = ['name', 'shortId', 'role', 'button'];
@@ -59,47 +58,51 @@ export class RoomListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getRooms();
+    this.authenticationService.watchUser.pipe(
+      filter(user => !!user),
+      take(1)
+    ).subscribe(user => {
+      this.user = user;
+      this.getRooms();
+    });
     this.sub = this.eventService.on<any>('RoomDeleted').subscribe(payload => {
+      this.rooms = this.rooms.filter(r => r.id !== payload.id);
       this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== payload.id);
     });
-    this.deviceType = localStorage.getItem('deviceType');
   }
 
   ngOnDestroy() {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
+    this.sub?.unsubscribe();
   }
 
   getRooms(): void {
-    this.roomService.getParticipantRooms().subscribe(rooms => this.updateRoomList(rooms));
-    this.roomService.getCreatorRooms().subscribe(rooms => this.updateRoomList(rooms));
+    this.roomService.getParticipantRooms(this.user.id).subscribe(rooms => this.updateRoomList(rooms));
+    this.roomService.getCreatorRooms(this.user.id).subscribe(rooms => this.updateRoomList(rooms));
   }
 
   updateRoomList(rooms: Room[]) {
     this.rooms = this.rooms.concat(rooms);
-    this.closedRooms = this.rooms.filter(room => room.closed);
-    this.roomsWithRole = this.rooms.map(room => {
+    const newRooms = rooms.map(room => {
       const roomWithRole: RoomRoleMixin = room as RoomRoleMixin;
-      if (this.authenticationService.hasAccess(room.shortId, UserRole.CREATOR)) {
+      if (room.ownerId === this.user.id) {
         roomWithRole.role = UserRole.CREATOR;
-      } else {
-        // TODO: acknowledge the other role option too
-        roomWithRole.role = UserRole.PARTICIPANT;
-        this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
-          for (const m of moderators) {
-            if (m.accountId === this.user.id) {
-              this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
-              roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
-            }
-          }
-        });
+        this.authenticationService.setAccess(room.shortId, UserRole.CREATOR);
+        return roomWithRole;
       }
+      roomWithRole.role = UserRole.PARTICIPANT;
+      this.moderatorService.get(room.id).subscribe((moderators: Moderator[]) => {
+        if (moderators.some(m => m.accountId === this.user.id)) {
+          this.authenticationService.setAccess(room.shortId, UserRole.EXECUTIVE_MODERATOR);
+          roomWithRole.role = UserRole.EXECUTIVE_MODERATOR;
+        } else {
+          this.authenticationService.setAccess(room.shortId, UserRole.PARTICIPANT);
+        }
+      });
       return roomWithRole;
     });
+    this.roomsWithRole = this.roomsWithRole.concat(newRooms);
     this.isLoading = false;
-    for (const room of this.roomsWithRole) {
+    for (const room of newRooms) {
       this.commentService.countByRoomId(room.id, true).subscribe(count => {
         room.commentCount = count;
       });
@@ -111,7 +114,6 @@ export class RoomListComponent implements OnInit, OnDestroy {
     for (const r of this.roomsWithRole) {
       if (r.shortId === shortId) {
         this.authenticationService.assignRole(r.role);
-        localStorage.setItem('shortId', shortId);
       }
     }
   }
@@ -130,7 +132,6 @@ export class RoomListComponent implements OnInit, OnDestroy {
           this.deleteRoom(room);
         }
         this.rooms = this.rooms.filter(r => r.id !== room.id);
-        this.closedRooms = this.closedRooms.filter(r => r.id !== room.id);
         this.roomsWithRole = this.roomsWithRole.filter(r => r.id !== room.id);
         this.updateTable();
       } else {
@@ -184,7 +185,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
           data.sort((a, b) => a.role - b.role);
           break;
       }
-      if(this.currentSort.direction === 'desc'){
+      if (this.currentSort.direction === 'desc') {
         data.reverse();
       }
     }
@@ -202,7 +203,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
 
   exportCsv(room: Room) {
     this.moderatorService.get(room.id).subscribe(mods => {
-      exportQuestions(this.translateService,
+      exportRoom(this.translateService,
         this.notificationService,
         this.bonusTokenService,
         this.commentService,

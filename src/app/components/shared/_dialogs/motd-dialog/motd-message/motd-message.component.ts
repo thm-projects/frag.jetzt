@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Motd } from '../../../../../models/motd';
+import { LanguageService } from '../../../../../services/util/language.service';
 
 @Component({
   selector: 'app-motd-message',
@@ -12,11 +13,13 @@ export class MotdMessageComponent implements OnInit, AfterViewInit {
   @ViewChild('markdown', { static: true }) markdown: any;
   translatedMessage: string;
 
-  constructor() {
+  constructor(
+    private languageService: LanguageService,
+  ) {
   }
 
   ngOnInit(): void {
-    if (localStorage.getItem('currentLang') === 'de') {
+    if (this.languageService.currentLanguage() === 'de') {
       this.translatedMessage = this.message.msgGerman;
     } else {
       this.translatedMessage = this.message.msgEnglish;

@@ -189,7 +189,7 @@ export class Export {
       m('answer', e => parseBody(e.answer));
       m('author-role', e => this.getUserString(e.creatorId, roles));
       m('user-name', e => e.questionerName);
-      m('user-number', e => e.userNumber);
+      m('user-number', e => '');
       m('upvotes', e => e.upvotes);
       m('downvotes', e => e.downvotes);
       m('score', e => e.score);

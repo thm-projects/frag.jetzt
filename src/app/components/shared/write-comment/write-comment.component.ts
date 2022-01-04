@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
-import { BrainstormingSettings } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { BrainstormingSession } from '../../../models/brainstorming-session';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -40,7 +40,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() placeholder = 'comment-page.enter-comment';
   @Input() i18nSection = 'comment-page';
   @Input() isQuestionerNameEnabled = false;
-  @Input() brainstormingData: BrainstormingSettings;
+  @Input() brainstormingData: BrainstormingSession;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -51,8 +51,10 @@ export class WriteCommentComponent implements OnInit {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
   newLang = 'auto';
+  readonly questionerNameMin = 2;
+  readonly questionerNameMax = 30;
   questionerNameFormControl = new FormControl('', [
-    Validators.minLength(2), Validators.maxLength(20)
+    Validators.minLength(this.questionerNameMin), Validators.maxLength(this.questionerNameMax)
   ]);
   private _wasVerifiedWithoutDeepl = false;
 
@@ -62,13 +64,12 @@ export class WriteCommentComponent implements OnInit {
               public languagetoolService: LanguagetoolService,
               private deeplService: DeepLService,
               private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     if (this.brainstormingData) {
       this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
         .subscribe(msg => this.placeholder = msg);

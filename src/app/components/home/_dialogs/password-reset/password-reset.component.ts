@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { RegisterComponent, validatePassword } from '../register/register.component';
+import { validatePassword } from '../register/register.component';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TranslateService } from '@ngx-translate/core';
@@ -36,7 +36,7 @@ export class PasswordResetComponent implements OnInit {
   constructor(private translationService: TranslateService,
               public authenticationService: AuthenticationService,
               public notificationService: NotificationService,
-              public dialogRef: MatDialogRef<RegisterComponent>,
+              public dialogRef: MatDialogRef<PasswordResetComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private liveAnnouncer: LiveAnnouncer, ) {
   }
