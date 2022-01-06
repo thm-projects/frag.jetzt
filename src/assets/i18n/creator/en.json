@@ -219,7 +219,7 @@
     "send-description": "Send question",
     "tag": "Category",
     "tag-reset": "none",
-    "tag-title": "Change category",
+    "tag-title": "Choose or change category",
     "tag-to-filter": "Click on the question category to filter all questions in that category.",
     "user-number": "Click on the pin icon to filter all questions from this questioner.",
     "keywords-per-question": "Click on the # sign to display the keywords that the questioner has determined or selected from an AI-generated list.",
