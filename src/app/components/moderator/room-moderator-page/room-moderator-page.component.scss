@@ -154,3 +154,8 @@ h2 {
   font-weight: normal;
   margin-top: 35px;
 }
+
+:host > div {
+  margin-top: 5vh;
+  min-height: calc(88vh - 115px) !important;
+}

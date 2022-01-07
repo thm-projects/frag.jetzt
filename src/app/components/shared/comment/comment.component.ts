@@ -342,4 +342,27 @@ export class CommentComponent implements OnInit, AfterViewInit {
     });
     dialogRef.componentInstance.userId = this.user.id;
   }
+
+  getBorderClass(): string {
+    if (this.isFromOwner) {
+      return 'border-fromOwner';
+    } else if (this.isFromModerator) {
+      return 'border-fromModerator';
+    } else if (this.comment.favorite) {
+      return 'border-favorite';
+    } else if (this.comment.bookmark) {
+      return 'border-bookmark';
+    } else if (this.comment.answer) {
+      return 'border-answer';
+    } else if (this.comment.correct === CorrectWrong.WRONG) {
+      return 'border-wrong';
+    } else if (this.comment.correct === CorrectWrong.CORRECT) {
+      return 'border-correct';
+    } else if (this.comment.creatorId === this.user?.id) {
+      return 'border-ownQuestion';
+    } else if (this.moderator) {
+      return 'border-moderated';
+    }
+    return 'border-notMarked';
+  }
 }

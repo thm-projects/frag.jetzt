@@ -45,7 +45,7 @@
       </ng-container>
       <button *ngIf="isBrainstorming"
               mat-flat-button
-              class="vote-button"
+              class="vote-button downvote"
               [class.active]="getOwnVote() === -1"
               (click)="onBrainstormVote(false)">
         <ng-container [ngTemplateOutlet]="downvotes">

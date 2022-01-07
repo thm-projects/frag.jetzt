@@ -16,6 +16,15 @@
   touch-action: auto !important;
 }
 
+.color-tooltip {
+  content: '';
+  top: 0;
+  width: 8px;
+  height: 100%;
+  position: absolute;
+  left: -8px;
+}
+
 mat-card-content > :first-child {
   margin-top: 20px;
 }
@@ -187,11 +196,15 @@ mat-card-content > :first-child {
   }
 
   &-fromModerator {
-    //@include card-box-shadow(var(--red));
+    @include card-box-shadow(orange);
   }
 
   &-fromOwner {
-    //@include card-box-shadow(var(--red));
+    @include card-box-shadow(var(--red));
+  }
+
+  &-moderated {
+    @include card-box-shadow(var(--red));
   }
 }
 
@@ -234,6 +247,15 @@ mat-card-content > :first-child {
   opacity: 1 !important;
   cursor: pointer;
   width: 100%;
+}
+
+.keyword-answer-icon {
+  margin-right: 10px;
+  margin-left: 10px;
+
+  + span {
+    transform: scale(1.2);
+  }
 }
 
 .keyword-icon {

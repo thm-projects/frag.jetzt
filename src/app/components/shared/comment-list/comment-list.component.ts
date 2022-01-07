@@ -192,7 +192,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
-        'comment-list',
+        'room-export',
         this.user,
         room,
         new Set<string>(this.moderatorAccountIds)
@@ -283,6 +283,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   abortSearch() {
     this.search = false;
+    this.searchString = '';
     const filter = this.roomDataFilterService.currentFilter;
     filter.currentSearch = '';
     this.roomDataFilterService.currentFilter = filter;

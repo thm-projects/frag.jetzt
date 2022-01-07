@@ -353,6 +353,9 @@ export class TagCloudDataService {
   }
 
   private rebuildTagData() {
+    if (this.roomDataFilterService.isModeration) {
+      return;
+    }
     const filteredComments = this.roomDataFilterService.currentData;
     if (!filteredComments) {
       return;

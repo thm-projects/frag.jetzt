@@ -2,6 +2,7 @@
      *ngIf="editRoom">
   <h2 class="oldtypo-h2">{{ 'room-page.description' | translate }}</h2>
   <app-write-comment [isModerator]="true"
+                     [allowEmpty]="true"
                      [placeholder]="''"
                      [onClose]="buildCloseDialogActionCallback()"
                      [onSubmit]="buildSaveActionCallback()"
