@@ -32,7 +32,7 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     private liveAnnouncer: LiveAnnouncer,
     private _r: Renderer2
   ) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngAfterContentInit(): void {
@@ -41,7 +41,6 @@ export class UserHomeComponent implements OnInit, OnDestroy, AfterContentInit {
     }, 700);
   }
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {

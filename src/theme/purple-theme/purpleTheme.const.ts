@@ -24,7 +24,7 @@ export const purple = {
   '--green': 'green',
   '--red': 'red',
   '--white': '#ffffff',
-  '--yellow': 'red',
+  '--yellow': 'gold',
   '--blue': 'blue',
   '--purple': 'purple',
   '--magenta': '#ea0a8e',
@@ -33,6 +33,10 @@ export const purple = {
   '--grey-light': 'lightgrey',
   '--black': 'black',
   '--moderator': 'lightsalmon',
+
+  '--questionwall-intro-primary':'yellow',
+  '--questionwall-intro-secondary':'#eadabf',
+  '--questionwall-intro-background':'#121212'
 
 };
 

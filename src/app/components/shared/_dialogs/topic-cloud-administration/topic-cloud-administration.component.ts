@@ -1,5 +1,5 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from '../../../../services/util/notification.service';
 import { TopicCloudConfirmDialogComponent } from '../topic-cloud-confirm-dialog/topic-cloud-confirm-dialog.component';
 import { UserRole } from '../../../../models/user-roles.enum';
@@ -8,20 +8,22 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { TopicCloudAdminService } from '../../../../services/util/topic-cloud-admin.service';
 import { ProfanityFilterService } from '../../../../services/util/profanity-filter.service';
 import {
-  TopicCloudAdminData,
+  ensureDefaultScorings,
+  KeywordOrFulltext,
+  keywordsScoringMinMax,
   Labels,
   spacyLabels,
-  KeywordOrFulltext,
-  TopicCloudAdminDataScoringObject, TopicCloudAdminDataScoringKey, keywordsScoringMinMax, ensureDefaultScorings
+  TopicCloudAdminData,
+  TopicCloudAdminDataScoringKey,
+  TopicCloudAdminDataScoringObject
 } from './TopicCloudAdminData';
 import { Comment } from '../../../../models/comment';
 import { CommentService } from '../../../../services/http/comment.service';
 import { TSMap } from 'typescript-map';
 import { RoomDataService } from '../../../../services/util/room-data.service';
 import { ProfanityFilter, Room } from '../../../../models/room';
-import { RoomService } from '../../../../services/http/room.service';
-import { WsRoomService } from '../../../../services/websockets/ws-room.service';
-import { ActivatedRoute } from '@angular/router';
+import { SessionService } from '../../../../services/util/session.service';
+import { DeviceInfoService } from '../../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-topic-cloud-administration',
@@ -47,7 +49,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   sortMode = 'alphabetic';
   searchedKeyword = undefined;
   searchMode = false;
-  deviceType: string;
   filteredKeywords: Keyword[] = [];
   showProfanityList = false;
   showBlacklistWordList = false;
@@ -70,7 +71,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   scorings: TopicCloudAdminDataScoringObject;
   scoringOptions = Object.keys(TopicCloudAdminDataScoringKey);
   scoringMinMax = keywordsScoringMinMax;
-  currentRoom: Room;
 
   keywords: Map<string, Keyword> = new Map<string, Keyword>();
   defaultScorings: TopicCloudAdminDataScoringObject;
@@ -80,23 +80,23 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   testProfanityWord: string = undefined;
   testProfanityLanguage = 'de';
   blacklistKeywords = [];
-  private subscriptionWsRoom = null;
+  private subscriptionRoom = null;
   private topicCloudAdminData: TopicCloudAdminData;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: Data,
     public cloudDialogRef: MatDialogRef<TopicCloudAdministrationComponent>,
     public confirmDialog: MatDialog,
     private notificationService: NotificationService,
     private translateService: TranslateService,
     private langService: LanguageService,
     private topicCloudAdminService: TopicCloudAdminService,
-    private roomService: RoomService,
-    private wsRoomService: WsRoomService,
+    private sessionService: SessionService,
     private commentService: CommentService,
     private roomDataService: RoomDataService,
-    private profanityFilterService: ProfanityFilterService) {
-    this.langService.langEmitter.subscribe(lang => {
+    private profanityFilterService: ProfanityFilterService,
+    public deviceInfo: DeviceInfoService,
+  ) {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
     const emptyData = {} as TopicCloudAdminData;
@@ -105,32 +105,23 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    const roomId = localStorage.getItem('roomId');
-    this.roomService.getRoom(roomId).subscribe(room => {
-      this.currentRoom = room;
+    this.sessionService.getRoomOnce().subscribe(room => {
       this.blacklistIsActive = room.blacklistIsActive;
       this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
       this.setDefaultAdminData(room);
-      this.initializeKeywords(room.id);
-      this.subscriptionWsRoom = this.wsRoomService.getRoomStream(room.id).subscribe(msg => {
-        const message = JSON.parse(msg.body);
-        room = message.payload.changes;
-        if (message.type === 'RoomPatched') {
-          this.currentRoom = room;
-          this.blacklistIsActive = room.blacklistIsActive;
-          this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
-          this.refreshKeywords();
-        }
+      this.initializeKeywords();
+      this.subscriptionRoom = this.sessionService.receiveRoomUpdates().subscribe(_room => {
+        this.blacklistIsActive = room.blacklistIsActive;
+        this.blacklist = _room.blacklist ? JSON.parse(_room.blacklist) : [];
+        this.refreshKeywords();
       });
     });
-    this.deviceType = localStorage.getItem('deviceType');
     this.profanitywordlist = this.profanityFilterService.getProfanityListFromStorage();
     this.profanitylistSubscription = this.profanityFilterService.getCustomProfanityList().subscribe(list => {
       this.profanitywordlist = list;
       this.refreshKeywords();
     });
-    this.isCreatorOrMod = this.data.userRole > UserRole.PARTICIPANT;
-    this.translateService.use(localStorage.getItem('currentLang'));
+    this.isCreatorOrMod = this.sessionService.currentRole > UserRole.PARTICIPANT;
     this.spacyLabels = spacyLabels;
     this.wantedLabels = undefined;
   }
@@ -159,7 +150,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   refreshKeywords() {
     this.blacklistKeywords = [];
     this.keywords = new Map<string, Keyword>();
-    this.roomDataService.currentRoomData.forEach(comment => {
+    this.roomDataService.getCurrentRoomData().forEach(comment => {
       this.pushInKeywords(comment);
     });
     if (this.searchMode) {
@@ -233,7 +224,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.profanitylistSubscription?.unsubscribe();
-    this.subscriptionWsRoom?.unsubscribe();
+    this.subscriptionRoom?.unsubscribe();
     this.cloudDialogRef.close();
   }
 
@@ -242,11 +233,8 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
     this.ngOnDestroy();
   }
 
-  initializeKeywords(roomId: string) {
-    this.roomDataService.getRoomData(roomId).subscribe(comments => {
-      if (comments === null) {
-        return;
-      }
+  initializeKeywords() {
+    this.roomDataService.getRoomDataOnce().subscribe(comments => {
       this.keywords = new Map<string, Keyword>();
       comments.forEach(comment => {
         this.pushInKeywords(comment);
@@ -334,10 +322,11 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       endDate: this.endDate.length ? this.endDate : null,
       scorings: this.scorings
     };
-    this.currentRoom.blacklistIsActive = this.blacklistIsActive;
-    this.currentRoom.blacklist = JSON.stringify(this.blacklist);
-    this.currentRoom.profanityFilter = profFilter;
-    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, this.currentRoom, this.data.userRole);
+    const room = this.sessionService.currentRoom;
+    room.blacklistIsActive = this.blacklistIsActive;
+    room.blacklist = JSON.stringify(this.blacklist);
+    room.profanityFilter = profFilter;
+    this.topicCloudAdminService.setAdminData(this.topicCloudAdminData, room, this.sessionService.currentRole);
   }
 
   setDefaultAdminData(room: Room) {
@@ -561,7 +550,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   addBlacklistWord() {
-    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord, this.currentRoom);
+    this.topicCloudAdminService.addWordToBlacklist(this.newBlacklistWord, this.sessionService.currentRoom);
     this.newBlacklistWord = undefined;
   }
 
@@ -570,7 +559,7 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   removeWordFromBlacklist(word: string) {
-    this.topicCloudAdminService.removeWordFromBlacklist(word, this.currentRoom);
+    this.topicCloudAdminService.removeWordFromBlacklist(word, this.sessionService.currentRoom);
   }
 
   showMessage(label: string, event: boolean) {

@@ -8,7 +8,6 @@ import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-act
   styleUrls: ['./overlay.component.scss']
 })
 export class OverlayComponent implements OnInit {
-  deviceType: string;
   confirmButtonType: DialogConfirmActionButtonType;
 
   constructor(private dialogRef: MatDialogRef<OverlayComponent>) {

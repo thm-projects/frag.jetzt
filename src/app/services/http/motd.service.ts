@@ -3,7 +3,7 @@ import { BaseHttpService } from './base-http.service';
 import { HttpClient } from '@angular/common/http';
 import { EventService } from '../util/event.service';
 import { AuthenticationService } from './authentication.service';
-import { Observable, of } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Motd } from '../../models/motd';
 import { MotdList } from '../../models/motd-list';
@@ -41,8 +41,12 @@ export class MotdService extends BaseHttpService {
       checkNew();
       setInterval(checkNew, 1_800_000);
     });
-    subscription = this.eventService.on('userLogin').subscribe(() => {
-      fence.resolveCondition(0);
+    subscription = this.authService.watchUser.subscribe(user => {
+      if (!user) {
+        fence.unresolveCondition(0);
+      } else {
+        fence.resolveCondition(0);
+      }
     });
     this.onboardingService.onFinishTour().subscribe(() => fence.resolveCondition(1));
   }
@@ -72,13 +76,12 @@ export class MotdService extends BaseHttpService {
 
   public getList(): Observable<MotdList> {
     return new Observable<MotdList>(e => {
-      this.getMOTDs(false).subscribe(o => {
-        this.getMOTDs(true).subscribe(n => {
+      forkJoin([this.getMOTDs(false), this.getMOTDs(true)])
+        .subscribe(([o, n]) => {
           this.list = new MotdList(n, o);
           this.validateNewMessage(this.list);
           e.next(this.list);
         });
-      });
     });
   }
 

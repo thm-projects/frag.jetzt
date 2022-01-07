@@ -1,3 +1,5 @@
+import { BrainstormingSession } from './brainstorming-session';
+
 export class Room {
   id: string;
   revision: string;
@@ -15,6 +17,7 @@ export class Room {
   questionsBlocked: boolean;
   profanityFilter: ProfanityFilter;
   blacklistIsActive: boolean;
+  brainstormingSession: BrainstormingSession;
   tagCloudSettings: string;
 
   constructor(
@@ -32,6 +35,7 @@ export class Room {
     questionsBlocked: boolean = false,
     profanityFilter: ProfanityFilter = ProfanityFilter.none,
     blacklistIsActive: boolean = true,
+    brainstormingSession: BrainstormingSession = null,
     tagCloudSettings: string = null
   ) {
     this.id = '';
@@ -49,6 +53,7 @@ export class Room {
     this.questionsBlocked = questionsBlocked;
     this.profanityFilter = profanityFilter;
     this.blacklistIsActive = blacklistIsActive;
+    this.brainstormingSession = brainstormingSession;
     this.tagCloudSettings = tagCloudSettings;
   }
 }

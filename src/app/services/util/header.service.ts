@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HeaderComponent } from '../../components/shared/header/header.component';
 import { TranslateService } from '@ngx-translate/core';
 import { NotificationService } from './notification.service';
@@ -9,51 +9,52 @@ import { ArsComposeHostDirective } from '../../../../projects/ars/src/lib/compos
 })
 export class HeaderService {
 
-  private userActivity:number;
-  private userActivityListener:((v:number)=>void)[]=[];
-  private userActivityToggle:boolean;
-  private userActivityToggleListener:((v:boolean)=>void)[]=[];
-  private headerComponent:()=>HeaderComponent;
+  private userActivity: string;
+  private userActivityListener: ((v: string) => void)[] = [];
+  private userActivityToggle: boolean;
+  private userActivityToggleListener: ((v: boolean) => void)[] = [];
+  private headerComponent: () => HeaderComponent;
 
-  constructor() {}
-
-  public initHeader(headerComponent:()=>HeaderComponent){
-    this.headerComponent=headerComponent;
+  constructor() {
   }
 
-  public setCurrentUserActivity(e:number){
-    if(this.userActivity!=e){
-      this.userActivity=e;
-      if(this.userActivityToggle){
-        this.userActivityListener.forEach(f=>f(this.userActivity));
-      }
+  public initHeader(headerComponent: () => HeaderComponent) {
+    this.headerComponent = headerComponent;
+  }
+
+  public setCurrentUserActivity(e: string) {
+    if (this.userActivity === e) {
+      return;
     }
+    this.userActivity = e;
+    this.userActivityListener.forEach(f => f(this.userActivity));
   }
 
-  public toggleCurrentUserActivity(e:boolean){
-    if(this.userActivityToggle!=e){
-      this.userActivityToggle=e;
-      this.userActivityToggleListener.forEach(f=>f(this.userActivityToggle));
+  public toggleCurrentUserActivity(e: boolean) {
+    if (this.userActivityToggle === e) {
+      return;
     }
+    this.userActivityToggle = e;
+    this.userActivityToggleListener.forEach(f => f(this.userActivityToggle));
   }
 
-  public onUserChange(f:(v:number)=>void){
+  public onUserChange(f: (v: string) => void) {
     this.userActivityListener.push(f);
   }
 
-  public onActivityChange(f:(v:boolean)=>void){
+  public onActivityChange(f: (v: boolean) => void) {
     this.userActivityToggleListener.push(f);
   }
 
-  public getTranslate():TranslateService{
+  public getTranslate(): TranslateService {
     return this.headerComponent().translationService;
   }
 
-  public getNotificationService():NotificationService{
+  public getNotificationService(): NotificationService {
     return this.headerComponent().notificationService;
   }
 
-  public getHost():ArsComposeHostDirective{
+  public getHost(): ArsComposeHostDirective {
     return this.headerComponent().host;
   }
 

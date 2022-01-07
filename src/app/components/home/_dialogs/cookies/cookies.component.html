@@ -17,8 +17,8 @@
 
   <mat-dialog-content tabindex="-1">
 
-    <app-cookies-de *ngIf="currentLang=='de'"></app-cookies-de>
-    <app-cookies-en *ngIf="currentLang=='en'"></app-cookies-en>
+    <app-cookies-de *ngIf="langService.currentLanguage() === 'de'"></app-cookies-de>
+    <app-cookies-en *ngIf="langService.currentLanguage() === 'en'"></app-cookies-en>
 
   </mat-dialog-content>
 

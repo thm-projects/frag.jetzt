@@ -1,8 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { DataProtectionComponent } from '../data-protection/data-protection.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DialogConfirmActionButtonType } from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
+import {
+  DialogConfirmActionButtonType
+} from '../../../shared/dialog/dialog-action-buttons/dialog-action-buttons.component';
 import { EventService } from '../../../../services/util/event.service';
+import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-cookies',
@@ -13,22 +16,18 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   @ViewChild('header')
   dialogTitle: ElementRef;
-
-  deviceType: string;
-  currentLang: string;
-
   confirmButtonType: DialogConfirmActionButtonType = DialogConfirmActionButtonType.Primary;
 
-  constructor(private dialog: MatDialog,
-              private dialogRef: MatDialogRef<CookiesComponent>,
-              private ref: ElementRef<HTMLElement>,
-              private eventService: EventService) {
+  constructor(
+    private dialog: MatDialog,
+    private dialogRef: MatDialogRef<CookiesComponent>,
+    private ref: ElementRef<HTMLElement>,
+    private eventService: EventService,
+    public langService: LanguageService,
+  ) {
   }
 
   ngOnInit() {
-
-    this.currentLang = localStorage.getItem('currentLang');
-
     // not really the nicest way but should do its job until a better or native solution was found
     setTimeout(() => document.getElementById('cookie-header').focus(), 400);
   }
@@ -41,7 +40,6 @@ export class CookiesComponent implements OnInit, AfterViewInit {
 
   acceptCookies() {
     localStorage.setItem('cookieAccepted', 'true');
-    localStorage.setItem('dataProtectionConsent', 'true');
     this.eventService.broadcast('dataProtectionConsentUpdate', true);
     this.dialogRef.close(true);
     setTimeout(() => {
@@ -56,10 +54,9 @@ export class CookiesComponent implements OnInit, AfterViewInit {
   }
 
   openDataProtection() {
-    const dialogRef = this.dialog.open(DataProtectionComponent, {
+    this.dialog.open(DataProtectionComponent, {
       width: '90%'
     });
-    dialogRef.componentInstance.deviceType = this.deviceType;
   }
 
   /**

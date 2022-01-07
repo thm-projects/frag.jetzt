@@ -36,14 +36,13 @@ export class DeepLDialogComponent implements OnInit, AfterViewInit {
     private translateService: TranslateService,
     private deeplService: DeepLService,
     private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
     this.supportsFormality = DeepLService.supportsFormality(this.data.target);
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.normalValue = {
       body: this.data.body,
       text: this.data.text,

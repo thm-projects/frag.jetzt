@@ -3,13 +3,14 @@ import { RxStomp } from '@stomp/rx-stomp';
 import { AuthenticationService } from '../http/authentication.service';
 import { User } from '../../models/user';
 import { ARSRxStompConfig } from '../../rx-stomp.config';
-import { Observable } from 'rxjs';
-import { IMessage, StompHeaders } from '@stomp/stompjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { IMessage } from '@stomp/stompjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WsConnectorService {
+  public readonly connected$ = new BehaviorSubject<boolean>(false);
   private client: RxStomp;
 
   private headers = {
@@ -21,6 +22,12 @@ export class WsConnectorService {
     private authService: AuthenticationService
   ) {
     this.client = new RxStomp();
+    this.client.connectionState$.subscribe(_ => {
+      const connected = !!this.client.stompClient.connected;
+      if (this.connected$.value !== connected) {
+        this.connected$.next(connected);
+      }
+    });
     const userSubject = authService.getUserAsSubject();
     userSubject.subscribe((user: User) => {
       if (this.client.connected) {
@@ -43,8 +50,8 @@ export class WsConnectorService {
   public send(destination: string, body: string): void {
     if (this.client.connected) {
       this.client.publish({
-        destination: destination,
-        body: body,
+        destination,
+        body,
         headers: this.headers
       });
     }

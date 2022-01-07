@@ -43,10 +43,6 @@ p {
   background-color: var(--on-surface)!important;
 }
 
-::ng-deep .mat-form-field-ripple {
-  background-color: var(--on-surface)!important;
-}
-
 mat-form-field {
   color: var(--on-surface);
 }
@@ -88,18 +84,10 @@ h3 {
   left: -10000px;
 }
 
-#focus_button_user:focus {
-  background: var(--on-surface);
-  color: var(--background);
-}
-
-#focus_button_guest:focus {
-  background: var(--on-surface);
-  color: var(--background);
-}
-
 .or {
   height: 30px;
+  font-size: small;
+  margin-top: 30px;
 }
 
 ::ng-deep .mat-form-field .mat-form-field-infix {

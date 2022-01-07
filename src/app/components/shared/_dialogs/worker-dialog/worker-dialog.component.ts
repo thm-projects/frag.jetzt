@@ -31,7 +31,7 @@ export class WorkerDialogComponent implements OnInit {
               private deepLService: DeepLService,
               private translateService: TranslateService,
               private roomDataService: RoomDataService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   static isWorkingOnRoom(roomId: string) {
@@ -63,7 +63,7 @@ export class WorkerDialogComponent implements OnInit {
     if (this.queuedRooms.has(room.id)) {
       return false;
     }
-    let comments = this.dialogRef.componentInstance.roomDataService.currentRoomData;
+    let comments = this.dialogRef.componentInstance.roomDataService.getCurrentRoomData(false);
     if (onlyFailed) {
       comments = comments.filter(c => {
         const isKeywordOkay = c.keywordsFromSpacy && c.keywordsFromSpacy.length > 0;
@@ -88,7 +88,6 @@ export class WorkerDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   checkTasks(event: BeforeUnloadEvent) {

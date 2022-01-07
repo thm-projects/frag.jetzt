@@ -1,0 +1,24 @@
+<h3>{{'comment-page.tag-title' | translate}}</h3>
+
+<mat-dialog-content>
+  <button mat-button
+          *ngIf="tags?.length"
+          (click)="tagSelect.open()"
+          matTooltip="{{ 'spacy-dialog.tag-button-hint' | translate }}"
+          matTooltipShowDelay="750">
+    <mat-icon class="btn-icon" svgIcon="comment_tag"></mat-icon>
+    <label for="tagSelect" *ngIf="!selectedTag"><em>{{'comment-page.tag' | translate}}</em></label>
+    <label for="tagSelect" *ngIf="selectedTag">{{selectedTag}}</label>
+    <mat-select class="select-list" id="tagSelect" #tagSelect [(ngModel)]="selectedTag">
+      <mat-option [value]="null"><em>{{'comment-page.tag-reset' | translate}}</em></mat-option>
+      <mat-option *ngFor="let tag of tags" [value]="tag">{{tag}}</mat-option>
+    </mat-select>
+  </button>
+</mat-dialog-content>
+
+<app-dialog-action-buttons
+  buttonsLabelSection="comment-page"
+  confirmButtonLabel="update"
+  [cancelButtonClickAction]="buildCloseDialogActionCallback()"
+  [confirmButtonClickAction]="buildSaveActionCallback()"
+></app-dialog-action-buttons>

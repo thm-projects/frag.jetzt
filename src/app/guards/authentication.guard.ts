@@ -1,35 +1,47 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { AuthenticationService } from '../services/http/authentication.service';
-
-
 
 import { NotificationService } from '../services/util/notification.service';
 import { UserRole } from '../models/user-roles.enum';
-import { User } from '../models/user';
+import { SessionService } from '../services/util/session.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  constructor(private authenticationService: AuthenticationService,
-              private notificationService: NotificationService,
-              private router: Router) {
+
+  constructor(
+    private authenticationService: AuthenticationService,
+    private notificationService: NotificationService,
+    private router: Router,
+    private sessionService: SessionService,
+  ) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot,
-              state: RouterStateSnapshot): boolean {
-    // Get roles having access to this route
-    // undefined if every logged in user should have access regardless of its role
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const requiredRoles = route.data['roles'] as Array<UserRole>;
-    // Allow access when user is logged in AND
-    // the route doesn't require a specific role OR
-    // the user's role is one of the required roles
-    if (this.authenticationService.hasAccess(route.params.shortId, requiredRoles[0])) {
-      return true;
+    const url = decodeURI(state.url);
+    let wasAllowed = null;
+    wasAllowed = this.sessionService.validateNewRoute(route.params.shortId, requiredRoles[0], allowed => {
+      if (allowed === wasAllowed) {
+        return;
+      }
+      if (!allowed) {
+        this.onNotAllowed();
+        return;
+      }
+      if (wasAllowed !== null) {
+        this.router.navigate([url]);
+      }
+    });
+    if (!wasAllowed) {
+      this.onNotAllowed();
     }
+    return wasAllowed;
+  }
 
+  private onNotAllowed() {
     this.notificationService.show(`You're not authorized to view this page.`);
     // TODO: redirect to error page
     this.router.navigate(['/']);
-    return false;
   }
 }

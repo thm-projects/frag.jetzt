@@ -28,7 +28,11 @@ export const blue = {
   '--grey': 'slategrey',
   '--grey-light': '#EEEEEE',
   '--black': '#212121',
-  '--moderator': 'darkred'
+  '--moderator': 'darkred',
+
+  '--questionwall-intro-primary':'red',
+  '--questionwall-intro-secondary':'red',
+  '--questionwall-intro-background':'red'
 
 };
 

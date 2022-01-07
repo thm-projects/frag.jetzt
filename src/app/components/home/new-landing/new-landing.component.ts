@@ -16,11 +16,10 @@ export class NewLandingComponent implements OnInit {
               public dialog: MatDialog,
               private translateService: TranslateService,
               protected langService: LanguageService) {
-    langService.langEmitter.subscribe(lang => translateService.use(lang));
+    langService.getLanguage().subscribe(lang => translateService.use(lang));
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
   }
 
   openCreateRoomDialog(): void {

@@ -8,6 +8,7 @@ import { LanguageService } from '../../../../services/util/language.service';
 import { Moderator } from '../../../../models/moderator';
 import { ModeratorDeleteComponent } from '../moderator-delete/moderator-delete.component';
 import { FormControl, Validators } from '@angular/forms';
+import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 
 @Component({
   selector: 'app-moderators',
@@ -29,11 +30,18 @@ export class ModeratorsComponent implements OnInit {
     protected moderatorService: ModeratorService,
     protected langService: LanguageService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      langService.langEmitter.subscribe(lang => translationService.use(lang));
+      langService.getLanguage().subscribe(lang => translationService.use(lang));
   }
 
   ngOnInit() {
     this.getModerators();
+  }
+
+  openHelp() {
+    const ref = this.dialog.open(ExplanationDialogComponent, {
+      autoFocus: false
+    });
+    ref.componentInstance.translateKey = 'explanation.add-moderators';
   }
 
   getModerators() {

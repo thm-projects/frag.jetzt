@@ -4,7 +4,7 @@
   <mat-form-field class="input-block">
     <input appAccessibilityEscapedInput
            matInput type="email" #userName [formControl]="usernameFormControl"
-           [errorStateMatcher]="matcher" aria-labelledby="register-email-description"/>
+           [errorStateMatcher]="matcher" aria-labelledby="register-email-description">
     <mat-placeholder class="placeholder">{{ 'register.email' | translate }}</mat-placeholder>
     <mat-error *ngIf="usernameFormControl.hasError('email') && !usernameFormControl.hasError('required')">
       {{ 'register.email-invalid' | translate }}
@@ -17,7 +17,7 @@
   <mat-form-field class="input-block">
     <input appAccessibilityEscapedInput
            matInput type="email" #userName2 [formControl]="username2FormControl"
-           [errorStateMatcher]="matcher" aria-labelledby="register-email-description-repeat"/>
+           [errorStateMatcher]="matcher" aria-labelledby="register-email-description-repeat">
     <mat-placeholder class="placeholder">{{ 'register.email-verify' | translate }}</mat-placeholder>
     <mat-error *ngIf="username2FormControl.hasError('emailIsEqual') && !username2FormControl.hasError('required')">
       {{ 'register.email-unmatch' | translate }}

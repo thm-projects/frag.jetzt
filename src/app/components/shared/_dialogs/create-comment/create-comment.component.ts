@@ -13,8 +13,11 @@ import { DeepLService } from '../../../../services/http/deep-l.service';
 import { SpacyService } from '../../../../services/http/spacy.service';
 import { UserRole } from '../../../../models/user-roles.enum';
 import { ViewCommentDataComponent } from '../../view-comment-data/view-comment-data.component';
-import { BrainstormingSettings } from '../topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { CURRENT_SUPPORTED_LANGUAGES } from '../../../../services/http/spacy.interface';
+import { RoomDataService } from '../../../../services/util/room-data.service';
+import { BrainstormingSession } from '../../../../models/brainstorming-session';
+import { LanguageService } from '../../../../services/util/language.service';
+import { SessionService } from '../../../../services/util/session.service';
 
 @Component({
   selector: 'app-submit-comment',
@@ -28,20 +31,25 @@ export class CreateCommentComponent implements OnInit {
   @Input() userRole: UserRole;
   @Input() roomId: string;
   @Input() tags: string[];
-  @Input() brainstormingData: BrainstormingSettings;
+  @Input() brainstormingData: BrainstormingSession;
   isSendingToSpacy = false;
   isModerator = false;
 
   constructor(
     private notification: NotificationService,
     public dialogRef: MatDialogRef<CreateCommentComponent>,
+    private roomDataService: RoomDataService,
     private translateService: TranslateService,
     public dialog: MatDialog,
     public languagetoolService: LanguagetoolService,
     private deeplService: DeepLService,
     private spacyService: SpacyService,
     public eventService: EventService,
-    @Inject(MAT_DIALOG_DATA) public data: any) {
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private languageService: LanguageService,
+    private sessionService: SessionService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => this.translateService.use(lang));
   }
 
   static getWords(text: string): string[] {
@@ -53,7 +61,6 @@ export class CreateCommentComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.translateService.use(localStorage.getItem('currentLang'));
     this.isModerator = this.userRole > 0;
   }
 
@@ -71,7 +78,7 @@ export class CreateCommentComponent implements OnInit {
 
   createComment(body: string, tag: string, name: string, forward = false) {
     const comment = new Comment();
-    comment.roomId = localStorage.getItem(`roomId`);
+    comment.roomId = this.sessionService.currentRoom.id;
     comment.body = CreateCommentKeywords.transformURLtoQuill(body, this.isModerator);
     comment.creatorId = this.user.id;
     comment.createdFromLecturer = this.userRole > 0;
@@ -90,44 +97,50 @@ export class CreateCommentComponent implements OnInit {
     const text = ViewCommentDataComponent.getTextFromData(comment.body);
     const term = CreateCommentComponent.getTerm(text);
     const send = (termText: string) => {
+      this.isSendingToSpacy = false;
+      if (this.wasWritten(termText)) {
+        this.translateService.get('comment-page.error-brainstorm-duplicate')
+          .subscribe(msg => this.notification.show(msg));
+        return;
+      }
       comment.keywordsFromSpacy = [{
         text: termText,
         dep: ['ROOT']
       }];
-      this.isSendingToSpacy = false;
       this.dialogRef.close(comment);
     };
     if (CreateCommentComponent.getWords(term).length > 1) {
       send(term);
-    } else {
-      const selectedLanguage = this.commentComponent.selectedLang;
-      this.languagetoolService.checkSpellings(term, selectedLanguage)
-        .subscribe(result => {
-          if (selectedLanguage === 'auto' && result.language.detectedLanguage.confidence < 0.5) {
-            send(term);
-            return;
-          }
-          const selectedLangExtend =
-            selectedLanguage[2] === '-' ? selectedLanguage.substr(0, 2) : selectedLanguage;
-          let finalLanguage: CommentLanguage;
-          const commentModel = this.languagetoolService.mapLanguageToSpacyModel(result.language.code as Language);
-          if (selectedLanguage === 'auto') {
-            finalLanguage = Comment.mapModelToLanguage(commentModel);
-          } else if (CommentLanguage[selectedLangExtend]) {
-            finalLanguage = CommentLanguage[selectedLangExtend];
-          }
-          comment.language = finalLanguage;
-          const isResultLangSupported = this.languagetoolService.isSupportedLanguage(result.language.code as Language);
-          if (!isResultLangSupported || !CURRENT_SUPPORTED_LANGUAGES.includes(commentModel)) {
-            send(term);
-          }
-          this.spacyService.getKeywords(term, commentModel, true)
-            .subscribe((keywords) => {
-                send(keywords.map(kw => kw.text).join(' '));
-              },
-              () => send(term));
-        });
+      return;
     }
+    const selectedLanguage = this.commentComponent.selectedLang;
+    this.languagetoolService.checkSpellings(term, selectedLanguage)
+      .subscribe(result => {
+        if (selectedLanguage === 'auto' && result.language.detectedLanguage.confidence < 0.5) {
+          send(term);
+          return;
+        }
+        const selectedLangExtend =
+          selectedLanguage[2] === '-' ? selectedLanguage.substr(0, 2) : selectedLanguage;
+        let finalLanguage: CommentLanguage;
+        const commentModel = this.languagetoolService.mapLanguageToSpacyModel(result.language.code as Language);
+        if (selectedLanguage === 'auto') {
+          finalLanguage = Comment.mapModelToLanguage(commentModel);
+        } else if (CommentLanguage[selectedLangExtend]) {
+          finalLanguage = CommentLanguage[selectedLangExtend];
+        }
+        comment.language = finalLanguage;
+        const isResultLangSupported = this.languagetoolService.isSupportedLanguage(result.language.code as Language);
+        if (!isResultLangSupported || !CURRENT_SUPPORTED_LANGUAGES.includes(commentModel)) {
+          send(term);
+          return;
+        }
+        this.spacyService.getKeywords(term, commentModel, true)
+          .subscribe((keywords) => {
+              send(keywords.map(kw => kw.text).join(' '));
+            },
+            () => send(term));
+      });
   }
 
   openSpacyDialog(comment: Comment, forward: boolean, brainstorming: boolean): void {
@@ -156,5 +169,16 @@ export class CreateCommentComponent implements OnInit {
           });
         }
       });
+  }
+
+  private wasWritten(term: string): boolean {
+    if (!this.roomDataService.getCurrentRoomData(false)) {
+      return true;
+    }
+    const areEqual = (str1: string, str2: string): boolean =>
+      str1.localeCompare(str2, undefined, { sensitivity: 'base' }) === 0;
+    return this.roomDataService.getCurrentRoomData(false).some(comment => comment.brainstormingQuestion &&
+      comment.creatorId === this.user?.id &&
+      comment.keywordsFromSpacy?.some(kw => areEqual(kw.text, term)));
   }
 }

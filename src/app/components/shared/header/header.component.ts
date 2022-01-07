@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { NotificationService } from '../../../services/util/notification.service';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { User } from '../../../models/user';
 import { UserRole } from '../../../models/user-roles.enum';
 import { Location } from '@angular/common';
@@ -23,8 +23,7 @@ import { MotdService } from '../../../services/http/motd.service';
 import { TopicCloudFilterComponent } from '../_dialogs/topic-cloud-filter/topic-cloud-filter.component';
 import { RoomService } from '../../../services/http/room.service';
 import { Room } from '../../../models/room';
-import { TagCloudMetaData } from '../../../services/util/tag-cloud-data.service';
-import { WsRoomService } from '../../../services/websockets/ws-room.service';
+import { TagCloudDataService } from '../../../services/util/tag-cloud-data.service';
 import { TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { OnboardingService } from '../../../services/util/onboarding.service';
@@ -34,7 +33,8 @@ import {
   TopicCloudBrainstormingComponent
 } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { SessionService } from '../../../services/util/session.service';
-import { TagCloudSettings } from '../../../utils/TagCloudSettings';
+import { LanguageService } from '../../../services/util/language.service';
+import { DeviceInfoService } from '../../../services/util/device-info.service';
 
 @Component({
   selector: 'app-header',
@@ -46,9 +46,6 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   user: User;
   userRole: UserRole;
   cTime: string;
-  shortId: string;
-  isSafari = 'false';
-  moderationEnabled: boolean;
   motdState = false;
   room: Room;
   commentsCountQuestions = 0;
@@ -56,32 +53,33 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   commentsCountKeywords = 0;
   isAdminConfigEnabled = false;
   toggleUserActivity = false;
-  isBrainstorming = false;
-  userActivity = 0;
-  deviceType = localStorage.getItem('deviceType');
+  userActivity = '?';
   isInRouteWithRoles = false;
-  private _subscriptionRoomService = null;
 
-  constructor(public location: Location,
-              private authenticationService: AuthenticationService,
-              public notificationService: NotificationService,
-              public router: Router,
-              public translationService: TranslateService,
-              public dialog: MatDialog,
-              private userService: UserService,
-              public eventService: EventService,
-              private bonusTokenService: BonusTokenService,
-              private _r: Renderer2,
-              private motdService: MotdService,
-              private confirmDialog: MatDialog,
-              private roomService: RoomService,
-              private wsRoomService: WsRoomService,
-              private topicCloudAdminService: TopicCloudAdminService,
-              private headerService: HeaderService,
-              private onboardingService: OnboardingService,
-              public themeService: ThemeService,
-              private sessionService: SessionService,
+  constructor(
+    public location: Location,
+    private authenticationService: AuthenticationService,
+    public notificationService: NotificationService,
+    public router: Router,
+    public translationService: TranslateService,
+    public dialog: MatDialog,
+    private userService: UserService,
+    public eventService: EventService,
+    private bonusTokenService: BonusTokenService,
+    private _r: Renderer2,
+    private motdService: MotdService,
+    private confirmDialog: MatDialog,
+    private roomService: RoomService,
+    private topicCloudAdminService: TopicCloudAdminService,
+    private headerService: HeaderService,
+    private onboardingService: OnboardingService,
+    public themeService: ThemeService,
+    private sessionService: SessionService,
+    private tagCloudDataService: TagCloudDataService,
+    private languageService: LanguageService,
+    public deviceInfo: DeviceInfoService,
   ) {
+    this.languageService.getLanguage().subscribe(lang => this.translationService.use(lang));
   }
 
   ngAfterViewInit() {
@@ -96,35 +94,14 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.topicCloudAdminService.getAdminData.subscribe(data => {
       this.isAdminConfigEnabled = !TopicCloudAdminService.isTopicRequirementDisabled(data);
     });
-    this.eventService.on<TagCloudMetaData>('tagCloudHeaderDataOverview').subscribe(data => {
+    this.tagCloudDataService.getMetaData().subscribe(data => {
+      if (!data) {
+        return;
+      }
       this.commentsCountQuestions = data.commentCount;
       this.commentsCountUsers = data.userCount;
       this.commentsCountKeywords = data.tagCount;
     });
-    if (localStorage.getItem('loggedin') !== null && localStorage.getItem('loggedin') === 'true') {
-      this.authenticationService.refreshLogin();
-    }
-    const userAgent = navigator.userAgent;
-    // Check if mobile device
-    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-      // Check if IOS device
-      if (/iPhone|iPad|iPod/.test(userAgent)) {
-        this.isSafari = 'true';
-      }
-      this.deviceType = 'mobile';
-    } else {
-      // Check if Mac
-      if (/Macintosh|MacIntel|MacPPC|Mac68k/.test(userAgent)) {
-        // Check if Safari browser
-        if (userAgent.indexOf('Safari') !== -1 && userAgent.indexOf('Chrome') === -1) {
-          this.isSafari = 'true';
-        }
-      }
-      this.deviceType = 'desktop';
-    }
-    localStorage.setItem('isSafari', this.isSafari);
-    localStorage.setItem('deviceType', this.deviceType);
-    this.translationService.setDefaultLang(localStorage.getItem('currentLang'));
     this.authenticationService.watchUser.subscribe(newUser => this.user = newUser);
 
     let time = new Date();
@@ -134,42 +111,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       this.getTime(time);
     }, 1000);
 
-    this.router.events.subscribe(val => {
-      /* the router will fire multiple events */
-      /* we only want to react if it's the final active route */
-      if (val instanceof NavigationEnd) {
-        /* segments gets all parts of the url */
-        const segments = this.router.parseUrl(this.router.url).root.children.primary.segments;
-        this.shortId = '';
-        this.room = null;
-        if (this._subscriptionRoomService) {
-          this._subscriptionRoomService.unsubscribe();
-          this._subscriptionRoomService = null;
-        }
-
-        if (segments && segments.length > 2) {
-          if (!segments[2].path.includes('%')) {
-            this.shortId = segments[2].path;
-            localStorage.setItem('shortId', this.shortId);
-            this.roomService.getRoomByShortId(this.shortId).subscribe(room => {
-              this.room = room;
-              this.isBrainstorming = !!TagCloudSettings.getFromRoom(room)?.brainstorming?.active;
-              this.moderationEnabled = !room.directSend;
-              this._subscriptionRoomService = this.wsRoomService.getRoomStream(this.room.id).subscribe(msg => {
-                const message = JSON.parse(msg.body);
-                if (message.type === 'RoomPatched') {
-                  this.room.questionsBlocked = message.payload.changes.questionsBlocked;
-                  this.moderationEnabled = !message.payload.changes.directSend;
-                  this.isBrainstorming = !!TagCloudSettings.getFromRoom(message.payload.changes)?.brainstorming?.active;
-                }
-              });
-            });
-          }
-        }
-      }
+    this.sessionService.getRoom().subscribe(room => {
+      this.room = room;
     });
-    this.moderationEnabled = localStorage.getItem('moderationEnabled') === 'true';
-
 
     this._r.listen(document, 'keyup', (event) => {
       if (
@@ -209,28 +153,27 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   }
 
   logout() {
-    // ToDo: Fix this madness.
-    if (this.user.authProvider === 'ARSNOVA_GUEST') {
-      this.bonusTokenService.getTokensByUserId(this.user.id).subscribe(list => {
-        if (list && list.length > 0) {
-          const dialogRef = this.dialog.open(RemindOfTokensComponent, {
-            width: '600px'
-          });
-          dialogRef.afterClosed()
-            .subscribe(result => {
-              if (result === 'abort') {
-                this.openUserBonusTokenDialog();
-              } else if (result === 'logout') {
-                this.logoutUser();
-              }
-            });
-        } else {
-          this.logoutUser();
-        }
-      });
-    } else {
+    if (!this.user.isGuest) {
       this.logoutUser();
+      return;
     }
+    this.bonusTokenService.getTokensByUserId(this.user.id).subscribe(list => {
+      if (!list || list.length < 1) {
+        this.logoutUser();
+        return;
+      }
+      const dialogRef = this.dialog.open(RemindOfTokensComponent, {
+        width: '600px'
+      });
+      dialogRef.afterClosed()
+        .subscribe(result => {
+          if (result === 'abort') {
+            this.openUserBonusTokenDialog();
+          } else if (result === 'logout') {
+            this.logoutUser();
+          }
+        });
+    });
   }
 
   logoutUser() {
@@ -238,7 +181,9 @@ export class HeaderComponent implements OnInit, AfterViewInit {
     this.translationService.get('header.logged-out').subscribe(message => {
       this.notificationService.show(message);
     });
-    this.navToHome();
+    if (SessionService.needsUser(this.router)) {
+      this.navToHome();
+    }
   }
 
   goBack() {
@@ -308,7 +253,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   /*QR*/
 
   public getURL(): string {
-    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.shortId}`;
+    return `${window.location.protocol}//${window.location.hostname}/participant/room/${this.room?.shortId}`;
   }
 
   public showQRDialog() {
@@ -317,7 +262,7 @@ export class HeaderComponent implements OnInit, AfterViewInit {
       panelClass: 'screenDialog'
     });
     dialogRef.componentInstance.data = this.getURL();
-    dialogRef.componentInstance.key = this.shortId;
+    dialogRef.componentInstance.key = this.room?.shortId;
     dialogRef.afterClosed().subscribe(res => {
       Rescale.exitFullscreen();
     });

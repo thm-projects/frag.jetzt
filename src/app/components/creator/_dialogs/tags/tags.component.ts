@@ -22,7 +22,7 @@ export class TagsComponent {
   constructor(public dialogRef: MatDialogRef<RoomCreatorPageComponent>,
               public translationService: TranslateService,
               protected langService: LanguageService) {
-    langService.langEmitter.subscribe(lang => translationService.use(lang));
+    langService.getLanguage().subscribe(lang => translationService.use(lang));
     this._closeSubscription = this.dialogRef.beforeClosed().subscribe(() => this.closeDialog());
   }
 

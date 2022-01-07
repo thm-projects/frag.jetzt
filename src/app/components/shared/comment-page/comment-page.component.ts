@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy, Renderer2, AfterContentInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { User } from '../../../models/user';
 import { NotificationService } from '../../../services/util/notification.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
@@ -8,8 +7,6 @@ import { EventService } from '../../../services/util/event.service';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
 import { TranslateService } from '@ngx-translate/core';
-import { Rescale } from '../../../models/rescale';
-import { UserRole } from '../../../models/user-roles.enum';
 
 @Component({
   selector: 'app-comment-page',
@@ -17,8 +14,6 @@ import { UserRole } from '../../../models/user-roles.enum';
   styleUrls: ['./comment-page.component.scss']
 })
 export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit {
-  roomId: string;
-  user: User;
 
   listenerFn: () => void;
 
@@ -36,7 +31,6 @@ export class CommentPageComponent implements OnInit, OnDestroy, AfterContentInit
     }, 800);
   }
   ngOnInit(): void {
-    this.roomId = localStorage.getItem('roomId');
     this.listenerFn = this._r.listen(document, 'keyup', (event) => {
       if (KeyboardUtils.isKeyEvent(event, KeyboardKey.Digit1) === true && this.eventService.focusOnInput === false) {
         if (document.getElementById('add_comment-button')) {

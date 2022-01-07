@@ -27,6 +27,7 @@ import { ProfanitySettingsComponent } from './_dialogs/profanity-settings/profan
 import { RoomDescriptionSettingsComponent } from './_dialogs/room-description-settings/room-description-settings.component';
 import { RoomNameSettingsComponent } from './_dialogs/room-name-settings/room-name-settings.component';
 import { QRCodeModule } from 'angularx-qrcode';
+import { EditCommentTagComponent } from './_dialogs/edit-comment-tag/edit-comment-tag.component';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(http, '../../assets/i18n/creator/', '.json');
@@ -67,7 +68,8 @@ export const HttpLoaderFactory = (http: HttpClient) => new TranslateHttpLoader(h
     QuestionWallComponent,
     ProfanitySettingsComponent,
     RoomDescriptionSettingsComponent,
-    RoomNameSettingsComponent
+    RoomNameSettingsComponent,
+    EditCommentTagComponent
   ],
   exports: []
 })

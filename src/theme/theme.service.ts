@@ -7,8 +7,9 @@ import { Theme } from './Theme';
   providedIn: 'root'
 })
 export class ThemeService {
-  private activeThem = new BehaviorSubject(localStorage.getItem('theme'));
+  private activeThem = new BehaviorSubject<string>(null);
   private themes: Theme[] = [];
+  private _currentTheme: Theme = null;
 
   constructor() {
     const isMobile = window.matchMedia && window.matchMedia('(max-width: 499px)').matches;
@@ -51,7 +52,7 @@ export class ThemeService {
   }
 
   get currentTheme(): Theme {
-    return this.getThemeByKey(this.currentThemeName);
+    return this._currentTheme;
   }
 
   public getTheme() {
@@ -59,8 +60,11 @@ export class ThemeService {
   }
 
   public activate(name) {
+    this._currentTheme = this.getThemeByKey(name);
+    if (!this._currentTheme) {
+      throw new Error('Theme "' + name + '" does not exist!');
+    }
     this.activeThem.next(name);
-    localStorage.setItem('theme', name);
   }
 
   public getThemes(): Theme[] {

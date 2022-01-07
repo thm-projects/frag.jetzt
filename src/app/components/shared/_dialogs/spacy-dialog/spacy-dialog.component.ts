@@ -25,7 +25,6 @@ export class SpacyDialogComponent implements OnInit {
 
   comment: Comment;
   keywords: Keyword[] = [];
-  keywordsOriginal: SpacyKeyword[] = [];
   hasKeywordsFromSpacy = false;
   langSupported: boolean;
   manualKeywords = '';
@@ -34,15 +33,16 @@ export class SpacyDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<SpacyDialogComponent>,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data) {
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {
   }
 
   ngOnInit(): void {
     this.comment = this.data.comment;
     this.langSupported = this.data.result !== KeywordsResultType.languageNotSupported;
-    this.hasKeywordsFromSpacy = this.data.result === KeywordsResultType.successful &&
-      this.comment.keywordsFromSpacy.length > 0;
-    this.keywords = this.comment.keywordsFromSpacy.map(keyword => ({
+    const source = this.data?.isAnswer ? this.comment.answerFulltextKeywords : this.comment.keywordsFromSpacy;
+    this.hasKeywordsFromSpacy = this.data.result === KeywordsResultType.successful && source.length > 0;
+    this.keywords = source.map(keyword => ({
       word: keyword.text,
       dep: [...keyword.dep],
       completed: false,
@@ -58,11 +58,15 @@ export class SpacyDialogComponent implements OnInit {
 
   buildCreateCommentActionCallback() {
     return () => {
-      this.comment.keywordsFromQuestioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => ({
+      const questioner = this.keywords.filter(kw => kw.selected && kw.word.length).map(kw => ({
         text: kw.word,
         dep: kw.dep
       } as SpacyKeyword));
-      this.comment.keywordsFromSpacy = this.keywordsOriginal;
+      if (this.data?.isAnswer) {
+        this.comment.answerQuestionerKeywords = questioner;
+      } else {
+        this.comment.keywordsFromQuestioner = questioner;
+      }
       this.dialogRef.close(this.comment);
     };
   }

@@ -9,7 +9,7 @@ import { NotificationService } from '../../../../services/util/notification.serv
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { debounceTime, delay } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 import { isNumeric } from 'rxjs/internal-compatibility';
 import { ExplanationDialogComponent } from '../../../shared/_dialogs/explanation-dialog/explanation-dialog.component';
 import { copyCSVString, exportBonusArchive } from '../../../../utils/ImportExportMethods';
@@ -18,7 +18,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Sort } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { AuthenticationService } from '../../../../services/http/authentication.service';
-import { UserRole } from '../../../../../../src/app/models/user-roles.enum';
+import { UserRole } from '../../../../models/user-roles.enum';
+import { LanguageService } from '../../../../services/util/language.service';
 
 @Component({
   selector: 'app-bonus-token',
@@ -41,19 +42,26 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     active: 'name'
   };
 
-  private selection = new SelectionModel<String>(false, []);
+  private selection = new SelectionModel<string>(false, []);
   private modelChanged: Subject<string> = new Subject<string>();
   private subscription: Subscription;
   private debounceTime = 800;
 
-  constructor(private bonusTokenService: BonusTokenService,
-              public dialog: MatDialog,
-              protected router: Router,
-              private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
-              private commentService: CommentService,
-              private translateService: TranslateService,
-              private notificationService: NotificationService, 
-              private authenticationService: AuthenticationService) {
+  constructor(
+    private bonusTokenService: BonusTokenService,
+    public dialog: MatDialog,
+    protected router: Router,
+    private dialogRef: MatDialogRef<RoomCreatorPageComponent>,
+    private commentService: CommentService,
+    private translateService: TranslateService,
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private languageService: LanguageService,
+  ) {
+    this.languageService.getLanguage().subscribe(lang => {
+      this.translateService.use(lang);
+      this.lang = lang;
+    });
   }
 
   ngOnInit() {
@@ -113,7 +121,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
   }
 
   navToComment(commentId: string) {
-    if(this.authenticationService.getRole() === UserRole.CREATOR) {
+    if (this.authenticationService.getRole() === UserRole.CREATOR) {
       this.dialogRef.close();
       const commentURL = `creator/room/${this.room.shortId}/comment/${commentId}`;
       this.router.navigate([commentURL]);
@@ -156,22 +164,22 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
     if (this.validateTokenInput(this.value)) {
       this.selection.select(this.value);
       this.translateService.get('token-validator.valid').subscribe(msg => {
-        this.notificationService.show(msg, undefined, undefined, "snackbar-valid");
+        this.notificationService.show(msg, undefined, undefined, 'snackbar-valid');
       });
       this.valid = true;
     } else {
       this.translateService.get('token-validator.invalid').subscribe(msg => {
-        this.notificationService.show(msg, undefined, undefined, "snackbar-invalid");
+        this.notificationService.show(msg, undefined, undefined, 'snackbar-invalid');
       });
       this.valid = false;
     }
   }
 
   validateTokenInput(input: any): boolean {
-    var res = false;
-    if(input.length === 8 && isNumeric(input)){
+    let res = false;
+    if (input.length === 8 && isNumeric(input)) {
       this.bonusTokens.forEach(bonusToken => {
-        if(bonusToken.token == input) {
+        if (bonusToken.token === input) {
           res = true;
         }
       });
@@ -189,8 +197,7 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.commentService.getComment(element.commentId).subscribe(comment => {
         element.questionNumber = comment.number;
       });
-    })
-    this.lang = localStorage.getItem('currentLang');
+    });
     this.subscription = this.modelChanged
       .pipe(
         debounceTime(this.debounceTime),
@@ -204,23 +211,23 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
 
   updateTable(sort: boolean): void {
     const data = [...this.bonusTokens];
-    if(sort) {
+    if (sort) {
       if (this.currentSort?.direction) {
         switch (this.currentSort.active) {
           case 'questionNumber':
             data.sort((a, b) => a.questionNumber - b.questionNumber);
             break;
-          case 'token': 
-            data.sort((a, b) => 
+          case 'token':
+            data.sort((a, b) =>
               a.token.localeCompare(b.token, undefined, { sensitivity: 'base' }));
             break;
-          case 'date': 
-            data.sort((a, b) => 
+          case 'date':
+            data.sort((a, b) =>
               +a.timestamp - +b.timestamp
             );
-            break; 
+            break;
         }
-        if(this.currentSort.direction === 'desc'){
+        if (this.currentSort.direction === 'desc') {
           data.reverse();
         }
       }
@@ -250,10 +257,10 @@ export class BonusTokenComponent implements OnInit, OnDestroy {
       this.notificationService,
       this.bonusTokenService,
       this.room).subscribe(text => {
-        this.translateService.get('bonus-archive-export.file-name', {
-          roomName: this.room.name,
-          date: text[1]
-        }).subscribe(trans => copyCSVString(text[0], trans));
+      this.translateService.get('bonus-archive-export.file-name', {
+        roomName: this.room.name,
+        date: text[1]
+      }).subscribe(trans => copyCSVString(text[0], trans));
     });
   }
 

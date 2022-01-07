@@ -1,6 +1,5 @@
 import {
   AfterContentInit,
-  AfterViewInit,
   Component,
   ComponentRef,
   EventEmitter,
@@ -22,7 +21,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { User } from '../../../models/user';
 import { Room } from '../../../models/room';
 import { NotificationService } from '../../../services/util/notification.service';
-import { EventService } from '../../../services/util/event.service';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -36,21 +34,20 @@ import { CreateCommentWrapper } from '../../../utils/create-comment-wrapper';
 import { maskKeyword, TopicCloudAdminService } from '../../../services/util/topic-cloud-admin.service';
 import { TagCloudPopUpComponent } from './tag-cloud-pop-up/tag-cloud-pop-up.component';
 import { TagCloudDataService, TagCloudDataTagEntry } from '../../../services/util/tag-cloud-data.service';
-import { WsRoomService } from '../../../services/websockets/ws-room.service';
 import { CloudParameters, CloudTextStyle } from '../../../utils/cloud-parameters';
 import { SmartDebounce } from '../../../utils/smart-debounce';
 import { MatDrawer } from '@angular/material/sidenav';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
-import { SyncFence } from '../../../utils/SyncFence';
 import { ActiveWord, WordCloudComponent, WordMeta } from './word-cloud/word-cloud.component';
-import { CommentListFilter, FilterType, Period } from '../comment-list/comment-list.filter';
 import { ArsComposeService } from '../../../../../projects/ars/src/lib/services/ars-compose.service';
 import { HeaderService } from '../../../services/util/header.service';
 import { WorkerConfigDialogComponent } from '../_dialogs/worker-config-dialog/worker-config-dialog.component';
 import { TagCloudSettings } from '../../../utils/TagCloudSettings';
 import { SessionService } from '../../../services/util/session.service';
-import { BrainstormingSettings } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
 import { DOMElementPrinter } from '../../../utils/DOMElementPrinter';
+import { RoomDataFilterService } from '../../../services/util/room-data-filter.service';
+import { FilterType, Period, RoomDataFilter } from '../../../services/util/room-data-filter';
+import { BrainstormingSession } from '../../../models/brainstorming-session';
 
 class TagComment implements CloudData, WordMeta {
 
@@ -68,15 +65,15 @@ class TagComment implements CloudData, WordMeta {
   }
 }
 
-const CONDITION_FILTER = 0;
-const CONDITION_BUILT = 1;
+const transformationScaleKiller = /scale\([^)]*\)/;
+const transformationRotationKiller = /rotate\(([^)]*)\)/;
 
 @Component({
   selector: 'app-tag-cloud',
   templateUrl: './tag-cloud.component.html',
   styleUrls: ['./tag-cloud.component.scss']
 })
-export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, AfterViewInit {
+export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit {
 
   @ViewChild(WordCloudComponent, { static: false }) cloud: WordCloudComponent<TagComment>;
   @ViewChild(TagCloudPopUpComponent) popup: TagCloudPopUpComponent;
@@ -104,43 +101,37 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   data: TagComment[] = [];
   isLoading = true;
   createCommentWrapper: CreateCommentWrapper = null;
-  brainstormingData: BrainstormingSettings;
+  brainstormingData: BrainstormingSession;
   brainstormingActive: boolean;
   private _currentSettings: CloudParameters;
-  private _subscriptionCommentlist = null;
   private _subscriptionRoom = null;
   private readonly _smartDebounce = new SmartDebounce(50, 1_000);
-  private _syncFenceBuildCloud: SyncFence;
+  private _currentTheme: Theme;
 
-  constructor(private commentService: CommentService,
-              private langService: LanguageService,
-              private translateService: TranslateService,
-              public dialog: MatDialog,
-              private notificationService: NotificationService,
-              public eventService: EventService,
-              private authenticationService: AuthenticationService,
-              private composeService: ArsComposeService,
-              private headerService: HeaderService,
-              private route: ActivatedRoute,
-              protected roomService: RoomService,
-              private themeService: ThemeService,
-              private wsCommentService: WsCommentService,
-              private topicCloudAdmin: TopicCloudAdminService,
-              private sessionService: SessionService,
-              private router: Router,
-              public dataManager: TagCloudDataService,
-              private wsRoomService: WsRoomService,
-              private deviceInfo: DeviceInfoService) {
-    this.langService.langEmitter.subscribe(lang => {
+  constructor(
+    private commentService: CommentService,
+    private langService: LanguageService,
+    private translateService: TranslateService,
+    public dialog: MatDialog,
+    private notificationService: NotificationService,
+    private authenticationService: AuthenticationService,
+    private composeService: ArsComposeService,
+    private headerService: HeaderService,
+    private route: ActivatedRoute,
+    protected roomService: RoomService,
+    private themeService: ThemeService,
+    private wsCommentService: WsCommentService,
+    private topicCloudAdmin: TopicCloudAdminService,
+    private sessionService: SessionService,
+    private router: Router,
+    public dataManager: TagCloudDataService,
+    private deviceInfo: DeviceInfoService,
+    private roomDataFilterService: RoomDataFilterService,
+  ) {
+    this.langService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
-    this._currentSettings = TagCloudComponent.getCurrentCloudParameters();
-    this._syncFenceBuildCloud = new SyncFence(2,
-      () => this.dataManager.bindToRoom(this.room, this.userRole, this.user.id, this.brainstormingActive));
-  }
-
-  private static getCurrentCloudParameters(): CloudParameters {
-    return CloudParameters.currentParameters;
+    this._currentSettings = this.getCurrentCloudParameters();
   }
 
   private static invertHex(hexStr: string) {
@@ -151,6 +142,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   }
 
   ngOnInit(): void {
+    this.roomDataFilterService.currentFilter = RoomDataFilter.loadFilter('tagCloud');
     this.updateGlobalStyles();
     this.dataManager.getData().subscribe(data => {
       if (!data) {
@@ -158,17 +150,12 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       }
       this.rebuildData();
     });
-    this.dataManager.getMetaData().subscribe(data => {
-      if (!data) {
-        return;
-      }
-      this.eventService.broadcast('tagCloudHeaderDataOverview', data);
-    });
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
       }
     });
+    this._currentTheme = this.themeService.currentTheme;
     this.route.data.subscribe(d => this.brainstormingActive = !!d.brainstorming);
     this.sessionService.getRoomOnce().subscribe(room => {
       this.userRole = this.sessionService.currentRole;
@@ -187,25 +174,29 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
         this.authenticationService.setAccess(this.shortId, UserRole.PARTICIPANT);
       }
       if (this.brainstormingActive) {
-        const filter = CommentListFilter.loadFilter();
+        const filter = new RoomDataFilter(null);
         filter.filterType = FilterType.brainstormingQuestion;
         filter.period = Period.fromNow;
-        filter.fromNow = this.brainstormingData.started;
-        filter.save('cloudFilter');
+        filter.lastRoomId = room.id;
+        filter.fromNow = new Date(room.brainstormingSession.started).getTime();
+        filter.save('tagCloud');
+        this.roomDataFilterService.currentFilter = filter;
       }
-      this._syncFenceBuildCloud.resolveCondition(CONDITION_FILTER);
     });
-    this.translateService.use(localStorage.getItem('currentLang'));
+    this.themeSubscription = this.themeService.getTheme().subscribe((themeName) => {
+      this._currentTheme = this.themeService.getThemeByKey(themeName);
+      if (this.child) {
+        setTimeout(() => {
+          this.setCloudParameters(this.getCurrentCloudParameters(), false);
+        }, 1);
+      }
+    });
   }
 
   ngAfterContentInit() {
     this.initNavigation();
     this.dataManager.updateDemoData(this.translateService);
-  }
-
-  ngAfterViewInit() {
-    this.setCloudParameters(TagCloudComponent.getCurrentCloudParameters(), false);
-    setTimeout(() => this._syncFenceBuildCloud.resolveCondition(CONDITION_BUILT));
+    this.setCloudParameters(this.getCurrentCloudParameters(), false);
   }
 
   ngOnDestroy() {
@@ -213,7 +204,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
     if (customTagCloudStyles) {
       customTagCloudStyles.sheet.disabled = true;
     }
-    this.dataManager.unbindRoom();
+    this.themeSubscription.unsubscribe();
     if (this._subscriptionRoom) {
       this._subscriptionRoom.unsubscribe();
     }
@@ -316,34 +307,38 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
   }
 
   openTags(tag: CloudData): void {
-    if (this.dataManager.demoActive || this._subscriptionCommentlist !== null) {
+    if (this.brainstormingActive || this.dataManager.demoActive) {
       return;
     }
-    this._subscriptionCommentlist = this.eventService.on('commentListCreated').subscribe(() => {
-      this.eventService.broadcast('setTagConfig', (tag as TagComment).realText);
-      this._subscriptionCommentlist.unsubscribe();
-    });
+    //Room filter
+    const filter = new RoomDataFilter(null);
+    filter.lastRoomId = this.room.id;
+    filter.period = Period.all;
+    filter.filterType = FilterType.keyword;
+    filter.filterCompare = (tag as TagComment).realText;
+    filter.save('commentList');
     this.router.navigate(['../'], { relativeTo: this.route });
   }
 
   updateTagCloudSettings() {
-    if (!this.user || this.user.role < 1) {
+    if (!this.user || this.user.role === UserRole.PARTICIPANT) {
       throw new Error('user has no rights.');
     }
-    this.roomService.getRoom(this.roomId).subscribe(room => {
-      TagCloudSettings.getDefaultByRoom(room).applyToRoom(room);
-      this.room = room;
-      this.roomService.updateRoom(room).subscribe(_ => {
-          this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
-        },
-        error => {
-          this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
-            this.notificationService.show(msg);
-          });
+    TagCloudSettings.getCurrent(this.themeService.currentTheme.isDark).applyToRoom(this.room);
+    this.roomService.updateRoom(this.room).subscribe(_ => {
+        this.translateService.get('tag-cloud.changes-successful').subscribe(msg => {
+          this.notificationService.show(msg);
         });
-    });
+      },
+      error => {
+        this.translateService.get('tag-cloud.changes-gone-wrong').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
+      });
+  }
+
+  private getCurrentCloudParameters(): CloudParameters {
+    return CloudParameters.getCurrentParameters(this.themeService.currentTheme.isDark);
   }
 
   enter(word: ActiveWord<TagComment>) {
@@ -358,19 +353,22 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
 
   private retrieveTagCloudSettings(room: Room) {
     const settings = TagCloudSettings.getFromRoom(room);
-    if (this.brainstormingActive && (!settings?.brainstorming ||
-      this.brainstormingData && this.brainstormingData.active !== settings.brainstorming.active)) {
+    if (this.brainstormingActive && (!room.brainstormingSession ||
+      this.brainstormingData && this.brainstormingData.active !== room.brainstormingSession.active)) {
       this.router.navigate(['../'], {
         relativeTo: this.route
       });
       return;
     }
+    this.brainstormingData = room.brainstormingSession;
     if (!settings) {
       this.resetColorsToTheme();
       this.setCloudParameters(this.currentCloudParameters);
+      if (this.userRole > UserRole.PARTICIPANT) {
+        this.updateTagCloudSettings();
+      }
       return;
     }
-    this.brainstormingData = settings.brainstorming;
     this.topicCloudAdmin.setAdminData(settings.adminData, null, this.userRole);
     const data = settings.settings;
     if (this.deviceInfo.isCurrentlyMobile) {
@@ -395,7 +393,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
       });
       e.menuItem({
         translate: this.headerService.getTranslate(),
-        icon: 'screenshot',
+        icon: 'cloud_download',
         class: 'material-icons-outlined',
         text: 'header.tag-cloud-screenshot',
         callback: () => {
@@ -405,7 +403,7 @@ export class TagCloudComponent implements OnInit, OnDestroy, AfterContentInit, A
             return;
           }
           this.translateService.get('tag-cloud.tag-cloud-print-title', { roomName: this.room.name })
-            .subscribe(msg => DOMElementPrinter.printOnce(this.cloud?.wordCloud?.nativeElement,
+            .subscribe(msg => DOMElementPrinter.printOnce(this.child?.cloudDataHtmlElements[0].parentElement,
               msg, this._currentSettings.backgroundColor));
         },
         condition: () => true

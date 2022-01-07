@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from '../../../services/util/language.service';
-import { WsCommentService } from '../../../services/websockets/ws-comment.service';
 import { CommentService } from '../../../services/http/comment.service';
 import { Comment } from '../../../models/comment';
 import { UserRole } from '../../../models/user-roles.enum';
@@ -11,12 +10,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteAnswerComponent } from '../../creator/_dialogs/delete-answer/delete-answer.component';
 import { EventService } from '../../../services/util/event.service';
 import { WriteCommentComponent } from '../write-comment/write-comment.component';
-import { CorrectWrong } from '../../../models/correct-wrong.enum';
-import { Message } from '@stomp/stompjs';
 import { AuthenticationService } from '../../../services/http/authentication.service';
 import { User } from '../../../models/user';
 import { KeyboardUtils } from '../../../utils/keyboard';
 import { KeyboardKey } from '../../../utils/keyboard/keys';
+import { RoomDataService } from '../../../services/util/room-data.service';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
+import { SessionService } from '../../../services/util/session.service';
+import { Room } from '../../../models/room';
+import { VoteService } from '../../../services/http/vote.service';
+import { Vote } from '../../../models/vote';
+import { Location } from '@angular/common';
+import { CreateCommentKeywords, KeywordsResultType } from '../../../utils/create-comment-keywords';
+import { SpacyDialogComponent } from '../_dialogs/spacy-dialog/spacy-dialog.component';
+import { LanguagetoolService } from '../../../services/http/languagetool.service';
+import { DeepLService } from '../../../services/http/deep-l.service';
+import { SpacyService } from '../../../services/http/spacy.service';
 
 @Component({
   selector: 'app-comment-answer',
@@ -34,22 +44,35 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   user: User;
   isStudent = true;
   edit = false;
+  room: Room;
+  mods: Set<string>;
+  vote: Vote;
+  isModerationComment = false;
+  isSending = false;
   private _commentSubscription;
 
-  constructor(protected route: ActivatedRoute,
-              private notificationService: NotificationService,
-              private translateService: TranslateService,
-              protected langService: LanguageService,
-              private authenticationService: AuthenticationService,
-              protected wsCommentService: WsCommentService,
-              protected commentService: CommentService,
-              public dialog: MatDialog,
-              private router: Router,
-              public eventService: EventService) {
+  constructor(
+    protected route: ActivatedRoute,
+    private notificationService: NotificationService,
+    private translateService: TranslateService,
+    protected langService: LanguageService,
+    private authenticationService: AuthenticationService,
+    protected commentService: CommentService,
+    private roomDataService: RoomDataService,
+    public dialog: MatDialog,
+    private router: Router,
+    public eventService: EventService,
+    private sessionService: SessionService,
+    private voteService: VoteService,
+    private location: Location,
+    private languagetoolService: LanguagetoolService,
+    private deepLService: DeepLService,
+    private spacyService: SpacyService,
+  ) {
   }
 
   ngOnInit() {
-    this.userRole = this.route.snapshot.data.roles[0];
+    this.userRole = this.sessionService.currentRole;
     this.authenticationService.watchUser.subscribe(newUser => {
       if (newUser) {
         this.user = newUser;
@@ -59,20 +82,29 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
       this.isStudent = false;
     }
     this.route.params.subscribe(params => {
-      this.commentService.getComment(params['commentId']).subscribe(comment => {
-        this.comment = comment;
-        this.answer = this.comment.answer;
-        this.edit = !this.answer;
-        this.isLoading = false;
-        this._commentSubscription = this.wsCommentService.getCommentStream(comment.roomId)
-          .subscribe(msg => this.onMessageReceive(msg));
-      });
+      const commentId = params['commentId'];
+      forkJoin([this.sessionService.getRoomOnce(), this.sessionService.getModeratorsOnce()])
+        .subscribe(([room, mods]) => {
+          this.room = room;
+          this.mods = new Set<string>(mods.map(m => m.accountId));
+          this.voteService.getByRoomIdAndUserID(this.sessionService.currentRoom.id, this.user.id).subscribe(votes => {
+            this.vote = votes.find(v => v.commentId === commentId);
+          });
+          this.findComment(commentId).subscribe(result => {
+            if (!result) {
+              this.onNoComment();
+            } else {
+              this.onCommentReceive(...result);
+            }
+          });
+        });
     });
   }
 
   ngOnDestroy() {
-    if (this._commentSubscription) {
-      this._commentSubscription.unsubscribe();
+    this._commentSubscription?.unsubscribe();
+    if (this.comment && !this.isStudent) {
+      this.commentService.lowlight(this.comment).subscribe();
     }
   }
 
@@ -96,20 +128,38 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
   }
 
   goBackToCommentList() {
-    const str = decodeURI(this.router.url);
-    const newUrl = str.substr(0, str.lastIndexOf('/', str.lastIndexOf('/') - 1)) + '/comments';
-    this.router.navigate([newUrl]);
+    this.location.back();
   }
 
-  saveAnswer(): (string) => void {
-    return (text: string) => {
-      this.answer = text;
-      this.edit = !this.answer;
-      this.commentService.answer(this.comment, this.answer).subscribe();
-      this.translateService.get('comment-page.comment-answered').subscribe(msg => {
-        this.notificationService.show(msg);
+  receiveFromDeepL(body: string) {
+    this.saveAnswer(body);
+  }
+
+  submitNormal(body: string, text: string, tag: string, name: string, verifiedWithoutDeepl: boolean) {
+    this.saveAnswer(body, !verifiedWithoutDeepl);
+  }
+
+  saveAnswer(data: string, forward = false): void {
+    this.answer = CreateCommentKeywords.transformURLtoQuill(data, true);
+    this.edit = !this.answer;
+    const previous = this.comment.answer;
+    this.comment.answer = this.answer;
+    this.generateKeywords(this.comment, forward).subscribe(result => {
+      if (!result) {
+        this.edit = true;
+        this.comment.answer = previous;
+        setTimeout(() => {
+          this.commentComponent.commentData.currentData = this.answer;
+        });
+        return;
+      }
+      this.commentService.answer(this.comment, this.answer, this.comment.answerFulltextKeywords,
+        this.comment.answerQuestionerKeywords).subscribe(() => {
+        this.translateService.get('comment-page.comment-answered').subscribe(msg => {
+          this.notificationService.show(msg);
+        });
       });
-    };
+    });
   }
 
   openDeleteAnswerDialog(): () => void {
@@ -140,57 +190,91 @@ export class CommentAnswerComponent implements OnInit, OnDestroy {
     setTimeout(() => this.commentComponent.commentData.set(this.answer));
   }
 
-  private onMessageReceive(msg: Message) {
-    const message = JSON.parse(msg.body);
-    const payload = message.payload;
-    if (!payload || payload.id !== this.comment.id) {
-      return;
-    }
-    if (message.type === 'CommentHighlighted') {
-      this.comment.highlighted = payload.lights as boolean;
-    } else if (message.type === 'CommentPatched') {
-      for (const [key, value] of Object.entries(payload.changes)) {
-        switch (key) {
-          case 'read':
-            this.comment.read = value as boolean;
-            break;
-          case 'correct':
-            this.comment.correct = value as CorrectWrong;
-            break;
-          case 'favorite':
-            this.comment.favorite = value as boolean;
-            break;
-          case 'bookmark':
-            this.comment.bookmark = value as boolean;
-            break;
-          case 'score':
-            this.comment.score = value as number;
-            break;
-          case 'upvotes':
-            this.comment.upvotes = value as number;
-            break;
-          case 'downvotes':
-            this.comment.downvotes = value as number;
-            break;
-          case 'keywordsFromSpacy':
-            this.comment.keywordsFromSpacy = JSON.parse(value as string);
-            break;
-          case 'keywordsFromQuestioner':
-            this.comment.keywordsFromQuestioner = JSON.parse(value as string);
-            break;
-          case 'ack':
-            this.comment.ack = value as boolean;
-            break;
-          case 'tag':
-            this.comment.tag = value as string;
-            break;
-          case 'answer':
-            this.comment.answer = value as string;
-            this.answer = this.comment.answer;
-            this.edit = !this.answer;
-            break;
+  private findComment(commentId: string): Observable<[Comment, boolean]> {
+    return this.roomDataService.getRoomDataOnce().pipe(
+      map(comments => {
+        const foundComment = comments.find(c => c.id === commentId);
+        return foundComment ? [foundComment, false] : null;
+      }),
+      mergeMap(current => {
+        if (current) {
+          return of(current);
         }
+        if (!this.roomDataService.canAccessModerator) {
+          return of(null);
+        }
+        return this.roomDataService.getRoomDataOnce(false, true).pipe(
+          map(comments => {
+            const foundComment = comments.find(c => c.id === commentId);
+            return foundComment ? [foundComment, true] : null;
+          })
+        );
+      })
+    );
+  }
+
+  private onCommentReceive(c: Comment, isModerationComment: boolean) {
+    this.comment = c;
+    this.isModerationComment = isModerationComment;
+    this.answer = this.comment.answer;
+    this.edit = !this.answer;
+    this.isLoading = false;
+    this._commentSubscription = this.roomDataService.receiveUpdates([
+      { type: 'CommentPatched', finished: true, updates: ['ack'] },
+      { type: 'CommentPatched', finished: true, updates: ['answer'] },
+      { type: 'CommentDeleted', finished: true }
+    ]).subscribe(update => {
+      if (update.type === 'CommentPatched') {
+        if (update.updates.includes('answer')) {
+          this.answer = this.comment.answer;
+          this.edit = !this.answer;
+        }
+        if (update.updates.includes('ack')) {
+          this.isModerationComment = !this.isModerationComment;
+          if (!this.roomDataService.canAccessModerator) {
+            this.onNoComment();
+          }
+        }
+      } else if (update.type === 'CommentDeleted') {
+        this.onNoComment();
       }
+    });
+    if (!this.isStudent) {
+      this.commentService.highlight(this.comment).subscribe();
     }
+  }
+
+  private onNoComment() {
+    this.translateService.get('comment-page.no-comment')
+      .subscribe(msg => this.notificationService.show(msg));
+    this.goBackToCommentList();
+  }
+
+  private generateKeywords(comment: Comment, forward: boolean): Observable<boolean> {
+    this.isSending = true;
+    return CreateCommentKeywords.generateKeywords(this.languagetoolService, this.deepLService, this.spacyService,
+      comment.answer, false, forward, this.commentComponent.selectedLang).pipe(
+      mergeMap(result => {
+        this.isSending = false;
+        comment.language = result.language;
+        comment.answerFulltextKeywords = result.keywords;
+        comment.answerQuestionerKeywords = [];
+        if (forward ||
+          ((result.resultType === KeywordsResultType.failure) && !result.wasSpacyError) ||
+          result.resultType === KeywordsResultType.badSpelled) {
+          return of(true);
+        }
+        const dialogRef = this.dialog.open(SpacyDialogComponent, {
+          data: {
+            result: result.resultType,
+            comment,
+            isAnswer: true
+          }
+        });
+        return dialogRef.afterClosed().pipe(
+          map(res => !!res)
+        );
+      })
+    );
   }
 }

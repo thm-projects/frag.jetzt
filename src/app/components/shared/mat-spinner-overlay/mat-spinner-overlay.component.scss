@@ -8,13 +8,14 @@ mat-progress-spinner {
   -moz-transform: translateX(-50%) translateY(-50%);
   -webkit-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
+  color: var(--green) !important;
 }
 
 .overlay {
   height: 100vh;
   width: 100%;
   background-color: var(--background);
-  opacity: 0.5;
+  opacity: 1.0;
   z-index: 10;
   top: 0;
   left: 0;
@@ -25,24 +26,25 @@ mat-progress-spinner.inline-spinner {
   display: inline;
   margin-left: 0.25em;
   top: 0.115em;
+  color: var(--on-primary) !important;
 }
 
 mat-progress-spinner.primary-spinner, mat-progress-spinner.secondary-spinner {
-  color: var(--on-background);
+  color: var(--secondary) !important;
 }
 
 mat-progress-spinner.on-primary-spinner {
-  color: var(--on-primary);
+  color: var(--on-primary) !important;
 }
 
 mat-progress-spinner.primary-spinner.inline-spinner {
-  color: var(--primary);
+  color: var(--on-primary) !important;
 }
 
 mat-progress-spinner.on-secondary-spinner {
-  color: var(--on-secondary);
+  color: var(--on-secondary) !important;
 }
 
 mat-progress-spinner.secondary-spinner.inline-spinner {
-  color: var(--secondary);
+  color: var(--on-secondary) !important;
 }

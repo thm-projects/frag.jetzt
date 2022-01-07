@@ -19,7 +19,6 @@ export class Comment {
   ack: boolean;
   tag: string;
   answer: string;
-  userNumber: number;
   number: number;
   keywordsFromQuestioner: SpacyKeyword[];
   keywordsFromSpacy: SpacyKeyword[];
@@ -29,6 +28,9 @@ export class Comment {
   questionerName: string;
   createdBy;
   brainstormingQuestion: boolean;
+  answerQuestionerKeywords: SpacyKeyword[];
+  answerFulltextKeywords: SpacyKeyword[];
+
 
   constructor(roomId: string = '',
               creatorId: string = '',
@@ -44,7 +46,6 @@ export class Comment {
               ack: boolean = true,
               tag: string = '',
               answer: string = '',
-              userNumber: number = 0,
               keywordsFromQuestioner: SpacyKeyword[] = [],
               keywordsFromSpacy: SpacyKeyword[] = [],
               upvotes = 0,
@@ -52,6 +53,8 @@ export class Comment {
               language = Language.auto,
               questionerName: string = null,
               brainstormingQuestion = false,
+              answerQuestionerKeywords: SpacyKeyword[] = [],
+              answerFulltextKeywords: SpacyKeyword[] = [],
               createdBy?: any) {
     this.id = '';
     this.roomId = roomId;
@@ -69,7 +72,6 @@ export class Comment {
     this.ack = ack;
     this.tag = tag;
     this.answer = answer;
-    this.userNumber = userNumber;
     this.keywordsFromQuestioner = keywordsFromQuestioner;
     this.keywordsFromSpacy = keywordsFromSpacy;
     this.upvotes = upvotes;
@@ -78,6 +80,8 @@ export class Comment {
     this.createdBy = createdBy;
     this.questionerName = questionerName;
     this.brainstormingQuestion = brainstormingQuestion;
+    this.answerFulltextKeywords = answerFulltextKeywords;
+    this.answerQuestionerKeywords = answerQuestionerKeywords;
   }
 
   static mapModelToLanguage(model: Model): Language {

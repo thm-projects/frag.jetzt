@@ -13,8 +13,10 @@ import { RoomService } from '../../../../services/http/room.service';
 export class RoomNameSettingsComponent implements OnInit {
 
   @Input() editRoom: Room;
+  readonly roomNameLengthMin = 3;
+  readonly roomNameLengthMax = 30;
   roomNameFormControl = new FormControl('', [
-    Validators.required, Validators.minLength(3), Validators.maxLength(20)
+    Validators.required, Validators.minLength(this.roomNameLengthMin), Validators.maxLength(this.roomNameLengthMax)
   ]);
 
   constructor(private dialogRef: MatDialogRef<RoomCreatorPageComponent>,

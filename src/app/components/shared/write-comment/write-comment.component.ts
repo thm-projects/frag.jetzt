@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormControl, Validators } from '@angular/forms';
 import { CreateCommentKeywords } from '../../../utils/create-comment-keywords';
 import { CreateCommentComponent } from '../_dialogs/create-comment/create-comment.component';
-import { BrainstormingSettings } from '../_dialogs/topic-cloud-brainstorming/topic-cloud-brainstorming.component';
+import { BrainstormingSession } from '../../../models/brainstorming-session';
 
 type SubmitFunction = (commentData: string, commentText: string, selectedTag: string, name?: string,
                        verifiedWithoutDeepl?: boolean) => any;
@@ -40,7 +40,8 @@ export class WriteCommentComponent implements OnInit {
   @Input() placeholder = 'comment-page.enter-comment';
   @Input() i18nSection = 'comment-page';
   @Input() isQuestionerNameEnabled = false;
-  @Input() brainstormingData: BrainstormingSettings;
+  @Input() brainstormingData: BrainstormingSession;
+  @Input() allowEmpty = false;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -51,8 +52,10 @@ export class WriteCommentComponent implements OnInit {
   isSpellchecking = false;
   hasSpellcheckConfidence = true;
   newLang = 'auto';
+  readonly questionerNameMin = 2;
+  readonly questionerNameMax = 30;
   questionerNameFormControl = new FormControl('', [
-    Validators.minLength(2), Validators.maxLength(20)
+    Validators.minLength(this.questionerNameMin), Validators.maxLength(this.questionerNameMax)
   ]);
   private _wasVerifiedWithoutDeepl = false;
 
@@ -62,13 +65,12 @@ export class WriteCommentComponent implements OnInit {
               public languagetoolService: LanguagetoolService,
               private deeplService: DeepLService,
               private dialog: MatDialog) {
-    this.languageService.langEmitter.subscribe(lang => {
+    this.languageService.getLanguage().subscribe(lang => {
       this.translateService.use(lang);
     });
   }
 
   ngOnInit(): void {
-    this.translateService.use(localStorage.getItem('currentLang'));
     if (this.brainstormingData) {
       this.translateService.get('comment-page.brainstorming-placeholder', this.brainstormingData)
         .subscribe(msg => this.placeholder = msg);
@@ -94,21 +96,23 @@ export class WriteCommentComponent implements OnInit {
     }
     return () => {
       let allowed = true;
+      const data = this.commentData.currentData;
+      const text = this.commentData.currentText;
       if (this.isQuestionerNameEnabled) {
         this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
         allowed = !this.questionerNameFormControl.hasError('minlength') &&
           !this.questionerNameFormControl.hasError('maxlength');
       }
       if (this.brainstormingData &&
-        CreateCommentComponent.getWords(this.commentData.currentText).length > this.brainstormingData.maxWordCount) {
+        CreateCommentComponent.getWords(text).length > this.brainstormingData.maxWordCount) {
         this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
           .subscribe(msg => this.notification.show(msg));
         allowed = false;
       }
-      if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
-        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed) {
-        func(this.commentData.currentData, this.commentData.currentText, this.selectedTag,
-          this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
+      if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
+        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
+        const realData = this.allowEmpty && text.length < 2 ? null : data;
+        func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
       }
     };
   }

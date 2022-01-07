@@ -12,7 +12,7 @@
 <div mat-dialog-content xmlns="http://www.w3.org/1999/html">
   <div class="flexbox-container">
     <!-- dialog capital -->
-    <div> 
+    <div>
       <h2 class="oldtypo-h2">{{'room-page.bonus-token-header' | translate }}</h2>
     </div>
 
@@ -71,7 +71,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by token"
                       *matHeaderCellDef
-                      style="width: 30%">
+                      style="width: 35%">
                     {{ 'token-validator.token' | translate }}
                   </th>
                   <td mat-cell
@@ -90,7 +90,7 @@
                       mat-sort-header
                       sortActionDescription="Sort by date"
                       *matHeaderCellDef
-                      style="width: 30%">
+                      style="width: 34%">
                       {{ 'token-validator.date' | translate }}
                   </th>
                   <td mat-cell
@@ -105,7 +105,7 @@
                 <ng-container matColumnDef="button">
                   <th mat-header-cell
                       *matHeaderCellDef
-                      style="width: 5%">
+                      style="width: 1%">
                       <button mat-icon-button
                             [matMenuTriggerFor]="moreActions">
                         <mat-icon>more_vert</mat-icon>

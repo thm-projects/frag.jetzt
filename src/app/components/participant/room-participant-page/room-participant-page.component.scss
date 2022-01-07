@@ -64,7 +64,7 @@ mat-card-title {
 }
 
 mat-card-subtitle {
-  color: var(-on--surface) !important;
+  color: var(--on-surface) !important;
 }
 
 mat-expansion-panel {
@@ -113,4 +113,9 @@ mat-grid-tile {
 markdown {
   color: var(--on-surface);
   margin: 0 3% 0 3% !important;
+}
+
+:host > div {
+  margin-top: 5vh;
+  min-height: calc(88vh - 115px) !important;
 }

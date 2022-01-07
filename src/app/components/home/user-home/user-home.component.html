@@ -14,14 +14,14 @@
             mat-flat-button
             (click)="openCreateRoomDialog()"
             id="create_session-button">
-      <mat-icon class="add">add_circle_outline</mat-icon>
+      <mat-icon class="add">add</mat-icon>
       {{ 'home-page.create-session' | translate }}
     </button>
   </div>
   <div fxLayout="row"
        fxLayoutAlign="center"
        fxLayoutGap="15px">
-    <app-room-list [user]="user"></app-room-list>
+    <app-room-list></app-room-list>
   </div>
   <button id="live_announcer-button"
           tabIndex="-1"
