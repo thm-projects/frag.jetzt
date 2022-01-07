@@ -164,7 +164,7 @@ export class ModeratorCommentListComponent implements OnInit, OnDestroy {
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
-        'comment-list',
+        'room-export',
         this.user,
         this.room,
         this.moderatorAccountIds

@@ -114,3 +114,8 @@ markdown {
   color: var(--on-surface);
   margin: 0 3% 0 3% !important;
 }
+
+:host > div {
+  margin-top: 5vh;
+  min-height: calc(88vh - 115px) !important;
+}

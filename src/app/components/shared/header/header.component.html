@@ -445,9 +445,11 @@
             aria-labelledby="session-label"
             id="session-button">
       <div class="label-icon">
-        <mat-icon
+        <mat-icon *ngIf="!user.isGuest"
           class="header-icons">more_vert
         </mat-icon>
+        <mat-icon *ngIf="user.isGuest"
+                  class="header-icons material-icons-outlined">account_box</mat-icon>
         <h2 class="oldtypo-h2"
             *ngIf="!user.isGuest">{{'header.my-account' | translate}}</h2>
         <!--Guest Account-->
@@ -464,7 +466,12 @@
             *ngIf="user && deviceInfo.isCurrentlyMobile"
             [matMenuTriggerFor]="userMenu"
             aria-labelledby="session-label">
-      <mat-icon class="header-icons">more_vert
+      <mat-icon *ngIf="!user.isGuest"
+                class="header-icons">more_vert
+      </mat-icon>
+      <mat-icon *ngIf="user.isGuest"
+                class="header-icons material-icons-outlined">
+        account_box
       </mat-icon>
     </button>
 

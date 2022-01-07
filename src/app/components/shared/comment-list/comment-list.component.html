@@ -1,5 +1,5 @@
 <div fxLayout="row"
-     *ngIf="comments.length > 0"
+     *ngIf="comments.length > 0 || filterType || period !== 'time-all' || search"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -41,11 +41,11 @@
        [stepPosition]="'bottom'"
        appJoyrideTemplate
        fxLayoutAlign="center center">
-    <div *ngIf="comments && commentsFilteredByTimeLength > 0">
+    <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'time-all')">
       <h3 class="counter"
-          *ngIf="!filterType">{{commentsFilteredByTimeLength}}</h3>
+          *ngIf="!filterType && !search">{{commentsFilteredByTimeLength}}</h3>
       <h3 class="counter-filtered"
-          *ngIf="filterType">{{comments.length}}</h3>
+          *ngIf="filterType || search">{{comments.length}}</h3>
     </div>
 
     <button mat-icon-button
@@ -59,7 +59,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="swap_vert"
-            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 2 && !search"
+            *ngIf="comments && comments.length > 2 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -70,7 +70,7 @@
             class="searchBarButton"
             aria-labelledby="filter_list"
             #filterMenuTrigger="matMenuTrigger"
-            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 2 && !search"
+            *ngIf="comments && commentsFilteredByTimeLength > 2 && !search"
             [matMenuTriggerFor]="filterMenu"
             [ngClass]="{'active-filter': !!filterType}"
             matTooltip="{{ 'comment-list.filter-comments' | translate }}">
@@ -81,7 +81,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="time_settings"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="comments && (comments.length > 0 || period !== 'time-all') && !search"
             [matMenuTriggerFor]="timeMenu"
             [ngClass]="{'active-filter': period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
@@ -92,7 +92,7 @@
             mat-icon-button
             aria-labelledby="pause"
             class="freezeButton"
-            *ngIf="!searchBox.value && !search && !freeze && comments.length > 0"
+            *ngIf="!search && !freeze && comments.length > 0"
             (click)="activateCommentStream(true)"
             matTooltip="{{ 'comment-list.pause-comments' | translate }}">
       <mat-icon class="freezeIcon material-icons-outlined">stop_circle</mat-icon>
@@ -102,7 +102,7 @@
             mat-icon-button
             aria-labelledby="play"
             class="freezeButton"
-            *ngIf="!searchBox.value && !search && freeze && comments.length > 0"
+            *ngIf="!search && freeze && comments.length > 0"
             (click)="activateCommentStream(false)"
             matTooltip="{{ 'comment-list.play-comments' | translate }}">
       <mat-icon class="playIcon material-icons-outlined">play_circle</mat-icon>

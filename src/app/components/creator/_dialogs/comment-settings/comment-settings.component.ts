@@ -11,7 +11,6 @@ import { DeleteCommentsComponent } from '../delete-comments/delete-comments.comp
 import { Room } from '../../../../models/room';
 import { CommentSettings } from '../../../../models/comment-settings';
 import { CommentSettingsDialog } from '../../../../models/comment-settings-dialog';
-import { Export } from '../../../../models/export';
 
 @Component({
   selector: 'app-comment-settings',

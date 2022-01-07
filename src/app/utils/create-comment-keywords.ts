@@ -42,6 +42,9 @@ export class CreateCommentKeywords {
   }
 
   static transformURLtoQuill(data: string, transformToVideo: boolean): string {
+    if (!data) {
+      return null;
+    }
     const urlRegex = /(www\.|https?:\/\/)\S+/gi;
     let m;
     const result = JSON.parse(data).reduce((acc, k) => {

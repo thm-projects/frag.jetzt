@@ -33,6 +33,9 @@ export class AuthenticationGuard implements CanActivate {
         this.router.navigate([url]);
       }
     });
+    if (!wasAllowed) {
+      this.onNotAllowed();
+    }
     return wasAllowed;
   }
 

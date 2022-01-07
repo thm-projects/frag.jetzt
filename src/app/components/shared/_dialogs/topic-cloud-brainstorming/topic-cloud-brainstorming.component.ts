@@ -81,6 +81,11 @@ export class TopicCloudBrainstormingComponent implements OnInit, OnDestroy {
     if (this.isCreating) {
       return;
     }
+    if (!this._room.directSend) {
+      this.translateService.get('content.brainstorming-direct-send-disabled')
+        .subscribe(msg => this.notificationService.show(msg));
+      return;
+    }
     this.isCreating = true;
     this.brainstormingService.createSession({
       roomId: this._room.id,

@@ -1,20 +1,12 @@
 <mat-card id="comment-card"
           class="border"
           [class.highlighted]="comment.highlighted"
-          [ngClass]="{
-          'moderator': moderator && !comment.highlighted,
-          'border-notMarked': user !== undefined && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer && comment.creatorId !== user.id,
-          'border-ownQuestion': user !== undefined && comment.creatorId === user.id && comment.correct === 0 && comment.bookmark === false && comment.favorite === false && !comment.answer,
-          'border-correct': comment.correct === 1,
-          'border-wrong': comment.correct === 2,
-          'border-answer': comment.answer && comment.bookmark === false && comment.favorite === false,
-          'border-bookmark': comment.bookmark === true,
-          'border-favorite': comment.favorite === true,
-          'border-fromModerator': isFromModerator,
-          'border-fromOwner': isFromOwner
-          }"
+          [class.moderator]="moderator"
+          [ngClass]="getBorderClass()"
           [@slide]="slideAnimationState"
           (@slide.done)="changeSlideState()">
+  <div class="color-tooltip"
+       [matTooltip]="'comment-page.border-tooltip-' + getBorderClass() | translate"></div>
   <div class="runningnum-outer">
     <p>
       <mat-icon *ngIf="getCommentIcon() as icon" [class]="getCommentIconClass()">{{icon}}</mat-icon>
@@ -134,6 +126,16 @@
           </mat-icon>
         </button>
       </ng-container>
+
+      <button mat-icon-button
+              *ngIf="roomTags?.length && (isCreator || isModerator || comment.creatorId === user?.id)"
+              (click)="openChangeCommentTagDialog()"
+              tabindex="0">
+        <mat-icon class="not-marked"
+                  [matTooltip]="'comment-page.edit-change-tag' | translate">
+          style
+        </mat-icon>
+      </button>
 
       <button mat-icon-button
               class="delete-own-comment material-icons-outlined"
@@ -374,7 +376,7 @@
       <div fxLayoutAlign="center center"
            matTooltip="{{ 'comment-page.keywords-per-question' | translate }}"
            [mat-menu-trigger-for]="keywordsMenu"
-           *ngIf="(comment.keywordsFromQuestioner != undefined && comment.keywordsFromQuestioner.length > 0)"
+           *ngIf="comment.keywordsFromQuestioner?.length"
            class="comment-keywords">
         <mat-icon svgIcon="hashtag"
                   class="keyword-icon"></mat-icon>
@@ -383,10 +385,31 @@
               matBadgeOverlap="false">
         </span>
         <mat-menu #keywordsMenu>
-          <mat-list dense
-                    class="keywords-list">
+          <mat-list dense class="keywords-list">
             <mat-list-item
               *ngFor="let keyword of sortKeywords(comment.keywordsFromQuestioner); let odd = odd; let even = even"
+              [class.keywords-alternate]="odd"
+              [class.keywords-even]="even">
+              <span (click)="this.clickedOnKeyword.emit(keyword.text)"
+                    class="keyword-span">{{keyword.text}}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-menu>
+      </div>
+      <div fxLayoutAlign="center center"
+           matTooltip="{{ 'comment-page.keywords-per-answer' | translate }}"
+           [mat-menu-trigger-for]="keywordsMenuAnswer"
+           *ngIf="comment.answerFulltextKeywords?.length"
+           class="comment-keywords">
+        <mat-icon class="keyword-answer-icon material-icons-outlined">more</mat-icon>
+        <span matBadge="{{comment.answerQuestionerKeywords.length}}"
+              matBadgeSize="small"
+              matBadgeOverlap="false">
+        </span>
+        <mat-menu #keywordsMenuAnswer>
+          <mat-list dense class="keywords-list">
+            <mat-list-item
+              *ngFor="let keyword of sortKeywords(comment.answerQuestionerKeywords); let odd = odd; let even = even"
               [class.keywords-alternate]="odd"
               [class.keywords-even]="even">
               <span (click)="this.clickedOnKeyword.emit(keyword.text)"
