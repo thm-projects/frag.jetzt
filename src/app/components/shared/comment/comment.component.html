@@ -138,7 +138,7 @@
       </button>
 
       <button mat-icon-button
-              class="delete-own-comment material-icons-outlined"
+              class="delete-own-comment"
               *ngIf="(isStudent && (comment.creatorId && user && comment.creatorId === user.id)) && (!comment.bookmark || !comment.favorite || !comment.correct || !comment.answer)"
               (click)="openDeleteCommentDialog()"
               tabindex="0"
