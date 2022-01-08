@@ -144,9 +144,9 @@
               tabindex="0"
               attr.aria-labelledby="comment_delete{{ comment.id }}"
       >
-        <mat-icon class="material-icons-outlined"
+        <mat-icon class="not-marked material-icons-outlined"
                   matTooltip="{{ 'comment-page.delete-own-question' | translate }}">
-          delete_sweep
+          delete
         </mat-icon>
       </button>
 
@@ -269,7 +269,7 @@
           >
             <mat-icon class="not-marked material-icons-outlined"
                       matTooltip="{{ 'comment-page.delete-own-question' | translate }}">
-              delete_sweep
+              delete
             </mat-icon>
             <span>
               {{
@@ -401,7 +401,7 @@
            [mat-menu-trigger-for]="keywordsMenuAnswer"
            *ngIf="comment.answerFulltextKeywords?.length"
            class="comment-keywords">
-        <mat-icon class="keyword-answer-icon material-icons-outlined">more</mat-icon>
+        <mat-icon class="keyword-answer-icon material-icons-outlined">tag</mat-icon>
         <span matBadge="{{comment.answerQuestionerKeywords.length}}"
               matBadgeSize="small"
               matBadgeOverlap="false">

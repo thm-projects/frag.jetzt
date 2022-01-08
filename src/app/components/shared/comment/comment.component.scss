@@ -31,7 +31,7 @@ mat-card-content > :first-child {
 
 .delete-own-comment {
   color: var(--on-surface) !important;
-  margin-top: -22px !important
+  margin-top: -20px !important
 }
 
 .voting-icon {
@@ -252,6 +252,7 @@ mat-card-content > :first-child {
 .keyword-answer-icon {
   margin-right: 10px;
   margin-left: 10px;
+  color: var(--primary) !important;
 
   + span {
     transform: scale(1.2);

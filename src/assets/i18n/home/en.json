@@ -80,7 +80,7 @@
     "moderation-enabled": "All questions will be moderated.",
     "QR": "QR code of the session in full view",
     "my-account": "Options",
-    "my-guest-account": "Guest Account",
+    "guest-account-tooltip": "You are logged in as a guest. As a guest, your rooms, sessions, and bonuses will be deleted once you log out. If you log in with an account, your rooms, sessions and bonuses will be saved for 180 days after your last visit.",
     "my-sessions": "My rooms",
     "really-delete-account": "Do you want to irrevocably delete your account with all sessions? If you have given bonus stars, export the questions so that you can check submitted bonus tokens.",
     "sure": "Are you sure?",
