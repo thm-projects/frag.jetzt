@@ -97,7 +97,7 @@
     "edit-session-description": "Welcome text",
     "edit-tags": "Question categories",
     "profanity-filter": "Profanity filter",
-    "export-questions": "Save questions",
+    "export-questions": "Save Q&A",
     "import-questions": "Import questions",
     "delete-questions": "Delete questions",
     "delete-room": "Delete room",
@@ -389,7 +389,7 @@
     "session-history": "Your session history contains {count}} sessions.",
     "session-history-1": "Your session history contains one session.",
     "session-history-label": "Below you will find a list of your sessions.",
-    "export-comments": "Save questions",
+    "export-comments": "Save Q&A",
     "room-not-exist": "The room does not exist.\nPlease inform the person who gave you the direct link."
   },
   "session": {
