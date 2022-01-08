@@ -135,7 +135,8 @@ export class RoomDataService {
         return;
       }
       comments.forEach(c => {
-        c.bookmark = c['globalBookmark'];
+        c.bookmark = c['globalBookmark'] || c.bookmark;
+        c['globalBookmark'] = null;
       });
     });
   }
@@ -220,7 +221,7 @@ export class RoomDataService {
   }
 
   private updateBookmarks() {
-    if (!this.sessionService.currentRoom) {
+    if (!this.sessionService.currentRoom || this.sessionService.currentRole !== UserRole.PARTICIPANT) {
       return;
     }
     this.bookmarkService.getByRoomId(this.sessionService.currentRoom.id).subscribe(bookmarks => {

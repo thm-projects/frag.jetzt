@@ -41,6 +41,7 @@ export class WriteCommentComponent implements OnInit {
   @Input() i18nSection = 'comment-page';
   @Input() isQuestionerNameEnabled = false;
   @Input() brainstormingData: BrainstormingSession;
+  @Input() allowEmpty = false;
   comment: Comment;
   selectedTag: string;
   maxTextCharacters = 500;
@@ -95,21 +96,23 @@ export class WriteCommentComponent implements OnInit {
     }
     return () => {
       let allowed = true;
+      const data = this.commentData.currentData;
+      const text = this.commentData.currentText;
       if (this.isQuestionerNameEnabled) {
         this.questionerNameFormControl.setValue((this.questionerNameFormControl.value || '').trim());
         allowed = !this.questionerNameFormControl.hasError('minlength') &&
           !this.questionerNameFormControl.hasError('maxlength');
       }
       if (this.brainstormingData &&
-        CreateCommentComponent.getWords(this.commentData.currentText).length > this.brainstormingData.maxWordCount) {
+        CreateCommentComponent.getWords(text).length > this.brainstormingData.maxWordCount) {
         this.translateService.get('comment-page.error-comment-brainstorming', this.brainstormingData)
           .subscribe(msg => this.notification.show(msg));
         allowed = false;
       }
-      if (ViewCommentDataComponent.checkInputData(this.commentData.currentData, this.commentData.currentText,
-        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed) {
-        func(this.commentData.currentData, this.commentData.currentText, this.selectedTag,
-          this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
+      if (this.allowEmpty || (ViewCommentDataComponent.checkInputData(data, text,
+        this.translateService, this.notification, this.maxTextCharacters, this.maxDataCharacters) && allowed)) {
+        const realData = this.allowEmpty && text.length < 2 ? null : data;
+        func(realData, text, this.selectedTag, this.questionerNameFormControl.value, this._wasVerifiedWithoutDeepl);
       }
     };
   }

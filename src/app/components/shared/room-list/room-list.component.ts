@@ -20,6 +20,19 @@ import { copyCSVString, exportRoom } from '../../../utils/ImportExportMethods';
 import { Sort } from '@angular/material/sort';
 import { filter, take } from 'rxjs/operators';
 
+type SortFunc<T> = (a: T, b: T) => number;
+
+const generateMultiSortFunc = <T>(...funcs: SortFunc<T>[]): SortFunc<T> => (a, b) => {
+  let value = 0;
+  for (const func of funcs) {
+    value = func(a, b);
+    if (value !== 0) {
+      break;
+    }
+  }
+  return value;
+};
+
 @Component({
   selector: 'app-room-list',
   templateUrl: './room-list.component.html',
@@ -33,7 +46,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   tableDataSource: MatTableDataSource<Room>;
-  displayedColumns: string[] = ['name', 'shortId', 'role', 'button'];
+  displayedColumns = ['name', 'shortId', 'role', 'button'] as const;
 
   creatorRole = UserRole.CREATOR;
   participantRole = UserRole.PARTICIPANT;
@@ -174,19 +187,17 @@ export class RoomListComponent implements OnInit, OnDestroy {
     if (this.currentSort?.direction) {
       switch (this.currentSort.active) {
         case 'name':
-          data.sort((a, b) =>
-            a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+          data.sort(this.generateSortFunc('name', this.currentSort.direction === 'desc'));
           break;
         case 'shortId':
-          data.sort((a, b) =>
-            a.shortId.localeCompare(b.shortId, undefined, { sensitivity: 'base' }));
+          data.sort(this.generateSortFunc('shortId', this.currentSort.direction === 'desc'));
           break;
         case 'role':
-          data.sort((a, b) => a.role - b.role);
+          data.sort(generateMultiSortFunc(
+            this.generateSortFunc('role', this.currentSort.direction === 'desc'),
+            this.generateSortFunc('name', false)
+          ));
           break;
-      }
-      if (this.currentSort.direction === 'desc') {
-        data.reverse();
       }
     }
     this.tableDataSource = new MatTableDataSource(data);
@@ -207,7 +218,7 @@ export class RoomListComponent implements OnInit, OnDestroy {
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
-        'comment-list',
+        'room-export',
         this.user,
         room,
         new Set<string>(mods.map(mod => mod.accountId))
@@ -215,5 +226,20 @@ export class RoomListComponent implements OnInit, OnDestroy {
         copyCSVString(text[0], room.name + '-' + room.shortId + '-' + text[1] + '.csv');
       });
     });
+  }
+
+  private generateSortFunc(name: string, reverse: boolean): SortFunc<RoomRoleMixin> {
+    const factor = reverse ? -1 : 1;
+    switch (name) {
+      case 'name':
+        return (a, b) =>
+          factor * a.name.localeCompare(b.name, undefined, { sensitivity: 'base' });
+      case 'shortId':
+        return (a, b) =>
+          factor * a.shortId.localeCompare(b.shortId, undefined, { sensitivity: 'base' });
+      case 'role':
+        return (a, b) => factor * (a.role - b.role);
+    }
+    throw new Error('Unknown name in sorting!');
   }
 }

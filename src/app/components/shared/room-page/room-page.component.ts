@@ -183,7 +183,7 @@ export class RoomPageComponent implements OnInit, OnDestroy {
         this.notificationService,
         this.bonusTokenService,
         this.commentService,
-        'comment-list',
+        'room-export',
         this.user,
         this.room,
         new Set<string>(mods.map(mod => mod.accountId))
