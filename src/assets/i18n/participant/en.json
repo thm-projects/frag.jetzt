@@ -363,8 +363,8 @@
   "tag-cloud": {
     "demo-data-topic": "Topic %d",
     "overview-question-topic-tooltip": "Multiple entries",
-    "overview-questioners-topic-tooltip": "Proponents of this idea",
-    "period-since-first-comment":"Time since the first input of the idea",
+    "overview-questioners-topic-tooltip": "Authors",
+    "period-since-first-comment":"Time since the first input",
     "ups-downs-difference": "Evaluation difference",
     "upvote-topic": "Up-votes for this topic",
     "upvote-topic-brainstorming": "I like",
@@ -387,7 +387,7 @@
     "one-week": "1 week",
     "some-weeks": "{{weeks}} weeks",
     "some-months": "{{months}} months",
-    "tag-correction-placeholder": "Correction"
+    "tag-correction-placeholder": "Correction …"
   },
   "topic-cloud-dialog":{
     "edit": "Edit",

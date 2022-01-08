@@ -385,7 +385,7 @@
     "tab1": "Text",
     "email-error": "E-Mail-Adresse ist ungültig.",
     "export-bonus-archive": "Exportieren",
-    "export-comments": "Fragen speichern",
+    "export-comments": "Q&A speichern",
     "no-comments": "Es sind noch keine Fragen vorhanden.",
     "general": "Sitzung",
     "live-announcer": "Du befindest dich jetzt in der Sitzung. Um Informationen zu Tastenkombinationen zu erhalten drücke jetzt die Enter-Taste oder rufe die Ansage zu einem späteren Zeitpunkt mit der Escape-Taste auf.",
@@ -473,7 +473,7 @@
     "one-week": "1 Woche",
     "some-weeks": "{{weeks}} Wochen",
     "some-months": "{{months}} Monate",
-    "tag-correction-placeholder": "Korrektur…"
+    "tag-correction-placeholder": "Korrektur …"
   },
   "topic-cloud-dialog": {
     "cancel": "Abbrechen",
@@ -578,8 +578,8 @@
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
     "overview-question-topic-tooltip": "Mehrfachnennungen",
-    "overview-questioners-topic-tooltip": "Befürworter dieser Idee",
-    "period-since-first-comment":"Zeit seit der ersten Eingabe der Idee",
+    "overview-questioners-topic-tooltip": "Autoren",
+    "period-since-first-comment": "Zeit seit der ersten Eingabe",
     "ups-downs-difference": "Bewertungsdifferenz",
     "upvote-topic": "Up-Votes für dieses Thema",
     "upvote-topic-brainstorming": "Gefällt mir",

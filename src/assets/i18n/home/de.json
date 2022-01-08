@@ -133,7 +133,7 @@
     "edit-session-description": "Begrüßungstext",
     "edit-tags": "Fragenkategorien",
     "profanity-filter": "Profanitätsfilter",
-    "export-questions": "Fragen speichern",
+    "export-questions": "Q&A speichern",
     "import-questions": "Fragen importieren",
     "delete-questions": "Fragen löschen",
     "delete-room": "Raum löschen",
@@ -387,7 +387,7 @@
     "session-history": "Dein Sitzungsverlauf enthält {{count}} Sitzungen.",
     "session-history-1": "Dein Sitzungsverlauf enthält genau eine Sitzung.",
     "session-history-label": "Nachfolgend findest du eine Liste deiner Sitzungen.",
-    "export-comments": "Fragen speichern",
+    "export-comments": "Q&A speichern",
     "room-not-exist": "Der Raum existiert nicht. Bitte informiere die Person, die dir den Direktlink gegeben hat."
   },
   "session": {

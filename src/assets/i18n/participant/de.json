@@ -206,15 +206,15 @@
     "error-comment-brainstorming": "Diese Brainstorming-Sitzung erlaubt nur eine Wortanzahl von {{maxWordCount}}.",
     "update": "Speichern",
     "border-tooltip-border-moderated": "Diese Frage ist in der Moderation.",
-    "border-tooltip-border-notMarked": "Diese Frage ist nichts Besonderes.",
-    "border-tooltip-border-ownQuestion": "Diese Frage hast du geschrieben.",
-    "border-tooltip-border-correct": "Diese Frage ist korrekt.",
-    "border-tooltip-border-wrong": "Diese Frage ist falsch.",
-    "border-tooltip-border-answer": "Diese Frage hat eine Antwort.",
-    "border-tooltip-border-bookmark": "Diese Frage hat ein Lesezeichen.",
-    "border-tooltip-border-favorite": "Diese Frage ist ein Favorit.",
+    "border-tooltip-border-notMarked": "Diese Frage stammt von einem Teilnehmer.",
+    "border-tooltip-border-ownQuestion": "Diese Frage hast du selbst geschrieben.",
+    "border-tooltip-border-correct": "Diese Frage wurde als korrekt markiert.",
+    "border-tooltip-border-wrong": "Diese Frage wurde als falsch markiert.",
+    "border-tooltip-border-answer": "Diese Frage wurde beantwortet.",
+    "border-tooltip-border-bookmark": "Diese Frage wurde mit einem Lesezeichen versehen.",
+    "border-tooltip-border-favorite": "Diese Frage wurde für einen Bonus markiert.",
     "border-tooltip-border-fromModerator": "Diese Frage stammt von einem Moderator.",
-    "border-tooltip-border-fromOwner": "Diese Frage stammt von der/dem Raum-Ersteller*in."
+    "border-tooltip-border-fromOwner": "Diese Frage stammt vom Raumersteller."
   },
   "deepl": {
     "header": "Text optimieren",
@@ -356,8 +356,8 @@
   "tag-cloud": {
     "demo-data-topic": "Thema %d",
     "overview-question-topic-tooltip": "Mehrfachnennungen",
-    "overview-questioners-topic-tooltip": "Befürworter dieser Idee",
-    "period-since-first-comment": "Zeit seit der ersten Eingabe der Idee",
+    "overview-questioners-topic-tooltip": "Autoren",
+    "period-since-first-comment": "Zeit seit der ersten Eingabe",
     "ups-downs-difference": "Bewertungsdifferenz",
     "upvote-topic": "Up-Votes für dieses Thema",
     "upvote-topic-brainstorming": "Gefällt mir",
@@ -380,7 +380,7 @@
     "one-week": "1 Woche",
     "some-weeks": "{{weeks}} Wochen",
     "some-months": "{{months}} Monate",
-    "tag-correction-placeholder": "Korrektur…"
+    "tag-correction-placeholder": "Korrektur …"
   },
   "topic-cloud-dialog": {
     "cancel": "Abbrechen",
