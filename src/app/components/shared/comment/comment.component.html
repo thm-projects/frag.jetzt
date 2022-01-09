@@ -83,7 +83,7 @@
           </mat-icon>
         </button>
         <button mat-icon-button
-                *ngIf="!isStudent && !moderator"
+                *ngIf="!isStudent"
                 [disabled]="isStudent"
                 (click)="setFavorite(comment)"
                 tabindex="0"
