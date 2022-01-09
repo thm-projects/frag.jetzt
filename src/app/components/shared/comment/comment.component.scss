@@ -396,7 +396,7 @@ button:focus {
   .runningnum-outer {
     width: 100%;
     height: 0;
-    background-color: red;
+    background-color: var(--red);
     position: absolute;
 
     > p {

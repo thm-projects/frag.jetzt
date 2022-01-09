@@ -72,7 +72,7 @@
 
       <span *ngIf="isInRouteWithRoles && userRole !== null && user && user.role !== userRole">
         <mat-icon class="material-icons-outlined"
-                  style="color: red; margin-top: 8px"
+                  style="color: var(--red); margin-top: 8px"
                   [matTooltip]="'header.not-in-own-view' | translate">
           group
         </mat-icon>
@@ -88,7 +88,7 @@
         class="moderation-enabled"
         fxLayoutAlign="center center">
         <mat-icon class="material-icons-round"
-                  style="color: red"
+                  style="color: var(--red)"
                   matTooltip="{{ 'header.moderation-enabled' | translate }}">
           gavel
         </mat-icon>
@@ -109,7 +109,7 @@
 
       <span *ngIf="room && room.questionsBlocked">
         <mat-icon class="material-icons-outlined"
-                  style="color: red; margin-top: 8px"
+                  style="color: var(--red); margin-top: 8px"
                   [matTooltip]="'header.questions-blocked' | translate">
           comments_disabled
         </mat-icon>
@@ -143,7 +143,7 @@
                   class="pseudo-button"
                   matTooltip="{{'header.overview-admin-config-enabled' | translate}}">
             <mat-icon class="oldtypo-h2 comment_tag-icon"
-                      style="color: red !important; font-size: 24px !important; margin-top: -8px;">
+                      style="color: var(--red) !important; font-size: 24px !important; margin-top: -8px;">
               cloud_queue
             </mat-icon>
           </button>
