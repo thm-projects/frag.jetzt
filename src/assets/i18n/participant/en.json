@@ -164,7 +164,7 @@
     "save-answer": "Save",
     "continue": "Continue",
     "delete-answer": "Delete",
-    "delete-own-question": "You can delete own questions.",
+    "delete-question": "Delete my question",
     "cancel": "Cancel",
     "cancel-description": "Cancel",
     "comment": "Question {{ comment }} was asked at {{ time }} and has currently {{ votes }}. {{correct}} {{wrong}} {{bonus}} {{beamer}}",

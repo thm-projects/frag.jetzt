@@ -231,7 +231,8 @@
 
             <button mat-menu-item
                     *ngIf="!router.url.includes('/comment/') && !router.url.endsWith('/tagcloud') &&
-                           !router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyDesktop"
+                           !router.url.endsWith('moderator/comments') && deviceInfo.isCurrentlyDesktop
+                           && room && !room.questionsBlocked"
                     tabindex="0"
                     (click)="navigateCreateQuestion();">
               <mat-icon class="header-icons material-icons-outlined">
