@@ -137,7 +137,7 @@ svg {
 }
 
 .color-warn {
-  color: red !important;
+  color: var(--red) !important;
 }
 
 .beamer-icon {
@@ -175,7 +175,7 @@ svg {
 }
 
 h1 {
-  color: red;
+  color: var(--red);
 }
 
 ::ng-deep #cdk-overlay-0 .mat-menu-content > button:hover mat-icon {

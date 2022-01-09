@@ -68,7 +68,7 @@
                     [disableRipple]="true"
                     routerLink="/moderator/room/{{ room.shortId }}/moderator/comments"
                     aria-labelledby="gavel">
-              <mat-icon style="color: red" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
+              <mat-icon style="color: var(--red)" matBadge="{{moderatorCommentCounter > 0 ? moderatorCommentCounter : null}}"
                         class="main-icon material-icons-round"
                         [ngClass]="{'smallerIcon' : deviceInfo.isCurrentlyMobile}"
                         matTooltip="{{ 'room-page.session-moderation-board' | translate}}">gavel

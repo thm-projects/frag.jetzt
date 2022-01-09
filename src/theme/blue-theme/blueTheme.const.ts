@@ -9,7 +9,7 @@ export const blue = {
   '--background': '#fafafa',
   '--surface': '#e0e0e0',
   '--dialog': '#f2f4f5',
-  '--cancel': '#9E9E9E',
+  '--cancel': '#ff0000',
 
   '--on-primary': '#FFFFFF',
   '--on-secondary': '#000000',
