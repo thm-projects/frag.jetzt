@@ -19,7 +19,7 @@ export const arsnova = {
   '--on-background': '#000000',
   '--on-surface': '#000000',
   '--on-dialog': '#000000',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'black',
 
   '--green': 'green',
   '--red': 'red',
