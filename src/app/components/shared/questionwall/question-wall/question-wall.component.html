@@ -177,7 +177,7 @@
             <ars-row class="questionwall-present-meta">
               <i class="questionwall-icon questionwall-present-meta-icon questionwall-present-meta-left qw-fade-animation">person_pin_circle</i>
               <ars-col>
-                <span matBadge="{{userMap.get(commentFocus.creatorId)}}"
+                <span *ngIf="userMap&&userMap.get(commentFocus.creatorId)>1" matBadge="{{userMap.get(commentFocus.creatorId)}}"
                       matBadgeSize="small"
                       matBadgeOverlap="false" style="padding:0;"></span>
               </ars-col>
@@ -404,7 +404,7 @@
                                style="box-sizing:border-box;padding:16px;cursor:pointer">
                         <ars-col class="questionwall-comment-meta">
                           <i class="questionwall-icon" (click)="filterUser(comment)">person_pin_circle</i>
-                          <span matBadge="{{userMap.get(comment.creatorId)}}"
+                          <span *ngIf="userMap&&userMap.get(comment.creatorId)>1" matBadge="{{userMap.get(comment.creatorId)}}"
                                 matBadgeSize="small"
                                 matBadgeOverlap="false"
                                 (click)="filterUser(comment)">
