@@ -40,7 +40,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse) {
           // Catch 401 errors
           if (err.status === 401) {
-            this.notificationService.show('You are not logged in');
+            this.notificationService.show('You are not logged in.');
             this.router.navigate(['home']);
           }
         }

@@ -138,7 +138,7 @@
       </button>
 
       <button mat-icon-button
-              *ngIf="(isCreator || comment.creatorId && user && comment.creatorId === user.id) && !comment.favorite && !inAnswerView"
+              *ngIf="(isCreator || comment.creatorId && user && comment.creatorId === user.id) && !comment.favorite"
               (click)="openDeleteCommentDialog()"
               tabindex="0"
               attr.aria-labelledby="comment_delete{{ comment.id }}"

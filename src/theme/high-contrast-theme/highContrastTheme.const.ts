@@ -19,7 +19,7 @@ export const highcontrast = {
   '--on-background': '#FFFFFF',
   '--on-surface': '#FFFFFF',
   '--on-dialog': '#FFFFFF',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'black',
 
   '--green': 'green',
   '--red': 'red',

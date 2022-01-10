@@ -19,7 +19,7 @@ export const dark = {
   '--on-background': '#eadabf',
   '--on-surface': '#eadabf',
   '--on-dialog': '#eadabf',
-  '--on-cancel': '#ffffff',
+  '--on-cancel': 'black',
 
   '--green': 'darkgreen',
   '--red': 'red',
