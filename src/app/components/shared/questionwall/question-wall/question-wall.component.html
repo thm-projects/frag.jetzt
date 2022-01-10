@@ -175,12 +175,14 @@
         <div class="questionwall-present-box-inner">
           <ng-container *ngIf="commentFocus">
             <ars-row class="questionwall-present-meta">
-              <i class="questionwall-icon questionwall-present-meta-icon questionwall-present-meta-left qw-fade-animation">person_pin_circle</i>
-              <ars-col>
-                <span *ngIf="userMap&&userMap.get(commentFocus.creatorId)>1" matBadge="{{userMap.get(commentFocus.creatorId)}}"
-                      matBadgeSize="small"
-                      matBadgeOverlap="false" style="padding:0;"></span>
-              </ars-col>
+              <ng-container *ngIf="userMap&&userMap.get(commentFocus.creatorId)>1">
+                <i class="questionwall-icon questionwall-present-meta-icon questionwall-present-meta-left qw-fade-animation">person_pin_circle</i>
+                <ars-col>
+                  <span matBadge="{{userMap.get(commentFocus.creatorId)}}"
+                        matBadgeSize="small"
+                        matBadgeOverlap="false" style="padding:0;"></span>
+                </ars-col>
+              </ng-container>
               <h2 class="questionwall-present-meta-timestamp questionwall-present-meta-left qw-fade-animation">{{getTimeAgo(commentFocus.id)}}</h2>
             </ars-row>
             <ars-row>
@@ -403,17 +405,20 @@
                                (click)="focusComment(comment)"
                                style="box-sizing:border-box;padding:16px;cursor:pointer">
                         <ars-col class="questionwall-comment-meta">
-                          <i class="questionwall-icon" (click)="filterUser(comment)">person_pin_circle</i>
-                          <span *ngIf="userMap&&userMap.get(comment.creatorId)>1" matBadge="{{userMap.get(comment.creatorId)}}"
-                                matBadgeSize="small"
-                                matBadgeOverlap="false"
-                                (click)="filterUser(comment)">
-                          </span>
+                          <ng-container *ngIf="userMap&&userMap.get(comment.creatorId)>1" >
+                            <i class="questionwall-icon" (click)="filterUser(comment)">person_pin_circle</i>
+                            <span matBadge="{{userMap.get(comment.creatorId)}}"
+                                  matBadgeSize="small"
+                                  matBadgeOverlap="false"
+                                  style="margin-right:32px;"
+                                  (click)="filterUser(comment)">
+                            </span>
+                          </ng-container>
 <!--                          commentsWrittenByUsers.get(current.creatorId).size-->
 <!--                          <p (click)="filterUser(comment);"-->
 <!--                             class="questionwall-comment-user"-->
 <!--                             matRipple>{{comment.comment.userNumber}}</p>-->
-                          <p class="questionwall-comment-timestamp" style="margin-left:32px;">{{getTimeAgo(comment.id)}}</p>
+                          <p class="questionwall-comment-timestamp">{{getTimeAgo(comment.id)}}</p>
                         </ars-col>
                         <ars-col>
                           <p class="questionwall-comment-notification">{{isOld(comment.id) ? '' : 'NEW'}}</p>
