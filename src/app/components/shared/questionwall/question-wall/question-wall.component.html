@@ -37,16 +37,16 @@
                  [extra]="true">
           <mat-menu #sortMenu>
             <button mat-menu-item
-                    (click)="sortTime(true)"
+                    (click)="sortTime()"
                     aria-labelledby="sort-lbl-new">{{'question-wall.sort-new' | translate}}</button>
             <button mat-menu-item
-                    (click)="sortTime()"
+                    (click)="sortTime(true)"
                     aria-labelledby="sort-lbl-old">{{'question-wall.sort-old' | translate}}</button>
             <button mat-menu-item
-                    (click)="sortScore(true)"
+                    (click)="sortScore()"
                     aria-labelledby="sort-lbl-rating">{{'question-wall.sort-score' | translate}}</button>
             <button mat-menu-item
-                    (click)="sortControversy(true)"
+                    (click)="sortControversy()"
                     aria-labelledby="sort-lbl-controversy">{{'question-wall.sort-controversy' | translate}}</button>
           </mat-menu>
           <mat-menu #filterMenu>
@@ -537,6 +537,11 @@
                [xp]="16"
                [extra]="true">
         <button ars-btn
+                (click)="openSiteIntroduction()"
+                aria-labelledby="">
+          <mat-icon class="material-icons-outlined">tour</mat-icon>
+        </button>
+        <button ars-btn
                 (click)="toggleFocusIncommingComments()"
                 matRipple
                 aria-labelledby="autofocus-on-lbl">
@@ -624,6 +629,7 @@
   <div id="slider-lbl">{{'question-wall.slider-lbl' | translate}}</div>
   <div id="autofocus-off-lbl">{{'question-wall.autofocus-off-lbl' | translate}}</div>
   <div id="autofocus-on-lbl">{{'question-wall.autofocus-on-lbl' | translate}}</div>
+  <div id="site-introduction-lbl">{{'question-wall.site-introduction-lbl' | translate}}</div>
   <div id="prev-comment-lbl">{{'question-wall.prev-comment-lbl' | translate}}</div>
   <div id="next-comment-lbl">{{'question-wall.next-comment-lbl' | translate}}</div>
   <div id="style-blue-label">{{'footer.style-blue' | translate}}</div>

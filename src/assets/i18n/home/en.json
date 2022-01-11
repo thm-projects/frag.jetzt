@@ -27,6 +27,7 @@
   "footer": {
     "accessibility-data_protection": "Open the privacy statement.",
     "accessibility-demo": "Open the introduction.",
+    "accessibility-site-tour": "Open an introduction for the current page.",
     "accessibility-help": "Open help.",
     "accessibility-imprint": "Open the imprint.",
     "accessibility-language": "Open the language selector.",
@@ -157,6 +158,13 @@
     "custom-shortid-placeholder": "Characters: a-z A-Z 0-9 - _ ~ .",
     "invalid-shortid": "This key code is already in use.",
     "invalid-char-shortid": "This key code contains invalid characters."
+  },
+  "introductions": {
+    "cancel": "Cancel",
+    "comment-list-title": "Introduction for the Q&A forum",
+    "moderation-title": "Introduction for the moderation",
+    "room-list-title": "Introduction for the room list",
+    "room-page-title": "Introduction for the room overview"
   },
   "content": {
     "cancel": "Cancel",

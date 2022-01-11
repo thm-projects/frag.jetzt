@@ -46,6 +46,17 @@ app-tag-cloud-pop-up {
   cursor: pointer;
 }
 
+.start_introduction {
+  position: fixed;
+  left: 30px;
+  bottom: 30px;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  transform: scale(1.4);
+  transition: all 0.1s ease-in-out;
+  z-index: 2;
+}
+
 .fab_add_comment {
   position: fixed;
   right: 30px;

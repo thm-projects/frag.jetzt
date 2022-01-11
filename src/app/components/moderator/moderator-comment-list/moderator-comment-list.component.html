@@ -1,5 +1,5 @@
 <div fxLayout="row"
-     *ngIf="comments.length > 0"
+     *ngIf="comments.length > 0 || filterType || period !== 'time-all' || search"
      [ngClass]="{'search-container' : !scroll, 'search-container-fixed' : scroll}"
      (window:scroll)="checkScroll()"
      fxLayoutAlign="center">
@@ -35,7 +35,7 @@
 
   <div class="button-bar"
        fxLayoutAlign="center center">
-    <div *ngIf="comments && commentsFilteredByTimeLength > 0">
+    <div *ngIf="comments && (commentsFilteredByTimeLength > 0 || filterType || period !== 'time-all')">
       <h3 class="counter"
           *ngIf="!filterType">{{commentsFilteredByTimeLength}}</h3>
       <h3 class="counter-filtered"
@@ -52,7 +52,7 @@
     <button id="sort-button"
             mat-icon-button
             class="searchBarButton"
-            *ngIf="!searchBox.value && comments && commentsFilteredByTimeLength > 2 && !search"
+            *ngIf="comments && comments.length > 2 && !search"
             [matMenuTriggerFor]="sortMenu"
             matTooltip="{{ 'comment-list.sort-comments' | translate }}">
       <mat-icon class="searchBarIcon">swap_vert</mat-icon>
@@ -62,7 +62,7 @@
             mat-icon-button
             class="searchBarButton"
             aria-labelledby="time_settings"
-            *ngIf="!searchBox.value && comments && comments.length > 0 && !search"
+            *ngIf="comments && (comments.length > 0 || period !== 'time-all') && !search"
             [matMenuTriggerFor]="timeMenu"
             [ngClass]="{'active-filter': period !== 'time-all'}"
             matTooltip="{{ 'comment-list.select-time' | translate }}">
@@ -72,7 +72,7 @@
     <button mat-icon-button
             class="searchBarButton"
             (click)="switchToCommentList()"
-            *ngIf="!searchBox.value && comments && !search"
+            *ngIf="comments && !search"
             matTooltip="{{ 'comment-list.switch-to-comment-list' | translate }}">
       <mat-icon class="searchBarIcon material-icons-outlined">forum</mat-icon>
     </button>

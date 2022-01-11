@@ -1,0 +1,18 @@
+<div data-nosnippet *ngIf="sessionInfo.currentRole === 0">
+  <h2>Das Q&A Forum</h2>
+  <p>
+    Das Q&A Forum ist das Kernstück der App.
+    Hier werden Fragen gestellt, Reaktionen getätigt und Antworten geschrieben.
+    Es dient als primärer Bestandteil für ein anonymen Austausch zwischen Lehrenden und Lernenden.
+  </p>
+</div>
+
+<div data-nosnippet *ngIf="sessionInfo.currentRole > 0">
+  <h2>Das Q&A Forum</h2>
+  <p>
+    Das Q&A Forum ist das Kernstück der App.
+    Hier werden Fragen gestellt, Reaktionen getätigt und Antworten geschrieben.
+    Es dient als primärer Bestandteil für ein anonymen Austausch zwischen Lehrenden und Lernenden.
+    Fragen können in die Moderation verbannt werden.
+  </p>
+</div>
