@@ -1,7 +1,7 @@
 import { Language, LanguageService } from '../../../services/util/language.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NotificationService } from '../../../services/util/notification.service';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AuthenticationService } from '../../../services/http/authentication.service';
@@ -20,6 +20,19 @@ import { MotdService } from '../../../services/http/motd.service';
 import { MotdDialogComponent } from '../_dialogs/motd-dialog/motd-dialog.component';
 import { MatMenu } from '@angular/material/menu';
 import { DeviceInfoService } from '../../../services/util/device-info.service';
+import { ComponentType } from '@angular/cdk/overlay';
+import {
+  IntroductionRoomListComponent
+} from '../_dialogs/introductions/introduction-room-list/introduction-room-list.component';
+import {
+  IntroductionRoomPageComponent
+} from '../_dialogs/introductions/introduction-room-page/introduction-room-page.component';
+import {
+  IntroductionCommentListComponent
+} from '../_dialogs/introductions/introduction-comment-list/introduction-comment-list.component';
+import {
+  IntroductionModerationComponent
+} from '../_dialogs/introductions/introduction-moderation/introduction-moderation.component';
 
 @Component({
   selector: 'app-footer',
@@ -34,6 +47,12 @@ export class FooterComponent implements OnInit {
   public user: User;
   public open: string;
   public themes: Theme[];
+
+  public get tourSite() {
+    return this._tourSite;
+  }
+
+  private _tourSite: ComponentType<any>;
 
   constructor(
     public notificationService: NotificationService,
@@ -67,7 +86,24 @@ export class FooterComponent implements OnInit {
     });
     this.themes = this.themeService.getThemes();
     this.updateScale(this.themeService.currentTheme.getScale(this.deviceInfo.isCurrentlyMobile ? 'mobile' : 'desktop'));
-
+    this.router.events.subscribe(e => {
+      if (e instanceof NavigationEnd) {
+        const url = decodeURI(this.router.url).toLowerCase();
+        const roleRegex = '/(creator|moderator|participant)';
+        const roomRegex = '/room/[^/]{3,}';
+        if (url === '/user') {
+          this._tourSite = IntroductionRoomListComponent;
+        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}$`))) {
+          this._tourSite = IntroductionRoomPageComponent;
+        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/comments$`))) {
+          this._tourSite = IntroductionCommentListComponent;
+        } else if (url.match(new RegExp(`^${roleRegex}${roomRegex}/moderator/comments$`))) {
+          this._tourSite = IntroductionModerationComponent;
+        } else {
+          this._tourSite = null;
+        }
+      }
+    });
     if (localStorage.getItem('cookieAccepted') !== 'true') {
       this.showCookieModal();
     }
@@ -77,6 +113,15 @@ export class FooterComponent implements OnInit {
     this.dialog.open(DemoVideoComponent, {
       width: '80%',
       maxWidth: '600px'
+    });
+  }
+
+  showCurrentTour() {
+    if (!this._tourSite) {
+      return;
+    }
+    this.dialog.open(this._tourSite, {
+      autoFocus: false
     });
   }
 

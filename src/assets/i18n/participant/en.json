@@ -285,6 +285,12 @@
     "moderation-enabled": "All questions will be moderated.",
     "sure": "Are you sure?"
   },
+  "introductions": {
+    "cancel": "Cancel",
+    "question-wall-title": "Introduction for presentation",
+    "brainstorming-title": "Introduction for Brainstorming",
+    "tag-cloud-title": "Introduction for the topic cloud"
+  },
   "question-wall": {
     "next-comment": "Next question",
     "next-comment-icon": "navigate_next",
@@ -329,6 +335,7 @@
     "slider-lbl": "Set question zoom",
     "autofocus-off-lbl": "Stop automatic focusing of new questions",
     "autofocus-on-lbl": "Turn on automatic focusing of new questions",
+    "site-introduction-lbl": "Open an introduction for this page",
     "prev-comment-lbl": "Previous question",
     "next-comment-lbl": "Next question",
     "overview-question-tooltip": "Number of questions",

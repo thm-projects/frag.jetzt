@@ -17,6 +17,11 @@ import { SessionService } from '../../../../services/util/session.service';
 import { RoomDataFilterService } from '../../../../services/util/room-data-filter.service';
 import { FilterType, Period, RoomDataFilter, SortType } from '../../../../services/util/room-data-filter';
 import { Room } from '../../../../models/room';
+import { mergeMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import {
+  IntroductionQuestionWallComponent
+} from '../../_dialogs/introductions/introduction-question-wall/introduction-question-wall.component';
 
 interface CommentCache {
   [commentId: string]: {
@@ -120,6 +125,7 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     private roomDataService: RoomDataService,
     private sessionService: SessionService,
     private roomDataFilterService: RoomDataFilterService,
+    private dialog: MatDialog,
   ) {
     this.keySupport = new QuestionWallKeyEventSupport();
     this.timeUpdateInterval = setInterval(() => {
@@ -177,6 +183,20 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.roomDataFilterService.getData().subscribe(_ => this.onUpdateFiltering());
+    this.sessionService.getRoomOnce().pipe(mergeMap(_ => this.roomDataService.receiveUpdates([
+      { type: 'CommentCreated' }
+    ]))).subscribe(c => {
+      if (c.finished) {
+        return;
+      }
+      this.unreadComments++;
+      const date = new Date(c.comment.timestamp);
+      this.commentCache[c.comment.id] = {
+        date,
+        old: false,
+        timeAgo: updateTimeAgo(new Date().getTime(), date.getTime())
+      };
+    });
     this.sessionService.getRoomOnce().subscribe(room => this.room = room);
     this.initKeySupport();
   }
@@ -408,6 +428,12 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
     this.fontSize = evt.value;
   }
 
+  openSiteIntroduction() {
+    this.dialog.open(IntroductionQuestionWallComponent, {
+      autoFocus: false
+    });
+  }
+
   onUpdateFiltering() {
     const result = this.roomDataFilterService.currentData;
     this.comments = result.comments;
@@ -421,11 +447,10 @@ export class QuestionWallComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.commentCache[comment.id]) {
         return;
       }
-      this.unreadComments++;
       const date = new Date(comment.timestamp);
       this.commentCache[comment.id] = {
         date,
-        old: false,
+        old: true,
         timeAgo: updateTimeAgo(current, date.getTime())
       };
     });

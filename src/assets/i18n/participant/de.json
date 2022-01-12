@@ -276,6 +276,12 @@
     "moderation-enabled": "Alle Fragen werden moderiert.",
     "sure": "Bist du sicher?"
   },
+  "introductions": {
+    "cancel": "Schließen",
+    "question-wall-title": "Einführung zur Präsentation",
+    "brainstorming-title": "Einführung für das Brainstormen",
+    "tag-cloud-title": "Einführung in die Themenwolke"
+  },
   "question-wall": {
     "next-comment": "Nächste Frage",
     "next-comment-icon": "navigate_next",
@@ -322,6 +328,7 @@
     "slider-lbl": "Fragen-Zoom einstellen",
     "autofocus-off-lbl": "Automatische Fokussierung neuer Fragen beenden",
     "autofocus-on-lbl": "Neue Fragen automatisch fokussieren",
+    "site-introduction-lbl": "Öffnet eine Einleitung für diese Seite",
     "prev-comment-lbl": "Vorherige Frage",
     "next-comment-lbl": "Nächste Frage",
     "overview-question-tooltip": "Anzahl Fragen",

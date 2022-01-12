@@ -7,6 +7,7 @@
     <button (click)="showDemo()"
             [joyrideStep]="'introduction'"
             [stepPosition]="'center'"
+            *ngIf="!this.tourSite"
             appJoyrideTemplate
             aria-labelledby="demo-label"
             class="focus_button"
@@ -15,6 +16,14 @@
       <span *ngIf="deviceInfo.isCurrentlyDesktop && router.url.endsWith('/home')">
         {{ 'footer.demo' | translate }}
       </span>
+    </button>
+
+    <button (click)="showCurrentTour()"
+            *ngIf="this.tourSite"
+            aria-labelledby="site-tour-label"
+            class="focus_button"
+            mat-button>
+      <mat-icon class="material-icons-outlined">tour</mat-icon>
     </button>
 
     <span class="fill-remaining-space"></span>
@@ -113,6 +122,7 @@
 <div class="visually-hidden">
   <div id="help-label">{{'footer.accessibility-help' | translate}}</div>
   <div id="demo-label">{{'footer.accessibility-demo' | translate}}</div>
+  <div id="site-tour-label">{{'footer.accessibility-site-tour' | translate}}</div>
   <div id="style-label">{{'footer.accessibility-style' | translate}}</div>
   <div id="language-label">{{'footer.accessibility-language' | translate}}</div>
   <div id="data-protection-label">{{'footer.accessibility-data_protection' | translate}}</div>
