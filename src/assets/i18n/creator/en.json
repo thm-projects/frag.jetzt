@@ -351,7 +351,7 @@
     "tooltip-placeholder-image": "Image address must begin with https://...",
     "tooltip-label-video": "Enter video URL ...",
     "tooltip-placeholder-video": "Video address must begin with https://...",
-    "tooltip-label-formula": "Enter formula ...",
+    "tooltip-label-formula": "Enter a formula, for example …",
     "tooltip-placeholder-formula": "We support the KaTeX formula set."
   },
   "room-page": {

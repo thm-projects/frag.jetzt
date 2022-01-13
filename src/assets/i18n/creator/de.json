@@ -350,7 +350,7 @@
     "tooltip-placeholder-image": "Die Bild-Adresse muss mit https://… beginnen.",
     "tooltip-label-video": "Video-URL eingeben …",
     "tooltip-placeholder-video": "Die Video-Adresse muss mit https://… beginnen.",
-    "tooltip-label-formula": "Formel eingeben …",
+    "tooltip-label-formula": "Gib eine Formel ein, zum Beispiel …",
     "tooltip-placeholder-formula": "Wir unterstützen den KaTeX-Formelsatz."
   },
   "room-page": {
