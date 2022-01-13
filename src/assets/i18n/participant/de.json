@@ -347,6 +347,7 @@
   "quill": {
     "cancel": "Abbrechen",
     "heading": "Eingabe",
+    "preview": "Vorschau",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",
     "tooltip-action": "Editieren",

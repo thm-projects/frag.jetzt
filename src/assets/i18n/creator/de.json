@@ -338,6 +338,7 @@
   },
   "quill": {
     "cancel": "Abbrechen",
+    "preview": "Vorschau",
     "heading": "Eingabe",
     "tooltip-remove": "Löschen",
     "tooltip-action-save": "Speichern",

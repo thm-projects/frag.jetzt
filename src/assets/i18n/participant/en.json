@@ -354,6 +354,7 @@
   "quill": {
     "cancel": "Cancel",
     "heading": "Input",
+    "preview": "Preview",
     "tooltip-remove": "Delete",
     "tooltip-action-save": "Save",
     "tooltip-action": "Edit",
