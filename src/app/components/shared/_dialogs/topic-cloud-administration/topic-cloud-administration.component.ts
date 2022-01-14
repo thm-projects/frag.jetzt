@@ -105,6 +105,9 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.isCreatorOrMod = this.sessionService.currentRole > UserRole.PARTICIPANT;
+    this.spacyLabels = spacyLabels;
+    this.wantedLabels = undefined;
     this.sessionService.getRoomOnce().subscribe(room => {
       this.blacklistIsActive = room.blacklistIsActive;
       this.blacklist = room.blacklist ? JSON.parse(room.blacklist) : [];
@@ -121,9 +124,6 @@ export class TopicCloudAdministrationComponent implements OnInit, OnDestroy {
       this.profanitywordlist = list;
       this.refreshKeywords();
     });
-    this.isCreatorOrMod = this.sessionService.currentRole > UserRole.PARTICIPANT;
-    this.spacyLabels = spacyLabels;
-    this.wantedLabels = undefined;
   }
 
   changeTabIndex() {

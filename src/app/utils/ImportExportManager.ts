@@ -171,7 +171,11 @@ export class ImportExportManager {
       }
     }
     if (lastIndex < value.length) {
-      arr.push(unescape(value.substring(lastIndex)));
+      let lastStr = unescape(value.substring(lastIndex));
+      if (!lastStr.endsWith('\n')) {
+        lastStr += '\n';
+      }
+      arr.push(lastStr);
     }
     return JSON.stringify(arr);
   }
@@ -183,7 +187,7 @@ export class ImportExportManager {
     const verify = (str: string) => str.replace(/{/g, '{{').replace(/}/g, '}}');
     const hardVerify = (str: string) => str.replace(/\\/g, '\\\\')
       .replace(/{/g, '\\{').replace(/}/g, '\\}');
-    return JSON.parse(value).reduce((acc, e) => {
+    const result = JSON.parse(value).reduce((acc, e) => {
       if (typeof e === 'string') {
         return acc + verify(e);
       } else if (typeof e['insert'] === 'string') {
@@ -202,6 +206,7 @@ export class ImportExportManager {
       }
       return acc;
     }, '');
+    return result.endsWith('\n') ? result.substr(0, result.length - 1) : result;
   }
 
   private static deserializeQuillAttributes(count: number, last: number, objStr: string): [any, string] {

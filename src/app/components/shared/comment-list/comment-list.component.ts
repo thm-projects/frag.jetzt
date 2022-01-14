@@ -302,7 +302,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.setFocusedComment(localStorage.getItem('answeringQuestion'));
       this.isJoyrideActive = this.onboardingService.startDefaultTour();
     }
-    this._allQuestionNumberOptions = this.comments.map(c => c.number)
+    const allComments = this.roomDataService.getCurrentRoomData();
+    this._allQuestionNumberOptions = allComments.map(c => c.number)
       .sort((a, b) => b - a).map(c => String(c));
     const value = this.questionNumberFormControl.value || '';
     this.questionNumberOptions = this._allQuestionNumberOptions.filter(e => e.startsWith(value));
